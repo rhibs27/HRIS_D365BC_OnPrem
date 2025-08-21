@@ -9123,11 +9123,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Appraisal Grade Percentage - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 461579923 - Field 2500892784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Created Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Created Date - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 461579923 - Field 914720834 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Default Grade Percentage</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9152,16 +9147,6 @@
           <source>Grade</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Grade - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 461579923 - Field 2034231048 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Old Grade Level</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Old Grade Level - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 461579923 - Field 1949335607 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Old Salary Level</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Old Salary Level - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 461579923 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posting Date</source>
