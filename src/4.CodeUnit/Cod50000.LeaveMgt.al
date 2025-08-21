@@ -968,11 +968,11 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
         NextEntryNo: Integer;
+        EmpVar: Record Employee;
     begin
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
-            // NextEntryNo := GetNextLeaveLedgerEntryNo();
             CreateLeaveLedger(leave."Employee No.",
                      leave."Leave Code",
                      leave."Start Date",
@@ -994,6 +994,11 @@ codeunit 50000 "Leave Mgt."
             ServiceInactivity.Validate("End Date", leave."End Date");
             ServiceInactivity.Validate("Source Doc No", leave."No.");
             ServiceInactivity.Insert(true);
+
+            //update service period of employee
+            EmpVar.Get(leave."Employee No.");
+            EmpVar.Validate("Employment Date");
+            EmpVar.Modify();
         end;
         Commit();
         // Update Daily Attendance
@@ -1033,12 +1038,12 @@ codeunit 50000 "Leave Mgt."
         LeaveEarn: Record "Leave Earn";
         CancelDocument: Record "Cancel Document";
         ServiceInactivity: Record "Service Inactivity Ledger";
+        EmpVar: Record Employee;
         NextEntryNo: Integer;
     begin
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
-            // NextEntryNo := GetNextLeaveLedgerEntryNo();
             CreateLeaveLedger(CancelDocument."Employee No.",
                      CancelDocument."Leave Code",
                      CancelDocument."Start Date",
@@ -1055,6 +1060,11 @@ codeunit 50000 "Leave Mgt."
                 ServiceInactivity.SetRange("Employee No.", CancelDocument."Employee No.");
                 if ServiceInactivity.FindFirst() then
                     ServiceInactivity.Delete();
+
+                //update service period of employee
+                EmpVar.Get(CancelDocument."Employee No.");
+                EmpVar.Validate("Employment Date");
+                EmpVar.Modify();
             end;
             // Update Daily Attendance
             if CancelDocument."Start Date" <= Today then begin
