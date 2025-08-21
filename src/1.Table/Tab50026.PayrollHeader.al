@@ -578,7 +578,8 @@ table 50026 "Payroll Header"
         end else begin
             Employee.SetRange(Status, Employee.Status::Active);
             //Employee.SetRange("Resignation Date", 0D); //include resigned employees effective from next month
-            Employee.SetFilter("Resignation Date", '0D|>%1', "To Date");
+            //Employee.SetFilter("Resignation Date", '0D|>%1', "To Date");
+            Employee.SetFilter("Resignation Date", '%1|>%2', 0D, "To Date");
         end;
         if Type = Type::Resignation then
             Employee.SetRange("Resignation Date", "From Date", "To Date");

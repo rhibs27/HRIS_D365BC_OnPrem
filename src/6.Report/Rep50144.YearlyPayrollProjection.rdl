@@ -6436,7 +6436,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!PaidTDS.Value)</Value>
+                                  <Value>=Fields!TotalTaxPaid.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -6479,6 +6479,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -6855,7 +6856,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif((First(Fields!TotalTax.Value) - First(Fields!TaxRebate.Value) - First(Fields!PaidTDS.Value)) &gt; 0, First(Fields!TotalTax.Value) - First(Fields!TaxRebate.Value) - First(Fields!PaidTDS.Value), 0)</Value>
+                                  <Value>=iif((First(Fields!TotalTax.Value) - First(Fields!TaxRebate.Value) - First(Fields!TotalTaxPaid.Value)) &gt; 0, First(Fields!TotalTax.Value) - First(Fields!TaxRebate.Value) - First(Fields!TotalTaxPaid.Value), 0)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -7880,14 +7881,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PastBenifit">
+                        <Textbox Name="PastBenefit">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PastBenefit.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -7899,7 +7900,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PastBenifit</rd:DefaultName>
+                          <rd:DefaultName>PastBenefit</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -8036,14 +8037,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PastRetirement">
+                        <Textbox Name="PastRetirementFund">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PastRetirementFund.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -8055,7 +8056,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PastRetirement</rd:DefaultName>
+                          <rd:DefaultName>PastRetirementFund</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -8088,14 +8089,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PastSStPaid">
+                        <Textbox Name="PastSSTPaid">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PastSSTPaid.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -8107,7 +8108,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PastSStPaid</rd:DefaultName>
+                          <rd:DefaultName>PastSSTPaid</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -8140,14 +8141,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PastTaxRenPaid">
+                        <Textbox Name="PastTaxPaid">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PastTaxPaid.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -8159,7 +8160,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PastTaxRenPaid</rd:DefaultName>
+                          <rd:DefaultName>PastTaxPaid</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -8557,11 +8558,11 @@ End Function
         <Field Name="RemainingTDSFormat">
           <DataField>RemainingTDSFormat</DataField>
         </Field>
-        <Field Name="PaidTDS">
-          <DataField>PaidTDS</DataField>
+        <Field Name="TotalTaxPaid">
+          <DataField>TotalTaxPaid</DataField>
         </Field>
-        <Field Name="PaidTDSFormat">
-          <DataField>PaidTDSFormat</DataField>
+        <Field Name="TotalTaxPaidFormat">
+          <DataField>TotalTaxPaidFormat</DataField>
         </Field>
         <Field Name="TDSCalcMonth">
           <DataField>TDSCalcMonth</DataField>
@@ -8685,6 +8686,30 @@ End Function
         </Field>
         <Field Name="TaxExemptionLimitFormat">
           <DataField>TaxExemptionLimitFormat</DataField>
+        </Field>
+        <Field Name="PastBenefit">
+          <DataField>PastBenefit</DataField>
+        </Field>
+        <Field Name="PastBenefitFormat">
+          <DataField>PastBenefitFormat</DataField>
+        </Field>
+        <Field Name="PastRetirementFund">
+          <DataField>PastRetirementFund</DataField>
+        </Field>
+        <Field Name="PastRetirementFundFormat">
+          <DataField>PastRetirementFundFormat</DataField>
+        </Field>
+        <Field Name="PastSSTPaid">
+          <DataField>PastSSTPaid</DataField>
+        </Field>
+        <Field Name="PastSSTPaidFormat">
+          <DataField>PastSSTPaidFormat</DataField>
+        </Field>
+        <Field Name="PastTaxPaid">
+          <DataField>PastTaxPaid</DataField>
+        </Field>
+        <Field Name="PastTaxPaidFormat">
+          <DataField>PastTaxPaidFormat</DataField>
         </Field>
         <Field Name="TaxRate1_">
           <DataField>TaxRate1_</DataField>
