@@ -47,15 +47,15 @@ report 50115 "TDS Deposit Record"
                         DetailedEmpLedger.CalcSums(Amount);
                         TotalBenefit := DetailedEmpLedger.Amount;
                         /*
-                        DetailedEmpLedger.RESET;
-                        DetailedEmpLedger.SETRANGE("Employee No.",Employee."No.");
-                        DetailedEmpLedger.SETRANGE(Reversed,FALSE);
-                        DetailedEmpLedger.SETRANGE(Disabled,FALSE);
-                        DetailedEmpLedger.SETRANGE("Attribute Type",DetailedEmpLedger."Attribute Type"::Deduction);
+                        DetailedEmpLedger.Reset();
+                        DetailedEmpLedger.SetRange("Employee No.",Employee."No.");
+                        DetailedEmpLedger.SetRange(Reversed,FALSE);
+                        DetailedEmpLedger.SetRange(Disabled,FALSE);
+                        DetailedEmpLedger.SetRange("Attribute Type",DetailedEmpLedger."Attribute Type"::Deduction);
                         DetailedEmpLedger.SETFILTER("Attribute Sub Type",'%1|%2|%3|%4|%5',DetailedEmpLedger."Attribute Sub Type"::CIT,
                                                     DetailedEmpLedger."Attribute Sub Type"::"Employee Contribution",DetailedEmpLedger."Attribute Sub Type"::"Employer Contribution",
                                                     DetailedEmpLedger."Attribute Sub Type"::"Lump Sum Contribution",DetailedEmpLedger."Attribute Sub Type"::RF);
-                        DetailedEmpLedger.SETRANGE("Posting Date","Start Date","End Date");
+                        DetailedEmpLedger.SetRange("Posting Date","Start Date","End Date");
                         DetailedEmpLedger.CALCSUMS(Amount);
                         //TotalBenefit -= DetailedEmpLedger.Amount;
                         */
@@ -121,7 +121,6 @@ report 50115 "TDS Deposit Record"
                 else begin
                     PayCyclePeriod.Reset;
                     PayCyclePeriod.SetRange("Pay Cycle Term", PayCycleTerm);
-                    PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
                     PayCyclePeriod.SetCurrentKey("Start Date");
                     if PayCyclePeriod.FindFirst then
                         EndDate := PayCyclePeriod."End Date";

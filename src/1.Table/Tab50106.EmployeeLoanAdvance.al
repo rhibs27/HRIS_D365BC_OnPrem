@@ -343,7 +343,7 @@ table 50106 "Employee Loan/Advance"
         //         else
         //             Clear("Approver Name");
         //         /* requirement not fixed
-        //         IF Approver <> '' THEN BEGIN
+        //         IF Approver <> '' THEN begin
         //           IF Recommender = Approver THEN
         //            ERROR('Recommender and Approver cannot be same person.');
         //             Employee.GET(Approver);
@@ -351,7 +351,7 @@ table 50106 "Employee Loan/Advance"
         //           IF SalaryLevel1.GET(Employee."Salary Level") THEN;
         //           IF SalaryLevel.Rank >= SalaryLevel1.Rank THEN
         //             ERROR('Salary level of approver (%1) must be greater than salary level of employee (%2)',Employee."Full Name","Employee Name");
-        //         END;
+        //         end;
         //         */
         //     end;
         // }
@@ -662,14 +662,14 @@ table 50106 "Employee Loan/Advance"
     // var
     //     Employee: Record Employee;
     // begin
-    //     //TESTFIELD("Approval Status","Approval Status"::Recommended);
+    //     //TestField("Approval Status","Approval Status"::Recommended);
     //     Employee.Get(HRMgt.GetEmployeeNo);
     //     if not Employee.Screener then
     //         Error('Only screener can return these documents.');
     //     if not Confirm('Do you want to return the document?', false) then
     //         exit;
     //     EmpLoanAdvance."Approval Status" := EmpLoanAdvance."Approval Status"::Open;
-    //     EmpLoanAdvance."Returned Loan" := true; //Min -- For Identify Return Document.
+    //     EmpLoanAdvance."Returned Loan" := true; 
     //     EmpLoanAdvance.Modify;
     //     Message('The document has been returned.');
     // end;

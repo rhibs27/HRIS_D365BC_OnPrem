@@ -11,10 +11,10 @@ table 50001 "KRA Master Setup1"
 
             trigger OnValidate()
             begin
-                /*KeyValueMasterRec.RESET;
-                KeyValueMasterRec.SETRANGE(Type, KeyValueMasterRec.Type::"KRA Category");
-                KeyValueMasterRec.SETRANGE(Code, "KRA Category");
-                IF KeyValueMasterRec.FINDFIRST THEN
+                /*KeyValueMasterRec.Reset();
+                KeyValueMasterRec.SetRange(Type, KeyValueMasterRec.Type::"KRA Category");
+                KeyValueMasterRec.SetRange(Code, "KRA Category");
+                IF KeyValueMasterRec.FindFirst() THEN
                   VALIDATE("KRA Master Name", KeyValueMasterRec.Description);*/
             end;
         }

@@ -1,7 +1,6 @@
 page 50066 "Transfer Card"
 {
-    // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
-    // //Min 12.11.2022 -- for uneditable transfer effective date
+
     SourceTable = "Employee Transfer";
     ApplicationArea = All;
     InsertAllowed = false;
@@ -877,7 +876,7 @@ page 50066 "Transfer Card"
         IsACK := rec."Approval Status" = rec."Approval Status"::Acknowledged;
         RecRef.GetTable(Rec);
 
-        if Rec.Type in [Rec.Type::"HR Transfer", Rec.Type::"Employee Transfer"] then begin //Min 12.11.2022
+        if Rec.Type in [Rec.Type::"HR Transfer", Rec.Type::"Employee Transfer"] then begin
             if Rec."Approval Status" = Rec."Approval Status"::Approved then
                 ForAck := true;
         end;

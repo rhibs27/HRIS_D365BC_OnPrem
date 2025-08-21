@@ -433,7 +433,7 @@ page 50040 "Payroll Plan"
                         if not Confirm(Text001, false) then
                             exit;
                         if Rec."Encashment Code" <> '' then
-                            PayrollEngine.ImportOTEmployeeEncashCode(Rec); //Min 11.29.2022
+                            PayrollEngine.ImportOTEmployeeEncashCode(Rec);
 
                         if Rec."Encashment Period" <> Rec."Encashment Period"::" " then
                             PayrollEngine.ImportOTEmployeeEncashPeriod(Rec);
@@ -455,7 +455,7 @@ page 50040 "Payroll Plan"
                         if (Rec."Encashment Code" = '') and (Rec."Encashment Period" = Rec."Encashment Period"::" ") then
                             Error(Text002);
                         if Rec."Encashment Code" <> '' then
-                            PayrollEngine.UpdateOTAmountEncashCode(Rec); //Min 11.29.2022
+                            PayrollEngine.UpdateOTAmountEncashCode(Rec);
                         if Rec."Encashment Period" <> Rec."Encashment Period"::" " then
                             PayrollEngine.UpdateOTAmountEncashPeriod(Rec);
                     end;

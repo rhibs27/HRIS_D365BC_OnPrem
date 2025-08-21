@@ -1,7 +1,9 @@
-page 50216 "Grade Entries"
+page 50173 "Grade Entries"
 {
+    Caption = 'Grade Entries';
     PageType = List;
     SourceTable = "Grade Entry";
+    UsageCategory = Lists;
     ApplicationArea = All;
 
     layout
@@ -10,11 +12,6 @@ page 50216 "Grade Entries"
         {
             repeater(Group)
             {
-                field("Entry No."; Rec."Entry No.")
-                {
-                    ToolTip = 'Specifies the value of the Entry No. field.';
-                    ApplicationArea = All;
-                }
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
@@ -25,34 +22,36 @@ page 50216 "Grade Entries"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field("Old Grade Level"; Rec."Old Grade Level")
-                {
-                    ToolTip = 'Specifies the value of the Old Grade Level field.';
-                    ApplicationArea = All;
-                }
-                field("New Grade Level"; Rec."New Grade Level")
-                {
-                    ToolTip = 'Specifies the value of the New Grade Level field.';
-                    ApplicationArea = All;
-                }
-                field("Old Salary Level"; Rec."Old Salary Level")
-                {
-                    ToolTip = 'Specifies the value of the Old Salary Level field.';
-                    ApplicationArea = All;
-                }
-                field("New Salary Level"; Rec."New Salary Level")
+                field("Salary Level"; Rec."Salary Level")
                 {
                     ToolTip = 'Specifies the value of the New Salary Level field.';
                     ApplicationArea = All;
                 }
+                field(Grade; Rec.Grade)
+                {
+                    ToolTip = 'Specifies the value of the New Grade Level field.';
+                    ApplicationArea = All;
+                }
+                field("Default Grade Percentage"; Rec."Default Grade Percentage")
+                {
+                    ToolTip = 'Specifies the value of the Default Grade Percentage field.', Comment = '%';
+                }
+                field("Appraisal Grade Percentage"; Rec."Appraisal Grade Percentage")
+                {
+                    ToolTip = 'Specifies the value of the Appraisal Grade Percentage field.', Comment = '%';
+                }
+                field("Total Grade Percentage"; Rec."Total Grade Percentage")
+                {
+                    ToolTip = 'Specifies the value of the Total Grade Percentage field.', Comment = '%';
+                }
                 field("Posting Date"; Rec."Posting Date")
                 {
-                    ToolTip = 'Specifies the value of the Posting Date field.';
+
+                    ToolTip = 'Specifies the value of the Last Grade Posting Date field.';
                     ApplicationArea = All;
                 }
             }
         }
     }
 
-    actions { }
 }

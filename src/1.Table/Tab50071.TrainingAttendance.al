@@ -8,9 +8,9 @@ table 50071 "Training Attendance"
         {
             trigger OnValidate()
             begin
-                /*TrainingLine.RESET;
-                TrainingLine.SETRANGE("Training No.","Training No");
-                TrainingLine.SETRANGE("Employee Code","Employee No.");
+                /*TrainingLine.Reset();
+                TrainingLine.SetRange("Training No.","Training No");
+                TrainingLine.SetRange("Employee Code","Employee No.");
                 IF TrainingLine.ISEMPTY THEN
                   ERROR('Employee %1 has not attended training. Please enter the employee in trainee subform first.',"Employee No.");
                   */

@@ -53,7 +53,7 @@ table 50122 "Loan Outstanding from Finacle"
 
     trigger OnModify()
     begin
-        "Last Modified Date" := Today; //Min
+        "Last Modified Date" := Today;
     end;
 
     var

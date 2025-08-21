@@ -45,6 +45,11 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the Rank field.';
                     ApplicationArea = All;
                 }
+                field("Grades Limit"; Rec."Grades Limit")
+                {
+                    ToolTip = 'Specifies number of grades per salary level', Comment = '%';
+                    ApplicationArea = all;
+                }
                 field("Basic Salary"; Rec."Basic Salary")
                 {
                     Editable = true;

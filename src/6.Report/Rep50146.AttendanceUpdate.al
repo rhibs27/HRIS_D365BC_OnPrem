@@ -199,7 +199,7 @@ report 50146 "Attendance Update"
 //                 AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
 //             end;
 //         end;
-//     EngNep.Reset; //Min 1.25.2023
+//     EngNep.Reset; 1.25.2023
 //     EngNep.SetRange("English Date", InitialDate);
 //     if EngNep.FindFirst then
 //         AttendanceLine.Week := EngNep.Week;

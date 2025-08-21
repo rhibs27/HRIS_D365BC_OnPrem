@@ -590,7 +590,7 @@ codeunit 50000 "Leave Mgt."
         LeavePeriod: Record "Accounting Period";
     begin
         LeaveType.Get(LeaveCode);
-        PayrollSetup.Get; //Min
+        PayrollSetup.Get;
         if LeaveType."Leave Category" = LeaveType."Leave Category"::Substitute then begin
             if NoOfDays <> 1 then
                 Error(ErrorNoOfDays);
@@ -833,11 +833,11 @@ codeunit 50000 "Leave Mgt."
 
         if not Confirm('Do you want to add leave balance for contract employee ?', false) then
             exit;
-        /*LeaveEarn.RESET;
-        LeaveEarn.SETRANGE(EmpNo,"No.");
-        LeaveEarn.SETRANGE("Fiscal year",ReturnFiscalYear(TODAY));
-        LeaveEarn.SETRANGE(Type,LeaveEarn.Type::Earned);
-        IF LeaveEarn.FINDFIRST THEN
+        /*LeaveEarn.Reset();
+        LeaveEarn.SetRange(EmpNo,"No.");
+        LeaveEarn.SetRange("Fiscal year",ReturnFiscalYear(TODAY));
+        LeaveEarn.SetRange(Type,LeaveEarn.Type::Earned);
+        IF LeaveEarn.FindFirst() THEN
           ERROR('Leave Earn has already been carried out for this fiscal year');
           */
         TempLeaveEarn.Init;
@@ -908,7 +908,7 @@ codeunit 50000 "Leave Mgt."
     begin
         EmpAttendActivity.Reset;
         EmpAttendActivity.SetRange("Employee No.", EmpNo);
-        //EmpAttendActivity.SETRANGE("Day Type",EmpAttendActivity."Day Type"::"Working Day");
+        //EmpAttendActivity.SetRange("Day Type",EmpAttendActivity."Day Type"::"Working Day");
         EmpAttendActivity.SetRange("Present Day", 1);
         EmpAttendActivity.SetFilter("Attendance Date", '>%1', FromDate);
         exit(EmpAttendActivity.Count);
@@ -930,7 +930,7 @@ codeunit 50000 "Leave Mgt."
         LeaveType.Get(leave."Leave Code");
         TempIncomingDoc.SetRange("Employee Code", leave."Employee No.");
         TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-        TempIncomingDoc.SETRANGE("Leave Type Code", leave."Leave Code");
+        TempIncomingDoc.SetRange("Leave Type Code", leave."Leave Code");
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
             repeat
@@ -939,7 +939,7 @@ codeunit 50000 "Leave Mgt."
             until TempIncomingDoc.Next = 0;
         TempIncomingDoc.DeleteAll;
         leave.TestField("Leave Code");
-        IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN BEGIN
+        IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN begin
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
             AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
@@ -957,7 +957,7 @@ codeunit 50000 "Leave Mgt."
                     TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
                     TempIncomingDoc.Insert(true);
                 until AttachmentSetup.Next = 0;
-        END;
+        end;
     end;
 
     procedure LeaveApproved(leaveNo: Code[20])
@@ -968,11 +968,11 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
         NextEntryNo: Integer;
+        EmpVar: Record Employee;
     begin
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
-            // NextEntryNo := GetNextLeaveLedgerEntryNo();
             CreateLeaveLedger(leave."Employee No.",
                      leave."Leave Code",
                      leave."Start Date",
@@ -992,7 +992,13 @@ codeunit 50000 "Leave Mgt."
             ServiceInactivity.Validate("Employee No.", leave."Employee No.");
             ServiceInactivity.Validate("Start Date", leave."Start Date");
             ServiceInactivity.Validate("End Date", leave."End Date");
+            ServiceInactivity.Validate("Source Doc No", leave."No.");
             ServiceInactivity.Insert(true);
+
+            //update service period of employee
+            EmpVar.Get(leave."Employee No.");
+            EmpVar.Validate("Employment Date");
+            EmpVar.Modify();
         end;
         Commit();
         // Update Daily Attendance
@@ -1031,12 +1037,13 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveEarn: Record "Leave Earn";
         CancelDocument: Record "Cancel Document";
+        ServiceInactivity: Record "Service Inactivity Ledger";
+        EmpVar: Record Employee;
         NextEntryNo: Integer;
     begin
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
-            // NextEntryNo := GetNextLeaveLedgerEntryNo();
             CreateLeaveLedger(CancelDocument."Employee No.",
                      CancelDocument."Leave Code",
                      CancelDocument."Start Date",
@@ -1047,6 +1054,18 @@ codeunit 50000 "Leave Mgt."
                      CancelDocument.Remarks,
                      '');
 
+            LeaveTypeSetup.get(CancelDocument."Leave Code");
+            if LeaveTypeSetup."Exclude in Service Period" then begin
+                ServiceInactivity.SetRange("Source Doc No", CancelDocument."Cancelled Document No.");
+                ServiceInactivity.SetRange("Employee No.", CancelDocument."Employee No.");
+                if ServiceInactivity.FindFirst() then
+                    ServiceInactivity.Delete();
+
+                //update service period of employee
+                EmpVar.Get(CancelDocument."Employee No.");
+                EmpVar.Validate("Employment Date");
+                EmpVar.Modify();
+            end;
             // Update Daily Attendance
             if CancelDocument."Start Date" <= Today then begin
                 if CancelDocument."End Date" > Today then

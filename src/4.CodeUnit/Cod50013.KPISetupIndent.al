@@ -11,7 +11,7 @@ codeunit 50013 "KPI Setup Indent"
              Text003, true)
         then
             exit;
-        //KPISetup.SETRANGE("KPI Code","KPI Code");
+        //KPISetup.SetRange("KPI Code","KPI Code");
         Indent;
     end;
 

@@ -496,7 +496,7 @@ page 50101 "Travel Form"
 
                 trigger OnAction()
                 begin
-                    // if Confirm(CofirmApprover) then begin //Min -- for change Travel Approver.
+                    // if Confirm(CofirmApprover) then begin 
                     //     if Rec."Approval Status" in [Rec."Approval Status"::Pending, Rec."Approval Status"::Recommended] then
                     //         HRMgt.PopUpChangingTravelApprover(Rec)
                     //     else
@@ -517,7 +517,7 @@ page 50101 "Travel Form"
 
                 trigger OnAction()
                 begin
-                    // if Confirm(ConfirmRecommender) then begin //Min -- for change Travel Recommender.
+                    // if Confirm(ConfirmRecommender) then begin 
                     //     if Rec."Approval Status" = Rec."Approval Status"::Pending then
                     //         HRMgt.PopUpChangingTravelRecommender(Rec)
                     //     else

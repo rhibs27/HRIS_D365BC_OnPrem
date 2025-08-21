@@ -10,12 +10,12 @@ table 50134 "KPI Appraisal Bank Lines"
         {
             trigger OnValidate()
             begin
-                /*AppriasalHdr.RESET;//KPI1.00
-                AppriasalHdr.SETRANGE("Appraisal Code","Appraisal Code");
-                IF AppriasalHdr.FINDFIRST THEN BEGIN
+                /*AppriasalHdr.Reset();//KPI1.00
+                AppriasalHdr.SetRange("Appraisal Code","Appraisal Code");
+                IF AppriasalHdr.FindFirst() THEN begin
                   "Employee Code" := AppriasalHdr."Employee Code";
                   Quarter := AppriasalHdr.Quarter;
-                END;*/
+                end;*/
             end;
         }
         field(3; "KPI Code"; Code[20]) { }

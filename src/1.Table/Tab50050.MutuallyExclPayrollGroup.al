@@ -12,13 +12,13 @@ table 50050 "Mutually Excl. Payroll Group"
         {
             trigger OnValidate()
             begin
-                /*IF xRec.Priority <> Rec.Priority THEN BEGIN
-                  MutuallyExl.RESET;
-                  MutuallyExl.SETRANGE(Type,Type);
-                  MutuallyExl.SETRANGE(Priority,Priority);
-                  IF MutuallyExl.FINDFIRST THEN
+                /*IF xRec.Priority <> Rec.Priority THEN begin
+                  MutuallyExl.Reset();
+                  MutuallyExl.SetRange(Type,Type);
+                  MutuallyExl.SetRange(Priority,Priority);
+                  IF MutuallyExl.FindFirst() THEN
                     ERROR(ErrorText,Priority,Type);
-                END;
+                end;
                 */
             end;
         }

@@ -17,9 +17,9 @@ table 50079 Interviewer
             trigger OnValidate()
             begin
                 /*
-                Employee.RESET;
-                Employee.SETRANGE("NAV Login ID", Interviewer);
-                IF Employee.FINDFIRST THEN
+                Employee.Reset();
+                Employee.SetRange("NAV Login ID", Interviewer);
+                IF Employee.FindFirst() THEN
                   "Employee Code" := Employee."No."
                 ELSE
                   "Employee Code" := '';
@@ -56,18 +56,18 @@ table 50079 Interviewer
     procedure OnOpenEvaluationList()
     begin
         /*
-        TESTFIELD("Candidate No.");
+        TestField("Candidate No.");
 
-        EvalutionAttribute.RESET;
-        EvalutionAttribute.SETRANGE("Attribute Type", EvalutionAttribute."Attribute Type"::Interview);
-        IF EvalutionAttribute.FINDFIRST THEN BEGIN
-          REPEAT
-            EvaluationEntry.RESET;
-            EvaluationEntry.SETRANGE("Vacancy Code", "Vacancy Code");
-            EvaluationEntry.SETRANGE(Type, EvaluationEntry.Type::Interview);
-            EvaluationEntry.SETRANGE("No.", "Candidate No.");
-            EvaluationEntry.SETRANGE("Attribute Code", EvalutionAttribute.Code);
-            IF NOT EvaluationEntry.FINDFIRST THEN BEGIN
+        EvalutionAttribute.Reset();
+        EvalutionAttribute.SetRange("Attribute Type", EvalutionAttribute."Attribute Type"::Interview);
+        IF EvalutionAttribute.FindFirst() THEN begin
+          repeat
+            EvaluationEntry.Reset();
+            EvaluationEntry.SetRange("Vacancy Code", "Vacancy Code");
+            EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
+            EvaluationEntry.SetRange("No.", "Candidate No.");
+            EvaluationEntry.SetRange("Attribute Code", EvalutionAttribute.Code);
+            IF NOT EvaluationEntry.FindFirst() THEN begin
               EvaluationEntry.INIT;
               EvaluationEntry."No." := "Candidate No.";
               EvaluationEntry."Attribute Code"  := EvalutionAttribute.Code;
@@ -76,19 +76,19 @@ table 50079 Interviewer
               EvaluationEntry."Attribute Description" := EvalutionAttribute.Description;
               EvaluationEntry."Vacancy Code" := "Vacancy Code";
               EvaluationEntry.INSERT;
-           END;
-          UNTIL EvalutionAttribute.NEXT = 0;
+           end;
+          until EvalutionAttribute.NEXT = 0;
           COMMIT;
-          EvaluationEntry.RESET;
-          EvaluationEntry.SETRANGE(Type, EvaluationEntry.Type::Interview);
-          EvaluationEntry.SETRANGE("No.", "Candidate No.");
+          EvaluationEntry.Reset();
+          EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
+          EvaluationEntry.SetRange("No.", "Candidate No.");
           CLEAR(EvaluationPage);
           {
           EvaluationPage.SetInterviewerName("Vacancy Code", "Candidate No.");
           EvaluationPage.SETTABLEVIEW(EvaluationEntry);
           EvaluationPage.RUNMODAL;
           }
-        END;
+        end;
         */
     end;
 }

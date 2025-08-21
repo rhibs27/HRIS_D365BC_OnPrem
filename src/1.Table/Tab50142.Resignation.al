@@ -253,7 +253,7 @@ table 50142 Resignation
         //             Validate("Approver Type", "Approver Type"::"With Recommendation");
         //         //requirement not fixed
         //         if "Recommender Code" <> '' then begin
-        //             if Type <> Type::Overtime then //Min 8.25.2022
+        //             if Type <> Type::Overtime then 
         //                 if "Recommender Code" = "Approver Code" then
         //                     Error('Recommender and Approver cannot be same person.');
         //             EmployeeRec.Get("Recommender Code");
@@ -291,7 +291,7 @@ table 50142 Resignation
         //                     if "Recommender Code" = "Approver Code" then
         //                         Error('Recommender and Approver cannot be same person.');
         //             end else
-        //                 if Type <> Type::Overtime then //Min 8.25.2022
+        //                 if Type <> Type::Overtime then 
         //                     if "Recommender Code" = "Approver Code" then
         //                         Error('Recommender and Approver cannot be same person.');
 

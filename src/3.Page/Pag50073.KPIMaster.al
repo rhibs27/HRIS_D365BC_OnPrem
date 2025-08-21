@@ -98,13 +98,13 @@ page 50073 "KPI Master"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         /*AppraisalSetup.GET;
-        KPIMaster.RESET;
-        KPIMaster.SETRANGE("KRA No.",KPIMaster."KRA No.");
-          IF KPIMaster.FINDFIRST THEN
-            REPEAT
+        KPIMaster.Reset();
+        KPIMaster.SetRange("KRA No.",KPIMaster."KRA No.");
+          IF KPIMaster.FindFirst() THEN
+            repeat
               Weightage+=KPIMaster."Weightage (%)";
               MESSAGE('%1',Weightage);
-            UNTIL KPIMaster.NEXT =0;
+            until KPIMaster.NEXT =0;
           IF Weightage > AppraisalSetup.Weightage THEN
             ERROR(Text001,AppraisalSetup.Weightage);*/
     end;

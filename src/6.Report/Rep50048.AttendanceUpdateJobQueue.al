@@ -1,9 +1,9 @@
 // report 50048 "Attendance Update Job Queue"
 // {
-//     // //Min 1.3 --- Added ServiceHistory."Service Event"::"Back From Deputation" Parameter instead of ServiceHistory."Service Event"::"Transfer"
-//     // //Min 3.13.2022 -- For Update data in "Employee Service History" and "Employee" Table of "Approved" and "Acknowledge" Transfer.
-//     // //Min 9.26.2022 -- For Document No.Flow in Service History of Re-instiate Transfer.
-//     // //Min 11.25.2022 -- Sync "Salary Level,Grade" in Emp Attendance Activity.
+//     // 1.3 --- Added ServiceHistory."Service Event"::"Back From Deputation" Parameter instead of ServiceHistory."Service Event"::"Transfer"
+//     // 3.13.2022 -- For Update data in "Employee Service History" and "Employee" Table of "Approved" and "Acknowledge" Transfer.
+//     // 9.26.2022 -- For Document No.Flow in Service History of Re-instiate Transfer.
+//     // 11.25.2022 -- Sync "Salary Level,Grade" in Emp Attendance Activity.
 
 //     Caption = 'Attendance Update Job Queue';
 //     ProcessingOnly = true;
@@ -31,9 +31,9 @@
 //                         ReinstateTranferedEmployee;
 
 //                     if GeneralTransferUpdate then
-//                         ApprovedTransferUpdateEmployee; //Min 3.13.2022
+//                         ApprovedTransferUpdateEmployee; 3.13.2022
 
-//                     if SalaryLevelGradeUpdate then //Min 11.25.2022
+//                     if SalaryLevelGradeUpdate then 11.25.2022
 //                         SalaryLevelGradeUpdateEmpAttenAct;
 
 //                     if AttendanceMissedCountUpdate then begin
@@ -77,7 +77,7 @@
 //                 trigger OnPreDataItem()
 //                 begin
 //                     SetFilter("Employment Date", '<=%1', InitialDate);
-//                     SetRange(Status, Employee.Status::Active); //Min 8.26.2022
+//                     SetRange(Status, Employee.Status::Active); 8.26.2022
 //                 end;
 //             }
 //             dataitem(Overtime; "Integer")
@@ -198,7 +198,7 @@
 //             if FromDate < Today - 1 then
 //                 Error('You are not eligible to run back date daily attendance.');
 
-//         if (FromDate > Today) or (ToDate > Today) then //Min
+//         if (FromDate > Today) or (ToDate > Today) then 
 //             Error('Cannot run attendance of future date. Please check the date.');
 
 //         if SyncEmployees then
@@ -309,7 +309,7 @@
 //         OverTime.SetRange(Type, OverTime.Type::Overtime);
 //         OverTime.SetRange("Start Date", InitialDate);
 //         OverTime.SetFilter("Salary Level Code", '<>%1', SalaryLevelTxt);
-//         //EmployeeActivity.SETRANGE("Employee No.",EmployeeNo);
+//         //EmployeeActivity.SetRange("Employee No.",EmployeeNo);
 //         OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
 //         if OverTime.FindFirst then
 //             repeat
@@ -369,7 +369,7 @@
 
 //         AllowanceAssignmentLine.Reset;
 //         AllowanceAssignmentLine.SetRange("From Date", FromDate, ToDate);
-//         //AllowanceAssignmentLine.SETRANGE("Approval Status",AllowanceAssignmentLine."Approval Status"::Approved);
+//         //AllowanceAssignmentLine.SetRange("Approval Status",AllowanceAssignmentLine."Approval Status"::Approved);
 //         if AllowanceAssignmentLine.FindFirst then
 //             repeat
 
@@ -468,14 +468,14 @@
 //         Transfer.SetRange("Employee No.", Employee."No.");
 //         Transfer.SetFilter("Transfer Category", '%1|%2', Transfer."Transfer Category"::"Temporary", Transfer."Transfer Category"::Officiating);
 //         Transfer.SetFilter(Type, '%1|%2', Transfer.Type::"HR Transfer", Transfer.Type::"Employee Transfer");
-//         Transfer.SetFilter("Approval Status", '%1|%2', Transfer."Approval Status"::Approved, Transfer."Approval Status"::Acknowledged); //Min -- added Filter Approved option instead of Acknowledge.
+//         Transfer.SetFilter("Approval Status", '%1|%2', Transfer."Approval Status"::Approved, Transfer."Approval Status"::Acknowledged); -- added Filter Approved option instead of Acknowledge.
 //         Transfer.SetRange("End Date", InitialDate, InitialDate);
 //         if Transfer.FindFirst then begin
 //             EmployeeServiceHistory.Reset;
 //             EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::"Back From Deputation");
 //             EmployeeServiceHistory.SetRange("Employee No.", Transfer."Employee No.");
 //             EmployeeServiceHistory.SetRange("Document No.", Transfer."No.");
-//             if not EmployeeServiceHistory.FindFirst then begin //Min 9.26.2022
+//             if not EmployeeServiceHistory.FindFirst then begin 9.26.2022
 //                 if Transfer."Approval Status" = Transfer."Approval Status"::Acknowledged then begin
 //                     EmployeeTransfer.Reset;
 //                     EmployeeTransfer.SetRange("Employee No.", Employee."No.");
@@ -486,7 +486,7 @@
 //                     if EmployeeTransfer.FindFirst then
 //                         exit;
 //                 end;
-//                 ServiceCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
+//                 ServiceCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); 1.3
 //                 Employee.Validate("Functional Title", Transfer."Functional Title");
 //                 Employee.Validate("Deputation on", Transfer."Deputation On");
 //                 case Employee."Deputation on" of
@@ -510,7 +510,7 @@
 //                     ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
 //                     ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
 //                     ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-//                     ServiceHistory.Validate("Document No.", Transfer."No."); //Min 9.26.2022
+//                     ServiceHistory.Validate("Document No.", Transfer."No."); 9.26.2022
 //                     PreviousServiceHistory.Reset;
 //                     PreviousServiceHistory.SetRange("Employee No.", Employee."No.");
 //                     PreviousServiceHistory.SetFilter("Service History Code", '<>%1', ServiceCode);
@@ -556,7 +556,7 @@
 //             EmployeeServiceHistory.SetRange("Employee No.", TransferRec."Employee No.");
 //             EmployeeServiceHistory.SetFilter("Service Event", '%1|%2|%3', EmployeeServiceHistory."Service Event"::Transfer, EmployeeServiceHistory."Service Event"::"Temporary Deputation", EmployeeServiceHistory."Service Event"::"Officiating Arrangement");
 //             EmployeeServiceHistory.SetRange("Document No.", TransferRec."No.");
-//             if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
+//             if not EmployeeServiceHistory.FindFirst then  -- For skip already created transfer Emp service history
 //                 ServiceHistoryMgt.ApprovedTransferUpdate(TransferRec);
 //         end;
 //     end;

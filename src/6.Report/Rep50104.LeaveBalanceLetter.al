@@ -65,71 +65,71 @@ report 50104 "Leave Balance Letter"
 
                 /*
                 leaveBal := 0;
-                LeaveEarn.RESET;
-                LeaveEarn.SETRANGE(EmpNo,Employee."No.");
-                IF LeaveEarn.FINDFIRST THEN REPEAT
+                LeaveEarn.Reset();
+                LeaveEarn.SetRange(EmpNo,Employee."No.");
+                IF LeaveEarn.FindFirst() THEN repeat
                   CASE LeaveEarn."Leave Code" OF
                     'ABNORMAL':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
 
                         'AL-CONTRACT':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
 
                         'AL-PROBATION':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
                        'AL-REGULAR':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
 
                        'AML':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
                        'BEREAVEMENT':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
 
                            'CL':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
 
                        'COMPENSATORY':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
+                      end;
                        'COMPENSATORY':
-                    BEGIN
+                    begin
 
                       LeaveEarn.CALCSUMS("Balancing Days");
                       leaveBal := LeaveEarn."Balancing Days";
-                      END;
-                    END;
-                UNTIL LeaveEarn.NEXT = 0;
+                      end;
+                    end;
+                until LeaveEarn.NEXT = 0;
                 */
             end;
         }

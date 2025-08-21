@@ -78,7 +78,7 @@ table 50086 "Potential Candidates"
             Caption = 'Status';
             trigger OnValidate()
             begin
-                /*EmployeeQualification.SETRANGE("Employee No.","No.");
+                /*EmployeeQualification.SetRange("Employee No.","No.");
                 EmployeeQualification.MODIFYALL("Employee Status",Status);
                 MODIFY;
                 */

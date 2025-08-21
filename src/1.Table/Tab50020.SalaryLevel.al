@@ -101,6 +101,10 @@ table 50020 "Salary Level"
         field(42; "Staff Level"; Enum "Staff Type")
         {
         }
+        field(50; "Grades Limit"; Integer)
+        {
+            //specify how many grade;
+        }
 
     }
 

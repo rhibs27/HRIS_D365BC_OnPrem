@@ -335,7 +335,7 @@ table 50136 "Travel Request"
         //             Validate("Approver Type", "Approver Type"::"With Recommendation");
         //         //requirement not fixed
         //         if "Recommender Code" <> '' then begin
-        //             // if Type <> Type::Overtime then //Min 8.25.2022
+        //             // if Type <> Type::Overtime then 
         //             //     if "Recommender Code" = "Approver Code" then
         //             //         Error('Recommender and Approver cannot be same person.');
         //             EmployeeRec.Get("Recommender Code");
@@ -373,7 +373,7 @@ table 50136 "Travel Request"
         //             //         if "Recommender Code" = "Approver Code" then
         //             //             Error('Recommender and Approver cannot be same person.');
         //             // end else
-        //             //     if Type <> Type::Overtime then //Min 8.25.2022
+        //             //     if Type <> Type::Overtime then 
         //             //         if "Recommender Code" = "Approver Code" then
         //             //             Error('Recommender and Approver cannot be same person.');
 
@@ -522,7 +522,7 @@ table 50136 "Travel Request"
             begin
                 if (Rec."Departure From" <> xRec."Departure From") and ("Departure From" <> '') then
                     HRMgt.CheckDistrictName("Departure From");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -540,7 +540,7 @@ table 50136 "Travel Request"
                 end else if "Travel Countries" = "Travel Countries"::"Other Countries" then
                         if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
                             HRMgt.CheckCountryName("Destination");
-            END;
+            end;
 
             trigger OnLookup()
             begin
