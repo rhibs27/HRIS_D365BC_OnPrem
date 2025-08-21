@@ -530,14 +530,14 @@ codeunit 50024 "Service History Mgt"
                 EmpVar.Validate("Department Code", EmpHrTransfer.Department);
         end;
         EmpVar.Modify;
-        /*IF ServiceHistory.GET(ServiceCode) THEN BEGIN
+        /*IF ServiceHistory.GET(ServiceCode) THEN begin
           ServiceHistory.VALIDATE("Functional Title (To)",EmpVar."Functional Title");
           ServiceHistory.VALIDATE("Salary Level (To)",EmpVar."Salary Level");
           ServiceHistory.VALIDATE("Deputation On (To)",EmpVar."Deputation on");
           ServiceHistory.VALIDATE("Deputation Code (To)",ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)",ServiceHistory."Employee No."));
           ServiceHistory.VALIDATE("Deputation Value (To)",ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)",ServiceHistory."Employee No."));
           ServiceHistory.MODIFY;
-        END;*/
+        end;*/
 
     end;
 
@@ -551,7 +551,7 @@ codeunit 50024 "Service History Mgt"
     begin
         /*IF "Approver Code" <> GetEmployeeNo THEN
   ERROR('You are not eligible to approved this document');*/
-        /*TESTFIELD("Approval Status","Approval Status"::Screened);
+        /*TestField("Approval Status","Approval Status"::Screened);
         VALIDATE("Approval Status", "Approval Status"::Approved);
         VALIDATE("Approved Date",TODAY);*/
         if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::"Temporary" then

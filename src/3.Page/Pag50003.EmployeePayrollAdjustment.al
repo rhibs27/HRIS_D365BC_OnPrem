@@ -440,7 +440,7 @@ page 50003 "Employee Payroll Adjustment"
         EmpPayAdj.Reset;
         EmpPayAdj.SetRange("Employee No.", Employee."No.");
         EmpPayAdj.SetRange("Payroll Document No.", PayrollDocNo);
-        //EmpPayAdj.SETRANGE("Attribute Code",'');
+        //EmpPayAdj.SetRange("Attribute Code",'');
         if EmpPayAdj.FindFirst then begin
             AdjustPFAmt := EmpPayAdj.Amount;
             AttributeAmt += AdjustPFAmt;

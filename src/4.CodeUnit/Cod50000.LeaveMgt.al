@@ -833,11 +833,11 @@ codeunit 50000 "Leave Mgt."
 
         if not Confirm('Do you want to add leave balance for contract employee ?', false) then
             exit;
-        /*LeaveEarn.RESET;
-        LeaveEarn.SETRANGE(EmpNo,"No.");
-        LeaveEarn.SETRANGE("Fiscal year",ReturnFiscalYear(TODAY));
-        LeaveEarn.SETRANGE(Type,LeaveEarn.Type::Earned);
-        IF LeaveEarn.FINDFIRST THEN
+        /*LeaveEarn.Reset();
+        LeaveEarn.SetRange(EmpNo,"No.");
+        LeaveEarn.SetRange("Fiscal year",ReturnFiscalYear(TODAY));
+        LeaveEarn.SetRange(Type,LeaveEarn.Type::Earned);
+        IF LeaveEarn.FindFirst() THEN
           ERROR('Leave Earn has already been carried out for this fiscal year');
           */
         TempLeaveEarn.Init;
@@ -908,7 +908,7 @@ codeunit 50000 "Leave Mgt."
     begin
         EmpAttendActivity.Reset;
         EmpAttendActivity.SetRange("Employee No.", EmpNo);
-        //EmpAttendActivity.SETRANGE("Day Type",EmpAttendActivity."Day Type"::"Working Day");
+        //EmpAttendActivity.SetRange("Day Type",EmpAttendActivity."Day Type"::"Working Day");
         EmpAttendActivity.SetRange("Present Day", 1);
         EmpAttendActivity.SetFilter("Attendance Date", '>%1', FromDate);
         exit(EmpAttendActivity.Count);
@@ -930,7 +930,7 @@ codeunit 50000 "Leave Mgt."
         LeaveType.Get(leave."Leave Code");
         TempIncomingDoc.SetRange("Employee Code", leave."Employee No.");
         TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-        TempIncomingDoc.SETRANGE("Leave Type Code", leave."Leave Code");
+        TempIncomingDoc.SetRange("Leave Type Code", leave."Leave Code");
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
             repeat
@@ -939,7 +939,7 @@ codeunit 50000 "Leave Mgt."
             until TempIncomingDoc.Next = 0;
         TempIncomingDoc.DeleteAll;
         leave.TestField("Leave Code");
-        IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN BEGIN
+        IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN begin
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
             AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
@@ -957,7 +957,7 @@ codeunit 50000 "Leave Mgt."
                     TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
                     TempIncomingDoc.Insert(true);
                 until AttachmentSetup.Next = 0;
-        END;
+        end;
     end;
 
     procedure LeaveApproved(leaveNo: Code[20])

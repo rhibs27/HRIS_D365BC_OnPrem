@@ -522,7 +522,7 @@ table 50136 "Travel Request"
             begin
                 if (Rec."Departure From" <> xRec."Departure From") and ("Departure From" <> '') then
                     HRMgt.CheckDistrictName("Departure From");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -540,7 +540,7 @@ table 50136 "Travel Request"
                 end else if "Travel Countries" = "Travel Countries"::"Other Countries" then
                         if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
                             HRMgt.CheckCountryName("Destination");
-            END;
+            end;
 
             trigger OnLookup()
             begin

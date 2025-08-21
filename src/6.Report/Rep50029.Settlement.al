@@ -44,7 +44,7 @@ report 50029 Settlement
 
                 EngNep.Reset;
                 EngNep.SetRange("English Date", "Supervisor Proposed Date");
-                //EngNep.SETRANGE("Opening Fiscal Year", TRUE);
+                //EngNep.SetRange("Opening Fiscal Year", TRUE);
                 if EngNep.FindFirst then
                     FiscalYear := EngNep."Fiscal Year";
 
@@ -134,7 +134,7 @@ report 50029 Settlement
                 EmployeeLedgerEntries.SetRange("Employee No.", "Employee No.");
                 EmployeeLedgerEntries.SetFilter("Posting Date", '>=%1', StartDate);
                 EmployeeLedgerEntries.SetFilter("Posting Date", '<=%1', EndDate);
-                //EmployeeLedgerEntries.SETRANGE("Payroll Attribute Code", );
+                //EmployeeLedgerEntries.SetRange("Payroll Attribute Code", );
                 if EmployeeLedgerEntries.FindFirst then;
             end;
         }

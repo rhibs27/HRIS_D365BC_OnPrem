@@ -105,13 +105,13 @@ report 50132 "Payroll Details Yearly"
                         IF "Deputation On" = "Deputation On"::Department THEN
                           IF DepartmentVar.GET("Deputation Code") THEN;
 
-                        IF "Deputation On" = "Deputation On"::Unit THEN BEGIN
-                          EmpHie.RESET;
-                          EmpHie.SETRANGE(Type,EmpHie.Type::Unit);
-                          EmpHie.SETRANGE(Code,"Deputation Code");
-                          IF EmpHie.FINDFIRST THEN
+                        IF "Deputation On" = "Deputation On"::Unit THEN begin
+                          EmpHie.Reset();
+                          EmpHie.SetRange(Type,EmpHie.Type::Unit);
+                          EmpHie.SetRange(Code,"Deputation Code");
+                          IF EmpHie.FindFirst() THEN
                             IF DepartmentVar.GET(EmpHie."Department Code") THEN;
-                        END;*/
+                        end;*/
                         Clear(NetPay);
                         Clear(CurrentDeduction);
                         FirstTime := true;

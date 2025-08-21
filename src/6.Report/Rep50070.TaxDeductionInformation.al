@@ -187,10 +187,8 @@ report 50070 "Tax Deduction Information"
         GetCompanyOneLineAddress;
 
         PGSetup.Get;
-        // Month := PGSetup."HRMS Month";
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-        // PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
         if PayCyclePeriod.FindFirst then
             PayCycleTermText := PayCyclePeriod."Pay Cycle Term";
 
@@ -483,15 +481,15 @@ report 50070 "Tax Deduction Information"
     local procedure InsertPreviousPayrollHistory(EmployeeNo: Code[20])
     begin
         PostedPayrollHeader.Reset;
-        //PostedPayrollHeader.SETRANGE("Nepali Year",Year);
-        //PostedPayrollHeader.SETRANGE("Nepali Month",Month);
-        //PostedPayrollHeader.SETRANGE(Type,PostedPayrollHeader.Type::Payroll);
+        //PostedPayrollHeader.SetRange("Nepali Year",Year);
+        //PostedPayrollHeader.SetRange("Nepali Month",Month);
+        //PostedPayrollHeader.SetRange(Type,PostedPayrollHeader.Type::Payroll);
         PostedPayrollHeader.SetRange("No.", DocumentNo);
 
         /*IF Employee."Employment Type" = Employee."Employment Type"::Contract THEN
-          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Contract)
+          PostedPayrollHeader.SetRange("Employee Type",PostedPayrollHeader."Employee Type"::Contract)
         ELSE
-          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Permanent);*/
+          PostedPayrollHeader.SetRange("Employee Type",PostedPayrollHeader."Employee Type"::Permanent);*/
         if PostedPayrollHeader.FindFirst then
             repeat
                 PostedPayrollLine.Reset;
@@ -512,7 +510,7 @@ report 50070 "Tax Deduction Information"
         PreviousPayrollHdr.SetRange(Reversed, false);
         //PreviousPayrollHdr.SETFILTER("Pay Cycle Period",'<=%1',PostedPayrollHeader."Pay Cycle Period");
         //PreviousPayrollHdr.SETFILTER("No.",'<>%1',PostedPayrollHeader."No.");
-        //PreviousPayrollHdr.SETRANGE("No.",'POSTPADJ_77_78_00046');
+        //PreviousPayrollHdr.SetRange("No.",'POSTPADJ_77_78_00046');
         if PreviousPayrollHdr.FindFirst then
             repeat
                 PreviousPayrollLine.Reset;

@@ -16,7 +16,7 @@ table 50080 "Evaluation Entry"
 
             trigger OnValidate()
             begin
-                //IF Type IN [Type::"Group Discussion",Type::Interview,Type::"Written Exam"] THEN BEGIN
+                //IF Type IN [Type::"Group Discussion",Type::Interview,Type::"Written Exam"] THEN begin
                 Candidate.Reset;
                 Candidate.SetRange("No.", "No.");
                 Candidate.SetRange("Vacancy Code", "Vacancy Code");
@@ -24,7 +24,7 @@ table 50080 "Evaluation Entry"
                     Validate(Name, Candidate.FullName)
                 else
                     Validate(Name, '');
-                //END;
+                //end;
             end;
         }
         field(3; Type; Enum "Evaluation Entry Type")

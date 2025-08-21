@@ -314,7 +314,7 @@ page 50117 "Candidate List"
                     trigger OnAction()
                     begin
                         if Confirm('Do you want to send offer to final shortlisted candidate?') then begin
-                            //TESTFIELD(Status,Status::"Final Shortlisted");
+                            //TestField(Status,Status::"Final Shortlisted");
                             Candidate.Reset;
                             Candidate.SetRange("Vacancy Code", Rec."Vacancy Code");
                             Candidate.SetRange(Status, Candidate.Status::"Final Shortlisted");
@@ -346,7 +346,7 @@ page 50117 "Candidate List"
                     trigger OnAction()
                     begin
                         if Confirm('Do you want to send offer to final shortlisted candidate?') then begin
-                            //TESTFIELD(Status,Status::"Final Shortlisted");
+                            //TestField(Status,Status::"Final Shortlisted");
                             Candidate.Reset;
                             Candidate.SetRange("Vacancy Code", Rec."Vacancy Code");
                             Candidate.SetRange(Status, Candidate.Status::"Final Shortlisted");
@@ -378,7 +378,7 @@ page 50117 "Candidate List"
                     trigger OnAction()
                     begin
                         if Confirm('Do you want to send appointment to final shortlisted candidate?') then begin
-                            //TESTFIELD(Status,Status::"Final Shortlisted");
+                            //TestField(Status,Status::"Final Shortlisted");
                             Candidate.Reset;
                             Candidate.SetRange("Vacancy Code", Rec."Vacancy Code");
                             Candidate.SetRange(Status, Candidate.Status::"Offer Letter Accepted");

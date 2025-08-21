@@ -309,7 +309,7 @@
 //         OverTime.SetRange(Type, OverTime.Type::Overtime);
 //         OverTime.SetRange("Start Date", InitialDate);
 //         OverTime.SetFilter("Salary Level Code", '<>%1', SalaryLevelTxt);
-//         //EmployeeActivity.SETRANGE("Employee No.",EmployeeNo);
+//         //EmployeeActivity.SetRange("Employee No.",EmployeeNo);
 //         OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
 //         if OverTime.FindFirst then
 //             repeat
@@ -369,7 +369,7 @@
 
 //         AllowanceAssignmentLine.Reset;
 //         AllowanceAssignmentLine.SetRange("From Date", FromDate, ToDate);
-//         //AllowanceAssignmentLine.SETRANGE("Approval Status",AllowanceAssignmentLine."Approval Status"::Approved);
+//         //AllowanceAssignmentLine.SetRange("Approval Status",AllowanceAssignmentLine."Approval Status"::Approved);
 //         if AllowanceAssignmentLine.FindFirst then
 //             repeat
 

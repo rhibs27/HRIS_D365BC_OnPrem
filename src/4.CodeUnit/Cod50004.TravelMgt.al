@@ -998,7 +998,7 @@ codeunit 50004 "Travel Mgt."
                 TempIncomingDoc.Validate("Employee Code", TravelRequest."Employee No.");
                 TempIncomingDoc.Insert(true);
             until AttachmentSetup.Next = 0;
-    END;
+    end;
 
     procedure ValidateTravelRequestOverLap(TravelRequest1: Record "Travel Request")
     var

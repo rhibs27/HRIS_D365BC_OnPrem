@@ -455,7 +455,7 @@ codeunit 50001 "HR Mgt."
                             //VacaHeadaer.Reset;
                             //VacaHeadaer.SetRange("Memo No.","Memo No.");
                             //VacaHeadaer.SetRange("Salary Level Code",RecruitmentLine."Salary Level Code");
-                            //IF VacaHeadaer.FINDFIRST THEN BEGIN
+                            //IF VacaHeadaer.FindFirst() THEN begin
                             FunctionalTitle.Reset;
                             FunctionalTitle.SetFilter(Code, RecruitmentLine."Functional Title");
                             if FunctionalTitle.Find('-') then
@@ -884,13 +884,13 @@ codeunit 50001 "HR Mgt."
     begin
         /* Candidate.Reset;
          Candidate.SetRange("Vacancy Code",VacancyCode);
-         IF Candidate.FINDFIRST THEN
-         REPEAT
+         IF Candidate.FindFirst() THEN
+         repeat
          InterviewEvaluationEntry.Reset;
          //InterviewEvaluationEntry.SetRange("Vacancy Code",Candidate."Vacancy Code");
          InterviewEvaluationEntry.SetRange("No.",Candidate."No.");
-         IF InterviewEvaluationEntry.FINDFIRST THEN
-           REPEAT
+         IF InterviewEvaluationEntry.FindFirst() THEN
+           repeat
              Interview1:=0;
              Interview2:=0;
              Interview3:=0;
@@ -898,19 +898,19 @@ codeunit 50001 "HR Mgt."
              Interview1+=InterviewEvaluationEntry."Interviewer Code";
              Interview2+=InterviewEvaluationEntry."Interviewer Name";
              Interview3+=InterviewEvaluationEntry.Marks;
-         UNTIL InterviewEvaluationEntry.NEXT =0;
+         until InterviewEvaluationEntry.NEXT =0;
          Candidate."Total Inverview Score":=Interview1+Interview2+Interview3;
          Candidate.MODIFY;
-         UNTIL Candidate.NEXT =0;
+         until Candidate.NEXT =0;
 
          VacancyHeader.GET(VacancyCode);
         Candidate.Reset;
         Candidate.SetRange("Vacancy Code",VacancyCode);
-        IF Candidate.FINDFIRST THEN
-          FOR i:=1 TO VacancyHeader."No of Vacancy" DO BEGIN
+        IF Candidate.FindFirst() THEN
+          FOR i:=1 TO VacancyHeader."No of Vacancy" DO begin
             Candidate.Type:=Candidate.Type::"Final Selection";
             Candidate.MODIFY;
-         END;*/
+         end;*/
 
     end;
 
@@ -942,14 +942,14 @@ codeunit 50001 "HR Mgt."
         HRSetup.Get;
         //Candidate.Reset;
         //Candidate.SetRange("Vacancy Code",VacancyCode);
-        //IF Candidate.GET(CandidateNo) THEN BEGIN
-        //IF Candidate.FINDFIRST THEN BEGIN
-        /*REPEAT
+        //IF Candidate.GET(CandidateNo) THEN begin
+        //IF Candidate.FindFirst() THEN begin
+        /*repeat
           IF SendMailTo='' THEN
           SendMailTo+=Interviewer."Interviewer Email"
           ELSE
             SendMailTo+=Interviewer."Interviewer Email"+';'
-        UNTIL Interviewer.NEXT =0;
+        until Interviewer.NEXT =0;
         */
 
         if EmailTemplate.Get(HRSetup."Offer Letter Sent") then begin
@@ -992,7 +992,7 @@ codeunit 50001 "HR Mgt."
             else
                 Message('Not Sent');
         end;
-        //  END;
+        //  end;
 
     end;
 
@@ -1024,14 +1024,14 @@ codeunit 50001 "HR Mgt."
         HRSetup.Get;
         //Candidate.Reset;
         //Candidate.SetRange("Vacancy Code",VacancyCode);
-        //IF Candidate.GET(CandidateNo) THEN BEGIN
-        //IF Candidate.FINDFIRST THEN BEGIN
-        /*REPEAT
+        //IF Candidate.GET(CandidateNo) THEN begin
+        //IF Candidate.FindFirst() THEN begin
+        /*repeat
           IF SendMailTo='' THEN
           SendMailTo+=Interviewer."Interviewer Email"
           ELSE
             SendMailTo+=Interviewer."Interviewer Email"+';'
-        UNTIL Interviewer.NEXT =0;
+        until Interviewer.NEXT =0;
         */
 
         if EmailTemplate.Get(HRSetup."Appointment Letter Sent") then begin
@@ -1074,7 +1074,7 @@ codeunit 50001 "HR Mgt."
             else
                 Message('Not Sent');
         end;
-        //  END;
+        //  end;
 
     end;
 
@@ -1227,7 +1227,7 @@ codeunit 50001 "HR Mgt."
     begin
         //Interviewer.Reset;
         //Interviewer.SetRange(Interviewer,GetEmployeeNo);
-        //IF Interviewer.FINDFIRST THEN BEGIN
+        //IF Interviewer.FindFirst() THEN begin
         EvaluationEntires.Reset;
         EvaluationEntires.FilterGroup(2);
         EvaluationEntires.SetRange("Vacancy Code", VacancyCode);
@@ -1341,21 +1341,21 @@ codeunit 50001 "HR Mgt."
         Vacancy: Record "Vacancy Header";
     begin
         /*Vacancy.GET(VacancyCode);
-        Vacancy.TESTFIELD(Status,Vacancy.Status::"Interview Scheduled");
+        Vacancy.TestField(Status,Vacancy.Status::"Interview Scheduled");
         Candidate.Reset;
         Candidate.SetRange("Vacancy Code",VacancyCode);
         Candidate.SetRange(Status,Candidate.Status::"Interview Scheduled");
-        IF Candidate.FIND('-') THEN REPEAT
+        IF Candidate.FIND('-') THEN repeat
           EvaluationEntry.Reset;
           EvaluationEntry.SetRange("Vacancy Code",VacancyCode);
           EvaluationEntry.SetRange("No.",Candidate."No.");
           EvaluationEntry.SetRange(Type,EvaluationEntry.Type::Interview);
           EvaluationEntry.SETFILTER(Marks,'<>%1',0);
-          IF EvaluationEntry.FINDFIRST THEN BEGIN
+          IF EvaluationEntry.FindFirst() THEN begin
             Candidate.Status := Candidate.Status::Interviewed;
             Candidate.MODIFY;
-          END;
-        UNTIL Candidate.NEXT = 0;
+          end;
+        until Candidate.NEXT = 0;
         Vacancy.Status := Vacancy.Status::Interviewed;
         Vacancy.MODIFY;
         */
@@ -1369,7 +1369,7 @@ codeunit 50001 "HR Mgt."
         Vacancy: Record "Vacancy Header";
     begin
         Vacancy.Get(VacancyCode);
-        //Vacancy.TESTFIELD(Status,Vacancy.Status::"Interview Scheduled");
+        //Vacancy.TestField(Status,Vacancy.Status::"Interview Scheduled");
         Candidate.Reset;
         Candidate.SetRange("Vacancy Code", VacancyCode);
         Candidate.SetRange(Status, Candidate.Status::"Interview Scheduled");
@@ -1457,8 +1457,8 @@ codeunit 50001 "HR Mgt."
                     Counter := EvaluationEntry.Count;
                     if EvaluationEntry.Find('-') then
                         repeat
-                            //IF ROUND(EvaluationEntry.Marks/EvaluationEntry.COUNT,0.01,'=') >= ROUND(EvaluationAttribute.PassMarks/EvaluationAttribute.COUNT,0.01,'=') THEN BEGIN
-                            //END;
+                            //IF ROUND(EvaluationEntry.Marks/EvaluationEntry.COUNT,0.01,'=') >= ROUND(EvaluationAttribute.PassMarks/EvaluationAttribute.COUNT,0.01,'=') THEN begin
+                            //end;
                             InterviewMarks += EvaluationEntry.Marks;
                             //InterviewMarks += EvaluationEntry.Marks *100/EvaluationEntry."Full Marks";
                             TotalFullMarks += EvaluationEntry."Full Marks";
@@ -1535,19 +1535,19 @@ codeunit 50001 "HR Mgt."
         if Candidate.Find('-') then
             repeat
                 // FunctionalTitle.GET(Candidate."Functional Title");
-                //IF FunctionalTitle."Written Exam" THEN BEGIN
+                //IF FunctionalTitle."Written Exam" THEN begin
                 if Candidate."Avg. Inverview Score" <> 0 then begin
                     if (HRSetup."Interview Weightage" + HRSetup."Written Exam Weightage") <> 0 then begin
                         Candidate."Total Marks" := (Candidate."Avg. Inverview Score" * HRSetup."Interview Weightage" + Candidate."Written Score" * HRSetup."Written Exam Weightage") /
                                            (HRSetup."Interview Weightage" + HRSetup."Written Exam Weightage");
                         Candidate.Modify;
                     end;
-                    /*END;
-                    END ELSE BEGIN
-                      IF (HRSetup."Interview Weightage"<>0 ) THEN BEGIN
+                    /*end;
+                    END ELSE begin
+                      IF (HRSetup."Interview Weightage"<>0 ) THEN begin
                         Candidate."Total Marks" := Candidate."Avg. Inverview Score" ;
                         Candidate.MODIFY;
-                      END;*/
+                      end;*/
                 end;
             until Candidate.Next = 0;
         Message('Marks Calculated.');
@@ -3639,10 +3639,10 @@ codeunit 50001 "HR Mgt."
             CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
         end;
         /*IF EmployeeActivity."Transfer Category" IN 
-          [EmployeeActivity."Transfer Category"::Officiating,EmployeeActivity."Transfer Category"::"Temporary"] THEN BEGIN
+          [EmployeeActivity."Transfer Category"::Officiating,EmployeeActivity."Transfer Category"::"Temporary"] THEN begin
           CodeunitEmailMessage.AppendToBody(FIELDCAPTION("Start Date") + Colon + FORMAT("Start Date") +'<br>');
           CodeunitEmailMessage.AppendToBody(FIELDCAPTION("End Date") + Colon + FORMAT("End Date") +'<br>');
-        END;*/
+        end;*/
         CodeunitEmailMessage.AppendToBody('<br><br>' + 'Current Placement ' + Colon + '<br>');
 
         CodeunitEmailMessage.AppendToBody('Deputation on' + Colon + Format(EmployeeActivity."Deputation On") + '<br>');
@@ -3997,7 +3997,7 @@ codeunit 50001 "HR Mgt."
         // TempEmpActivity.TestField("Start Date");
         // TempEmpActivity.TestField("End Date");
         // TempEmpActivity.TestField("Estimated Hours");
-        //TempEmpAct.TESTFIELD(Remarks);
+        //TempEmpAct.TestField(Remarks);
         // PayrollSetup.Get;
         // PayrollSetup.TestField("Friday Counter");
         // PayrollSetup.TestField("Holiday Counter");
@@ -4637,14 +4637,14 @@ codeunit 50001 "HR Mgt."
     //                 EmpVar.Validate("Department Code", EmpHrTransfer.Department);
     //         end;
     //         EmpVar.Modify;
-    //         /*IF ServiceHistory.GET(ServiceCode) THEN BEGIN
+    //         /*IF ServiceHistory.GET(ServiceCode) THEN begin
     //           ServiceHistory.VALIDATE("Functional Title (To)",EmpVar."Functional Title");
     //           ServiceHistory.VALIDATE("Salary Level (To)",EmpVar."Salary Level");
     //           ServiceHistory.VALIDATE("Deputation On (To)",EmpVar."Deputation on");
     //           ServiceHistory.VALIDATE("Deputation Code (To)",ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)",ServiceHistory."Employee No."));
     //           ServiceHistory.VALIDATE("Deputation Value (To)",ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)",ServiceHistory."Employee No."));
     //           ServiceHistory.MODIFY;
-    //         END;*/
+    //         end;*/
 
     //     end;
 
@@ -4658,7 +4658,7 @@ codeunit 50001 "HR Mgt."
     //     begin
     //         /*IF "Approver Code" <> GetEmployeeNo THEN
     //   ERROR('You are not eligible to approved this document');*/
-    //         /*TESTFIELD("Approval Status","Approval Status"::Screened);
+    //         /*TestField("Approval Status","Approval Status"::Screened);
     //         VALIDATE("Approval Status", "Approval Status"::Approved);
     //         VALIDATE("Approved Date",TODAY);*/
     //         if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::"Temporary" then
@@ -4846,8 +4846,8 @@ codeunit 50001 "HR Mgt."
     begin
         if not GuiAllowed then
             TempEmpAct."Transfer Category" := TempEmpAct."Transfer Category"::General;
-        //TempEmpAct.TESTFIELD(Description);
-        //TempEmpAct.TESTFIELD("Reason for Resignation"); //here reason for transfer
+        //TempEmpAct.TestField(Description);
+        //TempEmpAct.TestField("Reason for Resignation"); //here reason for transfer
         TempEmpAct.TestField("Transfer Category");
 
         if TempEmpAct."Transfer Category" = TempEmpAct."Transfer Category"::"Temporary" then begin
@@ -5197,7 +5197,7 @@ codeunit 50001 "HR Mgt."
         exit(xMunicipalityTxt);
     end;
 
-    PROCEDURE InsertFacilitatorDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record "Workflow Step Argument"; ShowConfirmationMessage: Boolean);
+    procedure InsertFacilitatorDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record "Workflow Step Argument"; ShowConfirmationMessage: Boolean);
     VAR
         SentForApprovalEventID: Integer;
         SetStatusToPendingApprovalResponseID: Integer;
@@ -5221,7 +5221,7 @@ codeunit 50001 "HR Mgt."
         WorkflowResponseHandling: Codeunit "Workflow Response Handling";
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
 
-    BEGIN
+    begin
         SentForApprovalEventID := WorkFlowSetup.InsertEntryPointEventStep(Workflow, DocSendForApprovalEventCode);
         WorkFlowSetup.InsertEventArgument(SentForApprovalEventID, DocSendForApprovalConditionString);
 
@@ -5278,9 +5278,9 @@ codeunit 50001 "HR Mgt."
             OnRequestDelegatedEventID);
 
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
-    END;
+    end;
 
-    PROCEDURE InsertTrainingDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record "Workflow Step Argument"; ShowConfirmationMessage: Boolean);
+    procedure InsertTrainingDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record "Workflow Step Argument"; ShowConfirmationMessage: Boolean);
     VAR
         SentForApprovalEventID: Integer;
         SetStatusToPendingApprovalResponseID: Integer;
@@ -5304,7 +5304,7 @@ codeunit 50001 "HR Mgt."
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
         WorkFlowSetup: Codeunit "Workflow Setup";
 
-    BEGIN
+    begin
         SentForApprovalEventID := WorkFlowSetup.InsertEntryPointEventStep(Workflow, DocSendForApprovalEventCode);
         WorkFlowSetup.InsertEventArgument(SentForApprovalEventID, DocSendForApprovalConditionString);
 
@@ -5361,9 +5361,9 @@ codeunit 50001 "HR Mgt."
             OnRequestDelegatedEventID);
 
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
-    END;
+    end;
 
-    PROCEDURE InsertVacancyDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record 1523; ShowConfirmationMessage: Boolean);
+    procedure InsertVacancyDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record 1523; ShowConfirmationMessage: Boolean);
     VAR
         SentForApprovalEventID: Integer;
         SetStatusToPendingApprovalResponseID: Integer;
@@ -5387,7 +5387,7 @@ codeunit 50001 "HR Mgt."
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
         WorkFlowSetup: Codeunit "Workflow Setup";
 
-    BEGIN
+    begin
         SentForApprovalEventID := WorkFlowSetup.InsertEntryPointEventStep(Workflow, DocSendForApprovalEventCode);
         WorkFlowSetup.InsertEventArgument(SentForApprovalEventID, DocSendForApprovalConditionString);
 
@@ -5444,7 +5444,7 @@ codeunit 50001 "HR Mgt."
             OnRequestDelegatedEventID);
 
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
-    END;
+    end;
 
     procedure CheckDateStatus(CalendarCode: Code[20];
                                 TargetDate: Date;
@@ -5461,11 +5461,11 @@ codeunit 50001 "HR Mgt."
     begin
         BaseCalChange.Reset;
         BaseCalChange.SetRange("Base Calendar Code", CalendarCode);
-        IF BaseCalChange.FINDSET THEN
-            REPEAT
+        IF BaseCalChange.FindSet() THEN
+            repeat
                 CASE BaseCalChange."Recurring System" OF
                     BaseCalChange."Recurring System"::" ":
-                        IF TargetDate = BaseCalChange.Date THEN BEGIN
+                        IF TargetDate = BaseCalChange.Date THEN begin
                             Description := BaseCalChange.Description;
                             Proviences := BaseCalChange."Province Filter";
                             Gender := BaseCalChange."Gender Filter";
@@ -5475,9 +5475,9 @@ codeunit 50001 "HR Mgt."
                             Community := BaseCalChange.Community;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
-                        END;
+                        end;
                     BaseCalChange."Recurring System"::"Weekly Recurring":
-                        IF DATE2DWY(TargetDate, 1) = BaseCalChange.Day THEN BEGIN
+                        IF DATE2DWY(TargetDate, 1) = BaseCalChange.Day THEN begin
                             Description := BaseCalChange.Description;
                             Proviences := BaseCalChange."Province Filter";
                             Gender := BaseCalChange."Gender Filter";
@@ -5487,11 +5487,11 @@ codeunit 50001 "HR Mgt."
                             Community := BaseCalChange.Community;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
-                        END;
+                        end;
                     BaseCalChange."Recurring System"::"Annual Recurring":
                         IF (DATE2DMY(TargetDate, 2) = DATE2DMY(BaseCalChange.Date, 2)) AND
                            (DATE2DMY(TargetDate, 1) = DATE2DMY(BaseCalChange.Date, 1))
-                        THEN BEGIN
+                        THEN begin
                             Description := BaseCalChange.Description;
                             Proviences := BaseCalChange."Province Filter";
                             Gender := BaseCalChange."Gender Filter";
@@ -5501,9 +5501,9 @@ codeunit 50001 "HR Mgt."
                             Community := BaseCalChange.Community;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
-                        END;
-                END;
-            UNTIL BaseCalChange.NEXT = 0;
+                        end;
+                end;
+            until BaseCalChange.NEXT = 0;
         Description := '';
         Proviences := '';
         clear(Gender);
@@ -5595,68 +5595,68 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    PROCEDURE GenerateActualMatrixData(VAR RecRef: RecordRef; SetWanted: Option; MaximumSetLength: Integer; CaptionFieldNo: Integer; VAR RecordPosition: Text; VAR CaptionSet: ARRAY[32] OF Text[80]; VAR CaptionRange: Text; VAR CurrSetLength: Integer; VAR DescCaptionSet: ARRAY[32] OF Text; DescCaptionFieldNo: Integer; ShowCaption: Boolean);
+    procedure GenerateActualMatrixData(VAR RecRef: RecordRef; SetWanted: Option; MaximumSetLength: Integer; CaptionFieldNo: Integer; VAR RecordPosition: Text; VAR CaptionSet: ARRAY[32] OF Text[80]; VAR CaptionRange: Text; VAR CurrSetLength: Integer; VAR DescCaptionSet: ARRAY[32] OF Text; DescCaptionFieldNo: Integer; ShowCaption: Boolean);
     VAR
         Steps: Integer;
         Caption: Text;
         MaxCaptionLength: Integer;
-    BEGIN
+    begin
         clear(CaptionSet);
         clear(DescCaptionSet);
         CaptionRange := '';
         CurrSetLength := 0;
 
-        IF RecRef.ISEMPTY THEN BEGIN
+        IF RecRef.ISEMPTY THEN begin
             RecordPosition := '';
             exit;
-        END;
+        end;
 
         CASE SetWanted OF
             SetOption::Initial:
-                RecRef.FINDFIRST;
+                RecRef.FindFirst();
             SetOption::Previous:
-                BEGIN
+                begin
                     RecRef.SETPOSITION(RecordPosition);
                     RecRef.GET(RecRef.RECORDID);
                     Steps := RecRef.NEXT(-MaximumSetLength);
                     IF NOT (Steps IN [-MaximumSetLength, 0]) THEN
                         ERROR(Text001);
-                END;
+                end;
             SetOption::Same:
-                BEGIN
+                begin
                     RecRef.SETPOSITION(RecordPosition);
                     RecRef.GET(RecRef.RECORDID);
-                END;
+                end;
             SetOption::Next:
-                BEGIN
+                begin
                     RecRef.SETPOSITION(RecordPosition);
                     RecRef.GET(RecRef.RECORDID);
-                    IF NOT (RecRef.NEXT(MaximumSetLength) = MaximumSetLength) THEN BEGIN
+                    IF NOT (RecRef.NEXT(MaximumSetLength) = MaximumSetLength) THEN begin
                         RecRef.SETPOSITION(RecordPosition);
                         RecRef.GET(RecRef.RECORDID);
-                    END;
-                END;
+                    end;
+                end;
             SetOption::PreviousColumn:
-                BEGIN
+                begin
                     RecRef.SETPOSITION(RecordPosition);
                     RecRef.GET(RecRef.RECORDID);
                     Steps := RecRef.NEXT(-1);
                     IF NOT (Steps IN [-1, 0]) THEN
                         ERROR(Text001);
-                END;
+                end;
             SetOption::NextColumn:
-                BEGIN
+                begin
                     RecRef.SETPOSITION(RecordPosition);
                     RecRef.GET(RecRef.RECORDID);
-                    IF NOT (RecRef.NEXT(1) = 1) THEN BEGIN
+                    IF NOT (RecRef.NEXT(1) = 1) THEN begin
                         RecRef.SETPOSITION(RecordPosition);
                         RecRef.GET(RecRef.RECORDID);
-                    END;
-                END;
-        END;
+                    end;
+                end;
+        end;
 
         RecordPosition := RecRef.GETPOSITION;
-        REPEAT
+        repeat
             CurrSetLength := CurrSetLength + 1;
             Caption := FORMAT(RecRef.FIELD(CaptionFieldNo).VALUE);
             MaxCaptionLength := MAXSTRLEN(CaptionSet[CurrSetLength]);
@@ -5664,66 +5664,66 @@ codeunit 50001 "HR Mgt."
                 CaptionSet[CurrSetLength] := COPYSTR(Caption, 1, MaxCaptionLength)
             ELSE
                 CaptionSet[CurrSetLength] := COPYSTR(Caption, 1, MaxCaptionLength - 3) + '...';
-        UNTIL (CurrSetLength = MaximumSetLength) OR (RecRef.NEXT <> 1);
+        until (CurrSetLength = MaximumSetLength) OR (RecRef.NEXT <> 1);
 
         IF CurrSetLength = 1 THEN
             CaptionRange := CaptionSet[1]
         ELSE
             CaptionRange := CaptionSet[1] + '..' + CaptionSet[CurrSetLength];
 
-        IF ShowCaption THEN BEGIN
-            IF RecRef.ISEMPTY THEN BEGIN
+        IF ShowCaption THEN begin
+            IF RecRef.ISEMPTY THEN begin
                 RecordPosition := '';
                 exit;
-            END;
+            end;
 
             CASE SetWanted OF
                 SetOption::Initial:
-                    RecRef.FINDFIRST;
+                    RecRef.FindFirst();
                 SetOption::Previous:
-                    BEGIN
+                    begin
                         RecRef.SETPOSITION(RecordPosition);
                         RecRef.GET(RecRef.RECORDID);
                         Steps := RecRef.NEXT(-MaximumSetLength);
                         IF NOT (Steps IN [-MaximumSetLength, 0]) THEN
                             ERROR(Text001);
-                    END;
+                    end;
                 SetOption::Same:
-                    BEGIN
+                    begin
                         RecRef.SETPOSITION(RecordPosition);
                         RecRef.GET(RecRef.RECORDID);
-                    END;
+                    end;
                 SetOption::Next:
-                    BEGIN
+                    begin
                         RecRef.SETPOSITION(RecordPosition);
                         RecRef.GET(RecRef.RECORDID);
-                        IF NOT (RecRef.NEXT(MaximumSetLength) = MaximumSetLength) THEN BEGIN
+                        IF NOT (RecRef.NEXT(MaximumSetLength) = MaximumSetLength) THEN begin
                             RecRef.SETPOSITION(RecordPosition);
                             RecRef.GET(RecRef.RECORDID);
-                        END;
-                    END;
+                        end;
+                    end;
                 SetOption::PreviousColumn:
-                    BEGIN
+                    begin
                         RecRef.SETPOSITION(RecordPosition);
                         RecRef.GET(RecRef.RECORDID);
                         Steps := RecRef.NEXT(-1);
                         IF NOT (Steps IN [-1, 0]) THEN
                             ERROR(Text001);
-                    END;
+                    end;
                 SetOption::NextColumn:
-                    BEGIN
+                    begin
                         RecRef.SETPOSITION(RecordPosition);
                         RecRef.GET(RecRef.RECORDID);
-                        IF NOT (RecRef.NEXT(1) = 1) THEN BEGIN
+                        IF NOT (RecRef.NEXT(1) = 1) THEN begin
                             RecRef.SETPOSITION(RecordPosition);
                             RecRef.GET(RecRef.RECORDID);
-                        END;
-                    END;
-            END;
+                        end;
+                    end;
+            end;
 
             RecordPosition := RecRef.GETPOSITION;
             CurrSetLength := 0;
-            REPEAT
+            repeat
                 CurrSetLength := CurrSetLength + 1;
                 Caption := FORMAT(RecRef.FIELD(DescCaptionFieldNo).VALUE);
                 MaxCaptionLength := MAXSTRLEN(CaptionSet[CurrSetLength]);
@@ -5731,13 +5731,13 @@ codeunit 50001 "HR Mgt."
                     DescCaptionSet[CurrSetLength] := COPYSTR(Caption, 1, MaxCaptionLength)
                 ELSE
                     DescCaptionSet[CurrSetLength] := COPYSTR(Caption, 1, MaxCaptionLength - 3) + '...';
-            UNTIL (CurrSetLength = MaximumSetLength) OR (RecRef.NEXT <> 1);
+            until (CurrSetLength = MaximumSetLength) OR (RecRef.NEXT <> 1);
 
             IF CurrSetLength = 1 THEN
                 CaptionRange := DescCaptionSet[1]
             ELSE
                 CaptionRange := DescCaptionSet[1] + '..' + DescCaptionSet[CurrSetLength];
-        END;
+        end;
     end;
 
     procedure InitNoSeriesNew(SetupNoSeries: Code[20]; xRecNoSeries: Code[20]; DocDate: Date; var DocNo: Code[20]; var RecNoSeries: Code[20])

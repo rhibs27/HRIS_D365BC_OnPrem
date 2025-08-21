@@ -64,7 +64,7 @@ report 50052 "Employee Leave Balance"
                     LeaveEarn.SetRange("Employee No.", Employee."No.");
                     LeaveEarn.SetRange("Leave Code", Code);
                     LeaveEarn.SetRange("Fiscal year", FiscalYear);
-                    //LeaveEarn.SETRANGE(Type,LeaveEarn.Type::Used);
+                    //LeaveEarn.SetRange(Type,LeaveEarn.Type::Used);
                     LeaveEarn.SetFilter(Type, '%1|%2', LeaveEarn.Type::Used, LeaveEarn.Type::Cancelled);
                     LeaveEarn.CalcSums("Balancing Days");
                     UsedDays := Abs(LeaveEarn."Balancing Days");

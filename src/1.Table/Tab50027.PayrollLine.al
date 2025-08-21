@@ -1754,8 +1754,6 @@ table 50027 "Payroll Line"
         CalculateLateDeduction();
         CalculateOTBenifit();
         GetTotalInsurranceClaim();
-        CalculateEmployeeSpecificGrade();
-
 
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             GetSettlementRecovery();
@@ -2016,7 +2014,7 @@ table 50027 "Payroll Line"
 
         "Basic Salary" := BasicSalarywithGrade."Total Basic Salary";
         if PayrollAttributesUsage.Get(PayrollAttributes.Code, "Employee No.") then begin
-            //PayrollAttributesUsage.TESTFIELD(Amount);
+            //PayrollAttributesUsage.TestField(Amount);
             if PayrollAttributesUsage.Amount <> 0 then
                 "Basic Salary" := PayrollAttributesUsage.Amount;
         end;
@@ -2577,18 +2575,18 @@ table 50027 "Payroll Line"
     local procedure CheckPremiumInsurance(EmployeeNo: Code[20])
     begin
         /*PayrollGeneralSetup.GET;
-        EmpLoanAdvance.RESET;
-        EmpLoanAdvance.SETRANGE("Employee Code",EmployeeNo);
-        EmpLoanAdvance.SETRANGE("Repayment Mode",EmpLoanAdvance."Repayment Mode"::"Insurance Tieup");
-        EmpLoanAdvance.SETRANGE("Approval Status",EmpLoanAdvance."Approval Status"::Approved);
-        EmpLoanAdvance.SETRANGE(Settled,FALSE);
+        EmpLoanAdvance.Reset();
+        EmpLoanAdvance.SetRange("Employee Code",EmployeeNo);
+        EmpLoanAdvance.SetRange("Repayment Mode",EmpLoanAdvance."Repayment Mode"::"Insurance Tieup");
+        EmpLoanAdvance.SetRange("Approval Status",EmpLoanAdvance."Approval Status"::Approved);
+        EmpLoanAdvance.SetRange(Settled,FALSE);
         EmpLoanAdvance.CALCSUMS(EMI);
         HLInsAmt := EmpLoanAdvance.EMI * 12;
 
-        EmployeeInsurance.RESET;
-        EmployeeInsurance.SETRANGE("Employee No.",EmployeeNo);
-        EmployeeInsurance.SETRANGE(Type,EmployeeInsurance.Type::"Life Insurance");
-        EmployeeInsurance.SETRANGE(Status,EmployeeInsurance.Status::Screened);
+        EmployeeInsurance.Reset();
+        EmployeeInsurance.SetRange("Employee No.",EmployeeNo);
+        EmployeeInsurance.SetRange(Type,EmployeeInsurance.Type::"Life Insurance");
+        EmployeeInsurance.SetRange(Status,EmployeeInsurance.Status::Screened);
         EmployeeInsurance.CALCSUMS("Annual Premium Amount");
 
         LifeInsuranceAmt := HLInsAmt + EmployeeInsurance."Annual Premium Amount";
@@ -2598,26 +2596,26 @@ table 50027 "Payroll Line"
         ELSE
           FinalLifeInsAmount := LifeInsuranceAmt;
 
-        EmpInsHealth.RESET;
-        EmpInsHealth.SETRANGE("Employee No.",EmployeeNo);
-        EmpInsHealth.SETRANGE(Type,EmpInsHealth.Type::"Medical Insurance");
-        EmpInsHealth.SETRANGE(Status,EmployeeInsurance.Status::Screened);
-        IF EmpInsHealth.FINDFIRST THEN REPEAT
+        EmpInsHealth.Reset();
+        EmpInsHealth.SetRange("Employee No.",EmployeeNo);
+        EmpInsHealth.SetRange(Type,EmpInsHealth.Type::"Medical Insurance");
+        EmpInsHealth.SetRange(Status,EmployeeInsurance.Status::Screened);
+        IF EmpInsHealth.FindFirst() THEN repeat
           HealthInsAmt += EmpInsHealth."Annual Premium Amount";
-          UNTIL EmpInsHealth.NEXT=0;
+          until EmpInsHealth.NEXT=0;
 
         IF HealthInsAmt > PayrollGeneralSetup."Health Insurance Minimum Amt" THEN
           FinalHealthInsAmt := PayrollGeneralSetup."Health Insurance Minimum Amt"
         ELSE
           FinalHealthInsAmt := HealthInsAmt;
 
-        EmpInsProperty.RESET;
-        EmpInsProperty.SETRANGE("Employee No.",EmployeeNo);
-        EmpInsProperty.SETRANGE(Type,EmpInsProperty.Type::"Property Insurance");
-        EmpInsProperty.SETRANGE(Status,EmpInsProperty.Status::Screened);
-        IF EmpInsProperty.FINDFIRST THEN REPEAT
+        EmpInsProperty.Reset();
+        EmpInsProperty.SetRange("Employee No.",EmployeeNo);
+        EmpInsProperty.SetRange(Type,EmpInsProperty.Type::"Property Insurance");
+        EmpInsProperty.SetRange(Status,EmpInsProperty.Status::Screened);
+        IF EmpInsProperty.FindFirst() THEN repeat
           PropertyInsAmt += EmpInsProperty."Annual Premium Amount";
-          UNTIL EmpInsProperty.NEXT=0;
+          until EmpInsProperty.NEXT=0;
 
         IF PropertyInsAmt > PayrollGeneralSetup."Property Insurance Minimum Amt" THEN
           FinalPropertyInsAmt := PayrollGeneralSetup."Property Insurance Minimum Amt"

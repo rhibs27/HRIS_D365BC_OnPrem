@@ -176,11 +176,11 @@ table 50099 "Employee Insurance Information"
             NoSeriesMgt.InitSeries(HRSetup."Employee Insurance No.", xRec."No. Series", "Requested Date", "Insurance No.", "No. Series");
             ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
-        /*EmpInsurance.RESET;
-        EmpInsurance.SETRANGE("Employee No.","Employee No.");
+        /*EmpInsurance.Reset();
+        EmpInsurance.SetRange("Employee No.","Employee No.");
         EmpInsurance.SETFILTER(Status,'%1|%2',EmpInsurance.Status::Open,EmpInsurance.Status::Pending);
         EmpInsurance.SETFILTER("Insurance No.",'<>%1',"Insurance No.");
-        IF EmpInsurance.FINDFIRST THEN
+        IF EmpInsurance.FindFirst() THEN
           ERROR('Insurance of employee %1 (%2) is pending.',EmpInsurance."Employee Name","Employee No.");*/
         // if not GuiAllowed then begin
         //     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
@@ -215,10 +215,10 @@ table 50099 "Employee Insurance Information"
     //     if not GuiAllowed then
     //         if "Approval Status" = "Approval Status"::Open then
     //             "Approval Status" := "Approval Status"::Pending;
-    /*EmpInsurance.RESET;
-    EmpInsurance.SETRANGE("Employee No.",Rec."Employee No.");
-    EmpInsurance.SETRANGE("Policy Number",Rec."Policy Number");
-    IF EmpInsurance.FINDFIRST THEN
+    /*EmpInsurance.Reset();
+    EmpInsurance.SetRange("Employee No.",Rec."Employee No.");
+    EmpInsurance.SetRange("Policy Number",Rec."Policy Number");
+    IF EmpInsurance.FindFirst() THEN
 //       ERROR(Text019,Rec."Policy Number",EmpInsurance."Insurance No.");*/
     // end;
 

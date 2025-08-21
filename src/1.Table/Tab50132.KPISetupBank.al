@@ -35,20 +35,20 @@ table 50132 "KPI Setup Bank"
             begin
                 /*IF ("Account Type" <> "Account Type"::Posting) AND
                    (xRec."Account Type" = xRec."Account Type"::Posting)
-                THEN BEGIN
-                  GLEntry.SETRANGE("G/L Account No.","No.");
+                THEN begin
+                  GLEntry.SetRange("G/L Account No.","No.");
                   IF NOT GLEntry.ISEMPTY THEN
                     ERROR(
                       Text000,
                       FIELDCAPTION("Account Type"));
-                  GLBudgetEntry.SETRANGE("G/L Account No.","No.");
+                  GLBudgetEntry.SetRange("G/L Account No.","No.");
                   IF NOT GLBudgetEntry.ISEMPTY THEN
                     ERROR(
                       Text001,
                       FIELDCAPTION("Account Type"));
-                END;
+                end;
                 Totaling := '';
-                IF "Account Type" = "Account Type"::Posting THEN BEGIN
+                IF "Account Type" = "Account Type"::Posting THEN begin
                   IF "Account Type" <> xRec."Account Type" THEN
                     "Direct Posting" := TRUE;
                 END ELSE

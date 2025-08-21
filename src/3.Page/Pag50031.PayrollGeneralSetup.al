@@ -73,11 +73,6 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Posting Method field.';
                     ApplicationArea = All;
                 }
-                // field("HRMS Month"; Rec."HRMS Month")
-                // {
-                //     ToolTip = 'Specifies the value of the HRMS Month field.';
-                //     ApplicationArea = All;
-                // }
                 field("Tax Calculation Type"; Rec."Tax Calculation Type")
                 {
                     ToolTip = 'Specifies the value of the Tax Calculation Type field.';

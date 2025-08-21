@@ -659,15 +659,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ToolTip = 'Specifies the value of the Retirement Fund Nos. field.';
                 }
             }
-            // group("Grade Increment")
-            // {
-            //     field("Employment Before (Grade Incre"; Rec."Employment Before (Grade Incre")
-            //     {
-            //         ApplicationArea = All;
-            //         Caption = 'Employment Before (Grade Increment)';
-            //         ToolTip = 'Specifies the value of the Employment Before (Grade Increment) field.';
-            //     }
-            // }
+
         }
     }
 }

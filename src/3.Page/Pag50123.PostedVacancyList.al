@@ -609,7 +609,7 @@ page 50123 "Posted Vacancy List"
     procedure CreateInterviewSchedule(Reshedule: Boolean)
     begin
         Candidate.Reset;
-        //TESTFIELD("Functional Title");
+        //TestField("Functional Title");
         if FunctionalTitle.Get(Rec."Functional Title") then;
         Candidate.SetRange("Vacancy Code", Rec."No.");
         if FunctionalTitle."Written Exam" then

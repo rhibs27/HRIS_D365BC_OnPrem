@@ -45,16 +45,16 @@ report 50074 "Recruitment Memo"
 
             trigger OnAfterGetRecord()
             begin
-                /*IF Employee.Salutation = Employee.Salutation::"Mr." THEN BEGIN
+                /*IF Employee.Salutation = Employee.Salutation::"Mr." THEN begin
                   Pronoun1 := 'he';
                   Pronoun2 := 'his';
                   Pronoun3 := 'him';
                 END
-                ELSE IF Employee.Salutation = Employee.Salutation::"Ms." THEN BEGIN
+                ELSE IF Employee.Salutation = Employee.Salutation::"Ms." THEN begin
                   Pronoun1 := 'she';
                   Pronoun2 := 'her';
                   Pronoun3 := 'her';
-                END;*/
+                end;*/
 
                 NL := '  ';
                 NL[1] := 13;

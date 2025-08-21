@@ -805,11 +805,11 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Description = 'Permanent District';
             trigger OnValidate()
-            BEGIN
+            begin
                 IF (Rec."Permanent District" <> xRec."Permanent District") AND ("Permanent District" <> '') THEN
                     HRMgt.CheckDistrictName("Permanent District");
                 "Address" := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -825,7 +825,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 if (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
                     HRMgt.CheckDistrictName("Temporary District");
                 "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -885,10 +885,10 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'KPI1.00';
             trigger OnValidate()
             begin
-                //                                                 {IF (Rec."KPI Deputation Code" <> xRec."KPI Deputation Code") AND ("KPI Deputation Code" <> '') THEN BEGIN
+                //                                                 {IF (Rec."KPI Deputation Code" <> xRec."KPI Deputation Code") AND ("KPI Deputation Code" <> '') THEN begin
                 //     HRMgt.CheckSubProvience("KPI Deputation Code");
                 //     CLEAR("Permanent District");
-                // END;
+                // end;
                 // IF "KPI Deputation Code" = '' THEN
                 //     CLEAR("Permanent District");
                 // "Permanent Address" := ReturnAddress("Permanent Province", "KPI Deputation Code", "Permanent District", "Permanent VDC", "Ward No");}
@@ -929,7 +929,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 if (Rec."Permanent VDC" <> xRec."Permanent VDC") and ("Permanent VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Permanent VDC");
                 "Address" := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -944,7 +944,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 if (Rec."Temporary VDC" <> xRec."Temporary VDC") and ("Temporary VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Temporary VDC");
                 "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -1635,28 +1635,28 @@ tableextension 50013 "Employee Ext" extends Employee
     local procedure ValidateOutstationAllowance();
     begin
         //   {Employee.GET("No.");
-        //   PayrollAttributeSubgroup.RESET;
-        //   PayrollAttributeSubgroup.SETRANGE("Auto-Validate",TRUE);
-        //   IF PayrollAttributeSubgroup.FINDFIRST THEN
+        //   PayrollAttributeSubgroup.Reset();
+        //   PayrollAttributeSubgroup.SetRange("Auto-Validate",TRUE);
+        //   IF PayrollAttributeSubgroup.FindFirst() THEN
         //   Code:= PayrollAttributeSubgroup.Code;
-        //   IF "Out-Station eligible" THEN BEGIN
-        //     IF PayrollEngine.PayrollAttCheck(Code,"No.") THEN BEGIN
+        //   IF "Out-Station eligible" THEN begin
+        //     IF PayrollEngine.PayrollAttCheck(Code,"No.") THEN begin
         //       IF PayrollAttributeUsage.GET(Code,"No.") THEN
         //         ERROR('Out Station Allowance Already present for this Employee.');
-        //       IF PayrollAttributeSubgroup.FINDFIRST THEN BEGIN
+        //       IF PayrollAttributeSubgroup.FindFirst() THEN begin
         //         Code:= PayrollAttributeSubgroup.Code;
         //         PayrollAttributeUsage.INIT;
         //         PayrollAttributeUsage."Employee Code":=Employee."No.";
         //         PayrollAttributeUsage.VALIDATE(Code,PayrollAttributeSubgroup.Code);
         //         PayrollAttributeUsage.VALIDATE(Description,PayrollAttributeSubgroup.Description);
         //         PayrollAttributeUsage.INSERT;
-        //       END;
-        //     END;
-        //   END;
-        //    IF NOT "Out-Station eligible" THEN BEGIN
+        //       end;
+        //     end;
+        //   end;
+        //    IF NOT "Out-Station eligible" THEN begin
         //       PayrollAttributeUsage.GET(Code,"No.");
         //         PayrollAttributeUsage.DELETE;
-        //    END;
+        //    end;
         //    }
     end;
 
@@ -1691,17 +1691,17 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
     end;
 
-    PROCEDURE LeaveRequest();
-    BEGIN
+    procedure LeaveRequest();
+    begin
         LeaveMgt.OpenLeaveRequest("No.");
-    END;
+    end;
 
-    PROCEDURE TravelRequest();
+    procedure TravelRequest();
     var
         EmployeeAct: enum "Employee Activity Type";
-    BEGIN
+    begin
         TravelMgt.OpenTravelRequest("No.", FALSE, '', EmployeeAct::"Travel Request");
-    END;
+    end;
 
 
     procedure ChangeEmployeeJobType();
@@ -1762,25 +1762,25 @@ tableextension 50013 "Employee Ext" extends Employee
         end;
     end;
 
-    PROCEDURE TransferRequest();
-    BEGIN
+    procedure TransferRequest();
+    begin
         TransferMgt.OpenTransferRequest("No.");
-    END;
+    end;
 
-    PROCEDURE OTRequest();
-    BEGIN
+    procedure OTRequest();
+    begin
         OverTimeMgt.OpenOTForms("No.");
-    END;
+    end;
 
-    PROCEDURE OutOfOffice();
-    BEGIN
+    procedure OutOfOffice();
+    begin
         TransferMgt.OpenOutofOfficeForms("No.");
-    END;
+    end;
 
-    PROCEDURE BulkCash();
-    BEGIN
+    procedure BulkCash();
+    begin
         // HRMgt.OpenBulkCash("No.");
-    END;
+    end;
 
     procedure GetOutstandingAmt(): Decimal;
     begin

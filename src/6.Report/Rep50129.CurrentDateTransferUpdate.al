@@ -214,7 +214,7 @@ report 50129 "Current Date Transfer Update"
         PayrollGenSetup.Get;
         CommonFilter;
         OverTime.SetRange("Encashment Code", PayrollGenSetup."Holiday Counter");
-        //EmployeeActRec.SETRANGE("OT Amount",0);
+        //EmployeeActRec.SetRange("OT Amount",0);
         if OverTime.FindSet then
             repeat
                 EmpVar.Get(OverTime."Employee No.");
@@ -231,7 +231,7 @@ report 50129 "Current Date Transfer Update"
         PayrollGenSetup.Get;
         CommonFilter;
         OverTime.SetRange("Encashment Code", PayrollGenSetup."Festival Counter");
-        //EmployeeActRec.SETRANGE("OT Amount",0);
+        //EmployeeActRec.SetRange("OT Amount",0);
         if OverTime.FindSet then
             repeat
                 EmpVar.Get(OverTime."Employee No.");

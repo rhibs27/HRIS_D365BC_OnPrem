@@ -451,14 +451,14 @@ table 50026 "Payroll Header"
             PayrollHeader.Status := PayrollHeader.Status::Released;
             PayrollHeader.Modify;
             PayrollHeader.CalcFields("Total Net Payable");
-            /*PayrollBalancingAccount.RESET;
-            PayrollBalancingAccount.SETRANGE("Document No.",PayrollHeader."No.");
+            /*PayrollBalancingAccount.Reset();
+            PayrollBalancingAccount.SetRange("Document No.",PayrollHeader."No.");
             PayrollBalancingAccount.DELETEALL;
             PGSetup.GET;
             IF ((PGSetup."Net Payable Account Type" = PGSetup."Net Payable Account Type"::"Bank Account") AND
                 (PGSetup."Net Payable Account Code" <> '')) OR
                 (PGSetup."Payment Method Code" <> '')
-              THEN BEGIN
+              THEN begin
                 CLEAR(PayrollBalancingAccount);
                 PayrollBalancingAccount.INIT;
                 PayrollBalancingAccount."Document No." := "No.";
@@ -466,14 +466,14 @@ table 50026 "Payroll Header"
                 PayrollBalancingAccount."Credit Amount" := PayrollHeader."Total Net Payable";
                 IF PGSetup."Net Payable Account Type" = PGSetup."Net Payable Account Type"::"Bank Account" THEN
                   PayrollBalancingAccount."Bank Account No." := PGSetup."Net Payable Account Code"
-                ELSE IF PGSetup."Payment Method Code" <> '' THEN BEGIN
+                ELSE IF PGSetup."Payment Method Code" <> '' THEN begin
                   PaymentMethod.GET(PGSetup."Payment Method Code");
-                  PaymentMethod.TESTFIELD("Bal. Account Type",PaymentMethod."Bal. Account Type"::"Bank Account");
-                  PaymentMethod.TESTFIELD("Bal. Account No.");
+                  PaymentMethod.TestField("Bal. Account Type",PaymentMethod."Bal. Account Type"::"Bank Account");
+                  PaymentMethod.TestField("Bal. Account No.");
                   PayrollBalancingAccount."Bank Account No." := PaymentMethod."Bal. Account No.";
-                END;
+                end;
                 PayrollBalancingAccount.INSERT;
-            END;*/
+            end;*/
             if not HideModificationDialog then
                 Message(Text003);
         end;
@@ -485,7 +485,7 @@ table 50026 "Payroll Header"
         PayrollEngine: Codeunit "Payroll Engine";
     begin
         if PayrollHeader.FindFirst then begin
-            //PayrollHeader.TESTFIELD(Status,Status::Open);
+            //PayrollHeader.TestField(Status,Status::Open);
             PayrollLine.Reset;
             PayrollLine.SetRange("Document No.", PayrollHeader."No.");
             if PayrollLine.FindSet then
@@ -629,9 +629,9 @@ table 50026 "Payroll Header"
 
     procedure OpenBalancingAccount()
     begin
-        /*PayrollBalancingAccount.RESET;
+        /*PayrollBalancingAccount.Reset();
         PayrollBalancingAccount.FILTERGROUP(2);
-        PayrollBalancingAccount.SETRANGE("Document No.","No.");
+        PayrollBalancingAccount.SetRange("Document No.","No.");
         PayrollBalancingAccount.FILTERGROUP(0);
         CLEAR(PayrollBalancingAccountList);
 

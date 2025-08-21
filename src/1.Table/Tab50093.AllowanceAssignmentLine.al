@@ -65,7 +65,7 @@ table 50093 "Allowance Assignment Line"
                 // if "Approval Status" = "Approval Status"::Screened then
                 // Error('Cannot substitute screened employee.');
                 // AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
-                //TESTFIELD("Allowance Type");
+                //TestField("Allowance Type");
                 PayrollGeneralSetup.Get;
                 PayrollGeneralSetup.TestField("Risk Allowance");
                 PayrollGeneralSetup.TestField("Morning Counter");
@@ -311,17 +311,17 @@ table 50093 "Allowance Assignment Line"
         AllowanceLine.SetRange(Type, Type);
         if AllowanceLine.FindFirst then
             repeat
-                //  AllowanceLine1.RESET;
-                //  AllowanceLine1.SETRANGE("Entry No.", AllowanceLine."Entry No.");
+                //  AllowanceLine1.Reset();
+                //  AllowanceLine1.SetRange("Entry No.", AllowanceLine."Entry No.");
                 //  AllowanceLine1.SETFILTER("Line No.", '<>%1', AllowanceLine."Line No.");
-                //  IF AllowanceLine1.FINDFIRST THEN BEGIN
+                //  IF AllowanceLine1.FindFirst() THEN begin
                 PayrollAttribute.Get("Allowance Type");
                 if PayrollAttribute."Mutually Exclusive" then begin
                     PayrollAttribute1.Get(AllowanceLine."Allowance Type");
                     if PayrollAttribute1."Mutually Exclusive" then
                         Error(TEXT001, AllowanceLine."Allowance Type", "Allowance Type", AllowanceLine."From Date");
                 end;
-            //END;
+            //end;
             until AllowanceLine.Next = 0;
         if Rec."Substitute Type" = Rec."Substitute Type"::" " then begin
             AllowanceLine.Reset;
@@ -358,7 +358,7 @@ table 50093 "Allowance Assignment Line"
         TestField("Allowance Type");
         BaseCalenderChange.Reset;
         BaseCalenderChange.SetRange(Date, "From Date");
-        //BaseCalenderChange.SETRANGE(Nonworking, TRUE);
+        //BaseCalenderChange.SetRange(Nonworking, TRUE);
         if BaseCalenderChange.FindFirst then;
 
         case "Allowance Type" of
@@ -440,10 +440,10 @@ table 50093 "Allowance Assignment Line"
                 AllowanceLine1."Substitute Type" := AllowanceLine1."Substitute Type"::"Added as Substitute";
                 AllowanceLine1."From Date" := NewFromDate;
                 AllowanceLine1."To Date" := NewToDate;
-                //    IF NOT GUIALLOWED THEN BEGIN
+                //    IF NOT GUIALLOWED THEN begin
                 AllowanceHeader.Validate("Approval Status", AllowanceHeader."Approval Status"::"Pending");
                 AllowanceHeader.Modify;
-                //  END;
+                //  end;
 
                 // AllowanceLine1.Validate("Approval Status", AllowanceLine1."Approval Status"::Screened);
                 AllowanceLine1.CalculateNoOfDays(AllowanceLine1);
@@ -481,7 +481,7 @@ table 50093 "Allowance Assignment Line"
     local procedure CheckForGracePeriod()
     begin
 
-        //PayrollGeneralSetup.TESTFIELD("Allowance Grace Period");
+        //PayrollGeneralSetup.TestField("Allowance Grace Period");
         if AllowanceHeader."To date" + PayrollGeneralSetup."Allowance Grace Period" < Today then
             Error('Grace period for filling allowance assignment has been exceeded. Please Contact HR Team');
     end;

@@ -372,7 +372,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PayrollJournalLine.TestField("Account No.");
         PayrollJournalLine.TestField("Posting Date");
         if PayrollJournalLine."Attribute Code" <> '' then begin
-            //TESTFIELD("Document Type","Document Type"::" "); UTS Commented
+            //TestField("Document Type","Document Type"::" "); UTS Commented
             PayrollJournalLine.TestField("Account Type", PayrollJournalLine."Account Type"::"G/L Account");
         end
         else begin
@@ -385,7 +385,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PayrollJournalLine.TestField(Description);
         PayrollJournalLine.TestField(Amount);
         PayrollJournalLine.TestField("Shortcut Dimension 1 Code");
-        //TESTFIELD("Shortcut Dimension 2 Code");
+        //TestField("Shortcut Dimension 2 Code");
         PayrollJournalLine.TestField("Source Code");
         PayrollJournalLine.TestField("Document Date");
         PayrollJournalLine.TestField("Posting No. Series");

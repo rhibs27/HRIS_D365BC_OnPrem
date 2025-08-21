@@ -528,7 +528,8 @@ table 50140 "Employee Transfer"
             trigger OnValidate()
             begin
                 if Type in [Type::"HR Transfer", Type::"Employee Transfer"] then begin
-                    Error(Text001, Today);
+                    if "Transfer Effective Date" < Today then
+                        Error(Text001, Today);
                 end;
             end;
         }

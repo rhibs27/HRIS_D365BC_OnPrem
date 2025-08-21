@@ -1500,11 +1500,11 @@ table 50035 "Posted Payroll Line"
     begin
         /*
         GetPayrollHeader;
-        TimeSheetSummary.RESET;
+        TimeSheetSummary.Reset();
         TimeSheetSummary.FILTERGROUP(2);
-        TimeSheetSummary.SETRANGE("Employee Code","Employee No.");
-        TimeSheetSummary.SETRANGE("From Date",PostedPayrollHeader."From Date");
-        TimeSheetSummary.SETRANGE("To Date",PostedPayrollHeader."To Date");
+        TimeSheetSummary.SetRange("Employee Code","Employee No.");
+        TimeSheetSummary.SetRange("From Date",PostedPayrollHeader."From Date");
+        TimeSheetSummary.SetRange("To Date",PostedPayrollHeader."To Date");
         TimeSheetSummary.FILTERGROUP(0);
         CLEAR(TimeSheetSummaryList);
         TimeSheetSummaryList.SETTABLEVIEW(TimeSheetSummary);

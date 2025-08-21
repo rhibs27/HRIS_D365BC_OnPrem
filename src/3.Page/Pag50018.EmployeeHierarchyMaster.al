@@ -73,10 +73,10 @@
 //         CapText := CurrPage.Caption('Extension Counter');
 
 //         /*Filter := GETFILTER(Type);
-//         IF Filter = FORMAT(Type::"Extension Counter") THEN BEGIN
-//         END ELSE BEGIN
+//         IF Filter = FORMAT(Type::"Extension Counter") THEN begin
+//         END ELSE begin
 //           CapText := CurrPage.CAPTION('Cluster List');
-//         END;
+//         end;
 //         */
 //         Rec.SetRange(Blocked, false); 
 //     end;

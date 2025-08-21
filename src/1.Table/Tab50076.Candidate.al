@@ -98,7 +98,7 @@ table 50076 Candidate
             Caption = 'Status';
             trigger OnValidate()
             begin
-                /*EmployeeQualification.SETRANGE("Employee No.","No.");
+                /*EmployeeQualification.SetRange("Employee No.","No.");
                 EmployeeQualification.MODIFYALL("Employee Status",Status);
                 MODIFY;
                 */
@@ -525,11 +525,11 @@ table 50076 Candidate
         //IME19.00 Begin
         /*
         GLSetup.GET;
-        GLSetup.TESTFIELD("Employee Dimension");
+        GLSetup.TestField("Employee Dimension");
         DimName := FullName;
-        DimValue.SETRANGE("Dimension Code",GLSetup."Employee Dimension");
-        DimValue.SETRANGE(Code,"No.");
-        IF NOT DimValue.FINDFIRST THEN BEGIN
+        DimValue.SetRange("Dimension Code",GLSetup."Employee Dimension");
+        DimValue.SetRange(Code,"No.");
+        IF NOT DimValue.FindFirst() THEN begin
           DimValue.INIT;
           DimValue.VALIDATE("Dimension Code",GLSetup."Employee Dimension");
           DimValue.VALIDATE(Code,"No.");
@@ -543,12 +543,12 @@ table 50076 Candidate
           DefaultDimension.VALIDATE("Dimension Value Code","No.");
           DefaultDimension.VALIDATE("Value Posting",DefaultDimension."Value Posting"::"Same Code");
           DefaultDimension.INSERT(TRUE);
-        END ELSE BEGIN
-          IF DimValue.Name <> DimName THEN BEGIN
+        END ELSE begin
+          IF DimValue.Name <> DimName THEN begin
             DimValue.VALIDATE(Name,DimName);
             DimValue.MODIFY;
-          END;
-        END;
+          end;
+        end;
 
         */
         //IME19.00 End
@@ -573,8 +573,8 @@ table 50076 Candidate
         Rec.TestField(Gender);
         Rec.TestField("Salary Grade");
         Rec.TestField("Employment Type");
-        //EvaluationEntry.RESET;
-        //EvaluationEntry.SETRANGE( "No.", "No.");
+        //EvaluationEntry.Reset();
+        //EvaluationEntry.SetRange( "No.", "No.");
         //EvaluationEntry.CALCSUMS("Interviewer Code", "Interviewer Name", Marks);
         //IF EvaluationEntry."Interviewer Code" + EvaluationEntry."Interviewer Name" + EvaluationEntry.Marks =0 THEN
         // if not Confirm(NoEvaluationEntry, false) then

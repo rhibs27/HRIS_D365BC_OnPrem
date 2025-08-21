@@ -241,7 +241,7 @@ table 50077 "Vacancy Header"
 
     trigger OnModify()
     begin
-        /*TESTFIELD("Approval Status", Rec."Approval Status"::Open);
+        /*TestField("Approval Status", Rec."Approval Status"::Open);
         "Last Modified Date" := TODAY;
         */
     end;

@@ -117,7 +117,7 @@ codeunit 50006 "Resignation Mgt"
                 ResignationApprover.Reset;
                 ResignationApprover.SetRange("Document No.", Resignation."No.");
                 ResignationApprover.SetRange("Employee No.", Employee."No.");
-                //ResignationApprover.SETRANGE("Approver Type", ResignationApprover."Approver Type"::"Finance & Accounts");
+                //ResignationApprover.SetRange("Approver Type", ResignationApprover."Approver Type"::"Finance & Accounts");
                 if not ResignationApprover.FindFirst then begin
                     ResignationApprover.Init;
                     ResignationApprover."Document Type" := ResignationApprover."Document Type"::Resignation;
@@ -161,7 +161,7 @@ codeunit 50006 "Resignation Mgt"
             // if not Employee.Screener then           //resignation approver replaced with screener
             //     Error('Not authorized screener.');
             // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
-            //  EmpAct.TESTFIELD("Screener Remarks");
+            //  EmpAct.TestField("Screener Remarks");
             HrMgt.CheckDocumentApprover(Resignation."No.");
             CheckResignationAttachmentMandatory(Resignation);
             if not Confirm(ConfirmScreen, false) then
@@ -172,10 +172,10 @@ codeunit 50006 "Resignation Mgt"
         end
         else if Resignation.Type = Resignation.Type::"Travel Claim" then begin
             /*HRSetup.GET;
-            Employee.RESET;
-            Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
-            Employee.SETRANGE("NAV Login ID", USERID);
-            IF NOT Employee.FINDFIRST THEN
+            Employee.Reset();
+            Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+            Employee.SetRange("NAV Login ID", USERID);
+            IF NOT Employee.FindFirst() THEN
                 ERROR('Not authorized screener.');*///AT
             if not (Resignation."Approval Status" = Resignation."Approval Status"::Approved) then
                 Error('Approval Status must be approved before screening.');

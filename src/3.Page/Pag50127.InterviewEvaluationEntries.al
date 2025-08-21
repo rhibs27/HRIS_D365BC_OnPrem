@@ -186,29 +186,29 @@ page 50127 "Interview Evaluation Entries"
 
     trigger OnOpenPage()
     begin
-        /*Interviewer.RESET;
-        Interviewer.SETRANGE("Vacancy Code", VacancyCode);
-        Interviewer.SETRANGE("Candidate No.", CandidateNo);
-        IF Interviewer.FINDFIRST THEN
-          REPEAT
+        /*Interviewer.Reset();
+        Interviewer.SetRange("Vacancy Code", VacancyCode);
+        Interviewer.SetRange("Candidate No.", CandidateNo);
+        IF Interviewer.FindFirst() THEN
+          repeat
             CASE Interviewer.Sequence OF
               1:
-                BEGIN
+                begin
                   IF Employee.GET(Interviewer."Employee Code") THEN
                     Interviewer1Name := Employee.FullName;
-                END;
+                end;
               2:
-                BEGIN
+                begin
                   IF Employee.GET(Interviewer."Employee Code") THEN
                     Interviewer2Name := Employee.FullName;
-                END;
+                end;
               3:
-                BEGIN
+                begin
                   IF Employee.GET(Interviewer."Employee Code") THEN
                     Interviewer3Name := Employee.FullName;
-                END;
-            END;
-          UNTIL Interviewer.NEXT  = 0;
+                end;
+            end;
+          until Interviewer.NEXT  = 0;
           */
     end;
 

@@ -52,12 +52,12 @@ report 50134 "Extra Working Hour Report"
                         end;
                     end;
                     //SN := SN + 1;
-                    /*IF "Employee Attendance & Activity"."Day Type"="Employee Attendance & Activity"."Day Type"::"Working Day" THEN BEGIN
+                    /*IF "Employee Attendance & Activity"."Day Type"="Employee Attendance & Activity"."Day Type"::"Working Day" THEN begin
                       IF "Employee Attendance & Activity"."Check In Time" < PayrollGeneralSetup."OT Start Time" THEN
                         SETFILTER("Employee Attendance & Activity"."Check In Time",'<%1',PayrollGeneralSetup."OT Start Time")
                       ELSE IF "Employee Attendance & Activity"."Check Out Time" > PayrollGeneralSetup."OT End Time" THEN
                         SETFILTER("Employee Attendance & Activity"."Check Out Time",'>%1',PayrollGeneralSetup."OT End Time");
-                    END;*/
+                    end;*/
                 end;
 
                 trigger OnPreDataItem()
@@ -70,17 +70,17 @@ report 50134 "Extra Working Hour Report"
             trigger OnAfterGetRecord()
             begin
                 /*PayrollGeneralSetup.GET;
-                EmpAttenAct.RESET;
-                EmpAttenAct.SETRANGE("Attendance Date",071822D);
-                //EmpAttenAct.SETRANGE("Employee No.",Employee."No.");
+                EmpAttenAct.Reset();
+                EmpAttenAct.SetRange("Attendance Date",071822D);
+                //EmpAttenAct.SetRange("Employee No.",Employee."No.");
                 EmpAttenAct.SETFILTER("Check In Time",'<%1',PayrollGeneralSetup."OT Start Time");
                 EmpAttenAct.SETFILTER("Check Out Time",'>%1',PayrollGeneralSetup."OT End Time");
                 IF EmpAttenAct.FINDSET THEN
                   EarlyPunchIn := EmpAttenAct.COUNT;
 
-                IF EmpAttenAct.FIND('-') THEN REPEAT
+                IF EmpAttenAct.FIND('-') THEN repeat
                   TotalCount := TotalCount +1;
-                UNTIL EmpAttenAct.NEXT = 0;*/
+                until EmpAttenAct.NEXT = 0;*/
             end;
 
             trigger OnPreDataItem()
@@ -103,13 +103,13 @@ report 50134 "Extra Working Hour Report"
                 //         EcoSystemDescription := Department."Eco-System Description";
                 // end;
                 /*IF ProvinceFilter <>'' THEN
-                 SETRANGE(Employee."Province Code",ProvinceFilter)
+                 SetRange(Employee."Province Code",ProvinceFilter)
                 ELSE IF SubProvinceFilter <> '' THEN
-                  SETRANGE(Employee."Sub Province Code",SubProvinceFilter)
+                  SetRange(Employee."Sub Province Code",SubProvinceFilter)
                 ELSE IF BranchFilter <> '' THEN
-                  SETRANGE(Employee."Global Dimension 1 Code",BranchFilter)
+                  SetRange(Employee."Global Dimension 1 Code",BranchFilter)
                 ELSE IF DepartmentCodeFilter <> '' THEN
-                  SETRANGE(Employee."Department Code",DepartmentCodeFilter);
+                  SetRange(Employee."Department Code",DepartmentCodeFilter);
                 SubProvinceCode := 'SPO55';*/
             end;
         }
