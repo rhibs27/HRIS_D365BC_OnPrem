@@ -4443,6 +4443,22 @@ codeunit 50008 "Payroll Engine"
 
     end;
 
+    procedure ValidateAttributes2(AttrCode: Code[20]; EmpCode: Code[20])
+    var
+        AllowanceConfiguration: Record "Allowance Configuration";
+        Employee: Record Employee;
+        PayrollAttr: Record "Payroll Attributes";
+    begin
+        Employee.Get(EmpCode);
+
+        AllowanceConfiguration.SetRange("Payroll Attribute", AttrCode);
+        AllowanceConfiguration.SetFilter("Employment Type", '%1|%2', Employee."Employment Type"::" ", Employee."Employment Type");
+        AllowanceConfiguration.SetFilter("Province Code", '%1|%2', '', Employee."Province Code");
+        AllowanceConfiguration.SetFilter("Branch Code", '%1|%2', '', Employee."Branch Code");
+        AllowanceConfiguration.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
+        if AllowanceConfiguration.FindSet() then;
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeInsertEmployeePayrollAdjustment(var EmployeePayrollAdjustment: Record "Employee Payroll Adjustment")
     begin
