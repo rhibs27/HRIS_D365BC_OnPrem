@@ -174,6 +174,18 @@ table 50025 "Payroll Attributes"
         {
 
         }
+        field(50; Amount; Decimal)
+        {
+
+        }
+        field(52; "Amount Per"; Enum "Pay Frequency")
+        {
+            trigger OnValidate()
+            begin
+
+            end;
+        }
+
     }
 
     keys

@@ -188,6 +188,14 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Column Id field.';
                     ApplicationArea = All;
                 }
+                field(Amount; Rec.Amount)
+                {
+                    ToolTip = 'Specifies the value of the Amount field.', Comment = '%';
+                }
+                field("Amount Per"; Rec."Amount Per")
+                {
+                    ToolTip = 'Specifies the value of the Amount Per field.', Comment = '%';
+                }
             }
         }
     }

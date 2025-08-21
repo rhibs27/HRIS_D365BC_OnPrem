@@ -12938,6 +12938,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Activity Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 691915965 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Amount Per</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Amount Per - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2858165342 - Field 930293571 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Apply Every Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38202,6 +38212,16 @@
           <source>Specifies the value of the Activity Type  field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Activity Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2858165342 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2858165342 - Control 691915965 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Amount Per field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Amount Per - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 930293571 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Apply Every Month field. If checkd amount will be forcasted</source>
