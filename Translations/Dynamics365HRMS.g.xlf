@@ -288,6 +288,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Amount - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 333147355 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Approver Role - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3837508396 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23017,6 +23022,11 @@
           <source>Specifies the value of the Amount field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 333147355 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Role field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Approver Role - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3003557261 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Code field.</source>

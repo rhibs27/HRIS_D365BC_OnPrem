@@ -53,6 +53,10 @@ page 50171 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Salary Level field.', Comment = '%';
                 }
+                field("Approver Role"; Rec."Approver Role")
+                {
+                    ToolTip = 'Specifies the value of the Approver Role field.', Comment = '%';
+                }
             }
         }
     }

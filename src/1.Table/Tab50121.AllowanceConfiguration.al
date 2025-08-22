@@ -59,6 +59,10 @@ table 50121 "Allowance Configuration"
         {
             Editable = false;
         }
+        field(11; "Approver Role"; Code[20])
+        {
+            TableRelation = "Approval Role";
+        }
     }
     keys
     {

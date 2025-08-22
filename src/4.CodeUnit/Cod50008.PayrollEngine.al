@@ -2982,7 +2982,7 @@ codeunit 50008 "Payroll Engine"
 
                     end;
                     if OutstationEligible and (Amount = 0) then
-                        Amount := LevelWiseAttributes."Total Basic Salary" * 0.25;
+                        Amount := LevelWiseAttributes."Total Basic Salary" * 0.25;  //this goes to company specific extension
                     exit(Amount);
                 end;
             //BM accomendation
@@ -3069,7 +3069,7 @@ codeunit 50008 "Payroll Engine"
             //         end;
             //     end;
 
-            PGSetup."Salary Advance":
+            PGSetup."Salary Advance":   //attribute subtype = salary advance
                 begin
                     SalaryAdvance.Reset;
                     SalaryAdvance.SetRange("Employee Code", Employee."No.");
@@ -3399,7 +3399,7 @@ codeunit 50008 "Payroll Engine"
                                      + LevelWiseAttributes."Total Basic Salary" / HRMgt.GetNoDaysInMonth * PayrollLineVar."Sick Leave Days", 0.01, '='));
                 end;
 
-            PGSetup.Gratuity:
+            PGSetup.Gratuity:  //subtype = gradui
                 begin
                     if PayrollHeader.Type = PayrollHeader.Type::Payroll then
                         exit;
@@ -4457,6 +4457,19 @@ codeunit 50008 "Payroll Engine"
         AllowanceConfiguration.SetFilter("Branch Code", '%1|%2', '', Employee."Branch Code");
         AllowanceConfiguration.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
         if AllowanceConfiguration.FindSet() then;
+    end;
+
+    procedure GetAllowanceAssignmentAmount(EmpNo: Code[20]; AttrCode: Code[20]; StartDate: Date; EndDate: Date): Decimal
+    var
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+    begin
+        AllowanceAssignmentLine.SetLoadFields("Employee Code", "Approval Status", "Allowance Type", "From Date", "Allowance Amount");
+        AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
+        AllowanceAssignmentLine.SetRange("From Date", startdate, EndDate);
+        AllowanceAssignmentLine.SetRange("Allowance Type", AttrCode);
+        AllowanceAssignmentLine.CalcSums("Allowance Amount");
+        exit(AllowanceAssignmentLine."Allowance Amount")
     end;
 
     [IntegrationEvent(false, false)]
