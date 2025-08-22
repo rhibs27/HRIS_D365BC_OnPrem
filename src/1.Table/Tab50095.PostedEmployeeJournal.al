@@ -395,6 +395,10 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(110; "CheckOut OverNight"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

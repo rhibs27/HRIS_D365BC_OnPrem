@@ -17,6 +17,7 @@ codeunit 50000 "Leave Mgt."
         leaveRequest.Reset();
         leaveRequest.SetRange("Employee No.", EmpCode);
         leaveRequest.SetRange("Approval Status", leaveRequest."Approval Status"::open);
+        leaveRequest.SetRange(Type, leaveRequest.Type::"Leave Request");
         if leaveRequest.Findfirst() then begin
             Message('This Employee Already has open Leave Request.Click Ok to Open');
             PAGE.Run(PAGE::"Leave Request", leaveRequest)
@@ -51,27 +52,25 @@ codeunit 50000 "Leave Mgt."
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
         if Type = Type::"Leave Request" then begin
-            if LeaveTypeSetup.Get(LeaveCode) then begin
+            if LeaveTypeSetup.Get(LeaveCode) then
                 if LeaveType = LeaveType::"Full Day" then
                     Difference := 1
                 else
                     Difference := 0.5;
 
-                IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled, CalculatedDays);
-                if IsHandled then
-                    exit(CalculatedDays);
-                OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
-                if not IsHandled then begin
+            IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled, CalculatedDays);
+            if IsHandled then
+                exit(CalculatedDays);
+            OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
+            if not IsHandled then begin
 
-                    if LeaveTypeSetup."Exclude Non Working Days" then
-                        exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
-                    else
-                        exit(EndDate - StartDate + Difference);
-
-                end;
-            end else
-                exit(EndDate - StartDate + 1);
-        end;
+                if LeaveTypeSetup."Exclude Non Working Days" then
+                    exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
+                else
+                    exit(EndDate - StartDate + Difference);
+            end;
+        end else
+            exit(EndDate - StartDate + 1);
     end;
 
     procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
@@ -80,13 +79,15 @@ codeunit 50000 "Leave Mgt."
         Provinces: Text;
         Gender: Enum "Employee Gender";
         OrganizationStructureList: Record "Organization Structure List";
+        DistrictList: Record District;
+        MunicipalityList: Record Municipality;
         CalendarDate: Record Date;
         Counter: Integer;
         AlreadyAdded: Boolean;
         BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
-        Branch: Text;
+        Branch, District, MunicipalityFilter : Text;
         Community: Enum "Community Type";
         Disabled: Boolean;
     begin
@@ -98,9 +99,9 @@ codeunit 50000 "Leave Mgt."
         if CalendarDate.Find('-') then
             repeat
                 Clear(AlreadyAdded);
-                if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, Community, Disabled) then begin
+                if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, Disabled) then begin
                     CalendarDescription := Description;
-                    if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (community = community::" ") and (not Disabled) then
+                    if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (community = community::" ") and (not Disabled) and (District = '') then
                         Counter += 1
                     else begin
                         if Provinces <> '' then begin
@@ -140,6 +141,31 @@ codeunit 50000 "Leave Mgt."
                                     end;
                                 until OrganizationStructureList.Next = 0;
                         end;
+                        if (District <> '') and (not AlreadyAdded) then begin
+                            DistrictList.Reset;
+                            DistrictList.Setfilter("District Name", District);
+                            if DistrictList.Find('-') then
+                                repeat
+                                    if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
+                                        Counter += 1;
+                                        AlreadyAdded := true;
+                                        break;
+                                    end;
+                                until DistrictList.Next = 0;
+                        end;
+                        if (MunicipalityFilter <> '') and (not AlreadyAdded) then begin
+                            MunicipalityList.Reset;
+                            MunicipalityList.Setfilter(Code, MunicipalityFilter);
+                            if MunicipalityList.Find('-') then
+                                repeat
+                                    if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
+                                        Counter += 1;
+                                        AlreadyAdded := true;
+                                        break;
+                                    end;
+                                until MunicipalityList.Next = 0;
+                        end;
+
                         if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
                             Counter += 1;
                             AlreadyAdded := true;
@@ -162,6 +188,7 @@ codeunit 50000 "Leave Mgt."
 
         exit(Counter);
     end;
+
     procedure CheckLeaveConflict(EmpCode: Code[20]; StartDate: Date; EndDate: Date)
     var
         leave: Record Leave;
@@ -284,7 +311,8 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Enum "Employee Type"; Gender: enum "Employee Gender"; MaritalStatus: Enum "Marital Status")
+    procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Enum "Employee Type"; Gender: enum "Employee Gender";
+                                                                                          MaritalStatus: Enum "Marital Status")
     var
         LeaveEarn: Record "Leave Earn";
         LeavetypSetup: Record "Leave Type Setup";
@@ -456,8 +484,6 @@ codeunit 50000 "Leave Mgt."
     end;
 
     procedure CheckRemainingLeaveDays(LeaveCode: Code[20]; EmpCode: Code[20]; NoofDays: Decimal)
-    var
-        LeaveTypeSetup: Record "Leave Type Setup";
     begin
         //check remaining leave days
         LeaveTypeSetup.Reset;
@@ -465,7 +491,6 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup.SetFilter("Employee No. Filter", EmpCode);
         if LeaveTypeSetup.FindFirst then
             LeaveTypeSetup.CalcFields("Remaining Days");
-
         if not LeaveTypeSetup."Skip Balance Check" then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
                 Error('You do not have enough remaining days for leave %1', LeaveTypeSetup.Description);
@@ -755,11 +780,7 @@ codeunit 50000 "Leave Mgt."
     var
         ConfirmLeave: Label 'Do you want to send leave request ?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
-        LeaveTypeSetup: Record "Leave Type Setup";
-        Ishandled: Boolean;
     begin
-        LeaveTypeSetup.Get(Leave."Leave Code");
-        OnBeforeLeaveApproved(Leave, Ishandled);
         CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
         CheckHalfLeave(Leave."Start Date", Leave."End Date", Leave."Leave Type", Leave."Leave Code");
         CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
@@ -798,7 +819,7 @@ codeunit 50000 "Leave Mgt."
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
             Leave.modify();
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, leave.Remarks, Leave."Employee No.", Leave."No.", 0);   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.");   //For email
         exit(Leave."No.");
     end;
 
@@ -1308,10 +1329,10 @@ codeunit 50000 "Leave Mgt."
                                        PostingDate: Date;
                                        LeaveEarnType: Enum "Leave Earn Type";
                                                           BalanceDays: Decimal;
-                                       entryNo: Integer;
-                                       ExtDocumentNo: Code[20];
-                                       Remarks: Text[100];
-                                       Office: Code[20]): Integer
+                                        entryNo: Integer;
+                                        ExtDocumentNo: Code[20];
+                                        Remarks: Text[100];
+                                        Office: Code[20]): Integer
     var
         leaveLedger: Record "Leave Earn";
         EngNep: Record "English-Nepali Date";

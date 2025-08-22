@@ -70,16 +70,14 @@ table 50075 "Employee Activity Journal"
         {
 
             trigger OnValidate()
+            var
+                ShiftLine: Record "Shift Line";
             begin
-                // if Type <> Type::Overtime then
-                //     EmployeeRec.Get("Employee No.");
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
                 end;
-
                 //<<check for leave
-
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then
@@ -91,7 +89,13 @@ table 50075 "Employee Activity Journal"
                     Clear("End Date (BS)");
                     Clear("No. of Days");
                 end;
-
+                ShiftLine.Reset(); //Check for Approved WorkShift
+                ShiftLine.SetRange("Roster Date", "Start Date");
+                ShiftLine.SetRange("Employee No", "Employee No.");
+                ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+                ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
+                if ShiftLine.FindFirst() then
+                    Validate("Employee Work Shift", ShiftLine."Employee Work Shift")
             end;
         }
         field(8; "End Date"; Date)
@@ -137,8 +141,6 @@ table 50075 "Employee Activity Journal"
                     LeaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
                     LeaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
                 end
-                // else if ("Employee Act Type" = "Employee Act Type"::"Leave Request") and ("Adjustment Type" = "Adjustment Type"::Adjustment) then
-                //         LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days")
             end;
         }
         field(10; "Requested Date"; Date)
@@ -261,8 +263,6 @@ table 50075 "Employee Activity Journal"
             begin
                 if "Leave Code" <> xRec."Leave Code" then begin
                     Clear("For Death Of");
-                    // if GuiAllowed then
-                    //     leaveMgt.GenerateLeaveAttachment(Rec);
                     if LeaveTypeVar.Get("Leave Code") then begin
                         Validate("Leave Description", LeaveTypeVar.Description);
                         Validate("Pay Type", LeaveTypeVar."Pay Type");
@@ -284,7 +284,6 @@ table 50075 "Employee Activity Journal"
         }
         field(42; "Leave Type"; Enum "Leave Type")
         {
-
             trigger OnValidate()
             var
                 WorkShift: Record "Employee Work Shift";
@@ -665,6 +664,16 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(110; "CheckOut OverNight"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if "CheckOut OverNight" then
+                    if not AttendanceMgt.CheckOverNightShift("Employee Work Shift") then
+                        Error('%1 do not have Overnight Shift on %2', "Employee Name", "Start Date")
+            end;
+        }
     }
     keys
     {
@@ -764,6 +773,7 @@ table 50075 "Employee Activity Journal"
         LeaveMgt: Codeunit "Leave Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeActMgt: Codeunit EmployeeActivityMgt;
+        AttendanceMgt: Codeunit "Attendance Mgt";
         SalaryLevel: Record "Salary Level";
         AttendanceSetup: Record "Attendance Setup";
         SalaryLevel1: Record "Salary Level";

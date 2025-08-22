@@ -1657,7 +1657,9 @@ codeunit 50008 "Payroll Engine"
                         Employee.Gender,
                         Employee."Inside/Outside Valley",
                         Employee."Posting Region",
-                        Employee."Global Dimension 1 Code",
+                        Employee."Branch Code",
+                        HRMgt.GetEmployeeDeputationDistrictName(EmpVar."Deputation on", EmpVar."Deputation On Code"),
+                        HRMgt.GetEmployeeDeputationMunicipalityCode(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         Employee.Community,
                         Employee.Disabled) then begin
 
@@ -1726,11 +1728,11 @@ codeunit 50008 "Payroll Engine"
     end;
 
     local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
-                                 PostingRegion: enum Region; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
+                                 PostingRegion: enum Region; Branch: Text; District: text; Municipality: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community, Disabled));
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, District, Municipality, Community, Disabled));
     end;
 
     local procedure GetDailyFoodAllowance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; AttendanceSetup: Record "Attendance Setup"; CheckInLateMinutes: Duration; CheckOutEarlyMinutes: Duration): Decimal

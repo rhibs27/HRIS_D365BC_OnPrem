@@ -83,7 +83,7 @@ page 50165 "Emp. Edit Relative Subform"
                         else if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
                             AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"))
                         else
-                            Error('Invali');
+                            Error('Invalid');
 
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);

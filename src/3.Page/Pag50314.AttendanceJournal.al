@@ -30,6 +30,12 @@ page 50314 "Attendance Journal"
                     ApplicationArea = All;
                     Editable = IsOpen;
                 }
+                field("Employee Work Shift"; Rec."Employee Work Shift")
+                {
+                    Caption = 'Employee Work Shift';
+                    ToolTip = 'Specifies the value of the Employee Work Shift field.';
+                    ApplicationArea = All;
+                }
                 field("CheckIn Time"; Rec."CheckIn Time")
                 {
                     Caption = 'Check-In Time';
@@ -44,6 +50,14 @@ page 50314 "Attendance Journal"
                     ApplicationArea = All;
                     Editable = IsOpen;
                 }
+                field("CheckOut OverNight"; rec."CheckOut OverNight")
+                {
+                    Caption = 'Check-Out Time';
+                    ToolTip = 'Specifies the value of the CheckIn Time field.';
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

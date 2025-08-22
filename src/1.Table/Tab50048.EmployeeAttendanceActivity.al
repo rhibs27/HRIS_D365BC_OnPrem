@@ -110,6 +110,7 @@ table 50048 "Employee Attendance & Activity"
         field(27; "Late Day"; Decimal) { }
         field(28; "Daily Food Allowance"; Decimal) { }
         field(29; "Employee Activity Found"; Boolean) { }
+        field(30; "Attendance Date (B.S)"; Text[20]) { }
         field(31; "Source No."; Code[20])
         {
         }

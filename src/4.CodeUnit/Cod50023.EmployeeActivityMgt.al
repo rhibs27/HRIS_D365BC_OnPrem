@@ -152,6 +152,7 @@ codeunit 50023 EmployeeActivityMgt
                     LeaveRequest.Validate("No.", '');
                     LeaveRequest.Validate("Employee No.", leaveJournal."Employee No.");
                     LeaveRequest.Validate("Leave Code", leaveJournal."Leave Code");
+                    LeaveRequest.Validate(Type, LeaveRequest.Type::"Leave Request");
                     LeaveRequest.Validate("Leave Description", leaveJournal."Leave Description");
                     LeaveRequest.Validate("Leave Type", leaveJournal."Leave Type");
                     LeaveRequest.Validate("Start Date", leaveJournal."Start Date");
@@ -159,7 +160,6 @@ codeunit 50023 EmployeeActivityMgt
                     LeaveRequest.Validate(Remarks, leaveJournal.Remarks);
                     LeaveRequest.Validate("Approval Status", LeaveRequest."Approval Status"::Approved);
                     LeaveRequest.Validate("Approved Date", Today);
-                    LeaveRequest.Validate(Type, LeaveRequest.Type::"Leave Request");
                     LeaveRequest.Validate("Form Journal", true);
                     LeaveRequest.Insert(true);
                 end else if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Adjustment then
@@ -172,12 +172,12 @@ codeunit 50023 EmployeeActivityMgt
                             leaveJournal."Requested Date");
                 PostedLeaveJournal.Init();
                 PostedLeaveJournal.TransferFields(leaveJournal);
+                PostedLeaveJournal.Validate(Posted, true);
+                PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
+                PostedLeaveJournal.Insert(true);
                 if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then begin
-                    PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
                     LeaveMgt.LeaveApproved(LeaveRequest."No.");
                 end;
-                PostedLeaveJournal.Validate(Posted, true);
-                PostedLeaveJournal.Insert(true);
                 leaveJournal.Delete();
             until leaveJournal.next() = 0
         else
@@ -201,13 +201,14 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Init();
                 AttendanceMissed.Validate("No.", '');
                 AttendanceMissed.Validate("Employee No.", AttendanceMissedJournal."Employee No.");
+                AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
                 AttendanceMissed.Validate("Start Date", AttendanceMissedJournal."Start Date");
                 AttendanceMissed.Validate("Check In Time", AttendanceMissedJournal."CheckIn Time");
                 AttendanceMissed.Validate("Check Out Time", AttendanceMissedJournal."CheckOut Time");
                 AttendanceMissed.Validate(Remarks, AttendanceMissedJournal.Remarks);
                 AttendanceMissed.Validate("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
                 AttendanceMissed.Validate("Approved Date", Today);
-                AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+                AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
                 AttendanceMissed.Validate("From Journal", true);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
