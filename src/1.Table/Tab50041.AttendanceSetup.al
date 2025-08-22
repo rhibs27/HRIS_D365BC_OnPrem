@@ -79,6 +79,36 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+
+        // device configuration related field
+        field(100; "User Name"; Code[50])
+        {
+            Caption = 'User Name';
+            DataClassification = ToBeClassified;
+        }
+        field(101; Password; Text[100])
+        {
+            Caption = 'Password';
+            DataClassification = ToBeClassified;
+        }
+        field(102; "Base URL"; Text[250])
+        {
+            Caption = 'URL';
+            DataClassification = ToBeClassified;
+        }
+        field(104; "Company Code"; code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(105; "Branch Code"; code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(106; "Department Code"; code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

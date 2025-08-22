@@ -198,6 +198,7 @@ codeunit 50014 "Event Management"
                             CardPageID := Page::"Transfer Journal";
                     end;
                 end;
+
             Database::"Shift Assignment Header":
                 CardPageID := Page::"Shift Assignment Card";
         end;

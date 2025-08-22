@@ -41,6 +41,7 @@ table 50152 "Approval Setup Line"
             end;
         }
 
+
         field(6; "Approver Role Name"; Text[100])
         {
             Caption = 'Approver Role Name';
@@ -73,10 +74,14 @@ table 50152 "Approval Setup Line"
         {
             Caption = 'Approval Sequence';
         }
+        field(10; "Line No."; Integer)
+        {
+
+        }
     }
     keys
     {
-        key(PK; "Request Type", "Deputation On", "Employee Role", "Approver Role")
+        key(PK; "Request Type", "Deputation On", "Employee Role", "Approver Role", "Line No.")
         {
             Clustered = true;
         }
