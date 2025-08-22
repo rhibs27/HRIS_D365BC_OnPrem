@@ -8504,6 +8504,12 @@ End Function
         <Field Name="Type">
           <DataField>Type</DataField>
         </Field>
+        <Field Name="ReportName">
+          <DataField>ReportName</DataField>
+        </Field>
+        <Field Name="SortinNo">
+          <DataField>SortinNo</DataField>
+        </Field>
         <Field Name="EmpFullName">
           <DataField>EmpFullName</DataField>
         </Field>
@@ -8519,12 +8525,6 @@ End Function
         <Field Name="EmployeeSalaryLevel">
           <DataField>EmployeeSalaryLevel</DataField>
         </Field>
-        <Field Name="ReportName">
-          <DataField>ReportName</DataField>
-        </Field>
-        <Field Name="SortinNo">
-          <DataField>SortinNo</DataField>
-        </Field>
         <Field Name="EmpDesignation">
           <DataField>EmpDesignation</DataField>
         </Field>
@@ -8533,6 +8533,9 @@ End Function
         </Field>
         <Field Name="EmployeeNo">
           <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="TaxCode">
+          <DataField>TaxCode</DataField>
         </Field>
         <Field Name="RetirementAmount">
           <DataField>RetirementAmount</DataField>
@@ -8567,11 +8570,41 @@ End Function
         <Field Name="TDSCalcMonth">
           <DataField>TDSCalcMonth</DataField>
         </Field>
+        <Field Name="TotalTax">
+          <DataField>TotalTax</DataField>
+        </Field>
+        <Field Name="TotalTaxFormat">
+          <DataField>TotalTaxFormat</DataField>
+        </Field>
         <Field Name="InsurranceAmount">
           <DataField>InsurranceAmount</DataField>
         </Field>
         <Field Name="InsurranceAmountFormat">
           <DataField>InsurranceAmountFormat</DataField>
+        </Field>
+        <Field Name="MedicalInsuranceAmount">
+          <DataField>MedicalInsuranceAmount</DataField>
+        </Field>
+        <Field Name="MedicalInsuranceAmountFormat">
+          <DataField>MedicalInsuranceAmountFormat</DataField>
+        </Field>
+        <Field Name="HouseInsuranceAmount">
+          <DataField>HouseInsuranceAmount</DataField>
+        </Field>
+        <Field Name="HouseInsuranceAmountFormat">
+          <DataField>HouseInsuranceAmountFormat</DataField>
+        </Field>
+        <Field Name="Minvaluededuction">
+          <DataField>Minvaluededuction</DataField>
+        </Field>
+        <Field Name="MinvaluedeductionFormat">
+          <DataField>MinvaluedeductionFormat</DataField>
+        </Field>
+        <Field Name="TotalDonation">
+          <DataField>TotalDonation</DataField>
+        </Field>
+        <Field Name="TotalDonationFormat">
+          <DataField>TotalDonationFormat</DataField>
         </Field>
         <Field Name="FirstSlabRate">
           <DataField>FirstSlabRate</DataField>
@@ -8645,72 +8678,6 @@ End Function
         <Field Name="SixthSlabFormat">
           <DataField>SixthSlabFormat</DataField>
         </Field>
-        <Field Name="TaxRebate">
-          <DataField>TaxRebate</DataField>
-        </Field>
-        <Field Name="TaxRebateFormat">
-          <DataField>TaxRebateFormat</DataField>
-        </Field>
-        <Field Name="Minvaluededuction">
-          <DataField>Minvaluededuction</DataField>
-        </Field>
-        <Field Name="MinvaluedeductionFormat">
-          <DataField>MinvaluedeductionFormat</DataField>
-        </Field>
-        <Field Name="TotalTax">
-          <DataField>TotalTax</DataField>
-        </Field>
-        <Field Name="TotalTaxFormat">
-          <DataField>TotalTaxFormat</DataField>
-        </Field>
-        <Field Name="NonTaxable">
-          <DataField>NonTaxable</DataField>
-        </Field>
-        <Field Name="NonTaxableFormat">
-          <DataField>NonTaxableFormat</DataField>
-        </Field>
-        <Field Name="TotalNonPayment">
-          <DataField>TotalNonPayment</DataField>
-        </Field>
-        <Field Name="TotalNonPaymentFormat">
-          <DataField>TotalNonPaymentFormat</DataField>
-        </Field>
-        <Field Name="TotalDonation">
-          <DataField>TotalDonation</DataField>
-        </Field>
-        <Field Name="TotalDonationFormat">
-          <DataField>TotalDonationFormat</DataField>
-        </Field>
-        <Field Name="TaxExemptionLimit">
-          <DataField>TaxExemptionLimit</DataField>
-        </Field>
-        <Field Name="TaxExemptionLimitFormat">
-          <DataField>TaxExemptionLimitFormat</DataField>
-        </Field>
-        <Field Name="PastBenefit">
-          <DataField>PastBenefit</DataField>
-        </Field>
-        <Field Name="PastBenefitFormat">
-          <DataField>PastBenefitFormat</DataField>
-        </Field>
-        <Field Name="PastRetirementFund">
-          <DataField>PastRetirementFund</DataField>
-        </Field>
-        <Field Name="PastRetirementFundFormat">
-          <DataField>PastRetirementFundFormat</DataField>
-        </Field>
-        <Field Name="PastSSTPaid">
-          <DataField>PastSSTPaid</DataField>
-        </Field>
-        <Field Name="PastSSTPaidFormat">
-          <DataField>PastSSTPaidFormat</DataField>
-        </Field>
-        <Field Name="PastTaxPaid">
-          <DataField>PastTaxPaid</DataField>
-        </Field>
-        <Field Name="PastTaxPaidFormat">
-          <DataField>PastTaxPaidFormat</DataField>
-        </Field>
         <Field Name="TaxRate1_">
           <DataField>TaxRate1_</DataField>
         </Field>
@@ -8747,6 +8714,30 @@ End Function
         <Field Name="TaxRate6_Format">
           <DataField>TaxRate6_Format</DataField>
         </Field>
+        <Field Name="TaxRebate">
+          <DataField>TaxRebate</DataField>
+        </Field>
+        <Field Name="TaxRebateFormat">
+          <DataField>TaxRebateFormat</DataField>
+        </Field>
+        <Field Name="NonTaxable">
+          <DataField>NonTaxable</DataField>
+        </Field>
+        <Field Name="NonTaxableFormat">
+          <DataField>NonTaxableFormat</DataField>
+        </Field>
+        <Field Name="TotalNonPayment">
+          <DataField>TotalNonPayment</DataField>
+        </Field>
+        <Field Name="TotalNonPaymentFormat">
+          <DataField>TotalNonPaymentFormat</DataField>
+        </Field>
+        <Field Name="TaxExemptionLimit">
+          <DataField>TaxExemptionLimit</DataField>
+        </Field>
+        <Field Name="TaxExemptionLimitFormat">
+          <DataField>TaxExemptionLimitFormat</DataField>
+        </Field>
         <Field Name="OneThird">
           <DataField>OneThird</DataField>
         </Field>
@@ -8759,26 +8750,38 @@ End Function
         <Field Name="TotalAnualEarningFormat">
           <DataField>TotalAnualEarningFormat</DataField>
         </Field>
-        <Field Name="MedicalInsuranceAmount">
-          <DataField>MedicalInsuranceAmount</DataField>
+        <Field Name="PastBenefit">
+          <DataField>PastBenefit</DataField>
         </Field>
-        <Field Name="MedicalInsuranceAmountFormat">
-          <DataField>MedicalInsuranceAmountFormat</DataField>
+        <Field Name="PastBenefitFormat">
+          <DataField>PastBenefitFormat</DataField>
         </Field>
-        <Field Name="HouseInsuranceAmount">
-          <DataField>HouseInsuranceAmount</DataField>
+        <Field Name="PastRetirementFund">
+          <DataField>PastRetirementFund</DataField>
         </Field>
-        <Field Name="HouseInsuranceAmountFormat">
-          <DataField>HouseInsuranceAmountFormat</DataField>
+        <Field Name="PastRetirementFundFormat">
+          <DataField>PastRetirementFundFormat</DataField>
         </Field>
-        <Field Name="TaxCode">
-          <DataField>TaxCode</DataField>
+        <Field Name="PastSSTPaid">
+          <DataField>PastSSTPaid</DataField>
+        </Field>
+        <Field Name="PastSSTPaidFormat">
+          <DataField>PastSSTPaidFormat</DataField>
+        </Field>
+        <Field Name="PastTaxPaid">
+          <DataField>PastTaxPaid</DataField>
+        </Field>
+        <Field Name="PastTaxPaidFormat">
+          <DataField>PastTaxPaidFormat</DataField>
         </Field>
         <Field Name="PayCycleTerm_PayCyclePeriod">
           <DataField>PayCycleTerm_PayCyclePeriod</DataField>
         </Field>
         <Field Name="Period">
           <DataField>Period</DataField>
+        </Field>
+        <Field Name="NepaliMonth_PayCyclePeriod">
+          <DataField>NepaliMonth_PayCyclePeriod</DataField>
         </Field>
         <Field Name="Amount">
           <DataField>Amount</DataField>
@@ -8797,9 +8800,6 @@ End Function
         </Field>
         <Field Name="DeductionAmountFormat">
           <DataField>DeductionAmountFormat</DataField>
-        </Field>
-        <Field Name="NepaliMonth_PayCyclePeriod">
-          <DataField>NepaliMonth_PayCyclePeriod</DataField>
         </Field>
       </Fields>
       <Query>
