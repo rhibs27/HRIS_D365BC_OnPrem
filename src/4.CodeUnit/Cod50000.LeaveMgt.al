@@ -47,31 +47,31 @@ codeunit 50000 "Leave Mgt."
         IsHandled: Boolean;
         LeaveReq: Record Leave;
         CalculatedDays: Decimal;
+        IsHandled1: Boolean;
     begin
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
         if Type = Type::"Leave Request" then begin
-            if LeaveTypeSetup.Get(LeaveCode) then begin
+            if LeaveTypeSetup.Get(LeaveCode) then
                 if LeaveType = LeaveType::"Full Day" then
                     Difference := 1
                 else
                     Difference := 0.5;
 
-                IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled, CalculatedDays);
-                if IsHandled then
-                    exit(CalculatedDays);
-                OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
-                if not IsHandled then begin
+            IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled1, CalculatedDays);
+            if IsHandled1 then
+                exit(CalculatedDays);
+            OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
+            if not IsHandled then begin
 
-                    if LeaveTypeSetup."Exclude Non Working Days" then
-                        exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
-                    else
-                        exit(EndDate - StartDate + Difference);
+                if LeaveTypeSetup."Exclude Non Working Days" then
+                    exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
+                else
+                    exit(EndDate - StartDate + Difference);
 
-                end;
-            end else
-                exit(EndDate - StartDate + 1);
-        end;
+            end;
+        end else
+            exit(EndDate - StartDate + 1);
     end;
 
     procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
@@ -162,6 +162,7 @@ codeunit 50000 "Leave Mgt."
 
         exit(Counter);
     end;
+
     procedure CheckLeaveConflict(EmpCode: Code[20]; StartDate: Date; EndDate: Date)
     var
         leave: Record Leave;
@@ -917,6 +918,7 @@ codeunit 50000 "Leave Mgt."
         // Delete existing Attachment Line Of Leave <<Santosh<< 4-22-25
         TempIncomingDoc.Reset;
         TempIncomingDoc.SetRange("No.", leave."No.");
+        TempIncomingDoc.SetRange("Employee Activity Type", leave.Type::"Leave Request");
         TempIncomingDoc.DeleteAll();
         //
         TempIncomingDoc.Reset;
@@ -1451,7 +1453,7 @@ codeunit 50000 "Leave Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled: Boolean; var CalculatedDays: Decimal)
+    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled1: Boolean; var CalculatedDays: Decimal)
     begin
     end;
 

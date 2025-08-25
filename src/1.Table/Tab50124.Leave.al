@@ -458,7 +458,7 @@ table 50124 Leave
             "Requested Date" := Today;
         if not GuiAllowed then begin
             "Employee No." := HRMgt.GetEmployeeNo();
-            Type := type::"Leave Request";
+            // Type := type::"Leave Request";
             "User ID" := userID;
             if "Approval Status" <> "Approval Status"::Approved then
                 "Approval Status" := "Approval Status"::Pending;
@@ -482,12 +482,14 @@ table 50124 Leave
 
                             if "Approval Status" <> "Approval Status"::Approved then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
+
+                            if not GuiAllowed then begin
+                                leaveMgt.ApplyForLeave(Rec)
+                            end;
                         end;
                 end;
             end;
-        if not GuiAllowed then begin
-            leaveMgt.ApplyForLeave(Rec)
-        end;
+
     end;
 
     trigger OnDelete()
