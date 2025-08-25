@@ -29,6 +29,11 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Attendance Date field.';
                     ApplicationArea = All;
                 }
+                field("Attendance Date BS"; Rec."Attendance Date (B.S)")
+                {
+                    ToolTip = 'Specifies the value of the Attendance Date BS field.';
+                    ApplicationArea = All;
+                }
                 field("Check In Time"; Rec."Check In Time")
                 {
                     ToolTip = 'Specifies the value of the Check In Time field.';

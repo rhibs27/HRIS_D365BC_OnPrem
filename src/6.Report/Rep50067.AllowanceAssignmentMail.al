@@ -50,12 +50,12 @@ report 50067 "Allowance Assignment Mail"
                     AllowanceHeader.SetFilter("To date", '>=%1', Today - PGSetup."Allowance Email Days");
                     AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
                     if not AllowanceHeader.FindFirst then
-                        HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0)
+                        HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, OrganizationStructureList.Code)
                     else if AllowanceHeader.FindFirst then begin
                         AllowanceLine.Reset;
                         AllowanceLine.SetRange("No.", AllowanceHeader."No.");
                         if not AllowanceLine.FindFirst then
-                            HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0);
+                            HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, OrganizationStructureList.Code);
                     end;
                 until OrganizationStructureList.Next = 0;
             OrganizationStructureList.Reset;
@@ -67,12 +67,12 @@ report 50067 "Allowance Assignment Mail"
                 AllowanceHeader.SetFilter("To date", '>=%1', Today - PGSetup."Allowance Email Days");
                 AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
                 if not AllowanceHeader.FindFirst then
-                    HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0)
+                    HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, OrganizationStructureList.Code)
                 else if AllowanceHeader.FindFirst then begin
                     AllowanceLine.Reset;
                     AllowanceLine.SetRange("No.", AllowanceHeader."No.");
                     if not AllowanceLine.FindFirst then
-                        HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0);
+                        HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, OrganizationStructureList.Code);
                 end;
             end;
         end;

@@ -1258,6 +1258,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Attendance Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 1397928095 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Date (B.S)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Attendance Date (B.S) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1557300299 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1677,6 +1682,11 @@
           <source>Check Out Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Check Out Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3549385734 - Field 2271680966 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Checkout OverNight</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Checkout OverNight - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3549385734 - Field 1976374057 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Compensatory Days</source>
@@ -5078,6 +5088,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field CheckIn Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckOut OverNight</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field CheckOut OverNight - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 815150303 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>CheckOut Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5492,6 +5507,11 @@
           <source>Attendance Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Attendance Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 1397928095 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Date (B.S)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Attendance Date (B.S) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 658722546 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Update</source>
@@ -16148,6 +16168,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field CheckIn Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckOut OverNight</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field CheckOut OverNight - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 815150303 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>CheckOut Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21738,31 +21763,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType AllowanceBodyText</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send transfer request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ConfirmTransfer</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of leave days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ErrorNoOfDays</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2473777273" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Transfer request approval has been sent.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType TransferSent</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Recommender Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoRecommender</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2636930096" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Approver Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoApprover</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2714638956 - NamedType 3878926381" size-unit="char" translate="yes" xml:space="preserve">
           <source>%1 Potential Candidate has been selected as shortlisted candidates.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24063,6 +24063,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckIn Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 1008583654 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CheckIn Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckOut OverNight - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-Out Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckOut OverNight - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2653894362 - Control 815150303 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the CheckIn Time field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24082,6 +24092,16 @@
           <source>Specifies the value of the Employee No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Work Shift field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Employee Work Shift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Employee Work Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2653894362 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
@@ -24398,6 +24418,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Check Out Time - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 178691202 - Control 1008583654 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CheckIn Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control CheckOut OverNight - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 178691202 - Control 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-Out Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control CheckOut OverNight - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 178691202 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24407,6 +24437,16 @@
           <source>Specifies the value of the Employee No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 178691202 - Control 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Work Shift field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Employee Work Shift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 178691202 - Control 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Employee Work Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 178691202 - Control 3253477119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Previous Check In Time field.</source>
@@ -27287,6 +27327,11 @@
           <source>Specifies the value of the Attendance Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Attendance Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 4119671678 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attendance Date BS field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Attendance Date BS - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specified the value of Branch Code field</source>
@@ -53388,6 +53433,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Disabled - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 847710914 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the District field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control District - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 482506489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Gender Filter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53402,6 +53452,11 @@
           <source>Specifies the value of the Inside/Outside Valley field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Inside/Outside Valley - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 316116824 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Municipality field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Municipality - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 3280749004 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Posting Region field.</source>
@@ -55693,6 +55748,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Disabled - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 847710914 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>District</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field District - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Employee Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55712,6 +55772,11 @@
           <source>Inside/Outside Valley</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Inside/Outside Valley - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 316116824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Municipality</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Municipality - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 3280749004 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Posting Region</source>

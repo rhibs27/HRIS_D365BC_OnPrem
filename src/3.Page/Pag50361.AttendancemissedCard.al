@@ -36,6 +36,12 @@ page 50361 "Attendance missed Card"
                     ApplicationArea = All;
                     Caption = 'Attendance Missed Date';
                 }
+                field("Employee Work Shift"; Rec."Employee Work Shift")
+                {
+                    Caption = 'Employee Work Shift';
+                    ToolTip = 'Specifies the value of the Employee Work Shift field.';
+                    ApplicationArea = All;
+                }
                 field("Previous Check In Time"; Rec."Previous Check In Time")
                 {
                     ToolTip = 'Specifies the value of the Previous Check In Time field.';
@@ -58,7 +64,12 @@ page 50361 "Attendance missed Card"
                     ToolTip = 'Specifies the value of the Check Out Time field.';
                     ApplicationArea = All;
                 }
-
+                field("CheckOut OverNight"; rec."CheckOut OverNight")
+                {
+                    ToolTip = 'Specifies the value of the CheckOut OverNight field.';
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = IsOpen;
