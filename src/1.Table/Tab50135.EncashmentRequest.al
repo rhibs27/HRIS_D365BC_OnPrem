@@ -10,7 +10,11 @@ table 50135 "Encashment Request"
         {
             Caption = 'No.';
         }
-        field(2; "Employee No."; Code[20])
+        field(2; "Type"; Enum "Employee Activity Type")
+        {
+            Caption = 'Type';
+        }
+        field(9; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
             TableRelation = Employee;
@@ -51,14 +55,8 @@ table 50135 "Encashment Request"
         {
             Caption = 'Posting Date';
         }
-        field(8; "Approval Status"; Enum "Approval Status")
-        {
-            Caption = 'Approval Status';
-        }
-        field(9; "Type"; Enum "Employee Activity Type")
-        {
-            Caption = 'Type';
-        }
+
+
         field(10; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -78,6 +76,13 @@ table 50135 "Encashment Request"
         field(14; "Cancelled Document No."; Code[20])
         {
 
+        }
+        field(16; "Approval Status"; Enum "Approval Status")
+        {
+            Editable = false;
+        }
+        field(100; "Status"; Text[20])
+        {
         }
     }
     keys
