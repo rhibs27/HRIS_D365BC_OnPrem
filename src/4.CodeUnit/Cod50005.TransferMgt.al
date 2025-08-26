@@ -73,7 +73,7 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending");
         EmphrTransfer.Validate("User ID", UserId);
         EmphrTransfer.Insert(true);
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, '', EmphrTransfer."Employee No.", EmphrTransfer."No.", 0);   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, EmphrTransfer."Employee No.", EmphrTransfer."No.");   //For email
         Message(TransferSent);
         exit(true);
     end;
@@ -118,7 +118,7 @@ codeunit 50005 "Transfer Mgt."
         end;
         EmpHrTransfer.Validate("Is Transfer Details Added", true);
         EmpHrTransfer.Modify();
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer.Remarks, '', EmpHrTransfer."No.", 0);
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer.Remarks, EmpHrTransfer."No.");
         if EmpHrTransfer."Transfer Effective Date" <= Today then begin
             if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin
                 EmployeeRec."Disable Punch in" := true;
@@ -472,7 +472,7 @@ codeunit 50005 "Transfer Mgt."
         end;
         OnAfterTransferAcknowledge(EmpHrTransfer);
         Message(Acknowledged);
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, '', EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", 0);
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.");
     end;
 
     procedure OpenTransferClaim(EmpCode: Code[20]; TransferOrderNo: Code[20])

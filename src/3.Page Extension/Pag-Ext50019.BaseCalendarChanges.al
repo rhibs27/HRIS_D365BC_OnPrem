@@ -34,6 +34,16 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Branch Code field.';
             }
+            field(District; Rec.District)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the District field.';
+            }
+            field(Municipality; Rec.Municipality)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Municipality field.';
+            }
             field(Community; Rec.Community)
             {
                 ApplicationArea = all;
@@ -57,7 +67,6 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
                 Image = UpdateUnitCost;
                 PromotedCategory = Process;
                 ToolTip = 'Executes the Update Holiday in Attendance Log action.';
-
                 trigger OnAction()
                 begin
                 end;
