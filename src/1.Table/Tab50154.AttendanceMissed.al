@@ -81,10 +81,12 @@ table 50154 "Attendance Missed"
                     if Type = Type::"Attendance Missed" then begin
                         Validate("Previous Check In Time", EmpAttendanceActivity."Check In Time");
                         Validate("Previous Check Out Time", EmpAttendanceActivity."Check Out Time");
+                        Validate("Employee Work Shift", EmpAttendanceActivity."Employee Working Shift");
                     end else
                         if Type = Type::"Late Attendance" then begin
                             Validate("Check In Time", EmpAttendanceActivity."Check In Time");
                             Validate("Check Out Time", EmpAttendanceActivity."Check Out Time");
+                            Validate("Employee Work Shift", EmpAttendanceActivity."Employee Working Shift");
                         end;
                 end;
                 EngNepDate.Reset;
@@ -286,6 +288,16 @@ table 50154 "Attendance Missed"
         {
             DataClassification = ToBeClassified;
         }
+        field(80; "Checkout OverNight"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if "CheckOut OverNight" then
+                    if not AttendanceMgt.CheckOverNightShift("Employee Work Shift") then
+                        Error('%1 do not have Overnight Shift on %2', "Employee Name", "Start Date")
+            end;
+        }
         field(100; Status; text[20])
         {
         }
@@ -364,4 +376,5 @@ table 50154 "Attendance Missed"
         ApprovalEntry: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 }
