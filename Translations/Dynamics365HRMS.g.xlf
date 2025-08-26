@@ -323,6 +323,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Entry No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Functional Title - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 798878217 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Min Service Yr. Eligibility</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Min Service Yr. Eligibility - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3837508396 - Field 340262899 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Attribute</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23142,6 +23152,16 @@
           <source>Specifies the value of the Entry No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 3975378601 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Functional Title field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Functional Title - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 798878217 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Min Service Yr. Eligibility field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Min Service Yr. Eligibility - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3003557261 - Control 340262899 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Payroll Attribute field.</source>

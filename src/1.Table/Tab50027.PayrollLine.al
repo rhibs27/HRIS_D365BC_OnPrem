@@ -1758,6 +1758,8 @@ table 50027 "Payroll Line"
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             GetSettlementRecovery();
 
+        OnGetPayrollAttributesOnBeforeSaveValue(Rec);  //if 
+
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         if PayrollAttributesUsage.FindFirst then
@@ -2795,5 +2797,11 @@ table 50027 "Payroll Line"
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
     begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnGetPayrollAttributesOnBeforeSaveValue(var PayrollLine: Record "Payroll Line")
+    begin
+        //use if needed additional companyspecific validation or amount update
     end;
 }

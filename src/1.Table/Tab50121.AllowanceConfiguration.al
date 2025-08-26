@@ -63,6 +63,14 @@ table 50121 "Allowance Configuration"
         {
             TableRelation = "Approval Role";
         }
+        field(12; "Min Service Yr. Eligibility"; Decimal)
+        {
+
+        }
+        field(13; "Functional Title"; Code[20])
+        {
+            TableRelation = "Functional Title";
+        }
     }
     keys
     {

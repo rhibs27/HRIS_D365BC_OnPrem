@@ -57,6 +57,14 @@ page 50171 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Approver Role field.', Comment = '%';
                 }
+                field("Min Service Yr. Eligibility"; Rec."Min Service Yr. Eligibility")
+                {
+                    ToolTip = 'Specifies the value of the Min Service Yr. Eligibility field.', Comment = '%';
+                }
+                field("Functional Title"; Rec."Functional Title")
+                {
+                    ToolTip = 'Specifies the value of the Functional Title field.', Comment = '%';
+                }
             }
         }
     }
