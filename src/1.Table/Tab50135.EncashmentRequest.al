@@ -84,6 +84,10 @@ table 50135 "Encashment Request"
         field(100; "Status"; Text[20])
         {
         }
+        field(101; "Cancellation Remarks"; Text[50])
+        {
+
+        }
     }
     keys
     {
