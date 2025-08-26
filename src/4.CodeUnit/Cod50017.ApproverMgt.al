@@ -378,6 +378,7 @@ codeunit 50017 "Approver Mgt"
         Fieldref2: FieldRef;
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
+        LeaveEncahRequest: Record "Encashment Request";
         PayrollEngine: Codeunit "Payroll Engine";
         AttendanceMgt: Codeunit "Attendance Mgt";
     begin
@@ -389,6 +390,12 @@ codeunit 50017 "Approver Mgt"
                     EmployeeActivityType := EmployeeActivityType::Retirement;
                     Fieldref2 := RecRef.Field(RetirementFund.FieldNo("No."));
                     DocumentNo := Fieldref2.Value();
+                end;
+            Database::"Encashment Request":
+                begin
+                    ApprovalStatusField := RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Value;
+                    EmployeeActivityType := EmployeeActivityType::"Leave Encashment";
+                    DocumentNo := RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value;
                 end;
             else begin
                 //old code
@@ -465,6 +472,9 @@ codeunit 50017 "Approver Mgt"
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
                                 end;
+                            EmployeeActivityType::"Leave Encashment":
+                                RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
+
                         end;
                         OnAfterDocumentRejected(RecRef);
                         // Get the Rejected Status from Status Master
@@ -561,6 +571,13 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::"Late Attendance":
                             begin
                                 AttendanceMgt.ApproveLateAttendance(RecRef.Field(1).Value);
+                            end;
+                        EmployeeActivityType::"Leave Encashment":
+                            begin
+                                if RecRef.Field(39).value then
+                                    leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
+                                else
+                                    leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);

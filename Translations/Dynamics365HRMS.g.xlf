@@ -8748,6 +8748,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Approval Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 338232723 - Field 4069904181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Cancelled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 1556068829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Cancelled Document No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 338232723 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36412,6 +36422,11 @@
           <source>Executes the Approve Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Action Approve Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Action 2541531319 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Action Cancel Leave - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1119079049 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Request action.</source>

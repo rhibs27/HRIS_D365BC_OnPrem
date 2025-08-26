@@ -71,6 +71,14 @@ table 50135 "Encashment Request"
         {
 
         }
+        field(13; Cancelled; Boolean)
+        {
+
+        }
+        field(14; "Cancelled Document No."; Code[20])
+        {
+
+        }
     }
     keys
     {
