@@ -96,6 +96,8 @@ report 50043 "Import Attendance"
         PostingRegion: Enum Region;
         province: Text;
         Branch: Text;
+        District: text;
+        Municipality: text;
         Community: Enum "Community Type";
         Disabled: Boolean;
     begin
@@ -109,6 +111,8 @@ report 50043 "Import Attendance"
                                         InOutValley,
                                         PostingRegion,
                                         Branch,
+                                        District,
+                                        Municipality,
                                         Community,
                                         Disabled));
     end;

@@ -114,7 +114,10 @@ codeunit 50026 "Attendance Mgt"
         if EmployeeWorkShift.OverNight then begin  // Determine search date based on overnight shift
             AttendanceLog.SetRange(Date, InitialDate);
             if EmployeeWorkShift."Check In From" <> 0 then
-                AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
+                AttendanceLog.SetRange("Date Time Log",
+                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") - EmployeeWorkShift."Check Out From",
+                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") + EmployeeWorkShift."Check Out From");
+            //AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
             AttendanceLog.SetAscending("Date Time Log", false);
             if AttendanceLog.Findfirst() then begin
                 exit(AttendanceLog."Log Time");
@@ -124,7 +127,10 @@ codeunit 50026 "Attendance Mgt"
             // Regular shift
             AttendanceLog.SetRange(Date, InitialDate);
             if EmployeeWorkShift."Check In From" <> 0 then
-                AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
+                AttendanceLog.SetRange("Date Time Log",
+                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") - EmployeeWorkShift."Check Out From",
+                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") + EmployeeWorkShift."Check Out From");
+            //AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
             AttendanceLog.SetAscending("Date Time Log", true);
             if AttendanceLog.FindFirst then begin
                 exit(AttendanceLog."Log Time")
@@ -143,7 +149,10 @@ codeunit 50026 "Attendance Mgt"
         if EmployeeWorkShift.OverNight then begin  // Determine search date based on overnight shift
             AttendanceLog.SetRange(Date, InitialDate + 1);
             if EmployeeWorkShift."Check Out From" <> 0 then
-                AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."End Time" - EmployeeWorkShift."Check Out From"), (EmployeeWorkShift."End Time" + EmployeeWorkShift."Check Out From"));
+                AttendanceLog.SetRange("Date Time Log",
+                CreateDateTime(InitialDate + 1, EmployeeWorkShift."End Time") - EmployeeWorkShift."Check Out From",
+                CreateDateTime(InitialDate + 1, EmployeeWorkShift."End Time") + EmployeeWorkShift."Check Out From");
+            //AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."End Time" - EmployeeWorkShift."Check Out From"), (EmployeeWorkShift."End Time" + EmployeeWorkShift."Check Out From"));
             AttendanceLog.SetAscending("Date Time Log", true);
             if AttendanceLog.Findfirst() then
                 exit(AttendanceLog."Log Time");
@@ -153,7 +162,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLog.SetCurrentKey("Date Time Log");
             AttendanceLog.SetRange("Employee ID", EmployeeNo);
             AttendanceLog.SetRange(Date, InitialDate);
-            AttendanceLog.SetFilter("Log Time", '>%1', CheckInTime);
+            AttendanceLog.SetFilter("Date Time Log", '>%1', CreateDateTime(InitialDate, CheckInTime));
             AttendanceLog.SetAscending("Date Time Log", false);
             if AttendanceLog.FindFirst() then
                 exit(AttendanceLog."Log Time")
@@ -161,9 +170,10 @@ codeunit 50026 "Attendance Mgt"
         end else begin
             // Regular shift - search same day
             AttendanceLog.SetRange(Date, InitialDate);
-            AttendanceLog.SetFilter("Log Time", '>%1', CheckInTime);
+            AttendanceLog.SetFilter("Date Time Log", '>%1', CreateDateTime(InitialDate, CheckInTime));
             if EmployeeWorkShift."Check Out From" <> 0 then
-                AttendanceLog.Setfilter("Log Time", '>=%1', EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check Out From");
+                AttendanceLog.SetFilter("Date Time Log", '>=%1',
+                CreateDateTime(InitialDate, EmployeeWorkShift."Start Time") + EmployeeWorkShift."Check Out From");
             AttendanceLog.SetAscending("Date Time Log", false);
             if AttendanceLog.FindFirst then begin
                 exit(AttendanceLog."Log Time");
