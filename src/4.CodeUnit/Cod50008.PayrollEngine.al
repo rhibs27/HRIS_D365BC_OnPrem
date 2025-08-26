@@ -1562,7 +1562,7 @@ codeunit 50008 "Payroll Engine"
                 EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
             end;
         end;
-        CalculateLateDays(EmployeeCode, StartDate, EndDate);
+        // CalculateLateDays(EmployeeCode, StartDate, EndDate);
         if EmployeeAttendanceActivity.Get(EmployeeCode, StartDate) then begin
             if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Leave Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
                 EmployeeAttendanceActivity.Validate("Absent Day", 1);

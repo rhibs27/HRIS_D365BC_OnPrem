@@ -543,8 +543,9 @@ codeunit 50026 "Attendance Mgt"
                                  PostingRegion: enum Region; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
+        DistrictVar, MunVar : text;
     begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community, Disabled));
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, DistrictVar, MunVar, Community, Disabled));
     end;
 
     // procedure NormalizeAttendanceLogTimeFields(var AttenLog: Record "Attendance Log")

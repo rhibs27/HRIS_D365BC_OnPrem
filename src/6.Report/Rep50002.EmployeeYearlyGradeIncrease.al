@@ -35,7 +35,7 @@ report 50002 "Employee Yearly Grade Increase"
                             NextLevelWiseAttributes.SetRange("Level Code", Employee."Salary Level");
                             NextLevelWiseAttributes.SetFilter(Grade, '>%1', LevelWiseAttributes.Grade);
                             if NextLevelWiseAttributes.FindFirst then begin
-                                UpdateServiceHistory(EnglishNepaliDate."English Date", 'Auto Grade increment once in year');
+                                UpdateServiceHistory(EnglishNepaliDate."English Date", 'Auto Grade increment once in year', NextLevelWiseAttributes."Level Code", NextLevelWiseAttributes."Grade Code");
                                 OnIncreaseGradeOnbeforeSetGradePercentage(Employee, DefaultPercentage, ApproalsalPercentage);
                                 CreateGradeEntry(Employee."No.", NextLevelWiseAttributes."Level Code", NextLevelWiseAttributes."Grade Code", DefaultPercentage, ApproalsalPercentage);
                                 Employee.Validate("Salary Grade", NextLevelWiseAttributes."Grade Code");
@@ -99,25 +99,24 @@ report 50002 "Employee Yearly Grade Increase"
         EnglishNepaliDate2: Record "English-Nepali Date";
         RunOnceInMonth: Boolean;
 
-    local procedure UpdateServiceHistory(EffectiveDate: Date; RemarksTxt: Text)
+    local procedure UpdateServiceHistory(EffectiveDate: Date; RemarksTxt: Text; Newlevel: Code[20]; NewGrade: Code[20])
     begin
         Clear(EmployeeServiceHistory);
         EmployeeServiceHistory.Init;
         EmployeeServiceHistory.Validate("Employee No.", Employee."No.");
         EmployeeServiceHistory."Service Event" := EmployeeServiceHistory."Service Event"::"Grade Increment";
-        EmployeeServiceHistory.Validate("Functional Title (From)", Employee."Functional Title");
-        EmployeeServiceHistory.Validate("Deputation On(From)", Employee."Deputation on");
-        EmployeeServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
-        EmployeeServiceHistory.Validate("Deputation Code (From)", Employee."Deputation On Code");
-        EmployeeServiceHistory.Validate("Deputation Code (To)", Employee."Deputation On Code");
-        EmployeeServiceHistory.Validate("Salary Level (From)", Employee."Salary Level");
-        EmployeeServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
-        EmployeeServiceHistory.Validate("Salary Grade (From)", Employee."Salary Grade");
-        EmployeeServiceHistory.Validate("Salary Grade (To)", NextLevelWiseAttributes."Grade Code");
+
+        EmployeeServiceHistory.Validate("Salary Level (To)", Newlevel);
+        EmployeeServiceHistory.Validate("Salary Grade (To)", NewGrade);
         EmployeeServiceHistory.Validate("Effective Date", EffectiveDate);
         EmployeeServiceHistory.Validate(Remarks, RemarksTxt + Format(EnglishNepaliDate."Nepali Date"));
         EmployeeServiceHistory."Created by" := UserId;
         EmployeeServiceHistory."Created DateTime" := CurrentDateTime;
+
+        EmployeeServiceHistory."Deputation Code (From)" := '';
+        EmployeeServiceHistory."Deputation On(From)" := EmployeeServiceHistory."Deputation On(From)"::" ";
+        EmployeeServiceHistory."Deputation Value (From)" := '';
+
         EmployeeServiceHistory.Insert(true);
     end;
 

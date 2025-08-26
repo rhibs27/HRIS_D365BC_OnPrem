@@ -8738,6 +8738,71 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Work Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 338232723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Encashment Request</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Leave Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 301835007 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Leave Description - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field No. of Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field No. Series - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Posting Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 338232723 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Encashment Request - Field Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 66636512 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>English-Nepali Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24569,14 +24634,9 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Check Out Time - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 178691202 - Control 1008583654 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CheckIn Time field.</source>
+          <source>Specifies the value of the CheckOut OverNight field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control CheckOut OverNight - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 178691202 - Control 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Check-Out Time</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control CheckOut OverNight - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 178691202 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
@@ -36292,6 +36352,116 @@
           <source>Executes the Save action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Earn Card - Action Save - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Encashment Request Card</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 2091714799 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document Details</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Document Details - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 3710982960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Posting Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Posting Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 1958363482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Leave Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 301835007 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Description field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control Leave Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Days field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Control No. of Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Action Approve Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1119079049 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Encashment Requests</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 1958363482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control Leave Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 301835007 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Description field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control Leave Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Days field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control No. of Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4258606483 - Control 3710982960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Posting Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Encashment Requests - Control Posting Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2992605534 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Journal</source>
@@ -55333,6 +55503,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Gratuity Rate for Level 4 - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2142341633 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Leave Encashment Nos. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Leave Encashment Nos. - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 1597351041 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Leave No. Series field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57818,6 +57993,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field KRA Setup No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 2142341633 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Leave Encashment Nos.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Leave Encashment Nos. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 1597351041 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Leave No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -59627,6 +59807,11 @@
           <source>Late Attendance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Late Attendance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 195897093 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Encahment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Leave Encashment - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3584713366 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Request</source>
