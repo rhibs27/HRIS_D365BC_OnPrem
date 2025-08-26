@@ -188,9 +188,16 @@ table 50021 "Level Wise Attributes"
                         GradeWiseAttributes."Dashain Remuneration" := GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."Risk Allowance" := 0.08 * GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."LFA Allowance" := (GradeWiseAttributes."Total Basic Salary" / 12);
+
+                        OnCreateAllCombinationOnbeforeInsert(GradeWiseAttributes, SalaryLevel, SalaryGrades);
                         if not GradeWiseAttributes.Insert then;
                         GradeWiseAttributes.Modify(true);
                     until (SalaryGrades.Next = 0) or (GradesCount >= SalaryLevel."Grades Limit");
             until SalaryLevel.Next = 0;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCreateAllCombinationOnbeforeInsert(var GradeWiseAttributes: Record "Level Wise Attributes"; var SalaryLevel: Record "Salary Level"; var SalaryGrades: Record "Salary Grade");
+    begin
     end;
 }

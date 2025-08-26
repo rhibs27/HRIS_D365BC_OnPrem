@@ -695,6 +695,7 @@ codeunit 50017 "Approver Mgt"
         RecRef: RecordRef;
         RetirementFund: Record "Retirement Fund";
         AttendanceMissed: Record "Attendance Missed";
+        EncashmentRequest: Record "Encashment Request";
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
         case EmpActTypeEnum of
@@ -729,6 +730,11 @@ codeunit 50017 "Approver Mgt"
                         WithDrawRequest(RecRef);
                     end;
 
+                end;
+            EmpActTypeEnum::"Leave Encashment":
+                if EncashmentRequest.Get(documentNo) then begin
+                    RecRef.GetTable(EncashmentRequest);
+                    WithDrawRequest(RecRef);
                 end;
         end;
     end;
