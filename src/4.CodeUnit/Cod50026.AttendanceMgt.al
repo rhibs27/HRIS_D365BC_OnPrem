@@ -77,7 +77,6 @@ codeunit 50026 "Attendance Mgt"
         if EngNep.FindFirst then
             AttendanceLine.Week := EngNep.Week;
         AttendanceLine.Modify();
-
         PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
     end;
 
@@ -443,7 +442,9 @@ codeunit 50026 "Attendance Mgt"
                         Employee.Gender,
                         Employee."Inside/Outside Valley",
                         Employee."Posting Region",
-                        Employee."Global Dimension 1 Code",
+                        Employee."Branch Code",
+                        HRMgt.GetEmployeeDeputationDistrictName(EmpVar."Deputation on", EmpVar."Deputation On Code"),
+                        HRMgt.GetEmployeeDeputationMunicipalityCode(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         Employee.Community,
                         Employee.Disabled) then begin
 
@@ -539,12 +540,13 @@ codeunit 50026 "Attendance Mgt"
         end;
     end;
 
-    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
-                                 PostingRegion: enum Region; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
+    procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
+                                 PostingRegion: enum Region; Branch: Text; District: text;
+        Municipality: text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community, Disabled));
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, District, Municipality, Community, Disabled));
     end;
 
     // procedure NormalizeAttendanceLogTimeFields(var AttenLog: Record "Attendance Log")
@@ -587,5 +589,6 @@ codeunit 50026 "Attendance Mgt"
         CalendarDescription: Text;
         ShiftLine: Record "Shift Line";
         Employee: Record Employee;
+        HRMgt: Codeunit "HR Mgt.";
 
 }
