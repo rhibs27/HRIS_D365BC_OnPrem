@@ -65,6 +65,14 @@ page 50171 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Functional Title field.', Comment = '%';
                 }
+                field("Earning Cycle"; Rec."Earning Cycle")
+                {
+                    ToolTip = 'Specifies the value of the Earning Cycle field.', Comment = '%';
+                }
+                field("ATM Site"; Rec."ATM Site")
+                {
+                    ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
+                }
             }
         }
     }

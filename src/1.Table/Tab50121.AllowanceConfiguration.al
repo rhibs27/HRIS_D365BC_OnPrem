@@ -71,6 +71,14 @@ table 50121 "Allowance Configuration"
         {
             TableRelation = "Functional Title";
         }
+        field(14; "Earning Cycle"; Enum "Encashment Period")
+        {
+
+        }
+        field(15; "ATM Site"; Option)
+        {
+            OptionMembers = " ","On-Site","Off-Site";
+        }
     }
     keys
     {
