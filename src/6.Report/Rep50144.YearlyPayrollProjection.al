@@ -91,7 +91,11 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
             }
-
+            column(RemoteAreaDeductionAmount; Round(RemoteAreaDeductionAmount, GlSetup."Amount Rounding Precision"))
+            {
+                AutoFormatExpression = 'NPR';
+                AutoFormatType = 1;
+            }
             // Tax Slab Rates (1-6)
             column(FirstSlabRate; Round(TaxAmts[1], GlSetup."Amount Rounding Precision"))
             {
@@ -299,10 +303,14 @@ report 50144 "Yearly Payroll Projection"
             trigger OnAfterGetRecord()
             var
                 LocalDisabilityDiscount: Decimal;
+                RemoteAreaDeduction: Decimal;
             begin
                 // Get employee information
                 if not EmpVar.Get(EmployeeFilter) then
                     Error('Employee %1 not found.', EmployeeFilter);
+                // Call the procedure to get remote area deduction
+                GetRemoteAreaDeduction("Employeefilter", RemoteAreaDeduction);
+                RemoteAreaDeductionAmount := RemoteAreaDeduction;
 
                 // Call the function with proper parameters
                 GetDisabilityDiscount(EmployeeFilter, LocalDisabilityDiscount);
@@ -427,6 +435,7 @@ report 50144 "Yearly Payroll Projection"
         OneThird: Decimal;
         TotalDonation: Decimal;
         DisabilityDiscount: Decimal;
+        RemoteAreaDeductionAmount: Decimal;
         // Opening Balance Variables
         PastBenefit: Decimal;
         PastRetirementFund: Decimal;
@@ -684,7 +693,7 @@ report 50144 "Yearly Payroll Projection"
     local procedure CalculateFinalTaxableAmount()
     begin
         TaxableAmount := TotalAnnualEarning + TotalNonPayment - Minvaluededuction -
-                        LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount - TotalDonation;
+                        LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount - TotalDonation - DisabilityDiscount - RemoteAreaDeductionAmount;
         RemainingTaxableAmount := TaxableAmount;
     end;
 
@@ -1221,5 +1230,29 @@ report 50144 "Yearly Payroll Projection"
     end;
 
 
-
+    local procedure GetRemoteAreaDeduction(EmployeeNo: Code[20]; var RemoteAreaDeduction: Decimal)
+    var
+        Employee: Record Employee;
+        OrganizationStructurelist: Record "Organization Structure list";
+        RemoteAreaCategory: Record "Remote Area Category";
+        BranchCode: Code[20];
+        RemoteAreaReductionCode: Code[20];
+    begin
+        // Initialize
+        RemoteAreaDeduction := 0;
+        if Employee.Get(EmployeeNo) then begin
+            BranchCode := Employee."Branch Code";
+            OrganizationStructurelist.reset();
+            OrganizationStructurelist.SetRange(Code, BranchCode);
+            if OrganizationStructurelist.FindFirst() then begin
+                RemoteAreaReductionCode := OrganizationStructurelist."Remote Area Reduction";
+                RemoteAreaCategory.Reset();
+                RemoteAreaCategory.SetRange("Category", RemoteAreaReductionCode);
+                if RemoteAreaCategory.FindFirst() then begin
+                    // Get the remote area deduction amount
+                    RemoteAreaDeduction := RemoteAreaCategory."Remote Area Deduction";
+                end;
+            end;
+        end;
+    end;
 }

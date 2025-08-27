@@ -5028,7 +5028,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -5335,14 +5334,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox57">
+                        <Textbox Name="RemoteAreaDeductionAmount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!RemoteAreaDeductionAmount.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -5352,7 +5351,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox57</rd:DefaultName>
+                          <rd:DefaultName>RemoteAreaDeductionAmount</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -5383,6 +5382,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -8767,6 +8767,12 @@ End Function
         </Field>
         <Field Name="DisabilityDiscountFormat">
           <DataField>DisabilityDiscountFormat</DataField>
+        </Field>
+        <Field Name="RemoteAreaDeductionAmount">
+          <DataField>RemoteAreaDeductionAmount</DataField>
+        </Field>
+        <Field Name="RemoteAreaDeductionAmountFormat">
+          <DataField>RemoteAreaDeductionAmountFormat</DataField>
         </Field>
         <Field Name="FirstSlabRate">
           <DataField>FirstSlabRate</DataField>
