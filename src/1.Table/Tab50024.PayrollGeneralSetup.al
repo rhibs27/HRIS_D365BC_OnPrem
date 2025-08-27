@@ -464,4 +464,22 @@ table 50024 "Payroll General Setup"
     var
         GradeWiseAttributes: Record "Level Wise Attributes";
 
+    procedure UpdateTimeZoneInUserSettings()
+    var
+        UserPersonalization: Record "User Personalization";
+        Employee: Record Employee;
+    begin
+        if Employee.FindSet() then
+            repeat
+                UserPersonalization.Reset();
+                UserPersonalization.SetRange("User ID", Employee."NAV Login ID");
+                UserPersonalization.SetFilter("Time Zone", '<>UTC');
+                if UserPersonalization.FindSet() then
+                    repeat
+                        UserPersonalization.Validate("Time Zone", 'UTC');
+                        UserPersonalization.Modify();
+                    until UserPersonalization.Next() = 0;
+            until Employee.Next() = 0;
+    end;
+
 }
