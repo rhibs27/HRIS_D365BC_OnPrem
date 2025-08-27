@@ -114,8 +114,8 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLog.SetRange(Date, InitialDate);
             if EmployeeWorkShift."Check In From" <> 0 then
                 AttendanceLog.SetRange("Date Time Log",
-                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") - EmployeeWorkShift."Check Out From",
-                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") + EmployeeWorkShift."Check Out From");
+                CreateDateTime(InitialDate, EmployeeWorkShift."Start Time") - EmployeeWorkShift."Check In From",
+                CreateDateTime(InitialDate, EmployeeWorkShift."Start Time") + EmployeeWorkShift."Check In From");
             //AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
             AttendanceLog.SetAscending("Date Time Log", false);
             if AttendanceLog.Findfirst() then begin
@@ -127,8 +127,8 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLog.SetRange(Date, InitialDate);
             if EmployeeWorkShift."Check In From" <> 0 then
                 AttendanceLog.SetRange("Date Time Log",
-                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") - EmployeeWorkShift."Check Out From",
-                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") + EmployeeWorkShift."Check Out From");
+                CreateDateTime(InitialDate, EmployeeWorkShift."Start Time") - EmployeeWorkShift."Check In From",
+                CreateDateTime(InitialDate, EmployeeWorkShift."Start Time") + EmployeeWorkShift."Check In From");
             //AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
             AttendanceLog.SetAscending("Date Time Log", true);
             if AttendanceLog.FindFirst then begin
@@ -172,7 +172,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLog.SetFilter("Date Time Log", '>%1', CreateDateTime(InitialDate, CheckInTime));
             if EmployeeWorkShift."Check Out From" <> 0 then
                 AttendanceLog.SetFilter("Date Time Log", '>=%1',
-                CreateDateTime(InitialDate, EmployeeWorkShift."Start Time") + EmployeeWorkShift."Check Out From");
+                CreateDateTime(InitialDate, EmployeeWorkShift."End Time") + EmployeeWorkShift."Check Out From");
             AttendanceLog.SetAscending("Date Time Log", false);
             if AttendanceLog.FindFirst then begin
                 exit(AttendanceLog."Log Time");
@@ -438,15 +438,15 @@ codeunit 50026 "Attendance Mgt"
         EmpVar.Get(EmployeeAttendanceActivity."Employee No.");
         if IsHoliday(AttendanceSetup."Base Calender",
                         EmployeeAttendanceActivity."Attendance Date",
-                        TempRemarks, Employee."Province Code",
-                        Employee.Gender,
-                        Employee."Inside/Outside Valley",
-                        Employee."Posting Region",
-                        Employee."Branch Code",
+                        TempRemarks, EmpVar."Province Code",
+                        EmpVar.Gender,
+                        EmpVar."Inside/Outside Valley",
+                        EmpVar."Posting Region",
+                        EmpVar."Branch Code",
                         HRMgt.GetEmployeeDeputationDistrictName(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         HRMgt.GetEmployeeDeputationMunicipalityCode(EmpVar."Deputation on", EmpVar."Deputation On Code"),
-                        Employee.Community,
-                        Employee.Disabled) then begin
+                        EmpVar.Community,
+                        EmpVar.Disabled) then begin
 
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
                 EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
@@ -541,8 +541,12 @@ codeunit 50026 "Attendance Mgt"
     end;
 
     procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
-                                 PostingRegion: enum Region; Branch: Text; District: text;
-        Municipality: text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
+                                                                                                             PostingRegion: enum Region;
+                                                                                                             Branch: Text;
+                                                                                                             District: text;
+                                                                                                             Municipality: text;
+                                                                                                             Community: Enum "Community Type";
+                                                                                                             Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin

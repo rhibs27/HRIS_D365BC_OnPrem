@@ -123,6 +123,7 @@ codeunit 50014 "Event Management"
         EmpActJournal: Record "Employee Activity Journal";
         ShiftAssignment: Record "Shift Assignment Header";
         AttendanceMissed: Record "Attendance Missed";
+        AllowanceAssignment: Record "Allowance Assignment Header";
     begin
         case RecordRef.Number of
             Database::Leave:
@@ -156,7 +157,13 @@ codeunit 50014 "Event Management"
                         CardPageID := Page::"Transfer Claim Form"
                 end;
             Database::OverTime:
-                CardPageID := Page::"Overtime Card";
+                begin
+                    ActType := RecordRef.Field(CancelDoc.FieldNo(Type)).Value;
+                    if ActType = ActType::Overtime then
+                        CardPageID := Page::"Overtime Card";
+                    if ActType = ActType::"Overtime Bulk" then
+                        CardPageID := Page::"Overtime Bulk Card";
+                end;
             Database::"Allowance Assignment Header":
                 CardPageID := Page::"Allowance Assignment Card";
             Database::"Retirement Fund":
@@ -198,7 +205,6 @@ codeunit 50014 "Event Management"
                             CardPageID := Page::"Transfer Journal";
                     end;
                 end;
-
             Database::"Shift Assignment Header":
                 CardPageID := Page::"Shift Assignment Card";
         end;
