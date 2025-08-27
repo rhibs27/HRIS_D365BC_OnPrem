@@ -4843,7 +4843,7 @@ codeunit 50001 "HR Mgt."
 
         EmpAct.Insert(true);
 
-        SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Employee Transfer", EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
+        // SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Employee Transfer", EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
         Message(TransferSent);
         exit(true);
 

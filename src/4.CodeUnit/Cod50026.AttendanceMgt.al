@@ -547,19 +547,6 @@ codeunit 50026 "Attendance Mgt"
         exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community, Disabled));
     end;
 
-    // procedure NormalizeAttendanceLogTimeFields(var AttenLog: Record "Attendance Log")
-    // var
-    //     RecRef: RecordRef;
-    //     FldRef: FieldRef;
-    //     FieldCount: Integer;
-    //     i: Integer;
-    //     ConstDate: Date;
-    //     TimeVal: Time;
-    // begin
-    //     ConstDate := DMY2Date(1, 1, 1753); // Standard dummy date
-
-    //     AttenLog."Log Time" := CreateDateTime(ConstDate, AttenLog."Log Time");
-    // end;
     procedure ApproveLateAttendance(docNo: Code[20])
     var
         EmpAttenActivity: Record "Employee Attendance & Activity";
