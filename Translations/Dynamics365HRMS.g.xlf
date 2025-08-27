@@ -24419,14 +24419,9 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Check Out Time - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 178691202 - Control 1008583654 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CheckIn Time field.</source>
+          <source>Specifies the value of the CheckOut OverNight field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control CheckOut OverNight - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 178691202 - Control 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Check-Out Time</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control CheckOut OverNight - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 178691202 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
@@ -61897,6 +61892,11 @@
           <source>Expired Contract</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Expired Contract - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3349968947 - EnumValue 3362714545 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>First Deputation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue First Deputation - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3349968947 - EnumValue 1548794710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Formation Of Department Or Unit Or Function</source>
