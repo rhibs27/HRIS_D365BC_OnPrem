@@ -13,6 +13,7 @@ codeunit 50008 "Payroll Engine"
         Employee: Record Employee;
         PGSetup: Record "Payroll General Setup";
         AttendanceSetup: Record "Attendance Setup";
+        AttendanceMgt: Codeunit "Attendance Mgt";
         TaxSetupHeader: Record "Tax Setup Header";
         TaxSetupLine: Record "Tax Setup Line";
         PayrollAttributes: Record "Payroll Attributes";
@@ -1562,8 +1563,8 @@ codeunit 50008 "Payroll Engine"
                 EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
             end;
         end;
-        OnAfterEmployeeActivityProcess(EmployeeCode, StartDate, EndDate);
         // CalculateLateDays(EmployeeCode, StartDate, EndDate);
+        OnAfterEmployeeActivityProcess(EmployeeCode, StartDate, EndDate);
         if EmployeeAttendanceActivity.Get(EmployeeCode, StartDate) then begin
             if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Leave Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
                 EmployeeAttendanceActivity.Validate("Absent Day", 1);
@@ -1652,7 +1653,7 @@ codeunit 50008 "Payroll Engine"
     begin
         AttendanceSetup.Get;
         EmpVar.Get(EmployeeAttendanceActivity."Employee No.");
-        if IsHoliday(AttendanceSetup."Base Calender",
+        if AttendanceMgt.IsHoliday(AttendanceSetup."Base Calender",
                         EmployeeAttendanceActivity."Attendance Date",
                         TempRemarks, Employee."Province Code",
                         Employee.Gender,
@@ -1726,14 +1727,6 @@ codeunit 50008 "Payroll Engine"
             InIP := AttenLog."Device IP";
         if AttenLog.FindLast() then
             OutIP := AttenLog."Device IP";
-    end;
-
-    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
-                                 PostingRegion: enum Region; Branch: Text; District: text; Municipality: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
-    var
-        HrMgmt: Codeunit "HR Mgt.";
-    begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, District, Municipality, Community, Disabled));
     end;
 
 
