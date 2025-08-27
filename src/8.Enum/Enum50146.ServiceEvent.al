@@ -109,4 +109,8 @@ enum 50146 "Service Event"
     {
         Caption = 'Re Appointment';
     }
+    value(26; "First Deputation")
+    {
+        Caption = 'First Deputation';
+    }
 }

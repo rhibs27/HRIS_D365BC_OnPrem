@@ -161,7 +161,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
-            TableRelation = "Employee Qualification";
+            //TableRelation = "Employee Qualification";
         }
         field(24; Description; Code[100])
         {
