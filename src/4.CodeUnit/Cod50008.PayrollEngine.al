@@ -1497,7 +1497,7 @@ codeunit 50008 "Payroll Engine"
         Leave.SetLoadFields("No.", "Employee No.", "Start Date", "End Date", Type, "Approval Status", Cancelled, "Cancelled No.");
 
         Leave.SetCurrentKey("Employee No.", "Start Date", "End Date");
-        Leave.SetRange(Type, Leave.Type::"Leave Request"); //Min 8.21.2022
+        Leave.SetRange(Type, Leave.Type::"Leave Request");
         Leave.SetRange("Employee No.", EmployeeCode);
         Leave.SetFilter("Start Date", '<=%1', StartDate);
         Leave.SetFilter("End Date", '>=%1', StartDate);
@@ -1540,7 +1540,7 @@ codeunit 50008 "Payroll Engine"
             until OverTime.Next = 0;
         // for Approved AllowanceAssignmentLine Request
         AllowanceAssignmentLine.Reset;
-        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment"); //Min 8.21.2022
+        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment");
         AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
         AllowanceAssignmentLine.SetFilter("From Date", '<=%1', StartDate);
         AllowanceAssignmentLine.SetFilter("To Date", '>=%1', StartDate);
@@ -1562,6 +1562,7 @@ codeunit 50008 "Payroll Engine"
                 EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
             end;
         end;
+        OnAfterEmployeeActivityProcess(EmployeeCode, StartDate, EndDate);
         CalculateLateDays(EmployeeCode, StartDate, EndDate);
         if EmployeeAttendanceActivity.Get(EmployeeCode, StartDate) then begin
             if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Leave Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
@@ -1630,7 +1631,6 @@ codeunit 50008 "Payroll Engine"
                         EmployeeAttendanceActivity."Training Day" := 0;
                     end;
             end;
-            OnAfterEmployeeActivityProcess(EmployeeAttendanceActivity, EmployeeActType, EmpActNo)
         end;
         EmployeeAttendanceActivity."Employee Activity Found" := true;
         EmployeeAttendanceActivity."Source No." := EmpActNo;
@@ -4751,7 +4751,7 @@ codeunit 50008 "Payroll Engine"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterEmployeeActivityProcess(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; EmployeeActType: Enum "Employee Activity Type"; EmpActNo: Code[20])
+    local procedure OnAfterEmployeeActivityProcess(EmployeeNo: Code[20]; StartDate: Date; EndDate: Date)
     begin
         //This event can be used to perform attendance Process
     end;
