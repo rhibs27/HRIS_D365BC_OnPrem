@@ -68,27 +68,6 @@ codeunit 50017 "Approver Mgt"
                         end;
                     end;
                     Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-                    // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"One Entry per Role" then begin
-                    //     if Employee.FindFirst() then
-                    //         SequenceOneCount := SequenceOneCount + GenerateApprovalEntry(
-                    //              EmpActType,
-                    //              EmpActNo,
-                    //              Employee."No.",
-                    //              ApprovalSetupLine."Approval Sequence",
-                    //              ApprovalSetupLine."Approval Status",
-                    //              ApprovalSetupLine."Approver Role",
-                    //              ApprovalStatus,
-                    //              EmployeeNo,
-                    //              Enum::"Loan Type"::" ",
-                    //              false
-                    //          )
-                    //     else
-                    //         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                    //             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-
-                    // end;
-
-                    // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then begin
                     if Employee.FindSet() then begin
                         if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
                             ApprovalEntryCount := Employee.Count
@@ -112,9 +91,8 @@ codeunit 50017 "Approver Mgt"
                     end
                     else
                         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                            Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                            Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
 
-                // end;
                 until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
@@ -170,28 +148,6 @@ codeunit 50017 "Approver Mgt"
                         Employee.SetRange("Province Code", EmpRequest."Province Code");
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"One Entry per Role" then begin
-                //     if Employee.FindFirst() then
-                //         count := count + GenerateApprovalEntry(
-                //              EmpActType,
-                //              EmpActNo,
-                //              Employee."No.",
-                //              ApprovalSetupLine."Approval Sequence",
-                //              ApprovalSetupLine."Approval Status",
-                //              ApprovalSetupLine."Approver Role",
-                //              Enum::"Approval Status"::" ",
-                //              EmployeeNo,
-                //              LoanType,
-                //              false
-                //          )
-                //     else
-                //         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                //             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-
-                // end;
-
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then begin
                 if Employee.FindSet() then begin
                     if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
                         ApprovalEntryCount := Employee.Count
@@ -215,9 +171,8 @@ codeunit 50017 "Approver Mgt"
                 end
                 else
                     if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
 
-            // end;
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');
@@ -274,27 +229,6 @@ codeunit 50017 "Approver Mgt"
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
 
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"One Entry per Role" then begin
-                //     if Employee.FindFirst() then
-                //         count := count + GenerateApprovalEntry(
-                //              EmpActType,
-                //              EmpActNo,
-                //              Employee."No.",
-                //              ApprovalSetupLine."Approval Sequence",
-                //              ApprovalSetupLine."Approval Status",
-                //              ApprovalSetupLine."Approver Role",
-                //              Enum::"Approval Status"::" ",
-                //              EmployeeNo,
-                //              Enum::"Loan Type"::" ",
-                //              Cancelled
-                //          )
-                //     else
-                //         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                //             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-
-                // end;
-
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then begin
                 if Employee.FindSet() then begin
                     if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
                         ApprovalEntryCount := Employee.Count
@@ -318,9 +252,8 @@ codeunit 50017 "Approver Mgt"
                 end
                 else
                     if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
 
-            // end;
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');

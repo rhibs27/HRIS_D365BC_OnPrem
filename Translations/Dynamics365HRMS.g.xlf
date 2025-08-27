@@ -293,6 +293,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Approver Role - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 4208656117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Site</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field ATM Site - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3837508396 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -307,6 +312,11 @@
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Description - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 3931261140 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Earning Cycle</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Earning Cycle - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3837508396 - Field 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Work Shift</source>
@@ -23138,6 +23148,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Approver Role - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 4208656117 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM Site field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control ATM Site - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3003557261 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Code field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -23152,6 +23167,11 @@
           <source>Specifies the value of the Description field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 3931261140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Earning Cycle field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Earning Cycle - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3003557261 - Control 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Work Shift field.</source>
