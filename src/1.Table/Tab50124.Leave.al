@@ -481,7 +481,7 @@ table 50124 Leave
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
                             if "Approval Status" <> "Approval Status"::Approved then
-                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status")
+                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                             if not GuiAllowed then begin
                                 Type := type::"Leave Request";
                                 leaveMgt.ApplyForLeave(Rec);
@@ -489,7 +489,7 @@ table 50124 Leave
                             end;
                         end;
                 end;
-                end;
+            end;
 
 
     end;

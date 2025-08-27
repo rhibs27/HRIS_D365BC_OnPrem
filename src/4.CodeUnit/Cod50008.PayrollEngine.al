@@ -1655,15 +1655,15 @@ codeunit 50008 "Payroll Engine"
         EmpVar.Get(EmployeeAttendanceActivity."Employee No.");
         if AttendanceMgt.IsHoliday(AttendanceSetup."Base Calender",
                         EmployeeAttendanceActivity."Attendance Date",
-                        TempRemarks, Employee."Province Code",
-                        Employee.Gender,
-                        Employee."Inside/Outside Valley",
-                        Employee."Posting Region",
-                        Employee."Branch Code",
+                        TempRemarks, EmpVar."Province Code",
+                        EmpVar.Gender,
+                        EmpVar."Inside/Outside Valley",
+                        EmpVar."Posting Region",
+                        EmpVar."Branch Code",
                         HRMgt.GetEmployeeDeputationDistrictName(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         HRMgt.GetEmployeeDeputationMunicipalityCode(EmpVar."Deputation on", EmpVar."Deputation On Code"),
-                        Employee.Community,
-                        Employee.Disabled) then begin
+                        EmpVar.Community,
+                        EmpVar.Disabled) then begin
 
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
                 EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');

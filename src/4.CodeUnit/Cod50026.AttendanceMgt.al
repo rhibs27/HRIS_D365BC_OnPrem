@@ -540,7 +540,7 @@ codeunit 50026 "Attendance Mgt"
         end;
     end;
 
-    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
+    procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
                                  PostingRegion: enum Region; Branch: Text; District: Text; Municipality: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
@@ -548,19 +548,6 @@ codeunit 50026 "Attendance Mgt"
         exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, District, Municipality, Community, Disabled));
     end;
 
-    // procedure NormalizeAttendanceLogTimeFields(var AttenLog: Record "Attendance Log")
-    // var
-    //     RecRef: RecordRef;
-    //     FldRef: FieldRef;
-    //     FieldCount: Integer;
-    //     i: Integer;
-    //     ConstDate: Date;
-    //     TimeVal: Time;
-    // begin
-    //     ConstDate := DMY2Date(1, 1, 1753); // Standard dummy date
-
-    //     AttenLog."Log Time" := CreateDateTime(ConstDate, AttenLog."Log Time");
-    // end;
     procedure ApproveLateAttendance(docNo: Code[20])
     var
         EmpAttenActivity: Record "Employee Attendance & Activity";
