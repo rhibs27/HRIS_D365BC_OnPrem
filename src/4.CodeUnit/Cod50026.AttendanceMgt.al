@@ -77,7 +77,6 @@ codeunit 50026 "Attendance Mgt"
         if EngNep.FindFirst then
             AttendanceLine.Week := EngNep.Week;
         AttendanceLine.Modify();
-
         PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
     end;
 
@@ -434,27 +433,20 @@ codeunit 50026 "Attendance Mgt"
         CheckOutLateMinutes: Duration;
         TempRemarks: Text[100];
         EmpVar: Record Employee;
-        OrgStrucList: Record "Organization Structure List";
     begin
         AttendanceSetup.Get;
         EmpVar.Get(EmployeeAttendanceActivity."Employee No.");
-        if EmpVar."Deputation on" = EmpVar."Deputation on"::Branch then
-            OrgStrucList.Get(EmpVar."Deputation on", EmpVar."Branch Code")
-        else if EmpVar."Deputation on" = EmpVar."Deputation on"::Department then
-            OrgStrucList.Get(EmpVar."Deputation on", EmpVar."Department Code")
-        else if EmpVar."Deputation on" = EmpVar."Deputation on"::Province then
-            OrgStrucList.Get(EmpVar."Deputation on", EmpVar."Province Code");
         if IsHoliday(AttendanceSetup."Base Calender",
                         EmployeeAttendanceActivity."Attendance Date",
-                        TempRemarks, Employee."Province Code",
-                        Employee.Gender,
-                        Employee."Inside/Outside Valley",
-                        Employee."Posting Region",
-                        Employee."Global Dimension 1 Code",
-                        OrgStrucList."District code",
-                        OrgStrucList."Municipality Code",
-                        Employee.Community,
-                        Employee.Disabled) then begin
+                        TempRemarks, EmpVar."Province Code",
+                        EmpVar.Gender,
+                        EmpVar."Inside/Outside Valley",
+                        EmpVar."Posting Region",
+                        EmpVar."Branch Code",
+                        HRMgt.GetEmployeeDeputationDistrictName(EmpVar."Deputation on", EmpVar."Deputation On Code"),
+                        HRMgt.GetEmployeeDeputationMunicipalityCode(EmpVar."Deputation on", EmpVar."Deputation On Code"),
+                        EmpVar.Community,
+                        EmpVar.Disabled) then begin
 
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
                 EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
@@ -596,5 +588,6 @@ codeunit 50026 "Attendance Mgt"
         CalendarDescription: Text;
         ShiftLine: Record "Shift Line";
         Employee: Record Employee;
+        HRMgt: Codeunit "HR Mgt.";
 
 }

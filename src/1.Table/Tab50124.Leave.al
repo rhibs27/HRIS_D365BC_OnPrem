@@ -481,13 +481,14 @@ table 50124 Leave
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
                             if "Approval Status" <> "Approval Status"::Approved then
-                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
-
+                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status")
                             if not GuiAllowed then begin
-                                leaveMgt.ApplyForLeave(Rec)
+                                Type := type::"Leave Request";
+                                leaveMgt.ApplyForLeave(Rec);
                                 OnAfterApplyForLeave(Rec);
                             end;
                         end;
+                end;
                 end;
 
 
@@ -500,10 +501,10 @@ table 50124 Leave
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
         else begin
-        ApprovalEntry.Reset();
-        ApprovalEntry.SetRange("Document No.", "No.");
-        ApprovalEntry.SetRange("Employee No", "Employee No.");
-        ApprovalEntry.DeleteAll();
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
         end;
     end;
 
