@@ -61853,6 +61853,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Expired Contract - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3349968947 - EnumValue 3362714545 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>First Deputation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue First Deputation - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 3349968947 - EnumValue 1548794710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Formation Of Department Or Unit Or Function</source>
           <note from="Developer" annotates="general" priority="2"></note>

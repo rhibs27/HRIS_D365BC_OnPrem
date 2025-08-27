@@ -752,5 +752,24 @@ page 50031 "Payroll General Setup"
         }
     }
 
-    actions { }
+    // actions //Temporary Code to Update User Settings Time Zone to UTC
+    // {
+    //     area(Promoted)
+    //     {
+    //         actionref("UpdateTimeZone"; "Update Time Zone To UTC")
+    //         {
+
+    //         }
+    //     }
+    //     area(Processing)
+    //     {
+    //         action("Update Time Zone To UTC")
+    //         {
+    //             trigger OnAction()
+    //             begin
+    //                 Rec.UpdateTimeZoneInUserSettings();
+    //             end;
+    //         }
+    //     }
+    // }
 }

@@ -48,6 +48,7 @@ codeunit 50000 "Leave Mgt."
         IsHandled: Boolean;
         LeaveReq: Record Leave;
         CalculatedDays: Decimal;
+        IsHandled1: Boolean;
     begin
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
@@ -58,8 +59,9 @@ codeunit 50000 "Leave Mgt."
                 else
                     Difference := 0.5;
 
-            IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled, CalculatedDays);
-            if IsHandled then
+
+            IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled1, CalculatedDays);
+            if IsHandled1 then
                 exit(CalculatedDays);
             OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
             if not IsHandled then begin
@@ -71,7 +73,9 @@ codeunit 50000 "Leave Mgt."
             end;
         end else
             exit(EndDate - StartDate + 1);
+
     end;
+
 
     procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
     var
@@ -944,6 +948,7 @@ codeunit 50000 "Leave Mgt."
         // Delete existing Attachment Line Of Leave <<Santosh<< 4-22-25
         TempIncomingDoc.Reset;
         TempIncomingDoc.SetRange("No.", leave."No.");
+        TempIncomingDoc.SetRange("Employee Activity Type", leave.Type::"Leave Request");
         TempIncomingDoc.DeleteAll();
         //
         TempIncomingDoc.Reset;
@@ -1497,7 +1502,7 @@ codeunit 50000 "Leave Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled: Boolean; var CalculatedDays: Decimal)
+    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled1: Boolean; var CalculatedDays: Decimal)
     begin
     end;
 

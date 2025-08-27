@@ -14,7 +14,7 @@ report 50077 "Service Event Update"
                 {
                     field("Service Event"; ServiceEvent)
                     {
-                        ValuesAllowed = Appointment, Confirmation, "On The Job Training", "Contract Renew", "Expired Contract";
+                        ValuesAllowed = Appointment, Confirmation, "First Deputation", "On The Job Training", "Contract Renew", "Expired Contract";
                         ToolTip = 'Specifies the value of the Service Event field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
