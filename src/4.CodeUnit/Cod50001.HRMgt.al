@@ -4788,67 +4788,6 @@ codeunit 50001 "HR Mgt."
         exit(Employee."Full Name");
     end;
 
-    // procedure SendTransferSubmitBy(TempEmpAct: Record "Employee Activity" temporary): Boolean
-    // var
-    //     EmpAct: Record "Employee Activity";
-    //     ConfirmTransfer: Label 'Do you want to send transfer request ?';
-    //     ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
-    //     TransferSent: Label 'Transfer request approval has been sent.';
-    //     NoRecommender: Label 'No Recommender Code.';
-    //     NoApprover: Label 'No Approver Code.';
-    //     IncomingDoc: Record "Incoming Document";
-    //     AttachSetup: Record "Attachment Setup";
-    // begin
-    //     if not GuiAllowed then
-    //         TempEmpAct."Transfer Category" := TempEmpAct."Transfer Category"::General;
-    //     //TempEmpAct.TestField(Description);
-    //     //TempEmpAct.TestField("Reason for Resignation"); //here reason for transfer
-    //     TempEmpAct.TestField("Transfer Category");
-
-    //     if TempEmpAct."Transfer Category" = TempEmpAct."Transfer Category"::"Temporary" then begin
-    //         TempEmpAct.TestField("Start Date");
-    //         TempEmpAct.TestField("End Date");
-    //     end;
-    //     EmpAct.Reset;
-    //     EmpAct.SetRange(Type, EmpAct.Type::"HR Transfer");
-    //     EmpAct.SetFilter("Approval Status", '<>%1', EmpAct."Approval Status"::Acknowledged);
-    //     EmpAct.SetRange("Employee No.", TempEmpAct."Employee No.");
-    //     EmpAct.SetFilter("No.", '<>%1', TempEmpAct."No.");
-    //     if EmpAct.FindFirst then
-    //         Error('Transfer card of employee %1 is still open or pending.', EmpAct."Employee Name");
-
-    //     EmpAct.Reset;
-    //     EmpAct.Init;
-    //     EmpAct.Validate("Requested Date", Today);
-    //     EmpAct.TransferFields(TempEmpAct);
-    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Pending);
-    //     EmpAct.Validate("User ID", UserId);
-    //     Employee.Get(EmpAct."Employee No.");
-    //     //EmpAct.VALIDATE("Recommender Code", Employee."Approver Code");
-    //     HRSetup.Get;
-    //     HRSetup.TestField("HR Head Functional Title");
-    //     HRSetup.TestField("HR Department Code");
-
-    //     Employee.Reset;
-    //     Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-    //     Employee.SetRange("Department Code", HRSetup."HR Department Code");
-    //     Employee.SetRange(Status, Employee.Status::Active);
-    //     if Employee.FindFirst then
-    //         EmpAct.Validate("Approver Code", Employee."No.");
-    //     /*IF EmpAct.Type = EmpAct.Type::"Employee Transfer" THEN
-    //       IF EmpAct."Recommender Code" = '' THEN
-    //         ERROR(NoRecommender);*/
-    //     if EmpAct."Approver Code" = '' then
-    //         Error(NoApprover);
-
-    //     EmpAct.Insert(true);
-
-    //     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Employee Transfer", EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
-    //     Message(TransferSent);
-    //     exit(true);
-
-    // end;
-
     procedure SendEmailOfferLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
     var
         CompanyInfo: Record "Company Information";
