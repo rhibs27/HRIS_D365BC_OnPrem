@@ -5,7 +5,7 @@ codeunit 50019 "Biometric Mgt."
     end;
 
     var
-        AdmsSetup: Record "Attendance Setup";
+        AttendanceSetup: Record "Attendance Setup";
 
     local procedure GetJsonValue(jObj: JsonObject; jKeyName: Text; var jValue: JsonValue): Boolean
     var
@@ -34,9 +34,9 @@ codeunit 50019 "Biometric Mgt."
     begin
         FromDateText := Format(fromDate, 10, 9);
         TodateText := Format(toDate, 10, 9);
-        AdmsSetup.Get();
+        AttendanceSetup.Get();
         header := Client.DefaultRequestHeaders;
-        Client.Get(StrSubstNo('%1GetAttendanceLog?fromDate=%2&toDate=%3&DeviceSN=%4', AdmsSetup."Base URL", FromDateText, TodateText, SN), ResponseMessage);
+        Client.Get(StrSubstNo('%1GetAttendanceLog?fromDate=%2&toDate=%3&DeviceSN=%4', AttendanceSetup."Base URL", FromDateText, TodateText, SN), ResponseMessage);
 
         if not ResponseMessage.IsSuccessStatusCode() then
             Error('The web service returned an error message:\\' +
@@ -123,22 +123,25 @@ codeunit 50019 "Biometric Mgt."
     var
         BiometricBranch: Record "Biometric Branch";
     begin
-        BiometricBranch.Reset();
-        if BiometricBranch.FindSet() then
-            repeat
-                SyncBranchDevice(BiometricBranch."Branch Code");
-            until BiometricBranch.Next() = 0;
+        // BiometricBranch.Reset();
+        // if BiometricBranch.FindSet() then
+        //     repeat
+        // SyncBranchDevice(BiometricBranch."Branch Code");
+        // until BiometricBranch.Next() = 0;
+        SyncBranchDevice();
     end;
 
-    local procedure SyncBranchDevice(BranchCode: Code[20])
+    local procedure SyncBranchDevice()
     var
         Client: HttpClient;
         ResponseMessage: HttpResponseMessage;
         ResponseString: Text;
         Jtoken: JsonToken;
+        Request: HttpRequestMessage;
     begin
-        AdmsSetup.Get();
-        Client.Get(StrSubstNo('%1GetDeviceByBranch?Code=%2', AdmsSetup."Base URL", BranchCode), ResponseMessage);
+        AttendanceSetup.Get();
+        // Client.Get(StrSubstNo('%1GetDeviceConfig', AttendanceSetup."Base URL"), ResponseMessage);
+        Client.Get('http://20.212.168.147:5359/api/BusinessCentral/GetDeviceConfig', ResponseMessage);
 
         ResponseMessage.Content.ReadAs(ResponseString);
         if not ResponseMessage.IsSuccessStatusCode() then
@@ -146,6 +149,7 @@ codeunit 50019 "Biometric Mgt."
                   'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +
                   'Description: ' + ResponseMessage.ReasonPhrase());
 
+        Message(ResponseString);
         if not Jtoken.ReadFrom(ResponseString) then
             Error('Invalid JSON document.');
 
@@ -255,11 +259,11 @@ codeunit 50019 "Biometric Mgt."
         TodateText: Text;
 
     begin
-        AdmsSetup.Get();
-        AdmsSetup.TestField("Base URL");
-        AdmsSetup.Get();
+        AttendanceSetup.Get();
+        AttendanceSetup.TestField("Base URL");
+        AttendanceSetup.Get();
 
-        Client.Get(StrSubstNo('%1ClearAttLogFromDevice?sn=%2', AdmsSetup."Base URL", sn), ResponseMessage);
+        Client.Get(StrSubstNo('%1ClearAttLogFromDevice?sn=%2', AttendanceSetup."Base URL", sn), ResponseMessage);
         if not ResponseMessage.IsSuccessStatusCode() then
             Error('The web service returned an error message:\\' +
                   'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +
@@ -285,11 +289,11 @@ codeunit 50019 "Biometric Mgt."
         TodateText: Text;
 
     begin
-        AdmsSetup.Get();
-        AdmsSetup.TestField("Base URL");
-        AdmsSetup.Get();
+        AttendanceSetup.Get();
+        AttendanceSetup.TestField("Base URL");
+        AttendanceSetup.Get();
 
-        Client.Get(StrSubstNo('%1DeleteUserDev?userPin=%2&branchCode=%3', AdmsSetup."Base URL", UserPin, BranchCode), ResponseMessage);
+        Client.Get(StrSubstNo('%1DeleteUserDev?userPin=%2&branchCode=%3', AttendanceSetup."Base URL", UserPin, BranchCode), ResponseMessage);
         if not ResponseMessage.IsSuccessStatusCode() then
             Error('The web service returned an error message:\\' +
                   'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +
@@ -315,11 +319,11 @@ codeunit 50019 "Biometric Mgt."
         TodateText: Text;
 
     begin
-        AdmsSetup.Get();
-        AdmsSetup.TestField("Base URL");
-        AdmsSetup.Get();
+        AttendanceSetup.Get();
+        AttendanceSetup.TestField("Base URL");
+        AttendanceSetup.Get();
 
-        Client.Get(StrSubstNo('%1deleteUserFaceDev?userPin=%2&branchCode=%3', AdmsSetup."Base URL", UserPin, BranchCode), ResponseMessage);
+        Client.Get(StrSubstNo('%1deleteUserFaceDev?userPin=%2&branchCode=%3', AttendanceSetup."Base URL", UserPin, BranchCode), ResponseMessage);
         if not ResponseMessage.IsSuccessStatusCode() then
             Error('The web service returned an error message:\\' +
                   'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +
@@ -344,11 +348,11 @@ codeunit 50019 "Biometric Mgt."
         TodateText: Text;
 
     begin
-        AdmsSetup.Get();
-        AdmsSetup.TestField("Base URL");
-        AdmsSetup.Get();
+        AttendanceSetup.Get();
+        AttendanceSetup.TestField("Base URL");
+        AttendanceSetup.Get();
 
-        Client.Get(StrSubstNo('%1DeleteUserFpDev?userPin=%2&branchCode=%3', AdmsSetup."Base URL", UserPin, BranchCode), ResponseMessage);
+        Client.Get(StrSubstNo('%1DeleteUserFpDev?userPin=%2&branchCode=%3', AttendanceSetup."Base URL", UserPin, BranchCode), ResponseMessage);
         if not ResponseMessage.IsSuccessStatusCode() then
             Error('The web service returned an error message:\\' +
                   'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +
@@ -373,11 +377,11 @@ codeunit 50019 "Biometric Mgt."
         TodateText: Text;
 
     begin
-        AdmsSetup.Get();
-        AdmsSetup.TestField("Base URL");
-        AdmsSetup.Get();
+        AttendanceSetup.Get();
+        AttendanceSetup.TestField("Base URL");
+        AttendanceSetup.Get();
 
-        Client.Get(StrSubstNo('%1DeleteUserPicDev?userPin=%2&branchCode=%3', AdmsSetup."Base URL", UserPin, BranchCode), ResponseMessage);
+        Client.Get(StrSubstNo('%1DeleteUserPicDev?userPin=%2&branchCode=%3', AttendanceSetup."Base URL", UserPin, BranchCode), ResponseMessage);
         if not ResponseMessage.IsSuccessStatusCode() then
             Error('The web service returned an error message:\\' +
                   'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +
@@ -401,11 +405,11 @@ codeunit 50019 "Biometric Mgt."
         TodateText: Text;
 
     begin
-        AdmsSetup.Get();
-        AdmsSetup.TestField("Base URL");
-        AdmsSetup.Get();
+        AttendanceSetup.Get();
+        AttendanceSetup.TestField("Base URL");
+        AttendanceSetup.Get();
 
-        Client.Get(StrSubstNo('%1toNewDevice?userPin=%2&destSn=%3', AdmsSetup."Base URL", UserPin, deviceSN), ResponseMessage);
+        Client.Get(StrSubstNo('%1toNewDevice?userPin=%2&destSn=%3', AttendanceSetup."Base URL", UserPin, deviceSN), ResponseMessage);
         if not ResponseMessage.IsSuccessStatusCode() then
             Error('The web service returned an error message:\\' +
                   'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +

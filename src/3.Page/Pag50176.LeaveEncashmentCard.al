@@ -58,6 +58,19 @@ page 50176 "Leave Encashment Card"
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.', Comment = '%';
                 }
+                field(Remarks; Rec.Remarks)
+                {
+                    ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
+                }
+                field("Cancellation Remarks"; Rec."Cancellation Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Cancellation Remarks field.', Comment = '%';
+                }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.', Comment = '%';
+                }
+
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {

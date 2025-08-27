@@ -14,18 +14,6 @@ table 50135 "Encashment Request"
         {
             Caption = 'Type';
         }
-        field(9; "Employee No."; Code[20])
-        {
-            Caption = 'Employee No.';
-            TableRelation = Employee;
-            trigger OnValidate()
-            begin
-                if Employee.Get("Employee No.") then
-                    "Employee Name" := Employee.FullName()
-                else
-                    "Employee Name" := '';
-            end;
-        }
         field(3; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';
@@ -55,6 +43,18 @@ table 50135 "Encashment Request"
         {
             Caption = 'Posting Date';
         }
+        field(9; "Employee No."; Code[20])
+        {
+            Caption = 'Employee No.';
+            TableRelation = Employee;
+            trigger OnValidate()
+            begin
+                if Employee.Get("Employee No.") then
+                    "Employee Name" := Employee.FullName()
+                else
+                    "Employee Name" := '';
+            end;
+        }
 
 
         field(10; "No. Series"; Code[20])
@@ -69,10 +69,6 @@ table 50135 "Encashment Request"
         {
 
         }
-        field(13; Cancelled; Boolean)
-        {
-
-        }
         field(14; "Cancelled Document No."; Code[20])
         {
 
@@ -80,6 +76,13 @@ table 50135 "Encashment Request"
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
+        }
+        field(37; "Approved Date"; Date)
+        {
+        }
+        field(39; Cancelled; Boolean)
+        {
+
         }
         field(100; "Status"; Text[20])
         {
