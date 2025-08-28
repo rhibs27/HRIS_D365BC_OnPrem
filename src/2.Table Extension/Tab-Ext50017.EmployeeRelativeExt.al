@@ -54,7 +54,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             begin
                 if (Rec."District" <> xRec."District") and ("District" <> '') then
                     HRMgt.CheckDistrictName("District");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -69,7 +69,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             begin
                 if (Rec."VDC/Municipality" <> xRec."VDC/Municipality") and ("VDC/Municipality" <> '') then
                     HRMgt.CheckMunicipalityName("VDC/Municipality");
-            END;
+            end;
 
             trigger OnLookup()
             begin
@@ -105,7 +105,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             begin
                 if (Rec."District" <> xRec."District") and ("District" <> '') then
                     HRMgt.CheckDistrictName("District");
-            END;
+            end;
 
             trigger OnLookup()
             begin

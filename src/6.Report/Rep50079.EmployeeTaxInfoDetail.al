@@ -185,10 +185,8 @@ report 50079 "Employee Tax Info Detail"
     trigger OnInitReport()
     begin
         PGSetup.Get;
-        NepaliMonth := PGSetup."HRMS Month";
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-        PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
         if PayCyclePeriod.FindFirst then
             PayCycleTermText := PayCyclePeriod."Pay Cycle Term";
 

@@ -150,6 +150,6 @@ page 50249 "Service History Lists"
 
     trigger OnOpenPage()
     begin
-        Rec.SetCurrentKey("Effective Date"); //Min 10.19.2022
+        Rec.SetCurrentKey("Effective Date");
     end;
 }

@@ -84,7 +84,7 @@ page 50124 "Interview Entries"
                     Candidates: Record Candidate;
                 begin
                     Candidates.Reset;
-                    //Candidates.SETRANGE("No.", "Candidate No.");
+                    //Candidates.SetRange("No.", "Candidate No.");
                     //REPORT.RUN(80001,TRUE, TRUE,Candidates);
                 end;
             }

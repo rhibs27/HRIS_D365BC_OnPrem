@@ -296,7 +296,7 @@ table 50042 "Attendance Header"
         IF NOT HideModificationDialog THEN
           IF Status <> Status::Open THEN
             ERROR(Text004);
-        TESTFIELD(Posted,FALSE);
+        TestField(Posted,FALSE);
         */
     end;
 

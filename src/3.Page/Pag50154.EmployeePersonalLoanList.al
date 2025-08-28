@@ -371,7 +371,7 @@ page 50154 "Employee Personal Loan List"
     begin
         /*FILTERGROUP(2);
         SETFILTER("Approval Status",'<>%1',"Approval Status"::Open);
-        FILTERGROUP(0);*/ //Min Commented -- as requested by Sachin.
+        FILTERGROUP(0);*/
     end;
 
     var

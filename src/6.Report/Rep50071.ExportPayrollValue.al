@@ -155,7 +155,7 @@ report 50071 "Export Payroll Value"
                     if Counter = 0 then
                         TotalNetPay := "Payroll Line"."Net Pay";
                     if Counter = 0 then
-                        TotalPrpertyInsurancePremium := "Payroll Line"."Property Insurance Premium"; //Min
+                        TotalPrpertyInsurancePremium := "Payroll Line"."Property Insurance Premium";
 
                     Counter += 1;
                 end;

@@ -30,12 +30,12 @@ table 50058 "KPI Master"
             trigger OnValidate()
             begin
                 /*Weightage := 0;
-                KPIMaster.RESET;
-                KPIMaster.SETRANGE("KRA No.","KRA No.");
-                IF KPIMaster.FINDFIRST THEN
-                  REPEAT
+                KPIMaster.Reset();
+                KPIMaster.SetRange("KRA No.","KRA No.");
+                IF KPIMaster.FindFirst() THEN
+                  repeat
                     Weightage+=KPIMaster."Weightage (%)"- xRec."Weightage (%)" + "Weightage (%)";
-                  UNTIL KPIMaster.NEXT = 0;
+                  until KPIMaster.NEXT = 0;
 
                 IF Weightage>=AppraisalSetup.Weightage THEN
                   ERROR(Text001, AppraisalSetup.Weightage);*/

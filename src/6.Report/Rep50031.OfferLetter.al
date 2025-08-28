@@ -41,20 +41,20 @@ report 50031 "Offer Letter"
                 FormatNoText(AmountInText, Candidate.Salary, '');
                 FormatNoText(TotalAmtInTxt, SalaryLevelRec."Basic Salary" + SalaryLevelRec.Allowance, '');
                 /*
-                IF NOT CurrReport.PREVIEW THEN BEGIN
-                  IF NOT Candidate."Offer Letter Printed" THEN BEGIN
-                    HRSetup.TESTFIELD("Offer No.");
+                IF NOT CurrReport.PREVIEW THEN begin
+                  IF NOT Candidate."Offer Letter Printed" THEN begin
+                    HRSetup.TestField("Offer No.");
                     ReportNo := NoSeries.GetNextNo(HRSetup."Offer No.", TODAY, TRUE);
                     OfferDate := TODAY;
                     Candidate."Offer No." := ReportNo;
                     Candidate."Offer Letter Printed" := TRUE;
                     Candidate.MODIFY;
                   END
-                  ELSE BEGIN
+                  ELSE begin
                     ReportNo := Candidate."Offer No.";
                     OfferDate := Candidate."Offer Date";
-                  END;
-                END;
+                  end;
+                end;
                 */
             end;
 

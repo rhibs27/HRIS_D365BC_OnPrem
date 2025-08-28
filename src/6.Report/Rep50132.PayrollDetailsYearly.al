@@ -1,7 +1,6 @@
 report 50132 "Payroll Details Yearly"
 {
-    // //Min 3 feb 2022 (1.1) -- for add condition in months filter.
-    // //Min 3 feb 2022 (1.2) -- Commented for skip months request page control.
+
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019933.PayrollDetailsYearly.rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -70,7 +69,7 @@ report 50132 "Payroll Details Yearly"
 
                         trigger OnPreDataItem()
                         begin
-                            SetFilter(Code, PayrollAttributeFilter); //Min
+                            SetFilter(Code, PayrollAttributeFilter);
                         end;
                     }
 
@@ -106,17 +105,17 @@ report 50132 "Payroll Details Yearly"
                         IF "Deputation On" = "Deputation On"::Department THEN
                           IF DepartmentVar.GET("Deputation Code") THEN;
 
-                        IF "Deputation On" = "Deputation On"::Unit THEN BEGIN
-                          EmpHie.RESET;
-                          EmpHie.SETRANGE(Type,EmpHie.Type::Unit);
-                          EmpHie.SETRANGE(Code,"Deputation Code");
-                          IF EmpHie.FINDFIRST THEN
+                        IF "Deputation On" = "Deputation On"::Unit THEN begin
+                          EmpHie.Reset();
+                          EmpHie.SetRange(Type,EmpHie.Type::Unit);
+                          EmpHie.SetRange(Code,"Deputation Code");
+                          IF EmpHie.FindFirst() THEN
                             IF DepartmentVar.GET(EmpHie."Department Code") THEN;
-                        END;*/
+                        end;*/
                         Clear(NetPay);
                         Clear(CurrentDeduction);
                         FirstTime := true;
-                        if Employee.Get("Posted Payroll Line"."Employee No.") then begin //Min
+                        if Employee.Get("Posted Payroll Line"."Employee No.") then begin
                             EmployeeSalaryLevel := Employee."Salary Level";
                         end;
                     end;
@@ -132,14 +131,14 @@ report 50132 "Payroll Details Yearly"
                 trigger OnPreDataItem()
                 begin
                     SetRange("Pay Cycle Term", PayCycleTerm);
-                    if Months <> Months::" " then //Min 3 feb 2022 (1.1)
+                    if Months <> Months::" " then
                         SetRange("Nepali Month", Months);
                 end;
             }
 
             trigger OnAfterGetRecord()
             begin
-                /*IF Months = Months::" " THEN //Min 3 feb 2022 (1.2)
+                /*IF Months = Months::" " THEN
                   ERROR('Please select a month.');*/
                 if PayCycleTerm = '' then
                     Error('Please select a pay cycle term.');

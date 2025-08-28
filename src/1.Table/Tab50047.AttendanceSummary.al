@@ -349,7 +349,7 @@ table 50047 "Attendance Summary"
     begin
         AttendanceLine.Reset;
         AttendanceLine.FilterGroup(2);
-        //AttendanceLine.SETRANGE("Document No.","Document No.");
+        //AttendanceLine.SetRange("Document No.","Document No.");
         AttendanceLine.SetRange("Employee No.", "Employee No.");
         AttendanceLine.SetRange("Attendance Date", "From Date", "To Date");
         AttendanceLine.FilterGroup(0);

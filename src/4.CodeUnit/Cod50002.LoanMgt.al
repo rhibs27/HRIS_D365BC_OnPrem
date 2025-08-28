@@ -1,9 +1,5 @@
 codeunit 50002 "Loan Mgt."
 {
-    // //Min 7.3.2022 -- For allowed to change approver of Status::Pending and Open allowance assignment.
-    // //Min 9.29.2022 -- Round down "RemAgePeriodAsPerBankTenure" and "RemServicePeriodAsPerBankTenure",Decimal age calc. in "Age Home Loan".
-    // //Min 12.20.2022 -- Risk allowance calc. updated fotr TA Position.
-
 
     trigger OnRun()
     var
@@ -99,7 +95,7 @@ codeunit 50002 "Loan Mgt."
         HRSetup.TestField("Retirement Age");
         EmpLoan."Remaining Service Period" := HRSetup."Retirement Age" - EmpLoan.Age;
         Evaluate(RemServicePeriodAsPerBankTenure, Format(30 - (Today - Employee."Employment Date") / 365));
-        if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" then begin //Min 9.29.2022
+        if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" then begin
             EmpLoan."Age Home Loan" := Round((Today - EmpLoan."Date of Birth") / 365, 0.01, '=');
             Evaluate(RemAgePeriodAsPerBankTenure, Format(HRSetup."Retirement Age" - (Today - EmpLoan."Date of Birth") / 365));
             RemAgePeriodAsPerBankTenure := Round(RemAgePeriodAsPerBankTenure, 1, '<');
@@ -404,13 +400,13 @@ codeunit 50002 "Loan Mgt."
             VehicleLoanEMI := LoanOutstanding.EMI;
         end;
         /*
-          Homeloan.RESET;
-          Homeloan.SETRANGE("Employee Code", "Employee Code");
-          Homeloan.SETRANGE("Approval Status", "Approval Status"::Approved);
+          Homeloan.Reset();
+          Homeloan.SetRange("Employee Code", "Employee Code");
+          Homeloan.SetRange("Approval Status", "Approval Status"::Approved);
           Homeloan.SETFILTER("No.", '<>%1', "No.");
-          Homeloan.SETRANGE(Settled,FALSE);
-          Homeloan.SETRANGE("Loan Type",Homeloan."Loan Type"::"Home Loan");
-          Homeloan.SETRANGE("Repayment Mode",Homeloan."Repayment Mode"::"Insurance Tieup");
+          Homeloan.SetRange(Settled,FALSE);
+          Homeloan.SetRange("Loan Type",Homeloan."Loan Type"::"Home Loan");
+          Homeloan.SetRange("Repayment Mode",Homeloan."Repayment Mode"::"Insurance Tieup");
           Homeloan.CALCSUMS(EMI);
         */
 
@@ -456,7 +452,7 @@ codeunit 50002 "Loan Mgt."
     //         EmployeeRec.Reset;
     //         EmployeeRec.SetRange("Functional Title", HRSetup."HR Head Functional Title");
     //         EmployeeRec.SetRange("Department Code", HRSetup."HR Department Code");
-    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active); //Min
+    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active); 
     //         if EmployeeRec.FindFirst then
     //             EmpLoan.Validate(Approver, EmployeeRec."No.");
     //     end;
@@ -478,7 +474,7 @@ codeunit 50002 "Loan Mgt."
         AttachmentMandatory: Record "Attachment Setup";
     begin
         AttachmentMandatory.Reset;
-        //AttachmentMandatory.SETRANGE("Table ID", DATABASE::"Employee Loan/Advance");
+        //AttachmentMandatory.SetRange("Table ID", DATABASE::"Employee Loan/Advance");
         AttachmentMandatory.SetFilter(Type, Format(EmpLoan."Loan Type"));
         AttachmentMandatory.SetRange("Purpose of Housing Loan", EmpLoan."Purpose of Housing Loan");
         AttachmentMandatory.SetRange(Enhancement, EmpLoan."Loan Enhancement");
@@ -550,7 +546,7 @@ codeunit 50002 "Loan Mgt."
             Error('Please settle Salary Advance of No. %1', EmpSalaryAdv."No.");
 
         Clear(EmpSalaryAdv);
-        //EmpSalaryAdv.RESET;
+        //EmpSalaryAdv.Reset();
         EmpSalaryAdv.SetRange("Employee Code", EmpLoan."Employee Code");
         EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetRange(FY, EmpLoan.FY);
@@ -639,7 +635,7 @@ codeunit 50002 "Loan Mgt."
         if EmployeeLoan.FindFirst then
             Error('Please settle previous vehicle loan first.');
         CheckRankforEmployeeLoan(EmpLoan);
-        //TESTFIELD("Vehicle Loan Type");
+        //TestField("Vehicle Loan Type");
         if EmpLoan."Vehicle Loan Type" = EmpLoan."Vehicle Loan Type"::" " then
             Error('Vechicle Loan Type must have value.');
 
@@ -676,8 +672,8 @@ codeunit 50002 "Loan Mgt."
             Error('Purpose of housing loan must have value.');
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::" " then
             Error('Repayment mode must have value.');
-        //TESTFIELD("Purpose of Housing Loan");
-        //TESTFIELD("Repayment Mode");
+        //TestField("Purpose of Housing Loan");
+        //TestField("Repayment Mode");
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"Insurance Tieup" then begin
             EmpLoan.TestField("Insurance Tieup");
             EmpLoan.TestField(Age);
@@ -846,7 +842,7 @@ codeunit 50002 "Loan Mgt."
         HRSetup.Get;
         // Employee.Reset;
         // Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        // Employee.SetRange(Status, Employee.Status::Active); //Min
+        // Employee.SetRange(Status, Employee.Status::Active); 
         // if Employee.FindFirst then;
         // EmpLoan.Validate(Approver, Employee."No.");
         // if not GuiAllowed then begin
@@ -1151,13 +1147,13 @@ codeunit 50002 "Loan Mgt."
                 if Provincewise then begin
                     /*
                     IF FunctionalTitle."Rank Value" =0 THEN //IDE, subprovince staff with no cospo , acospo
-                      EmployeeRec.SETRANGE("Global Dimension 1 Code", '');
+                      EmployeeRec.SetRange("Global Dimension 1 Code", '');
                       */
                     //EmployeeRec.SETFILTER("Global Dimension 1 Code", '%1|%2', '',Employee."Global Dimension 1 Code");
                     if Employee."Province Code" <> 'REGO' then
                         HasRecommender := true; //direct approver
                                                 // EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code"); //mess
-                                                //EmployeeRec.SETRANGE("Post Code", Employee."Post Code");
+                                                //EmployeeRec.SetRange("Post Code", Employee."Post Code");
                     EmployeeRec.SetRange("Province Code", Employee."Province Code");
                 end;
                 if Unitwise then begin
@@ -1306,7 +1302,7 @@ codeunit 50002 "Loan Mgt."
         if IncomingDocument.FindFirst then
             repeat
                 AttachmentSetup.Reset;
-                //AttachmentSetup.SETRANGE("Table ID", DATABASE::"Employee Loan/Advance");
+                //AttachmentSetup.SetRange("Table ID", DATABASE::"Employee Loan/Advance");
                 AttachmentSetup.SetRange(Mandatory, true);
                 //AttachmentSetup.SetRange(Type, EmpLoan."Loan Type");
                 //IF EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" THEN
@@ -1977,7 +1973,7 @@ codeunit 50002 "Loan Mgt."
     //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Approver ID");
     //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Change Approver Remarks");
     //     if AllowancePageBuilder.RunModal then begin
-    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin //Min 7.3.2022
+    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin /
     //             AllowanceHead.SetView(AllowancePageBuilder.GetView('Change Approver'));
     //             Employee.Get(HRMgt.GetEmployeeNo);
     //             // if not Employee.Screener then
@@ -1990,7 +1986,7 @@ codeunit 50002 "Loan Mgt."
     //             AllowanceHeader.Validate("Approver ID", AllowanceHead.GetFilter("Approver ID"));
     //             AllowanceHeader.Modify;
     //             Message('Approver updated.');
-    //         end else begin //Min 7.3.2022
+    //         end else begin 
     //             Error('You cannot change the approver of Approval Status : %1', AllowanceHeader."Approval Status");
     //         end;
     //     end;

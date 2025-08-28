@@ -329,7 +329,7 @@ codeunit 50026 "Attendance Mgt"
             until OverTime.Next = 0;
         // for Approved AllowanceAssignmentLine Request
         AllowanceAssignmentLine.Reset;
-        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment"); //Min 8.21.2022
+        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment");
         AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
         AllowanceAssignmentLine.SetFilter("From Date", '<=%1', StartDate);
         AllowanceAssignmentLine.SetFilter("To Date", '>=%1', StartDate);

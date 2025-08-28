@@ -2,13 +2,13 @@ codeunit 50010 "Payroll-Post"
 {
     // version PRM19.01.01
 
-    // //Min 12.28.2022 -- for update OT Disbursed,Payroll No. in Overtime Lines.
+
 
     TableNo = "Payroll Header";
 
     trigger OnRun()
     begin
-        PostedPayrollHeaderRec.Reset; //Pranisha Begin
+        PostedPayrollHeaderRec.Reset;
         PostedPayrollLineRec.Reset;
         PayrollLine.Reset;
         PostedPayrollHeaderRec.Reset;
@@ -16,14 +16,14 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeaderRec.SetRange(Reversed, false);
         if PostedPayrollHeaderRec.FindFirst then begin
             PostedPayrollLineRec.SetRange("Document No.", PostedPayrollHeaderRec."No.");
-            /*PayrollLine.RESET;
-            PayrollLine.SETRANGE("Document No.",Rec."No.");
-            IF PayrollLine.FINDFIRST THEN REPEAT
-              IF PostedPayrollLineRec.FINDFIRST THEN REPEAT
+            /*PayrollLine.Reset();
+            PayrollLine.SetRange("Document No.",Rec."No.");
+            IF PayrollLine.FindFirst() THEN repeat
+              IF PostedPayrollLineRec.FindFirst() THEN repeat
                 IF PostedPayrollLineRec."Employee No." = PayrollLine."Employee No." THEN
                   ERROR(Text50000,Rec."Pay Cycle Period",PayrollLine."Employee No.");
-              UNTIL PostedPayrollLineRec.NEXT = 0;
-            UNTIL PayrollLine.NEXT = 0;*/
+              until PostedPayrollLineRec.NEXT = 0;
+            until PayrollLine.NEXT = 0;*/
         end; //Pranisha End
         if not Confirm(Text004, true, Rec."No.") then
             exit;
@@ -173,13 +173,13 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeader.Irregular := PayrollHeader.Irregular;
         PostedPayrollHeader."Posted Date" := CurrentDateTime;
         PostedPayrollHeader.Insert;
-        if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin  //Min 12.28.2022
+        if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
             if PayrollHeader."Encashment Code" <> '' then
                 PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader, PostedPayrollHeader."No.");
             if PayrollHeader."Encashment Period" <> PayrollHeader."Encashment Period"::" " then
                 PayrollEngine.UpdateOTDisbursedEncashPeriod(PayrollHeader, PostedPayrollHeader."No.");
         end;
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then //Min 12.28.2022
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then
             PayrollEngine.UpdateOTDisbursedAllowances(PayrollHeader, PostedPayrollHeader."No.");
     end;
 
@@ -308,17 +308,17 @@ codeunit 50010 "Payroll-Post"
                             else begin
                                 if PayrollAttributes."Enable Dimension 2 Code Alloc." then begin
                                     /* commented at UTS1.00
-                                    JournalAllocation.RESET;
-                                    JournalAllocation.SETRANGE("Document No.",PayrollLine."Document No.");
-                                    JournalAllocation.SETRANGE("Journal Line No.",PayrollLine."Line No.");
-                                    IF JournalAllocation.FINDFIRST THEN BEGIN
+                                    JournalAllocation.Reset();
+                                    JournalAllocation.SetRange("Document No.",PayrollLine."Document No.");
+                                    JournalAllocation.SetRange("Journal Line No.",PayrollLine."Line No.");
+                                    IF JournalAllocation.FindFirst() THEN begin
                                       TotalNoOfAllocation := JournalAllocation.COUNT;
                                       LineAllocationSum := 0;
-                                      REPEAT
+                                      repeat
                                         TotalNoOfAllocation -= 1;
-                                        WITH PayrollJournalLine DO BEGIN
-                                          JournalAllocation.TESTFIELD("Allocation %");
-                                          JournalAllocation.TESTFIELD("Shortcut Dimension 2 Code");
+                                        WITH PayrollJournalLine DO begin
+                                          JournalAllocation.TestField("Allocation %");
+                                          JournalAllocation.TestField("Shortcut Dimension 2 Code");
                                           InitPayrollJnlLine(PayrollJournalLine,LastLineNo);
                                           Description := PayrollAttributes.Description;
                                           "Account Type" := "Account Type"::"G/L Account";
@@ -328,10 +328,10 @@ codeunit 50010 "Payroll-Post"
 
                                           Amount := ROUND(FieldValue * JournalAllocation."Allocation %" / 100,0.01,'=');
                                           LineAllocationSum += Amount;
-                                          IF (TotalNoOfAllocation = 0) THEN BEGIN
+                                          IF (TotalNoOfAllocation = 0) THEN begin
                                             IF LineAllocationSum <> FieldValue THEN
                                               Amount := Amount - (LineAllocationSum - FieldValue);
-                                          END;
+                                          end;
 
                                           LineBalance += Amount;
                                           UpdateAttribute(PayrollJournalLine,PayrollAttributes);
@@ -340,13 +340,13 @@ codeunit 50010 "Payroll-Post"
                                           ValidateShortcutDimCode(2,JournalAllocation."Shortcut Dimension 2 Code");
                                           MODIFY;
                                           PostEmployee(PayrollJournalLine);
-                                       END;
-                                      UNTIL JournalAllocation.NEXT = 0;
+                                       end;
+                                      until JournalAllocation.NEXT = 0;
                                     END
 
-                                    ELSE BEGIN
+                                    ELSE begin
                                       ERROR(ErrDimensionAllocationReq,PayrollAttributes.Code,PayrollLine."Employee No.");
-                                    END;
+                                    end;
                                     */
                                 end
                                 else begin
@@ -488,8 +488,8 @@ codeunit 50010 "Payroll-Post"
         Employee.Get(PayrollLine."Employee No.");
         /*RecRef.OPEN(DATABASE::"Employee Designation"); //commented at UTS1.00
         FieldRef := RecRef.FIELD(1);
-        FieldRef.SETRANGE(Employee."Employee Designation");
-        RecRef.FINDFIRST;
+        FieldRef.SetRange(Employee."Employee Designation");
+        RecRef.FindFirst();
         FieldRef := RecRef.FIELD(FieldID);
         EVALUATE(FieldValue,FORMAT(FieldRef.VALUE));*/
         exit(FieldValue);

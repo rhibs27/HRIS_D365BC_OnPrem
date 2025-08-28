@@ -59,7 +59,7 @@ report 50009 "Interview Evaluation Form"
                       3:
                         IF Employee.GET("Employee Code") THEN
                           Interviewer3Name := Employee.FullName;
-                    END;
+                    end;
                     */
                 end;
             }

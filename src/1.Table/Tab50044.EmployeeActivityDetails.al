@@ -54,15 +54,15 @@ table 50044 "Employee Activity Details"
                 if "Employee No." <> '' then begin
                     Employee.Get("Employee No.");
                     Employee.TestField("Salary Level");
-                    //Employee.TESTFIELD("Global Dimension 1 Code");
-                    //Employee.TESTFIELD("Global Dimension 2 Code");
-                    //Employee.TESTFIELD("Manager No.");
+                    //Employee.TestField("Global Dimension 1 Code");
+                    //Employee.TestField("Global Dimension 2 Code");
+                    //Employee.TestField("Manager No.");
                     "Manager ID" := Employee."Manager No.";
                     "Global Dimension 1 Code" := Employee."Global Dimension 1 Code";
                     "Global Dimension 2 Code" := Employee."Global Dimension 2 Code";
 
                     SalaryLevel.Get(Employee."Salary Grade");
-                    //SalaryLevel.TESTFIELD("Standard Step");
+                    //SalaryLevel.TestField("Standard Step");
                     "Standard Level Code" := SalaryLevel."Standard Step";
                 end;
             end;

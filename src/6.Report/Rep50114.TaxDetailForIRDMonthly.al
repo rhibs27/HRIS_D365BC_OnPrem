@@ -80,7 +80,7 @@ report 50114 "Tax Detail For IRD Monthly"
                     TdsTaxOnRenum := TotalAmt - TdsAmountSST;
 
                     /*
-                    Employee.SETRANGE("Date Filter",StartDate,EndDate);
+                    Employee.SetRange("Date Filter",StartDate,EndDate);
                     Employee.CALCFIELDS("Social Security Tax","Remuneration & Benefits Tax");
                     TdsAmountSST := Employee."Social Security Tax" * 100;
                     TdsTaxOnRenum := Employee."Remuneration & Benefits Tax";

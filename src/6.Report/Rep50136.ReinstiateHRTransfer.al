@@ -1,6 +1,5 @@
 report 50136 "Re-instiate HR Transfer"
 {
-    // //Min 1.3 --- Added ServiceHistory."Service Event"::"Back From Deputation" Parameter instead of ServiceHistory."Service Event"::"Transfer".
 
     ProcessingOnly = true;
     UsageCategory = Tasks;
@@ -23,7 +22,7 @@ report 50136 "Re-instiate HR Transfer"
                 trigger OnPreDataItem()
                 begin
                     SetFilter("Employment Date", '<=%1', InitialDate);
-                    SetRange(Status, Employee.Status::Active); //Min 8.26.2022
+                    SetRange(Status, Employee.Status::Active);
                 end;
             }
 
@@ -85,7 +84,7 @@ report 50136 "Re-instiate HR Transfer"
             if FromDate < Today - 1 then
                 Error('You are not eligible to run back date daily attendance.');
 
-        if (FromDate > Today) or (ToDate > Today) then //Min
+        if (FromDate > Today) or (ToDate > Today) then
             Error('Cannot run attendance of future date. Please check the date.');
     end;
 
@@ -110,14 +109,14 @@ report 50136 "Re-instiate HR Transfer"
         EmployeeActivity.SetRange("Employee No.", Employee."No.");
         EmployeeActivity.SetFilter("Transfer Category", '%1|%2', EmployeeActivity."Transfer Category"::"Temporary", EmployeeActivity."Transfer Category"::Officiating);
         EmployeeActivity.SetFilter(Type, '%1|%2', EmployeeActivity.Type::"HR Transfer", EmployeeActivity.Type::"Employee Transfer");
-        EmployeeActivity.SetFilter("Approval Status", '%1|%2', EmployeeActivity."Approval Status"::Approved, EmployeeActivity."Approval Status"::Acknowledged); //Min -- added Filter Approved option instead of Acknowledge.
+        EmployeeActivity.SetFilter("Approval Status", '%1|%2', EmployeeActivity."Approval Status"::Approved, EmployeeActivity."Approval Status"::Acknowledged);
         EmployeeActivity.SetRange("End Date", InitialDate, InitialDate);
         if EmployeeActivity.FindFirst then begin
             EmployeeServiceHistory.Reset;
             EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::"Back From Deputation");
             EmployeeServiceHistory.SetRange("Employee No.", EmployeeActivity."Employee No.");
             EmployeeServiceHistory.SetRange("Document No.", EmployeeActivity."No.");
-            if not EmployeeServiceHistory.FindFirst then begin //Min 9.26.2022
+            if not EmployeeServiceHistory.FindFirst then begin
                 if EmployeeActivity."Approval Status" = EmployeeActivity."Approval Status"::Acknowledged then begin
                     EmpActivity.Reset;
                     EmpActivity.SetRange("Employee No.", Employee."No.");
@@ -128,7 +127,7 @@ report 50136 "Re-instiate HR Transfer"
                     if EmpActivity.FindFirst then
                         exit;
                 end;
-                ServiceCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
+                ServiceCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate);
                 Employee.Validate("Functional Title", EmployeeActivity."Functional Title");
                 Employee.Validate("Deputation on", EmployeeActivity."Deputation On");
                 case Employee."Deputation on" of
@@ -152,7 +151,7 @@ report 50136 "Re-instiate HR Transfer"
                     ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
                     ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
                     ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                    ServiceHistory.Validate("Document No.", EmployeeActivity."No."); //Min 9.26.2022
+                    ServiceHistory.Validate("Document No.", EmployeeActivity."No.");
                     PreviousServiceHistory.Reset;
                     PreviousServiceHistory.SetRange("Employee No.", Employee."No.");
                     PreviousServiceHistory.SetFilter("Service History Code", '<>%1', ServiceCode);

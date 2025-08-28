@@ -28,7 +28,7 @@ table 50098 "Employee Declaration"
                     Validate("Deputation On", Empvar."Deputation on");
                     Validate("Deputation Code", ServiceHistoryMgt.ExitTransferDeputationWiseCode("Deputation On", "Employee No."));
                     Validate("Deputation Value", ServiceHistoryMgt.ExitTransferDeputationWiseValue("Deputation On", "Employee No."));
-                    Validate("Fiscal Year", HRMgt.ReturnFiscalYear(CalcDate('<-1Y>'))); //Min -- Validate Previous Fiscal Year
+                    Validate("Fiscal Year", HRMgt.ReturnFiscalYear(CalcDate('<-1Y>')));
                 end else begin
                     Validate("Employee Name", '');
                     Validate("Salary Level", '');
@@ -36,7 +36,7 @@ table 50098 "Employee Declaration"
                     Validate("Deputation On", "Deputation On"::" ");
                     Validate("Deputation Code", '');
                     Validate("Deputation Value", '');
-                    Validate("Fiscal Year", ''); //Min
+                    Validate("Fiscal Year", '');
                 end;
             end;
         }

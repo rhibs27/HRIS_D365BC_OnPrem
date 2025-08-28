@@ -8,10 +8,6 @@ table 50067 "Employee Activity"
     // fields for transfer (80000-89999)
     // fields for OT (70000)
     // fields for Resignation (90000-90100)
-    // //Min 4.11.2022 -- For Do not allow to request leave in Present Day.
-    // //Min 7.14.2022 -- Used field "Temporary Address" and "Temporary District" for insert Employee No. and Employee Name.Due to field pack in the Table.
-    // //Min 11.18.2022 -- For flow salary level and grade in Emp Attendance Activity for Overtime amt calc.
-    //                  -- "Encashment Type,Salary Grade,OT Amount" field added for Over time module enhancement.
 
     fields
     {
@@ -147,7 +143,7 @@ table 50067 "Employee Activity"
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     // Validate(Ecosystem, EmpVar."Eco-System");
                     // Validate("Office Code", EmpVar.Office);
-                    if Type = Type::Overtime then begin //Min 11.18.2022
+                    if Type = Type::Overtime then begin
                         if "Start Date" > 20221207D then begin
                             PayrollGenSetup.Get;
                             if EmployeeAttendanceActivity.Get("Employee No.", "Start Date") then begin
@@ -217,7 +213,7 @@ table 50067 "Employee Activity"
                     if EmployeeRec."Contract Expiry Date" <> 0D then
                         if "Start Date" > EmployeeRec."Contract Expiry Date" then
                             Error('Cannot apply leave after contract expiry date');
-                    EmpAttendanceActivity.Reset; //Min 4.11.2022
+                    EmpAttendanceActivity.Reset;
                     EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
                     EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
                     if EmpAttendanceActivity.FindFirst then
@@ -264,7 +260,7 @@ table 50067 "Employee Activity"
                     if EmpAct.FindFirst then
                         Error('Travel Request for Start Date = %1 already exists for %2', "Start Date", "Employee Name");
                 end;
-                //Min 4.26.2022 -- Check for Missed Attendance.
+
                 if Type = Type::"Attendance Missed" then begin
                     EmpActivityRec.Reset;
                     EmpActivityRec.SetRange("Employee No.", "Employee No.");
@@ -485,7 +481,7 @@ table 50067 "Employee Activity"
                     Validate("Approver Type", "Approver Type"::"With Recommendation");
                 //requirement not fixed
                 if "Recommender Code" <> '' then begin
-                    if Type <> Type::Overtime then //Min 8.25.2022
+                    if Type <> Type::Overtime then
                         if "Recommender Code" = "Approver Code" then
                             Error('Recommender and Approver cannot be same person.');
                     EmployeeRec.Get("Recommender Code");
@@ -523,7 +519,7 @@ table 50067 "Employee Activity"
                             if "Recommender Code" = "Approver Code" then
                                 Error('Recommender and Approver cannot be same person.');
                     end else
-                        if Type <> Type::Overtime then //Min 8.25.2022
+                        if Type <> Type::Overtime then
                             if "Recommender Code" = "Approver Code" then
                                 Error('Recommender and Approver cannot be same person.');
 
@@ -679,7 +675,7 @@ table 50067 "Employee Activity"
                     Clear("Child's Gender");
                     Clear("Contact No.");
                 end;
-                /*IF "Leave Code" = 'COMPENSATORY' THEN //Min 8.7.2022
+                /*IF "Leave Code" = 'COMPENSATORY' THEN /
                   ERROR(Text002);*/
             end;
         }
@@ -1064,7 +1060,7 @@ table 50067 "Employee Activity"
         {
             trigger OnValidate()
             begin
-                if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin //Min >>
+                if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
                     // "Sub Province Code (To)" := "Sub Province Code";
@@ -1079,7 +1075,7 @@ table 50067 "Employee Activity"
                 end;
                 if "Transfer Type" = "Transfer Type"::"Cross Transfer" then
                     "Deputation On (To)" := "Deputation On (To)"::" ";
-                //Min >>
+
             end;
         }
         field(110; "Shortcut Dimension 1 Code (To)"; Code[20])
@@ -1233,7 +1229,7 @@ table 50067 "Employee Activity"
 
             trigger OnValidate()
             begin
-                if Type in [Type::"HR Transfer", Type::"Employee Transfer"] then begin //Min -- Control for not apply transfer eff. date less than today.
+                if Type in [Type::"HR Transfer", Type::"Employee Transfer"] then begin
                     if "Transfer Effective Date" < Today then
                         Error(Text001, Today);
                 end;
@@ -1359,7 +1355,7 @@ table 50067 "Employee Activity"
 
             trigger OnValidate()
             begin
-                if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
+                if "Outgoing Branch Rep. Person" <> '' then begin
                     EmployeeRec.Get("Outgoing Branch Rep. Person");
                     if SalaryLevel.Get("Salary Level Code") then;
                     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
@@ -1417,7 +1413,7 @@ table 50067 "Employee Activity"
 
             trigger OnValidate()
             begin
-                if "Incoming Supervisior" <> '' then begin //Min 12.13.2022
+                if "Incoming Supervisior" <> '' then begin
                     EmployeeRec.Get("Incoming Supervisior");
                     if SalaryLevel.Get("Salary Level Code") then;
                     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
@@ -1839,8 +1835,8 @@ table 50067 "Employee Activity"
                         begin
                             HRSetup.TestField("Transfer No.");
                             NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            "Temporary Address" := "Employee No."; //Min 7.14.2022
-                            "Temporary District" := "Employee Name"; //Min 7.14.2022
+                            "Temporary Address" := "Employee No.";
+                            "Temporary District" := "Employee Name";
                         end;
 
                     //for overtime

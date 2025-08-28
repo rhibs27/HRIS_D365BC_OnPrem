@@ -83,7 +83,7 @@
 //     trigger OnOpenPage()
 
 //     begin
-//         Rec.SetRange(Blocked, false); //Min
+//         Rec.SetRange(Blocked, false); 
 //         Rec.SetRange(Type, Rec.Type::Department);
 //     end;
 

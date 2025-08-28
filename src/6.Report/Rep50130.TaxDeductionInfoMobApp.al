@@ -188,10 +188,8 @@ report 50130 "Tax Deduction Info Mob App"
         GetCompanyOneLineAddress;
 
         PGSetup.Get;
-        Month := PGSetup."HRMS Month";
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-        PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
         if PayCyclePeriod.FindFirst then
             PayCycleTermText := PayCyclePeriod."Pay Cycle Term";
 
@@ -214,11 +212,11 @@ report 50130 "Tax Deduction Info Mob App"
         if DocumentNo = '' then
             Error('Select Voucher No. to run this report.');
         if EmployeeNoFilter = '' then
-            EmployeeNoFilter := Employee."No."; //Min -- Assign employee no.
-                                                /*IF EmployeeNoFilter = '' THEN
-                                                  ERROR('Please select an employee.');*/
-                                                //IF Employee.GETFILTER("No.") = '' THEN
-                                                //ERROR('Please select employee no. to preview the report.');
+            EmployeeNoFilter := Employee."No.";
+        /*IF EmployeeNoFilter = '' THEN
+          ERROR('Please select an employee.');*/
+        //IF Employee.GETFILTER("No.") = '' THEN
+        //ERROR('Please select employee no. to preview the report.');
 
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Pay Cycle Term", PayCycleTermText);
@@ -484,15 +482,15 @@ report 50130 "Tax Deduction Info Mob App"
     local procedure InsertPreviousPayrollHistory(EmployeeNo: Code[20])
     begin
         PostedPayrollHeader.Reset;
-        //PostedPayrollHeader.SETRANGE("Nepali Year",Year);
-        //PostedPayrollHeader.SETRANGE("Nepali Month",Month);
-        //PostedPayrollHeader.SETRANGE(Type,PostedPayrollHeader.Type::Payroll);
+        //PostedPayrollHeader.SetRange("Nepali Year",Year);
+        //PostedPayrollHeader.SetRange("Nepali Month",Month);
+        //PostedPayrollHeader.SetRange(Type,PostedPayrollHeader.Type::Payroll);
         PostedPayrollHeader.SetRange("No.", DocumentNo);
 
         /*IF Employee."Employment Type" = Employee."Employment Type"::Contract THEN
-          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Contract)
+          PostedPayrollHeader.SetRange("Employee Type",PostedPayrollHeader."Employee Type"::Contract)
         ELSE
-          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Permanent);*/
+          PostedPayrollHeader.SetRange("Employee Type",PostedPayrollHeader."Employee Type"::Permanent);*/
         if PostedPayrollHeader.FindFirst then
             repeat
                 PostedPayrollLine.Reset;
@@ -510,16 +508,16 @@ report 50130 "Tax Deduction Info Mob App"
         PreviousPayrollHdr.SetRange("Pay Cycle Code", PostedPayrollHeader."Pay Cycle Code");
         PreviousPayrollHdr.SetRange("Pay Cycle Term", PostedPayrollHeader."Pay Cycle Term");
         PreviousPayrollHdr.SetFilter("Posted Date", '<%1', PostedPayrollHeader."Posted Date");
-        PreviousPayrollHdr.SetRange(Reversed, false); //Min -- for exclude reverse entry.
+        PreviousPayrollHdr.SetRange(Reversed, false);
         //PreviousPayrollHdr.SETFILTER("Pay Cycle Period",'<=%1',PostedPayrollHeader."Pay Cycle Period");
         //PreviousPayrollHdr.SETFILTER("No.",'<>%1',PostedPayrollHeader."No.");
-        //PreviousPayrollHdr.SETRANGE("No.",'POSTPADJ_77_78_00046');
+        //PreviousPayrollHdr.SetRange("No.",'POSTPADJ_77_78_00046');
         if PreviousPayrollHdr.FindFirst then
             repeat
                 PreviousPayrollLine.Reset;
                 PreviousPayrollLine.SetRange("Document No.", PreviousPayrollHdr."No.");
                 PreviousPayrollLine.SetRange("Employee No.", Employee."No.");
-                PreviousPayrollLine.SetRange(Reversed, false); //Min -- for exclude reverse entry.
+                PreviousPayrollLine.SetRange(Reversed, false);
                 if PreviousPayrollLine.FindSet then begin
                     TotalTaxableMonthWise := 0;
 
@@ -605,7 +603,7 @@ report 50130 "Tax Deduction Info Mob App"
                     InsertTaxableColumn;
                     InsertTotalRFColumn;
                     InsertLeaveEncashGratuityColumn;
-                    //InsertOtherFacilityColumn; //Min
+                    //InsertOtherFacilityColumn; 
                 end;
             until PreviousPayrollHdr.Next = 0;
     end;

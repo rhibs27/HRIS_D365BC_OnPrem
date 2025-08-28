@@ -265,7 +265,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addafter(General)
         {
-            group("Identification Deails")
+            group("Identification Details")
             {
                 group("Citizenship Details")
                 {
@@ -1248,10 +1248,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 trigger OnAction()
                 begin
-                    IF CONFIRM('Do you want to grant HR permission Leave for this employee?', FALSE) THEN BEGIN
+                    IF CONFIRM('Do you want to grant HR permission Leave for this employee?', FALSE) THEN begin
                         CurrPage.SETSELECTIONFILTER(Rec);
                         REPORT.RUN(REPORT::"Grant Permission Needed Leave", TRUE, FALSE, Rec);
-                    END;
+                    end;
                 end;
             }
             action("Generate New Employee Card")
@@ -1563,9 +1563,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     var
                         Candidate: Record Candidate;
                     begin
-                        Candidate.RESET;
-                        Candidate.SETRANGE("No.", Rec."No.");
-                        IF NOT Candidate.FINDFIRST THEN BEGIN
+                        Candidate.Reset();
+                        Candidate.SetRange("No.", Rec."No.");
+                        IF NOT Candidate.FindFirst() THEN begin
                             Candidate.INIT;
                             Candidate."No." := Rec."No.";
                             Candidate."First Name" := Rec."First Name";
@@ -1581,7 +1581,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             Candidate.Initials := FORMAT(Rec.Salutation);
                             Candidate."Candidate Type" := Candidate."Candidate Type"::Internal;
                             Candidate.INSERT;
-                        END;
+                        end;
                         PAGE.RUN(PAGE::"Candidate Card", Candidate);
                     end;
                 }
@@ -1596,9 +1596,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Appraisal action.';
                     trigger OnAction()
                     begin
-                        AppraisalRec.RESET;
-                        AppraisalRec.SETRANGE("Employee Code", Rec."No.");
-                        IF NOT AppraisalRec.FINDFIRST THEN BEGIN
+                        AppraisalRec.Reset();
+                        AppraisalRec.SetRange("Employee Code", Rec."No.");
+                        IF NOT AppraisalRec.FindFirst() THEN begin
                             AppraisalRec.INIT;
                             AppraisalRec.VALIDATE("Employee Code", Rec."No.");
                             AppraisalRec.INSERT(TRUE);
@@ -1666,10 +1666,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Confirmation Employee action.';
                     trigger OnAction()
                     begin
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        Employee.FINDFIRST;
-                        Employee.TESTFIELD("Employment Type", Rec."Employment Type"::Probation);
+                        Employee.Reset();
+                        Employee.SetRange("No.", Rec."No.");
+                        Employee.FindFirst();
+                        Employee.TestField("Employment Type", Rec."Employment Type"::Probation);
                         REPORT.RUN(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
                     end;
                 }
@@ -1768,9 +1768,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Visible = false;
                     trigger OnAction()
                     begin
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        IF Employee.FINDFIRST THEN
+                        Employee.Reset();
+                        Employee.SetRange("No.", Rec."No.");
+                        IF Employee.FindFirst() THEN
                             REPORT.RUNMODAL(REPORT::"Emp Loan Outstanding Update", TRUE, FALSE, Employee);
                     end;
                 }
@@ -1844,11 +1844,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory: Page "Employee Transfer Requests";
                         EmployeeTransfer: Record "Employee Transfer";
                     begin
-                        EmployeeTransfer.RESET;
+                        EmployeeTransfer.Reset();
                         Rec.FilterGroup(2);
-                        EmployeeTransfer.SETRANGE("Employee No.", Rec."No.");
+                        EmployeeTransfer.SetRange("Employee No.", Rec."No.");
                         EmployeeTransfer.SETFILTER(Type, '%1|%2', EmployeeTransfer.Type::"HR Transfer", EmployeeTransfer.Type::"Employee Transfer");
-                        EmployeeTransfer.SETFILTER("Approval Status", '%1|%2', EmployeeTransfer."Approval Status"::Acknowledged, EmployeeTransfer."Approval Status"::Approved); //Min -- Approved filter added.
+                        EmployeeTransfer.SETFILTER("Approval Status", '%1|%2', EmployeeTransfer."Approval Status"::Acknowledged, EmployeeTransfer."Approval Status"::Approved);
                         Rec.FilterGroup(0);
                         CLEAR(PageTransferHistory);
                         PageTransferHistory.ForHistoryPage;
@@ -1919,9 +1919,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     trigger OnAction()
                     begin
-                        ServiceHistory.RESET;
+                        ServiceHistory.Reset();
                         ServiceHistory.FILTERGROUP(2);
-                        ServiceHistory.SETRANGE("Employee No.", Rec."No.");
+                        ServiceHistory.SetRange("Employee No.", Rec."No.");
                         ServiceHistory.FILTERGROUP(0);
                         PAGE.RUN(PAGE::"Service History Lists", ServiceHistory);
                     end;
@@ -1946,12 +1946,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         CheckEmployee;
-                        IF NOT CheckForLeaveEarnExist THEN BEGIN
+                        IF NOT CheckForLeaveEarnExist THEN begin
                             IF rec."Employment Type" = rec."Employment Type"::Contract THEN
                                 LeaveMgt.UpdateLeaveEmployeeContract(Rec."No.", Rec."Employment Date", rec."Employment Type", rec.Gender, rec."Marital Status")
                             ELSE IF rec."Employment Type" IN [rec."Employment Type"::Permanent, rec."Employment Type"::Probation] THEN
                                 LeaveMgt.UpdateLeaveEmployee(rec."No.", rec."Employment Date", rec."Employment Type", rec.Gender, rec."Marital Status");
-                        END;
+                        end;
                         //PayrollEngine.InsertPayrollAttributesUsage("No.");
                         rec.Saved := TRUE;
                         rec.MODIFY;
@@ -1989,11 +1989,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         EmployeeEventUpdate: Report "Service Event Update";
                     begin
                         rec.TestField(Gender);
-                        IF CONFIRM('Do you want to update Employee Service event?', FALSE) THEN BEGIN
+                        IF CONFIRM('Do you want to update Employee Service event?', FALSE) THEN begin
                             CLEAR(EmployeeEventUpdate);
                             EmployeeEventUpdate.SetAppointment(Rec."No.");
                             EmployeeEventUpdate.RUN;
-                        END;
+                        end;
                     end;
                 }
                 action("Add Job Function")
@@ -2106,20 +2106,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 trigger OnAction()
                 begin
-                    EmployeeAct.RESET;
-                    EmployeeAct.SETRANGE("Employee No.", Rec."No.");
-                    EmployeeAct.SETRANGE(Type, EmployeeAct.Type::Resignation);
-                    EmployeeAct.SETRANGE("Approval Status", EmployeeAct."Approval Status"::Settled);
-                    IF EmployeeAct.FINDFIRST THEN BEGIN
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        IF Employee.FINDFIRST THEN BEGIN
-                            Employee.TESTFIELD(Salutation);
+                    EmployeeAct.Reset();
+                    EmployeeAct.SetRange("Employee No.", Rec."No.");
+                    EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
+                    EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Settled);
+                    IF EmployeeAct.FindFirst() THEN begin
+                        Employee.Reset();
+                        Employee.SetRange("No.", Rec."No.");
+                        IF Employee.FindFirst() THEN begin
+                            Employee.TestField(Salutation);
                             REPORT.RUN(70022, TRUE, TRUE, Employee);
 
-                        END;
-                    END;
-                END;
+                        end;
+                    end;
+                end;
             }
             action("Resignation Acceptance Letter")
             {
@@ -2134,18 +2134,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 trigger OnAction()
                 begin
-                    EmployeeAct.RESET;
-                    EmployeeAct.SETRANGE(Type, EmployeeAct.Type::Resignation);
-                    EmployeeAct.SETRANGE("Employee No.", Rec."No.");
-                    IF EmployeeAct.FINDLAST THEN
-                        EmployeeAct.TESTFIELD("Approval Status", EmployeeAct."Approval Status"::Approved);
+                    EmployeeAct.Reset();
+                    EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
+                    EmployeeAct.SetRange("Employee No.", Rec."No.");
+                    IF EmployeeAct.FindLast() THEN
+                        EmployeeAct.TestField("Approval Status", EmployeeAct."Approval Status"::Approved);
 
-                    Employee.RESET;
-                    Employee.SETRANGE("No.", Rec."No.");
-                    IF Employee.FINDFIRST THEN BEGIN
-                        Employee.TESTFIELD(Salutation);
+                    Employee.Reset();
+                    Employee.SetRange("No.", Rec."No.");
+                    IF Employee.FindFirst() THEN begin
+                        Employee.TestField(Salutation);
                         REPORT.RUN(70023, TRUE, TRUE, Employee);
-                    END;
+                    end;
                 end;
             }
             action("Resignation Release Letter")
@@ -2162,17 +2162,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 trigger OnAction()
 
                 begin
-                    Employee.RESET;
-                    Employee.SETRANGE("No.", Rec."No.");
-                    IF Employee.FINDFIRST THEN BEGIN
-                        Employee.TESTFIELD(Salutation);
-                        EmployeeAct.RESET;
-                        EmployeeAct.SETRANGE(Type, EmployeeAct.Type::Resignation);
-                        EmployeeAct.SETRANGE("Employee No.", Employee."No.");
-                        IF EmployeeAct.FINDLAST THEN
-                            EmployeeAct.TESTFIELD("Approval Status", EmployeeAct."Approval Status"::Settled);
+                    Employee.Reset();
+                    Employee.SetRange("No.", Rec."No.");
+                    IF Employee.FindFirst() THEN begin
+                        Employee.TestField(Salutation);
+                        EmployeeAct.Reset();
+                        EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
+                        EmployeeAct.SetRange("Employee No.", Employee."No.");
+                        IF EmployeeAct.FindLast() THEN
+                            EmployeeAct.TestField("Approval Status", EmployeeAct."Approval Status"::Settled);
                         REPORT.RUN(70024, TRUE, TRUE, Employee);
-                    END;
+                    end;
                 end;
             }
             action(Memo)
@@ -2187,12 +2187,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 trigger OnAction()
                 begin
-                    Employee.RESET;
-                    Employee.SETRANGE("No.", Rec."No.");
-                    IF Employee.FINDFIRST THEN BEGIN
-                        Employee.TESTFIELD(Salutation);
+                    Employee.Reset();
+                    Employee.SetRange("No.", Rec."No.");
+                    IF Employee.FindFirst() THEN begin
+                        Employee.TestField(Salutation);
                         REPORT.RUN(70026, TRUE, TRUE, Employee);
-                    END;
+                    end;
                 end;
             }
             action("Insert Grade")
@@ -2260,10 +2260,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         SetFieldEnable;
 
         //>>updating date
-        IF Rec."Birth Date" <> 0D THEN BEGIN
+        IF Rec."Birth Date" <> 0D THEN begin
             Rec.Age := ROUND((TODAY - Rec."Birth Date") / 365.4, 1, '<');
             Rec.MODIFY;
-        END;
+        end;
     end;
 
     trigger OnAfterGetRecord()
@@ -2276,7 +2276,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         WorkShift: Record "Work Shift";
     begin
         PGSetup.GET;
-        PGSetup.TESTFIELD("Default Work Shift");
+        PGSetup.TestField("Default Work Shift");
         Rec.VALIDATE("Employee Work Shift", PGSetup."Default Work Shift");
     end;
 
@@ -2286,45 +2286,45 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         //     ERROR('Employee Card must be saved first');
     end;
 
-    LOCAL PROCEDURE SetNoFieldVisible();
+    local procedure SetNoFieldVisible();
     VAR
         DocumentNoVisibility: Codeunit 1400;
-    BEGIN
-        EmployeeAct.RESET;
-        EmployeeAct.SETRANGE("Employee No.", Rec."No.");
-        EmployeeAct.SETRANGE(Type, EmployeeAct.Type::Resignation);
-        EmployeeAct.SETRANGE("Approval Status", EmployeeAct."Approval Status"::Settled);
-        IF EmployeeAct.FINDFIRST THEN
+    begin
+        EmployeeAct.Reset();
+        EmployeeAct.SetRange("Employee No.", Rec."No.");
+        EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
+        EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Settled);
+        IF EmployeeAct.FindFirst() THEN
             Fieldvisible := TRUE
         ELSE
             Fieldvisible := FALSE;
 
-        EmployeeAct.RESET;
-        EmployeeAct.SETRANGE("Employee No.", Rec."No.");
-        EmployeeAct.SETRANGE(Type, EmployeeAct.Type::Resignation);
-        EmployeeAct.SETRANGE("Approval Status", EmployeeAct."Approval Status"::Approved);
-        IF EmployeeAct.FINDFIRST THEN
+        EmployeeAct.Reset();
+        EmployeeAct.SetRange("Employee No.", Rec."No.");
+        EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
+        EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Approved);
+        IF EmployeeAct.FindFirst() THEN
             Fieldvisible1 := TRUE
         ELSE
             Fieldvisible1 := FALSE;
-    END;
+    end;
 
-    // LOCAL PROCEDURE InsertAttachmentLines(VAR Emp: Record Employee);
+    // local procedure InsertAttachmentLines(VAR Emp: Record Employee);
     // VAR
     //     IncomingDocument: Record "Incoming Document";
     //     AttachmentMandatory: Record "Attachment Setup";
-    // BEGIN
-    //     AttachmentMandatory.RESET;
+    // begin
+    //     AttachmentMandatory.Reset();
     //     AttachmentMandatory.SETFILTER(Type, '%1|%2|%3|%4', AttachmentMandatory.Type::Education,
     //               AttachmentMandatory.Type::"Employee Profile", AttachmentMandatory.Type::"Work Experience",
     //               AttachmentMandatory.Type::"Complaince Requirement Forms");
-    //     IF AttachmentMandatory.FINDFIRST THEN
-    //         REPEAT
-    //             IncomingDocument.RESET;
-    //             IncomingDocument.SETRANGE("Order No.", Emp."No.");
-    //             IncomingDocument.SETRANGE("Attachment Code", AttachmentMandatory."Attachment Code");
-    //             IF NOT IncomingDocument.FINDFIRST THEN BEGIN
-    //                 IncomingDocument.RESET;
+    //     IF AttachmentMandatory.FindFirst() THEN
+    //         repeat
+    //             IncomingDocument.Reset();
+    //             IncomingDocument.SetRange("Order No.", Emp."No.");
+    //             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+    //             IF NOT IncomingDocument.FindFirst() THEN begin
+    //                 IncomingDocument.Reset();
     //                 IncomingDocument.INIT;
     //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
     //                 IncomingDocument.Description := Emp.TABLENAME;
@@ -2334,15 +2334,15 @@ pageextension 50010 "Employee Card" extends "Employee Card"
     //                 IncomingDocument."Employee Code" := FORMAT(Emp."No.");
     //                 IncomingDocument.INSERT(TRUE);
 
-    //             END;
-    //         UNTIL AttachmentMandatory.NEXT = 0;
-    // END;
+    //             end;
+    //         until AttachmentMandatory.NEXT = 0;
+    // end;
 
-    LOCAL PROCEDURE SetFieldEnable();
-    BEGIN
+    local procedure SetFieldEnable();
+    begin
         CASE Rec."Deputation on" OF
             Rec."Deputation on"::Branch:
-                BEGIN
+                begin
                     ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
@@ -2353,9 +2353,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceVisible := true;
                     UnitVisible := false;
                     DepartmentVisible := false;
-                END;
+                end;
             Rec."Deputation on"::Province:
-                BEGIN
+                begin
                     ProvinceEdit := true;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
@@ -2366,9 +2366,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceVisible := true;
                     UnitVisible := false;
                     DepartmentVisible := false;
-                END;
+                end;
             Rec."Deputation on"::Department:
-                BEGIN
+                begin
                     ProvinceEdit := false;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
@@ -2379,9 +2379,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceVisible := true;
                     UnitVisible := true;
                     DepartmentVisible := true;
-                END;
+                end;
             Rec."Deputation on"::Unit:
-                BEGIN
+                begin
                     ProvinceEdit := false;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
@@ -2392,9 +2392,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceVisible := true;
                     UnitVisible := true;
                     DepartmentVisible := true;
-                END;
+                end;
             Rec."Deputation on"::"Extension Counter":
-                BEGIN
+                begin
                     ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
@@ -2405,86 +2405,84 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceVisible := true;
                     UnitVisible := false;
                     DepartmentVisible := false;
-                END;
-        END;
-    END;
+                end;
+        end;
+    end;
 
-    LOCAL PROCEDURE CheckEmployee();
-    BEGIN
-        //   {IF NOT (Status = Status::Active) THEN
-        //         EXIT;} //Min 1.1 commented for only control apply for new creation employee
-        IF Rec."New Employee" THEN BEGIN //Min 1.2
-            Rec.TESTFIELD("Full Name");
-            Rec.TESTFIELD("Deputation on");
-            Rec.TESTFIELD("Salary Level");
-            Rec.TESTFIELD("Salary Grade");
-            Rec.TESTFIELD(Gender);
-            Rec.TESTFIELD("Marital Status");
-            Rec.TESTFIELD("Employment Type");
-            Rec.TESTFIELD("NAV Login ID");
-            Rec.TESTFIELD("Functional Title");
-            Rec.TESTFIELD("Employment Date");
-            Rec.TESTFIELD("Tax Code");
-            Rec.TESTFIELD("Inside/Outside Valley");
-            Rec.TESTFIELD("Posting Region");
-            Rec.TESTFIELD("Date of Birth (B.S.)"); //Min <<
-            Rec.TESTFIELD("PAN No.");
-            Rec.TESTFIELD("Citizen Number");//Min >>
+    local procedure CheckEmployee();
+    begin
+        IF Rec."New Employee" THEN begin
+            Rec.TestField("Full Name");
+            Rec.TestField("Deputation on");
+            Rec.TestField("Salary Level");
+            Rec.TestField("Salary Grade");
+            Rec.TestField(Gender);
+            Rec.TestField("Marital Status");
+            Rec.TestField("Employment Type");
+            Rec.TestField("NAV Login ID");
+            Rec.TestField("Functional Title");
+            Rec.TestField("Employment Date");
+            Rec.TestField("Tax Code");
+            Rec.TestField("Inside/Outside Valley");
+            Rec.TestField("Posting Region");
+            Rec.TestField("Date of Birth (B.S.)");
+            Rec.TestField("PAN No.");
+            Rec.TestField("Citizen Number");
             IF Rec."Employment Type" = Rec."Employment Type"::Permanent THEN
-                Rec.TESTFIELD("Confirmation Date");
+                Rec.TestField("Confirmation Date");
             IF Rec."Employment Type" = Rec."Employment Type"::Contract THEN
-                Rec.TESTFIELD("Contract Salary Amount");
-            IF Rec."Employment Type" = Rec."Employment Type"::Probation THEN //Min
-                Rec.TESTFIELD("Probation Period");
-            IF Rec."Employment Type" = Rec."Employment Type"::Contract THEN BEGIN
-                Rec.TESTFIELD("Contract Expiry Month");
-            END;
+                Rec.TestField("Contract Salary Amount");
+            IF Rec."Employment Type" = Rec."Employment Type"::Probation THEN
+                Rec.TestField("Probation Period");
+            IF Rec."Employment Type" = Rec."Employment Type"::Contract THEN begin
+                Rec.TestField("Contract Expiry Month");
+            end;
 
             CASE Rec."Deputation on" OF
                 Rec."Deputation on"::Branch:
-                    BEGIN
-                        Rec.TESTFIELD("Branch Name");
-                        Rec.TESTFIELD("Global Dimension 1 Code");
-                        Rec.TESTFIELD("Province Code");
-                    END;
+                    begin
+                        Rec.TestField("Branch Name");
+                        Rec.TestField("Global Dimension 1 Code");
+                        Rec.TestField("Province Code");
+                    end;
 
                 Rec."Deputation on"::Department:
-                    BEGIN
-                        Rec.TESTFIELD("Department Code");
-                        Rec.TESTFIELD("Department Name");
-                    END;
+                    begin
+                        Rec.TestField("Department Code");
+                        Rec.TestField("Department Name");
+                    end;
 
                 Rec."Deputation on"::"Extension Counter":
-                    BEGIN
-                        Rec.TESTFIELD("Extension Counter Code");
-                        Rec.TESTFIELD("Extension Counter Name");
-                        Rec.TESTFIELD("Global Dimension 1 Code");
-                        Rec.TESTFIELD("Province Code");
-                    END;
+                    begin
+                        Rec.TestField("Extension Counter Code");
+                        Rec.TestField("Extension Counter Name");
+                        Rec.TestField("Global Dimension 1 Code");
+                        Rec.TestField("Province Code");
+                    end;
 
                 Rec."Deputation on"::Province:
-                    BEGIN
-                        Rec.TESTFIELD("Province Code");
-                        Rec.TESTFIELD("Province Name");
-                    END;
+                    begin
+                        Rec.TestField("Province Code");
+                        Rec.TestField("Province Name");
+                    end;
                 Rec."Deputation on"::Unit:
-                    BEGIN
-                        Rec.TESTFIELD("Unit Code");
-                        Rec.TESTFIELD("Unit Name");
-                    END;
-            END;
-        END;
-    END;
+                    begin
+                        Rec.TestField("Unit Code");
+                        Rec.TestField("Unit Name");
+                    end;
+            end;
+        end;
+    end;
 
-    LOCAL PROCEDURE CheckForLeaveEarnExist(): Boolean;
+    local procedure CheckForLeaveEarnExist(): Boolean;
     VAR
         LeaveEarn: Record "Leave Earn";
-    BEGIN
-        LeaveEarn.RESET;
-        LeaveEarn.SETRANGE("Employee No.", Rec."No.");
-        IF LeaveEarn.FINDFIRST THEN
+    begin
+        LeaveEarn.Reset();
+        LeaveEarn.SetRange("Employee No.", Rec."No.");
+        IF LeaveEarn.FindFirst() THEN
             EXIT(TRUE);
-    END;
+    end;
 
     local procedure CopyPermanentAddress()
     begin

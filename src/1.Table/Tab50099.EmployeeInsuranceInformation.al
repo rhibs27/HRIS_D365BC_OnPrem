@@ -60,11 +60,11 @@ table 50099 "Employee Insurance Information"
         {
             trigger OnValidate()
             begin
-                Clear(Len); //Min >> --- for Special Characters Control Add.
+                Clear(Len);
                 Len := StrLen(DelChr("Policy Number", '=', DelChr("Policy Number", '=', SpecialChars)));
                 if Len > 0 then
                     Error(SpecialCharsErr);
-                EmpInsurance.Reset; //Min >> --- For add control in duplicate Policy No.
+                EmpInsurance.Reset;
                 EmpInsurance.SetRange("Employee No.", Rec."Employee No.");
                 EmpInsurance.SetRange("Policy Number", Rec."Policy Number");
                 if EmpInsurance.FindFirst then
@@ -81,7 +81,7 @@ table 50099 "Employee Insurance Information"
                     Validate("Insurance Start Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Insurance Start Date (BS)");
-                if "Insurance Start Date (AD)" > Today then //Min
+                if "Insurance Start Date (AD)" > Today then
                     Error(Error002, Today);
             end;
         }
@@ -99,7 +99,7 @@ table 50099 "Employee Insurance Information"
                     Validate("Insurance Expiry Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Insurance Expiry Date (BS)");
-                if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then //Min
+                if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then
                     Error(Error001, "Insurance Start Date (AD)");
             end;
         }
@@ -112,7 +112,7 @@ table 50099 "Employee Insurance Information"
         {
             trigger OnValidate()
             begin
-                if "Annual Premium Amount" > "Insurance Amount" then //Min
+                if "Annual Premium Amount" > "Insurance Amount" then
                     Error('Annual Premium Amount Should be less than Insurance Amount.');
             end;
         }
@@ -176,11 +176,11 @@ table 50099 "Employee Insurance Information"
             NoSeriesMgt.InitSeries(HRSetup."Employee Insurance No.", xRec."No. Series", "Requested Date", "Insurance No.", "No. Series");
             ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
-        /*EmpInsurance.RESET;
-        EmpInsurance.SETRANGE("Employee No.","Employee No.");
+        /*EmpInsurance.Reset();
+        EmpInsurance.SetRange("Employee No.","Employee No.");
         EmpInsurance.SETFILTER(Status,'%1|%2',EmpInsurance.Status::Open,EmpInsurance.Status::Pending);
         EmpInsurance.SETFILTER("Insurance No.",'<>%1',"Insurance No.");
-        IF EmpInsurance.FINDFIRST THEN
+        IF EmpInsurance.FindFirst() THEN
           ERROR('Insurance of employee %1 (%2) is pending.',EmpInsurance."Employee Name","Employee No.");*/
         // if not GuiAllowed then begin
         //     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
@@ -210,15 +210,15 @@ table 50099 "Employee Insurance Information"
 
     // trigger OnModify()
     // begin
-    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then //Min
+    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then 
     //         LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
     //     if not GuiAllowed then
     //         if "Approval Status" = "Approval Status"::Open then
     //             "Approval Status" := "Approval Status"::Pending;
-    /*EmpInsurance.RESET; //Min >> --- For add control in duplicate Policy No.
-    EmpInsurance.SETRANGE("Employee No.",Rec."Employee No.");
-    EmpInsurance.SETRANGE("Policy Number",Rec."Policy Number");
-    IF EmpInsurance.FINDFIRST THEN
+    /*EmpInsurance.Reset();
+    EmpInsurance.SetRange("Employee No.",Rec."Employee No.");
+    EmpInsurance.SetRange("Policy Number",Rec."Policy Number");
+    IF EmpInsurance.FindFirst() THEN
 //       ERROR(Text019,Rec."Policy Number",EmpInsurance."Insurance No.");*/
     // end;
 

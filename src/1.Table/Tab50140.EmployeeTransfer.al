@@ -349,7 +349,7 @@ table 50140 "Employee Transfer"
         {
             trigger OnValidate()
             begin
-                if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin //Min >>
+                if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
                     "Department Code (To)" := Department;
@@ -363,7 +363,7 @@ table 50140 "Employee Transfer"
                 end;
                 if "Transfer Type" = "Transfer Type"::"Cross Transfer" then
                     "Deputation On (To)" := "Deputation On (To)"::" ";
-                //Min >>
+
             end;
         }
         field(53; "Shortcut Dimension 1 Code (To)"; Code[20])
@@ -527,7 +527,7 @@ table 50140 "Employee Transfer"
 
             trigger OnValidate()
             begin
-                if Type in [Type::"HR Transfer", Type::"Employee Transfer"] then begin //Min -- Control for not apply transfer eff. date less than today.
+                if Type in [Type::"HR Transfer", Type::"Employee Transfer"] then begin
                     if "Transfer Effective Date" < Today then
                         Error(Text001, Today);
                 end;
@@ -669,7 +669,7 @@ table 50140 "Employee Transfer"
             TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             trigger OnValidate()
             begin
-                if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
+                if "Outgoing Branch Rep. Person" <> '' then begin
                     EmployeeRec.Get("Outgoing Branch Rep. Person");
                     "Outgoing Reporting Person Name" := EmployeeRec."Full Name";
                 end else
@@ -918,8 +918,7 @@ table 50140 "Employee Transfer"
                             NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             if Type <> type::"HR Transfer" then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
-                            //"Temporary Address" := HRMgt.GetEmployeeNo; //Min 7.14.2022
-                            //"Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
+
                         end;
                 end;
             end;

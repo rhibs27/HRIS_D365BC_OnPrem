@@ -67,7 +67,7 @@ table 50030 "Pay Cycle Period"
 
             trigger OnValidate()
             begin
-                EngNep.Reset; //Min 1.10.2023
+                EngNep.Reset;
                 EngNep.SetRange("English Date", "Pay Date");
                 if EngNep.FindFirst then
                     "Nepali Year" := EngNep."Nepali Year";

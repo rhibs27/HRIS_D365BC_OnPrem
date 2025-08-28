@@ -157,37 +157,40 @@ table 50021 "Level Wise Attributes"
 
     procedure CreateAllCombinations()
     var
-        SalaryGrade: Record "Salary Level";
-        SalaryStep: Record "Salary Grade";
+        SalaryLevel: Record "Salary Level";
+        SalaryGrades: Record "Salary Grade";
         GradeWiseAttributes: Record "Level Wise Attributes";
+        GradesCount: Integer;
     begin
-        SalaryGrade.Reset;
-        if SalaryGrade.FindFirst then
+        SalaryLevel.Reset;
+        if SalaryLevel.FindFirst then
             repeat
-                SalaryStep.Reset;
-                if SalaryStep.FindFirst then
+                Clear(GradesCount);
+                SalaryGrades.Reset;
+                if SalaryGrades.FindFirst then
                     repeat
+                        GradesCount += 1;
                         Clear(GradeWiseAttributes);
                         GradeWiseAttributes.Init;
-                        GradeWiseAttributes."Grade Code" := SalaryStep.Code;
-                        GradeWiseAttributes."Level Code" := SalaryGrade.Code;
-                        GradeWiseAttributes."Standard Basic Salary" := SalaryGrade."Basic Salary";
-                        GradeWiseAttributes.Grade := (SalaryStep."Grade Percentage" / 100) * SalaryGrade."Basic Salary";
+                        GradeWiseAttributes."Grade Code" := SalaryGrades.Code;
+                        GradeWiseAttributes."Level Code" := SalaryLevel.Code;
+                        GradeWiseAttributes."Standard Basic Salary" := SalaryLevel."Basic Salary";
+                        GradeWiseAttributes.Grade := (SalaryGrades."Grade Percentage" / 100) * SalaryLevel."Basic Salary";
                         GradeWiseAttributes."Total Basic Salary" := GradeWiseAttributes."Standard Basic Salary" + GradeWiseAttributes.Grade;
                         GradeWiseAttributes."Additional Time Allowance" := 0.75 * GradeWiseAttributes."Total Basic Salary";
-                        GradeWiseAttributes."Staff Vehicle Allowance" := SalaryGrade."Vehicle Allowance";
-                        GradeWiseAttributes."TA Out of Pocket" := SalaryGrade."Out of Pocket Expense(Nepal)";
-                        GradeWiseAttributes."TA Fooding" := SalaryGrade."Nepal Fooding Allowance";
-                        GradeWiseAttributes."TA Lodging" := SalaryGrade."Nepal Lodging Allowance";
+                        GradeWiseAttributes."Staff Vehicle Allowance" := SalaryLevel."Vehicle Allowance";
+                        GradeWiseAttributes."TA Out of Pocket" := SalaryLevel."Out of Pocket Expense(Nepal)";
+                        GradeWiseAttributes."TA Fooding" := SalaryLevel."Nepal Fooding Allowance";
+                        GradeWiseAttributes."TA Lodging" := SalaryLevel."Nepal Lodging Allowance";
                         GradeWiseAttributes."Outstation Allowance" := 0.25 * GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."Relocation Allowance" := GradeWiseAttributes."Total Basic Salary";
-                        GradeWiseAttributes.Allowance := SalaryGrade.Allowance;
+                        GradeWiseAttributes.Allowance := SalaryLevel.Allowance;
                         GradeWiseAttributes."Dashain Remuneration" := GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."Risk Allowance" := 0.08 * GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."LFA Allowance" := (GradeWiseAttributes."Total Basic Salary" / 12);
                         if not GradeWiseAttributes.Insert then;
                         GradeWiseAttributes.Modify(true);
-                    until SalaryStep.Next = 0;
-            until SalaryGrade.Next = 0;
+                    until (SalaryGrades.Next = 0) or (GradesCount >= SalaryLevel."Grades Limit");
+            until SalaryLevel.Next = 0;
     end;
 }

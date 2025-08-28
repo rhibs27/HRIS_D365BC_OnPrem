@@ -1,7 +1,6 @@
 report 50116 "Payroll Details"
 {
-    // //Min 3 feb 2022 (1.1) -- for add condition in months filter.
-    // //Min 3 feb 2022 (1.2) -- Commented for skip months request page control.
+
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019917.PayrollDetails.rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -78,7 +77,7 @@ report 50116 "Payroll Details"
 
                         trigger OnPreDataItem()
                         begin
-                            SetFilter(Code, PayrollAttributeFilter); //Min
+                            SetFilter(Code, PayrollAttributeFilter);
                         end;
                     }
 
@@ -127,7 +126,7 @@ report 50116 "Payroll Details"
                             Clear(NetPay);
                             Clear(CurrentDeduction);
                             FirstTime := true;
-                            if Employee.Get("Posted Payroll Line"."Employee No.") then begin //Min
+                            if Employee.Get("Posted Payroll Line"."Employee No.") then begin
                                 EmployeeSalaryLevel := Employee."Salary Level";
                                 EmployeePanNo := Employee."PAN No.";
                                 EmployeeSalaryLevelDesc := Employee."Salary Level Description";
@@ -146,14 +145,14 @@ report 50116 "Payroll Details"
                 trigger OnPreDataItem()
                 begin
                     SetRange("Pay Cycle Term", PayCycleTerm);
-                    if Months <> Months::" " then //Min 3 feb 2022 (1.1)
+                    if Months <> Months::" " then
                         SetRange("Nepali Month", Months);
                 end;
             }
 
             trigger OnAfterGetRecord()
             begin
-                /*IF Months = Months::" " THEN //Min 3 feb 2022 (1.2)
+                /*IF Months = Months::" " THEN 
                   ERROR('Please select a month.');*/
                 if PayCycleTerm = '' then
                     Error('Please select a pay cycle term.');

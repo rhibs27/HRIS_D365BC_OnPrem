@@ -42,7 +42,7 @@ page 50330 "Provinces List"
     trigger OnOpenPage()
 
     begin
-        Rec.SetRange(Blocked, false); //Min
+        Rec.SetRange(Blocked, false);
     end;
 
     trigger OnAfterGetRecord()

@@ -75,14 +75,14 @@ report 50124 "Employee Profile Details"
 
                 trigger OnAfterGetRecord()
                 begin
-                    //SETRANGE("Service Event","Service Event"::Promotion);
+                    //SetRange("Service Event","Service Event"::Promotion);
                     if Promotion."Effective Date" <> 0D then
                         PromotionPeriod := Round((Today - Promotion."Effective Date") / 365, 0.1, '=');
                 end;
 
                 trigger OnPreDataItem()
                 begin
-                    //SETRANGE("Service Event","Service Event"::Promotion);
+                    //SetRange("Service Event","Service Event"::Promotion);
                     Clear(PromotionPeriod);
                 end;
             }
