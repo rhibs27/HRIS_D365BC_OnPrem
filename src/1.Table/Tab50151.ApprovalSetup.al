@@ -13,6 +13,14 @@ table 50151 "Approval Setup"
         {
             Caption = 'Deputation On';
         }
+        field(3; "Approval Sending Policy"; enum "Approval Sending Policy")
+        {
+
+        }
+        field(4; "Approval Entry Creation Policy"; Enum "Approval Entry Creation Policy")
+        {
+
+        }
     }
     keys
     {

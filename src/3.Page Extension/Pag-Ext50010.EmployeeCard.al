@@ -265,7 +265,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addafter(General)
         {
-            group("Identification Deails")
+            group("Identification Details")
             {
                 group("Citizenship Details")
                 {

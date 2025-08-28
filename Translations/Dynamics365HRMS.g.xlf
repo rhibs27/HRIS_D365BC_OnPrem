@@ -788,6 +788,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3978185820 - Field 1544139102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Entry Creation Policy</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup - Field Approval Entry Creation Policy - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3978185820 - Field 4009567469 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Sending Policy</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup - Field Approval Sending Policy - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3978185820 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation On</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23627,6 +23637,16 @@
           <source>General</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Control General - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2313503208 - Control 1544139102 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Entry Creation Policy field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Control Approval Entry Creation Policy - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2313503208 - Control 4009567469 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Sending Policy field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Control Approval Sending Policy - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2313503208 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Deputation On field.</source>
@@ -58542,6 +58562,26 @@
           <source>Quarterly</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Type - EnumValue Quarterly - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1544139102 - EnumValue 516506678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Everyone in Role</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Approval Entry Creation Policy - EnumValue Everyone in Role - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1544139102 - EnumValue 2358594701 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>One Entry per Role</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Approval Entry Creation Policy - EnumValue One Entry per Role - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4009567469 - EnumValue 304742209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All Approver Role Mandatory</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Approval Sending Policy - EnumValue All Approver Role Mandatory - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4009567469 - EnumValue 882791236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>At least One Approver Role Mandatory</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Approval Sending Policy - EnumValue At least One Approver Role Mandatory - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 868085935 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
