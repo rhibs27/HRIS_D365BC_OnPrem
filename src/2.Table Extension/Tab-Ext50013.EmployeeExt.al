@@ -106,6 +106,7 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
 
         }
+
         modify(Address)
         {
             Caption = 'Permanent Address';
@@ -128,6 +129,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Contract Expiry Month");
                 if "Employment Date" <> 0D then
                     HrMgt.getServicePeriodText(Rec);
+                "Employment Date (B.S.)" := EngNepDate.getNepaliDate("Employment Date");
             end;
         }
         modify(Title)
@@ -352,11 +354,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50010; "Total Donation Contribution"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
-                                                                                                                  "Attribute Type" = filter("Non-Payment"),
-                                                                                                                  "Attribute Sub Type" = filter(Donation),
-                                                                                                                  "Posting Date" = field("Date Filter"),
-                                                                                                                  Reversed = const(false)));
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."), "Attribute Type" = filter("Non-Payment"), "Attribute Sub Type" = filter(Donation), "Posting Date" = field("Date Filter"), Reversed = const(false)));
             Editable = false;
         }
         field(50011; "Premium of Life Insurance"; Decimal)

@@ -413,7 +413,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(FieldID);
                 Evaluate(FieldValue, Format(FieldRef.Value));
                 FieldValue := Round(FieldValue, 0.01, '=');
-                PayrollAttributes.TestField(Status, PayrollAttributes.Status::Active);
+                //PayrollAttributes.TestField(Status, PayrollAttributes.Status::Active);
                 if not PayrollAttributes."Tax at once" then begin
                     if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then begin
                         if PayrollAttributes."Non-Taxable" = false then begin
