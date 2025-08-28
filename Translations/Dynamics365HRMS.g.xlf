@@ -2398,40 +2398,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Week Off Day - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 220184072 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Biometric Branch</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Branch - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 220184072 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Branch - Field Branch Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 220184072 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Branch - Field Branch Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 220184072 - Field 4201191005 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No of Devices</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Branch - Field No of Devices - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Branch Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 4146692271 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Command Executing</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Command Executing - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3439860152 - Field 3556652867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Connectivity Status</source>
@@ -2443,45 +2413,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Date Filter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Department Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Department Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 2930356707 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Dev Funs</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Dev Funs - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 2879000305 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Device Model</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Device Model - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3439860152 - Field 2921786080 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Device Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Device Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 3061462957 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Device Status Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Device Status Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 1619575956 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Device Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Device Type - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3439860152 - Field 45763190 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Face Count</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Face Count - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 1137229525 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Firmware Version</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Firmware Version - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3439860152 - Field 3818660111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>FP Count</source>
@@ -2498,25 +2438,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field IP - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 3684481514 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Access Device</source>
+        <trans-unit id="Table 3439860152 - Field 986743050 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is Active</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Is Access Device - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Is Active - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 3914794285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Face Device</source>
+        <trans-unit id="Table 3439860152 - Field 528256203 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Last Sync Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Is Face Device - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 69999073 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Last Activity</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Last Activity - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3439860152 - Field 335850230 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Last Activity Text</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Last Activity Text - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Device Config. - Field Last Sync Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3439860152 - Field 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -14193,6 +14123,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Total Days From - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 980236093 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use Allowance Configuration</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Use Allowance Configuration - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 2187277383 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Key</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25183,80 +25118,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Action Device Attendance - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 996671958 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Biometric Branches</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Branches - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 996671958 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Branch Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Branches - Control Branch Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 996671958 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Branch Name field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Branches - Control Branch Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 996671958 - Control 4201191005 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No of Devices field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Branches - Control No of Devices - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Branch Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Branch Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 2930356707 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Dev Funs field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Dev Funs - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 2879000305 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Device Model field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Device Model - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 2921786080 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Device Status field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Device Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 45763190 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Face Count field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Face Count - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 1137229525 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Firmware Version field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Firmware Version - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 3818660111 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the FP Count field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control FP Count - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3439860152 - Control 3510957723 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the IP field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control IP - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 3684481514 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Access Device field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Is Access Device - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 3914794285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Face Device field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Is Face Device - Property ToolTip</note>
+        <trans-unit id="Page 3439860152 - Control 986743050 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Active field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Is Active - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3439860152 - Control 69999073 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Last Activity field.</source>
@@ -25273,20 +25148,40 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control SN - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 3566955347 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Trans Count field.</source>
+        <trans-unit id="Page 660151898 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Biometric Devices</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control Trans Count - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 3439860152 - Control 1084607646 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the User Count field.</source>
+        <trans-unit id="Page 660151898 - Control 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>General</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Control User Count - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control General - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 3439860152 - Action 2026913255 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Get current connectivity status</source>
+        <trans-unit id="Page 660151898 - Control 415504711 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Id field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control Id - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 660151898 - Control 3510957723 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the IP field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Device Config. - Action Refresh - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control IP - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 660151898 - Control 986743050 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Active field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control Is Active - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 660151898 - Control 528256203 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Last Activity field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control Last Sync Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 660151898 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3451109898 - Control 1407850916 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Type field.</source>
@@ -39167,6 +39062,11 @@
           <source>Specifies the value of the Total Days From field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Total Days From - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 980236093 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Use Allowance Configuration field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Use Allowance Configuration - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1532816877 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Numbering</source>
@@ -62438,16 +62338,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Arrear - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 986758042 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Geography Pro-Rata</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Geography Pro-Rata - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 1369821570 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Home Leave Encash</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Home Leave Encash - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 2615421126 - EnumValue 353172556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Recover</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -62468,21 +62358,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Leave Encash - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 1574534984 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Lunch Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Lunch Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 2836148020 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medical Book Payment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Medical Book Payment - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 1402062614 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medical Booking</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Medical Booking - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 2615421126 - EnumValue 123424209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overtime Salary</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -62492,31 +62367,6 @@
           <source>Settlement Recovery</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Settlement Recovery - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 2629351109 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sick Leave Encash</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Sick Leave Encash - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 1146052748 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Stress Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Stress Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 3398323765 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Substitute Leave Encash</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Substitute Leave Encash - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 1534710575 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Welfare Book Payment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Welfare Book Payment - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2615421126 - EnumValue 2837414361 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Welfare Booking</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Welfare Booking - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3275815306 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

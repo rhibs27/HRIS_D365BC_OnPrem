@@ -2,16 +2,16 @@ report 50048 "Biometric Log Sync"
 {
     ApplicationArea = All;
     Caption = 'Biometric Log Sync';
-    UsageCategory = ReportsAndAnalysis;
+    // UsageCategory = ReportsAndAnalysis;
     ProcessingOnly = true;
     dataset
     {
         dataitem(DeviceConfigSetup; "Biometric Device Config.")
         {
-            RequestFilterFields = "Branch Code", SN, "Date Filter";
+            RequestFilterFields = Id, "Date Filter";
             trigger OnAfterGetRecord()
             begin
-                AdmsMgt.SyncAttendance(FromDate, ToDate, SN);
+                BiometricMgt.SyncAttendance(FromDate, ToDate, id);
             end;
         }
 
@@ -48,5 +48,5 @@ report 50048 "Biometric Log Sync"
     var
         FromDate: Date;
         ToDate: Date;
-        AdmsMgt: Codeunit "Biometric Mgt.";
+        BiometricMgt: Codeunit "Biometric Mgt.";
 }

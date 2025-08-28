@@ -1758,7 +1758,7 @@ table 50027 "Payroll Line"
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             GetSettlementRecovery();
 
-        OnGetPayrollAttributesOnBeforeSaveValue(Rec);  //if 
+        OnGetPayrollAttributesOnBeforeSaveValue(Rec);
 
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
@@ -2448,19 +2448,6 @@ table 50027 "Payroll Line"
                 end;
         end;
     end;
-
-    local procedure BasicAdjustmentPF(var AttributeAmount: Decimal)
-    var
-        PayrollAttUsage: Record "Payroll Attributes Usage";
-        AdjustPFAmt: Decimal;
-    begin
-        PGSetup.TestField("Basic Adjustment Code");
-        if PayrollAttUsage.Get(PGSetup."Basic Adjustment Code", "Employee No.") then begin
-            AdjustPFAmt := 0.1 * PayrollAttUsage.Amount;
-            AttributeAmount += AdjustPFAmt;
-        end;
-    end;
-
 
     local procedure CalculateDifferentialnterest(LoanType: Enum "Loan Type"; OutstandingAmt: Decimal): Decimal
     var

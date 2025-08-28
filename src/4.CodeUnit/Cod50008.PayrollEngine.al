@@ -223,6 +223,8 @@ codeunit 50008 "Payroll Engine"
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
 
+        OnAfterCalculateRetirementDeductionLimit(PayrollHeader, PayrollLine, RetirementFundTaxBenefit);
+        
         TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit;
         //Donations
         TotalDonation := Employee."Total Donation Contribution" + CurrentDonation;
@@ -3026,7 +3028,7 @@ codeunit 50008 "Payroll Engine"
             //         end;
             //     end;
 
-            PGSetup."Salary Advance":   //attribute subtype = salary advance
+            PGSetup."Salary Advance":
                 begin
                     SalaryAdvance.Reset;
                     SalaryAdvance.SetRange("Employee Code", Employee."No.");
@@ -3356,7 +3358,7 @@ codeunit 50008 "Payroll Engine"
                                      + LevelWiseAttributes."Total Basic Salary" / HRMgt.GetNoDaysInMonth * PayrollLineVar."Sick Leave Days", 0.01, '='));
                 end;
 
-            PGSetup.Gratuity:  //subtype = gradui
+            PGSetup.Gratuity:
                 begin
                     if PayrollHeader.Type = PayrollHeader.Type::Payroll then
                         exit;
@@ -4405,15 +4407,29 @@ codeunit 50008 "Payroll Engine"
         AllowanceConfiguration: Record "Allowance Configuration";
         Employee: Record Employee;
         PayrollAttr: Record "Payroll Attributes";
+
+        AllowanceConfiguration2: Record "Allowance Configuration";
     begin
         Employee.Get(EmpCode);
 
+        // this may slowdown 
         AllowanceConfiguration.SetRange("Payroll Attribute", AttrCode);
         AllowanceConfiguration.SetFilter("Employment Type", '%1|%2', Employee."Employment Type"::" ", Employee."Employment Type");
+        AllowanceConfiguration.SetFilter("Salary Level", '%1|%2', '', Employee."Salary Level");
+        AllowanceConfiguration.SetFilter("Functional Title", '%1|%2', '', Employee."Functional Title");
+        AllowanceConfiguration.SetFilter("Employee Work Shift", '%1|%2', '', Employee."Employee Work Shift");
+        AllowanceConfiguration.SetFilter("Approver Role", '%1|%2', '', Employee."Approver Role");
+
         AllowanceConfiguration.SetFilter("Province Code", '%1|%2', '', Employee."Province Code");
         AllowanceConfiguration.SetFilter("Branch Code", '%1|%2', '', Employee."Branch Code");
         AllowanceConfiguration.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
         if AllowanceConfiguration.FindSet() then;
+
+        // AllowanceConfiguration2.SetRange("Payroll Attribute", AttrCode);
+        // if AllowanceConfiguration2.FindSet() then
+        //     repeat
+        //     // if AllowanceConfiguration.em
+        //     until AllowanceConfiguration2.Next() = 0
     end;
 
     procedure GetAllowanceAssignmentAmount(EmpNo: Code[20]; AttrCode: Code[20]; StartDate: Date; EndDate: Date): Decimal
@@ -4449,5 +4465,10 @@ codeunit 50008 "Payroll Engine"
         //This event can be used to perform attendance Process
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCalculateRetirementDeductionLimit(var PayrollHeader: Record "Payroll Header"; var PayrollLine: Record "Payroll Line"; var RetirementFundTaxBenefit: Decimal);
+    begin
+
+    end;
 
 }
