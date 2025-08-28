@@ -544,7 +544,6 @@ codeunit 50026 "Attendance Mgt"
                                  PostingRegion: enum Region; Branch: Text; District: Text; Municipality: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
-        DistrictVar, MunVar : text;
     begin
         exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, District, Municipality, Community, Disabled));
     end;

@@ -256,11 +256,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Dashain Renumeration field.';
                     ApplicationArea = All;
                 }
-                // field("Bulk Cash Allowance"; Rec."Bulk Cash Allowance")
-                // {
-                //     ToolTip = 'Specifies the value of the Bulk Cash Allowance field.';
-                //     ApplicationArea = All;
-                // }
+                field("Bulk Cash Allowance"; Rec."Bulk Cash Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Bulk Cash Allowance field.';
+                    ApplicationArea = All;
+                }
                 field("Holiday Counter"; Rec."Holiday Counter")
                 {
                     Caption = 'Holiday Counter Allowance';
@@ -571,12 +571,12 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Holiday All. Amt (Contract) field.';
                     ApplicationArea = All;
                 }
-                // field("bulk Cash Amt"; Rec."bulk Cash Amt")
-                // {
-                //     Caption = 'Bulk Cash Transfer Amount';
-                //     ToolTip = 'Specifies the value of the Bulk Cash Transfer Amount field.';
-                //     ApplicationArea = All;
-                // }
+                field("bulk Cash Amt"; Rec."bulk Cash Amt")
+                {
+                    Caption = 'Bulk Cash Transfer Amount';
+                    ToolTip = 'Specifies the value of the Bulk Cash Transfer Amount field.';
+                    ApplicationArea = All;
+                }
                 field("Festival Counter(Contract)"; Rec."Festival Counter(Contract)")
                 {
                     ToolTip = 'Specifies the value of the Festival Counter(Contract) field.';
