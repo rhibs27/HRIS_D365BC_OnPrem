@@ -21953,6 +21953,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType AllowanceBodyText</note>
         </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to send transfer request ?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ConfirmTransfer</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of leave days must be greater than 0.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ErrorNoOfDays</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2473777273" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer request approval has been sent.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType TransferSent</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No Recommender Code.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoRecommender</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2636930096" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No Approver Code.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoApprover</note>
+        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2714638956 - NamedType 3878926381" size-unit="char" translate="yes" xml:space="preserve">
           <source>%1 Potential Candidate has been selected as shortlisted candidates.</source>
           <note from="Developer" annotates="general" priority="2"></note>
