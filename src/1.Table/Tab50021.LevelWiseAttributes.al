@@ -91,6 +91,18 @@ table 50021 "Level Wise Attributes"
             Description = '1 month Total Salary (Basic+Grade)';
         }
         field(25; "Night Shift Allowance"; Decimal) { }
+        field(51; "Employee Maintenence Allowance"; Decimal)
+        {
+
+        }
+        field(52; "Transportation Allowance"; Decimal)
+        {
+
+        }
+        field(53; "Vehicle Maintenence Allowance"; Decimal)
+        {
+
+        }
 
     }
 
@@ -188,6 +200,10 @@ table 50021 "Level Wise Attributes"
                         GradeWiseAttributes."Dashain Remuneration" := GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."Risk Allowance" := 0.08 * GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."LFA Allowance" := (GradeWiseAttributes."Total Basic Salary" / 12);
+
+                        GradeWiseAttributes."Employee Maintenence Allowance" := SalaryLevel."Employee Maintenence Allowance";
+                        GradeWiseAttributes."Transportation Allowance" := SalaryLevel."Transportation Allowance";
+                        GradeWiseAttributes."Vehicle Maintenence Allowance" := SalaryLevel."Vehicle Maintenence Allowance";
 
                         OnCreateAllCombinationOnbeforeInsert(GradeWiseAttributes, SalaryLevel, SalaryGrades);
                         if not GradeWiseAttributes.Insert then;

@@ -11873,6 +11873,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Level Wise Attributes - Field Dashain Remuneration - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3400942707 - Field 2330526805 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Maintenence Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Level Wise Attributes - Field Employee Maintenence Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3400942707 - Field 3608448648 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Facilitator Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11967,6 +11972,16 @@
           <source>Total Income Inc. Grade</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Level Wise Attributes - Field Total Income Inc. Grade - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3400942707 - Field 3808709378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transportation Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Level Wise Attributes - Field Transportation Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3400942707 - Field 1091410955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Vehicle Maintenence Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Level Wise Attributes - Field Vehicle Maintenence Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 677525622 - Field 629845928 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Account ID</source>
@@ -13137,16 +13152,6 @@
           <source>Activity Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Activity Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2858165342 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Amount</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Amount - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2858165342 - Field 691915965 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Amount Per</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Amount Per - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2858165342 - Field 930293571 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Apply Every Month</source>
@@ -19568,6 +19573,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Description - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 2330526805 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Maintenence Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Employee Maintenence Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1640361694 - Field 2982956603 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Extra Mileage Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19723,6 +19733,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field TA OT Basic Salary - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 3808709378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transportation Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Transportation Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1640361694 - Field 1087166958 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Travel With Not Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19742,6 +19757,11 @@
           <source>Vehicle Loan Limit</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Vehicle Loan Limit - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 1091410955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Vehicle Maintenence Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Vehicle Maintenence Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1640361694 - Field 4187866956 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Year End Encashment</source>
@@ -21952,31 +21972,6 @@
           <source>&lt;br&gt;The allowance assignment from %1 Branch/Extension Counter for the week %2 of month %3 has not been recorded till date.&lt;br&gt;Request you to assign it till EOD.&lt;br&gt;</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType AllowanceBodyText</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send transfer request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ConfirmTransfer</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of leave days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ErrorNoOfDays</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2473777273" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Transfer request approval has been sent.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType TransferSent</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Recommender Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoRecommender</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2636930096" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Approver Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoApprover</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2714638956 - NamedType 3878926381" size-unit="char" translate="yes" xml:space="preserve">
           <source>%1 Potential Candidate has been selected as shortlisted candidates.</source>
@@ -37088,6 +37083,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Control Communication Reim. Allowence - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3400942707 - Control 2330526805 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Maintenence Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Control Employee Maintenence Allowance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3400942707 - Control 3608448648 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Facilitator Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37167,6 +37167,16 @@
           <source>Specifies the value of the Total Income Inc. Grade field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Control Total Income Inc. Grade - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3400942707 - Control 3808709378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transportation Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Control Transportation Allowance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3400942707 - Control 1091410955 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vehicle Maintenence Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Control Vehicle Maintenence Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3400942707 - Action 1929393835 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>F&amp;unctions</source>
@@ -38628,16 +38638,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Activity Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2858165342 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Amount field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Amount - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2858165342 - Control 691915965 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Amount Per field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Amount Per - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2858165342 - Control 930293571 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Apply Every Month field. If checkd amount will be forcasted</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39238,6 +39238,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control BM Functional Title - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1705211187 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bulk Cash Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Bulk Cash Allowance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 2441856516 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Communication Reimbursement field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39552,6 +39557,16 @@
           <source>Base Teaching Hours (facilitator Allowance)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Base Teaching Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3610878843 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bulk Cash Transfer Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control bulk Cash Amt - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3610878843 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bulk Cash Transfer Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control bulk Cash Amt - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 66990099 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Cash Risk Percent field.</source>
@@ -46703,6 +46718,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Description - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 2330526805 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Maintenence Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Employee Maintenence Allowance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3544505483 - Control 2982956603 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Extra Mileage Eligible field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46863,6 +46883,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control TA OT Basic Salary - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 3808709378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transportation Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Transportation Allowance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3544505483 - Control 1087166958 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Travel With Not Eligible field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46882,6 +46907,11 @@
           <source>Specifies the value of the Vehicle Loan Limit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Vehicle Loan Limit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 1091410955 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vehicle Maintenence Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Vehicle Maintenence Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3544505483 - Control 4187866956 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Year End Encashment field.</source>

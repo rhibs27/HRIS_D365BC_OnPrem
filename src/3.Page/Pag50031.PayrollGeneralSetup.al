@@ -158,6 +158,10 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Friday OT End Time field.';
                     ApplicationArea = All;
                 }
+                field("Use Allowance Configuration"; Rec."Use Allowance Configuration")
+                {
+                    ToolTip = 'Specifies the value of the Use Allowance Configuration field.', Comment = '%';
+                }
             }
             group("Posting Group")
             {

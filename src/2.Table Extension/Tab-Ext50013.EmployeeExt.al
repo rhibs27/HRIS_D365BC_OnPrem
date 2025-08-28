@@ -1827,8 +1827,13 @@ tableextension 50013 "Employee Ext" extends Employee
         DefaultDimension2: Record "Default Dimension";
         DimensionValue: Record "Dimension Value";
     begin
-        if (DeputationOn = DeputationOn::" ") or (DeputationCode = '') then
+        if (DeputationOn = DeputationOn::" ") then
             exit;
+
+        if DeputationCode = '' then begin
+            ClearDimensionValue(DeputationOn);
+            exit;
+        end;
 
         OrgStructureList.SetRange(Type, DeputationOn);
         OrgStructureList.SetRange(Code, DeputationCode);
@@ -1879,5 +1884,26 @@ tableextension 50013 "Employee Ext" extends Employee
         UpdateDimensionBasedOnDeputation("Deputation on"::Department, "Department Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::Unit, "Unit Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::"Sub-Unit", "Sub Unit Code");
+    end;
+
+    procedure ClearDimensionValue(DeputationOn: Enum "Deputation Type")
+    var
+        Dimension: Record Dimension;
+        DefaultDimension: Record "Default Dimension";
+    begin
+        if DeputationOn = DeputationOn::" " then
+            exit;
+
+        Dimension.SetRange("Deputation On Type", DeputationOn);
+        if not Dimension.FindFirst() then
+            exit;
+
+        DefaultDimension.SetRange("Table ID", Database::Employee);
+        DefaultDimension.SetRange("No.", "No.");
+        DefaultDimension.SetRange("Dimension Code", Dimension.Code);
+        if DefaultDimension.FindFirst() then begin
+            DefaultDimension."Dimension Value Code" := '';
+            DefaultDimension.Modify();
+        end;
     end;
 }

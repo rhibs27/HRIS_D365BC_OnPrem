@@ -62,6 +62,18 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the Allowance field.';
                     ApplicationArea = All;
                 }
+                field("Employee Maintenence Allowance"; Rec."Employee Maintenence Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Employee Maintenence Allowance field.', Comment = '%';
+                }
+                field("Transportation Allowance"; Rec."Transportation Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Transportation Allowance field.', Comment = '%';
+                }
+                field("Vehicle Maintenence Allowance"; Rec."Vehicle Maintenence Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Maintenence Allowance field.', Comment = '%';
+                }
                 field("LFA Amount"; Rec."Leave Fare Allowance")
                 {
                     ToolTip = 'Specifies the value of the Leave Fare Allowance field.';

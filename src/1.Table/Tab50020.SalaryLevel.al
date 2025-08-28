@@ -105,6 +105,18 @@ table 50020 "Salary Level"
         {
             //specify how many grade;
         }
+        field(51; "Employee Maintenence Allowance"; Decimal)
+        {
+
+        }
+        field(52; "Transportation Allowance"; Decimal)
+        {
+
+        }
+        field(53; "Vehicle Maintenence Allowance"; Decimal)
+        {
+
+        }
 
     }
 
