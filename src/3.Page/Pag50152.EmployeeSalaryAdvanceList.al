@@ -228,7 +228,7 @@ page 50152 "Employee Salary Advance List"
                     Rec.FilterGroup(2);
                     ClearAll();
                     Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
-                    //SETRANGE(Recommender, HRMgt.GetEmployeeNo());
+                    //SetRange(Recommender, HRMgt.GetEmployeeNo());
                     Rec.FilterGroup(0);
                 end;
             }
@@ -246,7 +246,7 @@ page 50152 "Employee Salary Advance List"
                     // Rec.FilterGroup(2);
                     // ClearAll();
                     // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-                    // //SETRANGE(Approver, HRMgt.GetEmployeeNo());
+                    // //SetRange(Approver, HRMgt.GetEmployeeNo());
                     // Rec.FilterGroup(0);
                 end;
             }

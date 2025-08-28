@@ -162,7 +162,7 @@ page 50044 "Posted Payroll Plan List"
 
                 trigger OnAction()
                 begin
-                    //PostedPayrollHdr.RESET;
+                    //PostedPayrollHdr.Reset();
                     PostedPayrollHdr.Copy(Rec);
                     CurrPage.SetSelectionFilter(PostedPayrollHdr);
                     if PostedPayrollHdr.FindFirst then
@@ -184,7 +184,7 @@ page 50044 "Posted Payroll Plan List"
 
                 trigger OnAction()
                 begin
-                    //PostedPayrollHdr.RESET;
+                    //PostedPayrollHdr.Reset();
                     PostedPayrollHdr.Copy(Rec);
                     CurrPage.SetSelectionFilter(PostedPayrollHdr);
                     if PostedPayrollHdr.FindFirst then
@@ -206,7 +206,7 @@ page 50044 "Posted Payroll Plan List"
 
                 trigger OnAction()
                 begin
-                    //PostedPayrollHdr.RESET;
+                    //PostedPayrollHdr.Reset();
                     PostedPayrollHdr.Copy(Rec);
                     CurrPage.SetSelectionFilter(PostedPayrollHdr);
                     if PostedPayrollHdr.FindFirst then

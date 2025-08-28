@@ -15,9 +15,9 @@ report 50120 FiscalYearEndLeave
                 trigger OnAfterGetRecord()
                 begin
                     Clear(AbsentDays);
-                    //IF NOT (Employee."Employment Type" = Employee."Employment Type"::Permanent) THEN BEGIN
+                    //IF NOT (Employee."Employment Type" = Employee."Employment Type"::Permanent) THEN begin
                     //ValidateForNonPermanentEmployee();
-                    //END;
+                    //end;
                     if Employee."Employment Type" = Employee."Employment Type"::Permanent then begin
                         ValidateEmployeeLeave();
                         //  BalanceYearLeavePermanentEmployee();
@@ -84,7 +84,7 @@ report 50120 FiscalYearEndLeave
         LeaveTypeSetup.SetRange("Skip Balance Check", false);
         LeaveTypeSetup.SetFilter("Leave Category", '<>%1', LeaveTypeSetup."Leave Category"::Substitute);
         LeaveTypeSetup.SetRange("Needed HR Permission", false);
-        //LeaveTypeSetup.SETRANGE("Employee No. Filter",Employee."No.");
+        //LeaveTypeSetup.SetRange("Employee No. Filter",Employee."No.");
         if LeaveTypeSetup.FindFirst then
             repeat
                 leavetypeSetup2.Reset;
@@ -101,7 +101,7 @@ report 50120 FiscalYearEndLeave
                 if leavetypeSetup2."Remaining Days" >= AbsentDays then begin
                     LeaveEarn.Validate("Balancing Days", -AbsentDays);
                     exit;
-                    //ELSE IF leavetypeSetup2."Remaining Days" < 0 THEN BEGIN
+                    //ELSE IF leavetypeSetup2."Remaining Days" < 0 THEN begin
                     //break;
                 end else begin
                     if leavetypeSetup2."Remaining Days" <= 0 then
@@ -136,7 +136,7 @@ report 50120 FiscalYearEndLeave
         LeavetypSetup.SetFilter(Gender, '%1|%2', Employee.Gender, LeavetypSetup.Gender::" ");
         LeavetypSetup.SetFilter("Marital Status", '%1', Employee."Marital Status");
         // LeavetypSetup.SetRange(Compensatory, false);
-        //LeavetypSetup.SETRANGE("Needed HR Permission",FALSE);
+        //LeavetypSetup.SetRange("Needed HR Permission",FALSE);
         LeavetypSetup.SetRange("Skip Balance Check", false);
         LeavetypSetup.SetRange("AML Eligible", true);
         if LeavetypSetup.Find('-') then
@@ -194,7 +194,7 @@ report 50120 FiscalYearEndLeave
     //     LeaveTypeSetup.SetRange("Skip Balance Check", false);
     //     LeaveTypeSetup.SetRange(Compensatory, false);
     //     LeaveTypeSetup.SetRange("Needed HR Permission", false);
-    //     //LeaveTypeSetup.SETRANGE("Employee No. Filter",Employee."No.");
+    //     //LeaveTypeSetup.SetRange("Employee No. Filter",Employee."No.");
     //     if LeaveTypeSetup.FindFirst then
     //         repeat
     //             leavetypeSetup2.Reset;

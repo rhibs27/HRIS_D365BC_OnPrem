@@ -219,55 +219,55 @@ page 50222 "Transfer Journal"
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
 
-    LOCAL PROCEDURE SetFieldEnable();
-    BEGIN
+    local procedure SetFieldEnable();
+    begin
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else
             ApprovalStatusView := true;
         CASE Rec."Deputation on (To)" OF
             Rec."Deputation on (To)"::Branch:
-                BEGIN
+                begin
                     ProvinceEdit := false;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                END;
+                end;
             Rec."Deputation on (To)"::Province:
-                BEGIN
+                begin
                     ProvinceEdit := true;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                END;
+                end;
             Rec."Deputation on (To)"::Department:
-                BEGIN
+                begin
                     ProvinceEdit := false;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
-                END;
+                end;
             Rec."Deputation on (To)"::Unit:
-                BEGIN
+                begin
                     ProvinceEdit := false;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
-                END;
+                end;
             Rec."Deputation on (To)"::"Extension Counter":
-                BEGIN
+                begin
                     ProvinceEdit := false;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                END;
-        END;
-    END;
+                end;
+        end;
+    end;
 
     procedure SetLayout()
     begin

@@ -686,7 +686,7 @@ page 50160 "Employee Home Loan Card"
     trigger OnAfterGetRecord()
     begin
         SetLayout();
-        LoanMgt.CalculateFields(Rec); //Min
+        LoanMgt.CalculateFields(Rec);
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean

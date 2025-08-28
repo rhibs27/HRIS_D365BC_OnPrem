@@ -22,7 +22,7 @@ table 50062 "KRA Subform List"
         {
             trigger OnValidate()
             begin
-                CalcReviewerFinalScore; //Min
+                CalcReviewerFinalScore;
             end;
         }
         field(10; "Reviewers Remarks"; Text[250]) { }
@@ -30,7 +30,7 @@ table 50062 "KRA Subform List"
         {
             trigger OnValidate()
             begin
-                CalcCheckReviewFinalScore; //Min
+                CalcCheckReviewFinalScore;
             end;
         }
         field(12; "Check Reviewers Remarks"; Text[250]) { }
@@ -50,21 +50,21 @@ table 50062 "KRA Subform List"
 
     trigger OnDelete()
     begin
-        /*AppraisalForm.RESET;
+        /*AppraisalForm.Reset();
         IF AppraisalForm.GET("Employee Code","Fiscal Year","KPI Quater") THEN
           IF AppraisalForm.Department THEN
             ERROR('Cannot delete posted documents.');
 
-        KPIActions.RESET;
-        KPIActions.SETRANGE(KPIActions."Employee Code","Employee Code");
-        KPIActions.SETRANGE(KPIActions."Fiscal Year","Fiscal Year");
-        KPIActions.SETRANGE(KPIActions."KPI Quater","KPI Quater");
-        KPIActions.SETRANGE(KPIActions."Line No.","Line No.");
+        KPIActions.Reset();
+        KPIActions.SetRange(KPIActions."Employee Code","Employee Code");
+        KPIActions.SetRange(KPIActions."Fiscal Year","Fiscal Year");
+        KPIActions.SetRange(KPIActions."KPI Quater","KPI Quater");
+        KPIActions.SetRange(KPIActions."Line No.","Line No.");
         IF KPIActions.FINDSET THEN
           KPIActions.DELETEALL;
-        QASubjective.RESET;
-        QASubjective.SETRANGE("Employee No.","Employee Code");
-        QASubjective.SETRANGE("KPI No.","KPI No.");
+        QASubjective.Reset();
+        QASubjective.SetRange("Employee No.","Employee Code");
+        QASubjective.SetRange("KPI No.","KPI No.");
         QASubjective.MODIFYALL(Answers,'');
         */
     end;
@@ -72,8 +72,8 @@ table 50062 "KRA Subform List"
     trigger OnInsert()
     begin
         //GetKPINo;
-        CalcCheckReviewFinalScore; //Min
-        CalcReviewerFinalScore; //Min
+        CalcCheckReviewFinalScore;
+        CalcReviewerFinalScore;
     end;
 
     trigger OnModify()
@@ -85,7 +85,7 @@ table 50062 "KRA Subform List"
     var
         AppraisalForm: Record Appraisal;
     begin
-        if AppraisalForm.Get("Appraisal Code") then begin //Min
+        if AppraisalForm.Get("Appraisal Code") then begin
             if AppraisalForm.Status = AppraisalForm.Status::Reviewed then
                 "Check Reviewers Final Score" := "Check Reviewers Score" * ("Weightage (%)" / 100);
         end;
@@ -95,7 +95,7 @@ table 50062 "KRA Subform List"
     var
         AppraisalRec: Record Appraisal;
     begin
-        if AppraisalRec.Get("Appraisal Code") then begin //Min
+        if AppraisalRec.Get("Appraisal Code") then begin
             if AppraisalRec.Status = AppraisalRec.Status::Submitted then
                 "Reviewers Final Score" := "Reviewers Score" * ("Weightage (%)" / 100);
         end;

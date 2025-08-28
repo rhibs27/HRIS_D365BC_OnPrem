@@ -66,10 +66,10 @@ table 50089 "Daily Attendance Question"
                 Error('You can only enter 2 questions for the date %1', DailyAttendanceQuestion."Question Date");
         end;
         /*
-        DailyAttendanceQuestion.RESET;
-        DailyAttendanceQuestion.SETRANGE("Question Date","Question Date");
+        DailyAttendanceQuestion.Reset();
+        DailyAttendanceQuestion.SetRange("Question Date","Question Date");
         DailyAttendanceQuestion.SETFILTER("Entry No.",'<>%1',"Entry No.");
-        IF DailyAttendanceQuestion.FINDFIRST THEN
+        IF DailyAttendanceQuestion.FindFirst() THEN
           "Is Punch In Question" := FALSE
         ELSE
           "Is Punch In Question" := TRUE;

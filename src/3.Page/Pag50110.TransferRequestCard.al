@@ -196,6 +196,6 @@ page 50110 "Transfer Request Card"
 
     procedure GetTransferEditibility()
     begin
-        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary"]; //Min 12.09.2022 -- General Option added;
+        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary"];
     end;
 }

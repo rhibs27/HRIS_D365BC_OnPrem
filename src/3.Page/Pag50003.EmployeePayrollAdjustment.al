@@ -1,6 +1,6 @@
 page 50003 "Employee Payroll Adjustment"
 {
-    // //Min 2.15.2022
+
     //   -- Added field "Grade Adjustment Code" and "Officiat Basic Adjustment Code" in "Payroll General Setup" Table
     //   -- Purpose --> Filter add for 10% calculation in "Grade" and "Officiat-Basic" Payroll Attribute code in "Payroll Adjustment".
 
@@ -423,7 +423,7 @@ page 50003 "Employee Payroll Adjustment"
         EmpPayAdj.Reset;
         EmpPayAdj.SetRange("Employee No.", Employee."No.");
         EmpPayAdj.SetRange("Payroll Document No.", PayrollDocNo);
-        EmpPayAdj.SetFilter("Attribute Code", '%1|%2|%3', PGSetup."Basic Adjustment Code", PGSetup."Grade Adjustment Code", PGSetup."Officiat Basic Adjustment Code"); //Min 2.15.2022
+        EmpPayAdj.SetFilter("Attribute Code", '%1|%2|%3', PGSetup."Basic Adjustment Code", PGSetup."Grade Adjustment Code", PGSetup."Officiat Basic Adjustment Code");
         if EmpPayAdj.FindSet then
             repeat
                 AdjustPFAmt := 0.1 * EmpPayAdj.Amount;
@@ -440,7 +440,7 @@ page 50003 "Employee Payroll Adjustment"
         EmpPayAdj.Reset;
         EmpPayAdj.SetRange("Employee No.", Employee."No.");
         EmpPayAdj.SetRange("Payroll Document No.", PayrollDocNo);
-        //EmpPayAdj.SETRANGE("Attribute Code",'');
+        //EmpPayAdj.SetRange("Attribute Code",'');
         if EmpPayAdj.FindFirst then begin
             AdjustPFAmt := EmpPayAdj.Amount;
             AttributeAmt += AdjustPFAmt;

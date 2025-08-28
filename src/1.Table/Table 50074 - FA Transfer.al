@@ -33,11 +33,11 @@
 //             trigger OnValidate()
 //             begin
 //                 /*
-//                 FixedAsset.SETRANGE(FixedAsset."No.","FA No.");
-//                 IF FixedAsset.FINDFIRST THEN BEGIN
+//                 FixedAsset.SetRange(FixedAsset."No.","FA No.");
+//                 IF FixedAsset.FindFirst() THEN begin
 //                    FixedAsset."FA Location Code" := "From Location Code";
 //                    FixedAsset.MODIFY;
-//                 END;
+//                 end;
 //                 */
 //             end;
 //         }

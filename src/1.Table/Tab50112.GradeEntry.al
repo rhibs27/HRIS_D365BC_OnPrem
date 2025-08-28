@@ -16,24 +16,35 @@ table 50112 "Grade Entry"
             end;
         }
         field(3; "Employee Name"; Text[50]) { }
-        field(4; "Old Grade Level"; Code[20])
+
+        field(5; Grade; Code[20])
         {
             TableRelation = "Salary Grade";
         }
-        field(5; "New Grade Level"; Code[20])
-        {
-            TableRelation = "Salary Grade";
-        }
-        field(6; "Old Salary Level"; Code[20])
-        {
-            TableRelation = "Salary Level";
-        }
-        field(7; "New Salary Level"; Code[20])
+        field(7; "Salary Level"; Code[20])
         {
             TableRelation = "Salary Level";
         }
         field(8; "Posting Date"; Date) { }
-        field(9; "Created Date"; Date) { }
+        field(10; "Total Grade Percentage"; Decimal)
+        {
+            Editable = false;
+            Description = 'Default garde + appraisal grade';
+        }
+        field(11; "Default Grade Percentage"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                GetTotalGradepercentage();
+            end;
+        }
+        field(12; "Appraisal Grade Percentage"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                GetTotalGradepercentage();
+            end;
+        }
     }
 
     keys
@@ -61,5 +72,10 @@ table 50112 "Grade Entry"
             "Entry No." := GradeEntry."Entry No." + 1
         else
             "Entry No." := 1;
+    end;
+
+    local procedure GetTotalGradepercentage()
+    begin
+        "Total Grade Percentage" := "Default Grade Percentage" + "Appraisal Grade Percentage";
     end;
 }

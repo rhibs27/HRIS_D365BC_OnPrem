@@ -25,7 +25,6 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate(Remarks, RemarksVar);
                     EmpServiceHis.Insert(true);
                 end;
-            //Min 1.2 -- Added option String "Temporary Deputation","Back From Deputation" and "Officiating Arrangement".
             ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
             ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
             ServiceEvent::"Internal Appointment", ServiceEvent::"Back From Deputation":
@@ -95,7 +94,6 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate(Remarks, RemarksVar);
                     EmpServiceHis.Insert(true);
                 end;
-            //Min 1.2 -- Added option String "Temporary Deputation","Back From Deputation" and "Officiating Arrangement".
             ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
             ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
             ServiceEvent::"Internal Appointment", ServiceEvent::Transfer, ServiceEvent::"Temporary Deputation", ServiceEvent::"Back From Deputation", ServiceEvent::"Officiating Arrangement":
@@ -451,7 +449,7 @@ codeunit 50024 "Service History Mgt"
         Employee."Functional Title" := EmployeeTransferRec."Functional Title (To)";
         if FunctionalTitle.Get(EmployeeTransferRec."Functional Title (To)") then;
         Employee."Functional Title Desc" := FunctionalTitle.Description;
-        Employee."Last Placement Date" := EmployeeTransferRec."Transfer Effective Date"; //Min -- Assign "Transfer Effective Date".
+        Employee."Last Placement Date" := EmployeeTransferRec."Transfer Effective Date";
         Employee.Modify;
     end;
 
@@ -532,14 +530,14 @@ codeunit 50024 "Service History Mgt"
                 EmpVar.Validate("Department Code", EmpHrTransfer.Department);
         end;
         EmpVar.Modify;
-        /*IF ServiceHistory.GET(ServiceCode) THEN BEGIN
+        /*IF ServiceHistory.GET(ServiceCode) THEN begin
           ServiceHistory.VALIDATE("Functional Title (To)",EmpVar."Functional Title");
           ServiceHistory.VALIDATE("Salary Level (To)",EmpVar."Salary Level");
           ServiceHistory.VALIDATE("Deputation On (To)",EmpVar."Deputation on");
           ServiceHistory.VALIDATE("Deputation Code (To)",ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)",ServiceHistory."Employee No."));
           ServiceHistory.VALIDATE("Deputation Value (To)",ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)",ServiceHistory."Employee No."));
           ServiceHistory.MODIFY;
-        END;*/
+        end;*/
 
     end;
 
@@ -553,7 +551,7 @@ codeunit 50024 "Service History Mgt"
     begin
         /*IF "Approver Code" <> GetEmployeeNo THEN
   ERROR('You are not eligible to approved this document');*/
-        /*TESTFIELD("Approval Status","Approval Status"::Screened);
+        /*TestField("Approval Status","Approval Status"::Screened);
         VALIDATE("Approval Status", "Approval Status"::Approved);
         VALIDATE("Approved Date",TODAY);*/
         if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::"Temporary" then

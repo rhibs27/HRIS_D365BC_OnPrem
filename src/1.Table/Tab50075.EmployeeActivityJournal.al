@@ -360,7 +360,7 @@ table 50075 "Employee Activity Journal"
         {
             trigger OnValidate()
             begin
-                if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin //Min >>
+                if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
                     "Department Code (To)" := Department;
@@ -374,7 +374,7 @@ table 50075 "Employee Activity Journal"
                 end;
                 if "Transfer Type" = "Transfer Type"::"Cross Transfer" then
                     "Deputation On (To)" := "Deputation On (To)"::" ";
-                //Min >>
+
             end;
         }
         field(53; "Shortcut Dimension 1 Code (To)"; Code[20])

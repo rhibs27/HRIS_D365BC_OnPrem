@@ -1,7 +1,5 @@
 report 50122 "Payroll voucher"
 {
-    // //Min -- Narration expression removed from "Narration" column in Layout.
-    // //Abhiral 01.25.2023  -- To Split "Leave Encash, Gratuity Encash and Provident Fund" GL wise in Layout.
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019923.Payrollvoucher.rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -71,8 +69,7 @@ report 50122 "Payroll voucher"
                         else
                             BankAccount := "Bank Account No.";
 
-                        //NarrrationName := "Posted Payroll Line"."Employee Name" +STRSUBSTNO('(%1)',"Posted Payroll Line"."Employee No.")+ ' Payable.'; //Min -- Commented
-                        NarrrationName := 'Salary ' + StrSubstNo('%1 ,%2 ,%3', "Posted Payroll Header"."Nepali Year", "Posted Payroll Header"."Nepali Month", "Posted Payroll Line"."Employee No."); //Min -- Added
+                        NarrrationName := 'Salary ' + StrSubstNo('%1 ,%2 ,%3', "Posted Payroll Header"."Nepali Year", "Posted Payroll Header"."Nepali Month", "Posted Payroll Line"."Employee No.");
                     end;
                 }
                 dataitem(TempDetailedEmpLedgerEntry; "Detailed Employee Ledger Entry")

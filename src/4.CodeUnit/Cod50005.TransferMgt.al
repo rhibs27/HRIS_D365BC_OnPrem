@@ -86,7 +86,7 @@ codeunit 50005 "Transfer Mgt."
         Employee.Get(HRMgt.GetEmployeeNo());
         if HRSetup."HR Department Code" <> Employee."Department Code" then
             Error('Only Employee from HR department can confirm transfer Details');
-        if Today > EmpHrTransfer."Transfer Effective Date" then //Min 8.7.2022 + 1
+        if Today > EmpHrTransfer."Transfer Effective Date" then
             Error(TransferError, EmpHrTransfer."Transfer Effective Date", Today);
         EmpHrTransfer.TestField("Transfer Category");
         EmpHrTransfer.TestField("Transfer Effective Date");
@@ -98,7 +98,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Reason for Transfer");
         EmpHrTransfer.TestField("Incoming Supervisior");
         EmpHrTransfer.TestField("Outgoing Branch Rep. Person");
-        // EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); 
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
@@ -143,7 +143,7 @@ codeunit 50005 "Transfer Mgt."
         TransferPageBuilder.ADdField('Transfer Document', EmpTransfer."Reason For Hold");
         if TransferPageBuilder.RunModal then begin
             EmpTransfer.SetView(TransferPageBuilder.GetView('Transfer Document'));
-            //IF EmpActivity.FINDFIRST THEN;
+            //IF EmpActivity.FindFirst() THEN;
             Evaluate(GetHoldDate, EmpTransfer.GetFilter("On Hold Date"));
             Evaluate(TransferEffectiveDate, EmpTransfer.GetFilter("Transfer Effective Date"));
             if (GetHoldDate = 0D) and (TransferEffectiveDate = 0D) then
@@ -294,7 +294,7 @@ codeunit 50005 "Transfer Mgt."
         HRSetup.TestField("Outstation Dist. Criteria (T)");
         LevelWiseAttribute.Get(Employee."Salary Grade", Employee."Salary Level");
 
-        // TESTFIELD("Outstation Distance");
+        // TestField("Outstation Distance");
         if Employee."Posting Region" = Employee."Posting Region"::Hilly then begin
             if outStationDistance >= HRSetup."Outstation Dist. Criteria (H)" then
                 exit(LevelWiseAttribute."Total Basic Salary" * 25 / 100);
@@ -329,7 +329,7 @@ codeunit 50005 "Transfer Mgt."
         HRSetup.TestField("BMAF Dist. Criteria (T)");
         if RemoteArea.Get(OrganizationStructureList."Remote Area Category") then begin
             if OrganizationStructureList."InsideOutside Valley" = OrganizationStructureList."InsideOutside Valley"::Outside then begin
-                //  TESTFIELD("BMAF Distance");
+                //  TestField("BMAF Distance");
                 if OrganizationStructureList."Region" = OrganizationStructureList."Region"::Hilly then begin
                     if BMAFDistance >= HRSetup."BMAF Dist. Criteria (H)" then
                         exit(RemoteArea."BM Accomodation Amount");

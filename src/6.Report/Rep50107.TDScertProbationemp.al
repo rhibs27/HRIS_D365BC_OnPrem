@@ -49,7 +49,7 @@ report 50107 "TDS cert Probation emp"
                 Amount := 0;
                 PostedPayrollLine.Reset;
                 PostedPayrollLine.SetRange("Employee No.", Employee."No.");
-                //PostedPayrollLine.SETRANGE("Grade Code",Employee."Salary Grade");
+                //PostedPayrollLine.SetRange("Grade Code",Employee."Salary Grade");
                 PostedPayrollLine.SetRange(Reversed, false);
                 PostedPayrollLine.SetRange("Posting Date", FromDate, ToDate);
                 if PostedPayrollLine.FindFirst then

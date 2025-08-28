@@ -31,8 +31,8 @@ table 50069 "Training Header"
                     Clear("Training Hours");
                     Clear("Start Time");
                     Clear("No. of Days");
-                    //TrainingLine.RESET;
-                    //TrainingLine.SETRANGE("Training No.","No.");
+                    //TrainingLine.Reset();
+                    //TrainingLine.SetRange("Training No.","No.");
                     //TrainingLine.MODIFYALL("Training Start Date","Start Date");
                 end;
             end;
@@ -48,8 +48,8 @@ table 50069 "Training Header"
                     if ("End Date" <> 0D) then begin
                         TestField("Start Date");
                         Validate("No. of Days", leaveMgt.CalculateNoOfDays("Start Date", "End Date", '', 0, 0, ''));
-                        //TrainingLine.RESET;
-                        //TrainingLine.SETRANGE("Training No.","No.");
+                        //TrainingLine.Reset();
+                        //TrainingLine.SetRange("Training No.","No.");
                         //TrainingLine.MODIFYALL("Training End Date","End Date");
                     end;
                 end;

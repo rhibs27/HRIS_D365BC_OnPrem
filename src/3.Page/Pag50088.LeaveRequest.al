@@ -240,7 +240,7 @@ page 50088 "Leave Request"
         TempIncomingDoc.Reset;
         TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
         TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-        TempIncomingDoc.SETRANGE("Leave Type Code", LeaveType.Code);
+        TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
             repeat
@@ -253,7 +253,7 @@ page 50088 "Leave Request"
             if Rec."No. of Days" < LeaveType."No. of Days for Attachment" then
                 exit;
         IF LeaveType."Leave Category" in [LeaveType."Leave Category"::"Bereavement Leave", LeaveType."leave category"::"Maternity Leave",
-                               LeaveType."leave category"::"Paternity Leave", LeaveType."leave category"::"Sick Leave"] THEN BEGIN
+                               LeaveType."leave category"::"Paternity Leave", LeaveType."leave category"::"Sick Leave"] THEN begin
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
             AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
@@ -270,6 +270,6 @@ page 50088 "Leave Request"
                     TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
                     TempIncomingDoc.Insert(true);
                 until AttachmentSetup.Next = 0;
-        END;
+        end;
     end;
 }

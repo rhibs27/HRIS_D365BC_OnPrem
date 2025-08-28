@@ -1,6 +1,6 @@
 page 50094 "HR Transfer Requests"
 {
-    // //Min -- Added field of "Shortcut Dimension 1 Code (To)".
+
 
     CardPageId = "Transfer Card";
     DeleteAllowed = false;

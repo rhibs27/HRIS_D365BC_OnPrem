@@ -42,11 +42,11 @@ report 50005 "Generate Can Schedule"
                         end;
 
                     /*
-                      IF (VarTime>=InterviewEndTime) AND Breaking THEN BEGIN
+                      IF (VarTime>=InterviewEndTime) AND Breaking THEN begin
                         VarTime := InterviewStartTime;
                         VarDate := VarDate +1;
                         Breaking := FALSE;
-                      END;*/
+                      end;*/
                 end;
             end;
         }
