@@ -53393,13 +53393,38 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 3012955398 - NamedType 3181639616" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee %1 not found.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - NamedType EmployeeNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - NamedType 548060440" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Yearly projection report is for current year only.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - NamedType FiscalYearMismatchErr</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - NamedType 4179241738" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Invalid parameters specified.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - NamedType InvalidParametersErr</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - NamedType 3024488025" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Please specify a pay cycle term.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - NamedType PayCycleTermMissingErr</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - Control 684242166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Parameters</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Parameters - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 3012955398 - Control 665443949 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the EmployeeFilter field.</source>
+          <source>Specifies the employee for the projection.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Employee No - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 3012955398 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the PayCycleTerm field.</source>
+          <source>Specifies the pay cycle term for the projection.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>

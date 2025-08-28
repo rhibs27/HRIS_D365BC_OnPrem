@@ -514,6 +514,7 @@ table 50026 "Payroll Header"
                     PayrollLine."Net Pay" := 0;
                     PayrollLine."1% Slab" := 0;
                     PayrollLine."10% Slab" := 0;
+                    PayrollLine."20% Slab" := 0;
                     PayrollLine."30% Slab" := 0;
                     PayrollLine."36% Slab" := 0;
                     PayrollLine."39% Slab" := 0;
@@ -583,7 +584,7 @@ table 50026 "Payroll Header"
                 Employee.SetFilter("Contract Expiry Date", '>%1', PGSetup."Payroll Fiscal Year Start Date");
         end else begin
             Employee.SetRange(Status, Employee.Status::Active);
-            Employee.SetFilter("Resignation Date", '0D|>%1', "To Date");
+            Employee.SetFilter("Resignation Date", '%1|>%2', 0D, "To Date");
         end;
         if Type = Type::Resignation then
             Employee.SetRange("Resignation Date", "From Date", "To Date");
