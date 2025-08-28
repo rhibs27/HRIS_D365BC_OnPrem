@@ -14,6 +14,10 @@ table 50043 "Attendance Line"
         field(2; "Attendance Date"; Date)
         {
             Editable = false;
+            trigger OnValidate()
+            begin
+                "Attendance Date (B.S)" := HRMgt.GetNepaliDate("Attendance Date");
+            end;
         }
         field(3; "Check In Time"; Time)
         {
@@ -135,6 +139,7 @@ table 50043 "Attendance Line"
         field(26; Remarks; Text[100])
         {
         }
+        field(30; "Attendance Date (B.S)"; Text[20]) { }
 
         field(43; "Punch Out Reviewer"; Code[20])
         {
@@ -298,6 +303,7 @@ table 50043 "Attendance Line"
     var
         EmployeeWorkShift: Record "Employee Work Shift";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        HRMgt: Codeunit "HR Mgt.";
 
     local procedure ValidateDays()
     begin

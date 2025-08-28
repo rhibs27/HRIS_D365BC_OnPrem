@@ -96,7 +96,7 @@ report 50139 "Daily Attendance Update"
     var
         AttendanceSetup: Record "Attendance Setup";
         NoSeries: Codeunit "No. Series";
-        DocNo, EmployeeNo : Code[20];
+        DocNo, EmployeeNo : Code[250];
         InitialDate: Date;
         AttendanceLine: Record "Attendance Line";
         AttendanceLog: Record "Attendance Log";

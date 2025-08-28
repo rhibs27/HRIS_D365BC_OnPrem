@@ -6,7 +6,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             DataClassification = ToBeClassified;
         }
-        field(50001; "Province Filter"; Text[250])
+        field(50001; "Province Filter"; Text[500])
         {
             DataClassification = ToBeClassified;
             trigger OnLookup()
@@ -28,7 +28,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             DataClassification = ToBeClassified;
 
         }
-        field(50005; "Branch Code"; Code[250])
+        field(50005; "Branch Code"; Text[500])
         {
             DataClassification = ToBeClassified;
             trigger OnLookup()
@@ -46,7 +46,22 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         }
         field(50008; Disabled; Boolean)
         {
-
+        }
+        field(50009; "District"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate(District, HRMgt.LookupMultipleDistrict());
+            end;
+        }
+        field(50010; "Municipality"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate(Municipality, HRMgt.LookupMultipleMunicipality());
+            end;
         }
     }
 

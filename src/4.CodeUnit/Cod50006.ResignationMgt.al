@@ -84,7 +84,7 @@ codeunit 50006 "Resignation Mgt"
         //HrMgt.InsertAttachmentLines(Resignation."No.", Format(Resignation.Type), Resignation."Employee No.");//attachment
         // InsertResignationApprover(Resignation); //resignation approver
 
-        HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, '', Resignation."Employee No.", Resignation."No.", 0);   //For email
+        HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.");   //For email
         // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::Pending) then
         //     HrMgt.ResignationEmailSend(Resignation."Employee No."); //Min 4.28.2022
         Message(ApprovalRequestSent);
