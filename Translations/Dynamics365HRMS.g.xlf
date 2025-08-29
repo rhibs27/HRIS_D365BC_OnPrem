@@ -7878,6 +7878,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Payroll Opening - Field Line No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3104243789 - Field 3262523900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Opening LWP Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Payroll Opening - Field Opening LWP Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3104243789 - Field 2612139595 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Benefit Opening</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21773,31 +21778,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType AllowanceBodyText</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send transfer request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ConfirmTransfer</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of leave days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType ErrorNoOfDays</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2473777273" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Transfer request approval has been sent.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType TransferSent</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Recommender Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoRecommender</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 2636930096" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Approver Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendTransferSubmitBy - NamedType NoApprover</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2714638956 - NamedType 3878926381" size-unit="char" translate="yes" xml:space="preserve">
           <source>%1 Potential Candidate has been selected as shortlisted candidates.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29592,6 +29572,11 @@
           <source>Specifies the value of the Fiscal Year field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Opening - Control Fiscal Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3104243789 - Control 3262523900 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Opening LWP Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Opening - Control Opening LWP Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3104243789 - Control 2612139595 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Benefit Opening field.</source>
