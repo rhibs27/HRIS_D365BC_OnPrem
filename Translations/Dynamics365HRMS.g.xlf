@@ -25153,11 +25153,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 660151898 - Control 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>General</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control General - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 660151898 - Control 415504711 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Id field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -25182,6 +25177,11 @@
           <source>Specifies the value of the Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 660151898 - Control 3759796231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SN field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Devices ListPart - Control SN - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3451109898 - Control 1407850916 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Type field.</source>

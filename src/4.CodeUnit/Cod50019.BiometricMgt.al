@@ -25,95 +25,65 @@ codeunit 50019 "Biometric Mgt."
     procedure SyncAttendance(fromDate: Date; toDate: Date; DeviceId: Integer)
     var
         Client: HttpClient;
-        ResponseMessage: HttpResponseMessage;
-        ResponseString: Text;
-        header: HttpHeaders;
-        Jtoken: JsonToken;
-        FromDateText: Text;
-        TodateText: Text;
+        Response: HttpResponseMessage;
+        Request: HttpRequestMessage;
+        Headers: HttpHeaders;
+        Username, Password, AuthHeader, APIUrl, JsonText : Text;
+        Content: HttpContent;
+        JsonObj, AttendanceObject : JsonObject;
+        JsonToken: JsonToken;
+        JsonArray: JsonArray;
     begin
-        FromDateText := Format(fromDate, 10, 9);
-        TodateText := Format(toDate, 10, 9);
         AttendanceSetup.Get();
-        header := Client.DefaultRequestHeaders;
-        Client.Get(StrSubstNo('%1GetAttendanceLog?fromDate=%2&toDate=%3&DeviceSN=%4', AttendanceSetup."Base URL", FromDateText, TodateText, DeviceId), ResponseMessage);
 
-        if not ResponseMessage.IsSuccessStatusCode() then
-            Error('The web service returned an error message:\\' +
-                  'Status code: ' + Format(ResponseMessage.HttpStatusCode()) +
-                  'Description: ' + ResponseMessage.ReasonPhrase());
+        APIUrl := AttendanceSetup."Base URL" + 'GetAttendanceLogs';
+        Username := AttendanceSetup."User Name";
+        Password := AttendanceSetup.Password;
+        AuthHeader := 'Basic ' + EncodeBase64(Username + ':' + Password);
 
-        ResponseMessage.Content().ReadAs(ResponseString);
-        if not Jtoken.ReadFrom(ResponseString) then
-            Error('Invalid JSON document.');
+        Request.Method := 'GET';
+        Request.SetRequestUri(APIUrl);
+        Request.GetHeaders(Headers);
+        Headers.Add('Authorization', AuthHeader);
+        Headers.Add('Accept', 'application/json');
 
-        if not Jtoken.IsObject() then
-            Error('Expected a JSON object.');
-        DownloadAttendanceData(ResponseString);
+        if not Client.Send(Request, Response) then
+            Error('Failed to send HTTP request.');
+
+        if not Response.IsSuccessStatusCode() then
+            Error('Request failed: %1 - %2', Response.HttpStatusCode(), Response.ReasonPhrase());
+
+        Content := Response.Content();
+        Content.ReadAs(JsonText);
+
+        if not JsonArray.ReadFrom(JsonText) then
+            Error('Failed to parse JSON array.');
+
+        foreach JsonToken in JsonArray do begin
+            if JsonToken.IsObject() then begin
+                AttendanceObject := JsonToken.AsObject();
+                DownloadAttendanceData(AttendanceObject);
+            end
+        end;
     end;
 
-    procedure DownloadAttendanceData(JsonText: Text)
+    procedure DownloadAttendanceData(AttendanceObject: JsonObject)
     var
-        json_array: JsonArray;
-        json_object: JsonObject;
-
         json_value: JsonValue;
-        i: Integer;
-        AttenLog: Record "Attendance Log";
-        json_Token: JsonToken;
-        DTVar: DateTime;
-        DateText: text;
-        TimeText: text;
-
-        year: text;
-        Month: text;
-        day: text;
-
+        AttendanceLog: Record "Attendance Log";
     begin
-        if json_Token.ReadFrom(JsonText) then begin
-            if json_Token.IsObject then begin
-                json_object := json_Token.AsObject();
-
-                if json_object.Get('Data', json_Token) then begin
-                    if json_Token.IsArray then begin
-                        json_array := json_Token.AsArray();
-                        for i := 0 to json_array.Count - 1 do begin
-
-                            json_array.Get(i, json_Token);
-                            json_object := json_Token.AsObject();
-
-                            Clear(AttenLog);
-                            DTVar := 0DT;
-                            AttenLog.Init();
-                            if GetJsonValue(json_object, 'CheckTime', json_value) then begin
-                                Evaluate(AttenLog."Log Time", json_value.AsText());
-
-                                DateText := json_value.AsText().Substring(1, 10);
-                                year := DateText.Substring(1, 4);
-                                Month := DateText.Substring(6, 2);
-                                day := DateText.Substring(9, 2);
-                                DateText := year + '-' + Month + '-' + day;
-                                TimeText := json_value.AsText().Substring(12, 10);
-                                Evaluate(AttenLog.Date, DateText);
-                                Evaluate(AttenLog."Log Time", TimeText);
-                            end;
-                            if AttenLog.Insert() then;
-                        end;
-                    end;
-                end;
-            end;
-        end
-        else
-            Error('could not read response from json token');
+        AttendanceLog.Init();
+        if GetJsonValue(AttendanceObject, 'enrollNumber', json_value) then
+            AttendanceLog.Validate("Machine Emp. Code", json_value.AsText());
+        if GetJsonValue(AttendanceObject, 'inputDate', json_value) then
+            AttendanceLog."Date Time Log" := json_value.AsDateTime();
+        AttendanceLog.Date := DT2Date(AttendanceLog."Date Time Log");
+        AttendanceLog."Log Time" := DT2Time(AttendanceLog."Date Time Log");
+        AttendanceLog."Emp DateTime" := Format(AttendanceLog."Machine Emp. Code") + Format(Attendancelog.Date, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceLog."Log Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
+        if AttendanceLog.Insert(true) then;
     end;
 
-    //sync device
     procedure SyncDeviceConfig()
-    begin
-        SyncBranchDevice();
-    end;
-
-    local procedure SyncBranchDevice()
     var
         Client: HttpClient;
         Response: HttpResponseMessage;
@@ -127,7 +97,7 @@ codeunit 50019 "Biometric Mgt."
     begin
         AttendanceSetup.Get();
 
-        APIUrl := AttendanceSetup."Base URL";
+        APIUrl := AttendanceSetup."Base URL" + 'GetDeviceConfig';
         Username := AttendanceSetup."User Name";
         Password := AttendanceSetup.Password;
         AuthHeader := 'Basic ' + EncodeBase64(Username + ':' + Password);
