@@ -964,25 +964,26 @@ codeunit 50000 "Leave Mgt."
             until TempIncomingDoc.Next = 0;
         TempIncomingDoc.DeleteAll;
         leave.TestField("Leave Code");
-        IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN begin
-            AttachmentSetup.Reset;
-            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-            AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-            if AttachmentSetup.Findset then
-                repeat
-                    TempIncomingDoc.Reset;
-                    TempIncomingDoc.Init;
-                    Clear(TempIncomingDoc."Entry No.");
-                    TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-                    TempIncomingDoc.Validate("No.", leave."No.");
-                    TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
-                    TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                    TempIncomingDoc.Validate(Description, Format(leave.Type) + ': ' + leave."Leave Description");
-                    TempIncomingDoc.Validate("Employee Code", leave."Employee No.");
-                    TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
-                    TempIncomingDoc.Insert(true);
-                until AttachmentSetup.Next = 0;
-        end;
+        if LeaveType."No. of Days for Attachment" <> 0 then
+            IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN begin
+                AttachmentSetup.Reset;
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+                AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
+                if AttachmentSetup.Findset then
+                    repeat
+                        TempIncomingDoc.Reset;
+                        TempIncomingDoc.Init;
+                        Clear(TempIncomingDoc."Entry No.");
+                        TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+                        TempIncomingDoc.Validate("No.", leave."No.");
+                        TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+                        TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                        TempIncomingDoc.Validate(Description, Format(leave.Type) + ': ' + leave."Leave Description");
+                        TempIncomingDoc.Validate("Employee Code", leave."Employee No.");
+                        TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
+                        TempIncomingDoc.Insert(true);
+                    until AttachmentSetup.Next = 0;
+            end;
     end;
 
     procedure LeaveApproved(leaveNo: Code[20])
