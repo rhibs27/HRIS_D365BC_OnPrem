@@ -38,10 +38,10 @@ report 50048 "Biometric Log Sync"
             FromDate := DeviceConfigSetup.GetRangeMin("Date Filter");
             ToDate := DeviceConfigSetup.GetRangeMax("Date Filter");
         end;
-        if FromDate = 0D then begin
-            FromDate := WorkDate() - 3;
-            ToDate := WorkDate() + 1;
-        end;
+        // if FromDate = 0D then begin
+        //     FromDate := WorkDate() - 3;
+        //     ToDate := WorkDate() + 1;
+        // end;
 
     end;
 

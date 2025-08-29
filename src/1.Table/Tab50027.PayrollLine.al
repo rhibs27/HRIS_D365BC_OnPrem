@@ -2762,25 +2762,6 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure CalculateEmployeeSpecificGrade()
-    var
-        GradeEntry: Record "Grade Entry";
-        PayrollAttrUses: Record "Payroll Attributes Usage";
-    begin
-        //use setup to call this procedure as few company may use employee specific grade percentage ignore otherwise
-        GradeEntry.SetRange("Employee No.", "Employee No.");
-        GradeEntry.SetRange("Salary Level", Employee."Salary Level");
-        GradeEntry.CalcSums("Total Grade Percentage");
-
-        PayrollAttrUses.SetRange("Employee Code", "Employee No.");
-        PayrollAttrUses.SetRange(Subtype, PayrollAttrUses.Subtype::Grade);
-        if PayrollAttrUses.FindFirst() then begin
-            PayrollAttrUses.Validate(Amount, Round("Basic Salary" * GradeEntry."Total Grade Percentage" / 100, 0.01, '='));
-            PayrollAttrUses.Modify();
-        end;
-
-    end;
-
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
     begin

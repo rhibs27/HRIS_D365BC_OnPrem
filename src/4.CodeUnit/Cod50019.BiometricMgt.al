@@ -33,10 +33,31 @@ codeunit 50019 "Biometric Mgt."
         JsonObj, AttendanceObject : JsonObject;
         JsonToken: JsonToken;
         JsonArray: JsonArray;
+        jsonValue: JsonValue;
     begin
         AttendanceSetup.Get();
 
-        APIUrl := AttendanceSetup."Base URL" + 'GetAttendanceLogs';
+        if DeviceId = 0 then begin
+            if fromDate = 0D then
+                APIUrl := AttendanceSetup."Base URL" + 'AttendanceLogsOdata'
+            else begin
+                if toDate = 0D then
+                    APIUrl := AttendanceSetup."Base URL" + 'AttendanceLogsOdata?$filter=InputDate gt ' + Format(fromDate, 0, '<Year4>-<Month,2>-<Day,2>')
+                else
+                    APIUrl := AttendanceSetup."Base URL" + 'AttendanceLogsOdata?$filter=InputDate gt ' + Format(fromDate, 0, '<Year4>-<Month,2>-<Day,2>') + ' and InputDate lt ' + Format(toDate, 0, '<Year4>-<Month,2>-<Day,2>');
+            end;
+        end
+        else begin
+            if fromDate = 0D then
+                APIUrl := AttendanceSetup."Base URL" + 'AttendanceLogsOdata?$filter=DeviceId eq ' + Format(DeviceId)
+            else begin
+                if toDate = 0D then
+                    APIUrl := AttendanceSetup."Base URL" + 'AttendanceLogsOdata?$filter=DeviceId eq ' + Format(DeviceId) + ' and InputDate gt ' + Format(fromDate, 0, '<Year4>-<Month,2>-<Day,2>')
+                else
+                    APIUrl := AttendanceSetup."Base URL" + 'AttendanceLogsOdata?$filter=DeviceId eq ' + Format(DeviceId) + ' and InputDate gt ' + Format(fromDate, 0, '<Year4>-<Month,2>-<Day,2>') + ' and InputDate lt ' + Format(toDate, 0, '<Year4>-<Month,2>-<Day,2>');
+            end;
+        end;
+
         Username := AttendanceSetup."User Name";
         Password := AttendanceSetup.Password;
         AuthHeader := 'Basic ' + EncodeBase64(Username + ':' + Password);
@@ -56,15 +77,31 @@ codeunit 50019 "Biometric Mgt."
         Content := Response.Content();
         Content.ReadAs(JsonText);
 
-        if not JsonArray.ReadFrom(JsonText) then
-            Error('Failed to parse JSON array.');
 
-        foreach JsonToken in JsonArray do begin
-            if JsonToken.IsObject() then begin
-                AttendanceObject := JsonToken.AsObject();
-                DownloadAttendanceData(AttendanceObject);
-            end
+        if not JsonToken.ReadFrom(JsonText) then
+            Error('Invalid JSON document.');
+
+        if not JsonToken.IsObject() then
+            Error('Expected a JSON object.');
+
+
+        JsonObj := JsonToken.AsObject();
+
+        if JsonObj.Get('value', JsonToken) then begin
+
+            if not JsonToken.IsArray() then
+                Error('invalid json array');
+
+            JsonArray := JsonToken.AsArray();
+
+            foreach JsonToken in JsonArray do begin
+                if JsonToken.IsObject() then begin
+                    AttendanceObject := JsonToken.AsObject();
+                    DownloadAttendanceData(AttendanceObject);
+                end
+            end;
         end;
+
     end;
 
     procedure DownloadAttendanceData(AttendanceObject: JsonObject)
@@ -73,9 +110,9 @@ codeunit 50019 "Biometric Mgt."
         AttendanceLog: Record "Attendance Log";
     begin
         AttendanceLog.Init();
-        if GetJsonValue(AttendanceObject, 'enrollNumber', json_value) then
+        if GetJsonValue(AttendanceObject, 'EnrollNumber', json_value) then
             AttendanceLog.Validate("Machine Emp. Code", json_value.AsText());
-        if GetJsonValue(AttendanceObject, 'inputDate', json_value) then
+        if GetJsonValue(AttendanceObject, 'InputDate', json_value) then
             AttendanceLog."Date Time Log" := json_value.AsDateTime();
         AttendanceLog.Date := DT2Date(AttendanceLog."Date Time Log");
         AttendanceLog."Log Time" := DT2Time(AttendanceLog."Date Time Log");
