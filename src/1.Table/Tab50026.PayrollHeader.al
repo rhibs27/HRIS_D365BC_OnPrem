@@ -451,29 +451,7 @@ table 50026 "Payroll Header"
             PayrollHeader.Status := PayrollHeader.Status::Released;
             PayrollHeader.Modify;
             PayrollHeader.CalcFields("Total Net Payable");
-            /*PayrollBalancingAccount.Reset();
-            PayrollBalancingAccount.SetRange("Document No.",PayrollHeader."No.");
-            PayrollBalancingAccount.DELETEALL;
-            PGSetup.GET;
-            IF ((PGSetup."Net Payable Account Type" = PGSetup."Net Payable Account Type"::"Bank Account") AND
-                (PGSetup."Net Payable Account Code" <> '')) OR
-                (PGSetup."Payment Method Code" <> '')
-              THEN begin
-                CLEAR(PayrollBalancingAccount);
-                PayrollBalancingAccount.INIT;
-                PayrollBalancingAccount."Document No." := "No.";
-                PayrollBalancingAccount."Line No." := 10000;
-                PayrollBalancingAccount."Credit Amount" := PayrollHeader."Total Net Payable";
-                IF PGSetup."Net Payable Account Type" = PGSetup."Net Payable Account Type"::"Bank Account" THEN
-                  PayrollBalancingAccount."Bank Account No." := PGSetup."Net Payable Account Code"
-                ELSE IF PGSetup."Payment Method Code" <> '' THEN begin
-                  PaymentMethod.GET(PGSetup."Payment Method Code");
-                  PaymentMethod.TestField("Bal. Account Type",PaymentMethod."Bal. Account Type"::"Bank Account");
-                  PaymentMethod.TestField("Bal. Account No.");
-                  PayrollBalancingAccount."Bank Account No." := PaymentMethod."Bal. Account No.";
-                end;
-                PayrollBalancingAccount.INSERT;
-            end;*/
+
             if not HideModificationDialog then
                 Message(Text003);
         end;
@@ -626,18 +604,6 @@ table 50026 "Payroll Header"
             repeat
                 PayrollLine.TestField("Employee No.");
             until PayrollLine.Next = 0;
-    end;
-
-    procedure OpenBalancingAccount()
-    begin
-        /*PayrollBalancingAccount.Reset();
-        PayrollBalancingAccount.FILTERGROUP(2);
-        PayrollBalancingAccount.SetRange("Document No.","No.");
-        PayrollBalancingAccount.FILTERGROUP(0);
-        CLEAR(PayrollBalancingAccountList);
-
-        PayrollBalancingAccountList.SETTABLEVIEW(PayrollBalancingAccount);
-        PayrollBalancingAccountList.RUNMODAL;*/
     end;
 
     procedure UpdatePayrollAttributeUsage(PayrollHeader: Record "Payroll Header")
