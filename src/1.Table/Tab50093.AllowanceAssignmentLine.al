@@ -8,24 +8,7 @@ table 50093 "Allowance Assignment Line"
         field(2; "Line No."; Integer) { }
         field(3; "Code"; Code[20])
         {
-            // TableRelation = if (Type = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('BRANCH'),
-            //                                                                       "Dimension Value Type" = const(Standard))
-            // else if (Type = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"));
 
-            // trigger OnValidate()
-            // begin
-            //     GLSetup.Get;
-            //     if Type = Type::Branch then begin
-            //         if DimValue.Get(GLSetup."Global Dimension 1 Code", Code) then
-            //             Validate(Name, DimValue.Name);
-            //     end else if Type = Type::"Extension Counter" then begin
-            //         EmpHie.Reset;
-            //         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-            //         EmpHie.SetRange(Code, Code);
-            //         if EmpHie.FindFirst then
-            //             Validate(Name, EmpHie.Description);
-            //     end;
-            // end;
             TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
             else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Deputation Type"::"Extension Counter"), Blocked = filter(false))
             else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
@@ -67,34 +50,36 @@ table 50093 "Allowance Assignment Line"
                 // AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 //TestField("Allowance Type");
                 PayrollGeneralSetup.Get;
-                PayrollGeneralSetup.TestField("Risk Allowance");
-                PayrollGeneralSetup.TestField("Morning Counter");
-                PayrollGeneralSetup.TestField("Holiday Counter");
+                if not PayrollGeneralSetup."Use Allowance Configuration" then begin
+                    PayrollGeneralSetup.TestField("Risk Allowance");
+                    PayrollGeneralSetup.TestField("Morning Counter");
+                    PayrollGeneralSetup.TestField("Holiday Counter");
 
-                if "Allowance Type" in [PayrollGeneralSetup."Risk Allowance", PayrollGeneralSetup."Morning Counter"] then
-                    AllowanceMgt.CheckFunctionalTitleForRiskAllowance(Rec);
-                if "Allowance Type" = PayrollGeneralSetup."Evening Counter" then
-                    AllowanceMgt.CheckFunctionalTitleForEveningCounter(Rec);
+                    if "Allowance Type" in [PayrollGeneralSetup."Risk Allowance", PayrollGeneralSetup."Morning Counter"] then
+                        AllowanceMgt.CheckFunctionalTitleForRiskAllowance(Rec);
+                    if "Allowance Type" = PayrollGeneralSetup."Evening Counter" then
+                        AllowanceMgt.CheckFunctionalTitleForEveningCounter(Rec);
 
-                if "Allowance Type" = PayrollGeneralSetup."Holiday Counter" then
-                    AllowanceMgt.CheckFunctionalTitleForHolidayCounter(Rec);
+                    if "Allowance Type" = PayrollGeneralSetup."Holiday Counter" then
+                        AllowanceMgt.CheckFunctionalTitleForHolidayCounter(Rec);
 
-                if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
-                    AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
+                    if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
+                        AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
 
-                OverTimeMgt.CheckApprovedOvertimeExists(Rec);
+                    OverTimeMgt.CheckApprovedOvertimeExists(Rec);
 
-                if Employee.Get("Employee Code") then
-                    "Employee Name" := Employee."Full Name"
-                else
-                    "Employee Name" := '';
-                // if not GuiAllowed then
-                //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                    if Employee.Get("Employee Code") then
+                        "Employee Name" := Employee."Full Name"
+                    else
+                        "Employee Name" := '';
+                    // if not GuiAllowed then
+                    //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
-                // if xRec."Employee Code" <> "Employee Code" then
-                //     "Approval Status" := "Approval Status"::Pending;
+                    // if xRec."Employee Code" <> "Employee Code" then
+                    //     "Approval Status" := "Approval Status"::Pending;
 
-                // ValidateAllowanceType();
+                    // ValidateAllowanceType();
+                end;
 
             end;
         }
@@ -186,11 +171,13 @@ table 50093 "Allowance Assignment Line"
             begin
                 if Panel <> Panel::" " then begin
                     PayrollGeneralSetup.Get;
-                    PayrollGeneralSetup.TestField("Vault Key");
-                    PayrollGeneralSetup.TestField("ATM Custodian");
-                    if ("Allowance Type" <> PayrollGeneralSetup."Vault Key") and ("Allowance Type" <> PayrollGeneralSetup."ATM Custodian") then
-                        Error('Panel is not allowed in this Allowance Type');
-                    AllowanceMgt.CheckForPanel(Rec);
+                    if not PayrollGeneralSetup."Use Allowance Configuration" then begin
+                        PayrollGeneralSetup.TestField("Vault Key");
+                        PayrollGeneralSetup.TestField("ATM Custodian");
+                        if ("Allowance Type" <> PayrollGeneralSetup."Vault Key") and ("Allowance Type" <> PayrollGeneralSetup."ATM Custodian") then
+                            Error('Panel is not allowed in this Allowance Type');
+                        AllowanceMgt.CheckForPanel(Rec);
+                    end;
                 end;
             end;
         }
