@@ -40103,11 +40103,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action &amp;Functions - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 3181578682 - Action 1682139193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Bank Account action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Bank Account - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3181578682 - Action 1584937027 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Calculate Tax action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40372,11 +40367,6 @@
           <source>&amp;Functions</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Plan - Action &amp;Functions - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3945708741 - Action 1682139193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Bank Account action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Plan - Action Bank Account - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3945708741 - Action 1584937027 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Calculate Tax action.</source>
