@@ -224,7 +224,7 @@ codeunit 50008 "Payroll Engine"
             RetirementFundTaxBenefit := RetirementFundLimit2;
 
         OnAfterCalculateRetirementDeductionLimit(PayrollHeader, PayrollLine, RetirementFundTaxBenefit);
-        
+
         TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit;
         //Donations
         TotalDonation := Employee."Total Donation Contribution" + CurrentDonation;
@@ -3621,6 +3621,9 @@ codeunit 50008 "Payroll Engine"
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
         LevelWiseAttributes: Record "Level Wise Attributes";
         CheckDate: Date;
+        IsHandled: Boolean;
+        BasicAndGrade: Decimal;
+        EligibleAmount: Decimal;
     begin
         PGSetup.Get;
         PGSetup.TestField("Dashain Renumeration");
@@ -3638,17 +3641,19 @@ codeunit 50008 "Payroll Engine"
                     if Employee.FindSet then
                         repeat
                             Employee.TestField("Employment Date");
-
-                            LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level");
-
+                            OnBeforeInsertDashainAllowance(Employee."No.", EligibleAmount, IsHandled);
                             CheckDate := GetCheckDateforDashain(PGSetup."Dashain Start Date", Employee."Employment Date");
-
+                            if not IsHandled then begin
+                                LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level");
+                                BasicAndGrade := LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance;
+                                EligibleAmount := GetDashainBonusAmt(BasicAndGrade, CheckDate);
+                            end;
                             if CheckDate <> 0D then begin
                                 EmployeePayrollAdjustment.Init;
                                 EmployeePayrollAdjustment."Payroll Document No." := PayrollDocNo;
                                 EmployeePayrollAdjustment.Validate("Employee No.", Employee."No.");
                                 EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Dashain Renumeration");
-                                EmployeePayrollAdjustment.Validate(Amount, GetDashainBonusAmt(LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance, CheckDate));
+                                EmployeePayrollAdjustment.Validate(Amount, EligibleAmount);
                                 if EmployeePayrollAdjustment.Amount <> 0 then
                                     EmployeePayrollAdjustment.Insert(true);
                             end;
@@ -4468,7 +4473,13 @@ codeunit 50008 "Payroll Engine"
     [IntegrationEvent(false, false)]
     local procedure OnAfterCalculateRetirementDeductionLimit(var PayrollHeader: Record "Payroll Header"; var PayrollLine: Record "Payroll Line"; var RetirementFundTaxBenefit: Decimal);
     begin
+    end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertDashainAllowance(EmployeeNo: Code[20]; var Amount: Decimal; var IsHandled: Boolean)
+    begin
+        //This event can be used to perform get the dashain allowance for the employee before entering the process
+        //You can add custom logic here if needed.
     end;
 
 }

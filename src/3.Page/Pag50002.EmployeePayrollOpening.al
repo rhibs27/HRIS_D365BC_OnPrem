@@ -47,6 +47,11 @@ page 50002 "Employee Payroll Opening"
                     ToolTip = 'Specifies the value of the Total Tax Remuneration Opening field.';
                     ApplicationArea = All;
                 }
+                field("Opening LWP Days"; Rec."Opening LWP Days")
+                {
+                    ToolTip = 'Specifies the value of the Opening LWP Days field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }

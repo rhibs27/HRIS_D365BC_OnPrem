@@ -7888,6 +7888,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Payroll Opening - Field Line No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3104243789 - Field 3262523900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Opening LWP Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Payroll Opening - Field Opening LWP Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3104243789 - Field 2612139595 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Benefit Opening</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29742,6 +29747,11 @@
           <source>Specifies the value of the Fiscal Year field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Opening - Control Fiscal Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3104243789 - Control 3262523900 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Opening LWP Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Opening - Control Opening LWP Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3104243789 - Control 2612139595 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Benefit Opening field.</source>

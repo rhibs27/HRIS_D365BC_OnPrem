@@ -35,6 +35,10 @@ table 50006 "Employee Payroll Opening"
         field(6; "Total RF Opening"; Decimal) { }
         field(7; "Total Social Security Opening"; Decimal) { }
         field(8; "Total Tax Remuneration Opening"; Decimal) { }
+        field(9; "Opening LWP Days"; Decimal)
+        {
+            Description = 'For Dashain Allowance Calculation';
+        }
     }
 
     keys
