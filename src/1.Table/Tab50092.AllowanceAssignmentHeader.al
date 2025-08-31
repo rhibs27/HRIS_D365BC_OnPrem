@@ -91,11 +91,13 @@ table 50092 "Allowance Assignment Header"
         {
             trigger OnValidate()
             begin
+
                 TestField("From Date");
                 if "From Date" > "To date" then
                     Error('Invalid date.');
                 if "To date" > "From Date" + 32 then
-                    Error('Date range exceed');
+                    if "Activity Type" <> "Activity Type"::"Request Allowance" then
+                        Error('Date range exceed');
                 CheckForExistingDate();
             end;
         }
@@ -189,7 +191,6 @@ table 50092 "Allowance Assignment Header"
             Editable = false;
             DataClassification = ToBeClassified;
         }
-        // field(22; "Requested Date"; Date) { }
     }
 
     keys
@@ -230,7 +231,7 @@ table 50092 "Allowance Assignment Header"
         if "No." = '' then
             case "Activity Type" of
                 //for AllowanceAssignment
-                "Activity Type"::"Allowance Assignment", "Activity Type"::"Allowance Assignment Claim":
+                "Activity Type"::"Allowance Assignment", "Activity Type"::"Allowance Assignment Claim", "Activity Type"::"Request Allowance":
                     begin
                         HRSetup.TestField("Allowance Assignment Series");
                         NoSeriesMgt.InitSeries(HRSetup."Allowance Assignment Series", xRec."No. Series", "Created Date", "No.", "No. Series");
@@ -253,6 +254,9 @@ table 50092 "Allowance Assignment Header"
 
     procedure CheckForExistingDate()
     begin
+        if "Activity Type" = "Activity Type"::"Request Allowance" then
+            exit;
+
         AllowanceHeader.Reset;
         AllowanceHeader.SetFilter("No.", '<>%1', "No.");
         AllowanceHeader.SetRange("Fiscal Year", "Fiscal Year");

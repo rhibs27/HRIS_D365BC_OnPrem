@@ -141,6 +141,10 @@ page 50040 "Payroll Plan"
                     ToolTip = 'Specifies the value of the Irregular field.';
                     ApplicationArea = All;
                 }
+                field("Optimal Deduction"; Rec."Optimal Deduction")
+                {
+                    ToolTip = 'Specifies the value of the Optimal Deduction field.', Comment = '%';
+                }
                 field("Gross Payment"; Rec."Gross Payment")
                 {
                     Visible = AjustmentVisible;

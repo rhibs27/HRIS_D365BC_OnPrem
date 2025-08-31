@@ -133,7 +133,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Overtime, "Document Type"::"Overtime Bulk":
                 if OT.Get("Document No.") then
                     RecRef.GetTable(OT);
-            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim":
+            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim", "Document Type"::"Request Allowance":
                 if AllowanceAssignment.Get("Document No.") then
                     RecRef.GetTable(AllowanceAssignment);
             "Document Type"::Retirement:
@@ -201,7 +201,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Overtime:
                 if OT.Get("Document No.") then
                     RecRef.GetTable(OT);
-            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim":
+            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim", "Document Type"::"Request Allowance":
                 if AllowanceAssignment.Get("Document No.") then
                     RecRef.GetTable(AllowanceAssignment);
             "Document Type"::Retirement:
@@ -270,7 +270,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Overtime:
                 if OT.Get("Document No.") then
                     RecRef.GetTable(OT);
-            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim":
+            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim", "Document Type"::"Request Allowance":
                 if AllowanceAssignment.Get("Document No.") then
                     RecRef.GetTable(AllowanceAssignment);
             "Document Type"::Retirement:

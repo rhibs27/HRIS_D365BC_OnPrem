@@ -40,7 +40,8 @@ table 50093 "Allowance Assignment Line"
             TableRelation = if (Type = const(Branch)) Employee."No." where("Branch Code" = field(Code))
             else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code))
             else if (Type = const("Department")) Employee."No." where("Department Code" = field(Code))
-            else if (Type = const("Unit")) Employee."No." where("Unit Code" = field(Code));
+            else if (Type = const("Unit")) Employee."No." where("Unit Code" = field(Code))
+            else if ("Emp Act Type" = const("Request Allowance")) Employee;
 
             trigger OnValidate()
             begin
@@ -91,11 +92,13 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
-                ValidateDate();
-                Validate("To Date", "From Date");
-                ValidateAllowanceType;
-                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                if "Emp Act Type" <> "Emp Act Type"::"Request Allowance" then begin
+                    AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
+                    ValidateDate();
+                    Validate("To Date", "From Date");
+                    ValidateAllowanceType;
+                    Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                end;
             end;
         }
         field(8; "To Date"; Date)
@@ -107,22 +110,33 @@ table 50093 "Allowance Assignment Line"
         }
         field(9; "Allowance Type"; Code[20])
         {
-            TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
+
+            TableRelation = if ("Emp Act Type" = const("Request Allowance")) "Allowance Configuration"."Payroll Attribute"
+            else
+            "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
 
             trigger OnValidate()
             begin
                 if ("Allowance Type" <> xRec."Allowance Type") and GuiAllowed then begin
                     Clear("From Date");
                     Clear("To Date");
-                    Clear("Employee Code");
-                    Clear("Employee Name");
-                    Clear("Allowance Amount");
                     Clear(Panel);
+                    if "Emp Act Type" <> "Emp Act Type"::"Request Allowance" then begin
+                        Clear("Employee Code");
+                        Clear("Employee Name");
+                        Clear("Allowance Amount");
+                    end;
                 end;
-                // TestField("Employee Code", '');
-                // PGSetup.Get;
-                // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then 12.20.2022
-                //     Error(TEXT003);//santosh
+
+                if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and ("Allowance Type" <> '') then begin
+                    AllowanceConfiguration.Reset();
+                    AllowanceConfiguration.SetRange("Payroll Attribute", "Allowance Type");
+                    if AllowanceConfiguration.FindFirst() then
+                        "Allowance Amount" := AllowanceConfiguration.Amount
+                    else
+                        Error('Invalid allowance selected!');
+                end;
+
             end;
         }
         field(10; "Substitute Type"; Enum "Allowance Substitute")
@@ -237,6 +251,9 @@ table 50093 "Allowance Assignment Line"
         //     ChangeHeaderApprovalStatus
         // end;
         // CheckForGracePeriod;
+        if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and AllowanceHeader.Get("No.") then
+            if AllowanceHeader."Employee No." <> '' then
+                Validate("Employee Code", AllowanceHeader."Employee No.");
     end;
 
     trigger OnModify()
@@ -268,6 +285,7 @@ table 50093 "Allowance Assignment Line"
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         OrganizationStructureList: Record "Organization Structure List";
+        AllowanceConfiguration: Record "Allowance Configuration";
 
     local procedure GetLineNo()
     var

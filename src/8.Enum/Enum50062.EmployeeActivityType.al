@@ -124,4 +124,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Leave Encahment';
     }
+    value(31; "Request Allowance")
+    {
+
+    }
 }

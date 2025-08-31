@@ -223,7 +223,12 @@ codeunit 50008 "Payroll Engine"
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
 
-        OnAfterCalculateRetirementDeductionLimit(PayrollHeader, PayrollLine, RetirementFundTaxBenefit);
+        if PayrollHeader."Optimal Deduction" then begin
+            if RetirementFundLimit1 < RetirementFundLimit2 then
+                RetirementFundTaxBenefit := RetirementFundLimit1
+            else
+                RetirementFundTaxBenefit := RetirementFundLimit2;
+        end;
 
         TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit;
         //Donations
@@ -249,6 +254,10 @@ codeunit 50008 "Payroll Engine"
             InsuranceTaxBenefit := InsuranceLimit1
         else
             InsuranceTaxBenefit := InsuranceAmount;
+
+        if PayrollHeader."Optimal Deduction" then
+            InsuranceTaxBenefit := PGSetup."Tax Ex. Life Insurance Amt.";
+
         //Health Insurance Tax Benefit
         if Employee."Premium of Health Insurance" < PGSetup."Tax Ex. Health Insur. Amount" then
             HealthInsuranceTaxBenefit := Employee."Premium of Health Insurance"
@@ -278,6 +287,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Modify;
             exit;
         end;
+
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then
             TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit
         else
@@ -4207,7 +4217,7 @@ codeunit 50008 "Payroll Engine"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterCalculateRetirementDeductionLimit(var PayrollHeader: Record "Payroll Header"; var PayrollLine: Record "Payroll Line"; var RetirementFundTaxBenefit: Decimal);
+    local procedure OnAfterCalculateRetirementDeductionLimit(var PayrollHeader: Record "Payroll Header"; var PayrollLine: Record "Payroll Line"; var RetirementFundTaxBenefit: Decimal; var InsuranceTaxBenefit: Decimal);
     begin
     end;
 

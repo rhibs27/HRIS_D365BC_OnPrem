@@ -154,6 +154,10 @@ table 50034 "Posted Payroll Header"
         }
         field(45; "Pre-Assigned No."; Code[20]) { }
         field(46; Reversed; Boolean) { }
+        field(501; "Optimal Deduction"; Boolean)
+        {
+
+        }
     }
 
     keys

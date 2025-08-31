@@ -295,6 +295,10 @@ table 50026 "Payroll Header"
             end;
         }
         field(38; "Encashment Description"; Text[100]) { }
+        field(501; "Optimal Deduction"; Boolean)
+        {
+
+        }
     }
 
     keys

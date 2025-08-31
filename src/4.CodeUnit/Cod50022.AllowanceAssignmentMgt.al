@@ -38,21 +38,25 @@ codeunit 50022 "Allowance Assignment Mgt"
         PayrollGenSetup: Record "Payroll General Setup";
     begin
         PayrollGenSetup.get();
-        PayrollGenSetup.TestField("Vault Key");
-        PayrollGenSetup.TestField("ATM Custodian");
+        if not PayrollGenSetup."Use Allowance Configuration" then begin
+            PayrollGenSetup.TestField("Vault Key");
+            PayrollGenSetup.TestField("ATM Custodian");
+        end;
         ApproverMgt.UpdateFirstApproverStatus(AllowanceAssignment."No.");
-        AllowanceLineCheck.Copy(AllowanceLine);
-        if AllowanceLineCheck.FindFirst then
-            repeat
-                AllowanceLineCheck.TestField("Employee Code");
-                AllowanceLineCheck.TestField("From Date");
-                // AllowanceLineCheck.TestField("To Date");
-                AllowanceLineCheck.TestField("Allowance Type");
-                if AllowanceLineCheck."Allowance Type" in [PayrollGenSetup."Vault Key", PayrollGenSetup."ATM Custodian"] then begin
-                    if AllowanceLineCheck.Panel = AllowanceLineCheck.Panel::" " then
-                        Error('Must select panel for allowance type Atm custodian allowance and Key custodian allowance of line no. %1', AllowanceLineCheck."Line No.");
-                end;
-            until AllowanceLineCheck.Next = 0;
+        if AllowanceAssignment."Activity Type" <> AllowanceAssignment."Activity Type"::"Request Allowance" then begin
+            AllowanceLineCheck.Copy(AllowanceLine);
+            if AllowanceLineCheck.FindFirst then
+                repeat
+                    AllowanceLineCheck.TestField("Employee Code");
+                    AllowanceLineCheck.TestField("From Date");
+                    // AllowanceLineCheck.TestField("To Date");
+                    AllowanceLineCheck.TestField("Allowance Type");
+                    if AllowanceLineCheck."Allowance Type" in [PayrollGenSetup."Vault Key", PayrollGenSetup."ATM Custodian"] then begin
+                        if AllowanceLineCheck.Panel = AllowanceLineCheck.Panel::" " then
+                            Error('Must select panel for allowance type Atm custodian allowance and Key custodian allowance of line no. %1', AllowanceLineCheck."Line No.");
+                    end;
+                until AllowanceLineCheck.Next = 0;
+        end;
         AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         AllowanceAssignment.Modify(true);
         AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending");
@@ -96,6 +100,13 @@ codeunit 50022 "Allowance Assignment Mgt"
                 ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type", EmpAllowance."Approval Status");
             end else if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment Claim" then begin
                 AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
+            end
+            else if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Request Allowance" then begin
+                AllowanceLine.Reset;
+                AllowanceLine.SetRange("No.", EntryNo);
+                AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
+                if AllowanceLine.Findset() then
+                    AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
             end;
 
         end;
@@ -560,6 +571,44 @@ codeunit 50022 "Allowance Assignment Mgt"
                 AllowanceAssignmentLineClaim."Allowance Amount" := ALlowanceAssignmentLineApproved."Allowance Amount";
                 AllowanceAssignmentLineClaim.Insert(true);
             until ALlowanceAssignmentLineApproved.Next() = 0;
+    end;
+
+    procedure OpenAllowance(EmpCode: Code[20])
+    var
+        AllowanceAssignment, AllowanceAssignment2 : Record "Allowance Assignment Header";
+        Approval: Record "Approval HRMS";
+        BranchType: Enum "Branchwise/Extension Type";
+    begin
+        Clear(Employee);
+        PGSetup.Get();
+
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Request Allowance");
+        Approval.SetRange("Employee No", EmpCode);
+        Approval.DeleteAll();
+
+        Employee.Get(EmpCode);
+        AllowanceAssignment.Reset();
+        AllowanceAssignment.SetRange("Employee No.", EmpCode);
+        AllowanceAssignment.SetRange("Activity Type", AllowanceAssignment."Activity Type"::"Request Allowance");
+        AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::open);
+        if AllowanceAssignment.Findfirst() then begin
+            If GuiAllowed then begin
+                Message('This Employee Already has open Allowance Claim Request .Click Ok to Open');
+                PAGE.Run(PAGE::"Request Allowance Card", AllowanceAssignment)
+            end
+        end else begin
+            AllowanceAssignment2.Init;
+            AllowanceAssignment2.Validate("Employee No.", EmpCode);
+            AllowanceAssignment2.Validate("Activity Type", AllowanceAssignment2."Activity Type"::"Request Allowance");
+            AllowanceAssignment2.Validate("From Date", PGSetup."Payroll Fiscal Year Start Date");
+            AllowanceAssignment2.Validate("To date", PGSetup."Payroll Fiscal Year end Date");
+            AllowanceAssignment2.Validate("Approval Status", AllowanceAssignment2."Approval Status"::Open);
+            AllowanceAssignment2.Insert(true);
+            if GuiAllowed then
+                PAGE.Run(PAGE::"request allowance Card", AllowanceAssignment2);
+        end;
     end;
 
     var

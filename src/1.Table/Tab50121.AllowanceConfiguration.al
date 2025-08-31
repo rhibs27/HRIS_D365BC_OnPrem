@@ -82,10 +82,11 @@ table 50121 "Allowance Configuration"
     }
     keys
     {
-        key(PK; "Entry No.")
+        key(PK; "Entry No.", "Payroll Attribute")
         {
             Clustered = true;
         }
+
     }
     trigger OnInsert()
     begin
