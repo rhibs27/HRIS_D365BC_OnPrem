@@ -132,6 +132,10 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Employee Type field.';
                     ApplicationArea = All;
                 }
+                field("Emplymt. Contract Code"; Rec."Emplymt. Contract Code")
+                {
+                    ToolTip = 'Specifies the value of the Emplymt. Contract Code field.', Comment = '%';
+                }
                 field(Irregular; Rec.Irregular)
                 {
                     ToolTip = 'Specifies the value of the Irregular field.';

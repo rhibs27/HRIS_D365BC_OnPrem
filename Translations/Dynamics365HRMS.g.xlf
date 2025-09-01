@@ -13153,6 +13153,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Employee Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 619291327 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emplymt. Contract Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Emplymt. Contract Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2858165342 - Field 1163555279 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Enable Dimension 2 Code Allocation</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -13397,6 +13402,11 @@
           <source>Start Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Start Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3652447633 - Field 3693676784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Static Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Static Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3652447633 - Field 1761304904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Subtype</source>
@@ -14302,6 +14312,11 @@
           <source>No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field No. Series - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3621654542 - Field 2028453791 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Optimal Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field Optimal Deduction - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3621654542 - Field 4019577183 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OverTime From</source>
@@ -16807,6 +16822,11 @@
           <source>No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Header - Field No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1294019709 - Field 2028453791 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Optimal Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Header - Field Optimal Deduction - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1294019709 - Field 4019577183 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OverTime From</source>
@@ -38643,6 +38663,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Employee Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2858165342 - Control 619291327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Emplymt. Contract Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Emplymt. Contract Code - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3251641602 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Finacle GL Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38787,6 +38812,11 @@
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3652447633 - Control 3693676784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Static Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Control Static Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3652447633 - Control 1761304904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Subtype field.</source>
@@ -40067,6 +40097,11 @@
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3181578682 - Control 2028453791 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Optimal Deduction field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control Optimal Deduction - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Control 4019577183 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the OverTime From field.</source>
@@ -51267,6 +51302,16 @@
           <source>Send Training Mail</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report HR Job Queue - Control Send Training Mail - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3792353121 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Attribute Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Import Payroll Attributes - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3792353121 - Control 2526681557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Import Payroll Attributes - Control EmployeeNo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2228278729 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Inome and Tax Calculation Detail for</source>

@@ -2762,6 +2762,34 @@ table 50027 "Payroll Line"
         end;
     end;
 
+    procedure GetAllowanceConfiguration()
+    var
+        AllowanceConfiguration: Record "Allowance Configuration";
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            exit;
+
+        AllowanceConfiguration.Reset();
+        if AllowanceConfiguration.FindSet() then
+            repeat
+
+            until AllowanceConfiguration.Next() = 0;
+    end;
+
+    procedure GetAllowanceRequestAmount(PayrollAttr: Code[20]; EmployeeCode: Code[20]): Decimal
+    var
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+    begin
+        AllowanceAssignmentLine.SetLoadFields("No.", "Employee Code", "Approved Date", "Allowance Type", "Approval Status");
+        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.SetRange("Allowance Type", PayrollAttr);
+        AllowanceAssignmentLine.SetRange("Approved Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        if AllowanceAssignmentLine.FindLast() then
+            exit(AllowanceAssignmentLine."Allowance Amount");
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
     begin

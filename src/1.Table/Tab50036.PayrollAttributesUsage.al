@@ -116,6 +116,10 @@ table 50036 "Payroll Attributes Usage"
         {
             //Editable = false;
         }
+        field(20; "Static Amount"; Boolean)
+        {
+            //if checked amount will not be replaced on getglobalattribute
+        }
     }
 
     keys

@@ -701,7 +701,8 @@ table 50026 "Payroll Header"
                         PayrollAttUsage.SetRange("Employee Code", EmpCode);
                         if PayrollAttUsage.FindFirst then begin
                             if AttributeAmount <> 0 then
-                                PayrollAttUsage.Amount := AttributeAmount;
+                                if not PayrollAttUsage."Static Amount" then
+                                    PayrollAttUsage.Amount := AttributeAmount;
                             PayrollAttUsage.Modify;
                         end;
                     end;
