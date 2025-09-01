@@ -2849,8 +2849,8 @@ table 50027 "Payroll Line"
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
                                             AllowanceConfiguration."Leave Code",
-                                            PayrollHeader."From Date",
-                                            PayrollHeader."To Date",
+                                            PGSetup."Payroll Fiscal Year Start Date",
+                                            PGSetup."Payroll Fiscal Year End Date",
                                             false));
 
             AllowanceConfiguration.Source::" ":

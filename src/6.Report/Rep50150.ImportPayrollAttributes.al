@@ -48,6 +48,7 @@ report 50150 "Import Payroll Attributes"
                 {
                     field(EmployeeNo; EmployeeNo)
                     {
+                        TableRelation = Employee;
                         Caption = 'Employee No';
                         ApplicationArea = all;
                     }
@@ -70,4 +71,9 @@ report 50150 "Import Payroll Attributes"
     var
         EmployeeNo: Code[20];
         Employee: Record Employee;
+
+    procedure SetEmployeeNo(EmpNo: Code[20])
+    begin
+        EmployeeNo := EmpNo;
+    end;
 }

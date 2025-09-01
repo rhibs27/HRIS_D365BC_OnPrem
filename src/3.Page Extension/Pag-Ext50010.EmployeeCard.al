@@ -1326,10 +1326,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Image = Components;
                 PromotedCategory = Process;
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
-                trigger OnAction()
-                begin
-
-                end;
             }
         }
         addafter("Pay Employee")
