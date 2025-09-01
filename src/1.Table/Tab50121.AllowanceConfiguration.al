@@ -79,6 +79,14 @@ table 50121 "Allowance Configuration"
         {
             OptionMembers = " ","On-Site","Off-Site";
         }
+        field(16; Source; Option)
+        {
+            OptionMembers = " ",Assignment,Shift,Leave,Direct;
+        }
+        field(17; "Leave Code"; Code[20])
+        {
+            TableRelation = "Leave Type Setup";
+        }
     }
     keys
     {

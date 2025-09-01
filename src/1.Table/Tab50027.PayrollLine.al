@@ -2765,6 +2765,8 @@ table 50027 "Payroll Line"
     procedure GetAllowanceConfiguration()
     var
         AllowanceConfiguration: Record "Allowance Configuration";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        PayrollAttrUses2: Record "Payroll Attributes Usage";
     begin
         PGSetup.Get();
         if not PGSetup."Use Allowance Configuration" then
@@ -2773,21 +2775,81 @@ table 50027 "Payroll Line"
         AllowanceConfiguration.Reset();
         if AllowanceConfiguration.FindSet() then
             repeat
+            // if IsValidAttributeConfigForEmployee(AllowanceConfiguration, "Employee No.") then begin
+            //     // update payroll attribute uses of employee
+            // end;
 
             until AllowanceConfiguration.Next() = 0;
     end;
 
-    procedure GetAllowanceRequestAmount(PayrollAttr: Code[20]; EmployeeCode: Code[20]): Decimal
+    procedure GetAllowanceAmountFromAssignmentLine(PayrollDocNo: Code[20];
+                                        EmployeeCode: Code[20];
+                                         PayrollAttr: Code[20];
+                                         LeaveCode: Code[20];
+                                         FromDate: Date;
+                                         ToDate: Date;
+                                         getLastAmount: Boolean): Decimal
     var
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        Amt: Decimal;
     begin
-        AllowanceAssignmentLine.SetLoadFields("No.", "Employee Code", "Approved Date", "Allowance Type", "Approval Status");
+        AllowanceAssignmentLine.SetLoadFields("No.", "Employee Code", "Approved Date", "Allowance Type", "Approval Status", "Leave Code");
         AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
-        AllowanceAssignmentLine.SetRange("Allowance Type", PayrollAttr);
-        AllowanceAssignmentLine.SetRange("Approved Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
         AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
-        if AllowanceAssignmentLine.FindLast() then
-            exit(AllowanceAssignmentLine."Allowance Amount");
+        AllowanceAssignmentLine.SetRange("Allowance Type", PayrollAttr);
+        AllowanceAssignmentLine.SetRange("Approved Date", FromDate, ToDate);
+        AllowanceAssignmentLine.SetFilter("Payroll Doc No.", '%1|%2', '', PayrollDocNo);
+        if LeaveCode <> '' then
+            AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
+        if getLastAmount then begin
+            if AllowanceAssignmentLine.FindLast() then
+                exit(AllowanceAssignmentLine."Allowance Amount");
+        end else begin
+            AllowanceAssignmentLine.CalcSums("Allowance Amount");
+            Amt := AllowanceAssignmentLine."Allowance Amount";
+            if AllowanceAssignmentLine.FindSet() then
+                AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", PayrollDocNo);
+            exit(Amt);
+        end;
+
+    end;
+
+    procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
+    begin
+        case AllowanceConfiguration.Source of
+            AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+                exit(GetAllowanceAmountFromAssignmentLine(PayrollDocNo,
+                                            EmployeeCode,
+                                            AllowanceConfiguration."Payroll Attribute",
+                                            AllowanceConfiguration."Leave Code",
+                                            PGSetup."Payroll Fiscal Year Start Date",
+                                            PGSetup."Payroll Fiscal Year End Date",
+                                            true));
+
+            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
+                exit(GetAllowanceAmountFromAssignmentLine(PayrollDocNo,
+                                            EmployeeCode,
+                                            AllowanceConfiguration."Payroll Attribute",
+                                            AllowanceConfiguration."Leave Code",
+                                            PayrollHeader."From Date",
+                                            PayrollHeader."To Date",
+                                            false));
+
+            AllowanceConfiguration.Source::" ":
+                exit(AllowanceConfiguration.Amount);
+
+        end;
+    end;
+
+    procedure IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration: Record "Allowance Configuration"; EmployeeCode: Code[20]): Boolean
+    begin
+        if AllowanceConfiguration."Province Code" <> '' then
+            if Employee."Province Code" <> AllowanceConfiguration."Province Code" then
+                exit(false);
+
+        if AllowanceConfiguration."Branch Code" <> '' then
+            if Employee."Branch Code" <> AllowanceConfiguration."Branch Code" then
+                exit(false)
     end;
 
     [IntegrationEvent(false, false)]

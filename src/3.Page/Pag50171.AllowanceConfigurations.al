@@ -73,6 +73,14 @@ page 50171 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
                 }
+                field("Leave Code"; Rec."Leave Code")
+                {
+                    ToolTip = 'Specifies the value of the Leave Code field.', Comment = '%';
+                }
+                field("Earning Method"; Rec.Source)
+                {
+                    ToolTip = 'Specifies the value of the Earning Method field.', Comment = '%';
+                }
             }
         }
     }

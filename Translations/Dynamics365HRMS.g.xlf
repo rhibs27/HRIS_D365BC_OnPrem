@@ -213,6 +213,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Last Modified Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 3726133055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Document No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Document No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -237,6 +247,11 @@
           <source>Panel</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Panel - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 930327942 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Doc No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Payroll Doc No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
@@ -318,6 +333,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Earning Cycle - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 1646890881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Earning Method</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Earning Method - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3837508396 - Field 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Work Shift</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -337,6 +357,11 @@
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Functional Title - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Leave Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3837508396 - Field 798878217 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Min Service Yr. Eligibility</source>
@@ -23153,6 +23178,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Earning Cycle - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 1646890881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Earning Method field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Earning Method - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3003557261 - Control 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Work Shift field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -23172,6 +23202,11 @@
           <source>Specifies the value of the Functional Title field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Functional Title - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 1958363482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Leave Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3003557261 - Control 798878217 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Min Service Yr. Eligibility field.</source>

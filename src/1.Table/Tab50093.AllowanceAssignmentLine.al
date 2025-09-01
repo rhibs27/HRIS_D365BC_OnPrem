@@ -209,6 +209,12 @@ table 50093 "Allowance Assignment Line"
         field(28; "Allowance Claim From"; Code[20])
         {
         }
+        field(30; "Leave Code"; Code[20]) { }
+        field(31; "Leave Document No"; Code[20]) { }
+        field(32; "Payroll Doc No."; Code[20])
+        {
+
+        }
     }
 
     keys
