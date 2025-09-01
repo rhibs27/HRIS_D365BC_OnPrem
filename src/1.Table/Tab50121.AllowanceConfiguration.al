@@ -59,10 +59,6 @@ table 50121 "Allowance Configuration"
         {
             Editable = false;
         }
-        field(11; "Approver Role"; Code[20])
-        {
-            TableRelation = "Approval Role";
-        }
         field(12; "Min Service Yr. Eligibility"; Decimal)
         {
 
@@ -86,6 +82,13 @@ table 50121 "Allowance Configuration"
         field(17; "Leave Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
+        }
+        field(18; Region; Enum Region) { }
+
+        field(19; "Outside/Inside Valley"; enum "Outside/Inside Valley") { }
+        field(20; "Remote Area Category"; Code[20])
+        {
+            TableRelation = "Remote Area Category";
         }
     }
     keys

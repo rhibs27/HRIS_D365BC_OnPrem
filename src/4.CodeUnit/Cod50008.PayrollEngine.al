@@ -4169,7 +4169,6 @@ codeunit 50008 "Payroll Engine"
         AllowanceConfiguration.SetFilter("Salary Level", '%1|%2', '', Employee."Salary Level");
         AllowanceConfiguration.SetFilter("Functional Title", '%1|%2', '', Employee."Functional Title");
         AllowanceConfiguration.SetFilter("Employee Work Shift", '%1|%2', '', Employee."Employee Work Shift");
-        AllowanceConfiguration.SetFilter("Approver Role", '%1|%2', '', Employee."Approver Role");
 
         AllowanceConfiguration.SetFilter("Province Code", '%1|%2', '', Employee."Province Code");
         AllowanceConfiguration.SetFilter("Branch Code", '%1|%2', '', Employee."Branch Code");

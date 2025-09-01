@@ -53,10 +53,6 @@ page 50171 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Salary Level field.', Comment = '%';
                 }
-                field("Approver Role"; Rec."Approver Role")
-                {
-                    ToolTip = 'Specifies the value of the Approver Role field.', Comment = '%';
-                }
                 field("Min Service Yr. Eligibility"; Rec."Min Service Yr. Eligibility")
                 {
                     ToolTip = 'Specifies the value of the Min Service Yr. Eligibility field.', Comment = '%';
@@ -77,10 +73,23 @@ page 50171 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.', Comment = '%';
                 }
-                field("Earning Method"; Rec.Source)
+                field("Outside/Inside Valley"; Rec."Outside/Inside Valley")
                 {
-                    ToolTip = 'Specifies the value of the Earning Method field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Outside/Inside Valley field.', Comment = '%';
                 }
+                field(Region; Rec.Region)
+                {
+                    ToolTip = 'Specifies the value of the Region field.', Comment = '%';
+                }
+                field("Remote Area Category"; Rec."Remote Area Category")
+                {
+                    ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
+                }
+                field(Source; Rec.Source)
+                {
+                    ToolTip = 'Specifies the value of the Source field.', Comment = '%';
+                }
+
             }
         }
     }
