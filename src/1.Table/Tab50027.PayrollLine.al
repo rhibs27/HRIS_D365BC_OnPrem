@@ -1957,7 +1957,7 @@ table 50027 "Payroll Line"
         PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         if PayrollAttributesUsage.FindFirst then begin
-            PayrollAttributesUsage.TestField(Amount);
+            // PayrollAttributesUsage.TestField(Amount);
             BasicAmount := PayrollAttributesUsage.Amount;
         end;
 
@@ -2293,7 +2293,8 @@ table 50027 "Payroll Line"
         PayrollAttUsage: Record "Payroll Attributes Usage";
     begin
         if PayrollAttUsage.Get(PayrollCode, "Employee No.") then begin
-            PayrollAttUsage.Amount := Amt;
+            if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+                PayrollAttUsage.Amount := Amt;
             PayrollAttUsage.Modify;
         end;
     end;
