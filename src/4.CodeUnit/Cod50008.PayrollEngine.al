@@ -296,6 +296,7 @@ codeunit 50008 "Payroll Engine"
         if Employee.Disabled then begin
             TaxSetupLine.Reset;
             TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
+            TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
             TaxSetupLine.SetCurrentKey(Code, "Line No.");
             if TaxSetupLine.FindFirst then
                 DisablePersonReduction := TaxSetupLine."End Amount" / 2;
@@ -310,6 +311,7 @@ codeunit 50008 "Payroll Engine"
         SocialSecurityTaxAmount := 0;
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
+        TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         Clear(SlabCount);
         if TaxSetupLine.FindSet then
             repeat
@@ -2618,6 +2620,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceAnnualTax := 0;
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
+        TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         if TaxSetupLine.FindFirst then
             repeat
                 if TaxAtOnceRemainingAmt > 0 then begin

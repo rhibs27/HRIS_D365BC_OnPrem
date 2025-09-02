@@ -162,6 +162,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Use Allowance Configuration field.', Comment = '%';
                 }
+                field("Payroll Archive Nos."; Rec."Payroll Archive Nos.")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Archive Nos. field.', Comment = '%';
+                }
             }
             group("Posting Group")
             {

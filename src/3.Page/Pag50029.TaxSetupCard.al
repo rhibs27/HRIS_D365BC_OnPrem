@@ -22,16 +22,6 @@ page 50029 "Tax Setup Card"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
-                field("Effective from"; Rec."Effective from")
-                {
-                    ToolTip = 'Specifies the value of the Effective from field.';
-                    ApplicationArea = All;
-                }
-                field("Effective to"; Rec."Effective to")
-                {
-                    ToolTip = 'Specifies the value of the Effective to field.';
-                    ApplicationArea = All;
-                }
                 field("Special Tax Exempt %"; Rec."Special Tax Exempt %")
                 {
                     ToolTip = 'Specifies the value of the Special Tax Exempt % field.';
@@ -49,6 +39,11 @@ page 50029 "Tax Setup Card"
                 }
             }
             part(Control8; "Tax Setup Subform")
+            {
+                SubPageLink = Code = field(Code);
+                ApplicationArea = All;
+            }
+            part("Tax Setup Reduction Subform"; "Tax Setup Reduction Subform")
             {
                 SubPageLink = Code = field(Code);
                 ApplicationArea = All;

@@ -271,6 +271,25 @@ page 50025 "Salary Levels"
                 ToolTip = 'Executes the Promotion Eligibilty Criteria action.';
                 ApplicationArea = All;
             }
+            action("&Archive")
+            {
+                Image = Archive;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                ToolTip = 'Executes the &Archive action.';
+                trigger OnAction()
+                var
+                    PayrollArchive: Record "Payroll Archive";
+                    RecRef: RecordRef;
+                begin
+
+                    RecRef.Open(Database::"Salary Level");
+                    RecRef.Get(Rec.RecordId);
+                    PayrollArchive.RunArchive(RecRef.Number);
+                end;
+            }
         }
     }
 

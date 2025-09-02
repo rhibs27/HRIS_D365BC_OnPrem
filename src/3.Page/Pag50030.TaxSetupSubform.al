@@ -13,6 +13,10 @@ page 50030 "Tax Setup Subform"
         {
             repeater(Group)
             {
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
+                }
                 field("Start Amount"; Rec."Start Amount")
                 {
                     ToolTip = 'Specifies the value of the Start Amount field.';

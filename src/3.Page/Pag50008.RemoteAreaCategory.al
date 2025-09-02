@@ -47,5 +47,29 @@ page 50008 "Remote Area Category"
         }
     }
 
-    actions { }
+    actions
+    {
+        area(Processing)
+        {
+            action("&Archive")
+            {
+                Image = Archive;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                ToolTip = 'Executes the &Archive action.';
+                trigger OnAction()
+                var
+                    PayrollArchive: Record "Payroll Archive";
+                    RecRef: RecordRef;
+                begin
+
+                    RecRef.Open(Database::"Remote Area Category");
+                    RecRef.Get(Rec.RecordId);
+                    PayrollArchive.RunArchive(RecRef.Number);
+                end;
+            }
+        }
+    }
 }
