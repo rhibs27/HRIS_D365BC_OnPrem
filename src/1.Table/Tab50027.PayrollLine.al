@@ -2860,6 +2860,8 @@ table 50027 "Payroll Line"
         EmpVar: Record Employee;
         OrgStructureList: Record "Organization Structure List";
         ServiceYear: Decimal;
+        Month: Integer;
+        Days: Integer;
     begin
         EmpVar.SetRange("No.", EmployeeCode);
         if AllowanceConfiguration."Province Code" <> '' then
@@ -2901,7 +2903,13 @@ table 50027 "Payroll Line"
             exit(false);
 
         if AllowanceConfiguration."Min Service Yr. Eligibility" <> 0 then begin
-            ServiceYear := Date2DMY(PayrollHeader."From Date", 3) - Date2DMY(EmpVar."Employment Date", 3);
+            ServiceYear := Date2DMY(PayrollHeader."To Date", 3) - Date2DMY(EmpVar."Employment Date", 3);
+            Month := Date2DMY(PayrollHeader."From Date", 2) - Date2DMY(EmpVar."Employment Date", 2);
+            Days := Date2DMY(PayrollHeader."From Date", 1) - Date2DMY(EmpVar."Employment Date", 1);
+            if Days < 0 then
+                Month := month - 1;
+            if Month < 0 then
+                ServiceYear := ServiceYear - 1;
             if ServiceYear < AllowanceConfiguration."Min Service Yr. Eligibility" then
                 exit(false);
 
