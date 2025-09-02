@@ -1,8 +1,5 @@
 codeunit 50010 "Payroll-Post"
 {
-    // version PRM19.01.01
-
-
 
     TableNo = "Payroll Header";
 
@@ -11,20 +8,7 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeaderRec.Reset;
         PostedPayrollLineRec.Reset;
         PayrollLine.Reset;
-        PostedPayrollHeaderRec.Reset;
-        PostedPayrollHeaderRec.SetRange("Pay Cycle Period", Rec."Pay Cycle Period");
-        PostedPayrollHeaderRec.SetRange(Reversed, false);
-        if PostedPayrollHeaderRec.FindFirst then begin
-            PostedPayrollLineRec.SetRange("Document No.", PostedPayrollHeaderRec."No.");
-            /*PayrollLine.Reset();
-            PayrollLine.SetRange("Document No.",Rec."No.");
-            IF PayrollLine.FindFirst() THEN repeat
-              IF PostedPayrollLineRec.FindFirst() THEN repeat
-                IF PostedPayrollLineRec."Employee No." = PayrollLine."Employee No." THEN
-                  ERROR(Text50000,Rec."Pay Cycle Period",PayrollLine."Employee No.");
-              until PostedPayrollLineRec.NEXT = 0;
-            until PayrollLine.NEXT = 0;*/
-        end; //Pranisha End
+
         if not Confirm(Text004, true, Rec."No.") then
             exit;
         if PreviewMode then begin
@@ -40,13 +24,10 @@ codeunit 50010 "Payroll-Post"
         PayrollHeader.TestField("Pay Cycle Period");
         PayrollHeader.TestField("Pay Cycle Term");
         PayrollHeader.TestField(Status, PayrollHeader.Status::Released);
-        // if PayrollHeader.Type <> PayrollHeader.Type::Adjustment then
-        //     PayrollHeader.TestField("Employee Type"); //ratan 1.21.2021
         PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
         if DateNotAllowed(PayrollHeader."Posting Date") then
             PayrollHeader.FieldError("Posting Date", Text003);
         CheckSetup;
-        //CheckHeader;
         if PayrollHeader.Type <> PayrollHeader.Type::Adjustment then
             PayrollHeader.CheckLines(true);
         if PostNothing then
@@ -262,6 +243,8 @@ codeunit 50010 "Payroll-Post"
                     if FieldValue <> 0 then begin
                         PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID);
                         PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
+
+                        //need to move elseware
                         if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
                             LeaveType.Reset;
                             LeaveType.SetRange("AML Eligible", true);
@@ -277,6 +260,8 @@ codeunit 50010 "Payroll-Post"
                                 LeaveEarn.ModifyAll("Payroll Document No", PayrollLine."Document No.");
                             end;
                         end;
+                        //<<
+
                         if PayrollAttributes.Type in [PayrollAttributes.Type::Benefits, PayrollAttributes.Type::Deduction] then begin
                             if PayrollAttributes.Type = PayrollAttributes.Type::Deduction then
                                 FieldValue *= -1;
@@ -306,87 +291,42 @@ codeunit 50010 "Payroll-Post"
                                 PostEmployee(PayrollJournalLine);
                             end
                             else begin
-                                if PayrollAttributes."Enable Dimension 2 Code Alloc." then begin
-                                    /* commented at UTS1.00
-                                    JournalAllocation.Reset();
-                                    JournalAllocation.SetRange("Document No.",PayrollLine."Document No.");
-                                    JournalAllocation.SetRange("Journal Line No.",PayrollLine."Line No.");
-                                    IF JournalAllocation.FindFirst() THEN begin
-                                      TotalNoOfAllocation := JournalAllocation.COUNT;
-                                      LineAllocationSum := 0;
-                                      repeat
-                                        TotalNoOfAllocation -= 1;
-                                        WITH PayrollJournalLine DO begin
-                                          JournalAllocation.TestField("Allocation %");
-                                          JournalAllocation.TestField("Shortcut Dimension 2 Code");
-                                          InitPayrollJnlLine(PayrollJournalLine,LastLineNo);
-                                          Description := PayrollAttributes.Description;
-                                          "Account Type" := "Account Type"::"G/L Account";
-                                          "Account No." := GetEmpDesignationAccount(FieldID);
-                                          IF "Account No." = '' THEN
-                                            "Account No." := PayrollAttributes."G/L Account No.";
-
-                                          Amount := ROUND(FieldValue * JournalAllocation."Allocation %" / 100,0.01,'=');
-                                          LineAllocationSum += Amount;
-                                          IF (TotalNoOfAllocation = 0) THEN begin
-                                            IF LineAllocationSum <> FieldValue THEN
-                                              Amount := Amount - (LineAllocationSum - FieldValue);
-                                          end;
-
-                                          LineBalance += Amount;
-                                          UpdateAttribute(PayrollJournalLine,PayrollAttributes);
-                                          UpdatePayrollJnl(PayrollJournalLine);
-                                          "Shortcut Dimension 2 Code" := JournalAllocation."Shortcut Dimension 2 Code";
-                                          ValidateShortcutDimCode(2,JournalAllocation."Shortcut Dimension 2 Code");
-                                          MODIFY;
-                                          PostEmployee(PayrollJournalLine);
-                                       end;
-                                      until JournalAllocation.NEXT = 0;
-                                    END
-
-                                    ELSE begin
-                                      ERROR(ErrDimensionAllocationReq,PayrollAttributes.Code,PayrollLine."Employee No.");
+                                InitPayrollJnlLine(PayrollJournalLine, LastLineNo);
+                                PayrollJournalLine.Description := PayrollAttributes.Description;
+                                PayrollJournalLine."Account Type" := PayrollJournalLine."Account Type"::"G/L Account";
+                                PayrollJournalLine."Account No." := GetEmpDesignationAccount(FieldID);
+                                if PayrollJournalLine."Account No." = '' then
+                                    PayrollJournalLine."Account No." := PayrollAttributes."G/L Account No.";
+                                if PGSetup."Salary Advance" = PayrollAttributes.Code then
+                                    PayrollJournalLine."External Document No." := PayrollLine."Salary Advance No.";
+                                if CheckTransferInServiceHistory(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date") then begin
+                                    if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then begin
+                                        PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * GetServiceDaysBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date"), 0.01, '=');
+                                        PayrollJournalLine.Amount := PriorTrfAttributeAmount;
+                                        LineBalance += PriorTrfAttributeAmount;
+                                        PayrollJournalLine."Shortcut Dimension 1 Code" := GetDimensionBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date", DeputationType);
+                                        PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                                        UpdatePayrollJnl(PayrollJournalLine);
+                                        PostEmployee(PayrollJournalLine);
                                     end;
-                                    */
-                                end
-                                else begin
                                     InitPayrollJnlLine(PayrollJournalLine, LastLineNo);
                                     PayrollJournalLine.Description := PayrollAttributes.Description;
                                     PayrollJournalLine."Account Type" := PayrollJournalLine."Account Type"::"G/L Account";
                                     PayrollJournalLine."Account No." := GetEmpDesignationAccount(FieldID);
                                     if PayrollJournalLine."Account No." = '' then
                                         PayrollJournalLine."Account No." := PayrollAttributes."G/L Account No.";
-                                    if PGSetup."Salary Advance" = PayrollAttributes.Code then
-                                        PayrollJournalLine."External Document No." := PayrollLine."Salary Advance No.";
-                                    if CheckTransferInServiceHistory(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date") then begin
-                                        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then begin
-                                            PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * GetServiceDaysBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date"), 0.01, '=');
-                                            PayrollJournalLine.Amount := PriorTrfAttributeAmount;
-                                            LineBalance += PriorTrfAttributeAmount;
-                                            PayrollJournalLine."Shortcut Dimension 1 Code" := GetDimensionBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date", DeputationType);
-                                            PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
-                                            UpdatePayrollJnl(PayrollJournalLine);
-                                            PostEmployee(PayrollJournalLine);
-                                        end;
-                                        InitPayrollJnlLine(PayrollJournalLine, LastLineNo);
-                                        PayrollJournalLine.Description := PayrollAttributes.Description;
-                                        PayrollJournalLine."Account Type" := PayrollJournalLine."Account Type"::"G/L Account";
-                                        PayrollJournalLine."Account No." := GetEmpDesignationAccount(FieldID);
-                                        if PayrollJournalLine."Account No." = '' then
-                                            PayrollJournalLine."Account No." := PayrollAttributes."G/L Account No.";
-                                        PayrollJournalLine.Amount := Round(FieldValue, 0.01, '=') - PriorTrfAttributeAmount;
-                                        LineBalance += PayrollJournalLine.Amount;
-                                        PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
-                                        UpdatePayrollJnl(PayrollJournalLine);
-                                        PostEmployee(PayrollJournalLine);
-                                    end
-                                    else begin
-                                        PayrollJournalLine.Amount := Round(FieldValue, 0.01, '=');
-                                        LineBalance += PayrollJournalLine.Amount;
-                                        PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
-                                        UpdatePayrollJnl(PayrollJournalLine);
-                                        PostEmployee(PayrollJournalLine);
-                                    end;
+                                    PayrollJournalLine.Amount := Round(FieldValue, 0.01, '=') - PriorTrfAttributeAmount;
+                                    LineBalance += PayrollJournalLine.Amount;
+                                    PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                                    UpdatePayrollJnl(PayrollJournalLine);
+                                    PostEmployee(PayrollJournalLine);
+                                end
+                                else begin
+                                    PayrollJournalLine.Amount := Round(FieldValue, 0.01, '=');
+                                    LineBalance += PayrollJournalLine.Amount;
+                                    PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                                    UpdatePayrollJnl(PayrollJournalLine);
+                                    PostEmployee(PayrollJournalLine);
                                 end;
                             end;
                         end;
@@ -406,8 +346,6 @@ codeunit 50010 "Payroll-Post"
                     Error(NetBalanceInConsistency, PayrollLine."Employee No.", PayrollLine."Net Pay", LineBalance - PayrollEngine.AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollHeader."No.") +
                     PayrollEngine.GetLumpsumpCIT(PayrollLine."Employee No.", PayrollHeader."No."));
                 InitPayrollJnlLine(PayrollJournalLine, LastLineNo);
-                //"Shortcut Dimension 1 Code" := PayrollLine."Global Dimension 1 Code";
-                //ValidateShortcutDimCode(1,PayrollLine."Global Dimension 1 Code");
                 if PGSetup."Net Payable Account Type" = PGSetup."Net Payable Account Type"::"Bank Account" then begin
                     PayrollJournalLine."Account Type" := PayrollJournalLine."Account Type"::"Bank Account";
                     PayrollJournalLine."Document Type" := PayrollJournalLine."Document Type"::Payment;
@@ -486,12 +424,6 @@ codeunit 50010 "Payroll-Post"
         FieldValue: Code[20];
     begin
         Employee.Get(PayrollLine."Employee No.");
-        /*RecRef.OPEN(DATABASE::"Employee Designation"); //commented at UTS1.00
-        FieldRef := RecRef.FIELD(1);
-        FieldRef.SetRange(Employee."Employee Designation");
-        RecRef.FindFirst();
-        FieldRef := RecRef.FIELD(FieldID);
-        EVALUATE(FieldValue,FORMAT(FieldRef.VALUE));*/
         exit(FieldValue);
     end;
 

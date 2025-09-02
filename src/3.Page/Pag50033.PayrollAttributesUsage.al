@@ -86,8 +86,11 @@ page 50033 "Payroll Attributes Usage"
                     Ptxt: Label 'Select Employee';
                     EmpCode: Code[20];
                     PayrollEngine: Codeunit "Payroll Engine";
+                    ImportPayrollAttrReport: Report "Import Payroll Attributes";
                 begin
-                    Report.Run(Report::"Import Payroll Attributes", true, false);
+                    Clear(ImportPayrollAttrReport);
+                    ImportPayrollAttrReport.SetEmployeeNo(Rec."Employee Code");
+                    ImportPayrollAttrReport.Run();
                 end;
             }
         }

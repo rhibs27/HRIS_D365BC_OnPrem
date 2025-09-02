@@ -347,6 +347,12 @@ table 50026 "Payroll Header"
         PayLine.SetRange("Document No.", "No.");
         if PayLine.FindSet() then;
         PayLine.DeleteAll;
+
+        //reset payroll tag
+        AllowanceAssignmentLine.Reset();
+        AllowanceAssignmentLine.SetRange("Payroll Doc No.", "No.");
+        if AllowanceAssignmentLine.FindSet() then
+            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
     end;
 
     var
@@ -372,6 +378,7 @@ table 50026 "Payroll Header"
         PayrollEngine: Codeunit "Payroll Engine";
         EncashmentSetup: Record "OT Encashment Setup";
         HrMgt: Codeunit "HR Mgt.";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure AssistEdit(xSalaryHeader: Record "Payroll Header"): Boolean
     begin
