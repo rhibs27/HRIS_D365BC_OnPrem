@@ -243,8 +243,28 @@ table 50034 "Posted Payroll Header"
                         until PostedPayrollLine.Next = 0;
                     PostedPayrollHeader.Reversed := true;
                     PostedPayrollHeader.Modify;
+                    ReverseSourceDocumentsOnPayrollReverse(PostedPayrollHeader."No.");
                     Message(Text003);
                 end;
         end;
+    end;
+
+    procedure ReverseSourceDocumentsOnPayrollReverse(PostedDocNo: Code[20])
+    var
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        LeaveEarn: Record "Leave Earn";
+    begin
+        LeaveEarn.SetRange("Payroll Posted", true);
+        LeaveEarn.SetRange("Payroll Document No", PostedDocNo);
+        if LeaveEarn.FindSet() then
+            repeat
+                LeaveEarn."Payroll Posted" := false;
+                LeaveEarn."Payroll Document No" := '';
+                LeaveEarn.Modify();
+            until LeaveEarn.Next() = 0;
+
+        AllowanceAssignmentLine.SetRange("Payroll Doc No.", PostedDocNo);
+        if AllowanceAssignmentLine.FindSet() then
+            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
     end;
 }

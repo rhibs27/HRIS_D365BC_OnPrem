@@ -132,7 +132,7 @@ table 50093 "Allowance Assignment Line"
                     AllowanceConfiguration.Reset();
                     AllowanceConfiguration.SetRange("Payroll Attribute", "Allowance Type");
                     if AllowanceConfiguration.FindFirst() then
-                        "Allowance Amount" := AllowanceConfiguration.Amount
+                        "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration)
                     else
                         Error('Invalid allowance selected!');
                 end;
@@ -495,5 +495,28 @@ table 50093 "Allowance Assignment Line"
         //PayrollGeneralSetup.TestField("Allowance Grace Period");
         if AllowanceHeader."To date" + PayrollGeneralSetup."Allowance Grace Period" < Today then
             Error('Grace period for filling allowance assignment has been exceeded. Please Contact HR Team');
+    end;
+
+    procedure GetAllowanceConfigAmount(AllowanceConfig: Record "Allowance Configuration"): Decimal
+    var
+        MonthlyAmt: Decimal;
+    begin
+        if AllowanceConfig."Earning Cycle" = AllowanceConfig."Earning Cycle"::Daily then
+            exit(AllowanceConfig.Amount);
+
+        if AllowanceConfig.Source in [AllowanceConfig.Source::Direct, AllowanceConfig.Source::Leave] then
+            if AllowanceConfig.Formula = '' then
+                exit(AllowanceConfig.Amount)
+            else
+                exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee Code"));
+
+        if AllowanceConfig.Source in [AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift] then begin
+            if AllowanceConfig.Formula = '' then
+                MonthlyAmt := AllowanceConfig.Amount
+            else
+                MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee Code");
+
+            exit(Round(MonthlyAmt / 30, 0.01, '='));
+        end;
     end;
 }

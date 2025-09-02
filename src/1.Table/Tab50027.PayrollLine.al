@@ -2003,12 +2003,6 @@ table 50027 "Payroll Line"
         until StrLength = 0;
     end;
 
-    local procedure IsContribution(): Boolean
-    begin
-        exit((PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employee Contribution") or
-              (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employer Contribution"))
-    end;
-
     local procedure GetBasicSalaryAfterDeduction(): Decimal
     begin
         PayrollAttributes.Reset;

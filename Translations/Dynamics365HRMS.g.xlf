@@ -343,6 +343,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Entry No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 3304877602 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Formula</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Formula - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3837508396 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11517,6 +11522,11 @@
           <source>Overtime Request No</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Overtime Request No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 340262899 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Attribute</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Payroll Attribute - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2977078565 - Field 3716847805 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Document No</source>
@@ -23197,6 +23207,11 @@
           <source>Specifies the value of the Entry No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 3304877602 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Formula field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Formula - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3003557261 - Control 3975378601 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Functional Title field.</source>

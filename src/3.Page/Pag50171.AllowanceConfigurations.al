@@ -89,7 +89,23 @@ page 50171 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Source field.', Comment = '%';
                 }
-
+                field(Formula; Rec.Formula)
+                {
+                    ToolTip = 'Specifies the value of the Formula field.', Comment = '%';
+                }
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action(check)
+            {
+                trigger OnAction()
+                begin
+                    Message('%1', Rec.EvaluateAmountForEmployee(Rec.Formula, '100'));
+                end;
             }
         }
     }

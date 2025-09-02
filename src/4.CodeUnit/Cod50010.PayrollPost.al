@@ -244,23 +244,7 @@ codeunit 50010 "Payroll-Post"
                         PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID);
                         PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
 
-                        //need to move elseware
-                        if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
-                            LeaveType.Reset;
-                            LeaveType.SetRange("AML Eligible", true);
-                            LeaveType.SetRange("Leave For Employee Type", PayrollLine."Employee Type");
-                            LeaveType.FindFirst;
-
-                            LeaveEarn.Reset;
-                            LeaveEarn.SetRange("Employee No.", PayrollLine."Employee No.");
-                            LeaveEarn.SetRange("Leave Code", LeaveType.Code);
-                            LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-                            if LeaveEarn.FindSet() then begin
-                                LeaveEarn.ModifyAll("Payroll Posted", true);
-                                LeaveEarn.ModifyAll("Payroll Document No", PayrollLine."Document No.");
-                            end;
-                        end;
-                        //<<
+                        UpdateSourceDocumentOnPayrollPost(PayrollAttributes, PayrollLine);
 
                         if PayrollAttributes.Type in [PayrollAttributes.Type::Benefits, PayrollAttributes.Type::Deduction] then begin
                             if PayrollAttributes.Type = PayrollAttributes.Type::Deduction then
@@ -465,4 +449,45 @@ codeunit 50010 "Payroll-Post"
                 exit(OrganizationStructureList."Dimension Value Code")
         end;
     end;
+
+    procedure UpdateSourceDocumentOnPayrollPost(PayrollAttributes: Record "Payroll Attributes"; PayrollLineRec: Record "Payroll Line")
+    var
+        LeaveEarn: Record "Leave Earn";
+        AllowanceAssignLine: Record "Allowance Assignment Line";
+
+    begin
+        if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
+            LeaveType.Reset;
+            LeaveType.SetRange("AML Eligible", true);
+            LeaveType.SetRange("Leave For Employee Type", PayrollLineRec."Employee Type");
+            LeaveType.FindFirst;
+
+            LeaveEarn.Reset;
+            LeaveEarn.SetRange("Employee No.", PayrollLineRec."Employee No.");
+            LeaveEarn.SetRange("Leave Code", LeaveType.Code);
+            LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+            if LeaveEarn.FindSet() then begin
+                LeaveEarn.ModifyAll("Payroll Posted", true);
+                LeaveEarn.ModifyAll("Payroll Document No", PayrollLineRec."Document No.");
+            end;
+        end;
+
+        if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::"Leave Encash" then begin
+            LeaveEarn.SetRange("Payroll Document No", PayrollHeader."No.");
+            LeaveEarn.SetRange("Payroll Attribute", PayrollAttributes.Code);
+            LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+            if LeaveEarn.FindSet() then
+                repeat
+                    LeaveEarn."Payroll Posted" := true;
+                    LeaveEarn."Payroll Document No" := PostedPayrollHeader."No.";
+                    LeaveEarn.Modify();
+                until LeaveEarn.Next() = 0;
+        end;
+
+        AllowanceAssignLine.SetRange("Allowance Type", PayrollAttributes.Code);
+        AllowanceAssignLine.SetRange("Payroll Doc No.", PayrollHeader."No.");
+        if AllowanceAssignLine.FindSet() then
+            AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
+    end;
+
 }
