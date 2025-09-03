@@ -64,7 +64,7 @@ table 50029 "Pay Cycle Term"
     var
         PayCycle: Record "Pay Cycle";
         PayCyclePeriod: Record "Pay Cycle Period";
-        PayrollLedgerEntry: Record "Employee Ledger Entry PRM";
+        PayrollLedgerEntry: Record "Employee Ledger Entry";
         Text001: Label 'You cannot delete the Pay Cycle Term.  There are records already posted to the %1 table.';
 
     procedure GetDefaultPayPeriods(PayCycleCode: Code[20]): Integer

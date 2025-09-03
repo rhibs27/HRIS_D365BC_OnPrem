@@ -131,7 +131,7 @@ table 50030 "Pay Cycle Period"
     end;
 
     var
-        PayrollLedgerEntry: Record "Employee Ledger Entry PRM";
+        PayrollLedgerEntry: Record "Employee Ledger Entry";
         EmployerPayCycle: Record "Pay Cycle";
         Day: Integer;
         Text001: Label 'You cannot delete the Pay Cycle Period.  There are records already posted to the %1 table.';

@@ -1621,12 +1621,6 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure CheckDocument()
-    begin
-        GetPayrollHeader;
-        TestTotalDays(PayrollHeader);
-    end;
-
     procedure TestTotalDays(PayrollHeader: Record "Payroll Header")
     var
         PayPeriodDays: Decimal;
@@ -2817,7 +2811,6 @@ table 50027 "Payroll Line"
         if getLastAmount then begin
             AllowanceAssignmentLine.SetRange("Recurring Completed", false);
             AllowanceAssignmentLine.CalcSums("Allowance Amount");
-            // if AllowanceAssignmentLine.FindLast() then
             exit(AllowanceAssignmentLine."Allowance Amount");
         end else begin
             AllowanceAssignmentLine.CalcSums("Allowance Amount");
