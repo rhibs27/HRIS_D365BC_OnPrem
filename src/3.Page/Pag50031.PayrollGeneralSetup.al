@@ -757,6 +757,11 @@ page 50031 "Payroll General Setup"
                     ApplicationArea = All;
                 }
             }
+            part(PayrollSetupLines; "Payroll Setup Lines")
+            {
+                Caption = 'Payroll Setup Lines';
+                ApplicationArea = all;
+            }
         }
     }
 

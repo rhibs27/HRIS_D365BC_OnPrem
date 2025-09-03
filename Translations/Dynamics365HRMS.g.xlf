@@ -16488,6 +16488,66 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Week Off Hours - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 186303905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Setup Lines</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Pay Cycle Term - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 2140931000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt. not Exceed on Donation Limit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt. not Exceed Don. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 2687346111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt. not Exceed Medical Reimbursement Limit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt. not Exceed Med. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 4041413769 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt. not Exceeding Retirement Limit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt. not Exceeding - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 1631512563 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>	Tax Ex. Amt. not Exceeding Retirement Limit (SSF)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt. not Exceeding SSF - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 3324612755 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt. (%) on Donation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt. on Donation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 2257877043 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt. (%) on Medical Reimbursement</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt. on Medical Reim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 3480436730 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt. (%) on Retirement Contribution</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt. on Retirement - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 4254827978 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. House Insurance Amt. Limit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. House Insurance Amt. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 2929611902 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Life Insurance Amt. Limit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Insurance Amt. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 3251221451 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Medical Insurance Amt. Limit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Medical Insurance Amt. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3977349962 - Field 2333076789 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>PrimaryKey</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39808,6 +39868,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Vault Key - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 853292537 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Setup Lines</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control PayrollSetupLines - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 203898619 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Net Payable Account Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -41392,6 +41457,16 @@
           <source>Executes the Timesheet Summary action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Action Timesheet Summary - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 186303905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Setup Lines</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Setup Lines - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 186303905 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Setup Lines - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 525896060 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the 1% Slab field.</source>
