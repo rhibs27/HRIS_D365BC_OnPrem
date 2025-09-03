@@ -253,6 +253,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Payroll Doc No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 922203080 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recurring Completed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Recurring Completed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>

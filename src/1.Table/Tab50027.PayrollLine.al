@@ -2815,8 +2815,10 @@ table 50027 "Payroll Line"
         if LeaveCode <> '' then
             AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
         if getLastAmount then begin
-            if AllowanceAssignmentLine.FindLast() then
-                exit(AllowanceAssignmentLine."Allowance Amount");
+            AllowanceAssignmentLine.SetRange("Recurring Completed", false);
+            AllowanceAssignmentLine.CalcSums("Allowance Amount");
+            // if AllowanceAssignmentLine.FindLast() then
+            exit(AllowanceAssignmentLine."Allowance Amount");
         end else begin
             AllowanceAssignmentLine.CalcSums("Allowance Amount");
             Amt := AllowanceAssignmentLine."Allowance Amount";

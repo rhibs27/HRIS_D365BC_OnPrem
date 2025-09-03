@@ -388,6 +388,13 @@ codeunit 50008 "Payroll Engine"
             end;
 
         end;
+
+        IF MonthlyTax < 0 then begin
+            MonthlyTax := 0;
+            SocialSecurityTaxAmount := 0;
+            MonthlyTax := 0;
+        end;
+
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         PopulateGlobalAmounts;
         PayrollLine.Modify;
@@ -4161,48 +4168,6 @@ codeunit 50008 "Payroll Engine"
                         end;
                     until EmpVar.Next() = 0;
             until PayrollAttr.Next = 0;
-    end;
-
-    procedure ValidateAttributes2(AttrCode: Code[20]; EmpCode: Code[20])
-    var
-        AllowanceConfiguration: Record "Allowance Configuration";
-        Employee: Record Employee;
-        PayrollAttr: Record "Payroll Attributes";
-
-        AllowanceConfiguration2: Record "Allowance Configuration";
-    begin
-        Employee.Get(EmpCode);
-
-        // this may slowdown 
-        AllowanceConfiguration.SetRange("Payroll Attribute", AttrCode);
-        AllowanceConfiguration.SetFilter("Employment Type", '%1|%2', Employee."Employment Type"::" ", Employee."Employment Type");
-        AllowanceConfiguration.SetFilter("Salary Level", '%1|%2', '', Employee."Salary Level");
-        AllowanceConfiguration.SetFilter("Functional Title", '%1|%2', '', Employee."Functional Title");
-        AllowanceConfiguration.SetFilter("Employee Work Shift", '%1|%2', '', Employee."Employee Work Shift");
-
-        AllowanceConfiguration.SetFilter("Province Code", '%1|%2', '', Employee."Province Code");
-        AllowanceConfiguration.SetFilter("Branch Code", '%1|%2', '', Employee."Branch Code");
-        AllowanceConfiguration.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
-        if AllowanceConfiguration.FindSet() then;
-
-        // AllowanceConfiguration2.SetRange("Payroll Attribute", AttrCode);
-        // if AllowanceConfiguration2.FindSet() then
-        //     repeat
-        //     // if AllowanceConfiguration.em
-        //     until AllowanceConfiguration2.Next() = 0
-    end;
-
-    procedure GetAllowanceAssignmentAmount(EmpNo: Code[20]; AttrCode: Code[20]; StartDate: Date; EndDate: Date): Decimal
-    var
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
-    begin
-        AllowanceAssignmentLine.SetLoadFields("Employee Code", "Approval Status", "Allowance Type", "From Date", "Allowance Amount");
-        AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
-        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-        AllowanceAssignmentLine.SetRange("From Date", startdate, EndDate);
-        AllowanceAssignmentLine.SetRange("Allowance Type", AttrCode);
-        AllowanceAssignmentLine.CalcSums("Allowance Amount");
-        exit(AllowanceAssignmentLine."Allowance Amount")
     end;
 
     [IntegrationEvent(false, false)]

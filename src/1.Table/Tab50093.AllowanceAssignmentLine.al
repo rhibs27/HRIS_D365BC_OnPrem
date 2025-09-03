@@ -215,6 +215,8 @@ table 50093 "Allowance Assignment Line"
         {
 
         }
+        field(33; "Recurring Completed"; Boolean) { }
+
     }
 
     keys

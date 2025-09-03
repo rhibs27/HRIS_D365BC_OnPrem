@@ -340,4 +340,13 @@ table 50156 "Allowance Configuration"
             PayrollAttrUses.Modify();
         end;
     end;
+
+    procedure CloseRecurringAllowanceAssignment(Empcode: Code[20])
+    var
+        AllowanceAssignmentline: Record "Allowance Assignment Line";
+        AllowanceConfig: Record "Allowance Configuration";
+    begin
+        AllowanceAssignmentline.SetRange("Employee Code", Empcode);
+
+    end;
 }
