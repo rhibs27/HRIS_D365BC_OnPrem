@@ -58,7 +58,7 @@ page 50011 "Request to Approve HRIS"
             { }
 
         }
-        area(navigation)
+        area(Navigation)
         {
             action("Record")
             {

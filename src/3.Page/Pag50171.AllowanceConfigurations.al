@@ -1,4 +1,4 @@
-page 50171 "Allowance Configurations"
+page 50365 "Allowance Configurations"
 {
     ApplicationArea = All;
     Caption = 'Allowance Configurations';

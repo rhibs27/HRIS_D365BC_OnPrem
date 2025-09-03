@@ -1,4 +1,4 @@
-table 50121 "Allowance Configuration"
+table 50156 "Allowance Configuration"
 {
     Caption = 'Allowance Configuration';
     DataClassification = ToBeClassified;
