@@ -9773,6 +9773,51 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Value - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 526267880 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Payroll Attribute Usage</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attribute Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field Attribute Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field End Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 35450067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field Posted - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 526267880 - Field 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Import Attribute Usage - Field Start Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4290892503 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Company</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21572,6 +21617,11 @@
           <source>The incoming document has already been assigned to %1 %2 (%3).</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Event Management - Method OnTestIfAlreadyExists - NamedType AlreadyUsedInDocHdrErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3632478246 - NamedType 308341003" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data is successfully imported.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Excel Import - NamedType ExcelImportSuccess</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - NamedType 2838649434" size-unit="char" translate="yes" xml:space="preserve">
           <source>AND</source>
@@ -34352,6 +34402,61 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HRMS Approval Entry - Control status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Attribute Usage</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attribute Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control Attribute Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the End Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Entry No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 35450067 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Posted field</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control Posted - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Action 2873012083 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Posted Data</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Action Posted Data - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 526267880 - Action 1127018166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>UnPosted Data</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Import Attribute Usage - Action UnPosted Data - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3066359413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Companies</source>
