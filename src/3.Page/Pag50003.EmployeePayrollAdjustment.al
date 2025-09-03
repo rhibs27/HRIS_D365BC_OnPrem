@@ -111,6 +111,9 @@ page 50003 "Employee Payroll Adjustment"
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        LWPDays: Integer;
+        IsHandled: Boolean;
     begin
         PGSetup.Get;
         Rec.FilterGroup(2);
@@ -142,6 +145,11 @@ page 50003 "Employee Payroll Adjustment"
                     FieldRefs := RecRefs.Field(3);
                     FieldRefs.Validate(PayrollAdj."Employee No.");
                     ValidatePayrollLineAmt;
+                    OnBeforeInsertPayrollLine(PayrollAdj."Employee No.", LWPDays, IsHandled);
+                    if IsHandled then begin
+                        FieldRefs := RecRefs.Field(1062);
+                        FieldRefs.Validate(LWPDays);
+                    end;
                     RecRefs.Insert;
                 end else begin
                     ValidatePayrollLineAmt;
@@ -445,5 +453,12 @@ page 50003 "Employee Payroll Adjustment"
             AdjustPFAmt := EmpPayAdj.Amount;
             AttributeAmt += AdjustPFAmt;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertPayrollLine(EmployeeNo: Code[20]; var LWPDays: Integer; var IsHandled: Boolean)
+    begin
+        //This event can be used to insert values in the payroll line for the employee before entering the process
+        //You can add custom logic here if needed.
     end;
 }
