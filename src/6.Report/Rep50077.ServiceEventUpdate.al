@@ -139,7 +139,7 @@ report 50077 "Service Event Update"
             Error('Please fill Employment Type values');
         if ServiceEvent = ServiceEvent::"Re Appointment" then
             if ContractCode = '' then
-                Error('Please fill Contract Code fields')
+                Error('Please fill Contract Code field')
             else
                 Employee.Validate("Emplymt. Contract Code", ContractCode);
         if EmploymentType = EmploymentType::Contract then
@@ -176,7 +176,8 @@ report 50077 "Service Event Update"
             Employee.Validate("Contract Renew Date", EffectiveDate);
         if EmploymentType = EmploymentType::Contract then
             Employee.Validate("Contract Expiry Month", ContractExpiryMonth);
-        ValidateDeputationOnCode();
+        if (DeputationOnTo <> DeputationOnTo::" ") and (DeputationCodeTo <> '') then
+            ValidateDeputationOnCode();
         Employee.Modify;
     end;
 
