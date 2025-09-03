@@ -185,8 +185,14 @@ codeunit 50008 "Payroll Engine"
         PayCycleTerm.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term");
         PayCycleTerm.CalcFields("Periods Generated");
         if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Adjustment] then begin
-            if Employee."Employment Type" <> Employee."Employment Type"::Contract then
-                RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
+            if Employee."Employment Type" <> Employee."Employment Type"::Contract then begin
+                if Employee."Resignation Date" <> 0D then
+                    RemainingMonth := GetPayCyclePeriod(Employee."Resignation Date") - GetLastPayPeriod
+                else if Employee."Termination Date" <> 0D then
+                    RemainingMonth := GetPayCyclePeriod(Employee."termination Date") - GetLastPayPeriod
+                else
+                    RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
+            end
             else begin
                 if PayrollHeader."Previous Year Payroll" then
                     RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod
