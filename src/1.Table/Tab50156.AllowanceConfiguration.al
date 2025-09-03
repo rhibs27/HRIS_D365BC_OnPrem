@@ -335,7 +335,8 @@ table 50156 "Allowance Configuration"
         PayrollAttrUses.SetRange("Employee Code", EmpCode);
         PayrollAttrUses.SetRange(Subtype, PayrollAttrUses.Subtype::Grade);
         if PayrollAttrUses.FindFirst() then begin
-            PayrollAttrUses.Validate(Amount, Round(BasicAmt * GradeEntry."Total Grade Percentage" / 100, 0.01, '='));
+            if (not PayrollAttrUses."Static Amount") or (PayrollAttrUses.Amount = 0) then
+                PayrollAttrUses.Validate(Amount, Round(BasicAmt * GradeEntry."Total Grade Percentage" / 100, 0.01, '='));
             PayrollAttrUses.Modify();
         end;
     end;
