@@ -3636,6 +3636,7 @@ codeunit 50008 "Payroll Engine"
                     Employee.Reset;
                     Employee.SetFilter("Employment Type", '%1|%2|%3', Employee."Employment Type"::Probation, Employee."Employment Type"::Permanent, Employee."Employment Type"::Temporary);
                     Employee.SetFilter("Resignation Date", '0D|>%1', PGSetup."Dashain Start Date");
+                    Employee.SetRange("No.", '10');
                     Employee.SetRange(Status, Employee.Status::Active);
                     if Employee.FindSet then
                         repeat
