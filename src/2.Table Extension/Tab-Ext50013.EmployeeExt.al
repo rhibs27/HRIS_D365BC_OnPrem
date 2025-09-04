@@ -1501,7 +1501,10 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
         }
 
-
+        field(50517; "Do not Calculate Salary"; boolean)
+        {
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {

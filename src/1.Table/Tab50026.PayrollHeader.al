@@ -565,6 +565,7 @@ table 50026 "Payroll Header"
 
         Employee.Reset;
         Employee.SetCurrentKey("Employment Type");
+        Employee.SetRange("Do not Calculate Salary", false);
         if Type = Type::Settlement then begin
             Employee.SetRange(Status, Employee.Status::Inactive);
             if "Employee Type" = "Employee Type"::Permanent then

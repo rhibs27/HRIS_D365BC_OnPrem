@@ -24,6 +24,7 @@ table 50027 "Payroll Line"
                 Employee.TestField("Employment Date");
                 Employee.TestField(Settled, false);
                 Employee.TestField("Tax Code");
+                Employee.TestField("Do not Calculate Salary", false);
                 if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
                     Employee.TestField(Status, Employee.Status::Active);
 

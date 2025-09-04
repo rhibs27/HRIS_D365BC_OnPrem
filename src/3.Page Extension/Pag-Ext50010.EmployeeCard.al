@@ -217,6 +217,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Specifies the value of the Tax Code field.';
 
             }
+            field("Do not Calculate Salary"; Rec."Do not Calculate Salary")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Do not Calculate Salary field.', Comment = '%';
+            }
             field(Disabled; Rec.Disabled)
             {
                 ApplicationArea = All;
