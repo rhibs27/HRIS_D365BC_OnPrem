@@ -58,8 +58,6 @@ codeunit 50000 "Leave Mgt."
                     Difference := 1
                 else
                     Difference := 0.5;
-
-
             IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled1, CalculatedDays);
             if IsHandled1 then
                 exit(CalculatedDays);
@@ -75,7 +73,6 @@ codeunit 50000 "Leave Mgt."
             exit(EndDate - StartDate + 1);
 
     end;
-
 
     procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
     var
@@ -93,7 +90,9 @@ codeunit 50000 "Leave Mgt."
         PostingRegion: Enum Region;
         Branch, District, MunicipalityFilter : Text;
         Community: Enum "Community Type";
+        EmployeeFilter: Text[500];
         Disabled: Boolean;
+        EmployeeRec: Record Employee;
     begin
         Counter := 0;
         PayrollSetup.Get;
@@ -103,9 +102,9 @@ codeunit 50000 "Leave Mgt."
         if CalendarDate.Find('-') then
             repeat
                 Clear(AlreadyAdded);
-                if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, Disabled) then begin
+                if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
                     CalendarDescription := Description;
-                    if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (community = community::" ") and (not Disabled) and (District = '') then
+                    if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (District = '') and (MunicipalityFilter = '') and (community = community::" ") and (EmployeeFilter = '') and (not Disabled) then
                         Counter += 1
                     else begin
                         if Provinces <> '' then begin
@@ -179,6 +178,18 @@ codeunit 50000 "Leave Mgt."
                                 Counter += 1;
                                 AlreadyAdded := true
                             end;
+                        if (EmployeeFilter <> '') and (not AlreadyAdded) then begin
+                            EmployeeRec.Reset;
+                            EmployeeRec.Setfilter("No.", EmployeeFilter);
+                            if EmployeeRec.Find('-') then
+                                repeat
+                                    if (EmployeeRec."No." = EmpCode) and (not AlreadyAdded) then begin
+                                        Counter += 1;
+                                        AlreadyAdded := true;
+                                        break;
+                                    end;
+                                until EmployeeRec.Next = 0;
+                        end;
                         if Disabled and (not AlreadyAdded) then
                             if Disabled = Employee.disabled then begin
                                 Counter += 1;

@@ -99,6 +99,7 @@ report 50043 "Import Attendance"
         District: text;
         Municipality: text;
         Community: Enum "Community Type";
+        EmployeeFilter: Text;
         Disabled: Boolean;
     begin
         gender := gender::" ";
@@ -114,6 +115,7 @@ report 50043 "Import Attendance"
                                         District,
                                         Municipality,
                                         Community,
+                                        EmployeeFilter,
                                         Disabled));
     end;
 

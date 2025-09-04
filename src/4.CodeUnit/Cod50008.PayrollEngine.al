@@ -3151,7 +3151,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
     end;
 
-    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20])
+    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20]; EmployeeNo: Code[20])
     var
         Employee: Record Employee;
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
@@ -3173,8 +3173,10 @@ codeunit 50008 "Payroll Engine"
                 begin
                     Employee.Reset;
                     Employee.SetFilter("Employment Type", '%1|%2|%3', Employee."Employment Type"::Probation, Employee."Employment Type"::Permanent, Employee."Employment Type"::Temporary);
-                    Employee.SetFilter("Resignation Date", '0D|>%1', PGSetup."Dashain Start Date");
+                    Employee.SetFilter("Resignation Date", '%1|>%2', 0D, PGSetup."Dashain Start Date");
                     Employee.SetRange(Status, Employee.Status::Active);
+                    if EmployeeNo <> '' then
+                        Employee.SetFilter("No.", '%1', EmployeeNo);
                     if Employee.FindSet then
                         repeat
                             Employee.TestField("Employment Date");
@@ -3201,24 +3203,28 @@ codeunit 50008 "Payroll Engine"
                     Employee.Reset;
                     Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
                     Employee.SetRange(Status, Employee.Status::Active);
+                    if EmployeeNo <> '' then
+                        Employee.SetRange("No.", EmployeeNo);
                     if Employee.FindSet then
                         repeat
-                            Employee.TestField("Contract Expiry Date");
-                            Employee.TestField("Contract Salary Amount");
                             Employee.TestField("Employment Date");
-
+                            OnBeforeInsertDashainAllowance(Employee."No.", EligibleAmount, IsHandled);
                             CheckDate := GetCheckDateforDashain(PGSetup."Dashain Start Date", Employee."Employment Date");
-
+                            if not IsHandled then begin
+                                Employee.TestField("Contract Expiry Date");
+                                Employee.TestField("Contract Salary Amount");
+                                EligibleAmount := GetDashainBonusAmt(Employee."Contract Salary Amount", CheckDate);
+                            end;
                             if CheckDate <> 0D then begin
-                                if (Employee."Contract Expiry Date" - Employee."Employment Date" + 1) >= 183 then begin
-                                    EmployeePayrollAdjustment.Init;
-                                    EmployeePayrollAdjustment."Payroll Document No." := PayrollDocNo;
-                                    EmployeePayrollAdjustment.Validate("Employee No.", Employee."No.");
-                                    EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Dashain Renumeration");
-                                    EmployeePayrollAdjustment.Validate(Amount, GetDashainBonusAmt(Employee."Contract Salary Amount", CheckDate));
-                                    if EmployeePayrollAdjustment.Amount <> 0 then
-                                        EmployeePayrollAdjustment.Insert(true);
-                                end;
+                                //if (Employee."Contract Expiry Date" - Employee."Employment Date" + 1) >= 183 then begin
+                                EmployeePayrollAdjustment.Init;
+                                EmployeePayrollAdjustment."Payroll Document No." := PayrollDocNo;
+                                EmployeePayrollAdjustment.Validate("Employee No.", Employee."No.");
+                                EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Dashain Renumeration");
+                                EmployeePayrollAdjustment.Validate(Amount, EligibleAmount);
+                                if EmployeePayrollAdjustment.Amount <> 0 then
+                                    EmployeePayrollAdjustment.Insert(true);
+                                //end;
                             end;
                         until Employee.Next = 0;
                 end;
