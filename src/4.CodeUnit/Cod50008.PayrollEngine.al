@@ -386,15 +386,12 @@ codeunit 50008 "Payroll Engine"
                 end else
                     MonthlyTax := -TotalTaxRemunPaid + SocialSecurityTaxAmount;
             end;
-
             if MonthlyTax < 0 then begin
                 MonthlyTax := 0;
                 SocialSecurityTaxAmount := 0;
-                MonthlyTax := 0;
+
             end;
-
         end;
-
 
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         PopulateGlobalAmounts;
@@ -3060,6 +3057,8 @@ codeunit 50008 "Payroll Engine"
         else
             PayrollLine."Tax on Remuneration(Annual)" := TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid;
         PayrollLine."Female Tax Credit" := TaxExempt;
+        if TaxAtOnceAnnualTax < 0 then
+            TaxAtOnceAnnualTax := 0;
         PayrollLine."Net Tax Liability" := TaxAtOnceAnnualTax;
         PayrollLine."Total Tax Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening" + Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
         PayrollLine."Total SST Paid" := Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
