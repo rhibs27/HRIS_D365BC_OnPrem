@@ -239,6 +239,8 @@ page 50040 "Payroll Plan"
                         PayrollHeader.SetRange("No.", Rec."No.");
                         if PayrollHeader.FindFirst then begin
                             Rec.GetDetails(PayrollHeader);
+                            PayrollHeader.Validate(Status, PayrollHeader.Status::Pending);
+                            PayrollHeader.Modify;
                         end;
                     end;
                 }
