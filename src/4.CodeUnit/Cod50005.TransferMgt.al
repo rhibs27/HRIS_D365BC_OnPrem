@@ -397,12 +397,8 @@ codeunit 50005 "Transfer Mgt."
         Acknowledged: Label 'Acknowledged.';
         IncomingDoc: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
-        Province: Record Province;
-        GLSetup: Record "General Ledger Setup";
-        FunctionalTitle: Record "Functional Title";
         ServiceHistoryCode: Code[20];
         ServiceHistory: Record "Employee Service History";
-        PreviousServiceHistory: Record "Employee Service History";
     begin
         if GuiAllowed then
             if not Confirm(ConfirmAcknowledge, false) then
@@ -421,7 +417,6 @@ codeunit 50005 "Transfer Mgt."
             ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         IF EmpHrTransfer."Transfer Category" = "Transfer Category"::General THEN
             ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
-        GLSetup.Get;
         //checking for attachment mandatory
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
             Error('You Cannot Acknowledge Before Date of Joining');
@@ -454,6 +449,7 @@ codeunit 50005 "Transfer Mgt."
                     end;
                 EmpHrTransfer."Deputation On (To)"::Department:
                     begin
+                        EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
                         EmployeeRec.Validate("Deputation On Code", EmpHrTransfer."Department Code (To)");
                         EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
                         if EmpHrTransfer."Unit (To)" <> '' then

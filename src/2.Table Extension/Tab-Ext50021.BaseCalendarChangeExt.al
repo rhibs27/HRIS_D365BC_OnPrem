@@ -63,6 +63,14 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
                 Validate(Municipality, HRMgt.LookupMultipleMunicipality());
             end;
         }
+        field(50011; "Employee"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate(Employee, HRMgt.LookupEmployee());
+            end;
+        }
     }
 
     var

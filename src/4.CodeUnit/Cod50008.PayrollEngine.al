@@ -1444,7 +1444,6 @@ codeunit 50008 "Payroll Engine"
                 Page.Run(0, DetailedEmployeeLedgEntry);
         end;
     end;
-
     procedure GetAttendanceForPayroll(var PayrollLine: Record "Payroll Line"; PayrollHeader: Record "Payroll Header")
     var
         AttendanceSummary: Record "Attendance Summary";

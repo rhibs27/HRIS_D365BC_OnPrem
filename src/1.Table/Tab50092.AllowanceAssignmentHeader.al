@@ -35,7 +35,6 @@ table 50092 "Allowance Assignment Header"
 
             trigger OnValidate()
             begin
-                // CheckLineExist();
                 GLsetup.Get;
                 Clear(Name);
                 if not GuiAllowed then
@@ -59,12 +58,9 @@ table 50092 "Allowance Assignment Header"
                         Name := OrganizationStructureList.Name;
                 end else if Type = Type::Unit then begin
                     if Code <> '' then
-                        //TestField(Code, Employee."Unit Code");
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Code) then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Code) then
                             Name := OrganizationStructureList.Name;
                 end;
-                //GetApprover();
-                // CheckForSameWeek;
             end;
         }
         field(3; Name; Text[100])
@@ -94,9 +90,8 @@ table 50092 "Allowance Assignment Header"
                 TestField("From Date");
                 if "From Date" > "To date" then
                     Error('Invalid date.');
-                if "To date" > "From Date" + 32 then
-                    Error('Date range exceed');
-                CheckForExistingDate();
+                if "Activity Type" = "Activity Type"::"Allowance Assignment" then
+                    CheckForExistingDate();
             end;
         }
         field(6; "Type"; Enum "Branchwise/Extension Type")
@@ -169,8 +164,17 @@ table 50092 "Allowance Assignment Header"
             Editable = false;
             DataClassification = ToBeClassified;
         }
+        field(23; "Rejection Remarks"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(24; "Employee Name"; Text[100])
         {
+            DataClassification = ToBeClassified;
+        }
+        field(25; "Department Code"; Code[20])
+        {
+            Editable = false;
             DataClassification = ToBeClassified;
         }
         field(37; "Approved Date"; Date)
@@ -180,16 +184,7 @@ table 50092 "Allowance Assignment Header"
         field(100; "Status"; Text[20])
         {
         }
-        field(23; "Rejection Remarks"; Text[100])
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(25; "Department Code"; Code[20])
-        {
-            Editable = false;
-            DataClassification = ToBeClassified;
-        }
-        // field(22; "Requested Date"; Date) { }
+
     }
 
     keys
@@ -217,15 +212,10 @@ table 50092 "Allowance Assignment Header"
 
     trigger OnInsert()
     begin
-        // GetEntryNo;
         "Created By" := UserId;
         "Created Date" := Today;
-        // "Activity Type" := "Activity Type"::"Allowance Assignment";
         if not GuiAllowed then
             Validate("Employee No.", HrMgt.GetEmployeeNo());
-        // TestField(Code);
-        // if not GuiAllowed then
-        //     CheckForSameWeek;
         HRSetup.Get;
         if "No." = '' then
             case "Activity Type" of

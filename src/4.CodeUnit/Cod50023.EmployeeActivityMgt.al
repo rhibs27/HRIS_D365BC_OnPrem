@@ -38,15 +38,18 @@ codeunit 50023 EmployeeActivityMgt
     procedure ConfirmTransferJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
     var
         EmphrTransfer: Record "Employee Transfer";
+        TransferType: Enum "Transfer Type";
     begin
+        if not (EmployeeACTJnl."Transfer Type" in [TransferType::"Intra Branch", TransferType::"Intra Department", TransferType::"Intra Provincial"]) then begin
+            EmployeeACTJnl.TestField("Incoming Supervisor");
+            EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
+        end;
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Transfer Type");
         EmployeeACTJnl.TestField("Transfer Category");
         EmployeeACTJnl.TestField("Deputation On (To)");
-        EmployeeACTJnl.TestField("Incoming Supervisor");
-        EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
-        EmployeeACTJnl.TestField("Approver Role (TO)");
         EmployeeACTJnl.TestField("Transfer Effective Date");
+        EmployeeACTJnl.TestField("Approver Role (TO)");
         case EmployeeACTJnl."Deputation On (To)" of
             EmployeeACTJnl."Deputation On (To)"::Branch:
                 EmployeeACTJnl.TestField("To Branch");
@@ -105,6 +108,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Unit (To)", TransferEmployeeJournal."Unit (To)");
                 TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
                 TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
+                TransferRequest.Validate("Transfer Type", TransferEmployeeJournal."Transfer Type");
                 TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
                 TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
                 TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
@@ -227,20 +231,16 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure RejectJournal(var EmployeeActJournal: Record "Employee Activity Journal"; Reject: Boolean)
     var
-        Approver: Record "Approval HRMS";
         StatusMaster: Record "Status Master";
-
+        EmployeeActJournal1: Record "Employee Activity Journal";
+        PostedEmployeeJournal: Record "Posted Employee Journal";
+        EmployeeActNo: Code[20];
     begin
         if Reject then begin
+            EmployeeActNo := EmployeeActJournal."Emp Act. No";
             EmployeeActJournal.TestField("Approval Status", EmployeeActJournal."Approval Status"::Pending);
             ApproverMgt.CheckApprover(EmployeeActJournal."Emp Act. No");
-            // Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
-            // Approver.Validate("Rejected By", HRMgt.GetEmpName());
             EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
-            EmployeeActJournal.Modify();
-            // EmployeeActJournal.Modify("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
-            // Approver.Modify();
-            // Get the Rejected Status from Status Master
             StatusMaster.Reset();
             StatusMaster.SetRange(Rejected, true);
             if StatusMaster.FindFirst() then begin
@@ -248,6 +248,34 @@ codeunit 50023 EmployeeActivityMgt
             end
             else
                 Error('Rejected Status not Found On Status Master Setup');
+            EmployeeActJournal.Modify();
+            PostedEmployeeJournal.Init();
+            PostedEmployeeJournal.TransferFields(EmployeeActJournal);
+            PostedEmployeeJournal.Validate(Posted, true);
+            PostedEmployeeJournal.Insert(true);
+            EmployeeActJournal.Delete();
+            CheckJournalAndUpdateApproval(EmployeeActNo);
+        end;
+    end;
+
+    local procedure CheckJournalAndUpdateApproval(EmpJournalNo: Code[20])
+    var
+        ApprovalHRMS: Record "Approval HRMS";
+        EmployeeActJournal: Record "Employee Activity Journal";
+    begin
+        EmployeeActJournal.Reset();
+        EmployeeActJournal.SetRange("Emp Act. No", EmpJournalNo);
+        EmployeeActJournal.SetRange("Approval Status", EmployeeActJournal."Approval Status"::Pending);
+        if not EmployeeActJournal.FindFirst() then begin
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", EmpJournalNo);
+            if ApprovalHRMS.FindSet() then
+                repeat
+                    ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+                    ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                    ApprovalHRMS.Modify();
+                until ApprovalHRMS.Next() = 0;
+
         end;
     end;
 

@@ -52,7 +52,7 @@ page 50314 "Attendance Journal"
                 }
                 field("CheckOut OverNight"; rec."CheckOut OverNight")
                 {
-                    Caption = 'Check-Out Time';
+                    Caption = 'CheckOut OverNight';
                     ToolTip = 'Specifies the value of the CheckIn Time field.';
                     ApplicationArea = All;
                     Editable = IsOpen;
