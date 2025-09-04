@@ -238,7 +238,6 @@ page 50040 "Payroll Plan"
                         PayrollHeader.Reset;
                         PayrollHeader.SetRange("No.", Rec."No.");
                         if PayrollHeader.FindFirst then begin
-                            Rec.UpdatePayrollAttributeUsage(PayrollHeader);
                             Rec.GetDetails(PayrollHeader);
                         end;
                     end;

@@ -2772,12 +2772,12 @@ table 50027 "Payroll Line"
                                                                             "Document No.",
                                                                             "Employee No.");
 
-                if AllowanceAmt <> 0 then begin
-                    if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
-                        PayrollAttrUses.Amount := AllowanceAmt;
-                        PayrollAttrUses.Modify();
-                    end
-                    else begin
+                if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
+                    PayrollAttrUses.Amount := AllowanceAmt;
+                    PayrollAttrUses.Modify();
+                end
+                else begin
+                    if AllowanceAmt <> 0 then begin
                         Clear(PayrollAttrUses2);
                         PayrollAttrUses2.Init();
                         PayrollAttrUses2.Validate(Code, AllowanceConfiguration."Payroll Attribute");
