@@ -3612,7 +3612,7 @@ codeunit 50008 "Payroll Engine"
         //MESSAGE(FORMAT(RemoteAreaDeduction));
     end;
 
-    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20])
+    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20]; EmployeeNo: Code[20])
     var
         Employee: Record Employee;
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
@@ -3634,8 +3634,10 @@ codeunit 50008 "Payroll Engine"
                 begin
                     Employee.Reset;
                     Employee.SetFilter("Employment Type", '%1|%2|%3', Employee."Employment Type"::Probation, Employee."Employment Type"::Permanent, Employee."Employment Type"::Temporary);
-                    Employee.SetFilter("Resignation Date", '0D|>%1', PGSetup."Dashain Start Date");
+                    Employee.SetFilter("Resignation Date", '%1|>%2', 0D, PGSetup."Dashain Start Date");
                     Employee.SetRange(Status, Employee.Status::Active);
+                    if EmployeeNo <> '' then
+                        Employee.SetFilter("No.", '%1', EmployeeNo);
                     if Employee.FindSet then
                         repeat
                             Employee.TestField("Employment Date");
@@ -3662,6 +3664,8 @@ codeunit 50008 "Payroll Engine"
                     Employee.Reset;
                     Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
                     Employee.SetRange(Status, Employee.Status::Active);
+                    if EmployeeNo <> '' then
+                        Employee.SetRange("No.", EmployeeNo);
                     if Employee.FindSet then
                         repeat
                             Employee.TestField("Employment Date");
