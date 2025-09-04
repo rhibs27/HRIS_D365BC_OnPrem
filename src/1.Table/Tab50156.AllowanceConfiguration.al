@@ -36,20 +36,20 @@ table 50156 "Allowance Configuration"
             Caption = 'Salary Level';
             TableRelation = "Salary Level";
         }
-        field(6; "Province Code"; Code[20])
+        field(6; "Province Code"; Code[1000])
         {
             Caption = 'Province Code';
-            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+            //TableRelation = "Organization Structure List".Code where(Type = const(Province));
         }
-        field(7; "Branch Code"; Code[20])
+        field(7; "Branch Code"; Code[1000])
         {
             Caption = 'Branch Code';
-            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            // TableRelation = "Organization Structure List".Code where(Type = const(Branch));
         }
-        field(8; "Department Code"; Code[20])
+        field(8; "Department Code"; Code[1000])
         {
             Caption = 'Department Code';
-            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+            // TableRelation = "Organization Structure List".Code where(Type = const(Department));
         }
         field(9; Amount; Decimal)
         {

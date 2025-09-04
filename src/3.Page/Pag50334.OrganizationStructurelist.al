@@ -72,6 +72,18 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
                 }
+                field("No of Vault Key"; Rec."No of Vault Key")
+                {
+                    ToolTip = 'Specifies the value of the No Od Vault Key field.', Comment = '%';
+                }
+                field("No On Side ATM"; Rec."No On Side ATM")
+                {
+                    ToolTip = 'Specifies the value of the No On Side ATM field.', Comment = '%';
+                }
+                field("No off Side ATM"; Rec."No off Side ATM")
+                {
+                    ToolTip = 'Specifies the value of the No off Side ATM field.', Comment = '%';
+                }
             }
         }
     }
