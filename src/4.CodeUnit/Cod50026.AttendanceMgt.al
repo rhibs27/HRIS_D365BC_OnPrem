@@ -389,6 +389,7 @@ codeunit 50026 "Attendance Mgt"
                         end else begin
                             EmployeeAttendanceActivity."Leave Day" := 0.5;
                             EmployeeAttendanceActivity."Present Day" := 0.5;
+                            EmployeeAttendanceActivity."Half Day" := 1;
                         end;
                         EmployeeAttendanceActivity."Leave Code" := LeaveTypeSetup.Code;
                         EmployeeAttendanceActivity."Tour Day" := 0;
@@ -446,6 +447,7 @@ codeunit 50026 "Attendance Mgt"
                         HRMgt.GetEmployeeDeputationDistrictName(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         HRMgt.GetEmployeeDeputationMunicipalityCode(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         EmpVar.Community,
+                        EmpVar."No.",
                         EmpVar.Disabled) then begin
 
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
@@ -541,11 +543,11 @@ codeunit 50026 "Attendance Mgt"
     end;
 
     procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
-                                 PostingRegion: enum Region; Branch: Text; District: Text; Municipality: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
+                                 PostingRegion: enum Region; Branch: Text; District: Text; Municipality: Text; Community: Enum "Community Type"; EmployeeFilter: Text; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, District, Municipality, Community, Disabled));
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, District, Municipality, Community, EmployeeFilter, Disabled));
     end;
 
     procedure ApproveLateAttendance(docNo: Code[20])

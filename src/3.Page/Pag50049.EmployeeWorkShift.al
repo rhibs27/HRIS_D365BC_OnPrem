@@ -63,6 +63,11 @@ page 50049 "Employee Work Shift"
                     ToolTip = 'Specifies the value of the Overnight From field.';
                     ApplicationArea = All;
                 }
+                field("OverTime Hours"; Rec."OverTime Hours")
+                {
+                    ToolTip = 'Specifies the value of the OverTime Hours field.';
+                    ApplicationArea = All;
+                }
                 field("Lunch Start"; Rec."Lunch Start")
                 {
                     ToolTip = 'Specifies the value of the Lunch Start field.';

@@ -1663,6 +1663,7 @@ codeunit 50008 "Payroll Engine"
                         HRMgt.GetEmployeeDeputationDistrictName(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         HRMgt.GetEmployeeDeputationMunicipalityCode(EmpVar."Deputation on", EmpVar."Deputation On Code"),
                         EmpVar.Community,
+                        EmpVar."No.",
                         EmpVar.Disabled) then begin
 
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin

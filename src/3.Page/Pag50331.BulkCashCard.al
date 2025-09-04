@@ -116,8 +116,8 @@ page 50331 "Bulk Cash Card"
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to recommend the request?', false) then
-                        HRMgt.RecommendEmployeeActivity(Rec."No.");
+                    // if Confirm('Do you want to recommend the request?', false) then
+                    //     HRMgt.RecommendEmployeeActivity(Rec."No.");
                 end;
             }
             action("Approve Request")

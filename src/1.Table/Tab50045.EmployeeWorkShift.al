@@ -56,6 +56,10 @@ table 50045 "Employee Work Shift"
         {
             DataClassification = ToBeClassified;
         }
+        field(18; "OverTime Hours"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

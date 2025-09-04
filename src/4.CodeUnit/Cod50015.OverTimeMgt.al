@@ -312,11 +312,10 @@ codeunit 50015 "OverTime Mgt"
         LeaveEarn.Validate("Employee No.", OverTime."Employee No.");
         LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
         LeaveEarn.Validate("Fiscal year", OverTime."Fiscal Year");
-        LeaveEarn.Validate("Posted Date", Today);
+        LeaveEarn.Validate("Posted Date", OverTime."Start Date");
         LeaveEarn.Validate("Balancing Days", OverTime."Compensatory Days");
         LeaveEarn.Validate("Overtime Request No", OverTime."No.");
         LeaveEarn.Validate("Overtime Date", OverTime."Start Date");
-        LeaveEarn.Validate("Entry No.", LeaveMgt.GetNextLeaveLedgerEntryNo());
         LeaveEarn.Insert(true);
     end;
 
@@ -486,7 +485,7 @@ codeunit 50015 "OverTime Mgt"
                                 OverTimeLine.Validate("No.", OverTime."No.");
                                 OvertimeLine.Validate("Employee Code", Employee."No.");
                                 OvertimeLine.Validate("Employee Name", Employee.FullName);
-                                OvertimeLine.Validate("Employee Work Shift", Employee."Employee Work Shift");
+                                OvertimeLine.Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
                                 OvertimeLine.Validate("Deputation Type", OverTime."Deputation Type");
                                 OvertimeLine.Validate(Code, OverTime."Deputation Code");
                                 OvertimeLine.Validate(Name, OverTime."Deputation Name");
