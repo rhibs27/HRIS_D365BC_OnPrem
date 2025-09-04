@@ -153,6 +153,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Allowance Claim From - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 252604565 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Claim from Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Allowance Claim from Line No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 3299207861 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Claimed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Allowance Claimed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 1407850916 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8662,6 +8672,11 @@
           <source>OverNight</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field OverNight - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 3112026188 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverTime Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field OverTime Hours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2137842149 - Field 4085236075 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Registered Employees</source>
@@ -24359,7 +24374,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckOut OverNight - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2653894362 - Control 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Check-Out Time</source>
+          <source>CheckOut OverNight</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckOut OverNight - Property Caption</note>
         </trans-unit>
@@ -31392,6 +31407,11 @@
           <source>Specifies the value of the Overnight From field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control OverNight - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 3112026188 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the OverTime Hours field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control OverTime Hours - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2137842149 - Control 4085236075 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Registered Employees field.</source>
@@ -43643,6 +43663,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action Export to Excel - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 535886985 - Action 1035945844 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Summary</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action Export to Excel - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 535886985 - Action 1929393835 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functions</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -52788,6 +52813,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 4133302435 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Contract Expiry Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Contract Expiry Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Control 3536606153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Contract Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56182,6 +56212,11 @@
           <source>District</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field District - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 1498446062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Employee - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Employee Filter</source>

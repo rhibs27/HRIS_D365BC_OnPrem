@@ -48,6 +48,10 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
             {
                 ApplicationArea = all;
             }
+            field(Employee; Rec.Employee)
+            {
+                ApplicationArea = all;
+            }
             field(Disabled; Rec.Disabled)
             {
                 ApplicationArea = All;

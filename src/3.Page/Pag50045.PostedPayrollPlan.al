@@ -366,12 +366,13 @@ page 50045 "Posted Payroll Plan"
                 PromotedCategory = "Report";
                 ToolTip = 'Executes the Export to Excel action.';
                 ApplicationArea = All;
+                Caption = 'Pay Summary';
 
                 trigger OnAction()
                 begin
-                    PostedParyollLine.Reset;
-                    PostedParyollLine.SetRange("Document No.", Rec."No.");
-                    Report.Run(Report::"Export Posted Payroll Value", true, false, PostedParyollLine);
+                    PostedPayrollLine.Reset;
+                    PostedPayrollLine.SetRange("Document No.", Rec."No.");
+                    Report.Run(Report::"Export Posted Payroll Value", true, false, PostedPayrollLine);
                 end;
             }
             group(Functions)
@@ -384,9 +385,6 @@ page 50045 "Posted Payroll Plan"
                     Image = PostDocument;
                     ToolTip = 'Executes the Post CIT action.';
                     ApplicationArea = All;
-                    //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedCategory = Process;
-
                     trigger OnAction()
                     begin
                         PayrollEngine.PostCITPayment(Rec);
@@ -451,5 +449,4 @@ page 50045 "Posted Payroll Plan"
         PostedPayrollHeaderRec: Record "Posted Payroll Header";
         PayrollEngine: Codeunit "Payroll Engine";
         PostedPayrollLine: Record "Posted Payroll Line";
-        PostedParyollLine: Record "Posted Payroll Line";
 }

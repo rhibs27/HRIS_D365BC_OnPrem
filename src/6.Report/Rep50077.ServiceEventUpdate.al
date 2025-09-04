@@ -90,7 +90,6 @@ report 50077 "Service Event Update"
                     {
                         ToolTip = 'Specifies the value of the ContractExpiryMonth field.';
                         ApplicationArea = All;
-
                         trigger OnValidate()
                         begin
                             if ContractExpiryMonth <> ContractExpiryMonth::" " then begin
@@ -99,6 +98,18 @@ report 50077 "Service Event Update"
                                 if EffectiveDate = 0D then
                                     Error('Date must have value');
                             end;
+                        end;
+                    }
+                    field("Contract Expiry Date"; ContractExpiryDate)
+                    {
+                        ToolTip = 'Specifies the value of the Contract Expiry Date field.';
+                        ApplicationArea = All;
+                        trigger OnValidate()
+                        begin
+                            if EmploymentType <> EmploymentType::Contract then
+                                Error('Employment type must be contract');
+                            if EffectiveDate = 0D then
+                                Error('Date must have value');
                         end;
                     }
                     field(ProbationPeriod; ProbationPeriod)
@@ -139,12 +150,13 @@ report 50077 "Service Event Update"
             Error('Please fill Employment Type values');
         if ServiceEvent = ServiceEvent::"Re Appointment" then
             if ContractCode = '' then
-                Error('Please fill Contract Code fields')
+                Error('Please fill Contract Code field')
             else
                 Employee.Validate("Emplymt. Contract Code", ContractCode);
         if EmploymentType = EmploymentType::Contract then
-            if ContractExpiryMonth = ContractExpiryMonth::" " then
-                Error('Contract Expiry Month must have value.');
+            if ContractExpiryDate = 0D then
+                if ContractExpiryMonth = ContractExpiryMonth::" " then
+                    Error('Contract Expiry Month must have value.');
         if EmploymentType = EmploymentType::Probation then
             if ProbationPeriod = ProbationPeriod::" " then
                 Error('Probation Period must have value.')
@@ -174,9 +186,15 @@ report 50077 "Service Event Update"
             Employee.Validate("Employment Date", EffectiveDate)
         else if ServiceEvent = ServiceEvent::"Contract Renew" then
             Employee.Validate("Contract Renew Date", EffectiveDate);
-        if EmploymentType = EmploymentType::Contract then
+        if EmploymentType = EmploymentType::Contract then begin
             Employee.Validate("Contract Expiry Month", ContractExpiryMonth);
-        ValidateDeputationOnCode();
+            Employee.Validate("Contract Expiry Date", ContractExpiryDate);
+        end;
+        if ServiceEvent = ServiceEvent::Confirmation then begin
+            if (DeputationOnTo <> DeputationOnTo::" ") and (DeputationCodeTo <> '') then
+                ValidateDeputationOnCode();
+        end else
+            ValidateDeputationOnCode();
         Employee.Modify;
     end;
 
@@ -197,6 +215,7 @@ report 50077 "Service Event Update"
         SalaryLevel: Code[20];
         EmploymentType: enum "Employee Type";
         ContractExpiryMonth: Enum "Contract Expiry Date";
+        ContractExpiryDate: Date;
         SalaryGrade: Code[20];
         ServiceHistory: Record "Employee Service History";
         PayrollEngine: Codeunit "Payroll Engine";

@@ -363,14 +363,14 @@ table 50075 "Employee Activity Journal"
                 if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
+                    "To Branch" := "Shortcut Dimension 1 Code";
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
-                    // GetTransferName;
+                    "Approver Role (TO)" := "Approver Role";
                 end;
                 if "Transfer Type" in ["Transfer Type"::"Inter Branch", "Transfer Type"::"Inter Department", "Transfer Type"::"Inter Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
-                    // GetTransferName;
                 end;
                 if "Transfer Type" = "Transfer Type"::"Cross Transfer" then
                     "Deputation On (To)" := "Deputation On (To)"::" ";
@@ -387,7 +387,6 @@ table 50075 "Employee Activity Journal"
                 OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Shortcut Dimension 1 Code (To)" <> xRec."Shortcut Dimension 1 Code (To)" then begin
-                    // GLSetup.Get;
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, OrganizationStructureList.Code) then begin
                         "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Department Code (To)" := '';
@@ -403,7 +402,8 @@ table 50075 "Employee Activity Journal"
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             trigger OnValidate()
             begin
-                ValidateDeputationOnTo
+                if "Deputation On (To)" = "Deputation On (To)"::Province then
+                    ValidateDeputationOnTo
             end;
         }
         field(55; "Unit (To)"; Code[20])
@@ -583,8 +583,15 @@ table 50075 "Employee Activity Journal"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
+            var
+                OrganizationStructureLine: Record "Organization Structure Line";
             begin
-                ValidateDeputationOnTo
+                ValidateDeputationOnTo;
+                OrganizationStructureLine.Reset();
+                OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
+                OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
+                if OrganizationStructureLine.FindFirst() then
+                    Validate("Province Code (To)", OrganizationStructureLine.Code);
             end;
         }
         field(79; "Deputation On Code"; Code[20])
@@ -745,8 +752,8 @@ table 50075 "Employee Activity Journal"
             "Deputation on"::Branch:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "TO Branch") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
-                    // Validate("Branch Name To", OrganizationStructureList.Name);
                     // Validate("Province Code (To)", OrganizationStructureList."Province Code");
+                    // Validate("Branch Name To", OrganizationStructureList.Name);
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code (To)") then begin

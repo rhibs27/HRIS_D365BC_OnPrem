@@ -474,10 +474,10 @@ table 50024 "Payroll General Setup"
             repeat
                 UserPersonalization.Reset();
                 UserPersonalization.SetRange("User ID", Employee."NAV Login ID");
-                UserPersonalization.SetFilter("Time Zone", '<>UTC');
+                UserPersonalization.SetFilter("Time Zone", 'UTC');
                 if UserPersonalization.FindSet() then
                     repeat
-                        UserPersonalization.Validate("Time Zone", 'UTC');
+                        UserPersonalization.Validate("Time Zone", 'Nepal Standard Time');
                         UserPersonalization.Modify();
                     until UserPersonalization.Next() = 0;
             until Employee.Next() = 0;
