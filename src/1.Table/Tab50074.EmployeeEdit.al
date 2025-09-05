@@ -22,18 +22,6 @@ table 50074 "Employee Edit"
         {
             Editable = false;
         }
-        field(18; "Employee No."; Code[20])
-        {
-            Caption = 'Employee No.';
-            DataClassification = CustomerContent;
-            TableRelation = Employee;
-            trigger OnValidate()
-            begin
-                if Employee.get("Employee No.") then begin
-                    Validate("Employee Name", Employee."Full Name");
-                end;
-            end;
-        }
         field(3; "Employee Name"; Text[50])
         {
             Caption = 'Employee Name';
@@ -65,6 +53,14 @@ table 50074 "Employee Edit"
             DataClassification = CustomerContent;
         }
 
+        // Offical Document Changes
+        field(7; "Passport No."; Code[20])
+        {
+            Caption = 'Passport No.';
+            Description = 'Official Document';
+            DataClassification = CustomerContent;
+        }
+
         field(8; "Differently Able"; Boolean)
         {
             Caption = 'Differently Able';
@@ -73,38 +69,9 @@ table 50074 "Employee Edit"
         {
             Caption = 'Vehicle Type';
         }
-        field(10; "Temporary Address"; Text[60])
-        {
-            Caption = 'Temporary Address';
-        }
-        field(11; "Temporary Province"; Text[30])
-        {
-            Caption = 'Temporary Province';
-            DataClassification = CustomerContent;
-        }
-        field(12; VDC; Text[50])
-        {
-            Caption = 'VDC';
-            DataClassification = CustomerContent;
-        }
-        field(13; "Temporary District"; Text[30])
-        {
-            Caption = 'Temporary District';
-            DataClassification = CustomerContent;
-        }
-        field(14; House; Text[30])
-        {
-            Caption = 'House';
-            DataClassification = CustomerContent;
-        }
         field(15; "Blood Group"; Enum "Blood Group")
         {
             Caption = 'Blood Group';
-            DataClassification = CustomerContent;
-        }
-        field(60; "Religion"; Enum Religion)
-        {
-            Caption = 'Religion';
             DataClassification = CustomerContent;
         }
         field(16; "Approval Status"; Enum "Approval Status")
@@ -118,6 +85,18 @@ table 50074 "Employee Edit"
         field(17; "Requested Date"; Date)
         {
             Editable = false;
+        }
+        field(18; "Employee No."; Code[20])
+        {
+            Caption = 'Employee No.';
+            DataClassification = CustomerContent;
+            TableRelation = Employee;
+            trigger OnValidate()
+            begin
+                if Employee.get("Employee No.") then begin
+                    Validate("Employee Name", Employee."Full Name");
+                end;
+            end;
         }
         field(19; "No. Series"; Code[20])
         {
@@ -236,14 +215,6 @@ table 50074 "Employee Edit"
         {
             DataClassification = ToBeClassified;
         }
-
-        // Offical Document Changes
-        field(7; "Passport No."; Code[20])
-        {
-            Caption = 'Passport No.';
-            Description = 'Official Document';
-            DataClassification = CustomerContent;
-        }
         field(41; "CitizenShip No."; Code[50])
         {
             Caption = 'CitizenShip No.';
@@ -279,12 +250,6 @@ table 50074 "Employee Edit"
         field(46; "Full Name"; Code[30])
         {
             Caption = 'Full Name';
-            Description = 'Employee Relative';
-            DataClassification = CustomerContent;
-        }
-        field(59; "Birth Date"; Date)
-        {
-            Caption = 'Birth Date';
             Description = 'Employee Relative';
             DataClassification = CustomerContent;
         }
@@ -365,6 +330,31 @@ table 50074 "Employee Edit"
             Description = 'Language Proficiency';
             DataClassification = CustomerContent;
         }
+        field(59; "Birth Date"; Date)
+        {
+            Caption = 'Birth Date';
+            Description = 'Employee Relative';
+            DataClassification = CustomerContent;
+        }
+        field(60; "Religion"; Enum Religion)
+        {
+            Caption = 'Religion';
+            DataClassification = CustomerContent;
+        }
+        field(64; "Set Emergency Contact"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(65; "Relative Mail"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                MailManagement: Codeunit "Mail Management";
+            begin
+                MailManagement.ValidateEmailAddressField("Relative Mail");
+            end;
+        }
         field(100; "Status"; Text[20])
         {
             Editable = false;
@@ -400,19 +390,23 @@ table 50074 "Employee Edit"
             DataClassification = CustomerContent;
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
         }
-        field(64; "Set Emergency Contact"; Boolean)
+        field(114; "Permanent Province"; Text[50]) { }
+        field(115; "Permanent District"; Text[50]) { }
+        field(116; "Permanent VDC"; Text[50]) { }
+        field(117; "Permanent Locality"; Text[100]) { }
+        field(118; "Permanent Ward No"; Integer) { }
+        field(119; "Permanent Address"; Text[60]) { }
+        field(120; "Temporary Province"; Text[30])
         {
-            DataClassification = ToBeClassified;
         }
-        field(65; "Relative Mail"; Text[30])
+        field(121; "Temporary District"; Text[30])
+        { }
+        field(122; "Temporary VDC"; Text[50]) { }
+        field(123; "Temporary Ward No"; Integer) { }
+        field(124; "Temporary Locality"; Text[100]) { }
+        field(125; "Temporary House"; Text[30]) { }
+        field(126; "Temporary Address"; Text[60])
         {
-            DataClassification = ToBeClassified;
-            trigger OnValidate()
-            var
-                MailManagement: Codeunit "Mail Management";
-            begin
-                MailManagement.ValidateEmailAddressField("Relative Mail");
-            end;
         }
         field(1000; "Changed Field"; Text[1020])
         {

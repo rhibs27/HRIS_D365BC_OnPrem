@@ -3059,20 +3059,32 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    // procedure LookupDepartment(DepartText: Text): Text
-    // var
-    //     PageDepart: Page Departments;
-    //     Depart: Record Department;
-    // begin
-    //     Depart.Reset;
-    //     Clear(PageDepart);
-    //     PageDepart.AssignShowSelected;
-    //     PageDepart.InsertTempDepart(DepartText);
-    //     PageDepart.SetRecord(Depart);
-    //     PageDepart.SetTableView(Depart);
-    //     if PageDepart.RunModal = ACTION::OK then
-    //         exit(PageDepart.ReturnDepartText);
-    // end;
+    procedure LookupDepartment(Province: Text; Branch: Text): Text[500]
+    var
+        OrganizationStructureList: Record "Organization Structure List";
+        OrganizationStructureListPage: Page "Organization Structure list";
+        ConcatenatedValues: Text;
+    begin
+        Clear(OrganizationStructureList);
+        Clear(OrganizationStructureListPage);
+        if Province <> '' then
+            OrganizationStructureList.SetRange("Province Code", Province);
+        OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Department);
+        OrganizationStructureListPage.SetRecord(OrganizationStructureList);
+        OrganizationStructureListPage.SetTableView(OrganizationStructureList);
+        OrganizationStructureListPage.LookupMode(true);
+        if OrganizationStructureListPage.RunModal = ACTION::LookupOK then begin
+            OrganizationStructureListPage.SetSelectionFilter(OrganizationStructureList);
+            if OrganizationStructureList.FindSet() then begin
+                repeat
+                    if ConcatenatedValues <> '' then
+                        ConcatenatedValues += '|';
+                    ConcatenatedValues += OrganizationStructureList.code;
+                until OrganizationStructureList.Next() = 0;
+            end;
+            exit(ConcatenatedValues);
+        end;
+    end;
 
     procedure LookupFunctionalTitile(FunctTitleText: Text): Text
     var

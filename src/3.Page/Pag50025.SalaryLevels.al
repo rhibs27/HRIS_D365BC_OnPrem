@@ -251,6 +251,18 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the TA OT Basic Salary field.';
                     ApplicationArea = All;
                 }
+                field("Fuel Limit (ltr)"; Rec."Fuel Limit (ltr)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (ltr) field.', Comment = '%';
+                }
+                field("Fuel Limit (amt)"; Rec."Fuel Limit (amt)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (amt) field.', Comment = '%';
+                }
+                field("EV Allowance"; Rec."EV Allowance")
+                {
+                    ToolTip = 'Specifies the value of the EV Allowance field.', Comment = '%';
+                }
             }
         }
     }

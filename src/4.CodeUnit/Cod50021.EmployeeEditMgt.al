@@ -57,12 +57,12 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Temporary Province", EmployeeEdit."Temporary Province");
                 if EmployeeEdit."Temporary District" <> '' then
                     Employee.Validate("Temporary District", EmployeeEdit."Temporary District");
-                if EmployeeEdit.VDC <> '' then
-                    Employee.Validate("Temporary VDC", EmployeeEdit.VDC);
+                if EmployeeEdit."Temporary VDC" <> '' then
+                    Employee.Validate("Temporary VDC", EmployeeEdit."Temporary VDC");
                 if EmployeeEdit."Ward No." <> 0 then
                     Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
-                if EmployeeEdit.House <> '' then
-                    Employee.Validate("Temporary House", EmployeeEdit.House);
+                if EmployeeEdit."Temporary House" <> '' then
+                    Employee.Validate("Temporary House", EmployeeEdit."Temporary House");
                 if EmployeeEdit."Blood Group" <> EmployeeEdit."Blood Group"::" " then
                     Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
                 if EmployeeEdit.Religion <> EmployeeEdit.Religion::" " then
@@ -230,7 +230,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeRelative.Validate("Citizenship No.", EmployeeEdit."CitizenShip No.");
             EmployeeRelative.Validate("Birth Date", EmployeeEdit."Birth Date");
             EmployeeRelative.Validate(District, EmployeeEdit."Relative District");
-            EmployeeRelative.Validate("VDC/Municipality", EmployeeEdit.VDC);
+            // EmployeeRelative.Validate("VDC/Municipality", EmployeeEdit.VDC);
             EmployeeRelative.Validate("Ward No", EmployeeEdit."Ward No.");
             EmployeeRelative.Validate("E-mail", EmployeeEdit."Relative Mail");
             EmployeeRelative.Validate("Set Emergency Contact", EmployeeEdit."Set Emergency Contact");

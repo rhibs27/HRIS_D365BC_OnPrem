@@ -39,17 +39,26 @@ table 50156 "Allowance Configuration"
         field(6; "Province Code"; Code[1000])
         {
             Caption = 'Province Code';
-            //TableRelation = "Organization Structure List".Code where(Type = const(Province));
+            trigger OnLookup()
+            begin
+                "Province Code" := HrMgt.LookupProvinceOrganization();
+            end;
         }
         field(7; "Branch Code"; Code[1000])
         {
             Caption = 'Branch Code';
-            // TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            trigger OnLookup()
+            begin
+                "Branch Code" := HrMgt.LookupBranch('');
+            end;
         }
         field(8; "Department Code"; Code[1000])
         {
             Caption = 'Department Code';
-            // TableRelation = "Organization Structure List".Code where(Type = const(Department));
+            trigger OnLookup()
+            begin
+                "Department Code" := HrMgt.LookupDepartment('', '');
+            end;
         }
         field(9; Amount; Decimal)
         {
@@ -110,6 +119,7 @@ table 50156 "Allowance Configuration"
 
     var
         PayrollAttributes: Record "Payroll Attributes";
+        HrMgt: Codeunit "HR Mgt.";
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;

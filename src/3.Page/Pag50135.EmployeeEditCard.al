@@ -113,21 +113,29 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Temporary Province field.';
                     ApplicationArea = All;
                 }
-                field(VDC; Rec.VDC)
-                {
-                    ToolTip = 'Specifies the value of the VDC field.';
-                    ApplicationArea = All;
-                }
+
                 field("Temporary District"; Rec."Temporary District")
                 {
                     ToolTip = 'Specifies the value of the Temporary District field.';
                     ApplicationArea = All;
                 }
-                field(House; Rec.House)
+                field("Temporary VDC"; Rec."Temporary VDC")
                 {
-                    ToolTip = 'Specifies the value of the House field.';
-                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Temporary VDC field.', Comment = '%';
                 }
+                field("Temporary Ward No"; Rec."Temporary Ward No")
+                {
+                    ToolTip = 'Specifies the value of the Temporary Ward No field.', Comment = '%';
+                }
+                field("Temporary Locality"; Rec."Temporary Locality")
+                {
+                    ToolTip = 'Specifies the value of the Temporary Locality field.', Comment = '%';
+                }
+                field("Temporary House"; Rec."Temporary House")
+                {
+                    ToolTip = 'Specifies the value of the Temporary House field.', Comment = '%';
+                }
+
                 field("Blood Group"; Rec."Blood Group")
                 {
                     ToolTip = 'Specifies the value of the Blood Group field.';

@@ -2855,18 +2855,27 @@ table 50027 "Payroll Line"
     var
         EmpVar: Record Employee;
         OrgStructureList: Record "Organization Structure List";
+        AllowanceConfiguration2: Record "Allowance Configuration";
         ServiceYear: Decimal;
         Month: Integer;
         Days: Integer;
     begin
         EmpVar.SetRange("No.", EmployeeCode);
+        // if AllowanceConfiguration."Province Code" <> '' then
+        //     EmpVar.SetRange("Province Code", AllowanceConfiguration."Province Code");
+        // if AllowanceConfiguration."Branch Code" <> '' then
+        //     EmpVar.SetRange("Branch Code", AllowanceConfiguration."Branch Code");
+        // if AllowanceConfiguration."Department Code" <> '' then
+        //     EmpVar.SetRange("Department Code", AllowanceConfiguration."Department Code");
+        // if not EmpVar.FindFirst() then
+        AllowanceConfiguration2.SetRange("Entry No.", AllowanceConfiguration."Entry No.");
         if AllowanceConfiguration."Province Code" <> '' then
-            EmpVar.SetRange("Province Code", AllowanceConfiguration."Province Code");
+            AllowanceConfiguration2.SetFilter("Province Code", EmpVar."Province Code");
         if AllowanceConfiguration."Branch Code" <> '' then
-            EmpVar.SetRange("Branch Code", AllowanceConfiguration."Branch Code");
+            AllowanceConfiguration2.SetFilter("Branch Code", EmpVar."Branch Code");
         if AllowanceConfiguration."Department Code" <> '' then
-            EmpVar.SetRange("Department Code", AllowanceConfiguration."Department Code");
-        if not EmpVar.FindFirst() then
+            AllowanceConfiguration2.SetFilter("Department Code", EmpVar."Department Code");
+        if not AllowanceConfiguration2.FindFirst() then
             exit(false);
 
         if AllowanceConfiguration."Employment Type" <> AllowanceConfiguration."Employment Type"::" " then

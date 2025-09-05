@@ -6298,11 +6298,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Functional Title - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 2256271752 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>House</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field House - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 3647888328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Institution/Company</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6347,6 +6342,36 @@
           <source>Percentage</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Percentage - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 2443981288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent Address - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3705144616 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent District</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent District - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3014800517 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent Locality</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent Locality - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 2072644764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent Province</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent Province - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3697766621 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent VDC</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent VDC - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 896042821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent Ward No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent Ward No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province Code</source>
@@ -6463,10 +6488,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Temporary District - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3778468497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary House</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Temporary House - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 161289966 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary Locality</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Temporary Locality - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 3507210259 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Temporary Province</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Temporary Province - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 4038635166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary VDC</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Temporary VDC - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3103046918 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary Ward No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Temporary Ward No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 847553828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Time Period</source>
@@ -6492,11 +6537,6 @@
           <source>Unit Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Unit Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 4209343491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>VDC</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field VDC - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 481545316 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vehicle Type</source>
@@ -19533,6 +19573,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Employee Maintenence Allowance - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 523281117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>EV Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field EV Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1640361694 - Field 2982956603 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Extra Mileage Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19547,6 +19592,16 @@
           <source>Friday Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Friday Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (amt)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Fuel Limit (amt) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 3095358712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (ltr)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Fuel Limit (ltr) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1640361694 - Field 1499330261 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Good Service Period</source>
@@ -28463,11 +28518,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Email (Personal) - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 2256271752 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the House field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control House - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2113601774 - Control 1915108478 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Marital Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28488,15 +28538,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary District - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3778468497 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary House field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary House - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 161289966 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary Locality field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary Locality - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2113601774 - Control 3507210259 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Temporary Province field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary Province - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 4209343491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the VDC field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control VDC - Property ToolTip</note>
+        <trans-unit id="Page 2113601774 - Control 4038635166 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary VDC field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary VDC - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3103046918 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary Ward No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary Ward No - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2113601774 - Control 481545316 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Vehicle Type field.</source>
@@ -46688,6 +46753,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Employee Maintenence Allowance - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 523281117 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EV Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control EV Allowance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3544505483 - Control 2982956603 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Extra Mileage Eligible field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46707,6 +46777,16 @@
           <source>Friday ALlowance Per Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Friday Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 2546113746 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Limit (amt) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Fuel Limit (amt) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 3095358712 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Limit (ltr) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Fuel Limit (ltr) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3544505483 - Control 1499330261 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Good Service Period field.</source>
