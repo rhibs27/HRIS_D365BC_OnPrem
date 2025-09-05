@@ -76,8 +76,11 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Temporary VDC", EmployeeEdit."Temporary VDC");
                 if EmployeeEdit."Ward No." <> 0 then
                     Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
+                if EmployeeEdit."Temporary Locality" <> '' then
+                    Employee.Validate("Temporary Locality", EmployeeEdit."Temporary Locality");
                 if EmployeeEdit."Temporary House" <> '' then
                     Employee.Validate("Temporary House", EmployeeEdit."Temporary House");
+
                 if EmployeeEdit."Blood Group" <> EmployeeEdit."Blood Group"::" " then
                     Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
                 if EmployeeEdit.Religion <> EmployeeEdit.Religion::" " then
