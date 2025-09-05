@@ -2254,11 +2254,13 @@ table 50027 "Payroll Line"
                     end;
 
                     RoundAmount(AttributeAmount);
-                    if PayrollHeader.Type = PayrollHeader.Type::Settlement then
-                        DeductForRecovery(AttributeAmount);
-                    if (not PayrollHeader.Irregular) then
-                        SaveValues(AttributeAmount, PayrollAttributes.Code);
-                    PayrollAttributesUsageModify(PayrollAttributes.Code, AttributeAmount);
+                    if PayrollAttributesUsage.Get(PayrollAttributes.Code, "Employee No.") then begin // do not update if there is no payroll attribute uses
+                        if PayrollHeader.Type = PayrollHeader.Type::Settlement then
+                            DeductForRecovery(AttributeAmount);
+                        if (not PayrollHeader.Irregular) then
+                            SaveValues(AttributeAmount, PayrollAttributes.Code);
+                        PayrollAttributesUsageModify(PayrollAttributes.Code, AttributeAmount);
+                    end;
                 end;
             until PayrollColumnConfiguration.Next = 0;
         end;
