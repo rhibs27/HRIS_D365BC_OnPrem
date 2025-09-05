@@ -342,6 +342,10 @@ table 50156 "Allowance Configuration"
         GradeEntry.SetRange("Employee No.", EmpCode);
         GradeEntry.SetRange("Salary Level", EmpVar."Salary Level");
         GradeEntry.CalcSums("Total Grade Percentage");
+
+        if GradeEntry."Total Grade Percentage" = 0 then
+            exit;
+
         PayrollAttrUses.SetRange("Employee Code", EmpCode);
         PayrollAttrUses.SetRange(Subtype, PayrollAttrUses.Subtype::Grade);
         if PayrollAttrUses.FindFirst() then begin

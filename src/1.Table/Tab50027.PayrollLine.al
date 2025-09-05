@@ -2851,7 +2851,10 @@ table 50027 "Payroll Line"
 
             AllowanceConfiguration.Source::" ":
                 if IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode) then
-                    exit(AllowanceConfiguration.Amount);
+                    if AllowanceConfiguration.Formula <> '' then
+                        exit(AllowanceConfiguration.EvaluateAmountForEmployee(AllowanceConfiguration.Formula, EmployeeCode))
+                    else
+                        exit(AllowanceConfiguration.Amount);
 
         end;
     end;

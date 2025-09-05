@@ -390,6 +390,7 @@ table 50074 "Employee Edit"
             DataClassification = CustomerContent;
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
         }
+        field(113; "Permanent House"; Text[30]) { }
         field(114; "Permanent Province"; Text[50]) { }
         field(115; "Permanent District"; Text[50]) { }
         field(116; "Permanent VDC"; Text[50]) { }

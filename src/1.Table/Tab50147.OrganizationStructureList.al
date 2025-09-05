@@ -104,12 +104,12 @@ table 50147 "Organization Structure List"
         {
             TableRelation = "Dimension Value".Code where("Deputation On Type" = field(Type));
         }
-        field(30; "No of Vault Key"; Integer)
+        field(30; "No. of Vault Key"; Integer)
         {
 
         }
-        field(31; "No off Side ATM"; Integer) { }
-        field(32; "No On Side ATM"; Integer) { }
+        field(31; "No. of Off-Site ATM"; Integer) { }
+        field(32; "No. of On-Side ATM"; Integer) { }
 
     }
     keys

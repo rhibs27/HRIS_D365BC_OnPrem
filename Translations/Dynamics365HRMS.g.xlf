@@ -6353,6 +6353,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent District - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3891376482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent House</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Permanent House - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 3014800517 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Permanent Locality</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12243,20 +12248,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 385130008 - Field 388791423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No of Vault Key</source>
+        <trans-unit id="Table 385130008 - Field 1233109961 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Off-Site ATM</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field No of Vault Key - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field No. of Off-Site ATM - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 385130008 - Field 2598852751 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No off Side ATM</source>
+        <trans-unit id="Table 385130008 - Field 4188304243 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of On-Side ATM</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field No off Side ATM - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field No. of On-Side ATM - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 385130008 - Field 1183634853 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No On Side ATM</source>
+        <trans-unit id="Table 385130008 - Field 2559484029 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Vault Key</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field No On Side ATM - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field No. of Vault Key - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 385130008 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province Code</source>
@@ -37748,20 +37753,20 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 198483192 - Control 388791423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No Od Vault Key field.</source>
+        <trans-unit id="Page 198483192 - Control 1233109961 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Off-Site ATM field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No of Vault Key - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No. of Off-Site ATM - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 198483192 - Control 2598852751 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No off Side ATM field.</source>
+        <trans-unit id="Page 198483192 - Control 4188304243 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of On-Side ATM field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No off Side ATM - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No. of On-Side ATM - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 198483192 - Control 1183634853 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No On Side ATM field.</source>
+        <trans-unit id="Page 198483192 - Control 2559484029 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Vault Key field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No On Side ATM - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No. of Vault Key - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 198483192 - Control 1237689382 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province field.</source>
