@@ -506,7 +506,7 @@ codeunit 50000 "Leave Mgt."
     var
         IsHandled: Boolean;
     begin
-        OnNoOfPendingDays(LeaveCode, EmpCode, NoofDays, IsHandled);
+        OnBeforeNoOfPendingDays(LeaveCode, EmpCode, NoofDays, IsHandled);
         if IsHandled then
             exit;
         //check remaining leave days
@@ -1532,7 +1532,7 @@ codeunit 50000 "Leave Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnNoOfPendingDays(LeaveCode: Code[20]; EmpCode: Code[20]; NoofDays: Decimal; var IsHandled: Boolean)
+    local procedure OnBeforeNoOfPendingDays(LeaveCode: Code[20]; EmpCode: Code[20]; NoofDays: Decimal; var IsHandled: Boolean)
     begin
     end;
 
