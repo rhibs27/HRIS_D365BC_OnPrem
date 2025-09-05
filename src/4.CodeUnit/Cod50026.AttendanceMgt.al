@@ -1,6 +1,6 @@
 codeunit 50026 "Attendance Mgt"
 {
-    procedure InsertAttendanceLine(EmpNo: Code[20]; InitialDate: date; DocumentNo: Code[20])
+    procedure InsertAttendanceLine(EmpNo: Code[20]; InitialDate: date; RunActivity: Boolean)
     var
         EmployeeWorkShift: Record "Employee Work Shift";
         CheckInTime, CheckOutTime : Time;
@@ -14,7 +14,7 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLine.SetRange("Attendance Date", InitialDate);
         if not AttendanceLine.FindFirst then begin
             AttendanceLine.Init;
-            AttendanceLine."Document No." := DocumentNo;
+            // AttendanceLine."Document No." := DocumentNo;
             AttendanceLine."Employee No." := EmpNo;
             AttendanceLine."Employee Name" := Employee."Full Name";
             AttendanceLine."Attendance Date" := InitialDate;
@@ -77,7 +77,27 @@ codeunit 50026 "Attendance Mgt"
         if EngNep.FindFirst then
             AttendanceLine.Week := EngNep.Week;
         AttendanceLine.Modify();
-        PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
+        if RunActivity then
+            PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true)
+        else
+            TransferAttendanceLineToEmpAttendanceAct(AttendanceLine);
+    end;
+
+    procedure TransferAttendanceLineToEmpAttendanceAct(AttendanceLine: Record "Attendance Line")
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+    begin
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Employee No.", AttendanceLine."Employee No.");
+        EmployeeAttendanceActivity.SetRange("Attendance Date", AttendanceLine."Attendance Date");
+        EmployeeAttendanceActivity.DeleteAll;
+        EmployeeAttendanceActivity.reset;
+        EmployeeAttendanceActivity.Init();
+        EmployeeAttendanceActivity.TransferFields(AttendanceLine);
+        EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
+        if (AttendanceLine."Present Day" = 0) and (AttendanceLine."Leave Day" = 0) and (AttendanceLine."Week Off Day" = 0) then
+            EmployeeAttendanceActivity.Validate("Absent Day", 1);
+        EmployeeAttendanceActivity.Insert;
     end;
 
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
@@ -284,7 +304,6 @@ codeunit 50026 "Attendance Mgt"
 
         Leave.Reset;
         Leave.SetLoadFields("No.", "Employee No.", "Start Date", "End Date", Type, "Approval Status", Cancelled, "Cancelled No.");
-
         Leave.SetCurrentKey("Employee No.", "Start Date", "End Date");
         Leave.SetRange(Type, Leave.Type::"Leave Request");
         Leave.SetRange("Employee No.", EmployeeCode);

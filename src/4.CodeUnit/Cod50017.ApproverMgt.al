@@ -564,7 +564,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, 'HR Department', DocumentNo);//Email For Requester
+                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo);//Email For Requester
                 end;
             end
             else begin
@@ -582,7 +582,7 @@ codeunit 50017 "Approver Mgt"
                         end;
 
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, 'HR Department', DocumentNo);//Email for Requester
+                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -612,7 +612,7 @@ codeunit 50017 "Approver Mgt"
         ApprovalHRMS.SetRange("Document No.", DocNo);
         ApprovalHRMS.SetFilter("Approval Status", '<>%1|<>2', ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open);
         if ApprovalHRMS.Count > 0 then
-            Error('You cannot withdraw as document already in the rocess of approval');
+            Error('You cannot withdraw as document already in the process of approval');
     end;
     // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
     procedure WithDrawRequest(var RecRef: RecordRef)

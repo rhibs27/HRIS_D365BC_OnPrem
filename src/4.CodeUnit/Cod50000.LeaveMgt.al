@@ -654,12 +654,8 @@ codeunit 50000 "Leave Mgt."
             EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Approved);
             if EmpActivity.FindFirst then
                 Error('Overtime already approved on %1 so you are not eligible for compensatory leave.', CompensatoryDate);
-
-
-
             EmpAttendActivity.Reset;
             EmpAttendActivity.SetRange("Employee No.", EmpCode);
-            ;
             EmpAttendActivity.SetRange("Attendance Date", CompensatoryDate);
             if EmpAttendActivity.FindFirst then begin
                 Clear(LeaveType);
@@ -840,7 +836,8 @@ codeunit 50000 "Leave Mgt."
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
             Leave.modify();
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.");   //For email
+        if GuiAllowed then
+            HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.");   //For email
         exit(Leave."No.");
     end;
 

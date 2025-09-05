@@ -3,210 +3,96 @@ report 50146 "Attendance Update"
     ProcessingOnly = true;
     UsageCategory = Tasks;
     ApplicationArea = All;
-
     dataset
     {
-        dataitem(Employee; Employee)
+        dataitem(Date; Date)
         {
-            DataItemTableView = where(Status = const(Active));
-            RequestFilterFields = "No.";
+            dataitem(Employee; Employee)
+            {
+                trigger OnAfterGetRecord()
+                begin
+                    if "Employment Date" = 0D then
+                        CurrReport.Skip;
+                    AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, false);
+                end;
 
+                trigger OnPreDataItem()
+                begin
+                    if EmployeeNo <> '' then
+                        SetRange("No.", EmployeeNo);
+                    SetFilter("Employment Date", '<=%1', InitialDate);
+                    SetRange(Status, Employee.Status::Active);
+                end;
+            }
             trigger OnAfterGetRecord()
             begin
-                if "Employment Date" = 0D then
-                    CurrReport.Skip;
-                InsertAttendanceLine;
+                Clear(InitialDate);
+                InitialDate := "Period Start";
+            end;
+
+            trigger OnPreDataItem()
+            begin
+                SetRange("Period Start", FromDate, ToDate);
+                SetRange("Period Type", "Period Type"::Date);
             end;
         }
     }
+
+    requestpage
+    {
+        layout
+        {
+            area(Content)
+            {
+                field("From Date"; FromDate)
+                {
+                    ToolTip = 'Specifies the value of the FromDate field.';
+                    ApplicationArea = All;
+                }
+                field("To Date"; ToDate)
+                {
+                    ToolTip = 'Specifies the value of the ToDate field.';
+                    ApplicationArea = All;
+                }
+                field("Employee No"; EmployeeNo)
+                {
+                    TableRelation = Employee."No." where(Status = const("Employee Status"::Active));
+                    ToolTip = 'Specifies the value of the EmployeeNo field.';
+                    ApplicationArea = All;
+                }
+            }
+        }
+    }
+
     trigger OnPreReport()
     begin
-        AttendanceSetup.Get;
-        // DocNo := NoSeriesMgt.GetNextNo(AttendanceSetup."Attendance Line No. Series", Today, true);
+        IF FromDate = 0D THEN
+            FromDate := TODAY - 1;
+        IF ToDate = 0D THEN
+            ToDate := TODAY;
+        if (FromDate = 0D) or (ToDate = 0D) then
+            Error(Err001);
+        if FromDate > ToDate then
+            Error('From Date %1 must be to date %2.', FromDate, ToDate);
+
+        if (FromDate > Today) or (ToDate > Today) then
+            Error('Cannot run attendance of future date. Please check the date.');
     end;
 
-    Var
-        AttendanceSetUp: Record "Attendance Setup";
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        AttendanceLog: Record "Attendance Log";
-        AttendanceLine: Record "Attendance Line";
-        DocNo: Code[20];
-        // NoSeriesMgt: Codeunit NoSeriesManagement;
-        WorkShift: Record "Employee Work Shift";
-        HrMgt: Codeunit "HR Mgt.";
-        StartTime, EndTime : time;
-        CalendarDescription: text;
-
-
-    local procedure InsertAttendanceLine()
     var
-        PayrollEngine: Codeunit "Payroll Engine";
+        EmployeeNo: Code[250];
+        InitialDate: Date;
+        AttendanceMgt: Codeunit "Attendance Mgt";
+        FromDate, ToDate : Date;
+        Err001: Label 'Please Select From Date and To Date.';
+        EngNep: Record "English-Nepali Date";
+
+    procedure SetRequestFilterValue(FromDate1: Date; ToDate1: Date; EmpNo1: Code[20])
     begin
-        Clear(AttendanceLine);
-        WorkShift.get(Employee."Employee Work Shift");
-        Workshift.TestField("Start Time");
-        Workshift.TestField("End Time");
-        Workshift.TestField("Friday End Time");
-        Workshift.TestField("Winter Start Date");
-        Workshift.TestField("Winter End Date");
-        Workshift.TestField("Winter End Time");
-        StartTime := 0T;
-        EndTime := 0T;
-        StartTime := WorkShift."Start Time";
-        if HRMgt.IsWinter(Today, Workshift) then begin
-            if HRMgt.IsFriday(Today) then
-                EndTime := WorkShift."Friday End Time"
-            else
-                EndTime := WorkShift."Winter End Time";
-        end else begin
-            if HRMgt.IsFriday(Today) then
-                EndTime := WorkShift."Friday End Time"
-            else
-                EndTime := WorkShift."End Time";
-        end;
-        // AttendanceLine.Reset;
-        // AttendanceLine.SetRange("Employee No.", Employee."No.");
-        // AttendanceLine.SetRange("Attendance Date", Today);
-        // if not AttendanceLine.FindFirst then begin
-        //     AttendanceLine.Init;
-        //     AttendanceLine."Document No." := DocNo;
-        //     AttendanceLine."Employee No." := Employee."No.";
-        //     AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
-        //     AttendanceLine."Attendance Date" := Today;
-        //     // AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
-        //     AttendanceLine.Insert(false);
-        // end;
-
-        // AttendanceLog.Reset;
-        // AttendanceLog.SetRange(Date, Today);
-        // AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        // if AttendanceLog.FindFirst then begin
-        //     AttendanceLine.Validate("Check In Time", AttendanceLog."Check In Time");
-        //     if (AttendanceLine."Check In Time" <> 0T) then begin
-        //         AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-        //         AttendanceLine.Validate("Present Day", 1);
-        //         AttendanceLine.Modify();
-        //     end;
-        // end;
-
-        // if (AttendanceSetUp."Check Out From") > Time() then begin
-        //     AttendanceLog.Reset;
-        //     AttendanceLog.SetRange(Date, Today);
-        //     AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        //     if AttendanceLog.Findlast then begin
-        //         AttendanceLine.Validate("Check Out Time", AttendanceLog."Check In Time");
-        //         if (AttendanceLine."Check In Time" <> 0T) then begin
-        //             AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-        //             AttendanceLine.Validate("Present Day", 1);
-        //             AttendanceLine.Modify();
-        //         end;
-        //     end;
-        // end;
-        EmployeeAttendanceActivity.Reset;
-        EmployeeAttendanceActivity.get(Employee."No.", Today);
-        if not EmployeeAttendanceActivity.FindFirst then begin
-            EmployeeAttendanceActivity.Init;
-            EmployeeAttendanceActivity."Employee No." := Employee."No.";
-            EmployeeAttendanceActivity."Attendance Date" := Today;
-            EmployeeAttendanceActivity."Shift Start Time" := StartTime;
-            EmployeeAttendanceActivity."Shift End Time" := EndTime;
-            if IsHoliday(Today, '') then begin
-                EmployeeAttendanceActivity."Day Type" := AttendanceLine."Day Type"::Holiday;
-                EmployeeAttendanceActivity."Week Off Day" := 1;
-                EmployeeAttendanceActivity."Holiday Remarks" := CalendarDescription;
-            end else begin
-                EmployeeAttendanceActivity."Day Type" := AttendanceLine."Day Type"::"Working Day";
-                EmployeeAttendanceActivity."Holiday Remarks" := '';
-                EmployeeAttendanceActivity."Week Off Day" := 0;
-            end;
-            EmployeeAttendanceActivity.Validate("Employee Working Shift", Employee."Employee Work Shift");
-            EmployeeAttendanceActivity.Insert();
-        end;
-
-        AttendanceLog.Reset;
-        AttendanceLog.SetLoadFields(Date, "Employee ID", "Log Time");
-        AttendanceLog.SetRange(Date, Today);
-        AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        if AttendanceLog.FindFirst then begin
-            AttendanceLine.Validate("Check In Time", AttendanceLog."Log Time");
-            if (AttendanceLine."Check In Time" <> 0T) then begin
-                AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-                AttendanceLine.Validate("Present Day", 1);
-                AttendanceLine.Modify();
-            end;
-        end;
-
-        // if (AttendanceSetUp."Check Out From") > Time() then begin
-        //     AttendanceLog.Reset;
-        //     AttendanceLog.SetRange(Date, Today);
-        //     AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        //     if AttendanceLog.Findlast then begin
-        //         AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
-        //         if (AttendanceLine."Check In Time" <> 0T) then begin
-        //             AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-        //             AttendanceLine.Validate("Present Day", 1);
-        //             AttendanceLine.Modify();
-        //         end;
-        //     end;
-        // end;
-    end;
-
-    local procedure IsHoliday(Date: Date; Remarks: Text[100]): Boolean
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        RetrunBool: Boolean;
-    begin
-        RetrunBool := false;
-        Clear(CalendarDescription);
-        RetrunBool := LeaveMgt.GetNonWorkingDays(Today, Today, Employee."No.") <> 0;
-        CalendarDescription := HRMgt.ReturnCalendarDescription;
-        exit(RetrunBool);
+        FromDate := FromDate1;
+        ToDate := ToDate1;
+        EmployeeNo := EmpNo1;
     end;
 
 }
-// AttendanceLog.Reset;
-// AttendanceLog.SetRange(Date, Today);
-// AttendanceLog.SetRange("Employee ID", Employee."No.");
-// if AttendanceLog.FindFirst then
-//     if EmployeeAttendanceActivity.Get(Employee."No.", Today) then begin
-//         EmployeeAttendanceActivity.Validate("Check In Time", AttendanceLog."Check In Time");
-//         EmployeeAttendanceActivity.Validate("Present Day", 1);
-//         EmployeeAttendanceActivity.modify()
-//     end else begin
-//         EmployeeAttendanceActivity.Init();
-//         EmployeeAttendanceActivity.Validate("Check In Time", AttendanceLog."Check In Time");
-//         EmployeeAttendanceActivity.Validate("Present Day", 1);
-//         EmployeeAttendanceActivity.modify()
-//         if AttendanceLine.FindSet then
-//             repeat
-//                 Clear(EmployeeAttendanceActivity);
-//                 EmployeeAttendanceActivity.TransferFields(AttendanceLine);
-//                 EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
-//                 EmployeeAttendanceActivity.Insert;
-//             until AttendanceLine.Next = 0;
-//     end;
-
-
-
-//     // to get Checkout time
-//     if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
-//         if not EmployeeAttendanceActivity."Attendance Update" then begin
-//             AttendanceLog.Reset;
-//             AttendanceLog.SetRange(Date, InitialDate);
-//             AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-//             if AttendanceLog.Findlast then begin
-//                 AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
-//             end;
-//         end;
-//     EngNep.Reset; 1.25.2023
-//     EngNep.SetRange("English Date", InitialDate);
-//     if EngNep.FindFirst then
-//         AttendanceLine.Week := EngNep.Week;
-//     AttendanceLine.Modify(false);
-
-//     PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
-
-//     ChangeStatusToApproveFromHold;
-// end;
 
