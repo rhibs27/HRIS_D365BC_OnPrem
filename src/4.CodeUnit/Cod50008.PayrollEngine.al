@@ -2350,6 +2350,15 @@ codeunit 50008 "Payroll Engine"
             RetirementFundTaxBenefit := RetirementFundLimit1;
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
+
+        if PayrollHeader."Optimal Deduction" then begin
+            if RetirementFundLimit1 < RetirementFundLimit2 then
+                RetirementFundTaxBenefit := RetirementFundLimit1
+            else
+                RetirementFundTaxBenefit := RetirementFundLimit2;
+
+            InsuranceTaxBenefit := PGSetup."Tax Ex. Life Insurance Amt.";
+        end;
         TaxAtOnceTaxableAmt := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit;
     end;
 
