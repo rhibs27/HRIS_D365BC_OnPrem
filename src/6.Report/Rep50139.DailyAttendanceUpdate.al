@@ -1,10 +1,8 @@
 report 50139 "Daily Attendance Update"
 {
-
     ProcessingOnly = true;
     UsageCategory = Tasks;
     ApplicationArea = All;
-
     dataset
     {
         dataitem(Date; Date)
@@ -15,7 +13,7 @@ report 50139 "Daily Attendance Update"
                 begin
                     if "Employment Date" = 0D then
                         CurrReport.Skip;
-                    AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, DocNo);
+                    AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, true);
                     if Employee."Employment Type" = Employee."Employment Type"::Contract then
                         StatusInactiveForExpiredContractEmployee;
                 end;
@@ -72,7 +70,7 @@ report 50139 "Daily Attendance Update"
     trigger OnPreReport()
     begin
         AttendanceSetup.Get;
-        DocNo := NoSeries.GetNextNo(AttendanceSetup."Attendance Line No. Series", Today, true);
+        // DocNo := NoSeries.GetNextNo(AttendanceSetup."Attendance Line No. Series", Today, true);
         IF FromDate = 0D THEN
             FromDate := TODAY - 1;
         IF ToDate = 0D THEN
@@ -96,7 +94,7 @@ report 50139 "Daily Attendance Update"
     var
         AttendanceSetup: Record "Attendance Setup";
         NoSeries: Codeunit "No. Series";
-        DocNo, EmployeeNo : Code[250];
+        EmployeeNo: Code[250];
         InitialDate: Date;
         AttendanceLine: Record "Attendance Line";
         AttendanceLog: Record "Attendance Log";

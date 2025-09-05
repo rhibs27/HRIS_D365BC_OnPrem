@@ -1653,15 +1653,14 @@ table 50027 "Payroll Line"
 
     procedure ValidateEmployee()
     begin
+        OnBeforeValidateEmployee("Employee No.");
         GetPayrollHeader;
-
         Employee.Get("Employee No.");
         Employee.TestField("Employment Date");
         if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         Employee.TestField("Bank Account No.");
-
         HRSetup.Get;
         AttendanceSetup.Get;
         if BasicSalarywithGrade.Get(Employee."Salary Grade", Employee."Salary Level") then;
@@ -2794,6 +2793,11 @@ table 50027 "Payroll Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeValidateEmployee(EmployeeNo: Code[20])
     begin
     end;
 }
