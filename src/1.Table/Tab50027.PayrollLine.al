@@ -2773,7 +2773,12 @@ table 50027 "Payroll Line"
                                                                             "Employee No.");
 
                 if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
-                    PayrollAttrUses.Amount := AllowanceAmt;
+                    if not MultipleConfigForSameAttribute(AllowanceConfiguration) then
+                        PayrollAttrUses.Amount := AllowanceAmt
+                    else
+                        if AllowanceAmt <> 0 then
+                            PayrollAttrUses.Amount := AllowanceAmt;
+
                     PayrollAttrUses.Modify();
                 end
                 else begin
@@ -2920,6 +2925,17 @@ table 50027 "Payroll Line"
 
         end;
         exit(true);
+    end;
+
+    procedure MultipleConfigForSameAttribute(AllConfig: Record "Allowance Configuration"): Boolean
+    var
+        AllConfig2: Record "Allowance Configuration";
+    begin
+        AllConfig2.SetRange("Payroll Attribute", AllConfig."Payroll Attribute");
+        if AllConfig2.Count > 1 then
+            exit(true)
+        else
+            exit(false);
     end;
 
     [IntegrationEvent(false, false)]
