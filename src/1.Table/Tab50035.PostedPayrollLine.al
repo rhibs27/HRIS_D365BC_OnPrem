@@ -1,5 +1,8 @@
 table 50035 "Posted Payroll Line"
 {
+    Permissions = tabledata "Employee Ledger Entry" = RIM,
+                tabledata "Detailed Employee Ledger Entry" = RIM,
+                tabledata "Payable Employee Ledger Entry" = RIM;
     DataClassification = CustomerContent;
     // version PRM19.01.01
 
