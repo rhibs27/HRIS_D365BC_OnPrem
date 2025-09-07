@@ -43,6 +43,7 @@ table 50027 "Payroll Line"
                     end;
                 end;
 
+                Validate("Employee Type", Employee."Employment Type");
                 Validate("Employee Name", Employee.FullName);
                 Validate("Deputation On", Employee."Deputation on");
                 Validate("Sol ID", Employee."Sol Id");
