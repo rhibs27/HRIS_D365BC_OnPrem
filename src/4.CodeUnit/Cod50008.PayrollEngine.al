@@ -369,7 +369,7 @@ codeunit 50008 "Payroll Engine"
                     if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
                         MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
                 end else
-                    MonthlyTax := -TotalTaxRemunPaid + SocialSecurityTaxAmount;
+                    MonthlyTax := SocialSecurityTaxAmount;
             end;
             /*IF MonthlyTax < 0 THEN begin
               MonthlyTax := 0;
@@ -384,7 +384,10 @@ codeunit 50008 "Payroll Engine"
             //IF (SocialSecurityTaxAmount >= MonthlyTax) AND (MonthlyTax > 0) THEN
             //SocialSecurityTaxAmount := MonthlyTax;
             PayrollLine.SaveValues(SocialSecurityTaxAmount, SocialSecurityTaxAttribute);
-            PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
+            if (MonthlyTax - SocialSecurityTaxAmount) <= 0 then
+                PayrollLine.SaveValues(0, TaxAttribute)
+            else
+                PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
         end else
             PayrollLine.SaveValues(MonthlyTax, TaxAttribute);
     end;
@@ -1444,6 +1447,7 @@ codeunit 50008 "Payroll Engine"
                 Page.Run(0, DetailedEmployeeLedgEntry);
         end;
     end;
+
     procedure GetAttendanceForPayroll(var PayrollLine: Record "Payroll Line"; PayrollHeader: Record "Payroll Header")
     var
         AttendanceSummary: Record "Attendance Summary";
