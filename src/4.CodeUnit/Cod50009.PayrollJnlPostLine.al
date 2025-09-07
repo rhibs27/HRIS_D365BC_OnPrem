@@ -1,5 +1,9 @@
 codeunit 50009 "Payroll Jnl.-Post Line"
 {
+    Permissions = tabledata "Employee Ledger Entry" = RIM,
+                tabledata "Detailed Employee Ledger Entry" = RIM,
+                tabledata "Payable Employee Ledger Entry" = RIM;
+
     // version PRM19.01.01
 
     TableNo = "Payroll Journal Line";

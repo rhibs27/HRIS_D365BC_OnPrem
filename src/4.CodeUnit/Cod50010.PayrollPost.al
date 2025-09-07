@@ -1,8 +1,5 @@
 codeunit 50010 "Payroll-Post"
 {
-    Permissions = tabledata "Employee Ledger Entry" = rimd,
-                tabledata "Detailed Employee Ledger Entry" = rimd,
-                tabledata "Payable Employee Ledger Entry" = rimd;
 
     TableNo = "Payroll Header";
 
