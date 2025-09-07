@@ -2254,7 +2254,7 @@ table 50027 "Payroll Line"
                     end;
 
                     RoundAmount(AttributeAmount);
-                    if PayrollAttributesUsage.Get(PayrollAttributes.Code, "Employee No.") then begin // do not update if there is no payroll attribute uses
+                    if PayrollAttributesUsage.Get(PayrollAttributes.Code, "Employee No.") then begin // update to payroll line only if payrollattruses found
                         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
                             DeductForRecovery(AttributeAmount);
                         if (not PayrollHeader.Irregular) then

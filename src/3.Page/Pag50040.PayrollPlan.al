@@ -262,21 +262,7 @@ page 50040 "Payroll Plan"
                         Rec.CalculatePayroll(PayrollHeader);
                     end;
                 }
-                action(Release)
-                {
-                    Image = ReleaseDoc;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Release action.';
-                    ApplicationArea = All;
 
-                    trigger OnAction()
-                    begin
-                        Rec.ReleaseDocument;
-                    end;
-                }
                 action("Re-Open")
                 {
                     Image = ReOpen;
@@ -328,36 +314,6 @@ page 50040 "Payroll Plan"
                     end;
                 }
 
-                // action("Salary Statement Preview")
-                // {
-                //     Image = "Report";
-                //     Promoted = true;
-                //     PromotedCategory = "Report";
-                //     PromotedIsBig = true;
-                //     ToolTip = 'Executes the Salary Statement Preview action.';
-                //     ApplicationArea = All;
-
-                //     trigger OnAction()
-                //     begin
-                //         PayrollHeaderRec.Reset;
-                //         PayrollHeaderRec.SetRange("No.", Rec."No.");
-                //         Report.Run(Report::"Employee Salary Sheet Preview", true, true, PayrollHeaderRec);
-                //     end;
-                // }  //replace with open in excel
-                action(OpenInExcel)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Open in Excel';
-                    Image = Excel;
-                    ToolTip = 'Open the data in Excel for analysis or editing';
-
-                    trigger OnAction()
-                    var
-                        EditInExcel: Codeunit "Edit in Excel";
-                    begin
-                        EditInExcel.EditPageInExcel('Payroll Plan' + Rec."No.", Page::"Payroll Plan");
-                    end;
-                }
                 action("Employee Adjustment")
                 {
                     Image = AddContacts;

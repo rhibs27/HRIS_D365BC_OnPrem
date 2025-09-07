@@ -12283,11 +12283,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Remote Area Category - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 385130008 - Field 3016978790 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Remote Area Reduction</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Remote Area Reduction - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 385130008 - Field 3263109631 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Sol ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37783,11 +37778,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Remote Area Category - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 198483192 - Control 3016978790 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remote Area Category field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Remote Area Reduction - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 198483192 - Control 3263109631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Sol ID field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -40163,16 +40153,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Import Employee - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3181578682 - Action 2425328576 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the data in Excel for analysis or editing</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action OpenInExcel - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3181578682 - Action 2425328576 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open in Excel</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action OpenInExcel - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 3181578682 - Action 2282416948 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the P&amp;ost action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40187,11 +40167,6 @@
           <source>Executes the Re-Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Re-Open - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3181578682 - Action 4032263875 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Release action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Release - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Action 2353623890 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Update Attributes action.</source>

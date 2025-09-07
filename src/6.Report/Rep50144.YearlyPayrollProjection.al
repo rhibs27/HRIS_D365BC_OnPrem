@@ -1245,7 +1245,7 @@ report 50144 "Yearly Payroll Projection"
             OrganizationStructurelist.reset();
             OrganizationStructurelist.SetRange(Code, BranchCode);
             if OrganizationStructurelist.FindFirst() then begin
-                RemoteAreaReductionCode := OrganizationStructurelist."Remote Area Reduction";
+                RemoteAreaReductionCode := OrganizationStructurelist."Remote Area Category";
                 RemoteAreaCategory.Reset();
                 RemoteAreaCategory.SetRange("Category", RemoteAreaReductionCode);
                 if RemoteAreaCategory.FindFirst() then begin

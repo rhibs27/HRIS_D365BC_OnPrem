@@ -500,37 +500,6 @@ codeunit 50008 "Payroll Engine"
     begin
         ProjectionEarning := 0;
         ProjectedNonPaymentBenefit := 0;
-        PayrollColumnConfiguration.Reset;
-        PayrollColumnConfiguration.SetRange("Table No.", Database::"Level Wise Attributes");
-        if PayrollColumnConfiguration.FindSet then begin
-            RecRefs.Open(Database::"Level Wise Attributes");
-            repeat
-                if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
-                    if not PayrollAttributesUsage.Get(PayrollAttributes.Code, Employee."No.") then begin
-                        UsageAmount := 0;
-                        if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
-                            (PayrollAttributes."Non-Taxable" = false)
-                           then begin
-                            FieldRefs := RecRefs.Field(1);
-                            FieldRefs.SetRange(Employee."Salary Grade");
-                            FieldRefs := RecRefs.Field(2);
-                            FieldRefs.SetRange(Employee."Salary Level");
-                            RecRefs.FindFirst;
-                            FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
-                            Evaluate(UsageAmount, Format(FieldRefs.Value));
-                            UsageAmount := Round(UsageAmount, 0.01, '=');
-                            if not PayrollAttributes."Tax at once" then begin
-                                if PayrollAttributes."Apply Every Month" then
-                                    ProjectionEarning += UsageAmount * RemainingMonth
-                                else begin
-                                    ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
-                                end;
-                            end;
-                        end;
-                    end;
-                end;
-            until PayrollColumnConfiguration.Next = 0;
-        end;
 
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
@@ -2214,36 +2183,6 @@ codeunit 50008 "Payroll Engine"
     begin
         TaxAtOnceProjectionEarning := 0;
         TaxAtOnceProjectedNonPayments := 0;
-        PayrollColumnConfiguration.Reset;
-        PayrollColumnConfiguration.SetRange("Table No.", Database::"Level Wise Attributes");
-        if PayrollColumnConfiguration.FindSet then begin
-            RecRefs.Open(Database::"Level Wise Attributes");
-            repeat
-                if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
-                    if not PayrollAttributesUsage.Get(PayrollAttributes.Code, Employee."No.") then begin
-                        UsageAmount := 0;
-                        if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
-                            (PayrollAttributes."Non-Taxable" = false)
-                           then begin
-                            FieldRefs := RecRefs.Field(1);
-                            FieldRefs.SetRange(Employee."Salary Grade");
-                            FieldRefs := RecRefs.Field(2);
-                            FieldRefs.SetRange(Employee."Salary Level");
-                            RecRefs.FindFirst;
-                            FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
-                            Evaluate(UsageAmount, Format(FieldRefs.Value));
-                            UsageAmount := Round(UsageAmount, 0.01, '=');
-                            if PayrollAttributes."Apply Every Month" then begin
-                                TaxAtOnceProjectionEarning += UsageAmount * RemainingMonth
-                            end
-                            else begin
-                                TaxAtOnceProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
-                            end;
-                        end;
-                    end;
-                end;
-            until PayrollColumnConfiguration.Next = 0;
-        end;
 
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
@@ -2977,15 +2916,7 @@ codeunit 50008 "Payroll Engine"
         if Employee.Find('-') then
             repeat
                 Clear(PayrollAttributesUsage);
-                /*PayrollAttributesUsage.SetRange("Employee Code",Employee."No.");
-                PayrollAttributesUsage.DELETEALL;*/
                 PayrollAttributes.Reset;
-                // if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Contract)
-                // else if Employee."Employment Type" = Employee."Employment Type"::Probation then
-                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::"Except Contract")
-                // else
-                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2|%3', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Permanent, PayrollAttributes."Employee Type"::"Except Contract");
                 PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::" ", Employee."Employment Type");
                 if PayrollAttributes.Find('-') then
                     repeat
@@ -3014,8 +2945,6 @@ codeunit 50008 "Payroll Engine"
             PreviousPayCyclePeriod.Reset;
             PreviousPayCyclePeriod.SetFilter("Start Date", '<=%1', PayrollHeader."From Date" - 2);
             PreviousPayCyclePeriod.SetFilter("End Date", '>=%1', PayrollHeader."From Date" - 2);
-            // PreviousPayCyclePeriod.SETFILTER("Start Date",'<=%1',EmployeeLedgerEntry."Pay Period Start Date" - 2);
-            //PreviousPayCyclePeriod.SETFILTER("End Date",'>=%1',EmployeeLedgerEntry."Pay Period Start Date" - 2);
             if PreviousPayCyclePeriod.FindFirst then;
         end;
     end;
@@ -3121,7 +3050,7 @@ codeunit 50008 "Payroll Engine"
             repeat
                 Clear(BranchCode);
                 if OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (To)") then;
-                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
+                if RemoteArea.Get(OrganationStructureList."Remote Area Category") then begin
                     if FirstTime then begin
                         RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                               * (PGSetup."Payroll Fiscal Year End Date" - ServiceHistory."Effective Date" + 1);
@@ -3145,15 +3074,15 @@ codeunit 50008 "Payroll Engine"
                 if ServiceHistory.FindFirst then begin
                     Clear(BranchCode);
                     If OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (From)") then;
-                    if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
+                    if RemoteArea.Get(OrganationStructureList."Remote Area Category") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                                * (ServiceHistory."Effective Date" - InitalDate);
                     end;
                 end;
             end;
         end else begin
-            if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
-                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
+            if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Branch Code") then
+                if RemoteArea.Get(OrganationStructureList."Remote Area Category") then
                     RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                             * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;

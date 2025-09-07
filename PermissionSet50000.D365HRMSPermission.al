@@ -31,6 +31,7 @@ permissionset 50000 D365HRMSPermission
         tabledata "Dimension Value" = rimd,
         tabledata "Accounting Period" = rimd,
         tabledata Dimension = rimd,
+        tabledata "Payable Vendor Ledger Entry" = rim,
     //<table extension
         tabledata "Email Template Message" = RIMD,
         tabledata "Email Template Recipient" = RIMD,
