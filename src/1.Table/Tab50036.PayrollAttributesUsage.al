@@ -120,6 +120,12 @@ table 50036 "Payroll Attributes Usage"
         {
             //if checked amount will not be replaced on getglobalattribute
         }
+        field(21; "Specific Attributes"; enum "Specific Payroll Attributes")
+        {
+            CalcFormula = lookup("Payroll Attributes"."Specific Attributes" where(Code = field(Code)));
+            Editable = false;
+            FieldClass = FlowField;
+        }
     }
 
     keys

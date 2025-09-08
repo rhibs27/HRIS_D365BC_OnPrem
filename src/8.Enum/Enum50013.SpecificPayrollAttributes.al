@@ -13,6 +13,10 @@ enum 50013 "Specific Payroll Attributes"
     {
         Caption = 'Arrear';
     }
+    value(3; Dashain)
+    {
+        Caption = 'Dashian';
+    }
     value(9; "OverTime Salary")
     {
         Caption = 'Overtime Salary';
@@ -33,5 +37,6 @@ enum 50013 "Specific Payroll Attributes"
     {
         Caption = 'Settlement Recovery';
     }
+
 
 }

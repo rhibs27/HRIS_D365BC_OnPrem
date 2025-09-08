@@ -280,6 +280,22 @@ page 50044 "Posted Payroll Plan List"
                     Report.Run(Report::"Payroll voucher", true, true, PostedPayrollHdr);
                 end;
             }
+            action("Payroll Summary Voucher 2")
+            {
+                Image = PrintReport;
+                Promoted = true;
+                PromotedCategory = "Report";
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Payroll Voucher action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    PostedPayrollHdr.Reset;
+                    PostedPayrollHdr.SetRange("No.", Rec."No.");
+                    Report.Run(Report::"Payroll Voucher summary 2", true, true, PostedPayrollHdr);
+                end;
+            }
         }
     }
 
