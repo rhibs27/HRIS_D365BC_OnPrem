@@ -345,7 +345,7 @@ tableextension 50013 "Employee Ext" extends Employee
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::CIT | "Payroll SubType"::"Employee Contribution" | "Payroll SubType"::"Employer Contribution" | "Payroll SubType"::RF | "Payroll SubType"::"Lump Sum Contribution"),
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::CIT | "Payroll SubType"::"Employee Contribution" | "Payroll SubType"::"Employer Contribution" | "Payroll SubType"::RF | "Payroll SubType"::"Lump Sum Contribution" | "Payroll SubType"::Gratuity),
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Document Type" = field("Document Type Filter")));
