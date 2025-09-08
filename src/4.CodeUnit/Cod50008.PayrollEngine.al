@@ -394,6 +394,8 @@ codeunit 50008 "Payroll Engine"
         end;
 
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+        if SocialSecurityTaxAmount >= MonthlyTax then
+            MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
         PayrollLine.Modify;
         if (SocialSecurityTaxAmount <> 0) and (SocialSecurityTaxAttribute <> '') then begin
