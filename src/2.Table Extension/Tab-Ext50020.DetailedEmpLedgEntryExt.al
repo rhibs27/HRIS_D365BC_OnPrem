@@ -225,7 +225,12 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         OrgStruclist: Record "Organization Structure List";
         DeputationType: Enum "Deputation Type";
         DeputationCode: Code[20];
+        IsHandled: Boolean;
+        FinacleGLNo: Text[30];
     begin
+        OnBeforeValidateFinacleGL("Employee No.", "Payroll Attribute Code", "Finacle GL No", IsHandled);
+        if IsHandled then
+            exit;
         Employee.Get("Employee No.");
         PayrollAttributes.Get("Payroll Attribute Code");
         if "Attribute Type" = "Attribute Type"::"Non-Payment" then
@@ -250,5 +255,10 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         end else
             Validate("Finacle GL No", SolID + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
         Validate("Finacle GL Name", PayrollAttributes."Finacle GL Name");
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeValidateFinacleGL(EmployeeCode: Code[20]; PayrollAttributeCode: Code[20]; var FinacleGLNo: Text; var IsHandled: Boolean)
+    begin
     end;
 }

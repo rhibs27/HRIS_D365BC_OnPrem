@@ -186,15 +186,15 @@ codeunit 50008 "Payroll Engine"
         PayCycleTerm.CalcFields("Periods Generated");
         if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Adjustment] then begin
             if Employee."Employment Type" <> Employee."Employment Type"::Contract then
-                RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
+                RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod(PayrollHeader.Type)
             else begin
                 if PayrollHeader."Previous Year Payroll" then
-                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod
+                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod(PayrollHeader.Type)
                 else
-                    RemainingMonth := GetPayCyclePeriod(Employee."Contract Expiry Date") - GetLastPayPeriod;
+                    RemainingMonth := GetPayCyclePeriod(Employee."Contract Expiry Date") - GetLastPayPeriod(PayrollHeader.Type);
             end;
         end else
-            RemainingMonth := GetSettlementPayCyclePeriod - GetLastPayPeriod;     //settlement
+            RemainingMonth := GetSettlementPayCyclePeriod - GetLastPayPeriod(PayrollHeader.Type);     //settlement
 
         if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
             if RemainingMonth < 0 then
@@ -214,7 +214,7 @@ codeunit 50008 "Payroll Engine"
             CalcProjectionRetirementFund;
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
-                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
+                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
         RetirementFundTaxBenefit := TotalContributionToRetirementFund;
@@ -820,9 +820,9 @@ codeunit 50008 "Payroll Engine"
         until StrLength = 0;
     end;
 
-    local procedure GetLastPayPeriod(): Integer
+    local procedure GetLastPayPeriod(PayrollType: Enum "Payroll Header Type"): Integer
     var
-        EmployeeLedgerEntry: Record "Employee Ledger Entry PRM";
+        EmployeeLedgerEntry: Record "Employee Ledger Entry";
         LastPayCyclePeriod: Integer;
     begin
         EmployeeLedgerEntry.Reset;
@@ -835,7 +835,10 @@ codeunit 50008 "Payroll Engine"
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then
             exit(LastPayCyclePeriod)
         else
-            exit(PayrollHeader."Pay Cycle Period");
+            if PayrollType <> PayrollType::Adjustment then
+                exit(PayrollHeader."Pay Cycle Period")
+            else
+                exit(LastPayCyclePeriod);
     end;
 
     local procedure GetPayFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
@@ -3496,7 +3499,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Past Benefit" := Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
         PayrollLine."Past Non-Payments" := Employee."Non-Payment";
         PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + Employee."Non-Payment" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
-        PayrollLine."Past Retirement Fund" := Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
+        PayrollLine."Past Retirement Fund" := Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
         PayrollLine."Actual RF Contribution" := TotalContributionToRetirementFund;
         PayrollLine."1/3 of Assessable Income" := RetirementFundLimit1;
