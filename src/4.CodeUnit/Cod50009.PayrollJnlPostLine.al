@@ -249,6 +249,8 @@ codeunit 50009 "Payroll Jnl.-Post Line"
                 until PayrollJnlLine.Next = 0;
 
             IntPayrollJnlLine.Reset;
+            IntPayrollJnlLine.CalcSums(Amount);
+            Message('%1', IntPayrollJnlLine.Amount);
             if IntPayrollJnlLine.FindSet then
                 repeat
                     PostGenJnlLine(IntPayrollJnlLine);

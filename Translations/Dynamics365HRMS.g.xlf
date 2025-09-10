@@ -43763,15 +43763,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan List - Action Payroll Summary Voucher - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2707818367 - Action 3933299293 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Payroll Voucher action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan List - Action Payroll Summary Voucher 2 - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2707818367 - Action 3937630495 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Payroll Voucher action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan List - Action Payroll Voucher - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2707818367 - Action 4180537729 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Payroll Voucher action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan List - Action Payroll Voucher 2 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2707818367 - Action 1036768648 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Post CIT action.</source>
@@ -52682,6 +52682,11 @@
           <source>CRORE</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Payroll Voucher summary 2 - NamedType Text1280001</note>
+        </trans-unit>
+        <trans-unit id="Report 1897850701 - Control 1465854184 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Payroll Voucher summary 2 - Control BranchFilter - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 1660328492 - Control 3465500804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Months field.</source>

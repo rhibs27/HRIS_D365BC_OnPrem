@@ -474,13 +474,13 @@ codeunit 50008 "Payroll Engine"
                                                      PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF, PayrollAttributes.Subtype::"Lump Sum Contribution"]) then begin
                         if FieldValue <> 0 then begin
                             if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employer Contribution" then
-                                EmployerContribution := FieldValue
+                                EmployerContribution += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employee Contribution" then
-                                EmployeeContribution := FieldValue
+                                EmployeeContribution += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
-                                CITContribution := FieldValue
+                                CITContribution += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
-                                RF := FieldValue
+                                RF += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Lump Sum Contribution" then
                                 LumpSumCIT += FieldValue;
                         end;
@@ -2172,6 +2172,7 @@ codeunit 50008 "Payroll Engine"
             end;
         end;
         RecRef.Close;
+        PayrollLine.RoundAmount(TaxAtOnceCurrentDeduction);
     end;
 
     local procedure TaxAtOnceCalcProjectionEarning()

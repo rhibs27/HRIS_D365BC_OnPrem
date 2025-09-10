@@ -148,7 +148,7 @@ table 50098 "Employee Declaration"
         HRSetup.Get;
         if "No." = '' then begin
             HRSetup.TestField("Employee Declaration No.");
-            NoSeriesMgt.InitSeries(HRSetup."Employee Declaration No.", xRec."No. Series", "Created Date", "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Employee Declaration No.", xRec."No. Series", "Created Date", "No.", "No. Series");
         end;
         Validate("Employee No.", HRMgt.GetEmployeeNo());
         TestField("Code of Ethics");
@@ -197,7 +197,7 @@ table 50098 "Employee Declaration"
     var
         Empvar: Record Employee;
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         DimValue: Record "Dimension Value";
