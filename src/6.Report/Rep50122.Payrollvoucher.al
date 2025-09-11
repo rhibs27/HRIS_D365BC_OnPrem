@@ -36,7 +36,6 @@ report 50122 "Payroll voucher"
                             repeat
                                 TempDetailedEmpLedgerEntry.Reset();
                                 TempDetailedEmpLedgerEntry.SetRange("Document No.", "Document No.");
-                                TempDetailedEmpLedgerEntry.SetRange("Finacle GL Name", DetailedEmpLegerEntry."Finacle GL Name"); //Abhiral 01.25.2023
                                 TempDetailedEmpLedgerEntry.SetRange("Finacle GL No", DetailedEmpLegerEntry."Finacle GL No");
                                 if TempDetailedEmpLedgerEntry.FindFirst then begin
                                     TempDetailedEmpLedgerEntry.Amount += DetailedEmpLegerEntry.Amount;

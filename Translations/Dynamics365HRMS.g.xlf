@@ -43763,11 +43763,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan List - Action Payroll Summary Voucher - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2707818367 - Action 3933299293 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Payroll Voucher action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan List - Action Payroll Summary Voucher 2 - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2707818367 - Action 3937630495 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Payroll Voucher action.</source>
           <note from="Developer" annotates="general" priority="2"></note>

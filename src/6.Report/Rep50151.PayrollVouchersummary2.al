@@ -22,7 +22,7 @@ report 50151 "Payroll Voucher summary 2"
             column(PostedPayrollNo; "Posted Payroll Header"."No.") { }
             column(NepaliMonth; "Posted Payroll Header"."Nepali Month") { }
             column(FiscalYear; HrMgt.ReturnFiscalYear("Posting Date")) { }
-            column(PostingDescription; "Posted Payroll Header"."Posting Description") { }
+            column(PostingDescription; "Posted Payroll Header".Narration) { }
             column(PaymentAmountInWords; TotalAmountText[1] + ' ' + TotalAmountText[2]) { }
             column(Text062; StrSubstNo(Text062, "Nepali Month", HrMgt.ReturnFiscalYear("Posting Date"))) { }
             dataitem("Document Workflow"; "Document Workflow")
@@ -38,6 +38,19 @@ report 50151 "Payroll Voucher summary 2"
                 begin
                     if "Document Workflow"."Employee No." <> '' then
                         OutputNo += 1;
+
+                    case "Document Workflow"."Heading Type" of
+                        "Document Workflow"."Heading Type"::"Entered By":
+                            EnteredBy := "Document Workflow"."Employee Name";
+                        "Document Workflow"."Heading Type"::"Prepared By":
+                            PreparedBy := "Document Workflow"."Employee Name";
+                        "Document Workflow"."Heading Type"::"Checked By":
+                            CheckedBy := "Document Workflow"."Employee Name";
+                        "Document Workflow"."Heading Type"::"Supported By":
+                            ReviewedBy := "Document Workflow"."Employee Name";
+                        "Document Workflow"."Heading Type"::"Approved By":
+                            ApprovedBy := "Document Workflow"."Employee Name";
+                    end;
                 end;
             }
 
@@ -46,6 +59,9 @@ report 50151 "Payroll Voucher summary 2"
                 UnitCost: Decimal;
                 BudgetedAmt: Decimal;
             begin
+                if "Posted Payroll Header".Reversed then
+                    CurrReport.Skip();
+
                 GLAccount.Reset;
                 GLAccount.SetRange("No.", PGSetup."Net Payable Account Code");
                 GLAccount.SetFilter("Document No. Filter", "Posted Payroll Header".GetFilter("No."));
@@ -97,6 +113,18 @@ report 50151 "Payroll Voucher summary 2"
             column(Code_PayrollAttributes; TempPayrollAttributes."Description 2") { }
             column(DebitAmt; TempPayrollAttributes."Unit Cost") { }
             column(CreditAmt; TempPayrollAttributes."Budgeted Amount") { }
+
+            // for workflow
+            column(EnteredBy; EnteredBy) { }
+            column(PreparedBy; PreparedBy) { }
+            column(CheckedBy; CheckedBy) { }
+            column(ReviewedBy; ReviewedBy) { }
+            column(ApprovedBy; ApprovedBy) { }
+            trigger OnPreDataItem()
+            begin
+                TempPayrollAttributes.SetCurrentKey("Unit Cost");
+                TempPayrollAttributes.SetAscending("Unit Cost", false);
+            end;
         }
     }
 
@@ -182,6 +210,7 @@ report 50151 "Payroll Voucher summary 2"
         Text062: Label 'Payroll summary voucher for the month of %1 Fiscal Year %2 as per following detail is placed for approval.';
         DetailedEmployeeledger: Record "Detailed Employee Ledger Entry";
         BranchFilter: Code[20];
+        EnteredBy, PreparedBy, CheckedBy, ReviewedBy, ApprovedBy : text[100];
 
     local procedure GetCompanyOneLineAddress()
     begin
