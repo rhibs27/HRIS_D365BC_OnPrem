@@ -76,7 +76,7 @@ codeunit 50023 EmployeeActivityMgt
     begin
         if EmployeeACTJnl."Start Date" > Today then
             Error('Attendance missed date cannot be future date');
-        AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
+        // AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
         AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl);
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Start Date");
@@ -206,6 +206,7 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("No.", '');
                 AttendanceMissed.Validate("Employee No.", AttendanceMissedJournal."Employee No.");
                 AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+                AttendanceMissed.Validate("From Journal", true);
                 AttendanceMissed.Validate("Start Date", AttendanceMissedJournal."Start Date");
                 AttendanceMissed.Validate("Check In Time", AttendanceMissedJournal."CheckIn Time");
                 AttendanceMissed.Validate("Check Out Time", AttendanceMissedJournal."CheckOut Time");
@@ -213,7 +214,6 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
                 AttendanceMissed.Validate("Approved Date", Today);
                 AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
-                AttendanceMissed.Validate("From Journal", true);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
                 PostedAttendanceJournal.TransferFields(AttendanceMissedJournal);

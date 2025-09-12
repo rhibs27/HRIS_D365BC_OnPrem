@@ -3167,7 +3167,7 @@ codeunit 50001 "HR Mgt."
     end;
 
     //Email
-    local procedure GetEmailTemplate(var Header: Text; Var Body: text; var Footer: text; TemplateCode: Code[20])
+    procedure GetEmailTemplate(var Header: Text; Var Body: text; var Footer: text; var Disclaimer: text; TemplateCode: Code[20])
     var
         EmailMessage: Record "Email Template Message";
     begin
@@ -3184,11 +3184,13 @@ codeunit 50001 "HR Mgt."
 
                     EmailMessage.Type::Footer:
                         Footer := Footer + EmailMessage."Body Message" + '<br>';
+                    EmailMessage.Type::Disclaimer:
+                        Disclaimer := Disclaimer + EmailMessage."Body Message" + '<br>';
                 end;
             until EmailMessage.Next = 0;
     end;
 
-    local procedure GetEmailReceipent(DocumentNo: Code[20]; DocumentType: Enum "Employee Activity Type"; DocumentStatus: Enum "Approval Status"; var EmailReceipientText: List of [Text]; var EmailCCReceipent: List of [Text]; var EmailBCCReceipent: List of [Text]; TemplateCode: Code[20])
+    procedure GetEmailReceipent(DocumentNo: Code[20]; DocumentType: Enum "Employee Activity Type"; DocumentStatus: Enum "Approval Status"; var EmailReceipientText: List of [Text]; var EmailCCReceipent: List of [Text]; var EmailBCCReceipent: List of [Text]; TemplateCode: Code[20])
     var
         EmailReceipent: Record "Email Template Recipient";
         ApprovalHRMS: Record "Approval HRMS";
@@ -3239,12 +3241,12 @@ codeunit 50001 "HR Mgt."
 
     procedure SendMailFromTemplate(TableNo: Integer;
             DocumentType: enum "Employee Activity Type";
-            ApprovalStatus: Enum "approval status";
-            EmployeeNo: Text;
-            DocumentNo: Code[20])
+                              ApprovalStatus: Enum "approval status";
+                              EmployeeNo: Text;
+                              DocumentNo: Code[20])
     var
         EmailTemplate: Record "Email Template";
-        Header, Footer, Body : text;
+        Header, Footer, Body, Disclaimer : text;
         Email: Codeunit Email;
         CodeunitEmailMessage: Codeunit "Email Message";
         EmailReceipientText: List of [Text];
@@ -3274,7 +3276,7 @@ codeunit 50001 "HR Mgt."
             Clear(Footer);
             Clear(Header);
             Clear(Body);
-            GetEmailTemplate(Header, Body, Footer, EmailTemplate.Code);
+            GetEmailTemplate(Header, Body, Footer, Disclaimer, EmailTemplate.Code);
             GetEmailReceipent(DocumentNo, DocumentType, ApprovalStatus, EmailReceipientText, EmailCCReceipent, EmailBCCReceipent, EmailTemplate.Code);
             CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, CodeunitEmailMessage.GetBody(), true, EmailCCReceipent, EmailBCCReceipent);
             CodeunitEmailMessage.AppendToBody(Header);
@@ -3440,6 +3442,8 @@ codeunit 50001 "HR Mgt."
                 CodeunitEmailMessage.AppendToBody(Format(Employee."Full Name"))
             else if ApprovalStatus in [ApprovalStatus::Rejected, ApprovalStatus::Approved] then
                 CodeunitEmailMessage.AppendToBody(Format(EmployeeNo));
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(Disclaimer);
             Email.Send(CodeunitEmailMessage);
         end;
     end;

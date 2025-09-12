@@ -50673,6 +50673,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Annual Salary Certificate(reg) - Control Reference No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 658722546 - NamedType 4139067752" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Please Select From Date and To Date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update - NamedType Err001</note>
+        </trans-unit>
+        <trans-unit id="Report 658722546 - Control 665443949 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EmployeeNo field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update - Control Employee No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 658722546 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the FromDate field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 658722546 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ToDate field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update - Control To Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Report 2802427413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Log Sync</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -59877,6 +59897,11 @@
           <source>Body</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Email Message Type - EnumValue Body - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1860271521 - EnumValue 1694176181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Disclaimer</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Email Message Type - EnumValue Disclaimer - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1860271521 - EnumValue 444845527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Footer</source>

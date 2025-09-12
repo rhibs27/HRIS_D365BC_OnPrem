@@ -99,7 +99,8 @@ table 50154 "Attendance Missed"
                     Clear("End Date");
                     Clear("End Date (BS)");
                 end;
-                AttendanceMissedMgt.CheckAlreadyExists("Employee No.", Type, "Start Date");
+                if "From Journal" then
+                    AttendanceMissedMgt.CheckAlreadyExists("Employee No.", Type, "Start Date");
                 Validate("End Date", "Start Date");
             end;
         }

@@ -289,7 +289,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceMissed.SetRange("Start Date", startDate);
         AttendanceMissed.SetFilter("Approval Status", '<>%1&<>%2', AttendanceMissed."Approval Status"::Rejected, AttendanceMissed."Approval Status"::Withdrawn);
         if AttendanceMissed.FindFirst then
-            Error('%1 already applied for date %2', Type, AttendanceMissed."Start Date");
+            Error('%1 already applied for date %2 for %3', Type, AttendanceMissed."Start Date", EmployeeNo);
     end;
 
     procedure CheckForLeaveDay(var AttendanceJRN: Record "Employee Activity Journal")
