@@ -12283,6 +12283,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Remote Area Category - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 3016978790 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remote Area Reduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Remote Area Reduction - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 3263109631 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Sol ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14888,11 +14893,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field ATM Custodian Days - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 13993998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Balance Taxable Income</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Balance Taxable Income - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 4248640148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bank Account No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15337,6 +15337,11 @@
           <source>Taxable Income</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Taxable Income - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 192453088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Taxable Income After RF</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Taxable Income After RF - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 57314011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Teller Days</source>
@@ -17053,11 +17058,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field ATM Custodian Days - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 13993998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Balance Taxable Income</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Balance Taxable Income - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 4248640148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bank Account No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17532,6 +17532,11 @@
           <source>Taxable Income</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Taxable Income - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 192453088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Taxable Income After RF</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Taxable Income After RF - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 57314011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Teller Days</source>
@@ -37783,6 +37788,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Remote Area Category - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 3016978790 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remote Area Category field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Remote Area Reduction - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 3263109631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Sol ID field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -40172,11 +40182,6 @@
           <source>Executes the Re-Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Re-Open - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3181578682 - Action 2353623890 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Update Attributes action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Update Attributes - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Action 1005222502 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OverTime Calculation</source>

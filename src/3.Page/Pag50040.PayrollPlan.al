@@ -203,22 +203,6 @@ page 50040 "Payroll Plan"
             group("&Functions")
             {
                 Caption = '&Functions';
-                action("Update Attributes")
-                {
-                    Image = UpdateUnitCost;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    ToolTip = 'Executes the Update Attributes action.';
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        if Confirm('Do you want to update payroll attributes ?', false) then begin
-                            Rec.UpdatePayrollAttributes(Rec);
-                        end;
-                    end;
-                }
                 action("Get Attributes")
                 {
                     Caption = 'Get Attributes';

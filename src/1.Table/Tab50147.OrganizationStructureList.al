@@ -77,11 +77,11 @@ table 50147 "Organization Structure List"
             TableRelation = "Remote Area Category";
             DataClassification = CustomerContent;
         }
-        // field(11; "Remote Area Reduction"; Code[20])
-        // {
-        //     TableRelation = "Remote Area Category";
-        //     DataClassification = CustomerContent;
-        // }
+        field(11; "Remote Area Reduction"; Code[20])
+        {
+            TableRelation = "Remote Area Category";
+            DataClassification = CustomerContent;
+        }
         field(12; "Blocked"; Boolean)
         {
         }

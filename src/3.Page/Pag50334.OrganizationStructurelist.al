@@ -64,10 +64,10 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
                 }
-                // field("Remote Area Reduction"; Rec."Remote Area Reduction")
-                // {
-                //     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
-                // }
+                field("Remote Area Reduction"; Rec."Remote Area Reduction")
+                {
+                    ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
+                }
                 field(Blocked; Rec.Blocked)
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';

@@ -90,7 +90,6 @@ codeunit 50008 "Payroll Engine"
         HRSetup: Record "Human Resources Setup";
         SettlementStartDate: Date;
         HRMgt: Codeunit "HR Mgt.";
-        EngNep: Record "English-Nepali Date";
         EmpPayOpen: Record "Employee Payroll Opening";
         SlabAmount: Decimal;
         SlabCount: Integer;
@@ -155,9 +154,12 @@ codeunit 50008 "Payroll Engine"
         //checking for total days
         if not (PayrollHeader.Type = PayrollHeader.Type::Adjustment) then
             PayrollLine.TestTotalDays(PayrollHeader);
-        EngNep.Reset;
-        EngNep.SetRange("English Date", PayrollHeader."From Date");
-        if EngNep.FindFirst then;
+
+        PayCycleTerm.Reset();
+        PayCycleTerm.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+        PayCycleTerm.SetRange(Term, PayrollHeader."Pay Cycle Term");
+        PayCycleTerm.FindFirst();
+
         Employee.Reset;
         Employee.SetRange("No.", PayrollLine."Employee No.");
         if PayrollHeader."Previous Year Payroll" then
@@ -178,7 +180,7 @@ codeunit 50008 "Payroll Engine"
 
         EmpPayOpen.Reset;
         EmpPayOpen.SetRange("Employee No.", PayrollLine."Employee No.");
-        EmpPayOpen.SetRange("Fiscal Year", HRMgt.ReturnFiscalYear(PayrollHeader."From Date"));
+        EmpPayOpen.SetRange("Fiscal Year", PayrollHeader."Pay Cycle Term");
         if EmpPayOpen.FindFirst then;
 
         //Read Payment Days
@@ -338,60 +340,71 @@ codeunit 50008 "Payroll Engine"
         TotalTaxRemunPaid := EmpPayOpen."Total Tax Remuneration Opening" + Employee."Remuneration & Benefits Tax";
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
+        if AnnualTax < 0 then
+            AnnualTax := 0;
 
         PayrollLine."Gratuity & leave Encash Tax" := Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then
-            MonthlyTax := AnnualTax / (RemainingMonth + 1)
-        else
-            MonthlyTax := AnnualTax / (RemainingMonth + 1) + Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');   //settlement
 
-        if TaxAtOnceAnnualTax < 0 then
-            MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax"
-        else begin
-            if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
-                MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
+        // do the calculain only if there is tax.
+        if AnnualTax > 0 then begin
+            if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+                MonthlyTax := AnnualTax / (RemainingMonth + 1)
             else
-                MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);
-        end;
-        PayrollLine.RoundAmount(MonthlyTax);
+                MonthlyTax := AnnualTax / (RemainingMonth + 1) + Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');   //settlement
 
-        TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
-        if TotalTaxWithoutSST > 0 then begin
-            if TotalTaxWithoutSST > TaxExempt then
-                TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
+            if TaxAtOnceAnnualTax < 0 then
+                MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax"
             else begin
-                SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
-                TotalTaxWithoutSST := 0;
+                if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
+                    MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
+                else
+                    MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);
             end;
-        end else
-            SocialSecurityTax := SocialSecurityTax - TaxExempt;
+            PayrollLine.RoundAmount(MonthlyTax);
 
-        if TotalSSTPaid <> SocialSecurityTax then begin
-            if SocialSecurityTax - TotalSSTPaid < 0 then begin
-                SocialSecurityTaxAmount := 0;
-                MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
-            end else begin
-                SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
-                if (PayrollHeader.Type = PayrollHeader.Type::Adjustment) and (MonthlyTax > 0) then begin
-                    if SocialSecurityTax = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
-                        SocialSecurityTaxAmount := MonthlyTax
-                    else if (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax) < SocialSecurityTax then
-                        SocialSecurityTaxAmount := SocialSecurityTax - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
-                    else
-                        SocialSecurityTaxAmount := 0;
+            TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
+            if TotalTaxWithoutSST > 0 then begin
+                if TotalTaxWithoutSST > TaxExempt then
+                    TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
+                else begin
+                    SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
+                    TotalTaxWithoutSST := 0;
                 end;
-                if TotalTaxWithoutSST > 0 then begin
-                    if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
-                        MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
-                end else
-                    MonthlyTax := SocialSecurityTaxAmount;
-            end;
-            if MonthlyTax < 0 then begin
-                MonthlyTax := 0;
-                SocialSecurityTaxAmount := 0;
+            end else
+                SocialSecurityTax := SocialSecurityTax - TaxExempt;
 
+            if TotalSSTPaid <> SocialSecurityTax then begin  //doubt
+                if SocialSecurityTax - TotalSSTPaid < 0 then begin
+                    SocialSecurityTaxAmount := 0;
+                    MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
+                end else begin
+                    SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
+
+                    if SocialSecurityTaxAmount > MonthlyTax then
+                        SocialSecurityTaxAmount := MonthlyTax;
+
+                    if (PayrollHeader.Type = PayrollHeader.Type::Adjustment) and (MonthlyTax > 0) then begin
+                        if SocialSecurityTax = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
+                            SocialSecurityTaxAmount := MonthlyTax
+                        else if (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax) < SocialSecurityTax then
+                            SocialSecurityTaxAmount := SocialSecurityTax - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
+                        else
+                            SocialSecurityTaxAmount := 0;
+                    end;
+                    if TotalTaxWithoutSST > 0 then begin
+                        if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
+                            MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
+                    end else
+                        MonthlyTax := SocialSecurityTaxAmount;
+                end;
+                if MonthlyTax < 0 then begin
+                    MonthlyTax := 0;
+                    SocialSecurityTaxAmount := 0;
+                end;
             end;
+
         end;
+
 
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
@@ -400,10 +413,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine.Modify;
         if (SocialSecurityTaxAmount <> 0) and (SocialSecurityTaxAttribute <> '') then begin
             PayrollLine.SaveValues(SocialSecurityTaxAmount, SocialSecurityTaxAttribute);
-            if (MonthlyTax - SocialSecurityTaxAmount) <= 0 then
-                PayrollLine.SaveValues(0, TaxAttribute)
-            else
-                PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
+            PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
         end else
             PayrollLine.SaveValues(MonthlyTax, TaxAttribute);
     end;
@@ -1415,6 +1425,7 @@ codeunit 50008 "Payroll Engine"
         LocalLeaveTypeSetup: Record "Leave Type Setup";
         LeaveEarn: Record "Leave Earn";
         ResignDate: Date;
+        EngNep: Record "English-Nepali Date";
     begin
         EngNep.Reset;
         EngNep.SetRange("English Date", Today);
@@ -1818,47 +1829,6 @@ codeunit 50008 "Payroll Engine"
             exit(false);
         end;
 
-    end;
-
-    procedure ResolveColumnCalc(var Expression: Code[100]; PayrollAttribute: Record "Payroll Attributes"; BasicFromLine: Boolean; BasicAmount: Decimal)
-    var
-        StrPosition: Integer;
-        StrLength: Integer;
-        PayrollAttributesUsage: Record "Payroll Attributes Usage";
-        PayrollAttributes2: Record "Payroll Attributes";
-    begin
-        PayrollAttributesUsage.Reset;
-        PayrollAttributesUsage.SetRange(Code, PayrollAttribute.Code);
-        PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-        if PayrollAttributesUsage.FindFirst then begin
-            PayrollAttributesUsage.TestField(Amount);
-            BasicAmount := PayrollAttributesUsage.Amount;
-        end;
-
-        StrPosition := StrPos(Expression, PayrollAttributes."Column Name");
-        if StrPosition > 0 then begin
-            Expression := DelStr(Expression, StrPosition, StrLen(PayrollAttributes."Column Name"));
-            if BasicFromLine then
-                Expression := InsStr(Expression, Format(BasicSalaryAfterDeduction), StrPosition)
-            else
-                Expression := InsStr(Expression, Format(BasicAmount), StrPosition)
-        end;
-        StrLength := StrLen(Expression);
-        repeat
-            if Expression[StrLength] in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                      'Y', 'Z'] then begin
-                PayrollAttributes2.Reset;
-                PayrollAttributes2.SetRange("Column Name", Format(Expression[StrLength]));
-                if PayrollAttributes2.FindFirst then begin
-                    if PayrollAttributes2.Subtype = PayrollAttribute.Subtype then begin
-                        StrPosition := StrPos(Expression, Format(Expression[StrLength]));
-                        Expression := DelStr(Expression, StrPosition, StrLen(Format(Expression[StrLength])));
-                        Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition);
-                    end;
-                end;
-            end;
-            StrLength -= 1;
-        until StrLength = 0;
     end;
 
     procedure PayrollAttCheck(PayrollCode: Code[20]; EmpCode: Code[20]): Boolean
@@ -3058,7 +3028,7 @@ codeunit 50008 "Payroll Engine"
             repeat
                 Clear(BranchCode);
                 if OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (To)") then;
-                if RemoteArea.Get(OrganationStructureList."Remote Area Category") then begin
+                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                     if FirstTime then begin
                         RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                               * (PGSetup."Payroll Fiscal Year End Date" - ServiceHistory."Effective Date" + 1);
@@ -3082,7 +3052,7 @@ codeunit 50008 "Payroll Engine"
                 if ServiceHistory.FindFirst then begin
                     Clear(BranchCode);
                     If OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (From)") then;
-                    if RemoteArea.Get(OrganationStructureList."Remote Area Category") then begin
+                    if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                                * (ServiceHistory."Effective Date" - InitalDate);
                     end;
@@ -3090,7 +3060,7 @@ codeunit 50008 "Payroll Engine"
             end;
         end else begin
             if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Branch Code") then
-                if RemoteArea.Get(OrganationStructureList."Remote Area Category") then
+                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
                     RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                             * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;
