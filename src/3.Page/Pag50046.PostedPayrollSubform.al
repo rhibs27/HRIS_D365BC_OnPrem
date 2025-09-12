@@ -1035,7 +1035,7 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the Eligible RF Deduction field.';
                     ApplicationArea = All;
                 }
-                field("Taxable Income"; Rec."Taxable Income")
+                field("Taxable Income"; Rec."Taxable Income After RF")
                 {
                     ToolTip = 'Specifies the value of the Taxable Income field.';
                     ApplicationArea = All;
@@ -1060,7 +1060,7 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the Health Insurance Premium field.';
                     ApplicationArea = All;
                 }
-                field("Balance Taxable Income"; Rec."Balance Taxable Income")
+                field("Balance Taxable Income"; Rec."Taxable Income")
                 {
                     ToolTip = 'Specifies the value of the Balance Taxable Income field.';
                     ApplicationArea = All;

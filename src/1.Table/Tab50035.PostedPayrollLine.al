@@ -29,7 +29,7 @@ table 50035 "Posted Payroll Line"
             DecimalPlaces = 0 : 4;
             Editable = false;
         }
-        field(6; "Balance Taxable Income"; Decimal)
+        field(6; "Taxable Income"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
@@ -1308,7 +1308,7 @@ table 50035 "Posted Payroll Line"
         field(1028; "Eligible RF Deduction"; Decimal) { }
         field(1029; "Life Insurance Premium"; Decimal) { }
         field(1030; "Health Insurance Premium"; Decimal) { }
-        field(1031; "Taxable Income"; Decimal) { }
+        field(1031; "Taxable Income After RF"; Decimal) { }
         field(1032; "Disable Person Reduction"; Decimal) { }
         field(1033; "Female Tax Credit"; Decimal) { }
         field(1034; "Total Tax Liability"; Decimal) { }

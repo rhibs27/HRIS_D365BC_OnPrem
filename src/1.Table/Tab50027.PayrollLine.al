@@ -89,7 +89,7 @@ table 50027 "Payroll Line"
             DecimalPlaces = 0 : 4;
             Editable = true;
         }
-        field(6; "Balance Taxable Income"; Decimal)
+        field(6; "Taxable Income"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
@@ -1441,7 +1441,7 @@ table 50027 "Payroll Line"
         field(1028; "Eligible RF Deduction"; Decimal) { Editable = false; }
         field(1029; "Life Insurance Premium"; Decimal) { Editable = false; }
         field(1030; "Health Insurance Premium"; Decimal) { Editable = false; }
-        field(1031; "Taxable Income"; Decimal) { Editable = false; }
+        field(1031; "Taxable Income After RF"; Decimal) { Editable = false; }
         field(1032; "Disable Person Reduction"; Decimal) { Editable = false; }
         field(1033; "Female Tax Credit"; Decimal) { Editable = false; }
         field(1034; "Total Tax Liability"; Decimal) { Editable = false; }

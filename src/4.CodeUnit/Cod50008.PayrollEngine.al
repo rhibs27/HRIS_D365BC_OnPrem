@@ -2997,14 +2997,14 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."1/3 of Assessable Income" := RetirementFundLimit1;
         PayrollLine."Eligible RF Deduction" := RetirementFundTaxBenefit;
         PayrollLine."Total Employer Contribution" := EmployerContribution;
-        PayrollLine."Balance Taxable Income" := TaxAtOnceTaxableAmt;
-        PayrollLine."Taxable Income" := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit;
+        PayrollLine."Taxable Income" := TaxAtOnceTaxableAmt;
+        PayrollLine."Taxable Income After RF" := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit;
         PayrollLine."Life Insurance Premium" := InsuranceTaxBenefit;
         PayrollLine."Health Insurance Premium" := HealthInsuranceTaxBenefit;
         PayrollLine."Property Insurance Premium" := PropertyInsuranceTaxBenefit;
         PayrollLine."Disable Person Reduction" := DisablePersonReduction;
         PayrollLine."Total Tax Liability" := TaxAtOnceAnnualTax + TaxExempt + TotalSSTPaid + TotalTaxRemunPaid;
-        //Wrong Expression
+
         PayrollLine."Payable Tax Liability" := TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid;
         PayrollLine."Social Security Tax(Annual)" := SocialSecurityTax;
         if (TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid) < 0 then
@@ -3023,7 +3023,6 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Current Deduction" := TaxAtOnceCurrentDeduction;
 
         PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
-        //Wrong Expression
     end;
 
     local procedure GetRemoteAreaDeduction()

@@ -498,7 +498,7 @@ table 50026 "Payroll Header"
                     PayrollLine."Tax for Period" := 0;
                     PayrollLine."Total Employer Contribution" := 0;
                     PayrollLine."Current Benefit" := 0;
-                    PayrollLine."Balance Taxable Income" := 0;
+                    PayrollLine."Taxable Income" := 0;
                     PayrollLine."Current Deduction" := 0;
                     PayrollLine."Net Pay" := 0;
                     PayrollLine."1% Slab" := 0;
