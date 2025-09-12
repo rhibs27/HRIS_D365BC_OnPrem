@@ -1,6 +1,6 @@
 codeunit 50026 "Attendance Mgt"
 {
-    procedure InsertAttendanceLine(EmpNo: Code[20]; InitialDate: date; DocumentNo: Code[20])
+    procedure InsertAttendanceLine(EmpNo: Code[20]; InitialDate: date; RunActivity: Boolean)
     var
         EmployeeWorkShift: Record "Employee Work Shift";
         CheckInTime, CheckOutTime : Time;
@@ -14,7 +14,7 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLine.SetRange("Attendance Date", InitialDate);
         if not AttendanceLine.FindFirst then begin
             AttendanceLine.Init;
-            AttendanceLine."Document No." := DocumentNo;
+            // AttendanceLine."Document No." := DocumentNo;
             AttendanceLine."Employee No." := EmpNo;
             AttendanceLine."Employee Name" := Employee."Full Name";
             AttendanceLine."Attendance Date" := InitialDate;
@@ -77,7 +77,27 @@ codeunit 50026 "Attendance Mgt"
         if EngNep.FindFirst then
             AttendanceLine.Week := EngNep.Week;
         AttendanceLine.Modify();
-        PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
+        if RunActivity then
+            PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true)
+        else
+            TransferAttendanceLineToEmpAttendanceAct(AttendanceLine);
+    end;
+
+    procedure TransferAttendanceLineToEmpAttendanceAct(AttendanceLine: Record "Attendance Line")
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+    begin
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Employee No.", AttendanceLine."Employee No.");
+        EmployeeAttendanceActivity.SetRange("Attendance Date", AttendanceLine."Attendance Date");
+        EmployeeAttendanceActivity.DeleteAll;
+        EmployeeAttendanceActivity.reset;
+        EmployeeAttendanceActivity.Init();
+        EmployeeAttendanceActivity.TransferFields(AttendanceLine);
+        EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
+        if (AttendanceLine."Present Day" = 0) and (AttendanceLine."Leave Day" = 0) and (AttendanceLine."Week Off Day" = 0) then
+            EmployeeAttendanceActivity.Validate("Absent Day", 1);
+        EmployeeAttendanceActivity.Insert;
     end;
 
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
@@ -284,7 +304,6 @@ codeunit 50026 "Attendance Mgt"
 
         Leave.Reset;
         Leave.SetLoadFields("No.", "Employee No.", "Start Date", "End Date", Type, "Approval Status", Cancelled, "Cancelled No.");
-
         Leave.SetCurrentKey("Employee No.", "Start Date", "End Date");
         Leave.SetRange(Type, Leave.Type::"Leave Request");
         Leave.SetRange("Employee No.", EmployeeCode);
@@ -373,33 +392,41 @@ codeunit 50026 "Attendance Mgt"
                     begin
                         Leave.Get(EmpActNo);
                         LeaveTypeSetup.Get(Leave."Leave Code");
-                        if EmployeeAttendanceActivity."Day Type" = EmployeeAttendanceActivity."Day Type"::Holiday then
-                            if not LeaveTypeSetup."Exclude Non Working Days" then begin
-                                EmployeeAttendanceActivity."Day Type" := EmployeeAttendanceActivity."Day Type"::"Working Day";
-                                EmployeeAttendanceActivity."Week Off Day" := 0;
-                            end;
-                        if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-                            EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Paid;
-                        end else begin
-                            EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Unpaid;
-                        end;
-                        if leave."Leave Type" = Leave."Leave Type"::"Full Day" then begin
-                            EmployeeAttendanceActivity."Leave Day" := 1;
+                        if (EmployeeAttendanceActivity."Day Type" = EmployeeAttendanceActivity."Day Type"::Holiday) and (LeaveTypeSetup."Exclude Non Working Days") then begin
+                            EmployeeAttendanceActivity."Week Off Day" := 1;
+                            EmployeeAttendanceActivity."Leave Day" := 0;
                             EmployeeAttendanceActivity."Present Day" := 0;
+                            EmployeeAttendanceActivity."Tour Day" := 0;
+                            EmployeeAttendanceActivity."Half Day" := 0;
+                            EmployeeAttendanceActivity."OT Hrs" := 0;
+                            EmployeeAttendanceActivity."OT Day" := 0;
+                            EmployeeAttendanceActivity."Late Day" := 0;
+                            EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
+                            EmployeeAttendanceActivity."Training Day" := 0;
                         end else begin
-                            EmployeeAttendanceActivity."Leave Day" := 0.5;
-                            EmployeeAttendanceActivity."Present Day" := 0.5;
-                            EmployeeAttendanceActivity."Half Day" := 1;
+                            if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
+                                EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Paid;
+                            end else begin
+                                EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Unpaid;
+                            end;
+                            if leave."Leave Type" = Leave."Leave Type"::"Full Day" then begin
+                                EmployeeAttendanceActivity."Leave Day" := 1;
+                                EmployeeAttendanceActivity."Present Day" := 0;
+                            end else begin
+                                EmployeeAttendanceActivity."Leave Day" := 0.5;
+                                EmployeeAttendanceActivity."Present Day" := 0.5;
+                                EmployeeAttendanceActivity."Half Day" := 1;
+                            end;
+                            EmployeeAttendanceActivity."Leave Code" := LeaveTypeSetup.Code;
+                            EmployeeAttendanceActivity."Tour Day" := 0;
+                            EmployeeAttendanceActivity."Half Day" := 0;
+                            EmployeeAttendanceActivity."OT Hrs" := 0;
+                            EmployeeAttendanceActivity."OT Day" := 0;
+                            EmployeeAttendanceActivity."Late Day" := 0;
+                            EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
+                            EmployeeAttendanceActivity."Training Day" := 0;
+                            EmployeeAttendanceActivity.Validate("Leave Description", Leave."Leave Description");
                         end;
-                        EmployeeAttendanceActivity."Leave Code" := LeaveTypeSetup.Code;
-                        EmployeeAttendanceActivity."Tour Day" := 0;
-                        EmployeeAttendanceActivity."Half Day" := 0;
-                        EmployeeAttendanceActivity."OT Hrs" := 0;
-                        EmployeeAttendanceActivity."OT Day" := 0;
-                        EmployeeAttendanceActivity."Late Day" := 0;
-                        EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
-                        EmployeeAttendanceActivity."Training Day" := 0;
-                        EmployeeAttendanceActivity.Validate("Leave Description", Leave."Leave Description");
                     end;
 
                 EmployeeActType::"Travel Request":

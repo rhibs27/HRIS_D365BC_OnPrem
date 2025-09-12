@@ -18,4 +18,9 @@ enum 50024 "Email Message Type"
     {
         Caption = 'Footer';
     }
+    value(4; Disclaimer)
+    {
+        Caption = 'Disclaimer';
+    }
+
 }

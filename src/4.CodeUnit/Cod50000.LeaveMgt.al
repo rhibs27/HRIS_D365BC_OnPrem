@@ -503,7 +503,12 @@ codeunit 50000 "Leave Mgt."
     end;
 
     procedure CheckRemainingLeaveDays(LeaveCode: Code[20]; EmpCode: Code[20]; NoofDays: Decimal)
+    var
+        IsHandled: Boolean;
     begin
+        OnBeforeNoOfPendingDays(LeaveCode, EmpCode, NoofDays, IsHandled);
+        if IsHandled then
+            exit;
         //check remaining leave days
         LeaveTypeSetup.Reset;
         LeaveTypeSetup.SetRange(Code, LeaveCode);
@@ -654,12 +659,8 @@ codeunit 50000 "Leave Mgt."
             EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Approved);
             if EmpActivity.FindFirst then
                 Error('Overtime already approved on %1 so you are not eligible for compensatory leave.', CompensatoryDate);
-
-
-
             EmpAttendActivity.Reset;
             EmpAttendActivity.SetRange("Employee No.", EmpCode);
-            ;
             EmpAttendActivity.SetRange("Attendance Date", CompensatoryDate);
             if EmpAttendActivity.FindFirst then begin
                 Clear(LeaveType);
@@ -843,7 +844,8 @@ codeunit 50000 "Leave Mgt."
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
             Leave.modify();
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.");   //For email
+        if GuiAllowed then
+            HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.");   //For email
         exit(Leave."No.");
     end;
 
@@ -851,7 +853,11 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveTable: Record "Leave";
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
+        IsHandled: Boolean;
     begin
+        OnBeforeCheckPendingForLeave(leaveRequestNo, LeaveCode, EmployeeNo, IsHandled);
+        if IsHandled then
+            exit;
         LeaveTable.Reset;
         LeaveTable.SetFilter("No.", '<>%1', leaveRequestNo);
         LeaveTable.SetRange("Employee No.", EmployeeNo);
@@ -1579,6 +1585,17 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnApplyLeavOnBeforeLeaveYearCheck(var Leave: Record Leave; var isHandled: Boolean)
+    begin
+
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckPendingForLeave(leaveRequestNo: Code[20]; LeaveCode: Code[20]; EmployeeNo: Code[20]; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeNoOfPendingDays(LeaveCode: Code[20]; EmpCode: Code[20]; NoofDays: Decimal; var IsHandled: Boolean)
     begin
     end;
 

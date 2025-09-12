@@ -187,20 +187,20 @@ codeunit 50008 "Payroll Engine"
         if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Adjustment] then begin
             if Employee."Employment Type" <> Employee."Employment Type"::Contract then begin
                 if Employee."Resignation Date" <> 0D then
-                    RemainingMonth := GetPayCyclePeriod(Employee."Resignation Date") - GetLastPayPeriod
+                    RemainingMonth := GetPayCyclePeriod(Employee."Resignation Date") - GetLastPayPeriod(PayrollHeader.Type)
                 else if Employee."Termination Date" <> 0D then
-                    RemainingMonth := GetPayCyclePeriod(Employee."termination Date") - GetLastPayPeriod
+                    RemainingMonth := GetPayCyclePeriod(Employee."termination Date") - GetLastPayPeriod(PayrollHeader.Type)
                 else
-                    RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
+                    RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod(PayrollHeader.Type)
             end
             else begin
                 if PayrollHeader."Previous Year Payroll" then
-                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod
+                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod(PayrollHeader.Type)
                 else
-                    RemainingMonth := GetPayCyclePeriod(Employee."Contract Expiry Date") - GetLastPayPeriod;
+                    RemainingMonth := GetPayCyclePeriod(Employee."Contract Expiry Date") - GetLastPayPeriod(PayrollHeader.Type);
             end;
         end else
-            RemainingMonth := GetSettlementPayCyclePeriod - GetLastPayPeriod;     //settlement
+            RemainingMonth := GetSettlementPayCyclePeriod - GetLastPayPeriod(PayrollHeader.Type);     //settlement
 
         if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
             if RemainingMonth < 0 then
@@ -220,7 +220,7 @@ codeunit 50008 "Payroll Engine"
             CalcProjectionRetirementFund;
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
-                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
+                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
         RetirementFundTaxBenefit := TotalContributionToRetirementFund;
@@ -384,7 +384,7 @@ codeunit 50008 "Payroll Engine"
                     if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
                         MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
                 end else
-                    MonthlyTax := -TotalTaxRemunPaid + SocialSecurityTaxAmount;
+                    MonthlyTax := SocialSecurityTaxAmount;
             end;
             if MonthlyTax < 0 then begin
                 MonthlyTax := 0;
@@ -400,7 +400,10 @@ codeunit 50008 "Payroll Engine"
         PayrollLine.Modify;
         if (SocialSecurityTaxAmount <> 0) and (SocialSecurityTaxAttribute <> '') then begin
             PayrollLine.SaveValues(SocialSecurityTaxAmount, SocialSecurityTaxAttribute);
-            PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
+            if (MonthlyTax - SocialSecurityTaxAmount) <= 0 then
+                PayrollLine.SaveValues(0, TaxAttribute)
+            else
+                PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
         end else
             PayrollLine.SaveValues(MonthlyTax, TaxAttribute);
     end;
@@ -787,7 +790,7 @@ codeunit 50008 "Payroll Engine"
         until StrLength = 0;
     end;
 
-    local procedure GetLastPayPeriod(): Integer
+    local procedure GetLastPayPeriod(PayrollType: Enum "Payroll Header Type"): Integer
     var
         EmployeeLedgerEntry: Record "Employee Ledger Entry";
         LastPayCyclePeriod: Integer;
@@ -802,7 +805,10 @@ codeunit 50008 "Payroll Engine"
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then
             exit(LastPayCyclePeriod)
         else
-            exit(PayrollHeader."Pay Cycle Period");
+            if PayrollType <> PayrollType::Adjustment then
+                exit(PayrollHeader."Pay Cycle Period")
+            else
+                exit(LastPayCyclePeriod);
     end;
 
     local procedure GetPayFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
@@ -2991,7 +2997,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Past Benefit" := Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
         PayrollLine."Past Non-Payments" := Employee."Non-Payment";
         PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + Employee."Non-Payment" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
-        PayrollLine."Past Retirement Fund" := Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
+        PayrollLine."Past Retirement Fund" := Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
         PayrollLine."Actual RF Contribution" := TotalContributionToRetirementFund;
         PayrollLine."1/3 of Assessable Income" := RetirementFundLimit1;
