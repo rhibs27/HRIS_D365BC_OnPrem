@@ -323,7 +323,8 @@ codeunit 50027 "Payroll Report Mgt."
                         PayrollAttUsage.SetRange("Employee Code", Employee."No.");
                         PayrollAttUsage.SetRange(Code, PayrollAttributes.Code);
                         if PayrollAttUsage.FindFirst() then begin
-                            PayrollAttUsage.Amount := AttributeAmount;
+                            if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+                                PayrollAttUsage.Amount := AttributeAmount;
                             PayrollAttUsage.Modify();
                         end;
                     end;

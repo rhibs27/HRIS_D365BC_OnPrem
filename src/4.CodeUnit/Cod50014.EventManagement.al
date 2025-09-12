@@ -165,7 +165,14 @@ codeunit 50014 "Event Management"
                         CardPageID := Page::"Overtime Bulk Card";
                 end;
             Database::"Allowance Assignment Header":
-                CardPageID := Page::"Allowance Assignment Card";
+                begin
+                    ActType := RecordRef.Field(2).Value;
+                    if ActType = ActType::"Request Allowance" then
+                        CardPageID := Page::"Request Allowance Card"
+                    else
+                        CardPageID := Page::"Allowance Assignment Card";
+                end;
+
             Database::"Retirement Fund":
                 CardPageID := Page::"Retirement Fund Card";
             Database::"Cancel Document":

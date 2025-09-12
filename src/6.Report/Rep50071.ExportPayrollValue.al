@@ -38,9 +38,9 @@ report 50071 "Export Payroll Value"
             column(EligibleRFDeduction_; "Eligible RF Deduction") { }
             column(LifeInsurancePremium_; "Life Insurance Premium") { }
             column(HealthInsurancePremium_; "Health Insurance Premium") { }
-            column(TaxableIncome_; "Taxable Income") { }
+            column(TaxableIncome_; "Taxable Income After RF") { }
             column(DisablePersonReduction_; "Disable Person Reduction") { }
-            column(BalanceTaxableIncome_; "Balance Taxable Income") { }
+            column(BalanceTaxableIncome_; "Taxable Income") { }
             column(FemaleTaxCredit_; "Female Tax Credit") { }
             column(TotalTaxLiability_; "Total Tax Liability") { }
             column(PayableTaxLiability_; "Payable Tax Liability") { }
@@ -127,7 +127,7 @@ report 50071 "Export Payroll Value"
                     if Counter = 0 then
                         TotalEligibleDeduction := "Payroll Line"."Eligible RF Deduction";
                     if Counter = 0 then
-                        TotalTaxableIncome := "Payroll Line"."Taxable Income";
+                        TotalTaxableIncome := "Payroll Line"."Taxable Income After RF";
                     if Counter = 0 then
                         TotalDisablePersonRed := "Payroll Line"."Disable Person Reduction";
                     if Counter = 0 then
@@ -135,7 +135,7 @@ report 50071 "Export Payroll Value"
                     if Counter = 0 then
                         TotalHealthInsurancePremium := "Payroll Line"."Health Insurance Premium";
                     if Counter = 0 then
-                        TotalBalTaxableIncome := "Payroll Line"."Balance Taxable Income";
+                        TotalBalTaxableIncome := "Payroll Line"."Taxable Income";
                     if Counter = 0 then
                         TotalSocialSecTax := "Payroll Line"."Social Security Tax(Annual)";
                     if Counter = 0 then

@@ -20,13 +20,11 @@ page 50275 "Active Employee"
                     }
                     field("Probation Staff"; Rec."Probation Staff")
                     {
-                        Image = "None";
                         ToolTip = 'Specifies the value of the Probation Staff field.';
                         ApplicationArea = All;
                     }
                     field("Permanent Staff"; Rec."Permanent Staff")
                     {
-                        Image = "None";
                         ToolTip = 'Specifies the value of the Permanent Staff field.';
                         ApplicationArea = All;
                     }

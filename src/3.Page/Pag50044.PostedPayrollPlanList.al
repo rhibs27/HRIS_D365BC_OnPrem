@@ -162,7 +162,6 @@ page 50044 "Posted Payroll Plan List"
 
                 trigger OnAction()
                 begin
-                    //PostedPayrollHdr.Reset();
                     PostedPayrollHdr.Copy(Rec);
                     CurrPage.SetSelectionFilter(PostedPayrollHdr);
                     if PostedPayrollHdr.FindFirst then
@@ -184,7 +183,6 @@ page 50044 "Posted Payroll Plan List"
 
                 trigger OnAction()
                 begin
-                    //PostedPayrollHdr.Reset();
                     PostedPayrollHdr.Copy(Rec);
                     CurrPage.SetSelectionFilter(PostedPayrollHdr);
                     if PostedPayrollHdr.FindFirst then
@@ -206,7 +204,6 @@ page 50044 "Posted Payroll Plan List"
 
                 trigger OnAction()
                 begin
-                    //PostedPayrollHdr.Reset();
                     PostedPayrollHdr.Copy(Rec);
                     CurrPage.SetSelectionFilter(PostedPayrollHdr);
                     if PostedPayrollHdr.FindFirst then
@@ -244,7 +241,7 @@ page 50044 "Posted Payroll Plan List"
                 begin
                     PostedPayrollHdr.Reset;
                     PostedPayrollHdr.SetRange("No.", Rec."No.");
-                    Report.Run(Report::"Payroll Summary Voucher", true, true, PostedPayrollHdr);
+                    Report.Run(Report::"Payroll Voucher summary 2", true, true, PostedPayrollHdr);
                 end;
             }
             action("Tax Audit Sheet Report")

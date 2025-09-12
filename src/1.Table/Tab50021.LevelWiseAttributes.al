@@ -1,6 +1,6 @@
 table 50021 "Level Wise Attributes"
 {
-
+    //field 2 to 40 can be configured for payroll. so do not add any non-payroll field in that range 
     DrillDownPageId = "Posted Employee Activities";
     LookupPageId = "Posted Employee Activities";
     DataClassification = CustomerContent;
@@ -35,17 +35,18 @@ table 50021 "Level Wise Attributes"
         {
             Description = 'Fixed Amount of Allowence given to each staff';
         }
-        field(7; "Starting Point"; Decimal) { }
-        field(8; "Annual Income Inc. Grade"; Decimal)
+        field(7; "Employee Maintenence Allowance"; Decimal)
         {
-            trigger OnValidate()
-            begin
-                TestField("Starting Point");
-                Validate("Standard Basic Salary", "Starting Point" + "Annual Income Inc. Grade");
-            end;
+
         }
-        field(9; "Total Income Inc. Grade"; Decimal) { }
-        field(10; "TA Out of Pocket"; Decimal) { }
+        field(8; "Transportation Allowance"; Decimal)
+        {
+
+        }
+        field(9; "Vehicle Maintenence Allowance"; Decimal)
+        {
+
+        }
         field(11; "Relocation Allowance"; Decimal)
         {
             Description = '1 month Basic Salary( Basic + Grade)';
@@ -55,10 +56,6 @@ table 50021 "Level Wise Attributes"
             Description = '25% of Total Basic salary';
         }
         field(13; "Friday Counter Allowance"; Decimal) { }
-        field(14; "Club Membership"; Decimal)
-        {
-            Description = 'Actual Cost or 15000 whichever is lower';
-        }
         field(15; "Facilitator Allowance"; Decimal) { }
         field(16; "Officiating Allowance"; Decimal)
         {
@@ -69,14 +66,6 @@ table 50021 "Level Wise Attributes"
             Description = '0.75% of Basic Salary (Basic + Salary)';
         }
         field(18; "Staff Vehicle Allowance"; Decimal) { }
-        field(19; "TA Lodging"; Decimal)
-        {
-            Description = 'Travel Allowence on fooding per day';
-        }
-        field(20; "TA Fooding"; Decimal)
-        {
-            Description = 'Travel Allowence on Lodging per day';
-        }
         field(21; "Communication Reim. Allowence"; Decimal) { }
         field(22; "Dashain Remuneration"; Decimal)
         {
@@ -91,17 +80,28 @@ table 50021 "Level Wise Attributes"
             Description = '1 month Total Salary (Basic+Grade)';
         }
         field(25; "Night Shift Allowance"; Decimal) { }
-        field(51; "Employee Maintenence Allowance"; Decimal)
+        field(100; "Starting Point"; Decimal) { }
+        field(101; "Annual Income Inc. Grade"; Decimal)
         {
-
+            trigger OnValidate()
+            begin
+                TestField("Starting Point");
+                Validate("Standard Basic Salary", "Starting Point" + "Annual Income Inc. Grade");
+            end;
         }
-        field(52; "Transportation Allowance"; Decimal)
+        field(102; "Total Income Inc. Grade"; Decimal) { }
+        field(103; "TA Out of Pocket"; Decimal) { }
+        field(104; "Club Membership"; Decimal)
         {
-
+            Description = 'Actual Cost or 15000 whichever is lower';
         }
-        field(53; "Vehicle Maintenence Allowance"; Decimal)
+        field(109; "TA Lodging"; Decimal)
         {
-
+            Description = 'Travel Allowence on fooding per day';
+        }
+        field(110; "TA Fooding"; Decimal)
+        {
+            Description = 'Travel Allowence on Lodging per day';
         }
 
     }

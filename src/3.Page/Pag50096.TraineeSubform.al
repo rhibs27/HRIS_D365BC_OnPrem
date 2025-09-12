@@ -352,10 +352,6 @@ page 50096 "Trainee Subform"
             action(InsertTrainee)
             {
                 Image = InsertAccount;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 Visible = false;
                 ToolTip = 'Executes the InsertTrainee action.';
                 ApplicationArea = All;
@@ -368,10 +364,6 @@ page 50096 "Trainee Subform"
             action("Show Training Question")
             {
                 Image = Questionaire;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 Visible = IsApproved;
                 ToolTip = 'Executes the Show Training Question action.';
                 ApplicationArea = All;
@@ -384,10 +376,6 @@ page 50096 "Trainee Subform"
             action("Show Trainer Question")
             {
                 Image = Questionaire;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 Visible = IsApproved;
                 ToolTip = 'Executes the Show Trainer Question action.';
                 ApplicationArea = All;

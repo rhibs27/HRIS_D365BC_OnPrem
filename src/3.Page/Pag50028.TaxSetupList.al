@@ -24,16 +24,6 @@ page 50028 "Tax Setup List"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
-                field("Effective from"; Rec."Effective from")
-                {
-                    ToolTip = 'Specifies the value of the Effective from field.';
-                    ApplicationArea = All;
-                }
-                field("Effective to"; Rec."Effective to")
-                {
-                    ToolTip = 'Specifies the value of the Effective to field.';
-                    ApplicationArea = All;
-                }
                 field("Special Tax Exempt %"; Rec."Special Tax Exempt %")
                 {
                     ToolTip = 'Specifies the value of the Special Tax Exempt % field.';

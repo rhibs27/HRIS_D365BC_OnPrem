@@ -217,6 +217,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Specifies the value of the Tax Code field.';
 
             }
+            field("Do not Calculate Salary"; Rec."Do not Calculate Salary")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Do not Calculate Salary field.', Comment = '%';
+            }
             field(Disabled; Rec.Disabled)
             {
                 ApplicationArea = All;
@@ -1326,10 +1331,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Image = Components;
                 PromotedCategory = Process;
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
-                trigger OnAction()
-                begin
-
-                end;
             }
         }
         addafter("Pay Employee")
@@ -1418,6 +1419,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         AllowanceAssignmentMgt.OpenAllowanceClaimRequest(Rec."No.");
+                    end;
+                }
+                action("Request Allowance")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Allowance Assignment Claim action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        AllowanceAssignmentMgt.OpenAllowance(Rec."No.");
                     end;
                 }
                 action("Shift Assignment")

@@ -802,6 +802,7 @@ codeunit 50000 "Leave Mgt."
         ConfirmLeave: Label 'Do you want to send leave request ?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         LeavePeriod: Record "Accounting Period";
+        isHandled: Boolean;
     begin
         CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
         CheckHalfLeave(Leave."Start Date", Leave."End Date", Leave."Leave Type", Leave."Leave Code");
@@ -821,10 +822,12 @@ codeunit 50000 "Leave Mgt."
         Leave.TestField(Remarks);
         Leave.TestField("Leave Code");
         PayrollSetup.Get;
-        //check for fiscal year start date
-        if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
-            if (Leave."Start Date" < LeavePeriod.GetCurrentLeaveYearStartDate()) or (Leave."End Date" > LeavePeriod.GetCurrentLeaveYearEndDate()) then
-                Error('Leave Start date must be within %1 - %2', LeavePeriod.GetCurrentLeaveYearStartDate(), LeavePeriod.GetCurrentLeaveYearEndDate());
+        //check for fiscal year start date 
+        OnApplyLeavOnBeforeLeaveYearCheck(Leave, isHandled);
+        if not isHandled then
+            if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
+                if (Leave."Start Date" < LeavePeriod.GetCurrentLeaveYearStartDate()) or (Leave."End Date" > LeavePeriod.GetCurrentLeaveYearEndDate()) then
+                    Error('Leave Start date must be within %1 - %2', LeavePeriod.GetCurrentLeaveYearStartDate(), LeavePeriod.GetCurrentLeaveYearEndDate());
 
         //Bereavement Leave
         if GuiAllowed then
@@ -1578,6 +1581,12 @@ codeunit 50000 "Leave Mgt."
     [IntegrationEvent(false, false)]
     procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled1: Boolean; var CalculatedDays: Decimal)
     begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnApplyLeavOnBeforeLeaveYearCheck(var Leave: Record Leave; var isHandled: Boolean)
+    begin
+
     end;
 
     [IntegrationEvent(false, false)]

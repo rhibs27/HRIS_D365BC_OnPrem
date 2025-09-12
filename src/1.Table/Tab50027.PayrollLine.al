@@ -24,6 +24,7 @@ table 50027 "Payroll Line"
                 Employee.TestField("Employment Date");
                 Employee.TestField(Settled, false);
                 Employee.TestField("Tax Code");
+                Employee.TestField("Do not Calculate Salary", false);
                 if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
                     Employee.TestField(Status, Employee.Status::Active);
 
@@ -42,6 +43,7 @@ table 50027 "Payroll Line"
                     end;
                 end;
 
+                Validate("Employee Type", Employee."Employment Type");
                 Validate("Employee Name", Employee.FullName);
                 Validate("Deputation On", Employee."Deputation on");
                 Validate("Sol ID", Employee."Sol Id");
@@ -87,7 +89,7 @@ table 50027 "Payroll Line"
             DecimalPlaces = 0 : 4;
             Editable = true;
         }
-        field(6; "Balance Taxable Income"; Decimal)
+        field(6; "Taxable Income"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
@@ -1439,7 +1441,7 @@ table 50027 "Payroll Line"
         field(1028; "Eligible RF Deduction"; Decimal) { Editable = false; }
         field(1029; "Life Insurance Premium"; Decimal) { Editable = false; }
         field(1030; "Health Insurance Premium"; Decimal) { Editable = false; }
-        field(1031; "Taxable Income"; Decimal) { Editable = false; }
+        field(1031; "Taxable Income After RF"; Decimal) { Editable = false; }
         field(1032; "Disable Person Reduction"; Decimal) { Editable = false; }
         field(1033; "Female Tax Credit"; Decimal) { Editable = false; }
         field(1034; "Total Tax Liability"; Decimal) { Editable = false; }
@@ -1621,12 +1623,6 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure CheckDocument()
-    begin
-        GetPayrollHeader;
-        TestTotalDays(PayrollHeader);
-    end;
-
     procedure TestTotalDays(PayrollHeader: Record "Payroll Header")
     var
         PayPeriodDays: Decimal;
@@ -1757,6 +1753,7 @@ table 50027 "Payroll Line"
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             GetSettlementRecovery();
 
+        GetAttributesFromAllowanceConfiguration();
         OnGetPayrollAttributesOnBeforeSaveValue(Rec);
 
         PayrollAttributesUsage.Reset;
@@ -1955,7 +1952,7 @@ table 50027 "Payroll Line"
         PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         if PayrollAttributesUsage.FindFirst then begin
-            PayrollAttributesUsage.TestField(Amount);
+            // PayrollAttributesUsage.TestField(Amount);
             BasicAmount := PayrollAttributesUsage.Amount;
         end;
 
@@ -1999,12 +1996,6 @@ table 50027 "Payroll Line"
             end;
             StrLength -= 1;
         until StrLength = 0;
-    end;
-
-    local procedure IsContribution(): Boolean
-    begin
-        exit((PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employee Contribution") or
-              (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employer Contribution"))
     end;
 
     local procedure GetBasicSalaryAfterDeduction(): Decimal
@@ -2263,11 +2254,13 @@ table 50027 "Payroll Line"
                     end;
 
                     RoundAmount(AttributeAmount);
-                    if PayrollHeader.Type = PayrollHeader.Type::Settlement then
-                        DeductForRecovery(AttributeAmount);
-                    if (not PayrollHeader.Irregular) then
-                        SaveValues(AttributeAmount, PayrollAttributes.Code);
-                    PayrollAttributesUsageModify(PayrollAttributes.Code, AttributeAmount);
+                    if PayrollAttributesUsage.Get(PayrollAttributes.Code, "Employee No.") then begin // update to payroll line only if payrollattruses found
+                        if PayrollHeader.Type = PayrollHeader.Type::Settlement then
+                            DeductForRecovery(AttributeAmount);
+                        if (not PayrollHeader.Irregular) then
+                            SaveValues(AttributeAmount, PayrollAttributes.Code);
+                        PayrollAttributesUsageModify(PayrollAttributes.Code, AttributeAmount);
+                    end;
                 end;
             until PayrollColumnConfiguration.Next = 0;
         end;
@@ -2291,7 +2284,8 @@ table 50027 "Payroll Line"
         PayrollAttUsage: Record "Payroll Attributes Usage";
     begin
         if PayrollAttUsage.Get(PayrollCode, "Employee No.") then begin
-            PayrollAttUsage.Amount := Amt;
+            if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+                PayrollAttUsage.Amount := Amt;
             PayrollAttUsage.Modify;
         end;
     end;
@@ -2759,6 +2753,186 @@ table 50027 "Payroll Line"
                     end;
                 until LoanOutstandingfromFinacle.Next = 0;
         end;
+    end;
+
+    procedure GetAttributesFromAllowanceConfiguration()
+    var
+        AllowanceConfiguration: Record "Allowance Configuration";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        PayrollAttrUses2: Record "Payroll Attributes Usage";
+        AllowanceAmt: Decimal;
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            exit;
+
+        AllowanceConfiguration.Reset();
+        if AllowanceConfiguration.FindSet() then
+            repeat
+                AllowanceAmt := 0;
+                AllowanceAmt := GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration,
+                                                                            "Document No.",
+                                                                            "Employee No.");
+
+                if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
+                    if not MultipleConfigForSameAttribute(AllowanceConfiguration) then
+                        PayrollAttrUses.Amount := AllowanceAmt
+                    else
+                        if AllowanceAmt <> 0 then
+                            PayrollAttrUses.Amount := AllowanceAmt;
+                    if (not PayrollAttrUses."Static Amount") or (PayrollAttrUses.Amount = 0) then
+                        PayrollAttrUses.Modify();
+                end
+                else begin
+                    if AllowanceAmt <> 0 then begin
+                        Clear(PayrollAttrUses2);
+                        PayrollAttrUses2.Init();
+                        PayrollAttrUses2.Validate(Code, AllowanceConfiguration."Payroll Attribute");
+                        PayrollAttrUses2.Validate("Employee Code", "Employee No.");
+                        PayrollAttrUses2.Validate(Amount, AllowanceAmt);
+                        if PayrollAttrUses2.Insert() then;
+                    end;
+                end;
+
+            until AllowanceConfiguration.Next() = 0;
+    end;
+
+    procedure GetAllowanceAmountFromAssignmentLine(PayrollDocNo: Code[20];
+                                        EmployeeCode: Code[20];
+                                         PayrollAttr: Code[20];
+                                         LeaveCode: Code[20];
+                                         FromDate: Date;
+                                         ToDate: Date;
+                                         getLastAmount: Boolean): Decimal
+    var
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        Amt: Decimal;
+    begin
+        AllowanceAssignmentLine.SetLoadFields("No.", "Employee Code", "Approved Date", "Allowance Type", "Approval Status", "Leave Code");
+        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        AllowanceAssignmentLine.SetRange("Allowance Type", PayrollAttr);
+        AllowanceAssignmentLine.SetRange("Approved Date", FromDate, ToDate);
+        AllowanceAssignmentLine.SetFilter("Payroll Doc No.", '%1|%2', '', PayrollDocNo);
+        if LeaveCode <> '' then
+            AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
+        if getLastAmount then begin
+            AllowanceAssignmentLine.SetRange("Recurring Completed", false);
+            AllowanceAssignmentLine.CalcSums("Allowance Amount");
+            exit(AllowanceAssignmentLine."Allowance Amount");
+        end else begin
+            AllowanceAssignmentLine.CalcSums("Allowance Amount");
+            Amt := AllowanceAssignmentLine."Allowance Amount";
+            if AllowanceAssignmentLine.FindSet() then
+                AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", PayrollDocNo);
+            exit(Amt);
+        end;
+
+    end;
+
+    procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
+    begin
+        case AllowanceConfiguration.Source of
+            AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+                exit(GetAllowanceAmountFromAssignmentLine(PayrollDocNo,
+                                            EmployeeCode,
+                                            AllowanceConfiguration."Payroll Attribute",
+                                            AllowanceConfiguration."Leave Code",
+                                            PGSetup."Payroll Fiscal Year Start Date",
+                                            PGSetup."Payroll Fiscal Year End Date",
+                                            true));
+
+            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
+                exit(GetAllowanceAmountFromAssignmentLine(PayrollDocNo,
+                                            EmployeeCode,
+                                            AllowanceConfiguration."Payroll Attribute",
+                                            AllowanceConfiguration."Leave Code",
+                                            PGSetup."Payroll Fiscal Year Start Date",
+                                            PGSetup."Payroll Fiscal Year End Date",
+                                            false));
+
+            AllowanceConfiguration.Source::" ":
+                if IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode) then
+                    if AllowanceConfiguration.Formula <> '' then
+                        exit(AllowanceConfiguration.EvaluateAmountForEmployee(AllowanceConfiguration.Formula, EmployeeCode))
+                    else
+                        exit(AllowanceConfiguration.Amount);
+
+        end;
+    end;
+
+    procedure IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration: Record "Allowance Configuration"; EmployeeCode: Code[20]): Boolean
+    var
+        EmpVar: Record Employee;
+        OrgStructureList: Record "Organization Structure List";
+        AllowanceConfiguration2: Record "Allowance Configuration";
+        ServiceYear: Decimal;
+        Month: Integer;
+        Days: Integer;
+    begin
+        EmpVar.SetRange("No.", EmployeeCode);
+        if AllowanceConfiguration."Province Code" <> '' then
+            EmpVar.SetFilter("Province Code", AllowanceConfiguration."Province Code");
+        if AllowanceConfiguration."Branch Code" <> '' then
+            EmpVar.SetFilter("Branch Code", AllowanceConfiguration."Branch Code");
+        if AllowanceConfiguration."Department Code" <> '' then
+            EmpVar.SetFilter("Department Code", AllowanceConfiguration."Department Code");
+        if not EmpVar.FindFirst() then
+            exit(false);
+
+        if AllowanceConfiguration."Employment Type" <> AllowanceConfiguration."Employment Type"::" " then
+            EmpVar.SetRange("Employment Type", AllowanceConfiguration."Employment Type");
+        if AllowanceConfiguration."Employee Work Shift" <> '' then
+            EmpVar.SetRange("Employee Work Shift", AllowanceConfiguration."Employee Work Shift");
+        if AllowanceConfiguration."Salary Level" <> '' then
+            EmpVar.SetRange("Salary Level", AllowanceConfiguration."Salary Level");
+        if AllowanceConfiguration."Functional Title" <> '' then
+            EmpVar.SetRange("Functional Title", AllowanceConfiguration."Functional Title");
+        if not EmpVar.FindFirst() then
+            exit(false);
+
+        EmpVar.FindFirst();
+        if OrgStructureList.Get(OrgStructureList.Type::Branch, EmpVar."Branch Code") then begin
+            if (AllowanceConfiguration.Region <> AllowanceConfiguration.Region::" ") and (OrgStructureList.Region <> AllowanceConfiguration.Region) then
+                exit(false);
+
+            if (AllowanceConfiguration."Outside/Inside Valley" <> AllowanceConfiguration."Outside/Inside Valley"::" ") and
+            (OrgStructureList."InsideOutside Valley" <> AllowanceConfiguration."Outside/Inside Valley") then
+                exit(false);
+
+            if AllowanceConfiguration."Remote Area Category" <> '' then
+                if OrgStructureList."Remote Area Category" <> AllowanceConfiguration."Remote Area Category" then
+                    exit(false);
+        end
+        else if (AllowanceConfiguration.Region <> AllowanceConfiguration.Region::" ") or
+                (AllowanceConfiguration."Outside/Inside Valley" <> AllowanceConfiguration."Outside/Inside Valley"::" ") or
+                (AllowanceConfiguration."Remote Area Category" <> '') then
+            exit(false);
+
+        if AllowanceConfiguration."Min Service Yr. Eligibility" <> 0 then begin
+            ServiceYear := Date2DMY(PayrollHeader."To Date", 3) - Date2DMY(EmpVar."Employment Date", 3);
+            Month := Date2DMY(PayrollHeader."From Date", 2) - Date2DMY(EmpVar."Employment Date", 2);
+            Days := Date2DMY(PayrollHeader."From Date", 1) - Date2DMY(EmpVar."Employment Date", 1);
+            if Days < 0 then
+                Month := month - 1;
+            if Month < 0 then
+                ServiceYear := ServiceYear - 1;
+            if ServiceYear < AllowanceConfiguration."Min Service Yr. Eligibility" then
+                exit(false);
+
+        end;
+        exit(true);
+    end;
+
+    procedure MultipleConfigForSameAttribute(AllConfig: Record "Allowance Configuration"): Boolean
+    var
+        AllConfig2: Record "Allowance Configuration";
+    begin
+        AllConfig2.SetRange("Payroll Attribute", AllConfig."Payroll Attribute");
+        if AllConfig2.Count > 1 then
+            exit(true)
+        else
+            exit(false);
     end;
 
     [IntegrationEvent(false, false)]

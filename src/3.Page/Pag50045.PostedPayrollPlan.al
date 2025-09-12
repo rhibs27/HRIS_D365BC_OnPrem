@@ -236,24 +236,6 @@ page 50045 "Posted Payroll Plan"
                     Rec.ReverseDocument(PostedPayrollHeader);
                 end;
             }
-            // action("Payroll Salary Statement")
-            // {
-            //     AccessByPermission = tabledata "Posted Payroll Header" = I;
-            //     Image = "Report";
-            //     Promoted = true;
-            //     PromotedCategory = "Report";
-            //     PromotedIsBig = true;
-            //     Visible = false;
-            //     ToolTip = 'Executes the Payroll Salary Statement action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         PostedPayrollHeaderRec.Reset;
-            //         PostedPayrollHeaderRec.SetRange("No.", Rec."No.");
-            //         Report.Run(Report::"Employee Salary Sheet Posted", true, true, PostedPayrollHeaderRec);
-            //     end;
-            // }  //replaced with open in excel
             action(OpenInExcel)
             {
                 ApplicationArea = All;
@@ -316,10 +298,7 @@ page 50045 "Posted Payroll Plan"
 
                 trigger OnAction()
                 begin
-                    /*CLEAR(PaySlip);
-                    PaySlip.PassParPortal('',"Nepali Year","Nepali Month");
-                    PaySlip.RUNMODAL;
-                    */
+
                     PostedPayrollHeaderRec.Reset;
                     PostedPayrollHeaderRec.SetRange("No.", Rec."No.");
                     Report.Run(Report::"Payroll Payslip", true, true, PostedPayrollHeaderRec);

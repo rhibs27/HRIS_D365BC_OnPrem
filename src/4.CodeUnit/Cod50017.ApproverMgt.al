@@ -484,7 +484,7 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
                             end;
-                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim":
+                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim", EmployeeActivityType::"Request Allowance":
                             begin
                                 AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
                             end;

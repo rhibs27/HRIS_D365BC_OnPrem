@@ -117,7 +117,13 @@ table 50020 "Salary Level"
         {
 
         }
+        field(54; "EV Allowance"; Decimal)
+        {
 
+        }
+        field(55; "Fuel Limit (ltr)"; Decimal) { }
+
+        field(56; "Fuel Limit (amt)"; Decimal) { }
     }
 
     keys

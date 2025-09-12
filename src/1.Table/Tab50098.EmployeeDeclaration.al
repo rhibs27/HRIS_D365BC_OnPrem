@@ -148,43 +148,47 @@ table 50098 "Employee Declaration"
         HRSetup.Get;
         if "No." = '' then begin
             HRSetup.TestField("Employee Declaration No.");
-            NoSeriesMgt.InitSeries(HRSetup."Employee Declaration No.", xRec."No. Series", "Created Date", "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Employee Declaration No.", xRec."No. Series", "Created Date", "No.", "No. Series");
         end;
         Validate("Employee No.", HRMgt.GetEmployeeNo());
-        TestField("Code of Ethics");
-        TestField("By Laws Policies");
-        TestField("Corporate Communication");
-        TestField("Declaration Passport Submit");
-        TestField("Owner Official Document Submit");
-        TestField("Ownership of Inventory Submit");
-        TestField("Outside Busin. Interest Subm");
-        TestField("Souvenir Declaration");
-        TestField("Property Declaration Attachmen");
 
-        if "Family Availed Loan" then begin
-            TestField("Loan Booking Branch");
-            TestField("Name of Borrower");
-            TestField(Limit);
-            TestField("Relation To staff");
-        end;
+        if not GuiAllowed then begin
+            TestField("Code of Ethics");
+            TestField("By Laws Policies");
+            TestField("Corporate Communication");
+            TestField("Declaration Passport Submit");
+            TestField("Owner Official Document Submit");
+            TestField("Ownership of Inventory Submit");
+            TestField("Outside Busin. Interest Subm");
+            TestField("Souvenir Declaration");
+            TestField("Property Declaration Attachmen");
 
-        if "Have Passport" then begin
-            TestField("Passport Number");
-            TestField("Passport Attachment");
-        end;
+            if "Family Availed Loan" then begin
+                TestField("Loan Booking Branch");
+                TestField("Name of Borrower");
+                TestField(Limit);
+                TestField("Relation To staff");
+            end;
 
-        if "Involved In Outside Business" then begin
-            TestField("Engage/Managing Business Field");
-            TestField("Name of Institution");
-            TestField("Date of Involvement");
-            TestField("Outside Business Attachment");
-        end;
+            if "Have Passport" then begin
+                TestField("Passport Number");
+                TestField("Passport Attachment");
+            end;
 
-        if "Souvenir/Gift" then begin
-            TestField("Souvenir/Gift From");
-            TestField("Souvenir/Gift/Present Amount");
-            TestField("Souvenir/Gift/Present Type");
-            TestField("Relation with Gift Provider");
+            if "Involved In Outside Business" then begin
+                TestField("Engage/Managing Business Field");
+                TestField("Name of Institution");
+                TestField("Date of Involvement");
+                TestField("Outside Business Attachment");
+            end;
+
+            if "Souvenir/Gift" then begin
+                TestField("Souvenir/Gift From");
+                TestField("Souvenir/Gift/Present Amount");
+                TestField("Souvenir/Gift/Present Type");
+                TestField("Relation with Gift Provider");
+            end;
+
         end;
         EmpDeclaration.Reset;
         EmpDeclaration.SetRange("Employee No.", "Employee No.");
@@ -197,7 +201,7 @@ table 50098 "Employee Declaration"
     var
         Empvar: Record Employee;
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         DimValue: Record "Dimension Value";
