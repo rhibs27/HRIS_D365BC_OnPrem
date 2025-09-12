@@ -981,25 +981,26 @@ codeunit 50000 "Leave Mgt."
             until TempIncomingDoc.Next = 0;
         TempIncomingDoc.DeleteAll;
         leave.TestField("Leave Code");
-        IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN begin
-            AttachmentSetup.Reset;
-            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-            AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-            if AttachmentSetup.Findset then
-                repeat
-                    TempIncomingDoc.Reset;
-                    TempIncomingDoc.Init;
-                    Clear(TempIncomingDoc."Entry No.");
-                    TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-                    TempIncomingDoc.Validate("No.", leave."No.");
-                    TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
-                    TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                    TempIncomingDoc.Validate(Description, Format(leave.Type) + ': ' + leave."Leave Description");
-                    TempIncomingDoc.Validate("Employee Code", leave."Employee No.");
-                    TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
-                    TempIncomingDoc.Insert(true);
-                until AttachmentSetup.Next = 0;
-        end;
+        if LeaveType."No. of Days for Attachment" <> 0 then
+            IF leave."No. of Days" >= LeaveType."No. of Days for Attachment" THEN begin
+                AttachmentSetup.Reset;
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+                AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
+                if AttachmentSetup.Findset then
+                    repeat
+                        TempIncomingDoc.Reset;
+                        TempIncomingDoc.Init;
+                        Clear(TempIncomingDoc."Entry No.");
+                        TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+                        TempIncomingDoc.Validate("No.", leave."No.");
+                        TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+                        TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                        TempIncomingDoc.Validate(Description, Format(leave.Type) + ': ' + leave."Leave Description");
+                        TempIncomingDoc.Validate("Employee Code", leave."Employee No.");
+                        TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
+                        TempIncomingDoc.Insert(true);
+                    until AttachmentSetup.Next = 0;
+            end;
     end;
 
     procedure LeaveApproved(leaveNo: Code[20])
@@ -1476,6 +1477,62 @@ codeunit 50000 "Leave Mgt."
 
         LeaveCreditPeriods += Round((EmployementMonthEndDate - EmployementDate + 1) / (EmployementMonthEndDate - EmployementMonthStartDate + 1), 0.01, '=')
                             - 1
+    end;
+
+    procedure ApproveLeaveEncashRequest(DocNo: Code[20]; isCancelled: Boolean)
+    var
+        EncashRequest: Record "Encashment Request";
+        NoofDays: Decimal;
+    begin
+        EncashRequest.Get(DocNo);
+        if not isCancelled then
+            NoofDays := -EncashRequest."No. of Days"
+        else
+            NoofDays := EncashRequest."No. of Days";
+
+        CreateLeaveLedger(EncashRequest."Employee No.",
+                            EncashRequest."Leave Code",
+                            EncashRequest."Posting Date",
+                            "Leave Earn Type"::Encashed,
+                            NoofDays,
+                            GetNextLeaveLedgerEntryNo,
+                            '',
+                            'Leave Encashed',
+                            '');
+    end;
+
+    procedure OpenCancelEncash(Encashmentrequest: Record "Encashment Request")
+    var
+        TempCancelDocument: Record "Cancel Document" temporary;
+        Approval: record "Approval HRMS";
+        HRSetup: Record "Human Resources Setup";
+    begin
+        HRSetup.Get();
+        if Encashmentrequest.Cancelled then
+            Error('Leave request no. %1 is already cancelled.', Encashmentrequest."No.");
+        Encashmentrequest.TestField("Approval Status", Encashmentrequest."Approval Status"::Approved);
+        Encashmentrequest.TestField("Cancelled Document No.", '');
+        // Clear Approval line 
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Leave Encashment");
+        Approval.SetRange("Employee No", Encashmentrequest."Employee No.");
+        Approval.DeleteAll();
+
+        TempCancelDocument.Init;
+        TempCancelDocument.Validate(Cancelled, true);
+        TempCancelDocument.Validate("Employee No.", Encashmentrequest."Employee No.");
+        TempCancelDocument.Validate("Employee Name", Encashmentrequest."Employee Name");
+        TempCancelDocument.Validate("Approval Status", TempCancelDocument."Approval Status"::Open);
+        TempCancelDocument.Validate(Type, Encashmentrequest.Type);
+        TempCancelDocument.Validate("Leave Code", Encashmentrequest."Leave Code");
+        TempCancelDocument.Validate("Leave Description", Encashmentrequest."Leave Description");
+        TempCancelDocument.Validate("Requested Date", Today);
+        TempCancelDocument.Validate("No. of Days", Encashmentrequest."No. of Days");
+        TempCancelDocument."Cancelled Document No." := Encashmentrequest."No.";
+        TempCancelDocument."No." := '';
+        TempCancelDocument.Insert;
+        PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
     end;
 
     [IntegrationEvent(false, false)]

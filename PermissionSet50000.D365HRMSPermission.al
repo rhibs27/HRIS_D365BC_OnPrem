@@ -810,12 +810,9 @@ permissionset 50000 D365HRMSPermission
         tabledata "Employee Activity Journal" = RIMD,
         page "Sample Attachments" = X,
         report "OverTime Calculation Report" = X,
-        tabledata "Biometric Branch" = RIMD,
         tabledata "Biometric Device Config." = RIMD,
-        table "Biometric Branch" = X,
         table "Biometric Device Config." = X,
         report "Biometric Log Sync" = X,
         codeunit "Biometric Mgt." = X,
-        page "Biometric Branches" = X,
         page "Biometric Device Config." = X;
 }

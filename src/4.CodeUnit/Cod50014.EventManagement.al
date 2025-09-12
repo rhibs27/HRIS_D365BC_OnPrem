@@ -207,6 +207,10 @@ codeunit 50014 "Event Management"
                 end;
             Database::"Shift Assignment Header":
                 CardPageID := Page::"Shift Assignment Card";
+            Database::"Encashment Request":
+                begin
+                    CardPageID := Page::"Leave Encashment Card";
+                end;
         end;
     end;
 

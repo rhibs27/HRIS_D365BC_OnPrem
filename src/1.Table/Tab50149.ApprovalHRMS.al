@@ -112,6 +112,7 @@ table 50149 "Approval HRMS"
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         EmpActjournal: Record "Employee Activity Journal";
         ShiftAssignment: Record "Shift Assignment Header";
+        EncashmentRequest: Record "Encashment Request";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -154,6 +155,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Shift Assignment":
                 if ShiftAssignment.Get("Document No.") then
                     RecRef.GetTable(ShiftAssignment);
+            "Document Type"::"Leave Encashment":
+                if EncashmentRequest.Get("Document No.") then
+                    RecRef.GetTable(EncashmentRequest);
         end;
 
         RecRef.SetRecFilter();
@@ -176,6 +180,7 @@ table 50149 "Approval HRMS"
         EmpActjournal: Record "Employee Activity Journal";
         ShiftAssignment: Record "Shift Assignment Header";
         ApproverMgt: Codeunit "Approver Mgt";
+        EncashmentRequest: Record "Encashment Request";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -218,6 +223,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Shift Assignment":
                 if ShiftAssignment.Get("Document No.") then
                     RecRef.GetTable(ShiftAssignment);
+            "Document Type"::"Leave Encashment":
+                if EncashmentRequest.Get("Document No.") then
+                    RecRef.GetTable(EncashmentRequest);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, true);
     end;
@@ -238,6 +246,7 @@ table 50149 "Approval HRMS"
         EmpActjournal: Record "Employee Activity Journal";
         ShiftAssignment: Record "Shift Assignment Header";
         ApproverMgt: Codeunit "Approver Mgt";
+        EncashmentRequest: Record "Encashment Request";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -283,6 +292,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Shift Assignment":
                 if ShiftAssignment.Get("Document No.") then
                     RecRef.GetTable(ShiftAssignment);
+            "Document Type"::"Leave Encashment":
+                if EncashmentRequest.Get("Document No.") then
+                    RecRef.GetTable(EncashmentRequest);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, false);
     end;

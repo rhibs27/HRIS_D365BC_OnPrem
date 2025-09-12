@@ -689,6 +689,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
 
         }
+        field(50150; "Leave Encashment Nos."; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
 
     }
 }

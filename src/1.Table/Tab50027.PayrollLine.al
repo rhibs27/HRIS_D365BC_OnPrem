@@ -1757,6 +1757,8 @@ table 50027 "Payroll Line"
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             GetSettlementRecovery();
 
+        OnGetPayrollAttributesOnBeforeSaveValue(Rec);
+
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         if PayrollAttributesUsage.FindFirst then
@@ -2446,19 +2448,6 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure BasicAdjustmentPF(var AttributeAmount: Decimal)
-    var
-        PayrollAttUsage: Record "Payroll Attributes Usage";
-        AdjustPFAmt: Decimal;
-    begin
-        PGSetup.TestField("Basic Adjustment Code");
-        if PayrollAttUsage.Get(PGSetup."Basic Adjustment Code", "Employee No.") then begin
-            AdjustPFAmt := 0.1 * PayrollAttUsage.Amount;
-            AttributeAmount += AdjustPFAmt;
-        end;
-    end;
-
-
     local procedure CalculateDifferentialnterest(LoanType: Enum "Loan Type"; OutstandingAmt: Decimal): Decimal
     var
         EmployeeLoanInterest: Record "Employee Loan Interest";
@@ -2772,28 +2761,15 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure CalculateEmployeeSpecificGrade()
-    var
-        GradeEntry: Record "Grade Entry";
-        PayrollAttrUses: Record "Payroll Attributes Usage";
-    begin
-        //use setup to call this procedure as few company may use employee specific grade percentage ignore otherwise
-        GradeEntry.SetRange("Employee No.", "Employee No.");
-        GradeEntry.SetRange("Salary Level", Employee."Salary Level");
-        GradeEntry.CalcSums("Total Grade Percentage");
-
-        PayrollAttrUses.SetRange("Employee Code", "Employee No.");
-        PayrollAttrUses.SetRange(Subtype, PayrollAttrUses.Subtype::Grade);
-        if PayrollAttrUses.FindFirst() then begin
-            PayrollAttrUses.Validate(Amount, Round("Basic Salary" * GradeEntry."Total Grade Percentage" / 100, 0.01, '='));
-            PayrollAttrUses.Modify();
-        end;
-
-    end;
-
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
     begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnGetPayrollAttributesOnBeforeSaveValue(var PayrollLine: Record "Payroll Line")
+    begin
+        //use if needed additional companyspecific validation or amount update
     end;
 
     [IntegrationEvent(false, false)]

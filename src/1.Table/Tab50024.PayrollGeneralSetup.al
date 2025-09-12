@@ -451,6 +451,7 @@ table 50024 "Payroll General Setup"
         }
         field(140; "Allowance Claim Limit (days)"; Integer) { }
         field(141; "Night Shift Allowance"; Code[20]) { }
+        field(500; "Use Allowance Configuration"; Boolean) { }
 
     }
 
