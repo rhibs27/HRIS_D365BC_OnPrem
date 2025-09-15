@@ -16,6 +16,8 @@ report 50071 "Export Payroll Value"
             column(FunctionalTitle_; "Functional Title") { }
             column(SalaryLevel_; "Salary Level") { }
             column(SalaryGrade_; "Salary Grade") { }
+           // column(BranchCode; "Global Dimension 1 Code") { }
+            column(BranchName; BranchName) { }
             column(EmployeeType_; "Employee Type") { }
             column(PresentDays_; Format("Present Days")) { }
             column(AbsentDays_; Format("Absent Days")) { }
@@ -162,9 +164,18 @@ report 50071 "Export Payroll Value"
             }
 
             trigger OnAfterGetRecord()
+            var
+                GLSetup: Record "General Ledger Setup";
             begin
                 Clear(Counter);
+                Clear(BranchName);
+                GLSetup.get();
+
+                if DimensionValue.Get(GLSetup."Global Dimension 1 Code", "Global Dimension 1 Code") then
+                    BranchName := DimensionValue.Name;
             end;
+
+
         }
     }
 
@@ -216,6 +227,9 @@ report 50071 "Export Payroll Value"
         TotalNetPay: Decimal;
         Counter: Integer;
         TotalPrpertyInsurancePremium: Decimal;
+        //new var
+        DimensionValue: Record "Dimension Value";
+        BranchName: Text[100];
 
     local procedure ClearValue()
     begin

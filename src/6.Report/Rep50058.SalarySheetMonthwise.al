@@ -38,6 +38,26 @@ report 50058 "Salary Sheet Monthwise"
                 column(Description; Description) { }
                 column(Type; Type) { }
                 column(SortinNo; "Column Id") { }
+                column(PastBenefit; Round(PastBenefit, GlSetup."Amount Rounding Precision"))
+                {
+                    AutoFormatExpression = 'NPR';
+                    AutoFormatType = 1;
+                }
+                column(PastRetirementFund; Round(PastRetirementFund, GlSetup."Amount Rounding Precision"))
+                {
+                    AutoFormatExpression = 'NPR';
+                    AutoFormatType = 1;
+                }
+                column(PastSSTPaid; Round(PastSSTPaid, GlSetup."Amount Rounding Precision"))
+                {
+                    AutoFormatExpression = 'NPR';
+                    AutoFormatType = 1;
+                }
+                column(PastTaxPaid; Round(PastTaxPaid, GlSetup."Amount Rounding Precision"))
+                {
+                    AutoFormatExpression = 'NPR';
+                    AutoFormatType = 1;
+                }
                 dataitem("Pay Cycle Period"; "Pay Cycle Period")
                 {
                     column(PayCycleTerm_PayCyclePeriod; "Pay Cycle Term") { }
@@ -115,9 +135,13 @@ report 50058 "Salary Sheet Monthwise"
                 }
                 field(Employee; EmployeeFilter)
                 {
-                    TableRelation = Employee;
+                    TableRelation = Employee."No.";
                     ToolTip = 'Specifies the value of the EmployeeFilter field.';
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        ValidateEmployee();
+                    end;
                 }
             }
         }
@@ -142,6 +166,8 @@ report 50058 "Salary Sheet Monthwise"
             MultipleEmloyee := false;
 
         FilterText := 'Pay Cycle Term: ' + PayCycleTerm;
+        InitializeEmployeeData();
+
     end;
 
     var
@@ -161,10 +187,94 @@ report 50058 "Salary Sheet Monthwise"
         SortinNo: Integer;
         MultipleEmloyee: Boolean;
         FilterText: Text;
+        PastBenefit: Decimal;
+        PastRetirementFund: Decimal;
+        PastSSTPaid: Decimal;
+        PastTaxPaid: Decimal;
+        GlSetup: Record "General Ledger Setup";
+        EmployeePayrollOpen: Record "Employee Payroll Opening";
+        EmployeeNotFoundErr: Label 'Employee %1 not found.';
+
+    local procedure ValidateEmployee()
+    begin
+        if not EmpVar.Get(EmployeeFilter) then
+            Error(EmployeeNotFoundErr, EmployeeFilter);
+    end;
 
     procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
     begin
         EmployeeFilter := empCode;
         PayCycleTerm := FiscalYear;
     end;
+
+    local procedure InitializeEmployeeData()
+    begin
+        GetPayrollOpeningValues();
+    end;
+
+    local procedure GetPayrollOpeningValues()
+    var
+        EmpOpen: Record "Employee Payroll Opening";
+    begin
+        // Reset totals
+        PastBenefit := 0;
+        PastRetirementFund := 0;
+        PastSSTPaid := 0;
+        PastTaxPaid := 0;
+
+        EmpOpen.Reset();
+        EmpOpen.SetRange("Fiscal Year", PayCycleTerm);
+
+        if EmployeeFilter <> '' then
+            EmpOpen.SetRange("Employee No.", EmployeeFilter);
+
+        if EmpOpen.FindSet() then
+            repeat
+                PastBenefit += EmpOpen."Total Benefit Opening";
+                PastRetirementFund += EmpOpen."Total RF Opening";
+                PastSSTPaid += EmpOpen."Total Social Security Opening";
+                PastTaxPaid += EmpOpen."Total Tax Remuneration Opening";
+            until EmpOpen.Next() = 0;
+    end;
+
+
+    // local procedure GetAllEmployeePayrollOpeningValues()
+    // var
+    //     EmpOpen: Record "Employee Payroll Opening";
+    // begin
+    //     // Reset totals
+    //     PastBenefit := 0;
+    //     PastRetirementFund := 0;
+    //     PastSSTPaid := 0;
+    //     PastTaxPaid := 0;
+
+    //     EmpOpen.Reset();
+    //     EmpOpen.SetRange("Fiscal Year", PayCycleTerm);
+    //     if EmpOpen.FindSet() then
+    //         repeat
+    //             PastBenefit += EmpOpen."Total Benefit Opening";
+    //             PastRetirementFund += EmpOpen."Total RF Opening";
+    //             PastSSTPaid += EmpOpen."Total Social Security Opening";
+    //             PastTaxPaid += EmpOpen."Total Tax Remuneration Opening";
+    //         until EmpOpen.Next() = 0;
+    // end;
+
+
+    // local procedure GetEmployeePayrollOpeningValues(EmployeeNo: Code[20])
+    // begin
+    //     // Initialize opening values
+    //     PastBenefit := 0;
+    //     PastRetirementFund := 0;
+    //     PastSSTPaid := 0;
+    //     PastTaxPaid := 0;
+    //     EmployeePayrollOpen.Reset();
+    //     EmployeePayrollOpen.SetRange("Employee No.", EmployeeNo);
+    //     EmployeePayrollOpen.SetRange("Fiscal Year", PayCycleTerm);
+    //     if EmployeePayrollOpen.FindLast() then begin
+    //         PastBenefit := EmployeePayrollOpen."Total Benefit Opening";
+    //         PastRetirementFund := EmployeePayrollOpen."Total RF Opening";
+    //         PastSSTPaid := EmployeePayrollOpen."Total Social Security Opening";
+    //         PastTaxPaid := EmployeePayrollOpen."Total Tax Remuneration Opening";
+    //     end;
+    // end;
 }
