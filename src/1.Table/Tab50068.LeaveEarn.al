@@ -74,6 +74,10 @@ table 50068 "Leave Earn"
             Caption = 'Payroll Document No';
             DataClassification = ToBeClassified;
         }
+        field(18; "Payroll Attribute"; Code[20])
+        {
+            TableRelation = "Payroll Attributes";
+        }
     }
 
     keys

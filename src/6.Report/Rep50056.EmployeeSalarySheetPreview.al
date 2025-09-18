@@ -50,7 +50,7 @@ report 50056 "Employee Salary Sheet Preview"
                 column(EmployeeNo_PayrollLine; "Employee No.") { }
                 column(BasicSalary_PayrollLine; "Basic Salary") { }
                 column(NetPay_PayrollLine; "Net Pay") { }
-                column(TaxableIncome_PayrollLine; "Taxable Income") { }
+                column(TaxableIncome_PayrollLine; "Taxable Income After RF") { }
                 column(TaxforPeriod_PayrollLine; "Tax for Period") { }
                 column(TotalBenefit_PayrollLine; "Assessable Income") { }
                 column(TotalDeduction_PayrollLine; "Eligible RF Deduction") { }

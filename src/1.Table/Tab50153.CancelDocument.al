@@ -315,6 +315,8 @@ table 50153 "Cancel Document"
 
     }
     trigger OnInsert()
+    var
+        IsHandled: Boolean;
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -323,7 +325,9 @@ table 50153 "Cancel Document"
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
                 NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                ApproverMgt.InsertApprovalCancelled("Employee No.", "No.", Type, Cancelled);
+                OnInsertCancelDocumentOnBeforeCreateApproval(Rec, IsHandled);
+                if not IsHandled then
+                    ApproverMgt.InsertApprovalCancelled("Employee No.", "No.", Type, Cancelled);
 
             end else begin
                 case Type of
@@ -373,4 +377,8 @@ table 50153 "Cancel Document"
         ApproverMgt: Codeunit "Approver Mgt";
         OrganizationStructureList: Record "Organization Structure List";
 
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertCancelDocumentOnBeforeCreateApproval(var CancelDoc: Record "Cancel Document"; var IsHandled: Boolean);
+    begin
+    end;
 }

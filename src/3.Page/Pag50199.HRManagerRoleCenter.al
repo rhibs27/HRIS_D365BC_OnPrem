@@ -45,6 +45,10 @@ page 50199 "HR Manager Role Center"
             {
                 ApplicationArea = All;
             }
+            part(control101; "Biometric Devices ListPart")
+            {
+                ApplicationArea = all;
+            }
 
         }
     }
@@ -722,7 +726,7 @@ page 50199 "HR Manager Role Center"
                         Caption = 'Open';
                         ApplicationArea = Basic, Suite;
                         Image = ListPage;
-                        RunObject = page "Payroll Plan List";
+                        RunObject = page "Adjustment Plan List";
                         RunPageView = where("Type" = filter("Adjustment"));
                         ToolTip = 'Executes the Adjustment Payroll Plan action.';
                     }
@@ -746,7 +750,7 @@ page 50199 "HR Manager Role Center"
                         Caption = 'Open';
                         ApplicationArea = Basic, Suite;
                         Image = ListPage;
-                        RunObject = page "Payroll Plan List";
+                        RunObject = page "Resignation Plan List";
                         RunPageView = where("Type" = filter("Resignation"));
                         ToolTip = 'Executes the Resignation Payroll Plan action.';
                     }

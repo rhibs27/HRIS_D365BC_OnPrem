@@ -97,7 +97,6 @@ page 50084 "KRA Subform"
             action("View Key Performance indices")
             {
                 Image = View;
-                Promoted = true;
                 RunPageOnRec = false;
                 ToolTip = 'Executes the View Key Performance indices action.';
                 ApplicationArea = All;
@@ -113,9 +112,6 @@ page 50084 "KRA Subform"
             action("KPI Submitted")
             {
                 Image = Confirm;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 ToolTip = 'Executes the KPI Submitted action.';
                 ApplicationArea = All;
 
@@ -129,9 +125,6 @@ page 50084 "KRA Subform"
             action("KPI Reviewed")
             {
                 Image = Confirm;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 ToolTip = 'Executes the KPI Reviewed action.';
                 ApplicationArea = All;
 
@@ -145,9 +138,6 @@ page 50084 "KRA Subform"
             action("Check Reviewed")
             {
                 Image = Confirm;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 ToolTip = 'Executes the Check Reviewed action.';
                 ApplicationArea = All;
 
@@ -161,9 +151,6 @@ page 50084 "KRA Subform"
             action(KPIAssigned)
             {
                 Image = Confirm;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 ToolTip = 'Executes the KPIAssigned action.';
                 ApplicationArea = All;
 

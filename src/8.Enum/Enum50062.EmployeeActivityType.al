@@ -120,4 +120,12 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Retirement';
     }
+    value(30; "Leave Encashment")
+    {
+        Caption = 'Leave Encahment';
+    }
+    value(31; "Request Allowance")
+    {
+
+    }
 }

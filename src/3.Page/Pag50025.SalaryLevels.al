@@ -62,6 +62,18 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the Allowance field.';
                     ApplicationArea = All;
                 }
+                field("Employee Maintenence Allowance"; Rec."Employee Maintenence Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Employee Maintenence Allowance field.', Comment = '%';
+                }
+                field("Transportation Allowance"; Rec."Transportation Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Transportation Allowance field.', Comment = '%';
+                }
+                field("Vehicle Maintenence Allowance"; Rec."Vehicle Maintenence Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Maintenence Allowance field.', Comment = '%';
+                }
                 field("LFA Amount"; Rec."Leave Fare Allowance")
                 {
                     ToolTip = 'Specifies the value of the Leave Fare Allowance field.';
@@ -239,6 +251,18 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the TA OT Basic Salary field.';
                     ApplicationArea = All;
                 }
+                field("Fuel Limit (ltr)"; Rec."Fuel Limit (ltr)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (ltr) field.', Comment = '%';
+                }
+                field("Fuel Limit (amt)"; Rec."Fuel Limit (amt)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (amt) field.', Comment = '%';
+                }
+                field("EV Allowance"; Rec."EV Allowance")
+                {
+                    ToolTip = 'Specifies the value of the EV Allowance field.', Comment = '%';
+                }
             }
         }
     }
@@ -258,6 +282,25 @@ page 50025 "Salary Levels"
                 RunPageLink = "Salary Level" = field(Code);
                 ToolTip = 'Executes the Promotion Eligibilty Criteria action.';
                 ApplicationArea = All;
+            }
+            action("&Archive")
+            {
+                Image = Archive;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                ToolTip = 'Executes the &Archive action.';
+                trigger OnAction()
+                var
+                    PayrollArchive: Record "Payroll Archive";
+                    RecRef: RecordRef;
+                begin
+
+                    RecRef.Open(Database::"Salary Level");
+                    RecRef.Get(Rec.RecordId);
+                    PayrollArchive.RunArchive(RecRef.Number);
+                end;
             }
         }
     }

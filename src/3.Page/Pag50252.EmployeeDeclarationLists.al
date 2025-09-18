@@ -1,7 +1,6 @@
 page 50252 "Employee Declaration Lists"
 {
     CardPageId = "Employee Declaration Card";
-    Editable = false;
     PageType = List;
     SourceTable = "Employee Declaration";
     UsageCategory = Lists;

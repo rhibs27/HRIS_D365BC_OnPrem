@@ -141,6 +141,10 @@ page 50040 "Payroll Plan"
                     ToolTip = 'Specifies the value of the Irregular field.';
                     ApplicationArea = All;
                 }
+                field("Optimal Deduction"; Rec."Optimal Deduction")
+                {
+                    ToolTip = 'Specifies the value of the Optimal Deduction field.', Comment = '%';
+                }
                 field("Gross Payment"; Rec."Gross Payment")
                 {
                     Visible = AjustmentVisible;
@@ -199,22 +203,6 @@ page 50040 "Payroll Plan"
             group("&Functions")
             {
                 Caption = '&Functions';
-                action("Update Attributes")
-                {
-                    Image = UpdateUnitCost;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    ToolTip = 'Executes the Update Attributes action.';
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        if Confirm('Do you want to update payroll attributes ?', false) then begin
-                            Rec.UpdatePayrollAttributes(Rec);
-                        end;
-                    end;
-                }
                 action("Get Attributes")
                 {
                     Caption = 'Get Attributes';
@@ -234,8 +222,9 @@ page 50040 "Payroll Plan"
                         PayrollHeader.Reset;
                         PayrollHeader.SetRange("No.", Rec."No.");
                         if PayrollHeader.FindFirst then begin
-                            Rec.UpdatePayrollAttributeUsage(PayrollHeader);
                             Rec.GetDetails(PayrollHeader);
+                            PayrollHeader.Validate(Status, PayrollHeader.Status::Pending);
+                            PayrollHeader.Modify;
                         end;
                     end;
                 }
@@ -257,21 +246,7 @@ page 50040 "Payroll Plan"
                         Rec.CalculatePayroll(PayrollHeader);
                     end;
                 }
-                action(Release)
-                {
-                    Image = ReleaseDoc;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Release action.';
-                    ApplicationArea = All;
 
-                    trigger OnAction()
-                    begin
-                        Rec.ReleaseDocument;
-                    end;
-                }
                 action("Re-Open")
                 {
                     Image = ReOpen;
@@ -322,51 +297,7 @@ page 50040 "Payroll Plan"
                         Rec.ImportEmployee;
                     end;
                 }
-                action("Bank Account")
-                {
-                    Image = BankAccount;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Bank Account action.';
-                    ApplicationArea = All;
 
-                    trigger OnAction()
-                    begin
-                        Rec.OpenBalancingAccount;
-                    end;
-                }
-                // action("Salary Statement Preview")
-                // {
-                //     Image = "Report";
-                //     Promoted = true;
-                //     PromotedCategory = "Report";
-                //     PromotedIsBig = true;
-                //     ToolTip = 'Executes the Salary Statement Preview action.';
-                //     ApplicationArea = All;
-
-                //     trigger OnAction()
-                //     begin
-                //         PayrollHeaderRec.Reset;
-                //         PayrollHeaderRec.SetRange("No.", Rec."No.");
-                //         Report.Run(Report::"Employee Salary Sheet Preview", true, true, PayrollHeaderRec);
-                //     end;
-                // }  //replace with open in excel
-                action(OpenInExcel)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Open in Excel';
-                    Image = Excel;
-                    ToolTip = 'Open the data in Excel for analysis or editing';
-
-                    trigger OnAction()
-                    var
-                        EditInExcel: Codeunit "Edit in Excel";
-                    begin
-                        EditInExcel.EditPageInExcel('Payroll Plan' + Rec."No.", Page::"Payroll Plan");
-                    end;
-                }
                 action("Employee Adjustment")
                 {
                     Image = AddContacts;

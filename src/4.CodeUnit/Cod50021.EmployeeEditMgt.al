@@ -51,18 +51,36 @@ codeunit 50021 "Employee Edit Mgt."
                 if EmployeeEdit."Email (Personal)" <> '' then
                     Employee.Validate("E-Mail", EmployeeEdit."Email (Personal)");
                 Employee.Validate(Disabled, EmployeeEdit."Differently Able");
+
                 if EmployeeEdit."Vehicle Type" <> EmployeeEdit."Vehicle Type"::" " then
                     Employee.Validate("Vehicle Type", EmployeeEdit."Vehicle Type");
+
+                if EmployeeEdit."Permanent Province" <> '' then
+                    Employee.Validate("Permanent Province", EmployeeEdit."Permanent Province");
+                if EmployeeEdit."Permanent District" <> '' then
+                    Employee.Validate("Permanent District", EmployeeEdit."Permanent District");
+                if EmployeeEdit."Permanent VDC" <> '' then
+                    Employee.Validate("Permanent VDC", EmployeeEdit."Permanent VDC");
+                if EmployeeEdit."Permanent Ward No" <> 0 then
+                    Employee.Validate("Permanent Ward No", EmployeeEdit."Permanent Ward No");
+                if EmployeeEdit."Permanent Locality" <> '' then
+                    Employee.Validate("Permanent Locality", EmployeeEdit."Permanent Locality");
+                if EmployeeEdit."Permanent House" <> '' then
+                    Employee.Validate("Permanent House", EmployeeEdit."Permanent House");
+
                 if EmployeeEdit."Temporary Province" <> '' then
                     Employee.Validate("Temporary Province", EmployeeEdit."Temporary Province");
                 if EmployeeEdit."Temporary District" <> '' then
                     Employee.Validate("Temporary District", EmployeeEdit."Temporary District");
-                if EmployeeEdit.VDC <> '' then
-                    Employee.Validate("Temporary VDC", EmployeeEdit.VDC);
+                if EmployeeEdit."Temporary VDC" <> '' then
+                    Employee.Validate("Temporary VDC", EmployeeEdit."Temporary VDC");
                 if EmployeeEdit."Ward No." <> 0 then
                     Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
-                if EmployeeEdit.House <> '' then
-                    Employee.Validate("Temporary House", EmployeeEdit.House);
+                if EmployeeEdit."Temporary Locality" <> '' then
+                    Employee.Validate("Temporary Locality", EmployeeEdit."Temporary Locality");
+                if EmployeeEdit."Temporary House" <> '' then
+                    Employee.Validate("Temporary House", EmployeeEdit."Temporary House");
+
                 if EmployeeEdit."Blood Group" <> EmployeeEdit."Blood Group"::" " then
                     Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
                 if EmployeeEdit.Religion <> EmployeeEdit.Religion::" " then
@@ -81,6 +99,9 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("NID No", EmployeeEdit."NID No.");
                 if EmployeeEdit."Driving License No." <> '' then
                     Employee.Validate("Driving License No.", EmployeeEdit."Driving License No.");
+
+
+                OnApproveEmployeeEditOnbeforeModifyEmployee(EmployeeEdit, Employee);
                 Employee.Modify();
             end;
         end;
@@ -230,7 +251,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeRelative.Validate("Citizenship No.", EmployeeEdit."CitizenShip No.");
             EmployeeRelative.Validate("Birth Date", EmployeeEdit."Birth Date");
             EmployeeRelative.Validate(District, EmployeeEdit."Relative District");
-            EmployeeRelative.Validate("VDC/Municipality", EmployeeEdit.VDC);
+            // EmployeeRelative.Validate("VDC/Municipality", EmployeeEdit.VDC);
             EmployeeRelative.Validate("Ward No", EmployeeEdit."Ward No.");
             EmployeeRelative.Validate("E-mail", EmployeeEdit."Relative Mail");
             EmployeeRelative.Validate("Set Emergency Contact", EmployeeEdit."Set Emergency Contact");
@@ -356,5 +377,10 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
         if EmployeeEditLine.FindSet() then
             EmployeeEditLine.ModifyAll("Employee No.", EmployeeEdit."Employee No.", false);
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnApproveEmployeeEditOnbeforeModifyEmployee(var EmployeeEdit: Record "Employee Edit"; var Employee: Record Employee);
+    begin
     end;
 }

@@ -81,7 +81,7 @@ table 50041 "Attendance Setup"
         }
 
         // device configuration related field
-        field(100; "User Name"; Code[50])
+        field(100; "User Name"; Text[50])
         {
             Caption = 'User Name';
             DataClassification = ToBeClassified;

@@ -295,6 +295,10 @@ table 50026 "Payroll Header"
             end;
         }
         field(38; "Encashment Description"; Text[100]) { }
+        field(501; "Optimal Deduction"; Boolean)
+        {
+
+        }
     }
 
     keys
@@ -343,6 +347,12 @@ table 50026 "Payroll Header"
         PayLine.SetRange("Document No.", "No.");
         if PayLine.FindSet() then;
         PayLine.DeleteAll;
+
+        //reset payroll tag
+        AllowanceAssignmentLine.Reset();
+        AllowanceAssignmentLine.SetRange("Payroll Doc No.", "No.");
+        if AllowanceAssignmentLine.FindSet() then
+            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
     end;
 
     var
@@ -368,6 +378,7 @@ table 50026 "Payroll Header"
         PayrollEngine: Codeunit "Payroll Engine";
         EncashmentSetup: Record "OT Encashment Setup";
         HrMgt: Codeunit "HR Mgt.";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure AssistEdit(xSalaryHeader: Record "Payroll Header"): Boolean
     begin
@@ -451,29 +462,7 @@ table 50026 "Payroll Header"
             PayrollHeader.Status := PayrollHeader.Status::Released;
             PayrollHeader.Modify;
             PayrollHeader.CalcFields("Total Net Payable");
-            /*PayrollBalancingAccount.Reset();
-            PayrollBalancingAccount.SetRange("Document No.",PayrollHeader."No.");
-            PayrollBalancingAccount.DELETEALL;
-            PGSetup.GET;
-            IF ((PGSetup."Net Payable Account Type" = PGSetup."Net Payable Account Type"::"Bank Account") AND
-                (PGSetup."Net Payable Account Code" <> '')) OR
-                (PGSetup."Payment Method Code" <> '')
-              THEN begin
-                CLEAR(PayrollBalancingAccount);
-                PayrollBalancingAccount.INIT;
-                PayrollBalancingAccount."Document No." := "No.";
-                PayrollBalancingAccount."Line No." := 10000;
-                PayrollBalancingAccount."Credit Amount" := PayrollHeader."Total Net Payable";
-                IF PGSetup."Net Payable Account Type" = PGSetup."Net Payable Account Type"::"Bank Account" THEN
-                  PayrollBalancingAccount."Bank Account No." := PGSetup."Net Payable Account Code"
-                ELSE IF PGSetup."Payment Method Code" <> '' THEN begin
-                  PaymentMethod.GET(PGSetup."Payment Method Code");
-                  PaymentMethod.TestField("Bal. Account Type",PaymentMethod."Bal. Account Type"::"Bank Account");
-                  PaymentMethod.TestField("Bal. Account No.");
-                  PayrollBalancingAccount."Bank Account No." := PaymentMethod."Bal. Account No.";
-                end;
-                PayrollBalancingAccount.INSERT;
-            end;*/
+
             if not HideModificationDialog then
                 Message(Text003);
         end;
@@ -509,7 +498,7 @@ table 50026 "Payroll Header"
                     PayrollLine."Tax for Period" := 0;
                     PayrollLine."Total Employer Contribution" := 0;
                     PayrollLine."Current Benefit" := 0;
-                    PayrollLine."Balance Taxable Income" := 0;
+                    PayrollLine."Taxable Income" := 0;
                     PayrollLine."Current Deduction" := 0;
                     PayrollLine."Net Pay" := 0;
                     PayrollLine."1% Slab" := 0;
@@ -576,6 +565,7 @@ table 50026 "Payroll Header"
 
         Employee.Reset;
         Employee.SetCurrentKey("Employment Type");
+        Employee.SetRange("Do not Calculate Salary", false);
         if Type = Type::Settlement then begin
             Employee.SetRange(Status, Employee.Status::Inactive);
             if "Employee Type" = "Employee Type"::Permanent then
@@ -626,18 +616,6 @@ table 50026 "Payroll Header"
             repeat
                 PayrollLine.TestField("Employee No.");
             until PayrollLine.Next = 0;
-    end;
-
-    procedure OpenBalancingAccount()
-    begin
-        /*PayrollBalancingAccount.Reset();
-        PayrollBalancingAccount.FILTERGROUP(2);
-        PayrollBalancingAccount.SetRange("Document No.","No.");
-        PayrollBalancingAccount.FILTERGROUP(0);
-        CLEAR(PayrollBalancingAccountList);
-
-        PayrollBalancingAccountList.SETTABLEVIEW(PayrollBalancingAccount);
-        PayrollBalancingAccountList.RUNMODAL;*/
     end;
 
     procedure UpdatePayrollAttributeUsage(PayrollHeader: Record "Payroll Header")
@@ -731,7 +709,8 @@ table 50026 "Payroll Header"
                         PayrollAttUsage.SetRange("Employee Code", EmpCode);
                         if PayrollAttUsage.FindFirst then begin
                             if AttributeAmount <> 0 then
-                                PayrollAttUsage.Amount := AttributeAmount;
+                                if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+                                    PayrollAttUsage.Amount := AttributeAmount;
                             PayrollAttUsage.Modify;
                         end;
                     end;

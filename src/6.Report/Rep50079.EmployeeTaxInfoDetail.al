@@ -364,9 +364,9 @@ report 50079 "Employee Tax Info Detail"
         ProjectedRF := "Posted Payroll Line"."Projected Retirement Fund";
         ActualRF := "Posted Payroll Line"."Actual RF Contribution";
         EligibleRF := "Posted Payroll Line"."Eligible RF Deduction";
-        TaxableIncome := "Posted Payroll Line"."Taxable Income";
+        TaxableIncome := "Posted Payroll Line"."Taxable Income After RF";
         TotalRebate := InsuranceRebate;
-        BalTaxableIncome := "Posted Payroll Line"."Balance Taxable Income";
+        BalTaxableIncome := "Posted Payroll Line"."Taxable Income";
         Slab1 := "Posted Payroll Line"."1% Slab";
         Slab2 := "Posted Payroll Line"."20% Slab";
         Slab3 := "Posted Payroll Line"."20% Slab";

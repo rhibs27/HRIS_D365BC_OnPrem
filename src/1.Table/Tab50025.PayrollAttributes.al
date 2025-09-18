@@ -174,6 +174,11 @@ table 50025 "Payroll Attributes"
         {
 
         }
+        field(42; "Emplymt. Contract Code"; Code[10])
+        {
+            Caption = 'Emplymt. Contract Code';
+            TableRelation = "Employment Contract";
+        }
     }
 
     keys

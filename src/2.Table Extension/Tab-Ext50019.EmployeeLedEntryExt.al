@@ -89,6 +89,9 @@ tableextension 50019 "Employee Led. Entry Ext " extends "Employee Ledger Entry"
         "Employee Name" := PayrollJournalLine."Employee Name";
         "Fiscal Year" := PayrollJournalLine."Fiscal Year";
         Type := PayrollJournalLine.Type;
+        "Global Dimension 1 Code" := PayrollJournalLine."Shortcut Dimension 1 Code";
+        "Global Dimension 2 Code" := PayrollJournalLine."Shortcut Dimension 2 Code";
+        "Dimension Set ID" := PayrollJournalLine."Dimension Set ID";
     end;
 
     procedure Navigate();

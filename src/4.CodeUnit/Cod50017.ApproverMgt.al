@@ -68,27 +68,6 @@ codeunit 50017 "Approver Mgt"
                         end;
                     end;
                     Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-                    // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"One Entry per Role" then begin
-                    //     if Employee.FindFirst() then
-                    //         SequenceOneCount := SequenceOneCount + GenerateApprovalEntry(
-                    //              EmpActType,
-                    //              EmpActNo,
-                    //              Employee."No.",
-                    //              ApprovalSetupLine."Approval Sequence",
-                    //              ApprovalSetupLine."Approval Status",
-                    //              ApprovalSetupLine."Approver Role",
-                    //              ApprovalStatus,
-                    //              EmployeeNo,
-                    //              Enum::"Loan Type"::" ",
-                    //              false
-                    //          )
-                    //     else
-                    //         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                    //             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-
-                    // end;
-
-                    // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then begin
                     if Employee.FindSet() then begin
                         if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
                             ApprovalEntryCount := Employee.Count
@@ -112,9 +91,8 @@ codeunit 50017 "Approver Mgt"
                     end
                     else
                         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                            Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                            Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
 
-                // end;
                 until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
@@ -170,28 +148,6 @@ codeunit 50017 "Approver Mgt"
                         Employee.SetRange("Province Code", EmpRequest."Province Code");
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"One Entry per Role" then begin
-                //     if Employee.FindFirst() then
-                //         count := count + GenerateApprovalEntry(
-                //              EmpActType,
-                //              EmpActNo,
-                //              Employee."No.",
-                //              ApprovalSetupLine."Approval Sequence",
-                //              ApprovalSetupLine."Approval Status",
-                //              ApprovalSetupLine."Approver Role",
-                //              Enum::"Approval Status"::" ",
-                //              EmployeeNo,
-                //              LoanType,
-                //              false
-                //          )
-                //     else
-                //         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                //             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-
-                // end;
-
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then begin
                 if Employee.FindSet() then begin
                     if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
                         ApprovalEntryCount := Employee.Count
@@ -215,9 +171,8 @@ codeunit 50017 "Approver Mgt"
                 end
                 else
                     if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
 
-            // end;
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');
@@ -274,27 +229,6 @@ codeunit 50017 "Approver Mgt"
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
 
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"One Entry per Role" then begin
-                //     if Employee.FindFirst() then
-                //         count := count + GenerateApprovalEntry(
-                //              EmpActType,
-                //              EmpActNo,
-                //              Employee."No.",
-                //              ApprovalSetupLine."Approval Sequence",
-                //              ApprovalSetupLine."Approval Status",
-                //              ApprovalSetupLine."Approver Role",
-                //              Enum::"Approval Status"::" ",
-                //              EmployeeNo,
-                //              Enum::"Loan Type"::" ",
-                //              Cancelled
-                //          )
-                //     else
-                //         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                //             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-
-                // end;
-
-                // if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then begin
                 if Employee.FindSet() then begin
                     if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
                         ApprovalEntryCount := Employee.Count
@@ -318,9 +252,8 @@ codeunit 50017 "Approver Mgt"
                 end
                 else
                     if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
 
-            // end;
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');
@@ -378,6 +311,7 @@ codeunit 50017 "Approver Mgt"
         Fieldref2: FieldRef;
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
+        LeaveEncahRequest: Record "Encashment Request";
         PayrollEngine: Codeunit "Payroll Engine";
         AttendanceMgt: Codeunit "Attendance Mgt";
     begin
@@ -389,6 +323,12 @@ codeunit 50017 "Approver Mgt"
                     EmployeeActivityType := EmployeeActivityType::Retirement;
                     Fieldref2 := RecRef.Field(RetirementFund.FieldNo("No."));
                     DocumentNo := Fieldref2.Value();
+                end;
+            Database::"Encashment Request":
+                begin
+                    ApprovalStatusField := RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Value;
+                    EmployeeActivityType := EmployeeActivityType::"Leave Encashment";
+                    DocumentNo := RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value;
                 end;
             else begin
                 //old code
@@ -465,6 +405,9 @@ codeunit 50017 "Approver Mgt"
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
                                 end;
+                            EmployeeActivityType::"Leave Encashment":
+                                RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
+
                         end;
                         OnAfterDocumentRejected(RecRef);
                         // Get the Rejected Status from Status Master
@@ -541,7 +484,7 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
                             end;
-                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim":
+                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim", EmployeeActivityType::"Request Allowance":
                             begin
                                 AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
                             end;
@@ -562,9 +505,16 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 AttendanceMgt.ApproveLateAttendance(RecRef.Field(1).Value);
                             end;
+                        EmployeeActivityType::"Leave Encashment":
+                            begin
+                                if RecRef.Field(39).value then
+                                    leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
+                                else
+                                    leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
+                            end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, 'HR Department', DocumentNo);//Email For Requester
+                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo);//Email For Requester
                 end;
             end
             else begin
@@ -582,7 +532,7 @@ codeunit 50017 "Approver Mgt"
                         end;
 
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, 'HR Department', DocumentNo);//Email for Requester
+                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -612,7 +562,7 @@ codeunit 50017 "Approver Mgt"
         ApprovalHRMS.SetRange("Document No.", DocNo);
         ApprovalHRMS.SetFilter("Approval Status", '<>%1|<>2', ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open);
         if ApprovalHRMS.Count > 0 then
-            Error('You cannot withdraw as document already in the rocess of approval');
+            Error('You cannot withdraw as document already in the process of approval');
     end;
     // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
     procedure WithDrawRequest(var RecRef: RecordRef)
@@ -678,6 +628,7 @@ codeunit 50017 "Approver Mgt"
         RecRef: RecordRef;
         RetirementFund: Record "Retirement Fund";
         AttendanceMissed: Record "Attendance Missed";
+        EncashmentRequest: Record "Encashment Request";
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
         case EmpActTypeEnum of
@@ -712,6 +663,11 @@ codeunit 50017 "Approver Mgt"
                         WithDrawRequest(RecRef);
                     end;
 
+                end;
+            EmpActTypeEnum::"Leave Encashment":
+                if EncashmentRequest.Get(documentNo) then begin
+                    RecRef.GetTable(EncashmentRequest);
+                    WithDrawRequest(RecRef);
                 end;
         end;
     end;

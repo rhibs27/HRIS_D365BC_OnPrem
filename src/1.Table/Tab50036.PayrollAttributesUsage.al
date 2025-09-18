@@ -116,6 +116,16 @@ table 50036 "Payroll Attributes Usage"
         {
             //Editable = false;
         }
+        field(20; "Static Amount"; Boolean)
+        {
+            //if checked amount will not be replaced on getglobalattribute
+        }
+        field(21; "Specific Attributes"; enum "Specific Payroll Attributes")
+        {
+            CalcFormula = lookup("Payroll Attributes"."Specific Attributes" where(Code = field(Code)));
+            Editable = false;
+            FieldClass = FlowField;
+        }
     }
 
     keys

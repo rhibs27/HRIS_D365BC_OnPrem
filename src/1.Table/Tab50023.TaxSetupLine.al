@@ -11,12 +11,17 @@ table 50023 "Tax Setup Line"
         field(3; "Start Amount"; Decimal) { }
         field(4; "End Amount"; Decimal) { }
         field(5; "Tax Rate"; Decimal) { }
+        field(7; "Pay Cycle Term"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Pay Cycle Term';
+            TableRelation = "Pay Cycle Term".Term;
+        }
     }
 
     keys
     {
-        key(Key1; "Code", "Line No.") { }
+        key(Key1; "Code", "Pay Cycle Term", "Line No.") { }
     }
-
     fieldgroups { }
 }

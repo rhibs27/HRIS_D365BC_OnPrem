@@ -268,21 +268,6 @@ page 50209 "Payroll Settlement Plan"
                         Rec.ImportEmployee;
                     end;
                 }
-                action("Bank Account")
-                {
-                    Image = BankAccount;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Bank Account action.';
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        Rec.OpenBalancingAccount;
-                    end;
-                }
                 action("Salary Statement Preview")
                 {
                     Image = "Report";

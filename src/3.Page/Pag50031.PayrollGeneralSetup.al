@@ -158,6 +158,14 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Friday OT End Time field.';
                     ApplicationArea = All;
                 }
+                field("Use Allowance Configuration"; Rec."Use Allowance Configuration")
+                {
+                    ToolTip = 'Specifies the value of the Use Allowance Configuration field.', Comment = '%';
+                }
+                field("Payroll Archive Nos."; Rec."Payroll Archive Nos.")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Archive Nos. field.', Comment = '%';
+                }
             }
             group("Posting Group")
             {
@@ -748,6 +756,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Compensatory Leave Hour field.';
                     ApplicationArea = All;
                 }
+            }
+            part(PayrollSetupLines; "Payroll Setup Lines")
+            {
+                Caption = 'Payroll Setup Lines';
+                ApplicationArea = all;
             }
         }
     }

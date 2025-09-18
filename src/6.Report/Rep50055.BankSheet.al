@@ -54,7 +54,7 @@ report 50055 "Bank Sheet"
                 column(EmployeeNo_PostedPayrollLine; "Employee No.") { }
                 column(BasicSalary_PostedPayrollLine; "Basic Salary") { }
                 column(NetPay_PostedPayrollLine; "Net Pay") { }
-                column(TaxableIncome_PostedPayrollLine; "Taxable Income") { }
+                column(TaxableIncome_PostedPayrollLine; "Taxable Income After RF") { }
                 column(TaxforPeriod_PostedPayrollLine; "Tax for Period") { }
                 column(TotalBenefit_PostedPayrollLine; "Assessable Income") { }
                 column(TotalDeduction_PostedPayrollLine; "Eligible RF Deduction") { }
