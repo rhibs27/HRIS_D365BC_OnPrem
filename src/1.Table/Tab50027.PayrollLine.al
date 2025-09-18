@@ -1509,6 +1509,15 @@ table 50027 "Payroll Line"
         {
             Description = 'A';
         }
+        field(1074; "SST Base Amount"; Decimal)
+        {
+            Editable = false;
+        }
+        field(1075; "RIT Base Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
 
     }
 

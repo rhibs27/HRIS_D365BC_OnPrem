@@ -1799,6 +1799,16 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the 40% Slab field.';
                     ApplicationArea = All;
                 }
+                field("SST Base Amount"; Rec."SST Base Amount")
+                {
+                    ToolTip = 'Specifies the value of the SST Base Amount';
+                    ApplicationArea = All;
+                }
+                field("RIT Base Amount"; Rec."RIT Base Amount")
+                {
+                    ToolTip = 'Specifies the value of the RIT Base Amount';
+                    ApplicationArea = All;
+                }
             }
         }
     }

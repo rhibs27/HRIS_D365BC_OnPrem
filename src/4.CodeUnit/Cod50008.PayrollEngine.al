@@ -2997,8 +2997,23 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Current Benefit" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits;
         PayrollLine."Current Non-Payments" := CurrentNonPaymentBenefits;
         PayrollLine."Current Deduction" := TaxAtOnceCurrentDeduction;
+        PayrollLine."SST Base Amount" := GetSSTBaseAmount(PayrollLine);
+        PayrollLine."RIT Base Amount" := PayrollLine."Current Benefit" + PayrollLine."Current Non-Payments" - PayrollLine."SST Base Amount";
 
         PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
+    end;
+
+    local procedure GetSSTBaseAmount(PayrollLineRec: Record "Payroll Line"): Decimal
+    begin
+        if SocialSecurityTaxAmount >= MonthlyTax then
+            exit(PayrollLineRec."Current Benefit" + PayrollLineRec."Current Non-Payments")
+        else
+            exit(SocialSecurityTaxAmount / 0.01);
+    end;
+
+    local procedure GetRITBaseAmount(PayrollLineRec: Record "Payroll Line"): Decimal
+    begin
+
     end;
 
     local procedure GetRemoteAreaDeduction()
