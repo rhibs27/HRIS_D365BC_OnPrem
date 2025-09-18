@@ -1362,14 +1362,23 @@ table 50035 "Posted Payroll Line"
         {
             Description = 'A';
         }
-        field(1075; "CIT Posted 1"; Boolean) { }
-        field(1076; "PF Posted 1"; Boolean) { }
-        field(1077; "IC Posted 1"; Boolean) { Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)'; }
-        field(1078; "IC Posted 2"; Boolean) { Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)'; }
-        field(1079; "CIT Posted 2"; Boolean) { }
-        field(1080; "PF Posted 2"; Boolean) { }
-        field(1081; "Posting Date"; Date) { }
-        field(1082; Reversed; Boolean) { }
+        field(1074; "SST Base Amount"; Decimal)
+        {
+            Editable = false;
+        }
+        field(1075; "RIT Base Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(1076; "CIT Posted 1"; Boolean) { }
+        field(1077; "PF Posted 1"; Boolean) { }
+        field(1078; "IC Posted 1"; Boolean) { Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)'; }
+        field(1079; "IC Posted 2"; Boolean) { Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)'; }
+        field(1080; "CIT Posted 2"; Boolean) { }
+        field(1081; "PF Posted 2"; Boolean) { }
+        field(1082; "Posting Date"; Date) { }
+        field(1083; Reversed; Boolean) { }
 
     }
 
