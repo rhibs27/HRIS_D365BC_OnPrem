@@ -1538,6 +1538,43 @@ codeunit 50000 "Leave Mgt."
         PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
     end;
 
+    procedure generateEmpActLedgerFromLeave(LeaveReqRec: Record Leave)
+    var
+        Date: record Date;
+        LeaveTypeSetup: Record "Leave Type Setup";
+        ExcludeDay: Decimal;
+    begin
+        // DateRecRec.Reset;
+        // DateRecRec.SetRange("Period Type",DateRecateRec."Period Type"::Date);
+        // DateRecRec.SetRange("Period Start", StartDate, EndDate);
+        // if DateRecRec.FindFirst then
+        //     repeat
+        //         LeaveTypeSetup.Reset;
+        //         LeaveTypeSetup.SetRange("Leave Code", LeaveReqRec."Leave Code");
+        //         if LeaveTypeSetup.FindFirst then
+        //             if LeaveTypeSetup."Exclude Non-working Days" then
+        //                 ExcludeDay := (portalAPI.GetNonWokingDays(DateRecRec."Period StartDateRecateRec."Period Start", LeaveReqRec."Employee No."))
+        //             else
+        //                 InsertInEmpLedLeave(LeaveReqRec, DateRecRec."Period StartDateRecateRec);
+        //         if ExcludeDay = 0 then
+        //             InsertInEmpLedLeave(LeaveReqRec, DateRecRec."Period StartDateRecateRec);
+        //     until DateRecRec.Next() = 0;
+
+        Date.SetRange("Period Type", Date."Period Type"::Date);
+        Date.SetRange("Period Start", LeaveReqRec."Start Date", LeaveReqRec."End Date");
+        if Date.FindSet() then
+            repeat
+                ExcludeDay := 0;
+                LeaveTypeSetup.Get(LeaveReqRec."Leave Code");
+                if LeaveTypeSetup."Exclude Non Working Days" then
+                    ExcludeDay := GetNonWorkingDays(Date."Period Start", Date."Period Start", LeaveReqRec."Employee No.");
+
+
+
+            until Date.Next() = 0;
+
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
     begin
