@@ -1055,6 +1055,11 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the Life Insurance Premium field.';
                     ApplicationArea = All;
                 }
+                field("Property Insurance Premium"; Rec."Property Insurance Premium")
+                {
+                    ToolTip = 'Specifies the value of the Property Insurance Premium field.';
+                    ApplicationArea = All;
+                }
                 field("Health Insurance Premium"; Rec."Health Insurance Premium")
                 {
                     ToolTip = 'Specifies the value of the Health Insurance Premium field.';
@@ -1182,11 +1187,17 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the 39% Slab field.';
                     ApplicationArea = All;
                 }
-                field("Property Insurance Premium"; Rec."Property Insurance Premium")
+                field("SST Base Amount"; Rec."SST Base Amount")
                 {
-                    ToolTip = 'Specifies the value of the Property Insurance Premium field.';
+                    ToolTip = 'Specifies the value of the SST Base Amount';
                     ApplicationArea = All;
                 }
+                field("RIT Base Amount"; Rec."RIT Base Amount")
+                {
+                    ToolTip = 'Specifies the value of the RIT Base Amount';
+                    ApplicationArea = All;
+                }
+
             }
         }
     }
