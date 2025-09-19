@@ -32,5 +32,53 @@ tableextension 50023 "Customized Calendar Change" extends "Customized Calendar C
             DataClassification = ToBeClassified;
         }
 
+        field(50020; "Province Filter -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(50021; "Gender Filter -OR"; Enum "Employee Gender")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50022; "Inside/Outside Valley -OR"; Enum "Outside/Inside Valley")
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(50023; "Posting Region -OR"; Enum Region)
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(50024; "Branch Code -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(50025; "Employee Filter -OR"; Text[20])
+        {
+            FieldClass = FlowFilter;
+        }
+        field(50026; "Community -OR"; Enum "Community Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50027; "Disabled -OR"; Boolean)
+        {
+        }
+        field(50028; "District -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50029; "Municipality -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(50030; "Employee -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 }

@@ -15,6 +15,7 @@ report 50144 "Yearly Payroll Projection"
             column(CompanyPicture; CompanyInfo.Picture) { }
             column(PANNo; CompanyInfo."VAT Registration No.") { }
             column(CompanyInfoName; CompanyInfo.Name) { }
+            column(CompanyAddress; companyInfo.Address) { }
             column(CompanyPhNo; CompanyInfo."Phone No.") { }
             // Payroll Attribute Information
             column(Code; Code) { }
@@ -22,16 +23,19 @@ report 50144 "Yearly Payroll Projection"
             column(Type; Type) { }
             column(ReportName; ReportName) { }
             column(SortinNo; SortingNo) { }
+            column(FiscalYear; PayCycleTerm) { }
             // Employee Information
             column(EmpFullName; EmpVar."Full Name") { }
             column(PANNo_Employee; EmpVar."PAN No.") { }
             column(BankName; EmpVar."Bank Name") { }
             column(BankAccountNo; EmpVar."Bank Account No.") { }
             column(EmployeeSalaryLevel; EmpVar."Salary Level") { }
-            column(EmpDesignation; EmpVar."Job Title") { }
+            column(EmpDesignation; EmpVar."Functional Title Desc") { }
             column(SSFNo; EmpVar."Social Security No.") { }
             column(EmployeeNo; EmpVar."No.") { }
             column(TaxCode; EmpVar."Tax Code") { }
+            column(Office; Empvar."Branch Name") { }
+            column(Grade; Empvar."Salary Grade") { }
 
             // Tax Calculation Results - Main Amounts
             column(RetirementAmount; Round(TotalRetirement, GlSetup."Amount Rounding Precision"))
