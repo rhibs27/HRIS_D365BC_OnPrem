@@ -102,7 +102,7 @@ table 50147 "Organization Structure List"
         }
         field(17; "Dimension Value Code"; Code[20])
         {
-            TableRelation = "Dimension Value".Code ;
+            TableRelation = "Dimension Value".Code where("Deputation On Type" = field(Type)); 
         }
         field(30; "No. of Vault Key"; Integer)
         {

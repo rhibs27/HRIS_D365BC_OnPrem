@@ -656,14 +656,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox29">
+                        <Textbox Name="PANNo">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>PAN No</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -674,7 +674,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <rd:DefaultName>PANNo</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -690,14 +690,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox30">
+                        <Textbox Name="PANNo_Employee">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PANNo_Employee.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -707,7 +707,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <rd:DefaultName>PANNo_Employee</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1511,7 +1511,7 @@
                     </TablixMember>
                   </TablixMembers>
                   <Visibility>
-                    <Hidden>=iif(Fields!PayCycleTerm_PayCyclePeriod.Value=" ",true,false)</Hidden>
+                    <Hidden>=NOT (Fields!PayCycleTerm_PayCyclePeriod.Value &lt;&gt; "" AND Not IsNothing(Fields!PayCycleTerm_PayCyclePeriod.Value))</Hidden>
                   </Visibility>
                 </TablixMember>
                 <TablixMember>
@@ -1586,6 +1586,9 @@
                           <Value>=Fields!SortinNo.Value</Value>
                         </SortExpression>
                       </SortExpressions>
+                      <Visibility>
+                        <Hidden>=Sum(Fields!Amount.Value) = 0</Hidden>
+                      </Visibility>
                     </TablixMember>
                     <TablixMember>
                       <KeepWithGroup>Before</KeepWithGroup>

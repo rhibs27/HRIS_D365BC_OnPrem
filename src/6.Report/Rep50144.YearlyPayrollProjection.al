@@ -24,7 +24,7 @@ report 50144 "Yearly Payroll Projection"
             column(SortinNo; SortingNo) { }
             // Employee Information
             column(EmpFullName; EmpVar."Full Name") { }
-            column(PANNo_Employee; EmpVar."Pan No.") { }
+            column(PANNo_Employee; EmpVar."PAN No.") { }
             column(BankName; EmpVar."Bank Name") { }
             column(BankAccountNo; EmpVar."Bank Account No.") { }
             column(EmployeeSalaryLevel; EmpVar."Salary Level") { }
@@ -32,6 +32,7 @@ report 50144 "Yearly Payroll Projection"
             column(SSFNo; EmpVar."Social Security No.") { }
             column(EmployeeNo; EmpVar."No.") { }
             column(TaxCode; EmpVar."Tax Code") { }
+
             // Tax Calculation Results - Main Amounts
             column(RetirementAmount; Round(TotalRetirement, GlSetup."Amount Rounding Precision"))
             {
