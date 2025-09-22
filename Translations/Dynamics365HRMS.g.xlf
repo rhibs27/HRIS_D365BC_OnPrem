@@ -13373,6 +13373,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Payroll Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3652447633 - Field 115701454 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>RF Contribution Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field RF Contribution Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3652447633 - Field 2564314137 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specific Attributes</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19503,6 +19508,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Screened Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Status - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1145153898 - Field 671163260 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Committed Contribution</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19512,6 +19522,11 @@
           <source>Total Deduction</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Total Deduction - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2755117146 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
@@ -38818,6 +38833,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Control Formula - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3652447633 - Control 115701454 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of RF Contribution Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Control RF Contribution Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3652447633 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46547,6 +46567,11 @@
           <source>RTF</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control RTF Amount (Month) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>

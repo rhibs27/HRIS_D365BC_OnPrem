@@ -1832,26 +1832,29 @@ table 50027 "Payroll Line"
     local procedure RFContributionGetAttribuate(EmployeeNo: Code[20]; PayrollHeader: Record "Payroll Header")
     var
         PayrollAttrUses: Record "Payroll Attributes Usage";
-        RetirementFund: Record "Retirement Fund";
-        RFContribution: Record "RF Contribution";
+        RetirementFundHeader: Record "Retirement Fund";
+        RFContributionLine: Record "RF Contribution";
     begin
         PayrollAttrUses.SetRange("Employee Code", EmployeeNo);
-        PayrollAttrUses.SetRange(Subtype, PayrollAttrUses.Subtype::RF, PayrollAttrUses.Subtype::CIT);
+        PayrollAttrUses.SetFilter(Subtype, '%1|%2', PayrollAttrUses.Subtype::RF, PayrollAttrUses.Subtype::CIT);
+        PayrollAttrUses.SetRange(Type, PayrollAttrUses.Type::Deduction);
         if PayrollAttrUses.FindSet() then
             repeat
-                RetirementFund.SetRange("Employee No.", PayrollAttrUses."Employee Code");
-                if not RetirementFund.FindLast() then
+                RetirementFundHeader.Reset();
+                RetirementFundHeader.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                if not RetirementFundHeader.FindLast() then
                     exit;
 
-                if RetirementFund.Type = RetirementFund.Type::Manual then
-                    RFContribution.SetRange("Nepali Month ", PayrollHeader."Nepali Month");
-                RFContribution.SetRange("Employee No.", PayrollAttrUses."Employee Code");
-                RFContribution.SetRange(Type, PayrollAttrUses."RF Contribution Type");
-                RFContribution.FindLast();
-                if RetirementFund.Type = RetirementFund.Type::Percent then
-                    PayrollAttrUses.Validate(Amount, (GetAmountRFContibution(RetirementFund."Employee No.") * RFContribution.Amount) / 100)
+                RFContributionLine.Reset();
+                if RetirementFundHeader.Type = RetirementFundHeader.Type::Manual then
+                    RFContributionLine.SetRange("Nepali Month ", PayrollHeader."Nepali Month");
+                RFContributionLine.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RFContributionLine.SetRange(Type, PayrollAttrUses."RF Contribution Type");
+                RFContributionLine.FindLast();
+                if RFContributionLine.Type = RFContributionLine.Type::Percent then
+                    PayrollAttrUses.Validate(Amount, (GetAmountRFContibution(RetirementFundHeader."Employee No.") * RFContributionLine.Amount) / 100)
                 else
-                    PayrollAttrUses.Validate(Amount, RFContribution.Amount);
+                    PayrollAttrUses.Validate(Amount, RFContributionLine.Amount);
 
                 PayrollAttrUses.Modify();
             until PayrollAttributes.Next() = 0;

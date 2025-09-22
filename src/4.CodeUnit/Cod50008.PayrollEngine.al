@@ -576,51 +576,6 @@ codeunit 50008 "Payroll Engine"
                                                       PayrollAttributesUsage.Subtype::"Employer Contribution", PayrollAttributesUsage.Subtype::RF, PayrollAttributesUsage.Subtype::"Lump Sum Contribution");
         if PayrollAttributesUsage.FindFirst then
             repeat
-                PayrollAttributesUsage.CalcFields("Formula Exists");
-                UsageAmount := 0;
-                if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
-                    if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin
-                        if PayrollAttributesUsage.Amount <> 0 then
-                            UsageAmount := PayrollAttributesUsage.Amount
-                        else if PayrollAttributesUsage."Formula Exists" then
-                            UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false)
-                        else if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
-                            PayrollColumnConfig.Reset;
-                            PayrollColumnConfig.SetRange("Table No.", Database::"Payroll Line");
-                            PayrollColumnConfig.SetRange("Variable Field Code", PayrollAttributesUsage.Code);
-                            if PayrollColumnConfig.FindFirst then begin
-                                RecRefs.Open(Database::"Payroll Line");
-                                FieldRefs := RecRefs.Field(1);
-                                FieldRefs.SetRange(PayrollHeader."No.");
-                                FieldRefs := RecRefs.Field(3);
-                                FieldRefs.SetRange(Employee."No.");
-                                RecRefs.FindFirst;
-                                FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
-                                UsageAmount := FieldRefs.Value;
-
-                                case PayrollAttributes.Subtype of
-                                    PayrollAttributes.Subtype::CIT:
-                                        CITContribution += UsageAmount;
-                                    PayrollAttributes.Subtype::"Lump Sum Contribution":
-                                        LumpSumCIT += UsageAmount;
-                                    PayrollAttributes.Subtype::"Employee Contribution":
-                                        EmployeeContribution += UsageAmount;
-                                    PayrollAttributes.Subtype::"Employer Contribution":
-                                        EmployerContribution += UsageAmount;
-                                    PayrollAttributes.Subtype::RF:
-                                        RF += UsageAmount;
-                                end;
-
-                                RecRefs.Close;
-                            end;
-                        end;
-
-                        if PayrollAttributes."Apply Every Month" then
-                            ProjectionEarning += UsageAmount * RemainingMonth
-                        else
-                            ProjectionEarning += UsageAmount;
-                    end;
-                end;
 
                 if PayrollAttributesUsage."RF Contribution Type" = PayrollAttributesUsage."RF Contribution Type"::Manual then begin
                     RetirementFund.SetRange("Employee No.", PayrollAttributesUsage."Employee Code");
@@ -631,8 +586,56 @@ codeunit 50008 "Payroll Engine"
                     RFContribution.SetRange("Employee No.", PayrollAttributesUsage."Employee Code");
                     RFContribution.SetRange("Attribute Code", PayrollAttributes.Code);
                     RFContribution.CalcSums(Amount);
-                    UsageAmount := RFContribution.Amount;
+                    ProjectionEarning := RFContribution.Amount;
+
+                end else begin
+                    PayrollAttributesUsage.CalcFields("Formula Exists");
+                    UsageAmount := 0;
+                    if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
+                        if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin
+                            if PayrollAttributesUsage.Amount <> 0 then
+                                UsageAmount := PayrollAttributesUsage.Amount
+                            else if PayrollAttributesUsage."Formula Exists" then
+                                UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false)
+                            else if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
+                                PayrollColumnConfig.Reset;
+                                PayrollColumnConfig.SetRange("Table No.", Database::"Payroll Line");
+                                PayrollColumnConfig.SetRange("Variable Field Code", PayrollAttributesUsage.Code);
+                                if PayrollColumnConfig.FindFirst then begin
+                                    RecRefs.Open(Database::"Payroll Line");
+                                    FieldRefs := RecRefs.Field(1);
+                                    FieldRefs.SetRange(PayrollHeader."No.");
+                                    FieldRefs := RecRefs.Field(3);
+                                    FieldRefs.SetRange(Employee."No.");
+                                    RecRefs.FindFirst;
+                                    FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
+                                    UsageAmount := FieldRefs.Value;
+
+                                    case PayrollAttributes.Subtype of
+                                        PayrollAttributes.Subtype::CIT:
+                                            CITContribution += UsageAmount;
+                                        PayrollAttributes.Subtype::"Lump Sum Contribution":
+                                            LumpSumCIT += UsageAmount;
+                                        PayrollAttributes.Subtype::"Employee Contribution":
+                                            EmployeeContribution += UsageAmount;
+                                        PayrollAttributes.Subtype::"Employer Contribution":
+                                            EmployerContribution += UsageAmount;
+                                        PayrollAttributes.Subtype::RF:
+                                            RF += UsageAmount;
+                                    end;
+
+                                    RecRefs.Close;
+                                end;
+                            end;
+
+                            if PayrollAttributes."Apply Every Month" then
+                                ProjectionEarning += UsageAmount * RemainingMonth
+                            else
+                                ProjectionEarning += UsageAmount;
+                        end;
+                    end;
                 end;
+
             until PayrollAttributesUsage.Next = 0;
     end;
 

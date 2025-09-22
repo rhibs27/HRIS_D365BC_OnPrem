@@ -187,6 +187,10 @@ table 50052 "Retirement Fund"
         {
             Caption = 'Type';
         }
+        field(100; Status; Text[100])
+        {
+            Caption = 'Status';
+        }
     }
 
     keys
@@ -196,7 +200,7 @@ table 50052 "Retirement Fund"
     trigger OnInsert()
     var
         EmpActivityType: Enum "Employee Activity Type";
-                             RetirementFund: Record "Retirement Fund";
+        RetirementFund: Record "Retirement Fund";
     begin
         if not GuiAllowed then begin
             TempRF := Rec;
