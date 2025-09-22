@@ -3,7 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
-    InsertAllowed = false;
+    //   InsertAllowed = false;
 
     layout
     {
@@ -11,7 +11,7 @@ page 50201 "Retirement Fund Card"
         {
             group(General)
             {
-                Editable = false;
+                // Editable = false;
                 field("No."; Rec."No.")
                 {
                     Visible = false;
@@ -129,6 +129,11 @@ page 50201 "Retirement Fund Card"
                         ToolTip = 'Specifies the value of the CIT field.';
                         ApplicationArea = All;
                     }
+                    field(Type; Rec.Type)
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Type field.';
+                    }
                 }
                 group(Lumpsum)
                 {
@@ -196,6 +201,11 @@ page 50201 "Retirement Fund Card"
                     ApplicationArea = All;
                     Visible = IsPending;
                 }
+            }
+            part("RF Contribution Lines"; "RF Contribution Lines")
+            {
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {

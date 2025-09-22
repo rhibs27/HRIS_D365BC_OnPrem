@@ -1752,6 +1752,7 @@ table 50027 "Payroll Line"
         Modify;
         ResetValues;
 
+        RFContributionGetAttribuate("Employee No.", PayrollHeader);
         GetGlobalAttributes();
         CalculateAbsentasimBeforeAndAfterpromotion();
         UpdateSalaryAdvanceNo();
@@ -1826,6 +1827,50 @@ table 50027 "Payroll Line"
                     exit(true);
             end;
         end;
+    end;
+
+    local procedure RFContributionGetAttribuate(EmployeeNo: Code[20]; PayrollHeader: Record "Payroll Header")
+    var
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        RetirementFund: Record "Retirement Fund";
+        RFContribution: Record "RF Contribution";
+    begin
+        PayrollAttrUses.SetRange("Employee Code", EmployeeNo);
+        PayrollAttrUses.SetRange(Subtype, PayrollAttrUses.Subtype::RF, PayrollAttrUses.Subtype::CIT);
+        if PayrollAttrUses.FindSet() then
+            repeat
+                RetirementFund.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                if not RetirementFund.FindLast() then
+                    exit;
+
+                if RetirementFund.Type = RetirementFund.Type::Manual then
+                    RFContribution.SetRange("Nepali Month ", PayrollHeader."Nepali Month");
+                RFContribution.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RFContribution.SetRange(Type, PayrollAttrUses."RF Contribution Type");
+                RFContribution.FindLast();
+                if RetirementFund.Type = RetirementFund.Type::Percent then
+                    PayrollAttrUses.Validate(Amount, (GetAmountRFContibution(RetirementFund."Employee No.") * RFContribution.Amount) / 100)
+                else
+                    PayrollAttrUses.Validate(Amount, RFContribution.Amount);
+
+                PayrollAttrUses.Modify();
+            until PayrollAttributes.Next() = 0;
+
+        // logic for optimum is needed. //23
+    end;
+
+    local procedure GetAmountRFContibution(EmployeeCode: Code[20]): Decimal
+    var
+        LevelWiseAttributes: Record "Level Wise Attributes";
+    begin
+        Employee.SetLoadFields("Salary Grade", "Salary Level");
+        Employee.Get(EmployeeCode);
+
+        LevelWiseAttributes.SetLoadFields("Total Basic Salary");
+        if LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level") then
+            exit(LevelWiseAttributes."Total Basic Salary");
+
+        exit(0);
     end;
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
@@ -2943,6 +2988,7 @@ table 50027 "Payroll Line"
         else
             exit(false);
     end;
+
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")

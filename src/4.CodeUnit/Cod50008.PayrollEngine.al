@@ -562,6 +562,8 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
         UsageAmount: Decimal;
         PayrollColumnConfig: Record "Payroll Column Configuration";
+        RFContribution: Record "RF Contribution";
+        RetirementFund: Record "Retirement Fund";
         RecRefs: RecordRef;
         FieldRefs: FieldRef;
     begin
@@ -618,6 +620,18 @@ codeunit 50008 "Payroll Engine"
                         else
                             ProjectionEarning += UsageAmount;
                     end;
+                end;
+
+                if PayrollAttributesUsage."RF Contribution Type" = PayrollAttributesUsage."RF Contribution Type"::Manual then begin
+                    RetirementFund.SetRange("Employee No.", PayrollAttributesUsage."Employee Code");
+                    RetirementFund.SetRange("Approval Status", RetirementFund."Approval Status"::Approved);
+                    if RetirementFund.FindLast() then;
+
+                    RFContribution.SetRange("Document No.", RetirementFund."No.");
+                    RFContribution.SetRange("Employee No.", PayrollAttributesUsage."Employee Code");
+                    RFContribution.SetRange("Attribute Code", PayrollAttributes.Code);
+                    RFContribution.CalcSums(Amount);
+                    UsageAmount := RFContribution.Amount;
                 end;
             until PayrollAttributesUsage.Next = 0;
     end;
@@ -3767,6 +3781,7 @@ codeunit 50008 "Payroll Engine"
             exit(GetPayCyclePeriod(PayrollAttrUses."End Date") - PayrollHeader."Pay Cycle Period");
         end;
     end;
+
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeInsertEmployeePayrollAdjustment(var EmployeePayrollAdjustment: Record "Employee Payroll Adjustment")

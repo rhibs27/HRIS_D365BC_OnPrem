@@ -126,6 +126,11 @@ table 50036 "Payroll Attributes Usage"
             Editable = false;
             FieldClass = FlowField;
         }
+        field(22; "RF Contribution Type"; Enum "RF Contribution Type")
+        {
+            Editable = false;
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

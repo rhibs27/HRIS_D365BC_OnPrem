@@ -17488,6 +17488,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Reversed - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1128378402 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>RIT Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field RIT Base Amount - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 751220555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Advance No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17522,6 +17527,11 @@
           <source>Source Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Source Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 476807615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>SST Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field SST Base Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 2073569604 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Standard Hours</source>
@@ -19517,6 +19527,56 @@
           <source>Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Review Master - Field Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>RF Contribution</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attribute Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Attribute Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 486908828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 2751152809 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Nepali Month </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Nepali Month  - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2116039447 - Field 2991555307 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Job Description</source>
@@ -44118,6 +44178,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Remote Area Deduction - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 1128378402 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the RIT Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control RIT Base Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3668632682 - Control 3370741491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Salary Grade field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44137,6 +44202,11 @@
           <source>Specifies the value of the Social Security Tax(Annual) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Social Security Tax(Annual) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 476807615 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SST Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control SST Base Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3668632682 - Control 2578947461 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Tax for Period field.</source>
@@ -46682,6 +46752,56 @@
           <source>Specifies the value of the Value field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Review Master List - Control Value - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>RF Contribution Lines</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attribute Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Attribute Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 486908828 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Document No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Document No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 3320823955 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Line No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Line No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 2751152809 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Nepali Month  - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1145007401 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1552684258 - Control 2991555307 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Job Description field.</source>
@@ -62592,6 +62712,31 @@
           <source>Internal</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Resouce person - EnumValue Internal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 115701454 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum RF Contribution Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 115701454 - EnumValue 744835066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fixed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum RF Contribution Type - EnumValue Fixed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 115701454 - EnumValue 1508634494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manual</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum RF Contribution Type - EnumValue Manual - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 115701454 - EnumValue 3741611041 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Optimum</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum RF Contribution Type - EnumValue Optimum - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 115701454 - EnumValue 896162397 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Percent</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum RF Contribution Type - EnumValue Percent - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3649518822 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
