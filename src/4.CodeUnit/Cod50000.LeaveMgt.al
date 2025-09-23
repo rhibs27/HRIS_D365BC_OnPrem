@@ -6,7 +6,7 @@ codeunit 50000 "Leave Mgt."
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
-        // Clear blank Approval line 
+        // Clear blank Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
@@ -84,7 +84,7 @@ codeunit 50000 "Leave Mgt."
         MunicipalityList: Record Municipality;
         CalendarDate: Record Date;
         Counter: Integer;
-        AlreadyAdded: Boolean;
+        isNonWorkingDay, FilterMatched : Boolean;
         BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
@@ -95,107 +95,115 @@ codeunit 50000 "Leave Mgt."
         EmployeeRec: Record Employee;
     begin
         Counter := 0;
+
         PayrollSetup.Get;
         Employee.Get(EmpCode);
         CalendarDate.SetRange("Period Type", CalendarDate."Period Type"::Date);
         CalendarDate.SetRange("Period Start", StartDate, EndDate);
         if CalendarDate.Find('-') then
             repeat
-                Clear(AlreadyAdded);
+                isNonWorkingDay := true;
+
                 if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
                     CalendarDescription := Description;
                     if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (District = '') and (MunicipalityFilter = '') and (community = community::" ") and (EmployeeFilter = '') and (not Disabled) then
                         Counter += 1
                     else begin
+
                         if Provinces <> '' then begin
+                            Clear(FilterMatched);
                             OrganizationStructureList.Reset;
                             OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
                             OrganizationStructureList.SetFilter(Code, Provinces);
                             if OrganizationStructureList.Find('-') then
                                 repeat
-                                    if (Employee."Province Code" = OrganizationStructureList.Code) and (not AlreadyAdded) then begin
-                                        Counter += 1;
-                                        AlreadyAdded := true;
+                                    if (Employee."Province Code" = OrganizationStructureList.Code) then begin
+                                        FilterMatched := true;
                                         break;
                                     end;
                                 until OrganizationStructureList.Next = 0;
+
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
                         end;
 
-                        if (Gender = Employee.Gender) and (Gender <> Gender::" ") and (not AlreadyAdded) then begin
-                            Counter += 1;
-                            AlreadyAdded := true;
-                        end;
+                        if Gender <> Gender::" " then
+                            isNonWorkingDay := isNonWorkingDay and (Employee.Gender = gender);
 
-                        if (PostingRegion = Employee."Posting Region") and (PostingRegion <> PostingRegion::" ") and (not AlreadyAdded) then begin
-                            Counter += 1;
-                            AlreadyAdded := true;
-                        end;
+                        if PostingRegion <> PostingRegion::" " then
+                            isNonWorkingDay := isNonWorkingDay and (PostingRegion = employee."Posting Region");
 
-                        if (Branch <> '') and (not AlreadyAdded) then begin
+                        if Branch <> '' then begin
+                            Clear(FilterMatched);
                             OrganizationStructureList.Reset;
                             OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
                             OrganizationStructureList.SetFilter(Code, Branch);
                             if OrganizationStructureList.Find('-') then
                                 repeat
-                                    if (OrganizationStructureList.Code = Employee."Branch Code") and (not AlreadyAdded) then begin
-                                        Counter += 1;
-                                        AlreadyAdded := true;
+                                    if (OrganizationStructureList.Code = Employee."Branch Code") then begin
+                                        FilterMatched := true;
                                         break;
                                     end;
                                 until OrganizationStructureList.Next = 0;
+
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
                         end;
-                        if (District <> '') and (not AlreadyAdded) then begin
+
+                        if District <> '' then begin
+                            Clear(FilterMatched);
                             DistrictList.Reset;
                             DistrictList.Setfilter("District Name", District);
                             if DistrictList.Find('-') then
                                 repeat
-                                    if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
-                                        Counter += 1;
-                                        AlreadyAdded := true;
+                                    if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(Employee."Deputation on", Employee."Deputation On Code")) then begin
                                         break;
                                     end;
                                 until DistrictList.Next = 0;
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
                         end;
-                        if (MunicipalityFilter <> '') and (not AlreadyAdded) then begin
+
+                        if (MunicipalityFilter <> '') then begin
+                            Clear(FilterMatched);
                             MunicipalityList.Reset;
                             MunicipalityList.Setfilter(Code, MunicipalityFilter);
                             if MunicipalityList.Find('-') then
                                 repeat
-                                    if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
-                                        Counter += 1;
-                                        AlreadyAdded := true;
+                                    if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(Employee."Deputation on", Employee."Deputation On Code")) then begin
+                                        FilterMatched := true;
                                         break;
                                     end;
                                 until MunicipalityList.Next = 0;
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
                         end;
 
-                        if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
-                            Counter += 1;
-                            AlreadyAdded := true;
-                        end;
-                        if (Community <> Community::" ") and (not AlreadyAdded) then
-                            if Community = Employee.Community then begin
-                                Counter += 1;
-                                AlreadyAdded := true
-                            end;
-                        if (EmployeeFilter <> '') and (not AlreadyAdded) then begin
+                        if InOutValley <> InOutValley::" " then
+                            isNonWorkingDay := isNonWorkingDay and (Employee."Inside/Outside Valley" = InOutValley);
+
+                        if Community <> Community::" " then
+                            isNonWorkingDay := isNonWorkingDay and (Employee.Community = Community);
+
+                        if EmployeeFilter <> '' then begin
+                            Clear(FilterMatched);
                             EmployeeRec.Reset;
                             EmployeeRec.Setfilter("No.", EmployeeFilter);
                             if EmployeeRec.Find('-') then
                                 repeat
-                                    if (EmployeeRec."No." = EmpCode) and (not AlreadyAdded) then begin
-                                        Counter += 1;
-                                        AlreadyAdded := true;
+                                    if (EmployeeRec."No." = EmpCode) then begin
+                                        FilterMatched := true;
                                         break;
                                     end;
                                 until EmployeeRec.Next = 0;
-                        end;
-                        if Disabled and (not AlreadyAdded) then
-                            if Disabled = Employee.disabled then begin
-                                Counter += 1;
-                                AlreadyAdded := true
-                            end;
 
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
+                        end;
+
+                        if Disabled then
+                            isNonWorkingDay := isNonWorkingDay and (Employee.Disabled = disabled);
+
+                        //check OR condition
+                        GetNonWorkingDaysOR(PayrollSetup."Base Calendar", CalendarDate."Period Start", Employee, isNonWorkingDay);
+
+                        if isNonWorkingDay then  //The day is holiday for that employee
+                            Counter += 1;
                     end;
 
                 end;
@@ -822,7 +830,7 @@ codeunit 50000 "Leave Mgt."
         Leave.TestField(Remarks);
         Leave.TestField("Leave Code");
         PayrollSetup.Get;
-        //check for fiscal year start date 
+        //check for fiscal year start date
         OnApplyLeavOnBeforeLeaveYearCheck(Leave, isHandled);
         if not isHandled then
             if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
@@ -904,7 +912,7 @@ codeunit 50000 "Leave Mgt."
             Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
         Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
         Leave.TestField("Cancelled Document No.", '');
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
@@ -1515,7 +1523,7 @@ codeunit 50000 "Leave Mgt."
             Error('Leave request no. %1 is already cancelled.', Encashmentrequest."No.");
         Encashmentrequest.TestField("Approval Status", Encashmentrequest."Approval Status"::Approved);
         Encashmentrequest.TestField("Cancelled Document No.", '');
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Leave Encashment");
@@ -1537,6 +1545,330 @@ codeunit 50000 "Leave Mgt."
         TempCancelDocument.Insert;
         PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
     end;
+
+    procedure GetNonWorkingDaysOR(BaseCalCode: Code[20]; TargetDate: Date; Employee: Record Employee; var isNonWorkingDay: Boolean)
+    var
+        Description: Text;
+        Provinces: Text;
+        Gender: Enum "Employee Gender";
+        OrganizationStructureList: Record "Organization Structure List";
+        DistrictList: Record District;
+        MunicipalityList: Record Municipality;
+        Counter: Integer;
+        FilterMatched: Boolean;
+        BaseCalendar: Record "Base Calendar";
+        InOutValley: Enum "Outside/Inside Valley";
+        PostingRegion: Enum Region;
+        Branch, District, MunicipalityFilter : Text;
+        Community: Enum "Community Type";
+        EmployeeFilter: Text[500];
+        Disabled: Boolean;
+        EmployeeRec: Record Employee;
+    begin
+        if CheckDateStatusOR(PayrollSetup."Base Calendar", TargetDate, Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
+            CalendarDescription := Description;
+            if Provinces <> '' then begin
+                Clear(FilterMatched);
+                OrganizationStructureList.Reset;
+                OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
+                OrganizationStructureList.SetFilter(Code, Provinces);
+                if OrganizationStructureList.Find('-') then
+                    repeat
+                        if (Employee."Province Code" = OrganizationStructureList.Code) then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until OrganizationStructureList.Next = 0;
+
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+
+            if Gender <> Gender::" " then
+                isNonWorkingDay := isNonWorkingDay or (Employee.Gender = gender);
+
+            if PostingRegion <> PostingRegion::" " then
+                isNonWorkingDay := isNonWorkingDay or (PostingRegion = employee."Posting Region");
+
+            if Branch <> '' then begin
+                Clear(FilterMatched);
+                OrganizationStructureList.Reset;
+                OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
+                OrganizationStructureList.SetFilter(Code, Branch);
+                if OrganizationStructureList.Find('-') then
+                    repeat
+                        if (OrganizationStructureList.Code = Employee."Branch Code") then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until OrganizationStructureList.Next = 0;
+
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+
+            if District <> '' then begin
+                Clear(FilterMatched);
+                DistrictList.Reset;
+                DistrictList.Setfilter("District Name", District);
+                if DistrictList.Find('-') then
+                    repeat
+                        if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(Employee."Deputation on", Employee."Deputation On Code")) then begin
+                            break;
+                        end;
+                    until DistrictList.Next = 0;
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+
+            if (MunicipalityFilter <> '') then begin
+                Clear(FilterMatched);
+                MunicipalityList.Reset;
+                MunicipalityList.Setfilter(Code, MunicipalityFilter);
+                if MunicipalityList.Find('-') then
+                    repeat
+                        if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(Employee."Deputation on", Employee."Deputation On Code")) then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until MunicipalityList.Next = 0;
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+
+            if InOutValley <> InOutValley::" " then
+                isNonWorkingDay := isNonWorkingDay or (Employee."Inside/Outside Valley" = InOutValley);
+
+            if Community <> Community::" " then
+                isNonWorkingDay := isNonWorkingDay or (Employee.Community = Community);
+
+            if EmployeeFilter <> '' then begin
+                Clear(FilterMatched);
+                EmployeeRec.Reset;
+                EmployeeRec.Setfilter("No.", EmployeeFilter);
+                if EmployeeRec.Find('-') then
+                    repeat
+                        if (EmployeeRec."No." = Employee."No.") then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until EmployeeRec.Next = 0;
+
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+
+            if Disabled then
+                isNonWorkingDay := isNonWorkingDay or (Employee.Disabled = disabled);
+
+        end;
+    end;
+
+    procedure CheckDateStatusOR(CalendarCode: Code[20];
+                                TargetDate: Date;
+                                VAR Description: Text[50];
+                                VAR Proviences: Text[150];
+                                VAR Gender: Enum "Employee Gender";
+                                VAR InOutValley: Enum "Outside/Inside Valley";
+                                VAR PostingRegion: enum Region;
+                                VAR Branch: Text;
+                                VAR Distict: Text;
+                                var Municipality: text;
+                                var Community: Enum "Community Type";
+                                var EmployeeFilter: Text;
+                                var Disabled: Boolean): Boolean
+    var
+        BaseCalChange: Record "Base Calendar Change";
+    begin
+        BaseCalChange.Reset;
+        BaseCalChange.SetRange("Base Calendar Code", CalendarCode);
+        IF BaseCalChange.FindSet() THEN
+            repeat
+                CASE BaseCalChange."Recurring System" OF
+                    BaseCalChange."Recurring System"::" ":
+                        IF TargetDate = BaseCalChange.Date THEN begin
+                            Description := BaseCalChange.Description;
+                            Proviences := BaseCalChange."Province Filter -OR";
+                            Gender := BaseCalChange."Gender Filter -OR";
+                            InOutValley := BaseCalChange."Inside/Outside Valley -OR";
+                            PostingRegion := BaseCalChange."Posting Region -OR";
+                            Branch := BaseCalChange."Branch Code -OR";
+                            Distict := BaseCalChange."District -OR";
+                            Municipality := BaseCalChange."Municipality -OR";
+                            Community := BaseCalChange."Community -OR";
+                            EmployeeFilter := BaseCalChange."Employee -OR";
+                            Disabled := BaseCalChange."Disabled -OR";
+                            exit(BaseCalChange.Nonworking);
+                        end;
+                    BaseCalChange."Recurring System"::"Weekly Recurring":
+                        IF DATE2DWY(TargetDate, 1) = BaseCalChange.Day THEN begin
+                            Description := BaseCalChange.Description;
+                            Proviences := BaseCalChange."Province Filter -OR";
+                            Gender := BaseCalChange."Gender Filter -OR";
+                            InOutValley := BaseCalChange."Inside/Outside Valley -OR";
+                            PostingRegion := BaseCalChange."Posting Region -OR";
+                            Branch := BaseCalChange."Branch Code -OR";
+                            Distict := BaseCalChange."District -OR";
+                            Municipality := BaseCalChange."Municipality -OR";
+                            Community := BaseCalChange."Community -OR";
+                            EmployeeFilter := BaseCalChange."Employee -OR";
+                            Disabled := BaseCalChange."Disabled -OR";
+                            exit(BaseCalChange.Nonworking);
+                        end;
+                    BaseCalChange."Recurring System"::"Annual Recurring":
+                        IF (DATE2DMY(TargetDate, 2) = DATE2DMY(BaseCalChange.Date, 2)) AND
+                           (DATE2DMY(TargetDate, 1) = DATE2DMY(BaseCalChange.Date, 1))
+                        THEN begin
+                            Description := BaseCalChange.Description;
+                            Proviences := BaseCalChange."Province Filter -OR";
+                            Gender := BaseCalChange."Gender Filter -OR";
+                            InOutValley := BaseCalChange."Inside/Outside Valley -OR";
+                            PostingRegion := BaseCalChange."Posting Region -OR";
+                            Branch := BaseCalChange."Branch Code -OR";
+                            Distict := BaseCalChange."District -OR";
+                            Municipality := BaseCalChange."Municipality -OR";
+                            Community := BaseCalChange."Community -OR";
+                            EmployeeFilter := BaseCalChange."Employee -OR";
+                            Disabled := BaseCalChange."Disabled -OR";
+                            exit(BaseCalChange.Nonworking);
+                        end;
+                end;
+            until BaseCalChange.NEXT = 0;
+        Description := '';
+        Proviences := '';
+        clear(Gender);
+        clear(InOutValley);
+        clear(PostingRegion);
+        clear(Branch);
+        Clear(Distict);
+        Clear(Community);
+        Clear(Disabled);
+    end;
+
+    // procedure GetNonWorkingDaysBackup(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
+    // var
+    //     Description: Text;
+    //     Provinces: Text;
+    //     Gender: Enum "Employee Gender";
+    //     OrganizationStructureList: Record "Organization Structure List";
+    //     DistrictList: Record District;
+    //     MunicipalityList: Record Municipality;
+    //     CalendarDate: Record Date;
+    //     Counter: Integer;
+    //     AlreadyAdded: Boolean;
+    //     BaseCalendar: Record "Base Calendar";
+    //     InOutValley: Enum "Outside/Inside Valley";
+    //     PostingRegion: Enum Region;
+    //     Branch, District, MunicipalityFilter : Text;
+    //     Community: Enum "Community Type";
+    //     EmployeeFilter: Text[500];
+    //     Disabled: Boolean;
+    //     EmployeeRec: Record Employee;
+    // begin
+    //     Counter := 0;
+    //     PayrollSetup.Get;
+    //     Employee.Get(EmpCode);
+    //     CalendarDate.SetRange("Period Type", CalendarDate."Period Type"::Date);
+    //     CalendarDate.SetRange("Period Start", StartDate, EndDate);
+    //     if CalendarDate.Find('-') then
+    //         repeat
+    //             Clear(AlreadyAdded);
+    //             if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
+    //                 CalendarDescription := Description;
+    //                 if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (District = '') and (MunicipalityFilter = '') and (community = community::" ") and (EmployeeFilter = '') and (not Disabled) then
+    //                     Counter += 1
+    //                 else begin
+    //                     if Provinces <> '' then begin
+    //                         OrganizationStructureList.Reset;
+    //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
+    //                         OrganizationStructureList.SetFilter(Code, Provinces);
+    //                         if OrganizationStructureList.Find('-') then
+    //                             repeat
+    //                                 if (Employee."Province Code" = OrganizationStructureList.Code) and (not AlreadyAdded) then begin
+    //                                     Counter += 1;
+    //                                     AlreadyAdded := true;
+    //                                     break;
+    //                                 end;
+    //                             until OrganizationStructureList.Next = 0;
+    //                     end;
+
+    //                     if (Gender = Employee.Gender) and (Gender <> Gender::" ") and (not AlreadyAdded) then begin
+    //                         Counter += 1;
+    //                         AlreadyAdded := true;
+    //                     end;
+
+    //                     if (PostingRegion = Employee."Posting Region") and (PostingRegion <> PostingRegion::" ") and (not AlreadyAdded) then begin
+    //                         Counter += 1;
+    //                         AlreadyAdded := true;
+    //                     end;
+
+    //                     if (Branch <> '') and (not AlreadyAdded) then begin
+    //                         OrganizationStructureList.Reset;
+    //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
+    //                         OrganizationStructureList.SetFilter(Code, Branch);
+    //                         if OrganizationStructureList.Find('-') then
+    //                             repeat
+    //                                 if (OrganizationStructureList.Code = Employee."Branch Code") and (not AlreadyAdded) then begin
+    //                                     Counter += 1;
+    //                                     AlreadyAdded := true;
+    //                                     break;
+    //                                 end;
+    //                             until OrganizationStructureList.Next = 0;
+    //                     end;
+    //                     if (District <> '') and (not AlreadyAdded) then begin
+    //                         DistrictList.Reset;
+    //                         DistrictList.Setfilter("District Name", District);
+    //                         if DistrictList.Find('-') then
+    //                             repeat
+    //                                 if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
+    //                                     Counter += 1;
+    //                                     AlreadyAdded := true;
+    //                                     break;
+    //                                 end;
+    //                             until DistrictList.Next = 0;
+    //                     end;
+    //                     if (MunicipalityFilter <> '') and (not AlreadyAdded) then begin
+    //                         MunicipalityList.Reset;
+    //                         MunicipalityList.Setfilter(Code, MunicipalityFilter);
+    //                         if MunicipalityList.Find('-') then
+    //                             repeat
+    //                                 if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
+    //                                     Counter += 1;
+    //                                     AlreadyAdded := true;
+    //                                     break;
+    //                                 end;
+    //                             until MunicipalityList.Next = 0;
+    //                     end;
+
+    //                     if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
+    //                         Counter += 1;
+    //                         AlreadyAdded := true;
+    //                     end;
+    //                     if (Community <> Community::" ") and (not AlreadyAdded) then
+    //                         if Community = Employee.Community then begin
+    //                             Counter += 1;
+    //                             AlreadyAdded := true
+    //                         end;
+    //                     if (EmployeeFilter <> '') and (not AlreadyAdded) then begin
+    //                         EmployeeRec.Reset;
+    //                         EmployeeRec.Setfilter("No.", EmployeeFilter);
+    //                         if EmployeeRec.Find('-') then
+    //                             repeat
+    //                                 if (EmployeeRec."No." = EmpCode) and (not AlreadyAdded) then begin
+    //                                     Counter += 1;
+    //                                     AlreadyAdded := true;
+    //                                     break;
+    //                                 end;
+    //                             until EmployeeRec.Next = 0;
+    //                     end;
+    //                     if Disabled and (not AlreadyAdded) then
+    //                         if Disabled = Employee.disabled then begin
+    //                             Counter += 1;
+    //                             AlreadyAdded := true
+    //                         end;
+
+    //                 end;
+
+    //             end;
+    //         until CalendarDate.Next = 0;
+
+    //     exit(Counter);
+    // end;
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)

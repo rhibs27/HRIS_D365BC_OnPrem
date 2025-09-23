@@ -358,7 +358,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Promotion Date (B.S.)" := EngNepDate.getNepaliDate("Promotion Date");
             end;
         }
-        field(50025; "CIT No."; Code[20])
+        field(50025; "CIT No."; Code[30])
         {
             DataClassification = CustomerContent;
         }
@@ -384,7 +384,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Description = 'not used';
         }
-        field(50029; "Bank No."; Code[20])
+        field(50029; "Bank No."; Code[30])
         {
             TableRelation = "Bank Account";
             DataClassification = CustomerContent;
@@ -1500,11 +1500,45 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Manual Approver User';
         }
+        field(50185; "Relation With Nominee"; Text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+
+        field(50186; "Nominee Mobile No."; Text[15])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
+            begin
+                if not TypeHelper.IsPhoneNumber(Rec."Nominee Mobile No.") then
+                    Error('Phone No Validation Error');
+            end;
+        }
+
+        field(50187; "Nominee Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(50188; "Nominee Email"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                MailManagement: Codeunit "Mail Management";
+            begin
+                MailManagement.ValidateEmailAddressField("Nominee Email");
+            end;
+        }
+
 
         field(50200; "Do not Calculate Salary"; boolean)
         {
             DataClassification = CustomerContent;
         }
+
     }
     keys
     {
@@ -1715,7 +1749,7 @@ tableextension 50013 "Employee Ext" extends Employee
     local procedure ValidateDeputationOn()
     begin
         TestField("Deputation on");
-        //For Province Code and Name Get 
+        //For Province Code and Name Get
         case "Deputation on" of
             "Deputation on"::Branch:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then begin

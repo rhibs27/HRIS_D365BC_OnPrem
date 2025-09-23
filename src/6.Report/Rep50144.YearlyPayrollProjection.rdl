@@ -391,7 +391,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Job Title</Value>
+                                  <Value>Designation</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -590,14 +590,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="EmployeeBranch">
+                        <Textbox Name="Office">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Office.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -607,7 +607,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>EmployeeBranch</rd:DefaultName>
+                          <rd:DefaultName>Office</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -656,14 +656,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox29">
+                        <Textbox Name="PANNo">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>PAN No</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -674,7 +674,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <rd:DefaultName>PANNo</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -690,14 +690,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox30">
+                        <Textbox Name="PANNo_Employee">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PANNo_Employee.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -707,7 +707,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <rd:DefaultName>PANNo_Employee</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -762,14 +762,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PayCycleTerm_PayCyclePeriod">
+                        <Textbox Name="FiscalYear">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PayCycleTerm_PayCyclePeriod.Value</Value>
+                                  <Value>=Fields!FiscalYear.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -779,7 +779,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>PayCycleTerm_PayCyclePeriod</rd:DefaultName>
+                          <rd:DefaultName>FiscalYear</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -835,7 +835,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>Grade</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -862,14 +862,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox25">
+                        <Textbox Name="Grade">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Grade.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -879,7 +879,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox25</rd:DefaultName>
+                          <rd:DefaultName>Grade</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1511,7 +1511,7 @@
                     </TablixMember>
                   </TablixMembers>
                   <Visibility>
-                    <Hidden>=iif(Fields!PayCycleTerm_PayCyclePeriod.Value=" ",true,false)</Hidden>
+                    <Hidden>=NOT (Fields!PayCycleTerm_PayCyclePeriod.Value &lt;&gt; "" AND Not IsNothing(Fields!PayCycleTerm_PayCyclePeriod.Value))</Hidden>
                   </Visibility>
                 </TablixMember>
                 <TablixMember>
@@ -1586,6 +1586,9 @@
                           <Value>=Fields!SortinNo.Value</Value>
                         </SortExpression>
                       </SortExpressions>
+                      <Visibility>
+                        <Hidden>=Sum(Fields!Amount.Value) = 0</Hidden>
+                      </Visibility>
                     </TablixMember>
                     <TablixMember>
                       <KeepWithGroup>Before</KeepWithGroup>
@@ -8468,10 +8471,13 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value />
+                      <Value>=Fields!CompanyAddress.Value</Value>
                       <Style>
+                        <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>14pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>None</TextDecoration>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -8647,6 +8653,9 @@ End Function
         <Field Name="CompanyInfoName">
           <DataField>CompanyInfoName</DataField>
         </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+        </Field>
         <Field Name="CompanyPhNo">
           <DataField>CompanyPhNo</DataField>
         </Field>
@@ -8664,6 +8673,9 @@ End Function
         </Field>
         <Field Name="SortinNo">
           <DataField>SortinNo</DataField>
+        </Field>
+        <Field Name="FiscalYear">
+          <DataField>FiscalYear</DataField>
         </Field>
         <Field Name="EmpFullName">
           <DataField>EmpFullName</DataField>
@@ -8691,6 +8703,12 @@ End Function
         </Field>
         <Field Name="TaxCode">
           <DataField>TaxCode</DataField>
+        </Field>
+        <Field Name="Office">
+          <DataField>Office</DataField>
+        </Field>
+        <Field Name="Grade">
+          <DataField>Grade</DataField>
         </Field>
         <Field Name="RetirementAmount">
           <DataField>RetirementAmount</DataField>

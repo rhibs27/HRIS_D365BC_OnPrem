@@ -213,8 +213,12 @@ table 50034 "Posted Payroll Header"
                             PreviousPayrollLine.Reset;
                             PreviousPayrollLine.SetRange("Document No.", PreviousPayrollHdr."No.");
                             PreviousPayrollLine.SetRange("Employee No.", PostedPayrollLine."Employee No.");
+                            // if PreviousPayrollLine.FindFirst then
+                            //     Error('Please reverse payroll plan %1 before reversing this payroll.', PreviousPayrollHdr."No.");
                             if PreviousPayrollLine.FindFirst then
-                                Error('Please reverse payroll plan %1 before reversing this payroll.', PreviousPayrollHdr."No.");
+    if not Confirm('Payroll plan %1 is still not reversed. Do you still want to continue?', false, PreviousPayrollHdr."No.") then
+        exit;
+
                         until PostedPayrollLine.Next = 0;
                 until PreviousPayrollHdr.Next(-1) = 0;
 
