@@ -166,6 +166,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Payroll Archive Nos. field.', Comment = '%';
                 }
+                field("Backdated Payroll Reverse"; Rec."Backdated Payroll Reverse")
+                {
+                    ApplicationArea = all;
+                }
             }
             group("Posting Group")
             {
@@ -501,6 +505,7 @@ page 50031 "Payroll General Setup"
                         ToolTip = 'Specifies the value of the Tax Ex. Amt. not Exeed on Medical Reimbursment field.';
                         ApplicationArea = All;
                     }
+
                 }
             }
             group(Numbering)

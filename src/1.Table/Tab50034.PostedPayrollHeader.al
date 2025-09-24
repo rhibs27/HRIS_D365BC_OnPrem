@@ -196,35 +196,36 @@ table 50034 "Posted Payroll Header"
         GLEntry: Record "G/L Entry";
         PreviousPayrollHdr: Record "Posted Payroll Header";
         PreviousPayrollLine: Record "Posted Payroll Line";
+        PgSetup: Record "Payroll General Setup";
     begin
         if PostedPayrollHeader.FindFirst then begin
             PostedPayrollHeader.TestField(Reversed, false);
+            PgSetup.get();
+            if not PgSetup."Backdated Payroll Reverse" then begin
+                PreviousPayrollHdr.Reset;
+                PreviousPayrollHdr.SetFilter("Posted Date", '>%1', PostedPayrollHeader."Posted Date");
+                PreviousPayrollHdr.SetRange("Nepali Year", "Nepali Year");
+                PreviousPayrollHdr.SetRange(Reversed, false);
+                if PreviousPayrollHdr.FindLast then
+                    repeat
+                        PostedPayrollLine.Reset;
+                        PostedPayrollLine.SetLoadFields("Document No.", "Employee No.");
 
-            PreviousPayrollHdr.Reset;
-            PreviousPayrollHdr.SetFilter("Posted Date", '>%1', PostedPayrollHeader."Posted Date");
-            PreviousPayrollHdr.SetRange("Nepali Year", "Nepali Year");
-            PreviousPayrollHdr.SetRange(Reversed, false);
-            if PreviousPayrollHdr.FindLast then
-                repeat
-                    PostedPayrollLine.Reset;
-                    PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
-                    if PostedPayrollLine.FindFirst then
-                        repeat
-                            PreviousPayrollLine.Reset;
-                            PreviousPayrollLine.SetRange("Document No.", PreviousPayrollHdr."No.");
-                            PreviousPayrollLine.SetRange("Employee No.", PostedPayrollLine."Employee No.");
-                            // if PreviousPayrollLine.FindFirst then
-                            //     Error('Please reverse payroll plan %1 before reversing this payroll.', PreviousPayrollHdr."No.");
-                            if PreviousPayrollLine.FindFirst then
-    if not Confirm('Payroll plan %1 is still not reversed. Do you still want to continue?', false, PreviousPayrollHdr."No.") then
-        exit;
+                        PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
+                        if PostedPayrollLine.FindFirst then
+                            repeat
+                                PreviousPayrollLine.Reset;
+                                PreviousPayrollLine.SetLoadFields("Document No.", "Employee No.");
+                                PreviousPayrollLine.SetRange("Document No.", PreviousPayrollHdr."No.");
+                                PreviousPayrollLine.SetRange("Employee No.", PostedPayrollLine."Employee No.");
+                                if PreviousPayrollLine.FindFirst then
+                                    Error('Please reverse payroll plan %1 before reversing this payroll.', PreviousPayrollHdr."No.");
+                            until PostedPayrollLine.Next = 0;
+                    until PreviousPayrollHdr.Next(-1) = 0;
+            end;
 
-                        until PostedPayrollLine.Next = 0;
-                until PreviousPayrollHdr.Next(-1) = 0;
-
-            if not Confirm(Text001, false, PostedPayrollHeader."No.") then
+            if not Confirm('Do you want to reverse Payroll %1?', false, PostedPayrollHeader."No.") then
                 exit;
-
             GLEntry.Reset;
             GLEntry.SetRange("Document No.", PostedPayrollHeader."No.");
             if GLEntry.FindFirst then begin
@@ -248,7 +249,7 @@ table 50034 "Posted Payroll Header"
                     PostedPayrollHeader.Reversed := true;
                     PostedPayrollHeader.Modify;
                     ReverseSourceDocumentsOnPayrollReverse(PostedPayrollHeader."No.");
-                    Message(Text003);
+                    Message('Payroll %1 has been reversed successfully.', PostedPayrollHeader."No.");
                 end;
         end;
     end;

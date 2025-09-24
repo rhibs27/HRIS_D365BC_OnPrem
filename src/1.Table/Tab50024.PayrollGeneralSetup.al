@@ -456,6 +456,10 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "No. Series";
         }
+        field(502;"Backdated Payroll Reverse";Boolean)
+        {
+            
+        }
     }
 
     keys
