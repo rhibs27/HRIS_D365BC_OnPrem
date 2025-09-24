@@ -501,7 +501,6 @@ table 50026 "Payroll Header"
                 repeat
                     PayrollLine."Actual RF Contribution" := 0;
                     PayrollLine."Assessable Income" := 0;
-                    PayrollLine."Balance Taxable Income" := 0;
                     PayrollLine."Basic Salary" := 0;
                     PayrollLine."Current Benefit" := 0;
                     PayrollLine."Current Deduction" := 0;

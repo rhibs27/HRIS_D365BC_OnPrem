@@ -398,18 +398,13 @@ codeunit 50008 "Payroll Engine"
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
 
-            IF MonthlyTax < 0 THEN begin
-                MonthlyTax := 0;
-
+                IF MonthlyTax < 0 THEN begin
+                    MonthlyTax := 0;
                     SocialSecurityTaxAmount := 0;
-                MonthlyTax := 0;
-            end;
+                    MonthlyTax := 0;
                 end;
             end;
-
         end;
-
-
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
@@ -3086,7 +3081,8 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
     end;
 
-    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20]; EmployeeNo: Code[20])
+    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20];
+                                                 EmployeeNo: Code[20])
     var
         Employee: Record Employee;
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
