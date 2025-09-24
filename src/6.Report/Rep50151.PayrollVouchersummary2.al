@@ -136,6 +136,7 @@ report 50151 "Payroll Voucher summary 2"
             {
                 field(BranchFilter; BranchFilter)
                 {
+                    ApplicationArea = All;
                     Caption = 'Branch Filter';
                     TableRelation = "Organization Structure List".Code where(Type = const(Branch));
                 }
