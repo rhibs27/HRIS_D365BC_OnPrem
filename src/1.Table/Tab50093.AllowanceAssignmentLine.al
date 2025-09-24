@@ -82,9 +82,7 @@ table 50093 "Allowance Assignment Line"
             begin
 
                 if "Emp Act Type" <> "Emp Act Type"::"Request Allowance" then begin
-
-                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date", "Emp Act Type");
-                    AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
+                    AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date", "Emp Act Type");
                     ValidateDate();
                     Validate("To Date", "From Date");
                     ValidateAllowanceType;
