@@ -1,11 +1,6 @@
 codeunit 50010 "Payroll-Post"
 {
-    // version PRM19.01.01
-
-
-
     TableNo = "Payroll Header";
-
     trigger OnRun()
     begin
         PostedPayrollHeaderRec.Reset;

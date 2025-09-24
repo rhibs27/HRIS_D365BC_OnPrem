@@ -107,9 +107,6 @@ page 50150 "Allowance Assignment Subform"
             action(Substitute)
             {
                 Image = Refresh;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
                 Visible = DocumentApproved and not AllowanceClaim;

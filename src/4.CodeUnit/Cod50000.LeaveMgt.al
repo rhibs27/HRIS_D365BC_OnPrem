@@ -842,7 +842,7 @@ codeunit 50000 "Leave Mgt."
             Leave.modify();
         end;
         if GuiAllowed then
-            HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.");   //For email
+            HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.", false);   //For email
         exit(Leave."No.");
     end;
 

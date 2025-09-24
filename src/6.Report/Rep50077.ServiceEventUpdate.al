@@ -169,6 +169,8 @@ report 50077 "Service Event Update"
         ServiceHistory.Validate("Service Event", ServiceEvent);
         ServiceHistory.Validate(Remarks, Remarks);
         ServiceHistory.Validate("Functional Title (To)", FunctionalTitle);
+        ServiceHistory.Validate("Contract Code (To)", ContractCode);
+        ServiceHistory.Validate("Employment Type (To)", EmploymentType);
         ServiceHistory.Validate("Salary Level (To)", SalaryLevel);
         ServiceHistory.Validate("Salary Grade (To)", SalaryGrade);
         ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
@@ -220,7 +222,7 @@ report 50077 "Service Event Update"
         ServiceHistory: Record "Employee Service History";
         PayrollEngine: Codeunit "Payroll Engine";
         ProbationPeriod: Enum "Probation Period";
-        ContractCode: Code[20];
+        ContractCode: Code[10];
 
     local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
     var

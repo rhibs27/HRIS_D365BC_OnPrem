@@ -18,4 +18,8 @@ enum 50160 "Holiday Type"
     {
         Caption = 'Festival';
     }
+    value(4; "Dashain Tihar")
+    {
+        Caption = 'Dashain Tihar';
+    }
 }

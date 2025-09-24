@@ -164,6 +164,7 @@ codeunit 50023 EmployeeActivityMgt
                     LeaveRequest.Validate(Remarks, leaveJournal.Remarks);
                     LeaveRequest.Validate("Approval Status", LeaveRequest."Approval Status"::Approved);
                     LeaveRequest.Validate("Approved Date", Today);
+                    LeaveRequest.Validate("Requested Date", leaveJournal."Requested Date");
                     LeaveRequest.Validate("Form Journal", true);
                     LeaveRequest.Insert(true);
                 end else if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Adjustment then
@@ -226,7 +227,7 @@ codeunit 50023 EmployeeActivityMgt
             until AttendanceMissedJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Attendance Jounral is posted');
+        Message('Attendance Journal is posted');
     end;
 
     procedure RejectJournal(var EmployeeActJournal: Record "Employee Activity Journal"; Reject: Boolean)
@@ -354,6 +355,20 @@ codeunit 50023 EmployeeActivityMgt
                 if not ((EmpActJnl."Emp Act. No" = EmployeeACTJnl."Emp Act. No") and (EmpActJnl."Line No" = EmployeeACTJnl."Line No")) then
                     Error('Leave has already been Assign between %1 to %2 in %3 and Line No %4', EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date", EmpActJnl."Emp Act. No", EmpActJnl."Line No");
             until EmpActJnl.Next() = 0;
+    end;
+
+    procedure CheckAttendanceMissedInJournal(EmpNo: Code[20]; AttendanceDate: Date)
+    Var
+        EmpActJournal: Record "Employee Activity Journal";
+    begin
+        EmpActJournal.Reset();
+        EmpActJournal.SetRange("Employee No.", EmpNo);
+        EmpActJournal.SetRange("Employee Act Type", EmpActJournal."Employee Act Type"::"Attendance Missed");
+        EmpActJournal.SetFilter("Approval Status", '<>%1', EmpActJournal."Approval Status"::Rejected);
+        EmpActJournal.SetRange("Start Date", AttendanceDate);
+        if EmpActJournal.FindFirst then
+            Error('Attendance Already Applied for date %1 of %2', AttendanceDate, EmpNo);
+
     end;
 
     [IntegrationEvent(false, false)]

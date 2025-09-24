@@ -25,6 +25,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Department Code" := Employee."Department Code";
             AttendanceLine."Department Name" := Employee."Department Name";
             AttendanceLine."Unit Code" := Employee."Unit Code";
+            AttendanceLine."Extension Counter" := Employee."Extension Counter Code";
             AttendanceLine.Insert();
         end;
         ShiftLine.Reset(); //Check for Approved WorkShift
@@ -111,6 +112,19 @@ codeunit 50026 "Attendance Mgt"
         ReturnBool := LeaveMgt.GetNonWorkingDays(Date, Date, EmpNo) <> 0;
         CalendarDescription := HRMgt.ReturnCalendarDescription;
         exit(ReturnBool);
+    end;
+
+    procedure IsDashainTihar(Date: Date): Boolean
+    var
+        HRMgt: Codeunit "HR Mgt.";
+        LeaveMgt: Codeunit "Leave Mgt.";
+        ReturnBool: Boolean;
+        BaseCalenderChanges: Record "Base Calendar Change";
+    begin
+        BaseCalenderChanges.Reset();
+        BaseCalenderChanges.SetRange(Date, Date);
+        BaseCalenderChanges.SetRange("Holiday Type", BaseCalenderChanges."Holiday Type"::"Dashain Tihar");
+        exit(BaseCalenderChanges.FindFirst());
     end;
 
     procedure TextToDuration(InputText: Text): Duration
@@ -372,6 +386,7 @@ codeunit 50026 "Attendance Mgt"
         end;
         CalculateLateDays(EmployeeCode, StartDate, EndDate);
         if EmployeeAttendanceActivity.Get(EmployeeCode, StartDate) then begin
+            CalcAttendance(EmployeeAttendanceActivity);
             if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Leave Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
                 EmployeeAttendanceActivity.Validate("Absent Day", 1);
                 EmployeeAttendanceActivity.Modify;
@@ -448,7 +463,6 @@ codeunit 50026 "Attendance Mgt"
         EmployeeAttendanceActivity."Employee Activity Found" := true;
         EmployeeAttendanceActivity."Source No." := EmpActNo;
         EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
-        CalcAttendance(EmployeeAttendanceActivity);
         EmployeeAttendanceActivity.Modify;
     end;
 
@@ -524,6 +538,7 @@ codeunit 50026 "Attendance Mgt"
                 if (EmployeeAttendanceActivity."Check In Time" <> 0T) and (EmployeeAttendanceActivity."Check Out Time" <> 0T) then
                     EmployeeAttendanceActivity."Actual Work Time" := EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Check In Time";
                 EmployeeAttendanceActivity."Work Time Difference" := EmployeeAttendanceActivity."Actual Work Time" - EmployeeAttendanceActivity."Standard Work Time";
+                EmployeeAttendanceActivity.Modify();
             end;
         end;
     end;

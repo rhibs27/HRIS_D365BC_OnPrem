@@ -90,8 +90,8 @@ table 50092 "Allowance Assignment Header"
                 TestField("From Date");
                 if "From Date" > "To date" then
                     Error('Invalid date.');
-                if "Activity Type" = "Activity Type"::"Allowance Assignment" then
-                    CheckForExistingDate();
+                // if "Activity Type" = "Activity Type"::"Allowance Assignment" then
+                //     CheckForExistingDate();
             end;
         }
         field(6; "Type"; Enum "Branchwise/Extension Type")
@@ -241,24 +241,23 @@ table 50092 "Allowance Assignment Header"
         GLsetup: Record "General Ledger Setup";
         AllowanceHeader: Record "Allowance Assignment Header";
 
-    procedure CheckForExistingDate()
-    begin
-        AllowanceHeader.Reset;
-        AllowanceHeader.SetFilter("No.", '<>%1', "No.");
-        AllowanceHeader.SetRange("Fiscal Year", "Fiscal Year");
-        if "Activity Type" = "Activity Type"::"Allowance Assignment" then begin
-            AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment");
-            AllowanceHeader.SetRange(Code, Code);
-        end else if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then begin
-            AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment Claim");
-            AllowanceHeader.SetRange("Employee No.", "Employee No.")
-        end;
-        AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
-        if AllowanceHeader.Findset then
-            repeat
-                if ("From Date" <= AllowanceHeader."To date") and ("To date" >= AllowanceHeader."From Date") then
-                    Error('Allowance for this period month %1 and %2 is already been assigned in %3.', "From Date", "To date", AllowanceHeader."No.");
-            until AllowanceHeader.Next() = 0;
-
-    end;
+    // procedure CheckForExistingDate()
+    // begin
+    //     AllowanceHeader.Reset;
+    //     AllowanceHeader.SetFilter("No.", '<>%1', "No.");
+    //     AllowanceHeader.SetRange("Fiscal Year", "Fiscal Year");
+    //     if "Activity Type" = "Activity Type"::"Allowance Assignment" then begin
+    //         AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment");
+    //         AllowanceHeader.SetRange(Code, Code);
+    //     end else if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then begin
+    //         AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment Claim");
+    //         AllowanceHeader.SetRange("Employee No.", "Employee No.")
+    //     end;
+    //     AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
+    //     if AllowanceHeader.Findset then
+    //         repeat
+    //             if ("From Date" <= AllowanceHeader."To date") and ("To date" >= AllowanceHeader."From Date") then
+    //                 Error('Allowance for this period month %1 and %2 is already been assigned in %3.', "From Date", "To date", AllowanceHeader."No.");
+    //         until AllowanceHeader.Next() = 0;
+    // end;
 }

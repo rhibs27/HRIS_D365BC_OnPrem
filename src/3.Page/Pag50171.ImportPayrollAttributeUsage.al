@@ -73,7 +73,7 @@ page 50171 "Import Attribute Usage"
                 var
                     ExcelImport: Codeunit "Excel Import";
                 begin
-                    ExcelImport.ImportFromExcelSheet(Database::"Import Attribute Usage", false);
+                    ExcelImport.ImportFromExcelSheet(Database::"Import Attribute Usage", '', false);
                 end;
             }
             action("Post")

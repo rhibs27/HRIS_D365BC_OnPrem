@@ -8,7 +8,6 @@ page 50003 "Employee Payroll Adjustment"
     PageType = List;
     SourceTable = "Employee Payroll Adjustment";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -46,14 +45,17 @@ page 50003 "Employee Payroll Adjustment"
 
     actions
     {
+        area(Promoted)
+        {
+            actionref(ExcelImport; "Import From Excel") { }
+            actionref(DashinBonous; "Load Dashain Bonus") { }
+            actionref(leaveFareAllowance; "Load Leave Fare Allowance") { }
+        }
         area(Processing)
         {
             action("Load Dashain Bonus")
             {
                 Image = GainLossEntries;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Load Dashain Bonus action.';
                 ApplicationArea = All;
 
@@ -87,9 +89,6 @@ page 50003 "Employee Payroll Adjustment"
             action("Load Leave Fare Allowance")
             {
                 Image = Holiday;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Load Leave Fare Allowance action.';
                 ApplicationArea = All;
 
@@ -108,6 +107,18 @@ page 50003 "Employee Payroll Adjustment"
                     CurrPage.Update(true);
 
                     Message('Leave fare allowances loaded successfully.');
+                end;
+            }
+            action("Import From Excel")
+            {
+                ApplicationArea = All;
+                Scope = Repeater;
+                Image = ImportExcel;
+                trigger OnAction()
+                var
+                    ExcelImport: Codeunit "Excel Import";
+                begin
+                    ExcelImport.ImportFromExcelSheet(Database::"Employee Payroll Adjustment", Rec."Payroll Document No.", false);
                 end;
             }
         }
@@ -193,6 +204,7 @@ page 50003 "Employee Payroll Adjustment"
         PayrollEngine: Codeunit "Payroll Engine";
         EmployeeType: enum "Employee Type";
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
+        DocNo: Code[20];
 
 
     local procedure ValidatePayrollLineAmt()

@@ -1512,10 +1512,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = CashFlow;
                     PromotedCategory = Category4;
                     PromotedOnly = true;
+                    Visible = false;
                     ToolTip = 'Executes the Bulk Cash action.';
                     trigger OnAction()
                     begin
-                        Rec.BulkCash;
                         CurrPage.CLOSE;
                     end;
                 }

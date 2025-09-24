@@ -89,8 +89,10 @@ table 50043 "Attendance Line"
 
             trigger OnValidate()
             begin
-                if ("Present Day" = 1) then
+                if ("Present Day" = 1) then begin
                     "Absent Day" := 0;
+                    "Week Off Day" := 0
+                end;
             end;
         }
         field(16; "Week Off Day"; Decimal)
@@ -265,6 +267,10 @@ table 50043 "Attendance Line"
         {
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Unit));
+        }
+        field(112; "Extension Counter"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"));
         }
         field(110; "Check-In Device IP"; text[20])
         {

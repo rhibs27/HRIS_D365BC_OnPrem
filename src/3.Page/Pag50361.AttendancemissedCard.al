@@ -140,7 +140,6 @@ page 50361 "Attendance missed Card"
                 Visible = IsOpen;
                 ToolTip = 'Executes the Apply action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if DocCancelMgt.ApplyAttendanceMissed(Rec) <> '' then begin
@@ -192,7 +191,7 @@ page 50361 "Attendance missed Card"
                     end;
                 end;
             }
-            action("Withdraw Leave")
+            action("Withdraw Attendance Missed")
             {
                 Image = CancelLine;
                 Promoted = true;

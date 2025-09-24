@@ -894,7 +894,7 @@ codeunit 50002 "Loan Mgt."
         end;
 
 
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee Code", Format(EmpLoan."No."));
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee Code", Format(EmpLoan."No."), false);
     end;
 
     procedure VerifyLoan(var EmpLoan: Record "Employee Loan/Advance")
