@@ -44,6 +44,11 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
             {
                 ApplicationArea = All;
             }
+            field("Set Nominee"; Rec."Set Nominee")
+            {
+                ApplicationArea = All;
+            }
+
         }
         addbefore("Full Name")
         {

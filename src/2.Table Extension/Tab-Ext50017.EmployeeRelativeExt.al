@@ -191,6 +191,57 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             DataClassification = CustomerContent;
         }
+        field(50020; "Set Nominee"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+                EmployeeRelative: Record "Employee Relative";
+            begin
+                // Case when nominee is cleared
+                if GuiAllowed then begin
+                    if (not Rec."Set Nominee") and xRec."Set Nominee" then begin
+                        Employee.Get("Employee No.");
+                        Employee."Relation With Nominee" := '';
+                        Employee."Nominee Name" := '';
+                        Employee."Nominee Email" := '';
+                        Employee."Nominee Mobile No." := '';
+                        Employee.Modify();
+                    end
+                    else if "Set Nominee" then begin
+                        // No two nominee entries
+                        EmployeeRelative.SetRange("Employee No.", "Employee No.");
+                        EmployeeRelative.SetRange("Set Nominee", true);
+                        EmployeeRelative.SetFilter("Line No.", '<>%1', "Line No.");
+                        if EmployeeRelative.Count() > 0 then
+                            Error('Employee can have only one nominee at a time');
+
+                        // Flow data to employee
+                        TestField("Relative Code");
+                        TestField("Full Name");
+                        TestField("Phone No.");
+                        Employee.Get("Employee No.");
+                        Employee."Relation With Nominee" := "Relative Code";
+                        Employee."Nominee Name" := "Full Name";
+                        Employee."Nominee Email" := "E-mail";
+                        Employee."Nominee Mobile No." := "Phone No.";
+                        Employee.Modify();
+
+                        Message('Nominee details updated successfully!');
+                    end;
+                end
+                else if "Set Nominee" then begin
+                    Employee.Get("Employee No.");
+                    Employee."Relation With Nominee" := "Relative Code";
+                    Employee."Nominee Name" := "Full Name";
+                    Employee."Nominee Email" := "E-mail";
+                    Employee."Nominee Mobile No." := "Phone No.";
+                    Employee.Modify();
+                end;
+            end;
+        }
+
     }
     keys
     {

@@ -480,6 +480,39 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
 
             }
+            group("Nominee Contact Details")
+            {
+                Editable = false;
+
+                field("Relation With Nominee"; Rec."Relation With Nominee")
+                {
+                    Caption = 'Relation';
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Relation With Nominee field.';
+                }
+
+                field("Nominee Name"; Rec."Nominee Name")
+                {
+                    Caption = 'Name';
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Nominee Name field.';
+                }
+
+                field("Nominee Mobile No."; Rec."Nominee Mobile No.")
+                {
+                    Caption = 'Mobile No.';
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Nominee Mobile No. field.';
+                }
+
+                field("Nominee Email"; Rec."Nominee Email")
+                {
+                    Caption = 'E-mail';
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Nominee Email field.';
+                }
+            }
+
         }
         addafter("Address & Contact")
         {
@@ -1092,7 +1125,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             // {
             //     Editable = false;
             //     ApplicationArea = All;
-            //     //SubPageLink = 
+            //     //SubPageLink =
             //     SubPageView = WHERE("Remaining Days" = FILTER(> 0));
             //     SubPageLink = "Employee No. Filter" = FIELD("No.");
             // }

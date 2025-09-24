@@ -5823,6 +5823,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Bank Account - Field IBAN - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 800241943 - Field 4071519153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>RF Account</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Bank Account - Field Is RF Account - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 800241943 - Field 2273653569 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Language Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28062,6 +28067,11 @@
           <source>Specifies the value of the Employee No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Card - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2793929939 - Control 4071519153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether this bank account is marked as the RF Account.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Card - Control Is RF Account - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2793929939 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Name field.</source>
@@ -54298,20 +54308,50 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Branch Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 1919855291 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Branch Code -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Branch Code -OR - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 4236109821 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Community -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Community -OR - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 1864907812 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Disabled field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Disabled - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 3726950748 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Disabled -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Disabled -OR - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 847710914 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the District field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control District - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 1016542586 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the District -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control District -OR - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 2490709350 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Employee -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Employee -OR - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 482506489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Gender Filter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Gender Filter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 1572607825 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Gender Filter -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Gender Filter -OR - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 166358986 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Holiday Type field.</source>
@@ -54323,20 +54363,40 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Inside/Outside Valley - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 1318600511 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Inside/Outside Valley -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Inside/Outside Valley -OR - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 316116824 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Municipality field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Municipality - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 23714992 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Municipality -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Municipality -OR - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 3280749004 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Posting Region field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Posting Region - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 4158877572 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Posting Region -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Posting Region -OR - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 4232296550 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Province Filter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Province Filter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 3889685534 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Province Filter -OR field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Province Filter -OR - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 1926831969 - Control 2117271168 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1926831969">
           <source>Specifies the value of the Branch field.</source>
@@ -54997,6 +55057,46 @@
           <source>Relation</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Relation With Emergency Cont - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4235290409 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Nominee Email field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Nominee Email - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4235290409 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>E-mail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Nominee Email - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2121057776 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Nominee Mobile No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Nominee Mobile No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2121057776 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Mobile No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Nominee Mobile No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2379528336 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Nominee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Nominee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2379528336 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Nominee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 3995470561 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Relation With Nominee field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Relation With Nominee - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 3995470561 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Relation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Relation With Nominee - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 3705144616 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Permanent District field.</source>
@@ -56613,35 +56713,70 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Branch Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 1919855291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Branch Code -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Branch Code -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Community</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Community - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 4236109821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Community -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Community -OR - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 1864907812 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Disabled</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Disabled - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 3726950748 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Disabled -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Disabled -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 847710914 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>District</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field District - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 1016542586 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>District -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field District -OR - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 1498446062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Employee</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Employee - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 2490709350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Employee -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Employee -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Employee Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Employee Filter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 2987269062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Employee Filter -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Employee Filter -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 482506489 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Gender Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Gender Filter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 1572607825 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Gender Filter -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Gender Filter -OR - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 166358986 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Holiday Type</source>
@@ -56653,20 +56788,40 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Inside/Outside Valley - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 1318600511 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Inside/Outside Valley -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Inside/Outside Valley -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 316116824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Municipality</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Municipality - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 23714992 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Municipality -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Municipality -OR - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 3280749004 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Posting Region</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Posting Region - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 4158877572 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Posting Region -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Posting Region -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 4232296550 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Province Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Province Filter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 3889685534 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Province Filter -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Province Filter -OR - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1046966257 - Field 486908828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3899891410">
           <source>Document No.</source>
@@ -56688,25 +56843,80 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Branch - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 1919855291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Branch Code -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Branch Code -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>Community</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Community - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 4236109821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Community -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Community -OR - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 3726950748 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Disabled -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Disabled -OR - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 1016542586 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>District -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field District -OR - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 2490709350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Employee -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Employee -OR - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 2987269062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Employee Filter -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Employee Filter -OR - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 2303302321 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>Gender</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Gender - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 1572607825 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Gender Filter -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Gender Filter -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 2236394830 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>InOutValley</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field InOutValley - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 1318600511 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Inside/Outside Valley -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Inside/Outside Valley -OR - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 23714992 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Municipality -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Municipality -OR - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 4158877572 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Posting Region -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Posting Region -OR - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 4290854292 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>PostingRegion</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field PostingRegion - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 3889685534 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Province Filter -OR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Province Filter -OR - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 856190579 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>Provinces</source>
@@ -57423,6 +57633,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field NID No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 4235290409 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Nominee Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Nominee Email - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 2121057776 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Nominee Mobile No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Nominee Mobile No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 2379528336 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Nominee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Nominee Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2686568996 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Monthly Salary (Serv. P. Contract)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57577,6 +57802,11 @@
           <source>Relation With Emergency Cont</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Relation With Emergency Cont - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 3995470561 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Relation With Nominee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Relation With Nominee - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 909762047 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Religion</source>
@@ -58107,6 +58337,11 @@
           <source>Set Emergency Contact</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Set Emergency Contact - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 630092753 - Field 2564080187 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
+          <source>Set Nominee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Set Nominee - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 630092753 - Field 1986416574 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
           <source>VDC/Municipality</source>

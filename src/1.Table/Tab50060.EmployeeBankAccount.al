@@ -149,12 +149,59 @@ table 50060 "Employee Bank Account"
                         EmpBankAccount.SetFilter(Code, '<>%1', Rec.Code);
                         if EmpBankAccount.Count() > 0 then
                             Error('Employee can have only one primary payroll account at a time');
+
+                        // Ensure RF Account is false then Primary Payroll Account is true
+                        if Rec."Is RF Account" then
+                            Rec."Is RF Account" := false;
                     end
                 end;
 
             end;
 
         }
+        //new RF boolean added
+        field(27; "Is RF Account"; Boolean)
+        {
+            Caption = 'RF Account';
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                EmpBankAccount: Record "Employee Bank Account";
+                EmployeeRec: Record Employee;
+            begin
+                if Rec."Is RF Account" <> xRec."Is RF Account" then begin
+                    if Rec."Is RF Account" then begin
+                        // Check that no other bank account for this employee is marked as RF Account
+                        EmpBankAccount.Reset();
+                        EmpBankAccount.SetRange("Employee No.", Rec."Employee No.");
+                        EmpBankAccount.SetRange("Is RF Account", true);
+                        EmpBankAccount.SetFilter(Code, '<>%1', Rec.Code);
+                        if EmpBankAccount.Count() > 0 then
+                            Error('Employee can have only one RF account at a time');
+
+                        // If RF Account is true then Primary Payroll Account is false
+                        if Rec."Primary Payroll Account" then
+                            Rec."Primary Payroll Account" := false;
+
+                        //  update Employee table CIT No. with this bank account number
+                        if EmployeeRec.Get(Rec."Employee No.") then begin
+                            EmployeeRec."CIT No." := Rec."Bank Account No.";
+                            EmployeeRec.Modify();
+                        end;
+                    end else begin
+                        // If unmarked as RF Account, clear Employee's CIT No. only if it was this bank account
+                        if EmployeeRec.Get(Rec."Employee No.") then begin
+                            if EmployeeRec."CIT No." = Rec."Bank Account No." then begin
+                                EmployeeRec."CIT No." := '';
+                                EmployeeRec.Modify();
+                            end;
+                        end;
+                    end;
+                end;
+            end;
+        }
+
+
         field(1211; "Bank Clearing Code"; Text[50])
         {
             Caption = 'Bank Clearing Code';
