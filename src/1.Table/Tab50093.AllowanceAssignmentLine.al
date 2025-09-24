@@ -5,7 +5,10 @@ table 50093 "Allowance Assignment Line"
     fields
     {
         field(1; "No."; Code[20]) { }
-        field(2; "Line No."; Integer) { }
+        field(2; "Line No."; Integer)
+        {
+            Editable = false;
+        }
         field(3; "Code"; Code[20])
         {
             TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
@@ -77,7 +80,10 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
+
                 if "Emp Act Type" <> "Emp Act Type"::"Request Allowance" then begin
+
+                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date", "Emp Act Type");
                     AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                     ValidateDate();
                     Validate("To Date", "From Date");
@@ -101,6 +107,8 @@ table 50093 "Allowance Assignment Line"
             "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
 
             trigger OnValidate()
+            var
+                AllowanceHeader: Record "Allowance Assignment Header";
             begin
                 if ("Allowance Type" <> xRec."Allowance Type") and GuiAllowed then begin
                     Clear("From Date");
@@ -120,6 +128,9 @@ table 50093 "Allowance Assignment Line"
                         "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration)
                     else
                         Error('Invalid allowance selected!');
+                    Clear(Panel);
+                    if AllowanceHeader.Get("No.") then
+                        Validate("Emp Act Type", AllowanceHeader."Activity Type")
                 end;
 
             end;
@@ -445,20 +456,8 @@ table 50093 "Allowance Assignment Line"
             exit(MonthEndDate);
     end;
 
-    local procedure ChangeHeaderApprovalStatus()
-    begin
-        if AllowanceHeader.Get("No.") then begin
-            if AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Approved then begin
-                AllowanceHeader."Approval Status" := AllowanceHeader."Approval Status"::"Pending";
-                AllowanceHeader.Modify;
-            end;
-        end;
-    end;
-
     local procedure CheckForGracePeriod()
     begin
-
-        //PayrollGeneralSetup.TestField("Allowance Grace Period");
         if AllowanceHeader."To date" + PayrollGeneralSetup."Allowance Grace Period" < Today then
             Error('Grace period for filling allowance assignment has been exceeded. Please Contact HR Team');
     end;

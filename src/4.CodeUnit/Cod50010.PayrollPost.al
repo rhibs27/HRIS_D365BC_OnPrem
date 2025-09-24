@@ -1,8 +1,6 @@
 codeunit 50010 "Payroll-Post"
 {
-
     TableNo = "Payroll Header";
-
     trigger OnRun()
     begin
         PostedPayrollHeaderRec.Reset;

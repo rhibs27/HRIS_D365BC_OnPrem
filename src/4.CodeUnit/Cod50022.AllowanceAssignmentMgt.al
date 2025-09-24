@@ -181,19 +181,20 @@ codeunit 50022 "Allowance Assignment Mgt"
             Error('Employee not eligbile for this allowance type.');
     end;
 
-    procedure CheckEmployeeAlreadyExistsforSameEmployee(No: Code[20]; LineNo: Integer; EmpNo: Code[20]; Allowancetype: Code[20]; FromDate: Date)
+    procedure CheckEmployeeAlreadyExistsforSameEmployee(No: Code[20]; LineNo: Integer; EmpNo: Code[20]; Allowancetype: Code[20]; FromDate: Date; EmpActType: Enum "Employee Activity Type")
     var
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
     begin
         AllowanceAssignmentLine.Reset;
-        AllowanceAssignmentLine.SetRange("No.", No);
-        AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
+        // AllowanceAssignmentLine.SetRange("No.", No);
+        // AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
         AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
+        AllowanceAssignmentLine.SetRange("Emp Act Type", EmpActType);
         AllowanceAssignmentLine.SetRange("Allowance Type", Allowancetype);
         AllowanceAssignmentLine.SetFilter("Approval Status", '<>%1', AllowanceAssignmentLine."Approval Status"::Rejected);
         AllowanceAssignmentLine.SetRange("From Date", FromDate);
         if AllowanceAssignmentLine.FindFirst then
-            Error('Employee already exist for same allowance type.');
+            Error('Employee already exist for same allowance type in same day in Allowance No %1 and Line no %2', AllowanceAssignmentLine."No.", AllowanceAssignmentLine."Line No.");
     end;
 
     procedure CheckSalaryLevelForVaultKey(AllowanceAssignLine: Record "Allowance Assignment Line")
@@ -635,5 +636,4 @@ codeunit 50022 "Allowance Assignment Mgt"
         GLSetup: Record "General Ledger Setup";
         HrMgt: Codeunit "HR Mgt.";
         PayCyclePeriod: Record "Pay Cycle Period";
-
 }

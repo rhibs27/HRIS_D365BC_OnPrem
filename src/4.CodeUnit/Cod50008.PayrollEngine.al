@@ -397,9 +397,13 @@ codeunit 50008 "Payroll Engine"
                     end else
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
-                if MonthlyTax < 0 then begin
-                    MonthlyTax := 0;
+
+            IF MonthlyTax < 0 THEN begin
+                MonthlyTax := 0;
+
                     SocialSecurityTaxAmount := 0;
+                MonthlyTax := 0;
+            end;
                 end;
             end;
 
@@ -3234,7 +3238,6 @@ codeunit 50008 "Payroll Engine"
                 OnBeforeInsertEmployeePayrollAdjustment(EmployeePayrollAdjustment);
                 if EmployeePayrollAdjustment.Amount <> 0 then
                     EmployeePayrollAdjustment.Insert(true);
-
             end
         end;
     end;

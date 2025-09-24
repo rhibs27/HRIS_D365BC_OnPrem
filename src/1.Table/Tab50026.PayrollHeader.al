@@ -489,26 +489,67 @@ table 50026 "Payroll Header"
     procedure ReOpenDocument(var PayrollHeader: Record "Payroll Header")
     var
         PayrollLine: Record "Payroll Line";
+        PayrollColumnConfiguration: Record "Payroll Column Configuration";
+        PayrollAttributes: Record "Payroll Attributes";
+        RecRef: RecordRef;
+        FieldRef: FieldRef;
     begin
         if PayrollHeader.FindFirst then begin
             PayrollLine.Reset;
             PayrollLine.SetRange("Document No.", PayrollHeader."No.");
             if PayrollLine.FindSet then
                 repeat
-                    PayrollLine."Tax for Period" := 0;
-                    PayrollLine."Total Employer Contribution" := 0;
+                    PayrollLine."Actual RF Contribution" := 0;
+                    PayrollLine."Assessable Income" := 0;
+                    PayrollLine."Balance Taxable Income" := 0;
+                    PayrollLine."Basic Salary" := 0;
                     PayrollLine."Current Benefit" := 0;
-                    PayrollLine."Taxable Income" := 0;
                     PayrollLine."Current Deduction" := 0;
+                    PayrollLine."Current Non-Payments" := 0;
+                    PayrollLine."Eligible RF Deduction" := 0;
+                    PayrollLine."Female Tax Credit" := 0;
+                    PayrollLine."Gratuity & leave Encash Tax" := 0;
+                    PayrollLine."Health Insurance Premium" := 0;
+                    PayrollLine."Life Insurance Premium" := 0;
                     PayrollLine."Net Pay" := 0;
+                    PayrollLine."Net Tax Liability" := 0;
+                    PayrollLine."Past Benefit" := 0;
+                    PayrollLine."Past Non-Payments" := 0;
+                    PayrollLine."Past Retirement Fund" := 0;
+                    PayrollLine."Payable Tax Liability" := 0;
+                    PayrollLine."Projected Benefit" := 0;
+                    PayrollLine."Projected Non-Payments" := 0;
+                    PayrollLine."Projected Retirement Fund" := 0;
+                    PayrollLine."Social Security Tax(Annual)" := 0;
+                    PayrollLine."Tax for Period" := 0;
+                    PayrollLine."Taxable Income" := 0;
+                    PayrollLine."Tax on Remuneration(Annual)" := 0;
+                    PayrollLine."Total Employer Contribution" := 0;
+                    PayrollLine."Total Insurance Claim Amount" := 0;
+                    PayrollLine."Total SST Paid" := 0;
+                    PayrollLine."Total Tax Credit" := 0;
+                    PayrollLine."Total Tax Liability" := 0;
+                    PayrollLine."Total Tax Paid" := 0;
+                    PayrollLine."Total Tax Remuneration Paid" := 0;
                     PayrollLine."1% Slab" := 0;
                     PayrollLine."10% Slab" := 0;
                     PayrollLine."20% Slab" := 0;
                     PayrollLine."30% Slab" := 0;
                     PayrollLine."36% Slab" := 0;
                     PayrollLine."39% Slab" := 0;
-                    PayrollLine."Assessable Income" := 0;
                     PayrollLine.Modify;
+                    PayrollAttributes.Reset();
+                    PayrollAttributes.SetFilter(Subtype, '%1|%2', PayrollAttributes.Subtype::"Social Security Tax", PayrollAttributes.Subtype::"Tax on Remuneration & Benefits");
+                    if PayrollAttributes.findset then
+                        repeat
+                            PayrollColumnConfiguration.Reset;
+                            PayrollColumnConfiguration.SetRange("Variable Field Code", PayrollAttributes.Code);
+                            if PayrollColumnConfiguration.FindFirst then begin
+                                RecRef.GetTable(PayrollLine);
+                                RecRef.Field(PayrollColumnConfiguration."Field No.").Validate(0);
+                                RecRef.Modify;
+                            end;
+                        until PayrollAttributes.Next() = 0;
                 until PayrollLine.Next = 0;
             Status := Status::Open;
             Modify;

@@ -169,14 +169,14 @@ codeunit 50015 "OverTime Mgt"
         EmpOvertime.Insert(true);
         //OverTimeMgt.AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No."); no require attachment
         Message('Document has been sent for apporval.');
-        case EmpOvertime.Type of
-            EmpOvertime.Type::"Out of Office":
-                HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-            EmpOvertime.Type::Overtime:
-                HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-            EmpOvertime.Type::"Bulk Cash":
-                HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-        end;
+        // case EmpOvertime.Type of
+        //     EmpOvertime.Type::"Out of Office":
+        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+        //     EmpOvertime.Type::Overtime:
+        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+        //     EmpOvertime.Type::"Bulk Cash":
+        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+        // end;
         exit(true);
     end;
 
