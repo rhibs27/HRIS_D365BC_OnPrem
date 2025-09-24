@@ -82,6 +82,8 @@ report 50072 "Export Posted Payroll Value"
                 column(Description_; PayrollAtt.Description) { }
                 column(PayrollCode_; Code) { }
                 column(sortby; PayrollAtt."Column Id") { }
+                column(Type_; PayrollAtt.Type) { }
+                column(ColumnNo_; PayrollAtt."Column No.") { }
 
                 trigger OnAfterGetRecord()
                 begin
