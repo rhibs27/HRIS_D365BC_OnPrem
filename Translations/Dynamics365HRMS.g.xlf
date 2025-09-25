@@ -62383,6 +62383,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Transfer Type - EnumValue Intra Provincial - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 2837765042 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Travel Countries - EnumValue   - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 2837765042 - EnumValue 914320629 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>India</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -62414,7 +62419,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Enum Type of Integration - EnumValue Time Sheet - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 812328628 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Type Of Visit - EnumValue   - Property Caption</note>
         </trans-unit>
