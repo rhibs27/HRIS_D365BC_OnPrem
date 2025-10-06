@@ -101,6 +101,11 @@ page 50223 "Functional Title Card"
                     ToolTip = 'Specifies the value of the Is Allow ShiftAssignment field.';
                     ApplicationArea = All;
                 }
+                field("Attendance View"; Rec."Attendance View")
+                {
+                    ToolTip = 'Specifies the value of the Is Attendance View field.';
+                    ApplicationArea = All;
+                }
                 field("EM/ECM Identifier"; Rec."EM/ECM Identifier")
                 {
                     ToolTip = 'Specifies the value of the EM/ECM Identifier field.';

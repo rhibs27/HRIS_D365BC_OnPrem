@@ -507,7 +507,7 @@ page 50097 "Training Card"
                     trigger OnAction()
                     begin
                         Rec.TestField("Prepared By");
-                        HRMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, Rec."Prepared By", Rec."No.");
+                        HRMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, Rec."Prepared By", Rec."No.", false);
                         Message('Mail has been send.');
                     end;
                 }

@@ -9,7 +9,6 @@ table 50155 "Transfer Claim Detail"
         {
             Caption = 'Transfer No';
         }
-        //anupam
         field(2; "Attribute code"; Code[20])
         {
             Caption = 'Attribute code';

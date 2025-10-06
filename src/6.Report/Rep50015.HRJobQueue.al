@@ -44,7 +44,7 @@ report 50015 "HR Job Queue"
         TrainHeader.SetRange("Approval Status", TrainHeader."Approval Status"::Released);
         if TrainHeader.Find('-') then
             repeat
-                HRMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, TrainHeader."Prepared By", TrainHeader."No.");
+                HRMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, TrainHeader."Prepared By", TrainHeader."No.", false);
             until TrainHeader.Next = 0;
     end;
 }

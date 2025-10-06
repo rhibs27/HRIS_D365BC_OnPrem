@@ -261,7 +261,6 @@ permissionset 50000 D365HRMSPermission
         table "Vacancy Line" = X,
         report "Acceptance of Resign Letter" = X,
         report "Allowance Assignment" = X,
-        report "Allowance Assignment Mail" = X,
         report "Annual Sal Cert(pro-Foreign)" = X,
         report "Annual Sal Cert(reg-Foreign)" = X,
         report "Annual Salary Certificate(pro)" = X,
