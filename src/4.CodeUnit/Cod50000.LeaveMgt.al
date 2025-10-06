@@ -1874,32 +1874,29 @@ codeunit 50000 "Leave Mgt."
     var
         Date: record Date;
         LeaveTypeSetup: Record "Leave Type Setup";
-        ExcludeDay: Decimal;
+        ExcludeDay, Days : Decimal;
     begin
-        // DateRecRec.Reset;
-        // DateRecRec.SetRange("Period Type",DateRecateRec."Period Type"::Date);
-        // DateRecRec.SetRange("Period Start", StartDate, EndDate);
-        // if DateRecRec.FindFirst then
-        //     repeat
-        //         LeaveTypeSetup.Reset;
-        //         LeaveTypeSetup.SetRange("Leave Code", LeaveReqRec."Leave Code");
-        //         if LeaveTypeSetup.FindFirst then
-        //             if LeaveTypeSetup."Exclude Non-working Days" then
-        //                 ExcludeDay := (portalAPI.GetNonWokingDays(DateRecRec."Period StartDateRecateRec."Period Start", LeaveReqRec."Employee No."))
-        //             else
-        //                 InsertInEmpLedLeave(LeaveReqRec, DateRecRec."Period StartDateRecateRec);
-        //         if ExcludeDay = 0 then
-        //             InsertInEmpLedLeave(LeaveReqRec, DateRecRec."Period StartDateRecateRec);
-        //     until DateRecRec.Next() = 0;
-
         Date.SetRange("Period Type", Date."Period Type"::Date);
         Date.SetRange("Period Start", LeaveReqRec."Start Date", LeaveReqRec."End Date");
         if Date.FindSet() then
             repeat
                 ExcludeDay := 0;
+                if LeaveReqRec."Leave Type" in [LeaveReqRec."Leave Type"::"First Half", LeaveReqRec."Leave Type"::"Second Half"] then
+                    Days := 0.5
+                else
+                    Days := 1;
                 LeaveTypeSetup.Get(LeaveReqRec."Leave Code");
                 if LeaveTypeSetup."Exclude Non Working Days" then
                     ExcludeDay := GetNonWorkingDays(Date."Period Start", Date."Period Start", LeaveReqRec."Employee No.");
+                if ExcludeDay = 0 then
+                    HRMgt.CreateEmpActLedger(
+                        LeaveReqRec.Type,
+                        LeaveReqRec."No.",
+                        LeaveReqRec."Employee No.",
+                        Date."Period Start",
+                        false,
+                        Days
+                    );
             until Date.Next() = 0;
 
     end;

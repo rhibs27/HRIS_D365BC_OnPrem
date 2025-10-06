@@ -5823,35 +5823,12 @@ codeunit 50001 "HR Mgt."
             exit(EngNep2."Nepali Day");
     end;
 
-    // procedure InsertInEmpLedger(EmployeeActivity: Record "Employee Activity Details"; date: Record Date; CancellationEntry: Boolean)
-    // var
-    //     EmpActLedgEntries: Record "Emp. Act. Ledger Entry";
-    // begin
-    //     if not EmpActLedgEntries.Get(EmployeeActivity.Type, EmployeeActivity."Document No.", EmployeeActivity."Employee No.", date."Period Start", CancellationEntry) then begin
-    //         Clear(EmpActLedgEntries);
-    //         EmpActLedgEntries.Init;
-    //         EmpActLedgEntries."Document Type" := EmployeeActivity.Type;
-    //         EmpActLedgEntries."Document No." := EmployeeActivity."Document No.";
-    //         EmpActLedgEntries.Validate("Employee No.", EmployeeActivity."Employee No.");
-    //         EmpActLedgEntries."Event Date" := date."Period Start";
-
-    //         if CancellationEntry then begin
-    //             EmpActLedgEntries."Cancellation Entry" := true;
-    //             EmpActLedgEntries.Day := -1;
-    //         end else begin
-    //             EmpActLedgEntries."Cancellation Entry" := false;
-    //             EmpActLedgEntries.Day := 1;
-    //         end;
-
-    //         EmpActLedgEntries.Insert();
-    //     end;
-    // end;
-
     procedure CreateEmpActLedger(EmpActType: Enum "Employee Activity Type";
                                     DocNo: Code[20];
                                     EmpNo: Code[20];
                                     ActDate: Date;
-                                    Cancelled: Boolean)
+                                    Cancelled: Boolean;
+                                    Days: Decimal)
     var
         EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
     begin
@@ -5865,9 +5842,9 @@ codeunit 50001 "HR Mgt."
         EmpActLedgerEntry."Event Date" := ActDate;
         EmpActLedgerEntry."Cancellation Entry" := Cancelled;
         if Cancelled then
-            EmpActLedgerEntry.Day := -1
+            EmpActLedgerEntry.Day := -Days
         else
-            EmpActLedgerEntry.Day := -1;
+            EmpActLedgerEntry.Day := Days;
         EmpActLedgerEntry.insert();
     end;
 

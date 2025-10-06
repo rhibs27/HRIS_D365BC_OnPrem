@@ -55,7 +55,6 @@ permissionset 50000 D365HRMSPermission
         tabledata "Document Approver" = RIMD,
         tabledata "Document Workflow" = RIMD,
         tabledata "Email Template" = RIMD,
-        tabledata "Emp. Ledg. Entry No." = RIMD,
         tabledata "Employee Activity" = RIMD,
         tabledata "Employee Activity Details" = RIMD,
         tabledata "Employee Attendance & Activity" = RIMD,
@@ -168,7 +167,6 @@ permissionset 50000 D365HRMSPermission
         table "Document Approver" = X,
         table "Document Workflow" = X,
         table "Email Template" = X,
-        table "Emp. Ledg. Entry No." = X,
         table "Employee Activity" = X,
         table "Employee Activity Details" = X,
         table "Employee Attendance & Activity" = X,
@@ -832,5 +830,10 @@ permissionset 50000 D365HRMSPermission
         page "Payroll Setup Lines" = X,
         page "Request Allowance Card" = X,
         page "Request Allowance Subform" = X,
-        page "Tax Setup Reduction Subform" = X;
+        page "Tax Setup Reduction Subform" = X,
+        tabledata "Emp. Act. Ledger Entry" = RIMD,
+        table "Emp. Act. Ledger Entry" = X,
+        report "Payroll Voucher summary 2" = X,
+        report "Process Daily Attendance" = X,
+        codeunit "Process Daily Attendance" = X;
 }

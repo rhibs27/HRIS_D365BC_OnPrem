@@ -28,6 +28,8 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Extension Counter" := Employee."Extension Counter Code";
             AttendanceLine.Insert();
         end;
+
+        //get work shifu
         ShiftLine.Reset(); //Check for Approved WorkShift
         ShiftLine.SetRange("Roster Date", InitialDate);
         ShiftLine.SetRange("Employee No", EmpNo);
