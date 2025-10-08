@@ -13518,6 +13518,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field ATM Custodian regular (month) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 2905507298 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Backdated Payroll Reverse</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Backdated Payroll Reverse - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 1891586249 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bal. Account No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17528,6 +17533,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Reversed - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1128378402 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>RIT Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field RIT Base Amount - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 751220555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Advance No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17562,6 +17572,11 @@
           <source>Source Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Source Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 476807615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>SST Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field SST Base Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 2073569604 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Standard Hours</source>
@@ -39758,6 +39773,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Journal - Control Attribute Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4112058080 - Control 1891586249 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bal. Account No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Journal - Control Bal. Account No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4112058080 - Control 824028820 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bal. Account Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Journal - Control Bal. Account Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4112058080 - Control 2556136339 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Credit Amount field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44173,6 +44198,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Remote Area Deduction - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 1128378402 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the RIT Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control RIT Base Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3668632682 - Control 3370741491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Salary Grade field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44192,6 +44222,11 @@
           <source>Specifies the value of the Social Security Tax(Annual) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Social Security Tax(Annual) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 476807615 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SST Base Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control SST Base Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3668632682 - Control 2578947461 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Tax for Period field.</source>

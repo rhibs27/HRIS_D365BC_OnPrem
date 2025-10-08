@@ -131,7 +131,7 @@ page 50088 "Leave Request"
                     Editable = IsBereavement;
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
-                    Visible = false;
+                    Visible = IsBereavement;
                 }
                 field("Contact No."; Rec."Contact No.")
                 {

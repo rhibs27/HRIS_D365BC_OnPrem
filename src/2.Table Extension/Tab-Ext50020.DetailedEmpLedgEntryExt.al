@@ -206,7 +206,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         "Shortcut Dimension 7 Code" := PayrollJournalLine."Shortcut Dimension 7 Code";
         "Shortcut Dimension 8 Code" := PayrollJournalLine."Shortcut Dimension 8 Code";
         "Salary Advance No." := PayrollJournalLine."External Document No.";
-        ValidateFincaleGL(PayrollJournalLine."Document No.");
+        ValidateFincaleGL(PayrollJournalLine."Pay Cycle Code", PayrollJournalLine."Pay Cycle Term", PayrollJournalLine."Pay Cycle Period");
     end;
 
     procedure Navigate();
@@ -217,9 +217,9 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         NavigateForm.Run;
     end;
 
-    local procedure ValidateFincaleGL(PayrollDocNo: Code[20]);
+    local procedure ValidateFincaleGL(PayCycleCode: Code[20]; PayCycleTerm: Code[20]; PayCyclePeriod: Integer);
     var
-        PostedPayrollHeader: Record "Posted Payroll Header";
+        PayCycle: Record "Pay Cycle Period";
         PayrollPost: Codeunit "Payroll-Post";
         SolID: Code[20];
         OrgStruclist: Record "Organization Structure List";
@@ -235,11 +235,11 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         PayrollAttributes.Get("Payroll Attribute Code");
         if "Attribute Type" = "Attribute Type"::"Non-Payment" then
             exit;
-        PostedPayrollHeader.Get(PayrollDocNo);
+        PayCycle.Get(PayCycleCode, PayCycleTerm, PayCyclePeriod);
         Employee.TestField("Sol Id");
         SolID := Employee."Sol Id";
-        if PayrollPost.CheckTransferInServiceHistory("Employee No.", PostedPayrollHeader."From Date", PostedPayrollHeader."To Date") then begin
-            DeputationCode := PayrollPost.GetDimensionBeforeTransfer("Employee No.", PostedPayrollHeader."From Date", PostedPayrollHeader."To Date", DeputationType);
+        if PayrollPost.CheckTransferInServiceHistory("Employee No.", PayCycle."Start Date", PayCycle."End Date") then begin
+            DeputationCode := PayrollPost.GetDimensionBeforeTransfer("Employee No.", PayCycle."Start Date", PayCycle."End Date", DeputationType);
             if OrgStruclist.Get(DeputationType, DeputationCode) then begin
                 OrgStruclist.TestField("Sol ID");
                 SolID := OrgStruclist."Sol ID";
