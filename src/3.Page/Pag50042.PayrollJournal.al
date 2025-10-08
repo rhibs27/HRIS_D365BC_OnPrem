@@ -213,6 +213,16 @@ page 50042 "Payroll Journal"
                     ToolTip = 'Specifies the value of the Shortcut Dimension 8 Code field.';
                     ApplicationArea = All;
                 }
+                field("Bal. Account Type"; Rec."Bal. Account Type")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Bal. Account Type';
+                }
+                field("Bal. Account No."; Rec."Bal. Account No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Bal. Account No.';
+                }
             }
             group(Control30)
             {
