@@ -40,5 +40,9 @@ enum 50017 "Community Type"
     {
         Caption = 'Tharu/Maithili';
     }
+    value(8; "Jitiya")
+    {
+        Caption = 'Jitiya';
+    }
 
 }
