@@ -52833,11 +52833,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Process Daily Attendance - Method SendEmail - NamedType Subject</note>
         </trans-unit>
-        <trans-unit id="Report 3363109207 - Control 50294246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Email Id</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Process Daily Attendance - Control EmailIds - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Report 889887206 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the FromDate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>

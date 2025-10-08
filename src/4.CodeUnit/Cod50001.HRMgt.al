@@ -5848,17 +5848,47 @@ codeunit 50001 "HR Mgt."
         EmpActLedgerEntry.insert();
     end;
 
-    procedure GenerateEmpActLedger(RecRef: RecordRef)
+    procedure CancelEmpActLedgerForDateRange(EmpActType: Enum "Employee Activity Type";
+                                    DocNo: Code[20];
+                                    EmpNo: Code[20];
+                                    StartDate: Date;
+                                    EndDate: Date)
     var
-        Leave: Record Leave;
-        CancelDocument: Record "Cancel Document";
+        EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
+        DateVar: Record Date;
     begin
-        case RecRef.Number of
-            database::Leave:
-                begin
-                end;
-        end;
+        DateVar.SetRange("Period Type", DateVar."Period Type"::Date);
+        DateVar.SetRange("Period Start", StartDate, EndDate);
+        if DateVar.FindSet() then
+            repeat
+                Clear(EmpActLedgerEntry);
+                if EmpActLedgerEntry.Get(EmpActType, DocNo, EmpNo, DateVar."Period Start", false) then
+                    EmpActLedgerEntry.Rename(EmpActType, DocNo, EmpNo, DateVar."Period Start", true);
+            until DateVar.Next() = 0;
+    end;
 
+    procedure CreateEmpActLedgerForDateRange(
+                                    EmpActType: Enum "Employee Activity Type";
+                                    DocNo: Code[20];
+                                    EmpNo: Code[20];
+                                    StartDate: Date;
+                                    EndDate: Date)
+    var
+        DateRec: Record Date;
+    begin
+        DateRec.SetRange("Period Type", DateRec."Period Type"::Date);
+        DateRec.SetRange("Period Start", StartDate, EndDate);
+        if DateRec.FindSet() then
+            repeat
+                CreateEmpActLedger(
+                    EmpActType,
+                    DocNo,
+                    EmpNo,
+                    DateRec."Period Start",
+                    false,
+                    1
+                );
+            until DateRec.Next() = 0;
     end;
 }
 

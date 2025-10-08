@@ -1054,6 +1054,10 @@ codeunit 50000 "Leave Mgt."
             EmpVar.Validate("Employment Date");
             EmpVar.Modify();
         end;
+
+        //create emp act ledger entry
+        GenerateEmpActLedgerFromLeave(leave);
+
         Commit();
         // Update Daily Attendance
         if leave."Start Date" <= Today then begin
@@ -1120,6 +1124,14 @@ codeunit 50000 "Leave Mgt."
                 EmpVar.Validate("Employment Date");
                 EmpVar.Modify();
             end;
+
+            //Update EmpActledger
+            HRMgt.CancelEmpActLedgerForDateRange(CancelDocument.Type,
+                                            CancelDocument."Cancelled Document No.",
+                                            CancelDocument."Employee No.",
+                                            CancelDocument."Start Date",
+                                            CancelDocument."End Date");
+
             // Update Daily Attendance
             if CancelDocument."Start Date" <= Today then begin
                 if CancelDocument."End Date" > Today then
@@ -1740,137 +1752,7 @@ codeunit 50000 "Leave Mgt."
         Clear(Disabled);
     end;
 
-    // procedure GetNonWorkingDaysBackup(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
-    // var
-    //     Description: Text;
-    //     Provinces: Text;
-    //     Gender: Enum "Employee Gender";
-    //     OrganizationStructureList: Record "Organization Structure List";
-    //     DistrictList: Record District;
-    //     MunicipalityList: Record Municipality;
-    //     CalendarDate: Record Date;
-    //     Counter: Integer;
-    //     AlreadyAdded: Boolean;
-    //     BaseCalendar: Record "Base Calendar";
-    //     InOutValley: Enum "Outside/Inside Valley";
-    //     PostingRegion: Enum Region;
-    //     Branch, District, MunicipalityFilter : Text;
-    //     Community: Enum "Community Type";
-    //     EmployeeFilter: Text[500];
-    //     Disabled: Boolean;
-    //     EmployeeRec: Record Employee;
-    // begin
-    //     Counter := 0;
-    //     PayrollSetup.Get;
-    //     Employee.Get(EmpCode);
-    //     CalendarDate.SetRange("Period Type", CalendarDate."Period Type"::Date);
-    //     CalendarDate.SetRange("Period Start", StartDate, EndDate);
-    //     if CalendarDate.Find('-') then
-    //         repeat
-    //             Clear(AlreadyAdded);
-    //             if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
-    //                 CalendarDescription := Description;
-    //                 if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (District = '') and (MunicipalityFilter = '') and (community = community::" ") and (EmployeeFilter = '') and (not Disabled) then
-    //                     Counter += 1
-    //                 else begin
-    //                     if Provinces <> '' then begin
-    //                         OrganizationStructureList.Reset;
-    //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
-    //                         OrganizationStructureList.SetFilter(Code, Provinces);
-    //                         if OrganizationStructureList.Find('-') then
-    //                             repeat
-    //                                 if (Employee."Province Code" = OrganizationStructureList.Code) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until OrganizationStructureList.Next = 0;
-    //                     end;
-
-    //                     if (Gender = Employee.Gender) and (Gender <> Gender::" ") and (not AlreadyAdded) then begin
-    //                         Counter += 1;
-    //                         AlreadyAdded := true;
-    //                     end;
-
-    //                     if (PostingRegion = Employee."Posting Region") and (PostingRegion <> PostingRegion::" ") and (not AlreadyAdded) then begin
-    //                         Counter += 1;
-    //                         AlreadyAdded := true;
-    //                     end;
-
-    //                     if (Branch <> '') and (not AlreadyAdded) then begin
-    //                         OrganizationStructureList.Reset;
-    //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
-    //                         OrganizationStructureList.SetFilter(Code, Branch);
-    //                         if OrganizationStructureList.Find('-') then
-    //                             repeat
-    //                                 if (OrganizationStructureList.Code = Employee."Branch Code") and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until OrganizationStructureList.Next = 0;
-    //                     end;
-    //                     if (District <> '') and (not AlreadyAdded) then begin
-    //                         DistrictList.Reset;
-    //                         DistrictList.Setfilter("District Name", District);
-    //                         if DistrictList.Find('-') then
-    //                             repeat
-    //                                 if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until DistrictList.Next = 0;
-    //                     end;
-    //                     if (MunicipalityFilter <> '') and (not AlreadyAdded) then begin
-    //                         MunicipalityList.Reset;
-    //                         MunicipalityList.Setfilter(Code, MunicipalityFilter);
-    //                         if MunicipalityList.Find('-') then
-    //                             repeat
-    //                                 if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until MunicipalityList.Next = 0;
-    //                     end;
-
-    //                     if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
-    //                         Counter += 1;
-    //                         AlreadyAdded := true;
-    //                     end;
-    //                     if (Community <> Community::" ") and (not AlreadyAdded) then
-    //                         if Community = Employee.Community then begin
-    //                             Counter += 1;
-    //                             AlreadyAdded := true
-    //                         end;
-    //                     if (EmployeeFilter <> '') and (not AlreadyAdded) then begin
-    //                         EmployeeRec.Reset;
-    //                         EmployeeRec.Setfilter("No.", EmployeeFilter);
-    //                         if EmployeeRec.Find('-') then
-    //                             repeat
-    //                                 if (EmployeeRec."No." = EmpCode) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until EmployeeRec.Next = 0;
-    //                     end;
-    //                     if Disabled and (not AlreadyAdded) then
-    //                         if Disabled = Employee.disabled then begin
-    //                             Counter += 1;
-    //                             AlreadyAdded := true
-    //                         end;
-
-    //                 end;
-
-    //             end;
-    //         until CalendarDate.Next = 0;
-
-    //     exit(Counter);
-    // end;
-
-    procedure generateEmpActLedgerFromLeave(LeaveReqRec: Record Leave)
+    procedure GenerateEmpActLedgerFromLeave(LeaveReqRec: Record Leave)
     var
         Date: record Date;
         LeaveTypeSetup: Record "Leave Type Setup";
@@ -1888,6 +1770,9 @@ codeunit 50000 "Leave Mgt."
                 LeaveTypeSetup.Get(LeaveReqRec."Leave Code");
                 if LeaveTypeSetup."Exclude Non Working Days" then
                     ExcludeDay := GetNonWorkingDays(Date."Period Start", Date."Period Start", LeaveReqRec."Employee No.");
+
+                OnGenerateEmpActLedgerOnAfterGetExcludeDay(LeaveReqRec, ExcludeDay);
+
                 if ExcludeDay = 0 then
                     HRMgt.CreateEmpActLedger(
                         LeaveReqRec.Type,
@@ -1959,6 +1844,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeNoOfPendingDays(LeaveCode: Code[20]; EmpCode: Code[20]; NoofDays: Decimal; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnGenerateEmpActLedgerOnAfterGetExcludeDay(var LeaveReqRec: Record Leave; var ExcludeDay: Decimal)
     begin
     end;
 

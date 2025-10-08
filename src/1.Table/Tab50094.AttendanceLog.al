@@ -37,5 +37,7 @@ table 50094 "Attendance Log"
     keys
     {
         key(Key1; "Emp DateTime") { }
+        key(key2; "Employee ID", "Machine Emp. Code") { }
+        key(Key3; "Date Time Log", Date, "Log Time") { }
     }
 }

@@ -670,9 +670,14 @@ codeunit 50004 "Travel Mgt."
         ErrorReject: Label 'Approval Status must be in %1 or %2.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
         LeaveTypeSetup: Record "Leave Type Setup";
+        DateRec: Record Date;
     begin
         TravelRequest.Get(TravelCode);
         if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
+            // create emp act leger
+            HRMgt.CreateEmpActLedgerForDateRange(TravelRequest.Type, TravelRequest."No.", TravelRequest."Employee No.", TravelRequest."Start Date", TravelRequest."End Date");
+
+            //remove the code below to update attendance and activity>>
             //changes in employee attendance and activity
             EmpAttendActivity.Reset;
             EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");

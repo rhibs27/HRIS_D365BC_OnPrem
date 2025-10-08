@@ -27,7 +27,7 @@ codeunit 50029 "Process Daily Attendance"
         ResetDays();
         GetShiftCodeformShiftAssignment();
         ProcessHolidayAndShiftNormal();
-        UpdateCheckInAndOut();
+        GetCheckInandOutFromAttendanceLog();
         UpdateCheckInDifference();
         UpdateLateDay();
 
@@ -47,14 +47,18 @@ codeunit 50029 "Process Daily Attendance"
 
         ProcessDayFromEmpActLedgerEntry();
 
+        if Employee."Automatic Attendance" and (EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day") then begin
+            EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
+            EmpAttendance.Validate("Present Day", 1);
+        end;
+
         UpdateAttendanceRemarks();
 
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Week Off Day" = 1) then
             EmpAttendance."Present in Holiday" := 1;
 
-        // DeleteAccAttHoursForReal(EmpAttendance."Employee No.", EmpAttendance."Attendance Date", EmpAttendance."Employee Working Shift");
         // if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Absent Day" = 0) and (EmpAttendance."Week Off Day" = 0) and (EmpAttendance."Tour Day" = 0) and (EmpAttendance."Leave Day" = 0) and (EmpAttendance."Transfer Day" = 0) and (EmpAttendance."Training Day" = 0) then
-        //     CheckAndInsertTimeDifference();
+        // CheckAndInsertTimeDifference();
 
         EmpAttendance.Modify(true);
     end;
@@ -195,12 +199,6 @@ codeunit 50029 "Process Daily Attendance"
                             EmpAttendance."Absent Day" := 0;
                             EmpAttendance.Remarks := 'TRAINING';
                         end;
-                    // EmpActLedgerEntry."Document Type"::Meeting:
-                    //     begin
-                    //         EmpAttendance."Meeting Day" := 1;
-                    //         EmpAttendance."Absent Day" := 0;
-                    //         EmpAttendance.Remarks := 'MEETING';
-                    //     end;
                     else begin
                         EmpAttendance."Source No." := '';
                         EmpAttendance."Employee Activity Found" := false;
@@ -211,59 +209,6 @@ codeunit 50029 "Process Daily Attendance"
 
     procedure UpdateAttendanceRemarks()
     begin
-        // if EmpAttendance."Present Day" > 0 then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::PRESENT;
-        // if EmpAttendance."Absent Day" > 0 then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::ABSENT;
-        // if EmpAttendance."Day Type" = EmpAttendance."Day Type"::Holiday then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::HOLIDAY;
-        // if EmpAttendance."Tour Day" > 0 then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::TRAVEL;
-        // if EmpAttendance."Leave Day" > 0 then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::LEAVE;
-        // if EmpAttendance."Transfer Day" > 0 then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::TRANSFER;
-        // if EmpAttendance."Training Day" > 0 then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::TRAINING;
-        // if EmpAttendance."Meeting Day" > 0 then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::MEETING;
-
-        // if EmpAttendance."Present Day" > 0 then begin
-        //     if EmpAttendance."Day Type" = EmpAttendance."Day Type"::Holiday then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"PRESENT/HOLIDAY";
-        //     if EmpAttendance."Tour Day" > 0 then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"PRESENT/TRAVEL";
-        //     if EmpAttendance."Leave Day" > 0 then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"PRESENT/LEAVE";
-        //     if EmpAttendance."Transfer Day" > 0 then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"PRESENT/TRANSFER";
-        //     if EmpAttendance."Training Day" > 0 then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"PRESENT/TRAINING";
-        //     if EmpAttendance."Meeting Day" > 0 then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"PRESENT/MEETING";
-        // end;
-
-        // if (EmpAttendance."Day Type" = EmpAttendance."Day Type"::Holiday) then begin
-        //     if (EmpAttendance."Present Day" > 0) then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"PRESENT/HOLIDAY";
-        //     if (EmpAttendance."Tour Day" > 0) then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"TRAVEL/HOLIDAY";
-        //     if (EmpAttendance."Leave Day" > 0) then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"LEAVE/HOLIDAY";
-        //     if EmpAttendance."Training Day" > 0 then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"HOLIDAY/TRAINING";
-        //     if EmpAttendance."Meeting Day" > 0 then
-        //         EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"HOLIDAY/MEETING";
-        // end;
-
-        // if (EmpAttendance."Leave Day" > 0) and (EmpAttendance."Tour Day" > 0) then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"LEAVE/TRAVEL";
-
-        // if (EmpAttendance."Leave Day" > 0) and (EmpAttendance."Training Day" > 0) then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"LEAVE/TRAINING";
-
-        // if (EmpAttendance."Leave Day" > 0) and (EmpAttendance."Meeting Day" > 0) then
-        //     EmpAttendance."Attendance Status 2" := EmpAttendance."Attendance Status 2"::"LEAVE/MEETING";
 
         if IsHoliday(Date."Period Start", EmpAttendance.Remarks) then
             EmpAttendance.Remarks := CalendarDescription
@@ -278,9 +223,6 @@ codeunit 50029 "Process Daily Attendance"
                     if (EmpAttendance."Check In Time" <> 0T) and (EmpAttendance."Check Out Time" = 0T) then
                         EmpAttendance.Remarks := 'MISSED PUNCH';
 
-            // if EmpAttendance."Present Day" > 0 then
-            //     if RosterLedgerEntry."Roster Off" then
-            //         EmpAttendance.Remarks := 'PRESENT IN ROSTER-OFF';
 
             if EmpAttendance."Present Day" = 0.5 then
                 EmpAttendance.Remarks := 'HALF DAY PRESENT';
@@ -306,8 +248,6 @@ codeunit 50029 "Process Daily Attendance"
             if EmpAttendance."Training Day" > 0 then
                 EmpAttendance.Remarks := 'TRAINING';
 
-            // if EmpAttendance."Meeting Day" > 0 then
-            //     EmpAttendance.Remarks := 'MEETING';
         end;
     end;
 
@@ -333,41 +273,70 @@ codeunit 50029 "Process Daily Attendance"
     end;
 
 
-    procedure UpdateCheckInAndOut()
+    procedure GetCheckInandOutFromAttendanceLog()
+    var
+        AttendanceLog: Record "Attendance Log";
+    begin
+        if (EmpWorkShiftDetail."Check In From" <> 0) or (EmpWorkShiftDetail."Check Out From" <> 0) then begin
+            GetCheckInandOutFromAttendanceLogInRange(
+                CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."Start Time") - EmpWorkShiftDetail."Check In From",
+                CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."Start Time") + EmpWorkShiftDetail."Check In From",
+                EmpAttendance."Check In Time",
+                true);
+
+            GetCheckInandOutFromAttendanceLogInRange(
+                CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") - EmpWorkShiftDetail."Check Out From",
+                CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") + EmpWorkShiftDetail."Check Out From",
+                EmpAttendance."Check Out Time",
+                False);
+        end
+        else
+            GetCheckInandOutFromAttendanceLogRegular();
+    end;
+
+    procedure GetCheckInandOutFromAttendanceLogRegular()
     var
         AttendanceLog: Record "Attendance Log";
     begin
         AttendanceLog.SetCurrentKey("Date Time Log");
+        AttendanceLog.SetLoadFields("Machine Emp. Code", Date, "Date Time Log", "Log Time");
         AttendanceLog.SetRange("Machine Emp. Code", Employee."Employee Attendance ID");
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
-        if AttendanceLog.FindFirst() then
+        if AttendanceLog.FindFirst() then begin
             EmpAttendance."Check In Time" := AttendanceLog."Log Time";
+            EmpAttendance."Check-In Device IP" := AttendanceLog."Device IP";
+        end;
 
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
-        if AttendanceLog.FindLast() then
+        if AttendanceLog.FindLast() then begin
             EmpAttendance."Check Out Time" := AttendanceLog."Log Time";
+            EmpAttendance."Check-Out Device IP" := AttendanceLog."Device IP";
+        end;
+
     end;
 
-    // local procedure UpdateTimeFromLog(StartTime: DateTime; EndTime: DateTime; IsFirstRecord: Boolean; UpdateTransactionNo: Boolean; var TimeVar: Time): Time
-    // var
-    //     AttendanceLog: Record "Attendance Log";
-    // begin
-    //     AttendanceLog.SetCurrentKey("Date Time Log");
-    //     AttendanceLog.SetRange("Machine Emp. Code", Employee."Employee Attendance ID");
-    //     AttendanceLog.SetRange("Date Time Log", StartTime, EndTime);
-    //     if IsFirstRecord then
-    //         if AttendanceLog.FindFirst() then;
-    //     if not IsFirstRecord then
-    //         if AttendanceLog.FindLast() then;
+    local procedure GetCheckInandOutFromAttendanceLogInRange(StartTime: DateTime; EndTime: DateTime; var TimeVar: Time; FirstRecord: Boolean): Time
+    var
+        AttendanceLog: Record "Attendance Log";
+    begin
+        AttendanceLog.SetCurrentKey("Date Time Log");
+        AttendanceLog.SetLoadFields("Machine Emp. Code", Date, "Date Time Log", "Log Time");
+        AttendanceLog.SetRange("Machine Emp. Code", Employee."Employee Attendance ID");
+        AttendanceLog.SetRange("Date Time Log", StartTime, EndTime);
+        if FirstRecord then
+            if AttendanceLog.FindFirst() then;
+        if not FirstRecord then
+            if AttendanceLog.FindLast() then;
 
-    //     TimeVar := AttendanceLog."Log Time";
-    //     exit(AttendanceLog."Log Time");
-    // end;
+        TimeVar := AttendanceLog."Log Time";
+        if FirstRecord then
+            EmpAttendance."Check-In Device IP" := AttendanceLog."Device IP"
+        else
+            EmpAttendance."Check-Out Device IP" := AttendanceLog."Device IP"
+    end;
 
     procedure GetSyncProcessBoolean(VarFromSyncProcess: Boolean)
     begin
         FromSyncProcess := VarFromSyncProcess;
     end;
-
-
 }
