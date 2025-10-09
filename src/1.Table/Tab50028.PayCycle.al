@@ -18,7 +18,7 @@ table 50028 "Pay Cycle"
         {
             trigger OnValidate()
             var
-                PayrollLedgerEntry: Record "Employee Ledger Entry PRM";
+                PayrollLedgerEntry: Record "Employee Ledger Entry";
             begin
                 PayrollLedgerEntry.SetRange("Pay Cycle Code", Code);
                 if not PayrollLedgerEntry.IsEmpty() then
@@ -81,7 +81,7 @@ table 50028 "Pay Cycle"
 
     trigger OnDelete()
     var
-        PayrollLedgerEntry: Record "Employee Ledger Entry PRM";
+        PayrollLedgerEntry: Record "Employee Ledger Entry";
     begin
         PayrollLedgerEntry.SetRange("Pay Cycle Code", Code);
         if not PayrollLedgerEntry.IsEmpty() then

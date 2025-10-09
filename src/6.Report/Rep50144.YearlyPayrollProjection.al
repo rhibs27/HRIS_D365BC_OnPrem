@@ -15,6 +15,7 @@ report 50144 "Yearly Payroll Projection"
             column(CompanyPicture; CompanyInfo.Picture) { }
             column(PANNo; CompanyInfo."VAT Registration No.") { }
             column(CompanyInfoName; CompanyInfo.Name) { }
+            column(CompanyAddress; companyInfo.Address) { }
             column(CompanyPhNo; CompanyInfo."Phone No.") { }
             // Payroll Attribute Information
             column(Code; Code) { }
@@ -22,16 +23,20 @@ report 50144 "Yearly Payroll Projection"
             column(Type; Type) { }
             column(ReportName; ReportName) { }
             column(SortinNo; SortingNo) { }
+            column(FiscalYear; PayCycleTerm) { }
             // Employee Information
             column(EmpFullName; EmpVar."Full Name") { }
-            column(PANNo_Employee; EmpVar."Pan No.") { }
+            column(PANNo_Employee; EmpVar."PAN No.") { }
             column(BankName; EmpVar."Bank Name") { }
             column(BankAccountNo; EmpVar."Bank Account No.") { }
             column(EmployeeSalaryLevel; EmpVar."Salary Level") { }
-            column(EmpDesignation; EmpVar."Job Title") { }
+            column(EmpDesignation; EmpVar."Functional Title Desc") { }
             column(SSFNo; EmpVar."Social Security No.") { }
             column(EmployeeNo; EmpVar."No.") { }
             column(TaxCode; EmpVar."Tax Code") { }
+            column(Office; Empvar."Branch Name") { }
+            column(Grade; Empvar."Salary Grade") { }
+
             // Tax Calculation Results - Main Amounts
             column(RetirementAmount; Round(TotalRetirement, GlSetup."Amount Rounding Precision"))
             {
@@ -576,23 +581,43 @@ report 50144 "Yearly Payroll Projection"
     // Calculate remaining months for projection
     local procedure CalculateRemainingMonths(var LastEntryNo: Integer): Integer
     var
+        PostedPayrollHeader: Record "Posted Payroll Header";
         RemainingMonth: Integer;
     begin
         DetailedEmpLedgerEntry.Reset();
         DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
         DetailedEmpLedgerEntry.SetFilter("Employee No.", EmployeeFilter);
         DetailedEmpLedgerEntry.SetRange(Reversed, false);
-        if DetailedEmpLedgerEntry.FindLast() then begin
-            // Start from next period after last processed
-            CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, LastEntryNo);
-            RemainingMonth := GetLastPayCycle(EmployeeFilter) - DetailedEmpLedgerEntry."Pay Cycle Period";
-        end else begin
-            // Start from period 1
-            CreateTempDetailedLedgerFromPAttrUsage(1, LastEntryNo);
-            RemainingMonth := GetLastPayCycle(EmployeeFilter);
+        // if DetailedEmpLedgerEntry.FindLast() then begin
+
+        //     // Start from next period after last processed
+        //     CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, LastEntryNo);
+        //     RemainingMonth := GetLastPayCycle(EmployeeFilter) - DetailedEmpLedgerEntry."Pay Cycle Period";
+        // end else begin
+        //     // Start from period 1
+        //     CreateTempDetailedLedgerFromPAttrUsage(1, LastEntryNo);
+        //     RemainingMonth := GetLastPayCycle(EmployeeFilter);
+        // end;
+        PostedPayrollHeader.Reset();
+        PostedPayrollHeader.SetRange("Pay Cycle Term", PayCycleTerm);
+        PostedPayrollHeader.SetRange(Reversed, false);
+        PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.type::Payroll);
+        if PostedPayrollHeader.FindLast() then begin
+            DetailedEmpLedgerEntry.SetRange("Document No.", PostedPayrollHeader."No.");
+            DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
+            if DetailedEmpLedgerEntry.FindLast() then begin
+                CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, LastEntryNo);
+                RemainingMonth := GetLastPayCycle(EmployeeFilter) - DetailedEmpLedgerEntry."Pay Cycle Period";
+            end else begin
+                CreateTempDetailedLedgerFromPAttrUsage(1, LastEntryNo);
+                RemainingMonth := GetLastPayCycle(EmployeeFilter);
+            end;
         end;
         exit(RemainingMonth);
     end;
+
+
+
     // Copies existing detailed employee ledger entries to temporary table for processing
     local procedure CopyExistingLedgerEntriesToTemp()
     begin
@@ -638,7 +663,7 @@ report 50144 "Yearly Payroll Projection"
         CalculateFinalTaxableAmount();
     end;
     // Initialize variables for annual totals calculation
-    // Initialize variables for annual totals calculation
+
     local procedure InitializeAnnualTotalsVariables()
     begin
         TotalAnnualEarning := 0;
@@ -1245,7 +1270,7 @@ report 50144 "Yearly Payroll Projection"
             OrganizationStructurelist.reset();
             OrganizationStructurelist.SetRange(Code, BranchCode);
             if OrganizationStructurelist.FindFirst() then begin
-                RemoteAreaReductionCode := OrganizationStructurelist."Remote Area Reduction";
+                RemoteAreaReductionCode := OrganizationStructurelist."Remote Area Category";
                 RemoteAreaCategory.Reset();
                 RemoteAreaCategory.SetRange("Category", RemoteAreaReductionCode);
                 if RemoteAreaCategory.FindFirst() then begin

@@ -5,6 +5,7 @@ page 50002 "Employee Payroll Opening"
     SourceTable = "Employee Payroll Opening";
     UsageCategory = Lists;
     ApplicationArea = All;
+    Caption = '';
 
     layout
     {

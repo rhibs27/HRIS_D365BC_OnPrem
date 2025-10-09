@@ -3035,20 +3035,56 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    // procedure LookupDepartment(DepartText: Text): Text
-    // var
-    //     PageDepart: Page Departments;
-    //     Depart: Record Department;
-    // begin
-    //     Depart.Reset;
-    //     Clear(PageDepart);
-    //     PageDepart.AssignShowSelected;
-    //     PageDepart.InsertTempDepart(DepartText);
-    //     PageDepart.SetRecord(Depart);
-    //     PageDepart.SetTableView(Depart);
-    //     if PageDepart.RunModal = ACTION::OK then
-    //         exit(PageDepart.ReturnDepartText);
-    // end;
+    procedure LookupEmployee(): Text[500]
+    var
+        Employee: Record Employee;
+        EmployeePage: Page "Employee List";
+        ConcatenatedValues: Text;
+    begin
+        Clear(Employee);
+        Clear(EmployeePage);
+        EmployeePage.SetRecord(Employee);
+        EmployeePage.SetTableView(Employee);
+        EmployeePage.LookupMode(true);
+        if EmployeePage.RunModal = ACTION::LookupOK then begin
+            EmployeePage.SetSelectionFilter(Employee);
+            if Employee.FindSet() then begin
+                repeat
+                    if ConcatenatedValues <> '' then
+                        ConcatenatedValues += '|';
+                    ConcatenatedValues += Employee."No.";
+                until Employee.Next() = 0;
+            end;
+            exit(ConcatenatedValues);
+        end;
+    end;
+
+    procedure LookupDepartment(Province: Text; Branch: Text): Text[500]
+    var
+        OrganizationStructureList: Record "Organization Structure List";
+        OrganizationStructureListPage: Page "Organization Structure list";
+        ConcatenatedValues: Text;
+    begin
+        Clear(OrganizationStructureList);
+        Clear(OrganizationStructureListPage);
+        if Province <> '' then
+            OrganizationStructureList.SetRange("Province Code", Province);
+        OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Department);
+        OrganizationStructureListPage.SetRecord(OrganizationStructureList);
+        OrganizationStructureListPage.SetTableView(OrganizationStructureList);
+        OrganizationStructureListPage.LookupMode(true);
+        if OrganizationStructureListPage.RunModal = ACTION::LookupOK then begin
+            OrganizationStructureListPage.SetSelectionFilter(OrganizationStructureList);
+            if OrganizationStructureList.FindSet() then begin
+                repeat
+                    if ConcatenatedValues <> '' then
+                        ConcatenatedValues += '|';
+                    ConcatenatedValues += OrganizationStructureList.code;
+                until OrganizationStructureList.Next() = 0;
+            end;
+            exit(ConcatenatedValues);
+        end;
+    end;
 
     procedure LookupFunctionalTitile(FunctTitleText: Text): Text
     var
@@ -3143,7 +3179,7 @@ codeunit 50001 "HR Mgt."
     end;
 
     //Email
-    local procedure GetEmailTemplate(var Header: Text; Var Body: text; var Footer: text; TemplateCode: Code[20])
+    procedure GetEmailTemplate(var Header: Text; Var Body: text; var Footer: text; var Disclaimer: text; TemplateCode: Code[20])
     var
         EmailMessage: Record "Email Template Message";
     begin
@@ -3160,11 +3196,13 @@ codeunit 50001 "HR Mgt."
 
                     EmailMessage.Type::Footer:
                         Footer := Footer + EmailMessage."Body Message" + '<br>';
+                    EmailMessage.Type::Disclaimer:
+                        Disclaimer := Disclaimer + EmailMessage."Body Message" + '<br>';
                 end;
             until EmailMessage.Next = 0;
     end;
 
-    local procedure GetEmailReceipent(DocumentNo: Code[20]; DocumentType: Enum "Employee Activity Type"; DocumentStatus: Enum "Approval Status"; var EmailReceipientText: List of [Text]; var EmailCCReceipent: List of [Text]; var EmailBCCReceipent: List of [Text]; TemplateCode: Code[20])
+    procedure GetEmailReceipent(DocumentNo: Code[20]; DocumentType: Enum "Employee Activity Type"; DocumentStatus: Enum "Approval Status"; var EmailReceipientText: List of [Text]; var EmailCCReceipent: List of [Text]; var EmailBCCReceipent: List of [Text]; TemplateCode: Code[20])
     var
         EmailReceipent: Record "Email Template Recipient";
         ApprovalHRMS: Record "Approval HRMS";
@@ -3215,12 +3253,13 @@ codeunit 50001 "HR Mgt."
 
     procedure SendMailFromTemplate(TableNo: Integer;
             DocumentType: enum "Employee Activity Type";
-            ApprovalStatus: Enum "approval status";
-            EmployeeNo: Code[20];
-            DocumentNo: Code[20])
+                              ApprovalStatus: Enum "approval status";
+                              EmployeeNo: Text;
+                              DocumentNo: Code[20];
+                              Cancelled: Boolean)
     var
         EmailTemplate: Record "Email Template";
-        Header, Footer, Body : text;
+        Header, Footer, Body, Disclaimer : text;
         Email: Codeunit Email;
         CodeunitEmailMessage: Codeunit "Email Message";
         EmailReceipientText: List of [Text];
@@ -3236,6 +3275,8 @@ codeunit 50001 "HR Mgt."
         Clear(EmailReceipientText);
         Clear(InStr);
         HRSetup.Get;
+        if ApprovalStatus = ApprovalStatus::Pending then
+            Employee.Get(EmployeeNo);
         Clear(CodeunitEmailMessage);
         EmailTemplate.Reset;
         EmailTemplate.SetRange("Document Type", DocumentType);
@@ -3244,22 +3285,24 @@ codeunit 50001 "HR Mgt."
             if EmpLoan.Get(DocumentNo) then
                 EmailTemplate.SetRange("Loan Type", EmpLoan."Loan Type");
         end;
-        if EmailTemplate.FindFirst then begin
+        if (EmailTemplate.FindFirst) and (not Cancelled) then begin
             Clear(Footer);
             Clear(Header);
             Clear(Body);
-            GetEmailTemplate(Header, Body, Footer, EmailTemplate.Code);
+            GetEmailTemplate(Header, Body, Footer, Disclaimer, EmailTemplate.Code);
             GetEmailReceipent(DocumentNo, DocumentType, ApprovalStatus, EmailReceipientText, EmailCCReceipent, EmailBCCReceipent, EmailTemplate.Code);
             CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, CodeunitEmailMessage.GetBody(), true, EmailCCReceipent, EmailBCCReceipent);
             CodeunitEmailMessage.AppendToBody(Header);
-            CodeunitEmailMessage.AppendToBody('<br><br>');
+            CodeunitEmailMessage.AppendToBody('<br>');
             CodeunitEmailMessage.AppendToBody(body);
+            CodeunitEmailMessage.AppendToBody('<br>');
             case TableNo of
                 DATABASE::Leave:
                     begin
                         if DocumentType = DocumentType::"Leave Request" then begin
                             Leave.Get(DocumentNo);
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Employee No.") + Colon + Format(Leave."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Employee Name") + Colon + Format(Leave."Employee Name") + '<br>');
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Leave Type") + Colon + Format(Leave."Leave Description") + '<br>');
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Start Date") + Colon + Format(Leave."Start Date") + '<br>');
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("End Date") + Colon + Format(Leave."End Date") + '<br>');
@@ -3276,7 +3319,6 @@ codeunit 50001 "HR Mgt."
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Employee No.") + Colon + Format(AttendanceMissed."Employee No.") + '<br>');
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Employee Name") + Colon + Format(AttendanceMissed."Employee Name") + '<br>');
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Start Date") + Colon + Format(AttendanceMissed."Start Date") + '<br>');
-                            CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("End Date") + Colon + Format(AttendanceMissed."End Date") + '<br>');
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption(Remarks) + Colon + Format(AttendanceMissed.Remarks) + '<br>');
                             if ApprovalStatus = ApprovalStatus::Rejected then
                                 CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Rejection Remarks") + Colon + Format(AttendanceMissed."Rejection Remarks") + '<br>');
@@ -3285,9 +3327,7 @@ codeunit 50001 "HR Mgt."
                 DATABASE::"Travel Request":
                     begin
                         if DocumentType = DocumentType::"Travel Request" then begin
-                            TravelRequest.SetRange("No.", DocumentNo);
-                            TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-                            TravelRequest.FindFirst;
+                            TravelRequest.Get(DocumentNo);
                             AddEmailReceipentFromTemplate := (TravelRequest."Advance Cash Required") and (ApprovalStatus = ApprovalStatus::Approved);
                             if TravelRequest."Travel Order No." <> '' then
                                 CodeunitEmailMessage.AppendToBody('Extension of ' + TravelRequest.FieldCaption("Travel Order No.") + Colon + TravelRequest."Travel Order No." + '<br>');
@@ -3301,14 +3341,6 @@ codeunit 50001 "HR Mgt."
                             if AddEmailReceipentFromTemplate then begin
                                 CodeunitEmailMessage.AppendToBody(TravelRequest.FieldCaption("Advance Cash") + Colon + Format(TravelRequest."Advance Cash") + '<br>');
                                 CodeunitEmailMessage.AppendToBody(Employee.FieldCaption("Bank Account No.") + Colon + TravelRequest."Auth. Account No." + '<br>');
-
-                                //FileName := FileMgt.ClientTempFileName('pdf');
-                                FileName := StrSubstNo('C:/temp/%1.pdf', TravelRequest."No.");
-                                recRef.GetTable(TravelRequest);
-                                tmpBlob.CreateOutStream(OutStr);
-                                REPORT.SaveAs(DATABASE::"Employee Activity", '', format::Pdf, OutStr, recRef);
-                                tmpBlob.CreateInStream(InStr);
-                                CodeunitEmailMessage.AddAttachment(Filename, '.pdf', InStr);
                             end;
                         end else if DocumentType = DocumentType::"Travel Claim" then begin
                             TravelRequest.Get(DocumentNo);
@@ -3327,6 +3359,9 @@ codeunit 50001 "HR Mgt."
                             Overtime.Get(DocumentNo);
                             CodeunitEmailMessage.AppendToBody(Overtime.FieldCaption("Employee No.") + Colon + Format(Overtime."Employee No.") + '<br>');
                             CodeunitEmailMessage.AppendToBody('Date ' + Colon + Format(Overtime."Start Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Overtime.FieldCaption("Check In Time") + format(Overtime."Check In Time") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Overtime.FieldCaption("Check Out Time") + format(Overtime."Check Out Time") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Overtime.FieldCaption("Check Out Time") + format(Overtime."Check Out Time") + '<br>');
                             CodeunitEmailMessage.AppendToBody('Purpose ' + Colon + Format(Overtime.Remarks) + '<br>');
                         end;
                     end;
@@ -3414,8 +3449,16 @@ codeunit 50001 "HR Mgt."
                         CodeunitEmailMessage.AppendToBody('<br><br>');
                     end;
             end;
+            CodeunitEmailMessage.AppendToBody('<br>');
             CodeunitEmailMessage.AppendToBody(Footer);
-            Email.Send(CodeunitEmailMessage);
+            if ApprovalStatus = ApprovalStatus::Pending then
+                CodeunitEmailMessage.AppendToBody(Format(Employee."Full Name"))
+            else if ApprovalStatus in [ApprovalStatus::Rejected, ApprovalStatus::Approved] then
+                CodeunitEmailMessage.AppendToBody(Format(EmployeeNo));
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(Disclaimer);
+            if not ((EmailReceipientText.Count = 1) and (EmailReceipientText.Get(1) = '')) then
+                Email.Send(CodeunitEmailMessage);
         end;
     end;
 
@@ -3423,30 +3466,6 @@ codeunit 50001 "HR Mgt."
     begin
         PRSetup.Get;
         exit(Round((PRSetup."Payroll Fiscal Year End Date" - PRSetup."Payroll Fiscal Year Start Date" + 1) / 12, 0.01, '='));
-    end;
-
-    procedure RecommendEmployeeActivity(EmpActCode: Code[20])
-    var
-        EmpAct: Record "Employee Activity";
-    begin
-        EmpAct.Get(EmpActCode);
-        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Pending);
-        CheckEmployeeActivityApproval(EmpAct);
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Recommended);
-        EmpAct.Modify;
-        Message('The document has been recommended.');
-    end;
-
-    procedure RecommendEmployeeActivityAPI(EmpActCode: Code[20]; employeeNo: Code[20])
-    var
-        EmpAct: Record "Employee Activity";
-    begin
-        EmpAct.Get(EmpActCode);
-        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Pending);
-        CheckEmployeeActivityApprovalAPI(EmpAct, employeeNo);
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Recommended);
-        EmpAct.Modify;
-        Message('The document has been recommended.');
     end;
 
     local procedure "-----Training-------"()
@@ -4130,11 +4149,11 @@ codeunit 50001 "HR Mgt."
 
         case EmpOvertime.Type of
             EmpOvertime.Type::"Out of Office":
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
             EmpOvertime.Type::Overtime:
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
             EmpOvertime.Type::"Bulk Cash":
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
         end;
         exit(true);
     end;
@@ -4233,6 +4252,13 @@ codeunit 50001 "HR Mgt."
         Employee.Reset;
         if Employee.Get(EmployeeCode) then
             exit(Employee."Full Name");
+    end;
+
+    procedure GetFunctionalTitleCode(EmployeeCode: Code[20]): Text[20]
+    begin
+        Employee.Reset;
+        if Employee.Get(EmployeeCode) then
+            exit(Employee."Functional Title");
     end;
 
     procedure GetHrHead(): Code[20]
@@ -5351,6 +5377,7 @@ codeunit 50001 "HR Mgt."
                                 VAR Distict: Text;
                                 var Municipality: text;
                                 var Community: Enum "Community Type";
+                                var EmployeeFilter: Text;
                                 var Disabled: Boolean): Boolean
     var
         BaseCalChange: Record "Base Calendar Change";
@@ -5371,6 +5398,7 @@ codeunit 50001 "HR Mgt."
                             Distict := BaseCalChange.District;
                             Municipality := BaseCalChange.Municipality;
                             Community := BaseCalChange.Community;
+                            EmployeeFilter := BaseCalChange.Employee;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
                         end;
@@ -5385,6 +5413,7 @@ codeunit 50001 "HR Mgt."
                             Distict := BaseCalChange.District;
                             Municipality := BaseCalChange.Municipality;
                             Community := BaseCalChange.Community;
+                            EmployeeFilter := BaseCalChange.Employee;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
                         end;
@@ -5401,6 +5430,7 @@ codeunit 50001 "HR Mgt."
                             Distict := BaseCalChange.District;
                             Municipality := BaseCalChange.Municipality;
                             Community := BaseCalChange.Community;
+                            EmployeeFilter := BaseCalChange.Employee;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
                         end;

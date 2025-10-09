@@ -2,13 +2,56 @@ tableextension 50013 "Employee Ext" extends Employee
 {
     fields
     {
-        modify("No.")
+
+        modify(Address)
+        {
+            Caption = 'Permanent Address';
+        }
+        modify("Bank Account No.")
         {
             trigger OnAfterValidate()
             begin
-                if "No." = '' then
-                    Error('No. must have value.');
-                "New Employee" := true;
+
+                if "Bank Account No." <> '' then begin
+                    EmployeeRec.Reset;
+                    EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
+                    EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
+                    if EmployeeRec.FindFirst then
+                        Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
+                end;
+            end;
+        }
+        modify("Birth Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                Age := (Today - "Birth Date") div 365;
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "Birth Date");
+                if EngNepDate.FindFirst then
+                    "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
+                else
+                    "Date of Birth (B.S.)" := '';
+                HrSetup.Get();
+                if HrSetup."Calculate Age using Nepali C." then
+                    "Age Text" := HRMgt.GetAgeBS(EngNepDate.getNepaliDate("Birth Date"), EngNepDate.getNepaliDate(Today))
+                else
+                    "Age Text" := HRMgt.GetAge("Birth Date", Today);
+
+            end;
+
+        }
+        modify("Employment Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                TestField("Employment Type");
+                TestField(Gender);
+                if "Contract Expiry Month" <> "Contract Expiry Month"::" " then
+                    Validate("Contract Expiry Month");
+                if "Employment Date" <> 0D then
+                    HrMgt.getServicePeriodText(Rec);
+                "Employment Date (B.S.)" := EngNepDate.getNepaliDate("Employment Date");
             end;
         }
         modify("First Name")
@@ -25,17 +68,12 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Full Name" := FullName;
             end;
         }
-        modify("Middle Name")
+
+        modify(Gender)
         {
             trigger OnAfterValidate()
-            var
-                Regex: Codeunit Regex;
-                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
-                if "Middle Name" <> '' then
-                    if not Regex.IsMatch("Middle Name", Pattern) then
-                        Error('Only Alphabet Character Allowed');
-                "Full Name" := FullName;
+                Validate("Tax Code", HRMgt.ValidateTaxCode(Gender, "Marital Status"));
             end;
         }
         modify("Last Name")
@@ -51,17 +89,17 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Full Name" := FullName;
             end;
         }
-        modify("Phone No.")
+        modify("Middle Name")
         {
             trigger OnAfterValidate()
             var
-                TypeHelper: Codeunit "Type Helper";
+                Regex: Codeunit Regex;
+                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
-
-                if not TypeHelper.IsPhoneNumber(Rec."Phone No.") then
-                    Error('Phone No Validation Error');
-                if StrLen("Mobile Phone No.") > 15 then
-                    Error(Text009);
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("Middle Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
+                "Full Name" := FullName;
             end;
         }
 
@@ -86,68 +124,26 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error(Text009);
             end;
         }
-        modify("Birth Date")
+        modify("No.")
         {
             trigger OnAfterValidate()
             begin
-                Age := (Today - "Birth Date") div 365;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Birth Date");
-                if EngNepDate.FindFirst then
-                    "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
-                else
-                    "Date of Birth (B.S.)" := '';
-                HrSetup.Get();
-                if HrSetup."Calculate Age using Nepali C." then
-                    "Age Text" := HRMgt.GetAgeBS(EngNepDate.getNepaliDate("Birth Date"), EngNepDate.getNepaliDate(Today))
-                else
-                    "Age Text" := HRMgt.GetAge("Birth Date", Today);
-
-            end;
-
-        }
-
-        modify(Address)
-        {
-            Caption = 'Permanent Address';
-        }
-
-        modify(Gender)
-        {
-            trigger OnAfterValidate()
-            begin
-                Validate("Tax Code", HRMgt.ValidateTaxCode(Gender, "Marital Status"));
+                if "No." = '' then
+                    Error('No. must have value.');
+                "New Employee" := true;
             end;
         }
-        modify("Employment Date")
+        modify("Phone No.")
         {
             trigger OnAfterValidate()
-            begin
-                TestField("Employment Type");
-                TestField(Gender);
-                if "Contract Expiry Month" <> "Contract Expiry Month"::" " then
-                    Validate("Contract Expiry Month");
-                if "Employment Date" <> 0D then
-                    HrMgt.getServicePeriodText(Rec);
-                "Employment Date (B.S.)" := EngNepDate.getNepaliDate("Employment Date");
-            end;
-        }
-        modify(Title)
-        {
-            TableRelation = "Functional Title";
-        }
-        modify("Bank Account No.")
-        {
-            trigger OnAfterValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
             begin
 
-                if "Bank Account No." <> '' then begin
-                    EmployeeRec.Reset;
-                    EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
-                    EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
-                    if EmployeeRec.FindFirst then
-                        Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
-                end;
+                if not TypeHelper.IsPhoneNumber(Rec."Phone No.") then
+                    Error('Phone No Validation Error');
+                if StrLen("Mobile Phone No.") > 15 then
+                    Error(Text009);
             end;
         }
         modify("Termination Date")
@@ -156,6 +152,10 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 "Termination Date (B.S.)" := EngNepDate.getNepaliDate("Termination Date");
             end;
+        }
+        modify(Title)
+        {
+            TableRelation = "Functional Title";
         }
 
         field(50001; "Branch Code"; Code[20])
@@ -181,43 +181,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Clear("Branch Name");
 
                 end;
-                UpdateDimensionBasedOnDeputation("Deputation on"::Branch, "Branch Code");
-            end;
-        }
-        field(50134; "Branch Name"; Text[50])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(50128; "Deputation on"; Enum "Deputation Type")
-        {
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                if xRec."Deputation on" <> "Deputation on" then
-                    ClearValues;
-            end;
-        }
-        field(50003; "Deputation On Code"; Code[20])
-        {
-            Editable = false;
 
-        }
-        field(50092; "Province Code"; Code[20])
-        {
-            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                if "Deputation on" = "Deputation on"::Province then
-                    ValidateDeputationOn()
-                else begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then
-                        Validate("Province Name", OrganizationStructureList.Name)
-                    else
-                        Clear("Province Name");
-                end;
-                UpdateDimensionBasedOnDeputation("Deputation on"::Province, "Province Code");
             end;
         }
         field(50002; "Department Code"; Code[20])
@@ -234,85 +198,13 @@ tableextension 50013 "Employee Ext" extends Employee
                     else
                         Clear("Department Name");
                 end;
-                UpdateDimensionBasedOnDeputation("Deputation on"::Department, "Department Code");
-            end;
-        }
-        field(50133; "Department Name"; Text[50])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(50048; "Province Name"; Text[50])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(50058; "Unit Code"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
-            trigger OnValidate()
-            begin
-                TestField("Department Code");
-                if "Deputation on" = "Deputation on"::Unit then
-                    ValidateDeputationOn
-                else if "Deputation on" = "Deputation on"::Department then
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit Code") then
-                        Validate("Unit Name", OrganizationStructureList.Name);
-                if "Unit Code" = '' then
-                    Clear("Unit Code");
-
-                UpdateDimensionBasedOnDeputation("Deputation on"::Unit, "Unit Code");
 
             end;
         }
-        field(50132; "Unit Name"; Text[100])
+        field(50003; "Deputation On Code"; Code[20])
         {
-            DataClassification = CustomerContent;
             Editable = false;
-        }
-        field(50072; "Sub Unit Code"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::unit), Code = field("Unit Code"), "Reporting Type" = filter("Deputation Type"::"Sub-Unit"));
-            trigger OnValidate()
-            begin
-                if OrganizationStructureList.Get(OrganizationStructureList.Type::"Sub-Unit", "Sub Unit Code") then
-                    Validate("Sub Unit Name", OrganizationStructureList.Name);
-                UpdateDimensionBasedOnDeputation("Deputation on"::"Sub-Unit", "Sub Unit Code");
-            end;
-        }
-        field(50073; "Sub Unit Name"; Text[100])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
 
-
-        field(50097; "Extension Counter Code"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
-            trigger OnValidate()
-            var
-                OrganizationStructureList: Record "Organization Structure list";
-            begin
-                TestField("Branch Code");
-                if "Deputation on" = "Deputation on"::"Extension Counter" then
-                    ValidateDeputationOn
-                else if "Deputation on" = "Deputation on"::Branch then
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then
-                        Validate("Extension Counter Name", OrganizationStructureList.Name);
-                if "Extension Counter Code" = '' then
-                    Clear("Extension Counter Name");
-
-
-            end;
-        }
-        field(50135; "Extension Counter Name"; Text[100])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
         }
 
         field(50004; "Advance Amount"; Decimal)
@@ -345,7 +237,7 @@ tableextension 50013 "Employee Ext" extends Employee
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::CIT | "Payroll SubType"::"Employee Contribution" | "Payroll SubType"::"Employer Contribution" | "Payroll SubType"::RF | "Payroll SubType"::"Lump Sum Contribution"),
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::CIT | "Payroll SubType"::"Employee Contribution" | "Payroll SubType"::"Employer Contribution" | "Payroll SubType"::RF | "Payroll SubType"::"Lump Sum Contribution" | "Payroll SubType"::Gratuity),
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Document Type" = field("Document Type Filter")));
@@ -466,7 +358,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Promotion Date (B.S.)" := EngNepDate.getNepaliDate("Promotion Date");
             end;
         }
-        field(50025; "CIT No."; Code[20])
+        field(50025; "CIT No."; Code[30])
         {
             DataClassification = CustomerContent;
         }
@@ -492,7 +384,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Description = 'not used';
         }
-        field(50029; "Bank No."; Code[20])
+        field(50029; "Bank No."; Code[30])
         {
             TableRelation = "Bank Account";
             DataClassification = CustomerContent;
@@ -615,6 +507,11 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
+        field(50048; "Province Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
 
         field(50049; "Non-Payment"; Decimal)
         {
@@ -677,6 +574,25 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
+        field(50058; "Unit Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
+            trigger OnValidate()
+            begin
+                TestField("Department Code");
+                if "Deputation on" = "Deputation on"::Unit then
+                    ValidateDeputationOn
+                else if "Deputation on" = "Deputation on"::Department then
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit Code") then
+                        Validate("Unit Name", OrganizationStructureList.Name);
+                if "Unit Code" = '' then
+                    Clear("Unit Code");
+
+
+
+            end;
+        }
 
         field(50059; "Branch Category"; Text[30])
         {
@@ -733,10 +649,6 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50067; "Out-Station eligible"; Boolean)
         {
             DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                ValidateOutstationAllowance;
-            end;
         }
         field(50068; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
         {
@@ -767,6 +679,22 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 //HRMgt.GetEmployeeName("KPI Deputation Value", "Recommender Name");
             end;
+        }
+        field(50072; "Sub Unit Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::unit), Code = field("Unit Code"), "Reporting Type" = filter("Deputation Type"::"Sub-Unit"));
+            trigger OnValidate()
+            begin
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::"Sub-Unit", "Sub Unit Code") then
+                    Validate("Sub Unit Name", OrganizationStructureList.Name);
+
+            end;
+        }
+        field(50073; "Sub Unit Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
         }
         field(50074; "Staff level"; Enum "Staff Type")
         { DataClassification = CustomerContent; }
@@ -982,6 +910,23 @@ tableextension 50013 "Employee Ext" extends Employee
                     HRMgt.CheckForCitizen("Citizen Number", "Citizenship Issue Place Code");
             end;
         }
+        field(50092; "Province Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                if "Deputation on" = "Deputation on"::Province then
+                    ValidateDeputationOn()
+                else begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then
+                        Validate("Province Name", OrganizationStructureList.Name)
+                    else
+                        Clear("Province Name");
+                end;
+
+            end;
+        }
 
         field(50093; "Permanent Ward No"; Integer)
         {
@@ -1020,6 +965,28 @@ tableextension 50013 "Employee Ext" extends Employee
                 if "Confirmation Date" < "Employment Date" then
                     Error('Confirmation date cannot be less than employment date');
                 "Confirmation Date (B.S.)" := EngNepDate.getNepaliDate("Confirmation Date");
+            end;
+        }
+
+
+        field(50097; "Extension Counter Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
+            trigger OnValidate()
+            var
+                OrganizationStructureList: Record "Organization Structure list";
+            begin
+                TestField("Branch Code");
+                if "Deputation on" = "Deputation on"::"Extension Counter" then
+                    ValidateDeputationOn
+                else if "Deputation on" = "Deputation on"::Branch then
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then
+                        Validate("Extension Counter Name", OrganizationStructureList.Name);
+                if "Extension Counter Code" = '' then
+                    Clear("Extension Counter Name");
+
+
             end;
         }
 
@@ -1209,6 +1176,15 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
+        field(50128; "Deputation on"; Enum "Deputation Type")
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                if xRec."Deputation on" <> "Deputation on" then
+                    ClearValues;
+            end;
+        }
         field(50129; "Contract Expiry Month"; Enum "Contract Expiry Date")
         {
             DataClassification = CustomerContent;
@@ -1231,6 +1207,26 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50131; "Attendance Missed On"; Date)
         { DataClassification = CustomerContent; }
+        field(50132; "Unit Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50133; "Department Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50134; "Branch Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50135; "Extension Counter Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
 
         field(50136; "Facebook Url"; Text[100])
         {
@@ -1473,10 +1469,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Trainee/Probation End Date';
         }
-        field(50183; "Automatic Attendance"; Boolean)
-        {
-
-        }
 
         field(50181; "Appointment Date"; Date)
         {
@@ -1487,10 +1479,6 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
 
         }
-        field(50184; "Manual Approver User"; Boolean)
-        {
-            Caption = 'Manual Approver User';
-        }
 
         field(50182; "Appointment Date (B.S.)"; Code[20])
         {
@@ -1500,7 +1488,52 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Appointment Date" := EngNepDate.getEngDate("Appointment Date (B.S.)");
             end;
         }
+        field(50183; "Automatic Attendance"; Boolean)
+        {
 
+        }
+        field(50184; "Manual Approver User"; Boolean)
+        {
+            Caption = 'Manual Approver User';
+        }
+        field(50185; "Relation With Nominee"; Text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+
+        field(50186; "Nominee Mobile No."; Text[15])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
+            begin
+                if not TypeHelper.IsPhoneNumber(Rec."Nominee Mobile No.") then
+                    Error('Phone No Validation Error');
+            end;
+        }
+
+        field(50187; "Nominee Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(50188; "Nominee Email"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                MailManagement: Codeunit "Mail Management";
+            begin
+                MailManagement.ValidateEmailAddressField("Nominee Email");
+            end;
+        }
+
+
+        field(50200; "Do not Calculate Salary"; boolean)
+        {
+            DataClassification = CustomerContent;
+        }
 
     }
     keys
@@ -1519,6 +1552,7 @@ tableextension 50013 "Employee Ext" extends Employee
     trigger OnModify()
     begin
         Saved := false;
+        UpdateDimensionOnModifyRecord();
     end;
 
     trigger OnDelete()
@@ -1526,17 +1560,8 @@ tableextension 50013 "Employee Ext" extends Employee
 
     begin
         Error('');
-
-        //IME.SRT
-        GLSetup.Get;
-        DimensionValue.SetRange("Dimension Code", GLSetup."Employee Dimension");
-        DimensionValue.SetRange(Code, "No.");
-        if DimensionValue.FindFirst then begin
-            DimensionValue.Blocked := true;
-            DimensionValue.Modify(true);
-        end;
     end;
-    //IME.SRT
+
     trigger OnRename()
     begin
         Error('');
@@ -1630,64 +1655,6 @@ tableextension 50013 "Employee Ext" extends Employee
         end;
     end;
 
-    local procedure ValidateOutstationAllowance();
-    begin
-        //   {Employee.GET("No.");
-        //   PayrollAttributeSubgroup.Reset();
-        //   PayrollAttributeSubgroup.SetRange("Auto-Validate",TRUE);
-        //   IF PayrollAttributeSubgroup.FindFirst() THEN
-        //   Code:= PayrollAttributeSubgroup.Code;
-        //   IF "Out-Station eligible" THEN begin
-        //     IF PayrollEngine.PayrollAttCheck(Code,"No.") THEN begin
-        //       IF PayrollAttributeUsage.GET(Code,"No.") THEN
-        //         ERROR('Out Station Allowance Already present for this Employee.');
-        //       IF PayrollAttributeSubgroup.FindFirst() THEN begin
-        //         Code:= PayrollAttributeSubgroup.Code;
-        //         PayrollAttributeUsage.INIT;
-        //         PayrollAttributeUsage."Employee Code":=Employee."No.";
-        //         PayrollAttributeUsage.VALIDATE(Code,PayrollAttributeSubgroup.Code);
-        //         PayrollAttributeUsage.VALIDATE(Description,PayrollAttributeSubgroup.Description);
-        //         PayrollAttributeUsage.INSERT;
-        //       end;
-        //     end;
-        //   end;
-        //    IF NOT "Out-Station eligible" THEN begin
-        //       PayrollAttributeUsage.GET(Code,"No.");
-        //         PayrollAttributeUsage.DELETE;
-        //    end;
-        //    }
-    end;
-
-    local procedure OnValidateFunctionTitle();
-    begin
-        PayrollGeneralSetup.Get;
-
-        //IF NOT ("Functional Title" IN [PayrollGeneralSetup."COPO Functional Title",PayrollGeneralSetup."COSPO Functioal Title"] ) THEN
-        if PayrollAttributeUsage.Get(PayrollGeneralSetup."COPO/COSPO Allowance", "No.") then
-            PayrollAttributeUsage.Delete;
-
-        if PayrollGeneralSetup."BM Functional Title" = "Functional Title" then
-            if PayrollAttributeUsage.Get(PayrollGeneralSetup."BM Accomendation", "No.") then
-                exit;
-        if PayrollEngine.PayrollAttCheck(PayrollGeneralSetup."BM Accomendation", "No.") then begin
-            PayrollAttributeUsage.Init;
-            PayrollAttributeUsage."Employee Code" := "No.";
-            PayrollAttributeUsage.Validate(Code, PayrollGeneralSetup."BM Accomendation");
-            PayrollAttribute.Get(PayrollGeneralSetup."BM Accomendation");
-            PayrollAttributeUsage.Validate(Description, PayrollAttribute.Description);
-            PayrollAttributeUsage.Insert;
-        end;
-
-        if "Functional Title" in [PayrollGeneralSetup."COPO Functional Title", PayrollGeneralSetup."COSPO Functioal Title"] then
-            if PayrollEngine.PayrollAttCheck(PayrollGeneralSetup."COPO/COSPO Allowance", "No.") then begin
-                PayrollAttributeUsage.Init;
-                PayrollAttributeUsage."Employee Code" := "No.";
-                PayrollAttributeUsage.Validate(Code, PayrollGeneralSetup."COPO/COSPO Allowance");
-                PayrollAttribute.Get(PayrollGeneralSetup."COPO/COSPO Allowance");
-                PayrollAttributeUsage.Validate(Description, PayrollAttribute.Description);
-                PayrollAttributeUsage.Insert;
-            end;
-    end;
 
     procedure LeaveRequest();
     begin
@@ -1701,17 +1668,10 @@ tableextension 50013 "Employee Ext" extends Employee
         TravelMgt.OpenTravelRequest("No.", FALSE, '', EmployeeAct::"Travel Request");
     end;
 
-
-    procedure ChangeEmployeeJobType();
-    begin
-        if Confirm('Do you want to confirm employee %1 ?', false, "Full Name") then begin
-        end;
-    end;
-
     local procedure ValidateDeputationOn()
     begin
         TestField("Deputation on");
-        //For Province Code and Name Get 
+        //For Province Code and Name Get
         case "Deputation on" of
             "Deputation on"::Branch:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then begin
@@ -1775,10 +1735,6 @@ tableextension 50013 "Employee Ext" extends Employee
         TransferMgt.OpenOutofOfficeForms("No.");
     end;
 
-    procedure BulkCash();
-    begin
-        // HRMgt.OpenBulkCash("No.");
-    end;
 
     procedure GetOutstandingAmt(): Decimal;
     begin
@@ -1824,8 +1780,13 @@ tableextension 50013 "Employee Ext" extends Employee
         DefaultDimension2: Record "Default Dimension";
         DimensionValue: Record "Dimension Value";
     begin
-        if (DeputationOn = DeputationOn::" ") or (DeputationCode = '') then
+        if (DeputationOn = DeputationOn::" ") then
             exit;
+
+        if DeputationCode = '' then begin
+            ClearDimensionValue(DeputationOn);
+            exit;
+        end;
 
         OrgStructureList.SetRange(Type, DeputationOn);
         OrgStructureList.SetRange(Code, DeputationCode);
@@ -1840,12 +1801,10 @@ tableextension 50013 "Employee Ext" extends Employee
             // if it is dimension 1 and 2 then validate the field
             if DimensionValue."Global Dimension No." = 1 then begin
                 Validate("Global Dimension 1 Code", DimensionValue.Code);
-                Commit();
                 exit;
             end;
             if DimensionValue."Global Dimension No." = 2 then begin
                 Validate("Global Dimension 2 Code", DimensionValue.Code);
-                Commit();
                 exit;
             end;
             //check if default dimension exist
@@ -1867,8 +1826,37 @@ tableextension 50013 "Employee Ext" extends Employee
                 //if exist modify
                 DefaultDimension.Validate("Dimension Value Code", DimensionValue.Code);
                 DefaultDimension.Modify(true);
-                Commit();
             end;
+        end;
+    end;
+
+    procedure UpdateDimensionOnModifyRecord()
+    begin
+        UpdateDimensionBasedOnDeputation("Deputation on"::Branch, "Branch Code");
+        UpdateDimensionBasedOnDeputation("Deputation on"::Province, "Province Code");
+        UpdateDimensionBasedOnDeputation("Deputation on"::Department, "Department Code");
+        UpdateDimensionBasedOnDeputation("Deputation on"::Unit, "Unit Code");
+        UpdateDimensionBasedOnDeputation("Deputation on"::"Sub-Unit", "Sub Unit Code");
+    end;
+
+    procedure ClearDimensionValue(DeputationOn: Enum "Deputation Type")
+    var
+        Dimension: Record Dimension;
+        DefaultDimension: Record "Default Dimension";
+    begin
+        if DeputationOn = DeputationOn::" " then
+            exit;
+
+        Dimension.SetRange("Deputation On Type", DeputationOn);
+        if not Dimension.FindFirst() then
+            exit;
+
+        DefaultDimension.SetRange("Table ID", Database::Employee);
+        DefaultDimension.SetRange("No.", "No.");
+        DefaultDimension.SetRange("Dimension Code", Dimension.Code);
+        if DefaultDimension.FindFirst() then begin
+            DefaultDimension."Dimension Value Code" := '';
+            DefaultDimension.Modify();
         end;
     end;
 }

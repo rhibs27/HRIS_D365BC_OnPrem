@@ -81,17 +81,17 @@ table 50033 "Payroll Column Configuration"
         NumberOfObjects: Integer;
         NumberOfFields: Integer;
         TableIDArray: array[2] of Integer;
-        FieldIDArray: array[2, 120] of Integer;
+        FieldIDArray: array[2, 160] of Integer;
         Index: Integer;
         TableIndex: Integer;
     begin
         NumberOfObjects := 2;
-        NumberOfFields := 120;
+        NumberOfFields := 160;
         Clear(TableIDArray);
 
         TableIDArray[1] := Database::"Payroll Line";
         if WhatToFind = WhatToFind::Field then
-            FillFieldIDArray(FieldIDArray, 1, 120, 61, 1);
+            FillFieldIDArray(FieldIDArray, 1, 160, 61, 1);
 
         TableIDArray[2] := Database::"Level Wise Attributes";
         if WhatToFind = WhatToFind::Field then

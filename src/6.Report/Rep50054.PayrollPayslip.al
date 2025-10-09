@@ -23,6 +23,7 @@ report 50054 "Payroll Payslip"
         }
         dataitem(Header; "Posted Payroll Header")
         {
+            DataItemTableView = where(Reversed = const(false));
             column(No_PostedPayrollHeader; Header."No.") { }
             dataitem(EmployeeLedger; "Employee Ledger Entry")
             {
@@ -123,11 +124,7 @@ report 50054 "Payroll Payslip"
                         trigger OnAfterGetRecord()
                         begin
                             AttributeDescription := '';
-                            /*
-                            IF ("Payroll Attribute Code" = 'GRATUITY-DED-P') OR
-                                ("Payroll Attribute Code" = 'GRATUITY-DED-T') THEN
-                              CurrReport.SKIP;
-                              */
+
                             if PayrollAttributes.Get("Payroll Attribute Code") then
                                 AttributeDescription := PayrollAttributes.Description;
                         end;
@@ -142,6 +139,7 @@ report 50054 "Payroll Payslip"
 
                     trigger OnPreDataItem()
                     begin
+                        EmployeeLedgerDetails.SetRange(Reversed, false);
                         if EmployeeNo <> '' then
                             EmployeeLedgerDetails.SetRange("Employee No.", EmployeeNo);
                     end;

@@ -8,7 +8,6 @@ page 50003 "Employee Payroll Adjustment"
     PageType = List;
     SourceTable = "Employee Payroll Adjustment";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -46,39 +45,50 @@ page 50003 "Employee Payroll Adjustment"
 
     actions
     {
+        area(Promoted)
+        {
+            actionref(ExcelImport; "Import From Excel") { }
+            actionref(DashinBonous; "Load Dashain Bonus") { }
+            actionref(leaveFareAllowance; "Load Leave Fare Allowance") { }
+        }
         area(Processing)
         {
             action("Load Dashain Bonus")
             {
                 Image = GainLossEntries;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Load Dashain Bonus action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
+                var
+                    FilterPage: FilterPageBuilder;
+                    EmployeeCode: Code[20];
                 begin
-                    if not Confirm('Do you want to generate dashain bonus ?', false) then
-                        exit;
+                    FilterPage.AddRecord('Employee No.', Employee);
+                    FilterPage.AddField('Employee No.', Employee."No.");
+                    if FilterPage.RunModal() then begin
+                        Employee.SetView(FilterPage.GetView('Employee No.'));
+                        EmployeeCode := Employee.GetFilter("No.");
 
-                    EmployeePayrollAdjustment.Reset;
-                    EmployeePayrollAdjustment.SetRange("Payroll Document No.", PayrollDocNo);
-                    EmployeePayrollAdjustment.DeleteAll;
+                        if EmployeeCode = '' then
+                            if not Confirm('No employee is selected. Do you want to generate dashain bonus of all employees?', false) then
+                                exit;
 
-                    PayrollEngine.LoadDashainBonus(EmployeeType::Permanent, PayrollDocNo);
-                    PayrollEngine.LoadDashainBonus(EmployeeType::Contract, PayrollDocNo);
-                    CurrPage.Update(true);
+                        EmployeePayrollAdjustment.Reset;
+                        EmployeePayrollAdjustment.SetRange("Payroll Document No.", PayrollDocNo);
+                        EmployeePayrollAdjustment.DeleteAll;
 
-                    Message('Dashain bonus calculated successfully.');
+                        PayrollEngine.LoadDashainBonus(EmployeeType::Permanent, PayrollDocNo, EmployeeCode);
+                        PayrollEngine.LoadDashainBonus(EmployeeType::Contract, PayrollDocNo, EmployeeCode);
+                        CurrPage.Update(true);
+
+                        Message('Dashain bonus calculated successfully.');
+                    end;
                 end;
             }
             action("Load Leave Fare Allowance")
             {
                 Image = Holiday;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Load Leave Fare Allowance action.';
                 ApplicationArea = All;
 
@@ -99,6 +109,18 @@ page 50003 "Employee Payroll Adjustment"
                     Message('Leave fare allowances loaded successfully.');
                 end;
             }
+            action("Import From Excel")
+            {
+                ApplicationArea = All;
+                Scope = Repeater;
+                Image = ImportExcel;
+                trigger OnAction()
+                var
+                    ExcelImport: Codeunit "Excel Import";
+                begin
+                    ExcelImport.ImportFromExcelSheet(Database::"Employee Payroll Adjustment", Rec."Payroll Document No.", false);
+                end;
+            }
         }
     }
 
@@ -111,6 +133,9 @@ page 50003 "Employee Payroll Adjustment"
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        LWPDays: Integer;
+        IsHandled: Boolean;
     begin
         PGSetup.Get;
         Rec.FilterGroup(2);
@@ -142,6 +167,11 @@ page 50003 "Employee Payroll Adjustment"
                     FieldRefs := RecRefs.Field(3);
                     FieldRefs.Validate(PayrollAdj."Employee No.");
                     ValidatePayrollLineAmt;
+                    OnBeforeInsertPayrollLine(PayrollAdj."Employee No.", LWPDays, IsHandled);
+                    if IsHandled then begin
+                        FieldRefs := RecRefs.Field(1062);
+                        FieldRefs.Validate(LWPDays);
+                    end;
                     RecRefs.Insert;
                 end else begin
                     ValidatePayrollLineAmt;
@@ -174,6 +204,7 @@ page 50003 "Employee Payroll Adjustment"
         PayrollEngine: Codeunit "Payroll Engine";
         EmployeeType: enum "Employee Type";
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
+        DocNo: Code[20];
 
 
     local procedure ValidatePayrollLineAmt()
@@ -445,5 +476,12 @@ page 50003 "Employee Payroll Adjustment"
             AdjustPFAmt := EmpPayAdj.Amount;
             AttributeAmt += AdjustPFAmt;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertPayrollLine(EmployeeNo: Code[20]; var LWPDays: Integer; var IsHandled: Boolean)
+    begin
+        //This event can be used to insert values in the payroll line for the employee before entering the process
+        //You can add custom logic here if needed.
     end;
 }

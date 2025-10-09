@@ -242,6 +242,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Leave Rounding Precision field.', Comment = '%';
                 }
+                field("Leave Encashment Nos."; Rec."Leave Encashment Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Encashment Nos. field.', Comment = '%';
+                }
             }
             group("Mail For Recruitement")
             {

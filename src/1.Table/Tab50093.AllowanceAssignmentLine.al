@@ -5,27 +5,12 @@ table 50093 "Allowance Assignment Line"
     fields
     {
         field(1; "No."; Code[20]) { }
-        field(2; "Line No."; Integer) { }
+        field(2; "Line No."; Integer)
+        {
+            Editable = false;
+        }
         field(3; "Code"; Code[20])
         {
-            // TableRelation = if (Type = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('BRANCH'),
-            //                                                                       "Dimension Value Type" = const(Standard))
-            // else if (Type = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"));
-
-            // trigger OnValidate()
-            // begin
-            //     GLSetup.Get;
-            //     if Type = Type::Branch then begin
-            //         if DimValue.Get(GLSetup."Global Dimension 1 Code", Code) then
-            //             Validate(Name, DimValue.Name);
-            //     end else if Type = Type::"Extension Counter" then begin
-            //         EmpHie.Reset;
-            //         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-            //         EmpHie.SetRange(Code, Code);
-            //         if EmpHie.FindFirst then
-            //             Validate(Name, EmpHie.Description);
-            //     end;
-            // end;
             TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
             else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Deputation Type"::"Extension Counter"), Blocked = filter(false))
             else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
@@ -57,45 +42,34 @@ table 50093 "Allowance Assignment Line"
             TableRelation = if (Type = const(Branch)) Employee."No." where("Branch Code" = field(Code))
             else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code))
             else if (Type = const("Department")) Employee."No." where("Department Code" = field(Code))
-            else if (Type = const("Unit")) Employee."No." where("Unit Code" = field(Code));
+            else if (Type = const("Unit")) Employee."No." where("Unit Code" = field(Code))
+            else if ("Emp Act Type" = const("Request Allowance")) Employee;
 
             trigger OnValidate()
             begin
-                // TestField("From Date");
-                // if "Approval Status" = "Approval Status"::Screened then
-                // Error('Cannot substitute screened employee.');
-                // AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
-                //TestField("Allowance Type");
                 PayrollGeneralSetup.Get;
-                PayrollGeneralSetup.TestField("Risk Allowance");
-                PayrollGeneralSetup.TestField("Morning Counter");
-                PayrollGeneralSetup.TestField("Holiday Counter");
+                if not PayrollGeneralSetup."Use Allowance Configuration" then begin
+                    PayrollGeneralSetup.TestField("Risk Allowance");
+                    PayrollGeneralSetup.TestField("Morning Counter");
+                    PayrollGeneralSetup.TestField("Holiday Counter");
 
-                if "Allowance Type" in [PayrollGeneralSetup."Risk Allowance", PayrollGeneralSetup."Morning Counter"] then
-                    AllowanceMgt.CheckFunctionalTitleForRiskAllowance(Rec);
-                if "Allowance Type" = PayrollGeneralSetup."Evening Counter" then
-                    AllowanceMgt.CheckFunctionalTitleForEveningCounter(Rec);
+                    if "Allowance Type" in [PayrollGeneralSetup."Risk Allowance", PayrollGeneralSetup."Morning Counter"] then
+                        AllowanceMgt.CheckFunctionalTitleForRiskAllowance(Rec);
+                    if "Allowance Type" = PayrollGeneralSetup."Evening Counter" then
+                        AllowanceMgt.CheckFunctionalTitleForEveningCounter(Rec);
 
-                if "Allowance Type" = PayrollGeneralSetup."Holiday Counter" then
-                    AllowanceMgt.CheckFunctionalTitleForHolidayCounter(Rec);
+                    if "Allowance Type" = PayrollGeneralSetup."Holiday Counter" then
+                        AllowanceMgt.CheckFunctionalTitleForHolidayCounter(Rec);
 
-                if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
-                    AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
+                    if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
+                        AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
 
-                OverTimeMgt.CheckApprovedOvertimeExists(Rec);
-
+                    OverTimeMgt.CheckApprovedOvertimeExists(Rec);
+                end;
                 if Employee.Get("Employee Code") then
                     "Employee Name" := Employee."Full Name"
                 else
                     "Employee Name" := '';
-                // if not GuiAllowed then
-                //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
-
-                // if xRec."Employee Code" <> "Employee Code" then
-                //     "Approval Status" := "Approval Status"::Pending;
-
-                // ValidateAllowanceType();
-
             end;
         }
         field(6; "Employee Name"; Text[100])
@@ -106,11 +80,14 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
-                ValidateDate();
-                Validate("To Date", "From Date");
-                ValidateAllowanceType;
-                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+
+                if "Emp Act Type" <> "Emp Act Type"::"Request Allowance" then begin
+                    AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date", "Emp Act Type");
+                    ValidateDate();
+                    Validate("To Date", "From Date");
+                    ValidateAllowanceType;
+                    Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                end;
             end;
         }
         field(8; "To Date"; Date)
@@ -122,22 +99,38 @@ table 50093 "Allowance Assignment Line"
         }
         field(9; "Allowance Type"; Code[20])
         {
-            TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
+
+            TableRelation = if ("Emp Act Type" = const("Request Allowance")) "Allowance Configuration"."Payroll Attribute"
+            else
+            "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
 
             trigger OnValidate()
+            var
+                AllowanceHeader: Record "Allowance Assignment Header";
             begin
                 if ("Allowance Type" <> xRec."Allowance Type") and GuiAllowed then begin
                     Clear("From Date");
                     Clear("To Date");
-                    Clear("Employee Code");
-                    Clear("Employee Name");
-                    Clear("Allowance Amount");
                     Clear(Panel);
+                    if "Emp Act Type" <> "Emp Act Type"::"Request Allowance" then begin
+                        Clear("Employee Code");
+                        Clear("Employee Name");
+                        Clear("Allowance Amount");
+                    end;
                 end;
-                // TestField("Employee Code", '');
-                // PGSetup.Get;
-                // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then 12.20.2022
-                //     Error(TEXT003);//santosh
+
+                if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and ("Allowance Type" <> '') then begin
+                    AllowanceConfiguration.Reset();
+                    AllowanceConfiguration.SetRange("Payroll Attribute", "Allowance Type");
+                    if AllowanceConfiguration.FindFirst() then
+                        "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration)
+                    else
+                        Error('Invalid allowance selected!');
+                    Clear(Panel);
+                    if AllowanceHeader.Get("No.") then
+                        Validate("Emp Act Type", AllowanceHeader."Activity Type")
+                end;
+
             end;
         }
         field(10; "Substitute Type"; Enum "Allowance Substitute")
@@ -158,10 +151,6 @@ table 50093 "Allowance Assignment Line"
         field(15; "Last Modified Date"; Date) { }
         field(16; "Last Modified By"; Code[50]) { }
         field(17; "Approved Date"; Date) { }
-        // field(18; "Approved Id"; Code[50])
-        // {
-        //     TableRelation = Employee;
-        //}
         field(19; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
@@ -186,11 +175,13 @@ table 50093 "Allowance Assignment Line"
             begin
                 if Panel <> Panel::" " then begin
                     PayrollGeneralSetup.Get;
-                    PayrollGeneralSetup.TestField("Vault Key");
-                    PayrollGeneralSetup.TestField("ATM Custodian");
-                    if ("Allowance Type" <> PayrollGeneralSetup."Vault Key") and ("Allowance Type" <> PayrollGeneralSetup."ATM Custodian") then
-                        Error('Panel is not allowed in this Allowance Type');
-                    AllowanceMgt.CheckForPanel(Rec);
+                    if not PayrollGeneralSetup."Use Allowance Configuration" then begin
+                        PayrollGeneralSetup.TestField("Vault Key");
+                        PayrollGeneralSetup.TestField("ATM Custodian");
+                        if ("Allowance Type" <> PayrollGeneralSetup."Vault Key") and ("Allowance Type" <> PayrollGeneralSetup."ATM Custodian") then
+                            Error('Panel is not allowed in this Allowance Type');
+                        AllowanceMgt.CheckForPanel(Rec);
+                    end;
                 end;
             end;
         }
@@ -208,6 +199,20 @@ table 50093 "Allowance Assignment Line"
         field(28; "Allowance Claim From"; Code[20])
         {
         }
+        field(50; "Leave Code"; Code[20]) { }
+        field(51; "Leave Document No"; Code[20]) { }
+        field(52; "Payroll Doc No."; Code[20])
+        {
+
+        }
+        field(53; "Recurring Completed"; Boolean) { }
+        field(29; "Allowance Claimed"; Boolean)
+        {
+        }
+        field(30; "Allowance Claim from Line No"; Integer)
+        {
+        }
+
     }
 
     keys
@@ -221,8 +226,8 @@ table 50093 "Allowance Assignment Line"
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-        //     Error(CannotDelete)
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete);
     end;
 
     trigger OnInsert()
@@ -240,27 +245,16 @@ table 50093 "Allowance Assignment Line"
 
         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Screened] then
             Error('Document is already screened.');
-
-        // TestField("Employee Code");
-        // TestField("From Date");
-
-        //for portal
-        // if not GuiAllowed then begin
-        //     ValidateDate;
-        //     ChangeHeaderApprovalStatus
-        // end;
         // CheckForGracePeriod;
+        if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and AllowanceHeader.Get("No.") then
+            if AllowanceHeader."Employee No." <> '' then
+                Validate("Employee Code", AllowanceHeader."Employee No.");
     end;
 
     trigger OnModify()
     begin
-        // if "Approval Status" in ["Approval Status"::Screened] then
-        //     Error('You cannot modify already screened entries.');
-
         "Last Modified Date" := Today;
         "Last Modified By" := UserId;
-        // if not GuiAllowed then
-        //     ChangeHeaderApprovalStatus;
     end;
 
     var
@@ -270,17 +264,16 @@ table 50093 "Allowance Assignment Line"
         AllowanceLine1: Record "Allowance Assignment Line";
         BaseCalenderChange: Record "Base Calendar Change";
         TEXT001: Label '%1 and %2 cannot be assigned on same date %3.';
-        BranchwiseAllowance: Record "Branchwise/Extension Allowance";
+        BranchWiseAllowance: Record "BranchWise/Extension Allowance";
         TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PayrollGeneralSetup: Record "Payroll General Setup";
         HrMgt: Codeunit "HR Mgt.";
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
-        // LoanMgt: Codeunit "Loan Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         SalaryLevel: Record "Salary Level";
-        GLSetup: Record "General Ledger Setup";
         OrganizationStructureList: Record "Organization Structure List";
+        AllowanceConfiguration: Record "Allowance Configuration";
 
     local procedure GetLineNo()
     var
@@ -440,18 +433,11 @@ table 50093 "Allowance Assignment Line"
                 AllowanceLine1."Substitute Type" := AllowanceLine1."Substitute Type"::"Added as Substitute";
                 AllowanceLine1."From Date" := NewFromDate;
                 AllowanceLine1."To Date" := NewToDate;
-                //    IF NOT GUIALLOWED THEN begin
                 AllowanceHeader.Validate("Approval Status", AllowanceHeader."Approval Status"::"Pending");
                 AllowanceHeader.Modify;
-                //  end;
-
-                // AllowanceLine1.Validate("Approval Status", AllowanceLine1."Approval Status"::Screened);
                 AllowanceLine1.CalculateNoOfDays(AllowanceLine1);
                 AllowanceLine1.Insert(true);
             end;
-
-            //IF (AllowanceLine."From Date" = 0D) OR (AllowanceLine."To date" = 0D) THEN
-            //  AllowanceLine.DELETE;
         end;
     end;
 
@@ -468,21 +454,32 @@ table 50093 "Allowance Assignment Line"
             exit(MonthEndDate);
     end;
 
-    local procedure ChangeHeaderApprovalStatus()
-    begin
-        if AllowanceHeader.Get("No.") then begin
-            if AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Approved then begin
-                AllowanceHeader."Approval Status" := AllowanceHeader."Approval Status"::"Pending";
-                AllowanceHeader.Modify;
-            end;
-        end;
-    end;
-
     local procedure CheckForGracePeriod()
     begin
-
-        //PayrollGeneralSetup.TestField("Allowance Grace Period");
         if AllowanceHeader."To date" + PayrollGeneralSetup."Allowance Grace Period" < Today then
             Error('Grace period for filling allowance assignment has been exceeded. Please Contact HR Team');
+    end;
+
+    procedure GetAllowanceConfigAmount(AllowanceConfig: Record "Allowance Configuration"): Decimal
+    var
+        MonthlyAmt: Decimal;
+    begin
+        if AllowanceConfig."Earning Cycle" = AllowanceConfig."Earning Cycle"::Daily then
+            exit(AllowanceConfig.Amount);
+
+        if AllowanceConfig.Source in [AllowanceConfig.Source::Direct, AllowanceConfig.Source::Leave] then
+            if AllowanceConfig.Formula = '' then
+                exit(AllowanceConfig.Amount)
+            else
+                exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee Code"));
+
+        if AllowanceConfig.Source in [AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift] then begin
+            if AllowanceConfig.Formula = '' then
+                MonthlyAmt := AllowanceConfig.Amount
+            else
+                MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee Code");
+
+            exit(Round(MonthlyAmt / 30, 0.01, '='));
+        end;
     end;
 }

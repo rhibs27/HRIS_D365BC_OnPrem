@@ -63,6 +63,79 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
                 Validate(Municipality, HRMgt.LookupMultipleMunicipality());
             end;
         }
+        field(50011; "Employee"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate(Employee, HRMgt.LookupEmployee());
+            end;
+        }
+        field(50020; "Province Filter -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate("Province Filter -OR", HRMgt.LookupProvinceOrganization());
+            end;
+        }
+        field(50021; "Gender Filter -OR"; Enum "Employee Gender")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50022; "Inside/Outside Valley -OR"; Enum "Outside/Inside Valley")
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(50023; "Posting Region -OR"; Enum Region)
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(50024; "Branch Code -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate("Branch Code -OR", HRMgt.LookupBranch(''));
+            end;
+        }
+        field(50025; "Employee Filter -OR"; Text[20])
+        {
+            FieldClass = FlowFilter;
+        }
+        field(50026; "Community -OR"; Enum "Community Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50027; "Disabled -OR"; Boolean)
+        {
+        }
+        field(50028; "District -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate("District -OR", HRMgt.LookupMultipleDistrict());
+            end;
+        }
+        field(50029; "Municipality -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate("Municipality -OR", HRMgt.LookupMultipleMunicipality());
+            end;
+        }
+        field(50030; "Employee -OR"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate("Employee -OR", HRMgt.LookupEmployee());
+            end;
+        }
     }
 
     var

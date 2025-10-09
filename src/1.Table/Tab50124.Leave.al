@@ -479,7 +479,6 @@ table 50124 Leave
                             LeaveRec.SetLoadFields("No.");
                             while LeaveRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-
                             if "Approval Status" <> "Approval Status"::Approved then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                             if not GuiAllowed then begin
@@ -490,8 +489,6 @@ table 50124 Leave
                         end;
                 end;
             end;
-
-
     end;
 
     trigger OnDelete()

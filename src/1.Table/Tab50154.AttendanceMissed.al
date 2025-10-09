@@ -99,7 +99,8 @@ table 50154 "Attendance Missed"
                     Clear("End Date");
                     Clear("End Date (BS)");
                 end;
-                AttendanceMissedMgt.CheckAlreadyExists("Employee No.", Type, "Start Date");
+                if not "From Journal" then
+                    AttendanceMissedMgt.CheckAlreadyExists("Employee No.", Type, "Start Date");
                 Validate("End Date", "Start Date");
             end;
         }
@@ -340,8 +341,10 @@ table 50154 "Attendance Missed"
                             AttendanceMissed.SetLoadFields("No.");
                             while AttendanceMissed.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-                            if not "From Journal" then
+                            if not "From Journal" then begin
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
+                                HRMgt.SendMailFromTemplate(DATABASE::"Attendance Missed", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
+                            end;
                         end;
                 end;
             end;

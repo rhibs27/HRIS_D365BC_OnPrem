@@ -256,6 +256,10 @@ table 50048 "Employee Attendance & Activity"
         {
 
         }
+        field(112; "Extension Counter"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"));
+        }
 
     }
 

@@ -77,7 +77,13 @@ table 50075 "Employee Activity Journal"
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
                 end;
-                //<<check for leave
+                case "Employee Act Type" of
+                    "Employee Act Type"::"Attendance Missed":
+                        begin
+                            AttendanceMissedMgt.CheckAlreadyExists("Employee No.", "Employee Act Type", "Start Date");
+                            EmployeeActMgt.CheckAttendanceMissedInJournal("Employee No.", "Start Date");
+                        end;
+                end;
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then
@@ -252,7 +258,7 @@ table 50075 "Employee Activity Journal"
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {
         }
-        //Leave 
+        //Leave
         field(40; "Leave Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
@@ -355,7 +361,7 @@ table 50075 "Employee Activity Journal"
         field(51; "Screener Remarks"; Text[100])
         {
         }
-        //Transfer 
+        //Transfer
         field(52; "Transfer Type"; Enum "Transfer Type")
         {
             trigger OnValidate()
@@ -363,14 +369,14 @@ table 50075 "Employee Activity Journal"
                 if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
+                    "To Branch" := "Shortcut Dimension 1 Code";
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
-                    // GetTransferName;
+                    "Approver Role (TO)" := "Approver Role";
                 end;
                 if "Transfer Type" in ["Transfer Type"::"Inter Branch", "Transfer Type"::"Inter Department", "Transfer Type"::"Inter Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
-                    // GetTransferName;
                 end;
                 if "Transfer Type" = "Transfer Type"::"Cross Transfer" then
                     "Deputation On (To)" := "Deputation On (To)"::" ";
@@ -387,7 +393,6 @@ table 50075 "Employee Activity Journal"
                 OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Shortcut Dimension 1 Code (To)" <> xRec."Shortcut Dimension 1 Code (To)" then begin
-                    // GLSetup.Get;
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, OrganizationStructureList.Code) then begin
                         "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Department Code (To)" := '';
@@ -397,15 +402,31 @@ table 50075 "Employee Activity Journal"
                 end;
             end;
         }
+
+        //change 0:
         field(54; "Province Code (To)"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
-            trigger OnValidate()
-            begin
-                ValidateDeputationOnTo
-            end;
-        }
+{
+    Description = 'Transfer';
+    TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
+    trigger OnValidate()
+    begin
+        if "Province Code (To)" <> xRec."Province Code (To)" then
+            Clear("To Branch");
+
+        if "Deputation On (To)" = "Deputation On (To)"::Province then
+            ValidateDeputationOnTo
+    end;
+}
+        // field(54; "Province Code (To)"; Code[20])
+        // {
+        //     Description = 'Transfer';
+        //     TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
+        //     trigger OnValidate()
+        //     begin
+        //         if "Deputation On (To)" = "Deputation On (To)"::Province then
+        //             ValidateDeputationOnTo
+        //     end;
+        // }
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
@@ -578,15 +599,43 @@ table 50075 "Employee Activity Journal"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
+        // change 1:
         field(78; "To Branch"; Code[20])
-        {
-            DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
-            trigger OnValidate()
-            begin
-                ValidateDeputationOnTo
-            end;
-        }
+{
+    DataClassification = ToBeClassified;
+    TableRelation = "Organization Structure Line"."Reporting Code"
+                   WHERE(Type = filter("Deputation Type"::Province),
+                         Code = field("Province Code (To)"),
+                         "Reporting Type" = filter("Deputation Type"::Branch));
+    trigger OnValidate()
+    var
+        OrganizationStructureLine: Record "Organization Structure Line";
+    begin
+        TestField("Province Code (To)");
+        ValidateDeputationOnTo;
+        OrganizationStructureLine.Reset();
+        OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
+        OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
+        if OrganizationStructureLine.FindFirst() then
+            Validate("Province Code (To)", OrganizationStructureLine.Code);
+    end;
+}
+        // field(78; "To Branch"; Code[20])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
+        //     trigger OnValidate()
+        //     var
+        //         OrganizationStructureLine: Record "Organization Structure Line";
+        //     begin
+        //         ValidateDeputationOnTo;
+        //         OrganizationStructureLine.Reset();
+        //         OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
+        //         OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
+        //         if OrganizationStructureLine.FindFirst() then
+        //             Validate("Province Code (To)", OrganizationStructureLine.Code);
+        //     end;
+        // }
         field(79; "Deputation On Code"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -596,7 +645,7 @@ table 50075 "Employee Activity Journal"
             DataClassification = ToBeClassified;
         }
 
-        // OverTime 
+        // OverTime
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
@@ -735,6 +784,23 @@ table 50075 "Employee Activity Journal"
             end;
     end;
 
+    procedure InsertApproval(var FirstLine: Boolean; var EmpActNo: Code[20])
+    begin
+        if FirstLine then begin
+            HRSetup.Get();
+            HRSetup.TestField("Employee Act. Journal Series");
+            "No. Series" := HRSetup."Employee Act. Journal Series";
+            "Emp Act. No" := NoSeriesMgt.GetNextNo("No. Series", "Posting Date", true);
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", '');
+            ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
+            ApprovalHRMS.DeleteAll();
+            ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+            FirstLine := false;
+            EmpActNo := "Emp Act. No";
+        end;
+    end;
+
     local procedure ValidateDeputationOnTo();
     var
         OrganizationStructureLine: Record "Organization Structure line";
@@ -745,8 +811,8 @@ table 50075 "Employee Activity Journal"
             "Deputation on"::Branch:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "TO Branch") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
-                    // Validate("Branch Name To", OrganizationStructureList.Name);
                     // Validate("Province Code (To)", OrganizationStructureList."Province Code");
+                    // Validate("Branch Name To", OrganizationStructureList.Name);
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code (To)") then begin
@@ -774,6 +840,7 @@ table 50075 "Employee Activity Journal"
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeActMgt: Codeunit EmployeeActivityMgt;
         AttendanceMgt: Codeunit "Attendance Mgt";
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         SalaryLevel: Record "Salary Level";
         AttendanceSetup: Record "Attendance Setup";
         SalaryLevel1: Record "Salary Level";

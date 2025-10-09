@@ -38,15 +38,18 @@ codeunit 50023 EmployeeActivityMgt
     procedure ConfirmTransferJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
     var
         EmphrTransfer: Record "Employee Transfer";
+        TransferType: Enum "Transfer Type";
     begin
+        if not (EmployeeACTJnl."Transfer Type" in [TransferType::"Intra Branch", TransferType::"Intra Department", TransferType::"Intra Provincial"]) then begin
+            EmployeeACTJnl.TestField("Incoming Supervisor");
+            EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
+        end;
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Transfer Type");
         EmployeeACTJnl.TestField("Transfer Category");
         EmployeeACTJnl.TestField("Deputation On (To)");
-        EmployeeACTJnl.TestField("Incoming Supervisor");
-        EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
-        EmployeeACTJnl.TestField("Approver Role (TO)");
         EmployeeACTJnl.TestField("Transfer Effective Date");
+        EmployeeACTJnl.TestField("Approver Role (TO)");
         case EmployeeACTJnl."Deputation On (To)" of
             EmployeeACTJnl."Deputation On (To)"::Branch:
                 EmployeeACTJnl.TestField("To Branch");
@@ -73,7 +76,7 @@ codeunit 50023 EmployeeActivityMgt
     begin
         if EmployeeACTJnl."Start Date" > Today then
             Error('Attendance missed date cannot be future date');
-        AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
+        // AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
         AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl);
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Start Date");
@@ -105,6 +108,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Unit (To)", TransferEmployeeJournal."Unit (To)");
                 TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
                 TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
+                TransferRequest.Validate("Transfer Type", TransferEmployeeJournal."Transfer Type");
                 TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
                 TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
                 TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
@@ -160,6 +164,7 @@ codeunit 50023 EmployeeActivityMgt
                     LeaveRequest.Validate(Remarks, leaveJournal.Remarks);
                     LeaveRequest.Validate("Approval Status", LeaveRequest."Approval Status"::Approved);
                     LeaveRequest.Validate("Approved Date", Today);
+                    LeaveRequest.Validate("Requested Date", leaveJournal."Requested Date");
                     LeaveRequest.Validate("Form Journal", true);
                     LeaveRequest.Insert(true);
                 end else if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Adjustment then
@@ -202,6 +207,7 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("No.", '');
                 AttendanceMissed.Validate("Employee No.", AttendanceMissedJournal."Employee No.");
                 AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+                AttendanceMissed.Validate("From Journal", true);
                 AttendanceMissed.Validate("Start Date", AttendanceMissedJournal."Start Date");
                 AttendanceMissed.Validate("Check In Time", AttendanceMissedJournal."CheckIn Time");
                 AttendanceMissed.Validate("Check Out Time", AttendanceMissedJournal."CheckOut Time");
@@ -209,7 +215,6 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
                 AttendanceMissed.Validate("Approved Date", Today);
                 AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
-                AttendanceMissed.Validate("From Journal", true);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
                 PostedAttendanceJournal.TransferFields(AttendanceMissedJournal);
@@ -222,25 +227,21 @@ codeunit 50023 EmployeeActivityMgt
             until AttendanceMissedJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Attendance Jounral is posted');
+        Message('Attendance Journal is posted');
     end;
 
     procedure RejectJournal(var EmployeeActJournal: Record "Employee Activity Journal"; Reject: Boolean)
     var
-        Approver: Record "Approval HRMS";
         StatusMaster: Record "Status Master";
-
+        EmployeeActJournal1: Record "Employee Activity Journal";
+        PostedEmployeeJournal: Record "Posted Employee Journal";
+        EmployeeActNo: Code[20];
     begin
         if Reject then begin
+            EmployeeActNo := EmployeeActJournal."Emp Act. No";
             EmployeeActJournal.TestField("Approval Status", EmployeeActJournal."Approval Status"::Pending);
             ApproverMgt.CheckApprover(EmployeeActJournal."Emp Act. No");
-            // Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
-            // Approver.Validate("Rejected By", HRMgt.GetEmpName());
             EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
-            EmployeeActJournal.Modify();
-            // EmployeeActJournal.Modify("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
-            // Approver.Modify();
-            // Get the Rejected Status from Status Master
             StatusMaster.Reset();
             StatusMaster.SetRange(Rejected, true);
             if StatusMaster.FindFirst() then begin
@@ -248,6 +249,34 @@ codeunit 50023 EmployeeActivityMgt
             end
             else
                 Error('Rejected Status not Found On Status Master Setup');
+            EmployeeActJournal.Modify();
+            PostedEmployeeJournal.Init();
+            PostedEmployeeJournal.TransferFields(EmployeeActJournal);
+            PostedEmployeeJournal.Validate(Posted, true);
+            PostedEmployeeJournal.Insert(true);
+            EmployeeActJournal.Delete();
+            CheckJournalAndUpdateApproval(EmployeeActNo);
+        end;
+    end;
+
+    local procedure CheckJournalAndUpdateApproval(EmpJournalNo: Code[20])
+    var
+        ApprovalHRMS: Record "Approval HRMS";
+        EmployeeActJournal: Record "Employee Activity Journal";
+    begin
+        EmployeeActJournal.Reset();
+        EmployeeActJournal.SetRange("Emp Act. No", EmpJournalNo);
+        EmployeeActJournal.SetRange("Approval Status", EmployeeActJournal."Approval Status"::Pending);
+        if not EmployeeActJournal.FindFirst() then begin
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", EmpJournalNo);
+            if ApprovalHRMS.FindSet() then
+                repeat
+                    ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+                    ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                    ApprovalHRMS.Modify();
+                until ApprovalHRMS.Next() = 0;
+
         end;
     end;
 
@@ -326,6 +355,20 @@ codeunit 50023 EmployeeActivityMgt
                 if not ((EmpActJnl."Emp Act. No" = EmployeeACTJnl."Emp Act. No") and (EmpActJnl."Line No" = EmployeeACTJnl."Line No")) then
                     Error('Leave has already been Assign between %1 to %2 in %3 and Line No %4', EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date", EmpActJnl."Emp Act. No", EmpActJnl."Line No");
             until EmpActJnl.Next() = 0;
+    end;
+
+    procedure CheckAttendanceMissedInJournal(EmpNo: Code[20]; AttendanceDate: Date)
+    Var
+        EmpActJournal: Record "Employee Activity Journal";
+    begin
+        EmpActJournal.Reset();
+        EmpActJournal.SetRange("Employee No.", EmpNo);
+        EmpActJournal.SetRange("Employee Act Type", EmpActJournal."Employee Act Type"::"Attendance Missed");
+        EmpActJournal.SetFilter("Approval Status", '<>%1', EmpActJournal."Approval Status"::Rejected);
+        EmpActJournal.SetRange("Start Date", AttendanceDate);
+        if EmpActJournal.FindFirst then
+            Error('Attendance Already Applied for date %1 of %2', AttendanceDate, EmpNo);
+
     end;
 
     [IntegrationEvent(false, false)]

@@ -1,5 +1,8 @@
 table 50035 "Posted Payroll Line"
 {
+    Permissions = tabledata "Employee Ledger Entry" = RIM,
+                tabledata "Detailed Employee Ledger Entry" = RIM,
+                tabledata "Payable Employee Ledger Entry" = RIM;
     DataClassification = CustomerContent;
     // version PRM19.01.01
 
@@ -26,7 +29,7 @@ table 50035 "Posted Payroll Line"
             DecimalPlaces = 0 : 4;
             Editable = false;
         }
-        field(6; "Balance Taxable Income"; Decimal)
+        field(6; "Taxable Income"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
@@ -1305,7 +1308,7 @@ table 50035 "Posted Payroll Line"
         field(1028; "Eligible RF Deduction"; Decimal) { }
         field(1029; "Life Insurance Premium"; Decimal) { }
         field(1030; "Health Insurance Premium"; Decimal) { }
-        field(1031; "Taxable Income"; Decimal) { }
+        field(1031; "Taxable Income After RF"; Decimal) { }
         field(1032; "Disable Person Reduction"; Decimal) { }
         field(1033; "Female Tax Credit"; Decimal) { }
         field(1034; "Total Tax Liability"; Decimal) { }
@@ -1359,14 +1362,23 @@ table 50035 "Posted Payroll Line"
         {
             Description = 'A';
         }
-        field(1075; "CIT Posted 1"; Boolean) { }
-        field(1076; "PF Posted 1"; Boolean) { }
-        field(1077; "IC Posted 1"; Boolean) { Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)'; }
-        field(1078; "IC Posted 2"; Boolean) { Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)'; }
-        field(1079; "CIT Posted 2"; Boolean) { }
-        field(1080; "PF Posted 2"; Boolean) { }
-        field(1081; "Posting Date"; Date) { }
-        field(1082; Reversed; Boolean) { }
+        field(1074; "SST Base Amount"; Decimal)
+        {
+            Editable = false;
+        }
+        field(1075; "RIT Base Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(1076; "CIT Posted 1"; Boolean) { }
+        field(1077; "PF Posted 1"; Boolean) { }
+        field(1078; "IC Posted 1"; Boolean) { Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)'; }
+        field(1079; "IC Posted 2"; Boolean) { Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)'; }
+        field(1080; "CIT Posted 2"; Boolean) { }
+        field(1081; "PF Posted 2"; Boolean) { }
+        field(1082; "Posting Date"; Date) { }
+        field(1083; Reversed; Boolean) { }
 
     }
 

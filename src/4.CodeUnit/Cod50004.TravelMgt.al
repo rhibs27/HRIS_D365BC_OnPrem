@@ -178,7 +178,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest2.Validate(Extended, true);
             TravelRequest2.Modify;
         end;
-        HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, TravelReq."Employee No.", TravelReq."No.");   //For email
+        HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, TravelReq."Employee No.", TravelReq."No.", false);   //For email
         Message('Travel Request has been sent for apporval.');
         OnAfterApplyTravelRequest(TravelReq."No.");
         exit(true);
@@ -710,7 +710,7 @@ codeunit 50004 "Travel Mgt."
         end;
         TravelRequest."Approved Date" := Today;
         TravelRequest.Modify();
-        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, HrMgt.getEmployeeNo(), TravelRequest."No.");   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, HrMgt.getEmployeeNo(), TravelRequest."No.", false);   //For email
     end;
 
     procedure TravelClaimApproved(TravelCode: Code[20])

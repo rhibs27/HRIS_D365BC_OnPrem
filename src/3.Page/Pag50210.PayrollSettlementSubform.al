@@ -643,7 +643,7 @@ page 50210 "Payroll Settlement Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50540"));
                     end;
                 }
-                field("Balance Taxable Income"; Rec."Balance Taxable Income")
+                field("Balance Taxable Income"; Rec."Taxable Income")
                 {
                     ToolTip = 'Specifies the value of the Balance Taxable Income field.';
                     ApplicationArea = All;

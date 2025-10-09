@@ -1,6 +1,5 @@
 page 50253 "Employee Declaration Card"
 {
-    Editable = false;
     PageType = Card;
     PromotedActionCategories = 'New,Process,Report,Attachments';
     SourceTable = "Employee Declaration";

@@ -13,7 +13,7 @@ report 50006 "Appointment/Offer Letter"
                     Status := Status::"Appointment Letter Sent";
                     EmailTemplate.Reset;
                     EmailTemplate.SetRange("Document Type", EmailTemplate."Document Type"::"Candiadte offer letter");
-                    HRMgt.SendMailFromTemplate(Database::Candidate, EmailTemplate."Document Type"::"Candiadte offer letter", 0, Candidate."Vacancy Code", Candidate."No.");
+                    HRMgt.SendMailFromTemplate(Database::Candidate, EmailTemplate."Document Type"::"Candiadte offer letter", 0, Candidate."Vacancy Code", Candidate."No.", false);
                 end;
                 if IsforOfferLetter then begin
                     Status := Status::"Offer Letter Sent";

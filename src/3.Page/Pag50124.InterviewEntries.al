@@ -60,9 +60,6 @@ page 50124 "Interview Entries"
             }
             action("Evaluation Form")
             {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Evaluation Form action.';
                 ApplicationArea = All;
 
@@ -73,9 +70,6 @@ page 50124 "Interview Entries"
             }
             action("Evaluation Report Print")
             {
-                Promoted = true;
-                PromotedCategory = "Report";
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Evaluation Report Print action.';
                 ApplicationArea = All;
 

@@ -451,7 +451,11 @@ table 50024 "Payroll General Setup"
         }
         field(140; "Allowance Claim Limit (days)"; Integer) { }
         field(141; "Night Shift Allowance"; Code[20]) { }
-
+        field(500; "Use Allowance Configuration"; Boolean) { }
+        field(501; "Payroll Archive Nos."; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
     }
 
     keys
@@ -473,10 +477,10 @@ table 50024 "Payroll General Setup"
             repeat
                 UserPersonalization.Reset();
                 UserPersonalization.SetRange("User ID", Employee."NAV Login ID");
-                UserPersonalization.SetFilter("Time Zone", '<>UTC');
+                UserPersonalization.SetFilter("Time Zone", 'UTC');
                 if UserPersonalization.FindSet() then
                     repeat
-                        UserPersonalization.Validate("Time Zone", 'UTC');
+                        UserPersonalization.Validate("Time Zone", 'Nepal Standard Time');
                         UserPersonalization.Modify();
                     until UserPersonalization.Next() = 0;
             until Employee.Next() = 0;

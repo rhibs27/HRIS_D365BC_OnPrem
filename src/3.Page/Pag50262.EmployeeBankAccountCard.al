@@ -42,6 +42,14 @@ page 50262 "Employee Bank Account Card"
                 {
                     ToolTip = 'Specifies the Primary Payroll Account';
                 }
+
+
+                field("Is RF Account"; Rec."Is RF Account")
+                {
+                    ToolTip = 'Specifies whether this bank account is marked as the RF Account.';
+                }
+
+
                 field(City; Rec.City)
                 {
                     ToolTip = 'Specifies the value of the City field.', Comment = '%';

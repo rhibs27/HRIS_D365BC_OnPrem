@@ -90,7 +90,6 @@ codeunit 50008 "Payroll Engine"
         HRSetup: Record "Human Resources Setup";
         SettlementStartDate: Date;
         HRMgt: Codeunit "HR Mgt.";
-        EngNep: Record "English-Nepali Date";
         EmpPayOpen: Record "Employee Payroll Opening";
         SlabAmount: Decimal;
         SlabCount: Integer;
@@ -155,9 +154,12 @@ codeunit 50008 "Payroll Engine"
         //checking for total days
         if not (PayrollHeader.Type = PayrollHeader.Type::Adjustment) then
             PayrollLine.TestTotalDays(PayrollHeader);
-        EngNep.Reset;
-        EngNep.SetRange("English Date", PayrollHeader."From Date");
-        if EngNep.FindFirst then;
+
+        PayCycleTerm.Reset();
+        PayCycleTerm.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+        PayCycleTerm.SetRange(Term, PayrollHeader."Pay Cycle Term");
+        PayCycleTerm.FindFirst();
+
         Employee.Reset;
         Employee.SetRange("No.", PayrollLine."Employee No.");
         if PayrollHeader."Previous Year Payroll" then
@@ -178,23 +180,29 @@ codeunit 50008 "Payroll Engine"
 
         EmpPayOpen.Reset;
         EmpPayOpen.SetRange("Employee No.", PayrollLine."Employee No.");
-        EmpPayOpen.SetRange("Fiscal Year", HRMgt.ReturnFiscalYear(PayrollHeader."From Date"));
+        EmpPayOpen.SetRange("Fiscal Year", PayrollHeader."Pay Cycle Term");
         if EmpPayOpen.FindFirst then;
 
         //Read Payment Days
         PayCycleTerm.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term");
         PayCycleTerm.CalcFields("Periods Generated");
         if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Adjustment] then begin
-            if Employee."Employment Type" <> Employee."Employment Type"::Contract then
-                RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
+            if Employee."Employment Type" <> Employee."Employment Type"::Contract then begin
+                if Employee."Resignation Date" <> 0D then
+                    RemainingMonth := GetPayCyclePeriod(Employee."Resignation Date") - GetLastPayPeriod(PayrollHeader.Type)
+                else if Employee."Termination Date" <> 0D then
+                    RemainingMonth := GetPayCyclePeriod(Employee."termination Date") - GetLastPayPeriod(PayrollHeader.Type)
+                else
+                    RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod(PayrollHeader.Type)
+            end
             else begin
                 if PayrollHeader."Previous Year Payroll" then
-                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod
+                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod(PayrollHeader.Type)
                 else
-                    RemainingMonth := GetPayCyclePeriod(Employee."Contract Expiry Date") - GetLastPayPeriod;
+                    RemainingMonth := GetPayCyclePeriod(Employee."Contract Expiry Date") - GetLastPayPeriod(PayrollHeader.Type);
             end;
         end else
-            RemainingMonth := GetSettlementPayCyclePeriod - GetLastPayPeriod;     //settlement
+            RemainingMonth := GetSettlementPayCyclePeriod - GetLastPayPeriod(PayrollHeader.Type);     //settlement
 
         if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
             if RemainingMonth < 0 then
@@ -214,7 +222,7 @@ codeunit 50008 "Payroll Engine"
             CalcProjectionRetirementFund;
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
-                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
+                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
         RetirementFundTaxBenefit := TotalContributionToRetirementFund;
@@ -222,6 +230,13 @@ codeunit 50008 "Payroll Engine"
             RetirementFundTaxBenefit := RetirementFundLimit1;
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
+
+        if PayrollHeader."Optimal Deduction" then begin
+            if RetirementFundLimit1 < RetirementFundLimit2 then
+                RetirementFundTaxBenefit := RetirementFundLimit1
+            else
+                RetirementFundTaxBenefit := RetirementFundLimit2;
+        end;
 
         TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit;
         //Donations
@@ -247,6 +262,10 @@ codeunit 50008 "Payroll Engine"
             InsuranceTaxBenefit := InsuranceLimit1
         else
             InsuranceTaxBenefit := InsuranceAmount;
+
+        if PayrollHeader."Optimal Deduction" then
+            InsuranceTaxBenefit := PGSetup."Tax Ex. Life Insurance Amt.";
+
         //Health Insurance Tax Benefit
         if Employee."Premium of Health Insurance" < PGSetup."Tax Ex. Health Insur. Amount" then
             HealthInsuranceTaxBenefit := Employee."Premium of Health Insurance"
@@ -276,6 +295,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Modify;
             exit;
         end;
+
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then
             TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit
         else
@@ -284,6 +304,7 @@ codeunit 50008 "Payroll Engine"
         if Employee.Disabled then begin
             TaxSetupLine.Reset;
             TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
+            TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
             TaxSetupLine.SetCurrentKey(Code, "Line No.");
             if TaxSetupLine.FindFirst then
                 DisablePersonReduction := TaxSetupLine."End Amount" / 2;
@@ -298,6 +319,7 @@ codeunit 50008 "Payroll Engine"
         SocialSecurityTaxAmount := 0;
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
+        TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         Clear(SlabCount);
         if TaxSetupLine.FindSet then
             repeat
@@ -317,72 +339,78 @@ codeunit 50008 "Payroll Engine"
 
         TotalTaxRemunPaid := EmpPayOpen."Total Tax Remuneration Opening" + Employee."Remuneration & Benefits Tax";
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
-        //SocialSecTaxAmt:=TaxOldEmployeeSocialSecurity(Employee."No.");  //>> pradhan
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
-        /*IF TaxSetupHeader."Special Tax Exempt %" <> 0  THEN begin
-          NonRegularTax :=(TaxSetupHeader."Special Tax Exempt %"*(TaxAtOnceAnnualTax - AnnualTax)/ (100-TaxSetupHeader."Special Tax Exempt %"));
-         AnnualTax -= NonRegularTax;
-        end;*/
+        if AnnualTax < 0 then
+            AnnualTax := 0;
+
         PayrollLine."Gratuity & leave Encash Tax" := Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then
-            MonthlyTax := AnnualTax / (RemainingMonth + 1)
-        else
-            MonthlyTax := AnnualTax / (RemainingMonth + 1) + Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');   //settlement
 
-        if TaxAtOnceAnnualTax < 0 then
-            MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax"
-        else begin
-            if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
-                MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
+        // do the calculain only if there is tax.
+        if AnnualTax > 0 then begin
+            if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+                MonthlyTax := AnnualTax / (RemainingMonth + 1)
             else
-                MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);
-        end;
-        PayrollLine.RoundAmount(MonthlyTax);
+                MonthlyTax := AnnualTax / (RemainingMonth + 1) + Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');   //settlement
 
-        TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
-        if TotalTaxWithoutSST > 0 then begin
-            if TotalTaxWithoutSST > TaxExempt then
-                TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
+            if TaxAtOnceAnnualTax < 0 then
+                MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax"
             else begin
-                SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
-                TotalTaxWithoutSST := 0;
+                if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
+                    MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
+                else
+                    MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);
             end;
-        end else
-            SocialSecurityTax := SocialSecurityTax - TaxExempt;
+            PayrollLine.RoundAmount(MonthlyTax);
 
-        if TotalSSTPaid <> SocialSecurityTax then begin
-            if SocialSecurityTax - TotalSSTPaid < 0 then begin
-                SocialSecurityTaxAmount := 0;
-                MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
-                //SocialSecurityTaxAmount := MonthlyTax + (SocialSecurityTax - Employee."Social Security Tax" -EmpPayOpen."Total Social Security Opening");//>>pradhan     SocialSecTaxAmt
-            end else begin
-                SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
-                if (PayrollHeader.Type = PayrollHeader.Type::Adjustment) and (MonthlyTax > 0) then begin
-                    if SocialSecurityTax = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
-                        SocialSecurityTaxAmount := MonthlyTax
-                    else if (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax) < SocialSecurityTax then
-                        SocialSecurityTaxAmount := SocialSecurityTax - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
-                    else
-                        SocialSecurityTaxAmount := 0;
+            TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
+            if TotalTaxWithoutSST > 0 then begin
+                if TotalTaxWithoutSST > TaxExempt then
+                    TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
+                else begin
+                    SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
+                    TotalTaxWithoutSST := 0;
                 end;
-                if TotalTaxWithoutSST > 0 then begin
-                    if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
-                        MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
-                end else
-                    MonthlyTax := -TotalTaxRemunPaid + SocialSecurityTaxAmount;
+            end else
+                SocialSecurityTax := SocialSecurityTax - TaxExempt;
+
+            if TotalSSTPaid <> SocialSecurityTax then begin  //doubt
+                if SocialSecurityTax - TotalSSTPaid < 0 then begin
+                    SocialSecurityTaxAmount := 0;
+                    MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
+                end else begin
+                    SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
+
+                    if SocialSecurityTaxAmount > MonthlyTax then
+                        SocialSecurityTaxAmount := MonthlyTax;
+
+                    if (PayrollHeader.Type = PayrollHeader.Type::Adjustment) and (MonthlyTax > 0) then begin
+                        if SocialSecurityTax = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
+                            SocialSecurityTaxAmount := MonthlyTax
+                        else if (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax) < SocialSecurityTax then
+                            SocialSecurityTaxAmount := SocialSecurityTax - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
+                        else
+                            SocialSecurityTaxAmount := 0;
+                    end;
+                    if TotalTaxWithoutSST > 0 then begin
+                        if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
+                            MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
+                    end else
+                        MonthlyTax := SocialSecurityTaxAmount;
+                end;
+
+                IF MonthlyTax < 0 THEN begin
+                    MonthlyTax := 0;
+                    SocialSecurityTaxAmount := 0;
+                    MonthlyTax := 0;
+                end;
             end;
-            /*IF MonthlyTax < 0 THEN begin
-              MonthlyTax := 0;
-              SocialSecurityTaxAmount := 0;
-              MonthlyTax :=0;
-            end;*/
         end;
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+        if SocialSecurityTaxAmount >= MonthlyTax then
+            MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
         PayrollLine.Modify;
         if (SocialSecurityTaxAmount <> 0) and (SocialSecurityTaxAttribute <> '') then begin
-            //IF (SocialSecurityTaxAmount >= MonthlyTax) AND (MonthlyTax > 0) THEN
-            //SocialSecurityTaxAmount := MonthlyTax;
             PayrollLine.SaveValues(SocialSecurityTaxAmount, SocialSecurityTaxAttribute);
             PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
         end else
@@ -413,7 +441,6 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(FieldID);
                 Evaluate(FieldValue, Format(FieldRef.Value));
                 FieldValue := Round(FieldValue, 0.01, '=');
-                //PayrollAttributes.TestField(Status, PayrollAttributes.Status::Active);
                 if not PayrollAttributes."Tax at once" then begin
                     if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then begin
                         if PayrollAttributes."Non-Taxable" = false then begin
@@ -459,13 +486,13 @@ codeunit 50008 "Payroll Engine"
                                                      PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF, PayrollAttributes.Subtype::"Lump Sum Contribution"]) then begin
                         if FieldValue <> 0 then begin
                             if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employer Contribution" then
-                                EmployerContribution := FieldValue
+                                EmployerContribution += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employee Contribution" then
-                                EmployeeContribution := FieldValue
+                                EmployeeContribution += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
-                                CITContribution := FieldValue
+                                CITContribution += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
-                                RF := FieldValue
+                                RF += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Lump Sum Contribution" then
                                 LumpSumCIT += FieldValue;
                         end;
@@ -487,37 +514,6 @@ codeunit 50008 "Payroll Engine"
     begin
         ProjectionEarning := 0;
         ProjectedNonPaymentBenefit := 0;
-        PayrollColumnConfiguration.Reset;
-        PayrollColumnConfiguration.SetRange("Table No.", Database::"Level Wise Attributes");
-        if PayrollColumnConfiguration.FindSet then begin
-            RecRefs.Open(Database::"Level Wise Attributes");
-            repeat
-                if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
-                    if not PayrollAttributesUsage.Get(PayrollAttributes.Code, Employee."No.") then begin
-                        UsageAmount := 0;
-                        if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
-                            (PayrollAttributes."Non-Taxable" = false)
-                           then begin
-                            FieldRefs := RecRefs.Field(1);
-                            FieldRefs.SetRange(Employee."Salary Grade");
-                            FieldRefs := RecRefs.Field(2);
-                            FieldRefs.SetRange(Employee."Salary Level");
-                            RecRefs.FindFirst;
-                            FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
-                            Evaluate(UsageAmount, Format(FieldRefs.Value));
-                            UsageAmount := Round(UsageAmount, 0.01, '=');
-                            if not PayrollAttributes."Tax at once" then begin
-                                if PayrollAttributes."Apply Every Month" then
-                                    ProjectionEarning += UsageAmount * RemainingMonth
-                                else begin
-                                    ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
-                                end;
-                            end;
-                        end;
-                    end;
-                end;
-            until PayrollColumnConfiguration.Next = 0;
-        end;
 
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
@@ -537,15 +533,22 @@ codeunit 50008 "Payroll Engine"
                         end;
                         UsageAmount := Round(UsageAmount, 0.01, '=');
                         if PayrollAttributes.Type = PayrollAttributes.Type::"Benefits" then
-                            if PayrollAttributes."Apply Every Month" then
-                                ProjectionEarning += UsageAmount * RemainingMonth
-                            else
+                            if PayrollAttributes."Apply Every Month" then begin
+                                if PayrollAttributesUsage."End Date" <> 0D then
+                                    ProjectionEarning += UsageAmount * GetAttributeWiseProjectionMonth(PayrollAttributesUsage, RemainingMonth)
+                                else
+                                    ProjectionEarning += UsageAmount * RemainingMonth;
+
+                            end else
                                 ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
 
                         if PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment" then
-                            if PayrollAttributes."Apply Every Month" then
-                                ProjectedNonPaymentBenefit += UsageAmount * RemainingMonth
-                            else
+                            if PayrollAttributes."Apply Every Month" then begin
+                                if PayrollAttributesUsage."End Date" <> 0D then
+                                    ProjectedNonPaymentBenefit += UsageAmount * GetAttributeWiseProjectionMonth(PayrollAttributesUsage, RemainingMonth)
+                                else
+                                    ProjectedNonPaymentBenefit += UsageAmount * RemainingMonth;
+                            end else
                                 ProjectedNonPaymentBenefit += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                     end;
                 end;
@@ -611,8 +614,8 @@ codeunit 50008 "Payroll Engine"
 
                         if PayrollAttributes."Apply Every Month" then
                             ProjectionEarning += UsageAmount * RemainingMonth
-                        //ELSE
-                        // ProjectionEarning += UsageAmount;
+                        else
+                            ProjectionEarning += UsageAmount;
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;
@@ -756,25 +759,6 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes.FindFirst;
 
         BasicAmount := PayrollLine."Basic Salary";
-        //ResolveColumnCalc(Expression,PayrollAttributes,BasicFromLine,BasicAmount);
-        /*
-        Expression := DELCHR(Expression,'=');
-        PayrollAttributes.Reset();
-        PayrollAttributes.SetRange(Type,PayrollAttributes.Type::Benefits);
-        PayrollAttributes.SetRange(Subtype,PayrollAttributes.Subtype::Grade);
-        PayrollAttributes.FindFirst();
-        BasicAmount := 0;
-        ResolveColumnCalc(Expression,PayrollAttributes,BasicFromLine,BasicAmount);
-
-        Expression := DELCHR(Expression,'=');
-        PayrollAttributes.Reset();
-        PayrollAttributes.SetRange(Type,PayrollAttributes.Type::Benefits);
-        PayrollAttributes.SetRange(Subtype,PayrollAttributes.Subtype::"Add Salary");
-        PayrollAttributes.FindFirst();
-
-        BasicAmount := 0;
-        ResolveColumnCalc(Expression,PayrollAttributes,BasicFromLine,BasicAmount);
-        */
 
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
@@ -801,13 +785,11 @@ codeunit 50008 "Payroll Engine"
                 if PayrollAttributes.FindFirst then begin
                     StrPosition := StrPos(Expression, Format(Expression[StrLength]));
                     Expression := DelStr(Expression, StrPosition, StrLen(Format(Expression[StrLength])));
-                    //      Expression := INSSTR(Expression,FORMAT(PayrollAttributesUsage.Amount),StrPosition);
 
                     PayrollAttributesUsage.Reset;
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
                         Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition)
                     else
                         Expression := InsStr(Expression, Format(0), StrPosition);
@@ -817,9 +799,9 @@ codeunit 50008 "Payroll Engine"
         until StrLength = 0;
     end;
 
-    local procedure GetLastPayPeriod(): Integer
+    local procedure GetLastPayPeriod(PayrollType: Enum "Payroll Header Type"): Integer
     var
-        EmployeeLedgerEntry: Record "Employee Ledger Entry PRM";
+        EmployeeLedgerEntry: Record "Employee Ledger Entry";
         LastPayCyclePeriod: Integer;
     begin
         EmployeeLedgerEntry.Reset;
@@ -832,13 +814,16 @@ codeunit 50008 "Payroll Engine"
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then
             exit(LastPayCyclePeriod)
         else
-            exit(PayrollHeader."Pay Cycle Period");
+            if PayrollType <> PayrollType::Adjustment then
+                exit(PayrollHeader."Pay Cycle Period")
+            else
+                exit(LastPayCyclePeriod);
     end;
 
     local procedure GetPayFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
     var
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
-        DetailedEmployeeLedgEntry: Record "Detailed Employee Ledg. En PRM";
+        DetailedEmployeeLedgEntry: Record "Detailed Employee Ledger Entry";
         PaidFrequencyCount: Integer;
         RecRef: RecordRef;
         FieldRef: FieldRef;
@@ -892,49 +877,6 @@ codeunit 50008 "Payroll Engine"
             exit(PayCylePeriodVar.Period);
     end;
 
-    local procedure IsContribution(PayrollAttributes: Record "Payroll Attributes"; PayrollAttributesUsage: Record "Payroll Attributes Usage"): Boolean
-    begin
-        exit((PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employee Contribution") or
-              (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employer Contribution"))
-    end;
-
-    procedure PayrollCaptionClassTranslate(Language: Integer; CaptionRef: Text[80]): Text[30]
-    var
-        LanguageCode: Code[20];
-        LanguageRec: Record Language;
-        TableID: Integer;
-        FieldNo: Integer;
-    begin
-        if CaptionRef = '' then
-            exit('');
-        if not Evaluate(TableID, SelectStr(1, CaptionRef)) then
-            exit('');
-        if not Evaluate(FieldNo, SelectStr(2, CaptionRef)) then
-            exit('');
-
-
-        LanguageRec.Reset;
-        LanguageRec.SetCurrentKey("Windows Language ID");
-        LanguageRec.SetRange("Windows Language ID", Language);
-        if LanguageRec.Find('-') then
-            LanguageCode := LanguageRec.Code;
-
-        exit(GetPayrollCaption(TableID, FieldNo, LanguageCode));
-    end;
-
-    procedure GetPayrollCaption(TableNo: Integer; FieldNo: Integer; LanguageCode: Code[20]): Text[30]
-    var
-        PayColumnConfig: Record "Payroll Column Configuration";
-        PayAttribute: Record "Payroll Attributes";
-    begin
-        if PayColumnConfig.Get(TableNo, FieldNo) then begin
-            if PayAttribute.Get(PayColumnConfig."Variable Field Code") then begin
-                exit(CopyStr(PayAttribute.Description, 1, 30));
-            end;
-        end;
-        exit('');
-    end;
-
     procedure ShowColumn(TableID: Integer; FieldID: Integer): Boolean
     var
         PayColumnConfig: Record "Payroll Column Configuration";
@@ -946,180 +888,6 @@ codeunit 50008 "Payroll Engine"
             exit(false)
         else
             exit(true);
-    end;
-
-    local procedure "--Temporary>>"()
-    begin
-    end;
-
-    local procedure DeleteAllDocuments()
-    var
-        PayrollHeader: Record "Payroll Header";
-        PayrollLine: Record "Payroll Line";
-        EmployeeLedgerEntry: Record "Employee Ledger Entry PRM";
-        DetailedEmployeeLedgEntry: Record "Detailed Employee Ledg. En PRM";
-        PostedPayrollHeader: Record "Posted Payroll Header";
-        PostedPayrollLine: Record "Posted Payroll Line";
-        AttendanceHeader: Record "Attendance Header";
-        AttendanceLine: Record "Attendance Line";
-        AttendanceSummary: Record "Attendance Summary";
-    begin
-        PayrollHeader.DeleteAll;
-        PayrollLine.DeleteAll;
-        EmployeeLedgerEntry.DeleteAll;
-        DetailedEmployeeLedgEntry.DeleteAll;
-        PostedPayrollHeader.DeleteAll;
-        PostedPayrollLine.DeleteAll;
-        AttendanceHeader.DeleteAll;
-        AttendanceLine.DeleteAll;
-        AttendanceSummary.DeleteAll;
-        //EmployeeActivityDetails.DELETEALL;
-    end;
-
-    local procedure GetFiscalYearDates(var StartDate: Date; var EndDate: Date; PayCyclePeriod: Record "Pay Cycle Period")
-    var
-        PCP: Record "Pay Cycle Period";
-    begin
-        PCP.Reset;
-        PCP.SetRange("Pay Cycle Code", PayCyclePeriod."Pay Cycle Code");
-        PCP.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
-        if PCP.FindFirst then
-            StartDate := PCP."Start Date";
-        if PCP.FindLast then
-            EndDate := PCP."End Date";
-    end;
-
-    local procedure CreateDocuments()  //?
-    var
-        PGSetup: Record "Payroll General Setup";
-        PayCyclePeriod: Record "Pay Cycle Period";
-        PayrollHeader: Record "Payroll Header";
-        PayrollLine: Record "Payroll Line";
-        PayrollJournalLine: Record "Payroll Journal Line";
-        Employee: Record Employee;
-        PayrollAttributesUsage: Record "Payroll Attributes Usage";
-        PayrollEngine: Codeunit "Payroll Engine";
-        LineNo: Integer;
-    begin
-        DeleteAllDocuments;
-        exit;
-
-        PayCyclePeriod.Reset;
-        PayCyclePeriod.SetRange("Pay Cycle Code", 'MONTHLY');
-        //PayCyclePeriod.SETFILTER("Pay Cycle Term",'%1|%2|%3','2071MNTH','2072MNTH','2073MNTH');
-        PayCyclePeriod.SetFilter("Pay Cycle Term", '2071MNTH');
-        //PayCyclePeriod.SetRange(Period,1);
-        if PayCyclePeriod.FindSet then
-            repeat
-                if PayCyclePeriod.Period = 1 then begin
-                    PGSetup.Get;
-                    GetFiscalYearDates(PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date", PayCyclePeriod);
-                    PGSetup.Modify;
-                end;
-                Clear(PayrollHeader);
-                PayrollHeader.Init;
-                PayrollHeader.Insert(true);
-                PayrollHeader.Validate("Pay Cycle Code", PayCyclePeriod."Pay Cycle Code");
-                PayrollHeader.Validate("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
-                PayrollHeader.Validate("Pay Cycle Period", PayCyclePeriod.Period);
-                PayrollHeader.Modify(true);
-                if PayCyclePeriod.Period = 3 then begin
-                    PayrollAttributesUsage.Init;
-                    PayrollAttributesUsage.Code := 'MEDICAL';
-                    PayrollAttributesUsage."Employee Code" := 'EMP-000003';
-                    PayrollAttributesUsage.Amount := 1200;
-                    PayrollAttributesUsage.Insert(true);
-                end;
-                if PayCyclePeriod.Period = 4 then begin
-                    PayrollAttributesUsage.Reset;
-                    PayrollAttributesUsage.SetRange(Code, 'MEDICAL');
-                    PayrollAttributesUsage.SetRange("Employee Code", 'EMP-000003');
-                    if PayrollAttributesUsage.FindFirst then
-                        PayrollAttributesUsage.Delete;
-                end;
-                PayrollHeader.SetHideModificationDialog(true);
-                PayrollHeader.ImportEmployee;
-                PayrollLine.Reset;
-                PayrollLine.SetRange("Document No.", PayrollHeader."No.");
-                if PayrollLine.FindSet then
-                    repeat
-                        //PayrollLine.VALIDATE("Present Days",PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" - 5 -2);
-                        //PayrollLine.VALIDATE("Absent Days",3);
-                        PayrollLine.Validate("Present Days", PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" - 5 + 1);
-                        PayrollLine.Validate("Week off Days", 5);
-                        PayrollLine.Modify(true);
-                    until PayrollLine.Next = 0;
-
-                PayrollHeader.Reset;
-                PayrollHeader.SetRange("No.", PayrollLine."Document No.");
-                PayrollHeader.FindFirst;
-                PayrollHeader.GetDetails(PayrollHeader);
-                Commit;
-
-                PayrollHeader.Reset;
-                PayrollHeader.SetRange("No.", PayrollLine."Document No.");
-                PayrollHeader.FindFirst;
-                PayrollHeader.SetHideModificationDialog(true);
-                PayrollHeader.CalculatePayroll(PayrollHeader);
-                Commit;
-
-                PayrollHeader.Reset;
-                PayrollHeader.SetRange("No.", PayrollLine."Document No.");
-                PayrollHeader.FindFirst;
-                Codeunit.Run(Codeunit::"Payroll-Post", PayrollHeader);
-                Commit;
-                if PayCyclePeriod.Period = 6 then begin
-                    LineNo := 10000;
-                    Employee.Reset;
-                    if Employee.FindSet then
-                        repeat
-                            if PayrollEngine.IsValidEmployee(Employee, PayrollHeader."From Date", PayrollHeader."To Date") then begin
-                                PayrollJournalLine.Init;
-                                PayrollJournalLine."Journal Template Name" := '';
-                                PayrollJournalLine."Journal Batch Name" := 'DEFAULT';
-                                PayrollJournalLine."Line No." := LineNo;
-                                PayrollJournalLine.Insert(true);
-                                PayrollJournalLine."Document No." := Format(PayCyclePeriod."Pay Cycle Term") + 'INC01';
-                                PayrollJournalLine.SetHideValidation(true);
-                                PayrollJournalLine.SetUpNewLine(PayrollJournalLine, PayrollJournalLine."Balance (LCY)", true);
-                                PayrollJournalLine.Validate("Pay Cycle Code", PayCyclePeriod."Pay Cycle Code");
-                                PayrollJournalLine.Validate("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
-                                PayrollJournalLine.Validate("Pay Cycle Period", PayCyclePeriod.Period);
-                                PayrollJournalLine.Validate("Employee No.", Employee."No.");
-                                PayrollJournalLine.Validate("Document Date", Today);
-                                PayrollJournalLine.Validate("Attribute Code", 'TECHNICAL ALLOWANCE');
-                                PayrollJournalLine.Validate(Description, 'Technical Allowance');
-                                PayrollJournalLine.Validate(Amount, 150000);
-                                PayrollJournalLine.UpdateLineBalance;
-                                PayrollJournalLine.Modify(true);
-                                LineNo += 10000;
-                                PayrollJournalLine.Init;
-                                PayrollJournalLine."Journal Template Name" := '';
-                                PayrollJournalLine."Journal Batch Name" := 'DEFAULT';
-                                PayrollJournalLine."Line No." := LineNo;
-                                PayrollJournalLine.Insert(true);
-                                PayrollJournalLine."Document No." := Format(PayCyclePeriod."Pay Cycle Term") + 'INC01';
-                                PayrollJournalLine.SetHideValidation(true);
-                                PayrollJournalLine.SetUpNewLine(PayrollJournalLine, PayrollJournalLine."Balance (LCY)", true);
-                                PayrollJournalLine.Validate("Pay Cycle Code", PayCyclePeriod."Pay Cycle Code");
-                                PayrollJournalLine.Validate("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
-                                PayrollJournalLine.Validate("Pay Cycle Period", PayCyclePeriod.Period);
-                                PayrollJournalLine.Validate("Employee No.", Employee."No.");
-                                PayrollJournalLine.Validate("Document Type", PayrollJournalLine."Document Type"::Payment);
-                                PayrollJournalLine.Validate("Account Type", PayrollJournalLine."Account Type"::"Bank Account");
-                                PayrollJournalLine.Validate("Account No.", 'B-0001');
-                                PayrollJournalLine.Validate("Document Date", Today);
-                                PayrollJournalLine.Validate(Description, 'Technical Allowance Payment');
-                                PayrollJournalLine.Validate(Amount, -150000);
-                                PayrollJournalLine.UpdateLineBalance;
-                                PayrollJournalLine.Modify(true);
-                                LineNo += 10000;
-                            end;
-                        until Employee.Next = 0;
-                    Codeunit.Run(Codeunit::"Payroll Jnl.-Post Line", PayrollJournalLine);
-                    Commit;
-                end;
-            until PayCyclePeriod.Next = 0;
     end;
 
     local procedure GenerateTimeSheetPostingEntry(FromDate: Date; ToDate: Date)
@@ -1236,14 +1004,6 @@ codeunit 50008 "Payroll Engine"
         ProgressWindow.Close;
     end;
 
-    local procedure "--Temporary<<"()
-    begin
-    end;
-
-    local procedure "--Journal"()
-    begin
-    end;
-
     procedure SetName(CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     begin
         PayrollJournalLine.FilterGroup := 2;
@@ -1325,36 +1085,6 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure OpenJnlBatch(var PayrollJournalBatch: Record "Payroll Journal Batch")
-    begin
-    end;
-
-    procedure GetGenJnlDocumentNo(var PayrollJournalLine: Record "Payroll Journal Line"; PostingDate: Date; CreateError: Boolean): Code[20]
-    var
-        PayrollJournalBatch: Record "Payroll Journal Batch";
-        NoSeriesMgt: Codeunit "No. Series";
-        DocumentNo: Code[20];
-    begin
-        PayrollJournalBatch.Get(PayrollJournalLine."Journal Batch Name");
-        if (PayrollJournalBatch."No. Series" <> '') and not PayrollJournalLine.Find('=><') then
-            DocumentNo := NoSeriesMgt.GetNextNo(PayrollJournalBatch."No. Series", PostingDate, false);
-        if (DocumentNo = '') and CreateError then
-            Error(Text000, PayrollJournalLine.FieldCaption("Document No."));
-        exit(DocumentNo);
-    end;
-
-    procedure GetPayrollDateFilter(): Text
-    begin
-        if PGSetup.Get then begin
-            if (PGSetup."Payroll Fiscal Year Start Date" <> 0D) and (PGSetup."Payroll Fiscal Year End Date" <> 0D) then
-                exit(Format(PGSetup."Payroll Fiscal Year Start Date") + '..' + Format(PGSetup."Payroll Fiscal Year End Date"));
-        end;
-    end;
-
-    local procedure "--EmployeeValidation"()
-    begin
-    end;
-
     procedure IsValidEmployee(Employee: Record Employee; ProcessingFrom: Date; ProcessingTo: Date): Boolean
     var
         PGSetup: Record "Payroll General Setup";
@@ -1366,83 +1096,7 @@ codeunit 50008 "Payroll Engine"
         if (ProcessingFrom <> 0D) and (ProcessingTo <> 0D) then
             if Employee."Employment Date" > ProcessingTo then
                 exit(false);
-        /*IF (Employee."Tax Code" <> '') AND
-            (Employee."Salary Level" <> '') AND
-            (Employee."Salary Grade" <> '') AND
-            //(Employee."Employee Designation" <> '') AND
-            (Employee."Employment Date" < PGSetup."Payroll Fiscal Year End Date") AND
-            (Employee.Status = Employee.Status::Active) THEN*/     //tesing oman
-                                                                   //HasEmployeeDimension(Employee."No.") THEN    UTS Commented
         exit(true);
-    end;
-
-    procedure HasEmployeeDimension(EmployeeCode: Code[20]): Boolean
-    var
-        DefaultDimension: Record "Default Dimension";
-        HRSetup: Record "Human Resources Setup";
-    begin
-        HRSetup.Get;
-        DefaultDimension.Reset;
-        DefaultDimension.SetRange("Table ID", Database::Employee);
-        DefaultDimension.SetRange("No.", EmployeeCode);
-        DefaultDimension.SetRange("Dimension Code", HRSetup."Employee Dimension");
-        if DefaultDimension.FindFirst then
-            exit(DefaultDimension."Dimension Value Code" <> '');
-    end;
-
-    // procedure RetrieveEmployeeLedgers(var DocumentEntry: Record "Document Entry" temporary; DocNoFilter: Code[250]; PostingDateFilter: Text[250])
-    // begin
-    //     if PostedPayrollHeader.ReadPermission then begin
-    //         PostedPayrollHeader.Reset;
-    //         PostedPayrollHeader.SetCurrentKey("No.");
-    //         PostedPayrollHeader.SetFilter("No.", DocNoFilter);
-    //         PostedPayrollHeader.SetFilter("Posting Date", PostingDateFilter);
-    //         InsertIntoDocEntry(
-    //           DocumentEntry, Database::"Posted Payroll Header", 0, PostedPayrollHeader.TableCaption, PostedPayrollHeader.Count);
-    //     end;
-
-    //     if EmployeeLedgerEntry.ReadPermission then begin
-    //         EmployeeLedgerEntry.Reset;
-    //         EmployeeLedgerEntry.SetCurrentKey("Document No.");
-    //         EmployeeLedgerEntry.SetFilter("G/L Document No", DocNoFilter);
-    //         EmployeeLedgerEntry.SetFilter("Posting Date", PostingDateFilter);
-    //         InsertIntoDocEntry(
-    //           DocumentEntry, Database::"Employee Ledger Entry PRM", 0, EmployeeLedgerEntry.TableCaption, EmployeeLedgerEntry.Count);
-    //     end;
-
-    //     if DetailedEmployeeLedgEntry.ReadPermission then begin
-    //         DetailedEmployeeLedgEntry.Reset;
-    //         DetailedEmployeeLedgEntry.SetCurrentKey("Document No.");
-    //         DetailedEmployeeLedgEntry.SetFilter("G/L Document No", DocNoFilter);
-    //         DetailedEmployeeLedgEntry.SetFilter("Posting Date", PostingDateFilter);
-    //         InsertIntoDocEntry(
-    //           DocumentEntry, Database::"Detailed Employee Ledg. En PRM", 0, DetailedEmployeeLedgEntry.TableCaption, DetailedEmployeeLedgEntry.Count);
-    //     end;
-    // end;
-
-    local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Enum "Document Entry Document Type"; DocTableName: Text[1024]; DocNoOfRecords: Integer)
-    begin
-        if DocNoOfRecords = 0 then
-            exit;
-        DocumentEntry.Init;
-        DocumentEntry."Entry No." := DocumentEntry."Entry No." + 1;
-        DocumentEntry."Table ID" := DocTableID;
-        DocumentEntry."Document Type" := DocType;
-        DocumentEntry."Table Name" := CopyStr(DocTableName, 1, MaxStrLen(DocumentEntry."Table Name"));
-        DocumentEntry."No. of Records" := DocNoOfRecords;
-        DocumentEntry.Insert;
-    end;
-
-    procedure ShowEmployeeLedgers(TableID: Integer)
-    begin
-        case TableID of
-            Database::"Posted Payroll Header":
-                Page.Run(Page::"Posted Payroll Plan", PostedPayrollHeader);
-            Database::"Employee Ledger Entry PRM":
-                Page.Run(0, EmployeeLedgerEntry);
-            Database::"Detailed Employee Ledg. En PRM":
-                Page.Run(0, DetailedEmployeeLedgEntry);
-        end;
     end;
 
     procedure GetAttendanceForPayroll(var PayrollLine: Record "Payroll Line"; PayrollHeader: Record "Payroll Header")
@@ -1770,6 +1424,7 @@ codeunit 50008 "Payroll Engine"
         LocalLeaveTypeSetup: Record "Leave Type Setup";
         LeaveEarn: Record "Leave Earn";
         ResignDate: Date;
+        EngNep: Record "English-Nepali Date";
     begin
         EngNep.Reset;
         EngNep.SetRange("English Date", Today);
@@ -1804,10 +1459,6 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure "--Agile SRT--"()
-    begin
-    end;
-
     procedure PostPFContribution(PostedPayrollPlan: Record "Posted Payroll Header")
     var
         GenJnlLine: Record "Gen. Journal Line";
@@ -1840,11 +1491,6 @@ codeunit 50008 "Payroll Engine"
         PayrollGenSetup.TestField("Payroll Journal Template");
         PayrollGenSetup.TestField("Payroll Journal Batch");
 
-        /*GenJnlLine.Reset();
-        GenJnlLine.SetRange("Journal Template Name",PayrollGenSetup."Payroll Journal Template");
-        GenJnlLine.SetRange("Journal Batch Name",PayrollGenSetup."Payroll Journal Batch");
-        GenJnlLine.DELETEALL;*/
-
         Clear(NoSeriesMgt);
         Clear(BankTotal);
         Clear(PayrollAttribCode);
@@ -1869,30 +1515,20 @@ codeunit 50008 "Payroll Engine"
                         if (PayrollGenSetup."PF Payroll Attribute 1" = PayrollAttributes.Code) and (not PostedPayrollLine."PF Posted 1") then begin
                             PayrollAttribCode := PayrollAttributes.Code;
                             InsertPayrollJournal(PostedPayrollPlan, PostedPayrollLine, PayrollAttributes, FieldValue, DocumentNo);
-                            BankTotal += FieldValue; //pram
+                            BankTotal += FieldValue;
                             PostedPayrollLine."PF Posted 1" := true;
                             PostedPayrollLine.Modify;
                         end else if (PayrollGenSetup."PF Payroll Attribute 2" = PayrollAttributes.Code) and (not PostedPayrollLine."PF Posted 2") then begin
                             PayrollAttribCode := PayrollAttributes.Code;
                             InsertPayrollJournal(PostedPayrollPlan, PostedPayrollLine, PayrollAttributes, FieldValue, DocumentNo);
-                            BankTotal += FieldValue; //pram
+                            BankTotal += FieldValue;
                             PostedPayrollLine."PF Posted 2" := true;
                             PostedPayrollLine.Modify;
                         end
                     end;
                 end;
             until PostedPayrollLine.Next = 0;
-        //to be executed setup wise (need to customize if required)  SRT
-        /*IF BankTotal <> 0 THEN begin
-          PayrollAttributes.GET(PayrollAttribCode);
-          InsertBalancingEntry(PostedPayrollPlan,PostedPayrollLine, -BankTotal,PayrollAttributes,DocumentNo); //pram
-          GenJnlLine.Reset();
-          GenJnlLine.SetRange("Journal Template Name",PayrollGenSetup."Payroll Journal Template");
-          GenJnlLine.SetRange("Journal Batch Name",PayrollGenSetup."Payroll Journal Batch");
-          GenJnlLine.SetRange("Document No.",DocumentNo);
-          IF GenJnlLine.FINDSET THEN
-            CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post Batch",GenJnlLine);
-        end;*/
+
         GenJnlLine.Reset;
         GenJnlLine.SetRange("Posted Payroll Plan No.", PostedPayrollPlan."No.");
         if GenJnlLine.FindSet then
@@ -1933,11 +1569,6 @@ codeunit 50008 "Payroll Engine"
         PayrollGenSetup.TestField("IC Payroll Attribute 2");
         PayrollGenSetup.TestField("Payroll Journal Template");
         PayrollGenSetup.TestField("Payroll Journal Batch");
-
-        /*GenJnlLine.Reset();
-        GenJnlLine.SetRange("Journal Template Name",PayrollGenSetup."Payroll Journal Template");
-        GenJnlLine.SetRange("Journal Batch Name",PayrollGenSetup."Payroll Journal Batch");
-        GenJnlLine.DELETEALL;*/
 
         Clear(BankTotal);
         Clear(BankTotal1);
@@ -1980,32 +1611,7 @@ codeunit 50008 "Payroll Engine"
                     end;
                 end;
             until PostedPayrollLine.Next = 0;
-        //to be executed setup wise (need to customize if required)  SRT
-        /*//Balance Entry
-        IF BankTotal <> 0 THEN begin
-          IF IncomeTaxAttrib1 = PayrollGenSetup."IC Payroll Attribute 1" THEN begin
-            PayrollAttributes.GET(IncomeTaxAttrib1);
-            InsertBalancingEntry(PostedPayrollPlan,PostedPayrollLine, -BankTotal,PayrollAttributes,DocumentNo);
-            GenJnlLine.Reset();
-            GenJnlLine.SetRange("Journal Template Name",PayrollGenSetup."Payroll Journal Template");
-            GenJnlLine.SetRange("Journal Batch Name",PayrollGenSetup."Payroll Journal Batch");
-            GenJnlLine.SetRange("Payroll Attribute Code",IncomeTaxAttrib1);
-            IF GenJnlLine.FINDSET THEN
-              CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post Batch",GenJnlLine);
-          end;
-          IF BankTotal1 <> 0 THEN begin
-              IF IncomeTaxAttrib2 = PayrollGenSetup."IC Payroll Attribute 2" THEN begin
-              PayrollAttributes.GET(IncomeTaxAttrib2);
-              InsertBalancingEntry(PostedPayrollPlan,PostedPayrollLine, -BankTotal1,PayrollAttributes,DocumentNo1);
-              GenJnlLine.Reset();
-              GenJnlLine.SetRange("Journal Template Name",PayrollGenSetup."Payroll Journal Template");
-              GenJnlLine.SetRange("Journal Batch Name",PayrollGenSetup."Payroll Journal Batch");
-              GenJnlLine.SetRange("Payroll Attribute Code",IncomeTaxAttrib2);
-              IF GenJnlLine.FINDSET THEN
-                CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post Batch",GenJnlLine);
-            end;
-          end;
-        end;*/
+
         GenJnlLine.Reset;
         GenJnlLine.SetRange("Posted Payroll Plan No.", PostedPayrollPlan."No.");
         if GenJnlLine.FindSet then
@@ -2045,11 +1651,6 @@ codeunit 50008 "Payroll Engine"
         PayrollGenSetup.TestField("CIT Payroll Attribute 1");
         PayrollGenSetup.TestField("CIT Payroll Attribute 2");
 
-        /*GenJnlLine.Reset();
-        GenJnlLine.SetRange("Journal Template Name",PayrollGenSetup."Payroll Journal Template");
-        GenJnlLine.SetRange("Journal Batch Name",PayrollGenSetup."Payroll Journal Batch");
-        GenJnlLine.DELETEALL;*/
-
         Clear(BankTotal);
         Clear(PayrollAttribCode);
         Clear(DocumentNo);
@@ -2074,13 +1675,13 @@ codeunit 50008 "Payroll Engine"
                         if (PayrollGenSetup."CIT Payroll Attribute 1" = PayrollAttributes.Code) and (not PostedPayrollLine."CIT Posted 1") then begin
                             PayrollAttribCode := PayrollAttributes.Code;
                             InsertPayrollJournal(PostedPayrollPlan, PostedPayrollLine, PayrollAttributes, FieldValue, DocumentNo);
-                            BankTotal += FieldValue; //pram
+                            BankTotal += FieldValue;
                             PostedPayrollLine."CIT Posted 1" := true;
                             PostedPayrollLine.Modify;
                         end else if (PayrollGenSetup."CIT Payroll Attribute 2" = PayrollAttributes.Code) and (not PostedPayrollLine."CIT Posted 2") then begin
                             PayrollAttribCode := PayrollAttributes.Code;
                             InsertPayrollJournal(PostedPayrollPlan, PostedPayrollLine, PayrollAttributes, FieldValue, DocumentNo);
-                            BankTotal += FieldValue; //pram
+                            BankTotal += FieldValue;
                             PostedPayrollLine."CIT Posted 2" := true;
                             PostedPayrollLine.Modify;
                         end;
@@ -2088,17 +1689,6 @@ codeunit 50008 "Payroll Engine"
                 end;
             until PostedPayrollLine.Next = 0;
 
-        //to be executed setup wise (need to customize if required)  SRT
-        /*IF BankTotal <> 0 THEN begin
-          PayrollAttributes.GET(PayrollAttribCode);
-          InsertBalancingEntry(PostedPayrollPlan,PostedPayrollLine, -BankTotal,PayrollAttributes,DocumentNo); //pram
-          GenJnlLine.Reset();
-          GenJnlLine.SetRange("Journal Template Name",PayrollGenSetup."Payroll Journal Template");
-          GenJnlLine.SetRange("Journal Batch Name",PayrollGenSetup."Payroll Journal Batch");
-          GenJnlLine.SetRange("Document No.",DocumentNo);
-          IF GenJnlLine.FINDSET THEN
-            CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post Batch",GenJnlLine);
-        end;*/
         GenJnlLine.Reset;
         GenJnlLine.SetRange("Posted Payroll Plan No.", PostedPayrollPlan."No.");
         if GenJnlLine.FindSet then
@@ -2131,42 +1721,11 @@ codeunit 50008 "Payroll Engine"
         GenJnlLine.Description := PostedPayrollLine."Employee Name";
         GenJnlLine."Posting Date" := Today;   //to be decided later
         GenJnlLine.Validate(Amount, Amount);
-        GenJnlLine."Employee Code" := PostedPayrollLine."Employee No.";   //Employee Code
+        GenJnlLine."Employee Code" := PostedPayrollLine."Employee No.";
         GenJnlLine.Validate("Dimension Set ID", PostedPayrollLine."Dimension Set ID");
         GenJnlLine.Narration := PostedPayrollLine.Remarks;
         GenJnlLine."Posted Payroll Plan No." := PostedPayrollHdr."No.";
         GenJnlLine."Posted Payroll Plan Line No." := PostedPayrollLine."Line No.";
-        GenJnlLine."Payroll Attribute Code" := PayrollAttributes.Code;
-        GenJnlLine.Insert(true);
-    end;
-
-    local procedure InsertBalancingEntry(PostedPayrollHdr: Record "Posted Payroll Header"; PostedPayrollLine: Record "Posted Payroll Line"; Amount: Decimal; PayrollAttributes: Record "Payroll Attributes"; DocumentNo: Code[20])
-    var
-        PayrollGenSetup: Record "Payroll General Setup";
-        GenJnlLine: Record "Gen. Journal Line";
-        LineNo: Integer;
-    begin
-        PayrollGenSetup.Get;
-        GenJnlLine.Reset;
-        GenJnlLine.SetRange("Journal Template Name", PayrollGenSetup."Payroll Journal Template");
-        GenJnlLine.SetRange("Journal Batch Name", PayrollGenSetup."Payroll Journal Batch");
-        if not GenJnlLine.FindLast then
-            LineNo := 1000
-        else
-            LineNo := GenJnlLine."Line No." + 1000;
-
-        GenJnlLine.Init;
-        GenJnlLine."Line No." := LineNo;
-        GenJnlLine."Journal Template Name" := PayrollGenSetup."Payroll Journal Template";
-        GenJnlLine."Journal Batch Name" := PayrollGenSetup."Payroll Journal Batch";
-        GenJnlLine."Document No." := DocumentNo;
-        GenJnlLine.Validate("Account Type", PayrollGenSetup."Bal. Account Type");
-        GenJnlLine.Validate("Account No.", PayrollGenSetup."Bal. Account No.");
-        GenJnlLine."Posting Date" := Today;  //to be decided later
-        GenJnlLine.Validate(Amount, Amount);
-        GenJnlLine.Validate("Dimension Set ID", PostedPayrollLine."Dimension Set ID");
-        GenJnlLine.Narration := PostedPayrollLine.Remarks;
-        GenJnlLine."Dimension Set ID" := PostedPayrollLine."Dimension Set ID";
         GenJnlLine."Payroll Attribute Code" := PayrollAttributes.Code;
         GenJnlLine.Insert(true);
     end;
@@ -2269,70 +1828,6 @@ codeunit 50008 "Payroll Engine"
             exit(false);
         end;
 
-        // Bhuwan 8/22/2019
-    end;
-
-    procedure UploadDataToAttributeUsage()
-    begin
-        /*
-        PayrollAttributeSubform.Reset();
-        PayrollAttributeSubform.SetRange("Employee No.",PayrollAttributeSubform."Employee No.");
-         IF PayrollAttributeSubform.FindFirst() THEN begin
-           repeat
-              PayrollAttributeSubGroup.SetRange("Group Code",PayrollAttributeSubform."Group Code");
-              IF PayrollAttributeSubGroup.FindFirst() THEN begin
-                repeat
-                PayrollAttributeUsage.INIT;
-                PayrollAttributeUsage.VALIDATE("Employee Code",PayrollAttributeSubform."Employee No.");
-                PayrollAttributeUsage.VALIDATE(Code,PayrollAttributeSubGroup.Code);
-                PayrollAttributeUsage.VALIDATE(Description,PayrollAttributeSubGroup.Description);
-                PayrollAttributeUsage.INSERT;
-                until PayrollAttributeSubGroup.NEXT=0;
-                end;
-           until PayrollAttributeSubform.NEXT=0;
-        end;
-        */
-    end;
-
-    procedure ResolveColumnCalc(var Expression: Code[100]; PayrollAttribute: Record "Payroll Attributes"; BasicFromLine: Boolean; BasicAmount: Decimal)
-    var
-        StrPosition: Integer;
-        StrLength: Integer;
-        PayrollAttributesUsage: Record "Payroll Attributes Usage";
-        PayrollAttributes2: Record "Payroll Attributes";
-    begin
-        PayrollAttributesUsage.Reset;
-        PayrollAttributesUsage.SetRange(Code, PayrollAttribute.Code);
-        PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-        if PayrollAttributesUsage.FindFirst then begin
-            PayrollAttributesUsage.TestField(Amount);
-            BasicAmount := PayrollAttributesUsage.Amount;
-        end;
-
-        StrPosition := StrPos(Expression, PayrollAttributes."Column Name");
-        if StrPosition > 0 then begin
-            Expression := DelStr(Expression, StrPosition, StrLen(PayrollAttributes."Column Name"));
-            if BasicFromLine then
-                Expression := InsStr(Expression, Format(BasicSalaryAfterDeduction), StrPosition)
-            else
-                Expression := InsStr(Expression, Format(BasicAmount), StrPosition)
-        end;
-        StrLength := StrLen(Expression);
-        repeat
-            if Expression[StrLength] in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                      'Y', 'Z'] then begin
-                PayrollAttributes2.Reset;
-                PayrollAttributes2.SetRange("Column Name", Format(Expression[StrLength]));
-                if PayrollAttributes2.FindFirst then begin
-                    if PayrollAttributes2.Subtype = PayrollAttribute.Subtype then begin
-                        StrPosition := StrPos(Expression, Format(Expression[StrLength]));
-                        Expression := DelStr(Expression, StrPosition, StrLen(Format(Expression[StrLength])));
-                        Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition);
-                    end;
-                end;
-            end;
-            StrLength -= 1;
-        until StrLength = 0;
     end;
 
     procedure PayrollAttCheck(PayrollCode: Code[20]; EmpCode: Code[20]): Boolean
@@ -2652,6 +2147,7 @@ codeunit 50008 "Payroll Engine"
             end;
         end;
         RecRef.Close;
+        PayrollLine.RoundAmount(TaxAtOnceCurrentDeduction);
     end;
 
     local procedure TaxAtOnceCalcProjectionEarning()
@@ -2665,35 +2161,6 @@ codeunit 50008 "Payroll Engine"
     begin
         TaxAtOnceProjectionEarning := 0;
         TaxAtOnceProjectedNonPayments := 0;
-        PayrollColumnConfiguration.Reset;
-        PayrollColumnConfiguration.SetRange("Table No.", Database::"Level Wise Attributes");
-        if PayrollColumnConfiguration.FindSet then begin
-            RecRefs.Open(Database::"Level Wise Attributes");
-            repeat
-                if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
-                    if not PayrollAttributesUsage.Get(PayrollAttributes.Code, Employee."No.") then begin
-                        UsageAmount := 0;
-                        if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
-                            (PayrollAttributes."Non-Taxable" = false)
-                           then begin
-                            FieldRefs := RecRefs.Field(1);
-                            FieldRefs.SetRange(Employee."Salary Grade");
-                            FieldRefs := RecRefs.Field(2);
-                            FieldRefs.SetRange(Employee."Salary Level");
-                            RecRefs.FindFirst;
-                            FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
-                            Evaluate(UsageAmount, Format(FieldRefs.Value));
-                            UsageAmount := Round(UsageAmount, 0.01, '=');
-                            if PayrollAttributes."Apply Every Month" then
-                                TaxAtOnceProjectionEarning += UsageAmount * RemainingMonth
-                            else begin
-                                TaxAtOnceProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
-                            end;
-                        end;
-                    end;
-                end;
-            until PayrollColumnConfiguration.Next = 0;
-        end;
 
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
@@ -2712,9 +2179,12 @@ codeunit 50008 "Payroll Engine"
                             UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false);
                         end;
                         UsageAmount := Round(UsageAmount, 0.01, '=');
-                        if PayrollAttributes."Apply Every Month" then
-                            TaxAtOnceProjectionEarning += UsageAmount * RemainingMonth
-                        else begin
+                        if PayrollAttributes."Apply Every Month" then begin
+                            if PayrollAttributesUsage."End Date" <> 0D then
+                                TaxAtOnceProjectionEarning += UsageAmount * GetAttributeWiseProjectionMonth(PayrollAttributesUsage, RemainingMonth)
+                            else
+                                TaxAtOnceProjectionEarning += UsageAmount * RemainingMonth
+                        end else begin
                             TaxAtOnceProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                         end;
                     end;
@@ -2739,7 +2209,10 @@ codeunit 50008 "Payroll Engine"
                         end;
                         UsageAmount := Round(UsageAmount, 0.01, '=');
                         if PayrollAttributes."Apply Every Month" then
-                            TaxAtOnceProjectedNonPayments += UsageAmount * RemainingMonth
+                            if PayrollAttributesUsage."End Date" <> 0D then
+                                TaxAtOnceProjectedNonPayments += UsageAmount * GetAttributeWiseProjectionMonth(PayrollAttributesUsage, RemainingMonth)
+                            else
+                                TaxAtOnceProjectedNonPayments += UsageAmount * RemainingMonth
                         else begin
                             TaxAtOnceProjectedNonPayments += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                         end;
@@ -2794,6 +2267,15 @@ codeunit 50008 "Payroll Engine"
             RetirementFundTaxBenefit := RetirementFundLimit1;
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
+
+        if PayrollHeader."Optimal Deduction" then begin
+            if RetirementFundLimit1 < RetirementFundLimit2 then
+                RetirementFundTaxBenefit := RetirementFundLimit1
+            else
+                RetirementFundTaxBenefit := RetirementFundLimit2;
+
+            InsuranceTaxBenefit := PGSetup."Tax Ex. Life Insurance Amt.";
+        end;
         TaxAtOnceTaxableAmt := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit;
     end;
 
@@ -2806,6 +2288,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceAnnualTax := 0;
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
+        TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         if TaxSetupLine.FindFirst then
             repeat
                 if TaxAtOnceRemainingAmt > 0 then begin
@@ -2939,7 +2422,7 @@ codeunit 50008 "Payroll Engine"
 
                     end;
                     if OutstationEligible and (Amount = 0) then
-                        Amount := LevelWiseAttributes."Total Basic Salary" * 0.25;
+                        Amount := LevelWiseAttributes."Total Basic Salary" * 0.25;  //this goes to company specific extension
                     exit(Amount);
                 end;
             //BM accomendation
@@ -3411,15 +2894,7 @@ codeunit 50008 "Payroll Engine"
         if Employee.Find('-') then
             repeat
                 Clear(PayrollAttributesUsage);
-                /*PayrollAttributesUsage.SetRange("Employee Code",Employee."No.");
-                PayrollAttributesUsage.DELETEALL;*/
                 PayrollAttributes.Reset;
-                // if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Contract)
-                // else if Employee."Employment Type" = Employee."Employment Type"::Probation then
-                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::"Except Contract")
-                // else
-                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2|%3', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Permanent, PayrollAttributes."Employee Type"::"Except Contract");
                 PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::" ", Employee."Employment Type");
                 if PayrollAttributes.Find('-') then
                     repeat
@@ -3448,8 +2923,6 @@ codeunit 50008 "Payroll Engine"
             PreviousPayCyclePeriod.Reset;
             PreviousPayCyclePeriod.SetFilter("Start Date", '<=%1', PayrollHeader."From Date" - 2);
             PreviousPayCyclePeriod.SetFilter("End Date", '>=%1', PayrollHeader."From Date" - 2);
-            // PreviousPayCyclePeriod.SETFILTER("Start Date",'<=%1',EmployeeLedgerEntry."Pay Period Start Date" - 2);
-            //PreviousPayCyclePeriod.SETFILTER("End Date",'>=%1',EmployeeLedgerEntry."Pay Period Start Date" - 2);
             if PreviousPayCyclePeriod.FindFirst then;
         end;
     end;
@@ -3470,17 +2943,17 @@ codeunit 50008 "Payroll Engine"
     begin
         case SlabCount of
             1:
-                PayrollLine."1% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//    /(12 -FirstPayCyclePeriod +1);
+                PayrollLine."1% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);
             2:
-                PayrollLine."10% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
+                PayrollLine."10% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);
             3:
-                PayrollLine."20% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
+                PayrollLine."20% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);
             4:
-                PayrollLine."30% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
+                PayrollLine."30% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);
             5:
-                PayrollLine."36% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
+                PayrollLine."36% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);
             6:
-                PayrollLine."39% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
+                PayrollLine."39% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);
         end;
     end;
 
@@ -3493,20 +2966,20 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Past Benefit" := Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
         PayrollLine."Past Non-Payments" := Employee."Non-Payment";
         PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + Employee."Non-Payment" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
-        PayrollLine."Past Retirement Fund" := Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
+        PayrollLine."Past Retirement Fund" := Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
         PayrollLine."Actual RF Contribution" := TotalContributionToRetirementFund;
         PayrollLine."1/3 of Assessable Income" := RetirementFundLimit1;
         PayrollLine."Eligible RF Deduction" := RetirementFundTaxBenefit;
         PayrollLine."Total Employer Contribution" := EmployerContribution;
-        PayrollLine."Balance Taxable Income" := TaxAtOnceTaxableAmt;
-        PayrollLine."Taxable Income" := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit;
+        PayrollLine."Taxable Income" := TaxAtOnceTaxableAmt;
+        PayrollLine."Taxable Income After RF" := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit;
         PayrollLine."Life Insurance Premium" := InsuranceTaxBenefit;
         PayrollLine."Health Insurance Premium" := HealthInsuranceTaxBenefit;
         PayrollLine."Property Insurance Premium" := PropertyInsuranceTaxBenefit;
         PayrollLine."Disable Person Reduction" := DisablePersonReduction;
         PayrollLine."Total Tax Liability" := TaxAtOnceAnnualTax + TaxExempt + TotalSSTPaid + TotalTaxRemunPaid;
-        //Wrong Expression
+
         PayrollLine."Payable Tax Liability" := TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid;
         PayrollLine."Social Security Tax(Annual)" := SocialSecurityTax;
         if (TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid) < 0 then
@@ -3514,6 +2987,8 @@ codeunit 50008 "Payroll Engine"
         else
             PayrollLine."Tax on Remuneration(Annual)" := TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid;
         PayrollLine."Female Tax Credit" := TaxExempt;
+        if TaxAtOnceAnnualTax < 0 then
+            TaxAtOnceAnnualTax := 0;
         PayrollLine."Net Tax Liability" := TaxAtOnceAnnualTax;
         PayrollLine."Total Tax Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening" + Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
         PayrollLine."Total SST Paid" := Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
@@ -3521,9 +2996,23 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Current Benefit" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits;
         PayrollLine."Current Non-Payments" := CurrentNonPaymentBenefits;
         PayrollLine."Current Deduction" := TaxAtOnceCurrentDeduction;
+        PayrollLine."SST Base Amount" := GetSSTBaseAmount(PayrollLine);
+        PayrollLine."RIT Base Amount" := PayrollLine."Current Benefit" + PayrollLine."Current Non-Payments" - PayrollLine."SST Base Amount";
 
         PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
-        //Wrong Expression
+    end;
+
+    local procedure GetSSTBaseAmount(PayrollLineRec: Record "Payroll Line"): Decimal
+    begin
+        if SocialSecurityTaxAmount >= MonthlyTax then
+            exit(PayrollLineRec."Current Benefit" + PayrollLineRec."Current Non-Payments")
+        else
+            exit(SocialSecurityTaxAmount / 0.01);
+    end;
+
+    local procedure GetRITBaseAmount(PayrollLineRec: Record "Payroll Line"): Decimal
+    begin
+
     end;
 
     local procedure GetRemoteAreaDeduction()
@@ -3531,7 +3020,6 @@ codeunit 50008 "Payroll Engine"
         InitalDate: Date;
         FirstTime: Boolean;
         BranchCode: Code[20];
-        // EmpHie: Record "Employee Hierarchy Master";
         OrganationStructureList: Record "Organization Structure List";
         RemoteArea: Record "Remote Area Category";
         DimValue: Record "Dimension Value";
@@ -3553,15 +3041,6 @@ codeunit 50008 "Payroll Engine"
         if ServiceHistory.Find('+') then begin
             repeat
                 Clear(BranchCode);
-                // if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::Branch then
-                //     BranchCode := ServiceHistory."Deputation Code (To)"
-                // else if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::"Extension Counter" then begin
-                //     EmpHie.Reset;
-                //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                //     EmpHie.SetRange(Code, ServiceHistory."Deputation Code (To)");
-                //     if EmpHie.FindFirst then
-                //         BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                // end;
                 if OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (To)") then;
                 if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                     if FirstTime then begin
@@ -3586,16 +3065,6 @@ codeunit 50008 "Payroll Engine"
                 ServiceHistory.SetCurrentKey("Effective Date");
                 if ServiceHistory.FindFirst then begin
                     Clear(BranchCode);
-                    // if ServiceHistory."Deputation On(From)" = ServiceHistory."Deputation On(From)"::Branch then
-                    //     BranchCode := ServiceHistory."Deputation Code (From)"
-                    // else if ServiceHistory."Deputation On(From)" = ServiceHistory."Deputation On(From)"::"Extension Counter" then begin
-                    //     EmpHie.Reset;
-                    //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    //     EmpHie.SetRange(Code, ServiceHistory."Deputation Code (From)");
-                    //     if EmpHie.FindFirst then
-                    //         BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                    // end;
-                    // if DimValue.Get(GLSetup."Global Dimension 1 Code", BranchCode) then;
                     If OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (From)") then;
                     if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
@@ -3604,16 +3073,16 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end else begin
-            if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
+            if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Branch Code") then
                 if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
                     RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                             * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;
         PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
-        //MESSAGE(FORMAT(RemoteAreaDeduction));
     end;
 
-    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20])
+    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20];
+                                                 EmployeeNo: Code[20])
     var
         Employee: Record Employee;
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
@@ -3634,8 +3103,11 @@ codeunit 50008 "Payroll Engine"
             EmployeeType::Permanent:
                 begin
                     Employee.Reset;
-                    Employee.SetFilter("Employment Type", '%1|%2', Employee."Employment Type"::Probation, Employee."Employment Type"::Permanent);
+                    Employee.SetFilter("Employment Type", '%1|%2|%3', Employee."Employment Type"::Probation, Employee."Employment Type"::Permanent, Employee."Employment Type"::Temporary);
+                    Employee.SetFilter("Resignation Date", '%1|>%2', 0D, PGSetup."Dashain Start Date");
                     Employee.SetRange(Status, Employee.Status::Active);
+                    if EmployeeNo <> '' then
+                        Employee.SetFilter("No.", '%1', EmployeeNo);
                     if Employee.FindSet then
                         repeat
                             Employee.TestField("Employment Date");
@@ -3662,24 +3134,28 @@ codeunit 50008 "Payroll Engine"
                     Employee.Reset;
                     Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
                     Employee.SetRange(Status, Employee.Status::Active);
+                    if EmployeeNo <> '' then
+                        Employee.SetRange("No.", EmployeeNo);
                     if Employee.FindSet then
                         repeat
-                            Employee.TestField("Contract Expiry Date");
-                            Employee.TestField("Contract Salary Amount");
                             Employee.TestField("Employment Date");
-
+                            OnBeforeInsertDashainAllowance(Employee."No.", EligibleAmount, IsHandled);
                             CheckDate := GetCheckDateforDashain(PGSetup."Dashain Start Date", Employee."Employment Date");
-
+                            if not IsHandled then begin
+                                Employee.TestField("Contract Expiry Date");
+                                Employee.TestField("Contract Salary Amount");
+                                EligibleAmount := GetDashainBonusAmt(Employee."Contract Salary Amount", CheckDate);
+                            end;
                             if CheckDate <> 0D then begin
-                                if (Employee."Contract Expiry Date" - Employee."Employment Date" + 1) >= 183 then begin
-                                    EmployeePayrollAdjustment.Init;
-                                    EmployeePayrollAdjustment."Payroll Document No." := PayrollDocNo;
-                                    EmployeePayrollAdjustment.Validate("Employee No.", Employee."No.");
-                                    EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Dashain Renumeration");
-                                    EmployeePayrollAdjustment.Validate(Amount, GetDashainBonusAmt(Employee."Contract Salary Amount", CheckDate));
-                                    if EmployeePayrollAdjustment.Amount <> 0 then
-                                        EmployeePayrollAdjustment.Insert(true);
-                                end;
+                                //if (Employee."Contract Expiry Date" - Employee."Employment Date" + 1) >= 183 then begin
+                                EmployeePayrollAdjustment.Init;
+                                EmployeePayrollAdjustment."Payroll Document No." := PayrollDocNo;
+                                EmployeePayrollAdjustment.Validate("Employee No.", Employee."No.");
+                                EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Dashain Renumeration");
+                                EmployeePayrollAdjustment.Validate(Amount, EligibleAmount);
+                                if EmployeePayrollAdjustment.Amount <> 0 then
+                                    EmployeePayrollAdjustment.Insert(true);
+                                //end;
                             end;
                         until Employee.Next = 0;
                 end;
@@ -3698,6 +3174,7 @@ codeunit 50008 "Payroll Engine"
     var
         DashainDays: Integer;
     begin
+        //get 183 days by setup.
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
             if (Employee."Contract Expiry Date" - Employee."Employment Date" + 1) < 183 then
                 exit(0);
@@ -3757,7 +3234,6 @@ codeunit 50008 "Payroll Engine"
                 OnBeforeInsertEmployeePayrollAdjustment(EmployeePayrollAdjustment);
                 if EmployeePayrollAdjustment.Amount <> 0 then
                     EmployeePayrollAdjustment.Insert(true);
-
             end
         end;
     end;
@@ -4013,17 +3489,6 @@ codeunit 50008 "Payroll Engine"
         end;
         PayCyclePeriod.FindFirst;
         exit(PayCyclePeriod.Period);
-    end;
-
-    procedure IsActiveEmployee(No: Code[20]): Boolean
-    var
-        EmpRec: Record Employee;
-    begin
-        if EmpRec.Get(No) then
-            if Employee.Status = Employee.Status::Active then
-                exit(true)
-            else
-                exit(false);
     end;
 
     procedure IsValidEmployeeOT(Employee: Record Employee; OTFrom: Date; OTTo: Date; EncashmentCode: Code[20]): Boolean
@@ -4286,123 +3751,20 @@ codeunit 50008 "Payroll Engine"
         exit('');
     end;
 
-    procedure ImportPayrollAttributes(EmpCode: Code[20])
-    var
-        PayrollAttrUsage: Record "Payroll Attributes Usage";
-        EmpVar: Record Employee;
-        PayrollAttrUsage1: Record "Payroll Attributes Usage";
-        PayrollAttr: Record "Payroll Attributes";
+    procedure GetAttributeWiseProjectionMonth(PayrollAttrUses: record "Payroll Attributes Usage"; PRemainMonth: Decimal): Decimal
     begin
-        PayrollAttr.Reset();
-        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
-        // PayrollAttr.SetRange("Manual Import", false);
-        // if IrregularOnly then
-        //     PayrollAttr.SetRange("For Irr. Payroll", true);
-        if PayrollAttr.FindSet() then
-            repeat
-                EmpVar.Reset();
+        if PayrollAttrUses."End Date" = 0D then
+            exit(PRemainMonth);
 
-                // EmpVar.SetLoadFields("No.", "Tax Code", "Employment Type", "Global Dimension 1 Code", "Service Group", "Salary Level");
-                if EmpCode <> '' then
-                    EmpVar.SetRange("No.", EmpCode);
-                // EmpVar.SetRange(Nominee, false);
-                EmpVar.SetRange(Status, EmpVar.Status::Active);
-                EmpVar.SetFilter("Tax Code", '<>%1', '');
-                // if PayrollAttr."Pension Specific" <> PayrollAttr."Pension Specific"::" " then
-                //     EmpVar.SetRange("Pension Applicable", true)
-                // else
-                //     EmpVar.SetRange("Pension Applicable", false);
-                if PayrollAttr."Employee Type" <> PayrollAttr."Employee Type"::" " then
-                    EmpVar.SetRange("Employment Type", PayrollAttr."Employee Type");
-                if PayrollAttr."Branch Filter" <> '' then
-                    EmpVar.SetFilter("Global Dimension 1 Code", PayrollAttr."Branch Filter");
-                // if PayrollAttr."Service Group Filter" <> '' then
-                //     EmpVar.SetFilter("Service Group", PayrollAttr."Service Group Filter");
-                // if PayrollAttr."Salary Level Filter" <> '' then
-                //     EmpVar.SetFilter("Salary Level", PayrollAttr."Salary Level Filter");
-                if EmpVar.FindSet() then
-                    repeat
+        if PayrollAttrUses."End Date" <> 0D then begin
+            if PayrollAttrUses."End Date" < PayrollHeader."To Date" then
+                exit(0);
 
-                        if not PayrollAttrUsage1.Get(PayrollAttr.Code, EmpVar."No.") then begin
-                            Clear(PayrollAttrUsage);
-                            PayrollAttrUsage.Init();
-                            PayrollAttrUsage.Validate("Employee Code", EmpVar."No.");
-                            PayrollAttrUsage.Validate(Code, PayrollAttr.Code);
-                            // if PayrollAttr.Subtype = PayrollAttr.Subtype::CIT then begin
-                            // if (EmpVar."CIT No." <> '') then
-                            if PayrollAttrUsage.Insert() then;
-                            // end
-                            // else
+            if PayrollAttrUses."End Date" > PGSetup."Payroll Fiscal Year End Date" then
+                exit(PRemainMonth);
 
-                            //     if PayrollAttrUsage.Insert() then;
-                        end;
-                    until EmpVar.Next() = 0;
-            until PayrollAttr.Next = 0;
-    end;
-
-    //no in use
-    procedure ProcessRetirementFundsDoc(var RetirementFund: Record "Retirement Fund")
-    var
-        PayrollAttributesUses: Record "Payroll Attributes Usage";
-        PayrollAttributes: Record "Payroll Attributes";
-        Employee: Record Employee;
-    begin
-
-        Employee.Get(RetirementFund."Employee No.");
-        PayrollAttributes.SetFilter(Subtype, '%1|%2', PayrollAttributesUses.Subtype::CIT, PayrollAttributesUses.Subtype::RF);
-        if PayrollAttributes.FindSet() then
-            repeat
-                if not PayrollAttributesUses.Get(PayrollAttributes.Code, RetirementFund."Employee No.") then begin
-                    Clear(PayrollAttributesUses);
-                    PayrollAttributesUses.Init();
-                    PayrollAttributesUses.Validate("Employee Code", RetirementFund."Employee No.");
-                    PayrollAttributesUses.Validate(Code, PayrollAttributes.Code);
-                    PayrollAttributesUses.Validate(Subtype, PayrollAttributes.Subtype);
-                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
-                        PayrollAttributesUses.Validate(Amount, RetirementFund."CIT Amount (Month)");
-                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
-                        PayrollAttributesUses.Validate(Amount, RetirementFund."RTF Amount (Month)");
-                    PayrollAttributesUses.Insert(true);
-                end
-                else begin
-                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
-                        PayrollAttributesUses.Validate(Amount, RetirementFund."CIT Amount (Month)");
-                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
-                        PayrollAttributesUses.Validate(Amount, RetirementFund."RTF Amount (Month)");
-                    PayrollAttributesUses.Modify(true);
-                end;
-            until PayrollAttributes.Next() = 0;
-
-        if RetirementFund."Lumpsum Committed Contribution" <> 0 then begin
-            //
+            exit(GetPayCyclePeriod(PayrollAttrUses."End Date") - PayrollHeader."Pay Cycle Period");
         end;
-    end;
-
-    procedure RFGetTotalAnnualEarning(var Employee: Record Employee; var RFTotalEarning: Decimal; RFprojectMonth: Integer)
-    var
-        EmployeePayrollOpening: Record "Employee Payroll Opening";
-        PayrollgeneralSetup: Record "Payroll General Setup";
-        paycycleperiod: Record "Pay Cycle Period";
-        PayrollAttrUses: Record "Payroll Attributes Usage";
-        PayAttribute: Record "Payroll Attributes";
-    begin
-        PayrollgeneralSetup.Get();
-        paycycleperiod.SetRange("Start Date", PayrollgeneralSetup."Payroll Fiscal Year Start Date", PayrollgeneralSetup."Payroll Fiscal Year End Date");
-        paycycleperiod.FindFirst();
-        EmployeePayrollOpening.SetRange("Fiscal Year", paycycleperiod."Pay Cycle Term");
-        if EmployeePayrollOpening.FindFirst() then
-            RFTotalEarning += EmployeePayrollOpening."Total Benefit Opening";
-
-        PayrollAttrUses.SetRange("Employee Code", Employee."No.");
-        PayrollAttrUses.SetRange(Type, PayrollAttrUses.Type::Benefits);
-        if PayrollAttrUses.FindSet() then
-            repeat
-                PayAttribute.get(PayrollAttrUses.code);
-            // if PayAttribute."Apply Every Month" then
-
-            until PayrollAttrUses.Next() = 0;
-
-
     end;
 
     [IntegrationEvent(false, false)]
@@ -4423,6 +3785,11 @@ codeunit 50008 "Payroll Engine"
     local procedure OnAfterEmployeeActivityProcess(EmployeeNo: Code[20]; StartDate: Date; EndDate: Date)
     begin
         //This event can be used to perform attendance Process
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCalculateRetirementDeductionLimit(var PayrollHeader: Record "Payroll Header"; var PayrollLine: Record "Payroll Line"; var RetirementFundTaxBenefit: Decimal; var InsuranceTaxBenefit: Decimal);
+    begin
     end;
 
     [IntegrationEvent(false, false)]

@@ -1,6 +1,6 @@
 page 50020 "Recruitment Memo Subform"
 {
-    // //ratan 1.11.2021 provinance visible condition added
+
 
     AutoSplitKey = true;
     DeleteAllowed = true;

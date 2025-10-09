@@ -263,7 +263,7 @@ report 50007 "Pay Cycle Period Generator"
         PayCycle: Record "Pay Cycle";
         PayCyclePeriod: Record "Pay Cycle Period";
         PayCycleTerm: Record "Pay Cycle Term";
-        PayrollLedgerEntry: Record "Employee Ledger Entry PRM";
+        PayrollLedgerEntry: Record "Employee Ledger Entry";
         PRSetup: Record "Payroll General Setup";
         ENDate: Record "English-Nepali Date";
         SENDate: Record "English-Nepali Date";

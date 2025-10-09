@@ -2,16 +2,16 @@ report 50048 "Biometric Log Sync"
 {
     ApplicationArea = All;
     Caption = 'Biometric Log Sync';
-    UsageCategory = ReportsAndAnalysis;
+    // UsageCategory = ReportsAndAnalysis;
     ProcessingOnly = true;
     dataset
     {
         dataitem(DeviceConfigSetup; "Biometric Device Config.")
         {
-            RequestFilterFields = "Branch Code", SN, "Date Filter";
+            RequestFilterFields = Id, "Date Filter";
             trigger OnAfterGetRecord()
             begin
-                AdmsMgt.SyncAttendance(FromDate, ToDate, SN);
+                BiometricMgt.SyncAttendance(FromDate, ToDate, id);
             end;
         }
 
@@ -38,15 +38,15 @@ report 50048 "Biometric Log Sync"
             FromDate := DeviceConfigSetup.GetRangeMin("Date Filter");
             ToDate := DeviceConfigSetup.GetRangeMax("Date Filter");
         end;
-        if FromDate = 0D then begin
-            FromDate := WorkDate() - 3;
-            ToDate := WorkDate() + 1;
-        end;
+        // if FromDate = 0D then begin
+        //     FromDate := WorkDate() - 3;
+        //     ToDate := WorkDate() + 1;
+        // end;
 
     end;
 
     var
         FromDate: Date;
         ToDate: Date;
-        AdmsMgt: Codeunit "Biometric Mgt.";
+        BiometricMgt: Codeunit "Biometric Mgt.";
 }
