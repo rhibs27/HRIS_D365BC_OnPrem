@@ -343,6 +343,10 @@ codeunit 50008 "Payroll Engine"
         if AnnualTax < 0 then
             AnnualTax := 0;
 
+        if TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits = 0 then  //do not pay tax if there is no benifit. employee will pay in next month
+            if RemainingMonth > 0 then
+                AnnualTax := 0;
+
         PayrollLine."Gratuity & leave Encash Tax" := Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');
 
         // do the calculain only if there is tax.
