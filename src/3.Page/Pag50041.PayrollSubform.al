@@ -2097,6 +2097,7 @@ page 50041 "Payroll Subform"
         Field50537Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50537"));
         Field50538Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50538"));
         Field50539Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50539"));
+        Field50540Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50540"));
         Field50541Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50541"));
         Field50542Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50542"));
         Field50543Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50543"));

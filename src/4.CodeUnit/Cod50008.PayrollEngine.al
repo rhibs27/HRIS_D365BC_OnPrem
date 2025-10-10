@@ -343,6 +343,10 @@ codeunit 50008 "Payroll Engine"
         if AnnualTax < 0 then
             AnnualTax := 0;
 
+        if TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits = 0 then  //do not pay tax if there is no benifit. employee will pay in next month
+            if RemainingMonth > 0 then
+                AnnualTax := 0;
+
         PayrollLine."Gratuity & leave Encash Tax" := Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');
 
         // do the calculain only if there is tax.
@@ -397,15 +401,14 @@ codeunit 50008 "Payroll Engine"
                     end else
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
-                if MonthlyTax < 0 then begin
+
+                IF MonthlyTax < 0 THEN begin
                     MonthlyTax := 0;
                     SocialSecurityTaxAmount := 0;
+                    MonthlyTax := 0;
                 end;
             end;
-
         end;
-
-
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
@@ -3082,7 +3085,8 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
     end;
 
-    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20]; EmployeeNo: Code[20])
+    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20];
+                                                 EmployeeNo: Code[20])
     var
         Employee: Record Employee;
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
@@ -3234,7 +3238,6 @@ codeunit 50008 "Payroll Engine"
                 OnBeforeInsertEmployeePayrollAdjustment(EmployeePayrollAdjustment);
                 if EmployeePayrollAdjustment.Amount <> 0 then
                     EmployeePayrollAdjustment.Insert(true);
-
             end
         end;
     end;

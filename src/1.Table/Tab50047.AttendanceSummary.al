@@ -71,17 +71,17 @@ table 50047 "Attendance Summary"
         field(14; "Present Day"; Decimal)
         {
             CalcFormula = sum("Employee Attendance & Activity"."Present Day" where("Employee No." = field("Employee No."),
-                                                                                    "Day Type" = const("Working Day"),
                                                                                     "Attendance Date" = field("Date Filter"),
                                                                                     "Present Day" = filter(<> 0),
-                                                                                    "Leave Day" = filter(<> 1)));
+                                                                                    "Leave Day" = filter(<> 1),
+                                                                                    "Week Off Day" = filter(<> 1)));
             Editable = false;
             FieldClass = FlowField;
         }
         field(15; "Week Off Day"; Decimal)
         {
             CalcFormula = sum("Employee Attendance & Activity"."Week Off Day" where("Employee No." = field("Employee No."),
-                                                                                     "Day Type" = const(Holiday),
+                                                                                     "Week Off Day" = filter(<> 0),
                                                                                      "Attendance Date" = field("Date Filter"),
                                                                                      "Pay Type" = filter(<> Unpaid)));
             Editable = false;

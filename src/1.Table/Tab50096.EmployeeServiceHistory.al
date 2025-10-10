@@ -29,6 +29,8 @@ table 50096 "Employee Service History"
                     Validate("Functional Title (From)", Employee."Functional Title");
                     Validate("Salary Level (From)", Employee."Salary Level");
                     Validate("Salary Grade (From)", Employee."Salary Grade");
+                    Validate("Contract Code (From)", Employee."Emplymt. Contract Code");
+                    Validate("Employment Type (From)", Employee."Employment Type");
                 end;
             end;
         }
@@ -112,6 +114,10 @@ table 50096 "Employee Service History"
         field(31; "To Date"; Date) { }
         field(32; "From Employee Status"; Enum "Employee Status") { }
         field(33; "To Employee Status"; Enum "Employee Status") { }
+        field(34; "Contract Code (From)"; Code[20]) { }
+        field(35; "Contract Code (To)"; Code[20]) { }
+        field(36; "Employment Type (From)"; Enum "Employee Type") { }
+        field(37; "Employment Type (To)"; Enum "Employee Type") { }
     }
 
     keys

@@ -3255,7 +3255,8 @@ codeunit 50001 "HR Mgt."
             DocumentType: enum "Employee Activity Type";
                               ApprovalStatus: Enum "approval status";
                               EmployeeNo: Text;
-                              DocumentNo: Code[20])
+                              DocumentNo: Code[20];
+                              Cancelled: Boolean)
     var
         EmailTemplate: Record "Email Template";
         Header, Footer, Body, Disclaimer : text;
@@ -3284,7 +3285,7 @@ codeunit 50001 "HR Mgt."
             if EmpLoan.Get(DocumentNo) then
                 EmailTemplate.SetRange("Loan Type", EmpLoan."Loan Type");
         end;
-        if EmailTemplate.FindFirst then begin
+        if (EmailTemplate.FindFirst) and (not Cancelled) then begin
             Clear(Footer);
             Clear(Header);
             Clear(Body);
@@ -3456,7 +3457,8 @@ codeunit 50001 "HR Mgt."
                 CodeunitEmailMessage.AppendToBody(Format(EmployeeNo));
             CodeunitEmailMessage.AppendToBody('<br>');
             CodeunitEmailMessage.AppendToBody(Disclaimer);
-            Email.Send(CodeunitEmailMessage);
+            if not ((EmailReceipientText.Count = 1) and (EmailReceipientText.Get(1) = '')) then
+                Email.Send(CodeunitEmailMessage);
         end;
     end;
 
@@ -4147,11 +4149,11 @@ codeunit 50001 "HR Mgt."
 
         case EmpOvertime.Type of
             EmpOvertime.Type::"Out of Office":
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
             EmpOvertime.Type::Overtime:
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
             EmpOvertime.Type::"Bulk Cash":
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
         end;
         exit(true);
     end;
@@ -4250,6 +4252,13 @@ codeunit 50001 "HR Mgt."
         Employee.Reset;
         if Employee.Get(EmployeeCode) then
             exit(Employee."Full Name");
+    end;
+
+    procedure GetFunctionalTitleCode(EmployeeCode: Code[20]): Text[20]
+    begin
+        Employee.Reset;
+        if Employee.Get(EmployeeCode) then
+            exit(Employee."Functional Title");
     end;
 
     procedure GetHrHead(): Code[20]

@@ -55,6 +55,7 @@ table 50027 "Payroll Line"
                 Validate("Pan No.", Employee."PAN No.");
                 Validate(Gender, Employee.Gender);
                 Validate("Marital Status", Employee."Marital Status");
+                Validate("Employee Type", Employee."Employment Type");
 
                 HRSetup.Get;
                 Validate("Global Dimension 1 Code", PayrollHeader."Global Dimension 1 Code");
