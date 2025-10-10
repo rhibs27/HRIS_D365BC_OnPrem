@@ -391,7 +391,8 @@ page 50067 "Resignation Card"
                     if Confirm('Do you want to approve this resignation.', false) then begin
                         DocumentApprover.Reset;
                         DocumentApprover.SetRange("Document No.", Rec."No.");
-                        DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo);
+                        if not HrMgt.IsSaaS() then// garima
+                            DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo);
                         DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
                         if DocumentApprover.FindFirst then begin
                             DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);

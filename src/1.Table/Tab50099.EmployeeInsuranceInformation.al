@@ -166,7 +166,10 @@ table 50099 "Employee Insurance Information"
     begin
         "Requested Date" := Today;
         if not GuiAllowed then begin
-            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", Hrmgt.GetEmployeeNo());
+
             "Approval Status" := "Approval Status"::Pending;
             Validate(Type, Rec.Type::Insurance);
         end;
@@ -210,7 +213,7 @@ table 50099 "Employee Insurance Information"
 
     // trigger OnModify()
     // begin
-    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then 
+    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then
     //         LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
     //     if not GuiAllowed then
     //         if "Approval Status" = "Approval Status"::Open then

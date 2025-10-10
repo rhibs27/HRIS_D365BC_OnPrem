@@ -704,7 +704,7 @@ codeunit 50004 "Travel Mgt."
         end;
         TravelRequest."Approved Date" := Today;
         TravelRequest.Modify();
-        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, HrMgt.getEmployeeNo(), TravelRequest."No.", false);   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
     end;
 
     procedure TravelClaimApproved(TravelCode: Code[20])

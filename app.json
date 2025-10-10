@@ -28,6 +28,5 @@
     "includeSourceInSymbolFile": false
   },
   "runtime": "13.0",
-  "features": ["TranslationFile"],
-  "preprocessorSymbols": ["CLEAN24"]
+  "features": ["TranslationFile"]
 }

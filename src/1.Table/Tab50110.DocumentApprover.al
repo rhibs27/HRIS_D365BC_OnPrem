@@ -45,7 +45,9 @@ table 50110 "Document Approver"
             trigger OnValidate()
             begin
                 if "Employee Type" = "Employee Type"::"Initiated By" then
-                    Validate("Employee No.", HRMgt.GetEmployeeNo());
+                    if not HrMgt.IsSaaS() then
+                        Validate("Employee No.", HRMgt.GetEmployeeNo());
+
             end;
         }
         field(10; "Document Type"; Enum "Document Approver Doc. Type")
@@ -89,8 +91,9 @@ table 50110 "Document Approver"
         Unauthorized: Label 'Not authorized.';
     begin
         if GuiAllowed then
-            if "Employee No." <> HRMgt.GetEmployeeNo() then
-                Error(Unauthorized);
+            if not HrMgt.IsSaaS() then
+                if "Employee No." <> HRMgt.GetEmployeeNo() then
+                    Error(Unauthorized);
 
         IF "Approval Status" = "Approval Status"::Approved THEN
             Validate("Approved Date", Today);

@@ -210,8 +210,11 @@ report 50070 "Tax Deduction Information"
 
         if DocumentNo = '' then
             Error('Select Voucher No. to run this report.');
-        if EmployeeNoFilter = '' then
-            EmployeeNoFilter := HRMgt.GetEmployeeNo();
+
+        if not HrMgt.IsSaaS() then
+            if EmployeeNoFilter = '' then
+                EmployeeNoFilter := HRMgt.GetEmployeeNo();
+
         if EmployeeNoFilter = '' then
             Error('Please selete an employee.');
         //IF Employee.GETFILTER("No.") = '' THEN

@@ -104,7 +104,9 @@ table 50141 OverTime
                 else
                     Clear("Fiscal Year");
                 if Type <> Type::Overtime then
-                    EmployeeRec.Get(HrMgt.GetEmployeeNo());
+                    if not HrMgt.IsSaaS() then
+                        EmployeeRec.Get(HrMgt.GetEmployeeNo());
+
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
@@ -406,7 +408,8 @@ table 50141 OverTime
                 // GLsetup.Get;
                 Clear("Deputation Name");
                 if not GuiAllowed then begin
-                    Employee.Get(HrMgt.GetEmployeeNo());
+                    if not HrMgt.IsSaaS() then
+                        Employee.Get(HrMgt.GetEmployeeNo());
                     "Deputation Code" := Employee."Deputation On Code";
                 end else
                     Employee.Get("Employee No.");
@@ -473,7 +476,10 @@ table 50141 OverTime
             "Requested Date" := Today;
         HRSetup.Get;
         if (not GuiAllowed) and (type = Type::"Overtime Bulk") then begin
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
+
             Validate("Approval Status", "Approval Status"::Open);
             Validate("Overtime Claim Type", "Overtime Claim Type"::Encashment);
         end;
@@ -489,7 +495,7 @@ table 50141 OverTime
                         begin
                             HRSetup.TestField("OT No.");
                             NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
 
                     //for out of office

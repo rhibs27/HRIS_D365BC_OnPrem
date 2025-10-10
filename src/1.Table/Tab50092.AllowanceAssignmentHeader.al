@@ -37,7 +37,7 @@ table 50092 "Allowance Assignment Header"
             begin
                 GLsetup.Get;
                 Clear(Name);
-                if not GuiAllowed then
+                if (not GuiAllowed) and (not HrMgt.IsSaaS()) then
                     Employee.Get(HrMgt.GetEmployeeNo())
                 else
                     Employee.Get("Employee No.");
@@ -214,7 +214,7 @@ table 50092 "Allowance Assignment Header"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
-        if not GuiAllowed then
+        if (not GuiAllowed) and (not HrMgt.IsSaaS()) then
             Validate("Employee No.", HrMgt.GetEmployeeNo());
         HRSetup.Get;
         if "No." = '' then

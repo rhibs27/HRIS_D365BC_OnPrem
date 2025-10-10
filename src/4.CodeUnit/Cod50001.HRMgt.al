@@ -135,6 +135,7 @@ codeunit 50001 "HR Mgt."
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: CodeUnit "Travel Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
+        HRMgt: Codeunit "HR Mgt.";
 
     procedure MoveToMagicPath(SourceFileName: Text[1024]) DestinationFileName: Text[1024]
     var
@@ -155,8 +156,9 @@ codeunit 50001 "HR Mgt."
         Candidate.TestField("Vacancy Code");
         VacancyHeader.Get(Candidate."Vacancy Code");
         VacancyHeader.TestField(Type, VacancyHeader.Type::Internal);
-        if Candidate."Recommender Code" <> GetEmployeeNo then
-            Error('You are not elgible to recommend this candidate');
+        if not HrMgt.IsSaaS() then
+            if Candidate."Recommender Code" <> GetEmployeeNo then
+                Error('You are not elgible to recommend this candidate');
         if IsApproved then
             Candidate.Validate(Status, Candidate.Status::Recommended)
         else
@@ -189,8 +191,9 @@ codeunit 50001 "HR Mgt."
         Candidate.TestField("Vacancy Code");
         VacancyHeader.Get(Candidate."Vacancy Code");
         VacancyHeader.TestField(Type, VacancyHeader.Type::Internal);
-        if Candidate."Employee No." <> GetEmployeeNo then
-            Error('You are not elgible to apply this candidate');
+        if not HrMgt.IsSaaS() then
+            if Candidate."Employee No." <> GetEmployeeNo then
+                Error('You are not elgible to apply this candidate');
         Candidate.Validate(Status, Candidate.Status::Applied);
         Candidate.Modify;
     end;
@@ -610,6 +613,7 @@ codeunit 50001 "HR Mgt."
             VacancyHead.TestField("Vacancy Expiry Date");
         end;
         SelectionComimttee.SetRange("Vacancy Code", VacancyCode);
+         if not HrMgt.IsSaaS() then
         SelectionComimttee.SetRange("Employee No", GetEmployeeNo);
         if not VacancyHead."Selection Committee Approved" then begin
             if SelectionComimttee.FindFirst then begin
@@ -1269,6 +1273,7 @@ codeunit 50001 "HR Mgt."
     begin
 
         Interviewer.Reset;
+         if not HrMgt.IsSaaS() then
         Interviewer.SetRange(Interviewer, GetEmployeeNo);
         Interviewer.SetRange("Vacancy Code", VacancyCode);
         if Interviewer.Find('-') then begin
@@ -5822,5 +5827,13 @@ codeunit 50001 "HR Mgt."
         if EngNep2.findlast() then
             exit(EngNep2."Nepali Day");
     end;
+
+    procedure IsSaaS(): Boolean
+    var
+        EnvInfo: Codeunit "Environment Information";
+    Begin
+        exit(EnvInfo.IsSaaS());
+    End;
+
 }
 

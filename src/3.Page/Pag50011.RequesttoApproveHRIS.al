@@ -111,7 +111,10 @@ page 50011 "Request to Approve HRIS"
     trigger OnOpenPage()
     begin
         Rec.FilterGroup(2);
-        Rec.SetRange("Approver No", HrMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then
+            Rec.SetRange("Approver No", HrMgt.GetEmployeeNo());
+
         Rec.FilterGroup(0);
         Rec.SetRange("Approval Status", Rec."Approval Status"::Open);
     end;

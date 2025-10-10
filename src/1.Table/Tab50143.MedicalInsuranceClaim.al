@@ -319,7 +319,10 @@ table 50143 "Medical Insurance Claim"
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         if not GuiAllowed then begin
-            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", Hrmgt.GetEmployeeNo());
+
             "Approval Status" := "Approval Status"::Pending;
             Validate(Type, Rec.Type::"Medical Insurance Claim");
         end;

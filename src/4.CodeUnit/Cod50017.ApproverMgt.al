@@ -2,11 +2,11 @@ codeunit 50017 "Approver Mgt"
 {
     // >> Fixed Field  ID used on ALL Table For RECRef >> Santosh 2025-03-04
     // >>RecRef.Field(1) = Document No.
-    // >>RecRef.Field(2) = Document Type    
+    // >>RecRef.Field(2) = Document Type
     // >>RecRef.Field(16) = Approval Status
     // >>RecRef.Field(37) = Approved Date
-    // >>RecRef.Field(39) = Cancelled 
-    // >>RecRef.Field(100) = Status 
+    // >>RecRef.Field(39) = Cancelled
+    // >>RecRef.Field(100) = Status
     // >> warning: don't Change the Field ID on the Table>>
     // >> Insert Approval for Employee Activity from Approval Setup Line >> Santosh 2025-03-04 >>
     procedure InsertApproval(EmployeeNo: Code[20];
@@ -272,12 +272,18 @@ codeunit 50017 "Approver Mgt"
         ApprovalSetupLine: Record "Approval Setup line";
         ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
     begin
-        Employee.Reset();
+
+        if not HrMgt.IsSaaS() then
+            Employee.Reset();
         Employee.Get(HRMgt.GetEmployeeNo());
+
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
-        ApprovalLine.SetRange("Approver No", HRMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then
+            ApprovalLine.SetRange("Approver No", HRMgt.GetEmployeeNo());
+
         if not ApprovalLine.Findfirst() then
             Error(ApproveNotEligibleError);
     end;
@@ -287,12 +293,17 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine: Record "Approval HRMS";
         Employee: Record Employee;
     begin
-        Employee.Reset();
+        if not HrMgt.IsSaaS() then
+            Employee.Reset();
         Employee.Get(HRMgt.GetEmployeeNo());
+
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
-        ApprovalLine.SetRange("Approver No", HRMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then
+            ApprovalLine.SetRange("Approver No", HRMgt.GetEmployeeNo());
+
         if ApprovalLine.Findfirst() then
             exit(true);
     end;
@@ -550,11 +561,17 @@ codeunit 50017 "Approver Mgt"
         Employee: Record Employee;
         ApproveNotEligibleError: Label 'You are not Eligible to WithDraw this document ';
     begin
-        Employee.Reset();
+
+        if not HrMgt.IsSaaS() then
+            Employee.Reset();
         Employee.Get(HRMgt.GetEmployeeNo());
+
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
-        ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then
+            ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
+
         if not ApprovalLine.Findfirst() then
             Error(ApproveNotEligibleError);
     end;

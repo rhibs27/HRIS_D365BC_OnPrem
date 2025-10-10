@@ -437,7 +437,7 @@ codeunit 50002 "Loan Mgt."
 
     end;
 
-    // local procedure InsertApprover(var EmpLoan: Record "Employee Loan/Advance")//santosh commented 
+    // local procedure InsertApprover(var EmpLoan: Record "Employee Loan/Advance")//santosh commented
     // var
     //     EmployeeRec: Record Employee;
     // begin
@@ -452,7 +452,7 @@ codeunit 50002 "Loan Mgt."
     //         EmployeeRec.Reset;
     //         EmployeeRec.SetRange("Functional Title", HRSetup."HR Head Functional Title");
     //         EmployeeRec.SetRange("Department Code", HRSetup."HR Department Code");
-    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active); 
+    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
     //         if EmployeeRec.FindFirst then
     //             EmpLoan.Validate(Approver, EmployeeRec."No.");
     //     end;
@@ -785,6 +785,7 @@ codeunit 50002 "Loan Mgt."
     procedure SettleAdvance(EmpLoanAdv: Record "Employee Loan/Advance")
     begin
         EmpLoanAdv.TestField("Approval Status", EmpLoanAdv."Approval Status"::Approved);
+         if not HrMgt.IsSaaS() then
         Employee.Get(HRMgt.GetEmployeeNo);
         // Employee.TestField(Screener);
         EmpLoanAdv.TestField(Settled, false);
@@ -842,7 +843,7 @@ codeunit 50002 "Loan Mgt."
         HRSetup.Get;
         // Employee.Reset;
         // Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        // Employee.SetRange(Status, Employee.Status::Active); 
+        // Employee.SetRange(Status, Employee.Status::Active);
         // if Employee.FindFirst then;
         // EmpLoan.Validate(Approver, Employee."No.");
         // if not GuiAllowed then begin
@@ -1986,7 +1987,7 @@ codeunit 50002 "Loan Mgt."
     //             AllowanceHeader.Validate("Approver ID", AllowanceHead.GetFilter("Approver ID"));
     //             AllowanceHeader.Modify;
     //             Message('Approver updated.');
-    //         end else begin 
+    //         end else begin
     //             Error('You cannot change the approver of Approval Status : %1', AllowanceHeader."Approval Status");
     //         end;
     //     end;

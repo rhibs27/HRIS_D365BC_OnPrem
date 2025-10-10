@@ -239,7 +239,7 @@ table 50074 "Employee Edit"
             Description = 'Official Document';
             DataClassification = CustomerContent;
         }
-        //Changes In relative 
+        //Changes In relative
         field(45; "Relative Code"; Code[10])
         {
             Caption = 'Relative Code';
@@ -453,7 +453,10 @@ table 50074 "Employee Edit"
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
-        Validate("Employee No.", HrMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then
+            Validate("Employee No.", HrMgt.GetEmployeeNo());
+
         Validate(Type, Type::"Employee Edit");
         Validate("Approval Status", "Approval Status"::Pending);
         HRSetup.Get;

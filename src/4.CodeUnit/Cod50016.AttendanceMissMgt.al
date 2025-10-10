@@ -160,6 +160,7 @@ codeunit 50016 "AttendanceMiss Mgt"
     begin
         CancelDocument.TestField("Approval Status", CancelDocument."Approval Status"::Approved);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
+         if not HrMgt.IsSaaS() then
         Employee.Get(HRMgt.GetEmployeeNo);
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
             LeaveEarn.Init;

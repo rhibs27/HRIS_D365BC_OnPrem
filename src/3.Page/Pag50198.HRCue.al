@@ -184,6 +184,7 @@ page 50198 "HR Cue"
                         EmpActivity.Reset;
                         EmpActivity.SetFilter(Type, '%1|%2', EmpActivity.Type::"HR Transfer", EmpActivity.Type::"Employee Transfer");
                         EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Pending);
+                         if not HrMgt.IsSaaS() then
                         EmpActivity.SetRange("Recommender Code", HRMgt.GetEmployeeNo);
                         Clear(PageTransferList);
                         PageTransferList.ForHistoryPage;
@@ -203,6 +204,7 @@ page 50198 "HR Cue"
                         EmpActivity.Reset;
                         EmpActivity.SetFilter(Type, '%1|%2', EmpActivity.Type::"HR Transfer", EmpActivity.Type::"Employee Transfer");
                         EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Screened);
+                         if not HrMgt.IsSaaS() then
                         EmpActivity.SetRange("Approver Code", HRMgt.GetEmployeeNo);
                         Clear(PageTransferList);
                         PageTransferList.ForHistoryPage;
@@ -240,6 +242,7 @@ page 50198 "HR Cue"
                         EmpActivity.Reset;
                         EmpActivity.SetFilter(Type, '%1|%2', EmpActivity.Type::"HR Transfer", EmpActivity.Type::"Employee Transfer");
                         EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Approved);
+                         if not HrMgt.IsSaaS() then
                         EmpActivity.SetRange("Approver Code", HRMgt.GetEmployeeNo);
                         Clear(PageTransferList);
                         PageTransferList.ForHistoryPage;
@@ -572,7 +575,9 @@ page 50198 "HR Cue"
                 end;
             until Employee.Next = 0;
 
-        Rec.SetFilter("Employee Filter", HRMgt.GetEmployeeNo());
+        if not HrMgt.IsSaaS() then
+            Rec.SetFilter("Employee Filter", HRMgt.GetEmployeeNo());
+
     end;
 
     var

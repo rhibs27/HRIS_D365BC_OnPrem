@@ -175,7 +175,10 @@ table 50113 "Shift Assignment Header"
     begin
         "Type" := "Type"::"Shift Assignment";
         if not GuiAllowed then begin
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
+
             Validate("Approval Status", "Approval Status"::Open);
         end;
         // TestField(Code);

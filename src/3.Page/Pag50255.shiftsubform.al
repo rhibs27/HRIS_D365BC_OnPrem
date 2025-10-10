@@ -201,8 +201,9 @@ page 50255 "Shift subform"
         SetLayout();
         if not GuiAllowed then
             if ShiftAssignmentHeader.Get(rec."No.") then
-                if not (ShiftAssignmentHeader."Employee No." = HRMgt.GetEmployeeNo()) then
-                    Error('Auth Error');
+                if not HrMgt.IsSaaS() then
+                    if not (ShiftAssignmentHeader."Employee No." = HRMgt.GetEmployeeNo()) then
+                        Error('Auth Error');
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)

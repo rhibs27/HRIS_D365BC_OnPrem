@@ -95,7 +95,10 @@ codeunit 50007 "Insurance Mgt"
     begin
         //check authorized user
         if Medicalinsurance."Insurance Status" = Medicalinsurance."Insurance Status"::"Request to DTMD" then begin
-            Employee.Get(HRMgt.GetEmployeeNo());
+
+            if not HrMgt.IsSaaS() then
+                Employee.Get(HRMgt.GetEmployeeNo());
+
             if not Confirm(ConfirmScreen, false) then
                 exit;
             Medicalinsurance.Validate("Insurance Status", Medicalinsurance."Insurance Status"::"Forwarded to Insurance Co.");

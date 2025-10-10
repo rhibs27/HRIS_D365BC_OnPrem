@@ -78,11 +78,12 @@ codeunit 50005 "Transfer Mgt."
         exit(true);
     end;
 
-    procedure ConfirmTransferDetails(Var EmpHrTransfer: Record "Employee Transfer")
+    procedure ConfirmTransferDetails(Var EmpHrTransfer: Record "Employee Transfer")// to be reviewd
     var
     begin
         HRSetup.Get();
         HRSetup.TestField("HR Department Code");
+         if not HrMgt.IsSaaS() then
         Employee.Get(HRMgt.GetEmployeeNo());
         if HRSetup."HR Department Code" <> Employee."Department Code" then
             Error('Only Employee from HR department can confirm transfer Details');
@@ -98,11 +99,12 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Reason for Transfer");
         EmpHrTransfer.TestField("Incoming Supervisior");
         EmpHrTransfer.TestField("Outgoing Branch Rep. Person");
-        // EmpHrTransfer.TestField("Notify to"); 
+        // EmpHrTransfer.TestField("Notify to");
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
         end;
+         if not HrMgt.IsSaaS() then
         Employee.Get(HRMgt.GetEmployeeNo);
         case EmpHrTransfer."Deputation On (To)" of
             EmpHrTransfer."Deputation On (To)"::Branch:
@@ -406,8 +408,10 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(TakeOver, true);
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
-        if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
-            Error('You are not Eligible for Employee Acknowledge');
+
+        if not HrMgt.IsSaaS() then
+            if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
+                Error('You are not Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);
@@ -524,6 +528,7 @@ codeunit 50005 "Transfer Mgt."
                         if IncomingDocument."File Name" = '' then
                             Error('Upload Attachment');
             until IncomingDocument.Next() = 0;
+             if not HrMgt.IsSaaS() then
         if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
             Error('You arenot Eligible')
         else begin
@@ -540,6 +545,7 @@ codeunit 50005 "Transfer Mgt."
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField(Handover, true);
+         if not HrMgt.IsSaaS() then
         if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
             Error('You are not Eligible')
         else begin
@@ -621,6 +627,7 @@ codeunit 50005 "Transfer Mgt."
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         OrganizationStructureList: Record "Organization Structure List";
         TransferError: Label 'You cannot Approve HR Transfer of Effective Date %1 in %2.';
+
 
 
 }

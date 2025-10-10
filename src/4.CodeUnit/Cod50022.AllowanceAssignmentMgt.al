@@ -6,7 +6,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Allowance Assignment");
@@ -420,6 +420,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignmentPageBuilder: FilterPageBuilder;
         AllowanceAssignmentLine1, AllowanceAssignmentLine2 : Record "Allowance Assignment Line";
     begin
+         if not HrMgt.IsSaaS() then
         Employee.Get(HrMgt.GetEmployeeNo);
         AllowanceAssignmentPageBuilder.AddRecord('Reject Allowance Assignment', AllowanceAssignmentLine2);
         AllowanceAssignmentPageBuilder.ADdField('Reject Allowance Assignment', AllowanceAssignmentLine2."Rejection Remarks");
@@ -486,7 +487,7 @@ codeunit 50022 "Allowance Assignment Mgt"
     begin
         Clear(Employee);
         PGSetup.Get();
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Allowance Assignment claim");
@@ -512,7 +513,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             end else
                 Error('%1 has already open Allowance Assignment Claim %2.', Employee."Full Name", AllowanceAssignment."No.");
         end else begin
-            //Check if allowance claim exist or not 
+            //Check if allowance claim exist or not
             CheckAllowanceApproved(EmpCode);
             AllowanceAssignment2.Init;
             AllowanceAssignment2.Validate("Employee No.", EmpCode);
@@ -556,7 +557,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         ALlowanceAssignmentLineCheck.Reset;
         ALlowanceAssignmentLineCheck.SetRange("No.", AllowanceAssignmentCode);
         ALlowanceAssignmentLineCheck.SetRange("Approval Status", ALlowanceAssignmentLineCheck."Approval Status"::Open);
-        ALlowanceAssignmentLineCheck.DeleteAll(); // Delete existing lines for the record    
+        ALlowanceAssignmentLineCheck.DeleteAll(); // Delete existing lines for the record
 
         ALlowanceAssignmentLineApproved.Reset();
         ALlowanceAssignmentLineApproved.SetRange("Employee Code", AllowanceAssignmentHeader."Employee No.");

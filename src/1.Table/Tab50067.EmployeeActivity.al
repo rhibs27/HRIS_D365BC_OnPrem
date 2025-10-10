@@ -406,10 +406,12 @@ table 50067 "Employee Activity"
                     end;
                 if "Approval Status" = "Approval Status"::Screened then begin
                     Validate("Screener Date", Today);
+                     if not HrMgt.IsSaaS() then
                     Validate("Screener ID", HRMgt.GetEmployeeNo);
                 end;
                 if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
                     Validate("Final Approver Date", Today);
+                     if not HrMgt.IsSaaS() then
                     Validate("Final Approver", HRMgt.GetEmployeeNo);
                 end;
             end;

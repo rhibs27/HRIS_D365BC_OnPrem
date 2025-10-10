@@ -106,7 +106,10 @@ table 50135 "Encashment Request"
         if "Posting Date" = 0D then
             "Posting Date" := WorkDate();
         if "Employee No." = '' then
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
+
         Validate("Approval Status", "Approval Status"::Pending);
         TestField(Type);
         HRSetup.Get;

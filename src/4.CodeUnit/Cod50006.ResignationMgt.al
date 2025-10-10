@@ -86,7 +86,7 @@ codeunit 50006 "Resignation Mgt"
 
         HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.", false);   //For email
         // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::Pending) then
-        //     HrMgt.ResignationEmailSend(Resignation."Employee No."); 
+        //     HrMgt.ResignationEmailSend(Resignation."Employee No.");
         Message(ApprovalRequestSent);
         exit(true);
     end;
@@ -150,12 +150,13 @@ codeunit 50006 "Resignation Mgt"
             until DocumentApprover.Next = 0;
     end;
 
-    procedure ScreenResignation(var Resignation: Record Resignation)
+    procedure ScreenResignation(var Resignation: Record Resignation)// to add employee no in parameter
     var
         ConfirmScreen: Label 'Do you want to screen this document?';
         FunctionalTitle: Record "Functional Title";
     begin
         //check authorized user
+         if not HrMgt.IsSaaS() then
         Employee.Get(HrMgt.GetEmployeeNo());
         if Resignation.Type = Resignation.Type::Resignation then begin
             // if not Employee.Screener then           //resignation approver replaced with screener
@@ -200,7 +201,10 @@ codeunit 50006 "Resignation Mgt"
         ConfirmScreen: Label 'Do you want to confirm screen this document?';
     begin
         //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then// garima
+            Employee.Get(HrMgt.GetEmployeeNo());
+
         if not (Employee."No." = Resignation."Employee No.") then
             Error('Only employee %1 can forward this document to HR.', Resignation."Employee Name");
         HrMgt.CheckDocumentApprover(Resignation."No.");

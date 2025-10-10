@@ -137,7 +137,10 @@ page 50276 "HR Overview"
         HrSetup.Get();
         Rec.SetFilter("Contract Expiry Date Filter", '%1..%2', today, CalcDate(HrSetup."Contract Expiry Days", Today));
         Rec.SetFilter("Expiry Check Date", '..%1', Today);
-        Rec.SetRange("Employee Filter", HrMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then
+            Rec.SetRange("Employee Filter", HrMgt.GetEmployeeNo());
+
     end;
 
     var

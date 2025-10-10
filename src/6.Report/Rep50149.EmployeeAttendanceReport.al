@@ -383,6 +383,7 @@ report 50149 "Employee Attendance Report"
         AttendanceDateTo: Date;
         AttendanceDateFilter: Text;
         ReportTitleLbl: Label 'Employee Attendance Report';
+        HRMgt: Codeunit "HR Mgt.";
 
     local procedure GetAttendanceStatus(): Text[20]
     begin
@@ -402,7 +403,8 @@ report 50149 "Employee Attendance Report"
         Employee: Record Employee;
         HRmgn: Codeunit "HR Mgt.";
     begin
-        Employee.Get(HRmgn.GetEmployeeNo);
+        if not HrMgt.IsSaaS() then
+            Employee.Get(HRmgn.GetEmployeeNo);
         if (Employee."Branch Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Branch) then
             BranchCodeFilter := employee."Branch Code";
         if (Employee."Province Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Province) then

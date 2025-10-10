@@ -457,10 +457,9 @@ table 50124 Leave
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         if not GuiAllowed then begin
-            #if CLEAN24
-            "Employee No." := HRMgt.GetEmployeeNo();
-            #endif
-            
+
+            if not HrMgt.IsSaaS() then
+                "Employee No." := HRMgt.GetEmployeeNo();
             // Type := type::"Leave Request";
             "User ID" := userID;
             if "Approval Status" <> "Approval Status"::Approved then

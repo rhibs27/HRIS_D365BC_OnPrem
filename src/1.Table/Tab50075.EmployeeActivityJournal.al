@@ -405,18 +405,18 @@ table 50075 "Employee Activity Journal"
 
         //change 0:
         field(54; "Province Code (To)"; Code[20])
-{
-    Description = 'Transfer';
-    TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
-    trigger OnValidate()
-    begin
-        if "Province Code (To)" <> xRec."Province Code (To)" then
-            Clear("To Branch");
+        {
+            Description = 'Transfer';
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                if "Province Code (To)" <> xRec."Province Code (To)" then
+                    Clear("To Branch");
 
-        if "Deputation On (To)" = "Deputation On (To)"::Province then
-            ValidateDeputationOnTo
-    end;
-}
+                if "Deputation On (To)" = "Deputation On (To)"::Province then
+                    ValidateDeputationOnTo
+            end;
+        }
         // field(54; "Province Code (To)"; Code[20])
         // {
         //     Description = 'Transfer';
@@ -601,25 +601,25 @@ table 50075 "Employee Activity Journal"
         }
         // change 1:
         field(78; "To Branch"; Code[20])
-{
-    DataClassification = ToBeClassified;
-    TableRelation = "Organization Structure Line"."Reporting Code"
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure Line"."Reporting Code"
                    WHERE(Type = filter("Deputation Type"::Province),
                          Code = field("Province Code (To)"),
                          "Reporting Type" = filter("Deputation Type"::Branch));
-    trigger OnValidate()
-    var
-        OrganizationStructureLine: Record "Organization Structure Line";
-    begin
-        TestField("Province Code (To)");
-        ValidateDeputationOnTo;
-        OrganizationStructureLine.Reset();
-        OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
-        OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
-        if OrganizationStructureLine.FindFirst() then
-            Validate("Province Code (To)", OrganizationStructureLine.Code);
-    end;
-}
+            trigger OnValidate()
+            var
+                OrganizationStructureLine: Record "Organization Structure Line";
+            begin
+                TestField("Province Code (To)");
+                ValidateDeputationOnTo;
+                OrganizationStructureLine.Reset();
+                OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
+                OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
+                if OrganizationStructureLine.FindFirst() then
+                    Validate("Province Code (To)", OrganizationStructureLine.Code);
+            end;
+        }
         // field(78; "To Branch"; Code[20])
         // {
         //     DataClassification = ToBeClassified;
@@ -734,7 +734,10 @@ table 50075 "Employee Activity Journal"
     trigger OnInsert()
     begin
         "User ID" := UserId;
-        "Requester Employee" := HrMgt.GetEmployeeNo();
+
+        if not HrMgt.IsSaaS() then
+            "Requester Employee" := HrMgt.GetEmployeeNo();
+
         "Requested Date" := Today;
     end;
 
@@ -780,7 +783,12 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.SetRange("Document No.", '');
                 ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
                 ApprovalHRMS.DeleteAll();
-                ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+
+                if HrMgt.IsSaaS() then
+                    ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
+                else
+                    ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+
             end;
     end;
 
@@ -795,7 +803,12 @@ table 50075 "Employee Activity Journal"
             ApprovalHRMS.SetRange("Document No.", '');
             ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
             ApprovalHRMS.DeleteAll();
-            ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+
+            if not HrMgt.IsSaaS() then
+                ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
+            else
+                ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+
             FirstLine := false;
             EmpActNo := "Emp Act. No";
         end;
@@ -848,4 +861,6 @@ table 50075 "Employee Activity Journal"
         ApprovalHRMS: Record "Approval HRMS";
         Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
         Error1: Label 'Cannot apply before your employment date.';
+
+
 }

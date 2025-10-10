@@ -143,6 +143,7 @@ table 50004 "Promotion History"
     trigger OnInsert()
     begin
         "Created Date Time" := CurrentDateTime;
+         if not HrMgt.IsSaaS() then
         "Created By" := HRMgt.GetEmployeeNo;
     end;
 

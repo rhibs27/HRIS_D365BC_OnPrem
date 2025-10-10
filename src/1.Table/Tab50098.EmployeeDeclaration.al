@@ -150,7 +150,9 @@ table 50098 "Employee Declaration"
             HRSetup.TestField("Employee Declaration No.");
             HRMgt.InitNoSeriesNew(HRSetup."Employee Declaration No.", xRec."No. Series", "Created Date", "No.", "No. Series");
         end;
-        Validate("Employee No.", HRMgt.GetEmployeeNo());
+
+        if not HrMgt.IsSaaS() then
+            Validate("Employee No.", HRMgt.GetEmployeeNo());
 
         if not GuiAllowed then begin
             TestField("Code of Ethics");

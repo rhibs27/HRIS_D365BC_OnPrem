@@ -129,6 +129,7 @@ report 50068 "Resignation Memo"
         HRSetup.Get;
         CompanyInfo.Get;
         CompanyInfo.CalcFields(Picture);
+         if not HrMgt.IsSaaS() then
         PreparedBy.Get(HRMgt.GetEmployeeNo);
         PreparedDes := GetSalaryLevel(PreparedBy) + '-' + GetFunctionalTitle(PreparedBy);
         SupportBy1Desc := GetSalaryLevel(SupportedBy1) + '-' + GetFunctionalTitle(SupportedBy1);
