@@ -599,9 +599,11 @@ report 50144 "Yearly Payroll Projection"
         //     RemainingMonth := GetLastPayCycle(EmployeeFilter);
         // end;
         PostedPayrollHeader.Reset();
+        PostedPayrollHeader.SetCurrentKey("Pay Cycle Period");
         PostedPayrollHeader.SetRange("Pay Cycle Term", PayCycleTerm);
         PostedPayrollHeader.SetRange(Reversed, false);
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.type::Payroll);
+        PostedPayrollHeader.SetAscending("Pay Cycle Period", true);
         if PostedPayrollHeader.FindLast() then begin
             DetailedEmpLedgerEntry.SetRange("Document No.", PostedPayrollHeader."No.");
             DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);

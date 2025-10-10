@@ -1412,7 +1412,7 @@ codeunit 50001 "HR Mgt."
         CandidateRec.SetRange("Vacancy Code",VacancyCode);
         CandidateRec.SetRange(Status,Candidate.Status::"Interview Scheduled");
         CandidateRec.SETFILTER("Total Marks",'<>%1',0);
-        Interviewer.Reset; 
+        Interviewer.Reset;
         Interviewer.SetRange("Vacancy Code",VacancyCode);
         InterviewerCount := Interviewer.COUNT;
         IF CandidateRec."Interviewer Count" <> InterviewerCount THEN
@@ -1466,7 +1466,7 @@ codeunit 50001 "HR Mgt."
                 EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
                 EvaluationEntry.SetRange("Is Remarks", false);
                 EvaluationEntry.SetFilter(Marks, '>0');
-                //EvaluationEntry.SetRange(Posted,TRUE); 
+                //EvaluationEntry.SetRange(Posted,TRUE);
                 EvaluationEntry.CalcSums(Marks);
                 EvaluationAttribute.Reset;
                 EvaluationAttribute.SetRange("Attribute Type", EvaluationAttribute."Attribute Type"::Interview);
@@ -1491,7 +1491,7 @@ codeunit 50001 "HR Mgt."
                 Clear(EvaluationEntry);
                 //EvaluationEntry.SetRange("Attribute Code", 'APTITUDE'); commented by Santosh
                 EvaluationEntry.SetRange("No.", Candidate."No.");
-                //EvaluationEntry.SetRange(Posted,TRUE); 
+                //EvaluationEntry.SetRange(Posted,TRUE);
                 EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
                 EvaluationEntry.SetFilter(Marks, '>0');
                 Candidate."Interviewer Count" := EvaluationEntry.Count;
@@ -3744,7 +3744,7 @@ codeunit 50001 "HR Mgt."
             CodeunitEmailMessage.AppendToBody(EmployeeTransfer.FieldCaption("Start Date") + Colon + Format(EmployeeTransfer."Start Date") + '<br>');
             CodeunitEmailMessage.AppendToBody(EmployeeTransfer.FieldCaption("End Date") + Colon + Format(EmployeeTransfer."End Date") + '<br>');
         end;
-        /*IF EmployeeActivity."Transfer Category" IN 
+        /*IF EmployeeActivity."Transfer Category" IN
           [EmployeeActivity."Transfer Category"::Officiating,EmployeeActivity."Transfer Category"::"Temporary"] THEN begin
           CodeunitEmailMessage.AppendToBody(FIELDCAPTION("Start Date") + Colon + FORMAT("Start Date") +'<br>');
           CodeunitEmailMessage.AppendToBody(FIELDCAPTION("End Date") + Colon + FORMAT("End Date") +'<br>');

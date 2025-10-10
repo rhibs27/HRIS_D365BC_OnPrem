@@ -13,8 +13,8 @@ report 50072 "Export Posted Payroll Value"
             column(DocumentNo_; "Document No.") { }
             column(EmployeeNo_; "Employee No.") { }
             column(EmployeeName_; "Employee Name") { }
-            column(FunctionalTitle_; "Functional Title") { }
-            column(SalaryLevel_; "Salary Level") { }
+            column(FunctionalTitle_; FunctionalTitleDesc) { }
+            column(SalaryLevel_; SalaryLevelDesc) { }
             column(SalaryGrade_; "Salary Grade") { }
             column(EmployeeType_; "Employee Type") { }
             column(PresentDays_; Format("Present Days")) { }
@@ -48,9 +48,12 @@ report 50072 "Export Posted Payroll Value"
             column(SocialSecurityTaxAnnual_; "Social Security Tax(Annual)") { }
             column(TaxonRemunerationAnnual_; "Tax on Remuneration(Annual)") { }
             column(TotalTaxPaid_; "Total Tax Paid") { }
+            column(ShowTaxDetails; ShowTaxDetails) { }
             column(ProjectionMonth_; "Projection Month") { }
             column(CurrentDeduction; "Current Deduction") { }
             column(NetPay; "Net Pay") { }
+            column(Remote_Area_Deduction; "Remote Area Deduction") { }
+            column(Property_Insurance_Premium; "Property Insurance Premium") { }
             column(TotalTaxForPeriod; TotalTaxForPeriod) { }
             column(TotalCurrentBenefit; TotalCurrentBenefit) { }
             column(TotalProjectedBenefit; TotalProjectedBenefit) { }
@@ -63,6 +66,8 @@ report 50072 "Export Posted Payroll Value"
             column(TotalEligibleDeduction; TotalEligibleDeduction) { }
             column(TotalTaxableIncome; TotalTaxableIncome) { }
             column(TotalDisablePersonRed; TotalDisablePersonRed) { }
+            column(TotalRemoteAreaDed; TotalRemoteAreaDed) { }
+            column(TotalPropertyInsurance; TotalPropertyInsurance) { }
             column(TotalLifeInsurancePremium; TotalLifeInsurancePremium) { }
             column(TotalHealthInsurancePremium; TotalHealthInsurancePremium) { }
             column(TotalBalTaxableIncome; TotalBalTaxableIncome) { }
@@ -131,6 +136,10 @@ report 50072 "Export Posted Payroll Value"
                     if Counter = 0 then
                         TotalDisablePersonRed := "Posted Payroll Line"."Disable Person Reduction";
                     if Counter = 0 then
+                        TotalRemoteAreaDed := "Posted Payroll Line"."Remote Area Deduction";
+                    if Counter = 0 then
+                        TotalPropertyInsurance := "Posted Payroll Line"."Property Insurance Premium";
+                    if Counter = 0 then
                         TotalLifeInsurancePremium := "Posted Payroll Line"."Life Insurance Premium";
                     if Counter = 0 then
                         TotalHealthInsurancePremium := "Posted Payroll Line"."Health Insurance Premium";
@@ -162,19 +171,43 @@ report 50072 "Export Posted Payroll Value"
             trigger OnAfterGetRecord()
             begin
                 Clear(Counter);
+                Clear(FunctionalTitleDesc);
+                if FunctionalTitleRec.Get("Functional Title") then
+                    FunctionalTitleDesc := FunctionalTitleRec.Description
+                else
+                    FunctionalTitleDesc := '';
+                Clear(SalaryLevelDesc);
+                if SalaryLevelRec.Get("Salary Level") then
+                    SalaryLevelDesc := SalaryLevelRec.Description
+                else
+                    SalaryLevelDesc := '';
             end;
         }
     }
 
     requestpage
     {
-        layout { }
+        layout
+        {
+            area(content)
+            {
+                group(Options)
+                {
+                    Caption = 'Options';
+                    field(ShowTaxDetails; ShowTaxDetails)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Show Tax Details';
+                        ToolTip = 'Enable to show tax calculation columns in the report';
+                    }
+                }
+            }
+        }
 
         actions { }
     }
 
     labels { }
-
     trigger OnPreReport()
     begin
         if "Posted Payroll Line".GetFilter("Document No.") = '' then
@@ -200,6 +233,9 @@ report 50072 "Export Posted Payroll Value"
         TotalEligibleDeduction: Decimal;
         TotalTaxableIncome: Decimal;
         TotalDisablePersonRed: Decimal;
+        TotalRemoteAreaDed: Decimal;
+        TotalPropertyInsurance: Decimal;
+
         TotalLifeInsurancePremium: Decimal;
         TotalHealthInsurancePremium: Decimal;
         TotalBalTaxableIncome: Decimal;
@@ -213,6 +249,12 @@ report 50072 "Export Posted Payroll Value"
         TotalDeduction: Decimal;
         TotalNetPay: Decimal;
         Counter: Integer;
+        FunctionalTitleRec: Record "Functional Title";
+        SalaryLevelRec: Record "Salary Level";
+        FunctionalTitleDesc: Text[100];
+        SalaryLevelDesc: Text[50];
+        ShowTaxDetails: Boolean;
+
 
     local procedure ClearValue()
     begin
@@ -229,6 +271,8 @@ report 50072 "Export Posted Payroll Value"
         Clear(TotalEligibleDeduction);
         Clear(TotalTaxableIncome);
         Clear(TotalDisablePersonRed);
+        clear(TotalRemoteAreaDed);
+        clear(TotalPropertyInsurance);
         Clear(TotalLifeInsurancePremium);
         Clear(TotalHealthInsurancePremium);
         Clear(TotalBalTaxableIncome);
