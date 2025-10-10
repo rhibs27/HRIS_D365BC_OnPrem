@@ -226,17 +226,16 @@ page 50351 "Travel Claim"
                         ToolTip = 'Specifies the value of the Fooding Allowance Limit field.';
                         ApplicationArea = All;
                     }
-                    field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
-                    {
-                        ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
-                        ApplicationArea = All;
-                    }
                     field("Lodging Per Day Limit"; Rec."Lodging Per Day Limit")
                     {
                         ToolTip = 'Specifies the value of the Lodging Per Day Limit field.';
                         ApplicationArea = All;
                     }
-
+                    field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
+                        ApplicationArea = All;
+                    }
                 }
                 Group(Allowance)
                 {
