@@ -1523,6 +1523,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Late Check In Day - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Leave Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1557300299 - Field 1025539169 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1672,6 +1677,16 @@
           <source>Training Check Out Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Training Check Out Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 2291569624 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Day</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Training Day - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 5174409 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Day</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Transfer Day - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1557300299 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Unit Code</source>

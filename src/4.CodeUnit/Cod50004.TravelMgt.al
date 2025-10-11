@@ -677,28 +677,14 @@ codeunit 50004 "Travel Mgt."
         EmpAttendActivity: Record "Employee Attendance & Activity";
         LeaveTypeSetup: Record "Leave Type Setup";
         DateRec: Record Date;
+        AttendanceMgt: Codeunit "Attendance Mgt";
     begin
         TravelRequest.Get(TravelCode);
         if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
-            // create emp act leger
-            HRMgt.CreateEmpActLedgerForDateRange(TravelRequest.Type, TravelRequest."No.", TravelRequest."Employee No.", TravelRequest."Start Date", TravelRequest."End Date");
 
-            //remove the code below to update attendance and activity>>
-            //changes in employee attendance and activity
-            EmpAttendActivity.Reset;
-            EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");
-            EmpAttendActivity.SetRange("Attendance Date", TravelRequest."Start Date", TravelRequest."End Date");
-            if EmpAttendActivity.Find('-') then
-                repeat
-                    EmpAttendActivity."Absent Day" := 0;
-                    EmpAttendActivity."Present Day" := 1;
-                    EmpAttendActivity."Tour Day" := 1;
-                    EmpAttendActivity."Leave Day" := 0;
-                    EmpAttendActivity."Source No." := TravelRequest."No.";
-                    EmpAttendActivity."Employee Activity Found" := true;
-                    EmpAttendActivity."Created Datetime" := CurrentDateTime;
-                    EmpAttendActivity.Modify;
-                until EmpAttendActivity.Next = 0;
+            HRMgt.CreateEmpActLedgerForDateRange(TravelRequest.Type, TravelRequest."No.", TravelRequest."Employee No.", TravelRequest."Start Date", TravelRequest."End Date");
+            AttendanceMgt.DailyAttendanceUpdate(travelRequest."Start Date", travelRequest."End Date", travelRequest."Employee No.");
+
             Employee.Get(TravelRequest."Employee No.");
             Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
             AttendanceSetup.Get;

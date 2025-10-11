@@ -171,10 +171,10 @@ table 50043 "Attendance Line"
             Editable = false;
             TableRelation = "Salary Grade";
         }
-
         field(52; Week; Enum Week)
         {
         }
+        field(53; "Training Day"; Decimal) { }
         field(54; "Training Check Out Time"; Time) { }
         field(55; "Province Code"; Code[20])
         {
@@ -200,65 +200,63 @@ table 50043 "Attendance Line"
         {
             DataClassification = ToBeClassified;
         }
-        field(61; "Pay Cycle Term"; Code[20])
+        field(61; "Transfer Day"; Decimal) { }
+        field(62; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
-        field(62; "Pay Cycle Code"; Code[20])
+        field(63; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-
-
-
-        field(63; "From Date (B.S)"; Code[20])
+        field(64; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(64; Month; Enum "English Month")
+        field(65; Month; Enum "English Month")
         {
             Editable = false;
         }
 
-        field(65; "Approved Activity"; Boolean)
+        field(66; "Approved Activity"; Boolean)
         {
         }
-        field(66; "Holiday Remarks"; Text[250]) { }
-        field(67; "Entry Type"; Enum "Attendance Entry Type")
+        field(67; "Holiday Remarks"; Text[250]) { }
+        field(68; "Entry Type"; Enum "Attendance Entry Type")
         {
         }
-        field(68; "Nepali Year"; Integer)
+        field(69; "Nepali Year"; Integer)
         {
             Editable = false;
         }
 
-        field(69; "From Date"; Date)
+        field(70; "From Date"; Date)
         {
             Editable = false;
         }
-        field(70; "To Date"; Date)
+        field(71; "To Date"; Date)
         {
             Editable = false;
         }
-        field(71; "Nepali Month"; Enum "Nepali Month")
+        field(72; "Nepali Month"; Enum "Nepali Month")
         {
             Editable = false;
         }
-        field(72; "To Date (B.S)"; Code[20])
+        field(73; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
 
 
-        field(73; "Document No."; Code[20])
+        field(74; "Document No."; Code[20])
         {
             TableRelation = "Attendance Header"."No.";
         }
-        field(74; "No. Series"; Code[20])
+        field(75; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(75; "Pay Cycle Period"; Integer)
+        field(76; "Pay Cycle Period"; Integer)
         {
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
@@ -268,9 +266,10 @@ table 50043 "Attendance Line"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Unit));
         }
-        field(112; "Extension Counter"; Code[20])
+        field(107; "Leave Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"));
+            Caption = 'Leave Code';
+            TableRelation = "Leave Type Setup";
         }
         field(110; "Check-In Device IP"; text[20])
         {
@@ -279,6 +278,10 @@ table 50043 "Attendance Line"
         field(111; "Check-Out Device IP"; text[20])
         {
 
+        }
+        field(112; "Extension Counter"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"));
         }
     }
 

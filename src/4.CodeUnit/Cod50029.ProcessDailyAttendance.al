@@ -114,6 +114,10 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
             EmpAttendance."Shift End Time" := EmpWorkShiftDetail."End Time";
             EmpAttendance."Standard Work Time" := EmpWorkShiftDetail."Work Time";
+
+            if EmpAttendance.Week = EmpAttendance.Week::Friday then
+                if EmpWorkShiftDetail."Friday End Time" <> 0T then
+                    EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Friday End Time";
         end;
     end;
 

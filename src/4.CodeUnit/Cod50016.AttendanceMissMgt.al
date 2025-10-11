@@ -270,12 +270,12 @@ codeunit 50016 "AttendanceMiss Mgt"
                 AttendanceLog.Insert();
             end;
             // Update Daily Attendance
-            if AttendanceMgt.DailyAttendanceUpdate(AttendanceMissed."Start Date", AttendanceMissed."Start Date", AttendanceMissed."Employee No.") then
-                if EmpAttendActivity.get(AttendanceMissed."Employee No.", AttendanceMissed."Start Date") then begin
-                    EmpAttendActivity."Attendance Update" := true;
-                    EmpAttendActivity.Modify();
-                end;
-
+            if AttendanceMgt.DailyAttendanceUpdate(AttendanceMissed."Start Date", AttendanceMissed."Start Date", AttendanceMissed."Employee No.") then begin
+                EmpAttendActivity.SetRange("Attendance Date", AttendanceMissed."Start Date");
+                EmpAttendActivity.SetRange("Employee No.", AttendanceMissed."Employee No.");
+                if EmpAttendActivity.FindSet() then
+                    EmpAttendActivity.ModifyAll("Attendance Update", true);
+            end;
         end;
     end;
 

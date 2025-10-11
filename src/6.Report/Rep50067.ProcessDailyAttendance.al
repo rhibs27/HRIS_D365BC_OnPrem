@@ -72,17 +72,25 @@ report 50067 "Process Daily Attendance"
                     Employee.Status::Inactive:
                         if (Employee."Inactive Date" <> 0D) and (Employee."Inactive Date" < ToDate) then
                             ToDateActual := Employee."Inactive Date" - 1;
-                // Employee.Status::Active:
-                //     if (Employee."Force Retirement Date" <> 0D) and (Employee."Force Retirement Date" < ToDate) then
-                //         ToDateActual := Employee."Force Retirement Date" - 1;
+                    Employee.Status::Active:
+                        begin
+                            if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                                if (Employee."Contract Expiry Date" <> 0D) and (Employee."Contract Expiry Date" < ToDate) then
+                                    ToDateActual := Employee."Contract Expiry Date" - 1;
+                            if Employee."Employment Type" in [Employee."Employment Type"::Probation, Employee."Employment Type"::Temporary, Employee."Employment Type"::Outsource] then
+                                if (Employee."Trainee/Probation End date" <> 0D) and (Employee."Trainee/Probation End date" < ToDate) then
+                                    ToDateActual := Employee."Trainee/Probation End date" - 1;
+                            if Employee."Resignation Date" <> 0D then
+                                if Employee."Resignation Date" < ToDate then
+                                    ToDateActual := Employee."Resignation Date" - 1;
+                        end;
                 end;
-
-                if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                    if (Employee."Contract Expiry Date" <> 0D) and (Employee."Contract Expiry Date" < ToDate) then
-                        ToDateActual := Employee."Contract Expiry Date";
 
                 if FromDateActual > ToDateActual then
                     CurrReport.Skip();
+
+                CheckAndUpdateEmployeeInLog();
+
 
                 if not JobQueueActive then begin
                     IntCount += 1;
@@ -187,15 +195,15 @@ report 50067 "Process Daily Attendance"
         ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
         if ShiftLine.FindSet() then
             repeat
-                InsertEmpAttendance(ShiftLine."Employee No", ShiftLine."Roster Date", ShiftLine."Employee Work Shift", true);
+                InsertEmpAttendance(ShiftLine."Employee No", ShiftLine."Roster Date", ShiftLine."Employee Work Shift");
             until ShiftLine.Next() = 0
         else
-            InsertEmpAttendance(Employee."No.", Date."Period Start", Employee."Employee Work Shift", false);
+            InsertEmpAttendance(Employee."No.", Date."Period Start", Employee."Employee Work Shift");
 
         UpdateEmpAttendanceAsTransfer();
     end;
 
-    local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text; IsRoster: Boolean)
+    local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text)
     var
         EmpVar: Record Employee;
     begin
@@ -315,5 +323,17 @@ report 50067 "Process Daily Attendance"
     begin
         EmailIds := VarEmailId;
         FromSyncProcess := VarFromProcess;
+    end;
+
+    procedure CheckAndUpdateEmployeeInLog()
+    var
+        AttendanceLog: Record "Attendance Log";
+    begin
+        if Employee."Employee Attendance ID" = '' then
+            exit;
+        AttendanceLog.SetRange("Machine Emp. Code", Employee."Employee Attendance ID");
+        AttendanceLog.SetRange(Date, FromDateActual, ToDateActual);
+        if AttendanceLog.FindSet() then
+            AttendanceLog.ModifyAll("Employee ID", Employee."No.");
     end;
 }

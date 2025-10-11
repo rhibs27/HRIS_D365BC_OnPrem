@@ -241,12 +241,14 @@ codeunit 50026 "Attendance Mgt"
 
     procedure DailyAttendanceUpdate(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Boolean
     var
-        DailyAttendanceUpdate: Report "Daily Attendance Update";
+        ProcessDailyAttendance: Report "Process Daily Attendance";
+        Employee: Record Employee;
     begin
-        // Update Daily Attendance
-        DailyAttendanceUpdate.SetRequestFilterValue(StartDate, EndDate, EmployeeNo);
-        DailyAttendanceUpdate.UseRequestPage(false);
-        DailyAttendanceUpdate.Run();
+        Employee.SetRange("No.", EmployeeNo);
+        Employee.SetFilter("Date Filter", '%1..%2', StartDate, EndDate);
+        ProcessDailyAttendance.SetTableView(Employee);
+        ProcessDailyAttendance.UseRequestPage(false);
+        ProcessDailyAttendance.Run();
         exit(true);
     end;
 
@@ -603,14 +605,11 @@ codeunit 50026 "Attendance Mgt"
         if AttenMissed.Type <> AttenMissed.Type::"Late Attendance" then
             exit;
 
-        if EmpAttenActivity.Get(AttenMissed."Employee No.", AttenMissed."Start Date") then begin
-            EmpAttenActivity."Late Remarks" := AttenMissed.Remarks;
-            EmpAttenActivity.Modify();
-        end
-        else begin
-            DailyAttendanceUpdate(AttenMissed."Start Date", AttenMissed."Start Date", AttenMissed."Employee No.");
-            Commit();
-            ApproveLateAttendance(AttenMissed."No.");
+        if DailyAttendanceUpdate(AttenMissed."Start Date", AttenMissed."Start Date", AttenMissed."Employee No.") then begin
+            EmpAttenActivity.SetRange("Employee No.", AttenMissed."Employee No.");
+            EmpAttenActivity.SetRange("Attendance Date", AttenMissed."Start Date");
+            if EmpAttenActivity.FindSet() then
+                EmpAttenActivity.ModifyAll("Late Remarks", AttenMissed.Remarks);
         end;
     end;
 
