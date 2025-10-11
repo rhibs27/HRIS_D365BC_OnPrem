@@ -214,7 +214,7 @@ codeunit 50029 "Process Daily Attendance"
     procedure UpdateAttendanceRemarks()
     begin
 
-        if IsHoliday(Date."Period Start", EmpAttendance.Remarks) then
+        if IsHoliday(Date."Period Start", EmpAttendance."Employee No.") then
             EmpAttendance.Remarks := CalendarDescription
         else begin
             if EmpAttendance."Absent Day" = 0.5 then
