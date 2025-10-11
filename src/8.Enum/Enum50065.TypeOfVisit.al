@@ -4,7 +4,7 @@ enum 50065 "Type Of Visit"
 
     value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; "Branch Visit")
     {
