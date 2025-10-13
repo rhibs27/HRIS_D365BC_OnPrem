@@ -206,6 +206,7 @@ report 50067 "Process Daily Attendance"
     local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text)
     var
         EmpVar: Record Employee;
+        EngNep: Record "English-Nepali Date";
     begin
         if not EmpAttendance.Get(EmpCode, PostingDate, WorkShift) then begin
             Clear(EmpAttendance);
@@ -214,6 +215,7 @@ report 50067 "Process Daily Attendance"
             EmpAttendance.Validate("Attendance Date", Date."Period Start");
             EmpAttendance.Validate("Employee working Shift", WorkShift);
             EmpAttendance."Employee Name" := Employee.FullName();
+            EmpAttendance."Attendance Date (B.S)" := EngNep.GetNepaliDate(Date."Period Start");
             EmpAttendance.Week := Enum::Week.FromInteger(Enum::Week.Ordinals.Get(Enum::Week.Names.indexof(Date."Period Name")));//  Date."Period Name";
             EmpAttendance.Validate("Attendance Date", Date."Period Start");
             EmpAttendance.Insert(true);
