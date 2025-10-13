@@ -1929,14 +1929,21 @@ table 50027 "Payroll Line"
     end;
 
     procedure CalculateProRataAmountAfterTransfer(AttrUsage: Record "Payroll Attributes Usage"; var Amount: Decimal)
+    var
+        TotalDays: Decimal;
     begin
         GetPayrollHeader();
+        TotalDays := "Total Days";
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            TotalDays := PGSetup."Total Days" / 12;
         if (AttrUsage."Start Date" < PayrollHeader."From Date") and (AttrUsage."End Date" > PayrollHeader."To Date") then
             exit;
-        if (AttrUsage."Start Date" > PayrollHeader."From Date") and (AttrUsage."Start Date" < PayrollHeader."To Date") then
-            Amount := Amount * (PayrollHeader."To Date" - AttrUsage."Start Date" + 1) / "Total Days"
-        else if (AttrUsage."End Date" > PayrollHeader."From Date") and (AttrUsage."End Date" < PayrollHeader."To Date") then
-            Amount := Amount * (AttrUsage."End Date" - PayrollHeader."From Date" + 1) / "Total Days"
+        if (AttrUsage."End Date" <> 0D) and (AttrUsage."End Date" < PayrollHeader."From Date") then
+            Amount := 0
+        else if (AttrUsage."Start Date" >= PayrollHeader."From Date") and (AttrUsage."Start Date" <= PayrollHeader."To Date") then
+            Amount := Amount * (PayrollHeader."To Date" - AttrUsage."Start Date" + 1) / TotalDays
+        else if (AttrUsage."End Date" >= PayrollHeader."From Date") and (AttrUsage."End Date" <= PayrollHeader."To Date") then
+            Amount := Amount - Amount * (PayrollHeader."To Date" - AttrUsage."End Date") / TotalDays;
     end;
 
     procedure ResolveColumn(var Expression: Code[100]; BasicFromLine: Boolean)
