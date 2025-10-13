@@ -309,8 +309,8 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog: Record "Attendance Log";
     begin
         AttendanceLog.SetCurrentKey("Date Time Log");
-        AttendanceLog.SetLoadFields("Machine Emp. Code", Date, "Date Time Log", "Log Time");
-        AttendanceLog.SetRange("Machine Emp. Code", Employee."Employee Attendance ID");
+        AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time");
+        AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         if AttendanceLog.FindFirst() then begin
             EmpAttendance."Check In Time" := AttendanceLog."Log Time";
@@ -330,8 +330,8 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog: Record "Attendance Log";
     begin
         AttendanceLog.SetCurrentKey("Date Time Log");
-        AttendanceLog.SetLoadFields("Machine Emp. Code", Date, "Date Time Log", "Log Time");
-        AttendanceLog.SetRange("Machine Emp. Code", Employee."Employee Attendance ID");
+        AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time");
+        AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
         AttendanceLog.SetRange("Date Time Log", StartTime, EndTime);
         if FirstRecord then
             if AttendanceLog.FindFirst() then;

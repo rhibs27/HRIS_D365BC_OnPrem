@@ -27803,6 +27803,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Employee Working Shift - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 251429658 - Control 149522872 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Entry Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Entry Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 251429658 - Control 127514853 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Evening Counter Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -27852,6 +27857,11 @@
           <source>Specifies the value of the Late Deduction field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Late Deduction - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 2452775991 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Late Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Late Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 1025539169 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Leave Day field.</source>
@@ -27918,10 +27928,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Punch Out Check Reviewer - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 251429658 - Control 1502899865 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Punch out Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Punch out Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 251429658 - Control 157350741 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Punch Out Reviewer field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Punch Out Reviewer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 3370741491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Salary Grade field.</source>

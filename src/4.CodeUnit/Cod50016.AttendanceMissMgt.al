@@ -245,6 +245,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check In Time");
                 AttendanceLog.Validate("Date Time Log", LogDateTime);
                 AttendanceLog.Validate("Biometric Attendance", false);
+                AttendanceLog."Machine Emp. Code" := Employee."Employee Attendance ID";
                 AttendanceLog.Insert();
             end;
             if AttendanceMissed."Check Out Time" <> 0T then begin
@@ -267,6 +268,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
                 AttendanceLog.Validate("Date Time Log", LogDateTime);
                 AttendanceLog.Validate("Biometric Attendance", false);
+                AttendanceLog."Machine Emp. Code" := Employee."Employee Attendance ID";
                 AttendanceLog.Insert();
             end;
             // Update Daily Attendance
