@@ -199,7 +199,8 @@ page 50092 "Travel Request Form"
                 {
                     ToolTip = 'Specifies the currency Code';
                     ApplicationArea = All;
-                    Editable = ((Rec."Approval Status" = Rec."Approval Status"::Open) and (rec."Travel Countries" <> rec."Travel Countries"::Nepal));
+                    //anupam
+                    // Editable = ((Rec."Approval Status" = Rec."Approval Status"::Open) and (rec."Travel Countries" <> rec."Travel Countries"::Nepal));
 
                 }
 
