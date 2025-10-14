@@ -80,6 +80,21 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the Start Time field.';
                     ApplicationArea = All;
                 }
+                field("Branch"; Rec."Shortcut Dimension 1 Code")
+                {
+                    ToolTip = 'Specifies the value of the Branch field.';
+                    ApplicationArea = All;
+                }
+                field("Department"; Rec."Department")
+                {
+                    ToolTip = 'Specifies the value of the Department field.';
+                    ApplicationArea = All;
+                }
+                field("Province"; Rec."Province Code")
+                {
+                    ToolTip = 'Specifies the value of the Province field.';
+                    ApplicationArea = All;
+                }
                 field("End Time"; Rec."End Time")
                 {
                     ToolTip = 'Specifies the value of the End Time field.';
@@ -197,18 +212,6 @@ page 50088 "Leave Request"
                         Message('Leave has been sent for apporval.');
                         CurrPage.Close;
                     end;
-                end;
-            }
-            action(delete)
-            {
-                trigger OnAction()
-                var
-                    leave: Record Leave;
-                begin
-                    leave.Reset();
-                    leave.SetFilter("No.", '%1', '');
-                    leave.FindFirst();
-                    leave.Delete();
                 end;
             }
         }

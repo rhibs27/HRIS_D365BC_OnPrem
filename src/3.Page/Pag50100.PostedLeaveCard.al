@@ -62,6 +62,21 @@ page 50100 "Posted Leave Card"
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
                     ApplicationArea = All;
                 }
+                field("Branch"; Rec."Shortcut Dimension 1 Code")
+                {
+                    ToolTip = 'Specifies the value of the Branch field.';
+                    ApplicationArea = All;
+                }
+                field("Department"; Rec."Department")
+                {
+                    ToolTip = 'Specifies the value of the Department field.';
+                    ApplicationArea = All;
+                }
+                field("Province"; Rec."Province Code")
+                {
+                    ToolTip = 'Specifies the value of the Province field.';
+                    ApplicationArea = All;
+                }
                 field("Start Time"; Rec."Start Time")
                 {
                     ToolTip = 'Specifies the value of the Start Time field.';

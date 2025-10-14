@@ -127,10 +127,9 @@ table 50093 "Allowance Assignment Line"
                     else
                         Error('Invalid allowance selected!');
                     Clear(Panel);
-                    if AllowanceHeader.Get("No.") then
-                        Validate("Emp Act Type", AllowanceHeader."Activity Type")
                 end;
-
+                if AllowanceHeader.Get("No.") then
+                    Validate("Emp Act Type", AllowanceHeader."Activity Type")
             end;
         }
         field(10; "Substitute Type"; Enum "Allowance Substitute")
@@ -201,18 +200,10 @@ table 50093 "Allowance Assignment Line"
         }
         field(50; "Leave Code"; Code[20]) { }
         field(51; "Leave Document No"; Code[20]) { }
-        field(52; "Payroll Doc No."; Code[20])
-        {
-
-        }
+        field(52; "Payroll Doc No."; Code[20]) { }
         field(53; "Recurring Completed"; Boolean) { }
-        field(29; "Allowance Claimed"; Boolean)
-        {
-        }
-        field(30; "Allowance Claim from Line No"; Integer)
-        {
-        }
-
+        field(29; "Allowance Claimed"; Boolean) { }
+        field(30; "Allowance Claim from Line No"; Integer) { }
     }
 
     keys
@@ -239,12 +230,6 @@ table 50093 "Allowance Assignment Line"
         if "Line No." = 0 then
             GetLineNo();
 
-        // if AllowanceHeader.Get("No.") then begin
-        //     Week := AllowanceHeader.Week;
-        // end;
-
-        if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Screened] then
-            Error('Document is already screened.');
         // CheckForGracePeriod;
         if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and AllowanceHeader.Get("No.") then
             if AllowanceHeader."Employee No." <> '' then
@@ -304,17 +289,12 @@ table 50093 "Allowance Assignment Line"
         AllowanceLine.SetRange(Type, Type);
         if AllowanceLine.FindFirst then
             repeat
-                //  AllowanceLine1.Reset();
-                //  AllowanceLine1.SetRange("Entry No.", AllowanceLine."Entry No.");
-                //  AllowanceLine1.SETFILTER("Line No.", '<>%1', AllowanceLine."Line No.");
-                //  IF AllowanceLine1.FindFirst() THEN begin
                 PayrollAttribute.Get("Allowance Type");
                 if PayrollAttribute."Mutually Exclusive" then begin
                     PayrollAttribute1.Get(AllowanceLine."Allowance Type");
                     if PayrollAttribute1."Mutually Exclusive" then
                         Error(TEXT001, AllowanceLine."Allowance Type", "Allowance Type", AllowanceLine."From Date");
                 end;
-            //end;
             until AllowanceLine.Next = 0;
         if Rec."Substitute Type" = Rec."Substitute Type"::" " then begin
             AllowanceLine.Reset;
@@ -333,17 +313,19 @@ table 50093 "Allowance Assignment Line"
                                     BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
         end;
         AllowanceHeader.Get("No.");
-        AllowanceHeader.TestField("From Date");
-        AllowanceHeader.TestField("To date");
-        if "From Date" <> 0D then
-            if ("From Date" < AllowanceHeader."From Date") or ("From Date" > AllowanceHeader."To date") then
-                Error('Date is not within period.');
+        if AllowanceHeader."Activity Type" <> "Emp Act Type"::"Allowance Assignment Claim" then begin
+            AllowanceHeader.TestField("From Date");
+            AllowanceHeader.TestField("To date");
+            if "From Date" <> 0D then
+                if ("From Date" < AllowanceHeader."From Date") or ("From Date" > AllowanceHeader."To date") then
+                    Error('Date is not within period.');
 
-        if "To Date" <> 0D then
-            if "To Date" > AllowanceHeader."To date" then
-                Error('Date is not within period.');
+            if "To Date" <> 0D then
+                if "To Date" > AllowanceHeader."To date" then
+                    Error('Date is not within period.');
+            CalculateNoOfDays(Rec);
+        end;
 
-        CalculateNoOfDays(Rec);
     end;
 
     procedure ValidateAllowanceType(): Boolean

@@ -21,6 +21,7 @@ codeunit 50029 "Process Daily Attendance"
         ShiftLine: Record "Shift Line";
         AttendanceMgt: Codeunit "Attendance Mgt";
         CalendarDescription: Text;
+        AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
 
     procedure UpdateEmpAttendance()
     begin
@@ -58,7 +59,6 @@ codeunit 50029 "Process Daily Attendance"
 
         // if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Absent Day" = 0) and (EmpAttendance."Week Off Day" = 0) and (EmpAttendance."Tour Day" = 0) and (EmpAttendance."Leave Day" = 0) and (EmpAttendance."Transfer Day" = 0) and (EmpAttendance."Training Day" = 0) then
         // CheckAndInsertTimeDifference();
-
         EmpAttendance.Modify(true);
     end;
 
@@ -209,6 +209,10 @@ codeunit 50029 "Process Daily Attendance"
                             EmpAttendance."Training Day" := 1;
                             EmpAttendance."Absent Day" := 0;
                             EmpAttendance.Remarks := 'TRAINING';
+                        end;
+                    EmpActLedgerEntry."Document Type"::"Allowance Assignment Claim":
+                        begin
+                            AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
                         end;
                     else begin
                         EmpAttendance."Source No." := '';
