@@ -81,6 +81,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                     AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
                     AllowanceLine.Validate("Approved Date", Today);
                     AllowanceLine.Modify();
+                    HrMgt.CreateEmpActLedger(AllowanceLine."Emp Act Type", EmpAllowance."No.", AllowanceLine."Employee Code", AllowanceLine."From Date", False, 1);
                     if AllowanceLine."Emp Act Type" = AllowanceLine."Emp Act Type"::"Allowance Assignment Claim" then
                         UpdateClaimInAllowanceRequest(AllowanceLine);
                 end;
@@ -90,8 +91,10 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceLine.SetRange("No.", EntryNo);
             AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Approved);
             AllowanceLine.SetRange("Emp Act Type", AllowanceLine."Emp Act Type"::"Allowance Assignment Claim");
-            if AllowanceLine.FindSet() then
-                InsertHighestPriorityAllowanceInAttendance(AllowanceLine."Employee Code", AllowanceLine."From Date");
+            if AllowanceLine.FindSet() then begin
+                if AllowanceLine."From Date" <= Today then
+                    InsertHighestPriorityAllowanceInAttendance(AllowanceLine."Employee Code", AllowanceLine."From Date");
+            end;
         end;
         if not Approved then begin
             if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment" then begin
