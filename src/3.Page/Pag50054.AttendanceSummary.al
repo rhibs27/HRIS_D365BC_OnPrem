@@ -127,17 +127,7 @@ page 50054 "Attendance Summary"
     {
         area(Processing)
         {
-            action("Device Attendance")
-            {
-                Image = DepositLines;
-                ToolTip = 'Executes the Device Attendance action.';
-                ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.GetDeviceAttendance;
-                end;
-            }
         }
     }
 

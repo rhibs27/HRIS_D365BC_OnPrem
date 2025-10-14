@@ -114,14 +114,14 @@ page 50346 "Personal Information Manager"
                 ToolTip = 'Executes the Overtimes action.';
                 ApplicationArea = All;
             }
-            action("Bulk Cash Transfers")
-            {
-                Image = CashFlow;
-                RunObject = page "Bulk Cash";
-                Visible = BulkCashVisibility;
-                ToolTip = 'Executes the Bulk Cash Transfers action.';
-                ApplicationArea = All;
-            }
+            // action("Bulk Cash Transfers")
+            // {
+            //     Image = CashFlow;
+            //     RunObject = page "Bulk Cash";
+            //     Visible = BulkCashVisibility;
+            //     ToolTip = 'Executes the Bulk Cash Transfers action.';
+            //     ApplicationArea = All;
+            // }
             action(Resignations)
             {
                 Image = BookingsLogo;

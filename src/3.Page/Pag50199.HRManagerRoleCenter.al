@@ -843,14 +843,14 @@ page 50199 "HR Manager Role Center"
                 ToolTip = 'Executes the Overtimes action.';
                 ApplicationArea = All;
             }
-            action("Bulk Cash Transfers")
-            {
-                Image = CashFlow;
-                RunObject = page "Bulk Cash";
-                Visible = BulkCashVisibility;
-                ToolTip = 'Executes the Bulk Cash Transfers action.';
-                ApplicationArea = All;
-            }
+            // action("Bulk Cash Transfers")
+            // {
+            //     Image = CashFlow;
+            //     RunObject = page "Bulk Cash";
+            //     Visible = BulkCashVisibility;
+            //     ToolTip = 'Executes the Bulk Cash Transfers action.';
+            //     ApplicationArea = All;
+            // }
             action(Resignations)
             {
                 Image = BookingsLogo;

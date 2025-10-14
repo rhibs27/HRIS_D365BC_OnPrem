@@ -9,36 +9,6 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceSetup: Record "Attendance Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
 
-
-    local procedure "----------Cancel-----------"()
-    begin
-    end;
-
-    procedure OpenCancelEmpActivity(CancelDocument: Record "Cancel Document")
-    var
-        //Leave: Record "Leave" temporary;
-        CancelDocumentTemp: Record "Employee Activity" temporary;
-    begin
-        if not Confirm('Do you want to cancel document?', false) then
-            exit;
-        CancelDocument.TestField("Approval Status", CancelDocument."Approval Status"::Approved);
-        CancelDocument.TestField("Cancelled Document No.", '');
-        CancelDocumentTemp.Init;
-        CancelDocumentTemp.Validate(Cancelled, true);
-        CancelDocumentTemp.Validate("Employee No.", CancelDocument."Employee No.");
-        CancelDocumentTemp.Validate("Employee Name", CancelDocument."Employee Name");
-        CancelDocumentTemp.Validate("Approval Status", CancelDocumentTemp."Approval Status"::Open);
-        CancelDocumentTemp.Validate(Type, CancelDocument.Type);
-        CancelDocumentTemp.Validate("Leave Code", CancelDocument."Leave Code");
-        CancelDocumentTemp.Validate("Requested Date", Today);
-        CancelDocumentTemp.Validate("Start Date", CancelDocument."Start Date");
-        CancelDocumentTemp.Validate("End Date", CancelDocument."End Date");
-        CancelDocumentTemp.Validate("No. of Days", CancelDocument."No. of Days");
-        CancelDocumentTemp."Cancelled Document No." := CancelDocument."No.";
-        CancelDocumentTemp.Insert;
-        if PAGE.RunModal(PAGE::"Cancel Document", CancelDocumentTemp) = ACTION::LookupOK then;
-    end;
-
     procedure OpenAttendanceMissed(EmpCode: Code[20])
     var
         AttendanceMissed: Record "Attendance Missed" temporary;
@@ -150,54 +120,6 @@ codeunit 50016 "AttendanceMiss Mgt"
             end else
                 Error('Leave request no. %1 not found.', CancelDocument1."Cancelled Document No.");
             exit(CancelDocument1."No.");
-        end;
-    end;
-
-    procedure ScreenCancelledLeave(CancelDocument: Record "Cancel Document")
-    var
-        LeaveEarn: Record "Leave Earn";
-        EmpAttendActivity: Record "Employee Attendance & Activity";
-    begin
-        CancelDocument.TestField("Approval Status", CancelDocument."Approval Status"::Approved);
-        CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
-        Employee.Get(HRMgt.GetEmployeeNo);
-        if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
-            LeaveEarn.Init;
-            LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
-            LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
-            LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
-            LeaveEarn.Validate("Leave Request No", CancelDocument."No.");
-            LeaveEarn.Validate("Employee No.", CancelDocument."Employee No.");
-            LeaveEarn.Validate("Employee Full Name", CancelDocument."Employee Name");
-            LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
-            LeaveEarn.Validate("Posted Date", Today);
-            LeaveEarn.Validate("Balancing Days", CancelDocument."No. of Days");
-            LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
-            LeaveEarn.Insert(true);
-
-            EmpAttendActivity.Reset;
-            EmpAttendActivity.SetRange("Employee No.", CancelDocument."Employee No.");
-            EmpAttendActivity.SetRange("Attendance Date", CancelDocument."Start Date", CancelDocument."End Date");
-            if EmpAttendActivity.Find('-') then
-                repeat
-                    if EmpAttendActivity."Check In Time" <> 0T then begin
-                        EmpAttendActivity."Absent Day" := 0;
-                        EmpAttendActivity."Present Day" := 1;
-                    end else begin
-                        EmpAttendActivity."Present Day" := 0;
-                        EmpAttendActivity."Absent Day" := 1;
-                    end;
-                    if LeaveMgt.GetNonWorkingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
-                        EmpAttendActivity."Absent Day" := 0;
-                    end;
-                    EmpAttendActivity."Leave Day" := 0;
-                    EmpAttendActivity."Tour Day" := 0;
-                    EmpAttendActivity."Source No." := CancelDocument."No.";
-                    EmpAttendActivity."Employee Activity Found" := true;
-                    EmpAttendActivity."Leave Description" := '';
-                    EmpAttendActivity."Created Datetime" := CurrentDateTime;
-                    EmpAttendActivity.Modify;
-                until EmpAttendActivity.Next = 0;
         end;
     end;
 

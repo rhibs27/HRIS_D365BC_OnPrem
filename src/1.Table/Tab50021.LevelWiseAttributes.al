@@ -1,8 +1,6 @@
 table 50021 "Level Wise Attributes"
 {
     //field 2 to 40 can be configured for payroll. so do not add any non-payroll field in that range 
-    DrillDownPageId = "Posted Employee Activities";
-    LookupPageId = "Posted Employee Activities";
     DataClassification = CustomerContent;
 
     fields

@@ -25,13 +25,13 @@ report 50137 "OverTime Calculation Report"
             begin
                 Clear(SalaryLevelCode);
                 Clear(ApprovalStatus);
-                EmployeeActivity.Reset;
-                EmployeeActivity.SetRange("Employee No.", "Employee No.");
-                EmployeeActivity.SetRange(Type, EmployeeActivity.Type::Overtime);
-                EmployeeActivity.SetRange("Start Date", "Attendance Date");
-                if EmployeeActivity.FindFirst then begin
-                    SalaryLevelCode := EmployeeActivity."Salary Level Code";
-                    ApprovalStatus := EmployeeActivity."Approval Status";
+                OverTime.Reset;
+                OverTime.SetRange("Employee No.", "Employee No.");
+                OverTime.SetRange(Type, OverTime.Type::Overtime);
+                OverTime.SetRange("Start Date", "Attendance Date");
+                if OverTime.FindFirst then begin
+                    SalaryLevelCode := OverTime."Salary Level Code";
+                    ApprovalStatus := OverTime."Approval Status";
                 end;
             end;
         }
@@ -48,6 +48,7 @@ report 50137 "OverTime Calculation Report"
 
     var
         SalaryLevelCode: Code[20];
-        ApprovalStatus: Option " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,Settled,,"Forwarded To HR","Final Approved & Forwarded to Finance Department",Reviewed,"On Hold";
-        EmployeeActivity: Record "Employee Activity";
+        ApprovalStatus: Enum "Approval Status";
+        OverTime: Record "Overtime";
+
 }

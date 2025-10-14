@@ -240,7 +240,6 @@ page 50206 "Medical Insurance Claim"
                 trigger OnAction()
                 var
                     HRMgt: Codeunit "HR Mgt.";
-                    EmpAct: Record "Employee Activity";
                     ApprovalRequestSent: Label 'Insurance Claim to company has been sent.';
                 begin
                     if Rec."Approval Status" = Rec."Approval Status"::Approved then begin

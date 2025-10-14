@@ -638,8 +638,9 @@ codeunit 50000 "Leave Mgt."
         ErrorNoOfDays: Label 'No. days must be 1.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
         ErrorPresent: Label 'Cannot apply compenstory leave for %1.';
-        EmpActivity: Record "Employee Activity";
         LeavePeriod: Record "Accounting Period";
+        Leave: Record Leave;
+        OverTime: Record OverTime;
     begin
         LeaveType.Get(LeaveCode);
         PayrollSetup.Get;
@@ -648,34 +649,32 @@ codeunit 50000 "Leave Mgt."
                 Error(ErrorNoOfDays);
             if not (CompensatoryDate in [LeavePeriod.GetCurrentLeaveYearStartDate() .. LeavePeriod.GetCurrentLeaveYearEndDate()]) then
                 Error('Cannot apply for previous fiscal year');
-            //IF GetNonWorkingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
-            //ERROR(ErrorNonWokDays,CompensatoryDate);
-            //check for compensatory
-            EmpActivity.Reset;
-            EmpActivity.SetRange("Employee No.", EmpCode);
-            EmpActivity.SetRange(Type, EmpActivity.Type::"Leave Request");
-            EmpActivity.SetRange("Compensatory Date", CompensatoryDate);
-            EmpActivity.SetRange("Cancelled No.", '');
-            EmpActivity.SetFilter("Approval Status", '<>%1', EmpActivity."Approval Status"::Rejected);
-            if EmpActivity.FindFirst then
+
+
+            Leave.SetRange("Employee No.", EmpCode);
+            Leave.SetRange(Type, Leave.Type::"Leave Request");
+            Leave.SetRange("Compensatory Date", CompensatoryDate);
+            Leave.SetRange("Cancelled No.", '');
+            Leave.SetFilter("Approval Status", '<>%1', Leave."Approval Status"::Rejected);
+            if Leave.FindFirst then
                 Error('Compensatory leave already applied for compensatory date %1', CompensatoryDate);
 
-            EmpActivity.Reset;
-            EmpActivity.SetRange("Employee No.", EmpCode);
-            EmpActivity.SetRange(Type, EmpActivity.Type::Overtime);
-            EmpActivity.SetRange("Compensatory Date", CompensatoryDate);
-            EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Approved);
-            if EmpActivity.FindFirst then
+
+            OverTime.SetRange("Employee No.", EmpCode);
+            OverTime.SetRange("Start Date", CompensatoryDate);
+            OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
+            if OverTime.FindFirst then
                 Error('Overtime already approved on %1 so you are not eligible for compensatory leave.', CompensatoryDate);
+
             EmpAttendActivity.Reset;
             EmpAttendActivity.SetRange("Employee No.", EmpCode);
             EmpAttendActivity.SetRange("Attendance Date", CompensatoryDate);
             if EmpAttendActivity.FindFirst then begin
                 Clear(LeaveType);
                 if EmpAttendActivity."Source No." <> '' then
-                    if not EmpActivity.Get(EmpAttendActivity."Source No.") then
+                    if not Leave.Get(EmpAttendActivity."Source No.") then
                         Error('Compensatory leave is not eligible for compnesatory date %1.', CompensatoryDate);
-                if LeaveType.Get(EmpActivity."Leave Code") then;
+                if LeaveType.Get(Leave."Leave Code") then;
                 if (EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday) and
                     (LeaveType."AML Eligible") then
                     exit(true);
@@ -685,7 +684,6 @@ codeunit 50000 "Leave Mgt."
                 else
                     Error(ErrorPresent, CompensatoryDate);
             end;
-            //EXIT(TRUE);
         end;
     end;
 
