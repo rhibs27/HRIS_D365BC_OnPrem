@@ -136,7 +136,7 @@ report 50067 "Process Daily Attendance"
             FromDate := Employee.GetRangeMin("Date Filter");
             ToDate := Employee.GetRangeMax("Date Filter");
         end else begin
-            FromDate := Today - 3;
+            FromDate := Today - 1;
             ToDate := Today;
         end;
     end;
