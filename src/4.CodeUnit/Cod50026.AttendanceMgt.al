@@ -373,7 +373,7 @@ codeunit 50026 "Attendance Mgt"
         AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
         if AllowanceAssignmentLine.Findset then
             repeat
-                AllowanceAssignMgt.InsertHighestPriorityAllowanceInAttendance(AllowanceAssignmentLine."Employee Code", AllowanceAssignmentLine."From Date");
+                AllowanceAssignMgt.InsertHighestPriorityAllowanceInAttendance(AllowanceAssignmentLine."Employee Code", AllowanceAssignmentLine."From Date", EmployeeAttendanceActivity);
             until AllowanceAssignmentLine.Next = 0;
 
         TrainingAttend.Reset;
