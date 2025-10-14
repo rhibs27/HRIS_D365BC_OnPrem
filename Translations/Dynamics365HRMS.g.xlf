@@ -1648,6 +1648,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Primary Key - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 3976134183 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Store Procedure Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Store Procedure Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2922227932 - Field 557018098 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Sync Attendance From</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22797,6 +22802,26 @@
           <source>Specifies the value of the User Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control User Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 3029069541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run Attendance Sync form Procedure</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Sp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 3976134183 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Store Procedure Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Store Procedure Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Action 2835018043 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sync Attendance From Biometric Device</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Action Run Attendance Sync - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Action 2835018043 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run Attendance Sync</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Action Run Attendance Sync - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 644771389 - Control 3092782213 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Absent Day field.</source>
