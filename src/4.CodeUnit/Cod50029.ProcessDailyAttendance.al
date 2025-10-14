@@ -25,7 +25,6 @@ codeunit 50029 "Process Daily Attendance"
     procedure UpdateEmpAttendance()
     begin
         ResetDays();
-        GetShiftCodeformShiftAssignment();
         ProcessHolidayAndShiftNormal();
         GetCheckInandOutFromAttendanceLog();
         UpdateCheckInDifference();
