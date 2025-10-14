@@ -22918,6 +22918,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3157096233 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3157096233 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the English Year field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23052,11 +23057,6 @@
           <source>Executes the Approve Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Approve Substitute - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3852589595 - Action 3620725999 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Reject Allowance Claim action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Reject ALlowance Claim - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3852589595 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Substitute action.</source>
