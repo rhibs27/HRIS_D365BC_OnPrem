@@ -207,7 +207,7 @@
 
 //     var
 //         AttendanceSetup: Record "Attendance Setup";
-//         NoSeriesMgt: Codeunit NoSeriesManagement;
+//         NoSeriesMgt: Codeunit "No. Series";
 //         DocNo: Code[20];
 //         InitialDate: Date;
 //         AttendanceLine: Record "Attendance Line";

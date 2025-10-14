@@ -55,7 +55,7 @@ table 50114 "Employee Question Setup"
             if "Question Code" = '' then begin
                 HRSetup.Get;
                 HRSetup.TestField("Training Question");
-                NoMgmt.InitSeries(HRSetup."Training Question", xRec."No. Series", Today, "Question Code", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Training Question", xRec."No. Series", Today, "Question Code", "No. Series");
             end;
         end;
     end;
@@ -63,7 +63,8 @@ table 50114 "Employee Question Setup"
     var
         QASubj: Record "Employee Feedback";
         HRSetup: Record "Human Resources Setup";
-        NoMgmt: Codeunit NoSeriesManagement;
+        NoMgmt: Codeunit "No. Series";
+        HRMgt: Codeunit "HR Mgt.";
 
     procedure AssistEdit(OldTrainQuest: Record "Employee Question Setup"): Boolean
     var
@@ -73,8 +74,8 @@ table 50114 "Employee Question Setup"
         HRSetup.Get;
         if TrainQuest.Type = TrainQuest.Type::Training then begin
             HRSetup.TestField("Training Question");
-            if NoMgmt.SelectSeries(HRSetup."Training Question", OldTrainQuest."No. Series", TrainQuest."No. Series") then begin
-                NoMgmt.SetSeries(TrainQuest."Question Code");
+            if NoMgmt.LookupRelatedNoSeries(HRSetup."Training Question", OldTrainQuest."No. Series", TrainQuest."No. Series") then begin
+                NoMgmt.GetNextNo(TrainQuest."Question Code");
                 Rec := TrainQuest;
                 exit(true);
             end;

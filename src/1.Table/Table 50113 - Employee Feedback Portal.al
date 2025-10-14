@@ -46,7 +46,7 @@
 //         if "Feedback No." = '' then begin
 //             HRSetup.Get;
 //             HRSetup.TestField("Portal Feedback No.");
-//             NoSeriesMgt.InitSeries(HRSetup."Portal Feedback No.", xRec."No. Series", "Posted Date", "Feedback No.", "No. Series");
+//             HRMgt.InitNoSeriesNew(HRSetup."Portal Feedback No.", xRec."No. Series", "Posted Date", "Feedback No.", "No. Series");
 //         end;
 
 //         EmpVar.Reset;
@@ -60,5 +60,5 @@
 //     var
 //         EmpVar: Record Employee;
 //         HRSetup: Record "Human Resources Setup";
-//         NoSeriesMgt: Codeunit NoSeriesManagement;
+//         NoSeriesMgt: Codeunit "No. Series";
 // }

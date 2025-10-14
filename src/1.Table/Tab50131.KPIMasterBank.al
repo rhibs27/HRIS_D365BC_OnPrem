@@ -52,11 +52,12 @@ table 50131 "KPI Master Bank"
             HRSetups.Get;
             HRSetups.TestField("KPI No. Series");
             Clear(NoSeriesMgt);
-            NoSeriesMgt.InitSeries(HRSetups."KPI No. Series", xRec."No. Series", Today, "KPI No.", Rec."No. Series");
+            HRMgt.InitNoSeriesNew(HRSetups."KPI No. Series", xRec."No. Series", Today, "KPI No.", Rec."No. Series");
         end;
     end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetups: Record "Human Resources Setup";
+        HRMgt: Codeunit "HR Mgt.";
 }

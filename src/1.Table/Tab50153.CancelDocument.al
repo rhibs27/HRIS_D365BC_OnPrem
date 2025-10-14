@@ -324,7 +324,7 @@ table 50153 "Cancel Document"
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
                 OnInsertCancelDocumentOnBeforeCreateApproval(Rec, IsHandled);
                 if not IsHandled then
                     ApproverMgt.InsertApprovalCancelled("Employee No.", "No.", Type, Cancelled);
@@ -335,7 +335,7 @@ table 50153 "Cancel Document"
                     Type::"Leave Request":
                         begin
                             HRSetup.TestField("Leave No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Leave Request", "Approval Status");
                             //if HRSetup."Approval From Setup" then
                             // InsertApproval();
@@ -343,7 +343,7 @@ table 50153 "Cancel Document"
                     Type::"Attendance Missed":
                         begin
                             HRSetup.TestField("Attendance Missed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Attendance Missed", "Approval Status");
                         end;
                 end;
@@ -368,7 +368,7 @@ table 50153 "Cancel Document"
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         LeaveTypeVar: Record "Leave Type Setup";

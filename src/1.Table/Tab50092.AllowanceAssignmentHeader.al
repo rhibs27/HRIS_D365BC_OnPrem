@@ -223,7 +223,7 @@ table 50092 "Allowance Assignment Header"
                 "Activity Type"::"Allowance Assignment", "Activity Type"::"Allowance Assignment Claim", "Activity Type"::"Request Allowance":
                     begin
                         HRSetup.TestField("Allowance Assignment Series");
-                        NoSeriesMgt.InitSeries(HRSetup."Allowance Assignment Series", xRec."No. Series", "Created Date", "No.", "No. Series");
+                        HRMgt.InitNoSeriesNew(HRSetup."Allowance Assignment Series", xRec."No. Series", "Created Date", "No.", "No. Series");
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type", "Approval Status");
                     end;
             end;
@@ -236,7 +236,7 @@ table 50092 "Allowance Assignment Header"
         ApprovalHrms: Record "Approval HRMS";
         HRSetup: Record "Human Resources Setup";
         OrganizationStructureList: Record "Organization Structure List";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ApproverMgt: Codeunit "Approver Mgt";
         GLsetup: Record "General Ledger Setup";
         AllowanceHeader: Record "Allowance Assignment Header";

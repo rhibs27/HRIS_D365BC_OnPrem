@@ -1791,7 +1791,7 @@ table 50067 "Employee Activity"
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
 
@@ -1799,42 +1799,42 @@ table 50067 "Employee Activity"
                     Type::"Employee Edit":
                         begin
                             HRSetup.TestField("Employee Change No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for access control
                     Type::"Access Control":
                         begin
                             HRSetup.TestField("Access Control No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Access Control No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Access Control No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for leave
                     Type::"Leave Request":
                         begin
                             HRSetup.TestField("Leave No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for travel request
                     Type::"Travel Request":
                         begin
                             HRSetup.TestField("Travel Request No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for travel claim
                     Type::"Travel Claim":
                         begin
                             HRSetup.TestField("Travel Claimed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for transfer
                     Type::"Employee Transfer", Type::"HR Transfer":
                         begin
                             HRSetup.TestField("Transfer No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             "Temporary Address" := "Employee No.";
                             "Temporary District" := "Employee Name";
                         end;
@@ -1843,49 +1843,49 @@ table 50067 "Employee Activity"
                     Type::Overtime:
                         begin
                             HRSetup.TestField("OT No.");
-                            NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for out of office
                     Type::"Out of Office":
                         begin
                             HRSetup.TestField("Out of office No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Out of office No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Out of office No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for bulk cash
                     Type::"Bulk Cash":
                         begin
                             HRSetup.TestField("Bulk Cash No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Bulk Cash No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Bulk Cash No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for resignation
                     Type::Resignation:
                         begin
                             HRSetup.TestField("Resignation No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Resignation No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Resignation No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for medical insurance claim
                     Type::"Medical Insurance Claim":
                         begin
                             HRSetup.TestField("Medical Insurance No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Medical Insurance No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Medical Insurance No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //for promotion
                     Type::Promotion:
                         begin
                             HRSetup.TestField("Promotion No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Promotion No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Promotion No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
 
                     //attendance missed
                     Type::"Attendance Missed":
                         begin
                             HRSetup.TestField("Attendance Missed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             InsertAttendanceMissedAttachment;
                         end;
                 end;
@@ -1902,7 +1902,8 @@ table 50067 "Employee Activity"
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit "No. Series";
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
@@ -1959,8 +1960,8 @@ table 50067 "Employee Activity"
         EmpAct := Rec;
         if EmpAct.Cancelled then begin
             HRSetup.TestField("Cancel Document No. Series");
-            if NoSeriesMgt.SelectSeries(HRSetup."Cancel Document No. Series", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                NoSeriesMgt.SetSeries(EmpAct."No.");
+            if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Cancel Document No. Series", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                NoSeriesMgt.GetNextNo(EmpAct."No.");
                 Rec := EmpAct;
                 exit(true);
             end;
@@ -1970,8 +1971,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Employee Edit":
                     begin
                         HRSetup.TestField("Employee Change No. Series");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Employee Change No. Series", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Employee Change No. Series", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -1981,8 +1982,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Access Control":
                     begin
                         HRSetup.TestField("Access Control No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Access Control No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Access Control No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -1992,8 +1993,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Attendance Missed":
                     begin
                         HRSetup.TestField("Attendance Missed No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Attendance Missed No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Attendance Missed No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2003,8 +2004,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Leave Request":
                     begin
                         HRSetup.TestField("Leave No. Series");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Leave No. Series", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Leave No. Series", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2014,8 +2015,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Travel Request":
                     begin
                         HRSetup.TestField("Travel Request No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Travel Request No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Travel Request No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2025,8 +2026,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Travel Claim":
                     begin
                         HRSetup.TestField("Travel Claimed No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Travel Claimed No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Travel Claimed No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2036,8 +2037,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Employee Transfer", EmpAct.Type::"HR Transfer":
                     begin
                         HRSetup.TestField("Transfer No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Transfer No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Transfer No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2047,8 +2048,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::Overtime:
                     begin
                         HRSetup.TestField("OT No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."OT No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."OT No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2058,8 +2059,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Out of Office":
                     begin
                         HRSetup.TestField("Out of office No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Out of office No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Out of office No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2069,8 +2070,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::"Bulk Cash":
                     begin
                         HRSetup.TestField("Bulk Cash No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Bulk Cash No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Bulk Cash No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;
@@ -2080,8 +2081,8 @@ table 50067 "Employee Activity"
                 EmpAct.Type::Promotion:
                     begin
                         HRSetup.TestField("Promotion No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Promotion No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
-                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Promotion No.", OldEmpAct."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(EmpAct."No.");
                             Rec := EmpAct;
                             exit(true);
                         end;

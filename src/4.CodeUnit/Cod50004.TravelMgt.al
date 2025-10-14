@@ -660,7 +660,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
             TravelRequest.Modify();
             // TravelRequest.Insert(true);
-            HRmgt.SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, TravelRequest."Employee No.", TravelRequest."No.");   //For email
+            // HRmgt.SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, TravelRequest."Employee No.", TravelRequest."No.");   //For email
             Message('Travel Claim has been sent for apporval.');
             TravelRequest2."Travel Claimed" := true;
             TravelRequest2.Modify;

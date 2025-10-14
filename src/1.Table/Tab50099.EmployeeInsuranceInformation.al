@@ -173,7 +173,7 @@ table 50099 "Employee Insurance Information"
         if "Insurance No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Employee Insurance No.");
-            NoSeriesMgt.InitSeries(HRSetup."Employee Insurance No.", xRec."No. Series", "Requested Date", "Insurance No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Employee Insurance No.", xRec."No. Series", "Requested Date", "Insurance No.", "No. Series");
             ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
         /*EmpInsurance.Reset();
@@ -223,7 +223,7 @@ table 50099 "Employee Insurance Information"
     // end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
         EngNepDate: Record "English-Nepali Date";

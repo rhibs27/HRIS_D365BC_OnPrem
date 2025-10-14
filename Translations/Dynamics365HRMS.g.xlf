@@ -60193,6 +60193,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Christian - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 3323870458 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Jitiya</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Jitiya - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 3374683293 - EnumValue 3951861867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Khas</source>
           <note from="Developer" annotates="general" priority="2"></note>

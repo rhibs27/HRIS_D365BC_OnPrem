@@ -191,24 +191,25 @@ table 50086 "Potential Candidates"
         if "No." = '' then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Candidate Nos.");
-            NoSeriesMgt.InitSeries(HumanResSetup."Candidate Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HumanResSetup."Candidate Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
     end;
 
     var
         HumanResSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PotenCand: Record "Potential Candidates";
+        HRMgt: Codeunit "HR Mgt.";
 
     procedure AssistEdit(): Boolean
     begin
         PotenCand := Rec;
         HumanResSetup.Get;
         HumanResSetup.TestField("Candidate Nos.");
-        if NoSeriesMgt.SelectSeries(HumanResSetup."Candidate Nos.", xRec."No. Series", PotenCand."No. Series") then begin
+        if NoSeriesMgt.LookupRelatedNoSeries(HumanResSetup."Candidate Nos.", xRec."No. Series", PotenCand."No. Series") then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Candidate Nos.");
-            NoSeriesMgt.SetSeries(PotenCand."No.");
+            NoSeriesMgt.GetNextNo(PotenCand."No.");
             Rec := PotenCand;
             exit(true);
         end;

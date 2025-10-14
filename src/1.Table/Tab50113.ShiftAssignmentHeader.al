@@ -188,7 +188,7 @@ table 50113 "Shift Assignment Header"
                 "Type"::"Shift Assignment":
                     begin
                         HRSetup.TestField("Shift Assignment Series");
-                        NoSeriesMgt.InitSeries(HRSetup."Shift Assignment Series", xRec."No. Series", Today, "No.", "No. Series");
+                        HRMgt.InitNoSeriesNew(HRSetup."Shift Assignment Series", xRec."No. Series", Today, "No.", "No. Series");
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Type", "Approval Status");
                     end;
             end;
@@ -200,7 +200,7 @@ table 50113 "Shift Assignment Header"
     var
         HrMgt: Codeunit "HR Mgt.";
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHRMS: Record "Approval HRMS";
         ShiftLine: Record "Shift Line";

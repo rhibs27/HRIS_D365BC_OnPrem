@@ -938,7 +938,7 @@ table 50136 "Travel Request"
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
 
@@ -946,7 +946,7 @@ table 50136 "Travel Request"
                     Type::"Travel Request":
                         begin
                             HRSetup.TestField("Travel Request No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh 
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
@@ -955,7 +955,7 @@ table 50136 "Travel Request"
                     Type::"Travel Claim":
                         begin
                             HRSetup.TestField("Travel Claimed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
@@ -989,8 +989,8 @@ table 50136 "Travel Request"
         Travel := Rec;
         if TravelRequest.Cancelled then begin
             HRSetup.TestField("Cancel Document No. Series");
-            if NoSeriesMgt.SelectSeries(HRSetup."Cancel Document No. Series", OldTravel."No. Series", TravelRequest."No. Series") then begin
-                NoSeriesMgt.SetSeries(TravelRequest."No.");
+            if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Cancel Document No. Series", OldTravel."No. Series", TravelRequest."No. Series") then begin
+                NoSeriesMgt.GetNextNo(TravelRequest."No.");
                 Rec := Travel;
                 exit(true);
             end;
@@ -1000,8 +1000,8 @@ table 50136 "Travel Request"
                 TravelRequest.Type::"Travel Request":
                     begin
                         HRSetup.TestField("Travel Request No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Travel Request No.", OldTravel."No. Series", TravelRequest."No. Series") then begin
-                            NoSeriesMgt.SetSeries(TravelRequest."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Travel Request No.", OldTravel."No. Series", TravelRequest."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(TravelRequest."No.");
                             Rec := Travel;
                             exit(true);
                         end;
@@ -1011,8 +1011,8 @@ table 50136 "Travel Request"
                 TravelRequest.Type::"Travel Claim":
                     begin
                         HRSetup.TestField("Travel Claimed No.");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Travel Claimed No.", OldTravel."No. Series", TravelRequest."No. Series") then begin
-                            NoSeriesMgt.SetSeries(TravelRequest."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Travel Claimed No.", OldTravel."No. Series", TravelRequest."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(TravelRequest."No.");
                             Rec := Travel;
                             exit(true);
                         end;
@@ -1086,7 +1086,7 @@ table 50136 "Travel Request"
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
