@@ -251,7 +251,7 @@ codeunit 50029 "Process Daily Attendance"
                 EmpAttendance.Remarks := 'TRANSFER';
 
             if EmpAttendance."Leave Day" > 0 then
-                EmpAttendance.Remarks := UpperCase(Format(EmpAttendance."Leave Description")) + ' LEAVE';
+                EmpAttendance.Remarks := UpperCase(Format(EmpAttendance."Leave Description"));
 
             if EmpAttendance."Tour Day" > 0 then
                 EmpAttendance.Remarks := 'TRAVEL';
@@ -289,23 +289,23 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog: Record "Attendance Log";
     begin
         if (EmpWorkShiftDetail."Check In From" <> 0) or (EmpWorkShiftDetail."Check Out From" <> 0) then begin
-            GetCheckInandOutFromAttendanceLogInRange(
+            GetCheckInAndOutFromAttendanceLogInRange(
                 CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."Start Time") - EmpWorkShiftDetail."Check In From",
                 CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."Start Time") + EmpWorkShiftDetail."Check In From",
                 EmpAttendance."Check In Time",
                 true);
 
-            GetCheckInandOutFromAttendanceLogInRange(
+            GetCheckInAndOutFromAttendanceLogInRange(
                 CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") - EmpWorkShiftDetail."Check Out From",
                 CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") + EmpWorkShiftDetail."Check Out From",
                 EmpAttendance."Check Out Time",
                 False);
         end
         else
-            GetCheckInandOutFromAttendanceLogRegular();
+            GetCheckInAndOutFromAttendanceLogRegular();
     end;
 
-    procedure GetCheckInandOutFromAttendanceLogRegular()
+    procedure GetCheckInAndOutFromAttendanceLogRegular()
     var
         AttendanceLog: Record "Attendance Log";
     begin
@@ -326,7 +326,7 @@ codeunit 50029 "Process Daily Attendance"
 
     end;
 
-    local procedure GetCheckInandOutFromAttendanceLogInRange(StartTime: DateTime; EndTime: DateTime; var TimeVar: Time; FirstRecord: Boolean): Time
+    local procedure GetCheckInAndOutFromAttendanceLogInRange(StartTime: DateTime; EndTime: DateTime; var TimeVar: Time; FirstRecord: Boolean): Time
     var
         AttendanceLog: Record "Attendance Log";
     begin
