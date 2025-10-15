@@ -1601,7 +1601,6 @@ table 50027 "Payroll Line"
         Text003: Label 'Summation of Paid Hours & Unpaid Hours must be %1 for Employee %2.';
         Text004: Label 'Employee %1 already exists on Line No. %2.';
         SourceCodeSetup: Record "Source Code Setup";
-        EmpActRec: Record "Employee Activity";
         LeaveEarn: Record "Leave Earn";
         UsedDays: Decimal;
         EngNep: Record "English-Nepali Date";
@@ -2334,12 +2333,11 @@ table 50027 "Payroll Line"
     var
         PostedPayrollHeader: Record "Posted Payroll Header";
         PostedPayrollline: Record "Posted Payroll Line";
+        Resignation: Record Resignation;
     begin
-        EmpActRec.Reset;
-        EmpActRec.SetRange(Type, EmpActRec.Type::Resignation);
-        EmpActRec.SetRange("Employee No.", "Employee No.");
-        EmpActRec.SetRange("Approval Status", EmpActRec."Approval Status"::Approved);
-        if not EmpActRec.FindFirst then
+        Resignation.SetRange("Employee No.", "Employee No.");
+        Resignation.SetRange("Approval Status", Resignation."Approval Status"::Approved);
+        if not Resignation.FindFirst then
             Error('Resignation not approved yet.');
 
         PostedPayrollHeader.Reset;
@@ -2357,17 +2355,18 @@ table 50027 "Payroll Line"
     local procedure ValidateSettlementFields()
     var
         LeaveTypeSetup: Record "Leave Type Setup";
+        MedicalInsurranceClaim: Record "Medical Insurance Claim";
+        Resignation: Record Resignation;
     begin
         Employee.Get("Employee No.");
         if Employee."Employment Type" = Employee."Employment Type"::Permanent then begin
 
             Validate("Gratuity Years", Round((Employee."Resignation Date" - Employee."Employment Date") / 365, 0.001, '='));
         end;
-        EmpActRec.Reset;
-        EmpActRec.SetRange("Employee No.", "Employee No.");
-        EmpActRec.SetRange(Type, EmpActRec.Type::Resignation);
-        EmpActRec.SetRange("Approval Status", EmpActRec."Approval Status"::Approved);
-        if EmpActRec.FindFirst then begin
+
+        Resignation.SetRange("Employee No.", Employee."No.");
+        Resignation.SetRange("Approval Status", Resignation."Approval Status"::Approved);
+        if Resignation.FindFirst then begin
             if Employee."Resignation Date" = 0D then
                 Validate("Resignation Date", Employee."Contract Expiry Date")
             else
@@ -2392,17 +2391,11 @@ table 50027 "Payroll Line"
             end;
         end;
 
-        //AT >>
+        MedicalInsurranceClaim.SetRange("Employee No.", Employee."No.");
+        MedicalInsurranceClaim.SetRange("Approval Status", MedicalInsurranceClaim."Approval Status"::Approved);
+        MedicalInsurranceClaim.CalcSums("Total Insurance Claim Amount");
+        "Total Insurance Claim Amount" := MedicalInsurranceClaim."Total Insurance Claim Amount";
 
-        EmpActRec.Reset;
-        EmpActRec.SetRange("Employee No.", "Employee No.");
-        EmpActRec.SetRange(Type, EmpActRec.Type::"Medical Insurance Claim");
-        EmpActRec.SetRange("Approval Status", EmpActRec."Approval Status"::Approved);
-        if EmpActRec.FindFirst then
-            repeat
-                "Total Insurance Claim Amount" += EmpActRec."Total Insurance Claim Amount";
-            until EmpActRec.Next = 0;
-        //AT <<
     end;
 
 
@@ -2531,18 +2524,17 @@ table 50027 "Payroll Line"
 
     local procedure DeductForRecovery(AttribiuteAmt: Decimal)
     var
-        EmpActivity: Record "Employee Activity";
+        Resignation: Record Resignation;
         resignationDays: Integer;
     begin
         if "Resignation Date" = 0D then
             exit;
-        EmpActivity.Reset();
-        EmpActivity.SetRange("Employee No.", "Employee No.");
-        EmpActivity.SetRange(Type, EmpActivity.Type::Resignation);
+
         Employee.Get("Employee No.");
-        EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Approved);
-        if EmpActivity.FindFirst then begin
-            if (EmpActivity."Waiver Case" = EmpActivity."Waiver Case"::Recovery) and (not EmpActivity."Apply for Waiver") then begin
+        Resignation.SetRange("Employee No.", "Employee No.");
+        Resignation.SetRange("Approval Status", Resignation."Approval Status"::Approved);
+        if Resignation.FindFirst then begin
+            if (Resignation."Waiver Case" = Resignation."Waiver Case"::Recovery) and (not Resignation."Apply for Waiver") then begin
                 case Employee."Employment Type" of
                     Employee."Employment Type"::Contract:
                         begin
@@ -2563,9 +2555,9 @@ table 50027 "Payroll Line"
                         end;
                 end;
                 if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then
-                    SettlementRecovery += AttribiuteAmt / resignationDays * (resignationDays - ("Resignation Date" - EmpActivity."Requested Date" + 1))
+                    SettlementRecovery += AttribiuteAmt / resignationDays * (resignationDays - ("Resignation Date" - Resignation."Requested Date" + 1))
                 else
-                    SettlementRecovery -= AttribiuteAmt / resignationDays * (resignationDays - ("Resignation Date" - EmpActivity."Requested Date" + 1));
+                    SettlementRecovery -= AttribiuteAmt / resignationDays * (resignationDays - ("Resignation Date" - Resignation."Requested Date" + 1));
             end;
         end else
             Error('Cannot find resignation of employee %1', "Employee Name");

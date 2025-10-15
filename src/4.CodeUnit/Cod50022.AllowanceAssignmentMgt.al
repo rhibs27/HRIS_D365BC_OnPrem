@@ -81,6 +81,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                     AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
                     AllowanceLine.Validate("Approved Date", Today);
                     AllowanceLine.Modify();
+                    HrMgt.CreateEmpActLedger(AllowanceLine."Emp Act Type", EmpAllowance."No.", AllowanceLine."Employee Code", AllowanceLine."From Date", False, 1);
                     if AllowanceLine."Emp Act Type" = AllowanceLine."Emp Act Type"::"Allowance Assignment Claim" then
                         UpdateClaimInAllowanceRequest(AllowanceLine);
                 end;
@@ -91,7 +92,10 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Approved);
             AllowanceLine.SetRange("Emp Act Type", AllowanceLine."Emp Act Type"::"Allowance Assignment Claim");
             if AllowanceLine.FindSet() then
-                InsertHighestPriorityAllowanceInAttendance(AllowanceLine."Employee Code", AllowanceLine."From Date");
+                repeat
+                    if AllowanceLine."From Date" <= Today then
+                        AttendanceMgt.DailyAttendanceUpdate(AllowanceLine."From Date", AllowanceLine."From Date", AllowanceLine."Employee Code");
+                until AllowanceLine.next = 0;
         end;
         if not Approved then begin
             if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment" then begin
@@ -222,10 +226,9 @@ codeunit 50022 "Allowance Assignment Mgt"
     end;
 
     // Modified procedure to insert only the highest amount allowance
-    procedure InsertHighestPriorityAllowanceInAttendance(EmployeeCode: Code[20]; AttendanceDate: Date)
+    procedure InsertHighestPriorityAllowanceInAttendance(EmployeeCode: Code[20]; AttendanceDate: Date; Var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
     var
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         HighestAmountAllowanceType: Code[20];
         HighestAmount: Decimal;
         CurrentAmount: Decimal;
@@ -254,7 +257,6 @@ codeunit 50022 "Allowance Assignment Mgt"
             EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
             if EmployeeAttendanceActivity.FindFirst then begin
                 UpdateAttendanceWithAllowance(EmployeeAttendanceActivity, HighestAmountAllowanceType);
-                EmployeeAttendanceActivity.Modify;
             end;
         end;
     end;
@@ -636,4 +638,5 @@ codeunit 50022 "Allowance Assignment Mgt"
         GLSetup: Record "General Ledger Setup";
         HrMgt: Codeunit "HR Mgt.";
         PayCyclePeriod: Record "Pay Cycle Period";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 }

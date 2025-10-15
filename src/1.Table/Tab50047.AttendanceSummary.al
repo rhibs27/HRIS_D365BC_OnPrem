@@ -274,14 +274,6 @@ table 50047 "Attendance Summary"
 
     fieldgroups { }
 
-    trigger OnDelete()
-    begin
-        //CheckStatusOpen;
-        AttendanceLine.Reset;
-        AttendanceLine.SetRange("Document No.", "Document No.");
-        AttendanceLine.DeleteAll(true);
-    end;
-
     trigger OnInsert()
     begin
         CheckStatusOpen;
@@ -294,22 +286,8 @@ table 50047 "Attendance Summary"
     end;
 
     var
-        AttendanceLine: Record "Attendance Line";
         Employee: Record Employee;
         AttendanceHeader: Record "Attendance Header";
-
-    procedure DrillDownDetails()
-    var
-        AttendanceLine: Record "Attendance Line";
-        AttendanceDetails: Page "Attendance Detail";
-    begin
-        AttendanceLine.Reset;
-        AttendanceLine.SetRange("Document No.", "Document No.");
-        AttendanceLine.SetRange("Employee No.", "Employee No.");
-        Clear(AttendanceDetails);
-        AttendanceDetails.SetTableView(AttendanceLine);
-        AttendanceDetails.Run;
-    end;
 
     local procedure CheckStatusOpen()
     var
@@ -340,22 +318,6 @@ table 50047 "Attendance Summary"
         "Pay Cycle Code" := AttendanceHeader."Pay Cycle Code";
         "Pay Cycle Term" := AttendanceHeader."Pay Cycle Term";
         "Pay Cycle Period" := AttendanceHeader."Pay Cycle Period";
-    end;
-
-    procedure GetDeviceAttendance()
-    var
-        AttendanceLine: Record "Attendance Line";
-        AttendanceDetailList: Page "Attendance Detail";
-    begin
-        AttendanceLine.Reset;
-        AttendanceLine.FilterGroup(2);
-        //AttendanceLine.SetRange("Document No.","Document No.");
-        AttendanceLine.SetRange("Employee No.", "Employee No.");
-        AttendanceLine.SetRange("Attendance Date", "From Date", "To Date");
-        AttendanceLine.FilterGroup(0);
-        Clear(AttendanceDetailList);
-        AttendanceDetailList.SetTableView(AttendanceLine);
-        AttendanceDetailList.RunModal;
     end;
 
     local procedure GetAttedanceDate()

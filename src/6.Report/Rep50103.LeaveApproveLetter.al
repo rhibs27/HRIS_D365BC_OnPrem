@@ -33,12 +33,12 @@ report 50103 "Leave Approve Letter"
             column(GenderValue5; Gendervalue5) { }
             column(deputation; deputation) { }
             column(DeputationCode; Employee."Deputation on") { }
-            dataitem("Employee Activity"; "Employee Activity")
+            dataitem(Leave; Leave)
             {
                 DataItemLink = "Employee No." = field("No.");
                 DataItemTableView = where("Approval Status" = filter(Approved));
-                column(StartDate; Format("Employee Activity"."Start Date")) { }
-                column(EndDate; Format("Employee Activity"."End Date")) { }
+                column(StartDate; Format(Leave."Start Date")) { }
+                column(EndDate; Format(Leave."End Date")) { }
             }
 
             trigger OnAfterGetRecord()

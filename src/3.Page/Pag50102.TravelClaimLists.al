@@ -173,13 +173,13 @@ page 50102 "Travel Claim Lists"
                 ToolTip = 'Executes the Print Travel Claim action.';
                 ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to print travel claim ?', false) then
-                        exit;
-                    CurrPage.SetSelectionFilter(Rec);
-                    Report.Run(Report::"Travel Claim Processing Report", true, false, Rec);
-                end;
+                // trigger OnAction()
+                // begin
+                //     if not Confirm('Do you want to print travel claim ?', false) then
+                //         exit;
+                //     CurrPage.SetSelectionFilter(Rec);
+                //     Report.Run(Report::"Travel Claim Processing Report", true, false, Rec);
+                // end;
             }
         }
     }

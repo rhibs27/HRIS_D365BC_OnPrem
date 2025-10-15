@@ -127,10 +127,9 @@ table 50093 "Allowance Assignment Line"
                     else
                         Error('Invalid allowance selected!');
                     Clear(Panel);
-                    if AllowanceHeader.Get("No.") then
-                        Validate("Emp Act Type", AllowanceHeader."Activity Type")
                 end;
-
+                if AllowanceHeader.Get("No.") then
+                    Validate("Emp Act Type", AllowanceHeader."Activity Type")
             end;
         }
         field(10; "Substitute Type"; Enum "Allowance Substitute")

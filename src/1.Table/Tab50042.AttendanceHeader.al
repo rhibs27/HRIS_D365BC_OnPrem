@@ -339,7 +339,6 @@ table 50042 "Attendance Header"
     local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: enum "Approval Status")
     var
         AttendanceSummary: Record "Attendance Summary";
-        AttendanceLine: Record "Attendance Line";
     begin
         AttendanceSummary.Reset;
         AttendanceSummary.SetRange("Document No.", DocumentNo);
@@ -348,13 +347,6 @@ table 50042 "Attendance Header"
                 AttendanceSummary.Status := NewStatus;
                 AttendanceSummary.Modify;
             until AttendanceSummary.Next = 0;
-        AttendanceLine.Reset;
-        AttendanceLine.SetRange("Document No.", DocumentNo);
-        if AttendanceLine.FindSet then
-            repeat
-                AttendanceLine.Status := NewStatus;
-                AttendanceLine.Modify;
-            until AttendanceLine.Next = 0;
     end;
 
     procedure ImportEmployee()

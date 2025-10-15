@@ -834,7 +834,6 @@ page 50066 "Transfer Card"
     end;
 
     var
-        EmployeeActivity: Record "Employee Activity";
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
