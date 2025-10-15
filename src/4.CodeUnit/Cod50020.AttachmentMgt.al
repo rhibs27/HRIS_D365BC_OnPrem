@@ -208,7 +208,7 @@ codeunit 50020 "Attachment Mgt."
             if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) then
                 ERROR('Approval status must be Open.');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
-            if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Approved then
+            if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Open then
                 ERROR('Approval status must be Open.');
         end else if AppraisalEmp.Get(IncomingDocument."No.") then begin
             if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
