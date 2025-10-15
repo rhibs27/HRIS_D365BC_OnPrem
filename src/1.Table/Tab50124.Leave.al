@@ -420,6 +420,13 @@ table 50124 Leave
         {
         }
 
+        field(301;"Access Token"; code[50])
+        {
+            caption='Access Token';
+            DataClassification=CustomerContent;
+
+        }
+
     }
     keys
     {
@@ -449,6 +456,8 @@ table 50124 Leave
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
+          SaaSLoginMgmt: Codeunit saasloginmgmt;
+
 
     trigger OnInsert()
     var

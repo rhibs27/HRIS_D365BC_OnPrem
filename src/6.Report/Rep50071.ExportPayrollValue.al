@@ -16,7 +16,7 @@ report 50071 "Export Payroll Value"
             column(FunctionalTitle_; "Functional Title") { }
             column(SalaryLevel_; "Salary Level") { }
             column(SalaryGrade_; "Salary Grade") { }
-           // column(BranchCode; "Global Dimension 1 Code") { }
+            // column(BranchCode; "Global Dimension 1 Code") { }
             column(BranchName; BranchName) { }
             column(EmployeeType_; "Employee Type") { }
             column(PresentDays_; Format("Present Days")) { }
@@ -50,6 +50,7 @@ report 50071 "Export Payroll Value"
             column(SocialSecurityTaxAnnual_; "Social Security Tax(Annual)") { }
             column(TaxonRemunerationAnnual_; "Tax on Remuneration(Annual)") { }
             column(TotalTaxPaid_; "Total Tax Paid") { }
+            column(ShowTaxDetails; ShowTaxDetails) { }
             column(ProjectionMonth_; "Projection Month") { }
             column(CurrentDeduction; "Current Deduction") { }
             column(NetPay; "Net Pay") { }
@@ -65,6 +66,7 @@ report 50071 "Export Payroll Value"
             column(TotalEligibleDeduction; TotalEligibleDeduction) { }
             column(TotalTaxableIncome; TotalTaxableIncome) { }
             column(TotalDisablePersonRed; TotalDisablePersonRed) { }
+            column(TotalRemoteAreaDed; TotalRemoteAreaDed) { }
             column(TotalLifeInsurancePremium; TotalLifeInsurancePremium) { }
             column(TotalHealthInsurancePremium; TotalHealthInsurancePremium) { }
             column(TotalBalTaxableIncome; TotalBalTaxableIncome) { }
@@ -78,7 +80,11 @@ report 50071 "Export Payroll Value"
             column(TotalDeduction; TotalDeduction) { }
             column(TotalNetPay; TotalNetPay) { }
             column(TotalPrpertyInsurancePremium; TotalPrpertyInsurancePremium) { }
-            column(RemoteAreaDeduction_PayrollLine; "Payroll Line"."Remote Area Deduction") { }
+            //column(RemoteAreaDeduction_PayrollLine; "Payroll Line"."Remote Area Deduction") { }
+            column(Remote_Area_Deduction; "Remote Area Deduction") { }
+
+            column(FunctionalTitleDesc_; FunctionalTitleDesc) { }
+            column(SalaryLevelDesc_; SalaryLevelDesc) { }
             dataitem("Payroll Attributes Usage"; "Payroll Attributes Usage")
             {
                 DataItemLink = "Employee Code" = field("Employee No.");
@@ -86,6 +92,10 @@ report 50071 "Export Payroll Value"
                 column(Description_; PayrollAtt.Description) { }
                 column(PayrollCode_; Code) { }
                 column(sortby; PayrollAtt."Column Id") { }
+                column(Type_; PayrollAtt.Type) { }
+                column(ColumnNo_; PayrollAtt."Column No.") { }
+
+
 
                 trigger OnAfterGetRecord()
                 begin
@@ -132,6 +142,10 @@ report 50071 "Export Payroll Value"
                         TotalTaxableIncome := "Payroll Line"."Taxable Income After RF";
                     if Counter = 0 then
                         TotalDisablePersonRed := "Payroll Line"."Disable Person Reduction";
+                    //added
+                    if Counter = 0 then
+                        TotalRemoteAreaDed := "Payroll Line"."Remote Area Deduction";
+
                     if Counter = 0 then
                         TotalLifeInsurancePremium := "Payroll Line"."Life Insurance Premium";
                     if Counter = 0 then
@@ -173,6 +187,19 @@ report 50071 "Export Payroll Value"
 
                 if DimensionValue.Get(GLSetup."Global Dimension 1 Code", "Global Dimension 1 Code") then
                     BranchName := DimensionValue.Name;
+
+                Clear(FunctionalTitleDesc);
+                if FunctionalTitleRec.Get("Functional Title") then
+                    FunctionalTitleDesc := FunctionalTitleRec.Description
+                else
+                    FunctionalTitleDesc := '';
+
+                Clear(SalaryLevelDesc);
+                if SalaryLevelRec.Get("Salary Level") then
+                    SalaryLevelDesc := SalaryLevelRec.Description
+                else
+                    SalaryLevelDesc := '';
+
             end;
 
 
@@ -181,10 +208,25 @@ report 50071 "Export Payroll Value"
 
     requestpage
     {
-        layout { }
+        layout
+        {
+            area(content)
+            {
+                group(Options)
+                {
+                    field(ShowTaxDetails; ShowTaxDetails)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Show Tax Details';
+                        ToolTip = 'Enable to show detailed tax calculation columns in the report';
+                    }
+                }
+            }
+        }
 
         actions { }
     }
+
 
     labels { }
 
@@ -230,6 +272,14 @@ report 50071 "Export Payroll Value"
         //new var
         DimensionValue: Record "Dimension Value";
         BranchName: Text[100];
+        FunctionalTitleRec: Record "Functional Title";
+        SalaryLevelRec: Record "Salary Level";
+
+        TotalRemoteAreaDed: Decimal;
+
+        FunctionalTitleDesc: Text[100];
+        SalaryLevelDesc: Text[50];
+        ShowTaxDetails: Boolean;
 
     local procedure ClearValue()
     begin
@@ -245,6 +295,8 @@ report 50071 "Export Payroll Value"
         Clear(TotalEligibleDeduction);
         Clear(TotalTaxableIncome);
         Clear(TotalDisablePersonRed);
+        clear(TotalRemoteAreaDed);
+
         Clear(TotalLifeInsurancePremium);
         Clear(TotalHealthInsurancePremium);
         Clear(TotalBalTaxableIncome);
