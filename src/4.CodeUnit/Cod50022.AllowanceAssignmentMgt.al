@@ -91,10 +91,11 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceLine.SetRange("No.", EntryNo);
             AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Approved);
             AllowanceLine.SetRange("Emp Act Type", AllowanceLine."Emp Act Type"::"Allowance Assignment Claim");
-            if AllowanceLine.FindSet() then begin
-                if AllowanceLine."From Date" <= Today then
-                    AttendanceMgt.DailyAttendanceUpdate(AllowanceLine."From Date", AllowanceLine."From Date", AllowanceLine."Employee Code");
-            end;
+            if AllowanceLine.FindSet() then
+                repeat
+                    if AllowanceLine."From Date" <= Today then
+                        AttendanceMgt.DailyAttendanceUpdate(AllowanceLine."From Date", AllowanceLine."From Date", AllowanceLine."Employee Code");
+                until AllowanceLine.next = 0;
         end;
         if not Approved then begin
             if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment" then begin

@@ -194,6 +194,7 @@ codeunit 50029 "Process Daily Attendance"
                     EmpActLedgerEntry."Document Type"::"Travel Request":
                         begin
                             EmpAttendance."Absent Day" := 0;
+                            EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::"Outdoor Duty";
                             EmpAttendance."Tour Day" := EmpActLedgerEntry.Day;
                             EmpAttendance.Remarks := 'TRAVEL';
                         end;
@@ -207,6 +208,7 @@ codeunit 50029 "Process Daily Attendance"
                     EmpActLedgerEntry."Document Type"::Training:
                         begin
                             EmpAttendance."Training Day" := 1;
+                            EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Training;
                             EmpAttendance."Absent Day" := 0;
                             EmpAttendance.Remarks := 'TRAINING';
                         end;
