@@ -218,6 +218,8 @@ codeunit 50014 "Event Management"
                 begin
                     CardPageID := Page::"Leave Encashment Card";
                 end;
+            Database::"Employee Insurance Information":
+                CardPageID := Page::"Employee Insurance Card";
         end;
     end;
 

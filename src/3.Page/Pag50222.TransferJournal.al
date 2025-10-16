@@ -197,6 +197,7 @@ page 50222 "Transfer Journal"
     begin
         SetFieldEnable;
         SetLayout();
+        CurrPage.Update(false);
     end;
 
     trigger OnOpenPage()
@@ -228,7 +229,7 @@ page 50222 "Transfer Journal"
         CASE Rec."Deputation on (To)" OF
             Rec."Deputation on (To)"::Branch:
                 begin
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
                     DepartmentEdit := FALSE;
@@ -260,7 +261,7 @@ page 50222 "Transfer Journal"
                 end;
             Rec."Deputation on (To)"::"Extension Counter":
                 begin
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
                     DepartmentEdit := FALSE;

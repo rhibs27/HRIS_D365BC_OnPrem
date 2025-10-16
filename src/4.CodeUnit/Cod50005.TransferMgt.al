@@ -464,9 +464,9 @@ codeunit 50005 "Transfer Mgt."
             end;
             EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
-            EmployeeRec.Modify;
         end;
-        OnAfterTransferAcknowledge(EmpHrTransfer);
+        OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
+        EmployeeRec.Modify;
         Message(Acknowledged);
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
     end;
@@ -601,7 +601,7 @@ codeunit 50005 "Transfer Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterTransferAcknowledge(var transfer: Record "Employee Transfer")
+    procedure OnAfterTransferAcknowledge(var transfer: Record "Employee Transfer"; Var Employee: Record Employee)
     begin
     end;
 

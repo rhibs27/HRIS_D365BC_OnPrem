@@ -3209,6 +3209,7 @@ codeunit 50001 "HR Mgt."
         EmailReceipent: Record "Email Template Recipient";
         ApprovalHRMS: Record "Approval HRMS";
         Employee: Record Employee;
+        IsHandled: Boolean;
     begin
         case DocumentType of
             DocumentType::"Candiadte offer letter":
@@ -3235,8 +3236,11 @@ codeunit 50001 "HR Mgt."
                                 ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Open);
                                 if ApprovalHRMS.FindSet() then
                                     repeat
-                                        if Employee.Get(ApprovalHRMS."Approver No") then
-                                            EmailReceipientText.Add(Employee."Company E-Mail");
+                                        if Employee.Get(ApprovalHRMS."Approver No") then begin
+                                            CheckForSkipMail(Employee, IsHandled);
+                                            if not IsHandled then
+                                                EmailReceipientText.Add(Employee."Company E-Mail");
+                                        end;
                                     until ApprovalHRMS.Next() = 0;
                             end;
                         DocumentStatus::Approved, DocumentStatus::Rejected:
@@ -5764,6 +5768,12 @@ codeunit 50001 "HR Mgt."
                     1
                 );
             until DateRec.Next() = 0;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
+    begin
+        //Can be Used to skp mail for paticular employee
     end;
 }
 
