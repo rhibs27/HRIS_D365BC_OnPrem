@@ -1,18 +1,5 @@
 codeunit 50026 "Attendance Mgt"
 {
-    procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        ReturnBool: Boolean;
-    begin
-        ReturnBool := false;
-        Clear(CalendarDescription);
-        ReturnBool := LeaveMgt.GetNonWorkingDays(Date, Date, EmpNo) <> 0;
-        CalendarDescription := HRMgt.ReturnCalendarDescription;
-        exit(ReturnBool);
-    end;
-
     //this is used from company specific extension
     procedure IsDashainTihar(Date: Date): Boolean
     var

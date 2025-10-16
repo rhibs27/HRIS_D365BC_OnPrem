@@ -12,7 +12,6 @@ codeunit 50029 "Process Daily Attendance"
     var
         EmpAttendance: Record "Employee Attendance & Activity";
         EmpWorkShiftDetail: Record "Employee Work Shift";
-        HRMgt: Codeunit "HR Mgt.";
         AttSetup: Record "Attendance Setup";
         Employee: Record Employee;
         CheckInThresholdDuration, CheckOutThresholdDuration : Duration;
@@ -97,7 +96,7 @@ codeunit 50029 "Process Daily Attendance"
     var
         WorkShiftCode: Code[20];
     begin
-        if AttendanceMgt.IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
+        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
             EmpAttendance."Day Type" := EmpAttendance."Day Type"::Holiday;
             EmpAttendance."Week Off Day" := 1;
             EmpAttendance."Holiday Remarks" := CalendarDescription;
@@ -270,14 +269,13 @@ codeunit 50029 "Process Daily Attendance"
 
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
     var
-        HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ReturnBool: Boolean;
     begin
         ReturnBool := false;
         Clear(CalendarDescription);
         ReturnBool := LeaveMgt.GetNonWorkingDays(Date, Date, EmpNo) <> 0;
-        CalendarDescription := HRMgt.ReturnCalendarDescription;
+        CalendarDescription := LeaveMgt.ReturnCalendarDescription;
         exit(ReturnBool);
     end;
 
