@@ -1784,6 +1784,11 @@ codeunit 50000 "Leave Mgt."
 
     end;
 
+    procedure ReturnCalendarDescription(): Text
+    begin
+        exit(CalendarDescription);
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
     begin
