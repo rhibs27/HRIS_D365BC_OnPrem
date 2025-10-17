@@ -4610,6 +4610,8 @@ codeunit 50001 "HR Mgt."
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund" temporary): Boolean
     var
         RetirementFund: Record "Retirement Fund";
+        InsertRFContribution: Record "RF Contribution";
+        RFContibution: Record "RF Contribution";
         LoanMgt: Codeunit "Loan Mgt.";
     begin
         if GuiAllowed then
@@ -4624,6 +4626,24 @@ codeunit 50001 "HR Mgt."
         RetirementFund.TransferFields(TempRetirementFund);
         RetirementFund.Validate("Approval Status", RetirementFund."Approval Status"::Pending);
         RetirementFund.Insert(true);
+
+        RFContibution.SetRange("Employee No.", RetirementFund."Employee No.");
+        RFContibution.SetRange("Document No.", '');
+        if RFContibution.FindSet() then
+            repeat
+                if (RFContibution.Type <> RetirementFund.Type) and (RFContibution.Type = RFContibution.Type::" ") then
+                    Error('Type must be same in Header and line.');
+
+                InsertRFContribution.Init();
+                InsertRFContribution.TransferFields(RFContibution);
+                InsertRFContribution."Document No." := RetirementFund."No.";
+                InsertRFContribution."Employee Name" := RetirementFund."Employee Name";
+                if RFContibution.type = RFContibution.type::" " then
+                    InsertRFContribution.Type := RetirementFund.Type;
+                InsertRFContribution.Insert();
+            until RFContibution.Next = 0;
+
+        RFContibution.DeleteAll();
 
         //SendMailFromTemplate(DATABASE::"Employee Activity",EmpAct.Type::"Travel Request",EmpAct."Approval Status"::Open,'',EmpAct."Employee No.",EmpAct."No.",0);   //For email
         if GuiAllowed then

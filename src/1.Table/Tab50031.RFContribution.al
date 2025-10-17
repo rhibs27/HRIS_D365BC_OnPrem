@@ -31,6 +31,10 @@ table 50031 "RF Contribution"
         field(5; "Type"; enum "RF Contribution Type")
         {
             Caption = 'Type';
+            trigger OnValidate()
+            begin
+                TestField("Employee No.");
+            end;
         }
         field(6; "Attribute Code"; Code[20])
         {
