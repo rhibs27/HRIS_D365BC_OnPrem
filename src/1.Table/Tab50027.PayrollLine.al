@@ -58,8 +58,8 @@ table 50027 "Payroll Line"
                 Validate("Employee Type", Employee."Employment Type");
 
                 HRSetup.Get;
-                Validate("Global Dimension 1 Code", PayrollHeader."Global Dimension 1 Code");
-                Validate("Global Dimension 2 Code", PayrollHeader."Global Dimension 2 Code");
+                Validate("Global Dimension 1 Code", Employee."Global Dimension 1 Code");
+                Validate("Global Dimension 2 Code", Employee."Global Dimension 2 Code");
                 "Bank Account No." := Employee."Bank Account No.";
                 "Bank Name" := Employee."Bank Name";
 
