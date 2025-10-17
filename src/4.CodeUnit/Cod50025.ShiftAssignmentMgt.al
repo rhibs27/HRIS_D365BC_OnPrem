@@ -121,6 +121,8 @@ codeunit 50025 "Shift Assignment Mgt"
         ShiftLine: Record "Shift Line";
         ApprovalLine: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
+        EmpAttendance: Record "Employee Attendance & Activity";
+        AttendanceMgt: Codeunit "Attendance Mgt";
     begin
         ShiftAssignmentHeader.Get(DocumentNo);
         ShiftLine.Reset;
@@ -129,9 +131,18 @@ codeunit 50025 "Shift Assignment Mgt"
         if ShiftLine.Findset() then
             repeat
                 if Approved then begin
+                    EmpAttendance.Reset();
+                    EmpAttendance.SetRange("Attendance Date", ShiftLine."Roster Date");
+                    EmpAttendance.SetRange("Employee No.", ShiftLine."Employee No");
+                    if EmpAttendance.FindSet() then
+                        repeat
+                            EmpAttendance.Delete();
+                        until EmpAttendance.Next() = 0;
                     ShiftLine.Validate("Approval Status", ShiftLine."Approval Status"::Approved);
                     ShiftLine.Validate("Approved Date", Today);
                     ShiftLine.Modify();
+                    if ShiftLine."Roster Date" <= Today then
+                        AttendanceMgt.DailyAttendanceUpdate(ShiftLine."Roster Date", ShiftLine."Roster Date", ShiftLine."Employee No");
                 end;
             until ShiftLine.Next() = 0;
         if not Approved then begin
