@@ -399,34 +399,72 @@ codeunit 50019 "Biometric Mgt."
         Client: HttpClient;
         Response: HttpResponseMessage;
         Request: HttpRequestMessage;
-        Headers: HttpHeaders;
-        Username, Password, AuthHeader, APIUrl, JsonText : Text;
         Content: HttpContent;
-        JsonObj, DeviceObject : JsonObject;
-        JsonToken: JsonToken;
-        JsonArray: JsonArray;
+        Headers: HttpHeaders;
+        Username: Text;
+        Password: Text;
+        AuthHeader: Text;
+        APIUrl: Text;
+        JsonText: Text;
+        ErrorText: Text;
+        PayloadObj: JsonObject;
     begin
         AttendanceSetup.Get();
+
+        if not AttendanceSetup."Base URL".StartsWith('http') then
+            Error('Invalid API URL configured');
 
         APIUrl := AttendanceSetup."Base URL" + 'ExecuteSP';
         Username := AttendanceSetup."User Name";
         Password := AttendanceSetup.Password;
-        AuthHeader := 'Basic ' + EncodeBase64(Username + ':' + Password);
+        AuthHeader := 'Basic ' + EncodeBase64_new(Username + ':' + Password);
+
+        // Build JSON payload
+        PayloadObj.Add('spName', StoredProcName);
+        PayloadObj.WriteTo(JsonText);
+
+        Content.WriteFrom(JsonText);
+        Content.GetHeaders(Headers);
+        Headers.Clear();
+        Headers.Add('Content-Type', 'application/json');
 
         Request.Method := 'POST';
         Request.SetRequestUri(APIUrl);
+        Request.Content := Content;
+
         Request.GetHeaders(Headers);
         Headers.Add('Authorization', AuthHeader);
         Headers.Add('Accept', 'application/json');
-        Headers.Add('Content-Type', 'application/json');
-
-        JsonText := '{ "spName": "' + format(AttendanceSetup."Store Procedure Name") + '" }';
-        Request.Content().WriteFrom(JsonText);
 
         if not Client.Send(Request, Response) then
-            Error('Failed to send HTTP request.');
+            Error('Failed to send HTTP request: %1', GetLastErrorText());
 
-        if not Response.IsSuccessStatusCode() then
-            Error('Request failed: %1 - %2', Response.HttpStatusCode(), Response.ReasonPhrase());
+        if not Response.IsSuccessStatusCode() then begin
+            Response.Content.ReadAs(ErrorText);
+            Error('API request failed with status %1: %2\\URL: %3',
+                  Response.HttpStatusCode(),
+                  Response.ReasonPhrase(),
+                  APIUrl);
+        end;
+
+        ProcessResponse(Response);
+    end;
+
+    local procedure EncodeBase64_new(InputText: Text): Text
+    var
+        Base64Convert: Codeunit "Base64 Convert";
+    begin
+        exit(Base64Convert.ToBase64(InputText));
+    end;
+
+    local procedure ProcessResponse(Response: HttpResponseMessage)
+    var
+        ResponseText: Text;
+        JsonResponse: JsonObject;
+    begin
+        Response.Content.ReadAs(ResponseText);
+        if ResponseText <> '' then begin
+            Message('Stored procedure executed successfully: %1', ResponseText);
+        end;
     end;
 }
