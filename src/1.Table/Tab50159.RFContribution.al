@@ -1,4 +1,4 @@
-table 50031 "RF Contribution"
+table 50159 "RF Contribution"
 {
     Caption = 'RF Contribution';
     DataClassification = ToBeClassified;
@@ -68,20 +68,20 @@ table 50031 "RF Contribution"
 
     procedure SetEmployee()
     var
-    RetirementFund: Record "Retirement Fund";
+        RetirementFund: Record "Retirement Fund";
     begin
-       if RetirementFund.Get("Document No.") then begin
-           "Employee No." := RetirementFund."Employee No.";   
-          "Employee Name" := RetirementFund."Employee Name";
-          Type := RetirementFund.Type;
-          end;
+        if RetirementFund.Get("Document No.") then begin
+            "Employee No." := RetirementFund."Employee No.";
+            "Employee Name" := RetirementFund."Employee Name";
+            Type := RetirementFund.Type;
+        end;
     end;
-    
+
     trigger OnInsert()
     begin
         SetEmployee();
     end;
 }
 
-  
+
 

@@ -50913,16 +50913,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension CompanyInformation - Action Update KPI - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 363045002 - Action 1398930630 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 2901867346">
-          <source>View the ledger entries for the selected customer.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension CustomerList - Action Round - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 363045002 - Action 1398930630 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 2901867346">
-          <source>Customer Ledger Entries</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension CustomerList - Action Round - Property Caption</note>
-        </trans-unit>
         <trans-unit id="PageExtension 1562387431 - Control 368370732 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1562387431">
           <source>Specifies the value of the Attribute Sub Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
