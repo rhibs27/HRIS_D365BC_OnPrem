@@ -613,8 +613,8 @@ codeunit 50001 "HR Mgt."
             VacancyHead.TestField("Vacancy Expiry Date");
         end;
         SelectionComimttee.SetRange("Vacancy Code", VacancyCode);
-         if not HrMgt.IsSaaS() then
-        SelectionComimttee.SetRange("Employee No", GetEmployeeNo);
+        if not HrMgt.IsSaaS() then
+            SelectionComimttee.SetRange("Employee No", GetEmployeeNo);
         if not VacancyHead."Selection Committee Approved" then begin
             if SelectionComimttee.FindFirst then begin
                 if SelectionComimttee.Approved then
@@ -1273,8 +1273,8 @@ codeunit 50001 "HR Mgt."
     begin
 
         Interviewer.Reset;
-         if not HrMgt.IsSaaS() then
-        Interviewer.SetRange(Interviewer, GetEmployeeNo);
+        if not HrMgt.IsSaaS() then
+            Interviewer.SetRange(Interviewer, GetEmployeeNo);
         Interviewer.SetRange("Vacancy Code", VacancyCode);
         if Interviewer.Find('-') then begin
             Candidate.Reset;
@@ -4817,6 +4817,14 @@ codeunit 50001 "HR Mgt."
         Employee.SetRange("NAV Login ID", UserId);
         Employee.FindFirst;
         exit(Employee."Full Name");
+    end;
+
+    procedure GetEmpName(empno: code[20]): Text
+    var
+        Empvar: Record Employee;
+    begin
+        Empvar.Get(empno);
+        exit(Empvar."Full Name");
     end;
 
     procedure SendEmailOfferLetter(VacancyCode: Code[20]; Candidate: Record Candidate)

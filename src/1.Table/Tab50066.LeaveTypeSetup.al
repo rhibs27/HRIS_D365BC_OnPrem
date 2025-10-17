@@ -152,7 +152,7 @@ table 50066 "Leave Type Setup"
         }
         field(104; "Credit Frequency"; Option)
         {
-            OptionMembers = Annual,Monthly,Occasional;
+            OptionMembers = Annual,Monthly,Occasional,Quarterly;
         }
         field(106; "Credit At"; Option)
         {

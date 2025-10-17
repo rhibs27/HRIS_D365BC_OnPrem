@@ -1254,6 +1254,7 @@ codeunit 50000 "Leave Mgt."
                                 //credit frequency monthly
                                 if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Monthly then begin
                                     LeavePeriod.Reset();
+                                    //It filters the LeavePeriod records to include only those where the "Starting Date" is between CreditPeriodStartDate and CreditPeriodEndDate
                                     LeavePeriod.SetFilter("Starting Date", '>=%1&<=%2', CreditPeriodStartDate, CreditPeriodEndDate);
                                     NoOfCreditPeriods := LeavePeriod.Count;
                                     if LeavePeriod.FindFirst() then

@@ -242,6 +242,13 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             end;
         }
 
+        field(301; "Access Token"; code[50])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+
+        }
+
     }
     keys
     {

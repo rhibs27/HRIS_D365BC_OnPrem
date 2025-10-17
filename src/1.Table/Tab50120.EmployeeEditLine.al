@@ -239,6 +239,8 @@ table 50120 "Employee Edit Line"
 
         }
 
+
+
     }
     keys
     {

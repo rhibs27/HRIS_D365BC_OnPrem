@@ -26,6 +26,13 @@ page 50005 "Leave Period"
                     // Editable = false;
                     ToolTip = 'Nepali Month for the period';
                 }
+                field(Quarterly; Rec.Quarterly)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Quarterly  for the period';
+
+
+                }
                 field("New Leave Year"; Rec."New Leave Year")
                 {
                     ApplicationArea = All;

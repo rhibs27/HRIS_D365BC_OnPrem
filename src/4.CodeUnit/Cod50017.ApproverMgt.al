@@ -274,8 +274,9 @@ codeunit 50017 "Approver Mgt"
     begin
 
         if not HrMgt.IsSaaS() then
-            Employee.Reset();
+        begin
         Employee.Get(HRMgt.GetEmployeeNo());
+        end;
 
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
