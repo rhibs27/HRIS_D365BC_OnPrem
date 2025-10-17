@@ -55,17 +55,6 @@ codeunit 50007 "Insurance Mgt"
         end;
     end;
 
-    procedure CancelMedicalInsuranceApproval(var EmpAct: Record "Employee Activity")
-    var
-        ConfirmCancel: Label 'Do you want to confirm cancel resignation request?';
-    begin
-        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Pending);
-        if not Confirm(ConfirmCancel, false) then
-            exit;
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Canceled);
-        EmpAct.Modify(true);
-    end;
-
     procedure ApproveRejectMedicalInsurance(Approve: Boolean; var MedicalInsurance: Record "Medical Insurance Claim")
     var
         ConfirmApprove: Label 'Confirm Approve?';

@@ -113,6 +113,7 @@ table 50149 "Approval HRMS"
         EmpActjournal: Record "Employee Activity Journal";
         ShiftAssignment: Record "Shift Assignment Header";
         EncashmentRequest: Record "Encashment Request";
+        Insurance: Record "Employee Insurance Information";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -158,6 +159,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Leave Encashment":
                 if EncashmentRequest.Get("Document No.") then
                     RecRef.GetTable(EncashmentRequest);
+            "Document Type"::Insurance:
+                if Insurance.Get("Document No.") then
+                    RecRef.GetTable(Insurance);
         end;
 
         RecRef.SetRecFilter();
@@ -181,6 +185,7 @@ table 50149 "Approval HRMS"
         ShiftAssignment: Record "Shift Assignment Header";
         ApproverMgt: Codeunit "Approver Mgt";
         EncashmentRequest: Record "Encashment Request";
+        Insurance: Record "Employee Insurance Information";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -226,6 +231,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Leave Encashment":
                 if EncashmentRequest.Get("Document No.") then
                     RecRef.GetTable(EncashmentRequest);
+            "Document Type"::Insurance:
+                if Insurance.Get("Document No.") then
+                    RecRef.GetTable(Insurance);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, true);
     end;
@@ -247,6 +255,7 @@ table 50149 "Approval HRMS"
         ShiftAssignment: Record "Shift Assignment Header";
         ApproverMgt: Codeunit "Approver Mgt";
         EncashmentRequest: Record "Encashment Request";
+        Insurance: Record "Employee Insurance Information";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -295,6 +304,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Leave Encashment":
                 if EncashmentRequest.Get("Document No.") then
                     RecRef.GetTable(EncashmentRequest);
+            "Document Type"::Insurance:
+                if Insurance.Get("Document No.") then
+                    RecRef.GetTable(Insurance);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, false);
     end;

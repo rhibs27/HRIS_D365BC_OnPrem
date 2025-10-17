@@ -97,7 +97,7 @@ table 50066 "Leave Type Setup"
         field(29; "No. of Days for Attachment"; Integer) { }
         field(30; Approved; Integer)
         {
-            CalcFormula = count("Employee Activity" where("Leave Code" = field(Code),
+            CalcFormula = count(Leave where("Leave Code" = field(Code),
                                                            Type = filter("Leave Request"),
                                                            "Approval Status" = filter(Approved),
                                                            "Start Date" = field("Date Filter")));
@@ -105,7 +105,7 @@ table 50066 "Leave Type Setup"
         }
         field(31; Requested; Integer)
         {
-            CalcFormula = count("Employee Activity" where("Leave Code" = field(Code),
+            CalcFormula = count(leave where("Leave Code" = field(Code),
                                                            Type = filter("Leave Request"),
                                                            "Approval Status" = filter(Pending),
                                                            "Start Date" = field("Date Filter")));
@@ -113,7 +113,7 @@ table 50066 "Leave Type Setup"
         }
         field(32; Recommended; Integer)
         {
-            CalcFormula = count("Employee Activity" where("Leave Code" = field(Code),
+            CalcFormula = count(leave where("Leave Code" = field(Code),
                                                            Type = filter("Leave Request"),
                                                            "Approval Status" = filter(Recommended),
                                                            "Start Date" = field("Date Filter")));

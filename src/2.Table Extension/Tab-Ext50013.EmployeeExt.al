@@ -704,7 +704,6 @@ tableextension 50013 "Employee Ext" extends Employee
         { DataClassification = CustomerContent; }
         field(50077; "NAV Login ID"; Code[50])
         {
-            TableRelation = "User Setup";
             DataClassification = CustomerContent;
             trigger OnValidate()
             var
@@ -714,10 +713,8 @@ tableextension 50013 "Employee Ext" extends Employee
                     Employee.Reset;
                     Employee.SetRange("NAV Login ID", "NAV Login ID");
                     Employee.SetFilter("No.", '<>%1', "No.");
-
                     if Employee.FindFirst then
                         Error('NAV Login ID already exist in Employee %1 of code %2', Employee."Full Name", Employee."No.");
-                    // VALIDATE("Company E-Mail", LOWERCASE(STRSUBSTNO('%1%2', COPYSTR("NAV Login ID", STRPOS("NAV Login ID", '\') + 1), '@nicasiabank.com')));
                 end;
             end;
         }

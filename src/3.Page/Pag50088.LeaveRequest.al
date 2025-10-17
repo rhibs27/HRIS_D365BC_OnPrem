@@ -214,18 +214,6 @@ page 50088 "Leave Request"
                     end;
                 end;
             }
-            action(delete)
-            {
-                trigger OnAction()
-                var
-                    leave: Record Leave;
-                begin
-                    leave.Reset();
-                    leave.SetFilter("No.", '%1', '');
-                    leave.FindFirst();
-                    leave.Delete();
-                end;
-            }
         }
     }
 

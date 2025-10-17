@@ -365,23 +365,25 @@ codeunit 50001 "HR Mgt."
     var
         Candidate: Record Candidate;
         VacancyHead: Record "Vacancy Header";
-        EmpAct: Record "Employee Activity";
+    // EmployeePromotion: Record "Employee Promotion";
     begin
         VacancyHead.Get(VacancyNo);
         VacancyHead.TestField(Type, VacancyHead.Type::Internal);
         Employee.Get(CandidateNo);
         Candidate.Get(CandidateNo, VacancyNo);
-        EmpAct.Reset;
-        EmpAct.Init;
-        EmpAct.Type := EmpAct.Type::Promotion;
-        EmpAct.Validate("No.", Employee."No.");
-        EmpAct.Validate("Employee Name", Employee."Full Name");
-        EmpAct.Validate("Requested Date", Today);
-        EmpAct.Validate("Functional Title", Employee."Functional Title");
-        EmpAct.Validate("Salary Level Code", Employee."Salary Level");
-        EmpAct.Validate("Salary Level Code(To)", Candidate."Applied Salary Level");
-        EmpAct.Validate("Functional Title (To)", Candidate."Functional Title");
-        EmpAct.Insert(true);
+        // EmpAct.Reset;
+        // EmpAct.Init;
+        // EmpAct.Type := EmpAct.Type::Promotion;
+        // EmpAct.Validate("No.", Employee."No.");
+        // EmpAct.Validate("Employee Name", Employee."Full Name");
+        // EmpAct.Validate("Requested Date", Today);
+        // EmpAct.Validate("Functional Title", Employee."Functional Title");
+        // EmpAct.Validate("Salary Level Code", Employee."Salary Level");
+        // EmpAct.Validate("Salary Level Code(To)", Candidate."Applied Salary Level");
+        // EmpAct.Validate("Functional Title (To)", Candidate."Functional Title");
+        // EmpAct.Insert(true);
+
+
         Employee."Functional Title" := Candidate."Functional Title";
         Employee."Salary Level" := Candidate."Applied Salary Level";
         Employee."Promotion Date" := Today;
@@ -3212,6 +3214,7 @@ codeunit 50001 "HR Mgt."
         EmailReceipent: Record "Email Template Recipient";
         ApprovalHRMS: Record "Approval HRMS";
         Employee: Record Employee;
+        IsHandled: Boolean;
     begin
         case DocumentType of
             DocumentType::"Candiadte offer letter":
@@ -3238,8 +3241,11 @@ codeunit 50001 "HR Mgt."
                                 ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Open);
                                 if ApprovalHRMS.FindSet() then
                                     repeat
-                                        if Employee.Get(ApprovalHRMS."Approver No") then
-                                            EmailReceipientText.Add(Employee."Company E-Mail");
+                                        if Employee.Get(ApprovalHRMS."Approver No") then begin
+                                            CheckForSkipMail(Employee, IsHandled);
+                                            if not IsHandled then
+                                                EmailReceipientText.Add(Employee."Company E-Mail");
+                                        end;
                                     until ApprovalHRMS.Next() = 0;
                             end;
                         DocumentStatus::Approved, DocumentStatus::Rejected:
@@ -4076,133 +4082,6 @@ codeunit 50001 "HR Mgt."
         SheetName := ExcelBuffer.SelectSheetsNameStream(InStr);
     end;
 
-    // procedure OpenBulkCash(EmpCode: Code[20])
-    // var
-    //     EmpAct: Record "Employee Activity" temporary;
-    // begin
-    //     Clear(Employee);
-    //     Employee.Get(EmpCode);
-    //     EmpAct.Init;
-    //     EmpAct.Validate("Employee No.", EmpCode);
-    //     EmpAct.Validate(Type, EmpAct.Type::"Bulk Cash");
-    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-    //     EmpAct.Validate("Requested Date", Today);
-    //     EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-    //     EmpAct.Validate("Functional Title", Employee."Functional Title");
-    //     EmpAct.Validate(Department, Employee."Department Code");
-    //     EmpAct.Insert;
-    //     PAGE.Run(PAGE::"Bulk Cash Card", EmpAct);
-    // end;
-
-    procedure ApplyForApprovalForms(TempEmpActivity: Record "Employee Activity" temporary): Boolean
-    var
-        EmpOvertime: Record "OverTime";
-        EmpActivity: Record "Employee Activity";
-        ConfirmForm: Label 'Do you want to send request ?';
-        ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
-        EmpOvertime2: Record "Overtime";
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
-        SalaryLevel: Record "Salary Level";
-    begin
-        if GuiAllowed then
-            if not Confirm(ConfirmForm, false) then
-                exit;
-        // TempEmpActivity.TestField("Start Date");
-        // TempEmpActivity.TestField("End Date");
-        // TempEmpActivity.TestField("Estimated Hours");
-        //TempEmpAct.TestField(Remarks);
-        // PayrollSetup.Get;
-        // PayrollSetup.TestField("Friday Counter");
-        // PayrollSetup.TestField("Holiday Counter");
-        // PayrollSetup.TestField("Evening Counter");
-
-        // case TempOvertime.Type of
-        //     TempOvertime.Type::Overtime:
-        //         begin
-        //             EmpOvertime.Reset;
-        //             EmpOvertime.SetRange(Type, EmpOvertime.Type::Overtime);
-        //             EmpOvertime.SetRange("Employee No.", TempOvertime."Employee No.");
-        //             EmpOvertime.SetRange("Start Date", TempOvertime."Start Date");
-        //             EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected);
-        //             if EmpOvertime.FindFirst then
-        //                 Error('Overtime already submitted for %1', TempOvertime."Start Date");
-
-        //             AllowanceAssignmentLine.Reset;
-        //             AllowanceAssignmentLine.SetRange("Employee Code", TempOvertime."Employee No.");
-        //             AllowanceAssignmentLine.SetRange("From Date", TempOvertime."Start Date");
-        //             AllowanceAssignmentLine.SetFilter("Allowance Type", '%1|%2|%3', PayrollSetup."Friday Counter",
-        //                                               PayrollSetup."Evening Counter", PayrollSetup."Holiday Counter");
-        //             AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
-        //             if AllowanceAssignmentLine.FindFirst then
-        //                 Error('%1 is already approved for the date %2. Overtime submission not allowed.',
-        //                             AllowanceAssignmentLine."Allowance Type", TempOvertime."Start Date");
-        //             if TempOvertime.Remarks = '' then
-        //                 Error('Please enter reason for OT before submitting.');
-        //         end;
-        // end;
-
-        // if TempOvertime."No. of Days" <= 0 then
-        //     Error(ErrorNoOfDays);
-
-        EmpActivity.Init;
-        EmpActivity.TransferFields(TempEmpActivity);
-        EmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::Pending);
-        EmpActivity.Validate("User ID", UserId);
-        EmpActivity.Insert(true);
-        // AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No.");
-        Message('Document has been sent for apporval.');
-
-        case EmpOvertime.Type of
-            EmpOvertime.Type::"Out of Office":
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
-            EmpOvertime.Type::Overtime:
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
-            EmpOvertime.Type::"Bulk Cash":
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.", false);   //For email
-        end;
-        exit(true);
-    end;
-
-    local procedure CheckEmployeeActivityApproval(EmpAct: Record "Employee Activity")
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-    begin
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        Employee.FindFirst;
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
-            if StrPos(EmpAct."Recommender Code", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::Recommended then
-            if StrPos(EmpAct."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
-
-        //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
-        //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
-        //ERROR(AcknowledgeError);
-    end;
-
-    local procedure CheckEmployeeActivityApprovalAPI(EmpAct: Record "Employee Activity"; employeeNo: Code[20])
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    begin
-        Employee.Reset;
-        Employee.SetRange("No.", employeeNo);
-        Employee.FindFirst;
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
-            if StrPos(EmpAct."Recommender Code", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::Recommended then
-            if StrPos(EmpAct."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
-
-        //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
-        //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
-        //ERROR(AcknowledgeError);
-    end;
 
     procedure GetEmployeeName(EmpCode: Code[20]; var EmpName: Text)
     var
@@ -4348,17 +4227,17 @@ codeunit 50001 "HR Mgt."
     procedure AddRemoveDocApprover(EmpCode: Code[20]; IsDocApprover: Boolean)
     var
         DocApporver: Record "Document Approver";
-        EmployeeAct: Record "Employee Activity";
         LineNo: Integer;
+        Resignation: Record Resignation;
     begin
-        EmployeeAct.Reset;
-        EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
-        EmployeeAct.SetFilter("Approval Status", '<>%1&<>%2&<>%3', EmployeeAct."Approval Status"::Approved, EmployeeAct."Approval Status"::Rejected, EmployeeAct."Approval Status"::Canceled);
-        if EmployeeAct.Find('-') then
+        Resignation.SetRange("Employee No.", EmpCode);
+        Resignation.SetRange(Type, Resignation.Type::Resignation);
+        Resignation.SetFilter("Approval Status", '<>%1&<>%2&<>%3', Resignation."Approval Status"::Approved, Resignation."Approval Status"::Rejected, Resignation."Approval Status"::Canceled);
+        if Resignation.Find('-') then
             repeat
                 if not IsDocApprover then begin
                     DocApporver.Reset;
-                    DocApporver.SetRange("Document No.", EmployeeAct."No.");
+                    DocApporver.SetRange("Document No.", Resignation."No.");
                     DocApporver.SetRange("Employee No.", EmpCode);
                     //DocApporver.SETFILTER("Approval Status",'<>%1',DocApporver."Approval Status"::Approved);
                     if DocApporver.FindFirst then
@@ -4366,14 +4245,14 @@ codeunit 50001 "HR Mgt."
                 end else begin
                     DocApporver.Reset;
                     DocApporver.SetRange("Document Type", DocApporver."Document Type"::Resignation);
-                    DocApporver.SetRange("Document No.", EmployeeAct."No.");
+                    DocApporver.SetRange("Document No.", Resignation."No.");
                     DocApporver.SetCurrentKey("Line No.");
                     if LineNo = 0 then
                         if DocApporver.FindLast then
                             LineNo := DocApporver."Line No.";
                     Clear(DocApporver);
                     DocApporver.Init;
-                    DocApporver.Validate("Document No.", EmployeeAct."No.");
+                    DocApporver.Validate("Document No.", Resignation."No.");
                     DocApporver.Validate("Employee No.", EmpCode);
                     DocApporver.Validate("Document Type", DocApporver."Document Type"::Resignation);
                     DocApporver."Approval Status" := DocApporver."Approval Status"::Open;
@@ -4381,7 +4260,7 @@ codeunit 50001 "HR Mgt."
                     LineNo += 10000;
                     DocApporver.Insert;
                 end;
-            until EmployeeAct.Next = 0;
+            until Resignation.Next = 0;
     end;
 
 
@@ -5843,5 +5722,78 @@ codeunit 50001 "HR Mgt."
         exit(EnvInfo.IsSaaS());
     End;
 
+    procedure CreateEmpActLedger(EmpActType: Enum "Employee Activity Type";
+                                    DocNo: Code[20];
+                                    EmpNo: Code[20];
+                                    ActDate: Date;
+                                    Cancelled: Boolean;
+                                    Days: Decimal)
+    var
+        EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
+    begin
+        if EmpActLedgerEntry.Get(EmpActType, DocNo, EmpNo, ActDate, Cancelled) then
+            exit;
+
+        EmpActLedgerEntry.init();
+        EmpActLedgerEntry."Document Type" := EmpActType;
+        EmpActLedgerEntry."Document No." := DocNo;
+        EmpActLedgerEntry.Validate("Employee No.", EmpNo);
+        EmpActLedgerEntry."Event Date" := ActDate;
+        EmpActLedgerEntry."Cancellation Entry" := Cancelled;
+        if Cancelled then
+            EmpActLedgerEntry.Day := -Days
+        else
+            EmpActLedgerEntry.Day := Days;
+        EmpActLedgerEntry.insert();
+    end;
+
+    procedure CancelEmpActLedgerForDateRange(EmpActType: Enum "Employee Activity Type";
+                                    DocNo: Code[20];
+                                    EmpNo: Code[20];
+                                    StartDate: Date;
+                                    EndDate: Date)
+    var
+        EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
+        DateVar: Record Date;
+    begin
+        DateVar.SetRange("Period Type", DateVar."Period Type"::Date);
+        DateVar.SetRange("Period Start", StartDate, EndDate);
+        if DateVar.FindSet() then
+            repeat
+                Clear(EmpActLedgerEntry);
+                if EmpActLedgerEntry.Get(EmpActType, DocNo, EmpNo, DateVar."Period Start", false) then
+                    EmpActLedgerEntry.Rename(EmpActType, DocNo, EmpNo, DateVar."Period Start", true);
+            until DateVar.Next() = 0;
+    end;
+
+    procedure CreateEmpActLedgerForDateRange(
+                                    EmpActType: Enum "Employee Activity Type";
+                                    DocNo: Code[20];
+                                    EmpNo: Code[20];
+                                    StartDate: Date;
+                                    EndDate: Date)
+    var
+        DateRec: Record Date;
+    begin
+        DateRec.SetRange("Period Type", DateRec."Period Type"::Date);
+        DateRec.SetRange("Period Start", StartDate, EndDate);
+        if DateRec.FindSet() then
+            repeat
+                CreateEmpActLedger(
+                    EmpActType,
+                    DocNo,
+                    EmpNo,
+                    DateRec."Period Start",
+                    false,
+                    1
+                );
+            until DateRec.Next() = 0;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
+    begin
+        //Can be Used to skp mail for paticular employee
+    end;
 }
 

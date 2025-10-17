@@ -638,8 +638,9 @@ codeunit 50000 "Leave Mgt."
         ErrorNoOfDays: Label 'No. days must be 1.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
         ErrorPresent: Label 'Cannot apply compenstory leave for %1.';
-        EmpActivity: Record "Employee Activity";
         LeavePeriod: Record "Accounting Period";
+        Leave: Record Leave;
+        OverTime: Record OverTime;
     begin
         LeaveType.Get(LeaveCode);
         PayrollSetup.Get;
@@ -648,34 +649,32 @@ codeunit 50000 "Leave Mgt."
                 Error(ErrorNoOfDays);
             if not (CompensatoryDate in [LeavePeriod.GetCurrentLeaveYearStartDate() .. LeavePeriod.GetCurrentLeaveYearEndDate()]) then
                 Error('Cannot apply for previous fiscal year');
-            //IF GetNonWorkingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
-            //ERROR(ErrorNonWokDays,CompensatoryDate);
-            //check for compensatory
-            EmpActivity.Reset;
-            EmpActivity.SetRange("Employee No.", EmpCode);
-            EmpActivity.SetRange(Type, EmpActivity.Type::"Leave Request");
-            EmpActivity.SetRange("Compensatory Date", CompensatoryDate);
-            EmpActivity.SetRange("Cancelled No.", '');
-            EmpActivity.SetFilter("Approval Status", '<>%1', EmpActivity."Approval Status"::Rejected);
-            if EmpActivity.FindFirst then
+
+
+            Leave.SetRange("Employee No.", EmpCode);
+            Leave.SetRange(Type, Leave.Type::"Leave Request");
+            Leave.SetRange("Compensatory Date", CompensatoryDate);
+            Leave.SetRange("Cancelled No.", '');
+            Leave.SetFilter("Approval Status", '<>%1', Leave."Approval Status"::Rejected);
+            if Leave.FindFirst then
                 Error('Compensatory leave already applied for compensatory date %1', CompensatoryDate);
 
-            EmpActivity.Reset;
-            EmpActivity.SetRange("Employee No.", EmpCode);
-            EmpActivity.SetRange(Type, EmpActivity.Type::Overtime);
-            EmpActivity.SetRange("Compensatory Date", CompensatoryDate);
-            EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Approved);
-            if EmpActivity.FindFirst then
+
+            OverTime.SetRange("Employee No.", EmpCode);
+            OverTime.SetRange("Start Date", CompensatoryDate);
+            OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
+            if OverTime.FindFirst then
                 Error('Overtime already approved on %1 so you are not eligible for compensatory leave.', CompensatoryDate);
+
             EmpAttendActivity.Reset;
             EmpAttendActivity.SetRange("Employee No.", EmpCode);
             EmpAttendActivity.SetRange("Attendance Date", CompensatoryDate);
             if EmpAttendActivity.FindFirst then begin
                 Clear(LeaveType);
                 if EmpAttendActivity."Source No." <> '' then
-                    if not EmpActivity.Get(EmpAttendActivity."Source No.") then
+                    if not Leave.Get(EmpAttendActivity."Source No.") then
                         Error('Compensatory leave is not eligible for compnesatory date %1.', CompensatoryDate);
-                if LeaveType.Get(EmpActivity."Leave Code") then;
+                if LeaveType.Get(Leave."Leave Code") then;
                 if (EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday) and
                     (LeaveType."AML Eligible") then
                     exit(true);
@@ -685,7 +684,6 @@ codeunit 50000 "Leave Mgt."
                 else
                     Error(ErrorPresent, CompensatoryDate);
             end;
-            //EXIT(TRUE);
         end;
     end;
 
@@ -1054,6 +1052,10 @@ codeunit 50000 "Leave Mgt."
             EmpVar.Validate("Employment Date");
             EmpVar.Modify();
         end;
+
+        //create emp act ledger entry
+        GenerateEmpActLedgerFromLeave(leave);
+
         Commit();
         // Update Daily Attendance
         if leave."Start Date" <= Today then begin
@@ -1120,6 +1122,14 @@ codeunit 50000 "Leave Mgt."
                 EmpVar.Validate("Employment Date");
                 EmpVar.Modify();
             end;
+
+            //Update EmpActledger
+            HRMgt.CancelEmpActLedgerForDateRange(CancelDocument.Type,
+                                            CancelDocument."Cancelled Document No.",
+                                            CancelDocument."Employee No.",
+                                            CancelDocument."Start Date",
+                                            CancelDocument."End Date");
+
             // Update Daily Attendance
             if CancelDocument."Start Date" <= Today then begin
                 if CancelDocument."End Date" > Today then
@@ -1741,135 +1751,44 @@ codeunit 50000 "Leave Mgt."
         Clear(Disabled);
     end;
 
-    // procedure GetNonWorkingDaysBackup(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
-    // var
-    //     Description: Text;
-    //     Provinces: Text;
-    //     Gender: Enum "Employee Gender";
-    //     OrganizationStructureList: Record "Organization Structure List";
-    //     DistrictList: Record District;
-    //     MunicipalityList: Record Municipality;
-    //     CalendarDate: Record Date;
-    //     Counter: Integer;
-    //     AlreadyAdded: Boolean;
-    //     BaseCalendar: Record "Base Calendar";
-    //     InOutValley: Enum "Outside/Inside Valley";
-    //     PostingRegion: Enum Region;
-    //     Branch, District, MunicipalityFilter : Text;
-    //     Community: Enum "Community Type";
-    //     EmployeeFilter: Text[500];
-    //     Disabled: Boolean;
-    //     EmployeeRec: Record Employee;
-    // begin
-    //     Counter := 0;
-    //     PayrollSetup.Get;
-    //     Employee.Get(EmpCode);
-    //     CalendarDate.SetRange("Period Type", CalendarDate."Period Type"::Date);
-    //     CalendarDate.SetRange("Period Start", StartDate, EndDate);
-    //     if CalendarDate.Find('-') then
-    //         repeat
-    //             Clear(AlreadyAdded);
-    //             if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
-    //                 CalendarDescription := Description;
-    //                 if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (District = '') and (MunicipalityFilter = '') and (community = community::" ") and (EmployeeFilter = '') and (not Disabled) then
-    //                     Counter += 1
-    //                 else begin
-    //                     if Provinces <> '' then begin
-    //                         OrganizationStructureList.Reset;
-    //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
-    //                         OrganizationStructureList.SetFilter(Code, Provinces);
-    //                         if OrganizationStructureList.Find('-') then
-    //                             repeat
-    //                                 if (Employee."Province Code" = OrganizationStructureList.Code) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until OrganizationStructureList.Next = 0;
-    //                     end;
+    procedure GenerateEmpActLedgerFromLeave(LeaveReqRec: Record Leave)
+    var
+        Date: record Date;
+        LeaveTypeSetup: Record "Leave Type Setup";
+        ExcludeDay, Days : Decimal;
+    begin
+        Date.SetRange("Period Type", Date."Period Type"::Date);
+        Date.SetRange("Period Start", LeaveReqRec."Start Date", LeaveReqRec."End Date");
+        if Date.FindSet() then
+            repeat
+                ExcludeDay := 0;
+                if LeaveReqRec."Leave Type" in [LeaveReqRec."Leave Type"::"First Half", LeaveReqRec."Leave Type"::"Second Half"] then
+                    Days := 0.5
+                else
+                    Days := 1;
+                LeaveTypeSetup.Get(LeaveReqRec."Leave Code");
+                if LeaveTypeSetup."Exclude Non Working Days" then
+                    ExcludeDay := GetNonWorkingDays(Date."Period Start", Date."Period Start", LeaveReqRec."Employee No.");
 
-    //                     if (Gender = Employee.Gender) and (Gender <> Gender::" ") and (not AlreadyAdded) then begin
-    //                         Counter += 1;
-    //                         AlreadyAdded := true;
-    //                     end;
+                OnGenerateEmpActLedgerOnAfterGetExcludeDay(LeaveReqRec, ExcludeDay);
 
-    //                     if (PostingRegion = Employee."Posting Region") and (PostingRegion <> PostingRegion::" ") and (not AlreadyAdded) then begin
-    //                         Counter += 1;
-    //                         AlreadyAdded := true;
-    //                     end;
+                if ExcludeDay = 0 then
+                    HRMgt.CreateEmpActLedger(
+                        LeaveReqRec.Type,
+                        LeaveReqRec."No.",
+                        LeaveReqRec."Employee No.",
+                        Date."Period Start",
+                        false,
+                        Days
+                    );
+            until Date.Next() = 0;
 
-    //                     if (Branch <> '') and (not AlreadyAdded) then begin
-    //                         OrganizationStructureList.Reset;
-    //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
-    //                         OrganizationStructureList.SetFilter(Code, Branch);
-    //                         if OrganizationStructureList.Find('-') then
-    //                             repeat
-    //                                 if (OrganizationStructureList.Code = Employee."Branch Code") and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until OrganizationStructureList.Next = 0;
-    //                     end;
-    //                     if (District <> '') and (not AlreadyAdded) then begin
-    //                         DistrictList.Reset;
-    //                         DistrictList.Setfilter("District Name", District);
-    //                         if DistrictList.Find('-') then
-    //                             repeat
-    //                                 if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until DistrictList.Next = 0;
-    //                     end;
-    //                     if (MunicipalityFilter <> '') and (not AlreadyAdded) then begin
-    //                         MunicipalityList.Reset;
-    //                         MunicipalityList.Setfilter(Code, MunicipalityFilter);
-    //                         if MunicipalityList.Find('-') then
-    //                             repeat
-    //                                 if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(Employee."Deputation on", Employee."Deputation On Code")) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until MunicipalityList.Next = 0;
-    //                     end;
+    end;
 
-    //                     if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
-    //                         Counter += 1;
-    //                         AlreadyAdded := true;
-    //                     end;
-    //                     if (Community <> Community::" ") and (not AlreadyAdded) then
-    //                         if Community = Employee.Community then begin
-    //                             Counter += 1;
-    //                             AlreadyAdded := true
-    //                         end;
-    //                     if (EmployeeFilter <> '') and (not AlreadyAdded) then begin
-    //                         EmployeeRec.Reset;
-    //                         EmployeeRec.Setfilter("No.", EmployeeFilter);
-    //                         if EmployeeRec.Find('-') then
-    //                             repeat
-    //                                 if (EmployeeRec."No." = EmpCode) and (not AlreadyAdded) then begin
-    //                                     Counter += 1;
-    //                                     AlreadyAdded := true;
-    //                                     break;
-    //                                 end;
-    //                             until EmployeeRec.Next = 0;
-    //                     end;
-    //                     if Disabled and (not AlreadyAdded) then
-    //                         if Disabled = Employee.disabled then begin
-    //                             Counter += 1;
-    //                             AlreadyAdded := true
-    //                         end;
-
-    //                 end;
-
-    //             end;
-    //         until CalendarDate.Next = 0;
-
-    //     exit(Counter);
-    // end;
+    procedure ReturnCalendarDescription(): Text
+    begin
+        exit(CalendarDescription);
+    end;
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
@@ -1929,6 +1848,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeNoOfPendingDays(LeaveCode: Code[20]; EmpCode: Code[20]; NoofDays: Decimal; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnGenerateEmpActLedgerOnAfterGetExcludeDay(var LeaveReqRec: Record Leave; var ExcludeDay: Decimal)
     begin
     end;
 

@@ -130,27 +130,7 @@ codeunit 50006 "Resignation Mgt"
             until Employee.Next = 0;
     end;
 
-    procedure SetResignationApprover(var EmpAct: Record "Employee Activity"; var Receipient: List of [Text])
-    var
-        DocumentApprover: Record "Document Approver";
-    begin
-        DocumentApprover.Reset;
-        DocumentApprover.SetRange("Document No.", EmpAct."No.");
-        DocumentApprover.SetFilter("Employee No.", '<>%1', '');
-        if DocumentApprover.FindFirst then
-            repeat
-                Employee.Get(DocumentApprover."Employee No.");
-                if Employee."Company E-Mail" <> '' then begin
-                    // if Receipient <> '' then
-                    //     Receipient += ';' + Employee."Company E-Mail"
-                    // else
-                    Receipient.add(Employee."Company E-Mail");
-                end;
-
-            until DocumentApprover.Next = 0;
-    end;
-
-    procedure ScreenResignation(var Resignation: Record Resignation)// to add employee no in parameter
+    procedure ScreenResignation(var Resignation: Record Resignation)
     var
         ConfirmScreen: Label 'Do you want to screen this document?';
         FunctionalTitle: Record "Functional Title";

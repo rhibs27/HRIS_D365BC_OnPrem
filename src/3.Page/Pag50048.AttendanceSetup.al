@@ -103,10 +103,42 @@ page 50048 "Attendance Setup"
                     ExtendedDatatype = Masked;
                 }
             }
+            group("Sp")
+            {
+                Caption = 'Run Attendance Sync form Procedure';
+                field("Store Procedure Name"; Rec."Store Procedure Name")
+                {
+                    ToolTip = 'Specifies the value of the Store Procedure Name field.';
+                }
+            }
         }
     }
 
-    actions { }
+    actions
+    {
+        area(processing)
+        {
+            action("Run Attendance Sync")
+            {
+                Caption = 'Run Attendance Sync';
+                ApplicationArea = All;
+                ToolTip = 'Sync Attendance From Biometric Device';
+                Image = Refresh;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+
+                trigger OnAction()
+                var
+                    BiometricMgt: Codeunit "Biometric Mgt.";
+                begin
+                    Rec.TestField("Store Procedure Name");
+                    Rec.TestField("Base URL");
+                    BiometricMgt.ExecuteStoredProcedure(Rec."Store Procedure Name");
+                end;
+            }
+        }
+    }
 
     trigger OnOpenPage()
     begin
@@ -116,4 +148,5 @@ page 50048 "Attendance Setup"
             Rec.Insert;
         end;
     end;
+
 }
