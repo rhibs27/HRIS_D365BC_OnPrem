@@ -146,6 +146,20 @@ page 50314 "Attendance Journal"
                     EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
+            action("Import From Excel")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = ImportExcel;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want Import Attendance Journal From Excel?', false) then
+                        exit;
+                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Attendance Missed");
+                end;
+            }
+
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -190,4 +204,5 @@ page 50314 "Attendance Journal"
         LeaveMgt: Codeunit "Leave Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
+        ExcelImportMgt: Codeunit "Excel Import";
 }

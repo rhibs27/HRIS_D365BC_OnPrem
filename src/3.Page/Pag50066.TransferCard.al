@@ -170,8 +170,9 @@ page 50066 "Transfer Card"
             }
             group(Cancelled)
             {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Canceled;
-                field("Cancelled Date"; Rec."Cancelled Date")
+                Visible = (IsApproved and not (IsACK)) OR IsCancelled OR OnHold;
+                field("Cancelled Date";
+                Rec."Cancelled Date")
                 {
                     ToolTip = 'Specifies the value of the Cancelled Date field.';
                     ApplicationArea = All;
@@ -180,6 +181,7 @@ page 50066 "Transfer Card"
                 {
                     ToolTip = 'Specifies the value of the Reason For Cancel field.';
                     ApplicationArea = All;
+                    Editable = (IsApproved and not (IsACK)) or OnHold;
                 }
             }
             group(Placement)
@@ -673,16 +675,15 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                // Visible = ForApprove;
-                Visible = false;
+                Visible = (IsApproved and not (IsACK)) Or OnHold;
                 ToolTip = 'Executes the Cancel Transfer action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to cancel this document?', false) then begin
-                        // TransferMgt.CancelTransfer(Rec);
-                        // CurrPage.Close;
+                        TransferMgt.CancelTransfer(Rec);
+                        CurrPage.Close;
                     end;
                 end;
             }
@@ -833,7 +834,6 @@ page 50066 "Transfer Card"
     end;
 
     var
-        EmployeeActivity: Record "Employee Activity";
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
@@ -859,6 +859,8 @@ page 50066 "Transfer Card"
         IsApplied: Boolean;
         IsHold: Boolean;
         IsACK: Boolean;
+        IsCancelled: Boolean;
+        OnHold: Boolean;
         ApproverMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
 
@@ -874,6 +876,8 @@ page 50066 "Transfer Card"
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsHold := Rec."Approval Status" = Rec."Approval Status"::"On Hold";
         IsACK := rec."Approval Status" = rec."Approval Status"::Acknowledged;
+        IsCancelled := Rec."Approval Status" = Rec."Approval Status"::Canceled;
+        OnHold := Rec."Approval Status" = rec."Approval Status"::"On Hold";
         RecRef.GetTable(Rec);
 
         if Rec.Type in [Rec.Type::"HR Transfer", Rec.Type::"Employee Transfer"] then begin

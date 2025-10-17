@@ -31,6 +31,7 @@ table 50010 "Functional Title"
         }
         field(22; "BM Allowance"; Decimal) { }
         field(23; "Allow ShiftAssignment"; Boolean) { }
+        field(24; "Attendance View"; Boolean) { }
     }
     keys
     {

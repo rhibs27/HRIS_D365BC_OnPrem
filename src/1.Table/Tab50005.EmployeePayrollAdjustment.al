@@ -17,7 +17,11 @@ table 50005 "Employee Payroll Adjustment"
                     Clear("Employee Name");
             end;
         }
-        field(3; "Attribute Code"; Code[20])
+        field(3; "Employee Name"; Text[50])
+        {
+            Editable = false;
+        }
+        field(4; "Attribute Code"; Code[20])
         {
             TableRelation = "Payroll Attributes";
 
@@ -30,10 +34,6 @@ table 50005 "Employee Payroll Adjustment"
                 else
                     Clear("Attributes Description");
             end;
-        }
-        field(4; "Employee Name"; Text[50])
-        {
-            Editable = false;
         }
         field(5; "Attributes Description"; Text[30])
         {
@@ -52,7 +52,6 @@ table 50005 "Employee Payroll Adjustment"
     trigger OnInsert()
     begin
         TestField("Employee No.");
-        //TestField("Attribute Code");
         if PayrollHeader.Get("Payroll Document No.") then
             if PayrollHeader."OverTime From" = 0D then
                 TestField("Attribute Code");

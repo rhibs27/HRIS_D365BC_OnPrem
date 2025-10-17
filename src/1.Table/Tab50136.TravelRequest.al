@@ -144,64 +144,67 @@ table 50136 "Travel Request"
                 if Type in [Type::"Travel Request"] then begin
                     Validate("Total No. of Days", "No. of Days" + TravelMgt.CalcExtendDays("No. of Days", "Travel Order No."));
                     SalaryLevel.Get("Salary Level Code");
-                    if "Travel Countries" = "Travel Countries"::Nepal then begin
-                        if "Travel With" <> '' then begin
-                            if EmployeeRec.Get("Travel With") then//AT
-                                if not SalaryLevel."Travel With Not Eligible" then
-                                    SalaryLevel1.Get(EmployeeRec."Salary Level");
-                            if (SalaryLevel."Nepal Fooding Allowance" > SalaryLevel1."Nepal Fooding Allowance")
-                              and (SalaryLevel."Nepal Lodging Allowance" > SalaryLevel1."Nepal Lodging Allowance") then begin
+                    EstimatedCostTravelWithOutHigherSalaryLevel(Rec, SalaryLevel, IsHandled);
+                    if not IsHandled then begin
+                        if "Travel Countries" = "Travel Countries"::Nepal then begin
+                            if "Travel With" <> '' then begin
+                                if EmployeeRec.Get("Travel With") then//AT
+                                    if not SalaryLevel."Travel With Not Eligible" then
+                                        SalaryLevel1.Get(EmployeeRec."Salary Level");
+                                if (SalaryLevel."Nepal Fooding Allowance" > SalaryLevel1."Nepal Fooding Allowance")
+                                  and (SalaryLevel."Nepal Lodging Allowance" > SalaryLevel1."Nepal Lodging Allowance") then begin
+                                    Validate("Estimated Fooding Cost", SalaryLevel."Nepal Fooding Allowance" * "No. of Days");
+                                    Validate("Estimated Lodging Cost", SalaryLevel."Nepal Lodging Allowance" * ("No. of Days" - 1));
+                                end
+                                else begin
+                                    Validate("Estimated Fooding Cost", SalaryLevel1."Nepal Fooding Allowance" * "No. of Days");
+                                    Validate("Estimated Lodging Cost", SalaryLevel1."Nepal Lodging Allowance" * ("No. of Days" - 1));
+                                end;
+                            end
+                            else begin
                                 Validate("Estimated Fooding Cost", SalaryLevel."Nepal Fooding Allowance" * "No. of Days");
                                 Validate("Estimated Lodging Cost", SalaryLevel."Nepal Lodging Allowance" * ("No. of Days" - 1));
-                            end
-                            else begin
-                                Validate("Estimated Fooding Cost", SalaryLevel1."Nepal Fooding Allowance" * "No. of Days");
-                                Validate("Estimated Lodging Cost", SalaryLevel1."Nepal Lodging Allowance" * ("No. of Days" - 1));
                             end;
                         end
-                        else begin
-                            Validate("Estimated Fooding Cost", SalaryLevel."Nepal Fooding Allowance" * "No. of Days");
-                            Validate("Estimated Lodging Cost", SalaryLevel."Nepal Lodging Allowance" * ("No. of Days" - 1));
-                        end;
-                    end
-                    else if "Travel Countries" = "Travel Countries"::India then begin
-                        if "Travel With" <> '' then begin
-                            if EmployeeRec.Get("Travel With") then//AT
-                                if not SalaryLevel."Travel With Not Eligible" then
-                                    SalaryLevel1.Get(EmployeeRec."Salary Level");
-                            if (SalaryLevel."India Fooding Allowance" > SalaryLevel1."India Fooding Allowance")
-                              and (SalaryLevel."India Lodging Allowance" > SalaryLevel1."India Lodging Allowance") then begin
+                        else if "Travel Countries" = "Travel Countries"::India then begin
+                            if "Travel With" <> '' then begin
+                                if EmployeeRec.Get("Travel With") then//AT
+                                    if not SalaryLevel."Travel With Not Eligible" then
+                                        SalaryLevel1.Get(EmployeeRec."Salary Level");
+                                if (SalaryLevel."India Fooding Allowance" > SalaryLevel1."India Fooding Allowance")
+                                  and (SalaryLevel."India Lodging Allowance" > SalaryLevel1."India Lodging Allowance") then begin
+                                    Validate("Estimated Fooding Cost", SalaryLevel."India Fooding Allowance" * "No. of Days");
+                                    Validate("Estimated Lodging Cost", SalaryLevel."India Lodging Allowance" * ("No. of Days" - 1));
+                                end
+                                else begin
+                                    Validate("Estimated Fooding Cost", SalaryLevel1."India Fooding Allowance" * "No. of Days");
+                                    Validate("Estimated Lodging Cost", SalaryLevel1."India Lodging Allowance" * ("No. of Days" - 1));
+                                end;
+                            end
+                            else begin
                                 Validate("Estimated Fooding Cost", SalaryLevel."India Fooding Allowance" * "No. of Days");
                                 Validate("Estimated Lodging Cost", SalaryLevel."India Lodging Allowance" * ("No. of Days" - 1));
-                            end
-                            else begin
-                                Validate("Estimated Fooding Cost", SalaryLevel1."India Fooding Allowance" * "No. of Days");
-                                Validate("Estimated Lodging Cost", SalaryLevel1."India Lodging Allowance" * ("No. of Days" - 1));
                             end;
                         end
-                        else begin
-                            Validate("Estimated Fooding Cost", SalaryLevel."India Fooding Allowance" * "No. of Days");
-                            Validate("Estimated Lodging Cost", SalaryLevel."India Lodging Allowance" * ("No. of Days" - 1));
-                        end;
-                    end
-                    else if "Travel Countries" = "Travel Countries"::"Other Countries" then begin
-                        if "Travel With" <> '' then begin
-                            if EmployeeRec.Get("Travel With") then//AT
-                                if not SalaryLevel."Travel With Not Eligible" then
-                                    SalaryLevel1.Get(EmployeeRec."Salary Level");
-                            if (SalaryLevel."Others Fooding Allowance" > SalaryLevel1."Others Fooding Allowance")
-                              and (SalaryLevel."Others Lodging Allowance" > SalaryLevel1."Others Lodging Allowance") then begin
+                        else if "Travel Countries" = "Travel Countries"::"Other Countries" then begin
+                            if "Travel With" <> '' then begin
+                                if EmployeeRec.Get("Travel With") then//AT
+                                    if not SalaryLevel."Travel With Not Eligible" then
+                                        SalaryLevel1.Get(EmployeeRec."Salary Level");
+                                if (SalaryLevel."Others Fooding Allowance" > SalaryLevel1."Others Fooding Allowance")
+                                  and (SalaryLevel."Others Lodging Allowance" > SalaryLevel1."Others Lodging Allowance") then begin
+                                    Validate("Estimated Fooding Cost", SalaryLevel."Others Fooding Allowance" * "No. of Days");
+                                    Validate("Estimated Lodging Cost", SalaryLevel."Others Lodging Allowance" * ("No. of Days" - 1));
+                                end
+                                else begin
+                                    Validate("Estimated Fooding Cost", SalaryLevel1."Others Fooding Allowance" * "No. of Days");
+                                    Validate("Estimated Lodging Cost", SalaryLevel1."Others Lodging Allowance" * ("No. of Days" - 1));
+                                end;
+                            end
+                            else begin
                                 Validate("Estimated Fooding Cost", SalaryLevel."Others Fooding Allowance" * "No. of Days");
                                 Validate("Estimated Lodging Cost", SalaryLevel."Others Lodging Allowance" * ("No. of Days" - 1));
-                            end
-                            else begin
-                                Validate("Estimated Fooding Cost", SalaryLevel1."Others Fooding Allowance" * "No. of Days");
-                                Validate("Estimated Lodging Cost", SalaryLevel1."Others Lodging Allowance" * ("No. of Days" - 1));
                             end;
-                        end
-                        else begin
-                            Validate("Estimated Fooding Cost", SalaryLevel."Others Fooding Allowance" * "No. of Days");
-                            Validate("Estimated Lodging Cost", SalaryLevel."Others Lodging Allowance" * ("No. of Days" - 1));
                         end;
                     end;
                 end;
@@ -945,7 +948,7 @@ table 50136 "Travel Request"
                             HRSetup.TestField("Travel Request No.");
                             NoSeriesMgt.InitSeries(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh 
-                            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.");   //For email
+                            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
 
                     //for travel claim
@@ -954,7 +957,7 @@ table 50136 "Travel Request"
                             HRSetup.TestField("Travel Claimed No.");
                             NoSeriesMgt.InitSeries(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
-                            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.");   //For email
+                            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
                 end;
             end;
@@ -1072,7 +1075,7 @@ table 50136 "Travel Request"
 
     procedure GetExtendedTravelNo(): Text
     var
-        TravelOrder: Record "Employee Activity";
+        TravelOrder: Record "Travel Request";
     begin
         TravelOrder.Reset;
         TravelOrder.SetRange("Travel Order No.", "No.");
@@ -1140,4 +1143,8 @@ table 50136 "Travel Request"
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure EstimatedCostTravelWithOutHigherSalaryLevel(var TravelRequest: Record "Travel Request"; var SalaryLevel: Record "Salary Level"; var IsHandled: Boolean)
+    begin
+    end;
 }

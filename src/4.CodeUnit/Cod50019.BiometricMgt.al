@@ -108,7 +108,10 @@ codeunit 50019 "Biometric Mgt."
     var
         json_value: JsonValue;
         AttendanceLog: Record "Attendance Log";
+        deviceId: Integer;
+        BiometricConfig: Record "Biometric Device Config.";
     begin
+        deviceId := 0;
         AttendanceLog.Init();
         if GetJsonValue(AttendanceObject, 'EnrollNumber', json_value) then
             AttendanceLog.Validate("Machine Emp. Code", json_value.AsText());
@@ -117,6 +120,14 @@ codeunit 50019 "Biometric Mgt."
         AttendanceLog.Date := DT2Date(AttendanceLog."Date Time Log");
         AttendanceLog."Log Time" := DT2Time(AttendanceLog."Date Time Log");
         AttendanceLog."Emp DateTime" := Format(AttendanceLog."Machine Emp. Code") + Format(Attendancelog.Date, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceLog."Log Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
+
+        if GetJsonValue(AttendanceObject, 'DeviceId', json_value) then begin
+            deviceId := json_value.AsInteger();
+            BiometricConfig.SetRange(Id, deviceId);
+            if BiometricConfig.FindFirst() then
+                AttendanceLog."Device IP" := BiometricConfig.IP;
+        end;
+
         if AttendanceLog.Insert(true) then;
     end;
 
@@ -383,4 +394,39 @@ codeunit 50019 "Biometric Mgt."
         exit(EncodedText);
     end;
 
+    procedure ExecuteStoredProcedure(StoredProcName: Text)
+    var
+        Client: HttpClient;
+        Response: HttpResponseMessage;
+        Request: HttpRequestMessage;
+        Headers: HttpHeaders;
+        Username, Password, AuthHeader, APIUrl, JsonText : Text;
+        Content: HttpContent;
+        JsonObj, DeviceObject : JsonObject;
+        JsonToken: JsonToken;
+        JsonArray: JsonArray;
+    begin
+        AttendanceSetup.Get();
+
+        APIUrl := AttendanceSetup."Base URL" + 'ExecuteSP';
+        Username := AttendanceSetup."User Name";
+        Password := AttendanceSetup.Password;
+        AuthHeader := 'Basic ' + EncodeBase64(Username + ':' + Password);
+
+        Request.Method := 'POST';
+        Request.SetRequestUri(APIUrl);
+        Request.GetHeaders(Headers);
+        Headers.Add('Authorization', AuthHeader);
+        Headers.Add('Accept', 'application/json');
+        Headers.Add('Content-Type', 'application/json');
+
+        JsonText := '{ "spName": "' + format(AttendanceSetup."Store Procedure Name") + '" }';
+        Request.Content().WriteFrom(JsonText);
+
+        if not Client.Send(Request, Response) then
+            Error('Failed to send HTTP request.');
+
+        if not Response.IsSuccessStatusCode() then
+            Error('Request failed: %1 - %2', Response.HttpStatusCode(), Response.ReasonPhrase());
+    end;
 }

@@ -68,6 +68,16 @@ page 50061 "Employee Attendance & Activity"
                     ApplicationArea = All;
                     StyleExpr = Colors;
                 }
+                field("Entry Type"; Rec."Entry Type")
+                {
+                    ToolTip = 'Specifies the value of the Entry Type field.', Comment = '%';
+                    StyleExpr = Colors;
+                }
+                field(Remarks; Rec.Remarks)
+                {
+                    ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
+                    StyleExpr = Colors;
+                }
                 field("Late Deduction"; Rec."Late Deduction")
                 {
                     ToolTip = 'Specifies the value of the Late Deduction field.';
@@ -391,6 +401,16 @@ page 50061 "Employee Attendance & Activity"
                 field("Check-Out Device IP"; Rec."Check-Out Device IP")
                 {
                     ToolTip = 'Specifies the value of the Check-Out Device IP field.', Comment = '%';
+                    StyleExpr = Colors;
+                }
+                field("Late Remarks"; Rec."Late Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Late Remarks field.', Comment = '%';
+                    StyleExpr = Colors;
+                }
+                field("Punch out Remarks"; Rec."Punch out Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Punch out Remarks field.', Comment = '%';
                     StyleExpr = Colors;
                 }
             }

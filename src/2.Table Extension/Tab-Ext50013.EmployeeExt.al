@@ -649,10 +649,6 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50067; "Out-Station eligible"; Boolean)
         {
             DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                ValidateOutstationAllowance;
-            end;
         }
         field(50068; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
         {
@@ -708,7 +704,6 @@ tableextension 50013 "Employee Ext" extends Employee
         { DataClassification = CustomerContent; }
         field(50077; "NAV Login ID"; Code[50])
         {
-            TableRelation = "User Setup";
             DataClassification = CustomerContent;
             trigger OnValidate()
             var
@@ -718,10 +713,8 @@ tableextension 50013 "Employee Ext" extends Employee
                     Employee.Reset;
                     Employee.SetRange("NAV Login ID", "NAV Login ID");
                     Employee.SetFilter("No.", '<>%1', "No.");
-
                     if Employee.FindFirst then
                         Error('NAV Login ID already exist in Employee %1 of code %2', Employee."Full Name", Employee."No.");
-                    // VALIDATE("Company E-Mail", LOWERCASE(STRSUBSTNO('%1%2', COPYSTR("NAV Login ID", STRPOS("NAV Login ID", '\') + 1), '@nicasiabank.com')));
                 end;
             end;
         }
@@ -1564,17 +1557,8 @@ tableextension 50013 "Employee Ext" extends Employee
 
     begin
         Error('');
-
-        //IME.SRT
-        GLSetup.Get;
-        DimensionValue.SetRange("Dimension Code", GLSetup."Employee Dimension");
-        DimensionValue.SetRange(Code, "No.");
-        if DimensionValue.FindFirst then begin
-            DimensionValue.Blocked := true;
-            DimensionValue.Modify(true);
-        end;
     end;
-    //IME.SRT
+
     trigger OnRename()
     begin
         Error('');
@@ -1668,64 +1652,6 @@ tableextension 50013 "Employee Ext" extends Employee
         end;
     end;
 
-    local procedure ValidateOutstationAllowance();
-    begin
-        //   {Employee.GET("No.");
-        //   PayrollAttributeSubgroup.Reset();
-        //   PayrollAttributeSubgroup.SetRange("Auto-Validate",TRUE);
-        //   IF PayrollAttributeSubgroup.FindFirst() THEN
-        //   Code:= PayrollAttributeSubgroup.Code;
-        //   IF "Out-Station eligible" THEN begin
-        //     IF PayrollEngine.PayrollAttCheck(Code,"No.") THEN begin
-        //       IF PayrollAttributeUsage.GET(Code,"No.") THEN
-        //         ERROR('Out Station Allowance Already present for this Employee.');
-        //       IF PayrollAttributeSubgroup.FindFirst() THEN begin
-        //         Code:= PayrollAttributeSubgroup.Code;
-        //         PayrollAttributeUsage.INIT;
-        //         PayrollAttributeUsage."Employee Code":=Employee."No.";
-        //         PayrollAttributeUsage.VALIDATE(Code,PayrollAttributeSubgroup.Code);
-        //         PayrollAttributeUsage.VALIDATE(Description,PayrollAttributeSubgroup.Description);
-        //         PayrollAttributeUsage.INSERT;
-        //       end;
-        //     end;
-        //   end;
-        //    IF NOT "Out-Station eligible" THEN begin
-        //       PayrollAttributeUsage.GET(Code,"No.");
-        //         PayrollAttributeUsage.DELETE;
-        //    end;
-        //    }
-    end;
-
-    local procedure OnValidateFunctionTitle();
-    begin
-        PayrollGeneralSetup.Get;
-
-        //IF NOT ("Functional Title" IN [PayrollGeneralSetup."COPO Functional Title",PayrollGeneralSetup."COSPO Functioal Title"] ) THEN
-        if PayrollAttributeUsage.Get(PayrollGeneralSetup."COPO/COSPO Allowance", "No.") then
-            PayrollAttributeUsage.Delete;
-
-        if PayrollGeneralSetup."BM Functional Title" = "Functional Title" then
-            if PayrollAttributeUsage.Get(PayrollGeneralSetup."BM Accomendation", "No.") then
-                exit;
-        if PayrollEngine.PayrollAttCheck(PayrollGeneralSetup."BM Accomendation", "No.") then begin
-            PayrollAttributeUsage.Init;
-            PayrollAttributeUsage."Employee Code" := "No.";
-            PayrollAttributeUsage.Validate(Code, PayrollGeneralSetup."BM Accomendation");
-            PayrollAttribute.Get(PayrollGeneralSetup."BM Accomendation");
-            PayrollAttributeUsage.Validate(Description, PayrollAttribute.Description);
-            PayrollAttributeUsage.Insert;
-        end;
-
-        if "Functional Title" in [PayrollGeneralSetup."COPO Functional Title", PayrollGeneralSetup."COSPO Functioal Title"] then
-            if PayrollEngine.PayrollAttCheck(PayrollGeneralSetup."COPO/COSPO Allowance", "No.") then begin
-                PayrollAttributeUsage.Init;
-                PayrollAttributeUsage."Employee Code" := "No.";
-                PayrollAttributeUsage.Validate(Code, PayrollGeneralSetup."COPO/COSPO Allowance");
-                PayrollAttribute.Get(PayrollGeneralSetup."COPO/COSPO Allowance");
-                PayrollAttributeUsage.Validate(Description, PayrollAttribute.Description);
-                PayrollAttributeUsage.Insert;
-            end;
-    end;
 
     procedure LeaveRequest();
     begin
@@ -1737,13 +1663,6 @@ tableextension 50013 "Employee Ext" extends Employee
         EmployeeAct: enum "Employee Activity Type";
     begin
         TravelMgt.OpenTravelRequest("No.", FALSE, '', EmployeeAct::"Travel Request");
-    end;
-
-
-    procedure ChangeEmployeeJobType();
-    begin
-        if Confirm('Do you want to confirm employee %1 ?', false, "Full Name") then begin
-        end;
     end;
 
     local procedure ValidateDeputationOn()
@@ -1813,10 +1732,6 @@ tableextension 50013 "Employee Ext" extends Employee
         TransferMgt.OpenOutofOfficeForms("No.");
     end;
 
-    procedure BulkCash();
-    begin
-        // HRMgt.OpenBulkCash("No.");
-    end;
 
     procedure GetOutstandingAmt(): Decimal;
     begin

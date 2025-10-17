@@ -84,7 +84,7 @@ codeunit 50006 "Resignation Mgt"
         //HrMgt.InsertAttachmentLines(Resignation."No.", Format(Resignation.Type), Resignation."Employee No.");//attachment
         // InsertResignationApprover(Resignation); //resignation approver
 
-        HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.");   //For email
+        HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.", false);   //For email
         // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::Pending) then
         //     HrMgt.ResignationEmailSend(Resignation."Employee No."); 
         Message(ApprovalRequestSent);
@@ -128,26 +128,6 @@ codeunit 50006 "Resignation Mgt"
                     ResignationApprover.Insert(true);
                 end;
             until Employee.Next = 0;
-    end;
-
-    procedure SetResignationApprover(var EmpAct: Record "Employee Activity"; var Receipient: List of [Text])
-    var
-        DocumentApprover: Record "Document Approver";
-    begin
-        DocumentApprover.Reset;
-        DocumentApprover.SetRange("Document No.", EmpAct."No.");
-        DocumentApprover.SetFilter("Employee No.", '<>%1', '');
-        if DocumentApprover.FindFirst then
-            repeat
-                Employee.Get(DocumentApprover."Employee No.");
-                if Employee."Company E-Mail" <> '' then begin
-                    // if Receipient <> '' then
-                    //     Receipient += ';' + Employee."Company E-Mail"
-                    // else
-                    Receipient.add(Employee."Company E-Mail");
-                end;
-
-            until DocumentApprover.Next = 0;
     end;
 
     procedure ScreenResignation(var Resignation: Record Resignation)

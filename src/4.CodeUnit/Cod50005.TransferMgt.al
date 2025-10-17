@@ -73,7 +73,7 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending");
         EmphrTransfer.Validate("User ID", UserId);
         EmphrTransfer.Insert(true);
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, EmphrTransfer."Employee No.", EmphrTransfer."No.");   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, EmphrTransfer."Employee No.", EmphrTransfer."No.", false);   //For email
         Message(TransferSent);
         exit(true);
     end;
@@ -118,7 +118,7 @@ codeunit 50005 "Transfer Mgt."
         end;
         EmpHrTransfer.Validate("Is Transfer Details Added", true);
         EmpHrTransfer.Modify();
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer.Remarks, EmpHrTransfer."No.");
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer.Remarks, EmpHrTransfer."No.", false);
         if EmpHrTransfer."Transfer Effective Date" <= Today then begin
             if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin
                 EmployeeRec."Disable Punch in" := true;
@@ -464,11 +464,11 @@ codeunit 50005 "Transfer Mgt."
             end;
             EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
-            EmployeeRec.Modify;
         end;
-        OnAfterTransferAcknowledge(EmpHrTransfer);
+        OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
+        EmployeeRec.Modify;
         Message(Acknowledged);
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.");
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
     end;
 
     procedure OpenTransferClaim(EmpCode: Code[20]; TransferOrderNo: Code[20])
@@ -572,6 +572,22 @@ codeunit 50005 "Transfer Mgt."
             until TempIncomingDoc.Next = 0;
     end;
 
+    procedure CancelTransfer(var EmpHrTransfer: Record "Employee Transfer")
+    var
+        ApprovalStatus: Enum "Approval Status";
+    begin
+        if (EmpHrTransfer."Approval Status" in [ApprovalStatus::Approved, ApprovalStatus::"On Hold"]) then begin
+            if EmpHrTransfer."Approval Status" <> EmpHrTransfer."Approval Status"::Acknowledged then begin
+                EmpHrTransfer.TestField("Reason For Cancel");
+                EmpHrTransfer.Validate("Cancelled Date", Today);
+                EmpHrTransfer.Validate(EmpHrTransfer."Approval Status", EmpHrTransfer."Approval Status"::Canceled);
+                EmpHrTransfer.Modify();
+                if GuiAllowed then
+                    Message('Transfer is cancelled');
+            end;
+        end else
+            Error('Approval status must be in Approved or Onhold');
+    end;
 
 
     [IntegrationEvent(false, false)]
@@ -585,7 +601,7 @@ codeunit 50005 "Transfer Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterTransferAcknowledge(var transfer: Record "Employee Transfer")
+    procedure OnAfterTransferAcknowledge(var transfer: Record "Employee Transfer"; Var Employee: Record Employee)
     begin
     end;
 

@@ -346,14 +346,15 @@ page 50067 "Resignation Card"
                 ToolTip = 'Executes the Settlement action.';
                 ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    EmployeeActivity.Reset;
-                    EmployeeActivity.SetRange(Type, EmployeeActivity.Type::Resignation);
-                    EmployeeActivity.SetRange("Employee No.", Rec."Employee No.");
-                    if EmployeeActivity.FindFirst then
-                        Report.Run(Report::Settlement, true, true, EmployeeActivity);
-                end;
+                // trigger OnAction()
+                // var
+                //     Resignation: Record Resignation;
+                // begin
+                //     Resignation.Reset();
+                //     Resignation.SetRange("Employee No.", Rec."Employee No.");
+                //     if Resignation.FindFirst then
+                //         Report.Run(Report::Settlement, true, true, Resignation);
+                // end;
             }
             action("Settle Resignation")
             {
@@ -429,11 +430,11 @@ page 50067 "Resignation Card"
                 ToolTip = 'Executes the Print action.';
                 ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    CurrPage.SetSelectionFilter(Rec);
-                    Report.Run(Report::"Resignation Memo", true, false, Rec);
-                end;
+                // trigger OnAction()
+                // begin
+                //     CurrPage.SetSelectionFilter(Rec);
+                //     Report.Run(Report::"Resignation Memo", true, false, Rec);
+                // end;
             }
         }
     }
@@ -465,7 +466,6 @@ page 50067 "Resignation Card"
     end;
 
     var
-        EmployeeActivity: Record "Employee Activity";
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         ApprovalSent: Boolean;

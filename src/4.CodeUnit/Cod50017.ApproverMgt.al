@@ -314,6 +314,7 @@ codeunit 50017 "Approver Mgt"
         LeaveEncahRequest: Record "Encashment Request";
         PayrollEngine: Codeunit "Payroll Engine";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        Cancelled: Boolean;
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -329,6 +330,11 @@ codeunit 50017 "Approver Mgt"
                     ApprovalStatusField := RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Value;
                     EmployeeActivityType := EmployeeActivityType::"Leave Encashment";
                     DocumentNo := RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value;
+                end;
+            Database::"Cancelled Document":
+                begin
+                    FieldRef := RecRef.Field(RetirementFund.FieldNo(Cancelled));
+                    Cancelled := FieldRef.Value;
                 end;
             else begin
                 //old code
@@ -435,7 +441,7 @@ codeunit 50017 "Approver Mgt"
                         ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
                         ApprovalHRMS2.Modify;
                     until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo);//Email For Approver
+                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
                 end
                 else begin
                     // If no next approval step found then set the status to approved
@@ -519,7 +525,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo);//Email For Requester
+                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
             else begin
@@ -537,7 +543,7 @@ codeunit 50017 "Approver Mgt"
                         end;
 
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo);//Email for Requester
+                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');

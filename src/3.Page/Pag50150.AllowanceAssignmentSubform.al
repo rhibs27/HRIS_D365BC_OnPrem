@@ -13,7 +13,7 @@ page 50150 "Allowance Assignment Subform"
         {
             repeater(Group)
             {
-                Editable = FormEditable and not AllowanceClaim;
+                Editable = FormEditable;
                 field("No."; Rec."No.")
                 {
                     Visible = false;
@@ -40,11 +40,15 @@ page 50150 "Allowance Assignment Subform"
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
+                    Editable = not AllowanceClaim;
+                    Visible = not AllowanceClaim;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
+                    Editable = not AllowanceClaim;
+
                 }
                 field("From Date"; Rec."From Date")
                 {
@@ -78,11 +82,15 @@ page 50150 "Allowance Assignment Subform"
                 {
                     ToolTip = 'Specifies the value of the Is Substitute field.';
                     ApplicationArea = All;
+                    Visible = not AllowanceClaim;
+                    ;
                 }
                 field("Substitute of Line No."; Rec."Substitute of Line No.")
                 {
                     ToolTip = 'Specifies the value of the Substitue of Line No. field.';
                     ApplicationArea = All;
+                    Visible = not AllowanceClaim;
+                    ;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -91,7 +99,8 @@ page 50150 "Allowance Assignment Subform"
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    Visible = AllowanceClaim;
+                    // Visible = AllowanceClaim;
+                    Visible = false;
                     Editable = AllowanceClaim and DocumentPending;
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
@@ -107,9 +116,6 @@ page 50150 "Allowance Assignment Subform"
             action(Substitute)
             {
                 Image = Refresh;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
                 Visible = DocumentApproved and not AllowanceClaim;
@@ -222,24 +228,24 @@ page 50150 "Allowance Assignment Subform"
                     Message('Substitute Allowance is Rejected');
                 end;
             }
-            action("Reject ALlowance Claim")
-            {
-                Image = Reject;
-                ToolTip = 'Executes the Reject Allowance Claim action.';
-                ApplicationArea = All;
-                Visible = DocumentPending and AllowanceClaim;
-                trigger OnAction()
-                var
-                    ApproverHrms: Record "Approval HRMS";
-                begin
-                    if Confirm('Do you want reject the request?', false) then begin
-                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
-                        Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
-                        rec.Modify();
-                        Message('Allowance Claim is Rejected');
-                    end;
-                end;
-            }
+            // action("Reject ALlowance Claim")
+            // {
+            //     Image = Reject;
+            //     ToolTip = 'Executes the Reject Allowance Claim action.';
+            //     ApplicationArea = All;
+            //     Visible = DocumentPending and AllowanceClaim;
+            //     trigger OnAction()
+            //     var
+            //         ApproverHrms: Record "Approval HRMS";
+            //     begin
+            //         if Confirm('Do you want reject the request?', false) then begin
+            //             Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
+            //             Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
+            //             rec.Modify();
+            //             Message('Allowance Claim is Rejected');
+            //         end;
+            //     end;
+            // }
         }
     }
 

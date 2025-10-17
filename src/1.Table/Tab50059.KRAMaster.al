@@ -81,12 +81,6 @@ table 50059 "KRA Master"
 
     trigger OnDelete()
     begin
-        EmployeewiseVar.SetRange("No.", "KRA Category");
-        if EmployeewiseVar.FindFirst then
-            repeat
-                EmployeewiseVar.Delete;
-            until EmployeewiseVar.Next = 0;
-
         SubjQuestion.Reset;
         SubjQuestion.SetRange("Question Code", "KRA Category");
         SubjQuestion.DeleteAll;
@@ -105,7 +99,6 @@ table 50059 "KRA Master"
         HRSetup: Record "Human Resources Setup";
         NoSeries: Codeunit "No. Series";
         HrMgt: Codeunit "HR Mgt.";
-        EmployeewiseVar: Record "Employee Activity";
         SubjQuestion: Record "Employee Question Setup";
         AppraisalSetup: Record "KRA Master Setup";
         Weightage: Integer;

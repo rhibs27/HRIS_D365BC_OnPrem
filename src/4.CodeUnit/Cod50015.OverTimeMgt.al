@@ -2,14 +2,14 @@ codeunit 50015 "OverTime Mgt"
 {
     procedure CheckApprovedOvertimeExists(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var
-        EmployeeActivity: Record "Employee Activity";
+        Overtime: Record OverTime;
     begin
-        EmployeeActivity.Reset;
-        EmployeeActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
-        EmployeeActivity.SetRange("Start Date", AllowanceAssignmentLine."From Date");
-        EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
-        EmployeeActivity.SetFilter("Actual Hours", '<>%1', 0);
-        if EmployeeActivity.FindFirst then
+        Overtime.Reset;
+        Overtime.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
+        Overtime.SetRange("Start Date", AllowanceAssignmentLine."From Date");
+        Overtime.SetRange("Approval Status", Overtime."Approval Status"::Approved);
+        // EmployeeActivity.SetFilter("Actual Hours", '<>%1', 0);
+        if Overtime.FindFirst then
             Error('Approved Overtime exists. You cannot choose this employee.');
     end;
 
@@ -169,14 +169,14 @@ codeunit 50015 "OverTime Mgt"
         EmpOvertime.Insert(true);
         //OverTimeMgt.AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No."); no require attachment
         Message('Document has been sent for apporval.');
-        case EmpOvertime.Type of
-            EmpOvertime.Type::"Out of Office":
-                HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-            EmpOvertime.Type::Overtime:
-                HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-            EmpOvertime.Type::"Bulk Cash":
-                HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-        end;
+        // case EmpOvertime.Type of
+        //     EmpOvertime.Type::"Out of Office":
+        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+        //     EmpOvertime.Type::Overtime:
+        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+        //     EmpOvertime.Type::"Bulk Cash":
+        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
+        // end;
         exit(true);
     end;
 

@@ -77,7 +77,13 @@ table 50075 "Employee Activity Journal"
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
                 end;
-                //<<check for leave
+                case "Employee Act Type" of
+                    "Employee Act Type"::"Attendance Missed":
+                        begin
+                            AttendanceMissedMgt.CheckAlreadyExists("Employee No.", "Employee Act Type", "Start Date");
+                            EmployeeActMgt.CheckAttendanceMissedInJournal("Employee No.", "Start Date");
+                        end;
+                end;
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then
@@ -778,6 +784,23 @@ table 50075 "Employee Activity Journal"
             end;
     end;
 
+    procedure InsertApproval(var FirstLine: Boolean; var EmpActNo: Code[20])
+    begin
+        if FirstLine then begin
+            HRSetup.Get();
+            HRSetup.TestField("Employee Act. Journal Series");
+            "No. Series" := HRSetup."Employee Act. Journal Series";
+            "Emp Act. No" := NoSeriesMgt.GetNextNo("No. Series", "Posting Date", true);
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", '');
+            ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
+            ApprovalHRMS.DeleteAll();
+            ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+            FirstLine := false;
+            EmpActNo := "Emp Act. No";
+        end;
+    end;
+
     local procedure ValidateDeputationOnTo();
     var
         OrganizationStructureLine: Record "Organization Structure line";
@@ -817,6 +840,7 @@ table 50075 "Employee Activity Journal"
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeActMgt: Codeunit EmployeeActivityMgt;
         AttendanceMgt: Codeunit "Attendance Mgt";
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         SalaryLevel: Record "Salary Level";
         AttendanceSetup: Record "Attendance Setup";
         SalaryLevel1: Record "Salary Level";

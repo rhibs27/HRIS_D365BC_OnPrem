@@ -1560,10 +1560,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = CashFlow;
                     PromotedCategory = Category4;
                     PromotedOnly = true;
+                    Visible = false;
                     ToolTip = 'Executes the Bulk Cash action.';
                     trigger OnAction()
                     begin
-                        Rec.BulkCash;
                         CurrPage.CLOSE;
                     end;
                 }
@@ -1672,21 +1672,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             HRMgt.UpdatePromotion(Rec."No.");
                     end;
                 }
-                action("Contract Renew")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = ContactReference;
-                    PromotedCategory = Category4;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Contract Renew action.';
-                    trigger OnAction()
-                    begin
-                        IF CONFIRM('Do you want to renew the contract?', FALSE) THEN
-                            ServiceHistoryMgt.PopUpForContractRenew(Rec);
-                    end;
-                }
+
                 action("Generate Leave Balance")
                 {
                     ApplicationArea = All;
@@ -2153,12 +2139,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Executes the Employee Experience Letter action.';
 
                 trigger OnAction()
+                var
+                    Resignation: Record Resignation;
                 begin
-                    EmployeeAct.Reset();
-                    EmployeeAct.SetRange("Employee No.", Rec."No.");
-                    EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
-                    EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Settled);
-                    IF EmployeeAct.FindFirst() THEN begin
+                    Resignation.SetRange("Employee No.", Rec."No.");
+                    Resignation.SetRange("Approval Status", Resignation."Approval Status"::Settled);
+                    IF Resignation.FindFirst() THEN begin
                         Employee.Reset();
                         Employee.SetRange("No.", Rec."No.");
                         IF Employee.FindFirst() THEN begin
@@ -2181,12 +2167,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Executes the Resignation Acceptance Letter action.';
 
                 trigger OnAction()
+                var
+                    Resignation: Record Resignation;
                 begin
-                    EmployeeAct.Reset();
-                    EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
-                    EmployeeAct.SetRange("Employee No.", Rec."No.");
-                    IF EmployeeAct.FindLast() THEN
-                        EmployeeAct.TestField("Approval Status", EmployeeAct."Approval Status"::Approved);
+                    Resignation.SetRange("Employee No.", Rec."No.");
+                    IF Resignation.FindLast() THEN
+                        Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
 
                     Employee.Reset();
                     Employee.SetRange("No.", Rec."No.");
@@ -2208,17 +2194,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Executes the Resignation Release Letter action.';
 
                 trigger OnAction()
-
+                var
+                    Resignation: Record Resignation;
                 begin
                     Employee.Reset();
                     Employee.SetRange("No.", Rec."No.");
                     IF Employee.FindFirst() THEN begin
                         Employee.TestField(Salutation);
-                        EmployeeAct.Reset();
-                        EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
-                        EmployeeAct.SetRange("Employee No.", Employee."No.");
-                        IF EmployeeAct.FindLast() THEN
-                            EmployeeAct.TestField("Approval Status", EmployeeAct."Approval Status"::Settled);
+                        Resignation.Reset();
+                        Resignation.SetRange("Employee No.", Employee."No.");
+                        IF Resignation.FindLast() THEN
+                            Resignation.TestField("Approval Status", Resignation."Approval Status"::Settled);
                         REPORT.RUN(70024, TRUE, TRUE, Employee);
                     end;
                 end;
@@ -2269,7 +2255,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         PayrollFieldsVisible: Boolean;
         Employee: Record Employee;
         ValdiateEmp: Report ValidateEmpAttributes;
-        EmployeeAct: Record "Employee Activity";
         TransferCard: Page "Transfer Card";
         LoanMgt: Codeunit "Loan Mgt.";
         Type: Enum "Loan Type";
@@ -2333,58 +2318,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         // IF NOT Rec.Saved THEN
         //     ERROR('Employee Card must be saved first');
     end;
-
-    local procedure SetNoFieldVisible();
-    VAR
-        DocumentNoVisibility: Codeunit 1400;
-    begin
-        EmployeeAct.Reset();
-        EmployeeAct.SetRange("Employee No.", Rec."No.");
-        EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
-        EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Settled);
-        IF EmployeeAct.FindFirst() THEN
-            Fieldvisible := TRUE
-        ELSE
-            Fieldvisible := FALSE;
-
-        EmployeeAct.Reset();
-        EmployeeAct.SetRange("Employee No.", Rec."No.");
-        EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
-        EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Approved);
-        IF EmployeeAct.FindFirst() THEN
-            Fieldvisible1 := TRUE
-        ELSE
-            Fieldvisible1 := FALSE;
-    end;
-
-    // local procedure InsertAttachmentLines(VAR Emp: Record Employee);
-    // VAR
-    //     IncomingDocument: Record "Incoming Document";
-    //     AttachmentMandatory: Record "Attachment Setup";
-    // begin
-    //     AttachmentMandatory.Reset();
-    //     AttachmentMandatory.SETFILTER(Type, '%1|%2|%3|%4', AttachmentMandatory.Type::Education,
-    //               AttachmentMandatory.Type::"Employee Profile", AttachmentMandatory.Type::"Work Experience",
-    //               AttachmentMandatory.Type::"Complaince Requirement Forms");
-    //     IF AttachmentMandatory.FindFirst() THEN
-    //         repeat
-    //             IncomingDocument.Reset();
-    //             IncomingDocument.SetRange("Order No.", Emp."No.");
-    //             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-    //             IF NOT IncomingDocument.FindFirst() THEN begin
-    //                 IncomingDocument.Reset();
-    //                 IncomingDocument.INIT;
-    //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-    //                 IncomingDocument.Description := Emp.TABLENAME;
-    //                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-    //                 //IncomingDocument."Order No." := Emp."No.";
-    //                 IncomingDocument."Order No." := FORMAT(Emp."No.");
-    //                 IncomingDocument."Employee Code" := FORMAT(Emp."No.");
-    //                 IncomingDocument.INSERT(TRUE);
-
-    //             end;
-    //         until AttachmentMandatory.NEXT = 0;
-    // end;
 
     local procedure SetFieldEnable();
     begin

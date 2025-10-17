@@ -226,17 +226,16 @@ page 50351 "Travel Claim"
                         ToolTip = 'Specifies the value of the Fooding Allowance Limit field.';
                         ApplicationArea = All;
                     }
-                    field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
-                    {
-                        ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
-                        ApplicationArea = All;
-                    }
                     field("Lodging Per Day Limit"; Rec."Lodging Per Day Limit")
                     {
                         ToolTip = 'Specifies the value of the Lodging Per Day Limit field.';
                         ApplicationArea = All;
                     }
-
+                    field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
+                        ApplicationArea = All;
+                    }
                 }
                 Group(Allowance)
                 {
@@ -562,13 +561,13 @@ page 50351 "Travel Claim"
                 ToolTip = 'Executes the Print Travel Claim action.';
                 ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to print travel claim ?', false) then
-                        exit;
-                    //CurrPage.SetSelectionFilter(Rec);
-                    Report.Run(Report::"Travel Claim Processing Report", true, false, Rec);
-                end;
+                // trigger OnAction()
+                // begin
+                //     if not Confirm('Do you want to print travel claim ?', false) then
+                //         exit;
+                //     //CurrPage.SetSelectionFilter(Rec);
+                //     Report.Run(Report::"Travel Claim Processing Report", true, false, Rec);
+                // end;
             }
         }
     }
