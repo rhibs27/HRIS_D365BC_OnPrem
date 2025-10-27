@@ -174,6 +174,10 @@ table 50099 "Employee Insurance Information"
             HRSetup.Get;
             HRSetup.TestField("Employee Insurance No.");
             HRMgt.InitNoSeriesNew(HRSetup."Employee Insurance No.", xRec."No. Series", "Requested Date", "Insurance No.", "No. Series");
+            EmpInsurance.ReadIsolation(IsolationLevel::ReadCommitted);
+            EmpInsurance.SetLoadFields("Insurance No.");
+            while EmpInsurance.Get("Insurance No.") do
+                "Insurance No." := NoSeriesMgt.GetNextNo("No. Series");
             ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
         /*EmpInsurance.Reset();

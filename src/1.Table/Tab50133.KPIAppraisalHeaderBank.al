@@ -199,6 +199,10 @@ table 50133 "KPI Appraisal Header Bank"
         if "Appraisal Code" = '' then begin
             HumanResSetup.TestField("Appraisal No.");
             HRMgt.InitNoSeriesNew(HumanResSetup."KPI Appriasal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
+            KPIAppraisalHeaderBankRec.ReadIsolation(IsolationLevel::ReadCommitted);
+            KPIAppraisalHeaderBankRec.SetLoadFields("Appraisal Code");
+            while KPIAppraisalHeaderBankRec.Get("Appraisal Code") do
+                "Appraisal Code" := NoSeriesMgt.GetNextNo("No. Series");
         end;
     end;
 
@@ -219,6 +223,7 @@ table 50133 "KPI Appraisal Header Bank"
         KPIMgt: Codeunit "KPI Mgt.";
         KPIMaster: Record "KPI Master Bank";
         HRMgt: Codeunit "HR Mgt.";
+        KPIAppraisalHeaderBankRec: Record "KPI Appraisal Header Bank";
 
     local procedure InsertAppraisalLine()
     var

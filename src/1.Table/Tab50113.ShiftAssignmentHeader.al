@@ -189,6 +189,10 @@ table 50113 "Shift Assignment Header"
                     begin
                         HRSetup.TestField("Shift Assignment Series");
                         HRMgt.InitNoSeriesNew(HRSetup."Shift Assignment Series", xRec."No. Series", Today, "No.", "No. Series");
+                        ShiftAssignmentRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                        ShiftAssignmentRec.SetLoadFields("No.");
+                        while ShiftAssignmentRec.Get("No.") do
+                            "No." := NoSeriesMgt.GetNextNo("No. Series");
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Type", "Approval Status");
                     end;
             end;
@@ -206,6 +210,7 @@ table 50113 "Shift Assignment Header"
         ShiftLine: Record "Shift Line";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         Employee: Record Employee;
+        ShiftAssignmentRec: Record "Shift Assignment Header";
 
 
     procedure CheckForExistingDate(No: Code[20])

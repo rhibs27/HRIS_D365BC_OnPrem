@@ -489,6 +489,10 @@ table 50141 OverTime
                         begin
                             HRSetup.TestField("OT No.");
                             HRMgt.InitNoSeriesNew(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            OverTimeRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            OverTimeRec.SetLoadFields("No.");
+                            while OverTimeRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
 
@@ -497,6 +501,10 @@ table 50141 OverTime
                         begin
                             HRSetup.TestField("Out of office No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Out of office No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            OverTimeRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            OverTimeRec.SetLoadFields("No.");
+                            while OverTimeRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                         end;
 
                     //for bulk cash
@@ -504,6 +512,10 @@ table 50141 OverTime
                         begin
                             HRSetup.TestField("Bulk Cash No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Bulk Cash No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            OverTimeRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            OverTimeRec.SetLoadFields("No.");
+                            while OverTimeRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                         end;
                 end;
             end;
@@ -557,6 +569,7 @@ table 50141 OverTime
         HrMgt: Codeunit "HR Mgt.";
         OrganizationStructureList: Record "Organization Structure List";
         Employee: Record Employee;
+        OverTimeRec: Record OverTime;
 
     procedure CheckForExistingDate()
     var

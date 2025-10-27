@@ -224,6 +224,10 @@ table 50092 "Allowance Assignment Header"
                     begin
                         HRSetup.TestField("Allowance Assignment Series");
                         HRMgt.InitNoSeriesNew(HRSetup."Allowance Assignment Series", xRec."No. Series", "Created Date", "No.", "No. Series");
+                        AllowanceHeader.ReadIsolation(IsolationLevel::ReadCommitted);
+                        AllowanceHeader.SetLoadFields("No.");
+                        while AllowanceHeader.Get("No.") do
+                            "No." := NoSeriesMgt.GetNextNo("No. Series");
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type", "Approval Status");
                     end;
             end;

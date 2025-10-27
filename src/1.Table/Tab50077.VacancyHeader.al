@@ -225,6 +225,10 @@ table 50077 "Vacancy Header"
             HRSetup.Get;
             HRSetup.TestField("Vacancy Nos.");
             HRMgt.InitNoSeriesNew(HRSetup."Vacancy Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            VacancyHdr.ReadIsolation(IsolationLevel::ReadCommitted);
+            VacancyHdr.SetLoadFields("No.");
+            while VacancyHdr.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
 
         Validate("Requester User ID", UserId);

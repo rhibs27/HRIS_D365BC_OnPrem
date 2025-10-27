@@ -564,6 +564,7 @@ table 50142 Resignation
         //EmpHie: Record "Employee Hierarchy Master";
         Standardtext: Record "Standard Text";
         ApproverMgt: Codeunit "Approver Mgt";
+        ResignationRec: Record Resignation;
     // BranchNameTo: Text;
     //DepartmentNameTo: Text;
     //ProvinceNameTo: Text;
@@ -610,6 +611,10 @@ table 50142 Resignation
                         begin
                             HRSetup.TestField("Resignation No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Resignation No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            ResignationRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            ResignationRec.SetLoadFields("No.");
+                            while ResignationRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
                 end;

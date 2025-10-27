@@ -192,6 +192,10 @@ table 50086 "Potential Candidates"
             HumanResSetup.Get;
             HumanResSetup.TestField("Candidate Nos.");
             HRMgt.InitNoSeriesNew(HumanResSetup."Candidate Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            PotenCand.ReadIsolation(IsolationLevel::ReadCommitted);
+            PotenCand.SetLoadFields("No.");
+            while PotenCand.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
     end;
 

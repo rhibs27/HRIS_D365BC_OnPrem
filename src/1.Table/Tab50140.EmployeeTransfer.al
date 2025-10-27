@@ -916,6 +916,10 @@ table 50140 "Employee Transfer"
                         begin
                             HRSetup.TestField("Transfer No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            EmployeeTransfer.ReadIsolation(IsolationLevel::ReadCommitted);
+                            EmployeeTransfer.SetLoadFields("No.");
+                            while EmployeeTransfer.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             if Type <> type::"HR Transfer" then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
 

@@ -336,6 +336,10 @@ table 50153 "Cancel Document"
                         begin
                             HRSetup.TestField("Leave No. Series");
                             HRMgt.InitNoSeriesNew(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            CancelDocumentRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            CancelDocumentRec.SetLoadFields("No.");
+                            while CancelDocumentRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Leave Request", "Approval Status");
                             //if HRSetup."Approval From Setup" then
                             // InsertApproval();
@@ -344,6 +348,10 @@ table 50153 "Cancel Document"
                         begin
                             HRSetup.TestField("Attendance Missed No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            CancelDocumentRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            CancelDocumentRec.SetLoadFields("No.");
+                            while CancelDocumentRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Attendance Missed", "Approval Status");
                         end;
                 end;
@@ -376,6 +384,7 @@ table 50153 "Cancel Document"
         ApprovalEntry: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
         OrganizationStructureList: Record "Organization Structure List";
+        CancelDocumentRec: Record "Cancel Document";
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertCancelDocumentOnBeforeCreateApproval(var CancelDoc: Record "Cancel Document"; var IsHandled: Boolean);

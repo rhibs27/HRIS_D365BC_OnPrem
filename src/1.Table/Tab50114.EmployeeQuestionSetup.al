@@ -56,6 +56,10 @@ table 50114 "Employee Question Setup"
                 HRSetup.Get;
                 HRSetup.TestField("Training Question");
                 HRMgt.InitNoSeriesNew(HRSetup."Training Question", xRec."No. Series", Today, "Question Code", "No. Series");
+                EmpQuestSetupRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                EmpQuestSetupRec.SetLoadFields("Question Code");
+                while EmpQuestSetupRec.Get("Question Code") do
+                    "Question Code" := NoMgmt.GetNextNo("No. Series");
             end;
         end;
     end;
@@ -65,6 +69,7 @@ table 50114 "Employee Question Setup"
         HRSetup: Record "Human Resources Setup";
         NoMgmt: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
+        EmpQuestSetupRec: Record "Employee Question Setup";
 
     procedure AssistEdit(OldTrainQuest: Record "Employee Question Setup"): Boolean
     var

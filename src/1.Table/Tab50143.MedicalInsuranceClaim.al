@@ -335,6 +335,10 @@ table 50143 "Medical Insurance Claim"
                         begin
                             HRSetup.TestField("Medical Insurance No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Medical Insurance No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            MedicalInsuranceClaimRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            MedicalInsuranceClaimRec.SetLoadFields("No.");
+                            while MedicalInsuranceClaimRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
                 end;
@@ -387,4 +391,5 @@ table 50143 "Medical Insurance Claim"
         AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
         InsuranceMgt: Codeunit "Insurance Mgt";
+        MedicalInsuranceClaimRec: Record "Medical Insurance Claim";
 }
