@@ -48,6 +48,13 @@ table 50002 "Language Proficiency"
         {
             Caption = 'Typing';
         }
+        field(301; "Access Token"; code[50])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+
+        }
+
     }
     keys
     {

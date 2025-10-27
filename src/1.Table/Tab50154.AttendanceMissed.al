@@ -306,6 +306,13 @@ table 50154 "Attendance Missed"
         {
         }
 
+        field(301; "Access Token"; code[50])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+
+        }
+
     }
     keys
     {
