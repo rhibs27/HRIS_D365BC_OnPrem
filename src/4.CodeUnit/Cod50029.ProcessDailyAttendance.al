@@ -71,6 +71,10 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Present Day" := 0;
         EmpAttendance."Transfer Day" := 0;
         EmpAttendance."Week Off Day" := 0;
+        Clear(EmpAttendance."Check In Time");
+        Clear(EmpAttendance."Check Out Time");
+        EmpAttendance."Check In Difference" := 0;
+        EmpAttendance."Check Out Difference" := 0;
         EmpAttendance."Late Check In Day" := 0;
         EmpAttendance."Early Check Out Day" := 0;
         EmpAttendance."Training Day" := 0;
@@ -299,11 +303,18 @@ codeunit 50029 "Process Daily Attendance"
                 EmpAttendance."Check In Time",
                 true);
 
-            GetCheckInAndOutFromAttendanceLogInRange(
-                CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") - EmpWorkShiftDetail."Check Out From",
-                CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") + EmpWorkShiftDetail."Check Out From",
-                EmpAttendance."Check Out Time",
-                False);
+            if EmpWorkShiftDetail.OverNight then
+                GetCheckInAndOutFromAttendanceLogInRange(
+                    CreateDateTime(EmpAttendance."Attendance Date" + 1, EmpWorkShiftDetail."End Time") - EmpWorkShiftDetail."Check Out From",
+                    CreateDateTime(EmpAttendance."Attendance Date" + 1, EmpWorkShiftDetail."End Time") + EmpWorkShiftDetail."Check Out From",
+                    EmpAttendance."Check Out Time",
+                    False)
+            else
+                GetCheckInAndOutFromAttendanceLogInRange(
+                    CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") - EmpWorkShiftDetail."Check Out From",
+                    CreateDateTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail."End Time") + EmpWorkShiftDetail."Check Out From",
+                    EmpAttendance."Check Out Time",
+                    False);
         end
         else
             GetCheckInAndOutFromAttendanceLogRegular();

@@ -89,7 +89,7 @@ report 50067 "Process Daily Attendance"
                 if FromDateActual > ToDateActual then
                     CurrReport.Skip();
 
-                CheckAndUpdateEmployeeInLog();
+                //CheckAndUpdateEmployeeInLog();
 
 
                 if not JobQueueActive then begin
