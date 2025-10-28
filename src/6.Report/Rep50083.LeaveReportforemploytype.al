@@ -22,24 +22,23 @@ report 50083 "Leave Report for employ. type"
                     column(LeaveDescription; Description) { }
                     column(RemainingDays_LeaveTypeSetup; "Leave Type Setup"."Remaining Days") { }
                     column(DocNo; DocNo) { }
-                    column(ApprovalStatus; EmpActivity."Approval Status") { }
+                    column(ApprovalStatus; Leave."Approval Status") { }
 
                     trigger OnAfterGetRecord()
                     begin
                         CalcFields("Remaining Days");
                         Clear(DocNo);
-                        Clear(EmpActivity);
+                        Clear(Leave);
 
-                        EmpActivity.Reset;
-                        EmpActivity.SetRange("Employee No.", Employee."No.");
-                        EmpActivity.SetRange("Leave Code", "Leave Type Setup".Code);
-                        EmpActivity.SetRange(Cancelled, false);
-                        EmpActivity.SetRange("Cancelled Document No.", '');
-                        EmpActivity.SetRange("Cancelled No.", '');
-                        EmpActivity.SetRange(Type, EmpActivity.Type::"Leave Request");
-                        EmpActivity.SetFilter("Approval Status", '<>%1&<>%2', EmpActivity."Approval Status"::Approved, EmpActivity."Approval Status"::Rejected);
-                        if EmpActivity.FindLast then
-                            DocNo := EmpActivity."No."
+                        Leave.Reset;
+                        Leave.SetRange("Employee No.", Employee."No.");
+                        Leave.SetRange("Leave Code", "Leave Type Setup".Code);
+                        Leave.SetRange(Cancelled, false);
+
+                        Leave.SetRange(Type, Leave.Type::"Leave Request");
+                        Leave.SetFilter("Approval Status", '<>%1&<>%2', Leave."Approval Status"::Approved, Leave."Approval Status"::Rejected);
+                        if Leave.FindLast then
+                            DocNo := Leave."No."
                         else
                             DocNo := StrSubstNo('No pending document for leave type %1', Description);
                     end;
@@ -92,7 +91,7 @@ report 50083 "Leave Report for employ. type"
     labels { }
 
     var
-        EmpActivity: Record "Employee Activity";
+        Leave: Record "Leave";
         DocNo: Text;
         EmpAttendActivity: Record "Employee Attendance & Activity";
         AbsentDays: Integer;

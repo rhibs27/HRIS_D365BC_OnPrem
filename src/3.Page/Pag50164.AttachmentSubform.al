@@ -102,65 +102,7 @@ page 50164 "Attachment Subform"
                 begin
                     if Confirm('Do You Want to Upload Attachment?', false) then
                         AttachmentMgt.UploadAttachment(Rec);
-                    // if EmpLoan.Get(Rec."No.") then begin //loan controls 
-                    //     IF NOT (EmpLoan."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
-                    //         ERROR('Approval status must be Open.');
-                    //     AttachmentMgt.UploadAttachment(Rec);
-                    // end else if EmployeeTransfer.Get(Rec."No.") then begin
-                    //     EmployeeTransfer.TestField("Transfer Claim", false);
-                    //     if (EmployeeTransfer."Is Transfer Details Added") and (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved) then
-                    //         if HrMgt.GetEmployeeNo() = rec."Employee Code" then
-                    //             AttachmentMgt.UploadAttachment(Rec)
-                    //         else
-                    //             Error('You arenot Allowed to Upload attachment')
-                    //     else
-                    //         AttachmentMgt.UploadAttachment(Rec)
 
-                    // end else if (Rec."Leave Type Code" <> '') then begin
-                    //     if Leave.Get(Rec."No.") then begin
-                    //         IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Open, Leave."Approval Status"::" "]) THEN
-                    //             ERROR('Approval status must be Open.');
-                    //         AttachmentMgt.UploadAttachment(Rec);
-                    //     end else
-                    //         AttachmentMgt.UploadAttachment(Rec);
-                    // end else if (TravelRequest.get(rec."No.")) then begin
-                    //     IF NOT (TravelRequest."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
-                    //         ERROR('Approval status must be Open.');
-                    //     AttachmentMgt.UploadAttachment(Rec);
-                    // end else
-                    //     AttachmentMgt.UploadAttachment(Rec);
-                    // case true of
-                    //     EmpLoan.Get(Rec."No."):
-                    //         begin
-                    //             RecRef.GetTable(EmpLoan);
-                    //             AttachmentMgt.ValidateApprovalStatus(RecRef);
-                    //             AttachmentMgt.UploadAttachment(Rec);
-                    //         end;
-
-                    //     EmployeeTransfer.Get(Rec."No."):
-                    //         begin
-                    //             EmployeeTransfer.TestField("Transfer Claim", false);
-                    //             if (EmployeeTransfer."Is Transfer Details Added") and (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved) then
-                    //                 AttachmentMgt.UploadAttachment(Rec)
-                    //             else
-                    //                 Error('You are not allowed to upload attachment');
-                    //         end;
-
-                    //     (Rec."Leave Type Code" <> '') and Leave.Get(Rec."No."):
-                    //         begin
-                    //             RecRef.GetTable(Leave);
-                    //             AttachmentMgt.ValidateApprovalStatus(RecRef);
-                    //             AttachmentMgt.UploadAttachment(Rec);
-                    //         end;
-                    //     TravelRequest.Get(Rec."No."):
-                    //         begin
-                    //             RecRef.GetTable(TravelRequest);
-                    //             AttachmentMgt.ValidateApprovalStatus(RecRef);
-                    //             AttachmentMgt.UploadAttachment(Rec);
-                    //         end;
-                    //     else
-                    //         AttachmentMgt.UploadAttachment(Rec);
-                    // end;
                 end;
             }
             action(Download)
@@ -196,7 +138,6 @@ page 50164 "Attachment Subform"
                 trigger OnAction()
                 var
                     Employee: Record Employee;
-                    EmpAct: Record "Employee Activity";
 
                 begin
                     if not Confirm('Do You Want to Delete Attachment?', false) then

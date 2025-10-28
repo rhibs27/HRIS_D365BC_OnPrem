@@ -294,100 +294,99 @@ codeunit 50024 "Service History Mgt"
         JobAdditionPageBuilder: FilterPageBuilder;
         ServiceHistory: Record "Employee Service History";
         DateVar: Date;
-        EmpActivity: Record "Employee Activity";
         ServiceCode: Code[20];
     begin
 
-        JobAdditionPageBuilder.AddRecord('Assignment in Job Addition', EmpActivity);
-        JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity."Functional Title");
-        JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity."Start Date");
-        JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity.Remarks);
+        // JobAdditionPageBuilder.AddRecord('Assignment in Job Addition', EmpActivity);
+        // JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity."Functional Title");
+        // JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity."Start Date");
+        // JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity.Remarks);
 
-        if JobAdditionPageBuilder.RunModal then begin
-            EmpActivity.SetView(JobAdditionPageBuilder.GetView('Assignment in Job Addition'));
+        // if JobAdditionPageBuilder.RunModal then begin
+        //     EmpActivity.SetView(JobAdditionPageBuilder.GetView('Assignment in Job Addition'));
 
-            if EmpActivity.GetFilter("Functional Title") = '' then
-                Error('Functional Title cannot be blank.');
-            Evaluate(DateVar, EmpActivity.GetFilter("Start Date"));
-            if EmpActivity.GetFilter(Remarks) = '' then
-                Error('Remarks cannot be blank.');
+        //     if EmpActivity.GetFilter("Functional Title") = '' then
+        //         Error('Functional Title cannot be blank.');
+        //     Evaluate(DateVar, EmpActivity.GetFilter("Start Date"));
+        //     if EmpActivity.GetFilter(Remarks) = '' then
+        //         Error('Remarks cannot be blank.');
 
-            if DateVar = 0D then
-                Error('Date must have value.');
-            ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::"Addition in Job Function", EmpActivity.GetFilter(Remarks), DateVar);
+        //     if DateVar = 0D then
+        //         Error('Date must have value.');
+        //     ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::"Addition in Job Function", EmpActivity.GetFilter(Remarks), DateVar);
 
 
 
-            EmpVar.Validate("Functional Title", EmpActivity.GetFilter("Functional Title"));
-            EmpVar.Modify;
-            if ServiceHistory.Get(ServiceCode) then begin
-                ServiceHistory.Validate("Functional Title (To)", EmpVar."Functional Title");
-                ServiceHistory.Validate("Salary Level (To)", EmpVar."Salary Level");
-                ServiceHistory.Validate("Deputation On (To)", EmpVar."Deputation on");
-                ServiceHistory.Validate("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                ServiceHistory.Validate("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                ServiceHistory.Modify;
-            end;
-            Message('Updated');
-        end;
+        //     EmpVar.Validate("Functional Title", EmpActivity.GetFilter("Functional Title"));
+        //     EmpVar.Modify;
+        //     if ServiceHistory.Get(ServiceCode) then begin
+        //         ServiceHistory.Validate("Functional Title (To)", EmpVar."Functional Title");
+        //         ServiceHistory.Validate("Salary Level (To)", EmpVar."Salary Level");
+        //         ServiceHistory.Validate("Deputation On (To)", EmpVar."Deputation on");
+        //         ServiceHistory.Validate("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+        //         ServiceHistory.Validate("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+        //         ServiceHistory.Modify;
+        //     end;
+        //     Message('Updated');
+        // end;
     end;
 
-    procedure PopUpForContractRenew(EmpVar: Record Employee)
-    var
-        JobAdditionPageBuilder: FilterPageBuilder;
-        ServiceHistory: Record "Employee Service History";
-        DateVar: Date;
-        EmpActivity: Record "Employee Activity";
-        ServiceCode: Code[20];
-        ContractRenewDate: Date;
-    begin
-        EmpVar.TestField("Employment Type", EmpVar."Employment Type"::Contract);
-        JobAdditionPageBuilder.AddRecord('Assignment in Contract Renews', Employee1);
-        JobAdditionPageBuilder.AddField('Assignment in Contract Renews', Employee1."Contract Renew Date");
-        JobAdditionPageBuilder.AddField('Assignment in Contract Renews', Employee1."Contract Expiry Month");
-        JobAdditionPageBuilder.AddRecord('Assignment in Contract Renew', EmpActivity);
-        JobAdditionPageBuilder.AddField('Assignment in Contract Renew', EmpActivity.Remarks);
+    // procedure PopUpForContractRenew(EmpVar: Record Employee)
+    // var
+    //     JobAdditionPageBuilder: FilterPageBuilder;
+    //     ServiceHistory: Record "Employee Service History";
+    //     DateVar: Date;
+    //     ServiceCode: Code[20];
+    //     ContractRenewDate: Date;
+    //     Leave: Record Leave;
+    // begin
+    //     EmpVar.TestField("Employment Type", EmpVar."Employment Type"::Contract);
+    //     JobAdditionPageBuilder.AddRecord('Assignment in Contract Renews', Employee1);
+    //     JobAdditionPageBuilder.AddField('Assignment in Contract Renews', Employee1."Contract Renew Date");
+    //     JobAdditionPageBuilder.AddField('Assignment in Contract Renews', Employee1."Contract Expiry Month");
+    //     JobAdditionPageBuilder.AddRecord('Assignment in Contract Renew', EmpActivity);
+    //     JobAdditionPageBuilder.AddField('Assignment in Contract Renew', EmpActivity.Remarks);
 
-        if JobAdditionPageBuilder.RunModal then begin
-            Employee1.SetView(JobAdditionPageBuilder.GetView('Assignment in Contract Renews'));
-            EmpActivity.SetView(JobAdditionPageBuilder.GetView('Assignment in Contract Renew'));
+    //     if JobAdditionPageBuilder.RunModal then begin
+    //         Employee1.SetView(JobAdditionPageBuilder.GetView('Assignment in Contract Renews'));
+    //         // EmpActivity.SetView(JobAdditionPageBuilder.GetView('Assignment in Contract Renew'));
 
-            Evaluate(ContractRenewDate, Employee1.GetFilter("Contract Renew Date"));
-            if ContractRenewDate = 0D then
-                Error('Contract Renew Date must have value.');
+    //         // Evaluate(ContractRenewDate, Employee1.GetFilter("Contract Renew Date"));
+    //         // if ContractRenewDate = 0D then
+    //         //     Error('Contract Renew Date must have value.');
 
 
-            if EmpActivity.GetFilter(Remarks) = '' then
-                Error('Remarks cannot be blank.');
+    //         // if EmpActivity.GetFilter(Remarks) = '' then
+    //         //     Error('Remarks cannot be blank.');
 
-            //check for pending leave request
-            EmpActivity.Reset;
-            EmpActivity.SetRange("Employee No.", EmpVar."No.");
-            EmpActivity.SetRange(Type, EmpActivity.Type::"Leave Request");
-            EmpActivity.SetFilter("Approval Status", '%1|%2|%3', EmpActivity."Approval Status"::Open,
-                                  EmpActivity."Approval Status"::Recommended, EmpActivity."Approval Status"::Pending);
-            if EmpActivity.FindFirst then
-                Error('Leave request of employee %1 is still pending', EmpVar."Full Name");
+    //         //check for pending leave request
+    //         Leave.Reset;
+    //         Leave.SetRange("Employee No.", EmpVar."No.");
+    //         Leave.SetRange(Type, Leave.Type::"Leave Request");
+    //         Leave.SetFilter("Approval Status", '%1|%2|%3', Leave."Approval Status"::Open,
+    //                         Leave."Approval Status"::Recommended, Leave."Approval Status"::Pending);
+    //         if Leave.FindFirst then
+    //             Error('Leave request of employee %1 is still pending', EmpVar."Full Name");
 
-            ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::"Contract Renew", EmpActivity.GetFilter(Remarks), ContractRenewDate);
+    //         ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::"Contract Renew", Leave.GetFilter(Remarks), ContractRenewDate);
 
-            EmpVar.Validate("Contract Renew Date", ContractRenewDate);
-            Evaluate(EmpVar."Contract Expiry Month", Employee1.GetFilter("Contract Expiry Month"));
-            EmpVar.Validate("Contract Expiry Date", CalcDate(StrSubstNo('<%1>', Employee1.GetFilter("Contract Expiry Month")), ContractRenewDate));
-            EmpVar.Validate(Status, EmpVar.Status::Active);
-            EmpVar.Modify;
-            CollapseLeaveRequest(EmpVar."No.");
-            if ServiceHistory.Get(ServiceCode) then begin
-                ServiceHistory.Validate("Functional Title (To)", EmpVar."Functional Title");
-                ServiceHistory.Validate("Salary Level (To)", EmpVar."Salary Level");
-                ServiceHistory.Validate("Deputation On (To)", EmpVar."Deputation on");
-                ServiceHistory.Validate("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                ServiceHistory.Validate("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                ServiceHistory.Modify;
-            end;
-            Message('Updated');
-        end;
-    end;
+    //         EmpVar.Validate("Contract Renew Date", ContractRenewDate);
+    //         Evaluate(EmpVar."Contract Expiry Month", Employee1.GetFilter("Contract Expiry Month"));
+    //         EmpVar.Validate("Contract Expiry Date", CalcDate(StrSubstNo('<%1>', Employee1.GetFilter("Contract Expiry Month")), ContractRenewDate));
+    //         EmpVar.Validate(Status, EmpVar.Status::Active);
+    //         EmpVar.Modify;
+    //         CollapseLeaveRequest(EmpVar."No.");
+    //         if ServiceHistory.Get(ServiceCode) then begin
+    //             ServiceHistory.Validate("Functional Title (To)", EmpVar."Functional Title");
+    //             ServiceHistory.Validate("Salary Level (To)", EmpVar."Salary Level");
+    //             ServiceHistory.Validate("Deputation On (To)", EmpVar."Deputation on");
+    //             ServiceHistory.Validate("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+    //             ServiceHistory.Validate("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+    //             ServiceHistory.Modify;
+    //         end;
+    //         Message('Updated');
+    //     end;
+    // end;
 
     local procedure CollapseLeaveRequest(EmpCode: Code[20])
     var
@@ -451,41 +450,6 @@ codeunit 50024 "Service History Mgt"
         Employee."Functional Title Desc" := FunctionalTitle.Description;
         Employee."Last Placement Date" := EmployeeTransferRec."Transfer Effective Date";
         Employee.Modify;
-    end;
-
-    local procedure ReinstateTransfer(EmpAct: Record "Employee Activity")
-    var
-        EmpVar: Record Employee;
-        ServiceCode: Code[20];
-        ServiceHistory: Record "Employee Service History";
-    begin
-        EmpVar.Get(EmpAct."Employee No.");
-        ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::Transfer, 'Reinstating Transfer', EmpAct."End Date");
-        EmpVar.Validate("Functional Title", EmpAct."Functional Title");
-        EmpVar.Validate("Deputation on", EmpAct."Deputation On");
-        case EmpVar."Deputation on" of
-            EmpVar."Deputation on"::Branch:
-                EmpVar.Validate("Global Dimension 1 Code", EmpAct."Shortcut Dimension 1 Code");
-            EmpVar."Deputation on"::Province:
-                EmpVar.Validate("Province Code", EmpAct."Province Code");
-            // EmpVar."Deputation on"::"Sub Province":
-            //     EmpVar.Validate("Sub Province Code", EmpAct."Sub Province Code");
-            EmpVar."Deputation on"::Unit:
-                EmpVar.Validate("Unit Code", EmpAct."Unit Code");
-            EmpVar."Deputation on"::"Extension Counter":
-                EmpVar.Validate("Extension Counter Code", EmpAct."Extension Counter Code");
-            EmpVar."Deputation on"::Department:
-                EmpVar.Validate("Department Code", EmpAct.Department);
-        end;
-        EmpVar.Modify;
-        if ServiceHistory.Get(ServiceCode) then begin
-            ServiceHistory.Validate("Functional Title (To)", EmpVar."Functional Title");
-            ServiceHistory.Validate("Salary Level (To)", EmpVar."Salary Level");
-            ServiceHistory.Validate("Deputation On (To)", EmpVar."Deputation on");
-            ServiceHistory.Validate("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.Validate("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.Modify;
-        end;
     end;
 
     procedure PopUpChangingJobPositionEmployee(EmployeeRec: Record Employee)

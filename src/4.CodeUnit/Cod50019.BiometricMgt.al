@@ -108,7 +108,10 @@ codeunit 50019 "Biometric Mgt."
     var
         json_value: JsonValue;
         AttendanceLog: Record "Attendance Log";
+        deviceId: Integer;
+        BiometricConfig: Record "Biometric Device Config.";
     begin
+        deviceId := 0;
         AttendanceLog.Init();
         if GetJsonValue(AttendanceObject, 'EnrollNumber', json_value) then
             AttendanceLog.Validate("Machine Emp. Code", json_value.AsText());
@@ -117,6 +120,14 @@ codeunit 50019 "Biometric Mgt."
         AttendanceLog.Date := DT2Date(AttendanceLog."Date Time Log");
         AttendanceLog."Log Time" := DT2Time(AttendanceLog."Date Time Log");
         AttendanceLog."Emp DateTime" := Format(AttendanceLog."Machine Emp. Code") + Format(Attendancelog.Date, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceLog."Log Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
+
+        if GetJsonValue(AttendanceObject, 'DeviceId', json_value) then begin
+            deviceId := json_value.AsInteger();
+            BiometricConfig.SetRange(Id, deviceId);
+            if BiometricConfig.FindFirst() then
+                AttendanceLog."Device IP" := BiometricConfig.IP;
+        end;
+
         if AttendanceLog.Insert(true) then;
     end;
 
@@ -383,4 +394,77 @@ codeunit 50019 "Biometric Mgt."
         exit(EncodedText);
     end;
 
+    procedure ExecuteStoredProcedure(StoredProcName: Text)
+    var
+        Client: HttpClient;
+        Response: HttpResponseMessage;
+        Request: HttpRequestMessage;
+        Content: HttpContent;
+        Headers: HttpHeaders;
+        Username: Text;
+        Password: Text;
+        AuthHeader: Text;
+        APIUrl: Text;
+        JsonText: Text;
+        ErrorText: Text;
+        PayloadObj: JsonObject;
+    begin
+        AttendanceSetup.Get();
+
+        if not AttendanceSetup."Base URL".StartsWith('http') then
+            Error('Invalid API URL configured');
+
+        APIUrl := AttendanceSetup."Base URL" + 'ExecuteSP';
+        Username := AttendanceSetup."User Name";
+        Password := AttendanceSetup.Password;
+        AuthHeader := 'Basic ' + EncodeBase64_new(Username + ':' + Password);
+
+        // Build JSON payload
+        PayloadObj.Add('spName', StoredProcName);
+        PayloadObj.WriteTo(JsonText);
+
+        Content.WriteFrom(JsonText);
+        Content.GetHeaders(Headers);
+        Headers.Clear();
+        Headers.Add('Content-Type', 'application/json');
+
+        Request.Method := 'POST';
+        Request.SetRequestUri(APIUrl);
+        Request.Content := Content;
+
+        Request.GetHeaders(Headers);
+        Headers.Add('Authorization', AuthHeader);
+        Headers.Add('Accept', 'application/json');
+
+        if not Client.Send(Request, Response) then
+            Error('Failed to send HTTP request: %1', GetLastErrorText());
+
+        if not Response.IsSuccessStatusCode() then begin
+            Response.Content.ReadAs(ErrorText);
+            Error('API request failed with status %1: %2\\URL: %3',
+                  Response.HttpStatusCode(),
+                  Response.ReasonPhrase(),
+                  APIUrl);
+        end;
+
+        ProcessResponse(Response);
+    end;
+
+    local procedure EncodeBase64_new(InputText: Text): Text
+    var
+        Base64Convert: Codeunit "Base64 Convert";
+    begin
+        exit(Base64Convert.ToBase64(InputText));
+    end;
+
+    local procedure ProcessResponse(Response: HttpResponseMessage)
+    var
+        ResponseText: Text;
+        JsonResponse: JsonObject;
+    begin
+        Response.Content.ReadAs(ResponseText);
+        if ResponseText <> '' then begin
+            Message('Stored procedure executed successfully: %1', ResponseText);
+        end;
+    end;
 }

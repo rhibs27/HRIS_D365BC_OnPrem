@@ -219,7 +219,7 @@ table 50048 "Employee Attendance & Activity"
             DataClassification = ToBeClassified;
         }
 
-        //transfer field in attendance line upto feild 60
+        field(61; "Transfer Day"; Decimal) { }
 
         field(101; "Head Teller Allowance Days"; Decimal)
         {
@@ -260,12 +260,18 @@ table 50048 "Employee Attendance & Activity"
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"));
         }
+        field(200; "Entry Type"; Enum "Attendance Entry Type")
+        {
+            Caption = 'Entry Type';
+        }
+        field(201; "Present in Holiday"; Decimal) { }
+        field(202; Remarks; Text[150]) { }
 
     }
 
     keys
     {
-        key(Key1; "Employee No.", "Attendance Date") { }
+        key(Key1; "Employee No.", "Attendance Date", "Employee Working Shift") { }
     }
 
     fieldgroups { }
@@ -282,4 +288,16 @@ table 50048 "Employee Attendance & Activity"
 
     var
         Employee: Record Employee;
+
+    procedure CopyFromEmployee(Employee: Record Employee)
+    begin
+        "Province Code" := Employee."Province Code";
+        "Province Name" := Employee."Province Name";
+        "Branch Code" := Employee."Branch Code";
+        "Branch Name" := Employee."Branch Name";
+        "Department Code" := Employee."Department Code";
+        "Department Name" := Employee."Department Name";
+        "Unit Code" := Employee."Union Code";
+        "Extension Counter" := Employee."Extension Counter Code";
+    end;
 }

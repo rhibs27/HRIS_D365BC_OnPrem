@@ -44,10 +44,10 @@ report 50027 "Resignation Acceptance Letter"
                 if Resignation.FindFirst then begin
                     RefNo := 'Ref No: ' + Resignation."No.";
                     RequestedResignDate := Resignation."Proposed Date of Resignation";
-                    if Resignation."Supervisor Proposed Date" <> 0D then
-                        AcceptedResignDate := Resignation."Supervisor Proposed Date"
-                    else if Resignation."HR Proposed Date" <> 0D then
-                        AcceptedResignDate := Resignation."HR Proposed Date";
+                    // if Resignation."Supervisor Proposed Date" <> 0D then
+                    //     AcceptedResignDate := Resignation."Supervisor Proposed Date"
+                    // else if Resignation."HR Proposed Date" <> 0D then
+                    //     AcceptedResignDate := Resignation."HR Proposed Date";
                 end;
                 BodyText := NL + StrSubstNo(Text001, Employee.Salutation, Employee."Last Name") + NL + NL +
                               StrSubstNo(Text002, RequestedResignDate, NL, AcceptedResignDate, NL, NL);
@@ -78,7 +78,7 @@ report 50027 "Resignation Acceptance Letter"
         Text008: Label 'Authorized Signature %1DNA & Talent Management Department';
         NL: Text;
         BodyText: Text;
-        Resignation: Record "Employee Activity";
+        Resignation: Record Resignation;
         RequestedResignDate: Date;
         AcceptedResignDate: Date;
         ClosureText: Text;

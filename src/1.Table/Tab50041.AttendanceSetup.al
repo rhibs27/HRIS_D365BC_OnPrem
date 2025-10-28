@@ -109,6 +109,10 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(107; "Store Procedure Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

@@ -49,6 +49,13 @@ page 50149 "Allowance Assignment Card"
                         CurrPage.Update;
                     end;
                 }
+                field("Employee Name"; REc."Employee Name")
+                {
+                    ToolTip = 'Specifies the value of the Employee No field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+
                 field("Change Approver Remarks"; Rec."Change Approver Remarks")
                 {
                     Editable = false;

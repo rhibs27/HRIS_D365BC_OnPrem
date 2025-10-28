@@ -1075,7 +1075,7 @@ table 50136 "Travel Request"
 
     procedure GetExtendedTravelNo(): Text
     var
-        TravelOrder: Record "Employee Activity";
+        TravelOrder: Record "Travel Request";
     begin
         TravelOrder.Reset;
         TravelOrder.SetRange("Travel Order No.", "No.");

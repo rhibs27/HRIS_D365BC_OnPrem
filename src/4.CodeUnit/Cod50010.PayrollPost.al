@@ -204,7 +204,6 @@ codeunit 50010 "Payroll-Post"
         LineBalance: Decimal;
         PriorTrfAttributeAmount: Decimal;
         UsePayrollAttributeUsageAllocation: Boolean;
-        EmployeeActivity: Record "Employee Activity";
         LeaveEarn: Record "Leave Earn";
         DeputationType: Enum "Deputation Type";
     begin
