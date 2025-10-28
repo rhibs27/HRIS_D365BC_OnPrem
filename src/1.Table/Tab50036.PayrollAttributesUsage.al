@@ -128,7 +128,7 @@ table 50036 "Payroll Attributes Usage"
         }
         field(22; "RF Contribution Type"; Enum "RF Contribution Type")
         {
-            //Editable = false;
+            Editable = false;
             DataClassification = ToBeClassified;
         }
     }

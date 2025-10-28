@@ -3,7 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
-    //   InsertAllowed = false;
+       InsertAllowed = false;
 
     layout
     {
@@ -11,7 +11,7 @@ page 50201 "Retirement Fund Card"
         {
             group(General)
             {
-                // Editable = false;
+                Editable = false;
                 field("No."; Rec."No.")
                 {
                     Visible = false;
