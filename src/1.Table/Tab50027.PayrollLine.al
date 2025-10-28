@@ -1846,8 +1846,12 @@ table 50027 "Payroll Line"
                     exit;
 
                 RFContributionLine.Reset();
-                if RetirementFundHeader.Type = RetirementFundHeader.Type::Manual then
-                    RFContributionLine.SetRange("Nepali Month ", PayrollHeader."Nepali Month");
+                if RetirementFundHeader.Type = RetirementFundHeader.Type::Manual then begin
+                    //  RFContributionLine.SetRange("Nepali Month ", PayrollHeader."Nepali Month");
+                    RFContributionLine.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+                    RFContributionLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+                    RFContributionLine.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+                end;
                 RFContributionLine.SetRange("Employee No.", PayrollAttrUses."Employee Code");
                 RFContributionLine.SetRange(Type, PayrollAttrUses."RF Contribution Type");
                 RFContributionLine.FindLast();
@@ -1859,12 +1863,13 @@ table 50027 "Payroll Line"
                 PayrollAttrUses.Modify();
             until PayrollAttributes.Next() = 0;
 
-        // logic for optimum is needed. //23
+        // logic for optimum is needed. // Not given as of now.
     end;
 
     local procedure GetAmountRFContibution(EmployeeCode: Code[20]): Decimal
     var
         LevelWiseAttributes: Record "Level Wise Attributes";
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
     begin
         Employee.SetLoadFields("Salary Grade", "Salary Level");
         Employee.Get(EmployeeCode);
@@ -1873,7 +1878,11 @@ table 50027 "Payroll Line"
         if LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level") then
             exit(LevelWiseAttributes."Total Basic Salary");
 
-        exit(0);
+        PayrollAttributesUsage.SetRange("Employee Code", EmployeeCode);
+        PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic, PayrollAttributesUsage.Subtype::Grade);
+        PayrollAttributesUsage.CalcSums(Amount);
+        // Add event conditionally if needed
+        exit(PayrollAttributesUsage.Amount);
     end;
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal

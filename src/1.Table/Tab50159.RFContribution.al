@@ -57,6 +57,19 @@ table 50159 "RF Contribution"
         {
             Caption = 'Approval Status';
         }
+        field(10; "Pay Cycle Code"; Code[20])
+        {
+            TableRelation = "Pay Cycle";
+        }
+        field(11; "Pay Cycle Term"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+        }
+        field(12; "Pay Cycle Period"; Integer)
+        {
+            TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
+                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
+        }
     }
     keys
     {

@@ -17,9 +17,11 @@ table 50052 "Retirement Fund"
         }
         field(2; "Fiscal Year"; Code[20])
         {
+            Enabled = false;
         }
         field(3; "Payroll Month"; Enum "Nepali Month")
         {
+            Enabled = false;
             Description = 'Month for next Payroll';
         }
         field(4; "No. Series"; Code[20]) { }
@@ -191,6 +193,14 @@ table 50052 "Retirement Fund"
         {
             Caption = 'Status';
         }
+        field(101; "Pay Cycle Code"; Code[20])
+        {
+            TableRelation = "Pay Cycle";
+        }
+        field(102; "Pay Cycle Term"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+        }
     }
 
     keys
@@ -201,6 +211,7 @@ table 50052 "Retirement Fund"
     var
         EmpActivityType: Enum "Employee Activity Type";
         RetirementFund: Record "Retirement Fund";
+        PayrollGeneralSetup: Record "Payroll General Setup";
     begin
         if not GuiAllowed then begin
             TempRF := Rec;
@@ -235,6 +246,10 @@ table 50052 "Retirement Fund"
             if Employee."CIT No." = '' then
                 Error('Your CIT no. is blank. Please verify with HR department.');
         end;
+
+        PayrollGeneralSetup.Get();
+        "Pay Cycle Code" := PayrollGeneralSetup."Pay Cycle Code";
+        "Pay Cycle Term" := PayrollGeneralSetup."Pay Cycle Term";
     end;
 
     trigger OnModify()

@@ -4526,6 +4526,8 @@ codeunit 50001 "HR Mgt."
                 InsertRFContribution.TransferFields(RFContibution);
                 InsertRFContribution."Document No." := RetirementFund."No.";
                 InsertRFContribution."Employee Name" := RetirementFund."Employee Name";
+                InsertRFContribution."Pay Cycle Code" := RetirementFund."Pay Cycle Code";
+                InsertRFContribution."Pay Cycle Term" := RetirementFund."Pay Cycle Term";
                 if RFContibution.type = RFContibution.type::" " then
                     InsertRFContribution.Type := RetirementFund.Type;
                 InsertRFContribution.Insert();

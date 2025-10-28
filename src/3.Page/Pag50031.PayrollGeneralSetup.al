@@ -170,6 +170,14 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = all;
                 }
+                field("Pay Cycle Code"; Rec."Pay Cycle Code")
+                {
+                    ApplicationArea = all;
+                }
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ApplicationArea = all;
+                }
             }
             group("Posting Group")
             {
