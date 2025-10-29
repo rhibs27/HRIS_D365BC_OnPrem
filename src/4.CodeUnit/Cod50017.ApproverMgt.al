@@ -264,50 +264,40 @@ codeunit 50017 "Approver Mgt"
     end;
 
     // >> Check  valid Login Approver for Approve >> Santosh 2025-03-04 >>
-    procedure CheckApprover(EmpActNo: Code[20])
+    procedure CheckApprover(EmpActNo: Code[20]) // onprem
+    begin
+        CheckApprover(EmpActNo, HRMgt.GetEmployeeNo());
+    end;
+
+    procedure CheckApprover(EmpActNo: Code[20]; ApproverNo: code[20]) //saas
     var
-        CheckApprover: Boolean;
         ApprovalLine: Record "Approval HRMS";
-        Employee: Record Employee;
-        ApprovalSetupLine: Record "Approval Setup line";
         ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
     begin
-
-        if not HrMgt.IsSaaS() then
-        begin
-        Employee.Get(HRMgt.GetEmployeeNo());
-        end;
-
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
-
-        if not HrMgt.IsSaaS() then
-            ApprovalLine.SetRange("Approver No", HRMgt.GetEmployeeNo());
-
+        ApprovalLine.SetRange("Approver No", ApproverNo);
         if not ApprovalLine.Findfirst() then
             Error(ApproveNotEligibleError);
     end;
 
-    procedure CheckApproverBoolean(EmpActNo: Code[20]): Boolean
+    procedure CheckApproverBoolean(EmpActNo: Code[20]): Boolean // onprem
+    begin
+        CheckApproverBoolean(EmpActNo, HRMgt.GetEmployeeNo());
+    end;
+
+    procedure CheckApproverBoolean(EmpActNo: Code[20]; ApproverNo: code[20]): Boolean //saas
     var
         ApprovalLine: Record "Approval HRMS";
-        Employee: Record Employee;
     begin
-        if not HrMgt.IsSaaS() then
-            Employee.Reset();
-        Employee.Get(HRMgt.GetEmployeeNo());
-
-        ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
-
-        if not HrMgt.IsSaaS() then
-            ApprovalLine.SetRange("Approver No", HRMgt.GetEmployeeNo());
-
+        ApprovalLine.SetRange("Approver No", ApproverNo);
         if ApprovalLine.Findfirst() then
             exit(true);
     end;
+
 
     // >> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean)
@@ -556,23 +546,18 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
-    procedure CheckRequester(EmpActNo: Code[20])
+    procedure CheckRequester(EmpActNo: Code[20])//onprem
+    begin
+        CheckRequester(EmpActNo, HRMgt.GetEmployeeNo());
+    end;
+
+    procedure CheckRequester(EmpActNo: Code[20]; empno: code[20])//saas
     var
         ApprovalLine: Record "Approval HRMS";
-        Employee: Record Employee;
         ApproveNotEligibleError: Label 'You are not Eligible to WithDraw this document ';
     begin
-
-        if not HrMgt.IsSaaS() then
-            Employee.Reset();
-        Employee.Get(HRMgt.GetEmployeeNo());
-
-        ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
-
-        if not HrMgt.IsSaaS() then
-            ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
-
+        ApprovalLine.SetRange("Employee No", empno);
         if not ApprovalLine.Findfirst() then
             Error(ApproveNotEligibleError);
     end;

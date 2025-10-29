@@ -899,11 +899,12 @@ table 50140 "Employee Transfer"
     trigger OnInsert()
     begin
         if (not GuiAllowed) and (type = Type::"Transfer Claim") then begin
-
-            if not HrMgt.IsSaaS() then
-                Validate("Employee No.", HRMgt.GetEmployeeNo());
+            if "Employee No." = '' then
+                if not HrMgt.IsSaaS() then
+                    Validate("Employee No.", HRMgt.GetEmployeeNo());
 
             //"Approval Status" := "Approval Status"::Pending;
+
         end;
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -939,12 +940,12 @@ table 50140 "Employee Transfer"
         ApprovalEntry: Record "Approval HRMS";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-        Error(CannotDelete)
+            Error(CannotDelete)
         else begin
-        ApprovalEntry.Reset();
-        ApprovalEntry.SetRange("Document No.", "No.");
-        ApprovalEntry.SetRange("Employee No", "Employee No.");
-        ApprovalEntry.DeleteAll();
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
         end;
     end;
 

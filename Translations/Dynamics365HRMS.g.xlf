@@ -1303,6 +1303,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Method OnDelete - NamedType CannotDelete</note>
         </trans-unit>
+        <trans-unit id="Table 3549385734 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Access Token - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3549385734 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8897,6 +8902,11 @@
           <source>Language Proficiency</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Language Proficiency - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3402979117 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Language Proficiency - Field Access Token - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3402979117 - Field 387747209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Code</source>
@@ -33378,6 +33388,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control New Leave Year - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1218146754 - Control 3688002211 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Quarterly  for the period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Quarterly - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1218146754 - Control 460889064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Starting date of the period.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53088,6 +53103,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field New Leave Year - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1937631775 - Field 3688002211 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
+          <source>Quarterly</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Quarterly - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54632,6 +54652,11 @@
           <source>Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Qualification Ext  - Field Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 630092753 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Access Token - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 630092753 - Field 3168444338 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
           <source>Address</source>
@@ -59052,6 +59077,26 @@
           <source>SLC</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Qualification Type - EnumValue SLC - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3688002211 - EnumValue 2390507270 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>1st Quarter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Quarterly - EnumValue 1st Quarter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3688002211 - EnumValue 3240751248 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>2nd Quarter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Quarterly - EnumValue 2nd Quarter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3688002211 - EnumValue 3611751763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>3rd Quarter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Quarterly - EnumValue 3rd Quarter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3688002211 - EnumValue 2532314208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>4th Quarter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Quarterly - EnumValue 4th Quarter - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2117110986 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>

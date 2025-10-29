@@ -104,8 +104,9 @@ table 50141 OverTime
                 else
                     Clear("Fiscal Year");
                 if Type <> Type::Overtime then
-                    if not HrMgt.IsSaaS() then
-                        EmployeeRec.Get(HrMgt.GetEmployeeNo());
+                    if "Employee No." = '' then
+                        if not HrMgt.IsSaaS() then
+                            EmployeeRec.Get(HrMgt.GetEmployeeNo());
 
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
@@ -408,6 +409,7 @@ table 50141 OverTime
                 // GLsetup.Get;
                 Clear("Deputation Name");
                 if not GuiAllowed then begin
+                    
                     if not HrMgt.IsSaaS() then
                         Employee.Get(HrMgt.GetEmployeeNo());
                     "Deputation Code" := Employee."Deputation On Code";

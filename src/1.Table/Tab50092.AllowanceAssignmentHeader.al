@@ -37,10 +37,12 @@ table 50092 "Allowance Assignment Header"
             begin
                 GLsetup.Get;
                 Clear(Name);
-                if (not GuiAllowed) and (not HrMgt.IsSaaS()) then
-                    Employee.Get(HrMgt.GetEmployeeNo())
-                else
-                    Employee.Get("Employee No.");
+
+                if "Employee No." = '' then
+                    if not HrMgt.IsSaaS() then
+                        "Employee No." := HrMgt.GetEmployeeNo();
+                Employee.Get("Employee No.");
+
                 if Type = Type::Branch then begin
                     if Code <> '' then
                         TestField(Code, Employee."Branch Code");
@@ -214,8 +216,11 @@ table 50092 "Allowance Assignment Header"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
-        if (not GuiAllowed) and (not HrMgt.IsSaaS()) then
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+
+        if "Employee No." = '' then
+            if (not GuiAllowed) and (not HrMgt.IsSaaS()) then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
+
         HRSetup.Get;
         if "No." = '' then
             case "Activity Type" of

@@ -45,8 +45,9 @@ table 50110 "Document Approver"
             trigger OnValidate()
             begin
                 if "Employee Type" = "Employee Type"::"Initiated By" then
-                    if not HrMgt.IsSaaS() then
-                        Validate("Employee No.", HRMgt.GetEmployeeNo());
+                    if "Employee No." = '' then
+                        if not HrMgt.IsSaaS() then
+                            Validate("Employee No.", HRMgt.GetEmployeeNo());
 
             end;
         }
@@ -87,13 +88,18 @@ table 50110 "Document Approver"
     end;
 
     local procedure UpdateApprovalStatus()
+
+    begin
+        UpdateApprovalStatus(HRMgt.GetEmployeeNo());
+    end;
+
+    local procedure UpdateApprovalStatus(empno: code[20])
     var
         Unauthorized: Label 'Not authorized.';
     begin
         if GuiAllowed then
-            if not HrMgt.IsSaaS() then
-                if "Employee No." <> HRMgt.GetEmployeeNo() then
-                    Error(Unauthorized);
+            if "Employee No." <> HRMgt.GetEmployeeNo() then
+                Error(Unauthorized);
 
         IF "Approval Status" = "Approval Status"::Approved THEN
             Validate("Approved Date", Today);

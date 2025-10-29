@@ -45,7 +45,7 @@ codeunit 50014 "Event Management"
         FileSize: Decimal;
         FileMgt: Codeunit "File Management";
     begin
-        // Define maximum allowed file size 
+        // Define maximum allowed file size
         // AttachmentMgt.checkAttachmentExtension(FileMgt.GetExtension(FileName));
         AttachmentSetup.Reset();
         AttachmentSetup.SetRange("Attachment Code", DocumentAttachment."Attachment Document Type");
@@ -222,7 +222,5 @@ codeunit 50014 "Event Management"
                 CardPageID := Page::"Employee Insurance Card";
         end;
     end;
-
-
 
 }

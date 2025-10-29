@@ -2531,6 +2531,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2627,7 +2628,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>1%</Value>
+                                  <Value>=Fields!TaxRate1_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3044,7 +3045,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>10%</Value>
+                                  <Value>=Fields!TaxRate2_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3461,7 +3462,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>20%</Value>
+                                  <Value>=Fields!TaxRate3_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3878,7 +3879,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>30%</Value>
+                                  <Value>=Fields!TaxRate4_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4295,7 +4296,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>36%</Value>
+                                  <Value>=Fields!TaxRate5_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4711,7 +4712,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>39%</Value>
+                                  <Value>=Fields!TaxRate6_.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>

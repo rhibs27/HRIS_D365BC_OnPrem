@@ -465,7 +465,8 @@ table 50124 Leave
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
-        if not GuiAllowed then begin
+
+       if not GuiAllowed then begin
 
             if not HrMgt.IsSaaS() then
                 "Employee No." := HRMgt.GetEmployeeNo();

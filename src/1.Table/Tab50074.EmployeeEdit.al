@@ -453,9 +453,9 @@ table 50074 "Employee Edit"
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
-
-        if not HrMgt.IsSaaS() then
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+        if "Employee No." = '' then
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
 
         Validate(Type, Type::"Employee Edit");
         Validate("Approval Status", "Approval Status"::Pending);

@@ -734,9 +734,9 @@ table 50075 "Employee Activity Journal"
     trigger OnInsert()
     begin
         "User ID" := UserId;
-
-        if not HrMgt.IsSaaS() then
-            "Requester Employee" := HrMgt.GetEmployeeNo();
+        if "Requester Employee" = '' then
+            if not HrMgt.IsSaaS() then
+                "Requester Employee" := HrMgt.GetEmployeeNo();
 
         "Requested Date" := Today;
     end;

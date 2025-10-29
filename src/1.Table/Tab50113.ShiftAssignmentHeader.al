@@ -174,6 +174,7 @@ table 50113 "Shift Assignment Header"
     trigger OnInsert()
     begin
         "Type" := "Type"::"Shift Assignment";
+      
         if not GuiAllowed then begin
 
             if not HrMgt.IsSaaS() then
