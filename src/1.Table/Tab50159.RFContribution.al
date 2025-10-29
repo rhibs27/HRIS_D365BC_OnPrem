@@ -41,8 +41,9 @@ table 50159 "RF Contribution"
             TableRelation = "Payroll Attributes".Code where(Subtype = filter(CIT | RF));
             Caption = 'Attribute Code';
         }
-        field(7; "Nepali Month "; Enum "Nepali Month")
+        field(7; "Nepali Month"; Enum "Nepali Month")
         {
+            Enabled = false;
             Caption = 'Nepali Month ';
             trigger OnValidate()
             begin

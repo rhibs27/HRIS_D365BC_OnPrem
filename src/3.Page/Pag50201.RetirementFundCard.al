@@ -3,7 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
-       InsertAllowed = false;
+    InsertAllowed = false;
 
     layout
     {
@@ -44,7 +44,6 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Payroll Month field.';
                     ApplicationArea = All;
                 }
-
             }
             group("Annual Income Details")
             {

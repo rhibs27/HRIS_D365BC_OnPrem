@@ -97,14 +97,13 @@ codeunit 50017 "Approver Mgt"
             else
                 Error('Approval Setup not found');
 
-            ```suggestion
- if SequenceOneCount = 0 then
+            if SequenceOneCount = 0 then
                 Error('There is no approver setup for sequence 1');
 
-             Approval1.Reset();
-             Approval1.SetRange("Document No.", EmpActNo);
-             if not Approval1.FindFirst() then
-                 Error('Approval Not Found');
+            Approval1.Reset();
+            Approval1.SetRange("Document No.", EmpActNo);
+            if not Approval1.FindFirst() then
+                Error('Approval Not Found');
         end;
     end;
 

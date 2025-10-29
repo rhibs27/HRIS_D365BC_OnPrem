@@ -4395,6 +4395,8 @@ codeunit 50001 "HR Mgt."
             PayCyclePeriod.SetRange("Start Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
         else
             PayCyclePeriod.SetRange("Start Date", PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
+        PayCyclePeriod.SetAutoCalcFields();
+        PayCyclePeriod.SetRange(Posted, false);
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
 
@@ -4404,7 +4406,7 @@ codeunit 50001 "HR Mgt."
         DetailedEmpledger.SetRange(Reversed, false);
         if DetailedEmpledger.FindFirst() then begin
             TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term") - DetailedEmpledger."Pay Cycle Period";
-            TempRetirementFund."Payroll Month" := Enum::"Nepali Month".FromInteger(DetailedEmpledger."Pay Cycle Period");
+            //TempRetirementFund."Payroll Month" := Enum::"Nepali Month".FromInteger(DetailedEmpledger."Pay Cycle Period");
         end
         else
             TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");

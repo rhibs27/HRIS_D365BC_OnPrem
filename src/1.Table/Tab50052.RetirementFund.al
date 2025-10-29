@@ -17,11 +17,10 @@ table 50052 "Retirement Fund"
         }
         field(2; "Fiscal Year"; Code[20])
         {
-            Enabled = false;
+
         }
         field(3; "Payroll Month"; Enum "Nepali Month")
         {
-            Enabled = false;
             Description = 'Month for next Payroll';
         }
         field(4; "No. Series"; Code[20]) { }

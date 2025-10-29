@@ -42,7 +42,7 @@ page 50037 "RF Contribution Lines"
                 {
                     ToolTip = 'Specifies the value of the Attribute Code field.', Comment = '%';
                 }
-                field("Nepali Month "; Rec."Nepali Month ")
+                field("Pay Cycle Period"; Rec."Pay Cycle Period")
                 {
                     Editable = SelectMonth;
                     ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';

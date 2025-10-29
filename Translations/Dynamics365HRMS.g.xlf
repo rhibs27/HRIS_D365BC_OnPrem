@@ -11843,6 +11843,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Parking Account No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Pay Cycle Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Pay Cycle Term - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3855271124 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payment Method Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17418,6 +17428,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field No. Series - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Pay Cycle Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Pay Cycle Term - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1145153898 - Field 3982805775 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17563,10 +17583,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Line No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1795737662 - Field 2751152809 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1795737662 - Field 2906764345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Nepali Month </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Nepali Month  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Nepali Month - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Pay Cycle Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 3972573639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Pay Cycle Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Pay Cycle Term - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1795737662 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -43463,10 +43498,10 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Line No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1145007401 - Control 2751152809 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1145007401 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Nepali Month field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Nepali Month  - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control Pay Cycle Period - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1145007401 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type field.</source>
