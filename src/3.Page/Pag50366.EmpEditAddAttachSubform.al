@@ -1,62 +1,29 @@
-page 50006 "Emp. Edit Qualifi Subform"
+page 50366 "Emp. Edit Add. Attach. Subform"
 {
     ApplicationArea = All;
-    Caption = 'Emp. Edit Qualifi Subform';
+    Caption = 'Emp. Edit Add. Attach. Subform';
     PageType = ListPart;
     SourceTable = "Employee Edit Line";
     AutoSplitKey = true;
+
     layout
     {
         area(Content)
         {
             repeater(General)
             {
-                field("Qualification Type"; Rec."Qualification Type")
+                field("Attachment Document Type"; Rec."Attachment Document Type")
                 {
-                    ToolTip = 'Specifies the value of the Qualification Type field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Attachment Document Type field.', Comment = '%';
                 }
-                field("Qualification Code"; Rec."Qualification Code")
+                field(Description; Rec.Description)
                 {
-                    ToolTip = 'Specifies the value of the Qualification Code field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Description field.', Comment = '%';
                 }
-                field("Institution/Company"; Rec."Institution/Company")
+                field(Attachment; Rec.Attachment)
                 {
-                    ToolTip = 'Specifies the value of the Institution/Company field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Attachment field.', Comment = '%';
                 }
-                field("From Date"; Rec."From Date")
-                {
-                    ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
-                }
-                field("To Date"; Rec."To Date")
-                {
-                    ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
-                }
-
-
-                field(CGPA; Rec.CGPA)
-                {
-                    ToolTip = 'Specifies the value of the CGPA field.', Comment = '%';
-                }
-
-                field(Percentage; Rec.Percentage)
-                {
-                    ToolTip = 'Specifies the value of the Percentage field.', Comment = '%';
-                }
-
-                field(Stream; Rec.Stream)
-                {
-                    ToolTip = 'Specifies the value of the Stream field.', Comment = '%';
-                }
-
-                field(Year; Rec.Year)
-                {
-                    ToolTip = 'Specifies the value of the Year field.', Comment = '%';
-                }
-                field(Running; Rec.Running)
-                {
-                    ToolTip = 'Specifies the value of the Running field.', Comment = '%';
-                }
-
             }
         }
     }
@@ -82,11 +49,8 @@ page 50006 "Emp. Edit Qualifi Subform"
                         if not Confirm('There is an existing attachment. Do you wish to proceed') then
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-                        // check file size 
-                        if Rec."Change in Emp Type" = Rec."Change in Emp Type"::Qualification then
-                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Employee Document Type"::Education))
-                        else
-                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
+                        // Check File Size Limit
+                        AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
 
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
@@ -117,7 +81,6 @@ page 50006 "Emp. Edit Qualifi Subform"
                 ApplicationArea = Basic, Suite;
                 Caption = 'Export';
 
-                ToolTip = 'Export the picture to a file.';
                 trigger OnAction()
                 var
                     FileManagement: Codeunit "File Management";
@@ -128,12 +91,7 @@ page 50006 "Emp. Edit Qualifi Subform"
                     fileInitial: Text;
                 begin
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
-                        if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
-                            fileInitial := Rec.Designation
-                        else
-                            fileInitial := Rec."Qualification Code";
-
-                        ToFile := Format(Rec."Employee No.") + '_' + format(fileInitial) + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
+                        ToFile := Format(Rec."Employee No.") + '_' + format(Rec.Description) + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
                         ItemTenantMedia.CalcFields(Content);
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
                         DownloadFromStream(Instream, '', '', '', ToFile);
@@ -159,10 +117,9 @@ page 50006 "Emp. Edit Qualifi Subform"
             }
         }
     }
-
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
-        Rec."Change in Emp Type" := Rec."Change in Emp Type"::Qualification;
+        Rec."Change in Emp Type" := Rec."Change in Emp Type"::"Additional Documents";
     end;
 
     var

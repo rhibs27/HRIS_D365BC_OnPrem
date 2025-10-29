@@ -110,4 +110,16 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Transfer Claim';
     }
+    value(28; "Request Allowance")
+    {
+        Caption = 'Request Allowance';
+    }
+    value(29; "Additional Documents")
+    {
+        Caption = 'Additional Documents';
+    }
+    value(30; "Allowance Assignment")
+    {
+        Caption = 'Allowance Assignment';
+    }
 }

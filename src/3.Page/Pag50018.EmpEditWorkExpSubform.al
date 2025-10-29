@@ -111,7 +111,6 @@ page 50018 "Emp Edit Work Exp. Subform"
                     Instream: InStream;
                     fileInitial: Text;
                 begin
-                    // Rec.TestField("Entry No.");
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
                         if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
                             fileInitial := Rec.Designation
@@ -123,9 +122,6 @@ page 50018 "Emp Edit Work Exp. Subform"
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
                         DownloadFromStream(Instream, '', '', '', ToFile);
                     end;
-                    // ExportPath := TemporaryPath + Format(Rec."Employee No.") + Format(Rec.Attachment.MediaId);
-                    // Rec.Attachment.ExportFile(ExportPath);
-                    // FileManagement.ExportImage(ExportPath, ToFile);
                 end;
             }
             action(DeletePicture)

@@ -121,9 +121,6 @@ table 50074 "Employee Edit"
                             Validate("Emp Document Type", "Emp Document Type"::Achievement);
                         end
                 end;
-                // if (xRec."Changes In Employee Type" <> Rec."Changes In Employee Type") and
-                //     (Rec."Changes In Employee Type" <> "Changes In Employee Type"::" ") then
-                //     UpdateEmployeeEditLine(Rec);
             end;
 
         }
@@ -140,7 +137,6 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
-            //TableRelation = "Employee Qualification";
         }
         field(24; Description; Code[100])
         {

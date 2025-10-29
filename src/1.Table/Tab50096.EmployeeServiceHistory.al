@@ -24,14 +24,33 @@ table 50096 "Employee Service History"
             begin
                 if Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
-                    Validate("Deputation On(From)", Employee."Deputation on");
-                    Validate("Deputation Code (From)", Employee."Deputation On Code");
-                    Validate("Functional Title (From)", Employee."Functional Title");
-                    Validate("Salary Level (From)", Employee."Salary Level");
-                    Validate("Salary Grade (From)", Employee."Salary Grade");
-                    Validate("Contract Code (From)", Employee."Emplymt. Contract Code");
-                    Validate("Employment Type (From)", Employee."Employment Type");
-                end;
+
+                    if not "Package Record" then begin
+                        Validate("Deputation On(From)", Employee."Deputation on");
+                        Validate("Deputation Code (From)", Employee."Deputation On Code");
+                        Validate("Functional Title (From)", Employee."Functional Title");
+                        Validate("Salary Level (From)", Employee."Salary Level");
+                        Validate("Salary Grade (From)", Employee."Salary Grade");
+                        Validate("Contract Code (From)", Employee."Emplymt. Contract Code");
+                        Validate("Employment Type (From)", Employee."Employment Type");
+                        Validate("Province Code (From)", Employee."Province Code");
+                        Validate("Branch Code (From)", Employee."Branch Code");
+                        Validate("Department Code (From)", Employee."Department Code");
+                        Validate("Unit Code (From)", Employee."Union Code");
+
+                        Validate("Deputation On (To)", Employee."Deputation on");
+                        Validate("Deputation Code (To)", Employee."Deputation On Code");
+                        Validate("Functional Title (To)", Employee."Functional Title");
+                        Validate("Salary Level (To)", Employee."Salary Level");
+                        Validate("Salary Grade (To)", Employee."Salary Grade");
+                        Validate("Province Code (To)", Employee."Province Code");
+                        Validate("Branch Code (To)", Employee."Branch Code");
+                        Validate("Department Code (To)", Employee."Department Code");
+                        Validate("Unit Code (To)", Employee."Union Code");
+                    end;
+                end
+                else
+                    "Employee Name" := '';
             end;
         }
         field(3; "Employee Name"; Text[50])
@@ -59,6 +78,8 @@ table 50096 "Employee Service History"
         field(11; "Functional Title (From)"; Code[20])
         {
             trigger OnValidate()
+            var
+                FunctionalTitle: Record "Functional Title";
             begin
                 if FunctionalTitle.Get("Functional Title (From)") then
                     Validate("Functional Title Desc. (From)", FunctionalTitle.Description);
@@ -77,6 +98,8 @@ table 50096 "Employee Service History"
         field(15; "Functional Title (To)"; Code[20])
         {
             trigger OnValidate()
+            var
+                FunctionalTitle: Record "Functional Title";
             begin
                 if FunctionalTitle.Get("Functional Title (To)") then
                     Validate("Functional Title Desc. (To)", FunctionalTitle.Description);
@@ -92,7 +115,13 @@ table 50096 "Employee Service History"
             end;
         }
         field(18; "Salary Level Desc. (To)"; Text[100]) { }
-        field(19; "Effective Date"; Date) { }
+        field(19; "Effective Date"; Date)
+        {
+            trigger OnValidate()
+            begin
+                "Effective Date (B.S.)" := EngNep.getNepaliDate("Effective Date");
+            end;
+        }
         field(20; Remarks; Text[250]) { }
         field(21; "Created by"; Text[50]) { }
         field(22; "Created DateTime"; DateTime) { }
@@ -114,15 +143,110 @@ table 50096 "Employee Service History"
         field(31; "To Date"; Date) { }
         field(32; "From Employee Status"; Enum "Employee Status") { }
         field(33; "To Employee Status"; Enum "Employee Status") { }
+
         field(34; "Contract Code (From)"; Code[20]) { }
         field(35; "Contract Code (To)"; Code[20]) { }
         field(36; "Employment Type (From)"; Enum "Employee Type") { }
         field(37; "Employment Type (To)"; Enum "Employee Type") { }
+        field(50; Duration; text[50]) { }
+        field(51; "Employment Type"; Enum "Employee Type") { }
+        field(52; "Province Code (From)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code (From)") then
+                    "Province Description (From)" := OrgStructureList.Name
+                else
+                    "Province Description (From)" := '';
+            end;
+        }
+        field(53; "Branch Code (From)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code (From)") then
+                    "Branch Description (From)" := OrgStructureList.Name
+                else
+                    "Branch Description (From)" := '';
+            end;
+        }
+        field(54; "Department Code (From)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code (From)") then
+                    "Department Description (From)" := OrgStructureList.Name
+                else
+                    "Department Description (From)" := '';
+            end;
+        }
+        field(55; "Unit Code (From)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code (From)") then
+                    "Unit Description (From)" := OrgStructureList.Name
+                else
+                    "Unit Description (From)" := '';
+            end;
+        }
+        field(56; "Province Code (To)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code (To)") then
+                    "Province Description (To)" := OrgStructureList.Name
+                else
+                    "Province Description (To)" := '';
+            end;
+        }
+        field(57; "Branch Code (To)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code (To)") then
+                    "Branch Description (To)" := OrgStructureList.Name
+                else
+                    "Branch Description (To)" := '';
+            end;
+        }
+        field(58; "Department Code (To)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code (To)") then
+                    "Department Description (To)" := OrgStructureList.Name
+                else
+                    "Department Description (To)" := '';
+            end;
+        }
+
+        field(59; "Unit Code (To)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code (To)") then
+                    "Unit Description (To)" := OrgStructureList.Name
+                else
+                    "Unit Description (To)" := '';
+            end;
+        }
+        field(60; "Province Description (From)"; text[50]) { }
+        field(61; "Branch Description (From)"; text[50]) { }
+        field(62; "Department Description (From)"; text[50]) { }
+        field(63; "Unit Description (From)"; text[50]) { }
+        field(64; "Province Description (To)"; text[50]) { }
+        field(65; "Branch Description (To)"; text[50]) { }
+        field(66; "Department Description (To)"; text[50]) { }
+        field(67; "Unit Description (To)"; text[50]) { }
+        field(68; "Effective Date (B.S.)"; Code[10]) { }
+        field(69; "Package Record"; Boolean) { }
     }
 
     keys
     {
         key(Key1; "Service History Code") { }
+        key(Key2; "Employee No.", "Effective Date") { }
     }
 
     fieldgroups { }
@@ -148,8 +272,64 @@ table 50096 "Employee Service History"
     var
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
-        FunctionalTitle: Record "Functional Title";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
         HrMgt: Codeunit "HR Mgt.";
+        OrgStructureList: Record "Organization Structure List";
+        EngNep: Record "English-Nepali Date";
+
+    // procedure GetServiceDuration(ServiceHistoryFrom: Record "Employee Service History"; ToDate: Date): Text[50]
+    // var
+    //     Employee: Record Employee;
+    //     NewEffectiveDateDate: Date;
+    //     ServiceDuration: Text[50];
+    // begin
+    //     HRSetup.Get();
+    //     Employee.Get(ServiceHistoryFrom."Employee No.");
+    //     NewEffectiveDateDate := HrMgt.GetAdjustedEmploymentDate(Employee, ServiceHistoryFrom."Effective Date", ToDate);
+    //     if HRSetup."Calculate Age using Nepali C." then
+    //         ServiceDuration := HrMgt.GetAgeBS(EngNep.getNepaliDate(NewEffectiveDateDate), EngNep.getNepaliDate(ToDate))
+    //     else
+    //         ServiceDuration := HrMgt.GetAge(NewEffectiveDateDate, ToDate);
+    //     exit(ServiceDuration);
+    // end;
+
+    procedure UpdateDuration(ServiceHistoryFrom: Record "Employee Service History")
+    var
+        EmpServiceHistory: Record "Employee Service History";
+    begin
+        EmpServiceHistory.SetRange("Employee No.", ServiceHistoryFrom."Employee No.");
+        EmpServiceHistory.SetCurrentKey("Effective Date");
+        EmpServiceHistory.SetAscending("Effective Date", true);
+        if ServiceHistoryFrom."Service Event" = ServiceHistoryFrom."Service Event"::Appointment then
+            EmpServiceHistory.SetRange("Service Event", ServiceHistoryFrom."Service Event"::Confirmation)
+        else if ServiceHistoryFrom."Service Event" = ServiceHistoryFrom."Service Event"::"Period Extend" then
+            EmpServiceHistory.SetFilter("Service Event", '%1|%2', ServiceHistoryFrom."Service Event"::"Period Extend", ServiceHistoryFrom."Service Event"::Confirmation)
+        else if ServiceHistoryFrom."Service Event" = ServiceHistoryFrom."Service Event"::"Grade Increment" then
+            EmpServiceHistory.SetFilter("Service Event", '%1|%2', ServiceHistoryFrom."Service Event"::"Grade Increment", ServiceHistoryFrom."Service Event"::Appraisal)
+        else
+            EmpServiceHistory.SetRange("Service Event", ServiceHistoryFrom."Service Event");
+        EmpServiceHistory.SetFilter("Effective Date", '>%1', ServiceHistoryFrom."Effective Date");
+        if EmpServiceHistory.FindFirst() then
+            ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", EmpServiceHistory."Effective Date" - 1)
+        else
+            ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", Today);
+        ServiceHistoryFrom.Modify();
+    end;
+
+    procedure GetServiceDuration(EmployeeNo: Code[20]; FromDate: Date; ToDate: Date): Text[50]
+    var
+        Employee: Record Employee;
+        NewEffectiveDateDate: Date;
+        ServiceDuration: Text[50];
+    begin
+        HRSetup.Get();
+        Employee.Get(EmployeeNo);
+        NewEffectiveDateDate := HrMgt.GetAdjustedEmploymentDate(Employee, FromDate, ToDate);
+        if HRSetup."Calculate Age using Nepali C." then
+            ServiceDuration := HrMgt.GetAgeBS(EngNep.getNepaliDate(NewEffectiveDateDate), EngNep.getNepaliDate(ToDate))
+        else
+            ServiceDuration := HrMgt.GetAge(NewEffectiveDateDate, ToDate);
+        exit(ServiceDuration);
+    end;
 }

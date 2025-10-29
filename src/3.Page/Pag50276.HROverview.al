@@ -38,22 +38,47 @@ page 50276 "HR Overview"
                         ToolTip = 'Specifies the value of the Temporary Staff field.';
                         ApplicationArea = All;
                     }
+                    field("Outsource Staff"; Rec."Outsource Staff")
+                    {
+                        ToolTip = 'Specifies the value of the Outsource Staff field.', Comment = '%';
+                    }
 
                 }
-            }
-            field("Contract Expiry Employees"; Rec."Contract Expiry Employees")
-            {
-                Caption = 'Contract Expiring';
-                ToolTip = 'Specifies the value of the Expiring field.';
-                ApplicationArea = All;
+                group("To Review")
+                {
+                    field("Contract Expiry Staff"; Rec."Contract Expiry Staff")
+                    {
+                        ToolTip = 'Specifies the value of the Expiring field.';
+                        ApplicationArea = All;
+                    }
+
+                    field("Contract Expired Staff"; Rec."Contract Expired Staff")
+                    {
+                        ToolTip = 'Specifies the value of the Expired field.';
+                        ApplicationArea = All;
+                    }
+                    field("Probation Ending Staff"; Rec."Probation Ending Staff")
+                    {
+                        ToolTip = 'Specifies the value of the Probation Ending field.';
+                        ApplicationArea = All;
+                    }
+                    field("Probation Ended Staff"; Rec."Probation Ended Staff")
+                    {
+                        ToolTip = 'Specifies the value of the Probation Ended Staff field.', Comment = '%';
+                    }
+
+                    field("Temporary Ending Staff"; Rec."Temporary Ending Staff")
+                    {
+                        ToolTip = 'Specifies the value of the Temporary Ending field.';
+                        ApplicationArea = All;
+                    }
+                    field("Temporary Ended Staff"; Rec."Temporary Ended Staff")
+                    {
+                        ToolTip = 'Specifies the value of the Temporary Ended Staff field.', Comment = '%';
+                    }
+                }
             }
 
-            field("Contract Expired Employees"; Rec."Contract Expired Employees")
-            {
-                Caption = 'Contract Expired';
-                ToolTip = 'Specifies the value of the Expired field.';
-                ApplicationArea = All;
-            }
             grid("RequestToApprove")
             {
                 group("Request To Approve")
@@ -136,11 +161,9 @@ page 50276 "HR Overview"
     begin
         HrSetup.Get();
         Rec.SetFilter("Contract Expiry Date Filter", '%1..%2', today, CalcDate(HrSetup."Contract Expiry Days", Today));
-        Rec.SetFilter("Expiry Check Date", '..%1', Today);
-
-        if not HrMgt.IsSaaS() then
-            Rec.SetRange("Employee Filter", HrMgt.GetEmployeeNo());
-
+        Rec.SetFilter("Expiry Check Date", '..%1&<>%2', Today, 0D);
+        Rec.SetRange("Employee Filter", HrMgt.GetEmployeeNo());
+        Rec.SetFilter("Zero Date Filter", '%1', 0D);
     end;
 
     var

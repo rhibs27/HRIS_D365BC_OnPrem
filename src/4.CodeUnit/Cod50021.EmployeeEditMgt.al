@@ -34,7 +34,8 @@ codeunit 50021 "Employee Edit Mgt."
                 begin
                     EmployeeLanguageAdd(EmployeeEdit);
                 end;
-
+            EmployeeEditType::"Additional Documents":
+                ImportEditLineAttachmentsToEmployee(EmployeeEdit."No.");
         end;
     end;
 
@@ -74,8 +75,8 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Temporary District", EmployeeEdit."Temporary District");
                 if EmployeeEdit."Temporary VDC" <> '' then
                     Employee.Validate("Temporary VDC", EmployeeEdit."Temporary VDC");
-                if EmployeeEdit."Ward No." <> 0 then
-                    Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
+                if EmployeeEdit."Temporary Ward No" <> 0 then
+                    Employee.Validate("Temporary Ward No", EmployeeEdit."Temporary Ward No");
                 if EmployeeEdit."Temporary Locality" <> '' then
                     Employee.Validate("Temporary Locality", EmployeeEdit."Temporary Locality");
                 if EmployeeEdit."Temporary House" <> '' then
@@ -377,6 +378,80 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
         if EmployeeEditLine.FindSet() then
             EmployeeEditLine.ModifyAll("Employee No.", EmployeeEdit."Employee No.", false);
+    end;
+
+    procedure ImportEditLineAttachmentsToEmployee(EmployeeEditNo: Code[20])
+    var
+        EmployeeEditLine: Record "Employee Edit Line";
+        EmployeeEdit: Record "Employee Edit";
+        Employee: Record Employee;
+        FromRecRef: RecordRef;
+        ToRecRef: RecordRef;
+        TempBlob: Codeunit "Temp Blob";
+        FileName: Text;
+        FileExtension: Text;
+        ToTableId: Integer;
+        DocumentAttachment: Record "Document Attachment";
+        InStr: InStream;
+        OutStr: OutStream;
+    begin
+        ToTableId := Database::Employee;
+        if not EmployeeEdit.Get(EmployeeEditNo) then
+            exit;
+        if not Employee.Get(EmployeeEdit."Employee No.") then
+            exit;
+
+        EmployeeEditLine.SetRange("Document No.", EmployeeEditNo);
+        if EmployeeEditLine.FindSet() then
+            repeat
+                if EmployeeEditLine.Attachment.HasValue() then begin
+                    FileName := EmployeeEditLine.Description;
+                    if FileName = '' then
+                        FileName := 'Attachment';
+
+                    // Get file extension from Attachment field
+                    FileExtension := GetMediaFileExtension(EmployeeEditLine.Attachment.MediaId(), FileName);
+
+                    TempBlob.CreateOutStream(OutStr);
+                    EmployeeEditLine.Attachment.ExportStream(OutStr);
+
+                    Employee.Get(EmployeeEditLine."Employee No.");
+                    FromRecRef.GetTable(Employee);
+
+                    Clear(DocumentAttachment);
+                    DocumentAttachment.Init();
+                    DocumentAttachment."Table ID" := Database::Employee;
+                    DocumentAttachment."No." := EmployeeEditLine."Employee No.";
+                    DocumentAttachment."Line No." := EmployeeEditLine."Line No.";
+                    DocumentAttachment."File Name" := FileName;
+                    DocumentAttachment."File Extension" := FileExtension;
+                    DocumentAttachment."Attachment Document Type" := EmployeeEditLine."Attachment Document Type";
+                    DocumentAttachment.SaveAttachment(FromRecRef, FileName, TempBlob);
+                end;
+            until EmployeeEditLine.Next() = 0;
+    end;
+
+    procedure GetMediaFileExtension(MediaId: Guid; var FileName: Text): Text
+    var
+        TenantMedia: Record "Tenant Media";
+        InStr: InStream;
+    begin
+        if not TenantMedia.Get(MediaId) then
+            exit('');
+
+        FileName := TenantMedia.Description;
+        exit(LowerCase(GetFileExtension(FileName)));
+    end;
+
+    procedure GetFileExtension(FileName: Text): Text
+    var
+        DotPos: Integer;
+    begin
+        DotPos := StrPos(FileName, '.');
+        if DotPos > 0 then
+            exit(CopyStr(FileName, DotPos + 1))
+        else
+            exit('');
     end;
 
     [IntegrationEvent(false, false)]

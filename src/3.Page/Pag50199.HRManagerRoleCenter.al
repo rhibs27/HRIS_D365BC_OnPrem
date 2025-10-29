@@ -11,27 +11,22 @@ page 50199 "HR Manager Role Center"
             {
                 ApplicationArea = Basic, Suite;
             }
-            group("HRMS")
+            part("HR Overview"; "HR Overview")
             {
-
-                part("HR Overview"; "HR Overview")
-                {
-                    Caption = 'HR Overview';
-                    ApplicationArea = All;
-                }
-                part("loan & Advance"; "Loan & Advance cues")
-                {
-                    Caption = 'Loan & Advance Details';
-                    ApplicationArea = All;
-                }
-            }
-            part(HRCue; "HR Cue")
-            {
-                Caption = 'HR Activities';
+                Caption = 'HR Overview';
                 ApplicationArea = All;
             }
-
-
+            // part("loan & Advance"; "Loan & Advance cues")
+            // {
+            //     Caption = 'Loan & Advance Details';
+            //     ApplicationArea = All;
+            // }
+            // }
+            // part(HRCue; "HR Cue")
+            // {
+            //     Caption = 'HR Activities';
+            //     ApplicationArea = All;
+            // }
             part(Control15; "Employee Leave Days-HR Cue")
             {
                 Visible = false;

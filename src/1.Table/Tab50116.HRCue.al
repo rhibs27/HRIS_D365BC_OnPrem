@@ -105,9 +105,7 @@ table 50116 "HR Cue"
         {
             FieldClass = FlowFilter;
         }
-
-
-        field(61; "Contract Expiry Employees"; Integer)
+        field(61; "Contract Expiry Staff"; Integer)
         {
             CalcFormula = count(Employee where("Employment Type" = const(Contract),
                                                 Status = const(Active),
@@ -118,7 +116,7 @@ table 50116 "HR Cue"
         {
             FieldClass = FlowFilter;
         }
-        field(63; "Contract Expired Employees"; Integer)
+        field(63; "Contract Expired Staff"; Integer)
         {
             CalcFormula = count(Employee where("Employment Type" = const(Contract),
                                                 Status = const(Active),
@@ -266,6 +264,46 @@ table 50116 "HR Cue"
             CalcFormula = count("Approval HRMS" where("Document Type" = filter("Insurance"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
             Description = 'Request To Approve';
             FieldClass = FlowField;
+        }
+        field(94; "Outsource Staff"; Integer)
+        {
+            CalcFormula = count(Employee where("Employment Type" = const(Outsource),
+                                                Status = const(Active)));
+            FieldClass = FlowField;
+        }
+        field(95; "Probation Ending Staff"; Integer)
+        {
+            CalcFormula = count(Employee where("Employment Type" = const(Probation),
+                                                Status = const(Active),
+                                                "Trainee/Probation End date" = field("Contract Expiry Date Filter")));
+            FieldClass = FlowField;
+        }
+        field(96; "Temporary Ending Staff"; Integer)
+        {
+            CalcFormula = count(Employee where("Employment Type" = const(Temporary),
+                                                Status = const(Active),
+                                                "Trainee/Probation End date" = field("Contract Expiry Date Filter")));
+            FieldClass = FlowField;
+        }
+        field(97; "Probation Ended Staff"; Integer)
+        {
+            CalcFormula = count(Employee where("Employment Type" = const(Probation),
+                                                Status = const(Active),
+                                                "Resignation Date" = field("Zero Date Filter"),
+                                                "Trainee/Probation End date" = field("Expiry Check Date")));
+            FieldClass = FlowField;
+        }
+        field(98; "Temporary Ended Staff"; Integer)
+        {
+            CalcFormula = count(Employee where("Employment Type" = const(Temporary),
+                                                Status = const(Active),
+                                                "Resignation Date" = field("Zero Date Filter"),
+                                                "Trainee/Probation End date" = field("Expiry Check Date")));
+            FieldClass = FlowField;
+        }
+        field(99; "Zero Date Filter"; Date)
+        {
+            FieldClass = FlowFilter;
         }
     }
 

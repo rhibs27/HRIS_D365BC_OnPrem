@@ -5524,7 +5524,7 @@ codeunit 50001 "HR Mgt."
         NewEmploymentDate: Date;
     begin
         if Employee."Employment Date" <> 0D then begin
-            NewEmploymentDate := GetAdjustedEmploymentDate(Employee);
+            NewEmploymentDate := GetAdjustedEmploymentDate(Employee, Employee."Employment Date", Today);
             HRSetup.Get();
             if HRSetup."Calculate Age using Nepali C." then begin
                 if Employee."Termination Date" <> 0D then
@@ -5541,7 +5541,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure GetAdjustedEmploymentDate(Employee: Record Employee): Date
+    procedure GetAdjustedEmploymentDate(Employee: Record Employee; EmplymentDate: Date; EndDate: Date): Date
     var
         AdjustingDays: Integer;
         EmployeeInactiveLine: Record "Service Inactivity Ledger";
@@ -5549,11 +5549,12 @@ codeunit 50001 "HR Mgt."
         PreviousPeriod: DateFormula;
     begin
         AdjustingDays := 0;
-        if Employee."Employment Date" <> 0D then begin
-            NewEmploymentDate := Employee."Employment Date";
+        if EmplymentDate <> 0D then begin
+            NewEmploymentDate := EmplymentDate;
 
             EmployeeInactiveLine.Reset();
             EmployeeInactiveLine.SetRange("Employee No.", Employee."No.");
+            EmployeeInactiveLine.SetRange("Start Date", EmplymentDate, EndDate);
             if EmployeeInactiveLine.FindSet() then
                 repeat
                     if not EmployeeInactiveLine."Counted In Service Period" then
@@ -5788,6 +5789,50 @@ codeunit 50001 "HR Mgt."
                     1
                 );
             until DateRec.Next() = 0;
+    end;
+
+    procedure GetCompanyOneLineAddress(var CompanyName: Text[100]; var CompanyOneLineAddress: Text[250]; var CompanyCommunicationAddress: Text[250])
+    var
+        CompanyInfo: Record "Company Information";
+        FormatAddr: Codeunit "Format Address";
+        CompanyAddr: array[8] of Text[50];
+    begin
+        CompanyInfo.Get();
+        FormatAddr.Company(CompanyAddr, CompanyInfo);
+
+        CompanyAddr[1] := CompanyInfo.Name;
+        CompanyName := CompanyAddr[1];
+
+
+        if CompanyInfo."Phone No." <> '' then
+            CompanyOneLineAddress := OneLineAddress(CompanyAddr) + ', ' + CompanyInfo.FieldCaption("Phone No.") + ' : ' + CompanyInfo."Phone No."
+        else
+            CompanyOneLineAddress := OneLineAddress(CompanyAddr);
+
+        if CompanyInfo."Fax No." <> '' then
+            CompanyCommunicationAddress := CompanyInfo.FieldCaption("Fax No.") + ' : ' + CompanyInfo."Fax No.";
+
+        if CompanyInfo."E-Mail" <> '' then begin
+            if (CompanyCommunicationAddress <> '') then
+                CompanyCommunicationAddress += ', ' + CompanyInfo.FieldCaption("E-Mail") + ' : ' + CompanyInfo."E-Mail"
+            else
+                CompanyCommunicationAddress += CompanyInfo.FieldCaption("E-Mail") + ' : ' + CompanyInfo."E-Mail";
+        end;
+    end;
+
+    local procedure OneLineAddress(var AddrArray: array[8] of Text[50]) OneLineAddress: Text
+    var
+        i: Integer;
+    begin
+        CompressArray(AddrArray);
+        for i := 2 to ArrayLen(AddrArray) do begin
+            if AddrArray[i] <> '' then
+                if OneLineAddress = '' then
+                    OneLineAddress += AddrArray[i]
+                else
+                    OneLineAddress += ', ' + AddrArray[i];
+        end;
+        exit(OneLineAddress);
     end;
 
     [IntegrationEvent(false, false)]
