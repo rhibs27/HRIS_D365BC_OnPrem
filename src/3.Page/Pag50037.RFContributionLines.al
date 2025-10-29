@@ -64,7 +64,7 @@ page 50037 "RF Contribution Lines"
         myInt: Integer;
     begin
         SelectMonth := Rec.Type = Rec.Type::Manual;
-        IsCreated := Rec."Approval Status" = rec."Approval Status"::Created;
+        IsCreated := (Rec."Approval Status" = rec."Approval Status"::Created) or (Rec."Approval Status" = rec."Approval Status"::Open);
     end;
 
     var
