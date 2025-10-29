@@ -78,7 +78,7 @@ table 50159 "RF Contribution"
         field(12; "Pay Cycle Period"; Integer)
         {
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
-                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
+                                                             "Pay Cycle Term" = field("Pay Cycle Term"), Posted = const(false));
         }
     }
     keys

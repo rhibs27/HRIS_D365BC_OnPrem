@@ -64,8 +64,14 @@ page 50037 "RF Contribution Lines"
         myInt: Integer;
     begin
         SelectMonth := Rec.Type = Rec.Type::Manual;
+
+    end;
+
+    trigger OnOpenPage()
+    begin
         IsCreated := (Rec."Approval Status" = rec."Approval Status"::Created) or (Rec."Approval Status" = rec."Approval Status"::Open);
     end;
+
 
     var
         SelectMonth: Boolean;
