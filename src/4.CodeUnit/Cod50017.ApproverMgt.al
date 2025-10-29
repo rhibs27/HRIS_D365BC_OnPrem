@@ -677,6 +677,38 @@ codeunit 50017 "Approver Mgt"
                 end;
         end;
     end;
+    // >>  Reopen Document Dynamically using RecRef>> Santosh 2025-10-29 >>
+    procedure ReopenDocument(var RecRef: RecordRef)
+    var
+        Approver: Record "Approval HRMS";
+        ApprovalStatusField: text;
+        ApprovalStatusEnum: Enum "Approval Status";
+        EmpActType: Enum "Employee Activity Type";
+        StatusMaster: Record "Status Master";
+        RetirementFund: Record "Retirement Fund";
+        DocNumber: code[20];
+    begin
+        // Get the fields dynamically using FieldRef
+        ApprovalStatusField := Format((RecRef.Field(16)));
+        EmpActType := RecRef.Field(2).Value;
+        DocNumber := RecRef.Field(1).Value;
+        if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
+            CheckApprover(DocNumber);
+            CheckFirstApproverSequence(DocNumber);
+            Approver.Reset();
+            Approver.SetRange("Document No.", DocNumber);
+            Approver.SetRange("Approval Sequence", 1);
+            if Approver.Findset() then begin
+                repeat
+                    Approver.Validate("Approval Status", Approver."Approval Status"::Created);
+                    Approver.Modify();
+                until Approver.Next() = 0;
+                RecRef.Field(16).Validate(ApprovalStatusEnum::Open); // Modify the record dynamically
+                RecRef.Modify();
+            end;
+        end else
+            Error('Document Status Must be in Pending');
+    end;
 
     procedure IsFinalApprover(DocNo: Code[20]): Boolean
     var

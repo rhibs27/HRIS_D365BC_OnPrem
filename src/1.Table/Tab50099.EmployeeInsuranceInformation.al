@@ -208,6 +208,20 @@ table 50099 "Employee Insurance Information"
         end;
     end;
 
+    trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "Insurance No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
+        end;
+    end;
+
     // trigger OnModify()
     // begin
     //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then 
@@ -235,6 +249,7 @@ table 50099 "Employee Insurance Information"
         Hrmgt: Codeunit "HR Mgt.";
         SpecialCharsErr: Label 'You cannot enter the special characters. ';
         SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?';
+        ApprovalEntry: Record "Approval HRMS";
         Len: Integer;
         Text019: Label 'Policy No. %1 already used in Insurance No. %2.';
         Error001: Label 'Insurance Expiry Date must be greater then Insurance Start Date %1.';

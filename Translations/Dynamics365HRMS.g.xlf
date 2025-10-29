@@ -5083,6 +5083,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - NamedType Text019</note>
         </trans-unit>
+        <trans-unit id="Table 617144856 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot delete document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Method OnDelete - NamedType CannotDelete</note>
+        </trans-unit>
         <trans-unit id="Table 617144856 - Field 178863986 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Annual Premium Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26633,11 +26638,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Action Return Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1469501960 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Action Screen - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1469501960 - Action 2470223551 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Send Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26718,15 +26718,30 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 2913119229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Approved - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Clear Filter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 520546656 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action open - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 3481143665 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Pending - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2990168411 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Rejected action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Rejected - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2990168411 - Action 1735395895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screened action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Screened - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 295158414 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attribute Code field.</source>
