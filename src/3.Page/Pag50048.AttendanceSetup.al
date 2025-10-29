@@ -85,6 +85,11 @@ page 50048 "Attendance Setup"
                     ApplicationArea = All;
                     Caption = 'Overtime Claim Type';
                 }
+                field("Different Emp. ID for Device"; Rec."Different Emp. ID for Device")
+                {
+                    ToolTip = 'Specifies whether Employee ID and Machine Emp. Code are different in attendance log table. If true "Employee ID" in attendance log table gets updated before processing the attendance';
+                    ApplicationArea = All;
+                }
 
             }
             group(Integration)

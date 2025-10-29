@@ -80,13 +80,13 @@ table 50156 "Allowance Configuration"
         {
 
         }
-        field(15; "ATM Site"; Option)
+        field(15; "ATM Site"; Enum "ATM Site")
         {
-            OptionMembers = " ","On-Site","Off-Site";
+
         }
-        field(16; Source; Option)
+        field(16; Source; Enum "Allowance Config. Source")
         {
-            OptionMembers = " ",Assignment,Shift,Leave,Direct;
+
         }
         field(17; "Leave Code"; Code[20])
         {
@@ -102,6 +102,13 @@ table 50156 "Allowance Configuration"
         field(21; Formula; Text[20])
         {
 
+        }
+        field(22; "Specific Payroll Attribute"; Enum "Specific Payroll Attributes")
+        {
+            Caption = 'Specific Payroll Attribute';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = lookup("Payroll Attributes"."Specific Attributes" where(Code = field("Payroll Attribute")));
         }
     }
     keys

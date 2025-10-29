@@ -126,6 +126,6 @@ enum 50062 "Employee Activity Type"
     }
     value(31; "Request Allowance")
     {
-
+        Caption = 'Request Allowance';
     }
 }

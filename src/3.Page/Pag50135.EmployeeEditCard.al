@@ -210,11 +210,17 @@ page 50135 "Employee Edit Card"
                 SubPageView = where("Change in Emp Type" = filter(Language));
                 ApplicationArea = all;
             }
+            part("Additional Attachments"; "Emp. Edit Add. Attach. Subform")
+            {
+                Visible = AdditionalDocuments;
+                SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter("Additional Documents"));
+                ApplicationArea = all;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                // "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
@@ -289,7 +295,7 @@ page 50135 "Employee Edit Card"
         IsPending, IsRejected, IsApproved : Boolean;
         StatusView, ApprovalStatusView : Boolean;
         RecRef: RecordRef;
-        DetailsChanges, Relative, LanguageChange, QualificationChanges, WorkExperienceChanges, AchievementChanges : Boolean;
+        DetailsChanges, Relative, LanguageChange, QualificationChanges, WorkExperienceChanges, AchievementChanges, AdditionalDocuments : Boolean;
         WorkExperience, GroupCaption : text;
         ApprovalMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
@@ -302,6 +308,7 @@ page 50135 "Employee Edit Card"
         AchievementChanges := Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Achievement;
         Relative := Rec."Changes In Employee Type" = rec."Changes In Employee Type"::Relative;
         LanguageChange := Rec."Changes In Employee Type" = rec."Changes In Employee Type"::Language;
+        AdditionalDocuments := Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Additional Documents";
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;

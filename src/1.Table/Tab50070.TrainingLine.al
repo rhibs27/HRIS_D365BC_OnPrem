@@ -101,7 +101,7 @@ table 50070 "Training Line"
                 end;
             end;
         }
-        field(16; "Name of Organization"; Text[50]) { }
+        field(16; "Name of Organization"; Text[250]) { }
         field(17; "Start Time"; Time)
         {
             trigger OnValidate()
@@ -188,6 +188,43 @@ table 50070 "Training Line"
         {
         }
         field(28; "Account No."; Code[20]) { }
+        field(29; "Sponsorship Type"; Enum "Sponsorship Type")
+        {
+        }
+        field(30; Country; Code[20])
+        {
+            TableRelation = "Country/Region";
+            trigger OnValidate()
+            var
+                CountryRec: Record "Country/Region";
+            begin
+                if CountryRec.Get(Country) then
+                    Validate("Country Name", CountryRec.Name)
+                else
+                    Clear("Country Name");
+            end;
+        }
+        field(31; "Country Name"; Text[100])
+        {
+            Editable = false;
+        }
+        field(32; "Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            trigger OnValidate()
+            var
+                OrgStructureList: Record "Organization Structure List";
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code") then
+                    "Branch Name" := OrgStructureList.Name
+                else
+                    "Branch Name" := '';
+            end;
+        }
+        field(54; "Training Remarks"; Text[500])
+        {
+            Editable = false;
+        }
     }
 
     keys

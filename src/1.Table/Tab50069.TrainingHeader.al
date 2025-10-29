@@ -98,7 +98,7 @@ table 50069 "Training Header"
                 end;
             end;
         }
-        field(8; Venue; Text[30]) { }
+        field(8; Venue; Text[250]) { }
         field(9; Vendor; Code[20])
         {
             TableRelation = Vendor;
@@ -449,7 +449,7 @@ table 50069 "Training Header"
         {
             Editable = false;
         }
-        field(54; "Training Remarks"; Text[50])
+        field(54; "Training Remarks"; Text[500])
         {
             Editable = false;
         }
@@ -488,6 +488,26 @@ table 50069 "Training Header"
         field(62; "Reviewed By Name"; Text[50]) { }
         field(63; "Supported By Name"; Text[50]) { }
         field(64; Online; Boolean) { }
+        field(65; "Sponsorship Type"; Enum "Sponsorship Type")
+        {
+        }
+        field(66; Country; Code[20])
+        {
+            TableRelation = "Country/Region";
+            trigger OnValidate()
+            var
+                CountryRec: Record "Country/Region";
+            begin
+                if CountryRec.Get(Country) then
+                    Validate("Country Name", CountryRec.Name)
+                else
+                    Clear("Country Name");
+            end;
+        }
+        field(67; "Country Name"; Text[100])
+        {
+            Editable = false;
+        }
     }
 
     keys

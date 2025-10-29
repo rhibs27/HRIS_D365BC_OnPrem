@@ -78,12 +78,9 @@ page 50165 "Emp. Edit Relative Subform"
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
                         // check file size 
-                        if Rec."Change in Emp Type" = Rec."Change in Emp Type"::Qualification then
-                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Employee Document Type"::Education))
-                        else if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
-                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"))
-                        else
-                            Error('Invalid');
+
+                        AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
+
 
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
@@ -124,21 +121,13 @@ page 50165 "Emp. Edit Relative Subform"
                     Instream: InStream;
                     fileInitial: Text;
                 begin
-                    // Rec.TestField("Entry No.");
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
-                        if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
-                            fileInitial := Rec.Designation
-                        else
-                            fileInitial := Rec."Qualification Code";
 
-                        ToFile := Format(Rec."Employee No.") + '_' + format(fileInitial) + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
+                        ToFile := Format(Rec."Employee No.") + '_' + format(Rec."Relative Code") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
                         ItemTenantMedia.CalcFields(Content);
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
                         DownloadFromStream(Instream, '', '', '', ToFile);
                     end;
-                    // ExportPath := TemporaryPath + Format(Rec."Employee No.") + Format(Rec.Attachment.MediaId);
-                    // Rec.Attachment.ExportFile(ExportPath);
-                    // FileManagement.ExportImage(ExportPath, ToFile);
                 end;
             }
             action(DeletePicture)
@@ -152,7 +141,7 @@ page 50165 "Emp. Edit Relative Subform"
                 begin
                     Rec.TestField("Employee No.");
 
-                    if not Confirm('Do you want to delete/') then
+                    if not Confirm('Do you want to delete?') then
                         exit;
                     Clear(Rec.Attachment);
                     Rec.Modify(true);
