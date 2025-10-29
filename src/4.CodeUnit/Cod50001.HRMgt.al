@@ -4706,6 +4706,14 @@ codeunit 50001 "HR Mgt."
         exit(Empvar."Full Name");
     end;
 
+    procedure GetEmpNameSaas(EmployeeNo: code[20]): Text
+    begin
+        Employee.Reset;
+        Employee.SetRange("No.", EmployeeNo);
+        Employee.FindFirst;
+        exit(Employee."Full Name");
+    end;
+
     procedure SendEmailOfferLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
     var
         CompanyInfo: Record "Company Information";
