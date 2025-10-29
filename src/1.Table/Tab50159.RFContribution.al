@@ -37,6 +37,13 @@ table 50159 "RF Contribution"
             begin
                 TestField("Employee No.");
 
+                if Rec.Type <> xRec.Type then begin
+                    "Attribute Code" := '';
+                    "Pay Cycle Code" := '';
+                    "Pay Cycle Term" := '';
+                    "Pay Cycle Period" := 0;
+                end;
+
                 if Type <> Type::Manual then
                     exit;
 
@@ -49,6 +56,19 @@ table 50159 "RF Contribution"
         {
             TableRelation = "Payroll Attributes".Code where(Subtype = filter(CIT | RF));
             Caption = 'Attribute Code';
+            trigger OnValidate()
+            var
+                RFContr: Record "RF Contribution";
+            begin
+                if Type = Type::Manual then
+                    exit;
+
+                RFContr.SetRange("Document No.", '');
+                RFContr.SetRange("Employee No.", "Employee No.");
+                RFContr.SetRange("Attribute Code", "Attribute Code");
+                if RFContr.FindFirst() then
+                    Error('RF Contribution record already exists for Employee %1 and Attribute %2', "Employee No.", "Attribute Code");
+            end;
         }
         field(7; "Nepali Month"; Enum "Nepali Month")
         {
