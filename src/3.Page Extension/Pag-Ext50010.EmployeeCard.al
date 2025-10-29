@@ -1485,7 +1485,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             if AllowanceType = '' then
                                 Error('Allowance Type must have value');
 
-                        AllowanceAssignmentMgt.OpenAllowance(Rec."No.", AllowanceType);
+                        // AllowanceAssignmentMgt.OpenAllowance(Rec."No.", AllowanceType);
 
                     end;
                 }
