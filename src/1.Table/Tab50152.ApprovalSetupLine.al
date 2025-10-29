@@ -78,6 +78,9 @@ table 50152 "Approval Setup Line"
         {
 
         }
+        field(11; "Payroll Filter"; Code[200])
+        {
+        }
     }
     keys
     {

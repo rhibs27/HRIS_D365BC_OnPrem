@@ -17,26 +17,52 @@ enum 50013 "Specific Payroll Attributes"
     {
         Caption = 'Dashian';
     }
-    value(9; "OverTime Salary")
+    value(4; "OverTime Salary")
     {
         Caption = 'Overtime Salary';
     }
-    value(11; "Interest Income")
+    value(5; "Interest Income")
     {
         Caption = 'Interest Income';
     }
-    value(15; "Late Deduction")
+    value(6; "Late Deduction")
     {
         Caption = 'Late Deduction';
     }
-    value(16; "Insurance Recover")
+    value(7; "Insurance Recover")
     {
         Caption = 'Insurance Recover';
     }
-    value(17; "Settlement Recovery")
+    value(8; "Settlement Recovery")
     {
         Caption = 'Settlement Recovery';
     }
-
-
+    value(9; "Remote Area Allowance")
+    {
+        Caption = 'Remote Area Allowance';
+    }
+    value(10; "OutStation Allowance")
+    {
+        Caption = 'OutStation Allowance';
+    }
+    value(11; "ATM Allowance")
+    {
+        Caption = 'ATM Allowance';
+    }
+    value(12; "Vault Key Allowance")
+    {
+        Caption = 'Vault Key Allowance';
+    }
+    value(13; "Education Allowance")
+    {
+        Caption = 'Education Allowance';
+    }
+    value(14; "Transportation Allowance")
+    {
+        Caption = 'Transportation Allowance';
+    }
+    value(15; Reimbursement)
+    {
+        Caption = 'Reimbursement';
+    }
 }

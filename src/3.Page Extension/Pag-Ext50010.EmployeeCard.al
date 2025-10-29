@@ -266,6 +266,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Automatic Attendance field.', Comment = '%';
             }
+            field("Identity Mark"; Rec."Identity Mark")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Identity Mark field.', Comment = '%';
+            }
 
         }
         addafter(General)
@@ -1464,8 +1469,24 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Allowance Assignment Claim action.';
                     ApplicationArea = All;
                     trigger OnAction()
+                    var
+                        FilterPageBuilder: FilterPageBuilder;
+                        Allowanceconfig: Record "Allowance Configuration";
+                        AllowanceType: Code[20];
                     begin
-                        AllowanceAssignmentMgt.OpenAllowance(Rec."No.");
+                        FilterPageBuilder.AddRecord('Select Allowance Type', Allowanceconfig);
+                        FilterPageBuilder.ADdField('Select Allowance Type', Allowanceconfig."Payroll Attribute");
+                        if FilterPageBuilder.RunModal then begin
+                            Allowanceconfig.SetView(FilterPageBuilder.GetView('Select Allowance Type'));
+                            if Allowanceconfig.GetFilter("Payroll Attribute") = '' then
+                                Error('Allowance Type must have value');
+                            AllowanceType := Allowanceconfig.GetFilter("Payroll Attribute");
+                        end else
+                            if AllowanceType = '' then
+                                Error('Allowance Type must have value');
+
+                        // AllowanceAssignmentMgt.OpenAllowance(Rec."No.", AllowanceType);
+
                     end;
                 }
                 action("Shift Assignment")

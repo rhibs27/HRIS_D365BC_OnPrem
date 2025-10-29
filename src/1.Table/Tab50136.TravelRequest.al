@@ -50,21 +50,19 @@ table 50136 "Travel Request"
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
                     Validate(Department, EmpVar."Department Code");
+                    Validate("Branch Code", EmpVar."Branch Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Department Name", EmpVar."Department Name");
-                    // Validate("Deputation On", EmpVar."Deputation on");
                     Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
-                    // Validate("Sub Province Code", EmpVar."Sub Province Code");
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
-                    /*VALIDATE("Compensatory Days", EmpVar."Reporting Line 1");
-                    VALIDATE("Reporting Line 2 Code", EmpVar."Reporting Line 2");*/
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                 end else begin
                     Clear("Employee Name");
+                    Clear("Branch Code");
                     Validate("Shortcut Dimension 1 Code", '');
                     Validate(Department, '');
                     Validate("Auth. Account No.", '');
@@ -244,11 +242,6 @@ table 50136 "Travel Request"
             begin
                 Clear("Rejection Remarks");
             end;
-
-            // trigger OnLookup()
-            // begin
-            //     PAGE.Run(PAGE::"Employee List");
-            // end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -257,49 +250,14 @@ table 50136 "Travel Request"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-
-            trigger OnValidate()
-            begin
-                // if "Approval Status" = "Approval Status"::Screened then begin
-                //     Validate("Screener Date", Today);
-                //     Validate("Screener ID", HRMgt.GetEmployeeNo);
-                // end;
-                // if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
-                //     Validate("Final Approver Date", Today);
-                //     if GuiAllowed then
-                //         Validate("Final Approver", HRMgt.GetEmployeeNo);
-                // end;
-            end;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
-            Editable = false;
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-
-            trigger OnValidate()
-            begin
-                GLSetup.Get;
-                if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-                    Validate("Branch Name", DimValue.Name)
-                else
-                    Validate("Branch Name", '');
-            end;
         }
         field(18; Department; Code[20])
         {
-            Editable = false;
-            // TableRelation = Department;
-
-            // trigger OnValidate()
-            // var
-            //     DeptVar: Record Department;
-            // begin
-            //     if DeptVar.Get(Department) then
-            //         Validate("Department Name", DeptVar.Name)
-            //     else
-            //         Clear("Department Name");
-            // end;
         }
         field(19; "Branch Name"; Text[50])
         {
@@ -314,83 +272,10 @@ table 50136 "Travel Request"
             Editable = false;
             TableRelation = "Functional Title";
         }
-        // field(22; "Recommender Code"; Code[50])
-        // {
-        //     TableRelation = Employee;
-        //     ValidateTableRelation = false;
+        field(22; "Branch Code"; Code[20])
+        {
+        }
 
-        //     trigger OnLookup()
-        //     begin
-        //         EmpVar.Reset;
-        //         if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
-        //             if StrPos("Recommender Code", EmpVar."No.") = 0 then
-        //                 Validate("Recommender Code", EmpVar."No.");
-        //     end;
-
-        //     trigger OnValidate()
-        //     begin
-        //         if "Recommender Code" = "Employee No." then
-        //             Error('You cannot choose your own Employee ID as Recommender.');
-        //         HRMgt.GetEmployeeName("Recommender Code", "Recommender Name");
-        //         if "Recommender Code" = '' then
-        //             Validate("Approver Type", "Approver Type"::Direct)
-        //         else
-        //             Validate("Approver Type", "Approver Type"::"With Recommendation");
-        //         //requirement not fixed
-        //         if "Recommender Code" <> '' then begin
-        //             // if Type <> Type::Overtime then 
-        //             //     if "Recommender Code" = "Approver Code" then
-        //             //         Error('Recommender and Approver cannot be same person.');
-        //             EmployeeRec.Get("Recommender Code");
-        //             if SalaryLevel.Get("Salary Level Code") then;
-        //             if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-        //             if SalaryLevel.Rank >= SalaryLevel1.Rank then
-        //                 Error('Salary level of recommender (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-        //         end;
-        //     end;
-        // }
-        // field(23; "Approver Code"; Code[50])
-        // {
-        //     TableRelation = Employee;
-        //     ValidateTableRelation = false;
-
-        //     trigger OnLookup()
-        //     begin
-        //         EmpVar.Reset;
-        //         if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
-        //             if StrPos("Approver Code", EmpVar."No.") = 0 then
-        //                 Validate("Approver Code", EmpVar."No.");
-        //     end;
-
-        //     trigger OnValidate()
-        //     begin
-        //         if "Approver Code" = "Employee No." then
-        //             Error('You cannot choose your own Employee ID as Approver.');
-        //         //requirement not fixed
-        //         HRMgt.GetEmployeeName("Approver Code", "Approver Name");
-        //         if "Approver Code" <> '' then begin
-        //             HRSetup.Get;
-        //             if EmployeeRec.Get("Recommender Code") then;
-        //             // if Type = Type::Resignation then begin
-        //             //     if not (EmployeeRec."Functional Title" = HRSetup."HR Head Functional Title") then
-        //             //         if "Recommender Code" = "Approver Code" then
-        //             //             Error('Recommender and Approver cannot be same person.');
-        //             // end else
-        //             //     if Type <> Type::Overtime then 
-        //             //         if "Recommender Code" = "Approver Code" then
-        //             //             Error('Recommender and Approver cannot be same person.');
-
-        //             EmployeeRec.Get("Approver Code");
-        //             HRSetup.Get;
-        //             if EmployeeRec."Functional Title" <> HRSetup."HR Head Functional Title" then begin
-        //                 if SalaryLevel.Get("Salary Level Code") then;
-        //                 if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-        //                 if SalaryLevel.Rank >= SalaryLevel1.Rank then
-        //                     Error('Salary level of approver (%1) must be greater than salary level of employee (%2).', EmployeeRec."Full Name", "Employee Name");
-        //             end;
-        //         end;
-        //     end;
-        // }
         field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
@@ -401,17 +286,9 @@ table 50136 "Travel Request"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        // field(26; "Recommender Name"; Text[50])
-        // {
-        //     Editable = false;
-        // }
-        // field(27; "Approver Name"; Text[50])
-        // {
-        //     Editable = false;
-        // }
+
         field(28; "Extension Counter Code"; Code[20])
         {
-            // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
         }
 
         field(30; "Province Code"; Code[20])
@@ -456,63 +333,7 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
-        // field(42; "Screener ID"; Code[20])
-        // {
-        //     Editable = false;
 
-        //     trigger OnValidate()
-        //     begin
-        //         if EmployeeRec.Get("Screener ID") then
-        //             Validate("Screener Name", EmployeeRec."Full Name")
-        //         else
-        //             Clear("Screener Name");
-        //     end;
-        // }
-        // field(43; "Screener Date"; Date)
-        // {
-        //     Editable = false;
-        // }
-        // field(44; "Screener Name"; Text[50])
-        // {
-        //     Editable = false;
-        // }
-        // field(45; "Final Approver"; Code[20])
-        // {
-        //     Editable = false;
-        //     TableRelation = Employee;
-
-        //     trigger OnValidate()
-        //     begin
-        //         if EmployeeRec.Get("Final Approver") then
-        //             Validate("Final Approver Name", EmployeeRec."Full Name")
-        //         else
-        //             Clear("Final Approver Name");
-        //     end;
-        // }
-        // field(46; "Final Approver Name"; Text[50])
-        // {
-        //     Description = 'S';
-        //     Editable = false;
-        // }
-        // field(47; "Final Approver Date"; Date)
-        // {
-        //     Editable = false;
-        // }
-        // field(48; "Reason Code"; Code[20])
-        // {
-        //     TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
-
-        //     trigger OnValidate()
-        //     begin
-        //         if Standardtext.Get("Reason Code") then
-        //             Validate("Reason Description", Standardtext.Description)
-        //         else
-        //             Clear("Reason Description");
-        //     end;
-        // }
-        // field(49; "Reason Description"; Text[50])
-        // {
-        // }
         field(50; "Type Of Visit"; Enum "Type Of Visit")
         {
         }
@@ -766,7 +587,6 @@ table 50136 "Travel Request"
                 if Type = Type::"Travel Claim" then begin
                     EmpVar.Get("Employee No.");
                     SalaryLevel.Get(EmpVar."Salary Level");
-                    //VALIDATE("Out of Pocket Expense",(SalaryLevel."Out of Pocket Expense"*("No. of Days"-1)));
                     Clear("Out of Pocket Expense");
                     Clear("Actual Travel End Time");
                 end;
@@ -795,9 +615,7 @@ table 50136 "Travel Request"
         field(79; "Travel Claimed"; Boolean)
         {
         }
-        // field(80; "Screener Remarks"; Text[100])
-        // {
-        // }
+
         field(80; "Travel With Name"; Text[100])
         {
             Editable = false;
@@ -925,7 +743,10 @@ table 50136 "Travel Request"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
+        key(Key2; "Start Date", "End Date", "Approved Date")
+        {
+        }
+        key(Key3; "Employee No.", "Approval Status")
         {
         }
     }
@@ -982,7 +803,6 @@ table 50136 "Travel Request"
 
     procedure AssistEdit(OldTravel: Record "Travel Request"): Boolean
     var
-        //EmpAct: Record "Employee Activity";
         Travel: Record "Travel Request";
     begin
         HRSetup.Get;
@@ -1020,34 +840,6 @@ table 50136 "Travel Request"
             end;
         end;
     end;
-
-    // local procedure InsertAttendanceMissedAttachment()
-    // var
-    //     AttachmentMandatory: Record "Attachment Setup";
-    //     IncomingDocument: Record "Incoming Document";
-    // begin
-    //     AttachmentMandatory.Reset;
-    //     AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Attendance Missed");
-    //     if AttachmentMandatory.FindFirst then
-    //         repeat
-    //             Clear(IncomingDocument);
-    //             IncomingDocument.Reset;
-    //             IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-    //             IncomingDocument.SetRange("No.", "No.");
-    //             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-    //             if not IncomingDocument.FindFirst then begin
-    //                 IncomingDocument.Reset;
-    //                 IncomingDocument.Init;
-    //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-    //                 IncomingDocument.Description := Rec.TableName;
-    //                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-    //                 IncomingDocument."No." := "No.";
-    //                 IncomingDocument."Employee Code" := "Employee No.";
-    //                 IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-    //                 IncomingDocument.Insert(true);
-    //             end;
-    //         until AttachmentMandatory.Next = 0;
-    // end;
 
     local procedure CalculateTotalClaim()
     var
@@ -1090,50 +882,13 @@ table 50136 "Travel Request"
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
-        //LeaveTypeVar: Record "Leave Type Setup";
-        //WorkShift: Record "Employee Work Shift";
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        //EmpAct: Record "Employee Activity";
         TravelRequest: Record "Travel Request";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         INVALID: Label 'Invalid %1';
-        // EmpRelative: Record "Employee Relative";
-        // SystemAccessControl: Record "System Access Control";
-        // AccessControlLine: Record "Access Control Request Line";
-        // ProvinceVar: Record Province;
-        // SubProvinceVar: Record "Sub Province";
-        // DepartVar: Record Department;
-        //EmpHie: Record "Employee Hierarchy Master";
-        // Standardtext: Record "Standard Text";
-        // BranchNameTo: Text;
-        // DepartmentNameTo: Text;
-        // ProvinceNameTo: Text;
-        // SubProvinceNameTo: Text;
-        // ExtensionNameTo: Text;
-        // UnitNameTo: Text;
-        // BranchName: Text;
-        // DepartmentName: Text;
-        // ProvinceName: Text;
-        // SubProvinceName: Text;
-        // ExtensionName: Text;
-        // UnitName: Text;
-        // FunctionalTitle: Record "Functional Title";
-        // FunctionalDescFrom: Text;
-        // FunctionalDescTo: Text;
-        //EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        //LeaveError: Label 'You cannot apply leave in Present day %1.';
-        //EmpActivityRec: Record "Employee Activity";
-        //Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
-        //Text002: Label 'Compensatory leave has been restricted in HRMS.';
-        //EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        //PayrollGenSetup: Record "Payroll General Setup";
-        //SalaryLevelRec: Record "Salary Level";
-        //SalaryGrade: Record "Salary Grade";
-        //EncashmentPeriodSetup: Record "OT Encashment Setup";
-        //Error1: Label 'Cannot apply before your employment date.';
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
 
