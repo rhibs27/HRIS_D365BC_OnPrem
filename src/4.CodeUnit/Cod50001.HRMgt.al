@@ -4532,6 +4532,8 @@ codeunit 50001 "HR Mgt."
                 InsertRFContribution."Pay Cycle Term" := RetirementFund."Pay Cycle Term";
                 if RFContibution.type = RFContibution.type::" " then
                     InsertRFContribution.Type := RetirementFund.Type;
+
+                InsertRFContribution."Approval Status" := InsertRFContribution."Approval Status"::Pending;
                 InsertRFContribution.Insert();
             until RFContibution.Next = 0;
 

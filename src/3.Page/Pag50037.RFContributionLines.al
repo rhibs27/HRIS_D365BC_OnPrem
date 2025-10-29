@@ -11,7 +11,7 @@ page 50037 "RF Contribution Lines"
         {
             repeater(General)
             {
-
+                Editable = IsCreated;
                 field("Document No."; Rec."Document No.")
                 {
                     ToolTip = 'Specifies the value of the Document No. field.', Comment = '%';
@@ -64,8 +64,10 @@ page 50037 "RF Contribution Lines"
         myInt: Integer;
     begin
         SelectMonth := Rec.Type = Rec.Type::Manual;
+        IsCreated := Rec."Approval Status" = rec."Approval Status"::Created;
     end;
 
     var
         SelectMonth: Boolean;
+        IsCreated: Boolean;
 }

@@ -32,8 +32,17 @@ table 50159 "RF Contribution"
         {
             Caption = 'Type';
             trigger OnValidate()
+            var
+                PayrollGeneralSetup: Record "Payroll General Setup";
             begin
                 TestField("Employee No.");
+
+                if Type <> Type::Manual then
+                    exit;
+
+                PayrollGeneralSetup.Get();
+                "Pay Cycle Code" := PayrollGeneralSetup."Pay Cycle Code";
+                "Pay Cycle Term" := PayrollGeneralSetup."Pay Cycle Term";
             end;
         }
         field(6; "Attribute Code"; Code[20])

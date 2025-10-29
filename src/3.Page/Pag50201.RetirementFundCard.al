@@ -349,6 +349,15 @@ page 50201 "Retirement Fund Card"
         IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
     end;
 
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        RFContribution: Record "RF Contribution";
+    begin
+        RFContribution.SetRange("Document No.", '');
+        RFContribution.SetRange("Employee No.", Rec."Employee No.");
+        RFContribution.DeleteAll();
+    end;
+
     var
         RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";

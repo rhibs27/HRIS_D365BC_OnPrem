@@ -309,12 +309,14 @@ codeunit 50017 "Approver Mgt"
         StatusMaster: Record "Status Master";
         FieldRef: FieldRef;
         Fieldref2: FieldRef;
+        Fieldref3: FieldRef;
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
         LeaveEncahRequest: Record "Encashment Request";
         PayrollEngine: Codeunit "Payroll Engine";
         AttendanceMgt: Codeunit "Attendance Mgt";
         Cancelled: Boolean;
+        RFContribution: Record "RF Contribution";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -324,6 +326,7 @@ codeunit 50017 "Approver Mgt"
                     EmployeeActivityType := EmployeeActivityType::Retirement;
                     Fieldref2 := RecRef.Field(RetirementFund.FieldNo("No."));
                     DocumentNo := Fieldref2.Value();
+                    Fieldref3 := RecRef.Field(RetirementFund.FieldNo("Employee No."));
                 end;
             Database::"Encashment Request":
                 begin
@@ -507,10 +510,13 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::Retirement:
                             begin
-
                                 RetirementFund.Get(RecRef.RecordId);
                                 //    HRMgt.ScreenRF(RetirementFund);
                                 GetRetirementFund(RetirementFund);
+
+                                RFContribution.SetRange("Document No.", DocumentNo);
+                                RFContribution.SetRange("Employee No.", Fieldref3.Value());
+                                RFContribution.ModifyAll("Approval Status", RFContribution."Approval Status"::Approved);
                             end;
                         EmployeeActivityType::"Late Attendance":
                             begin
