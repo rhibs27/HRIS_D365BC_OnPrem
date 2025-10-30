@@ -43,4 +43,10 @@ table 50148 "Organization Structure line"
             Clustered = true;
         }
     }
+    fieldgroups
+    {
+        fieldgroup(DropDown; "Reporting Code", "Reporting Name")
+        {
+        }
+    }
 }

@@ -23,7 +23,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
             TravelRequest.Validate("Requested Date", Today);
             Employee.Get(EmpCode);
-            TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Branch Code");
+            TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
             TravelRequest.Validate(Department, Employee."Department Code");
             if ToExtend then begin
                 Clear(TravelRequest2);
@@ -340,10 +340,6 @@ codeunit 50004 "Travel Mgt."
         else
             if SalaryLevel."Others Fooding Allowance" * NoOfDays < Amt then
                 Error(ErrorFoodingError, SalaryLevel."Others Fooding Allowance" * NoOfDays);
-    end;
-
-    local procedure "-----Travel Claimed-----"()
-    begin
     end;
 
     procedure OpenTravelClaimed(EmpCode: Code[20]; TravelOrderNo: Code[20]; TravelWith: Code[20]; TravelCountry: Enum "Travel Countries")

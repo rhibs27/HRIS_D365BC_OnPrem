@@ -419,6 +419,8 @@ table 50124 Leave
         field(100; "Status"; Text[20])
         {
         }
+        field(200; Claimed; Boolean) { }
+        field(201; "Claimed Doc No."; Code[20]) { }
 
     }
     keys

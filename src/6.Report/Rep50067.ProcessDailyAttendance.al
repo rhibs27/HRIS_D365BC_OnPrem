@@ -89,7 +89,8 @@ report 50067 "Process Daily Attendance"
                 if FromDateActual > ToDateActual then
                     CurrReport.Skip();
 
-                //CheckAndUpdateEmployeeInLog();
+                if AttSetup."Different Emp. ID for Device" then
+                    CheckAndUpdateEmployeeInLog();
 
 
                 if not JobQueueActive then begin

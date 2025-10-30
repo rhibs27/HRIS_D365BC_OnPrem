@@ -18,11 +18,6 @@ report 50025 "Daily Update"
                         ToolTip = 'Specifies the value of the _UpdateAgeAndServicePeriod field.';
                         ApplicationArea = All;
                     }
-                    field("Send Acknowledgement Email"; _SendEmailForTransferAcknowledgement)
-                    {
-                        ToolTip = 'Specifies the value of the _SendEmailForTransferAcknowledgement field.';
-                        ApplicationArea = All;
-                    }
                 }
             }
         }
@@ -34,8 +29,10 @@ report 50025 "Daily Update"
 
     trigger OnPreReport()
     begin
-        if _UpdateAgeAndServicePeriod then
+        if _UpdateAgeAndServicePeriod then begin
             UpdateAgeServicePeriod();
+            UpdateEmployeeServiceDuration
+        end;
     end;
 
     var
@@ -50,7 +47,7 @@ report 50025 "Daily Update"
     begin
         Employee.Reset;
         Employee.SetRange(Status, Employee.Status::Active);
-        if Employee.FindFirst then
+        if Employee.FindSet() then
             repeat
                 if Employee."Resignation Date" = Today - 1 then
                     Employee.Status := Employee.Status::Terminated;
@@ -66,32 +63,30 @@ report 50025 "Daily Update"
             until Employee.Next = 0;
     end;
 
-    // local procedure SendEmailTransferAcknowledgement()
-    // var
-    //     EmpAct: Record "Employee Activity";
-    // begin
-    //     EmpAct.Reset;
-    //     EmpAct.SetRange(Type, EmpAct.Type::"Employee Transfer");
-    //     EmpAct.SetRange("Approval Status", EmpAct."Approval Status"::Approved);
-    //     EmpAct.SetRange("Transfer Effective Date", Today, 99990101D);
-    //     if EmpAct.FindFirst then
-    //         repeat
-    //             Clear(HRMgt);
-    //             HRMgt.SendMailFromTemplate(Database::"Employee Activity",
-    //                                   EmpAct.Type::"Employee Transfer",
-    //                                   EmpAct."Approval Status"::Approved,
-    //                                   '',
-    //                                   EmpAct."Employee No.",
-    //                                   EmpAct."No.",
-    //                                   1);   //For email
-    //         until EmpAct.Next = 0;
-    // end;
-
     local procedure SendEmailOnMaxService()
     begin
     end;
 
     local procedure SendEmailOnMaxAge()
     begin
+    end;
+
+    procedure UpdateEmployeeServiceDuration()
+    var
+        EmpServiceHistory: Record "Employee Service History";
+    begin
+        Employee.Reset();
+        Employee.SetLoadFields("No.", Status);
+        Employee.SetRange(Status, Employee.Status::Active);
+        if Employee.FindSet() then
+            repeat
+                EmpServiceHistory.SetRange("Employee No.", Employee."No.");
+                if EmpServiceHistory.FindSet() then
+                    repeat
+                        EmpServiceHistory.UpdateDuration(EmpServiceHistory);
+                    until EmpServiceHistory.Next() = 0;
+
+            until Employee.Next() = 0;
+        Message('service duration updated successfully');
     end;
 }

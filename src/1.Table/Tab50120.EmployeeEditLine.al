@@ -230,6 +230,11 @@ table 50120 "Employee Edit Line"
         {
 
         }
+        field(66; "Attachment Document Type"; Code[20])
+        {
+            Caption = 'Attachment Document Type';
+            Description = 'Attachment Document Type';
+        }
         field(1000; "Changed Field"; Text[1020])
         {
             Description = 'This field includes the name of fields that are updated from portal';

@@ -79,6 +79,12 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(50; "Different Emp. ID for Device"; Boolean)
+        {
+            Caption = 'Different Employee ID for Device';
+            DataClassification = ToBeClassified;
+            // True if "Employee ID" and "machine Emp. Code" are different in attendance log table.
+        }
 
         // device configuration related field
         field(100; "User Name"; Text[50])

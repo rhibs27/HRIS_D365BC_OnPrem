@@ -37,6 +37,18 @@ page 50017 "List of Training by Employee"
                     ToolTip = 'Specifies the value of the HoursAttended field.';
                     ApplicationArea = All;
                 }
+                field("Sponsorship Type"; Rec."Sponsorship Type")
+                {
+                    ToolTip = 'Specifies the value of the Sponsorship Type field.', Comment = '%';
+                }
+                field("Training Remarks"; Rec."Training Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Training Remarks field.', Comment = '%';
+                }
+                field(Country; Rec.Country)
+                {
+                    ToolTip = 'Specifies the value of the Country field.', Comment = '%';
+                }
             }
         }
     }
