@@ -205,11 +205,11 @@ table 50052 "Retirement Fund"
                     PayCyclePeriod.SetRange(Posted, false);
                     if PayCyclePeriod.FindSet() then
                         repeat
-                            InsertRFcontribution(PayCyclePeriod);
+                            InsertRFcontribution(i, PayCyclePeriod);
                         until PayCyclePeriod.Next() = 0
 
                 end else
-                    InsertRFcontribution(PayCyclePeriod);
+                    InsertRFcontribution(i, PayCyclePeriod);
             end;
         }
         field(100; Status; Text[100])
@@ -317,10 +317,10 @@ table 50052 "Retirement Fund"
         end;
     end;
 
-    local procedure InsertRFcontribution(PayCyclePeriod: Record "Pay Cycle Period")
+    local procedure InsertRFcontribution(var LineNo: Integer; PayCyclePeriod: Record "Pay Cycle Period")
     var
         RFContribution: Record "RF Contribution";
-        LineNo: Integer;
+
     begin
         TestField(Type);
         TestField("Attribute Code");
