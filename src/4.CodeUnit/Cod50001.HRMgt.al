@@ -4509,9 +4509,6 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.TestField("Fiscal Year");
         TempRetirementFund.TestField("Payroll Month");
         TempRetirementFund.TestField("Employee No.");
-
-        // RetirementFund.Init;
-        // RetirementFund.TransferFields(TempRetirementFund);
         TempRetirementFund.Validate("Approval Status", TempRetirementFund."Approval Status"::Pending);
         TempRetirementFund.Modify(true);
 
