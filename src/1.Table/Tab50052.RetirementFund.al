@@ -190,6 +190,7 @@ table 50052 "Retirement Fund"
             trigger OnValidate()
             var
                 RFContribution: Record "RF Contribution";
+                PayCyclePeriod: Record "Pay Cycle Period";
                 i: Integer;
             begin
                 if xRec.Type <> Type then begin
@@ -198,11 +199,17 @@ table 50052 "Retirement Fund"
                     RFContribution.DeleteAll();
                 end;
 
-                if Type = Type::Manual then
-                    for i := 10000 to 10012 do
-                        InsertRFcontribution(i)
-                else
-                    InsertRFcontribution(10000);
+                if Type = Type::Manual then begin
+                    PayCyclePeriod.SetRange("Pay Cycle Code", "Pay Cycle Code");
+                    PayCyclePeriod.SetRange("Pay Cycle Term", "Pay Cycle Term");
+                    PayCyclePeriod.SetRange(Posted, false);
+                    if PayCyclePeriod.FindSet() then
+                        repeat
+                            InsertRFcontribution(PayCyclePeriod);
+                        until PayCyclePeriod.Next() = 0
+
+                end else
+                    InsertRFcontribution(PayCyclePeriod);
             end;
         }
         field(100; Status; Text[100])
@@ -310,12 +317,15 @@ table 50052 "Retirement Fund"
         end;
     end;
 
-    local procedure InsertRFcontribution(LineNo: Integer)
+    local procedure InsertRFcontribution(PayCyclePeriod: Record "Pay Cycle Period")
     var
         RFContribution: Record "RF Contribution";
+        LineNo: Integer;
     begin
         TestField(Type);
         TestField("Attribute Code");
+
+        LineNo += 10000;
 
         RFContribution.Init;
         RFContribution."Document No." := "No.";
@@ -326,6 +336,8 @@ table 50052 "Retirement Fund"
         RFContribution."Pay Cycle Term" := "Pay Cycle Term";
         RFContribution.Type := Type;
         RFContribution."Attribute Code" := "Attribute Code";
+        RFContribution."Pay Cycle Period" := PayCyclePeriod.Period;
+        RFContribution."Nepali Month" := PayCyclePeriod."Nepali Month";
         RFContribution."Approval Status" := RFContribution."Approval Status"::Created;
         RFContribution.Insert;
     end;

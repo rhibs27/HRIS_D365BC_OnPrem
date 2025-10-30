@@ -4499,7 +4499,6 @@ codeunit 50001 "HR Mgt."
 
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund"): Boolean
     var
-        InsertRFContribution: Record "RF Contribution";
         RFContibution: Record "RF Contribution";
         LoanMgt: Codeunit "Loan Mgt.";
     begin
@@ -4522,8 +4521,8 @@ codeunit 50001 "HR Mgt."
             repeat
                 if (RFContibution.Type <> TempRetirementFund.Type) and (RFContibution.Type = RFContibution.Type::" ") then
                     Error('Type must be same in Header and line.');
-                InsertRFContribution."Approval Status" := InsertRFContribution."Approval Status"::Pending;
-                InsertRFContribution.Modify();
+                RFContibution."Approval Status" := RFContibution."Approval Status"::Pending;
+                RFContibution.Modify();
             until RFContibution.Next = 0;
 
         //   RFContibution.DeleteAll();
