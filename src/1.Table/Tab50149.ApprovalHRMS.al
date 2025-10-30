@@ -55,8 +55,8 @@ table 50149 "Approval HRMS"
             begin
                 Employee.Reset();
                 ApprovalEmployee.Reset();
-                 if "Approver No" = "Employee No" then
-                     Error('You cannot choose your own Employee ID as Recommender.');
+                if "Approver No" = "Employee No" then
+                    Error('You cannot choose your own Employee ID as Recommender.');
                 if Employee.Get("Employee No") then;
                 if not ApprovalEmployee.Get("Approver No") then
                     Error('Approver Not Found');

@@ -187,6 +187,23 @@ table 50052 "Retirement Fund"
         field(36; "Type"; enum "RF Contribution Type")
         {
             Caption = 'Type';
+            trigger OnValidate()
+            var
+                RFContribution: Record "RF Contribution";
+                i: Integer;
+            begin
+                if xRec.Type <> Type then begin
+                    RFContribution.SetRange("Document No.", "No.");
+                    RFContribution.SetRange("Employee No.", "Employee No.");
+                    RFContribution.DeleteAll();
+                end;
+
+                if Type = Type::Manual then
+                    for i := 10000 to 10012 do
+                        InsertRFcontribution(i)
+                else
+                    InsertRFcontribution(10000);
+            end;
         }
         field(100; Status; Text[100])
         {
@@ -199,6 +216,24 @@ table 50052 "Retirement Fund"
         field(102; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+        }
+        field(103; "Attribute Code"; Code[20])
+        {
+            TableRelation = "Payroll Attributes".Code where(Subtype = filter(CIT | RF));
+            Caption = 'Attribute Code';
+            trigger OnValidate()
+            var
+                RFContr: Record "RF Contribution";
+            begin
+                if Type = Type::Manual then
+                    exit;
+
+                RFContr.SetRange("Document No.", '');
+                RFContr.SetRange("Employee No.", "Employee No.");
+                RFContr.SetRange("Attribute Code", "Attribute Code");
+                if RFContr.FindFirst() then
+                    Error('RF Contribution record already exists for Employee %1 and Attribute %2', "Employee No.", "Attribute Code");
+            end;
         }
     }
 
@@ -273,6 +308,26 @@ table 50052 "Retirement Fund"
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
         end;
+    end;
+
+    local procedure InsertRFcontribution(LineNo: Integer)
+    var
+        RFContribution: Record "RF Contribution";
+    begin
+        TestField(Type);
+        TestField("Attribute Code");
+
+        RFContribution.Init;
+        RFContribution."Document No." := "No.";
+        RFContribution."Line No." += LineNo;
+        RFContribution."Employee No." := "Employee No.";
+        RFContribution."Employee Name" := "Employee Name";
+        RFContribution."Pay Cycle Code" := "Pay Cycle Code";
+        RFContribution."Pay Cycle Term" := "Pay Cycle Term";
+        RFContribution.Type := Type;
+        RFContribution."Attribute Code" := "Attribute Code";
+        RFContribution."Approval Status" := RFContribution."Approval Status"::Created;
+        RFContribution.Insert;
     end;
 
     var

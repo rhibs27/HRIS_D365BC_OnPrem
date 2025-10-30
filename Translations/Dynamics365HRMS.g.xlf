@@ -17363,6 +17363,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Approval Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attribute Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Attribute Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1145153898 - Field 4069904181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cancelled</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43222,6 +43227,11 @@
           <source>Monthly</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Monthly - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attribute Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Attribute Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 1642020493 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the CIT field.</source>

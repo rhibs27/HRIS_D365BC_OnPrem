@@ -4365,7 +4365,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure OpenRFRequest(EmpCode: Code[20]; var TempRetirementFund: Record "Retirement Fund" temporary)
+    procedure OpenRFRequest(EmpCode: Code[20]; var TempRetirementFund: Record "Retirement Fund")
     var
         PostedPayrollHdr: Record "Posted Payroll Header";
         PostedPayrollLine: Record "Posted Payroll Line";
@@ -4389,7 +4389,7 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.Validate("Approval Status", TempRetirementFund."Approval Status"::Open);
         TempRetirementFund.Validate("Created Date", CurrentDateTime);
         TempRetirementFund.Validate("Requested Date", CurrentDateTime);
-        TempRetirementFund.Insert;
+        TempRetirementFund.Insert(true);
 
         if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then
             PayCyclePeriod.SetRange("Start Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
@@ -4497,9 +4497,8 @@ codeunit 50001 "HR Mgt."
             until PayrollAttributesUsage.Next = 0;
     end;
 
-    procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund" temporary): Boolean
+    procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund"): Boolean
     var
-        RetirementFund: Record "Retirement Fund";
         InsertRFContribution: Record "RF Contribution";
         RFContibution: Record "RF Contribution";
         LoanMgt: Codeunit "Loan Mgt.";
@@ -4512,32 +4511,22 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.TestField("Payroll Month");
         TempRetirementFund.TestField("Employee No.");
 
-        RetirementFund.Init;
-        RetirementFund.TransferFields(TempRetirementFund);
-        RetirementFund.Validate("Approval Status", RetirementFund."Approval Status"::Pending);
-        RetirementFund.Insert(true);
+        // RetirementFund.Init;
+        // RetirementFund.TransferFields(TempRetirementFund);
+        TempRetirementFund.Validate("Approval Status", TempRetirementFund."Approval Status"::Pending);
+        TempRetirementFund.Modify(true);
 
-        RFContibution.SetRange("Employee No.", RetirementFund."Employee No.");
-        RFContibution.SetRange("Document No.", '');
+        RFContibution.SetRange("Employee No.", TempRetirementFund."Employee No.");
+        RFContibution.SetRange("Document No.", TempRetirementFund."No.");
         if RFContibution.FindSet() then
             repeat
-                if (RFContibution.Type <> RetirementFund.Type) and (RFContibution.Type = RFContibution.Type::" ") then
+                if (RFContibution.Type <> TempRetirementFund.Type) and (RFContibution.Type = RFContibution.Type::" ") then
                     Error('Type must be same in Header and line.');
-
-                InsertRFContribution.Init();
-                InsertRFContribution.TransferFields(RFContibution);
-                InsertRFContribution."Document No." := RetirementFund."No.";
-                InsertRFContribution."Employee Name" := RetirementFund."Employee Name";
-                InsertRFContribution."Pay Cycle Code" := RetirementFund."Pay Cycle Code";
-                InsertRFContribution."Pay Cycle Term" := RetirementFund."Pay Cycle Term";
-                if RFContibution.type = RFContibution.type::" " then
-                    InsertRFContribution.Type := RetirementFund.Type;
-
                 InsertRFContribution."Approval Status" := InsertRFContribution."Approval Status"::Pending;
-                InsertRFContribution.Insert();
+                InsertRFContribution.Modify();
             until RFContibution.Next = 0;
 
-        RFContibution.DeleteAll();
+        //   RFContibution.DeleteAll();
 
         //SendMailFromTemplate(DATABASE::"Employee Activity",EmpAct.Type::"Travel Request",EmpAct."Approval Status"::Open,'',EmpAct."Employee No.",EmpAct."No.",0);   //For email
         if GuiAllowed then
