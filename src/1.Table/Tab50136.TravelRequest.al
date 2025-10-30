@@ -763,7 +763,7 @@ table 50136 "Travel Request"
                 TravelRequest.ReadIsolation(IsolationLevel::ReadUncommitted);
                 TravelRequest.SetLoadFields("No.");
                 while TravelRequest.Get("No.") do
-                    "No." := NoSeriesMgt.GetNextNo("No.");
+                    "No." := NoSeriesMgt.GetNextNo("No. Series");
 
             end else begin
                 case Type of
@@ -776,7 +776,7 @@ table 50136 "Travel Request"
                             TravelRequest.ReadIsolation(IsolationLevel::ReadUncommitted);
                             TravelRequest.SetLoadFields("No.");
                             while TravelRequest.Get("No.") do
-                                "No." := NoSeriesMgt.GetNextNo("No.");
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh 
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
@@ -789,7 +789,7 @@ table 50136 "Travel Request"
                             TravelRequest.ReadIsolation(IsolationLevel::ReadUncommitted);
                             TravelRequest.SetLoadFields("No.");
                             while TravelRequest.Get("No.") do
-                                "No." := NoSeriesMgt.GetNextNo("No.");
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
