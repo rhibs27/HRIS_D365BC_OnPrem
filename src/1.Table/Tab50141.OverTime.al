@@ -243,7 +243,8 @@ table 50141 OverTime
             DataClassification = ToBeClassified;
             trigger OnValidate()
             begin
-                TestField("Start Date");
+                if Type = Type::Overtime then
+                    TestField("Start Date");
                 if "Overtime Claim Type" <> xRec."Overtime Claim Type" then begin
                     Clear("Compensatory Days");
                     Clear("OT Amount");

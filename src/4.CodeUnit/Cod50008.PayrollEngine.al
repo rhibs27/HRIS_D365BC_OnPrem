@@ -3495,232 +3495,327 @@ codeunit 50008 "Payroll Engine"
         exit(PayCyclePeriod.Period);
     end;
 
-    procedure IsValidEmployeeOT(Employee: Record Employee; OTFrom: Date; OTTo: Date; EncashmentCode: Code[20]): Boolean
+    // procedure IsValidEmployeeOT(Employee: Record Employee; OTFrom: Date; OTTo: Date; EncashmentCode: Code[20]): Boolean
+    // var
+    //     Overtime: Record OverTime;
+    // begin
+    //     Overtime.SetRange("Employee No.", Employee."No.");
+    //     Overtime.SetRange(Type, Overtime.Type::Overtime);
+    //     Overtime.SetRange("Approval Status", Overtime."Approval Status"::Approved);
+    //     Overtime.SetRange("Encashment Code", EncashmentCode);
+    //     Overtime.SetRange("OT Disbursed", false);
+    //     Overtime.SetRange("Start Date", OTFrom, OTTo);
+    //     if Overtime.FindFirst then
+    //         exit(true)
+    //     else
+    //         exit(false);
+    // end;
+
+    // procedure ImportOTEmployeeEncashCode(PayrollHdr: Record "Payroll Header")
+    // var
+    //     Employee: Record Employee;
+    //     PayrollAdj: Record "Employee Payroll Adjustment";
+    //     EncashmentSetup: Record "OT Encashment Setup";
+    // begin
+    //     PayrollAdj.Reset;
+    //     PayrollAdj.SetRange("Payroll Document No.", PayrollHdr."No.");
+    //     PayrollAdj.DeleteAll;
+    //     Employee.Reset;
+    //     Employee.SetCurrentKey(Status);
+    //     Employee.SetRange(Status, Employee.Status::Active);
+    //     Employee.SetRange(Settled, false);
+    //     if Employee.FindSet then
+    //         repeat
+    //             if IsValidEmployeeOT(Employee, PayrollHdr."OverTime From", PayrollHdr."OverTime To", PayrollHdr."Encashment Code") then begin
+    //                 PayrollAdj.Init;
+    //                 PayrollAdj."Payroll Document No." := PayrollHdr."No.";
+    //                 PayrollAdj.Validate("Employee No.", Employee."No.");
+    //                 EncashmentSetup.Get(PayrollHdr."Encashment Code");
+    //                 PayrollAdj.Validate("Attribute Code", EncashmentSetup."Attribute Code");
+    //                 PayrollAdj.Insert(true);
+    //             end;
+    //         until Employee.Next = 0;
+    //     Message(Text001);
+    // end;
+
+    procedure ImportOTEligibleEmployee(PayrollDocNo: Code[20])
     var
+        Employee: Record Employee;
+        PayrollAdj: Record "Employee Payroll Adjustment";
         Overtime: Record OverTime;
+        OvertimeLine: Record "Overtime Line";
+        PayrollHeader: Record "Payroll Header";
+        TotalOverTimeByEmployee: Dictionary of [Code[20], Decimal];
+        TotalOverTimeDashinByEmployee: Dictionary of [Code[20], Decimal];
+        EmployeeNo: Code[20];
+        OvertimeAmount: Decimal;
     begin
-        Overtime.SetRange("Employee No.", Employee."No.");
-        Overtime.SetRange(Type, Overtime.Type::Overtime);
+        PayrollAdj.Reset;
+        PayrollAdj.SetRange("Payroll Document No.", PayrollDocNo);
+        PayrollAdj.DeleteAll;
+        PGSetup.Get();
+        PayrollHeader.Get(PayrollDocNo);
+        Overtime.Reset();
         Overtime.SetRange("Approval Status", Overtime."Approval Status"::Approved);
-        Overtime.SetRange("Encashment Code", EncashmentCode);
         Overtime.SetRange("OT Disbursed", false);
-        Overtime.SetRange("Start Date", OTFrom, OTTo);
-        if Overtime.FindFirst then
-            exit(true)
-        else
-            exit(false);
-    end;
-
-    procedure ImportOTEmployeeEncashCode(PayrollHdr: Record "Payroll Header")
-    var
-        Employee: Record Employee;
-        PayrollAdj: Record "Employee Payroll Adjustment";
-        EncashmentSetup: Record "OT Encashment Setup";
-    begin
-        PayrollAdj.Reset;
-        PayrollAdj.SetRange("Payroll Document No.", PayrollHdr."No.");
-        PayrollAdj.DeleteAll;
-        Employee.Reset;
-        Employee.SetCurrentKey(Status);
-        Employee.SetRange(Status, Employee.Status::Active);
-        Employee.SetRange(Settled, false);
-        if Employee.FindSet then
+        Overtime.SetRange("Overtime Claim Type", Overtime."Overtime Claim Type"::Encashment);
+        Overtime.SetRange("Start Date", PayrollHeader."From Date", PayrollHeader."To Date");
+        if Overtime.FindSet() then
             repeat
-                if IsValidEmployeeOT(Employee, PayrollHdr."OverTime From", PayrollHdr."OverTime To", PayrollHdr."Encashment Code") then begin
-                    PayrollAdj.Init;
-                    PayrollAdj."Payroll Document No." := PayrollHdr."No.";
-                    PayrollAdj.Validate("Employee No.", Employee."No.");
-                    EncashmentSetup.Get(PayrollHdr."Encashment Code");
-                    PayrollAdj.Validate("Attribute Code", EncashmentSetup."Attribute Code");
-                    PayrollAdj.Insert(true);
+                if Overtime.Type = Overtime.Type::Overtime then begin
+                    if HRMgt.IsDashinTihar(Overtime."Start Date") then begin
+                        EmployeeNo := Overtime."Employee No.";
+                        OvertimeAmount := Overtime."OT Amount";
+                        if TotalOvertimeDashinByEmployee.Get(EmployeeNo, OvertimeAmount) then
+                            TotalOvertimeDashinByEmployee.Set(EmployeeNo, OvertimeAmount + Overtime."OT Amount")
+                        else
+                            TotalOvertimeDashinByEmployee.Add(EmployeeNo, OvertimeAmount);
+                    end else begin
+                        EmployeeNo := Overtime."Employee No.";
+                        OvertimeAmount := Overtime."OT Amount";
+                        if TotalOvertimeByEmployee.Get(EmployeeNo, OvertimeAmount) then
+                            TotalOvertimeByEmployee.Set(EmployeeNo, OvertimeAmount + Overtime."OT Amount")
+                        else
+                            TotalOvertimeByEmployee.Add(EmployeeNo, OvertimeAmount);
+                    end;
+                end else if Overtime.Type = overtime.Type::"Overtime Bulk" then begin
+                    OvertimeLine.Reset();
+                    OvertimeLine.SetRange("No.", Overtime."No.");
+                    OvertimeLine.SetRange("Overtime Date", PayrollHeader."From Date", PayrollHeader."To Date");
+                    if OvertimeLine.FindSet() then
+                        repeat
+                            if HRMgt.IsDashinTihar(OvertimeLine."Overtime Date") then begin
+                                EmployeeNo := OvertimeLine."Employee Code";
+                                OvertimeAmount := OvertimeLine."OT Amount";
+                                if TotalOvertimeDashinByEmployee.Get(EmployeeNo, OvertimeAmount) then
+                                    TotalOvertimeDashinByEmployee.Set(EmployeeNo, OvertimeAmount + OvertimeLine."OT Amount")
+                                else
+                                    TotalOvertimeDashinByEmployee.Add(EmployeeNo, OvertimeAmount);
+                            end else begin
+                                EmployeeNo := OvertimeLine."Employee Code";
+                                OvertimeAmount := OvertimeLine."OT Amount";
+                                if TotalOvertimeByEmployee.Get(EmployeeNo, OvertimeAmount) then
+                                    TotalOvertimeByEmployee.Set(EmployeeNo, OvertimeAmount + OvertimeLine."OT Amount")
+                                else
+                                    TotalOvertimeByEmployee.Add(EmployeeNo, OvertimeAmount);
+                            end;
+                        until OvertimeLine.Next() = 0;
                 end;
-            until Employee.Next = 0;
+            until Overtime.Next() = 0;
+        foreach EmployeeNo in TotalOvertimeDashinByEmployee.Keys do begin
+            PayrollAdj.Init();
+            PayrollAdj.Validate("Payroll Document No.", PayrollDocNo);
+            PayrollAdj.Validate("Employee No.", EmployeeNo);
+            PayrollAttributes.Reset();
+            PayrollAttributes.SetRange(Subtype, PayrollAttributes.Subtype::"Dashain Overtime");
+            if PayrollAttributes.FindFirst() then
+                PayrollAdj.Validate("Attribute Code", PayrollAttributes.Code)
+            else
+                Error('Payroll Attribute for Dashin Overtime not found');
+            if TotalOvertimeDashinByEmployee.Get(EmployeeNo, OvertimeAmount) then;
+            PayrollAdj.Validate(Amount, OvertimeAmount);
+            PayrollAdj.Insert(true);
+        end;
+        foreach EmployeeNo in TotalOvertimeByEmployee.Keys do begin
+            PayrollAdj.Init();
+            PayrollAdj.Validate("Payroll Document No.", PayrollDocNo);
+            PayrollAdj.Validate("Employee No.", EmployeeNo);
+            PayrollAttributes.Reset();
+            PayrollAttributes.SetRange(Subtype, PayrollAttributes.Subtype::"Overtime");
+            if PayrollAttributes.FindFirst() then
+                PayrollAdj.Validate("Attribute Code", PayrollAttributes.Code)
+            else
+                Error('Payroll Attribute for Overtime not found');
+            if TotalOvertimeByEmployee.Get(EmployeeNo, OvertimeAmount) then;
+            PayrollAdj.Validate(Amount, OvertimeAmount);
+            PayrollAdj.Insert(true);
+        end;
         Message(Text001);
     end;
 
-    procedure ImportOTEmployeeEncashPeriod(PayrollHdr: Record "Payroll Header")
-    var
-        Employee: Record Employee;
-        PayrollAdj: Record "Employee Payroll Adjustment";
-        EncashmentSetup: Record "OT Encashment Setup";
-    begin
-        PayrollAdj.Reset;
-        PayrollAdj.SetRange("Payroll Document No.", PayrollHdr."No.");
-        PayrollAdj.DeleteAll;
-        EncashmentSetup.Reset;
-        EncashmentSetup.SetRange(Period, PayrollHdr."Encashment Period");
-        if EncashmentSetup.FindFirst then
-            repeat
-                Employee.Reset;
-                Employee.SetCurrentKey(Status);
-                Employee.SetRange(Status, Employee.Status::Active);
-                Employee.SetRange(Settled, false);
-                if Employee.FindSet then
-                    repeat
-                        if IsValidEmployeeOT(Employee, PayrollHdr."OverTime From", PayrollHdr."OverTime To", EncashmentSetup."Encashment Code") then begin
-                            PayrollAdj.Init;
-                            PayrollAdj."Payroll Document No." := PayrollHdr."No.";
-                            PayrollAdj.Validate("Employee No.", Employee."No.");
-                            EncashmentSetup.Get(EncashmentSetup."Encashment Code");
-                            PayrollAdj.Validate("Attribute Code", EncashmentSetup."Attribute Code");
-                            PayrollAdj.Insert(true);
-                        end;
-                    until Employee.Next = 0;
-            until EncashmentSetup.Next = 0;
-        Message(Text001);
-    end;
+    // procedure ImportOTEmployeeEncashPeriod(PayrollHdr: Record "Payroll Header")
+    // var
+    //     Employee: Record Employee;
+    //     PayrollAdj: Record "Employee Payroll Adjustment";
+    //     EncashmentSetup: Record "OT Encashment Setup";
+    // begin
+    //     PayrollAdj.Reset;
+    //     PayrollAdj.SetRange("Payroll Document No.", PayrollHdr."No.");
+    //     PayrollAdj.DeleteAll;
+    //     EncashmentSetup.Reset;
+    //     EncashmentSetup.SetRange(Period, PayrollHdr."Encashment Period");
+    //     if EncashmentSetup.FindFirst then
+    //         repeat
+    //             Employee.Reset;
+    //             Employee.SetCurrentKey(Status);
+    //             Employee.SetRange(Status, Employee.Status::Active);
+    //             Employee.SetRange(Settled, false);
+    //             if Employee.FindSet then
+    //                 repeat
+    //                     if IsValidEmployeeOT(Employee, PayrollHdr."OverTime From", PayrollHdr."OverTime To", EncashmentSetup."Encashment Code") then begin
+    //                         PayrollAdj.Init;
+    //                         PayrollAdj."Payroll Document No." := PayrollHdr."No.";
+    //                         PayrollAdj.Validate("Employee No.", Employee."No.");
+    //                         EncashmentSetup.Get(EncashmentSetup."Encashment Code");
+    //                         PayrollAdj.Validate("Attribute Code", EncashmentSetup."Attribute Code");
+    //                         PayrollAdj.Insert(true);
+    //                     end;
+    //                 until Employee.Next = 0;
+    //         until EncashmentSetup.Next = 0;
+    //     Message(Text001);
+    // end;
 
-    procedure UpdateOTAmountEncashCode(PayrollHeader: Record "Payroll Header")
-    var
-        PayrollAdjustment: Record "Employee Payroll Adjustment";
-        Overtime: Record OverTime;
-    begin
-        Clear(PayrollAdjustment);
-        PayrollAdjustment.Reset;
-        PayrollAdjustment.SetRange("Payroll Document No.", PayrollHeader."No.");
-        if PayrollAdjustment.FindSet then
-            repeat
-                Overtime.Reset;
-                Overtime.SetRange("Employee No.", PayrollAdjustment."Employee No.");
-                Overtime.SetRange(Overtime.Type, Overtime.Type::Overtime);
-                Overtime.SetRange(Overtime."Approval Status", Overtime."Approval Status"::Approved);
-                Overtime.SetRange("OT Disbursed", false);
-                Overtime.SetRange("Start Date", PayrollHeader."OverTime From", PayrollHeader."OverTime To");
-                Overtime.SetRange("Encashment Code", PayrollHeader."Encashment Code");
-                Overtime.CalcSums("OT Amount");
-                PayrollAdjustment.Validate(Amount, Overtime."OT Amount");
-                PayrollAdjustment.Modify;
-                if Overtime.FindSet then
-                    repeat
-                        Overtime."Updated Payroll Line" := true;
-                        Overtime.Modify;
-                    until Overtime.Next = 0;
-            until PayrollAdjustment.Next = 0;
-        Message(Text002);
-    end;
+    // procedure UpdateOTAmountEncashCode(PayrollHeader: Record "Payroll Header")
+    // var
+    //     PayrollAdjustment: Record "Employee Payroll Adjustment";
+    //     Overtime: Record OverTime;
+    // begin
+    //     Clear(PayrollAdjustment);
+    //     PayrollAdjustment.Reset;
+    //     PayrollAdjustment.SetRange("Payroll Document No.", PayrollHeader."No.");
+    //     if PayrollAdjustment.FindSet then
+    //         repeat
+    //             Overtime.Reset;
+    //             Overtime.SetRange("Employee No.", PayrollAdjustment."Employee No.");
+    //             Overtime.SetRange(Overtime.Type, Overtime.Type::Overtime);
+    //             Overtime.SetRange(Overtime."Approval Status", Overtime."Approval Status"::Approved);
+    //             Overtime.SetRange("OT Disbursed", false);
+    //             Overtime.SetRange("Start Date", PayrollHeader."OverTime From", PayrollHeader."OverTime To");
+    //             Overtime.SetRange("Encashment Code", PayrollHeader."Encashment Code");
+    //             Overtime.CalcSums("OT Amount");
+    //             PayrollAdjustment.Validate(Amount, Overtime."OT Amount");
+    //             PayrollAdjustment.Modify;
+    //             if Overtime.FindSet then
+    //                 repeat
+    //                     Overtime."Updated Payroll Line" := true;
+    //                     Overtime.Modify;
+    //                 until Overtime.Next = 0;
+    //         until PayrollAdjustment.Next = 0;
+    //     Message(Text002);
+    // end;
 
-    procedure UpdateOTAmountEncashPeriod(PayrollHeader: Record "Payroll Header")
-    var
-        PayrollAdjustment: Record "Employee Payroll Adjustment";
-        Overtime: Record OverTime;
-        EncashmentSetup: Record "OT Encashment Setup";
-    begin
-        EncashmentSetup.Reset;
-        EncashmentSetup.SetRange(Period, PayrollHeader."Encashment Period");
-        if EncashmentSetup.FindSet then
-            repeat
-                Clear(PayrollAdjustment);
-                PayrollAdjustment.Reset;
-                PayrollAdjustment.SetRange("Payroll Document No.", PayrollHeader."No.");
-                PayrollAdjustment.SetRange("Attribute Code", EncashmentSetup."Attribute Code");
-                if PayrollAdjustment.FindSet then
-                    repeat
-                        Overtime.Reset;
-                        Overtime.SetRange("Employee No.", PayrollAdjustment."Employee No.");
-                        Overtime.SetRange(Overtime.Type, Overtime.Type::Overtime);
-                        Overtime.SetRange(Overtime."Approval Status", Overtime."Approval Status"::Approved);
-                        Overtime.SetRange("OT Disbursed", false);
-                        Overtime.SetRange("Start Date", PayrollHeader."OverTime From", PayrollHeader."OverTime To");
-                        Overtime.SetRange("Encashment Code", EncashmentSetup."Encashment Code");
-                        Overtime.CalcSums("OT Amount");
-                        PayrollAdjustment.Validate(Amount, Overtime."OT Amount");
-                        PayrollAdjustment.Modify;
-                        if Overtime.FindSet then
-                            repeat
-                                Overtime."Updated Payroll Line" := true;
-                                Overtime.Modify;
-                            until Overtime.Next = 0;
-                    until PayrollAdjustment.Next = 0;
-            until EncashmentSetup.Next = 0;
-        Message(Text002);
-    end;
+    // procedure UpdateOTAmountEncashPeriod(PayrollHeader: Record "Payroll Header")
+    // var
+    //     PayrollAdjustment: Record "Employee Payroll Adjustment";
+    //     Overtime: Record OverTime;
+    //     EncashmentSetup: Record "OT Encashment Setup";
+    // begin
+    //     EncashmentSetup.Reset;
+    //     EncashmentSetup.SetRange(Period, PayrollHeader."Encashment Period");
+    //     if EncashmentSetup.FindSet then
+    //         repeat
+    //             Clear(PayrollAdjustment);
+    //             PayrollAdjustment.Reset;
+    //             PayrollAdjustment.SetRange("Payroll Document No.", PayrollHeader."No.");
+    //             PayrollAdjustment.SetRange("Attribute Code", EncashmentSetup."Attribute Code");
+    //             if PayrollAdjustment.FindSet then
+    //                 repeat
+    //                     Overtime.Reset;
+    //                     Overtime.SetRange("Employee No.", PayrollAdjustment."Employee No.");
+    //                     Overtime.SetRange(Overtime.Type, Overtime.Type::Overtime);
+    //                     Overtime.SetRange(Overtime."Approval Status", Overtime."Approval Status"::Approved);
+    //                     Overtime.SetRange("OT Disbursed", false);
+    //                     Overtime.SetRange("Start Date", PayrollHeader."OverTime From", PayrollHeader."OverTime To");
+    //                     Overtime.SetRange("Encashment Code", EncashmentSetup."Encashment Code");
+    //                     Overtime.CalcSums("OT Amount");
+    //                     PayrollAdjustment.Validate(Amount, Overtime."OT Amount");
+    //                     PayrollAdjustment.Modify;
+    //                     if Overtime.FindSet then
+    //                         repeat
+    //                             Overtime."Updated Payroll Line" := true;
+    //                             Overtime.Modify;
+    //                         until Overtime.Next = 0;
+    //                 until PayrollAdjustment.Next = 0;
+    //         until EncashmentSetup.Next = 0;
+    //     Message(Text002);
+    // end;
 
-    procedure UpdateOTDisbursedEncashCode(PayrollHeaderRec: Record "Payroll Header"; PayrollNo: Code[20])
-    var
-        PayrollLineRec: Record "Payroll Line";
-        Overtime: Record OverTime;
-    begin
-        PayrollLineRec.Reset;
-        PayrollLineRec.SetRange("Document No.", PayrollHeaderRec."No.");
-        if PayrollLineRec.FindSet then
-            repeat
-                Overtime.Reset;
-                Overtime.SetRange("Employee No.", PayrollLineRec."Employee No.");
-                Overtime.SetRange(Overtime.Type, Overtime.Type::Overtime);
-                Overtime.SetRange(Overtime."Approval Status", Overtime."Approval Status"::Approved);
-                Overtime.SetRange("OT Disbursed", false);
-                Overtime.SetRange("Updated Payroll Line", true);
-                Overtime.SetRange("Start Date", PayrollHeaderRec."OverTime From", PayrollHeaderRec."OverTime To");
-                Overtime.SetRange("Encashment Code", PayrollHeaderRec."Encashment Code");
-                if Overtime.FindSet then
-                    repeat
-                        Overtime.Validate("OT Disbursed", true);
-                        Overtime.Validate("Payroll No.", PayrollNo);
-                        Overtime.Modify;
-                    until Overtime.Next = 0;
-            until PayrollLineRec.Next = 0;
-    end;
+    // procedure UpdateOTDisbursedEncashCode(PayrollHeaderRec: Record "Payroll Header"; PayrollNo: Code[20])
+    // var
+    //     PayrollLineRec: Record "Payroll Line";
+    //     Overtime: Record OverTime;
+    // begin
+    //     PayrollLineRec.Reset;
+    //     PayrollLineRec.SetRange("Document No.", PayrollHeaderRec."No.");
+    //     if PayrollLineRec.FindSet then
+    //         repeat
+    //             Overtime.Reset;
+    //             Overtime.SetRange("Employee No.", PayrollLineRec."Employee No.");
+    //             Overtime.SetRange(Overtime.Type, Overtime.Type::Overtime);
+    //             Overtime.SetRange(Overtime."Approval Status", Overtime."Approval Status"::Approved);
+    //             Overtime.SetRange("OT Disbursed", false);
+    //             Overtime.SetRange("Updated Payroll Line", true);
+    //             Overtime.SetRange("Start Date", PayrollHeaderRec."OverTime From", PayrollHeaderRec."OverTime To");
+    //             Overtime.SetRange("Encashment Code", PayrollHeaderRec."Encashment Code");
+    //             if Overtime.FindSet then
+    //                 repeat
+    //                     Overtime.Validate("OT Disbursed", true);
+    //                     Overtime.Validate("Payroll No.", PayrollNo);
+    //                     Overtime.Modify;
+    //                 until Overtime.Next = 0;
+    //         until PayrollLineRec.Next = 0;
+    // end;
 
-    procedure UpdateOTDisbursedEncashPeriod(PayrollHeaderRec: Record "Payroll Header"; PayrollNo: Code[20])
-    var
-        PayrollLineRec: Record "Payroll Line";
-        EncashmentSetup: Record "OT Encashment Setup";
-    begin
-        // EncashmentSetup.Reset;
-        // EncashmentSetup.SetRange(Period, PayrollHeaderRec."Encashment Period");
-        // if EncashmentSetup.FindFirst then
-        //     repeat
-        //         PayrollLineRec.Reset;
-        //         PayrollLineRec.SetRange("Document No.", PayrollHeaderRec."No.");
-        //         if PayrollLineRec.FindSet then
-        //             repeat
-        //                 EmployeeActivity.Reset;
-        //                 EmployeeActivity.SetRange("Employee No.", PayrollLineRec."Employee No.");
-        //                 EmployeeActivity.SetRange(EmployeeActivity.Type, EmployeeActivity.Type::Overtime);
-        //                 EmployeeActivity.SetRange(EmployeeActivity."Approval Status", EmployeeActivity."Approval Status"::Approved);
-        //                 EmployeeActivity.SetRange("OT Disbursed", false);
-        //                 EmployeeActivity.SetRange("Updated Payroll Line", true);
-        //                 EmployeeActivity.SetRange("Start Date", PayrollHeaderRec."OverTime From", PayrollHeaderRec."OverTime To");
-        //                 EmployeeActivity.SetRange("Encashment Code", EncashmentSetup."Encashment Code");
-        //                 if EmployeeActivity.FindSet then
-        //                     repeat
-        //                         EmployeeActivity.Validate("OT Disbursed", true);
-        //                         EmployeeActivity.Validate("Payroll No.", PayrollNo);
-        //                         EmployeeActivity.Modify;
-        //                     until EmployeeActivity.Next = 0;
-        //             until PayrollLineRec.Next = 0;
-        //     until EncashmentSetup.Next = 0;
-    end;
+    // procedure UpdateOTDisbursedEncashPeriod(PayrollHeaderRec: Record "Payroll Header"; PayrollNo: Code[20])
+    // var
+    //     PayrollLineRec: Record "Payroll Line";
+    //     EncashmentSetup: Record "OT Encashment Setup";
+    // begin
+    // EncashmentSetup.Reset;
+    // EncashmentSetup.SetRange(Period, PayrollHeaderRec."Encashment Period");
+    // if EncashmentSetup.FindFirst then
+    //     repeat
+    //         PayrollLineRec.Reset;
+    //         PayrollLineRec.SetRange("Document No.", PayrollHeaderRec."No.");
+    //         if PayrollLineRec.FindSet then
+    //             repeat
+    //                 EmployeeActivity.Reset;
+    //                 EmployeeActivity.SetRange("Employee No.", PayrollLineRec."Employee No.");
+    //                 EmployeeActivity.SetRange(EmployeeActivity.Type, EmployeeActivity.Type::Overtime);
+    //                 EmployeeActivity.SetRange(EmployeeActivity."Approval Status", EmployeeActivity."Approval Status"::Approved);
+    //                 EmployeeActivity.SetRange("OT Disbursed", false);
+    //                 EmployeeActivity.SetRange("Updated Payroll Line", true);
+    //                 EmployeeActivity.SetRange("Start Date", PayrollHeaderRec."OverTime From", PayrollHeaderRec."OverTime To");
+    //                 EmployeeActivity.SetRange("Encashment Code", EncashmentSetup."Encashment Code");
+    //                 if EmployeeActivity.FindSet then
+    //                     repeat
+    //                         EmployeeActivity.Validate("OT Disbursed", true);
+    //                         EmployeeActivity.Validate("Payroll No.", PayrollNo);
+    //                         EmployeeActivity.Modify;
+    //                     until EmployeeActivity.Next = 0;
+    //             until PayrollLineRec.Next = 0;
+    //     until EncashmentSetup.Next = 0;
+    // end;
 
-    procedure UpdateOTDisbursedAllowances(PayrollHeaderRec: Record "Payroll Header"; PayrollNo: Code[20])
-    var
-        PayrollLineRec: Record "Payroll Line";
-        PayrollGenSetup: Record "Payroll General Setup";
-    begin
-        // PayrollGenSetup.Get;
-        // PayrollLineRec.Reset;
-        // PayrollLineRec.SetRange("Document No.", PayrollHeaderRec."No.");
-        // if PayrollLineRec.FindSet then
-        //     repeat
-        //         EmployeeActivity.Reset;
-        //         EmployeeActivity.SetRange("Employee No.", PayrollLineRec."Employee No.");
-        //         EmployeeActivity.SetRange(EmployeeActivity.Type, EmployeeActivity.Type::Overtime);
-        //         EmployeeActivity.SetRange(EmployeeActivity."Approval Status", EmployeeActivity."Approval Status"::Approved);
-        //         EmployeeActivity.SetRange("OT Disbursed", false);
-        //         EmployeeActivity.SetRange("Updated Payroll Line", true);
-        //         if PayrollHeaderRec."Previous Year Payroll" then
-        //             EmployeeActivity.SetRange("Start Date", PayrollGenSetup."Prev Fiscal Year Start Date", PayrollGenSetup."Prev Fiscal Year End Date")
-        //         else
-        //             EmployeeActivity.SetRange("Start Date", PayrollGenSetup."Payroll Fiscal Year Start Date", PayrollGenSetup."Payroll Fiscal Year End Date");
-        //         EmployeeActivity.SetFilter("Encashment Code", '%1|%2', PayrollGenSetup."Holiday Counter", PayrollGenSetup."Festival Counter");
-        //         if EmployeeActivity.FindSet then
-        //             repeat
-        //                 EmployeeActivity.Validate("OT Disbursed", true);
-        //                 EmployeeActivity.Validate("Payroll No.", PayrollNo);
-        //                 EmployeeActivity.Modify;
-        //             until EmployeeActivity.Next = 0;
-        //     until PayrollLineRec.Next = 0;
-    end;
+    // procedure UpdateOTDisbursedAllowances(PayrollHeaderRec: Record "Payroll Header"; PayrollNo: Code[20])
+    // var
+    //     PayrollLineRec: Record "Payroll Line";
+    //     PayrollGenSetup: Record "Payroll General Setup";
+    // begin
+    // PayrollGenSetup.Get;
+    // PayrollLineRec.Reset;
+    // PayrollLineRec.SetRange("Document No.", PayrollHeaderRec."No.");
+    // if PayrollLineRec.FindSet then
+    //     repeat
+    //         EmployeeActivity.Reset;
+    //         EmployeeActivity.SetRange("Employee No.", PayrollLineRec."Employee No.");
+    //         EmployeeActivity.SetRange(EmployeeActivity.Type, EmployeeActivity.Type::Overtime);
+    //         EmployeeActivity.SetRange(EmployeeActivity."Approval Status", EmployeeActivity."Approval Status"::Approved);
+    //         EmployeeActivity.SetRange("OT Disbursed", false);
+    //         EmployeeActivity.SetRange("Updated Payroll Line", true);
+    //         if PayrollHeaderRec."Previous Year Payroll" then
+    //             EmployeeActivity.SetRange("Start Date", PayrollGenSetup."Prev Fiscal Year Start Date", PayrollGenSetup."Prev Fiscal Year End Date")
+    //         else
+    //             EmployeeActivity.SetRange("Start Date", PayrollGenSetup."Payroll Fiscal Year Start Date", PayrollGenSetup."Payroll Fiscal Year End Date");
+    //         EmployeeActivity.SetFilter("Encashment Code", '%1|%2', PayrollGenSetup."Holiday Counter", PayrollGenSetup."Festival Counter");
+    //         if EmployeeActivity.FindSet then
+    //             repeat
+    //                 EmployeeActivity.Validate("OT Disbursed", true);
+    //                 EmployeeActivity.Validate("Payroll No.", PayrollNo);
+    //                 EmployeeActivity.Modify;
+    //             until EmployeeActivity.Next = 0;
+    //     until PayrollLineRec.Next = 0;
+    // end;
 
     procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[30]
     var

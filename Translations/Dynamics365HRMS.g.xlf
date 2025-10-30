@@ -26848,6 +26848,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Adjustment - Action Load Leave Fare Allowance - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3935423716 - Action 853056327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Overtime action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Adjustment - Action Load OT - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3104243789 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58848,6 +58853,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue CIT - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 519394539 - EnumValue 401584293 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dashain Overtime</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Dashain Overtime - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 519394539 - EnumValue 1807949796 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Donation</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58894,7 +58904,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Medical - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 519394539 - EnumValue 4158938100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Oustation Allowance</source>
+          <source>Outstation Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Oustation Allowance - Property Caption</note>
         </trans-unit>

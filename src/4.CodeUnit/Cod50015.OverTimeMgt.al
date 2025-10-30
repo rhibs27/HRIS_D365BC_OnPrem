@@ -344,6 +344,7 @@ codeunit 50015 "OverTime Mgt"
             OverTime.Validate("Employee No.", EmpCode);
             OverTime.Validate(Type, OverTime.Type::"Overtime Bulk");
             OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
+            OverTime.Validate("Overtime Claim Type", OverTime."Overtime Claim Type"::Encashment);
             OverTime.Validate("Requested Date", Today);
             OverTime.Insert(true);
             PAGE.Run(PAGE::"Overtime Bulk Card", OverTime);
