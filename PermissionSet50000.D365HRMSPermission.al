@@ -796,5 +796,6 @@ permissionset 50000 D365HRMSPermission
         table "Emp. Act. Ledger Entry"=X,
         report "Payroll Voucher summary 2"=X,
         report "Process Daily Attendance"=X,
-        codeunit "Process Daily Attendance"=X;
+        codeunit "Process Daily Attendance"=X,
+        page "Emp. Edit Add. Attach. Subform"=X;
 }

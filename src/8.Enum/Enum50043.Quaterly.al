@@ -1,4 +1,4 @@
-enum 50043 Quarterly
+enum 50200 Quarterly
 {
     Extensible = true;
 
