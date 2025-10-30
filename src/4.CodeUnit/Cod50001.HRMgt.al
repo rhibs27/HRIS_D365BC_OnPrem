@@ -4500,6 +4500,7 @@ codeunit 50001 "HR Mgt."
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund"): Boolean
     var
         RFContibution: Record "RF Contribution";
+        ApprovalHRMS: REcord "Approval HRMS";
         LoanMgt: Codeunit "Loan Mgt.";
     begin
         if GuiAllowed then
@@ -4511,6 +4512,13 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.TestField("Employee No.");
         TempRetirementFund.Validate("Approval Status", TempRetirementFund."Approval Status"::Pending);
         TempRetirementFund.Modify(true);
+
+        ApprovalHRMS.SetRange("Document No.", TempRetirementFund."No.");
+        ApprovalHRMS.SetRange("Approval Sequence", 1);
+        if ApprovalHRMS.FindFirst() then begin
+            ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Open);
+            ApprovalHRMS.Modify();
+        end;
 
         RFContibution.SetRange("Employee No.", TempRetirementFund."Employee No.");
         RFContibution.SetRange("Document No.", TempRetirementFund."No.");
