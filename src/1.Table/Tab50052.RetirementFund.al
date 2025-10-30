@@ -307,7 +307,7 @@ table 50052 "Retirement Fund"
         CannotDelete: Label 'Cannot delete document.';
         ApprovalEntry: Record "Approval HRMS";
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created]) then
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created, "Approval Status"::Open]) then
             Error(CannotDelete)
         else begin
             ApprovalEntry.Reset();
