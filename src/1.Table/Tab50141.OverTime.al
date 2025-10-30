@@ -480,7 +480,7 @@ table 50141 OverTime
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
 
@@ -488,7 +488,11 @@ table 50141 OverTime
                     Type::Overtime, type::"Overtime Bulk":
                         begin
                             HRSetup.TestField("OT No.");
-                            NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            OverTimeRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            OverTimeRec.SetLoadFields("No.");
+                            while OverTimeRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
 
@@ -496,14 +500,22 @@ table 50141 OverTime
                     Type::"Out of Office":
                         begin
                             HRSetup.TestField("Out of office No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Out of office No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Out of office No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            OverTimeRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            OverTimeRec.SetLoadFields("No.");
+                            while OverTimeRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                         end;
 
                     //for bulk cash
                     Type::"Bulk Cash":
                         begin
                             HRSetup.TestField("Bulk Cash No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Bulk Cash No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Bulk Cash No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            OverTimeRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            OverTimeRec.SetLoadFields("No.");
+                            while OverTimeRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                         end;
                 end;
             end;
@@ -540,7 +552,7 @@ table 50141 OverTime
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         OverTimeMgt: Codeunit "OverTime Mgt";
         GLSetup: Record "General Ledger Setup";
@@ -557,6 +569,7 @@ table 50141 OverTime
         HrMgt: Codeunit "HR Mgt.";
         OrganizationStructureList: Record "Organization Structure List";
         Employee: Record Employee;
+        OverTimeRec: Record OverTime;
 
     procedure CheckForExistingDate()
     var

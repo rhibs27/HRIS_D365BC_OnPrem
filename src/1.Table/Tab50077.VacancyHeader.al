@@ -224,7 +224,11 @@ table 50077 "Vacancy Header"
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Vacancy Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Vacancy Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Vacancy Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            VacancyHdr.ReadIsolation(IsolationLevel::ReadCommitted);
+            VacancyHdr.SetLoadFields("No.");
+            while VacancyHdr.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
 
         Validate("Requester User ID", UserId);
@@ -249,8 +253,9 @@ table 50077 "Vacancy Header"
     var
         Employee: Record Employee;
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         VacancyHdr: Record "Vacancy Header";
+        HRMgt: Codeunit "HR Mgt.";
 
     procedure AssistEdit(OldVacancy: Record "Vacancy Header"): Boolean
     var
@@ -259,10 +264,10 @@ table 50077 "Vacancy Header"
         VacancyHdr := Rec;
         HumanResSetup.Get;
         HumanResSetup.TestField("Vacancy Nos.");
-        if NoSeriesMgt.SelectSeries(HumanResSetup."Vacancy Nos.", OldVacancy."No. Series", VacancyHdr."No. Series") then begin
+        if NoSeriesMgt.LookupRelatedNoSeries(HumanResSetup."Vacancy Nos.", OldVacancy."No. Series", VacancyHdr."No. Series") then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Vacancy Nos.");
-            NoSeriesMgt.SetSeries(VacancyHdr."No.");
+            NoSeriesMgt.GetNextNo(VacancyHdr."No.");
             Rec := VacancyHdr;
             exit(true);
         end;

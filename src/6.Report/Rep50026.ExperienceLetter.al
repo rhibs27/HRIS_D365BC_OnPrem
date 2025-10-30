@@ -92,7 +92,7 @@ report 50026 "Experience Letter"
         Pronoun3: Text;
         TEXT005: Label 'DNA & Talent Management Department';
         TEXT003: Label 'We wish %1 every success in %2 future endeavours.';
-        NoSeries: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
         ReportNo: Code[30];
         HRSetUp: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
