@@ -760,6 +760,11 @@ table 50136 "Travel Request"
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
                 HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                TravelRequest.ReadIsolation(IsolationLevel::ReadUncommitted);
+                TravelRequest.SetLoadFields("No.");
+                while TravelRequest.Get("No.") do
+                    "No." := NoSeriesMgt.GetNextNo("No.");
+
             end else begin
                 case Type of
 
@@ -768,6 +773,10 @@ table 50136 "Travel Request"
                         begin
                             HRSetup.TestField("Travel Request No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            TravelRequest.ReadIsolation(IsolationLevel::ReadUncommitted);
+                            TravelRequest.SetLoadFields("No.");
+                            while TravelRequest.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No.");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh 
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
@@ -777,6 +786,10 @@ table 50136 "Travel Request"
                         begin
                             HRSetup.TestField("Travel Claimed No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            TravelRequest.ReadIsolation(IsolationLevel::ReadUncommitted);
+                            TravelRequest.SetLoadFields("No.");
+                            while TravelRequest.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No.");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
