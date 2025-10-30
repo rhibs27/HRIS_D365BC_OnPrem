@@ -41,6 +41,11 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Percentage field.';
             }
+            field("Is Foreign Institute"; Rec."Is Foreign Institute")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies whether the institute is foreign or not.';
+            }
             field(CGPA; Rec.CGPA)
             {
                 ApplicationArea = All;
