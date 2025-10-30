@@ -136,6 +136,13 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
                 Validate("Employee -OR", HRMgt.LookupEmployee());
             end;
         }
+
+        field(50301; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+
+        }
     }
 
     var

@@ -53503,6 +53503,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Quarterly - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Access Token - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
