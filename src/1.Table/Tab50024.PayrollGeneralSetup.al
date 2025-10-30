@@ -456,9 +456,17 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "No. Series";
         }
-        field(502;"Backdated Payroll Reverse";Boolean)
+        field(502; "Backdated Payroll Reverse"; Boolean)
         {
-            
+
+        }
+        field(503; "Pay Cycle Code"; Code[20])
+        {
+            TableRelation = "Pay Cycle";
+        }
+        field(504; "Pay Cycle Term"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
     }
 

@@ -61,6 +61,10 @@ page 50033 "Payroll Attributes Usage"
                 {
                     ToolTip = 'Specifies the value of the Static Amount field.', Comment = '%';
                 }
+                field("RF Contribution Type"; Rec."RF Contribution Type")
+                {
+                    ToolTip = 'Specifies the value of RF Contribution Type field.', Comment = '%';
+                }
 
             }
         }

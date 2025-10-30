@@ -3,7 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
-    InsertAllowed = false;
+    //  InsertAllowed = false;
 
     layout
     {
@@ -129,6 +129,23 @@ page 50201 "Retirement Fund Card"
                         ToolTip = 'Specifies the value of the CIT field.';
                         ApplicationArea = All;
                     }
+                    field("Attribute Code"; Rec."Attribute Code")
+                    {
+                        ToolTip = 'Specifies the value of the Attribute Code field.';
+                        ApplicationArea = All;
+                    }
+                    field(Type; Rec.Type)
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Type field.';
+                        trigger OnValidate()
+                        var
+                            myInt: Integer;
+                        begin
+                            Rec.TestField("Attribute Code");
+                        end;
+                    }
+
                 }
                 group(Lumpsum)
                 {
@@ -196,6 +213,11 @@ page 50201 "Retirement Fund Card"
                     ApplicationArea = All;
                     Visible = IsPending;
                 }
+            }
+            part("RF Contribution Lines"; "RF Contribution Lines")
+            {
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -338,6 +360,15 @@ page 50201 "Retirement Fund Card"
         ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
+    end;
+
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        RFContribution: Record "RF Contribution";
+    begin
+        RFContribution.SetRange("Document No.", '');
+        RFContribution.SetRange("Employee No.", Rec."Employee No.");
+        RFContribution.DeleteAll();
     end;
 
     var

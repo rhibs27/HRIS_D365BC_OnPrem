@@ -309,12 +309,14 @@ codeunit 50017 "Approver Mgt"
         StatusMaster: Record "Status Master";
         FieldRef: FieldRef;
         Fieldref2: FieldRef;
+        Fieldref3: FieldRef;
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
         LeaveEncahRequest: Record "Encashment Request";
         PayrollEngine: Codeunit "Payroll Engine";
         AttendanceMgt: Codeunit "Attendance Mgt";
         Cancelled: Boolean;
+        RFContribution: Record "RF Contribution";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -324,6 +326,7 @@ codeunit 50017 "Approver Mgt"
                     EmployeeActivityType := EmployeeActivityType::Retirement;
                     Fieldref2 := RecRef.Field(RetirementFund.FieldNo("No."));
                     DocumentNo := Fieldref2.Value();
+                    Fieldref3 := RecRef.Field(RetirementFund.FieldNo("Employee No."));
                 end;
             Database::"Encashment Request":
                 begin
@@ -408,6 +411,7 @@ codeunit 50017 "Approver Mgt"
                                 end;
                             EmployeeActivityType::Retirement:
                                 begin
+                                    // brfore sending approval
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
                                 end;
@@ -446,6 +450,8 @@ codeunit 50017 "Approver Mgt"
                     // If no next approval step found then set the status to approved
                     if EmployeeActivityType = EmployeeActivityType::Retirement then begin
                         RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved);
+                        // RecRef.SetTable(RetirementFund);
+                        // GetRetirementFund(RetirementFund);
                     end
                     else begin
                         //old code
@@ -505,7 +511,12 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::Retirement:
                             begin
                                 RetirementFund.Get(RecRef.RecordId);
-                                HRMgt.ScreenRF(RetirementFund);
+                                //    HRMgt.ScreenRF(RetirementFund);
+                                GetRetirementFund(RetirementFund);
+
+                                RFContribution.SetRange("Document No.", DocumentNo);
+                                RFContribution.SetRange("Employee No.", Fieldref3.Value());
+                                RFContribution.ModifyAll("Approval Status", RFContribution."Approval Status"::Approved);
                             end;
                         EmployeeActivityType::"Late Attendance":
                             begin
@@ -543,6 +554,45 @@ codeunit 50017 "Approver Mgt"
         end else
             Error('Document Status Must be in Pending');
     end;
+
+    local procedure GetRetirementFund(RetirementFund: Record "Retirement Fund")
+    var
+        RFContribution: Record "RF Contribution";
+        PayrollAttributeUsgae: Record "Payroll Attributes Usage";
+    begin
+        RFContribution.SetRange("Document No.", RetirementFund."No.");
+        RFContribution.SetRange("Employee No.", RetirementFund."Employee No.");
+        if RFContribution.FindFirst() then
+            case RFContribution.Type of
+                RFContribution.Type::Manual, RFContribution.Type::Optimum, RFContribution.Type::Percent:
+                    begin
+                        PayrollAttributeUsgae.SetRange("Employee Code", RetirementFund."Employee No.");
+                        PayrollAttributeUsgae.SetRange(Code, RFContribution."Attribute Code");
+                        if PayrollAttributeUsgae.FindFirst() then begin
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContribution.Type;
+                            PayrollAttributeUsgae.Modify();
+                        end;
+                    end;
+                RFContribution.Type::Fixed:
+                    begin
+                        PayrollAttributeUsgae.SetRange("Employee Code", RetirementFund."Employee No.");
+                        PayrollAttributeUsgae.SetRange(Code, RFContribution."Attribute Code");
+                        if PayrollAttributeUsgae.FindFirst() then begin
+                            PayrollAttributeUsgae.Amount := RFContribution.Amount;
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContribution.Type;
+                            PayrollAttributeUsgae.Modify();
+                        end else begin
+                            PayrollAttributeUsgae.Init();
+                            PayrollAttributeUsgae.Validate("Employee Code", RetirementFund."Employee No.");
+                            PayrollAttributeUsgae.Validate(Code, RFContribution."Attribute Code");
+                            PayrollAttributeUsgae.Validate(Amount, RFContribution.Amount);
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContribution.Type;
+                            if PayrollAttributeUsgae.Insert() then;
+                        end;
+                    end;
+            end;
+    end;
+
 
     procedure CheckRequester(EmpActNo: Code[20])
     var
