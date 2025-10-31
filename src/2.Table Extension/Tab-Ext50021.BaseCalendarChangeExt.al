@@ -137,7 +137,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             end;
         }
 
-        field(50301; "Access Token"; code[60])
+        field(50600; "Access Token"; code[60])
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;

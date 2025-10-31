@@ -6,9 +6,15 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             trigger OnAfterValidate()
             begin
-                GetNextLineNo;
+                if Rec.IsTemporary then
+                    exit;
+                // only assign new line no. if thid is a new record(not already exisiting one)
+                if Rec."Line No." = 0 then
+                    GetNextLineNo;
             end;
         }
+
+
         modify("Phone No.")
         {
             trigger OnAfterValidate()
@@ -242,7 +248,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             end;
         }
 
-        field(301; "Access Token"; code[50])
+        field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;

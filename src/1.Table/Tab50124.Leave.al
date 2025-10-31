@@ -422,10 +422,10 @@ table 50124 Leave
         field(200; Claimed; Boolean) { }
         field(201; "Claimed Doc No."; Code[20]) { }
 
-        field(301;"Access Token"; code[50])
+        field(301; "Access Token"; code[60])
         {
-            caption='Access Token';
-            DataClassification=CustomerContent;
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
 
         }
 
@@ -458,7 +458,7 @@ table 50124 Leave
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
-          SaaSLoginMgmt: Codeunit saasloginmgmt;
+        SaaSLoginMgmt: Codeunit saasloginmgmt;
 
 
     trigger OnInsert()
@@ -468,7 +468,7 @@ table 50124 Leave
         if "Requested Date" = 0D then
             "Requested Date" := Today;
 
-       if not GuiAllowed then begin
+        if not GuiAllowed then begin
 
             if not HrMgt.IsSaaS() then
                 "Employee No." := HRMgt.GetEmployeeNo();

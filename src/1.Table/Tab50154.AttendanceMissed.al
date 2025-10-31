@@ -306,7 +306,7 @@ table 50154 "Attendance Missed"
         {
         }
 
-        field(301; "Access Token"; code[50])
+        field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;
