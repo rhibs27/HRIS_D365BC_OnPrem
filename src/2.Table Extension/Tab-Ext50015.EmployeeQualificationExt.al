@@ -94,9 +94,8 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             var
                 myInt: Integer;
             begin
-                if not "Is Foreign Institute" then
-                    if CGPA > 4 then
-                        Error('CGPA cannot Exceed 4.0 for National Institute');
+                if (not "Is Foreign Institute") and (CGPA > 4.0) then
+                    Error('CGPA cannot Exceed 4.0 for National Institute');
             end;
         }
         field(50013; Attachment; Media)
@@ -108,6 +107,13 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         }
         field(50015; "Is Foreign Institute"; Boolean)
         {
+            trigger OnValidate()
+            var
+                myInt: Integer;
+            begin
+                if (not "Is Foreign Institute") and (CGPA > 4.0) then
+                    Error('CGPA cannot Exceed 4.0 for National Institute');
+            end;
 
         }
     }
