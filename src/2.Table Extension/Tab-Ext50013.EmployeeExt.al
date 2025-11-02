@@ -1467,22 +1467,22 @@ tableextension 50013 "Employee Ext" extends Employee
             Caption = 'Trainee/Probation End Date';
         }
 
-        field(50181; "Appointment Date"; Date)
+        field(50181; "Appointment Letter Date"; Date)
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                "Appointment Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Date");
+                "Appointment Letter Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Letter Date");
             end;
 
         }
 
-        field(50182; "Appointment Date (B.S.)"; Code[20])
+        field(50182; "Appointment Letter Date (B.S.)"; Code[20])
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                "Appointment Date" := EngNepDate.getEngDate("Appointment Date (B.S.)");
+                "Appointment Letter Date" := EngNepDate.getEngDate("Appointment Letter Date (B.S.)");
             end;
         }
         field(50183; "Automatic Attendance"; Boolean)

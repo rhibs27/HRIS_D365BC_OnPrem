@@ -61,19 +61,19 @@ table 50160 "Assignment Memo Header"
 
         field(5; "Province Code"; Code[20])
         {
-
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
         }
         field(6; "Branch Code"; Code[20])
         {
-
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
         }
         field(7; "Department Code"; Code[20])
         {
-
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
         }
         field(8; "Unit Code"; Code[20])
         {
-
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
         }
         field(9; "Document Date"; Date)
         {
@@ -164,8 +164,6 @@ table 50160 "Assignment Memo Header"
         key(Key1; "No.") { }
     }
 
-    fieldgroups { }
-
     trigger OnDelete()
     var
         CannotDelete: Label 'Cannot delete document.';
@@ -174,7 +172,7 @@ table 50160 "Assignment Memo Header"
             Error(CannotDelete)
         else begin
             AssignmentMemoLine.Reset;
-            AssignmentMemoLine.SetRange("No.", "No.");
+            AssignmentMemoLine.SetRange("Document No.", "No.");
             AssignmentMemoLine.DeleteAll(true);
 
             ApprovalHrms.Reset;
@@ -222,7 +220,7 @@ table 50160 "Assignment Memo Header"
                         TempAssignmentmemoHdr := Rec;
                         TempAssignmentmemoHdr.Insert();
                         Recordref.GetTable(TempAssignmentmemoHdr);
-                        // ApproverMgt.InsertApprovalWithRecordref("Requester Employee No.", "No.", "Activity Type", "Approval Status", Recordref);
+                        ApproverMgt.InsertApprovalWithRecordref("Requester Employee No.", "No.", "Activity Type", "Approval Status", Recordref);
                     end;
             end;
 

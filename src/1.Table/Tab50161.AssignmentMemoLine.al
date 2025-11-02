@@ -5,7 +5,7 @@ table 50161 "Assignment Memo Line"
 
     fields
     {
-        field(1; "No."; Code[20]) { }
+        field(1; "Document No."; Code[20]) { }
         field(2; "Line No."; Integer)
         {
         }
@@ -20,6 +20,18 @@ table 50161 "Assignment Memo Line"
                     "Employee Name" := Employee."Full Name"
                 else
                     "Employee Name" := '';
+
+            end;
+
+            trigger OnLookup()
+            var
+                AssignmentMemoHdr: Record "Assignment Memo Header";
+            begin
+                //lookup employee based on header org structure filters
+                if AssignmentMemoHdr.Get("Document No.") then
+                    Validate("Employee Code", HrMgt.LookupEmployeeByOrgStructure(AssignmentMemoHdr."Province Code",
+                      AssignmentMemoHdr."Branch Code", AssignmentMemoHdr."Department Code",
+                      AssignmentMemoHdr."Unit Code", ''));
             end;
         }
         field(6; "Employee Name"; Text[100])
@@ -32,6 +44,11 @@ table 50161 "Assignment Memo Line"
                 if Rec."From Date" <> xRec."From Date" then begin
                     Clear("To Date");
                 end;
+                if "From Date" <> 0D then
+                    CheckandValidateTheDates("From Date");
+
+                if ("From Date" <> 0D) and ("To Date" <> 0D) then
+                    "No. of Days" := "To Date" - "From Date" + 1;
             end;
         }
         field(8; "To Date"; Date)
@@ -41,27 +58,21 @@ table 50161 "Assignment Memo Line"
                 if "To Date" <> 0D then
                     if "From Date" > "To Date" then
                         Error('Invalid date.');
+
+                if "To Date" <> 0D then
+                    CheckandValidateTheDates("To Date");
+
+                if ("From Date" <> 0D) and ("To Date" <> 0D) then
+                    "No. of Days" := "To Date" - "From Date" + 1;
             end;
         }
         field(9; "Allowance Type"; Code[20])
         {
 
-            TableRelation = "Payroll Attributes";
+            TableRelation = "Allowance Configuration"."Payroll Attribute" where(source = const(Assignment));
 
             trigger OnValidate()
-            var
-                AllowanceHeader: Record "Allowance Assignment Header";
             begin
-                if ("Allowance Type" <> xRec."Allowance Type") and GuiAllowed then begin
-                    Clear("From Date");
-                    Clear("To Date");
-                    Clear(Panel);
-                    if "Emp Act Type" <> "Emp Act Type"::"Request Allowance" then begin
-                        Clear("Employee Code");
-                        Clear("Employee Name");
-                        Clear("Allowance Amount");
-                    end;
-                end;
 
                 if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and ("Allowance Type" <> '') then begin
                     AllowanceConfiguration.Reset();
@@ -72,8 +83,6 @@ table 50161 "Assignment Memo Line"
                         Error('Invalid allowance selected!');
                     Clear(Panel);
                 end;
-                if AllowanceHeader.Get("No.") then
-                    Validate("Emp Act Type", AllowanceHeader."Activity Type")
             end;
         }
         field(10; "Substitute Type"; Enum "Allowance Substitute")
@@ -95,31 +104,9 @@ table 50161 "Assignment Memo Line"
         {
             Editable = false;
         }
-        field(21; "Screened By"; Code[50])
-        {
-            Editable = false;
-            TableRelation = "User Setup";
-        }
-        field(22; "Screened Date"; DateTime)
-        {
-            Editable = false;
-        }
         field(23; Panel; Enum Panel)
         {
 
-            trigger OnValidate()
-            begin
-                if Panel <> Panel::" " then begin
-                    PGSetup.Get;
-                    if not PGSetup."Use Allowance Configuration" then begin
-                        PGSetup.TestField("Vault Key");
-                        PGSetup.TestField("ATM Custodian");
-                        if ("Allowance Type" <> PGSetup."Vault Key") and ("Allowance Type" <> PGSetup."ATM Custodian") then
-                            Error('Panel is not allowed in this Allowance Type');
-                        // AllowanceMgt.CheckForPanel(Rec);
-                    end;
-                end;
-            end;
         }
         field(24; "Allowance Amount"; Decimal)
         {
@@ -145,7 +132,7 @@ table 50161 "Assignment Memo Line"
 
     keys
     {
-        key(Key1; "No.", "Line No.") { }
+        key(Key1; "Document No.", "Line No.") { }
     }
 
     fieldgroups { }
@@ -166,9 +153,9 @@ table 50161 "Assignment Memo Line"
         if "Line No." = 0 then
             GetLineNo();
 
-        if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and AssignmentMemoHdr.Get("No.") then
-            if AssignmentMemoHdr."Requester Employee No." <> '' then
-                Validate("Employee Code", AssignmentMemoHdr."Requester Employee No.");
+        // if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and AssignmentMemoHdr.Get("Document No.") then
+        //     if AssignmentMemoHdr."Requester Employee No." <> '' then
+        //         Validate("Employee Code", AssignmentMemoHdr."Requester Employee No.");
     end;
 
     var
@@ -194,73 +181,13 @@ table 50161 "Assignment Memo Line"
     begin
         AllowanceLine.Reset;
         AllowanceLine.SetCurrentKey("No.", "Line No.");
-        AllowanceLine.SetRange("No.", "No.");
+        AllowanceLine.SetRange("No.", "Document No.");
         if AllowanceLine.FindLast then
             "Line No." := AllowanceLine."Line No." + 10000
         else
             "Line No." := 10000;
     end;
 
-    // local procedure ValidateDate()
-    // var
-    //     PayrollAttribute: Record "Payroll Attributes";
-    //     PayrollAttribute1: Record "Payroll Attributes";
-    // begin
-    //     "No. of Days" := 0;
-    //     //if one mutual exclusive allowance is already selected, no other mutually exclusive allowance is allowed.
-    //     AllowanceLine.Reset;
-    //     AllowanceLine.SetRange("No.", "No.");
-    //     AllowanceLine.SetFilter("Line No.", '<>%1', "Line No.");
-    //     AllowanceLine.SetFilter("From Date", '<=%1', "From Date");
-    //     AllowanceLine.SetFilter("To Date", '>=%1', "From Date");
-    //     AllowanceLine.SetFilter("Allowance Type", '<>%1', "Allowance Type");
-    //     AllowanceLine.SetRange(Type, Type);
-    //     if AllowanceLine.FindFirst then
-    //         repeat
-    //             PayrollAttribute.Get("Allowance Type");
-    //             if PayrollAttribute."Mutually Exclusive" then begin
-    //                 PayrollAttribute1.Get(AllowanceLine."Allowance Type");
-    //                 if PayrollAttribute1."Mutually Exclusive" then
-    //                     Error(TEXT001, AllowanceLine."Allowance Type", "Allowance Type", AllowanceLine."From Date");
-    //             end;
-    //         until AllowanceLine.Next = 0;
-    //     if Rec."Substitute Type" = Rec."Substitute Type"::" " then begin
-    //         AllowanceLine.Reset;
-    //         AllowanceLine.SetRange("No.", "No.");
-    //         AllowanceLine.SetRange(Type, Type);
-    //         AllowanceLine.SetRange("Allowance Type", "Allowance Type");
-    //         AllowanceLine.SetRange(Code, Code);
-    //         AllowanceLine.SetRange("From Date", "From Date");
-    //         AllowanceLine.Setfilter("Substitute Type", '%1', AllowanceLine."Substitute Type"::" ");
-    //         AllowanceLine.SetFilter("Employee Code", '<>%1', '');
-    //         if AllowanceLine.FindFirst then
-    //             if BranchwiseAllowance.Get(Type, Code, "Allowance Type") then
-    //                 if BranchwiseAllowance."Max. No. of Staffs" <> 0 then
-    //                     if AllowanceLine.Count + 1 > BranchwiseAllowance."Max. No. of Staffs" then
-    //                         Error(TEXT002, Name, "Allowance Type",
-    //                                 BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
-    //     end;
-    //     AllowanceHeader.Get("No.");
-    //     if AllowanceHeader."Activity Type" <> "Emp Act Type"::"Allowance Assignment Claim" then begin
-    //         AllowanceHeader.TestField("From Date");
-    //         AllowanceHeader.TestField("To date");
-    //         if "From Date" <> 0D then
-    //             if ("From Date" < AllowanceHeader."From Date") or ("From Date" > AllowanceHeader."To date") then
-    //                 Error('Date is not within period.');
-
-    //         if "To Date" <> 0D then
-    //             if "To Date" > AllowanceHeader."To date" then
-    //                 Error('Date is not within period.');
-    //         CalculateNoOfDays(Rec);
-    //     end;
-
-    // end;
-
-    procedure CalculateNoOfDays(var _AllowanceLine: Record "Allowance Assignment Line")
-    begin
-        if (_AllowanceLine."From Date" <> 0D) and (_AllowanceLine."To Date" <> 0D) then
-            _AllowanceLine."No. of Days" := _AllowanceLine."To Date" - _AllowanceLine."From Date" + 1;
-    end;
 
     procedure UpdateSubstitue()
     var
@@ -270,14 +197,14 @@ table 50161 "Assignment Memo Line"
         if AssignmentMemoLine."Substitute Type" = "Substitute Type"::"Added as Substitute" then begin
             if ("From Date" = 0D) or ("To Date" = 0D) then
                 exit;
-            AssignmentMemoLine.Get("No.", "Substitute of Line No.");
+            AssignmentMemoLine.Get("Document No.", "Substitute of Line No.");
             NewToDate := AssignmentMemoLine."To Date";
             if AssignmentMemoLine."From Date" = "From Date" then
                 AssignmentMemoLine.Delete(true);
 
             if not GuiAllowed then begin
                 AssignmentMemoHdr.Reset;
-                AssignmentMemoHdr.Get("No.");
+                AssignmentMemoHdr.Get("Document No.");
             end;
             if "From Date" - 1 >= AssignmentMemoHdr."From Date" then begin
                 AssignmentMemoLine."To Date" := "From Date" - 1;
@@ -291,7 +218,7 @@ table 50161 "Assignment Memo Line"
                 //insert new line
                 AssignmentMemoLine2.Reset;
                 AssignmentMemoLine2.Init;
-                AssignmentMemoLine2."No." := "No.";
+                AssignmentMemoLine2."Document No." := "Document No.";
                 AssignmentMemoLine2.Validate("Allowance Type", AssignmentMemoLine."Allowance Type");
                 AssignmentMemoLine2.Validate("Employee Code", AssignmentMemoLine."Employee Code");
                 AssignmentMemoLine2."Substitute of Line No." := AssignmentMemoLine."Line No.";
@@ -306,24 +233,6 @@ table 50161 "Assignment Memo Line"
         end;
     end;
 
-    procedure CalctoDate(FromDate: Date): Date
-    var
-        ToDate: Date;
-        MonthEndDate: Date;
-    begin
-        ToDate := CalcDate('<1W>', FromDate);
-        MonthEndDate := CalcDate('<1M>', FromDate);
-        if ToDate < MonthEndDate then
-            exit(ToDate)
-        else
-            exit(MonthEndDate);
-    end;
-
-    local procedure CheckForGracePeriod()
-    begin
-        if AssignmentMemoHdr."To date" + PGSetup."Allowance Grace Period" < Today then
-            Error('Grace period for filling allowance assignment has been exceeded. Please Contact HR Team');
-    end;
 
     procedure GetAllowanceConfigAmount(AllowanceConfig: Record "Allowance Configuration"): Decimal
     var
@@ -346,5 +255,16 @@ table 50161 "Assignment Memo Line"
 
             exit(Round(MonthlyAmt / 30, 0.01, '='));
         end;
+    end;
+
+    procedure CheckandValidateTheDates(DateToCheck: Date)
+    var
+        AssignmentmemoHdr: Record "Assignment Memo Header";
+    begin
+        AssignmentmemoHdr.Get("Document No.");
+        AssignmentmemoHdr.TestField("From Date");
+        AssignmentmemoHdr.TestField("To Date");
+        if (DateToCheck < AssignmentmemoHdr."From Date") or (DateToCheck > AssignmentmemoHdr."To Date") then
+            Error('Date is not within the valid range.');
     end;
 }

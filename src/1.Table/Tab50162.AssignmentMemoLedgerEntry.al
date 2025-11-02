@@ -46,6 +46,10 @@ table 50162 "Assignment Memo Ledger Entry"
         {
             Caption = 'Employee Activity Type';
         }
+        field(11; "Payroll Attribute Code"; Code[20])
+        {
+            Caption = 'Payroll Attribute Code';
+        }
     }
     keys
     {
@@ -60,4 +64,14 @@ table 50162 "Assignment Memo Ledger Entry"
         {
         }
     }
+
+    procedure GetNextEntryNo(): Integer
+    var
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+    begin
+        if AssignmentMemoLedgerEntry.FindLast() then
+            exit(AssignmentMemoLedgerEntry."Enrty No." + 1)
+        else
+            exit(1);
+    end;
 }

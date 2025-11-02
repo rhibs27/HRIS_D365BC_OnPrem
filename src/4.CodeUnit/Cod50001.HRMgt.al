@@ -5834,6 +5834,32 @@ codeunit 50001 "HR Mgt."
         exit(OneLineAddress);
     end;
 
+    procedure LookupEmployeeByOrgStructure(ProvinceCode: Code[20]; BranchCode: Code[20]; DepartmentCode: Code[20]; UnitCode: Code[20]; EmpCode: Code[20]): Code[20]
+    var
+        EmployeeRec: Record Employee;
+        EmployeeListPage: Page "Employee List";
+    begin
+        if EmpCode <> '' then
+            EmployeeRec.SetRange("No.", EmpCode);
+        if ProvinceCode <> '' then
+            EmployeeRec.SetRange("Province Code", ProvinceCode);
+        if BranchCode <> '' then
+            EmployeeRec.SetRange("Branch Code", BranchCode);
+        if DepartmentCode <> '' then
+            EmployeeRec.SetRange("Department Code", DepartmentCode);
+        if UnitCode <> '' then
+            EmployeeRec.SetRange("Unit Code", UnitCode);
+        EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
+
+        EmployeeListPage.LookupMode(true);
+        EmployeeListPage.SetTableView(EmployeeRec);
+        if EmployeeListPage.RunModal() = ACTION::LookupOK then begin
+            EmployeeListPage.GetRecord(EmployeeRec);
+            exit(EmployeeRec."No.");
+        end;
+    end;
+
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin

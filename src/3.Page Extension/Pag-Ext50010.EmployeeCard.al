@@ -914,11 +914,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addbefore("Employment Date")
         {
-            field("Appointment Date"; Rec."Appointment Date")
+            field("Appointment Date"; Rec."Appointment Letter Date")
             {
                 ApplicationArea = all;
             }
-            Field("Appointment Date (B.S.)"; Rec."Appointment Date (B.S.)")
+            Field("Appointment Date (B.S.)"; Rec."Appointment Letter Date (B.S.)")
             {
                 ApplicationArea = all;
             }
@@ -1487,6 +1487,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                         // AllowanceAssignmentMgt.OpenAllowance(Rec."No.", AllowanceType);
 
+                    end;
+                }
+                action("Allowance Assignment Memo")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Allowance Assignment action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    var
+                        AllowanceMemoMgt: Codeunit "Assignment Memo Mgt";
+                    begin
+                        AllowanceMemoMgt.OpenAllowanceRequestMemo(Rec."No.");
                     end;
                 }
                 action("Shift Assignment")
