@@ -43,10 +43,12 @@ table 50096 "Employee Service History"
                         Validate("Functional Title (To)", Employee."Functional Title");
                         Validate("Salary Level (To)", Employee."Salary Level");
                         Validate("Salary Grade (To)", Employee."Salary Grade");
+                        Validate("Contract Code (To)", Employee."Emplymt. Contract Code");
+                        Validate("Employment Type (To)", Employee."Employment Type");
                         Validate("Province Code (To)", Employee."Province Code");
                         Validate("Branch Code (To)", Employee."Branch Code");
                         Validate("Department Code (To)", Employee."Department Code");
-                        Validate("Unit Code (To)", Employee."Union Code");
+                        Validate("Unit Code (To)", Employee."Unit Code");
                     end;
                 end
                 else
@@ -62,6 +64,11 @@ table 50096 "Employee Service History"
         }
         field(5; "Deputation Code (To)"; Code[20])
         {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get("Deputation On (To)", "Deputation Code (To)") then
+                    Validate("Deputation Value (To)", OrgStructureList.Name);
+            end;
         }
         field(6; "Deputation Value (To)"; Text[100])
         {
@@ -73,7 +80,14 @@ table 50096 "Employee Service History"
         {
 
         }
-        field(9; "Deputation Code (From)"; Code[20]) { }
+        field(9; "Deputation Code (From)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get("Deputation On(From)", "Deputation Code (From)") then
+                    Validate("Deputation Value (From)", OrgStructureList.Name);
+            end;
+        }
         field(10; "Deputation Value (From)"; Text[100]) { }
         field(11; "Functional Title (From)"; Code[20])
         {
@@ -249,7 +263,6 @@ table 50096 "Employee Service History"
         key(Key2; "Employee No.", "Effective Date") { }
     }
 
-    fieldgroups { }
 
     trigger OnInsert()
     var
@@ -277,22 +290,6 @@ table 50096 "Employee Service History"
         HrMgt: Codeunit "HR Mgt.";
         OrgStructureList: Record "Organization Structure List";
         EngNep: Record "English-Nepali Date";
-
-    // procedure GetServiceDuration(ServiceHistoryFrom: Record "Employee Service History"; ToDate: Date): Text[50]
-    // var
-    //     Employee: Record Employee;
-    //     NewEffectiveDateDate: Date;
-    //     ServiceDuration: Text[50];
-    // begin
-    //     HRSetup.Get();
-    //     Employee.Get(ServiceHistoryFrom."Employee No.");
-    //     NewEffectiveDateDate := HrMgt.GetAdjustedEmploymentDate(Employee, ServiceHistoryFrom."Effective Date", ToDate);
-    //     if HRSetup."Calculate Age using Nepali C." then
-    //         ServiceDuration := HrMgt.GetAgeBS(EngNep.getNepaliDate(NewEffectiveDateDate), EngNep.getNepaliDate(ToDate))
-    //     else
-    //         ServiceDuration := HrMgt.GetAge(NewEffectiveDateDate, ToDate);
-    //     exit(ServiceDuration);
-    // end;
 
     procedure UpdateDuration(ServiceHistoryFrom: Record "Employee Service History")
     var
