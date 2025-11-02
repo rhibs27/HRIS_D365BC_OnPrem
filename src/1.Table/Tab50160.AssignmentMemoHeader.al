@@ -1,0 +1,242 @@
+table 50160 "Assignment Memo Header"
+{
+    Caption = 'Assignment Memo Header';
+    DataClassification = ToBeClassified;
+
+    fields
+    {
+        field(1; "No."; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                PGSetup.Get;
+                if "No." <> xRec."No." then
+                    case "Activity Type" of
+                        "Activity Type"::"Allowance Assignment Memo":
+                            begin
+                                NoSeriesMgt.TestManual(PGSetup."Allowance Assignment Memo Nos");
+                                "No. Series" := '';
+                            end;
+                        "Activity Type"::"Request Allowance":
+                            begin
+                                NoSeriesMgt.TestManual(PGSetup."Request Allowance Nos");
+                                "No. Series" := '';
+                            end;
+                    end;
+            end;
+
+        }
+        field(2; "Activity Type"; Enum "Employee Activity Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(3; "From Date"; Date)
+        {
+            trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
+            begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "From Date");
+                if EngNepDate.FindFirst then
+                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
+                else
+                    Clear("Fiscal Year");
+
+                if Rec."From Date" <> xRec."From Date" then
+                    Clear("To date");
+            end;
+        }
+        field(4; "To date"; Date)
+        {
+            trigger OnValidate()
+            begin
+                TestField("From Date");
+                if "From Date" > "To date" then
+                    Error('Invalid date.');
+
+            end;
+        }
+
+        field(5; "Province Code"; Code[20])
+        {
+
+        }
+        field(6; "Branch Code"; Code[20])
+        {
+
+        }
+        field(7; "Department Code"; Code[20])
+        {
+
+        }
+        field(8; "Unit Code"; Code[20])
+        {
+
+        }
+        field(9; "Document Date"; Date)
+        {
+        }
+        field(10; Remarks; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(11; "Rejection Remarks"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(12; "No. Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+
+        field(15; "Payroll Filter"; Code[20])
+        {
+            TableRelation = "Allowance Configuration"."Payroll Attribute";
+        }
+        field(16; "Approval Status"; Enum "Approval Status")
+        {
+
+        }
+        field(17; "Fiscal Year"; text[10])
+        {
+        }
+        field(18; "Change Approver Remarks"; Text[250]) { }
+
+        field(20; "Pay Cycle Code"; Code[20])
+        {
+            TableRelation = "Pay Cycle";
+
+        }
+        field(21; "Pay Cycle Term"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+
+
+        }
+        field(22; "Pay Cycle Period"; Integer)
+        {
+            TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
+                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
+
+        }
+        field(23; "Requester Employee No."; Code[50])
+        {
+            DataClassification = ToBeClassified;
+            Description = 'Only for Portal functionalities.';
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                if Employee.Get("Requester Employee No.") then begin
+                    "Requester Employee Name" := Employee.FullName();
+                    "Permanent Address" := Employee.Address;
+                    "Temporary Address" := Employee."Temporary Address";
+                end else
+                    "Requester Employee Name" := '';
+            end;
+        }
+        field(24; "Requester Employee Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(37; "Approved Date"; Date)
+        {
+        }
+        field(100; "Status"; Text[20])
+        {
+        }
+
+        field(103; "Permanent Address"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(104; "Temporary Address"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+    }
+
+    keys
+    {
+        key(Key1; "No.") { }
+    }
+
+    fieldgroups { }
+
+    trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            AssignmentMemoLine.Reset;
+            AssignmentMemoLine.SetRange("No.", "No.");
+            AssignmentMemoLine.DeleteAll(true);
+
+            ApprovalHrms.Reset;
+            ApprovalHrms.SetRange("Document No.", "No.");
+            ApprovalHrms.DeleteAll(true);
+
+            //clear marked document
+            // if Rec."Activity Type" = Rec."Activity Type"::"Request Allowance" then begin
+            //     AllowanceAssignmentMgt.ClearMarkedAllowanceData(Rec."No.");
+            // end;
+        end;
+    end;
+
+    trigger OnInsert()
+    var
+        TempAssignmentmemoHdr: Record "Assignment Memo Header" temporary;
+        Recordref: RecordRef;
+    begin
+        "Document Date" := WorkDate();
+        PGSetup.Get();
+        TestField("Requester Employee No.");
+        if "No." = '' then
+            case "Activity Type" of
+                "Activity Type"::"Allowance Assignment Memo":
+                    begin
+                        PGSetup.TestField("Allowance Assignment Memo Nos");
+                        HRMgt.InitNoSeriesNew(PGSetup."Allowance Assignment Memo Nos", "No.", "Document Date", "No.", "No. Series");
+                        AssignmentMemoHdr.ReadIsolation(IsolationLevel::ReadCommitted);
+                        AssignmentMemoHdr.SetLoadFields("No.");
+                        while AssignmentMemoHdr.Get("No.") do
+                            "No." := NoSeriesMgt.GetNextNo("No. Series");
+
+                        ApproverMgt.InsertApproval("Requester Employee No.", "No.", "Activity Type", "Approval Status");
+                    end;
+
+                "Activity Type"::"Request Allowance":
+                    begin
+                        PGSetup.TestField("Request Allowance Nos");
+                        HRMgt.InitNoSeriesNew(PGSetup."Request Allowance Nos", xRec."No. Series", "Document Date", "No.", "No. Series");
+                        AssignmentMemoHdr.ReadIsolation(IsolationLevel::ReadCommitted);
+                        AssignmentMemoHdr.SetLoadFields("No.");
+                        while AssignmentMemoHdr.Get("No.") do
+                            "No." := NoSeriesMgt.GetNextNo("No. Series");
+
+                        TempAssignmentmemoHdr := Rec;
+                        TempAssignmentmemoHdr.Insert();
+                        Recordref.GetTable(TempAssignmentmemoHdr);
+                        // ApproverMgt.InsertApprovalWithRecordref("Requester Employee No.", "No.", "Activity Type", "Approval Status", Recordref);
+                    end;
+            end;
+
+        // if GuiAllowed then
+        //     AllowanceAssignmentMgt.GenerateIncDocuments("Activity Type", "No.", "Requester Employee No.", '');
+    end;
+
+    var
+        AssignmentMemoLine: Record "Assignment Memo Line";
+        HrMgt: Codeunit "HR Mgt.";
+        ApprovalHrms: Record "Approval HRMS";
+        NoSeriesMgt: Codeunit "No. Series";
+        ApproverMgt: Codeunit "Approver Mgt";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+        PGSetup: Record "Payroll General Setup";
+
+}

@@ -770,6 +770,19 @@ page 50031 "Payroll General Setup"
                     ApplicationArea = All;
                 }
             }
+            group("Assignment Memos")
+            {
+                Visible = Rec."Use Allowance Configuration";
+
+                field("Allowance Assignment Memo Nos"; Rec."Allowance Assignment Memo Nos")
+                {
+                    ToolTip = 'Specifies the value of the Allowance Assignment Memo Nos field.', Comment = '%';
+                }
+                field("Request Allowance Nos"; Rec."Request Allowance Nos")
+                {
+                    ToolTip = 'Specifies the value of the Request Allowance Nos field.', Comment = '%';
+                }
+            }
             part(PayrollSetupLines; "Payroll Setup Lines")
             {
                 Caption = 'Payroll Setup Lines';

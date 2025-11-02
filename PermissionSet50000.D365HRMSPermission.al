@@ -796,5 +796,15 @@ permissionset 50000 D365HRMSPermission
         table "Emp. Act. Ledger Entry" = X,
         report "Payroll Voucher summary 2" = X,
         report "Process Daily Attendance" = X,
-        codeunit "Process Daily Attendance" = X;
+        codeunit "Process Daily Attendance" = X,
+        tabledata "Assignment Memo Header" = RIMD,
+        tabledata "Assignment Memo Ledger Entry" = RIMD,
+        tabledata "Assignment Memo Line" = RIMD,
+        tabledata "RF Contribution" = RIMD,
+        table "Assignment Memo Header" = X,
+        table "Assignment Memo Ledger Entry" = X,
+        table "Assignment Memo Line" = X,
+        table "RF Contribution" = X,
+        page "Emp. Edit Add. Attach. Subform" = X,
+        page "RF Contribution Lines" = X;
 }

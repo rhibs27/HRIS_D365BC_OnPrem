@@ -451,6 +451,14 @@ table 50024 "Payroll General Setup"
         }
         field(140; "Allowance Claim Limit (days)"; Integer) { }
         field(141; "Night Shift Allowance"; Code[20]) { }
+        field(150; "Allowance Assignment Memo Nos"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(151; "Request Allowance Nos"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
         field(500; "Use Allowance Configuration"; Boolean) { }
         field(501; "Payroll Archive Nos."; Code[20])
         {

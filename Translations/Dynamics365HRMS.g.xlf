@@ -1008,6 +1008,351 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup Line - Field Request Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Assignment Memo Header</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot delete document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Method OnDelete - NamedType CannotDelete</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 1489664975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Activity Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Activity Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3027137289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Approved Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Branch Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 257067854 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Change Approver Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Change Approver Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Department Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 580412389 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Document Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field From Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field No. Series - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Pay Cycle Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3972573639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Pay Cycle Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Pay Cycle Term - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2275954607 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Payroll Filter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2443981288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Permanent Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Permanent Address - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Province Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3717226677 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requester Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Requester Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 222586789 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requester Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Requester Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 1799028647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Temporary Address - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3121655793 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field To date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Unit Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Assignment Memo Ledger Entry</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2828287359 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Applied Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Applied Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2161584220 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Applied Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Applied Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 486908828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 4154710913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Activity Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Employee Activity Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 132452293 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Enrty No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Enrty No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 4259830144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Open - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Posting Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Assignment Memo Line</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - NamedType 4034540392" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 and %2 cannot be assigned on same date %3.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - NamedType TEXT001</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - NamedType 377269713" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - NamedType TEXT002</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot delete document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Method OnDelete - NamedType CannotDelete</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 317591136 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Allowance Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3476522080 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Claim From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Allowance Claim From - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 252604565 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Claim from Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Allowance Claim from Line No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3299207861 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Claimed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Allowance Claimed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1407850916 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Allowance Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3027137289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Approved Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 580412389 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Document Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3884370130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp Act Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Emp Act Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 387747209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Employee Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field From Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Leave Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3726133055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Document No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Leave Document No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field No. of Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 25557770 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Panel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Panel - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 930327942 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Doc No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Payroll Doc No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 922203080 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recurring Completed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Recurring Completed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1532841482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Screened By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Screened By - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1895218171 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Screened Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Screened Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1713785062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute of Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Substitute of Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1272631030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Substitute Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2565971985 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field To Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 572629000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Week</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Week - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3248951671 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11578,6 +11923,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Column Configuration - Field Variable Field Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 3263916037 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Assignment Memo Nos</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Allowance Assignment Memo Nos - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 1026378211 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Claim Limit (days)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12107,6 +12457,11 @@
           <source>Remote Area Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Remote Area Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 3172240621 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Request Allowance Nos</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Request Allowance Nos - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3546390414 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resigned Plan No. Series</source>
@@ -36078,6 +36433,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Columns - Control Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3263916037 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Allowance Assignment Memo Nos field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Allowance Assignment Memo Nos - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3172240621 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Request Allowance Nos field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Request Allowance Nos - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3836118956 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Basic Adjustment Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57597,6 +57962,11 @@
           <source>Allowance Assignment Claim</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Allowance Assignment Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 3043223467 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Assignment Memo</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Allowance Assignment Memo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3549385734 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Missed</source>
