@@ -91,7 +91,7 @@ table 50160 "Assignment Memo Header"
             TableRelation = "No. Series";
         }
 
-        field(15; "Payroll Filter"; Code[20])
+        field(15; "Payroll Attribute Code"; Code[20])
         {
             TableRelation = "Allowance Configuration"."Payroll Attribute";
         }
@@ -121,28 +121,33 @@ table 50160 "Assignment Memo Header"
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
 
         }
-        field(23; "Requester Employee No."; Code[50])
+        field(23; "Employee No."; Code[50])
         {
+            TableRelation = Employee where(Status = const(Active));
             DataClassification = ToBeClassified;
             Description = 'Only for Portal functionalities.';
             trigger OnValidate()
             var
                 Employee: Record Employee;
             begin
-                if Employee.Get("Requester Employee No.") then begin
-                    "Requester Employee Name" := Employee.FullName();
+                if Employee.Get("Employee No.") then begin
+                    "Employee Name" := Employee.FullName();
                     "Permanent Address" := Employee.Address;
                     "Temporary Address" := Employee."Temporary Address";
                 end else
-                    "Requester Employee Name" := '';
+                    "Employee Name" := '';
             end;
         }
-        field(24; "Requester Employee Name"; Text[100])
+        field(24; "Employee Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
         field(37; "Approved Date"; Date)
         {
+        }
+        field(38; "Substitute Approval Status"; Enum "Approval Status")
+        {
+
         }
         field(100; "Status"; Text[20])
         {
@@ -193,7 +198,7 @@ table 50160 "Assignment Memo Header"
     begin
         "Document Date" := WorkDate();
         PGSetup.Get();
-        TestField("Requester Employee No.");
+        TestField("Employee No.");
         if "No." = '' then
             case "Activity Type" of
                 "Activity Type"::"Allowance Assignment Memo":
@@ -205,7 +210,7 @@ table 50160 "Assignment Memo Header"
                         while AssignmentMemoHdr.Get("No.") do
                             "No." := NoSeriesMgt.GetNextNo("No. Series");
 
-                        ApproverMgt.InsertApproval("Requester Employee No.", "No.", "Activity Type", "Approval Status");
+                        ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type", "Approval Status");
                     end;
 
                 "Activity Type"::"Request Allowance":
@@ -220,7 +225,7 @@ table 50160 "Assignment Memo Header"
                         TempAssignmentmemoHdr := Rec;
                         TempAssignmentmemoHdr.Insert();
                         Recordref.GetTable(TempAssignmentmemoHdr);
-                        ApproverMgt.InsertApprovalWithRecordref("Requester Employee No.", "No.", "Activity Type", "Approval Status", Recordref);
+                        ApproverMgt.InsertApprovalWithRecordref("Employee No.", "No.", "Activity Type", "Approval Status", Recordref);
                     end;
             end;
 

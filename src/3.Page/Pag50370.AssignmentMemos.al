@@ -1,11 +1,15 @@
-page 50369 "Assignment Memos"
+page 50370 "Assignment Memos"
 {
     ApplicationArea = All;
     Caption = 'Assignment Memos';
     PageType = List;
     SourceTable = "Assignment Memo Header";
+    SourceTableView = where("Activity Type" = const("Allowance Assignment Memo"));
     CardPageId = "Assignment Memo Card";
     UsageCategory = Lists;
+    InsertAllowed = false;
+    ModifyAllowed = false;
+    DeleteAllowed = false;
 
     layout
     {
@@ -49,18 +53,19 @@ page 50369 "Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Unit Code field.', Comment = '%';
                 }
-                field("Requester Employee No."; Rec."Requester Employee No.")
+                field("Requester Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Requester Employee No. field.', Comment = '%';
                 }
-                field("Requester Employee Name"; Rec."Requester Employee Name")
+                field("Requester Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Requester Employee Name field.', Comment = '%';
                 }
-                field(Status; Rec.Status)
+                field("Approval Status"; Rec."Approval Status")
                 {
-                    ToolTip = 'Specifies the value of the Status field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
+
 
             }
         }

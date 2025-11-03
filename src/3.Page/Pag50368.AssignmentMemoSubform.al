@@ -4,6 +4,7 @@ page 50368 "Assignment Memo Subform"
     Caption = 'Assignment Memo Subform';
     PageType = ListPart;
     SourceTable = "Assignment Memo Line";
+    SourceTableView = where("Emp Act Type" = const("Allowance Assignment Memo"));
     AutoSplitKey = true;
     DelayedInsert = true;
 
@@ -14,8 +15,11 @@ page 50368 "Assignment Memo Subform"
         {
             repeater(General)
             {
-
-                field("Employee Code"; Rec."Employee Code")
+                field("Allowance Type"; Rec."Payroll Attribute Code")
+                {
+                    ToolTip = 'Specifies the value of the Allowance Type field.', Comment = '%';
+                }
+                field("Employee Code"; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.', Comment = '%';
                     trigger OnValidate()
@@ -36,15 +40,26 @@ page 50368 "Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
                 }
-                field("Allowance Type"; Rec."Allowance Type")
+                field(Panel; Rec.Panel)
                 {
-                    ToolTip = 'Specifies the value of the Allowance Type field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Panel field.', Comment = '%';
                 }
+                field("ATM Site"; Rec."ATM Site")
+                {
+                    ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
+                }
+
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
+                field("No of Approved Days"; Rec."No of Approved Days")
+                {
+                    ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
+                    DrillDownPageId = "Assignment Memo Ledger Entries";
+                }
+
             }
         }
     }
@@ -57,7 +72,7 @@ page 50368 "Assignment Memo Subform"
                 Image = Refresh;
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
-                Visible = DocumentApproved;
+                Visible = SubstituteActionVisible;
 
                 trigger OnAction()
                 var
@@ -68,42 +83,21 @@ page 50368 "Assignment Memo Subform"
                     AllowanceType, EmpCode : code[20];
                     AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                 begin
-                    Rec.TestField("Substitute type", rec."Substitute Type"::" ");
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
-                    // AllowanceLineTemp.Reset;
-                    // AllowanceLineTemp.SetRange("No.", Rec."No.");
-                    // AllowanceLineTemp.SetRange("Substitute of Line No.", Rec."Line No.");
-                    // AllowanceLineTemp.SetRange("Substitute Type", AllowanceLineTemp."Substitute Type"::"Added as Substitute");
-                    // AllowanceLineTemp.SetRange("Employee Code", '');
-                    // if not AllowanceLineTemp.FindFirst then begin
-                    //     AllowanceLineTemp.Reset;
-                    //     AllowanceLineTemp.Init;
-                    //     AllowanceLineTemp."No." := Rec."No.";
-                    //     AllowanceLineTemp."Substitute type" := AllowanceLineTemp."Substitute type"::"Added as Substitute";
-                    //     AllowanceLineTemp."Substitute of Line No." := Rec."Line No.";
-                    //     AllowanceLineTemp."Allowance Type" := Rec."Allowance Type";
-                    //     AllowanceLineTemp.Type := rec.Type;
-                    //     AllowanceLineTemp.Code := rec.code;
-                    //     AllowanceLineTemp.Panel := rec.Panel;
-                    //     AllowanceLineTemp."From Date" := rec."From Date";
-                    //     AllowanceLineTemp."To Date" := rec."To Date";
-                    //     AllowanceLineTemp.Insert();
-                    // end;
-                    // Page.Run(Page::"Allowance Assign. Substitute", AllowanceLineTemp);
-
                     FilterPage.AddRecord('Select Employee Details', AllowanceLine);
                     FilterPage.AddField('Select Employee Details', AllowanceLine."From Date");
                     FilterPage.AddField('Select Employee Details', AllowanceLine."To Date");
-                    FilterPage.AddField('Select Employee Details', AllowanceLine."Employee Code");
-                    FilterPage.AddField('Select Employee Details', AllowanceLine."Allowance Type");
+                    FilterPage.AddField('Select Employee Details', AllowanceLine."Employee No.");
                     if FilterPage.RunModal() then begin
                         AllowanceLine.SetView(FilterPage.GetView('Select Employee Details'));
                         Evaluate(FromDate, AllowanceLine.GetFilter("From Date"));
                         Evaluate(ToDate, AllowanceLine.GetFilter("To Date"));
-                        Evaluate(AllowanceType, AllowanceLine.GetFilter("Allowance Type"));
-                        Evaluate(EmpCode, AllowanceLine.GetFilter("Employee Code"));
+                        Evaluate(EmpCode, AllowanceLine.GetFilter("Employee No."));
                     end;
-                    AssignmentMemoMgt.InsertSubstituteAssignmentMemo(Rec."Document No.", Rec."Employee Code", AllowanceType, panel::" ", EmpCode, FromDate, ToDate);
+                    if (FromDate <> 0D) and (ToDate <> 0D) and (EmpCode <> '') then begin
+                        AssignmentMemoMgt.InsertSubstituteAssignmentMemo(Rec."Document No.", Rec."Line No.", FromDate, ToDate, EmpCode);
+                        Message('Substitute Assignment Memo inserted successfully.');
+                    end;
                     CurrPage.Update();
                 end;
             }
@@ -117,15 +111,20 @@ page 50368 "Assignment Memo Subform"
 
     trigger OnOpenPage()
     begin
+        SetLayout();
+    end;
 
+    trigger OnAfterGetRecord()
+    begin
+        SetLayout();
     end;
 
     procedure SetLayout()
     begin
-        DocumentApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        SubstituteActionVisible := Rec."Approval Status" = Rec."Approval Status"::Approved;
 
     end;
 
     var
-        DocumentApproved, RequestDoc : boolean;
+        SubstituteActionVisible, RequestDoc : boolean;
 }

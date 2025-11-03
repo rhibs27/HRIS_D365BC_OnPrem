@@ -1473,6 +1473,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         FilterPageBuilder: FilterPageBuilder;
                         Allowanceconfig: Record "Allowance Configuration";
                         AllowanceType: Code[20];
+                        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                     begin
                         FilterPageBuilder.AddRecord('Select Allowance Type', Allowanceconfig);
                         FilterPageBuilder.ADdField('Select Allowance Type', Allowanceconfig."Payroll Attribute");
@@ -1485,7 +1486,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             if AllowanceType = '' then
                                 Error('Allowance Type must have value');
 
-                        // AllowanceAssignmentMgt.OpenAllowance(Rec."No.", AllowanceType);
+                        AssignmentMemoMgt.OpenAllowance(Rec."No.", AllowanceType);
 
                     end;
                 }

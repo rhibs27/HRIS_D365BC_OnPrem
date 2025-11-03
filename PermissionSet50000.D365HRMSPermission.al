@@ -806,5 +806,10 @@ permissionset 50000 D365HRMSPermission
         table "Assignment Memo Line" = X,
         table "RF Contribution" = X,
         page "Emp. Edit Add. Attach. Subform" = X,
-        page "RF Contribution Lines" = X;
+        page "RF Contribution Lines" = X,
+        codeunit "Assignment Memo Mgt" = X,
+        page "Assignment Memo Card" = X,
+        page "Assignment Memo Ledger Entries" = X,
+        page "Assignment Memo Subform" = X,
+        page "Assignment Memos" = X;
 }

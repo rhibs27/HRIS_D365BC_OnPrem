@@ -3,7 +3,7 @@ page 50181 "Request Allowance Subform"
     ApplicationArea = All;
     Caption = 'Request Allowance Subform';
     PageType = ListPart;
-    SourceTable = "Allowance Assignment Line";
+    SourceTable = "Assignment Memo Line";
     SourceTableView = where("Emp Act Type" = const("Request Allowance"));
 
     layout
@@ -14,9 +14,9 @@ page 50181 "Request Allowance Subform"
             {
                 Editable = FormEditable;
 
-                field("Allowance Type"; Rec."Allowance Type")
+                field("Payroll Attribute Code"; Rec."Payroll Attribute Code")
                 {
-                    ToolTip = 'Specifies the value of the Allowance Type field.';
+                    ToolTip = 'Specifies the value of the Payroll Attribute Code field.';
                     ApplicationArea = All;
 
                     trigger OnValidate()
@@ -113,19 +113,14 @@ page 50181 "Request Allowance Subform"
 
     local procedure SetLayout()
     var
-        AllowanceHeader: Record "Allowance Assignment Header";
+        AssignmentMemoHeader: Record "Assignment Memo Header";
     begin
         ToDateEditable := true;
-        if AllowanceHeader.Get(rec."No.") then begin
-            DocumentOpen := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Open;
-            DocumentPending := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Pending;
-            DocumentApproved := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Approved;
+        if AssignmentMemoHeader.Get(rec."Document No.") then begin
+            DocumentOpen := AssignmentMemoHeader."Approval Status" = AssignmentMemoHeader."Approval Status"::Open;
+            DocumentPending := AssignmentMemoHeader."Approval Status" = AssignmentMemoHeader."Approval Status"::Pending;
+            DocumentApproved := AssignmentMemoHeader."Approval Status" = AssignmentMemoHeader."Approval Status"::Approved;
         end;
         FormEditable := DocumentOpen;
-    end;
-
-    procedure GetSelectedLines(var _AllowanceLine: Record "Allowance Assignment Line")
-    begin
-        CurrPage.SetSelectionFilter(_AllowanceLine);
     end;
 }

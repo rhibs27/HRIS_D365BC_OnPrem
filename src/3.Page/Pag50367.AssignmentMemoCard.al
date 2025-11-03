@@ -45,11 +45,11 @@ page 50367 "Assignment Memo Card"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-                field("Requester Employee No."; Rec."Requester Employee No.")
+                field("Requester Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Requester Employee No. field.', Comment = '%';
                 }
-                field("Requester Employee Name"; Rec."Requester Employee Name")
+                field("Requester Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Requester Employee Name field.', Comment = '%';
                 }
@@ -68,6 +68,16 @@ page 50367 "Assignment Memo Card"
                     ToolTip = 'Specifies the value of the Rejection Remarks field.', Comment = '%';
                 }
             }
+            group(SubstituteDetails)
+            {
+                Caption = 'Substitute Details';
+                Visible = IsApprove;
+                Editable = false;
+                field("Substitute Approval Status"; Rec."Substitute Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Substitute Approval Status field.', Comment = '%';
+                }
+            }
             part(AssignmentMemoLines; "Assignment Memo Subform")
             {
                 Editable = IsOpen;
@@ -79,7 +89,7 @@ page 50367 "Assignment Memo Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                "Employee No" = field("Requester Employee No."),
+                "Employee No" = field("Employee No."),
                                 "Document Type" = field("Activity Type");
                 ApplicationArea = all;
             }
@@ -97,7 +107,7 @@ page 50367 "Assignment Memo Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
-                Visible = IsOpen;
+                Visible = IsOpen or IsSubstituteOpen;
                 trigger OnAction()
                 var
                     AllowanceLine: Record "Assignment Memo Line";
@@ -119,7 +129,7 @@ page 50367 "Assignment Memo Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-                Visible = IsPending;
+                Visible = IsPending or IsSubstitutepending;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the document?', false) then
@@ -135,7 +145,7 @@ page 50367 "Assignment Memo Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-                Visible = IsPending;
+                Visible = IsPending or IsSubstitutepending;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject the document?', false) then
@@ -161,9 +171,10 @@ page 50367 "Assignment Memo Card"
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
-        IsOpen, IsPending, IsApprove, IsReject : Boolean;
+        IsOpen, IsPending, IsApprove, IsReject, IsSubstituteOpen, IsSubstitutepending : Boolean;
         RecRef: RecordRef;
         AllowanceClaim: Boolean;
+
 
     local procedure SetLayout()
     begin
@@ -172,9 +183,8 @@ page 50367 "Assignment Memo Card"
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
         IsApprove := Rec."Approval Status" = rec."Approval Status"::Approved;
         IsReject := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        IsSubstituteOpen := Rec."Substitute Approval Status" = Rec."Substitute Approval Status"::Open;
+        IsSubstitutepending := Rec."Substitute Approval Status" = Rec."Substitute Approval Status"::Pending;
         RecRef.GetTable(Rec);
-        AllowanceClaim := Rec."Activity Type" = Rec."Activity Type"::"Allowance Assignment Claim";
-        if AllowanceClaim then
-            CurrPage.Caption('Allowance Assignment claim Card');
     end;
 }

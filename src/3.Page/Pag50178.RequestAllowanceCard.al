@@ -3,19 +3,19 @@ page 50178 "Request Allowance Card"
     ApplicationArea = All;
     Caption = 'Request Allowance Card';
     PageType = Card;
-    SourceTable = "Allowance Assignment Header";
+    SourceTable = "Assignment Memo Header";
     layout
     {
         area(Content)
         {
             group(General)
             {
-                field("Employee No."; Rec."Employee No.")
+                field("Requester Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No field.';
                     Editable = false;
                 }
-                field("Employee Name"; Rec."Employee Name")
+                field("Requester Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     Editable = false;
@@ -58,7 +58,7 @@ page 50178 "Request Allowance Card"
             }
             part(line; "Request Allowance Subform")
             {
-                SubPageLink = "No." = field("No."), "Emp Act Type" = field("Activity Type");
+                SubPageLink = "Document No." = field("No."), "Emp Act Type" = field("Activity Type");
                 UpdatePropagation = Both;
                 ApplicationArea = All;
                 Editable = IsOpen;
@@ -72,15 +72,7 @@ page 50178 "Request Allowance Card"
                 ApplicationArea = all;
             }
         }
-        area(FactBoxes)
-        {
-            part(Control19; "Allowance Factbox")
-            {
-                SubPageLink = "Entry No. Filter" = field("No."),
-                              "Branch Filter" = field(Code);
-                ApplicationArea = All;
-            }
-        }
+
     }
     actions
     {
@@ -97,10 +89,8 @@ page 50178 "Request Allowance Card"
                 Visible = IsOpen;
                 trigger OnAction()
                 begin
-                    AllowanceLine.Reset;
-                    AllowanceLine.SetRange("No.", Rec."No.");
                     if Confirm('Do you want to send approval request?', false) then
-                        AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine);
+                        AllowanceMgt.SendApprovalAssignmentMemo(Rec);
                 end;
             }
 
@@ -166,9 +156,9 @@ page 50178 "Request Allowance Card"
     end;
 
     var
-        AllowanceLine: Record "Allowance Assignment Line";
+        AssignmentMemoLine: Record "Assignment Memo Line";
         FormEditable: Boolean;
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
+        AllowanceMgt: Codeunit "Assignment Memo Mgt";
         Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove : Boolean;

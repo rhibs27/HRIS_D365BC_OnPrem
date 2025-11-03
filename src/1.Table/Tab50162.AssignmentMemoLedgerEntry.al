@@ -3,10 +3,11 @@ table 50162 "Assignment Memo Ledger Entry"
     //data in this table will be created only after approval of assignment memo documents.
     Caption = 'Assignment Memo Ledger Entry';
     DataClassification = ToBeClassified;
+    LookupPageId = "Assignment Memo Ledger Entries";
 
     fields
     {
-        field(1; "Enrty No."; Integer)
+        field(1; "Entry No."; Integer)
         {
             Caption = 'Enrty No.';
         }
@@ -21,6 +22,15 @@ table 50162 "Assignment Memo Ledger Entry"
         field(4; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                if Employee.Get("Employee No.") then
+                    "Employee Name" := Employee.FullName()
+                else
+                    "Employee Name" := '';
+            end;
         }
         field(5; "Employee Name"; Text[100])
         {
@@ -34,9 +44,9 @@ table 50162 "Assignment Memo Ledger Entry"
         {
             Caption = 'Open';
         }
-        field(8; "Applied Employee No."; Code[20])
+        field(8; "Substituted Employee No."; Code[20])
         {
-            Caption = 'Applied Employee No.';
+            Caption = 'Substituted Employee No.';
         }
         field(9; "Applied Document No."; Code[20])
         {
@@ -53,14 +63,14 @@ table 50162 "Assignment Memo Ledger Entry"
     }
     keys
     {
-        key(PK; "Enrty No.")
+        key(PK; "Entry No.")
         {
             Clustered = true;
         }
         key(key2; "Employee No.", "Document No.", "Posting Date", "Employee Activity Type")
         {
         }
-        key(key3; "Applied Document No.", "Applied Employee No.", Open)
+        key(key3; "Applied Document No.", "Substituted Employee No.", Open)
         {
         }
     }
@@ -70,7 +80,7 @@ table 50162 "Assignment Memo Ledger Entry"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         if AssignmentMemoLedgerEntry.FindLast() then
-            exit(AssignmentMemoLedgerEntry."Enrty No." + 1)
+            exit(AssignmentMemoLedgerEntry."Entry No." + 1)
         else
             exit(1);
     end;

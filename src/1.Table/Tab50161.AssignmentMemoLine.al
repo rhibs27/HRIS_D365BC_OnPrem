@@ -10,13 +10,12 @@ table 50161 "Assignment Memo Line"
         {
         }
 
-        field(5; "Employee Code"; Code[20])
+        field(5; "Employee No."; Code[20])
         {
-            TableRelation = Employee;
-
+            TableRelation = Employee where(Status = const(Active));
             trigger OnValidate()
             begin
-                if Employee.Get("Employee Code") then
+                if Employee.Get("Employee No.") then
                     "Employee Name" := Employee."Full Name"
                 else
                     "Employee Name" := '';
@@ -29,7 +28,7 @@ table 50161 "Assignment Memo Line"
             begin
                 //lookup employee based on header org structure filters
                 if AssignmentMemoHdr.Get("Document No.") then
-                    Validate("Employee Code", HrMgt.LookupEmployeeByOrgStructure(AssignmentMemoHdr."Province Code",
+                    Validate("Employee No.", HrMgt.LookupEmployeeByOrgStructure(AssignmentMemoHdr."Province Code",
                       AssignmentMemoHdr."Branch Code", AssignmentMemoHdr."Department Code",
                       AssignmentMemoHdr."Unit Code", ''));
             end;
@@ -66,7 +65,7 @@ table 50161 "Assignment Memo Line"
                     "No. of Days" := "To Date" - "From Date" + 1;
             end;
         }
-        field(9; "Allowance Type"; Code[20])
+        field(9; "Payroll Attribute Code"; Code[20])
         {
 
             TableRelation = "Allowance Configuration"."Payroll Attribute" where(source = const(Assignment));
@@ -74,14 +73,14 @@ table 50161 "Assignment Memo Line"
             trigger OnValidate()
             begin
 
-                if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and ("Allowance Type" <> '') then begin
+                if "Payroll Attribute Code" <> '' then begin
                     AllowanceConfiguration.Reset();
-                    AllowanceConfiguration.SetRange("Payroll Attribute", "Allowance Type");
+                    AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
                     if AllowanceConfiguration.FindFirst() then
                         "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration)
                     else
                         Error('Invalid allowance selected!');
-                    Clear(Panel);
+
                 end;
             end;
         }
@@ -124,18 +123,46 @@ table 50161 "Assignment Memo Line"
         }
         field(29; "Allowance Claimed"; Boolean) { }
         field(30; "Allowance Claim from Line No"; Integer) { }
+        field(31; "No of Approved Days"; Integer)
+        {
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = count("Assignment Memo Ledger Entry" where(
+                                                 "Employee No." = field("Employee No."),
+                                                 "Payroll Attribute Code" = field("Payroll Attribute Code"),
+                                                 "Document No." = field("Document No."),
+                                                 Open = const(true)));
+        }
+        field(32; "ATM Site"; Enum "ATM Site") { }
         field(50; "Leave Code"; Code[20]) { }
         field(51; "Leave Document No"; Code[20]) { }
         field(52; "Payroll Doc No."; Code[20]) { }
         field(53; "Recurring Completed"; Boolean) { }
+
+        //If there is education allowance then these fields will be used.
+        field(101; "Name of Children"; Text[100])
+        {
+            Caption = 'Name of Children';
+        }
+        field(102; "School Name"; Text[100])
+        {
+            Caption = 'School Name';
+        }
+        field(103; "Grade/Class"; Text[50])
+        {
+            Caption = 'Grade/Class';
+        }
+        field(104; "Distance (KM)"; Decimal)
+        {
+            Caption = 'Distance (KM)';
+            DecimalPlaces = 2 : 2;
+        }
     }
 
     keys
     {
         key(Key1; "Document No.", "Line No.") { }
     }
-
-    fieldgroups { }
 
     trigger OnDelete()
     var
@@ -168,7 +195,6 @@ table 50161 "Assignment Memo Line"
         TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PGSetup: Record "Payroll General Setup";
         HrMgt: Codeunit "HR Mgt.";
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         SalaryLevel: Record "Salary Level";
@@ -177,62 +203,16 @@ table 50161 "Assignment Memo Line"
 
     local procedure GetLineNo()
     var
-        AllowanceLine: Record "Allowance Assignment Line";
+        AllowanceLine: Record "Assignment Memo Line";
     begin
         AllowanceLine.Reset;
-        AllowanceLine.SetCurrentKey("No.", "Line No.");
-        AllowanceLine.SetRange("No.", "Document No.");
+        AllowanceLine.SetCurrentKey("Document No.", "Line No.");
+        AllowanceLine.SetRange("Document No.", "Document No.");
         if AllowanceLine.FindLast then
             "Line No." := AllowanceLine."Line No." + 10000
         else
             "Line No." := 10000;
     end;
-
-
-    procedure UpdateSubstitue()
-    var
-        NewToDate: Date;
-        NewFromDate: Date;
-    begin
-        if AssignmentMemoLine."Substitute Type" = "Substitute Type"::"Added as Substitute" then begin
-            if ("From Date" = 0D) or ("To Date" = 0D) then
-                exit;
-            AssignmentMemoLine.Get("Document No.", "Substitute of Line No.");
-            NewToDate := AssignmentMemoLine."To Date";
-            if AssignmentMemoLine."From Date" = "From Date" then
-                AssignmentMemoLine.Delete(true);
-
-            if not GuiAllowed then begin
-                AssignmentMemoHdr.Reset;
-                AssignmentMemoHdr.Get("Document No.");
-            end;
-            if "From Date" - 1 >= AssignmentMemoHdr."From Date" then begin
-                AssignmentMemoLine."To Date" := "From Date" - 1;
-                // AllowanceLine.CalculateNoOfDays(AllowanceLine);
-                AssignmentMemoLine.Modify(true);
-            end;
-
-            NewFromDate := "To Date" + 1;
-
-            if (NewFromDate >= AssignmentMemoHdr."From Date") and (NewToDate <> "To Date") then begin
-                //insert new line
-                AssignmentMemoLine2.Reset;
-                AssignmentMemoLine2.Init;
-                AssignmentMemoLine2."Document No." := "Document No.";
-                AssignmentMemoLine2.Validate("Allowance Type", AssignmentMemoLine."Allowance Type");
-                AssignmentMemoLine2.Validate("Employee Code", AssignmentMemoLine."Employee Code");
-                AssignmentMemoLine2."Substitute of Line No." := AssignmentMemoLine."Line No.";
-                AssignmentMemoLine2."Substitute Type" := AssignmentMemoLine2."Substitute Type"::"Added as Substitute";
-                AssignmentMemoLine2."From Date" := NewFromDate;
-                AssignmentMemoLine2."To Date" := NewToDate;
-                AssignmentMemoHdr.Validate("Approval Status", AssignmentMemoHdr."Approval Status"::"Pending");
-                AssignmentMemoHdr.Modify;
-                // AllowanceLine1.CalculateNoOfDays(AllowanceLine1);
-                AssignmentMemoLine2.Insert(true);
-            end;
-        end;
-    end;
-
 
     procedure GetAllowanceConfigAmount(AllowanceConfig: Record "Allowance Configuration"): Decimal
     var
@@ -245,13 +225,13 @@ table 50161 "Assignment Memo Line"
             if AllowanceConfig.Formula = '' then
                 exit(AllowanceConfig.Amount)
             else
-                exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee Code"));
+                exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No."));
 
         if AllowanceConfig.Source in [AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift] then begin
             if AllowanceConfig.Formula = '' then
                 MonthlyAmt := AllowanceConfig.Amount
             else
-                MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee Code");
+                MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No.");
 
             exit(Round(MonthlyAmt / 30, 0.01, '='));
         end;

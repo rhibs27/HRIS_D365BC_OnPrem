@@ -2875,13 +2875,13 @@ table 50027 "Payroll Line"
                                          ToDate: Date;
                                          getLastAmount: Boolean): Decimal
     var
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        AllowanceAssignmentLine: Record "Assignment Memo Line";
         Amt: Decimal;
     begin
-        AllowanceAssignmentLine.SetLoadFields("No.", "Employee Code", "Approved Date", "Allowance Type", "Approval Status", "Leave Code");
-        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.SetLoadFields("Document No.", "Employee No.", "Approved Date", "Payroll Attribute Code", "Approval Status", "Leave Code");
+        AllowanceAssignmentLine.SetRange("Employee No.", EmployeeCode);
         AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
-        AllowanceAssignmentLine.SetRange("Allowance Type", PayrollAttr);
+        AllowanceAssignmentLine.SetRange("Payroll Attribute Code", PayrollAttr);
         AllowanceAssignmentLine.SetRange("Approved Date", FromDate, ToDate);
         AllowanceAssignmentLine.SetFilter("Payroll Doc No.", '%1|%2', '', PayrollDocNo);
         if LeaveCode <> '' then

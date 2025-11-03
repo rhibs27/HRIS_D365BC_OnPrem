@@ -351,6 +351,9 @@ codeunit 50017 "Approver Mgt"
                 DocumentNo := RecRef.Field(1).Value;
             end;
         end;
+
+        OnApproverejectDocumentOnBeforeCheckApprover(RecRef, EmployeeActivityType, DocumentNo, ApprovalStatusField);
+
         if ApprovalStatusField = Format(ApprovalStatus::Pending) then begin
             CheckApprover(DocumentNo);
             ApprovalHRMS.Reset();
@@ -425,10 +428,7 @@ codeunit 50017 "Approver Mgt"
 
                             EmployeeActivityType::"Allowance Assignment Memo":
                                 begin
-                                    RecRef.Field(16).Validate(ApprovalStatus::Open);
-                                    RecRef.Field(100).Validate('');
-                                    RecRef.Modify();
-                                    AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false, '');
+                                    AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false);
                                 end;
 
                         end;
@@ -544,7 +544,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::"Allowance Assignment Memo":
                             begin
-                                AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, true, '');
+                                AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, true);
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
@@ -1055,7 +1055,7 @@ codeunit 50017 "Approver Mgt"
                             exit(true)
                         else if ApprovalSetupLine."Payroll Filter" <> '' then begin
                             //check for valid payroll filter
-                            PayrollAttrCode := RecordRef.Field(AssignmentmemoHdr.FieldNo("Payroll Filter")).Value;
+                            PayrollAttrCode := RecordRef.Field(AssignmentmemoHdr.FieldNo("Payroll Attribute Code")).Value;
                             PayrollAttribute.setloadfields(Code);
                             PayrollAttribute.SetRange(Code, PayrollAttrCode);
                             PayrollAttribute.setfilter(code, ApprovalSetupLine."Payroll Filter");
@@ -1079,7 +1079,7 @@ codeunit 50017 "Approver Mgt"
     begin
         if EmpActType = EmpActType::"Request Allowance" then begin
 
-            PayrollAttrCode := RecordRef.Field(AssignmentmemoHdr.FieldNo("Payroll Filter")).Value;
+            PayrollAttrCode := RecordRef.Field(AssignmentmemoHdr.FieldNo("Payroll Attribute Code")).Value;
             ApplyAllowanceFilterCode(ApprovalSetupLine, EmpActType, PayrollAttrCode);
         end;
     end;
@@ -1145,6 +1145,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnSkipEmployeeError(var SKipError: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnApproverejectDocumentOnBeforeCheckApprover(var RecRef: RecordRef; var EmployeeActivityType: Enum "Employee Activity Type"; var DocumentNo: Code[20]; var ApprovalStatusField: Text)
     begin
     end;
 
