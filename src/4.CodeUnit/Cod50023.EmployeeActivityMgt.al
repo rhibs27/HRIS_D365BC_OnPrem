@@ -380,7 +380,6 @@ codeunit 50023 EmployeeActivityMgt
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveRequestInsert(var leaveRequest: Record leave; var leaveJournal: Record "Employee Activity Journal")
     begin
-
     end;
 
     var

@@ -912,14 +912,18 @@ table 50140 "Employee Transfer"
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
                     //for transfer
                     Type::"Employee Transfer", Type::"HR Transfer", Type::"Transfer Claim":
                         begin
                             HRSetup.TestField("Transfer No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            EmployeeTransfer.ReadIsolation(IsolationLevel::ReadCommitted);
+                            EmployeeTransfer.SetLoadFields("No.");
+                            while EmployeeTransfer.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             if Type <> type::"HR Transfer" then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
 
@@ -1181,7 +1185,7 @@ table 50140 "Employee Transfer"
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         EmployeeTransfer: Record "Employee Transfer";

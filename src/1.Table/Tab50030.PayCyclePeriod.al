@@ -75,9 +75,9 @@ table 50030 "Pay Cycle Period"
         }
         field(7; Posted; Boolean)
         {
-            CalcFormula = exist("Employee Ledger Entry" where("Pay Cycle Code" = field("Pay Cycle Code"),
+            CalcFormula = exist("Posted Payroll Header" where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                                "Pay Cycle Term" = field("Pay Cycle Term"),
-                                                               "Pay Cycle Period" = field(Period)));
+                                                               "Pay Cycle Period" = field(Period), Type = filter("Payroll Header Type"::Payroll), Reversed = const(false)));
             Editable = false;
             FieldClass = FlowField;
         }

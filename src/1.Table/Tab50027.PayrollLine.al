@@ -1752,6 +1752,7 @@ table 50027 "Payroll Line"
         Modify;
         ResetValues;
 
+        RFContributionGetAttribute("Employee No.", PayrollHeader);
         GetGlobalAttributes();
         CalculateAbsentasimBeforeAndAfterpromotion();
         UpdateSalaryAdvanceNo();
@@ -1826,6 +1827,66 @@ table 50027 "Payroll Line"
                     exit(true);
             end;
         end;
+    end;
+
+    local procedure RFContributionGetAttribute(EmployeeNo: Code[20]; PayrollHeader: Record "Payroll Header")
+    var
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        RetirementFundHeader: Record "Retirement Fund";
+        RFContributionLine: Record "RF Contribution";
+    begin
+        PayrollAttrUses.SetRange("Employee Code", EmployeeNo);
+        PayrollAttrUses.SetFilter(Subtype, '%1|%2', PayrollAttrUses.Subtype::RF, PayrollAttrUses.Subtype::CIT);
+        PayrollAttrUses.SetRange(Type, PayrollAttrUses.Type::Deduction);
+        if PayrollAttrUses.FindSet() then
+            repeat
+                RetirementFundHeader.Reset();
+                RetirementFundHeader.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                if not RetirementFundHeader.FindLast() then
+                    exit;
+
+                RFContributionLine.Reset();
+                if RetirementFundHeader.Type = RetirementFundHeader.Type::Manual then begin
+                    //  RFContributionLine.SetRange("Nepali Month ", PayrollHeader."Nepali Month");
+                    RFContributionLine.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+                    RFContributionLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+                    RFContributionLine.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+                end;
+                RFContributionLine.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RFContributionLine.SetRange(Type, PayrollAttrUses."RF Contribution Type");
+                RFContributionLine.FindLast();
+                if RFContributionLine.Type = RFContributionLine.Type::Percent then
+                    PayrollAttrUses.Validate(Amount, (GetAmountRFContribution(RetirementFundHeader."Employee No.") * RFContributionLine.Amount) / 100)
+                else
+                    PayrollAttrUses.Validate(Amount, RFContributionLine.Amount);
+
+                PayrollAttrUses.Modify();
+            until PayrollAttributes.Next() = 0;
+
+        // logic for optimum is needed. // Not given as of now.
+    end;
+
+    local procedure GetAmountRFContribution(EmployeeCode: Code[20]): Decimal
+    var
+        LevelWiseAttributes: Record "Level Wise Attributes";
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+        BaseAmount: Decimal;
+    begin
+        Employee.SetLoadFields("Salary Grade", "Salary Level");
+        Employee.Get(EmployeeCode);
+
+        LevelWiseAttributes.SetLoadFields("Total Basic Salary");
+        if LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level") then
+            if LevelWiseAttributes."Total Basic Salary" <> 0 then
+                exit(LevelWiseAttributes."Total Basic Salary");
+
+        PayrollAttributesUsage.SetRange("Employee Code", EmployeeCode);
+        PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic, PayrollAttributesUsage.Subtype::Grade);
+        PayrollAttributesUsage.CalcSums(Amount);
+        BaseAmount := PayrollAttributesUsage.Amount;
+        // Add event conditionally if needed
+        OnBeforeExitOfBaseAmountForCIT(EmployeeCode, BaseAmount);
+        exit(BaseAmount);
     end;
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
@@ -2944,6 +3005,7 @@ table 50027 "Payroll Line"
             exit(false);
     end;
 
+
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
     begin
@@ -2958,5 +3020,11 @@ table 50027 "Payroll Line"
     [IntegrationEvent(false, false)]
     procedure OnBeforeValidateEmployee(EmployeeNo: Code[20])
     begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeExitOfBaseAmountForCIT(EmployeeCode: Code[20]; var BaseAmount: Decimal)
+    begin
+        //Additional Allowance amount if needed to be included
     end;
 }

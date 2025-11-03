@@ -1765,7 +1765,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
     procedure RFRequest();
     var
-        RF: Record "Retirement Fund" temporary;
+        RF: Record "Retirement Fund";
     begin
         HRMgt.OpenRFRequest("No.", RF);
     end;
