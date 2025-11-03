@@ -282,7 +282,7 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
     end;
 
-    procedure GetApproverNoSAAS(AccessToken: Code[50]): code[60] // Saas
+    procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
     var
         DecryptedEmployeeNo: Code[60];
         SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
@@ -578,7 +578,7 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
-    procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean; AccessToken: Code[50])//SAAS
+    procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean; AccessToken: Code[60])//SAAS
     var
         ApprovalHRMS: Record "Approval HRMS";
         ApprovalHRMS2: Record "Approval HRMS";
