@@ -119,7 +119,7 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeQualificationAddFromLine(EmployeeEditLine);
             until EmployeeEditLine.Next() = 0;
         end else begin
-            //old code will be removed 
+            //old code will be removed
             EmployeeQualification.Init();
             EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEdit."Employee No."));
             EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
@@ -210,7 +210,7 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeQualificationAddFromLine(EmployeeEditLine);
             until EmployeeEditLine.Next() = 0;
         end else begin
-            //old code will be removed 
+            //old code will be removed
             EmployeeQualification.Init();
             EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEdit."Employee No."));
             EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
@@ -256,6 +256,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeRelative.Validate("Ward No", EmployeeEdit."Ward No.");
             EmployeeRelative.Validate("E-mail", EmployeeEdit."Relative Mail");
             EmployeeRelative.Validate("Set Emergency Contact", EmployeeEdit."Set Emergency Contact");
+            EmployeeRelative.Validate("Set Nominee", EmployeeEdit."Set Nominee");
             EmployeeRelative.Insert();
         end;
     end;
@@ -285,6 +286,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Ward No", EmployeeEditLine."Ward No.");
         EmployeeRelative.Validate("E-mail", EmployeeEditLine."Relative Mail");
         EmployeeRelative.Validate("Set Emergency Contact", EmployeeEditLine."Set Emergency Contact");
+        EmployeeRelative.validate("Set Nominee", EmployeeEditLine."Set Nominee");
         EmployeeRelative.Validate("lt.", EmployeeEditLine."lt.");
         if EmployeeEditLine."Original Line No." = 0 then
             EmployeeRelative.Insert()
@@ -357,7 +359,7 @@ codeunit 50021 "Employee Edit Mgt."
             LanguageProficiency1.SetRange(Language, EmployeeEdit.Language);
             if LanguageProficiency1.findfirst then
                 LanguageProficiency1.Deleteall();
-            //Insert New language 
+            //Insert New language
             LanguageProficiency.Init();
             LanguageProficiency.Validate("Line No.", GetNextLineNoLanguageProficency(EmployeeEdit."Employee No."));
             LanguageProficiency.Validate("Employee Code", EmployeeEdit."Employee No.");

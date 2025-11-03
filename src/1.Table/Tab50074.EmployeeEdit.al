@@ -341,6 +341,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = ToBeClassified;
         }
+
         field(65; "Relative Mail"; Text[30])
         {
             DataClassification = ToBeClassified;
@@ -350,6 +351,11 @@ table 50074 "Employee Edit"
             begin
                 MailManagement.ValidateEmailAddressField("Relative Mail");
             end;
+        }
+
+        field(66; "Set Nominee"; Boolean)
+        {
+            DataClassification = ToBeClassified;
         }
         field(100; "Status"; Text[20])
         {

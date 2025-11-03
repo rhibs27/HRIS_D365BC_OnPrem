@@ -228,12 +228,17 @@ table 50120 "Employee Edit Line"
         }
         field(65; "lt."; Boolean)
         {
-
+            DataClassification = ToBeClassified;
         }
         field(66; "Attachment Document Type"; Code[20])
         {
             Caption = 'Attachment Document Type';
             Description = 'Attachment Document Type';
+        }
+
+        field(67; "Set Nominee"; Boolean)
+        {
+            DataClassification = ToBeClassified;
         }
         field(1000; "Changed Field"; Text[1020])
         {
@@ -243,6 +248,7 @@ table 50120 "Employee Edit Line"
         {
 
         }
+
 
 
 

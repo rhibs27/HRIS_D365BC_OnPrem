@@ -508,7 +508,6 @@ table 50136 "Travel Request"
                 end;
                 if ("Travel Countries" <> xRec."Travel Countries") and ("Travel Countries" <> "Travel Countries"::India) then
                     Clear(Destination);
-                //anupam
                 if "Travel Countries" = "Travel Countries"::Nepal then begin
                     clear("Currency Code");
                     GLSetup.get();
@@ -768,7 +767,7 @@ table 50136 "Travel Request"
                         begin
                             HRSetup.TestField("Travel Request No.");
                             NoSeriesMgt.InitSeries(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
 
@@ -777,7 +776,7 @@ table 50136 "Travel Request"
                         begin
                             HRSetup.TestField("Travel Claimed No.");
                             NoSeriesMgt.InitSeries(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
                 end;

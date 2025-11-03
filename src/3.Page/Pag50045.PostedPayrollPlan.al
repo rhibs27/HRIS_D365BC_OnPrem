@@ -323,6 +323,7 @@ page 50045 "Posted Payroll Plan"
             }
             action("Tax Audit Sheet Report")
             {
+                caption = 'Salary Sheet';
                 Image = ExportToExcel;
                 Promoted = true;
                 PromotedCategory = "Report";

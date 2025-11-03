@@ -51,6 +51,10 @@ page 50165 "Emp. Edit Relative Subform"
                 {
                     ToolTip = 'Specifies the value of the lt field.', Comment = '%';
                 }
+                field("Set Nominee"; Rec."Set Nominee")
+                {
+                    ToolTip = 'Specifies the value of the Set Nominee.', Comment = '%';
+                }
             }
         }
     }
@@ -77,7 +81,7 @@ page 50165 "Emp. Edit Relative Subform"
                         if not Confirm('There is an existing attachment. Do you wish to proceed') then
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-                        // check file size 
+                        // check file size
 
                         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
 

@@ -142,7 +142,6 @@ report 50071 "Export Payroll Value"
                         TotalTaxableIncome := "Payroll Line"."Taxable Income After RF";
                     if Counter = 0 then
                         TotalDisablePersonRed := "Payroll Line"."Disable Person Reduction";
-                    //added
                     if Counter = 0 then
                         TotalRemoteAreaDed := "Payroll Line"."Remote Area Deduction";
 
@@ -269,7 +268,6 @@ report 50071 "Export Payroll Value"
         TotalNetPay: Decimal;
         Counter: Integer;
         TotalPrpertyInsurancePremium: Decimal;
-        //new var
         DimensionValue: Record "Dimension Value";
         BranchName: Text[100];
         FunctionalTitleRec: Record "Functional Title";

@@ -287,8 +287,13 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
     trigger OnAfterModify()
     begin
         if GuiAllowed then
-            if "Set Emergency Contact" then
+            if "Set Emergency Contact" then begin
                 Validate("Set Emergency Contact");
+            end;
+        if "Set Nominee" then begin
+            Validate("Set Nominee");
+        end;
+
     end;
 
     local procedure GetNextLineNo();

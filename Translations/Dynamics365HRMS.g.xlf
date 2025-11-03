@@ -4673,6 +4673,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Set Emergency Contact - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 2564080187 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Nominee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Set Nominee - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 300412064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Speaking</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4957,6 +4962,11 @@
           <source>Set Emergency Contact</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Set Emergency Contact - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1631507388 - Field 2564080187 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Nominee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Set Nominee - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1631507388 - Field 300412064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Speaking</source>
@@ -25018,6 +25028,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Set Emergency Contact - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 2564080187 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Set Nominee.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Set Nominee - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3477846856 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Delete the record.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40602,6 +40617,11 @@
           <source>Executes the Tax Audit Sheet Report action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action Tax Audit Sheet Report - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 535886985 - Action 230359571 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Sheet</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action Tax Audit Sheet Report - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2707818367 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
