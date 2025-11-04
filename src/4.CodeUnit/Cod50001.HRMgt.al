@@ -132,8 +132,6 @@ codeunit 50001 "HR Mgt."
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: CodeUnit "Travel Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
-        //HRMgt: Codeunit "HR Mgt.";
-
     procedure MoveToMagicPath(SourceFileName: Text[1024]) DestinationFileName: Text[1024]
     var
     // FileSystemObject: Automation;todo
@@ -4831,7 +4829,6 @@ codeunit 50001 "HR Mgt."
         AllowRecordUsageResponseID: Integer;
         OpenDocumentResponceID: Integer;
         ShowMessageResponseID: Integer;
-        //HRMgt: Codeunit "HR Mgt.";
         WorkFlowSetup: Codeunit "Workflow Setup";
         WorkflowResponseHandling: Codeunit "Workflow Response Handling";
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
@@ -4905,7 +4902,6 @@ codeunit 50001 "HR Mgt."
         AllowRecordUsageResponseID: Integer;
         OpenDocumentResponceID: Integer;
         ShowMessageResponseID: Integer;
-        //HRMgt: Codeunit "HR Mgt.";
         WorkflowResponseHandling: Codeunit "Workflow Response Handling";
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
         WorkFlowSetup: Codeunit "Workflow Setup";
@@ -4979,7 +4975,6 @@ codeunit 50001 "HR Mgt."
         AllowRecordUsageResponseID: Integer;
         OpenDocumentResponceID: Integer;
         ShowMessageResponseID: Integer;
-        //HRMgt: Codeunit "HR Mgt.";
         WorkflowResponseHandling: Codeunit "Workflow Response Handling";
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
         WorkFlowSetup: Codeunit "Workflow Setup";
