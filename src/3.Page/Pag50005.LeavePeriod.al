@@ -7,7 +7,6 @@ page 50005 "Leave Period"
     UsageCategory = Lists;
     InsertAllowed = false;
     DeleteAllowed = false;
-
     layout
     {
         area(Content)
@@ -30,8 +29,6 @@ page 50005 "Leave Period"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Quarterly  for the period';
-
-
                 }
                 field("New Leave Year"; Rec."New Leave Year")
                 {
@@ -81,7 +78,6 @@ page 50005 "Leave Period"
             }
         }
     }
-
     var
         LeaveYearClosedBoolean: Boolean;
 }

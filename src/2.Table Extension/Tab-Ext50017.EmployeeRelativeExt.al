@@ -13,8 +13,6 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                     GetNextLineNo;
             end;
         }
-
-
         modify("Phone No.")
         {
             trigger OnAfterValidate()
@@ -163,7 +161,6 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                         EmployeeRelative.SetFilter("Line No.", '<>%1', "Line No.");
                         if EmployeeRelative.Count() > 0 then
                             Error('Employee can have only one emergency contact at a time');
-
                         // flow data to employee
                         TestField("Relative Code");
                         TestField("Full Name");
@@ -174,7 +171,6 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                         Employee."Emergency Contact Email" := "E-mail";
                         Employee."Emergency Mobile No." := "Phone No.";
                         Employee.Modify();
-
                         Message('Emergency contact details updated sucessfully!');
                     end;
                 end
@@ -186,7 +182,6 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                     Employee."Emergency Mobile No." := "Phone No.";
                     Employee.Modify();
                 end;
-
             end;
         }
         field(50018; "E-mail"; text[30])
@@ -222,7 +217,6 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                         EmployeeRelative.SetFilter("Line No.", '<>%1', "Line No.");
                         if EmployeeRelative.Count() > 0 then
                             Error('Employee can have only one nominee at a time');
-
                         // Flow data to employee
                         TestField("Relative Code");
                         TestField("Full Name");
@@ -233,7 +227,6 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                         Employee."Nominee Email" := "E-mail";
                         Employee."Nominee Mobile No." := "Phone No.";
                         Employee.Modify();
-
                         Message('Nominee details updated successfully!');
                     end;
                 end
@@ -247,27 +240,22 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 end;
             end;
         }
-
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;
-
         }
-
     }
     keys
     {
         key(key2; "Relative Code")
         {
-
         }
     }
     fieldgroups
     {
         addlast(DropDown; "Relative Code", "Full Name")
         {
-
         }
     }
     var
@@ -293,7 +281,6 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         if "Set Nominee" then begin
             Validate("Set Nominee");
         end;
-
     end;
 
     local procedure GetNextLineNo();

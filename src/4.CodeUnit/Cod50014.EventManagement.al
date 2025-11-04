@@ -28,7 +28,6 @@ codeunit 50014 "Event Management"
     local procedure OnRunOnAfterConfirm(HideDialog: Boolean; PrintRegister: Boolean; var Handled: Boolean; var ReversalEntry: Record "Reversal Entry")
     begin
         // todo
-
         // IF ReversalEntry.IsPayrollEntry THEN
         //     PayrollReversalPost.RUN(TempReversalEntry) //NICASIA
         // ELSE
@@ -64,19 +63,14 @@ codeunit 50014 "Event Management"
     local procedure OnAfterCopyEmployeeLedgerEntryFromGenJnlLine(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
     var
     begin
-
         EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
     end;
-
     // [EventSubscriber(ObjectType::Table, Database::"Service Item Line", 'OnBeforeCalculateResponseDateTime', '', false, false)]
     // local procedure OnBeforeCalculateResponseDateTime(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
     // var
     // begin
-
     //EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
-
     // end;
-
     [EventSubscriber(ObjectType::Page, Page::"Base Calendar Entries Subform", OnUpdateBaseCalendarChanges, '', false, false)]
     local procedure "Base Calendar Entries Subform_OnUpdateBaseCalendarChanges"(var BaseCalendarChange: Record "Base Calendar Change"; var CustCalendarChange: Record "Customized Calendar Change")
     begin
@@ -97,7 +91,6 @@ codeunit 50014 "Event Management"
             Resolved := true;
         end;
     end;
-
     // [EventSubscriber(ObjectType::Codeunit, Codeunit::"System Initialization", OnAfterLogin, '', false, false)]
     // local procedure "System Initialization_OnAfterLogin"()
     // var
@@ -110,7 +103,6 @@ codeunit 50014 "Event Management"
     //             StopSession(ActiveSession."Session ID");
     //         until ActiveSession.Next() = 0;
     // end;
-
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Page Management", 'OnConditionalCardPageIDNotFound', '', true, true)]
     local procedure OnConditionalCardPageIDNotFound(RecordRef: RecordRef; var CardPageID: Integer)
     var
@@ -172,7 +164,6 @@ codeunit 50014 "Event Management"
                     else
                         CardPageID := Page::"Allowance Assignment Card";
                 end;
-
             Database::"Retirement Fund":
                 CardPageID := Page::"Retirement Fund Card";
             Database::"Cancel Document":
@@ -197,7 +188,6 @@ codeunit 50014 "Event Management"
                             CardPageID := Page::"Employee Personal Loan Card";
                         LoanType::"Vehicle Loan":
                             CardPageID := Page::"Employee Vehicle Loan Card";
-
                     end;
                 end;
             Database::"Employee Activity Journal":
@@ -222,5 +212,4 @@ codeunit 50014 "Event Management"
                 CardPageID := Page::"Employee Insurance Card";
         end;
     end;
-
 }

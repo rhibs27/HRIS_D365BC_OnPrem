@@ -3,7 +3,6 @@ report 50072 "Export Posted Payroll Value"
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019873.ExportPostedPayrollValue.rdl';
     ApplicationArea = All;
-
     dataset
     {
         dataitem("Posted Payroll Line"; "Posted Payroll Line")
@@ -89,7 +88,6 @@ report 50072 "Export Posted Payroll Value"
                 column(sortby; PayrollAtt."Column Id") { }
                 column(Type_; PayrollAtt.Type) { }
                 column(ColumnNo_; PayrollAtt."Column No.") { }
-
                 trigger OnAfterGetRecord()
                 begin
                     Clear(Amt);
@@ -109,7 +107,6 @@ report 50072 "Export Posted Payroll Value"
                         Amt := Round(Amt, 0.01, '=');
                         RecRefs.Close;
                     end;
-
                     ClearValue;
                     if Counter = 0 then
                         TotalTaxForPeriod := "Posted Payroll Line"."Tax for Period";
@@ -163,11 +160,9 @@ report 50072 "Export Posted Payroll Value"
                         TotalDeduction := "Posted Payroll Line"."Current Deduction";
                     if Counter = 0 then
                         TotalNetPay := "Posted Payroll Line"."Net Pay";
-
                     Counter += 1;
                 end;
             }
-
             trigger OnAfterGetRecord()
             begin
                 Clear(Counter);
@@ -184,7 +179,6 @@ report 50072 "Export Posted Payroll Value"
             end;
         }
     }
-
     requestpage
     {
         layout
@@ -203,10 +197,8 @@ report 50072 "Export Posted Payroll Value"
                 }
             }
         }
-
         actions { }
     }
-
     labels { }
     trigger OnPreReport()
     begin
@@ -235,7 +227,6 @@ report 50072 "Export Posted Payroll Value"
         TotalDisablePersonRed: Decimal;
         TotalRemoteAreaDed: Decimal;
         TotalPropertyInsurance: Decimal;
-
         TotalLifeInsurancePremium: Decimal;
         TotalHealthInsurancePremium: Decimal;
         TotalBalTaxableIncome: Decimal;
@@ -255,10 +246,8 @@ report 50072 "Export Posted Payroll Value"
         SalaryLevelDesc: Text[50];
         ShowTaxDetails: Boolean;
 
-
     local procedure ClearValue()
     begin
-
         Clear(TotalTaxForPeriod);
         Clear(TotalCurrentBenefit);
         Clear(TotalProjectedBenefit);

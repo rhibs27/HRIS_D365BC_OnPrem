@@ -4,7 +4,6 @@ page 50067 "Resignation Card"
     InsertAllowed = false;
     SourceTable = "Resignation";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -141,7 +140,6 @@ page 50067 "Resignation Card"
                     // }
                     field("Reason Code"; Rec."Reason Code")
                     {
-
                         ToolTip = 'Specifies the value of the Reason Code field.';
                         ApplicationArea = All;
                         Editable = IsOpen;
@@ -209,14 +207,12 @@ page 50067 "Resignation Card"
             //     ToolTip = 'Specifies the value of the Supervisor Name field.';
             //     ApplicationArea = All;
             // }
-
             // field("Screener Remarks"; Rec."Screener Remarks")
             // {
             //     ToolTip = 'Specifies the value of the Screener Remarks field.';
             //     ApplicationArea = All;
             // }
             // }
-
             part("Resign Clearance Verifier"; "Document Approver Resignation")
             {
                 Caption = 'Resign Clearance Verifier';
@@ -226,7 +222,6 @@ page 50067 "Resignation Card"
             }
         }
     }
-
     actions
     {
         area(Processing)
@@ -240,7 +235,6 @@ page 50067 "Resignation Card"
                 Visible = IsOpen;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     ResignationMgt.SendResignationApproval(Rec);
@@ -257,7 +251,6 @@ page 50067 "Resignation Card"
                 ToolTip = 'Executes the Cancel Resignation Request action.';
                 ApplicationArea = All;
                 Visible = false;
-
                 trigger OnAction()
                 begin
                     ResignationMgt.CancelResignationApproval(Rec);
@@ -273,7 +266,6 @@ page 50067 "Resignation Card"
                 Visible = false;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     ResignationMgt.ScreenResignation(Rec);
@@ -289,7 +281,6 @@ page 50067 "Resignation Card"
                 Visible = IsPending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
@@ -308,7 +299,6 @@ page 50067 "Resignation Card"
                 Visible = IsPending;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want reject the request?', false) then begin
@@ -345,7 +335,6 @@ page 50067 "Resignation Card"
                 // Visible = IsSettled;
                 ToolTip = 'Executes the Settlement action.';
                 ApplicationArea = All;
-
                 // trigger OnAction()
                 // var
                 //     Resignation: Record Resignation;
@@ -366,7 +355,6 @@ page 50067 "Resignation Card"
                 Visible = IsApproved;
                 ToolTip = 'Executes the Settle Resignation action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     // Rec.Validate("Approval Status", Rec."Approval Status"::Settled);
@@ -383,7 +371,6 @@ page 50067 "Resignation Card"
                 Visible = IsApproved;
                 ToolTip = 'Executes the Document Approval action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 var
                     DocumentApprover: Record "Document Approver";
@@ -415,7 +402,6 @@ page 50067 "Resignation Card"
                 Visible = false;
                 ToolTip = 'Executes the Return Resignation action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     ResignationMgt.ReturnResignation(Rec);
@@ -430,7 +416,6 @@ page 50067 "Resignation Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Print action.';
                 ApplicationArea = All;
-
                 // trigger OnAction()
                 // begin
                 //     CurrPage.SetSelectionFilter(Rec);
@@ -439,7 +424,6 @@ page 50067 "Resignation Card"
             }
         }
     }
-
     trigger OnAfterGetRecord()
     begin
         SetLayout();
@@ -470,7 +454,6 @@ page 50067 "Resignation Card"
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         ApprovalSent: Boolean;
-
         //DocumentEditable: Boolean;
         IsRejected: Boolean;
         IsPending: Boolean;
@@ -482,7 +465,6 @@ page 50067 "Resignation Card"
         ApprovalMgt: Codeunit "Approver Mgt";
         Approval: Record "Approval HRMS";
         IsApplied: Boolean;
-
 
     local procedure SetLayout()
     begin

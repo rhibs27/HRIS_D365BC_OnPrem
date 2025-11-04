@@ -1,13 +1,11 @@
 page 50045 "Posted Payroll Plan"
 {
     // version PRM19.01.01
-
     DeleteAllowed = false;
     InsertAllowed = false;
     PageType = Card;
     SourceTable = "Posted Payroll Header";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -186,7 +184,6 @@ page 50045 "Posted Payroll Plan"
             }
         }
     }
-
     actions
     {
         area(Navigation)
@@ -197,7 +194,6 @@ page 50045 "Posted Payroll Plan"
                 Image = Navigate;
                 ToolTip = 'Executes the &Navigate action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.Navigate;
@@ -212,7 +208,6 @@ page 50045 "Posted Payroll Plan"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Send Email action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.SendEmail(Rec."No.");
@@ -227,7 +222,6 @@ page 50045 "Posted Payroll Plan"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reverse action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 var
                     PostedPayrollHeader: Record "Posted Payroll Header";
@@ -242,7 +236,6 @@ page 50045 "Posted Payroll Plan"
                 Caption = 'Open in Excel';
                 Image = Excel;
                 ToolTip = 'Open the data in Excel for analysis or editing';
-
                 trigger OnAction()
                 var
                     EditInExcel: Codeunit "Edit in Excel";
@@ -260,7 +253,6 @@ page 50045 "Posted Payroll Plan"
                 Visible = false;
                 ToolTip = 'Executes the Payroll CIT action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     PostedPayrollHeaderRec.Reset;
@@ -278,7 +270,6 @@ page 50045 "Posted Payroll Plan"
                 Visible = false;
                 ToolTip = 'Executes the Payroll PF action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     PostedPayrollHeaderRec.Reset;
@@ -295,10 +286,8 @@ page 50045 "Posted Payroll Plan"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Payroll Slip action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-
                     PostedPayrollHeaderRec.Reset;
                     PostedPayrollHeaderRec.SetRange("No.", Rec."No.");
                     Report.Run(Report::"Payroll Payslip", true, true, PostedPayrollHeaderRec);
@@ -313,7 +302,6 @@ page 50045 "Posted Payroll Plan"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Bank Statement action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     PostedPayrollHeaderRec.Reset;
@@ -331,7 +319,6 @@ page 50045 "Posted Payroll Plan"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Tax Audit Sheet Report action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     PostedPayrollLine.Reset;
@@ -347,7 +334,6 @@ page 50045 "Posted Payroll Plan"
                 ToolTip = 'Executes the Export to Excel action.';
                 ApplicationArea = All;
                 Caption = 'Pay Summary';
-
                 trigger OnAction()
                 begin
                     PostedPayrollLine.Reset;
@@ -378,7 +364,6 @@ page 50045 "Posted Payroll Plan"
                     ApplicationArea = All;
                     //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
                     //PromotedCategory = Process;
-
                     trigger OnAction()
                     begin
                         PayrollEngine.PostPFContribution(Rec);
@@ -392,7 +377,6 @@ page 50045 "Posted Payroll Plan"
                     ApplicationArea = All;
                     //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
                     //PromotedCategory = Process;
-
                     trigger OnAction()
                     begin
                         PayrollEngine.PostIncomeTax(Rec);
@@ -407,7 +391,6 @@ page 50045 "Posted Payroll Plan"
                     //PromotedCategory = Process;
                     ToolTip = 'Reopen the document to change it after it has been journal created.';
                     Visible = false;
-
                     trigger OnAction()
                     begin
                         PayrollEngine.Reopen(Rec);  //SRT

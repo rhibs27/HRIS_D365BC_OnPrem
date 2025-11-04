@@ -1,7 +1,6 @@
 table 50098 "Employee Declaration"
 {
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -18,7 +17,6 @@ table 50098 "Employee Declaration"
         field(2; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if Empvar.Get("Employee No.") then begin
@@ -68,7 +66,6 @@ table 50098 "Employee Declaration"
         }
         field(7; "Deputation On"; Enum "Deputation Type")
         {
-
         }
         field(8; "Deputation Code"; Code[20]) { }
         field(9; "Code of Ethics"; Boolean) { }
@@ -78,7 +75,6 @@ table 50098 "Employee Declaration"
         field(13; "Loan Booking Branch"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
-
             trigger OnValidate()
             begin
                 if DimValue.Get('Branch', "Loan Booking Branch") then
@@ -134,14 +130,11 @@ table 50098 "Employee Declaration"
         field(55; "Outside Business Attachment"; Text[145]) { }
         field(56; "Property Declaration Attachmen"; Text[145]) { }
     }
-
     keys
     {
         key(Key1; "No.") { }
     }
-
     fieldgroups { }
-
     trigger OnInsert()
     begin
         "Created Date" := Today;
@@ -150,11 +143,9 @@ table 50098 "Employee Declaration"
             HRSetup.TestField("Employee Declaration No.");
             HRMgt.InitNoSeriesNew(HRSetup."Employee Declaration No.", xRec."No. Series", "Created Date", "No.", "No. Series");
         end;
-
         if "Employee No." = '' then
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HRMgt.GetEmployeeNo());
-
         if not GuiAllowed then begin
             TestField("Code of Ethics");
             TestField("By Laws Policies");
@@ -165,33 +156,28 @@ table 50098 "Employee Declaration"
             TestField("Outside Busin. Interest Subm");
             TestField("Souvenir Declaration");
             TestField("Property Declaration Attachmen");
-
             if "Family Availed Loan" then begin
                 TestField("Loan Booking Branch");
                 TestField("Name of Borrower");
                 TestField(Limit);
                 TestField("Relation To staff");
             end;
-
             if "Have Passport" then begin
                 TestField("Passport Number");
                 TestField("Passport Attachment");
             end;
-
             if "Involved In Outside Business" then begin
                 TestField("Engage/Managing Business Field");
                 TestField("Name of Institution");
                 TestField("Date of Involvement");
                 TestField("Outside Business Attachment");
             end;
-
             if "Souvenir/Gift" then begin
                 TestField("Souvenir/Gift From");
                 TestField("Souvenir/Gift/Present Amount");
                 TestField("Souvenir/Gift/Present Type");
                 TestField("Relation with Gift Provider");
             end;
-
         end;
         EmpDeclaration.Reset;
         EmpDeclaration.SetRange("Employee No.", "Employee No.");

@@ -2,13 +2,11 @@ table 50004 "Promotion History"
 {
     DataClassification = CustomerContent;
     // version To Delete
-
     fields
     {
         field(1; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if Employee.Get("Employee No.") then begin
@@ -33,7 +31,6 @@ table 50004 "Promotion History"
         {
             Editable = false;
             TableRelation = "Salary Level";
-
             trigger OnValidate()
             begin
                 if SalaryLevel.Get("Previous Salary Level Code") then
@@ -46,7 +43,6 @@ table 50004 "Promotion History"
         {
             Editable = false;
             TableRelation = "Salary Grade";
-
             trigger OnValidate()
             begin
                 if SalaryGrade.Get("Previous Salary Grade") then
@@ -66,7 +62,6 @@ table 50004 "Promotion History"
         field(8; "Promoted Salary Level Code"; Code[20])
         {
             TableRelation = "Salary Level";
-
             trigger OnValidate()
             begin
                 if SalaryLevel.Get("Promoted Salary Level Code") then
@@ -78,7 +73,6 @@ table 50004 "Promotion History"
         field(9; "Promoted Salary Grade"; Code[20])
         {
             TableRelation = "Salary Grade";
-
             trigger OnValidate()
             begin
                 if SalaryGrade.Get("Promoted Salary Grade") then
@@ -107,7 +101,6 @@ table 50004 "Promotion History"
         field(15; "Previous Functional Title"; Code[20])
         {
             TableRelation = "Functional Title";
-
             trigger OnValidate()
             begin
                 if FunctionalTitle.Get("Previous Functional Title") then
@@ -120,7 +113,6 @@ table 50004 "Promotion History"
         field(17; "Promoted Functional Title"; Code[20])
         {
             TableRelation = "Functional Title";
-
             trigger OnValidate()
             begin
                 if FunctionalTitle.Get("Promoted Functional Title") then
@@ -132,19 +124,16 @@ table 50004 "Promotion History"
         field(18; "Promoted Functional Desc."; Text[100]) { }
         field(19; Remarks; Text[250]) { }
     }
-
     keys
     {
         key(Key1; "Employee No.", "Line No.") { }
     }
-
     fieldgroups { }
-
     trigger OnInsert()
     begin
         "Created Date Time" := CurrentDateTime;
-         if not HrMgt.IsSaaS() then
-        "Created By" := HRMgt.GetEmployeeNo;
+        if not HrMgt.IsSaaS() then
+            "Created By" := HRMgt.GetEmployeeNo;
     end;
 
     var

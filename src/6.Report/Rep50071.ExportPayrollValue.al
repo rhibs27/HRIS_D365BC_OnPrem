@@ -3,7 +3,6 @@ report 50071 "Export Payroll Value"
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019872.ExportPayrollValue.rdl';
     ApplicationArea = All;
-
     dataset
     {
         dataitem("Payroll Line"; "Payroll Line")
@@ -82,7 +81,6 @@ report 50071 "Export Payroll Value"
             column(TotalPrpertyInsurancePremium; TotalPrpertyInsurancePremium) { }
             //column(RemoteAreaDeduction_PayrollLine; "Payroll Line"."Remote Area Deduction") { }
             column(Remote_Area_Deduction; "Remote Area Deduction") { }
-
             column(FunctionalTitleDesc_; FunctionalTitleDesc) { }
             column(SalaryLevelDesc_; SalaryLevelDesc) { }
             dataitem("Payroll Attributes Usage"; "Payroll Attributes Usage")
@@ -94,9 +92,6 @@ report 50071 "Export Payroll Value"
                 column(sortby; PayrollAtt."Column Id") { }
                 column(Type_; PayrollAtt.Type) { }
                 column(ColumnNo_; PayrollAtt."Column No.") { }
-
-
-
                 trigger OnAfterGetRecord()
                 begin
                     Clear(Amt);
@@ -116,7 +111,6 @@ report 50071 "Export Payroll Value"
                         Amt := Round(Amt, 0.01, '=');
                         RecRefs.Close;
                     end;
-
                     ClearValue;
                     if Counter = 0 then
                         TotalTaxForPeriod := "Payroll Line"."Tax for Period";
@@ -144,7 +138,6 @@ report 50071 "Export Payroll Value"
                         TotalDisablePersonRed := "Payroll Line"."Disable Person Reduction";
                     if Counter = 0 then
                         TotalRemoteAreaDed := "Payroll Line"."Remote Area Deduction";
-
                     if Counter = 0 then
                         TotalLifeInsurancePremium := "Payroll Line"."Life Insurance Premium";
                     if Counter = 0 then
@@ -171,11 +164,9 @@ report 50071 "Export Payroll Value"
                         TotalNetPay := "Payroll Line"."Net Pay";
                     if Counter = 0 then
                         TotalPrpertyInsurancePremium := "Payroll Line"."Property Insurance Premium";
-
                     Counter += 1;
                 end;
             }
-
             trigger OnAfterGetRecord()
             var
                 GLSetup: Record "General Ledger Setup";
@@ -183,28 +174,21 @@ report 50071 "Export Payroll Value"
                 Clear(Counter);
                 Clear(BranchName);
                 GLSetup.get();
-
                 if DimensionValue.Get(GLSetup."Global Dimension 1 Code", "Global Dimension 1 Code") then
                     BranchName := DimensionValue.Name;
-
                 Clear(FunctionalTitleDesc);
                 if FunctionalTitleRec.Get("Functional Title") then
                     FunctionalTitleDesc := FunctionalTitleRec.Description
                 else
                     FunctionalTitleDesc := '';
-
                 Clear(SalaryLevelDesc);
                 if SalaryLevelRec.Get("Salary Level") then
                     SalaryLevelDesc := SalaryLevelRec.Description
                 else
                     SalaryLevelDesc := '';
-
             end;
-
-
         }
     }
-
     requestpage
     {
         layout
@@ -222,13 +206,9 @@ report 50071 "Export Payroll Value"
                 }
             }
         }
-
         actions { }
     }
-
-
     labels { }
-
     trigger OnPreReport()
     begin
         if "Payroll Line".GetFilter("Document No.") = '' then
@@ -272,9 +252,7 @@ report 50071 "Export Payroll Value"
         BranchName: Text[100];
         FunctionalTitleRec: Record "Functional Title";
         SalaryLevelRec: Record "Salary Level";
-
         TotalRemoteAreaDed: Decimal;
-
         FunctionalTitleDesc: Text[100];
         SalaryLevelDesc: Text[50];
         ShowTaxDetails: Boolean;
@@ -294,7 +272,6 @@ report 50071 "Export Payroll Value"
         Clear(TotalTaxableIncome);
         Clear(TotalDisablePersonRed);
         clear(TotalRemoteAreaDed);
-
         Clear(TotalLifeInsurancePremium);
         Clear(TotalHealthInsurancePremium);
         Clear(TotalBalTaxableIncome);

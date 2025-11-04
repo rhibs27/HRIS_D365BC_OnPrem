@@ -15,21 +15,18 @@ table 50141 OverTime
                         "No. Series" := '';
                     end else begin
                         case Type of
-
                             //for OT
                             Type::Overtime, type::"Overtime Bulk":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."OT No.");
                                     "No. Series" := '';
                                 end;
-
                             //for out of office
                             Type::"Out of Office":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."Out of office No.");
                                     "No. Series" := '';
                                 end;
-
                             //for bulk cash
                             Type::"Bulk Cash":
                                 begin
@@ -42,13 +39,11 @@ table 50141 OverTime
         }
         field(2; Type; Enum "Employee Activity Type")
         {
-
         }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
             Editable = false;
-
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -75,7 +70,6 @@ table 50141 OverTime
                 end;
                 HRSetup.Get();
                 Validate("OT Eligible Hours", HRSetup."OT eligible hour");
-
             end;
         }
         field(4; "Employee Name"; Text[50])
@@ -91,11 +85,9 @@ table 50141 OverTime
         }
         field(7; "Start Date"; Date)
         {
-
             trigger OnValidate()
             var
                 EmployeeAttendance: Record "Employee Attendance & Activity";
-
             begin
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
@@ -107,7 +99,6 @@ table 50141 OverTime
                     if "Employee No." = '' then
                         if not HrMgt.IsSaaS() then
                             EmployeeRec.Get(HrMgt.GetEmployeeNo());
-
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
@@ -149,7 +140,6 @@ table 50141 OverTime
         }
         field(22; "End Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 TestField("Start Date");
@@ -170,7 +160,6 @@ table 50141 OverTime
         // field(9; "No. of Days"; Decimal)
         // {
         //     Editable = false;
-
         //     trigger OnValidate()
         //     begin
         //     end;
@@ -212,7 +201,6 @@ table 50141 OverTime
             CaptionClass = '1,2,1';
             Editable = false;
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-
             trigger OnValidate()
             begin
                 GLSetup.Get;
@@ -327,11 +315,9 @@ table 50141 OverTime
         {
             Editable = false;
         }
-
         // field(48; "Reason Code"; Code[20])
         // {
         //     TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
-
         //     trigger OnValidate()
         //     begin
         //         if Standardtext.Get("Reason Code") then
@@ -347,7 +333,6 @@ table 50141 OverTime
         field(51; "Estimated Hours"; Decimal)
         {
         }
-
         field(52; "Actual OT Hours"; Decimal)
         {
             trigger OnValidate()
@@ -361,14 +346,12 @@ table 50141 OverTime
         field(54; "Encashment Code"; Code[30])
         {
             TableRelation = "OT Encashment Setup";
-
             trigger OnValidate()
             begin
                 /*IF EncashmentPeriodSetup.GET("Encashment Code") THEN
                   "Encashment Period" := EncashmentPeriodSetup.Period
                 ELSE
                   CLEAR("Encashment Period");*/
-
             end;
         }
         field(55; "OT Amount"; Decimal)
@@ -402,14 +385,12 @@ table 50141 OverTime
             NotBlank = true;
             TableRelation = if ("Deputation Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
             else if ("Deputation Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
-
             trigger OnValidate()
             begin
                 // CheckLineExist();
                 // GLsetup.Get;
                 Clear("Deputation Name");
                 if not GuiAllowed then begin
-
                     if not HrMgt.IsSaaS() then
                         Employee.Get(HrMgt.GetEmployeeNo());
                     "Deputation Code" := Employee."Deputation On Code";
@@ -446,7 +427,6 @@ table 50141 OverTime
         field(65; "Get Employee"; Boolean)
         {
             DataClassification = ToBeClassified;
-
         }
         field(66; "Calculate Overtime"; Boolean)
         {
@@ -456,11 +436,9 @@ table 50141 OverTime
         {
             DataClassification = ToBeClassified;
         }
-
         field(100; Status; text[20])
         {
         }
-
     }
     keys
     {
@@ -478,10 +456,8 @@ table 50141 OverTime
             "Requested Date" := Today;
         HRSetup.Get;
         if (not GuiAllowed) and (type = Type::"Overtime Bulk") then begin
-
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
-
             Validate("Approval Status", "Approval Status"::Open);
             Validate("Overtime Claim Type", "Overtime Claim Type"::Encashment);
         end;
@@ -491,7 +467,6 @@ table 50141 OverTime
                 HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
-
                     //for overtime
                     Type::Overtime, type::"Overtime Bulk":
                         begin
@@ -503,7 +478,6 @@ table 50141 OverTime
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
-
                     //for out of office
                     Type::"Out of Office":
                         begin
@@ -514,7 +488,6 @@ table 50141 OverTime
                             while OverTimeRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                         end;
-
                     //for bulk cash
                     Type::"Bulk Cash":
                         begin
@@ -530,7 +503,6 @@ table 50141 OverTime
         if not GuiAllowed then
             if Type = Type::"Overtime Bulk" then
                 CheckForExistingDate();
-
         //InsertAttachmentLines;
     end;
 

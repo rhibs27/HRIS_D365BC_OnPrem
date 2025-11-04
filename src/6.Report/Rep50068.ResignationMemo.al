@@ -4,7 +4,6 @@
 //     WordLayout = './src/6.Report/Rep33019869.ResignationMemo.docx';
 //     DefaultLayout = Word;
 //     ApplicationArea = All;
-
 //     dataset
 //     {
 //         dataitem("Employee Activity";Resignation)
@@ -52,7 +51,6 @@
 //             column(SupportBy4Desc; SupportBy4Desc) { }
 //             column(ApprovedByFullName; ApprovedBy."Full Name") { }
 //             column(ApprovedByDesc; ApprovedByDesc) { }
-
 //             trigger OnAfterGetRecord()
 //             begin
 //                 Clear(Pronoun1);
@@ -104,7 +102,6 @@
 //             end;
 //         }
 //     }
-
 //     requestpage
 //     {
 //         layout
@@ -118,18 +115,13 @@
 //                 }
 //             }
 //         }
-
 //         actions { }
 //     }
-
 //     labels { }
-
-
 //         SupportedBy2.Reset;
 //         SupportedBy2.SetRange("Functional Title", 'MDTMD');
 //         if SupportedBy2.FindFirst then
 //             SupportBy2Desc := GetSalaryLevel(SupportedBy2) + '-' + GetFunctionalTitle(SupportedBy2);
-
 //         SupportedBy3.Reset;
 //         SupportedBy3.SetRange("Functional Title", 'HDTMDGB');
 //         if SupportedBy3.FindFirst then
@@ -138,13 +130,11 @@
 //         SupportedBy4.SetRange("Salary Level", 'DCEO');
 //         if SupportedBy4.FindFirst then
 //             SupportBy4Desc := GetSalaryLevel(SupportedBy4);
-
 //         ApprovedBy.Reset;
 //         ApprovedBy.SetRange("Salary Level", 'CEO');
 //         if ApprovedBy.FindFirst then
 //             ApprovedByDesc := GetSalaryLevel(ApprovedBy);
 //     end;
-
 //     var
 //         SalaryLevel: Record "Salary Level";
 //         FunctionalTitle: Record "Functional Title";
@@ -177,7 +167,6 @@
 //         ApprovedByDesc: Text;
 //         SupportedBy4: Record Employee;
 //         SupportBy4Desc: Text;
-
 //     local procedure ExitTransferDeputationWise(DeputationOn: Enum "Deputation Type"): Text
 //     var
 //     // DimValue: Record "Dimension Value";
@@ -197,13 +186,11 @@
 //                     // if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
 //                     exit(Employee."Branch Name");
 //                 end;
-
 //             DeputationOn::Department:
 //                 begin
 //                     // if Depart.Get(Employee."Department Code") then
 //                     exit(Employee."Department Name");
 //                 end;
-
 //             DeputationOn::"Extension Counter":
 //                 begin
 //                     // EmpHie.Reset;
@@ -212,7 +199,6 @@
 //                     // if EmpHie.FindFirst then
 //                     exit(Employee."Extension Counter Name");
 //                 end;
-
 //             // DeputationOn::"Sub Province":
 //             //     begin
 //             //         SubProvince.Reset;
@@ -220,7 +206,6 @@
 //             //         if SubProvince.FindFirst then
 //             //             exit(SubProvince.City);
 //             //     end;
-
 //             DeputationOn::Unit:
 //                 begin
 //                     // EmpHie.Reset;
@@ -229,7 +214,6 @@
 //                     // if EmpHie.FindFirst then
 //                     exit(Employee."Unit Name");
 //                 end;
-
 //             DeputationOn::Province:
 //                 begin
 //                     // if Province.Get(Employee."Province Code") then
@@ -237,7 +221,6 @@
 //                 end;
 //         end;
 //     end;
-
 //     procedure GetDateFormat(parameterDate: Date): Text
 //     var
 //         EngNepDate: Record "English-Nepali Date";
@@ -247,7 +230,6 @@
 //         if EngNepDate.FindFirst then
 //             exit(StrSubstNo('%1 %2, %3', EngNepDate."English Month", EngNepDate."English Day", EngNepDate."English Year"));
 //     end;
-
 //     local procedure GetFunctionalTitle(EmpVar: Record Employee): Text
 //     var
 //         FunctTiltle: Record "Functional Title";
@@ -260,7 +242,6 @@
 //             if FunctTiltle.Get(EmpVar."Functional Title") then
 //                 exit(FunctTiltle.Description);
 //     end;
-
 //     local procedure GetSalaryLevel(EmpVar: Record Employee): Text
 //     var
 //         SalLevel: Record "Salary Level";

@@ -2,7 +2,6 @@ table 50113 "Shift Assignment Header"
 {
     Caption = 'Shift Assignment';
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -146,7 +145,6 @@ table 50113 "Shift Assignment Header"
         {
             Caption = 'Status';
         }
-
     }
     keys
     {
@@ -174,12 +172,9 @@ table 50113 "Shift Assignment Header"
     trigger OnInsert()
     begin
         "Type" := "Type"::"Shift Assignment";
-      
         if not GuiAllowed then begin
-
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
-
             Validate("Approval Status", "Approval Status"::Open);
         end;
         // TestField(Code);
@@ -216,7 +211,6 @@ table 50113 "Shift Assignment Header"
         Employee: Record Employee;
         ShiftAssignmentRec: Record "Shift Assignment Header";
 
-
     procedure CheckForExistingDate(No: Code[20])
     var
         ShiftAssignment: Record "Shift Assignment Header";
@@ -236,5 +230,4 @@ table 50113 "Shift Assignment Header"
                     Error('Shift Assignment for this period %1 and %2 is already been assigned in %3.', ShiftAssignment."From Date", ShiftAssignment."To Date", ShiftAssignment."No.");
             until ShiftAssignment.Next() = 0;
     end;
-
 }

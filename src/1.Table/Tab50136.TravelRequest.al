@@ -7,7 +7,6 @@ table 50136 "Travel Request"
     {
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -17,14 +16,12 @@ table 50136 "Travel Request"
                         "No. Series" := '';
                     end else begin
                         case Type of
-
                             //for travel request
                             Type::"Travel Request":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."Travel Request No.");
                                     "No. Series" := '';
                                 end;
-
                             //for travel claimed
                             Type::"Travel Claim":
                                 begin
@@ -37,13 +34,11 @@ table 50136 "Travel Request"
         }
         field(2; Type; Enum "Employee Activity Type")
         {
-
         }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
             Editable = false;
-
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -68,7 +63,6 @@ table 50136 "Travel Request"
                     Validate("Auth. Account No.", '');
                     Validate("Salary Level Code", '');
                 end;
-
             end;
         }
         field(4; "Employee Name"; Text[50])
@@ -134,7 +128,6 @@ table 50136 "Travel Request"
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
             var
                 IsHandled: Boolean;
@@ -209,7 +202,6 @@ table 50136 "Travel Request"
                 if Type in [Type::"Travel Claim", Type::"Travel Request"] then begin
                     OnBeforeOutOfPocketValidate(Rec, IsHandled);
                 end;
-
             end;
         }
         field(10; "Requested Date"; Date)
@@ -275,7 +267,6 @@ table 50136 "Travel Request"
         field(22; "Branch Code"; Code[20])
         {
         }
-
         field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
@@ -286,11 +277,9 @@ table 50136 "Travel Request"
             Editable = false;
             TableRelation = "Salary Level";
         }
-
         field(28; "Extension Counter Code"; Code[20])
         {
         }
-
         field(30; "Province Code"; Code[20])
         {
         }
@@ -333,7 +322,6 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
-
         field(50; "Type Of Visit"; Enum "Type Of Visit")
         {
         }
@@ -399,12 +387,10 @@ table 50136 "Travel Request"
                         Error(ErrorAdvCash, "Total Estimated Cost");
                 CalculateTotalClaim();
             end;
-
         }
         field(58; "Estimated Transportation Cost"; Decimal)
         {
             CaptionClass = FieldName("Estimated Transportation Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
-
             trigger OnValidate()
             begin
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
@@ -413,7 +399,6 @@ table 50136 "Travel Request"
         field(59; "Estimated Lodging Cost"; Decimal)
         {
             CaptionClass = FieldName("Estimated Lodging Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
-
             trigger OnValidate()
             begin
                 if Type = Type::"Travel Request" then begin
@@ -430,7 +415,6 @@ table 50136 "Travel Request"
         field(60; "Estimated Fooding Cost"; Decimal)
         {
             CaptionClass = FieldName("Estimated Fooding Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
-
             trigger OnValidate()
             begin
                 if Type = Type::"Travel Request" then begin
@@ -447,7 +431,6 @@ table 50136 "Travel Request"
         field(61; "Estimated Conveyance Expense"; Decimal)
         {
             CaptionClass = FieldName("Estimated Conveyance Expense") + HRMgt.ReturnCurrencyCode("Currency Code");
-
             trigger OnValidate()
             begin
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
@@ -456,7 +439,6 @@ table 50136 "Travel Request"
         field(62; "Other Estimated Cost"; Decimal)
         {
             CaptionClass = FieldName("Other Estimated Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
-
             trigger OnValidate()
             begin
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
@@ -475,7 +457,6 @@ table 50136 "Travel Request"
             TableRelation = "Travel Request" WHERE(Type = CONST("Travel Request"),
                                                        "Approval Status" = CONST(Approved),
                                                        "Employee No." = FIELD("Employee No."));
-
             trigger OnLookup()
             begin
                 if TravelRequest.Get("Travel Order No.") then
@@ -520,8 +501,6 @@ table 50136 "Travel Request"
         field(68; "Currency Code"; Code[20])
         {
             TableRelation = Currency;
-
-
         }
         field(69; "Exchange Rate"; Decimal)
         {
@@ -532,7 +511,6 @@ table 50136 "Travel Request"
             begin
                 if "Departure Time" <> xRec."Departure Time" then
                     Clear("Arrival Time");
-
             end;
         }
         field(71; "Arrival Time"; Time)
@@ -552,7 +530,6 @@ table 50136 "Travel Request"
         field(73; "Travel With"; Code[20])
         {
             TableRelation = Employee."No.";
-
             trigger OnValidate()
             begin
                 if "Travel With" <> '' then begin
@@ -580,7 +557,6 @@ table 50136 "Travel Request"
         }
         field(77; "Actual Travel Start Time"; Time)
         {
-
             trigger OnValidate()
             begin
                 if Type = Type::"Travel Claim" then begin
@@ -614,12 +590,10 @@ table 50136 "Travel Request"
         field(79; "Travel Claimed"; Boolean)
         {
         }
-
         field(80; "Travel With Name"; Text[100])
         {
             Editable = false;
         }
-
         field(81; "Claim Type"; Enum "Claim Type")
         {
             trigger OnValidate()
@@ -633,7 +607,6 @@ table 50136 "Travel Request"
         field(83; "Fooding Allowance"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;
@@ -663,7 +636,6 @@ table 50136 "Travel Request"
         }
         field(85; "Conveyance Expense"; Decimal)
         {
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;
@@ -691,7 +663,6 @@ table 50136 "Travel Request"
         field(89; "Out of Pocket Expense"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;
@@ -699,7 +670,6 @@ table 50136 "Travel Request"
         }
         field(90; "Road/Air Fare"; Decimal)
         {
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;
@@ -707,7 +677,6 @@ table 50136 "Travel Request"
         }
         field(91; Reimbursable; Boolean)
         {
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;
@@ -729,12 +698,10 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
-
         field(100; Status; Text[20])
         {
             DataClassification = ToBeClassified;
         }
-
     }
     keys
     {
@@ -749,7 +716,6 @@ table 50136 "Travel Request"
         {
         }
     }
-
     trigger OnInsert()
     begin
         if "Requested Date" = 0D then
@@ -763,10 +729,8 @@ table 50136 "Travel Request"
                 TravelRequest.SetLoadFields("No.");
                 while TravelRequest.Get("No.") do
                     "No." := NoSeriesMgt.GetNextNo("No. Series");
-
             end else begin
                 case Type of
-
                     //for travel request
                     Type::"Travel Request":
                         begin
@@ -779,7 +743,6 @@ table 50136 "Travel Request"
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
-
                     //for travel claim
                     Type::"Travel Claim":
                         begin
@@ -795,7 +758,6 @@ table 50136 "Travel Request"
     trigger OnDelete()
     var
         CannotDelete: Label 'Cannot delete document.';
-
     begin
         //for Delete Approval Entry when Document is delete Santosh
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
@@ -806,7 +768,6 @@ table 50136 "Travel Request"
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
         end;
-
     end;
 
     procedure AssistEdit(OldTravel: Record "Travel Request"): Boolean
@@ -834,7 +795,6 @@ table 50136 "Travel Request"
                             exit(true);
                         end;
                     end;
-
                 //for travel claim
                 TravelRequest.Type::"Travel Claim":
                     begin
@@ -861,7 +821,6 @@ table 50136 "Travel Request"
         else if "Claim Type" = "Claim Type"::"With Bill" then
             if xRec."Claim Type" = "Claim Type"::"Without Bill" then
                 ReduceBy := 1;   //without bill not needed
-
         if Reimbursable then
             Validate("Total Claimed Amount", ("Fooding Allowance" + "Lodging Allowance") / ReduceBy +
                     "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare")
@@ -899,7 +858,6 @@ table 50136 "Travel Request"
         INVALID: Label 'Invalid %1';
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
-
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeOutOfPocketValidate(var TravelRequest: Record "Travel Request"; var IsHandled: Boolean)

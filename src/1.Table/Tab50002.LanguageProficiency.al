@@ -2,7 +2,6 @@ table 50002 "Language Proficiency"
 {
     Caption = 'Language Proficiency';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "Employee Code"; Code[20])
@@ -52,9 +51,7 @@ table 50002 "Language Proficiency"
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;
-
         }
-
     }
     keys
     {

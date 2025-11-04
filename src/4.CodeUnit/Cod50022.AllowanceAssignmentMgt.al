@@ -168,7 +168,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                     if FunctionTitle.Get(Employee."Functional Title") then
                         if (FunctionTitle."Risk Title") and (not FunctionTitle."Evening Counter Eligible") then
                             Counter += 1;
-
                 until AllowanceLineVar.Next = 0;
             if Counter >= HRSetup."No of risk employee in Evening" then
                 Error('Risk employee must be not exceed %1 in evening counter.', HRSetup."No of risk employee in Evening");
@@ -224,7 +223,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         if AllowanceAssignLine.FindFirst then
             Error('%1 already exist for date %2', AllowanceAssignmentLine.Panel, AllowanceAssignmentLine."From Date");
     end;
-
     // Modified procedure to insert only the highest amount allowance
     procedure InsertHighestPriorityAllowanceInAttendance(EmployeeCode: Code[20]; AttendanceDate: Date; Var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
     var
@@ -249,7 +247,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                     HighestAmountAllowanceType := AllowanceAssignmentLine."Allowance Type";
                 end;
             until AllowanceAssignmentLine.Next() = 0;
-
         // Update attendance with the highest amount allowance
         if HighestAmountAllowanceType <> '' then begin
             EmployeeAttendanceActivity.Reset;
@@ -319,7 +316,6 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
         NoOfDays: Decimal;
-
     begin
         PGSetup.Get;
         if FromDate = 0D then
@@ -327,7 +323,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         Clear(NoOfDays);
         if Employee.Get(EmpNo) then;
         NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
-
         EngNep.Reset;
         case AllowanceType of
             PGSetup."Evening Counter":
@@ -337,7 +332,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                     else
                         exit(PGSetup."Evening Counter (Regular)");
                 end;
-
             PGSetup."Holiday Counter":
                 begin
                     if Employee."Employment Type" = Employee."Employment Type"::Contract then
@@ -345,7 +339,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                     else
                         exit(PGSetup."Holiday All. Amt (Regular)");
                 end;
-
             PGSetup."Festival Counter":
                 begin
                     if Employee."Employment Type" = Employee."Employment Type"::Contract then
@@ -353,7 +346,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                     else
                         exit(PGSetup."Festival Counter(Regular)");
                 end;
-
             PGSetup."Vault Key":
                 begin
                     if Employee."Employment Type" = Employee."Employment Type"::Contract then
@@ -361,7 +353,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                     else
                         exit(Round(PGSetup."Vault Key Allowance(Regular)" / NoOfDays, 0.00001, '='));
                 end;
-
             PGSetup."Morning Counter":
                 begin
                     if Employee."Employment Type" = Employee."Employment Type"::Contract then
@@ -390,7 +381,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                     else
                         exit(PGSetup."ATM Custodian regular (month)")
                 end;
-
             PGSetup."Risk Allowance":
                 begin
                     PayCyclePeriod.Reset;
@@ -422,8 +412,8 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignmentPageBuilder: FilterPageBuilder;
         AllowanceAssignmentLine1, AllowanceAssignmentLine2 : Record "Allowance Assignment Line";
     begin
-         if not HrMgt.IsSaaS() then
-        Employee.Get(HrMgt.GetEmployeeNo);
+        if not HrMgt.IsSaaS() then
+            Employee.Get(HrMgt.GetEmployeeNo);
         AllowanceAssignmentPageBuilder.AddRecord('Reject Allowance Assignment', AllowanceAssignmentLine2);
         AllowanceAssignmentPageBuilder.ADdField('Reject Allowance Assignment', AllowanceAssignmentLine2."Rejection Remarks");
         if AllowanceAssignmentPageBuilder.RunModal then begin
@@ -532,7 +522,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                 PAGE.Run(PAGE::"Allowance Assignment Card", AllowanceAssignment2);
         end;
     end;
-
     // procedure CheckAllowanceApproved(EmpCode: Code[20])
     // var
     //     ALlowanceAssignmentLineApproved: Record "Allowance Assignment Line";
@@ -547,7 +536,6 @@ codeunit 50022 "Allowance Assignment Mgt"
     //     if ALlowanceAssignmentLineApproved.Count() < 1 then
     //         Error('Approved Allowance not found from %1 to %2 Period', PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
     // end;
-
     // procedure GetAllowanceClaimLine(AllowanceAssignmentCode: Code[20])
     // var
     //     AllowanceAssignmentHeader: Record "Allowance Assignment Header";
@@ -560,7 +548,6 @@ codeunit 50022 "Allowance Assignment Mgt"
     //     ALlowanceAssignmentLineCheck.SetRange("No.", AllowanceAssignmentCode);
     //     ALlowanceAssignmentLineCheck.SetRange("Approval Status", ALlowanceAssignmentLineCheck."Approval Status"::Open);
     //     ALlowanceAssignmentLineCheck.DeleteAll(); // Delete existing lines for the record
-
     //     ALlowanceAssignmentLineApproved.Reset();
     //     ALlowanceAssignmentLineApproved.SetRange("Employee Code", AllowanceAssignmentHeader."Employee No.");
     //     ALlowanceAssignmentLineApproved.SetRange("From Date", AllowanceAssignmentHeader."From Date", AllowanceAssignmentHeader."To date");
@@ -590,7 +577,6 @@ codeunit 50022 "Allowance Assignment Mgt"
     //             AllowanceAssignmentLineClaim.Insert(true);
     //         until ALlowanceAssignmentLineApproved.Next() = 0;
     // end;
-
     procedure OpenAllowance(EmpCode: Code[20])
     var
         AllowanceAssignment, AllowanceAssignment2 : Record "Allowance Assignment Header";
@@ -599,13 +585,11 @@ codeunit 50022 "Allowance Assignment Mgt"
     begin
         Clear(Employee);
         PGSetup.Get();
-
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Request Allowance");
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
-
         Employee.Get(EmpCode);
         AllowanceAssignment.Reset();
         AllowanceAssignment.SetRange("Employee No.", EmpCode);

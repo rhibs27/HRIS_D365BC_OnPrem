@@ -4,7 +4,6 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
     {
         field(50001; "Nepali Month"; Enum "Nepali Month")
         {
-
         }
         field(50002; "New Leave Year"; Boolean)
         {
@@ -23,13 +22,11 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
         }
         field(50004; "Quarterly"; Enum Quarterly)
         {
-
         }
     }
     procedure GetLeaveYearStartDate(ForDate: Date): Date;
     var
         LeavePeriod: Record "Accounting Period";
-
     begin
         LeavePeriod.Reset();
         LeavePeriod.SetRange("New Leave Year", true);
@@ -41,7 +38,6 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
     procedure GetLeaveYearEndDate(ForDate: Date): Date;
     var
         LeavePeriod: Record "Accounting Period";
-
     begin
         LeavePeriod.Reset();
         LeavePeriod.SetRange("New Leave Year", true);
@@ -105,8 +101,6 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
             LeavePeriod.Reset();
             LeavePeriod.SetRange("Starting Date", OpenPeriodStartDate, OpenPeriodEndDate);
             LeavePeriod.ModifyAll("Leave Year Closed", true);
-
-
             if LapseBoolean then begin
                 LeaveTypeSetup.SetRange("Carry Forwardable", false);
                 LeaveTypeSetup.SetFilter("Credit Method", '<>%1', LeaveTypeSetup."Credit Method"::"On Approval");

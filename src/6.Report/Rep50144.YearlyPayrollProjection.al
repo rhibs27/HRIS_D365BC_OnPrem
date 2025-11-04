@@ -164,8 +164,6 @@ report 50144 "Yearly Payroll Projection"
             column(TaxRate4_; Round(TaxRates[4], GlSetup."Amount Rounding Precision")) { }
             column(TaxRate5_; Round(TaxRates[5], GlSetup."Amount Rounding Precision")) { }
             column(TaxRate6_; Round(TaxRates[6], GlSetup."Amount Rounding Precision")) { }
-
-
             column(TaxRebate; Round(TaxRebate, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
@@ -306,7 +304,6 @@ report 50144 "Yearly Payroll Projection"
                 if SortingNo = 0 then
                     CurrReport.Skip();
             end;
-
         }
     }
     requestpage
@@ -711,17 +708,14 @@ report 50144 "Yearly Payroll Projection"
     begin
         // Get maximum insurance limits from Payroll Setup Lines
         GetInsuranceLimitFromSetupLine(MaxLifeInsurance, MaxMedicalInsurance, MaxHouseInsurance);
-
         // Calculate Life Insurance amount and apply limit
         LifeInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Life Insurance");
         if LifeInsuranceAmount > MaxLifeInsurance then
             LifeInsuranceAmount := MaxLifeInsurance;
-
         // Calculate Medical Insurance amount and apply limit
         MedicalInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Medical Insurance");
         if MedicalInsuranceAmount > MaxMedicalInsurance then
             MedicalInsuranceAmount := MaxMedicalInsurance;
-
         // Calculate House Insurance amount and apply limit
         HouseInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Property Insurance");
         if HouseInsuranceAmount > MaxHouseInsurance then
@@ -733,7 +727,6 @@ report 50144 "Yearly Payroll Projection"
         LifeInsLimit := PgSetup."Tax Ex. Life Insurance Amt.";
         MedicalInsLimit := 0;
         HouseInsLimit := 0;
-
         // Get values from Payroll Setup Lines if record exists for this Pay Cycle Term
         PayrollSetupLine.Reset();
         if PayrollSetupLine.Get(PayCycleTerm) then begin
@@ -800,7 +793,6 @@ report 50144 "Yearly Payroll Projection"
                             else
                                 SlabTaxableAmount := TaxSetupLine."End Amount" - PreviousSlabEndAmount;
                         end;
-
                     6:
                         begin
                             if TaxableAmount < (TaxSetupLine."Start Amount" - 1) then
@@ -990,7 +982,6 @@ report 50144 "Yearly Payroll Projection"
                 TotalTaxPaid += Abs(DetailedEmpLedgerEntry.Amount);
             until DetailedEmpLedgerEntry.Next() = 0;
     end;
-
     // PROJECTION LOGIC PROCEDURES
     // Determines if a payroll attribute should be included in projection
     local procedure CheckIfProjectable(AttrCode: Code[20]): Boolean

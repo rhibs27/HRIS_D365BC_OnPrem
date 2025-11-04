@@ -3,7 +3,6 @@ table 50120 "Employee Edit Line"
     //use for uploading multiple document at once
     Caption = 'Employee Edit Line';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "Document No."; Code[20])
@@ -31,7 +30,6 @@ table 50120 "Employee Edit Line"
             Caption = 'Employee No.';
             TableRelation = Employee;
         }
-
         field(23; "Qualification Code"; Code[20])
         {
             DataClassification = CustomerContent;
@@ -69,7 +67,6 @@ table 50120 "Employee Edit Line"
                 Evaluate(Date, year);
                 if Date > Date2DMY(Today, 3) then
                     Error('Date is in Future');
-
             end;
         }
         field(29; Designation; Text[30])
@@ -164,7 +161,6 @@ table 50120 "Employee Edit Line"
             MaxValue = 32;
             DataClassification = CustomerContent;
         }
-
         // Language Proficiency
         field(54; Language; Code[20])
         {
@@ -199,7 +195,6 @@ table 50120 "Employee Edit Line"
         }
         field(60; Running; Boolean)
         {
-
         }
         field(61; "CitizenShip No."; Code[50])
         {
@@ -235,7 +230,6 @@ table 50120 "Employee Edit Line"
             Caption = 'Attachment Document Type';
             Description = 'Attachment Document Type';
         }
-
         field(67; "Set Nominee"; Boolean)
         {
             DataClassification = ToBeClassified;
@@ -246,12 +240,7 @@ table 50120 "Employee Edit Line"
         }
         field(1001; "Original Line No."; Integer)
         {
-
         }
-
-
-
-
     }
     keys
     {

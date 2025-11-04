@@ -56,7 +56,6 @@ page 50011 "Request to Approve HRIS"
             { }
             actionref(RejectRequest; "Reject Request")
             { }
-
         }
         area(Navigation)
         {
@@ -67,7 +66,6 @@ page 50011 "Request to Approve HRIS"
                 Image = Document;
                 Scope = Repeater;
                 ToolTip = 'Open the document, journal line, or card that the approval is requested for.';
-
                 trigger OnAction()
                 begin
                     Rec.ShowRecord();
@@ -105,16 +103,13 @@ page 50011 "Request to Approve HRIS"
                     CurrPage.Update();
                 end;
             }
-
         }
     }
     trigger OnOpenPage()
     begin
         Rec.FilterGroup(2);
-
         if not HrMgt.IsSaaS() then
             Rec.SetRange("Approver No", HrMgt.GetEmployeeNo());
-
         Rec.FilterGroup(0);
         Rec.SetRange("Approval Status", Rec."Approval Status"::Open);
     end;
@@ -122,5 +117,4 @@ page 50011 "Request to Approve HRIS"
     var
         HrMgt: Codeunit "HR Mgt.";
         ApprovalHRMS: Record "Approval HRMS";
-
 }

@@ -11,7 +11,6 @@ page 50165 "Emp. Edit Relative Subform"
         {
             repeater(General)
             {
-
                 field("Relative Code"; Rec."Relative Code")
                 {
                     ToolTip = 'Specifies the value of the Relative Code field.', Comment = '%';
@@ -24,7 +23,6 @@ page 50165 "Emp. Edit Relative Subform"
                 {
                     ToolTip = 'Specifies the value of the Phone No. field.', Comment = '%';
                 }
-
                 field("Relative Mail"; Rec."Relative Mail")
                 {
                     ToolTip = 'Specifies the value of the Relative Mail field.', Comment = '%';
@@ -41,8 +39,6 @@ page 50165 "Emp. Edit Relative Subform"
                 {
                     ToolTip = 'Specifies the value of the Relative CitizenShip No. field.', Comment = '%';
                 }
-
-
                 field("Set Emergency Contact"; Rec."Set Emergency Contact")
                 {
                     ToolTip = 'Specifies the value of the Set Emergency Contact field.', Comment = '%';
@@ -66,7 +62,6 @@ page 50165 "Emp. Edit Relative Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Import';
-
                 ToolTip = 'Import a picture file.';
                 trigger OnAction()
                 var
@@ -82,10 +77,7 @@ page 50165 "Emp. Edit Relative Subform"
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
                         // check file size
-
                         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
-
-
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
                         if Extension = '' then
@@ -101,9 +93,7 @@ page 50165 "Emp. Edit Relative Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Preview';
-
                 ToolTip = 'View the Attachment';
-
                 trigger OnAction()
                 begin
                     PreviewAttachment.PreviewAttachment(returnAttachmentBase64());
@@ -114,7 +104,6 @@ page 50165 "Emp. Edit Relative Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Export';
-
                 ToolTip = 'Export the picture to a file.';
                 trigger OnAction()
                 var
@@ -126,7 +115,6 @@ page 50165 "Emp. Edit Relative Subform"
                     fileInitial: Text;
                 begin
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
-
                         ToFile := Format(Rec."Employee No.") + '_' + format(Rec."Relative Code") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
                         ItemTenantMedia.CalcFields(Content);
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
@@ -138,13 +126,10 @@ page 50165 "Emp. Edit Relative Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Delete';
-
                 ToolTip = 'Delete the record.';
-
                 trigger OnAction()
                 begin
                     Rec.TestField("Employee No.");
-
                     if not Confirm('Do you want to delete?') then
                         exit;
                     Clear(Rec.Attachment);

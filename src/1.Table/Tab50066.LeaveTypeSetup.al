@@ -2,7 +2,6 @@ table 50066 "Leave Type Setup"
 {
     LookupPageId = "Leave Type Setup";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "Code"; Code[20]) { }
@@ -32,7 +31,6 @@ table 50066 "Leave Type Setup"
         }
         field(9; "Pay Type"; Enum "Leave Pay Type")
         {
-
         }
         field(10; "Remaining Days"; Decimal)
         {
@@ -48,7 +46,6 @@ table 50066 "Leave Type Setup"
         }
         field(13; "Leave For Employee Type"; enum "Employee Type")
         {
-
         }
         field(14; "Encashable Limit"; Decimal) { }
         field(15; "Payroll Attribute"; Code[20])
@@ -57,7 +54,6 @@ table 50066 "Leave Type Setup"
         }
         field(16; Gender; Enum "Employee Gender")
         {
-
         }
         field(17; "Leave at Once"; Boolean) { }
         field(18; "Services Period"; Boolean)
@@ -90,10 +86,8 @@ table 50066 "Leave Type Setup"
         }
         field(23; "Marital Status"; Enum "Marital Status")
         {
-
         }
         field(25; "Needed HR Permission"; Boolean) { }
-
         field(29; "No. of Days for Attachment"; Integer) { }
         field(30; Approved; Integer)
         {
@@ -145,7 +139,6 @@ table 50066 "Leave Type Setup"
             OptionMembers = " ",Attendance,Automatic,"On Approval";
             Caption = 'Credit Method';
         }
-
         field(103; "Max. Eligible Age"; Decimal)
         {
             Caption = 'Max. Eligible Age';
@@ -159,7 +152,6 @@ table 50066 "Leave Type Setup"
             OptionMembers = Beginning,"End";
         }
         field(107; "Display in Portal"; Boolean) { }
-
         field(108; "Back Date Allowed UpTo"; DateFormula) { }
         field(109; "Leave Category"; Enum "Leave Category") { }
         field(110; "Emplymt. Contract Code"; Code[200])
@@ -173,7 +165,6 @@ table 50066 "Leave Type Setup"
             OptionMembers = "Employment Date","Confirmation Date";
         }
         field(500; Blocked; Boolean) { }
-
         field(502; "Used Days"; Decimal)
         {
             Caption = 'Used Days';
@@ -190,17 +181,12 @@ table 50066 "Leave Type Setup"
         }
         field(504; "Encash Date"; Date) { }
         field(505; "Encash Remarks"; Text[100]) { }
-
-
     }
-
     keys
     {
         key(Key1; "Code") { }
     }
-
     fieldgroups { }
-
     trigger OnDelete()
     begin
     end;

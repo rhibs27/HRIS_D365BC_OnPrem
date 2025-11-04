@@ -1,7 +1,6 @@
 enum 50200 Quarterly
 {
     Extensible = true;
-
     value(0; "1st Quarter")
     {
         Caption = '1st Quarter';

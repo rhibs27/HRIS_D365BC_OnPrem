@@ -6,7 +6,6 @@ table 50154 "Attendance Missed"
     {
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -32,7 +31,6 @@ table 50154 "Attendance Missed"
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -132,15 +130,12 @@ table 50154 "Attendance Missed"
         // field(9; "No. of Days"; Decimal)
         // {
         //     Editable = false;
-
         //     trigger OnValidate()
         //     begin
-
         //     end;
         // }
         field(10; "Requested Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -165,7 +160,6 @@ table 50154 "Attendance Missed"
         }
         field(14; Remarks; Text[100])
         {
-
             trigger OnValidate()
             begin
                 Clear("Rejection Remarks");
@@ -252,11 +246,9 @@ table 50154 "Attendance Missed"
         }
         field(42; "Check In Time"; Time)
         {
-
         }
         field(43; "Check Out Time"; Time)
         {
-
         }
         field(44; "Previous Check In Time"; Time)
         {
@@ -269,7 +261,6 @@ table 50154 "Attendance Missed"
         field(48; "Reason Code"; Code[20])
         {
             TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
-
             trigger OnValidate()
             begin
                 if StandardText.Get("Reason Code") then
@@ -283,7 +274,6 @@ table 50154 "Attendance Missed"
         }
         field(61; "Deputation On"; Enum "Deputation Type")
         {
-
         }
         field(79; "Deputation On Code"; Code[20])
         {
@@ -305,14 +295,11 @@ table 50154 "Attendance Missed"
         field(101; "From Journal"; Boolean)
         {
         }
-
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;
-
         }
-
     }
     keys
     {
@@ -323,9 +310,6 @@ table 50154 "Attendance Missed"
         key(Key2; "Start Date")
         {
         }
-
-
-
     }
     trigger OnInsert()
     var
