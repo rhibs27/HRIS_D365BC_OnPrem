@@ -47,8 +47,9 @@ codeunit 50030 "Assignment Memo Mgt"
 
         if not IsApproved then begin
             if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then  //substitute approval pending
-                AssignmentMemoHdr."Substitute Approval Status" := AssignmentMemoHdr."Substitute Approval Status"::Rejected
-            else if AssignmentMemoHdr."Approval Status" <> AssignmentMemoHdr."Approval Status"::Approved then
+                AssignmentMemoHdr."Substitute Approval Status" := AssignmentMemoHdr."Substitute Approval Status"::Rejected;
+            if (AssignmentMemoHdr."Approval Status" <> AssignmentMemoHdr."Approval Status"::Approved) and
+               (AssignmentMemoHdr."Substitute Approval Status" in [AssignmentMemoHdr."Substitute Approval Status"::Open, AssignmentMemoHdr."Substitute Approval Status"::Created]) then
                 AssignmentMemoHdr."Approval Status" := AssignmentMemoHdr."Approval Status"::Rejected;
             AssignmentMemoHdr.Modify();
 
@@ -89,14 +90,21 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AssignmentMemoLine: Record "Assignment Memo Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AllowanceConfiguration: Record "Allowance Configuration";
         DateVar: Record Date;
     begin
         AssignmentMemoHdr.Get(DocumentNo);
         if AssignmentMemoLine.Get(DocumentNo, lineNo) then begin
 
+            AllowanceConfiguration.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
+            AllowanceConfiguration.FindFirst();
+
             DateVar.Reset();
             DateVar.SetRange("Period Type", DateVar."Period Type"::Date);
-            DateVar.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date");
+            if AllowanceConfiguration.Source in [AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift] then
+                DateVar.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date")
+            else
+                DateVar.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."From Date"); //insert only one ledger
             if DateVar.FindSet() then
                 repeat
 
@@ -111,6 +119,14 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLedgerEntry.Validate("Posting Date", DateVar."Period Start");
                     AssignmentMemoLedgerEntry.Validate("Open", true);
                     AssignmentMemoLedgerEntry.Validate(Amount, AssignmentMemoLine."Allowance Amount");
+                    AssignmentMemoLedgerEntry.Validate(Panel, AssignmentMemoLine."Panel");
+                    AssignmentMemoLedgerEntry.Validate("ATM Site", AssignmentMemoLine."ATM Site");
+
+                    if AllowanceConfiguration.Source in [AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::" "] then begin
+                        AssignmentMemoLedgerEntry.Validate("Valid From Date", AssignmentMemoHdr."From Date");  //allowance that is request once but valid for whole fiscal year
+                        AssignmentMemoLedgerEntry.Validate("Valid To Date", AssignmentMemoHdr."To Date");
+                    end;
+
                     AssignmentMemoLedgerEntry.Insert();
 
                 until DateVar.Next() = 0;
@@ -212,9 +228,6 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.SetRange("Document No.", docNo);
         AssignmentMemoLine.SetRange("Substitute Type", AssignmentMemoLine."Substitute Type"::"Added as Substitute");
         AssignmentMemoLine.SetRange("Substitute of Line No.", LineNo);
-        if AssignmentMemoLine.Count() <= 1 then
-            exit;
-
         if AssignmentMemoLine.FindSet() then
             repeat
                 Daterec.Reset();
@@ -340,6 +353,9 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
         AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
         AssignmentMemoLine.Validate("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
+        AssignmentMemoLine.Validate("Employee No.", AllowanceAssignmentHdr."Employee No.");
+        AssignmentMemoLine.Validate("From Date", AllowanceAssignmentHdr."From Date");
+        AssignmentMemoLine.Validate("To Date", AllowanceAssignmentHdr."To Date");
         AssignmentMemoLine.Insert(true);
         AssignmentMemoLine.Validate("Payroll Attribute Code");
         AssignmentMemoLine.Modify();
@@ -347,35 +363,45 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure CreateAllowanceRequestLineFromAssignmentLine(AllowanceAssignmentHdr: Record "Assignment Memo Header")
     var
-        AssignmentMemoLine2: Record "Assignment Memo Line";
         AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
-        AssignmentMemoLine2.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
-        AssignmentMemoLine2.SetRange("Emp Act Type", AssignmentMemoLine2."Emp Act Type"::"Allowance Assignment");
-        AssignmentMemoLine2.SetRange("Allowance Claimed", false);
-        AssignmentMemoLine2.SetRange("Approval Status", AssignmentMemoLine2."Approval Status"::Approved);
-        AssignmentMemoLine2.SetRange("Payroll Doc No.", '');
-        AssignmentMemoLine2.SetRange("Allowance Claim From", '');
+
+        //while requesting create a assignment line entry from unclaimed allowance ledger entry
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
+        AssignmentMemoLedgerEntry.SetRange("Valid From Date", 0D);
+        AssignmentMemoLedgerEntry.SetRange("Valid To Date", 0D);
         if AllowanceAssignmentHdr."Payroll Attribute Code" <> '' then
-            AssignmentMemoLine2.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
-        if AssignmentMemoLine2.FindSet() then
+            AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
+        AssignmentMemoLedgerEntry.SetRange(Open, true);
+        AssignmentMemoLedgerEntry.SetRange(Claimed, false);
+        AssignmentMemoLedgerEntry.SetRange("Claimed Doc No.", '');
+        if AssignmentMemoLedgerEntry.FindSet() then
             repeat
                 Clear(AssignmentMemoLine);
                 AssignmentMemoLine.Init();
-                AssignmentMemoLine := AssignmentMemoLine2;
-                AssignmentMemoLine."Document No." := AllowanceAssignmentHdr."No.";
-                AssignmentMemoLine."Line No." := 0;
-                AssignmentMemoLine."Emp Act Type" := AllowanceAssignmentHdr."Activity Type";
-                AssignmentMemoLine."Approval Status" := AssignmentMemoLine."Approval Status"::Open;
+                AssignmentMemoLine.Validate("Document No.", AllowanceAssignmentHdr."No.");
+                AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
+                AssignmentMemoLine.Validate("Employee No.", AssignmentMemoLedgerEntry."Employee No.");
+                AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+                AssignmentMemoLine.Validate("Payroll Attribute Code", AssignmentMemoLedgerEntry."Payroll Attribute Code");
+                AssignmentMemoLine.Validate("From Date", AssignmentMemoLedgerEntry."Posting Date");
+                AssignmentMemoLine.Validate("To Date", AssignmentMemoLedgerEntry."Posting Date");
+                AssignmentMemoLine.Validate("Allowance Amount", AssignmentMemoLedgerEntry.Amount);
+                AssignmentMemoLine."Assign Memo Ledger Entry No." := AssignmentMemoLedgerEntry."Entry No.";
+                AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
+                AssignmentMemoLine.Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
                 AssignmentMemoLine.Insert(true);
                 AssignmentMemoLine.Validate("Payroll Attribute Code");
                 AssignmentMemoLine.Modify();
 
-                // mark allowance 
-                AssignmentMemoLine2."Allowance Claim From" := AllowanceAssignmentHdr."No.";
-                AssignmentMemoLine2.Modify();
+                // mark allowance
+                AssignmentMemoLedgerEntry."Claimed Doc No." := AllowanceAssignmentHdr."No.";
+                AssignmentMemoLedgerEntry.Claimed := true;
+                AssignmentMemoLedgerEntry.Modify();
 
-            until AssignmentMemoLine2.Next() = 0;
+            until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
     procedure CreateAllowanceRequestLineFromShiftLine(AllowanceAssignmentHdr: Record "Assignment Memo Header")

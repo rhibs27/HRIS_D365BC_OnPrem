@@ -31,6 +31,30 @@ page 50181 "Request Allowance Subform"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field("School Name"; Rec."School Name")
+                {
+                    ToolTip = 'Specifies the value of the School Name field.', Comment = '%';
+                }
+                field("Name of Children"; Rec."Name of Children")
+                {
+                    ToolTip = 'Specifies the value of the Name of Children field.', Comment = '%';
+                }
+                field("Grade/Class"; Rec."Grade/Class")
+                {
+                    ToolTip = 'Specifies the value of the Grade/Class field.', Comment = '%';
+                }
+                field("Distance (KM)"; Rec."Distance (KM)")
+                {
+                    ToolTip = 'Specifies the value of the Distance (KM) field.', Comment = '%';
+                }
+                field("ATM Site"; Rec."ATM Site")
+                {
+                    ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
+                }
+                field(Panel; Rec.Panel)
+                {
+                    ToolTip = 'Specifies the value of the Panel field.', Comment = '%';
+                }
 
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -43,6 +67,10 @@ page 50181 "Request Allowance Subform"
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     Editable = false;
                 }
+                field("No of Approved Days"; Rec."No of Approved Days")
+                {
+                    ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
+                }
 
             }
         }
@@ -51,34 +79,34 @@ page 50181 "Request Allowance Subform"
     {
         area(Processing)
         {
-            action("Reject ALlowance Requests")
-            {
-                Image = Reject;
-                ToolTip = 'Executes the Reject Allowance Claim action.';
-                ApplicationArea = All;
-                Visible = DocumentPending;
-                trigger OnAction()
-                var
-                    ApproverHrms: Record "Approval HRMS";
-                    FilterpageBuilder: FilterPageBuilder;
-                    AllowanceAssLine: Record "Allowance Assignment Line";
-                begin
-                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
+            // action("Reject ALlowance Requests")
+            // {
+            //     Image = Reject;
+            //     ToolTip = 'Executes the Reject Allowance Claim action.';
+            //     ApplicationArea = All;
+            //     Visible = DocumentPending;
+            //     trigger OnAction()
+            //     var
+            //         ApproverHrms: Record "Approval HRMS";
+            //         FilterpageBuilder: FilterPageBuilder;
+            //         AllowanceAssLine: Record "Assignment Memo Line";
+            //     begin
+            //         Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
 
-                    FilterpageBuilder.AddRecord('Input Rejection Remarks', AllowanceAssLine);
-                    FilterpageBuilder.AddField('Input Rejection Remarks', AllowanceAssLine."Rejection Remarks");
-                    if FilterpageBuilder.RunModal() then begin
-                        AllowanceAssLine.SetView(FilterpageBuilder.GetView('Input Rejection Remarks'));
-                        if AllowanceAssLine.GetFilter("Rejection Remarks") = '' then
-                            Error('Must input rejection remarks to reject the document');
+            //         FilterpageBuilder.AddRecord('Input Rejection Remarks', AllowanceAssLine);
+            //         FilterpageBuilder.AddField('Input Rejection Remarks', AllowanceAssLine."Rejection Remarks");
+            //         if FilterpageBuilder.RunModal() then begin
+            //             AllowanceAssLine.SetView(FilterpageBuilder.GetView('Input Rejection Remarks'));
+            //             if AllowanceAssLine.GetFilter("Rejection Remarks") = '' then
+            //                 Error('Must input rejection remarks to reject the document');
 
-                        Rec."Rejection Remarks" := AllowanceAssLine.GetFilter("Rejection Remarks");
-                        Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
-                        rec.Modify();
-                    end;
+            //             Rec."Rejection Remarks" := AllowanceAssLine.GetFilter("Rejection Remarks");
+            //             Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
+            //             rec.Modify();
+            //         end;
 
-                end;
-            }
+            //     end;
+            // }
         }
     }
     trigger OnAfterGetRecord()

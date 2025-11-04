@@ -426,9 +426,10 @@ codeunit 50017 "Approver Mgt"
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
 
-                            EmployeeActivityType::"Allowance Assignment Memo":
+                            EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance":
                                 begin
                                     AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false);
+                                    exit;
                                 end;
 
                         end;
@@ -509,7 +510,7 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
                             end;
-                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim", EmployeeActivityType::"Request Allowance":
+                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim":
                             begin
                                 AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
                             end;
@@ -542,7 +543,7 @@ codeunit 50017 "Approver Mgt"
                                 else
                                     leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
                             end;
-                        EmployeeActivityType::"Allowance Assignment Memo":
+                        EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance":
                             begin
                                 AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, true);
                             end;
@@ -1093,7 +1094,7 @@ codeunit 50017 "Approver Mgt"
 
         if ApprovalSetupLine.FindSet() then
             repeat
-                if CheckIfValueexistInPipedValue(ApprovalSetupLine."Payroll Filter", PayrollAttrCode) then
+                if CheckIfValueexistInPipedValue(ApprovalSetupLine."Payroll Filter", PayrollAttrCode) or (ApprovalSetupLine."Payroll Filter" = '') then
                     ApprovalSetupLine.Mark(true);
 
             until ApprovalSetupLine.Next() = 0;

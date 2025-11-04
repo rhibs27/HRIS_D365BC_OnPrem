@@ -120,9 +120,12 @@ page 50368 "Assignment Memo Subform"
     end;
 
     procedure SetLayout()
+    var
+        AssignmentMemoHdr: Record "Assignment Memo Header";
     begin
         SubstituteActionVisible := Rec."Approval Status" = Rec."Approval Status"::Approved;
-
+        if AssignmentMemoHdr.Get(Rec."Document No.") then
+            SubstituteActionVisible := SubstituteActionVisible <> (AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending)
     end;
 
     var

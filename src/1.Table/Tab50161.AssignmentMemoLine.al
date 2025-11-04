@@ -68,7 +68,7 @@ table 50161 "Assignment Memo Line"
         field(9; "Payroll Attribute Code"; Code[20])
         {
 
-            TableRelation = "Allowance Configuration"."Payroll Attribute" where(source = const(Assignment));
+            TableRelation = "Allowance Configuration"."Payroll Attribute";
 
             trigger OnValidate()
             begin
@@ -81,6 +81,11 @@ table 50161 "Assignment Memo Line"
                     else
                         Error('Invalid allowance selected!');
 
+                    //check if assignment memo header contains the same payroll attribute
+                    if AssignmentMemoHdr.Get("Document No.") then
+                        if AssignmentMemoHdr."Payroll Attribute Code" <> '' then
+                            if AssignmentMemoHdr."Payroll Attribute Code" <> "Payroll Attribute Code" then
+                                Error('Payroll Attribute Code does not match with the header.');
                 end;
             end;
         }
@@ -138,6 +143,11 @@ table 50161 "Assignment Memo Line"
         field(51; "Leave Document No"; Code[20]) { }
         field(52; "Payroll Doc No."; Code[20]) { }
         field(53; "Recurring Completed"; Boolean) { }
+        field(54; "Assign Memo Ledger Entry No."; Integer)
+        {
+            Editable = false;
+            //will updated when requested against unclaimed ledger entry
+        }
 
         //If there is education allowance then these fields will be used.
         field(101; "Name of Children"; Text[100])
@@ -242,6 +252,9 @@ table 50161 "Assignment Memo Line"
         AssignmentmemoHdr: Record "Assignment Memo Header";
     begin
         AssignmentmemoHdr.Get("Document No.");
+        if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+            exit;
+
         AssignmentmemoHdr.TestField("From Date");
         AssignmentmemoHdr.TestField("To Date");
         if (DateToCheck < AssignmentmemoHdr."From Date") or (DateToCheck > AssignmentmemoHdr."To Date") then

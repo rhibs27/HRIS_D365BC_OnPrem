@@ -59,6 +59,30 @@ page 50369 "Assignment Memo Ledger Entries"
                 {
                     ToolTip = 'Specifies the value of the Substituted Employee No. field.', Comment = '%';
                 }
+                field("ATM Site"; Rec."ATM Site")
+                {
+                    ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
+                }
+                field(Claimed; Rec.Claimed)
+                {
+                    ToolTip = 'Specifies the value of the Claimed field.', Comment = '%';
+                }
+                field("Claimed Doc No."; Rec."Claimed Doc No.")
+                {
+                    ToolTip = 'Specifies the value of the Claimed Doc No. field.', Comment = '%';
+                }
+                field(Pannel; Rec.Panel)
+                {
+                    ToolTip = 'Specifies the value of the Pannel field.', Comment = '%';
+                }
+                field("Valid From Date"; Rec."Valid From Date")
+                {
+                    ToolTip = 'Specifies the value of the Valid From Date field.', Comment = '%';
+                }
+                field("Valid To Date"; Rec."Valid To Date")
+                {
+                    ToolTip = 'Specifies the value of the Valid To Date field.', Comment = '%';
+                }
             }
         }
     }

@@ -22,6 +22,7 @@ table 50162 "Assignment Memo Ledger Entry"
         field(4; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
+            TableRelation = Employee;
             trigger OnValidate()
             var
                 Employee: Record Employee;
@@ -60,6 +61,24 @@ table 50162 "Assignment Memo Ledger Entry"
         {
             Caption = 'Payroll Attribute Code';
         }
+        field(12; "Valid From Date"; Date)
+        {
+            Caption = 'Valid From Date';
+        }
+        field(13; "Valid To Date"; Date)
+        {
+            Caption = 'Valid To Date';
+        }
+        field(14; Claimed; Boolean)
+        {
+            Caption = 'Claimed';
+        }
+        field(15; "Claimed Doc No."; Code[20])
+        {
+            Caption = 'Claimed Doc No.';
+        }
+        field(16; Panel; Enum Panel) { }
+        field(17; "ATM Site"; Enum "ATM Site") { }
     }
     keys
     {

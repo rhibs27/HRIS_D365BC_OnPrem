@@ -1254,6 +1254,14 @@ codeunit 50000 "Leave Mgt."
                             if not EmpVar2.FindFirst() then
                                 SkipLeaveEarn := true;
                         end;
+
+                        //if leave for employee type is permanent then leave earn should be against confirmation date
+                        if (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent) and
+                        (EmpVar."Confirmation Date" <> 0D) then begin
+                            if CreditPeriodStartDate < EmpVar."Confirmation Date" then
+                                CreditPeriodStartDate := EmpVar."Confirmation Date";
+                        end;
+
                         OnGenerateLeaveOnBeforeLeaveCalculation(LeaveTypeSetup, EmpVar, SkipLeaveEarn);
                         if not SkipLeaveEarn then begin
 
@@ -1488,7 +1496,7 @@ codeunit 50000 "Leave Mgt."
             exit;
 
         LeavePeriod.Reset();
-        LeavePeriod.SetFilter("Starting Date", '<%1', EmployementDate);
+        LeavePeriod.SetFilter("Starting Date", '<=%1', EmployementDate);
         if LeavePeriod.FindLast() then
             EmployementMonthStartDate := LeavePeriod."Starting Date";
 

@@ -2875,26 +2875,27 @@ table 50027 "Payroll Line"
                                          ToDate: Date;
                                          getLastAmount: Boolean): Decimal
     var
-        AllowanceAssignmentLine: Record "Assignment Memo Line";
+        AllowanceAssignmentLine: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AllowanceAssignmentLine.SetLoadFields("Document No.", "Employee No.", "Approved Date", "Payroll Attribute Code", "Approval Status", "Leave Code");
+        AllowanceAssignmentLine.SetLoadFields("Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Applied Document No.", Amount);
         AllowanceAssignmentLine.SetRange("Employee No.", EmployeeCode);
-        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
         AllowanceAssignmentLine.SetRange("Payroll Attribute Code", PayrollAttr);
-        AllowanceAssignmentLine.SetRange("Approved Date", FromDate, ToDate);
-        AllowanceAssignmentLine.SetFilter("Payroll Doc No.", '%1|%2', '', PayrollDocNo);
-        if LeaveCode <> '' then
-            AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
+        AllowanceAssignmentLine.SetRange("Posting Date", FromDate, ToDate);
+        AllowanceAssignmentLine.SetFilter("Applied Document No.", '%1|%2', '', PayrollDocNo);
+        AllowanceAssignmentLine.SetRange("Open", true);
+        // if LeaveCode <> '' then
+        //     AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
         if getLastAmount then begin
-            AllowanceAssignmentLine.SetRange("Recurring Completed", false);
-            AllowanceAssignmentLine.CalcSums("Allowance Amount");
-            exit(AllowanceAssignmentLine."Allowance Amount");
+            AllowanceAssignmentLine.SetRange("Valid From Date", FromDate, ToDate);
+            AllowanceAssignmentLine.SetRange("Valid To Date", FromDate, ToDate);
+            AllowanceAssignmentLine.CalcSums(Amount);
+            exit(AllowanceAssignmentLine."Amount");
         end else begin
-            AllowanceAssignmentLine.CalcSums("Allowance Amount");
-            Amt := AllowanceAssignmentLine."Allowance Amount";
+            AllowanceAssignmentLine.CalcSums(Amount);
+            Amt := AllowanceAssignmentLine."Amount";
             if AllowanceAssignmentLine.FindSet() then
-                AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", PayrollDocNo);
+                AllowanceAssignmentLine.ModifyAll("Applied Document No.", PayrollDocNo);
             exit(Amt);
         end;
 

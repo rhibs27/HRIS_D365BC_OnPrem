@@ -10,22 +10,17 @@ page 50178 "Request Allowance Card"
         {
             group(General)
             {
-                field("Requester Employee No."; Rec."Employee No.")
+                field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No field.';
                     Editable = false;
                 }
-                field("Requester Employee Name"; Rec."Employee Name")
+                field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     Editable = false;
                 }
-                field("Fiscal Year"; Rec."Fiscal Year")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the English Year field.';
-                    ApplicationArea = All;
-                }
+
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
@@ -126,22 +121,7 @@ page 50178 "Request Allowance Card"
                         ApproverMgt.ApproveRejectDocument(RecRef, false)
                 end;
             }
-            action("Allowance Assignment Summary")
-            {
-                Image = Report;
-                Promoted = true;
-                PromotedCategory = Report;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Shows Allowance Assignment Summary Report';
-                ApplicationArea = All;
-                trigger OnAction()
 
-                begin
-                    Report.Run(Report::"Allowance Assignment Summary", true, false, Rec);
-                end;
-
-            }
         }
     }
 
