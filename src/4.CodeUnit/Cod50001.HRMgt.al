@@ -132,7 +132,7 @@ codeunit 50001 "HR Mgt."
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: CodeUnit "Travel Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
-        HRMgt: Codeunit "HR Mgt.";
+        //HRMgt: Codeunit "HR Mgt.";
 
     procedure MoveToMagicPath(SourceFileName: Text[1024]) DestinationFileName: Text[1024]
     var
@@ -153,7 +153,7 @@ codeunit 50001 "HR Mgt."
         Candidate.TestField("Vacancy Code");
         VacancyHeader.Get(Candidate."Vacancy Code");
         VacancyHeader.TestField(Type, VacancyHeader.Type::Internal);
-        if not HrMgt.IsSaaS() then
+        if not IsSaaS() then
             if Candidate."Recommender Code" <> GetEmployeeNo then
                 Error('You are not elgible to recommend this candidate');
         if IsApproved then
@@ -188,7 +188,7 @@ codeunit 50001 "HR Mgt."
         Candidate.TestField("Vacancy Code");
         VacancyHeader.Get(Candidate."Vacancy Code");
         VacancyHeader.TestField(Type, VacancyHeader.Type::Internal);
-        if not HrMgt.IsSaaS() then
+        if not IsSaaS() then
             if Candidate."Employee No." <> GetEmployeeNo then
                 Error('You are not elgible to apply this candidate');
         Candidate.Validate(Status, Candidate.Status::Applied);
@@ -595,7 +595,7 @@ codeunit 50001 "HR Mgt."
             VacancyHead.TestField("Vacancy Expiry Date");
         end;
         SelectionComimttee.SetRange("Vacancy Code", VacancyCode);
-        if not HrMgt.IsSaaS() then
+        if not IsSaaS() then
             SelectionComimttee.SetRange("Employee No", GetEmployeeNo);
         if not VacancyHead."Selection Committee Approved" then begin
             if SelectionComimttee.FindFirst then begin
@@ -1229,7 +1229,7 @@ codeunit 50001 "HR Mgt."
         LineNo: Integer;
     begin
         Interviewer.Reset;
-        if not HrMgt.IsSaaS() then
+        if not IsSaaS() then
             Interviewer.SetRange(Interviewer, GetEmployeeNo);
         Interviewer.SetRange("Vacancy Code", VacancyCode);
         if Interviewer.Find('-') then begin
@@ -4831,7 +4831,7 @@ codeunit 50001 "HR Mgt."
         AllowRecordUsageResponseID: Integer;
         OpenDocumentResponceID: Integer;
         ShowMessageResponseID: Integer;
-        HRMgt: Codeunit "HR Mgt.";
+        //HRMgt: Codeunit "HR Mgt.";
         WorkFlowSetup: Codeunit "Workflow Setup";
         WorkflowResponseHandling: Codeunit "Workflow Response Handling";
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
@@ -4905,7 +4905,7 @@ codeunit 50001 "HR Mgt."
         AllowRecordUsageResponseID: Integer;
         OpenDocumentResponceID: Integer;
         ShowMessageResponseID: Integer;
-        HRMgt: Codeunit "HR Mgt.";
+        //HRMgt: Codeunit "HR Mgt.";
         WorkflowResponseHandling: Codeunit "Workflow Response Handling";
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
         WorkFlowSetup: Codeunit "Workflow Setup";
@@ -4979,7 +4979,7 @@ codeunit 50001 "HR Mgt."
         AllowRecordUsageResponseID: Integer;
         OpenDocumentResponceID: Integer;
         ShowMessageResponseID: Integer;
-        HRMgt: Codeunit "HR Mgt.";
+        //HRMgt: Codeunit "HR Mgt.";
         WorkflowResponseHandling: Codeunit "Workflow Response Handling";
         ApprovalRequestCanceledMsg: label 'ENU=The approval request for the record has been canceled.';
         WorkFlowSetup: Codeunit "Workflow Setup";
