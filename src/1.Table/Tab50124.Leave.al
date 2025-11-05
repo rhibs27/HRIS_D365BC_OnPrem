@@ -438,8 +438,6 @@ table 50124 Leave
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
-        SaaSLoginMgmt: Codeunit saasloginmgmt;
-
     trigger OnInsert()
     var
         LeaveRec: Record Leave;
