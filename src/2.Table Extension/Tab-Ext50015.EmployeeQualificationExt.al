@@ -90,8 +90,13 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         field(50012; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
-            MaxValue = 4;
-            MinValue = 0;
+            // MaxValue = 4;
+            // MinValue = 0;
+            trigger OnValidate()
+            begin
+                if CGPA > "GPA Scale" then
+                    Error('CGPA cannot be greater than CGPA Scale');
+            end;
         }
         field(50013; Attachment; Media)
         {
@@ -99,6 +104,9 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         field(50014; Running; Boolean)
         {
 
+        }
+        field(50015; "GPA Scale"; Decimal)
+        {
         }
     }
     keys { }
