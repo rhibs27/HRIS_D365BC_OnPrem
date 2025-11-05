@@ -96,7 +96,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             var
                 myInt: Integer;
             begin
-                if CGPA > "CGPA Scale" then
+                if CGPA > "GPA Scale" then
                     Error('CGPA cannot be greater than CGPA Scale');
             end;
         }
@@ -107,14 +107,8 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         {
 
         }
-        field(50015; "CGPA Scale"; Decimal)
+        field(50015; "GPA Scale"; Decimal)
         {
-            trigger OnValidate()
-            var
-                myInt: Integer;
-            begin
-            end;
-
         }
     }
     keys { }

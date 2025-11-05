@@ -46,7 +46,7 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the CGPA field.';
             }
-            field("CGPA Scale"; Rec."CGPA Scale")
+            field("CGPA Scale"; Rec."GPA Scale")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies whether the institute is foreign or not.';
@@ -142,13 +142,6 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
             else
                 Rec."Master Type" := Rec."Master Type"::Employee;
         end;
-    end;
-
-    trigger OnAfterGetRecord()
-    var
-        myInt: Integer;
-    begin
-        Rec."CGPA Scale" := 4;
     end;
 
     var
