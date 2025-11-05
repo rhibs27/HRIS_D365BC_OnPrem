@@ -46,7 +46,7 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the CGPA field.';
             }
-            field("CGPA Scale"; Rec."GPA Scale")
+            field("GPA Scale"; Rec."GPA Scale")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies whether the institute is foreign or not.';

@@ -93,8 +93,6 @@ table 50120 "Employee Edit Line"
             DataClassification = CustomerContent;
             // MaxValue = 4;
             trigger OnValidate()
-            var
-                myInt: Integer;
             begin
                 if CGPA > "GPA Scale" then
                     Error('CGPA cannot be greater than GPA Scale');

@@ -93,8 +93,6 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             // MaxValue = 4;
             // MinValue = 0;
             trigger OnValidate()
-            var
-                myInt: Integer;
             begin
                 if CGPA > "GPA Scale" then
                     Error('CGPA cannot be greater than CGPA Scale');
