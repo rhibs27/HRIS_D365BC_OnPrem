@@ -162,6 +162,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate("Qualification Code", EmployeeEditLine."Qualification Code");
             EmployeeQualification.Validate(Stream, EmployeeEditLine.Stream);
             EmployeeQualification.Validate(Percentage, EmployeeEditLine.Percentage);
+            EmployeeQualification.Validate("GPA Scale", EmployeeEditLine."GPA Scale");
             EmployeeQualification.Validate(CGPA, EmployeeEditLine.CGPA);
         end;
         if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::"Work Experience" then begin

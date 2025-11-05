@@ -88,7 +88,12 @@ table 50120 "Employee Edit Line"
         field(36; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
-            MaxValue = 4;
+            // MaxValue = 4;
+            trigger OnValidate()
+            begin
+                if CGPA > "GPA Scale" then
+                    Error('CGPA cannot be greater than GPA Scale');
+            end;
         }
         field(39; "From Date"; Date)
         {
@@ -241,6 +246,11 @@ table 50120 "Employee Edit Line"
         field(1001; "Original Line No."; Integer)
         {
         }
+        field(1002; "GPA Scale"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+
     }
     keys
     {
