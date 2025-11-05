@@ -12873,10 +12873,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field No. Series - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3621654542 - Field 2028453791 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Optimal Deduction</source>
+        <trans-unit id="Table 3621654542 - Field 3167983047 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Optimal Deduction Insurrance</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field Optimal Deduction - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field Optimal Deduction Insurrance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3621654542 - Field 3489946510 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Optimal Deduction Retirement</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field Optimal Deduction Retirement - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3621654542 - Field 4019577183 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OverTime From</source>
@@ -38017,6 +38022,11 @@
           <source>Specifies the value of the Optimal Deduction field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control Optimal Deduction - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3181578682 - Control 3167983047 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Optimal Deduction Insurrance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control Optimal Deduction Insurrance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Control 4019577183 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the OverTime From field.</source>

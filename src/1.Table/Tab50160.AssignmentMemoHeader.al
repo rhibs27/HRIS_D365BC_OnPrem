@@ -52,10 +52,11 @@ table 50160 "Assignment Memo Header"
         {
             trigger OnValidate()
             begin
-                TestField("From Date");
-                if "From Date" > "To date" then
-                    Error('Invalid date.');
-
+                if "Activity Type" <> "Activity Type"::"Request Allowance" then begin
+                    TestField("From Date");
+                    if "From Date" > "To date" then
+                        Error('Invalid date.');
+                end;
             end;
         }
 
@@ -134,6 +135,13 @@ table 50160 "Assignment Memo Header"
                     "Employee Name" := Employee.FullName();
                     "Permanent Address" := Employee.Address;
                     "Temporary Address" := Employee."Temporary Address";
+
+                    if "Activity Type" = "Activity Type"::"Request Allowance" then begin
+                        "Province Code" := Employee."Province Code";
+                        "Branch Code" := Employee."Branch Code";
+                        "Department Code" := Employee."Department Code";
+                        "Unit Code" := Employee."Unit Code";
+                    end;
                 end else
                     "Employee Name" := '';
             end;
@@ -229,6 +237,7 @@ table 50160 "Assignment Memo Header"
                     end;
             end;
 
+        AutoInsertDatesForrequestAllowance();
         // if GuiAllowed then
         //     AllowanceAssignmentMgt.GenerateIncDocuments("Activity Type", "No.", "Requester Employee No.", '');
     end;
@@ -241,5 +250,14 @@ table 50160 "Assignment Memo Header"
         ApproverMgt: Codeunit "Approver Mgt";
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PGSetup: Record "Payroll General Setup";
+        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
 
+    procedure AutoInsertDatesForrequestAllowance()
+    begin
+        if "Activity Type" = "Activity Type"::"Request Allowance" then begin
+            PGSetup.Get();
+            "From Date" := WorkDate();
+            "To date" := PGSetup."Prev Fiscal Year End Date";
+        end;
+    end;
 }

@@ -325,7 +325,8 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine: Record "Assignment Memo Line";
         AllowanceConfig: Record "Allowance Configuration";
     begin
-        AssignmentMemoHdr.Get(AllowanceAssignmentCode);
+        if not AssignmentMemoHdr.Get(AllowanceAssignmentCode) then
+            exit;
         if AssignmentMemoHdr."Payroll Attribute Code" = '' then
             exit;
 
@@ -532,6 +533,16 @@ codeunit 50030 "Assignment Memo Mgt"
 
         // ShiftLine.SetRange("Shift Claimed From", DocNo);
         // ShiftLine.ModifyAll("Shift Claimed From", '');
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]
+    local procedure OnafterInsertAssignmentMemoHeader(var Rec: Record "Assignment Memo Header")
+    var
+        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+    begin
+        if Rec."Activity Type" = Rec."Activity Type"::"Request Allowance" then
+            if not GuiAllowed then
+                AssignmentMemoMgt.CreateAllowanceAssignmentLineFromRequest(Rec."No.");
     end;
 
     [IntegrationEvent(false, false)]

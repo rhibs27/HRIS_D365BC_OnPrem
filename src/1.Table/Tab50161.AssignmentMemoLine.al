@@ -55,10 +55,6 @@ table 50161 "Assignment Memo Line"
             trigger OnValidate()
             begin
                 if "To Date" <> 0D then
-                    if "From Date" > "To Date" then
-                        Error('Invalid date.');
-
-                if "To Date" <> 0D then
                     CheckandValidateTheDates("To Date");
 
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
@@ -177,9 +173,16 @@ table 50161 "Assignment Memo Line"
     trigger OnDelete()
     var
         CannotDelete: Label 'Cannot delete document.';
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete);
+
+        if AssignmentMemoLedgerEntry.Get("Assign Memo Ledger Entry No.") then begin
+            AssignmentMemoLedgerEntry."Claimed Doc No." := '';
+            AssignmentMemoLedgerEntry."Claimed" := false;
+            AssignmentMemoLedgerEntry.Modify();
+        end;
     end;
 
     trigger OnInsert()

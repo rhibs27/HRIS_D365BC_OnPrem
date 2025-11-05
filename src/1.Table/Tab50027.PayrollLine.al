@@ -1854,13 +1854,14 @@ table 50027 "Payroll Line"
                 end;
                 RFContributionLine.SetRange("Employee No.", PayrollAttrUses."Employee Code");
                 RFContributionLine.SetRange(Type, PayrollAttrUses."RF Contribution Type");
-                RFContributionLine.FindLast();
-                if RFContributionLine.Type = RFContributionLine.Type::Percent then
-                    PayrollAttrUses.Validate(Amount, (GetAmountRFContribution(RetirementFundHeader."Employee No.") * RFContributionLine.Amount) / 100)
-                else
-                    PayrollAttrUses.Validate(Amount, RFContributionLine.Amount);
+                if RFContributionLine.FindLast() then begin
+                    if RFContributionLine.Type = RFContributionLine.Type::Percent then
+                        PayrollAttrUses.Validate(Amount, (GetAmountRFContribution(RetirementFundHeader."Employee No.") * RFContributionLine.Amount) / 100)
+                    else
+                        PayrollAttrUses.Validate(Amount, RFContributionLine.Amount);
 
-                PayrollAttrUses.Modify();
+                    PayrollAttrUses.Modify();
+                end
             until PayrollAttributes.Next() = 0;
 
         // logic for optimum is needed. // Not given as of now.
