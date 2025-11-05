@@ -90,12 +90,14 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         field(50012; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
+            // MaxValue = 4;
+            // MinValue = 0;
             trigger OnValidate()
             var
                 myInt: Integer;
             begin
-                if (not "Is Foreign Institute") and (CGPA > 4.0) then
-                    Error('CGPA cannot Exceed 4.0 for National Institute');
+                if CGPA > "CGPA Scale" then
+                    Error('CGPA cannot be greater than CGPA Scale');
             end;
         }
         field(50013; Attachment; Media)
@@ -105,14 +107,12 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         {
 
         }
-        field(50015; "Is Foreign Institute"; Boolean)
+        field(50015; "CGPA Scale"; Decimal)
         {
             trigger OnValidate()
             var
                 myInt: Integer;
             begin
-                if (not "Is Foreign Institute") and (CGPA > 4.0) then
-                    Error('CGPA cannot Exceed 4.0 for National Institute');
             end;
 
         }
