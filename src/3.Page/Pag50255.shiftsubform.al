@@ -5,7 +5,6 @@ page 50255 "Shift subform"
     PageType = ListPart;
     SourceTable = "Shift Line";
     AutoSplitKey = true;
-
     layout
     {
         area(Content)
@@ -188,9 +187,7 @@ page 50255 "Shift subform"
                 end;
             }
         }
-
     }
-
     trigger OnOpenPage()
     begin
         SetLayout
@@ -201,8 +198,9 @@ page 50255 "Shift subform"
         SetLayout();
         if not GuiAllowed then
             if ShiftAssignmentHeader.Get(rec."No.") then
-                if not (ShiftAssignmentHeader."Employee No." = HRMgt.GetEmployeeNo()) then
-                    Error('Auth Error');
+                if not HrMgt.IsSaaS() then
+                    if not (ShiftAssignmentHeader."Employee No." = HRMgt.GetEmployeeNo()) then
+                        Error('Auth Error');
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -236,6 +234,4 @@ page 50255 "Shift subform"
             DocumentApproved := ShiftAssignmentHeader."Approval Status" = ShiftAssignmentHeader."Approval Status"::Approved;
         end;
     end;
-
-
 }

@@ -78,4 +78,16 @@ enum 50032 "Payroll SubType"
     {
         Caption = 'Leave Fare Allowance';
     }
+    value(19; "Remote Area Allowance")
+    {
+        Caption = 'Remote Area Allowance';
+    }
+    value(20; "Oustation Allowance")
+    {
+        Caption = 'Outstation Allowance';
+    }
+    value(21; "Dashain Overtime")
+    {
+        Caption = 'Dashain Overtime';
+    }
 }

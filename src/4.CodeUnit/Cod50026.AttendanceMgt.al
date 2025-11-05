@@ -1,18 +1,6 @@
 codeunit 50026 "Attendance Mgt"
 {
     //this is used from company specific extension
-    procedure IsDashainTihar(Date: Date): Boolean
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        ReturnBool: Boolean;
-        BaseCalenderChanges: Record "Base Calendar Change";
-    begin
-        BaseCalenderChanges.Reset();
-        BaseCalenderChanges.SetRange(Date, Date);
-        BaseCalenderChanges.SetRange("Holiday Type", BaseCalenderChanges."Holiday Type"::"Dashain Tihar");
-        exit(BaseCalenderChanges.FindFirst());
-    end;
 
     procedure TextToDuration(InputText: Text): Duration
     var

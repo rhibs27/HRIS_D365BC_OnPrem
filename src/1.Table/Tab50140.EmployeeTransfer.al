@@ -6,7 +6,6 @@ table 50140 "Employee Transfer"
     {
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -32,7 +31,6 @@ table 50140 "Employee Transfer"
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -63,7 +61,6 @@ table 50140 "Employee Transfer"
                     Validate(Department, '');
                     Validate("Salary Level Code", '');
                 end;
-
             end;
         }
         field(4; "Employee Name"; Text[50])
@@ -79,16 +76,13 @@ table 50140 "Employee Transfer"
         }
         field(7; "Start Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
                 end;
-
                 //<<check for leave
-
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then
@@ -104,7 +98,6 @@ table 50140 "Employee Transfer"
         }
         field(8; "End Date"; Date)
         {
-
             trigger OnValidate()
             var
                 TravelMgt: Codeunit "Travel Mgt.";
@@ -126,11 +119,9 @@ table 50140 "Employee Transfer"
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-
         }
         field(10; "Requested Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -212,7 +203,6 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
-
         field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
@@ -250,7 +240,6 @@ table 50140 "Employee Transfer"
         field(34; "Extension Name To"; Text[50])
         {
         }
-
         field(35; "Functional Desc To"; Text[100])
         {
             Editable = false;
@@ -261,7 +250,6 @@ table 50140 "Employee Transfer"
         field(37; "Approved Date"; Date)
         {
         }
-
         field(38; "Branch Name To"; Text[50])
         {
             Editable = false;
@@ -276,7 +264,6 @@ table 50140 "Employee Transfer"
         // {
         //     Editable = false;
         // }
-
         field(42; "Department Name To"; text[50])
         {
             Editable = false;
@@ -293,7 +280,6 @@ table 50140 "Employee Transfer"
         // {
         //     Editable = false;
         //     TableRelation = Employee;
-
         //     trigger OnValidate()
         //     begin
         //         if EmployeeRec.Get("Final Approver") then
@@ -327,7 +313,6 @@ table 50140 "Employee Transfer"
         field(48; "Reason Code"; Code[20])
         {
             TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
-
             trigger OnValidate()
             begin
                 if Standardtext.Get("Reason Code") then
@@ -363,7 +348,6 @@ table 50140 "Employee Transfer"
                 end;
                 if "Transfer Type" = "Transfer Type"::"Cross Transfer" then
                     "Deputation On (To)" := "Deputation On (To)"::" ";
-
             end;
         }
         field(53; "Shortcut Dimension 1 Code (To)"; Code[20])
@@ -403,7 +387,6 @@ table 50140 "Employee Transfer"
                 //     //     "Province Name To" := OrganizationStructureList."Province Name";
                 //     //     "Shortcut Dimension 1 Code (To)" := '';
                 //     // end;
-
                 //     ValidateDeputationOnTo();
                 if "Deputation on (To)" = "Deputation on (To)"::Province then begin
                     "Department Code (To)" := '';
@@ -427,7 +410,6 @@ table 50140 "Employee Transfer"
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Deputation Type"::Unit));
             trigger OnValidate()
             begin
-
                 if "Unit (To)" <> xRec."Unit (To)" then begin
                     Clear("Unit Name To");
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit (To)") then begin
@@ -443,7 +425,6 @@ table 50140 "Employee Transfer"
         {
             Description = 'Transfer';
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
-
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
@@ -462,7 +443,6 @@ table 50140 "Employee Transfer"
                     Clear("Department Name To");
                     ValidateDeputationOnTo();
                 end;
-
             end;
         }
         field(58; Takeover; Boolean)
@@ -504,7 +484,6 @@ table 50140 "Employee Transfer"
         {
             Description = 'Transfer';
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
-
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
@@ -524,7 +503,6 @@ table 50140 "Employee Transfer"
         field(63; "Transfer Effective Date"; Date)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 if Type in [Type::"HR Transfer", Type::"Employee Transfer"] then begin
@@ -547,7 +525,6 @@ table 50140 "Employee Transfer"
         }
         field(65; "Deputation On"; Enum "Deputation Type")
         {
-
         }
         field(66; "Deputation On (To)"; Enum "Deputation Type")
         {
@@ -574,7 +551,6 @@ table 50140 "Employee Transfer"
         field(67; "Relocation Allow."; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 if GuiAllowed then
@@ -585,7 +561,6 @@ table 50140 "Employee Transfer"
         field(68; "Outstation/Discomfort Allow."; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 if GuiAllowed then
@@ -596,7 +571,6 @@ table 50140 "Employee Transfer"
         field(69; "BM Accomodation Allow."; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 if GuiAllowed then
@@ -607,7 +581,6 @@ table 50140 "Employee Transfer"
         field(70; "Remote Area Allow."; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 if GuiAllowed then
@@ -618,7 +591,6 @@ table 50140 "Employee Transfer"
         field(71; "Officiating Allow."; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 if GuiAllowed then
@@ -629,7 +601,6 @@ table 50140 "Employee Transfer"
         field(72; "Relocation Distance"; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 TransferMgt.CalculateAllowance(Rec);
@@ -638,7 +609,6 @@ table 50140 "Employee Transfer"
         field(73; "Outstation Distance"; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 TransferMgt.CalculateAllowance(Rec);
@@ -647,7 +617,6 @@ table 50140 "Employee Transfer"
         field(74; "BMAF Distance"; Decimal)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 TransferMgt.CalculateAllowance(Rec);
@@ -706,7 +675,6 @@ table 50140 "Employee Transfer"
         // {
         //     Description = 'Transfer';
         //     TableRelation = Employee;
-
         //     trigger OnValidate()
         //     begin
         //         if EmpVar.Get(Reviewer) then
@@ -726,7 +694,6 @@ table 50140 "Employee Transfer"
             TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             trigger OnValidate()
             begin
-
                 if EmpVar.Get("Incoming Supervisior") then
                     Validate("Incoming Supervisior Name", EmpVar."Full Name")
                 else
@@ -748,7 +715,6 @@ table 50140 "Employee Transfer"
         field(88; "Date of Joining Of Transfer"; Date)
         {
             Description = 'Transfer';
-
             trigger OnValidate()
             begin
                 TestField("Transfer Effective Date");
@@ -841,7 +807,6 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
-
         field(198; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -899,7 +864,9 @@ table 50140 "Employee Transfer"
     trigger OnInsert()
     begin
         if (not GuiAllowed) and (type = Type::"Transfer Claim") then begin
-            Validate("Employee No.", HRMgt.GetEmployeeNo());
+            if "Employee No." = '' then
+                if not HrMgt.IsSaaS() then
+                    Validate("Employee No.", HRMgt.GetEmployeeNo());
             //"Approval Status" := "Approval Status"::Pending;
         end;
         if "Requested Date" = 0D then
@@ -922,7 +889,6 @@ table 50140 "Employee Transfer"
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                             if Type <> type::"HR Transfer" then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
-
                         end;
                 end;
             end;
@@ -948,7 +914,6 @@ table 50140 "Employee Transfer"
             ApprovalEntry.DeleteAll();
         end;
     end;
-
 
     local procedure InsertAttachmentLines()
     var
@@ -1025,7 +990,6 @@ table 50140 "Employee Transfer"
     begin
         if not (Type in [Type::"Employee Transfer", Type::"HR Transfer"]) then
             exit;
-
         if EmpVar.Get("Employee No.") then begin
             /* VALIDATE("Deputation On (To)",EmpVar."Deputation on");
              VALIDATE("Province Code (To)", EmpVar."Province Code");
@@ -1046,7 +1010,6 @@ table 50140 "Employee Transfer"
                 Validate("Curr. Placement Period(Month)", Round((Today - EmpVar."Employment Date") / 30, 0.01, '='));
             CheckForTransfer;
         end;
-
     end;
 
     local procedure CheckForTransfer()
@@ -1087,53 +1050,41 @@ table 50140 "Employee Transfer"
         //     FunctionalDescFrom := FunctionalTitle.Description;
         // if FunctionalTitle.Get("Functional Title (To)") then
         //     FunctionalDescTo := FunctionalTitle.Description;
-
         // if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
         //     BranchName := DimValue.Name;
-
         // if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code (To)") then
         //     BranchNameTo := DimValue.Name;
-
         // if DepartVar.Get(Department) then
         //     DepartmentName := DepartVar.Name;
-
         // if DepartVar.Get("Department Code (To)") then
         //     DepartmentNameTo := DepartVar.Name;
-
         // if ProvinceVar.Get("Province Code") then
         //     ProvinceName := ProvinceVar.Description;
-
         // if ProvinceVar.Get("Province Code (To)") then
         //     ProvinceNameTo := ProvinceVar.Description;
-
         // SubProvinceVar.Reset;
         // SubProvinceVar.SetRange(Code, "Sub Province Code");
         // if SubProvinceVar.FindFirst then
         //     SubProvinceName := SubProvinceVar.City;
-
         // SubProvinceVar.Reset;
         // SubProvinceVar.SetRange(Code, "Sub Province Code (To)");
         // if SubProvinceVar.FindFirst then
         //     SubProvinceNameTo := SubProvinceVar.City;
-
         // EmpHie.Reset;
         // EmpHie.SetRange(Type, EmpHie.Type::Unit);
         // EmpHie.SetRange(Code, "Unit Code");
         // if EmpHie.FindFirst then
         //     UnitName := EmpHie.Description;
-
         // EmpHie.Reset;
         // EmpHie.SetRange(Type, EmpHie.Type::Unit);
         // EmpHie.SetRange(Code, "Unit (To)");
         // if EmpHie.FindFirst then
         //     UnitNameTo := EmpHie.Description;
-
         // EmpHie.Reset;
         // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
         // EmpHie.SetRange(Code, "Extension Counter Code");
         // if EmpHie.FindFirst then
         //     ExtensionName := EmpHie.Description;
-
         // EmpHie.Reset;
         // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
         // EmpHie.SetRange(Code, "Extension Counter (To)");
@@ -1157,7 +1108,6 @@ table 50140 "Employee Transfer"
                     OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
                     if OrganizationStructureLine.FindFirst() then
                         Validate("Province Code (To)", OrganizationStructureLine.Code);
-
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code (To)") then begin

@@ -259,23 +259,25 @@ codeunit 50015 "OverTime Mgt"
         SalaryGrade: Record "Salary Grade";
         OTAmount: Decimal;
     begin
+        // Need to discuss for Base
         Employee.Reset();
         Employee.Get(employeeNo);
-        if OverTimeDate > 20221207D then begin
-            PayrollSetup.Get;
-            if EmployeeAttendanceActivity.Get(employeeNo, OverTimeDate) then begin
-                SalaryLevelRec.Get(Employee."Salary Level");
-                SalaryGrade.Get(Employee."Salary Grade");
-                if EncashmentCode = PayrollSetup.Overtime then begin
-                    if Employee."Salary Level" = PayrollSetup."TA Salary Level" then
-                        OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (SalaryLevelRec."TA OT Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."TA OT Basic Salary")))
-                    else if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (Employee."Contract Salary Amount" + (SalaryGrade."Grade Percentage" / 100 * Employee."Contract Salary Amount")))
-                    else
-                        OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                end;
-                exit(OTAmount);
+        PayrollSetup.Get;
+        EmployeeAttendanceActivity.Reset();
+        EmployeeAttendanceActivity.SetRange("Employee No.", employeeNo);
+        EmployeeAttendanceActivity.SetRange("Attendance Date", OverTimeDate);
+        if EmployeeAttendanceActivity.FindFirst() then begin
+            SalaryLevelRec.Get(Employee."Salary Level");
+            SalaryGrade.Get(Employee."Salary Grade");
+            if EncashmentCode = PayrollSetup.Overtime then begin
+                if Employee."Salary Level" = PayrollSetup."TA Salary Level" then
+                    OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (SalaryLevelRec."TA OT Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."TA OT Basic Salary")))
+                else if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                    OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (Employee."Contract Salary Amount" + (SalaryGrade."Grade Percentage" / 100 * Employee."Contract Salary Amount")))
+                else
+                    OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
             end;
+            exit(OTAmount);
         end;
     end;
 
@@ -342,6 +344,7 @@ codeunit 50015 "OverTime Mgt"
             OverTime.Validate("Employee No.", EmpCode);
             OverTime.Validate(Type, OverTime.Type::"Overtime Bulk");
             OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
+            OverTime.Validate("Overtime Claim Type", OverTime."Overtime Claim Type"::Encashment);
             OverTime.Validate("Requested Date", Today);
             OverTime.Insert(true);
             PAGE.Run(PAGE::"Overtime Bulk Card", OverTime);
@@ -478,8 +481,9 @@ codeunit 50015 "OverTime Mgt"
                     if not OvertimeLineCheck.FindFirst() then begin
                         // Check if employee attendance exists for this date
                         EmployeeAttendance.Reset;
-                        if EmployeeAttendance.Get(Employee."No.", CurrentDate) then begin
-                            // Only create overtime line if both check-in and check-out times exist
+                        EmployeeAttendance.SetRange("Employee No.", Employee."No.");
+                        EmployeeAttendance.SetRange("Attendance Date", CurrentDate);
+                        if EmployeeAttendance.FindFirst() then begin
                             if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check Out Time" <> 0T) then begin
                                 OvertimeLine.Init();
                                 OverTimeLine.Validate("No.", OverTime."No.");

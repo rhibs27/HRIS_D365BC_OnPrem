@@ -2,12 +2,10 @@ table 50143 "Medical Insurance Claim"
 {
     Caption = 'Medical Insurance Claim';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -17,7 +15,6 @@ table 50143 "Medical Insurance Claim"
                         "No. Series" := '';
                     end else begin
                         case Type of
-
                             //for medical insurance claim
                             Type::"Medical Insurance Claim":
                                 begin
@@ -30,7 +27,6 @@ table 50143 "Medical Insurance Claim"
         }
         field(2; Type; Enum "Employee Activity Type")
         {
-
         }
         field(3; "Employee No."; Code[20])
         {
@@ -58,7 +54,6 @@ table 50143 "Medical Insurance Claim"
                     Validate(Department, '');
                     Validate("Salary Level Code", '');
                 end;
-
             end;
         }
         field(4; "Employee Name"; Text[50])
@@ -74,7 +69,6 @@ table 50143 "Medical Insurance Claim"
         }
         field(7; "Start Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 if Type <> Type::Overtime then
@@ -98,7 +92,6 @@ table 50143 "Medical Insurance Claim"
         }
         field(8; "End Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -112,15 +105,12 @@ table 50143 "Medical Insurance Claim"
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
             begin
-
             end;
         }
         field(10; "Requested Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -160,7 +150,6 @@ table 50143 "Medical Insurance Claim"
             CaptionClass = '1,2,1';
             Editable = false;
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-
             trigger OnValidate()
             begin
                 GLSetup.Get;
@@ -301,8 +290,6 @@ table 50143 "Medical Insurance Claim"
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
         }
-
-
     }
     keys
     {
@@ -319,7 +306,8 @@ table 50143 "Medical Insurance Claim"
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         if not GuiAllowed then begin
-            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", Hrmgt.GetEmployeeNo());
             "Approval Status" := "Approval Status"::Pending;
             Validate(Type, Rec.Type::"Medical Insurance Claim");
         end;
@@ -339,7 +327,7 @@ table 50143 "Medical Insurance Claim"
                             MedicalInsuranceClaimRec.SetLoadFields("No.");
                             while MedicalInsuranceClaimRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
                 end;
             end;

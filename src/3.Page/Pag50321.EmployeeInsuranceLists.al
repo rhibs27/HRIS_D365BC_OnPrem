@@ -8,7 +8,7 @@ page 50321 "Employee Insurance Lists"
     Caption = 'Employee Insurance Lists';
     PageType = List;
     SourceTable = "Employee Insurance Information";
-    SourceTableView = where(type = const(Insurance));
+    SourceTableView = where(type = filter("Employee Activity Type"::Insurance));
     UsageCategory = Lists;
     CardPageId = "Employee Insurance Card";
 
@@ -107,13 +107,46 @@ page 50321 "Employee Insurance Lists"
     {
         area(Processing)
         {
-            action(Screened)
+            action(open)
             {
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedCategory = Process;
-                ToolTip = 'Executes the Screened action.';
+                Image = Open;
+                ToolTip = 'Executes the Open action.';
+                trigger OnAction()
+                begin
+                    ClearAll();
+                    Rec.FilterGroup(2);
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::open);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action(Pending)
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                Image = pending;
+                ToolTip = 'Executes the Pending action.';
+                trigger OnAction()
+                begin
+                    ClearAll();
+                    Rec.FilterGroup(2);
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action(Approved)
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                Image = Approve;
+                ToolTip = 'Executes the Approved action.';
                 trigger OnAction()
                 begin
                     ClearAll();
@@ -128,6 +161,7 @@ page 50321 "Employee Insurance Lists"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedCategory = Process;
+                Image = Reject;
                 ToolTip = 'Executes the Rejected action.';
 
                 trigger OnAction()
@@ -138,13 +172,22 @@ page 50321 "Employee Insurance Lists"
                     Rec.FilterGroup(0);
                 end;
             }
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                Image = ClearFilter;
+                ToolTip = 'Executes the Rejected action.';
+
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Approval Status");
+                    Rec.FilterGroup(0);
+                end;
+            }
         }
     }
-    trigger OnOpenPage()
-
-    begin
-        // Rec.FilterGroup(2);
-        // Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
-        // Rec.FilterGroup(0)
-    end;
 }

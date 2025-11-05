@@ -1,7 +1,6 @@
 page 50198 "HR Cue"
 {
     // version KPI1.00
-
     PageType = CardPart;
     SourceTable = "HR Cue";
     ApplicationArea = All;
@@ -10,7 +9,6 @@ page 50198 "HR Cue"
     {
         area(Content)
         {
-
             cuegroup(Resignation)
             {
                 Caption = 'Resignation';
@@ -28,13 +26,9 @@ page 50198 "HR Cue"
                     ApplicationArea = All;
                 }
             }
-
-
         }
     }
-
     actions { }
-
     trigger OnOpenPage()
     begin
         Rec.Reset;
@@ -42,14 +36,10 @@ page 50198 "HR Cue"
             Rec.Init;
             Rec.Insert;
         end;
-
         Setvisibility;
-
         HRSetup.Get;
         Rec.SetRange("Contract Expiry Date Filter", Today, CalcDate(HRSetup."Contract Expiry Days", Today));
-
         Rec.SetFilter("Expiry Check Date", '<=%1', Today);
-
         Employee.Reset;
         Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
         Employee.SetRange(Status, Employee.Status::Active);
@@ -61,8 +51,8 @@ page 50198 "HR Cue"
                     Employee.Modify;
                 end;
             until Employee.Next = 0;
-
-        Rec.SetFilter("Employee Filter", HRMgt.GetEmployeeNo());
+        if not HrMgt.IsSaaS() then
+            Rec.SetFilter("Employee Filter", HRMgt.GetEmployeeNo());
     end;
 
     var
@@ -75,7 +65,6 @@ page 50198 "HR Cue"
         OvertimeVisibility: Boolean;
         Resignationvisibility: Boolean;
         SalaryAdvVisibility: Boolean;
-
         AttendanceMissedVisibility: Boolean;
         HRSetup: Record "Human Resources Setup";
         PageTransferList: Page "Employee Transfer Requests";
@@ -89,7 +78,6 @@ page 50198 "HR Cue"
             Rec.SetFilter("User Filter", Employee."No.");
         // if not Employee.Screener then
         //     Rec.SetRange("Employee Filter", Employee."No.");
-
         // UserSetup.Reset;
         // UserSetup.SetRange("User ID", UserId);
         // if UserSetup.FindFirst then begin

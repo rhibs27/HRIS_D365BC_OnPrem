@@ -3,7 +3,6 @@ table 50135 "Encashment Request"
     //LEAVE ENCASHMENT,  OTHER ENCASHMENT CAN BE ADDED AS PER NEEDED...
     Caption = 'Encashment Request';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -17,7 +16,6 @@ table 50135 "Encashment Request"
         field(3; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';
-
         }
         field(4; "Leave Code"; Code[20])
         {
@@ -55,23 +53,18 @@ table 50135 "Encashment Request"
                     "Employee Name" := '';
             end;
         }
-
-
         field(10; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
         field(11; Remarks; text[100])
         {
-
         }
         field(12; "Rejection Remarks"; Text[50])
         {
-
         }
         field(14; "Cancelled Document No."; Code[20])
         {
-
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
@@ -82,14 +75,12 @@ table 50135 "Encashment Request"
         }
         field(39; Cancelled; Boolean)
         {
-
         }
         field(100; "Status"; Text[20])
         {
         }
         field(101; "Cancellation Remarks"; Text[50])
         {
-
         }
     }
     keys
@@ -106,7 +97,8 @@ table 50135 "Encashment Request"
         if "Posting Date" = 0D then
             "Posting Date" := WorkDate();
         if "Employee No." = '' then
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
         Validate("Approval Status", "Approval Status"::Pending);
         TestField(Type);
         HRSetup.Get;
@@ -120,13 +112,10 @@ table 50135 "Encashment Request"
                         EncashmentRequest.SetLoadFields("No.");
                         while EncashmentRequest.Get("No.") do
                             "No." := NoSeries.GetNextNo("No. Series");
-
                         if "Approval Status" <> "Approval Status"::Approved then
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
-
                     end;
             end;
-
         end;
     end;
 
