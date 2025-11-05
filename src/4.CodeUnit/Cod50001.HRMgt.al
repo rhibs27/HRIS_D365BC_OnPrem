@@ -4339,6 +4339,16 @@ codeunit 50001 "HR Mgt."
             exit(EngNep."Nepali Date");
     end;
 
+    procedure IsDashinTihar(CheckDate: date): Boolean
+    var
+        BaseCalenderchanges: Record "Base Calendar Change";
+    begin
+        BaseCalenderchanges.Reset();
+        BaseCalenderchanges.SetRange(Date, CheckDate);
+        BaseCalenderchanges.SetRange("Holiday Type", BaseCalenderchanges."Holiday Type"::"Dashain Tihar");
+        exit(BaseCalenderchanges.FindFirst());
+    end;
+
     procedure UpdateInsuranceFromHomeLoan(EmployeeLoanAdvance: Record "Employee Loan/Advance")
     var
         EmployeeInsuranceInformation: Record "Employee Insurance Information";

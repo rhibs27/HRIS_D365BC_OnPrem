@@ -201,27 +201,6 @@ page 50320 "Employee Insurance Card"
                     Message('Request Sent');
                 end;
             }
-            action(Screen)
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = Approve;
-                PromotedCategory = Process;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Screen action.';
-                Visible = false;
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to screen this insurance?', false) then
-                        exit;
-                    Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
-                    CheckPremiumInsurance(Rec."Employee No.");
-                    Rec.Validate("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.Modify;
-                    Message('Request Screened');
-                end;
-            }
             action("Approve Request")
             {
                 Image = Approve;
@@ -250,14 +229,12 @@ page 50320 "Employee Insurance Card"
                 PromotedCategory = Process;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Return Request action.';
-                Visible = false;
+                Visible = IsPending;
                 trigger OnAction()
                 begin
                     if not Confirm('Do you want to return this insurance?', false) then
                         exit;
-                    Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
-                    Rec.Validate("Approval Status", Rec."Approval Status"::Open);
-                    Rec.Modify;
+                    ApprovalMgt.ReopenDocument(RecRef);
                     Message('Request Returned');
                 end;
             }
@@ -283,22 +260,6 @@ page 50320 "Employee Insurance Card"
                     end;
                 end;
             }
-            // action("Reject Request")
-            // {
-            //     ApplicationArea = All;
-            //     Promoted = true;
-            //     PromotedIsBig = true;
-            //     Image = Reject;
-            //     PromotedCategory = Process;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the Reject Request action.';
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want reject the request?', false) then
-            //             Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
-            //         Message('The Employee Insurance request has been rejected.');
-            //     end;
-            // }
         }
     }
     trigger OnOpenPage()

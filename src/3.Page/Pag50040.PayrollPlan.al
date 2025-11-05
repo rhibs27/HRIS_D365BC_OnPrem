@@ -350,24 +350,24 @@ page 50040 "Payroll Plan"
                     Promoted = true;
                     PromotedCategory = Category4;
                     PromotedIsBig = true;
-                    Visible = AjustmentVisible;
+                    Visible = false;
                     ToolTip = 'Executes the 1. Import OT Employee action.';
                     ApplicationArea = All;
 
                     trigger OnAction()
                     begin
-                        Rec.TestField(Type, Rec.Type::Adjustment);
-                        Rec.TestField("OverTime From");
-                        Rec.TestField("OverTime To");
-                        if (Rec."Encashment Code" = '') and (Rec."Encashment Period" = Rec."Encashment Period"::" ") then
-                            Error(Text002);
-                        if not Confirm(Text001, false) then
-                            exit;
-                        if Rec."Encashment Code" <> '' then
-                            PayrollEngine.ImportOTEmployeeEncashCode(Rec);
+                        // Rec.TestField(Type, Rec.Type::Adjustment);
+                        // Rec.TestField("OverTime From");
+                        // Rec.TestField("OverTime To");
+                        // if (Rec."Encashment Code" = '') and (Rec."Encashment Period" = Rec."Encashment Period"::" ") then
+                        //     Error(Text002);
+                        // if not Confirm(Text001, false) then
+                        //     exit;
+                        // if Rec."Encashment Code" <> '' then
+                        //     PayrollEngine.ImportOTEmployeeEncashCode(Rec);
 
-                        if Rec."Encashment Period" <> Rec."Encashment Period"::" " then
-                            PayrollEngine.ImportOTEmployeeEncashPeriod(Rec);
+                        // if Rec."Encashment Period" <> Rec."Encashment Period"::" " then
+                        //     PayrollEngine.ImportOTEmployeeEncashPeriod(Rec);
                     end;
                 }
                 action("Update OT Amount")
@@ -377,18 +377,18 @@ page 50040 "Payroll Plan"
                     Promoted = true;
                     PromotedCategory = Category4;
                     PromotedIsBig = true;
-                    Visible = AjustmentVisible;
+                    Visible = false;
                     ToolTip = 'Executes the 2. Update OT Amount action.';
                     ApplicationArea = All;
 
                     trigger OnAction()
                     begin
-                        if (Rec."Encashment Code" = '') and (Rec."Encashment Period" = Rec."Encashment Period"::" ") then
-                            Error(Text002);
-                        if Rec."Encashment Code" <> '' then
-                            PayrollEngine.UpdateOTAmountEncashCode(Rec);
-                        if Rec."Encashment Period" <> Rec."Encashment Period"::" " then
-                            PayrollEngine.UpdateOTAmountEncashPeriod(Rec);
+                        // if (Rec."Encashment Code" = '') and (Rec."Encashment Period" = Rec."Encashment Period"::" ") then
+                        //     Error(Text002);
+                        // if Rec."Encashment Code" <> '' then
+                        //     PayrollEngine.UpdateOTAmountEncashCode(Rec);
+                        // if Rec."Encashment Period" <> Rec."Encashment Period"::" " then
+                        //     PayrollEngine.UpdateOTAmountEncashPeriod(Rec);
                     end;
                 }
             }

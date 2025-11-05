@@ -117,7 +117,9 @@ table 50141 OverTime
                     Clear("Start Date (BS)");
                 if type = type::Overtime then begin
                     EmployeeAttendance.Reset;
-                    if EmployeeAttendance.get("Employee No.", "Start Date") then begin
+                    EmployeeAttendance.SetRange("Employee No.", "Employee No.");
+                    EmployeeAttendance.SetRange("Attendance Date", "Start Date");
+                    if EmployeeAttendance.FindFirst() then begin
                         if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
                             Error('No punch in or punch out found.');
                         end
@@ -241,7 +243,8 @@ table 50141 OverTime
             DataClassification = ToBeClassified;
             trigger OnValidate()
             begin
-                TestField("Start Date");
+                if Type = Type::Overtime then
+                    TestField("Start Date");
                 if "Overtime Claim Type" <> xRec."Overtime Claim Type" then begin
                     Clear("Compensatory Days");
                     Clear("OT Amount");
