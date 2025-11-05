@@ -49198,6 +49198,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report HR Job Queue - Control Send Training Mail - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 4270031851 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Employee Payroll Plan</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Import Employee Payroll Plan - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 3792353121 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Attribute Import</source>
           <note from="Developer" annotates="general" priority="2"></note>

@@ -1471,17 +1471,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     var
                         FilterPageBuilder: FilterPageBuilder;
-                        Allowanceconfig: Record "Allowance Configuration";
+                        Allowanceconfig: Record "Assignment Memo Header";
                         AllowanceType: Code[20];
                         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                     begin
                         FilterPageBuilder.AddRecord('Select Allowance Type', Allowanceconfig);
-                        FilterPageBuilder.ADdField('Select Allowance Type', Allowanceconfig."Payroll Attribute");
+                        FilterPageBuilder.ADdField('Select Allowance Type', Allowanceconfig."Payroll Attribute Code");
                         if FilterPageBuilder.RunModal then begin
                             Allowanceconfig.SetView(FilterPageBuilder.GetView('Select Allowance Type'));
-                            if Allowanceconfig.GetFilter("Payroll Attribute") = '' then
+                            if Allowanceconfig.GetFilter("Payroll Attribute Code") = '' then
                                 Error('Allowance Type must have value');
-                            AllowanceType := Allowanceconfig.GetFilter("Payroll Attribute");
+                            AllowanceType := Allowanceconfig.GetFilter("Payroll Attribute Code");
                         end else
                             if AllowanceType = '' then
                                 Error('Allowance Type must have value');

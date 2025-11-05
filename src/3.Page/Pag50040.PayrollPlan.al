@@ -293,8 +293,13 @@ page 50040 "Payroll Plan"
                     ApplicationArea = All;
 
                     trigger OnAction()
+                    var
+                        ImportEmployeePayrollPlanReport: Report "Import Employee Payroll Plan";
                     begin
-                        Rec.ImportEmployee;
+                        if not Confirm('Do you want to import employees in Employee Payroll Plan? Existing lines will be deleted.', false) then
+                            exit;
+                        ImportEmployeePayrollPlanReport.SetPayrollHeader(Rec);
+                        ImportEmployeePayrollPlanReport.RunModal();
                     end;
                 }
 
