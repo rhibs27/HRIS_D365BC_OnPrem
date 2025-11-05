@@ -343,10 +343,10 @@ table 50024 "Payroll General Setup"
             TableRelation = "Payroll Attributes".Code;
         }
         field(97; "Allowance Email Days"; Integer) { }
-        field(98; "Default Work Shift"; Code[20])
-        {
-            TableRelation = "Employee Work Shift";
-        }
+        // field(98; "Default Work Shift"; Code[20])
+        // {
+        //     TableRelation = "Employee Work Shift";
+        // }
         field(99; "Relocation Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes";
@@ -456,6 +456,10 @@ table 50024 "Payroll General Setup"
             TableRelation = "No. Series";
         }
         field(151; "Request Allowance Nos"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(152; "Shift Assignment Memo Nos"; Code[20])
         {
             TableRelation = "No. Series";
         }

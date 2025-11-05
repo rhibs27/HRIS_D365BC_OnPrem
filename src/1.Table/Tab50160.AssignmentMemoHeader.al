@@ -22,6 +22,11 @@ table 50160 "Assignment Memo Header"
                                 NoSeriesMgt.TestManual(PGSetup."Request Allowance Nos");
                                 "No. Series" := '';
                             end;
+                        "Activity Type"::"Shift Assignment Memo":
+                            begin
+                                NoSeriesMgt.TestManual(PGSetup."Shift Assignment Memo Nos");
+                                "No. Series" := '';
+                            end;
                     end;
             end;
 
@@ -234,6 +239,17 @@ table 50160 "Assignment Memo Header"
                         TempAssignmentmemoHdr.Insert();
                         Recordref.GetTable(TempAssignmentmemoHdr);
                         ApproverMgt.InsertApprovalWithRecordref("Employee No.", "No.", "Activity Type", "Approval Status", Recordref);
+                    end;
+                "Activity Type"::"Shift Assignment Memo":
+                    begin
+                        PGSetup.TestField("Shift Assignment Memo Nos");
+                        HRMgt.InitNoSeriesNew(PGSetup."Shift Assignment Memo Nos", "No.", "Document Date", "No.", "No. Series");
+                        AssignmentMemoHdr.ReadIsolation(IsolationLevel::ReadCommitted);
+                        AssignmentMemoHdr.SetLoadFields("No.");
+                        while AssignmentMemoHdr.Get("No.") do
+                            "No." := NoSeriesMgt.GetNextNo("No. Series");
+
+                        ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type", "Approval Status");
                     end;
             end;
 

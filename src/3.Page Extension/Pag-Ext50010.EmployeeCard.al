@@ -2344,17 +2344,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     var
-        WorkShift: Record "Work Shift";
+        EmployeeWorkShift: Record "Employee Work Shift";
     begin
-        PGSetup.GET;
-        PGSetup.TestField("Default Work Shift");
-        Rec.VALIDATE("Employee Work Shift", PGSetup."Default Work Shift");
-    end;
-
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        // IF NOT Rec.Saved THEN
-        //     ERROR('Employee Card must be saved first');
+        EmployeeWorkShift.SetRange("Default Employee Type", Rec."Employment Type");
+        if EmployeeWorkShift.FindFirst() then
+            Rec."Employee Work Shift" := EmployeeWorkShift.Code
+        else begin
+            EmployeeWorkShift.Reset();
+            EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
+            if EmployeeWorkShift.FindFirst() then
+                Rec."Employee Work Shift" := EmployeeWorkShift.Code;
+        end;
     end;
 
     local procedure SetFieldEnable();

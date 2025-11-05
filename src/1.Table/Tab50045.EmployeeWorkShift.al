@@ -60,6 +60,11 @@ table 50045 "Employee Work Shift"
         {
             DataClassification = ToBeClassified;
         }
+        field(20; "Default Employee Type"; Enum "Employee Type")
+        {
+            Caption = 'Default Employee Type';
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

@@ -7088,6 +7088,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 1558600459 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Default Employee Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Default Employee Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2137842149 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12152,11 +12157,6 @@
           <source>Dashain Start Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Dashain Start Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3915598104 - Field 3350353054 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Default Work Shift</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Default Work Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3844311027 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Distributable Amt. for Statuto</source>
@@ -29488,6 +29488,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 1558600459 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Default Employee Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Default Employee Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2137842149 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36907,11 +36912,6 @@
           <source>Specifies the value of the Dashain Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Dashain Start Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3915598104 - Control 3350353054 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Default Work Shift field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Default Work Shift - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3844311027 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Distributable Amt. for Statutory Bonus field.</source>

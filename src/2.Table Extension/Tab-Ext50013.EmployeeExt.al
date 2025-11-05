@@ -506,6 +506,24 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50047; "Employment Type"; enum "Employee Type")
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                EmployeeWorkShift: Record "Employee Work Shift";
+                IsHandled: Boolean;
+            begin
+                OnValidateEmploymentType(Rec, xRec, IsHandled);
+                if IsHandled then
+                    exit;
+                EmployeeWorkShift.SetRange("Default Employee Type", Rec."Employment Type");
+                if EmployeeWorkShift.FindFirst() then
+                    Rec."Employee Work Shift" := EmployeeWorkShift.Code
+                else begin
+                    EmployeeWorkShift.Reset();
+                    EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
+                    if EmployeeWorkShift.FindFirst() then
+                        Rec."Employee Work Shift" := EmployeeWorkShift.Code;
+                end;
+            end;
         }
         field(50048; "Province Name"; Text[50])
         {
@@ -1855,5 +1873,10 @@ tableextension 50013 "Employee Ext" extends Employee
             DefaultDimension."Dimension Value Code" := '';
             DefaultDimension.Modify();
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnValidateEmploymentType(var Rec: Record "Employee"; var xRec: Record "Employee"; var IsHandled: Boolean)
+    begin
     end;
 }

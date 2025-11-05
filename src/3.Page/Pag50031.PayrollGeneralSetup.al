@@ -128,11 +128,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Approval Grace Period field.';
                     ApplicationArea = All;
                 }
-                field("Default Work Shift"; Rec."Default Work Shift")
-                {
-                    ToolTip = 'Specifies the value of the Default Work Shift field.';
-                    ApplicationArea = All;
-                }
+                // field("Default Work Shift"; Rec."Default Work Shift")
+                // {
+                //     ToolTip = 'Specifies the value of the Default Work Shift field.';
+                //     ApplicationArea = All;
+                // }
                 field("Allowance Email Days"; Rec."Allowance Email Days")
                 {
                     ToolTip = 'Specifies the value of the Allowance Email Days field.';
@@ -782,6 +782,11 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Request Allowance Nos field.', Comment = '%';
                 }
+                field("Shift Assignment Memo Nos"; Rec."Shift Assignment Memo Nos")
+                {
+                    ToolTip = 'Specifies the value of the Shift Assignment Memo Nos field.', Comment = '%';
+                }
+
             }
             part(PayrollSetupLines; "Payroll Setup Lines")
             {
