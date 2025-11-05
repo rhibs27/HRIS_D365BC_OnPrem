@@ -49,7 +49,7 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
             field("GPA Scale"; Rec."GPA Scale")
             {
                 ApplicationArea = All;
-                ToolTip = 'Specifies whether the institute is foreign or not.';
+                ToolTip = 'Specifies the value of the GPA Scale field.';
             }
             field(Stream; Rec.Stream)
             {
