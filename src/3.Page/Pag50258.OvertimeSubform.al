@@ -83,7 +83,8 @@ page 50258 "Overtime Subform"
     begin
         if not GuiAllowed then
             if Overtime.Get(rec."No.") then
-                if not (Overtime."Employee No." = HRMgt.GetEmployeeNo()) then
-                    Error('Auth Error');
+                if not HrMgt.IsSaaS() then
+                    if not (Overtime."Employee No." = HRMgt.GetEmployeeNo()) then
+                        Error('Auth Error');
     end;
 }

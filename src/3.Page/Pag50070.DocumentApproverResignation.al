@@ -4,7 +4,6 @@ page 50070 "Document Approver Resignation"
     PageType = ListPart;
     SourceTable = "Document Approver";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -62,7 +61,6 @@ page 50070 "Document Approver Resignation"
             }
         }
     }
-
     actions
     {
         area(Processing)
@@ -73,11 +71,11 @@ page 50070 "Document Approver Resignation"
                 Visible = Rec."Approval Status" = Rec."Approval Status"::Rejected;
                 ToolTip = 'Executes the Return Rejected action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to return rejected record?', false) then begin
-                        Employee.Get(HRMgt.GetEmployeeNo);
+                        if not HrMgt.IsSaaS() then //garima
+                            Employee.Get(HRMgt.GetEmployeeNo);
                         // if not Employee.Screener then
                         //     Error('You are not eligible.');
                         Rec."Approval Status" := Rec."Approval Status"::Open;

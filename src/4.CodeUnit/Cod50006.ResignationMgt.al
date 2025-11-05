@@ -54,39 +54,30 @@ codeunit 50006 "Resignation Mgt"
         Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected);
         if Resignation.FindFirst then
             Error('Employee %1 has already send request for resignation', Resignation."Employee Name");
-
         TempResignation.TestField("Proposed Date of Resignation");
         TempResignation.TestField("Reason for Resignation");
         TempResignation.TestField("Reason Code");
-
         Clear(Resignation);
         Resignation.Reset;
         Resignation.Init;
         Resignation.TransferFields(TempResignation);
         Resignation.Validate("Approval Status", Resignation."Approval Status"::"Pending");
         Resignation.Validate("User ID", UserId);
-
         Employee.Get(Resignation."Employee No.");
         //EmpAct.VALIDATE("Recommender Code", Employee."Recommender Code");
         // Resignation.Validate("Approver Code", HrMgt.GetHrHead());
-
         // if Resignation."Recommender Code" = '' then
         //     Error(NoRecommender, Resignation.FieldCaption("Recommender Code"));
-
         if Resignation."Requested Date" = 0D then
             Resignation."Requested Date" := Today;
-
         //Resignation."Supervisor Proposed Date" := Resignation."Proposed Date of Resignation";
         Resignation."HR Proposed Date" := Resignation."Proposed Date of Resignation";
-
         Resignation.Insert(true);
-
         //HrMgt.InsertAttachmentLines(Resignation."No.", Format(Resignation.Type), Resignation."Employee No.");//attachment
         // InsertResignationApprover(Resignation); //resignation approver
-
         HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.", false);   //For email
         // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::Pending) then
-        //     HrMgt.ResignationEmailSend(Resignation."Employee No."); 
+        //     HrMgt.ResignationEmailSend(Resignation."Employee No.");
         Message(ApprovalRequestSent);
         exit(true);
     end;
@@ -136,7 +127,8 @@ codeunit 50006 "Resignation Mgt"
         FunctionalTitle: Record "Functional Title";
     begin
         //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo());
+        if not HrMgt.IsSaaS() then
+            Employee.Get(HrMgt.GetEmployeeNo());
         if Resignation.Type = Resignation.Type::Resignation then begin
             // if not Employee.Screener then           //resignation approver replaced with screener
             //     Error('Not authorized screener.');
@@ -146,7 +138,6 @@ codeunit 50006 "Resignation Mgt"
             CheckResignationAttachmentMandatory(Resignation);
             if not Confirm(ConfirmScreen, false) then
                 exit;
-
             // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
             Resignation.Modify;
         end
@@ -161,18 +152,15 @@ codeunit 50006 "Resignation Mgt"
                 Error('Approval Status must be approved before screening.');
             if not Confirm(ConfirmScreen, false) then
                 exit;
-
             // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
             Resignation.Modify;
         end else if Resignation.Type = Resignation.Type::Overtime then begin
             Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
             if not Confirm(ConfirmScreen, false) then
                 exit;
-
             // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
             Resignation.Modify;
         end;
-
     end;
 
     procedure ForwardToHRForResignation(var Resignation: Record "Resignation")
@@ -180,7 +168,8 @@ codeunit 50006 "Resignation Mgt"
         ConfirmScreen: Label 'Do you want to confirm screen this document?';
     begin
         //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo());
+        if not HrMgt.IsSaaS() then// garima
+            Employee.Get(HrMgt.GetEmployeeNo());
         if not (Employee."No." = Resignation."Employee No.") then
             Error('Only employee %1 can forward this document to HR.', Resignation."Employee Name");
         HrMgt.CheckDocumentApprover(Resignation."No.");
@@ -209,17 +198,14 @@ codeunit 50006 "Resignation Mgt"
                     HRSetup.TestField("Resignation Period Probation");
                     ResignationDays := HRSetup."Resignation Period Probation";
                 end;
-
             Employee."Employment Type"::Permanent:
                 begin
                     HRSetup.TestField("Resignation Period Permanent");
                     ResignationDays := HRSetup."Resignation Period Permanent";
                 end;
         end;
-
         if Resignation."Requested Date" = 0D then
             Resignation."Requested Date" := Today;
-
         if (Resignation."Proposed Date of Resignation" - Resignation."Requested Date" + 1) >= ResignationDays then
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Normal)
         else
@@ -231,7 +217,6 @@ codeunit 50006 "Resignation Mgt"
         AttachmentSetup: Record "Attachment Setup";
         IncomingDocument: Record "Incoming Document";
     begin
-
         IncomingDocument.Reset;
         IncomingDocument.SetRange("No.", Resignation."No.");
         IncomingDocument.SetRange("File Name", '');
@@ -243,7 +228,6 @@ codeunit 50006 "Resignation Mgt"
                 AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
                 if AttachmentSetup.FindFirst then
                     Error('Upload attachment for %1', IncomingDocument."Attachment Code");
-
             until IncomingDocument.Next = 0;
     end;
 
@@ -277,7 +261,6 @@ codeunit 50006 "Resignation Mgt"
         end;
     end;
 
-
     procedure ApproveResignation(resignationCode: Code[100])
     var
         Resignation: Record Resignation;
@@ -287,7 +270,6 @@ codeunit 50006 "Resignation Mgt"
         InsertResignationApprover(Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
         ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
-
     end;
 
     var

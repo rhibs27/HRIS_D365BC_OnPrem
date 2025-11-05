@@ -3,13 +3,11 @@ table 50099 "Employee Insurance Information"
     DataClassification = CustomerContent;
     LookupPageId = "Employee Insurance Lists";
     DrillDownPageId = "Employee Insurance Lists";
-
     fields
     {
         field(1; "Insurance No."; Code[20])
         {
             Editable = false;
-
             trigger OnValidate()
             begin
                 if "Insurance No." <> '' then begin
@@ -51,7 +49,6 @@ table 50099 "Employee Insurance Information"
                     Clear("Insurance Company Name");
             end;
         }
-
         field(6; "Insurance Company Name"; Text[50])
         {
             Editable = false;
@@ -124,7 +121,6 @@ table 50099 "Employee Insurance Information"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-
         }
         field(18; "Is Home Loan TieUp"; Boolean) { }
         field(19; "Requested Date"; Date)
@@ -135,7 +131,6 @@ table 50099 "Employee Insurance Information"
         {
         }
         field(21; Remarks; Text[250]) { }
-
         field(22; "Premium Paid By"; enum "Premium Paid By")
         {
             Caption = 'Premium Paid By';
@@ -154,19 +149,17 @@ table 50099 "Employee Insurance Information"
         //     {
         //     }
     }
-
     keys
     {
         key(Key1; "Insurance No.") { }
     }
-
     fieldgroups { }
-
     trigger OnInsert()
     begin
         "Requested Date" := Today;
         if not GuiAllowed then begin
-            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", Hrmgt.GetEmployeeNo());
             "Approval Status" := "Approval Status"::Pending;
             Validate(Type, Rec.Type::Insurance);
         end;
@@ -228,7 +221,7 @@ table 50099 "Employee Insurance Information"
 
     // trigger OnModify()
     // begin
-    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then 
+    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then
     //         LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
     //     if not GuiAllowed then
     //         if "Approval Status" = "Approval Status"::Open then
@@ -239,7 +232,6 @@ table 50099 "Employee Insurance Information"
     IF EmpInsurance.FindFirst() THEN
 //       ERROR(Text019,Rec."Policy Number",EmpInsurance."Insurance No.");*/
     // end;
-
     var
         NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";

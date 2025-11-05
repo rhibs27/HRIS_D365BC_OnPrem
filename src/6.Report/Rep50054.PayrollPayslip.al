@@ -1,12 +1,10 @@
 report 50054 "Payroll Payslip"
 {
     // version PRM19.01.01
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019855.PayrollPayslip.rdl';
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
-
     dataset
     {
         dataitem(ReportHeader; "Integer")
@@ -106,7 +104,6 @@ report 50054 "Payroll Payslip"
                         DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter("Basic Earning" | "Other Earnings"), "Attribute Sub Type" = filter(<> "Tax on Interest"));
                         column(Benefits_PayrollAttributeCode; AttributeDescription) { }
                         column(Benefits_Amount; Amount) { }
-
                         trigger OnAfterGetRecord()
                         begin
                             AttributeDescription := '';
@@ -120,16 +117,13 @@ report 50054 "Payroll Payslip"
                         DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter(Deduction | "Tax Credit"), "Attribute Sub Type" = filter(<> "Tax on Interest" & <> "Lump Sum Contribution"));
                         column(Deductions_PayrollAttributeCode; AttributeDescription) { }
                         column(Deductions_Amount; Amount) { }
-
                         trigger OnAfterGetRecord()
                         begin
                             AttributeDescription := '';
-
                             if PayrollAttributes.Get("Payroll Attribute Code") then
                                 AttributeDescription := PayrollAttributes.Description;
                         end;
                     }
-
                     trigger OnAfterGetRecord()
                     begin
                         NetPayAmount += Amount;
@@ -144,7 +138,6 @@ report 50054 "Payroll Payslip"
                             EmployeeLedgerDetails.SetRange("Employee No.", EmployeeNo);
                     end;
                 }
-
                 trigger OnAfterGetRecord()
                 begin
                     NetPayAmount := 0;
@@ -155,9 +148,7 @@ report 50054 "Payroll Payslip"
                     Clear(DeputationOnValue);
                     Clear(Grade);
                     Clear(FunctionalTitledesc);
-
                     if Employee.Get("Employee No.") then;
-
                     PostedPayrollLine.Reset;
                     PostedPayrollLine.SetRange("Document No.", EmployeeLedger."Document No.");
                     PostedPayrollLine.SetRange("Employee No.", EmployeeLedger."Employee No.");
@@ -167,10 +158,8 @@ report 50054 "Payroll Payslip"
                         Grade := PostedPayrollLine."Salary Grade";
                         if SalaryLevel.Get(PostedPayrollLine."Salary Level") then;
                     end;
-
                     if FunctionalTitle.Get(PostedPayrollLine."Functional Title") then
                         FunctionalTitledesc := FunctionalTitle.Description;
-
                     PayPeriod := EnglishNepaliDate.getNepaliMonth("Pay Period Start Date") + ', ' + Format(EnglishNepaliDate.getNepaliYear("Pay Period Start Date"));
                     Dim1Code := '';
                     Dim2Code := '';
@@ -195,7 +184,6 @@ report 50054 "Payroll Payslip"
             }
         }
     }
-
     requestpage
     {
         layout
@@ -225,21 +213,17 @@ report 50054 "Payroll Payslip"
                 }
             }
         }
-
         actions { }
     }
-
     labels
     {
         ReportCaption = 'PAY SLIP';
     }
-
     trigger OnPreReport()
     begin
         GLSetup.Get;
         CompanyInfo.Get;
         PGSetup.Get;
-
         CompanyInfo.CalcFields(Picture);
         FormatAddr.Company(CompanyAddr, CompanyInfo);
         GetCompanyOneLineAddress;
@@ -247,7 +231,6 @@ report 50054 "Payroll Payslip"
             Error('Please enter year');
         if Months = Months::" " then
             Error('Please enter months');
-
         EngNepDate.Reset;
         EngNepDate.SetRange("Nepali Year", NepaliYear);
         EngNepDate.SetRange("Nepali Month", Months);
@@ -333,10 +316,8 @@ report 50054 "Payroll Payslip"
             CompanyOneLineAddress := OneLineAddress(CompanyAddr) + ', ' + CompanyInfo.FieldCaption("Phone No.") + ' : ' + CompanyInfo."Phone No."
         else
             CompanyOneLineAddress := OneLineAddress(CompanyAddr);
-
         if CompanyInfo."Fax No." <> '' then
             CompanyCommunicationAddress := CompanyInfo.FieldCaption("Fax No.") + ' : ' + CompanyInfo."Fax No.";
-
         if CompanyInfo."E-Mail" <> '' then begin
             if (CompanyCommunicationAddress <> '') then
                 CompanyCommunicationAddress += ', ' + CompanyInfo.FieldCaption("E-Mail") + ' : ' + CompanyInfo."E-Mail"
@@ -360,7 +341,6 @@ report 50054 "Payroll Payslip"
         Clear(NoText);
         NoTextIndex := 1;
         NoText[1] := '';
-
         if No < 1 then
             AddToNoText(NoText, NoTextIndex, PrintExponent, Text026)
         else begin
@@ -394,16 +374,13 @@ report 50054 "Payroll Payslip"
                     No := No - (Hundreds * 100 + Tens * 10 + Ones) * Power(1000, Exponent - 1);
             end;
         end;
-
         if CurrencyCode <> '' then begin
             Currency.Get(CurrencyCode);
             AddToNoText(NoText, NoTextIndex, PrintExponent, '');
         end else
             AddToNoText(NoText, NoTextIndex, PrintExponent, 'RUPEES');
-
         AddToNoText(NoText, NoTextIndex, PrintExponent, Text028);
         // AddToNoText(NoText,NoTextIndex,PrintExponent,FORMAT(No * 100) + '/100');
-
         TensDec := ((No * 100) mod 100) div 10;
         OnesDec := (No * 100) mod 10 div 1;
         if TensDec >= 2 then begin
@@ -424,13 +401,11 @@ report 50054 "Payroll Payslip"
     local procedure AddToNoText(var NoText: array[2] of Text[80]; var NoTextIndex: Integer; var PrintExponent: Boolean; AddText: Text[30])
     begin
         PrintExponent := true;
-
         while StrLen(NoText[NoTextIndex] + ' ' + AddText) > MaxStrLen(NoText[1]) do begin
             NoTextIndex := NoTextIndex + 1;
             if NoTextIndex > ArrayLen(NoText) then
                 Error(Text029, AddText);
         end;
-
         NoText[NoTextIndex] := DelChr(NoText[NoTextIndex] + ' ' + AddText, '<');
     end;
 
@@ -455,7 +430,6 @@ report 50054 "Payroll Payslip"
         OnesText[17] := Text048;
         OnesText[18] := Text049;
         OnesText[19] := Text050;
-
         TensText[1] := '';
         TensText[2] := Text051;
         TensText[3] := Text052;
@@ -465,7 +439,6 @@ report 50054 "Payroll Payslip"
         TensText[7] := Text056;
         TensText[8] := Text057;
         TensText[9] := Text058;
-
         ExponentText[1] := '';
         ExponentText[2] := Text059;
         ExponentText[3] := Text1280000;
@@ -523,21 +496,18 @@ report 50054 "Payroll Payslip"
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, DeputationCodeVar) then
                         exit(OrganizationStructureList.Name);
                 end;
-
             DeputationOnOpt::Department:
                 begin
                     OrganizationStructureList.Reset();
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, DeputationCodeVar) then
                         exit(OrganizationStructureList.Name);
                 end;
-
             DeputationOnOpt::"Extension Counter":
                 begin
                     OrganizationStructureList.Reset();
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", DeputationCodeVar) then
                         exit(OrganizationStructureList.Name);
                 end;
-
             // DeputationOnOpt::"Sub Province":
             //     begin
             //         SubProvince.Reset;
@@ -545,14 +515,12 @@ report 50054 "Payroll Payslip"
             //         if SubProvince.FindFirst then
             //             exit(SubProvince.City);
             //     end;
-
             DeputationOnOpt::Unit:
                 begin
                     OrganizationStructureList.Reset();
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, DeputationCodeVar) then
                         exit(OrganizationStructureList.Name);
                 end;
-
             DeputationOnOpt::Province:
                 begin
                     OrganizationStructureList.Reset();

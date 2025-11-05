@@ -19,7 +19,6 @@ table 50092 "Allowance Assignment Header"
                             end;
                     end;
             end;
-
         }
         field(2; "Activity Type"; Enum "Employee Activity Type")
         {
@@ -32,15 +31,14 @@ table 50092 "Allowance Assignment Header"
             else if (Type = filter("Deputation Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"))
             else if (Type = filter("Deputation Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
             else if (Type = filter("Deputation Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::Unit));
-
             trigger OnValidate()
             begin
                 GLsetup.Get;
                 Clear(Name);
-                if not GuiAllowed then
-                    Employee.Get(HrMgt.GetEmployeeNo())
-                else
-                    Employee.Get("Employee No.");
+                if "Employee No." = '' then
+                    if not HrMgt.IsSaaS() then
+                        "Employee No." := HrMgt.GetEmployeeNo();
+                Employee.Get("Employee No.");
                 if Type = Type::Branch then begin
                     if Code <> '' then
                         TestField(Code, Employee."Branch Code");
@@ -87,7 +85,6 @@ table 50092 "Allowance Assignment Header"
         {
             trigger OnValidate()
             begin
-
                 TestField("From Date");
                 if "From Date" > "To date" then
                     Error('Invalid date.');
@@ -109,7 +106,6 @@ table 50092 "Allowance Assignment Header"
         field(8; "Created By"; Code[50]) { }
         field(9; "Last Modified Date"; Date) { }
         field(10; "Last Modified By"; Code[50]) { }
-
         field(12; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -133,7 +129,6 @@ table 50092 "Allowance Assignment Header"
                     if not AllowanceAssignmentLine.FindFirst() then
                         Error('Allowance Assignment Line Not Found');
                 end;
-
             end;
         }
         field(19; "Fiscal Year"; text[10])
@@ -186,14 +181,11 @@ table 50092 "Allowance Assignment Header"
         {
         }
     }
-
     keys
     {
         key(Key1; "No.") { }
     }
-
     fieldgroups { }
-
     trigger OnDelete()
     var
         CannotDelete: Label 'Cannot delete document.';
@@ -214,8 +206,9 @@ table 50092 "Allowance Assignment Header"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
-        if not GuiAllowed then
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+        if "Employee No." = '' then
+            if (not GuiAllowed) and (not HrMgt.IsSaaS()) then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
         HRSetup.Get;
         if "No." = '' then
             case "Activity Type" of
@@ -244,7 +237,6 @@ table 50092 "Allowance Assignment Header"
         ApproverMgt: Codeunit "Approver Mgt";
         GLsetup: Record "General Ledger Setup";
         AllowanceHeader: Record "Allowance Assignment Header";
-
     // procedure CheckForExistingDate()
     // begin
     //     AllowanceHeader.Reset;

@@ -8,7 +8,6 @@ table 50110 "Document Approver"
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 EmpRec.Get("Employee No.");
@@ -28,8 +27,6 @@ table 50110 "Document Approver"
         }
         field(6; "Approval Status"; enum "Approval Status")
         {
-
-
             trigger OnValidate()
             begin
                 UpdateApprovalStatus();
@@ -45,23 +42,21 @@ table 50110 "Document Approver"
             trigger OnValidate()
             begin
                 if "Employee Type" = "Employee Type"::"Initiated By" then
-                    Validate("Employee No.", HRMgt.GetEmployeeNo());
+                    if "Employee No." = '' then
+                        if not HrMgt.IsSaaS() then
+                            Validate("Employee No.", HRMgt.GetEmployeeNo());
             end;
         }
         field(10; "Document Type"; Enum "Document Approver Doc. Type")
         {
-
         }
         field(11; "Rejection Remarks"; Text[100]) { }
     }
-
     keys
     {
         key(Key1; "Document No.", "Line No.") { }
     }
-
     fieldgroups { }
-
     trigger OnInsert()
     begin
         GetLineNo();
@@ -85,13 +80,17 @@ table 50110 "Document Approver"
     end;
 
     local procedure UpdateApprovalStatus()
+    begin
+        UpdateApprovalStatus(HRMgt.GetEmployeeNo());
+    end;
+
+    local procedure UpdateApprovalStatus(empno: code[20])
     var
         Unauthorized: Label 'Not authorized.';
     begin
         if GuiAllowed then
             if "Employee No." <> HRMgt.GetEmployeeNo() then
                 Error(Unauthorized);
-
         IF "Approval Status" = "Approval Status"::Approved THEN
             Validate("Approved Date", Today);
     end;

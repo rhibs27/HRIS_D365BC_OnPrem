@@ -2,7 +2,6 @@ table 50002 "Language Proficiency"
 {
     Caption = 'Language Proficiency';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "Employee Code"; Code[20])
@@ -47,6 +46,11 @@ table 50002 "Language Proficiency"
         field(7; Typing; Enum "Language Rating")
         {
             Caption = 'Typing';
+        }
+        field(301; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
         }
     }
     keys

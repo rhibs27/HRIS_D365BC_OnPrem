@@ -116,9 +116,6 @@ page 50092 "Travel Request Form"
                     Caption = 'Travel Country';
                     ToolTip = 'Specifies the value of the Travel Country field.';
                     ApplicationArea = All;
-
-
-
                     trigger OnValidate()
                     begin
                         EstimatedFieldEditable := Rec."Travel Countries" = Rec."Travel Countries"::"Other Countries";
@@ -140,7 +137,6 @@ page 50092 "Travel Request Form"
                     ToolTip = 'Specifies the value of the Payment From field.';
                     ApplicationArea = All;
                     Visible = false;
-
                     trigger OnValidate()
                     begin
                         CurrPage.Update;
@@ -199,11 +195,8 @@ page 50092 "Travel Request Form"
                 {
                     ToolTip = 'Specifies the currency Code';
                     ApplicationArea = All;
-                    //anupam
                     // Editable = ((Rec."Approval Status" = Rec."Approval Status"::Open) and (rec."Travel Countries" <> rec."Travel Countries"::Nepal));
-
                 }
-
                 field("Advance Cash Required"; Rec."Advance Cash Required")
                 {
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
@@ -257,7 +250,6 @@ page 50092 "Travel Request Form"
             // }
         }
     }
-
     actions
     {
         area(Processing)
@@ -271,7 +263,6 @@ page 50092 "Travel Request Form"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Apply Travel Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     TravelMgt.ApplyForTravel(Rec);
@@ -281,7 +272,6 @@ page 50092 "Travel Request Form"
             }
         }
     }
-
     trigger OnAfterGetRecord()
     begin
         FieldEditable := Rec."Payment From" = Rec."Payment From"::Self;

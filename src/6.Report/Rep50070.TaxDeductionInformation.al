@@ -4,7 +4,6 @@ report 50070 "Tax Deduction Information"
     RDLCLayout = './src/6.Report/Rep33019871.TaxDeductionInformation.rdl';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-
     dataset
     {
         dataitem(Employee; Employee)
@@ -37,7 +36,6 @@ report 50070 "Tax Deduction Information"
                 column(TotalRFOpening_EmployeePayrollOpening; "Employee Payroll Opening"."Total RF Opening") { }
                 column(TotalSocialSecurityOpening_EmployeePayrollOpening; "Employee Payroll Opening"."Total Social Security Opening") { }
                 column(TotalTaxRemunerationOpening_EmployeePayrollOpening; "Employee Payroll Opening"."Total Tax Remuneration Opening") { }
-
                 trigger OnPreDataItem()
                 begin
                     "Employee Payroll Opening".SetRange("Fiscal Year", EngNepDate."Fiscal Year");
@@ -69,13 +67,11 @@ report 50070 "Tax Deduction Information"
                 column(TotalValue; "Total Value") { }
                 column(IntegerValue; "Integer Value") { }
             }
-
             trigger OnAfterGetRecord()
             begin
                 PreviousTaxable := 0;
                 PreviousRF := 0;
                 Clear(SalaryLevel);
-
                 //oman changed
                 EmpPayOpening.Reset;
                 EmpPayOpening.SetRange("Employee No.", "No.");
@@ -90,13 +86,11 @@ report 50070 "Tax Deduction Information"
 
             trigger OnPreDataItem()
             begin
-
                 if EmployeeNoFilter <> '' then
                     SetFilter("No.", EmployeeNoFilter);
             end;
         }
     }
-
     requestpage
     {
         layout
@@ -116,7 +110,6 @@ report 50070 "Tax Deduction Information"
                         Caption = 'Nepali Month';
                         ToolTip = 'Specifies the value of the Nepali Month field.';
                         ApplicationArea = All;
-
                         trigger OnValidate()
                         begin
                             if PayCycleTermText = '' then
@@ -136,7 +129,6 @@ report 50070 "Tax Deduction Information"
                         Caption = 'Voucher No.';
                         ToolTip = 'Specifies the value of the Voucher No. field.';
                         ApplicationArea = All;
-
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             if PayCycleTermText = '' then
@@ -152,7 +144,6 @@ report 50070 "Tax Deduction Information"
                             PagePostedPayroll.ToSelect;
                             PagePostedPayroll.SetRecord(PostedPayrollHeader);
                             PagePostedPayroll.SetTableView(PostedPayrollHeader);
-
                             if PagePostedPayroll.RunModal = Action::OK then begin
                                 DocumentNo := PagePostedPayroll.ReturnPostedDocext;
                             end;
@@ -173,25 +164,20 @@ report 50070 "Tax Deduction Information"
                 }
             }
         }
-
         actions { }
     }
-
     labels { }
-
     trigger OnInitReport()
     begin
         CompanyInfo.Get;
         CompanyInfo.CalcFields(Picture);
         FormatAddr.Company(CompanyAddr, CompanyInfo);
         GetCompanyOneLineAddress;
-
         PGSetup.Get;
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
         if PayCyclePeriod.FindFirst then
             PayCycleTermText := PayCyclePeriod."Pay Cycle Term";
-
         PostedPayrollHeader.Reset;
         PostedPayrollHeader.SetRange("Pay Cycle Term", PayCycleTermText);
         PostedPayrollHeader.SetRange("Nepali Month", Month);
@@ -207,16 +193,15 @@ report 50070 "Tax Deduction Information"
         IF Month = Month::" " THEN
           ERROR('Please select valid month to preview the report.');
           */
-
         if DocumentNo = '' then
             Error('Select Voucher No. to run this report.');
-        if EmployeeNoFilter = '' then
-            EmployeeNoFilter := HRMgt.GetEmployeeNo();
+        if not HrMgt.IsSaaS() then
+            if EmployeeNoFilter = '' then
+                EmployeeNoFilter := HRMgt.GetEmployeeNo();
         if EmployeeNoFilter = '' then
             Error('Please selete an employee.');
         //IF Employee.GETFILTER("No.") = '' THEN
         //ERROR('Please select employee no. to preview the report.');
-
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Pay Cycle Term", PayCycleTermText);
         PayCyclePeriod.SetRange("Nepali Month", Month);
@@ -324,10 +309,8 @@ report 50070 "Tax Deduction Information"
             CompanyOneLineAddress := OneLineAddress(CompanyAddr) + ', ' + CompanyInfo.FieldCaption("Phone No.") + ' : ' + CompanyInfo."Phone No."
         else
             CompanyOneLineAddress := OneLineAddress(CompanyAddr);
-
         if CompanyInfo."Fax No." <> '' then
             CompanyCommunicationAddress := CompanyInfo.FieldCaption("Fax No.") + ' : ' + CompanyInfo."Fax No.";
-
         if CompanyInfo."E-Mail" <> '' then begin
             if (CompanyCommunicationAddress <> '') then
                 CompanyCommunicationAddress += ', ' + CompanyInfo.FieldCaption("E-Mail") + ' : ' + CompanyInfo."E-Mail"
@@ -351,7 +334,6 @@ report 50070 "Tax Deduction Information"
         Clear(NoText);
         NoTextIndex := 1;
         NoText[1] := '';
-
         if No < 1 then
             AddToNoText(NoText, NoTextIndex, PrintExponent, Text026)
         else begin
@@ -385,16 +367,13 @@ report 50070 "Tax Deduction Information"
                     No := No - (Hundreds * 100 + Tens * 10 + Ones) * Power(1000, Exponent - 1);
             end;
         end;
-
         if CurrencyCode <> '' then begin
             Currency.Get(CurrencyCode);
             AddToNoText(NoText, NoTextIndex, PrintExponent, '');
         end else
             AddToNoText(NoText, NoTextIndex, PrintExponent, 'RUPEES');
-
         AddToNoText(NoText, NoTextIndex, PrintExponent, Text028);
         // AddToNoText(NoText,NoTextIndex,PrintExponent,FORMAT(No * 100) + '/100');
-
         TensDec := ((No * 100) mod 100) div 10;
         OnesDec := (No * 100) mod 10 div 1;
         if TensDec >= 2 then begin
@@ -415,13 +394,11 @@ report 50070 "Tax Deduction Information"
     local procedure AddToNoText(var NoText: array[2] of Text[80]; var NoTextIndex: Integer; var PrintExponent: Boolean; AddText: Text[30])
     begin
         PrintExponent := true;
-
         while StrLen(NoText[NoTextIndex] + ' ' + AddText) > MaxStrLen(NoText[1]) do begin
             NoTextIndex := NoTextIndex + 1;
             if NoTextIndex > ArrayLen(NoText) then
                 Error(Text029, AddText);
         end;
-
         NoText[NoTextIndex] := DelChr(NoText[NoTextIndex] + ' ' + AddText, '<');
     end;
 
@@ -446,7 +423,6 @@ report 50070 "Tax Deduction Information"
         OnesText[17] := Text048;
         OnesText[18] := Text049;
         OnesText[19] := Text050;
-
         TensText[1] := '';
         TensText[2] := Text051;
         TensText[3] := Text052;
@@ -456,7 +432,6 @@ report 50070 "Tax Deduction Information"
         TensText[7] := Text056;
         TensText[8] := Text057;
         TensText[9] := Text058;
-
         ExponentText[1] := '';
         ExponentText[2] := Text059;
         ExponentText[3] := Text1280000;
@@ -485,7 +460,6 @@ report 50070 "Tax Deduction Information"
         //PostedPayrollHeader.SetRange("Nepali Month",Month);
         //PostedPayrollHeader.SetRange(Type,PostedPayrollHeader.Type::Payroll);
         PostedPayrollHeader.SetRange("No.", DocumentNo);
-
         /*IF Employee."Employment Type" = Employee."Employment Type"::Contract THEN
           PostedPayrollHeader.SetRange("Employee Type",PostedPayrollHeader."Employee Type"::Contract)
         ELSE
@@ -499,10 +473,8 @@ report 50070 "Tax Deduction Information"
                     EmployeeFound := true;
                 end;
             until (PostedPayrollHeader.Next = 0) or EmployeeFound;
-
         if not EmployeeFound then
             Error('Regular payroll is not posted yet for this employee.');
-
         PreviousPayrollHdr.Reset;
         PreviousPayrollHdr.SetRange("Pay Cycle Code", PostedPayrollHeader."Pay Cycle Code");
         PreviousPayrollHdr.SetRange("Pay Cycle Term", PostedPayrollHeader."Pay Cycle Term");
@@ -519,14 +491,12 @@ report 50070 "Tax Deduction Information"
                 PreviousPayrollLine.SetRange(Reversed, false);
                 if PreviousPayrollLine.FindSet then begin
                     TotalTaxableMonthWise := 0;
-
                     RecRefs.Open(Database::"Posted Payroll Line");
                     FieldRefs := RecRefs.Field(1);
                     FieldRefs.SetRange(PreviousPayrollHdr."No.");
                     FieldRefs := RecRefs.Field(3);
                     FieldRefs.SetRange(EmployeeNo);
                     RecRefs.FindFirst;
-
                     PayrollAttributes.SetCurrentKey("Tax Info Report Type");
                     PayrollAttributes.Reset;
                     PayrollAttributes.SetFilter("Tax Info Report Type", '<>%1', PayrollAttributes."Tax Info Report Type"::" ");
@@ -539,7 +509,6 @@ report 50070 "Tax Deduction Information"
                             if PayrollColumnConfig.FindFirst then begin
                                 FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
                                 CalculatedAmt := FieldRefs.Value;
-
                                 ExcelBuffer.Reset;
                                 ExcelBuffer.SetRange("Cell Value as Text", Format(PayrollAttributes."Tax Info Report Type"));
                                 ExcelBuffer.SetRange("Cell Type", ExcelBuffer."Cell Type"::Text); //For previous posted payrolls
@@ -554,7 +523,6 @@ report 50070 "Tax Deduction Information"
                                     ExcelBuffer.SetRange(Formula, '1 Taxable');
                                 ExcelBuffer.SetRange(NumberFormat, PreviousPayrollHdr."No.");
                                 if not ExcelBuffer.FindFirst then begin
-
                                     ExcelBuffer.Init;
                                     ExcelBuffer."Row No." := RowNo;
                                     ExcelBuffer."Column No." := ColumnNo;
@@ -584,10 +552,8 @@ report 50070 "Tax Deduction Information"
                                             end;
                                     end;
                                     ExcelBuffer.Insert;
-
                                     IncrementRowColumn;
                                 end else begin
-
                                     ExcelBuffer."Decimal Value" += CalculatedAmt;
                                     ExcelBuffer.Modify;
                                 end;
@@ -602,7 +568,7 @@ report 50070 "Tax Deduction Information"
                     InsertTaxableColumn;
                     InsertTotalRFColumn;
                     InsertLeaveEncashGratuityColumn;
-                    //InsertOtherFacilityColumn; 
+                    //InsertOtherFacilityColumn;
                 end;
             until PreviousPayrollHdr.Next = 0;
     end;
@@ -620,7 +586,6 @@ report 50070 "Tax Deduction Information"
         ExcelBuffer."Decimal Value" := TotalTaxableMonthWise;
         ExcelBuffer.Insert;
         PreviousTaxable += TotalTaxableMonthWise;
-
         IncrementRowColumn;
     end;
 
@@ -637,7 +602,6 @@ report 50070 "Tax Deduction Information"
         ExcelBuffer.Formula := '2 Tax';
         ExcelBuffer."Decimal Value" := PreviousPayrollLine."Gratuity & leave Encash Tax";
         ExcelBuffer.Insert;
-
         IncrementRowColumn;
     end;
 
@@ -653,7 +617,6 @@ report 50070 "Tax Deduction Information"
         ExcelBuffer."Cell Value as Text" := '5.5 Total Deduction';
         ExcelBuffer."Decimal Value" := PreviousPayrollLine."Current Deduction";
         ExcelBuffer.Insert;
-
         IncrementRowColumn;
     end;
 
@@ -703,7 +666,6 @@ report 50070 "Tax Deduction Information"
         CurrentPayroll.Formula := 'Previous Taxable';
         CurrentPayroll."Total Value" := PreviousTaxable + EmpPayOpening."Total Benefit Opening"; //oman changed
         CurrentPayroll.Insert;
-
         IncrementRowColumn;
     end;
 
@@ -720,7 +682,6 @@ report 50070 "Tax Deduction Information"
         CurrentPayroll.Formula := 'Previous RF';
         CurrentPayroll."Total Value" := PreviousRF + EmpPayOpening."Total RF Opening";  //oman changed
         CurrentPayroll.Insert;
-
         IncrementRowColumn;
     end;
 
@@ -767,11 +728,8 @@ report 50070 "Tax Deduction Information"
                 else
                     CurrentPayroll."Total Value" := ProjectionMonth * CalculatedAmt;
                 ProjectedBenefit += CurrentPayroll."Total Value";
-
                 CurrentMonthIncome += CurrentPayroll."Decimal Value";
-
                 CurrentPayroll.Insert;
-
                 IncrementRowColumn;
             until PayrollAttributes.Next = 0;
         if CurrentMonthIncome <> 0 then begin
@@ -803,7 +761,6 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(124);
         ProjectionMonth := FieldRefs.Value;
         ProjectionMonth += 1;
-
         PayrollAttributes.SetCurrentKey("Tax Info Report Type");
         PayrollAttributes.Reset;
         PayrollAttributes.SetRange(Type, PayrollAttributes.Type::Deduction);
@@ -840,7 +797,6 @@ report 50070 "Tax Deduction Information"
                 CurrentPayroll.Insert;
                 CurrentMonthRF += CalculatedAmt;
                 EstimatedRF += ProjectionMonth * CalculatedAmt;
-
                 IncrementRowColumn;
             until PayrollAttributes.Next = 0;
         RecRefs.Close;
@@ -873,7 +829,6 @@ report 50070 "Tax Deduction Information"
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(127);
         EstimatedRF := FieldRefs.Value;
-
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
         CurrentPayroll."Column No." := ColumnNo;
@@ -902,7 +857,6 @@ report 50070 "Tax Deduction Information"
         EligibleRF := FieldRefs.Value;
         if PGSetup."Tax Ex. Amt. not Exceeding" < EligibleRF then
             EligibleRF := PGSetup."Tax Ex. Amt. not Exceeding";
-
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
         CurrentPayroll."Column No." := ColumnNo;
@@ -952,7 +906,6 @@ report 50070 "Tax Deduction Information"
         InsuranceAmt := FieldRefs.Value;
         //FieldRefs := RecRefs.FIELD(70009);
         //InsuranceAmt := FieldRefs.VALUE;
-
         RecRefs.Close;
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -978,7 +931,6 @@ report 50070 "Tax Deduction Information"
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(132);
-
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
         CurrentPayroll."Column No." := ColumnNo;
@@ -992,7 +944,6 @@ report 50070 "Tax Deduction Information"
         CurrentPayroll."Total Value" := FieldRefs.Value;
         CurrentPayroll.Insert;
         IncrementRowColumn;
-
         RecRefs.Close;
     end;
 
@@ -1007,7 +958,6 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(133);
         DisablePersonReduction := FieldRefs.Value;
         RecRefs.Close;
-
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
         CurrentPayroll."Column No." := ColumnNo;
@@ -1064,7 +1014,6 @@ report 50070 "Tax Deduction Information"
             RecRefs.FindFirst;
             FieldRefs := RecRefs.Field(151 + SlabCount);
             SlabAmount := FieldRefs.Value;
-
             CurrentPayroll.Init;
             CurrentPayroll."Row No." := RowNo;
             CurrentPayroll."Column No." := ColumnNo;
@@ -1195,7 +1144,6 @@ report 50070 "Tax Deduction Information"
         FieldRefs.SetRange(PostedPayrollHeader."No.");
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
-
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(7);
         CurrentMonthTax := FieldRefs.Value;
@@ -1222,11 +1170,9 @@ report 50070 "Tax Deduction Information"
         FieldRefs.SetRange(PostedPayrollHeader."No.");
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
-
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(124);
         Assessableincome := FieldRefs.Value;
-
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
         CurrentPayroll."Column No." := ColumnNo;
@@ -1253,7 +1199,6 @@ report 50070 "Tax Deduction Information"
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(131);
         HealthInsuranceAmt := FieldRefs.Value;
-
         RecRefs.Close;
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -1280,7 +1225,6 @@ report 50070 "Tax Deduction Information"
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(158);
         RemoteAreaAmt := FieldRefs.Value;
-
         RecRefs.Close;
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -1307,7 +1251,6 @@ report 50070 "Tax Deduction Information"
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(11);
         RecRefs.Close;
-
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
         CurrentPayroll."Column No." := ColumnNo;
@@ -1332,7 +1275,6 @@ report 50070 "Tax Deduction Information"
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
         FieldRefs := RecRefs.Field(134);
-
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
         CurrentPayroll."Column No." := ColumnNo;
@@ -1372,7 +1314,6 @@ report 50070 "Tax Deduction Information"
         ExcelBuffer."Cell Value as Text" := '4 Other Facility';
         ExcelBuffer."Decimal Value" := TotalTaxableMonthWise;
         ExcelBuffer.Insert;
-
         IncrementRowColumn;
     end;
 }

@@ -30,7 +30,6 @@ codeunit 50007 "Insurance Mgt"
     var
         MedicalInsurance: Record "Medical Insurance Claim";
         IncomingDoc: Record "Incoming Document";
-
     begin
         medicalInsuranceClaim.TestField("Insurance Claim");
         medicalInsuranceClaim.TestField("Medical Prescription Date");
@@ -74,7 +73,6 @@ codeunit 50007 "Insurance Mgt"
                 exit;
             MedicalInsurance.Validate("Insurance Status", MedicalInsurance."Insurance Status"::Rejected);
         end;
-
         MedicalInsurance.Modify;
     end;
 
@@ -84,7 +82,8 @@ codeunit 50007 "Insurance Mgt"
     begin
         //check authorized user
         if Medicalinsurance."Insurance Status" = Medicalinsurance."Insurance Status"::"Request to DTMD" then begin
-            Employee.Get(HRMgt.GetEmployeeNo());
+            if not HrMgt.IsSaaS() then
+                Employee.Get(HRMgt.GetEmployeeNo());
             if not Confirm(ConfirmScreen, false) then
                 exit;
             Medicalinsurance.Validate("Insurance Status", Medicalinsurance."Insurance Status"::"Forwarded to Insurance Co.");
@@ -98,13 +97,12 @@ codeunit 50007 "Insurance Mgt"
         EmployeeInsurance, EmployeeInsurance1 : Record "Employee Insurance Information";
     begin
         Clear(Employee);
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::Insurance);
         Approval.SetRange("Employee No", EmployeeCode);
         Approval.DeleteAll();
-
         Employee.Get(EmployeeCode);
         EmployeeInsurance.Reset();
         EmployeeInsurance.SetRange("Employee No.", EmployeeCode);
@@ -129,6 +127,4 @@ codeunit 50007 "Insurance Mgt"
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         ApproverMgt: Codeunit "Approver Mgt";
-
-
 }
