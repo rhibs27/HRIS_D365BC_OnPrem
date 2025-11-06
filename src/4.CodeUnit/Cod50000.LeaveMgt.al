@@ -1148,6 +1148,8 @@ codeunit 50000 "Leave Mgt."
         AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays, NoOfCreditPeriods : Decimal;
         ProRataStartDate, ProRataEndDate, CreditPeriodStartDate, CreditPeriodEndDate, LeaveYearStartDate, LeaveYearEndDate : Date;
         SkipLeaveEarn: Boolean;
+
+        EmpConfDate: Date; // this is used for current year confirmed employee
     begin
         Clear(LastEntryNo);
         Clear(ProRataStartDate);
@@ -1201,10 +1203,15 @@ codeunit 50000 "Leave Mgt."
                         end;
 
                         //if leave for employee type is permanent then leave earn should be against confirmation date
+                        if LeaveYearStartDate < EmpVar."Employment Date" then
+                            EmpConfDate := EmpVar."Employment Date";
                         if (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent) and
                         (EmpVar."Confirmation Date" <> 0D) then begin
-                            if CreditPeriodStartDate < EmpVar."Confirmation Date" then
+                            if CreditPeriodStartDate < EmpVar."Confirmation Date" then begin
                                 CreditPeriodStartDate := EmpVar."Confirmation Date";
+                                EmpConfDate := EmpVar."Confirmation Date";
+                            end;
+
                         end;
 
                         OnGenerateLeaveOnBeforeLeaveCalculation(LeaveTypeSetup, EmpVar, SkipLeaveEarn);
@@ -1229,7 +1236,8 @@ codeunit 50000 "Leave Mgt."
                                         if (LeavePeriod1."Starting Date" - 1) > CreditPeriodEndDate then
                                             NoOfCreditPeriods -= 1;
                                     end;
-                                    CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpVar."Employment Date");
+
+                                    CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpConfDate);  //critical calculation place
                                     ActualCreditLimit := Round(AnnualCreditLimit / 12 * NoOfCreditPeriods, 0.01, '=');
                                 end else
                                     //credit frequency annual
@@ -1242,7 +1250,18 @@ codeunit 50000 "Leave Mgt."
                                             ProRataEndDate := EmpVar."Termination Date";
                                         if ProRataEndDate >= LeavePeriod.GetLeaveYearEndDate(PostingDate) then
                                             ProRataEndDate := LeavePeriod.GetLeaveYearEndDate(PostingDate);
-                                        if (EmpVar."Employment Date" <= LeavePeriod.GetLeaveYearStartDate(PostingDate)) and (ProRataEndDate = LeavePeriod.GetLeaveYearEndDate(PostingDate)) then
+
+                                        if ProRataStartDate < EmpVar."Employment Date" then
+                                            EmpConfDate := EmpVar."Employment Date";
+                                        if (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent) and
+                                                        (EmpVar."Confirmation Date" <> 0D) then begin
+                                            if ProRataStartDate < EmpVar."Confirmation Date" then begin
+                                                EmpConfDate := EmpVar."Confirmation Date";
+                                                ProRataStartDate := EmpVar."Confirmation Date";
+                                            end;
+                                        end;
+
+                                        if (EmpConfDate <= LeavePeriod.GetLeaveYearStartDate(PostingDate)) and (ProRataEndDate = LeavePeriod.GetLeaveYearEndDate(PostingDate)) then  //critical calculation place
                                             ActualCreditLimit := AnnualCreditLimit
                                         else begin
                                             LeavePeriod.Reset();
@@ -1251,7 +1270,8 @@ codeunit 50000 "Leave Mgt."
                                             if LeavePeriod.FindFirst() then
                                                 if LeavePeriod."Starting Date" > ProRataStartDate then
                                                     NoOfCreditPeriods += 1;
-                                            CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpVar."Employment Date");
+
+                                            CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpConfDate);  //critical calculation place
                                             ActualCreditLimit := Round(AnnualCreditLimit / 12 * NoOfCreditPeriods, 0.01, '=');
                                         end;
                                     end

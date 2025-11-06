@@ -1,7 +1,7 @@
 page 50367 "Assignment Memo Card"
 {
     ApplicationArea = All;
-    Caption = 'Assignment Memo Card';
+    Caption = 'Memo Card';
     PageType = Card;
     SourceTable = "Assignment Memo Header";
 
@@ -45,13 +45,13 @@ page 50367 "Assignment Memo Card"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-                field("Requester Employee No."; Rec."Employee No.")
+                field("Employee No."; Rec."Employee No.")
                 {
-                    ToolTip = 'Specifies the value of the Requester Employee No. field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                 }
-                field("Requester Employee Name"; Rec."Employee Name")
+                field("Employee Name"; Rec."Employee Name")
                 {
-                    ToolTip = 'Specifies the value of the Requester Employee Name field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Employee Name field.', Comment = '%';
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -80,6 +80,15 @@ page 50367 "Assignment Memo Card"
             }
             part(AssignmentMemoLines; "Assignment Memo Subform")
             {
+                Visible = Rec."Activity Type" = Rec."Activity Type"::"Allowance Assignment Memo";
+                Editable = IsOpen;
+                ApplicationArea = All;
+                SubPageLink = "Document No." = field("No.");
+                UpdatePropagation = Both;
+            }
+            part("Shift Assignment Memo Subform"; "Shift Assignment Memo Subform")
+            {
+                Visible = Rec."Activity Type" = Rec."Activity Type"::"Shift Assignment Memo";
                 Editable = IsOpen;
                 ApplicationArea = All;
                 SubPageLink = "Document No." = field("No.");

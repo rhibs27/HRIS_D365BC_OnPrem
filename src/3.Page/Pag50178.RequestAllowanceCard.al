@@ -49,7 +49,14 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-
+                field("Total Line Amount"; Rec."Total Line Amount")
+                {
+                    ToolTip = 'Specifies the value of the Total Line Amount field.', Comment = '%';
+                }
+                field("No of Lines"; Rec."No of Lines")
+                {
+                    ToolTip = 'Specifies the value of the No of Lines field.', Comment = '%';
+                }
             }
             part(line; "Request Allowance Subform")
             {

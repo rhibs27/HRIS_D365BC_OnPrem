@@ -451,7 +451,7 @@ codeunit 50010 "Payroll-Post"
     var
         LeaveEarn: Record "Leave Earn";
         AllowanceAssignLine: Record "Allowance Assignment Line";
-
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
             LeaveType.Reset;
@@ -485,6 +485,16 @@ codeunit 50010 "Payroll-Post"
         AllowanceAssignLine.SetRange("Payroll Doc No.", PayrollHeader."No.");
         if AllowanceAssignLine.FindSet() then
             AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
+
+        //check and update Assignment memo lines if any
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange("Applied Document No.", PayrollHeader."No.");
+        if AssignmentMemoLedgerEntry.FindSet() then
+            repeat
+                AssignmentMemoLedgerEntry."Applied Document No." := PostedPayrollHeader."No.";
+                AssignmentMemoLedgerEntry.Open := false;
+                AssignmentMemoLedgerEntry.Modify();
+            until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
 }

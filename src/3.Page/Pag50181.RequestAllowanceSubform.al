@@ -55,6 +55,10 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Panel field.', Comment = '%';
                 }
+                field("Claimed as Leave"; Rec."Claimed as Leave")
+                {
+                    ToolTip = 'Specifies the value of the Claimed as Leave field.', Comment = '%';
+                }
 
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -75,40 +79,7 @@ page 50181 "Request Allowance Subform"
             }
         }
     }
-    actions
-    {
-        area(Processing)
-        {
-            // action("Reject ALlowance Requests")
-            // {
-            //     Image = Reject;
-            //     ToolTip = 'Executes the Reject Allowance Claim action.';
-            //     ApplicationArea = All;
-            //     Visible = DocumentPending;
-            //     trigger OnAction()
-            //     var
-            //         ApproverHrms: Record "Approval HRMS";
-            //         FilterpageBuilder: FilterPageBuilder;
-            //         AllowanceAssLine: Record "Assignment Memo Line";
-            //     begin
-            //         Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
 
-            //         FilterpageBuilder.AddRecord('Input Rejection Remarks', AllowanceAssLine);
-            //         FilterpageBuilder.AddField('Input Rejection Remarks', AllowanceAssLine."Rejection Remarks");
-            //         if FilterpageBuilder.RunModal() then begin
-            //             AllowanceAssLine.SetView(FilterpageBuilder.GetView('Input Rejection Remarks'));
-            //             if AllowanceAssLine.GetFilter("Rejection Remarks") = '' then
-            //                 Error('Must input rejection remarks to reject the document');
-
-            //             Rec."Rejection Remarks" := AllowanceAssLine.GetFilter("Rejection Remarks");
-            //             Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
-            //             rec.Modify();
-            //         end;
-
-            //     end;
-            // }
-        }
-    }
     trigger OnAfterGetRecord()
     begin
         SetLayout();

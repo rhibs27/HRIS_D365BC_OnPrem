@@ -811,5 +811,8 @@ permissionset 50000 D365HRMSPermission
         page "Assignment Memo Card" = X,
         page "Assignment Memo Ledger Entries" = X,
         page "Assignment Memo Subform" = X,
-        page "Assignment Memos" = X;
+        page "Assignment Memos" = X,
+        report "Import Employee Payroll Plan" = X,
+        page "Shift Assignment Memo Subform" = X,
+        page "Shift Assignment Memos" = X;
 }

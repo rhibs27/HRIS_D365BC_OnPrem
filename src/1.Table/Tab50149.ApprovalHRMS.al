@@ -163,7 +163,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Insurance:
                 if Insurance.Get("Document No.") then
                     RecRef.GetTable(Insurance);
-            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance":
+            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
                 if AssignmentMemoHdr.Get("Document No.") then
                     RecRef.GetTable(AssignmentMemoHdr);
         end;
@@ -239,7 +239,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Insurance:
                 if Insurance.Get("Document No.") then
                     RecRef.GetTable(Insurance);
-            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance":
+            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
                 if AssignmentMemoHdr.Get("Document No.") then
                     RecRef.GetTable(AssignmentMemoHdr);
         end;
@@ -316,7 +316,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Insurance:
                 if Insurance.Get("Document No.") then
                     RecRef.GetTable(Insurance);
-            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance":
+            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
                 if AssignmentMemoHdr.Get("Document No.") then
                     RecRef.GetTable(AssignmentMemoHdr);
         end;

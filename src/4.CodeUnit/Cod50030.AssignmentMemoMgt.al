@@ -23,9 +23,9 @@ codeunit 50030 "Assignment Memo Mgt"
             PAGE.Run(PAGE::"Assignment Memo Card", AssignmentMemoHdr)
         end else begin
             AssignmentMemoHdr2.Init;
-            AssignmentMemoHdr2.Validate("Employee No.", EmpCode);
             AssignmentMemoHdr2.Validate("Activity Type", AssignmentMemoHdr2."Activity Type"::"Allowance Assignment Memo");
             AssignmentMemoHdr2.Validate("Approval Status", AssignmentMemoHdr2."Approval Status"::Open);
+            AssignmentMemoHdr2.Validate("Employee No.", EmpCode);
             AssignmentMemoHdr2.Validate("Province Code", Employee."Province Code");
             AssignmentMemoHdr2.Validate("Branch Code", Employee."Branch Code");
             AssignmentMemoHdr2.Validate("Department Code", Employee."Department Code");
@@ -91,11 +91,37 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine: Record "Assignment Memo Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         AllowanceConfiguration: Record "Allowance Configuration";
+        EmployeeWorkShift: Record "Employee Work Shift";
+        LeaveTypeSetup: Record "Leave Type Setup";
+        LeaveMgt: Codeunit "Leave Mgt.";
         DateVar: Record Date;
+
     begin
         AssignmentMemoHdr.Get(DocumentNo);
         if AssignmentMemoLine.Get(DocumentNo, lineNo) then begin
 
+            //check and update the source substitute ledger entry to closed
+            if AssignmentMemoLine."Substitute Type" = AssignmentMemoLine."Substitute Type"::"Added as Substitute" then
+                UpdateSubstituteAssignmentMemoLedgerEntry(AssignmentMemoLine);
+
+            if AssignmentMemoLine."Claimed as Leave" then begin
+
+                //Generate substitute leave balance and exit the procedure
+                LeaveTypeSetup.SetRange("Leave Category", LeaveTypeSetup."Leave Category"::Substitute);
+                LeaveTypeSetup.FindFirst();
+
+                LeaveMgt.CreateLeaveLedger(AssignmentMemoLine."Employee No.",
+                LeaveTypeSetup.Code,
+                AssignmentMemoLine."From Date",
+                Enum::"Leave Earn Type"::Earned,
+                AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1,
+                LeaveMgt.GetNextLeaveLedgerEntryNo(),
+                AssignmentMemoLine."Document No.",
+                'Leave earned against holiday shift',
+                ''
+                );
+                exit;
+            end;
             AllowanceConfiguration.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
             AllowanceConfiguration.FindFirst();
 
@@ -121,6 +147,10 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLedgerEntry.Validate(Amount, AssignmentMemoLine."Allowance Amount");
                     AssignmentMemoLedgerEntry.Validate(Panel, AssignmentMemoLine."Panel");
                     AssignmentMemoLedgerEntry.Validate("ATM Site", AssignmentMemoLine."ATM Site");
+                    AssignmentMemoLedgerEntry.Validate("Employee Work Shift", AssignmentMemoLine."Employee Work Shift");
+                    if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo" then
+                        if EmployeeWorkShift.Get(AssignmentMemoLine."Employee Work Shift") then
+                            AssignmentMemoLedgerEntry.Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
 
                     if AllowanceConfiguration.Source in [AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::" "] then begin
                         AssignmentMemoLedgerEntry.Validate("Valid From Date", AssignmentMemoHdr."From Date");  //allowance that is request once but valid for whole fiscal year
@@ -130,10 +160,6 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLedgerEntry.Insert();
 
                 until DateVar.Next() = 0;
-
-            //check and update the source substitute ledger entry to closed
-            if AssignmentMemoLine."Substitute Type" = AssignmentMemoLine."Substitute Type"::"Added as Substitute" then
-                UpdateSubstituteAssignmentMemoLedgerEntry(AssignmentMemoLine);
         end;
     end;
 
@@ -143,6 +169,14 @@ codeunit 50030 "Assignment Memo Mgt"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
     begin
+        if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
+            AssignmentMemoHdr.TestField(Remarks);
+
+        if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Request Allowance" then begin
+            if AssignmentMemoHdr."Approval Status" = AssignmentMemoHdr."Approval Status"::Open then
+                AllowancerequestOnbeforeSendForApproval(AssignmentmemoHdr."No.");
+        end;
+
         ApproverMgt.UpdateFirstApproverStatus(AssignmentmemoHdr."No.");
 
         if AssignmentmemoHdr."Approval Status" in [AssignmentmemoHdr."Approval Status"::Open, AssignmentmemoHdr."Approval Status"::Created] then
@@ -157,7 +191,14 @@ codeunit 50030 "Assignment Memo Mgt"
             repeat
                 AssignmentMemoLine.TestField("Employee No.");
                 AssignmentMemoLine.TestField("From Date");
-                AssignmentMemoLine.TestField("Payroll Attribute Code");
+                AssignmentMemoLine.TestField("To Date");
+
+                if AssignmentMemoLine."Emp Act Type" in [AssignmentMemoLine."Emp Act Type"::"Allowance Assignment Memo", AssignmentMemoLine."Emp Act Type"::"Request Allowance"] then begin
+                    AssignmentMemoLine.TestField("Payroll Attribute Code");
+                end;
+                if AssignmentMemoLine."Emp Act Type" = AssignmentMemoLine."Emp Act Type"::"Shift Assignment Memo" then begin
+                    AssignmentMemoLine.TestField("Employee Work Shift");
+                end;
                 AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::"Pending");
                 AssignmentMemoLine.Modify();
             until AssignmentMemoLine.Next() = 0;
@@ -184,6 +225,11 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr.Get(docNo);
         AssignmentMemoLine.Get(docNo, lineNo);
 
+        //check if substitute dates are within the original assignment memo line dates
+        if not ((FromDate >= AssignmentMemoLine."From Date") and (ToDate <= AssignmentMemoLine."To Date")) then
+            Error('Substitute dates must be within the original assignment memo line dates.');
+
+        //check conflicting substitute assignment
         CheckConflictingSubstituteAssignment(docNo, lineNo, fromDate, toDate);
 
         SubAssigmemoLine.Init();
@@ -244,24 +290,6 @@ codeunit 50030 "Assignment Memo Mgt"
 
             until AssignmentMemoLine.Next() = 0;
 
-    end;
-
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approver Mgt", OnApproverejectDocumentOnBeforeCheckApprover, '', false, false)]
-    local procedure OnApproverejectDocumentOnBeforeCheckApprover(var RecRef: RecordRef; var EmployeeActivityType: Enum "Employee Activity Type"; var DocumentNo: Code[20]; var ApprovalStatusField: Text)
-    var
-        AssignmentMemoHdr: Record "Assignment Memo Header";
-    begin
-        case RecRef.Number of
-            Database::"Assignment Memo Header":
-                begin
-                    if ApprovalStatusField = 'Approved' then begin
-                        AssignmentMemoHdr.Get(DocumentNo);
-                        if (AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending) then begin
-                            ApprovalStatusField := 'Pending';
-                        end;
-                    end;
-                end;
-        end;
     end;
 
     //request allowance section
@@ -338,10 +366,9 @@ codeunit 50030 "Assignment Memo Mgt"
             AllowanceConfig.Source::Direct,
             AllowanceConfig.Source::Leave:
                 CreateAllowanceRequestLine(AssignmentMemoHdr);
-            AllowanceConfig.Source::Assignment:
-                CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr);
-            AllowanceConfig.Source::Shift:
-                CreateAllowanceRequestLineFromShiftLine(AssignmentMemoHdr);
+            AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift:
+                CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
+
         end;
     end;
 
@@ -362,15 +389,19 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Modify();
     end;
 
-    procedure CreateAllowanceRequestLineFromAssignmentLine(AllowanceAssignmentHdr: Record "Assignment Memo Header")
+    procedure CreateAllowanceRequestLineFromAssignmentLine(AllowanceAssignmentHdr: Record "Assignment Memo Header"; AllowanceConfigSource: Enum "Allowance Config. Source")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
-
         //while requesting create a assignment line entry from unclaimed allowance ledger entry
         AssignmentMemoLedgerEntry.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
+
+        if AllowanceConfigSource = AllowanceConfigSource::Assignment then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
+        if AllowanceConfigSource = AllowanceConfigSource::Shift then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
+
         AssignmentMemoLedgerEntry.SetRange("Valid From Date", 0D);
         AssignmentMemoLedgerEntry.SetRange("Valid To Date", 0D);
         if AllowanceAssignmentHdr."Payroll Attribute Code" <> '' then
@@ -403,32 +434,6 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLedgerEntry.Modify();
 
             until AssignmentMemoLedgerEntry.Next() = 0;
-    end;
-
-    procedure CreateAllowanceRequestLineFromShiftLine(AllowanceAssignmentHdr: Record "Assignment Memo Header")
-    var
-        ShiftLine: Record "Shift Line";
-        AssignmentMemoLine: Record "Assignment Memo Line";
-    begin
-        ShiftLine.SetRange("Employee No", AllowanceAssignmentHdr."Employee No.");
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-        // ShiftLine.SetRange("Shift Claimed From", '');
-        if ShiftLine.FindSet() then
-            repeat
-                Clear(AssignmentMemoLine);
-                AssignmentMemoLine.Init();
-                AssignmentMemoLine.Validate("Employee No.", ShiftLine."Employee No");
-                AssignmentMemoLine."Emp Act Type" := AllowanceAssignmentHdr."Activity Type";
-                AssignmentMemoLine."Approval Status" := AssignmentMemoLine."Approval Status"::Open;
-                AssignmentMemoLine.Insert(true);
-                AssignmentMemoLine.Validate("Payroll Attribute Code");
-                AssignmentMemoLine.Modify();
-
-                // mark allowance
-                // ShiftLine."Shift Claimed From" := AllowanceAssignmentHdr."No.";
-                ShiftLine.Modify();
-
-            until ShiftLine.Next() = 0;
     end;
 
     procedure GenerateIncDocuments(EmpActType: Enum "Employee Activity Type"; No: Code[20]; EmployeeNo: Code[20]; AttachmentCode: Code[20])
@@ -523,16 +528,56 @@ codeunit 50030 "Assignment Memo Mgt"
             exit(true);
     end;
 
-    procedure ClearMarkedAllowanceData(DocNo: Code[20])
-    var
-        AssignmentMemoLine: Record "Assignment Memo Line";
-        ShiftLine: Record "Shift Line";
-    begin
-        AssignmentMemoLine.SetRange("Allowance Claim From", DocNo);
-        AssignmentMemoLine.ModifyAll("Allowance Claim From", '');
 
-        // ShiftLine.SetRange("Shift Claimed From", DocNo);
-        // ShiftLine.ModifyAll("Shift Claimed From", '');
+    //shift assignment section
+    procedure OpenShiftRequest(EmpCode: Code[20])
+    var
+        AssignmentMemoHdr, AssignmentMemoHdr2 : Record "Assignment Memo Header";
+        Approval: Record "Approval HRMS";
+        Employee: Record Employee;
+    begin
+        // Clear Approval line 
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Shift Assignment Memo");
+        Approval.SetRange("Employee No", EmpCode);
+        Approval.DeleteAll();
+
+        Employee.Get(EmpCode);
+        AssignmentMemoHdr.Reset();
+        AssignmentMemoHdr.SetRange("Employee No.", EmpCode);
+        AssignmentMemoHdr.SetRange("Activity Type", AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo");
+        AssignmentMemoHdr.SetRange("Approval Status", AssignmentMemoHdr."Approval Status"::open);
+        if AssignmentMemoHdr.Findfirst() then begin
+            Message('This Employee Already has open Shift Assignment Request.Click Ok to Open');
+            PAGE.Run(PAGE::"Assignment Memo Card", AssignmentMemoHdr)
+        end else begin
+            AssignmentMemoHdr2.Init;
+            AssignmentMemoHdr2.Validate("Activity Type", AssignmentMemoHdr2."Activity Type"::"Shift Assignment Memo");
+            AssignmentMemoHdr2.Validate("Approval Status", AssignmentMemoHdr2."Approval Status"::Open);
+            AssignmentMemoHdr2.Validate("Employee No.", EmpCode);
+            AssignmentMemoHdr2.Insert(true);
+            if GuiAllowed then
+                PAGE.Run(PAGE::"Assignment Memo Card", AssignmentMemoHdr2);
+        end;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approver Mgt", OnApproverejectDocumentOnBeforeCheckApprover, '', false, false)]
+    local procedure OnApproverejectDocumentOnBeforeCheckApprover(var RecRef: RecordRef; var EmployeeActivityType: Enum "Employee Activity Type"; var DocumentNo: Code[20]; var ApprovalStatusField: Text)
+    var
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+    begin
+        case RecRef.Number of
+            Database::"Assignment Memo Header":
+                begin
+                    AssignmentMemoHdr.Get(DocumentNo);
+                    if ApprovalStatusField = 'Approved' then begin
+                        if (AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending) then begin
+                            ApprovalStatusField := 'Pending';
+                        end;
+                    end;
+                end;
+        end;
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]
@@ -545,13 +590,20 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoMgt.CreateAllowanceAssignmentLineFromRequest(Rec."No.");
     end;
 
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeSendApprovalAllowanceAssignment(var AllowanceAssignment: Record "Assignment Memo Header"; var IsHandled: Boolean)
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approver Mgt", OnRejectDocumentOnBeforeRecRefModify, '', false, false)]
+    local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean)
     begin
+        if not Approved and (RecRef.Number = Database::"Assignment Memo Header") then
+            SkipRecRefModifyOnReject := true;
     end;
 
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeInsertAllowanceAssignmentLine(var AllowanceAssignmntLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
-    begin
-    end;
+    // [IntegrationEvent(false, false)]
+    // local procedure OnBeforeSendApprovalAllowanceAssignment(var AllowanceAssignment: Record "Assignment Memo Header"; var IsHandled: Boolean)
+    // begin
+    // end;
+
+    // [IntegrationEvent(false, false)]
+    // local procedure OnBeforeInsertAllowanceAssignmentLine(var AllowanceAssignmntLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
+    // begin
+    // end;
 }

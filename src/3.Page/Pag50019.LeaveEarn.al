@@ -1,12 +1,12 @@
 page 50019 "Leave Earn"
 {
-    Editable = false;
+    // Editable = false;
     PageType = List;
     SourceTable = "Leave Earn";
     UsageCategory = Lists;
     ApplicationArea = All;
-    InsertAllowed = false;
-    ModifyAllowed = false;
+    // InsertAllowed = false;
+    // ModifyAllowed = false;
     layout
     {
         area(Content)

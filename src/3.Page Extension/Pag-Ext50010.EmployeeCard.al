@@ -1506,6 +1506,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceMemoMgt.OpenAllowanceRequestMemo(Rec."No.");
                     end;
                 }
+                action("Shift Assignment Memo")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Shift Assignment action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    var
+                        AllowanceMemoMgt: Codeunit "Assignment Memo Mgt";
+                    begin
+                        AllowanceMemoMgt.OpenShiftRequest(Rec."No.");
+                    end;
+                }
                 action("Shift Assignment")
                 {
                     Image = ApplicationWorksheet;

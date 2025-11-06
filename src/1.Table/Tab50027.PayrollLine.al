@@ -2868,7 +2868,7 @@ table 50027 "Payroll Line"
             until AllowanceConfiguration.Next() = 0;
     end;
 
-    procedure GetAllowanceAmountFromAssignmentLine(PayrollDocNo: Code[20];
+    procedure GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo: Code[20];
                                         EmployeeCode: Code[20];
                                          PayrollAttr: Code[20];
                                          LeaveCode: Code[20];
@@ -2876,27 +2876,28 @@ table 50027 "Payroll Line"
                                          ToDate: Date;
                                          getLastAmount: Boolean): Decimal
     var
-        AllowanceAssignmentLine: Record "Assignment Memo Ledger Entry";
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AllowanceAssignmentLine.SetLoadFields("Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Applied Document No.", Amount);
-        AllowanceAssignmentLine.SetRange("Employee No.", EmployeeCode);
-        AllowanceAssignmentLine.SetRange("Payroll Attribute Code", PayrollAttr);
-        AllowanceAssignmentLine.SetRange("Posting Date", FromDate, ToDate);
-        AllowanceAssignmentLine.SetFilter("Applied Document No.", '%1|%2', '', PayrollDocNo);
-        AllowanceAssignmentLine.SetRange("Open", true);
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Applied Document No.", Amount);
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
+        AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
+        AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);
+        AssignmentMemoLedgerEntry.SetFilter("Applied Document No.", '%1|%2', '', PayrollDocNo);
+        AssignmentMemoLedgerEntry.SetRange("Open", true);
         // if LeaveCode <> '' then
         //     AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
         if getLastAmount then begin
-            AllowanceAssignmentLine.SetRange("Valid From Date", FromDate, ToDate);
-            AllowanceAssignmentLine.SetRange("Valid To Date", FromDate, ToDate);
-            AllowanceAssignmentLine.CalcSums(Amount);
-            exit(AllowanceAssignmentLine."Amount");
+            AssignmentMemoLedgerEntry.SetRange("Valid From Date", FromDate, ToDate);
+            AssignmentMemoLedgerEntry.SetRange("Valid To Date", FromDate, ToDate);
+            AssignmentMemoLedgerEntry.CalcSums(Amount);
+            exit(AssignmentMemoLedgerEntry."Amount");
         end else begin
-            AllowanceAssignmentLine.CalcSums(Amount);
-            Amt := AllowanceAssignmentLine."Amount";
-            if AllowanceAssignmentLine.FindSet() then
-                AllowanceAssignmentLine.ModifyAll("Applied Document No.", PayrollDocNo);
+            AssignmentMemoLedgerEntry.CalcSums(Amount);
+            Amt := AssignmentMemoLedgerEntry."Amount";
+            if AssignmentMemoLedgerEntry.FindSet() then
+                AssignmentMemoLedgerEntry.ModifyAll("Applied Document No.", PayrollDocNo);
             exit(Amt);
         end;
 
@@ -2906,7 +2907,7 @@ table 50027 "Payroll Line"
     begin
         case AllowanceConfiguration.Source of
             AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
-                exit(GetAllowanceAmountFromAssignmentLine(PayrollDocNo,
+                exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
                                             AllowanceConfiguration."Leave Code",
@@ -2915,7 +2916,7 @@ table 50027 "Payroll Line"
                                             true));
 
             AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
-                exit(GetAllowanceAmountFromAssignmentLine(PayrollDocNo,
+                exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
                                             AllowanceConfiguration."Leave Code",

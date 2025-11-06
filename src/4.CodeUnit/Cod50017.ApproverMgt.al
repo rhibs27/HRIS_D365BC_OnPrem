@@ -324,6 +324,7 @@ codeunit 50017 "Approver Mgt"
         AttendanceMgt: Codeunit "Attendance Mgt";
         Cancelled: Boolean;
         RFContribution: Record "RF Contribution";
+        SkipRecRefModifyOnReject: Boolean;
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -427,10 +428,9 @@ codeunit 50017 "Approver Mgt"
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
 
-                            EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance":
+                            EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance", EmployeeActivityType::"Shift Assignment Memo":
                                 begin
                                     AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false);
-                                    exit;
                                 end;
 
                         end;
@@ -444,7 +444,11 @@ codeunit 50017 "Approver Mgt"
                         else
                             Error('Rejected Status not Found On Status Master Setup');
                     end;
-                    RecRef.Modify();
+
+                    OnRejectDocumentOnBeforeRecRefModify(RecRef, Approved, SkipRecRefModifyOnReject);
+                    if not SkipRecRefModifyOnReject then
+                        RecRef.Modify();
+
                     ApprovalHRMS.Modify();
                 until ApprovalHRMS.Next() = 0;
                 // Modify the record dynamically
@@ -543,7 +547,7 @@ codeunit 50017 "Approver Mgt"
                                 else
                                     leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
                             end;
-                        EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance":
+                        EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance", EmployeeActivityType::"Shift Assignment Memo":
                             begin
                                 AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, true);
                             end;
@@ -1540,6 +1544,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnApproverejectDocumentOnBeforeCheckApprover(var RecRef: RecordRef; var EmployeeActivityType: Enum "Employee Activity Type"; var DocumentNo: Code[20]; var ApprovalStatusField: Text)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean)
     begin
     end;
 

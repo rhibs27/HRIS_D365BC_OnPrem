@@ -79,6 +79,11 @@ table 50162 "Assignment Memo Ledger Entry"
         }
         field(16; Panel; Enum Panel) { }
         field(17; "ATM Site"; Enum "ATM Site") { }
+        field(18; "Employee Work Shift"; Code[20])
+        {
+            Caption = 'Employee Work Shift';
+            TableRelation = "Employee Work Shift";
+        }
     }
     keys
     {

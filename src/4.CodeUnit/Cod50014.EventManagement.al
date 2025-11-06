@@ -215,7 +215,7 @@ codeunit 50014 "Event Management"
                     ActType := RecordRef.Field(2).Value;
                     if ActType = ActType::"Request Allowance" then
                         CardPageID := Page::"Request Allowance Card"
-                    else if ActType = ActType::"Allowance Assignment Memo" then
+                    else if ActType in [ActType::"Allowance Assignment Memo", ActType::"Shift Assignment Memo"] then
                         CardPageID := Page::"Assignment Memo Card";
                 end;
         end;

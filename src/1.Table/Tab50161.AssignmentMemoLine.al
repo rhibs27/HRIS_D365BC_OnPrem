@@ -48,6 +48,7 @@ table 50161 "Assignment Memo Line"
 
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
+
             end;
         }
         field(8; "To Date"; Date)
@@ -59,6 +60,7 @@ table 50161 "Assignment Memo Line"
 
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
+
             end;
         }
         field(9; "Payroll Attribute Code"; Code[20])
@@ -95,7 +97,6 @@ table 50161 "Assignment Memo Line"
             Editable = false;
         }
         field(13; "Document Date"; Date) { }
-        field(17; "Approved Date"; Date) { }
         field(19; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
@@ -113,17 +114,11 @@ table 50161 "Assignment Memo Line"
             Editable = false;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
-        field(26; Week; Enum WeekNumber)
-        {
-        }
+
         field(27; "Emp Act Type"; Enum "Employee Activity Type")
         {
         }
-        field(28; "Allowance Claim From"; Code[20])
-        {
-        }
-        field(29; "Allowance Claimed"; Boolean) { }
-        field(30; "Allowance Claim from Line No"; Integer) { }
+
         field(31; "No of Approved Days"; Integer)
         {
             Editable = false;
@@ -135,10 +130,11 @@ table 50161 "Assignment Memo Line"
                                                  Open = const(true)));
         }
         field(32; "ATM Site"; Enum "ATM Site") { }
-        field(50; "Leave Code"; Code[20]) { }
-        field(51; "Leave Document No"; Code[20]) { }
-        field(52; "Payroll Doc No."; Code[20]) { }
-        field(53; "Recurring Completed"; Boolean) { }
+        field(33; "Date Filter"; Date)
+        {
+            FieldClass = FlowFilter;
+        }
+
         field(54; "Assign Memo Ledger Entry No."; Integer)
         {
             Editable = false;
@@ -162,6 +158,27 @@ table 50161 "Assignment Memo Line"
         {
             Caption = 'Distance (KM)';
             DecimalPlaces = 2 : 2;
+        }
+
+        //field related to shift assignment
+        field(201; "Employee Work Shift"; Code[20])
+        {
+            Caption = 'Employee Work Shift';
+            TableRelation = "Employee Work Shift";
+            trigger OnValidate()
+            var
+                EmployeeWorkShift: Record "Employee Work Shift";
+            begin
+                if EmployeeWorkShift.Get("Employee Work Shift") and ("Emp Act Type" = "Emp Act Type"::"Shift Assignment Memo") then begin
+                    if EmployeeWorkShift."Payroll Attribute Code" = '' then
+                        Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
+                    Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
+                end;
+            end;
+        }
+        field(202; "Claimed as Leave"; Boolean)
+        {
+            Caption = 'Claimed as Leave';
         }
     }
 
@@ -230,7 +247,15 @@ table 50161 "Assignment Memo Line"
     procedure GetAllowanceConfigAmount(AllowanceConfig: Record "Allowance Configuration"): Decimal
     var
         MonthlyAmt: Decimal;
+        NoofDaysInMonth: Integer;
+        AssignmentmemoHdr: Record "Assignment Memo Header";
     begin
+        AssignmentmemoHdr.Get("Document No.");
+        if "From Date" <> 0D then
+            NoofDaysInMonth := GetNoofDaysInMonth("From Date")
+        else
+            NoofDaysInMonth := GetNoofDaysInMonth(AssignmentmemoHdr."From Date");
+
         if AllowanceConfig."Earning Cycle" = AllowanceConfig."Earning Cycle"::Daily then
             exit(AllowanceConfig.Amount);
 
@@ -246,7 +271,7 @@ table 50161 "Assignment Memo Line"
             else
                 MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No.");
 
-            exit(Round(MonthlyAmt / 30, 0.01, '='));
+            exit(Round(MonthlyAmt / NoofDaysInMonth, 0.01, '='));
         end;
     end;
 
@@ -263,4 +288,15 @@ table 50161 "Assignment Memo Line"
         if (DateToCheck < AssignmentmemoHdr."From Date") or (DateToCheck > AssignmentmemoHdr."To Date") then
             Error('Date is not within the valid range.');
     end;
+
+    procedure GetNoofDaysInMonth(DateToCheck: Date): Integer
+    var
+        PayCyclePeriod: Record "Pay Cycle Period";
+    begin
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', DateToCheck);
+        PayCyclePeriod.SetFilter("End Date", '>=%1', DateToCheck);
+        PayCyclePeriod.FindFirst();
+        exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1);
+    end;
+
 }

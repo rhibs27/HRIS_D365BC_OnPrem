@@ -155,6 +155,8 @@ table 50156 "Allowance Configuration"
         Num2: Decimal;
         operat: Code[20];
     begin
+        // AllowanceConfigOnEvaluateAmountForEmployee(
+
         ResolveColumn(Expression, EmpNo);
         Expression := DelChr(Expression, '=', ',');
         Counter := 0;

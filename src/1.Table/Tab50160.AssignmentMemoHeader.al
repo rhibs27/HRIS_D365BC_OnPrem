@@ -141,7 +141,7 @@ table 50160 "Assignment Memo Header"
                     "Permanent Address" := Employee.Address;
                     "Temporary Address" := Employee."Temporary Address";
 
-                    if "Activity Type" = "Activity Type"::"Request Allowance" then begin
+                    if "Activity Type" in ["Activity Type"::"Request Allowance", "Activity Type"::"Shift Assignment Memo"] then begin
                         "Province Code" := Employee."Province Code";
                         "Branch Code" := Employee."Branch Code";
                         "Department Code" := Employee."Department Code";
@@ -154,6 +154,18 @@ table 50160 "Assignment Memo Header"
         field(24; "Employee Name"; Text[100])
         {
             DataClassification = ToBeClassified;
+        }
+        field(25; "No of Lines"; Integer)
+        {
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = Count("Assignment Memo Line" where("Document No." = field("No.")));
+        }
+        field(26; "Total Line Amount"; Decimal)
+        {
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = Sum("Assignment Memo Line"."Allowance Amount" where("Document No." = field("No.")));
         }
         field(37; "Approved Date"; Date)
         {

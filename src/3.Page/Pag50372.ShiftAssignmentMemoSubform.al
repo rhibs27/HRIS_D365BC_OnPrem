@@ -1,13 +1,12 @@
-page 50368 "Assignment Memo Subform"
+page 50372 "Shift Assignment Memo Subform"
 {
     ApplicationArea = All;
-    Caption = 'Assignment Memo Subform';
+    Caption = 'Shift Assignment Memo Subform';
     PageType = ListPart;
     SourceTable = "Assignment Memo Line";
-    SourceTableView = where("Emp Act Type" = const("Allowance Assignment Memo"));
+    SourceTableView = where("Emp Act Type" = const("Shift Assignment Memo"));
     AutoSplitKey = true;
     DelayedInsert = true;
-
 
     layout
     {
@@ -15,10 +14,6 @@ page 50368 "Assignment Memo Subform"
         {
             repeater(General)
             {
-                field("Allowance Type"; Rec."Payroll Attribute Code")
-                {
-                    ToolTip = 'Specifies the value of the Allowance Type field.', Comment = '%';
-                }
                 field("Employee Code"; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.', Comment = '%';
@@ -27,6 +22,11 @@ page 50368 "Assignment Memo Subform"
                         CurrPage.Update();
                     end;
                 }
+                field("Employee Work Shift"; Rec."Employee Work Shift")
+                {
+                    ToolTip = 'Specifies the value of the Employee Work Shift field.', Comment = '%';
+                }
+
                 field("Employee Name"; Rec."Employee Name")
                 {
                     Editable = false;
@@ -40,15 +40,6 @@ page 50368 "Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
                 }
-                field(Panel; Rec.Panel)
-                {
-                    ToolTip = 'Specifies the value of the Panel field.', Comment = '%';
-                }
-                field("ATM Site"; Rec."ATM Site")
-                {
-                    ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
-                }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Editable = false;
@@ -106,7 +97,7 @@ page 50368 "Assignment Memo Subform"
     }
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec."Emp Act Type" := Rec."Emp Act Type"::"Allowance Assignment Memo";
+        Rec."Emp Act Type" := Rec."Emp Act Type"::"Shift Assignment Memo";
     end;
 
     trigger OnOpenPage()
@@ -126,7 +117,7 @@ page 50368 "Assignment Memo Subform"
         SubstituteActionVisible := Rec."Approval Status" = Rec."Approval Status"::Approved;
         if AssignmentMemoHdr.Get(Rec."Document No.") then
             SubstituteActionVisible := SubstituteActionVisible <> (AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending);
-        Rec.SetFilter("Date Filter", '%1..%2', Rec."From Date", Rec."To Date");
+
     end;
 
     var

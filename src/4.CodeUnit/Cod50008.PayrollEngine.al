@@ -231,7 +231,7 @@ codeunit 50008 "Payroll Engine"
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
 
-        if OptimalDeductionEmployeeWise(PayrollHeader."Optimal Deduction Retirement", Employee) then begin
+        if OptimalDeductionEmployeeWiseRetirement(PayrollHeader."Optimal Deduction Retirement", Employee) then begin
             if RetirementFundLimit1 < RetirementFundLimit2 then
                 RetirementFundTaxBenefit := RetirementFundLimit1
             else
@@ -263,7 +263,7 @@ codeunit 50008 "Payroll Engine"
         else
             InsuranceTaxBenefit := InsuranceAmount;
 
-        if OptimalDeductionEmployeeWise(PayrollHeader."Optimal Deduction Insurrance", Employee) then
+        if OptimalDeductionEmployeeWiseInsurance(PayrollHeader."Optimal Deduction Insurrance", Employee) then
             InsuranceTaxBenefit := PGSetup."Tax Ex. Life Insurance Amt.";
 
         //Health Insurance Tax Benefit
@@ -2289,13 +2289,13 @@ codeunit 50008 "Payroll Engine"
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
 
-        if OptimalDeductionEmployeeWise(PayrollHeader."Optimal Deduction Retirement", Employee) then begin
+        if OptimalDeductionEmployeeWiseRetirement(PayrollHeader."Optimal Deduction Retirement", Employee) then begin
             if RetirementFundLimit1 < RetirementFundLimit2 then
                 RetirementFundTaxBenefit := RetirementFundLimit1
             else
                 RetirementFundTaxBenefit := RetirementFundLimit2;
         end;
-        if OptimalDeductionEmployeeWise(PayrollHeader."Optimal Deduction Insurrance", Employee) then
+        if OptimalDeductionEmployeeWiseInsurance(PayrollHeader."Optimal Deduction Insurrance", Employee) then
             InsuranceTaxBenefit := PGSetup."Tax Ex. Life Insurance Amt.";
 
         TaxAtOnceTaxableAmt := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit;
@@ -3881,7 +3881,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure OptimalDeductionEmployeeWise(OptimalDeduction: Boolean; Employee: Record Employee): Boolean
+    procedure OptimalDeductionEmployeeWiseRetirement(OptimalDeduction: Boolean; Employee: Record Employee): Boolean
     var
         PayrollAttrUses: Record "Payroll Attributes Usage";
     begin
@@ -3890,6 +3890,12 @@ codeunit 50008 "Payroll Engine"
         if PayrollAttrUses.IsEmpty() then
             OptimalDeduction := OptimalDeduction and true;
         exit(OptimalDeduction);
+    end;
+
+    procedure OptimalDeductionEmployeeWiseInsurance(OptimalDeduction: Boolean; Employee: Record Employee): Boolean
+    begin
+        if InsuranceTaxBenefit = 0 then
+            OptimalDeduction := OptimalDeduction and true;
     end;
 
 
