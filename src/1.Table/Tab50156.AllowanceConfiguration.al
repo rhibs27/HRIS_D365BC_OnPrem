@@ -155,7 +155,7 @@ table 50156 "Allowance Configuration"
         Num2: Decimal;
         operat: Code[20];
     begin
-        // AllowanceConfigOnEvaluateAmountForEmployee(
+        AllowanceConfigOnBeforeEvaluateAmountForEmployee(EmpNo);
 
         ResolveColumn(Expression, EmpNo);
         Expression := DelChr(Expression, '=', ',');
@@ -371,5 +371,10 @@ table 50156 "Allowance Configuration"
     begin
         AllowanceAssignmentline.SetRange("Employee Code", Empcode);
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure AllowanceConfigOnBeforeEvaluateAmountForEmployee(var EmpNo: Code[20])
+    begin
     end;
 }

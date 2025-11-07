@@ -44,11 +44,11 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Approved Date"; Rec."Approved Date")
+                field(Remarks; Rec.Remarks)
                 {
-                    ToolTip = 'Specifies the value of the Approved Date field.';
-                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
+
                 field("Total Line Amount"; Rec."Total Line Amount")
                 {
                     ToolTip = 'Specifies the value of the Total Line Amount field.', Comment = '%';

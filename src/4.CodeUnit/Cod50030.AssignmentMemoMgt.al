@@ -485,7 +485,7 @@ codeunit 50030 "Assignment Memo Mgt"
                 AllowanceConfig.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
                 if AllowanceConfig.FindFirst then begin
                     if AllowanceConfig.Source in [AllowanceConfig.Source::Shift, AllowanceConfig.Source::Assignment] then
-                        if not CheckIfAttendanceExistForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date", AssignmentMemoLine."From Date") then
+                        if not CheckIfAttendanceExistForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date") then
                             Error('Attendance not found for %1 on %2', AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date");
 
                     if AllowanceConfig.Source = AllowanceConfig.Source::Leave then

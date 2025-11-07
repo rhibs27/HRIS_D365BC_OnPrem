@@ -43513,11 +43513,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Approval Status - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2985527303 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approved Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Approved Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2985527303 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43537,6 +43532,11 @@
           <source>Specifies the value of the No of Lines field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control No of Lines - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2985527303 - Control 3121655793 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the To date field.</source>
