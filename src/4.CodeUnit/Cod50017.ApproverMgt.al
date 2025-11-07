@@ -47,24 +47,19 @@ codeunit 50017 "Approver Mgt"
                     Employee.SetFilter("NAV Login ID", '<>%1', '');
                     OnInsertApprovalOnBeforeSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
                     if not isHandled then begin
-                        case ApprovalSetupLine."Deputation Type" of
-                            ApprovalSetupLine."Deputation Type"::Province:
+                        if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
+                            Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                            if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                                Employee.SetRange("Branch Code", EmpRequest."Branch Code")
+                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                                Employee.SetRange("Department Code", EmpRequest."Department Code")
+                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
                                 Employee.SetRange("Province Code", EmpRequest."Province Code");
-                            ApprovalSetupLine."Deputation Type"::Branch:
-                                begin
-                                    Employee.SetRange("Branch Code", EmpRequest."Branch Code");
-                                end;
-                            ApprovalSetupLine."Deputation Type"::Department:
-                                begin
-                                    Employee.SetRange("Branch Code", EmpRequest."Branch Code");
-                                    Employee.SetRange("Department Code", EmpRequest."Department Code");
-                                end;
-                            ApprovalSetupLine."Deputation Type"::Unit:
-                                begin
-                                    Employee.SetRange("Branch Code", EmpRequest."Branch Code");
-                                    Employee.SetRange("Department Code", EmpRequest."Department Code");
-                                    Employee.SetRange("Union Code", EmpRequest."Unit Code");
-                                end;
+                        end else begin
+                            if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
+                                Employee.SetRange("Province Code", EmpRequest."Province Code")
+                            else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
+                                Employee.SetRange("Unit Code", EmpRequest."Unit Code");
                         end;
                     end;
                     Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
@@ -271,9 +266,9 @@ codeunit 50017 "Approver Mgt"
     procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
     var
         DecryptedEmployeeNo: Code[60];
-    // SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
+        SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
     begin
-        // exit(SaaSLoginMgmt.DecryptCode(AccessToken));  //must uncomment this line before merge
+        exit(SaaSLoginMgmt.DecryptCode(AccessToken));
     end;
 
     procedure CheckApproverSAAS(EmpActNo: Code[20]; ApproverNo: code[20]) //saas
@@ -1378,21 +1373,25 @@ codeunit 50017 "Approver Mgt"
                     Employee.SetRange(Status, Employee.Status::Active);
                     Employee.SetFilter("NAV Login ID", '<>%1', '');
                     OnInsertApprovalOnBeforeSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
-
                     if not isHandled then begin
-                        if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
-                            Employee.SetRange("Deputation On", EmpRequest."Deputation On");
-                            if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                                Employee.SetRange("Branch Code", EmpRequest."Branch Code")
-                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                                Employee.SetRange("Department Code", EmpRequest."Department Code")
-                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                        case ApprovalSetupLine."Deputation Type" of
+                            ApprovalSetupLine."Deputation Type"::Province:
                                 Employee.SetRange("Province Code", EmpRequest."Province Code");
-                        end else begin
-                            if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
-                                Employee.SetRange("Province Code", EmpRequest."Province Code")
-                            else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
-                                Employee.SetRange("Unit Code", EmpRequest."Unit Code");
+                            ApprovalSetupLine."Deputation Type"::Branch:
+                                begin
+                                    Employee.SetRange("Branch Code", EmpRequest."Branch Code");
+                                end;
+                            ApprovalSetupLine."Deputation Type"::Department:
+                                begin
+                                    Employee.SetRange("Branch Code", EmpRequest."Branch Code");
+                                    Employee.SetRange("Department Code", EmpRequest."Department Code");
+                                end;
+                            ApprovalSetupLine."Deputation Type"::Unit:
+                                begin
+                                    Employee.SetRange("Branch Code", EmpRequest."Branch Code");
+                                    Employee.SetRange("Department Code", EmpRequest."Department Code");
+                                    Employee.SetRange("Union Code", EmpRequest."Unit Code");
+                                end;
                         end;
                     end;
                     Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");

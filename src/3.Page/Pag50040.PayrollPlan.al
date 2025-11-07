@@ -141,13 +141,9 @@ page 50040 "Payroll Plan"
                     ToolTip = 'Specifies the value of the Irregular field.';
                     ApplicationArea = All;
                 }
-                field("Optimal Deduction"; Rec."Optimal Deduction Retirement")
+                field("Optimal Deduction"; Rec."Optimal Deduction")
                 {
                     ToolTip = 'Specifies the value of the Optimal Deduction field.', Comment = '%';
-                }
-                field("Optimal Deduction Insurrance"; Rec."Optimal Deduction Insurrance")
-                {
-                    ToolTip = 'Specifies the value of the Optimal Deduction Insurrance field.', Comment = '%';
                 }
                 field("Gross Payment"; Rec."Gross Payment")
                 {

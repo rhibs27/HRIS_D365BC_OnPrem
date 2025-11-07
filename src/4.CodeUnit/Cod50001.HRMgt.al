@@ -5604,7 +5604,6 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
