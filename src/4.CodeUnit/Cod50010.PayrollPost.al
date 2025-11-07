@@ -286,6 +286,8 @@ codeunit 50010 "Payroll-Post"
                                         PayrollJournalLine.Amount := PriorTrfAttributeAmount;
                                         LineBalance += PriorTrfAttributeAmount;
                                         PayrollJournalLine."Shortcut Dimension 1 Code" := GetDimensionBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date", DeputationType);
+                                        PayrollJournalLine."Deputation On" := GetDeputationOnBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date");
+                                        PayrollJournalLine."Deputation Value" := GetDeputationValueBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date");
                                         PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
                                         UpdatePayrollJnl(PayrollJournalLine);
                                         PostEmployee(PayrollJournalLine);
@@ -445,6 +447,32 @@ codeunit 50010 "Payroll-Post"
             If OrganizationStructureList.get(DeputationType, EmployeeServiceHistory."Deputation Code (From)") then
                 exit(OrganizationStructureList."Dimension Value Code")
         end;
+    end;
+
+    procedure GetDeputationOnBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Enum "Deputation Type"
+    var
+        EmployeeServiceHistory: Record "Employee Service History";
+        OrganizationStructureList: Record "Organization Structure List";
+    begin
+        EmployeeServiceHistory.Reset;
+        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+        EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+        if EmployeeServiceHistory.FindFirst() then
+            exit(EmployeeServiceHistory."Deputation On(From)");
+    end;
+
+    procedure GetDeputationValueBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
+    var
+        EmployeeServiceHistory: Record "Employee Service History";
+        OrganizationStructureList: Record "Organization Structure List";
+    begin
+        EmployeeServiceHistory.Reset;
+        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+        EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+        if EmployeeServiceHistory.FindFirst() then
+            exit(EmployeeServiceHistory."Deputation Code (From)");
     end;
 
     procedure UpdateSourceDocumentOnPayrollPost(PayrollAttributes: Record "Payroll Attributes"; PayrollLineRec: Record "Payroll Line")
