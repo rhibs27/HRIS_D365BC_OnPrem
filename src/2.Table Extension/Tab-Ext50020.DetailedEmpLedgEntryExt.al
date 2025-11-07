@@ -237,14 +237,10 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
             exit;
         PayCycle.Get(PayCycleCode, PayCycleTerm, PayCyclePeriod);
         Employee.TestField("Sol Id");
-        SolID := Employee."Sol Id";
-        if PayrollPost.CheckTransferInServiceHistory("Employee No.", PayCycle."Start Date", PayCycle."End Date") then begin
-            DeputationCode := PayrollPost.GetDimensionBeforeTransfer("Employee No.", PayCycle."Start Date", PayCycle."End Date", DeputationType);
-            if OrgStruclist.Get(DeputationType, DeputationCode) then begin
-                OrgStruclist.TestField("Sol ID");
-                SolID := OrgStruclist."Sol ID";
-            end;
-        end;
+        OrgStruclist.Get("Deputation On", "Deputation Value");
+        OrgStrucList.TestField("Sol ID");
+        SolID := OrgStruclist."Sol ID";
+
         EngNepDate.Reset;
         EngNepDate.SetRange("English Date", "Pay Period Start Date");
         if EngNepDate.FindFirst then;
