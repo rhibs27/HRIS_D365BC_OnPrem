@@ -2,7 +2,6 @@ table 50113 "Shift Assignment Header"
 {
     Caption = 'Shift Assignment';
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -146,7 +145,6 @@ table 50113 "Shift Assignment Header"
         {
             Caption = 'Status';
         }
-
     }
     keys
     {
@@ -175,7 +173,8 @@ table 50113 "Shift Assignment Header"
     begin
         "Type" := "Type"::"Shift Assignment";
         if not GuiAllowed then begin
-            Validate("Employee No.", HrMgt.GetEmployeeNo());
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
             Validate("Approval Status", "Approval Status"::Open);
         end;
         // TestField(Code);
@@ -188,7 +187,11 @@ table 50113 "Shift Assignment Header"
                 "Type"::"Shift Assignment":
                     begin
                         HRSetup.TestField("Shift Assignment Series");
-                        NoSeriesMgt.InitSeries(HRSetup."Shift Assignment Series", xRec."No. Series", Today, "No.", "No. Series");
+                        HRMgt.InitNoSeriesNew(HRSetup."Shift Assignment Series", xRec."No. Series", Today, "No.", "No. Series");
+                        ShiftAssignmentRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                        ShiftAssignmentRec.SetLoadFields("No.");
+                        while ShiftAssignmentRec.Get("No.") do
+                            "No." := NoSeriesMgt.GetNextNo("No. Series");
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Type", "Approval Status");
                     end;
             end;
@@ -200,13 +203,13 @@ table 50113 "Shift Assignment Header"
     var
         HrMgt: Codeunit "HR Mgt.";
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHRMS: Record "Approval HRMS";
         ShiftLine: Record "Shift Line";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         Employee: Record Employee;
-
+        ShiftAssignmentRec: Record "Shift Assignment Header";
 
     procedure CheckForExistingDate(No: Code[20])
     var
@@ -227,5 +230,4 @@ table 50113 "Shift Assignment Header"
                     Error('Shift Assignment for this period %1 and %2 is already been assigned in %3.', ShiftAssignment."From Date", ShiftAssignment."To Date", ShiftAssignment."No.");
             until ShiftAssignment.Next() = 0;
     end;
-
 }

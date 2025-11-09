@@ -166,6 +166,7 @@ codeunit 50023 EmployeeActivityMgt
                     LeaveRequest.Validate("Approved Date", Today);
                     LeaveRequest.Validate("Requested Date", leaveJournal."Requested Date");
                     LeaveRequest.Validate("Form Journal", true);
+                    OnBeforeLeaveRequestInsert(LeaveRequest, leaveJournal);
                     LeaveRequest.Insert(true);
                 end else if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Adjustment then
                         LeaveMgt.InsertLeaveEarnfromJournal(
@@ -373,6 +374,11 @@ codeunit 50023 EmployeeActivityMgt
 
     [IntegrationEvent(false, false)]
     procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeLeaveRequestInsert(var leaveRequest: Record leave; var leaveJournal: Record "Employee Activity Journal")
     begin
     end;
 

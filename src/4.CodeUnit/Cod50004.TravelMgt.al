@@ -23,7 +23,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
             TravelRequest.Validate("Requested Date", Today);
             Employee.Get(EmpCode);
-            TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Branch Code");
+            TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
             TravelRequest.Validate(Department, Employee."Department Code");
             if ToExtend then begin
                 Clear(TravelRequest2);
@@ -102,7 +102,6 @@ codeunit 50004 "Travel Mgt."
         TravelRequest.FilterGroup(0);
         if TravelRequest.Count <> 0 then
             Error('Travel request has already been requested between %1 to %2', TravelReq."Start Date", TravelReq."End Date");
-
         if TravelReq."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
         Employee.Reset();
@@ -118,7 +117,6 @@ codeunit 50004 "Travel Mgt."
             TravelReq.Validate("Travel With", TravelRequest1."Travel With");
             if not (TravelReq."Travel Countries" = TravelReq."Travel Countries"::Nepal) then
                 TravelReq.Validate("Departure From", TravelRequest1."Departure From");
-
         end;
         //TravelReq.TestField("Approver Code");
         TravelReq.Validate("Total No. of Days", TravelReq."No. of Days" + CalcExtendDays(TravelReq."No. of Days", TravelReq."Travel Order No."));
@@ -144,16 +142,13 @@ codeunit 50004 "Travel Mgt."
                 if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then begin//AT
                     TravelReq.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelReq."No. of Days");
                     TravelReq.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
-
                 end else begin
                     TravelReq.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelReq."No. of Days");
                     TravelReq.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
-
                 end;
                 if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then begin//AT
                     TravelReq.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelReq."No. of Days" - 1));
                     TravelReq.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
-
                 end else begin
                     TravelReq.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelReq."No. of Days" - 1));
                     TravelReq.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
@@ -192,12 +187,10 @@ codeunit 50004 "Travel Mgt."
     begin
         Employee.Get(Empcode);
         SalaryLevel.Get(Employee."Salary Level");
-
         if Employee1.Get(TravelWith) then;
         if not SalaryLevel."Travel With Not Eligible" then
             if SalaryLevel1.Get(Employee1."Salary Level") then;
         if TravelWith <> '' then begin//AT
-
             if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then begin
                 if SalaryLevel1."Nepal Lodging Allowance" * NoOfDays < Amt then
                     Error(ErrorLodgingError, SalaryLevel1."Nepal Lodging Allowance" * NoOfDays);
@@ -222,7 +215,6 @@ codeunit 50004 "Travel Mgt."
             if not SalaryLevel."Travel With Not Eligible" then
                 if SalaryLevel1.Get(Employee1."Salary Level") then;
         if TravelWithEmp <> '' then begin
-
             if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin
                 if SalaryLevel1."Nepal Fooding Allowance" * NoOfDays < Amt then
                     Error(ErrorFoodingError, SalaryLevel1."Nepal Fooding Allowance" * NoOfDays);
@@ -328,7 +320,6 @@ codeunit 50004 "Travel Mgt."
             if not SalaryLevel."Travel With Not Eligible" then
                 if SalaryLevel1.Get(Employee1."Salary Level") then;
         if TravelWithEmp <> '' then begin
-
             if SalaryLevel1."Others Fooding Allowance" > SalaryLevel."Others Fooding Allowance" then begin
                 if SalaryLevel1."Others Fooding Allowance" * NoOfDays < Amt then
                     Error(ErrorFoodingError, SalaryLevel1."Others Fooding Allowance" * NoOfDays);
@@ -340,10 +331,6 @@ codeunit 50004 "Travel Mgt."
         else
             if SalaryLevel."Others Fooding Allowance" * NoOfDays < Amt then
                 Error(ErrorFoodingError, SalaryLevel."Others Fooding Allowance" * NoOfDays);
-    end;
-
-    local procedure "-----Travel Claimed-----"()
-    begin
     end;
 
     procedure OpenTravelClaimed(EmpCode: Code[20]; TravelOrderNo: Code[20]; TravelWith: Code[20]; TravelCountry: Enum "Travel Countries")
@@ -359,7 +346,6 @@ codeunit 50004 "Travel Mgt."
         ApprovalEntry.SetRange("Document No.", '');
         ApprovalEntry.SetRange("Employee No", EmpCode);
         ApprovalEntry.DeleteAll();
-
         TravelRequest2.Reset();
         TravelRequest2.SetRange("Employee No.", EmpCode);
         TravelRequest2.SetRange(Type, TravelRequest2.Type::"Travel Claim");
@@ -370,7 +356,6 @@ codeunit 50004 "Travel Mgt."
         end else begin
             TravelRequest.Init;
             Employee.Get(EmpCode);
-
             SalaryLevel.Get(Employee."Salary Level");
             if TravelWith <> '' then begin//AT
                 Employee1.Get(TravelWith);
@@ -418,7 +403,6 @@ codeunit 50004 "Travel Mgt."
                 GetLodgingLimit(TravelRequest, SalaryLevel1, SalaryLevel);
             // TravelRequest.Validate("Out of Pocket Expense", GetOutOfPocket(TravelCountry, SalaryLevel) *
             //   GetOutofExpenseDuration(TravelRequest."Actual Travel Start Time", TravelRequest."Actual Travel End Time", TravelRequest."Start Date", TravelRequest."End Date"));
-
             if TravelRequest."Advance Cash" <> 0 then
                 TravelRequest."Advance Cash Required" := true;
             TravelRequest.Insert(true);
@@ -564,10 +548,8 @@ codeunit 50004 "Travel Mgt."
         //Duration1 :=(CREATEDATETIME(TODAY,0T) - CREATEDATETIME(TODAY-1,DepatureTime));
         //Duration2 := (CREATEDATETIME(TODAY,ArrivalTime) - (CREATEDATETIME(TODAY,0T)));
         TotalDuration := (CreateDateTime(ArrivalDate, ArrivalTime) - CreateDateTime(DepartureDate, DepartureTime)) / 1000 / 60 / 60;
-
         NoofDays := Round(TotalDuration / 24, 1, '<');
         TotalDuration := TotalDuration mod 24;
-
         if TotalDuration >= HRSetup."Full Limit (out expense)" then
             exit(NoofDays + HRSetup."Full Limit Value")
         else if TotalDuration >= HRSetup."Half Limit (out expense)" then
@@ -618,7 +600,6 @@ codeunit 50004 "Travel Mgt."
         if TravelRequest2.Get(TravelRequest."Travel Order No.") then
             if (TravelRequest2."Travel Claimed") then
                 Error('Travel order no. %1 has already been claimed.', TravelRequest2."No.");
-
         // TravelReq.TestField("Purpose of Travel");
         if TravelRequest."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
@@ -681,10 +662,8 @@ codeunit 50004 "Travel Mgt."
     begin
         TravelRequest.Get(TravelCode);
         if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
-
             HRMgt.CreateEmpActLedgerForDateRange(TravelRequest.Type, TravelRequest."No.", TravelRequest."Employee No.", TravelRequest."Start Date", TravelRequest."End Date");
             AttendanceMgt.DailyAttendanceUpdate(travelRequest."Start Date", travelRequest."End Date", travelRequest."Employee No.");
-
             Employee.Get(TravelRequest."Employee No.");
             Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
             AttendanceSetup.Get;
@@ -701,7 +680,7 @@ codeunit 50004 "Travel Mgt."
         end;
         TravelRequest."Approved Date" := Today;
         TravelRequest.Modify();
-        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, HrMgt.getEmployeeNo(), TravelRequest."No.", false);   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
     end;
 
     procedure TravelClaimApproved(TravelCode: Code[20])
@@ -741,7 +720,6 @@ codeunit 50004 "Travel Mgt."
             if not SalaryLevel."Travel With Not Eligible" then
                 if SalaryLevel1.Get(Employee."Salary Level") then;
         end;
-
         case EmpTravel."Travel Countries" of
             EmpTravel."Travel Countries"::Nepal:
                 begin
@@ -758,7 +736,6 @@ codeunit 50004 "Travel Mgt."
                     end else if allType = allType::OutofExpense then
                             exit(SalaryLevel."Out of Pocket Expense(Nepal)" * EmpTravel."Total No. of Days");
                 end;
-
             EmpTravel."Travel Countries"::India:
                 begin
                     if allType = allType::Fooding then begin
@@ -774,7 +751,6 @@ codeunit 50004 "Travel Mgt."
                     end else if allType = allType::OutofExpense then
                             exit(SalaryLevel."Out of Pocket Expense(India)" * EmpTravel."Total No. of Days");
                 end;
-
             EmpTravel."Travel Countries"::"Other Countries":
                 begin
                     if allType = allType::Fooding then begin
@@ -808,7 +784,6 @@ codeunit 50004 "Travel Mgt."
             if not SalaryLevel."Travel With Not Eligible" then
                 if SalaryLevel1.Get(Employee."Salary Level") then;
         end;
-
         if perDay then
             Days := 1
         else begin
@@ -835,7 +810,6 @@ codeunit 50004 "Travel Mgt."
                     end else if allType = allType::OutofExpense then
                             exit(SalaryLevel."Out of Pocket Expense(Nepal)" * Days);
                 end;
-
             EmpTravel."Travel Countries"::India:
                 begin
                     if allType = allType::Fooding then begin
@@ -851,7 +825,6 @@ codeunit 50004 "Travel Mgt."
                     end else if allType = allType::OutofExpense then
                             exit(SalaryLevel."Out of Pocket Expense(Nepal)" * Days);
                 end;
-
             EmpTravel."Travel Countries"::"Other Countries":
                 begin
                     if allType = allType::Fooding then begin
@@ -927,7 +900,6 @@ codeunit 50004 "Travel Mgt."
                 // TravelRequest.Validate("Lodging Allowance", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
-
             end else begin
                 // TravelRequest.Validate("Lodging Allowance", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
@@ -939,7 +911,6 @@ codeunit 50004 "Travel Mgt."
                 // TravelRequest.Validate("Lodging Allowance", SalaryLevel1."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Others Lodging Allowance");
-
             end else begin
                 // TravelRequest.Validate("Lodging Allowance", SalaryLevel."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
@@ -1066,6 +1037,4 @@ codeunit 50004 "Travel Mgt."
     procedure WithOutHigherSalaryLevel(Var TravelRequest: Record "Travel Request"; var SalaryLevel: Record "Salary Level"; var IsHandled: Boolean)
     begin
     end;
-
-
 }

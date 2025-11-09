@@ -37,6 +37,10 @@ page 50006 "Emp. Edit Qualifi Subform"
                 {
                     ToolTip = 'Specifies the value of the CGPA field.', Comment = '%';
                 }
+                field("GPA Scale"; Rec."GPA Scale")
+                {
+                    ToolTip = 'Specifies the value of the GPA Scale field.', Comment = '%';
+                }
 
                 field(Percentage; Rec.Percentage)
                 {
@@ -78,7 +82,6 @@ page 50006 "Emp. Edit Qualifi Subform"
                     FromFileName: Text;
                     AttachmentMgt: Codeunit "Attachment Mgt.";
                 begin
-                    // Rec.TestField("Entry No.");
                     if Rec.Attachment.HasValue() then
                         if not Confirm('There is an existing attachment. Do you wish to proceed') then
                             exit;
@@ -86,10 +89,8 @@ page 50006 "Emp. Edit Qualifi Subform"
                         // check file size 
                         if Rec."Change in Emp Type" = Rec."Change in Emp Type"::Qualification then
                             AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Employee Document Type"::Education))
-                        else if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
-                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"))
                         else
-                            Error('Invali');
+                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
 
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
@@ -130,7 +131,6 @@ page 50006 "Emp. Edit Qualifi Subform"
                     Instream: InStream;
                     fileInitial: Text;
                 begin
-                    // Rec.TestField("Entry No.");
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
                         if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
                             fileInitial := Rec.Designation
@@ -142,9 +142,6 @@ page 50006 "Emp. Edit Qualifi Subform"
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
                         DownloadFromStream(Instream, '', '', '', ToFile);
                     end;
-                    // ExportPath := TemporaryPath + Format(Rec."Employee No.") + Format(Rec.Attachment.MediaId);
-                    // Rec.Attachment.ExportFile(ExportPath);
-                    // FileManagement.ExportImage(ExportPath, ToFile);
                 end;
             }
             action(DeletePicture)
@@ -158,7 +155,7 @@ page 50006 "Emp. Edit Qualifi Subform"
                 begin
                     Rec.TestField("Employee No.");
 
-                    if not Confirm('Do you want to delete/') then
+                    if not Confirm('Do you want to delete?') then
                         exit;
                     Clear(Rec.Attachment);
                     Rec.Modify(true);

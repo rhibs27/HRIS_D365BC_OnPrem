@@ -30,4 +30,8 @@ enum 50117 "Employee Edit Type"
     {
         Caption = 'Language';
     }
+    value(8; "Additional Documents")
+    {
+        Caption = 'Additional Documents';
+    }
 }

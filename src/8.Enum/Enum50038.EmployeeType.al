@@ -24,15 +24,6 @@ enum 50038 "Employee Type"
     }
     value(5; Outsource)
     {
-        caption = 'Outsource';
+        Caption = 'Outsource';
     }
-    // value(5; ALL)
-    // {
-    //     Caption = 'All';
-    // }
-    // value(6; "Except Contract")
-    // {
-    //     Caption = 'Except Contract';
-    // }
-
 }

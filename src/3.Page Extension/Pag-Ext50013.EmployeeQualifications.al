@@ -46,6 +46,11 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the CGPA field.';
             }
+            field("GPA Scale"; Rec."GPA Scale")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the GPA Scale field.';
+            }
             field(Stream; Rec.Stream)
             {
                 ApplicationArea = All;

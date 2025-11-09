@@ -93,6 +93,10 @@ page 50365 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Formula field.', Comment = '%';
                 }
+                field("Specific Payroll Attribute"; Rec."Specific Payroll Attribute")
+                {
+                    ToolTip = 'Specifies the value of the Specific Payroll Attribute field.', Comment = '%';
+                }
             }
         }
     }

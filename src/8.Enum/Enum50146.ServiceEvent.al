@@ -113,4 +113,12 @@ enum 50146 "Service Event"
     {
         Caption = 'First Deputation';
     }
+    value(27; Appraisal)
+    {
+        Caption = 'Appraisal';
+    }
+    value(28; "Disciplinary Action")
+    {
+        Caption = 'Disciplinary Action';
+    }
 }

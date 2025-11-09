@@ -52,7 +52,6 @@ table 50074 "Employee Edit"
             Caption = 'Email (Personal)';
             DataClassification = CustomerContent;
         }
-
         // Offical Document Changes
         field(7; "Passport No."; Code[20])
         {
@@ -60,7 +59,6 @@ table 50074 "Employee Edit"
             Description = 'Official Document';
             DataClassification = CustomerContent;
         }
-
         field(8; "Differently Able"; Boolean)
         {
             Caption = 'Differently Able';
@@ -81,7 +79,6 @@ table 50074 "Employee Edit"
             begin
             end;
         }
-
         field(17; "Requested Date"; Date)
         {
             Editable = false;
@@ -121,11 +118,7 @@ table 50074 "Employee Edit"
                             Validate("Emp Document Type", "Emp Document Type"::Achievement);
                         end
                 end;
-                // if (xRec."Changes In Employee Type" <> Rec."Changes In Employee Type") and
-                //     (Rec."Changes In Employee Type" <> "Changes In Employee Type"::" ") then
-                //     UpdateEmployeeEditLine(Rec);
             end;
-
         }
         field(21; Attachment; Media)
         {
@@ -140,7 +133,6 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
-            //TableRelation = "Employee Qualification";
         }
         field(24; Description; Code[100])
         {
@@ -174,7 +166,6 @@ table 50074 "Employee Edit"
                 Evaluate(Date, year);
                 if Date > Date2DMY(Today, 3) then
                     Error('Date is in Future');
-
             end;
         }
         field(29; Designation; Text[30])
@@ -239,7 +230,7 @@ table 50074 "Employee Edit"
             Description = 'Official Document';
             DataClassification = CustomerContent;
         }
-        //Changes In relative 
+        //Changes In relative
         field(45; "Relative Code"; Code[10])
         {
             Caption = 'Relative Code';
@@ -297,7 +288,6 @@ table 50074 "Employee Edit"
             MaxValue = 32;
             DataClassification = CustomerContent;
         }
-
         // Language Proficiency
         field(54; Language; Code[20])
         {
@@ -355,6 +345,10 @@ table 50074 "Employee Edit"
                 MailManagement.ValidateEmailAddressField("Relative Mail");
             end;
         }
+        field(66; "Set Nominee"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(100; "Status"; Text[20])
         {
             Editable = false;
@@ -365,13 +359,11 @@ table 50074 "Employee Edit"
         }
         field(102; "Deputation on"; Enum "Deputation Type")
         {
-
         }
         field(103; "Province Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
         }
-
         field(104; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
@@ -422,7 +414,6 @@ table 50074 "Employee Edit"
         }
         key(PK2; "Employee No.")
         {
-
         }
     }
     Var
@@ -453,7 +444,9 @@ table 50074 "Employee Edit"
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
-        Validate("Employee No.", HrMgt.GetEmployeeNo());
+        if "Employee No." = '' then
+            if not HrMgt.IsSaaS() then
+                Validate("Employee No.", HrMgt.GetEmployeeNo());
         Validate(Type, Type::"Employee Edit");
         Validate("Approval Status", "Approval Status"::Pending);
         HRSetup.Get;
@@ -468,7 +461,6 @@ table 50074 "Employee Edit"
                         EmployeeEdit.SetLoadFields("No.");
                         while EmployeeEdit.Get("No.") do
                             "No." := NoSeriesMgt.GetNextNo("No. Series");
-
                         ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                     end;
             end;

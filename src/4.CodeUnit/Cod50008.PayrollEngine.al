@@ -383,9 +383,15 @@ codeunit 50008 "Payroll Engine"
                     MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
                 end else begin
                     SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
-
-                    if SocialSecurityTaxAmount > MonthlyTax then
-                        SocialSecurityTaxAmount := MonthlyTax;
+                    PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+                    if SocialSecurityTaxAmount >= MonthlyTax then
+                        SocialSecurityTaxAmount := MonthlyTax
+                    else begin
+                        if PGSetup."Pro Rate Female Rebate" then begin
+                            if TaxSetupHeader."Special Tax Exempt %" <> 0 then
+                                SocialSecurityTaxAmount := SocialSecurityTaxAmount - SocialSecurityTaxAmount * TaxSetupHeader."Special Tax Exempt %" / 100;
+                        end;
+                    end;
 
                     if (PayrollHeader.Type = PayrollHeader.Type::Adjustment) and (MonthlyTax > 0) then begin
                         if SocialSecurityTax = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
@@ -409,7 +415,7 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end;
-        PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+        //PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
@@ -565,6 +571,8 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
         UsageAmount: Decimal;
         PayrollColumnConfig: Record "Payroll Column Configuration";
+        RFContribution: Record "RF Contribution";
+        RetirementFund: Record "Retirement Fund";
         RecRefs: RecordRef;
         FieldRefs: FieldRef;
     begin
@@ -577,51 +585,66 @@ codeunit 50008 "Payroll Engine"
                                                       PayrollAttributesUsage.Subtype::"Employer Contribution", PayrollAttributesUsage.Subtype::RF, PayrollAttributesUsage.Subtype::"Lump Sum Contribution");
         if PayrollAttributesUsage.FindFirst then
             repeat
-                PayrollAttributesUsage.CalcFields("Formula Exists");
-                UsageAmount := 0;
-                if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
-                    if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin
-                        if PayrollAttributesUsage.Amount <> 0 then
-                            UsageAmount := PayrollAttributesUsage.Amount
-                        else if PayrollAttributesUsage."Formula Exists" then
-                            UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false)
-                        else if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
-                            PayrollColumnConfig.Reset;
-                            PayrollColumnConfig.SetRange("Table No.", Database::"Payroll Line");
-                            PayrollColumnConfig.SetRange("Variable Field Code", PayrollAttributesUsage.Code);
-                            if PayrollColumnConfig.FindFirst then begin
-                                RecRefs.Open(Database::"Payroll Line");
-                                FieldRefs := RecRefs.Field(1);
-                                FieldRefs.SetRange(PayrollHeader."No.");
-                                FieldRefs := RecRefs.Field(3);
-                                FieldRefs.SetRange(Employee."No.");
-                                RecRefs.FindFirst;
-                                FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
-                                UsageAmount := FieldRefs.Value;
 
-                                case PayrollAttributes.Subtype of
-                                    PayrollAttributes.Subtype::CIT:
-                                        CITContribution += UsageAmount;
-                                    PayrollAttributes.Subtype::"Lump Sum Contribution":
-                                        LumpSumCIT += UsageAmount;
-                                    PayrollAttributes.Subtype::"Employee Contribution":
-                                        EmployeeContribution += UsageAmount;
-                                    PayrollAttributes.Subtype::"Employer Contribution":
-                                        EmployerContribution += UsageAmount;
-                                    PayrollAttributes.Subtype::RF:
-                                        RF += UsageAmount;
+                if PayrollAttributesUsage."RF Contribution Type" = PayrollAttributesUsage."RF Contribution Type"::Manual then begin
+                    RetirementFund.SetRange("Employee No.", PayrollAttributesUsage."Employee Code");
+                    RetirementFund.SetRange("Approval Status", RetirementFund."Approval Status"::Approved);
+                    if RetirementFund.FindLast() then;
+
+                    RFContribution.SetRange("Document No.", RetirementFund."No.");
+                    RFContribution.SetRange("Employee No.", PayrollAttributesUsage."Employee Code");
+                    RFContribution.SetRange("Attribute Code", PayrollAttributes.Code);
+                    RFContribution.CalcSums(Amount);
+                    ProjectionEarning := RFContribution.Amount;
+
+                end else begin
+                    PayrollAttributesUsage.CalcFields("Formula Exists");
+                    UsageAmount := 0;
+                    if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
+                        if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin
+                            if PayrollAttributesUsage.Amount <> 0 then
+                                UsageAmount := PayrollAttributesUsage.Amount
+                            else if PayrollAttributesUsage."Formula Exists" then
+                                UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false)
+                            else if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
+                                PayrollColumnConfig.Reset;
+                                PayrollColumnConfig.SetRange("Table No.", Database::"Payroll Line");
+                                PayrollColumnConfig.SetRange("Variable Field Code", PayrollAttributesUsage.Code);
+                                if PayrollColumnConfig.FindFirst then begin
+                                    RecRefs.Open(Database::"Payroll Line");
+                                    FieldRefs := RecRefs.Field(1);
+                                    FieldRefs.SetRange(PayrollHeader."No.");
+                                    FieldRefs := RecRefs.Field(3);
+                                    FieldRefs.SetRange(Employee."No.");
+                                    RecRefs.FindFirst;
+                                    FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
+                                    UsageAmount := FieldRefs.Value;
+
+                                    case PayrollAttributes.Subtype of
+                                        PayrollAttributes.Subtype::CIT:
+                                            CITContribution += UsageAmount;
+                                        PayrollAttributes.Subtype::"Lump Sum Contribution":
+                                            LumpSumCIT += UsageAmount;
+                                        PayrollAttributes.Subtype::"Employee Contribution":
+                                            EmployeeContribution += UsageAmount;
+                                        PayrollAttributes.Subtype::"Employer Contribution":
+                                            EmployerContribution += UsageAmount;
+                                        PayrollAttributes.Subtype::RF:
+                                            RF += UsageAmount;
+                                    end;
+
+                                    RecRefs.Close;
                                 end;
-
-                                RecRefs.Close;
                             end;
-                        end;
 
-                        if PayrollAttributes."Apply Every Month" then
-                            ProjectionEarning += UsageAmount * RemainingMonth
-                        else
-                            ProjectionEarning += UsageAmount;
+                            if PayrollAttributes."Apply Every Month" then
+                                ProjectionEarning += UsageAmount * RemainingMonth
+                            else
+                                ProjectionEarning += UsageAmount;
+                        end;
                     end;
                 end;
+
             until PayrollAttributesUsage.Next = 0;
     end;
 
@@ -2984,11 +3007,17 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Total Tax Liability" := TaxAtOnceAnnualTax + TaxExempt + TotalSSTPaid + TotalTaxRemunPaid;
 
         PayrollLine."Payable Tax Liability" := TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid;
+        PayrollLine.RoundAmount(PayrollLine."Payable Tax Liability");
         PayrollLine."Social Security Tax(Annual)" := SocialSecurityTax;
-        if (TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid) < 0 then
+        if PGSetup."Pro Rate Female Rebate" then
+            if TaxSetupHeader."Special Tax Exempt %" <> 0 then
+                if MonthlyTax > SocialSecurityTaxAmount then
+                    PayrollLine."Social Security Tax(Annual)" := SocialSecurityTax - SocialSecurityTax * TaxSetupHeader."Special Tax Exempt %" / 100;
+
+        if (TaxAtOnceAnnualTax - PayrollLine."Social Security Tax(Annual)" + TotalTaxRemunPaid + TotalSSTPaid) < 0 then
             PayrollLine."Tax on Remuneration(Annual)" := 0
         else
-            PayrollLine."Tax on Remuneration(Annual)" := TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid;
+            PayrollLine."Tax on Remuneration(Annual)" := TaxAtOnceAnnualTax - PayrollLine."Social Security Tax(Annual)" + TotalTaxRemunPaid + TotalSSTPaid;
         PayrollLine."Female Tax Credit" := TaxExempt;
         if TaxAtOnceAnnualTax < 0 then
             TaxAtOnceAnnualTax := 0;

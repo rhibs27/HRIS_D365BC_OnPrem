@@ -47,9 +47,9 @@ enum 50014 Relation
     {
         Caption = 'Siblings';
     }
-    value(12; Childrens)
+    value(12; Children)
     {
-        Caption = 'Childrens';
+        Caption = 'Children';
     }
 
 }

@@ -52,11 +52,17 @@ table 50131 "KPI Master Bank"
             HRSetups.Get;
             HRSetups.TestField("KPI No. Series");
             Clear(NoSeriesMgt);
-            NoSeriesMgt.InitSeries(HRSetups."KPI No. Series", xRec."No. Series", Today, "KPI No.", Rec."No. Series");
+            HRMgt.InitNoSeriesNew(HRSetups."KPI No. Series", xRec."No. Series", Today, "KPI No.", Rec."No. Series");
+            KPIMasterBankRec.ReadIsolation(IsolationLevel::ReadCommitted);
+            KPIMasterBankRec.SetLoadFields("KPI No.");
+            while KPIMasterBankRec.Get("KPI No.") do
+                "KPI No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
     end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetups: Record "Human Resources Setup";
+        HRMgt: Codeunit "HR Mgt.";
+        KPIMasterBankRec: Record "KPI Master Bank";
 }

@@ -542,7 +542,7 @@ table 50142 Resignation
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
@@ -564,6 +564,7 @@ table 50142 Resignation
         //EmpHie: Record "Employee Hierarchy Master";
         Standardtext: Record "Standard Text";
         ApproverMgt: Codeunit "Approver Mgt";
+        ResignationRec: Record Resignation;
     // BranchNameTo: Text;
     //DepartmentNameTo: Text;
     //ProvinceNameTo: Text;
@@ -601,7 +602,7 @@ table 50142 Resignation
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
 
@@ -609,7 +610,11 @@ table 50142 Resignation
                     Type::Resignation:
                         begin
                             HRSetup.TestField("Resignation No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Resignation No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Resignation No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            ResignationRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                            ResignationRec.SetLoadFields("No.");
+                            while ResignationRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
                 end;

@@ -21,12 +21,10 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         field(50003; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
         {
             DataClassification = ToBeClassified;
-
         }
         field(50004; "Posting Region"; Enum Region)
         {
             DataClassification = ToBeClassified;
-
         }
         field(50005; "Branch Code"; Text[500])
         {
@@ -86,12 +84,10 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         field(50022; "Inside/Outside Valley -OR"; Enum "Outside/Inside Valley")
         {
             DataClassification = ToBeClassified;
-
         }
         field(50023; "Posting Region -OR"; Enum Region)
         {
             DataClassification = ToBeClassified;
-
         }
         field(50024; "Branch Code -OR"; Text[500])
         {
@@ -136,8 +132,12 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
                 Validate("Employee -OR", HRMgt.LookupEmployee());
             end;
         }
+        field(50600; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+        }
     }
-
     var
         HRMgt: Codeunit "HR Mgt.";
 
@@ -148,7 +148,6 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
     begin
         if not Confirm('Do you want to update attendance logs for the date %1', false, Date) then
             exit;
-
         Employee.Reset;
         if "Province Filter" <> '' then
             Employee.SetFilter("Province Code", "Province Filter");
@@ -178,7 +177,6 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
                         EmployeeAttendanceActivity.Modify;
                     until EmployeeAttendanceActivity.Next = 0;
             until Employee.Next = 0;
-
         Message('Holiday is updated for all employees for date %1', Date);
     end;
 }

@@ -5,7 +5,6 @@ report 50149 "Employee Attendance Report"
     Caption = 'Employee Attendance Report';
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/EmployeeAttendanceReport.rdl';
-
     dataset
     {
         dataitem("Employee Attendance"; "Employee Attendance & Activity")
@@ -114,7 +113,6 @@ report 50149 "Employee Attendance Report"
             column(Training_Day; "Training Day")
             {
             }
-
             // Filter Information
             column(AttendanceDateFilter; AttendanceDateFilter)
             {
@@ -134,7 +132,6 @@ report 50149 "Employee Attendance Report"
             column(UnitCodeFilter; "Employee Attendance".GetFilter("Unit Code"))
             {
             }
-
             // Request Page Filter Values
             column(AttendanceDateFrom; AttendanceDateFrom)
             {
@@ -154,7 +151,6 @@ report 50149 "Employee Attendance Report"
             column(IncludeWeekOffEmployees; IncludeWeekOffEmployees)
             {
             }
-
             // Summary Calculations
             column(TotalEmployees; TotalEmployees)
             {
@@ -209,7 +205,6 @@ report 50149 "Employee Attendance Report"
             trigger OnPreDataItem()
             begin
                 CompanyInfo.Get();
-
                 // Initialize counters
                 TotalEmployees := 0;
                 TotalPresent := 0;
@@ -220,7 +215,6 @@ report 50149 "Employee Attendance Report"
                 TotalLateCheckIn := 0;
                 TotalEarlyCheckOut := 0;
                 TotalOvertimeHours := 0;
-
                 // Apply date range filters
                 if (AttendanceDateFrom <> 0D) and (AttendanceDateTo <> 0D) then begin
                     SetRange("Attendance Date", AttendanceDateFrom, AttendanceDateTo);
@@ -233,20 +227,22 @@ report 50149 "Employee Attendance Report"
                     AttendanceDateFilter := StrSubstNo('<=%1', AttendanceDateTo);
                 end else
                     AttendanceDateFilter := '';
-
                 // Apply attendance status filters - these are mutually exclusive
                 if ShowPresentOnly then begin
                     SetRange("Present Day", 1);
                 end else if ShowAbsentOnly then begin
                     SetRange("Absent Day", 1);
                 end;
-
                 // Apply leave filters
                 // if not IncludeLeaveEmployees then
                 //     SetFilter("Leave Day", '<>%1', 1)
                 // else
                 //     SetRange("Leave Day", 1);
 
+                if not IncludeLeaveEmployees then
+                    SetFilter("Leave Day", '<>%1', 1)
+                else
+                    SetRange("Leave Day", 1);
                 if EmployeeNoFilter <> '' then
                     SetFilter("Employee No.", EmployeeNoFilter);
                 if ProvinceCodeFilter <> '' then
@@ -257,7 +253,6 @@ report 50149 "Employee Attendance Report"
                     SetFilter("Department Code", DepartmentCodeFilter);
                 if UnitCodeFilter <> '' then
                     SetFilter("Unit Code", UnitCodeFilter);
-
             end;
 
             trigger OnAfterGetRecord()
@@ -275,7 +270,6 @@ report 50149 "Employee Attendance Report"
             end;
         }
     }
-
     requestpage
     {
         layout
@@ -308,7 +302,6 @@ report 50149 "Employee Attendance Report"
                         ApplicationArea = All;
                         Caption = 'Attendance Date From';
                         ToolTip = 'Specify the start date for the attendance report.';
-
                         trigger OnValidate()
                         begin
                             if (AttendanceDateFrom <> 0D) and (AttendanceDateTo <> 0D) then
@@ -321,7 +314,6 @@ report 50149 "Employee Attendance Report"
                         ApplicationArea = All;
                         Caption = 'Attendance Date To';
                         ToolTip = 'Specify the end date for the attendance report.';
-
                         trigger OnValidate()
                         begin
                             if (AttendanceDateFrom <> 0D) and (AttendanceDateTo <> 0D) then
@@ -333,7 +325,6 @@ report 50149 "Employee Attendance Report"
                 group(EmployeeFilters)
                 {
                     Caption = 'Employee Filters';
-
                     field(EmployeeNoFilter; EmployeeNoFilter)
                     {
                         ApplicationArea = All;
@@ -400,4 +391,33 @@ report 50149 "Employee Attendance Report"
         AttendanceDateTo: Date;
         AttendanceDateFilter: Text;
         ReportTitleLbl: Label 'Employee Attendance Report';
+        HRMgt: Codeunit "HR Mgt.";
+
+    local procedure GetAttendanceStatus(): Text[20]
+    begin
+        if "Employee Attendance"."Present Day" = 1 then
+            exit('Present');
+        if "Employee Attendance"."Absent Day" = 1 then
+            exit('Absent');
+        if "Employee Attendance"."Leave Day" = 1 then
+            exit('On Leave');
+        if "Employee Attendance"."Week Off Day" = 1 then
+            exit('Week Off');
+        exit('Unknown');
+    end;
+
+    local procedure GetCurrentEmployeeDeputation(): Code[20]
+    var
+        Employee: Record Employee;
+        HRmgn: Codeunit "HR Mgt.";
+    begin
+        if not HrMgt.IsSaaS() then
+            Employee.Get(HRmgn.GetEmployeeNo);
+        if (Employee."Branch Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Branch) then
+            BranchCodeFilter := employee."Branch Code";
+        if (Employee."Province Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Province) then
+            ProvinceCodeFilter := employee."Province Code";
+        if (Employee."Department Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Department) then
+            DepartmentCodeFilter := employee."Department Code";
+    end;
 }
