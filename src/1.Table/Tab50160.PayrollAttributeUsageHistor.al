@@ -35,7 +35,7 @@ table 50160 "Payroll Attri Usage History"
         {
             Caption = 'Effective Date';
         }
-        field(7; "Entry Date"; DateTime)
+        field(7; "Entry Date"; Date)
         {
             Caption = 'Entry Date';
         }
@@ -60,5 +60,7 @@ table 50160 "Payroll Attri Usage History"
             "Entry No." := PayrollAttrUsageHistor."Entry No." + 1
         else
             "Entry No." := 1;
+
+        "Effective Date" := Today;
     end;
 }
