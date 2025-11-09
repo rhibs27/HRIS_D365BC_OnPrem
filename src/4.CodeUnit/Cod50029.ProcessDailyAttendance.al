@@ -71,8 +71,8 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Present Day" := 0;
         EmpAttendance."Transfer Day" := 0;
         EmpAttendance."Week Off Day" := 0;
-        Clear(EmpAttendance."Check In Time");
-        Clear(EmpAttendance."Check Out Time");
+        EmpAttendance."Check In Time" := 0T;
+        EmpAttendance."Check Out Time" := 0T;
         EmpAttendance."Check In Difference" := 0;
         EmpAttendance."Check Out Difference" := 0;
         EmpAttendance."Late Check In Day" := 0;
@@ -118,7 +118,7 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
             EmpAttendance."Shift End Time" := EmpWorkShiftDetail."End Time";
             EmpAttendance."Standard Work Time" := EmpWorkShiftDetail."Work Time";
-
+            EmpAttendance."OverNight Shift" := EmpWorkShiftDetail.OverNight;
             if EmpWorkShiftDetail."Winter Start Date" <> 0D then
                 if (EmpAttendance."Attendance Date" >= EmpWorkShiftDetail."Winter Start Date") and
                     (EmpAttendance."Attendance Date" <= EmpWorkShiftDetail."Winter End Date") and (EmpWorkShiftDetail."Winter End Time" <> 0T) then
@@ -137,10 +137,11 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Shift Start Time" <> 0T) and (EmpAttendance."Check In Time" <> 0T) then
             EmpAttendance."Check In Difference" := EmpAttendance."Shift Start Time" - EmpAttendance."Check In Time";
         if (EmpAttendance."Shift End Time" <> 0T) and (EmpAttendance."Check Out Time" <> 0T) then
-            EmpAttendance."Check Out Difference" := EmpAttendance."Shift End Time" - EmpAttendance."Check Out Time";
+            EmpAttendance."Check Out Difference" := EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time";
         if (EmpAttendance."Check Out Time" <> 0T) and (EmpAttendance."Check In Time" <> 0T) then
             EmpAttendance."Actual Work Time" := EmpAttendance."Check Out Time" - EmpAttendance."Check In Time";
-        EmpAttendance."Work Time Difference" := EmpAttendance."Check In Difference" - EmpAttendance."Check Out Difference";
+        if (EmpAttendance."Check In Difference" <> 0) and (EmpAttendance."Check Out Difference" <> 0) then
+            EmpAttendance."Work Time Difference" := EmpAttendance."Check In Difference" - EmpAttendance."Check Out Difference";
     end;
 
     local procedure UpdateLateDay()
@@ -186,7 +187,7 @@ codeunit 50029 "Process Daily Attendance"
                         begin
                             EmpAttendance."Leave Day" += EmpActLedgerEntry.Day;
                             EmpAttendance."Absent Day" := 0;
-                            EmpAttendance."Day Type" := EmpActLedgerEntry."Leave Type";
+                            EmpAttendance."Leave Type" := EmpActLedgerEntry."Leave Type";
                             if LeaveRequest.Get(EmpActLedgerEntry."Document No.") then begin
                                 EmpAttendance."Leave Code" := LeaveRequest."Leave Code";
                                 if LeaveTypeSetup.Get(LeaveRequest."Leave Code") then
@@ -325,7 +326,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog: Record "Attendance Log";
     begin
         AttendanceLog.SetCurrentKey("Date Time Log");
-        AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time");
+        AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time", "Device IP");
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         if AttendanceLog.FindFirst() then begin

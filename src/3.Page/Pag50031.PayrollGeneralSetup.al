@@ -393,6 +393,11 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = All;
                 }
+                field("Dashain Allowance"; Rec."Dashain Allowance")
+                {
+                    ApplicationArea = All;
+                }
+
 
 
             }
@@ -661,6 +666,11 @@ page 50031 "Payroll General Setup"
                 field("ATM Custodian contract (month)"; Rec."ATM Custodian contract (month)")
                 {
                     ToolTip = 'Specifies the value of the ATM cust. Allow. (comtract) field.';
+                    ApplicationArea = All;
+                }
+                field("Dashain Allowance Amount"; Rec."Dashain Allowance Amount")
+                {
+                    ToolTip = 'Specifies the value of the Dashain Allowance Amount field.';
                     ApplicationArea = All;
                 }
                 field("Allowance Claim Limit (days)"; Rec."Allowance Claim Limit (days)")

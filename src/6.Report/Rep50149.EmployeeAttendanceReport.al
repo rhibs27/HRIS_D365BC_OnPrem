@@ -21,10 +21,10 @@ report 50149 "Employee Attendance Report"
             column(Attendance_Date; "Attendance Date")
             {
             }
-            column(Check_In_Time; "Check In Time")
+            column(Check_In_Time; Format("Check In Time"))
             {
             }
-            column(Check_Out_Time; "Check Out Time")
+            column(Check_Out_Time; Format("Check Out Time"))
             {
             }
             column(Status; Status)
@@ -183,8 +183,27 @@ report 50149 "Employee Attendance Report"
             column(TotalOvertimeHours; TotalOvertimeHours)
             {
             }
-            column(AttendanceStatus; GetAttendanceStatus())
+            column(AttendanceStatus; Remarks)
             {
+            }
+            dataitem(Leave; Leave)
+            {
+                DataItemLink = "Employee No." = field("Employee No.");
+                DataItemTableView = where("Approval Status" = filter("Approval Status"::Pending));
+                column(Remarks; Remarks) { }
+                column(No; "No.")
+                {
+                }
+                column(StartDate; "Start Date") { }
+                column(EndDate; "End Date") { }
+                column(NoOfDays; "No. of Days") { }
+                trigger OnPreDataItem()
+                begin
+                    Leave.SetFilter("Start Date", '<=%1', "Employee Attendance"."Attendance Date");
+                    Leave.Setfilter("End Date", '>=%1', "Employee Attendance"."Attendance Date");
+                    Leave.SetRange("Approval Status", "Approval Status"::Pending);
+                end;
+
             }
 
             trigger OnPreDataItem()
@@ -223,10 +242,10 @@ report 50149 "Employee Attendance Report"
                 end;
 
                 // Apply leave filters
-                if not IncludeLeaveEmployees then
-                    SetFilter("Leave Day", '<>%1', 1)
-                else
-                    SetRange("Leave Day", 1);
+                // if not IncludeLeaveEmployees then
+                //     SetFilter("Leave Day", '<>%1', 1)
+                // else
+                //     SetRange("Leave Day", 1);
 
                 if EmployeeNoFilter <> '' then
                     SetFilter("Employee No.", EmployeeNoFilter);
@@ -240,7 +259,6 @@ report 50149 "Employee Attendance Report"
                     SetFilter("Unit Code", UnitCodeFilter);
 
             end;
-
 
             trigger OnAfterGetRecord()
             begin
@@ -279,12 +297,12 @@ report 50149 "Employee Attendance Report"
                         Caption = 'Show Absent Employees Only';
                         ToolTip = 'Select to show only absent employees.';
                     }
-                    field(IncludeLeaveEmployees; IncludeLeaveEmployees)
-                    {
-                        ApplicationArea = All;
-                        Caption = 'Include Leave Employees';
-                        ToolTip = 'Select to include employees on leave in the report.';
-                    }
+                    // field(IncludeLeaveEmployees; IncludeLeaveEmployees)
+                    // {
+                    //     ApplicationArea = All;
+                    //     Caption = 'Include Leave Employees';
+                    //     ToolTip = 'Select to include employees on leave in the report.';
+                    // }
                     field(AttendanceDateFrom; AttendanceDateFrom)
                     {
                         ApplicationArea = All;
@@ -355,7 +373,6 @@ report 50149 "Employee Attendance Report"
                 AttendanceDateFrom := Today;
             if AttendanceDateTo = 0D then
                 AttendanceDateTo := Today;
-            GetCurrentEmployeeDeputation;
         end;
     }
     var
@@ -383,32 +400,4 @@ report 50149 "Employee Attendance Report"
         AttendanceDateTo: Date;
         AttendanceDateFilter: Text;
         ReportTitleLbl: Label 'Employee Attendance Report';
-
-    local procedure GetAttendanceStatus(): Text[20]
-    begin
-        if "Employee Attendance"."Present Day" = 1 then
-            exit('Present');
-        if "Employee Attendance"."Absent Day" = 1 then
-            exit('Absent');
-        if "Employee Attendance"."Leave Day" = 1 then
-            exit('On Leave');
-        if "Employee Attendance"."Week Off Day" = 1 then
-            exit('Week Off');
-        exit('Unknown');
-    end;
-
-    local procedure GetCurrentEmployeeDeputation(): Code[20]
-    var
-        Employee: Record Employee;
-        HRmgn: Codeunit "HR Mgt.";
-    begin
-        Employee.Get(HRmgn.GetEmployeeNo);
-        if (Employee."Branch Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Branch) then
-            BranchCodeFilter := employee."Branch Code";
-        if (Employee."Province Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Province) then
-            ProvinceCodeFilter := employee."Province Code";
-        if (Employee."Department Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Department) then
-            DepartmentCodeFilter := employee."Department Code";
-    end;
-
 }

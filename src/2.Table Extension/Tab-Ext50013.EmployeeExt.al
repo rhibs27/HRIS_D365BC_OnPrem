@@ -1727,12 +1727,6 @@ tableextension 50013 "Employee Ext" extends Employee
         OverTimeMgt.OpenOTForms("No.");
     end;
 
-    procedure OutOfOffice();
-    begin
-        TransferMgt.OpenOutofOfficeForms("No.");
-    end;
-
-
     procedure GetOutstandingAmt(): Decimal;
     begin
         LoanMgt.GetEmployeeSalaryOutstandingAmt("No.");

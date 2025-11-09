@@ -68,6 +68,18 @@ codeunit 50026 "Attendance Mgt"
         end;
     end;
 
+    procedure CheckEmployeePresent(EmpCode: Code[20]; AttendanceDate: Date): Boolean
+    var
+        EmpAtt: Record "Employee Attendance & Activity";
+    begin
+        EmpAtt.Reset();
+        EmpAtt.SetRange("Employee No.", EmpCode);
+        EmpAtt.SetRange("Attendance Date", AttendanceDate);
+        if EmpAtt.FindFirst() then
+            if EmpAtt."Present Day" <> 0 then
+                exit(true);
+    end;
+
     var
         AttendanceLog: Record "Attendance Log";
         EngNep: Record "English-Nepali Date";

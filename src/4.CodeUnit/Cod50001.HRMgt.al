@@ -3297,6 +3297,8 @@ codeunit 50001 "HR Mgt."
             Clear(Body);
             GetEmailTemplate(Header, Body, Footer, Disclaimer, EmailTemplate.Code);
             GetEmailReceipent(DocumentNo, DocumentType, ApprovalStatus, EmailReceipientText, EmailCCReceipent, EmailBCCReceipent, EmailTemplate.Code);
+            if EmailReceipientText.Count = 0 then
+                exit;
             CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, CodeunitEmailMessage.GetBody(), true, EmailCCReceipent, EmailBCCReceipent);
             CodeunitEmailMessage.AppendToBody(Header);
             CodeunitEmailMessage.AppendToBody('<br>');
@@ -5720,6 +5722,7 @@ codeunit 50001 "HR Mgt."
                                     Days: Decimal)
     var
         EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
+        Leave: Record Leave;
     begin
         if EmpActLedgerEntry.Get(EmpActType, DocNo, EmpNo, ActDate, Cancelled) then
             exit;
@@ -5734,14 +5737,19 @@ codeunit 50001 "HR Mgt."
             EmpActLedgerEntry.Day := -Days
         else
             EmpActLedgerEntry.Day := Days;
+        if EmpActType = EmpActType::"Leave Request" then
+            if Leave.Get(DocNo) then begin
+                EmpActLedgerEntry."Leave Type" := Leave."Leave Type";
+                EmpActLedgerEntry."Leave Code" := Leave."Leave Code";
+            end;
         EmpActLedgerEntry.insert();
     end;
 
     procedure CancelEmpActLedgerForDateRange(EmpActType: Enum "Employee Activity Type";
-                                    DocNo: Code[20];
-                                    EmpNo: Code[20];
-                                    StartDate: Date;
-                                    EndDate: Date)
+                                                             DocNo: Code[20];
+                                                             EmpNo: Code[20];
+                                                             StartDate: Date;
+                                                             EndDate: Date)
     var
         EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
         DateVar: Record Date;
@@ -5758,10 +5766,10 @@ codeunit 50001 "HR Mgt."
 
     procedure CreateEmpActLedgerForDateRange(
                                     EmpActType: Enum "Employee Activity Type";
-                                    DocNo: Code[20];
-                                    EmpNo: Code[20];
-                                    StartDate: Date;
-                                    EndDate: Date)
+                                                    DocNo: Code[20];
+                                                    EmpNo: Code[20];
+                                                    StartDate: Date;
+                                                    EndDate: Date)
     var
         DateRec: Record Date;
     begin

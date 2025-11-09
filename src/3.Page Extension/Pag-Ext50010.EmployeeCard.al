@@ -1508,22 +1508,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AttendanceMissedMgt.OpenLateAttendance(Rec."No.");
                     end;
                 }
-                action("Out of Office Forms")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Planning;
-                    PromotedCategory = Category4;
-                    PromotedOnly = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Out of Office Forms action.';
-                    trigger OnAction()
-                    begin
-                        Rec.OutOfOffice;
-                        CurrPage.CLOSE
-                    end;
-                }
                 action("Medical insurance Claim")
                 {
                     ApplicationArea = All;

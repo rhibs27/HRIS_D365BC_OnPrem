@@ -77,18 +77,22 @@ table 50124 Leave
         {
 
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
                 if Type <> Type::Overtime then
                     EmployeeRec.Get("Employee No.");
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                    if Type = Type::"Leave Request" then begin
-                        if EmployeeRec."Confirmation Date" <> 0D then
-                            if "Start Date" < EmployeeRec."Confirmation Date" then
-                                Error('Cannot apply before your confirmation date.');
+                OnBeforeCheckEmploymentAndConfirmationDate("Employee No.", "Start Date", "Leave Code", IsHandled);
+                if not IsHandled then
+                    if "Start Date" <> 0D then begin
+                        if "Start Date" < EmployeeRec."Employment Date" then
+                            Error('Cannot apply before your employment date');
+                        if Type = Type::"Leave Request" then begin
+                            if EmployeeRec."Confirmation Date" <> 0D then
+                                if "Start Date" < EmployeeRec."Confirmation Date" then
+                                    Error('Cannot apply before your confirmation date.');
+                        end;
                     end;
-                end;
                 //>>check for leave
                 if Type = Type::"Leave Request" then begin
                     if EmployeeRec."Contract Expiry Date" <> 0D then
@@ -163,6 +167,7 @@ table 50124 Leave
         }
         field(10; "Requested Date"; Date)
         {
+            Editable = false;
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -246,15 +251,19 @@ table 50124 Leave
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            Editable = false;
         }
         field(30; "Province Code"; Code[20])
         {
+            Editable = false;
         }
         field(29; "Province Name"; Code[50])
         {
+            Editable = false;
         }
         field(31; "Unit Code"; Code[20])
         {
+            Editable = false;
         }
         field(32; "Compensatory Days"; Decimal)
         {
@@ -278,6 +287,7 @@ table 50124 Leave
         }
         field(37; "Approved Date"; Date)
         {
+            Editable = false;
         }
         field(38; "Approver Type"; Enum "Approver Type")
         {
@@ -285,9 +295,11 @@ table 50124 Leave
         }
         field(39; Cancelled; Boolean)
         {
+            Editable = false;
         }
         field(40; "Cancelled No."; Code[20])
         {
+            Editable = false;
         }
         field(41; "Cancelled Document No."; Code[20])
         {
@@ -407,6 +419,7 @@ table 50124 Leave
         }
         field(61; "Deputation On"; Enum "Deputation Type")
         {
+            Editable = false;
             DataClassification = ToBeClassified;
         }
         field(62; "Form Journal"; Boolean)
@@ -414,6 +427,7 @@ table 50124 Leave
         }
         field(63; "Deputation On Code"; Code[20])
         {
+            Editable = false;
             DataClassification = ToBeClassified;
         }
         field(100; "Status"; Text[20])
@@ -541,6 +555,11 @@ table 50124 Leave
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterApplyForLeave(var Leave: Record Leave)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckEmploymentAndConfirmationDate(EmployeeNo: Code[20]; StartDate: date; LeaveCode: Code[20]; Var IsHandled: Boolean)
     begin
     end;
 }
