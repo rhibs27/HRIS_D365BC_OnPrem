@@ -49,7 +49,7 @@ table 50162 "Assignment Memo Ledger Entry"
         {
             Caption = 'Substituted Employee No.';
         }
-        field(9; "Applied Document No."; Code[20])
+        field(9; "Payroll Document No."; Code[20])
         {
             Caption = 'Applied Document No.';
         }
@@ -94,7 +94,7 @@ table 50162 "Assignment Memo Ledger Entry"
         key(key2; "Employee No.", "Document No.", "Posting Date", "Employee Activity Type")
         {
         }
-        key(key3; "Applied Document No.", "Substituted Employee No.", Open)
+        key(key3; "Payroll Document No.", "Substituted Employee No.", Open)
         {
         }
     }

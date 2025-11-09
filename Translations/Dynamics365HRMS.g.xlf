@@ -1168,11 +1168,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Amount - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1450550140 - Field 2828287359 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Applied Document No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Applied Document No. - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 4208656117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>ATM Site</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1232,6 +1227,11 @@
           <source>Payroll Attribute Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Attribute Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2074948367 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Applied Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Document No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posting Date</source>

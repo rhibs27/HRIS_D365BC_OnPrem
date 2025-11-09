@@ -516,10 +516,10 @@ codeunit 50010 "Payroll-Post"
 
         //check and update Assignment memo lines if any
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
-        AssignmentMemoLedgerEntry.SetRange("Applied Document No.", PayrollHeader."No.");
+        AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PayrollHeader."No.");
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
-                AssignmentMemoLedgerEntry."Applied Document No." := PostedPayrollHeader."No.";
+                AssignmentMemoLedgerEntry."Payroll Document No." := PostedPayrollHeader."No.";
                 AssignmentMemoLedgerEntry.Open := false;
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;

@@ -47,7 +47,7 @@ page 50369 "Assignment Memo Ledger Entries"
                 {
                     ToolTip = 'Specifies the value of the Employee Activity Type field.', Comment = '%';
                 }
-                field("Applied Document No."; Rec."Applied Document No.")
+                field("Applied Document No."; Rec."Payroll Document No.")
                 {
                     ToolTip = 'Specifies the value of the Applied Document No. field.', Comment = '%';
                 }

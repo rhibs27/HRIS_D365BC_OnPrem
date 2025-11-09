@@ -49,11 +49,6 @@ page 50040 "Payroll Plan"
                     ToolTip = 'Specifies the value of the Document Date field.';
                     ApplicationArea = All;
                 }
-                field("Employee Type"; Rec."Employee Type")
-                {
-                    ToolTip = 'Specifies the value of the Employee Type field.';
-                    ApplicationArea = All;
-                }
                 field("Posting Date"; Rec."Posting Date")
                 {
                     Caption = 'Voucher Date';

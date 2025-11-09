@@ -274,10 +274,10 @@ table 50034 "Posted Payroll Header"
             AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
 
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
-        AssignmentMemoLedgerEntry.SetRange("Applied Document No.", PostedDocNo);
+        AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PostedDocNo);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
-                AssignmentMemoLedgerEntry."Applied Document No." := '';
+                AssignmentMemoLedgerEntry."Payroll Document No." := '';
                 AssignmentMemoLedgerEntry.Open := true;
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;

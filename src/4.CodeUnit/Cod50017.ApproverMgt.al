@@ -266,9 +266,9 @@ codeunit 50017 "Approver Mgt"
     procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
     var
         DecryptedEmployeeNo: Code[60];
-        SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
+    // SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
     begin
-        exit(SaaSLoginMgmt.DecryptCode(AccessToken));
+        // exit(SaaSLoginMgmt.DecryptCode(AccessToken));
     end;
 
     procedure CheckApproverSAAS(EmpActNo: Code[20]; ApproverNo: code[20]) //saas

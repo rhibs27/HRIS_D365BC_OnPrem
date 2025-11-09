@@ -16,7 +16,7 @@ report 50022 "Import Employee Payroll Plan"
 
                 PayrollLine.Reset;
                 PayrollLine.SetRange("Document No.", PayrollHeader."No.");
-                PayrollLine.DeleteAll;
+                PayrollLine.DeleteAll(true);
 
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                     Employee.SetRange(Status, Employee.Status::Inactive);
@@ -28,7 +28,7 @@ report 50022 "Import Employee Payroll Plan"
                 if PayrollHeader.Type = PayrollHeader.Type::Resignation then
                     Employee.SetFilter("Resignation Date", '%1|%2', PayrollHeader."From Date", PayrollHeader."To Date");
                 if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then
-                    Employee.SetFilter("Employment Date", '<>%1', PayCyclePeriod."Pay Date");
+                    Employee.SetFilter("Employment Date", '<%1', PayCyclePeriod."Pay Date");
             end;
 
             trigger OnAfterGetRecord()
