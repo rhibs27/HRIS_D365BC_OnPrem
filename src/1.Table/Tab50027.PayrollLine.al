@@ -1797,6 +1797,8 @@ table 50027 "Payroll Line"
                         CalculateDifferentialInterestAmount(AttributeAmount);
                         if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
                             CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
+
+                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
                         if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
@@ -2329,7 +2331,6 @@ table 50027 "Payroll Line"
                         PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
                         AttributeAmount := AttributeAmount + PriorPromotionAmt + PrevAttributeAmt - CurrentAttributeAmtAbsent;
                     end;
-                    AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code);
                     RoundAmount(AttributeAmount);
                     if PayrollAttributesUsage.Get(PayrollAttributes.Code, "Employee No.") then begin // update to payroll line only if payrollattruses found
                         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
@@ -3007,7 +3008,7 @@ table 50027 "Payroll Line"
 
     local procedure GetBackdatedAmountEmployeeWiseDateWise(EmpCode: Code[20]; AttrCode: Code[20]): Decimal
     var
-        PayrollAttrUsageHistory: Record "Payroll Attri Usage History";
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
         AsOfDay: Integer;
         OneDayAmount: Decimal;
         AmountAsOfDate: Decimal;
@@ -3025,13 +3026,13 @@ table 50027 "Payroll Line"
         exit(BackDatedAmount);
     end;
 
-    local procedure FindTotalDays(): Integer
+    local procedure FindTotalDays(): Decimal
     var
         PayrollGenSetup: Record "Payroll General Setup";
     begin
         PayrollGenSetup.Get();
         if PayrollGenSetup."Total Days From" = PayrollGenSetup."Total Days From"::Year then
-            exit(PayrollGenSetup."Total Days")
+            exit(PayrollGenSetup."Total Days" / 12)
         else
             exit("Total Days"); // from payroll line
     end;
@@ -3057,7 +3058,7 @@ table 50027 "Payroll Line"
     [IntegrationEvent(false, false)]
     local procedure OnGetPayrollAttributesOnBeforeSaveValue(var PayrollLine: Record "Payroll Line")
     begin
-        //use if needed additional companyspecific validation or amount update
+        //use if needed additional company specific validation or amount update
     end;
 
     [IntegrationEvent(false, false)]

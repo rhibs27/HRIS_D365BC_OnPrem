@@ -1,6 +1,6 @@
-table 50160 "Payroll Attri Usage History"
+table 50160 "Attributes Usage History"
 {
-    Caption = 'Payroll Attri Usage History';
+    Caption = 'Payroll Attributes Usage History';
     DataClassification = ToBeClassified;
 
     fields
@@ -54,13 +54,13 @@ table 50160 "Payroll Attri Usage History"
 
     trigger OnInsert()
     var
-        PayrollAttrUsageHistor: Record "Payroll Attri Usage History";
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
     begin
-        if PayrollAttrUsageHistor.FindLast() then
-            "Entry No." := PayrollAttrUsageHistor."Entry No." + 1
+        if PayrollAttrUsageHistory.FindLast() then
+            "Entry No." := PayrollAttrUsageHistory."Entry No." + 1
         else
             "Entry No." := 1;
 
-        "Effective Date" := Today;
+        "Entry Date" := Today;
     end;
 }
