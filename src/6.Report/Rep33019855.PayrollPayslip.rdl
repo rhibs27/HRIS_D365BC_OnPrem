@@ -1468,10 +1468,10 @@
                                             </Paragraphs>
                                             <ZIndex>3</ZIndex>
                                             <Visibility>
-                                              <Hidden>=Code.SetData(Cstr(First(Fields!CompanyAddr1.Value, "DataSet_Result")) + Chr(177) + 
+                                              <Hidden>=Code.SetData(Cstr(First(Fields!CompanyAddr1.Value, "DataSet_Result")) + Chr(177) +
 Cstr(First(Fields!CompanyOneLineAddress.Value, "DataSet_Result")) + Chr(177) +
-Cstr(First(Fields!CompanyCommunicationAddress.Value, "DataSet_Result")) + Chr(177) + 
-Cstr(First(Fields!CompanyInfoVATRegNo.Value, "DataSet_Result")) + Chr(177) + 
+Cstr(First(Fields!CompanyCommunicationAddress.Value, "DataSet_Result")) + Chr(177) +
+Cstr(First(Fields!CompanyInfoVATRegNo.Value, "DataSet_Result")) + Chr(177) +
 Cstr(First(Fields!PrintedOn.Value, "DataSet_Result")) + Chr(177) +
 Cstr(Fields!EmployeeNo.Value) + Chr(177) +
 Cstr(Fields!EmployeeFullName.Value) + Chr(177) +
@@ -1483,18 +1483,18 @@ Cstr(Fields!Dim2Code.Value) + Chr(177) +
 Cstr(Fields!Level.Value) + Chr(177) +
 Cstr(Fields!Grade.Value) + Chr(177) +
 Cstr(Fields!Dim1CodeCaption.Value) + Chr(177) +
-Cstr(Fields!Dim2CodeCaption.Value) + Chr(177) + 
+Cstr(Fields!Dim2CodeCaption.Value) + Chr(177) +
 Cstr(Fields!CITNo.Value) + Chr(177) +
 Cstr(Fields!PFNo.Value) + Chr(177) +
-Cstr(Fields!PanNo.Value) + Chr(177) + 
-Cstr(Fields!BankAccountNo.Value) + Chr(177) + 
-Cstr(Fields!Dim1Code.Value) + Chr(177) + 
+Cstr(Fields!PanNo.Value) + Chr(177) +
+Cstr(Fields!BankAccountNo.Value) + Chr(177) +
+Cstr(Fields!Dim1Code.Value) + Chr(177) +
 Cstr(Fields!Dim2Code.Value) + Chr(177) +
 Cstr(Fields!EmployeeDesignation.Value)  + Chr(177) +
-Cstr(Fields!Dim1Code.Value) +Chr(177) + 
-Cstr(Fields!BankName.Value)+Chr(177) + 
-Cstr(Fields!DeputationOnCode.Value)+Chr(177) + 
-Cstr(Fields!FunctionalTitledesc.Value)+Chr(177) + 
+Cstr(Fields!Dim1Code.Value) +Chr(177) +
+Cstr(Fields!BankName.Value)+Chr(177) +
+Cstr(Fields!DeputationOnCode.Value)+Chr(177) +
+Cstr(Fields!FunctionalTitledesc.Value)+Chr(177) +
 Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                                             </Visibility>
                                             <Style>
@@ -2778,7 +2778,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                 </FilterValues>
               </Filter>
             </Filters>
-            <Left>0.012in</Left>
+            <Left>0.03647in</Left>
             <Height>4.18076in</Height>
             <Width>7.51547in</Width>
             <Style>
@@ -2791,7 +2791,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
         <Height>4.18076in</Height>
         <Style />
       </Body>
-      <Width>7.56393in</Width>
+      <Width>7.5884in</Width>
       <Page>
         <PageHeader>
           <Height>3.05223in</Height>
@@ -2818,7 +2818,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                 </Paragraph>
               </Paragraphs>
               <Top>0.23889in</Top>
-              <Left>1.44792in</Left>
+              <Left>1.47239in</Left>
               <Height>18.5pt</Height>
               <Width>15.13818cm</Width>
               <Style>
@@ -2845,7 +2845,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                 </Paragraph>
               </Paragraphs>
               <Top>1.25942cm</Top>
-              <Left>3.67771cm</Left>
+              <Left>3.73986cm</Left>
               <Height>11pt</Height>
               <Width>15.13818cm</Width>
               <ZIndex>1</ZIndex>
@@ -2872,7 +2872,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                 </Paragraph>
               </Paragraphs>
               <Top>1.64748cm</Top>
-              <Left>3.67771cm</Left>
+              <Left>3.73986cm</Left>
               <Height>11pt</Height>
               <Width>15.13818cm</Width>
               <ZIndex>2</ZIndex>
@@ -2899,7 +2899,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                 </Paragraph>
               </Paragraphs>
               <Top>0.95417in</Top>
-              <Left>1.44792in</Left>
+              <Left>1.47239in</Left>
               <Height>18.5pt</Height>
               <Width>15.13818cm</Width>
               <ZIndex>3</ZIndex>
@@ -2913,7 +2913,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
               <Value>=Convert.ToBase64String(Fields!CompanyInfoPicture.Value)</Value>
               <MIMEType>image/bmp</MIMEType>
               <Sizing>FitProportional</Sizing>
-              <Left>0cm</Left>
+              <Left>0.06215cm</Left>
               <Height>34.64286mm</Height>
               <Width>35.26155mm</Width>
               <ZIndex>4</ZIndex>
@@ -2929,36 +2929,6 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
             </Image>
             <Rectangle Name="Rectangle2">
               <ReportItems>
-                <Textbox Name="ReportCaption7">
-                  <KeepTogether>true</KeepTogether>
-                  <Paragraphs>
-                    <Paragraph>
-                      <TextRuns>
-                        <TextRun>
-                          <Value>EMPLOYEE CODE : </Value>
-                          <Style>
-                            <FontFamily>Segoe UI</FontFamily>
-                            <FontWeight>Bold</FontWeight>
-                            <Color>White</Color>
-                          </Style>
-                        </TextRun>
-                      </TextRuns>
-                      <Style>
-                        <TextAlign>Left</TextAlign>
-                      </Style>
-                    </Paragraph>
-                  </Paragraphs>
-                  <Height>18.5pt</Height>
-                  <Width>3.39067cm</Width>
-                  <Style>
-                    <Border />
-                    <VerticalAlign>Top</VerticalAlign>
-                    <PaddingLeft>5pt</PaddingLeft>
-                    <PaddingRight>2pt</PaddingRight>
-                    <PaddingTop>2pt</PaddingTop>
-                    <PaddingBottom>2pt</PaddingBottom>
-                  </Style>
-                </Textbox>
                 <Textbox Name="ReportCaption5">
                   <KeepTogether>true</KeepTogether>
                   <Paragraphs>
@@ -2969,7 +2939,6 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                           <Style>
                             <FontFamily>Segoe UI</FontFamily>
                             <FontWeight>Bold</FontWeight>
-                            <Color>White</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -2981,7 +2950,6 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                   <Left>1.33491in</Left>
                   <Height>18.5pt</Height>
                   <Width>2.43418cm</Width>
-                  <ZIndex>1</ZIndex>
                   <Style>
                     <Border />
                     <VerticalAlign>Top</VerticalAlign>
@@ -3001,7 +2969,6 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                           <Style>
                             <FontFamily>Segoe UI</FontFamily>
                             <FontWeight>Bold</FontWeight>
-                            <Color>White</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -3013,6 +2980,46 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                   <Left>2.36269in</Left>
                   <Height>18.5pt</Height>
                   <Width>13.07923cm</Width>
+                  <ZIndex>1</ZIndex>
+                  <Style>
+                    <Border />
+                    <VerticalAlign>Top</VerticalAlign>
+                    <PaddingLeft>5pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="ReportCaption7">
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>EMPLOYEE CODE</Value>
+                          <Style>
+                            <FontFamily>Segoe UI</FontFamily>
+                            <FontWeight>Bold</FontWeight>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value> : </Value>
+                          <Style>
+                            <FontFamily>Segoe UI</FontFamily>
+                            <FontWeight>Bold</FontWeight>
+                            <Color>White</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                    </Paragraph>
+                  </Paragraphs>
+                  <Top>0.01882in</Top>
+                  <Left>0.01851in</Left>
+                  <Height>18.5pt</Height>
+                  <Width>3.39067cm</Width>
                   <ZIndex>2</ZIndex>
                   <Style>
                     <Border />
@@ -3026,14 +3033,34 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Top>1.46257in</Top>
-              <Height>0.25694in</Height>
+              <Left>0.02447in</Left>
+              <Height>0.27576in</Height>
               <Width>7.512in</Width>
               <ZIndex>5</ZIndex>
               <Style>
                 <Border>
-                  <Style>None</Style>
+                  <Style>Solid</Style>
                 </Border>
-                <BackgroundColor>Red</BackgroundColor>
+                <TopBorder>
+                  <Color>Black</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Black</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Black</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Black</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
               </Style>
             </Rectangle>
             <Rectangle Name="Rectangle4">
@@ -3554,7 +3581,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Top>1.78in</Top>
-              <Left>0.01042in</Left>
+              <Left>0.03489in</Left>
               <Height>1.27223in</Height>
               <Width>7.50158in</Width>
               <ZIndex>6</ZIndex>
@@ -3573,7 +3600,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.32639in</Height>
+          <Height>0.60764in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3589,7 +3616,6 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                           <Style>
                             <FontFamily>Segoe UI</FontFamily>
                             <FontSize>8pt</FontSize>
-                            <Color>White</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -3598,7 +3624,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                       </Style>
                     </Paragraph>
                   </Paragraphs>
-                  <Top>0.09701cm</Top>
+                  <Top>0.16757cm</Top>
                   <Left>6.97004cm</Left>
                   <Height>14.5pt</Height>
                   <Width>6.30904cm</Width>
@@ -3620,7 +3646,6 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                           <Style>
                             <FontFamily>Segoe UI</FontFamily>
                             <FontSize>8pt</FontSize>
-                            <Color>White</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -3629,7 +3654,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                       </Style>
                     </Paragraph>
                   </Paragraphs>
-                  <Top>0.09701cm</Top>
+                  <Top>0.16757cm</Top>
                   <Left>0.02055cm</Left>
                   <Height>14.5pt</Height>
                   <Width>6.30904cm</Width>
@@ -3652,7 +3677,6 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                           <Style>
                             <FontFamily>Segoe UI</FontFamily>
                             <FontSize>8pt</FontSize>
-                            <Color>White</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -3661,7 +3685,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                       </Style>
                     </Paragraph>
                   </Paragraphs>
-                  <Top>0.09701cm</Top>
+                  <Top>0.16757cm</Top>
                   <Left>12.75088cm</Left>
                   <Height>14.5pt</Height>
                   <Width>6.30904cm</Width>
@@ -3676,17 +3700,27 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                 </Textbox>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
-              <Top>0.02778in</Top>
-              <Left>0.01042in</Left>
-              <Height>0.25694in</Height>
-              <Width>7.512in</Width>
+              <Left>0.03489in</Left>
+              <Height>0.28472in</Height>
+              <Width>7.55351in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
                 </Border>
-                <BackgroundColor>Navy</BackgroundColor>
               </Style>
             </Rectangle>
+            <Line Name="Line2">
+              <Top>0.01389in</Top>
+              <Left>0.05194in</Left>
+              <Height>0in</Height>
+              <Width>7.48452in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
           </ReportItems>
           <Style>
             <Border>

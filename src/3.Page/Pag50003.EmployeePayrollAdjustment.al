@@ -45,12 +45,6 @@ page 50003 "Employee Payroll Adjustment"
 
     actions
     {
-        area(Promoted)
-        {
-            actionref(ExcelImport; "Import From Excel") { }
-            actionref(DashinBonous; "Load Dashain Bonus") { }
-            actionref(leaveFareAllowance; "Load Leave Fare Allowance") { }
-        }
         area(Processing)
         {
             action("Load Dashain Bonus")
@@ -58,6 +52,9 @@ page 50003 "Employee Payroll Adjustment"
                 Image = GainLossEntries;
                 ToolTip = 'Executes the Load Dashain Bonus action.';
                 ApplicationArea = All;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                Promoted = true;
 
                 trigger OnAction()
                 var
@@ -91,7 +88,9 @@ page 50003 "Employee Payroll Adjustment"
                 Image = Holiday;
                 ToolTip = 'Executes the Load Leave Fare Allowance action.';
                 ApplicationArea = All;
-
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                Promoted = true;
                 trigger OnAction()
                 var
                     EmpType: Enum "Employee Type";
@@ -109,6 +108,31 @@ page 50003 "Employee Payroll Adjustment"
                     Message('Leave fare allowances loaded successfully.');
                 end;
             }
+            action("Load OT")
+            {
+                ToolTip = 'Executes the Overtime action.';
+                ApplicationArea = All;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                Promoted = true;
+
+                trigger OnAction()
+                var
+                    EmpType: Enum "Employee Type";
+                begin
+                    if not Confirm('Do you want to generate overtime?', false) then
+                        exit;
+
+                    EmployeePayrollAdjustment.Reset;
+                    EmployeePayrollAdjustment.SetRange("Payroll Document No.", PayrollDocNo);
+                    EmployeePayrollAdjustment.DeleteAll;
+
+                    PayrollEngine.ImportOTEligibleEmployee(PayrollDocNo);
+                    CurrPage.Update(true);
+                end;
+
+            }
+
             action("Import From Excel")
             {
                 ApplicationArea = All;
@@ -125,6 +149,14 @@ page 50003 "Employee Payroll Adjustment"
     }
 
     trigger OnNewRecord(BelowxRec: Boolean)
+    begin
+        Rec.FilterGroup(2);
+        PayrollDocNo := Rec.GetFilter("Payroll Document No.");
+        Rec.FilterGroup(0);
+        Rec."Payroll Document No." := PayrollDocNo;
+    end;
+
+    trigger OnAfterGetRecord()
     begin
         Rec.FilterGroup(2);
         PayrollDocNo := Rec.GetFilter("Payroll Document No.");

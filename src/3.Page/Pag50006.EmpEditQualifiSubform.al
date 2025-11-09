@@ -37,6 +37,10 @@ page 50006 "Emp. Edit Qualifi Subform"
                 {
                     ToolTip = 'Specifies the value of the CGPA field.', Comment = '%';
                 }
+                field("GPA Scale"; Rec."GPA Scale")
+                {
+                    ToolTip = 'Specifies the value of the GPA Scale field.', Comment = '%';
+                }
 
                 field(Percentage; Rec.Percentage)
                 {

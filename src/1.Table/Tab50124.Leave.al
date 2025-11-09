@@ -5,10 +5,8 @@ table 50124 Leave
     //Field 1,2,16,37 100 are used in ApprovalMgt Codeunit as field Ref << Santosh 3.25.2025
     fields
     {
-
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -34,7 +32,6 @@ table 50124 Leave
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -75,7 +72,6 @@ table 50124 Leave
         }
         field(7; "Start Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 if Type <> Type::Overtime then
@@ -94,10 +90,8 @@ table 50124 Leave
                     if EmployeeRec."Contract Expiry Date" <> 0D then
                         if "Start Date" > EmployeeRec."Contract Expiry Date" then
                             Error('Cannot apply leave after contract expiry date');
-
                 end;
                 //<<check for leave
-
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then
@@ -114,7 +108,6 @@ table 50124 Leave
         }
         field(8; "End Date"; Date)
         {
-
             trigger OnValidate()
             var
                 IsHandled: Boolean;
@@ -201,13 +194,11 @@ table 50124 Leave
         {
             Editable = false;
         }
-
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
             Editable = false;
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-
             trigger OnValidate()
             begin
                 GLSetup.Get;
@@ -271,7 +262,6 @@ table 50124 Leave
         field(36; "Rejection Remarks"; Text[100])
         {
             // trigger OnValidate()
-
             // begin
             //     Clear(Remarks);
             // end;
@@ -299,7 +289,6 @@ table 50124 Leave
         field(51; "Leave Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
-
             trigger OnValidate()
             begin
                 if GuiAllowed then begin
@@ -324,7 +313,6 @@ table 50124 Leave
                 end else
                     if LeaveTypeVar.Get("Leave Code") then
                         Validate("Leave Description", LeaveTypeVar.Description)
-
             end;
         }
         field(52; "Leave Description"; Text[50])
@@ -345,13 +333,11 @@ table 50124 Leave
                             Validate("Start Time", WorkShift."Start Time");
                             Validate("End Time", WorkShift."End Time");
                         end;
-
                     "Leave Type"::"First Half":
                         begin
                             Validate("Start Time", WorkShift."Start Time");
                             Validate("End Time", WorkShift."Lunch Start");
                         end;
-
                     "Leave Type"::"Second Half":
                         begin
                             Validate("Start Time", WorkShift."Lunch Start");
@@ -389,7 +375,6 @@ table 50124 Leave
         }
         field(57; "Compensatory Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 leaveMgt.CheckForCompensatory("Leave Code", "Employee No.", "Compensatory Date", "No. of Days");
@@ -403,7 +388,6 @@ table 50124 Leave
         }
         field(60; "LFA Paid"; Boolean)
         {
-
         }
         field(61; "Deputation On"; Enum "Deputation Type")
         {
@@ -421,14 +405,17 @@ table 50124 Leave
         }
         field(200; Claimed; Boolean) { }
         field(201; "Claimed Doc No."; Code[20]) { }
-
+        field(301; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {
         key(Key1; "No.")
         {
             Clustered = true;
-
         }
         key(Key2; "Start Date")
         {
@@ -451,7 +438,6 @@ table 50124 Leave
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
-
     trigger OnInsert()
     var
         LeaveRec: Record Leave;
@@ -459,7 +445,8 @@ table 50124 Leave
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         if not GuiAllowed then begin
-            "Employee No." := HRMgt.GetEmployeeNo();
+            if not HrMgt.IsSaaS() then
+                "Employee No." := HRMgt.GetEmployeeNo();
             // Type := type::"Leave Request";
             "User ID" := userID;
             if "Approval Status" <> "Approval Status"::Approved then

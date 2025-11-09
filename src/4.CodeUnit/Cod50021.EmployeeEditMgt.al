@@ -2,7 +2,6 @@ codeunit 50021 "Employee Edit Mgt."
 {
     trigger OnRun()
     begin
-
     end;
 
     procedure ApproveChangesInEmployee(EmployeeEditCode: Code[100])
@@ -21,7 +20,6 @@ codeunit 50021 "Employee Edit Mgt."
                 begin
                     EmployeeQualificationAdd(EmployeeEdit);
                 end;
-
             EmployeeEditType::"Work Experience":
                 begin
                     EmployeeWorkAdd(EmployeeEdit);
@@ -52,10 +50,8 @@ codeunit 50021 "Employee Edit Mgt."
                 if EmployeeEdit."Email (Personal)" <> '' then
                     Employee.Validate("E-Mail", EmployeeEdit."Email (Personal)");
                 Employee.Validate(Disabled, EmployeeEdit."Differently Able");
-
                 if EmployeeEdit."Vehicle Type" <> EmployeeEdit."Vehicle Type"::" " then
                     Employee.Validate("Vehicle Type", EmployeeEdit."Vehicle Type");
-
                 if EmployeeEdit."Permanent Province" <> '' then
                     Employee.Validate("Permanent Province", EmployeeEdit."Permanent Province");
                 if EmployeeEdit."Permanent District" <> '' then
@@ -68,7 +64,6 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Permanent Locality", EmployeeEdit."Permanent Locality");
                 if EmployeeEdit."Permanent House" <> '' then
                     Employee.Validate("Permanent House", EmployeeEdit."Permanent House");
-
                 if EmployeeEdit."Temporary Province" <> '' then
                     Employee.Validate("Temporary Province", EmployeeEdit."Temporary Province");
                 if EmployeeEdit."Temporary District" <> '' then
@@ -81,14 +76,12 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Temporary Locality", EmployeeEdit."Temporary Locality");
                 if EmployeeEdit."Temporary House" <> '' then
                     Employee.Validate("Temporary House", EmployeeEdit."Temporary House");
-
                 if EmployeeEdit."Blood Group" <> EmployeeEdit."Blood Group"::" " then
                     Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
                 if EmployeeEdit.Religion <> EmployeeEdit.Religion::" " then
                     Employee.Validate(Religion, EmployeeEdit.Religion);
                 if EmployeeEdit.Attachment.HasValue() then
                     Employee.Validate(Image, EmployeeEdit.Attachment);
-
                 //Official document
                 if EmployeeEdit."Passport No." <> '' then
                     Employee.Validate("Passport Number", EmployeeEdit."Passport No.");
@@ -100,8 +93,6 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("NID No", EmployeeEdit."NID No.");
                 if EmployeeEdit."Driving License No." <> '' then
                     Employee.Validate("Driving License No.", EmployeeEdit."Driving License No.");
-
-
                 OnApproveEmployeeEditOnbeforeModifyEmployee(EmployeeEdit, Employee);
                 Employee.Modify();
             end;
@@ -119,7 +110,7 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeQualificationAddFromLine(EmployeeEditLine);
             until EmployeeEditLine.Next() = 0;
         end else begin
-            //old code will be removed 
+            //old code will be removed
             EmployeeQualification.Init();
             EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEdit."Employee No."));
             EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
@@ -165,16 +156,15 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.SetRange("Line No.", EmployeeEditLine."Original Line No.");
             EmployeeQualification.FindFirst();
         end;
-
         EmployeeQualification.Validate("Employee No.", EmployeeEditLine."Employee No.");
         if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Qualification then begin
             EmployeeQualification.Validate("Emp Qualification Type", EmployeeQualification."Emp Qualification Type"::Education);
             EmployeeQualification.Validate("Qualification Code", EmployeeEditLine."Qualification Code");
             EmployeeQualification.Validate(Stream, EmployeeEditLine.Stream);
             EmployeeQualification.Validate(Percentage, EmployeeEditLine.Percentage);
+            EmployeeQualification.Validate("GPA Scale", EmployeeEditLine."GPA Scale");
             EmployeeQualification.Validate(CGPA, EmployeeEditLine.CGPA);
         end;
-
         if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::"Work Experience" then begin
             EmployeeQualification.Validate("Emp Qualification Type", EmployeeEditLine."employee Document Type");
             QualificationMaster.SetRange(Type, EmployeeEditLine."Employee Document Type");
@@ -184,7 +174,6 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate(Remuneration, EmployeeEditLine.Remuneration);
             EmployeeQualification.Validate(Description, EmployeeEditLine.Description);
         end;
-
         EmployeeQualification.Validate(Running, EmployeeEditLine.Running);
         EmployeeQualification.Validate("Institution/Company", EmployeeEditLine."Institution/Company");
         EmployeeQualification.Validate("From Date", EmployeeEditLine."From Date");
@@ -210,7 +199,7 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeQualificationAddFromLine(EmployeeEditLine);
             until EmployeeEditLine.Next() = 0;
         end else begin
-            //old code will be removed 
+            //old code will be removed
             EmployeeQualification.Init();
             EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEdit."Employee No."));
             EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
@@ -240,7 +229,6 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeRelativeAddFromLine(EmployeeEditLine);
             until EmployeeEditLine.Next() = 0;
         end else begin
-
             EmployeeRelative.Init();
             EmployeeRelative.Validate("Line No.", GetNextLineNoRelative(EmployeeEdit."Employee No."));
             EmployeeRelative.Validate("Employee No.", EmployeeEdit."Employee No.");
@@ -256,6 +244,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeRelative.Validate("Ward No", EmployeeEdit."Ward No.");
             EmployeeRelative.Validate("E-mail", EmployeeEdit."Relative Mail");
             EmployeeRelative.Validate("Set Emergency Contact", EmployeeEdit."Set Emergency Contact");
+            EmployeeRelative.Validate("Set Nominee", EmployeeEdit."Set Nominee");
             EmployeeRelative.Insert();
         end;
     end;
@@ -285,6 +274,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Ward No", EmployeeEditLine."Ward No.");
         EmployeeRelative.Validate("E-mail", EmployeeEditLine."Relative Mail");
         EmployeeRelative.Validate("Set Emergency Contact", EmployeeEditLine."Set Emergency Contact");
+        EmployeeRelative.validate("Set Nominee", EmployeeEditLine."Set Nominee");
         EmployeeRelative.Validate("lt.", EmployeeEditLine."lt.");
         if EmployeeEditLine."Original Line No." = 0 then
             EmployeeRelative.Insert()
@@ -357,7 +347,7 @@ codeunit 50021 "Employee Edit Mgt."
             LanguageProficiency1.SetRange(Language, EmployeeEdit.Language);
             if LanguageProficiency1.findfirst then
                 LanguageProficiency1.Deleteall();
-            //Insert New language 
+            //Insert New language
             LanguageProficiency.Init();
             LanguageProficiency.Validate("Line No.", GetNextLineNoLanguageProficency(EmployeeEdit."Employee No."));
             LanguageProficiency.Validate("Employee Code", EmployeeEdit."Employee No.");
@@ -400,7 +390,6 @@ codeunit 50021 "Employee Edit Mgt."
             exit;
         if not Employee.Get(EmployeeEdit."Employee No.") then
             exit;
-
         EmployeeEditLine.SetRange("Document No.", EmployeeEditNo);
         if EmployeeEditLine.FindSet() then
             repeat
@@ -408,16 +397,12 @@ codeunit 50021 "Employee Edit Mgt."
                     FileName := EmployeeEditLine.Description;
                     if FileName = '' then
                         FileName := 'Attachment';
-
                     // Get file extension from Attachment field
                     FileExtension := GetMediaFileExtension(EmployeeEditLine.Attachment.MediaId(), FileName);
-
                     TempBlob.CreateOutStream(OutStr);
                     EmployeeEditLine.Attachment.ExportStream(OutStr);
-
                     Employee.Get(EmployeeEditLine."Employee No.");
                     FromRecRef.GetTable(Employee);
-
                     Clear(DocumentAttachment);
                     DocumentAttachment.Init();
                     DocumentAttachment."Table ID" := Database::Employee;
@@ -438,7 +423,6 @@ codeunit 50021 "Employee Edit Mgt."
     begin
         if not TenantMedia.Get(MediaId) then
             exit('');
-
         FileName := TenantMedia.Description;
         exit(LowerCase(GetFileExtension(FileName)));
     end;
