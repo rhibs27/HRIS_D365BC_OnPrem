@@ -94,12 +94,6 @@ table 50141 OverTime
                         if "Start Date" < EmployeeRec."Employment Date" then
                             Error('Cannot apply before your employment date');
                     end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
                 if Type <> Type::Overtime then
                     if "Employee No." = '' then
                         if not HrMgt.IsSaaS() then
@@ -108,12 +102,6 @@ table 50141 OverTime
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
                 if type = type::Overtime then begin
                     EmployeeAttendance.Reset;
                     EmployeeAttendance.SetRange("Employee No.", "Employee No.");
