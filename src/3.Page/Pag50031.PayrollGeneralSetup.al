@@ -178,6 +178,11 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = all;
                 }
+                field("Pro Rated Female Rebate"; Rec."Pro Rate Female Rebate")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies whether the Female Rebate in Income Tax is to pro rated as per SST and RIT';
+                }
             }
             group("Posting Group")
             {
