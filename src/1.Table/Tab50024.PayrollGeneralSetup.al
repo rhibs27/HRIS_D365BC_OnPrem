@@ -468,6 +468,9 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
+        field(505; "Pro Rate Female Rebate"; Boolean)
+        {
+        }
     }
 
     keys

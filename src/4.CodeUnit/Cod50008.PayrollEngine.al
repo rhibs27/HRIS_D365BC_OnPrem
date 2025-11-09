@@ -383,9 +383,15 @@ codeunit 50008 "Payroll Engine"
                     MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
                 end else begin
                     SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
-
-                    if SocialSecurityTaxAmount > MonthlyTax then
-                        SocialSecurityTaxAmount := MonthlyTax;
+                    PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+                    if SocialSecurityTaxAmount >= MonthlyTax then
+                        SocialSecurityTaxAmount := MonthlyTax
+                    else begin
+                        if PGSetup."Pro Rate Female Rebate" then begin
+                            if TaxSetupHeader."Special Tax Exempt %" <> 0 then
+                                SocialSecurityTaxAmount := SocialSecurityTaxAmount - SocialSecurityTaxAmount * TaxSetupHeader."Special Tax Exempt %" / 100;
+                        end;
+                    end;
 
                     if (PayrollHeader.Type = PayrollHeader.Type::Adjustment) and (MonthlyTax > 0) then begin
                         if SocialSecurityTax = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
@@ -409,7 +415,7 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end;
-        PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+        //PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
@@ -3002,11 +3008,17 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Total Tax Liability" := TaxAtOnceAnnualTax + TaxExempt + TotalSSTPaid + TotalTaxRemunPaid;
 
         PayrollLine."Payable Tax Liability" := TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid;
+        PayrollLine.RoundAmount(PayrollLine."Payable Tax Liability");
         PayrollLine."Social Security Tax(Annual)" := SocialSecurityTax;
-        if (TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid) < 0 then
+        if PGSetup."Pro Rate Female Rebate" then
+            if TaxSetupHeader."Special Tax Exempt %" <> 0 then
+                if MonthlyTax > SocialSecurityTaxAmount then
+                    PayrollLine."Social Security Tax(Annual)" := SocialSecurityTax - SocialSecurityTax * TaxSetupHeader."Special Tax Exempt %" / 100;
+
+        if (TaxAtOnceAnnualTax - PayrollLine."Social Security Tax(Annual)" + TotalTaxRemunPaid + TotalSSTPaid) < 0 then
             PayrollLine."Tax on Remuneration(Annual)" := 0
         else
-            PayrollLine."Tax on Remuneration(Annual)" := TaxAtOnceAnnualTax - SocialSecurityTax + TotalTaxRemunPaid + TotalSSTPaid;
+            PayrollLine."Tax on Remuneration(Annual)" := TaxAtOnceAnnualTax - PayrollLine."Social Security Tax(Annual)" + TotalTaxRemunPaid + TotalSSTPaid;
         PayrollLine."Female Tax Credit" := TaxExempt;
         if TaxAtOnceAnnualTax < 0 then
             TaxAtOnceAnnualTax := 0;
