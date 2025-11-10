@@ -1,12 +1,11 @@
-page 50367 "Payroll Attr. Usage History"
+page 50367 "Attribute Usage History"
 {
     ApplicationArea = All;
-    Caption = 'Payroll Attri Usage History';
+    Caption = 'Payroll Attributes Usage History';
     PageType = List;
-    SourceTable = "Payroll Attri Usage History";
+    SourceTable = "Attributes Usage History";
     UsageCategory = Lists;
-    Editable = false;
-    CardPageId = "Payroll Attr. Usage History";
+    //Editable = false;
 
     layout
     {
