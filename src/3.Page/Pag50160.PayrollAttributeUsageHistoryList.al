@@ -5,7 +5,7 @@ page 50367 "Attribute Usage History"
     PageType = List;
     SourceTable = "Attributes Usage History";
     UsageCategory = Lists;
-    //Editable = false;
+    Editable = false;
 
     layout
     {
