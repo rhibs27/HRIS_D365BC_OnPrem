@@ -3019,9 +3019,9 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         if PayrollAttrUsageHistory.FindFirst() then begin
             AsOfDay := PayrollHeader."From Date" - PayrollAttrUsageHistory."Effective Date";
-            OneDayAmount := PayrollAttrUsageHistory.Amount / FindTotalDays();
-            AmountAsOfDate := OneDayAmount * AsOfDay;
-            BackDatedAmount := AmountAsOfDate - PreviouslyPaidAmountToBeReduced(EmpCode, AttrCode, PayrollAttrUsageHistory."Effective Date");
+            OneDayAmount := (PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") / FindTotalDays();
+            BackDatedAmount := OneDayAmount * AsOfDay;
+            //BackDatedAmount := AmountAsOfDate - PreviouslyPaidAmountToBeReduced(EmpCode, AttrCode, PayrollAttrUsageHistory."Effective Date");
         end;
         exit(BackDatedAmount);
     end;

@@ -33,7 +33,12 @@ page 50367 "Attribute Usage History"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the payroll attribute code.';
                 }
-                field(Amount; Rec.Amount)
+                field("Old Amount"; Rec."Old Amount")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the amount.';
+                }
+                field("New Amount"; Rec."New Amount")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the amount.';

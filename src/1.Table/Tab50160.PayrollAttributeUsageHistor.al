@@ -26,20 +26,25 @@ table 50160 "Attributes Usage History"
             Caption = 'Attribute Code';
             TableRelation = "Payroll Attributes";
         }
-        field(5; Amount; Decimal)
+        field(5; "Old Amount"; Decimal)
         {
-            Caption = 'Amount';
+            Caption = 'Old Amount';
             DecimalPlaces = 2 : 2;
         }
-        field(6; "Effective Date"; Date)
+        field(6; "New Amount"; Decimal)
+        {
+            Caption = 'New Amount';
+            DecimalPlaces = 2 : 2;
+        }
+        field(7; "Effective Date"; Date)
         {
             Caption = 'Effective Date';
         }
-        field(7; "Entry Date"; Date)
+        field(8; "Entry Date"; Date)
         {
             Caption = 'Entry Date';
         }
-        field(8; Reversed; Boolean)
+        field(9; Reversed; Boolean)
         {
             Caption = 'Reversed';
         }
