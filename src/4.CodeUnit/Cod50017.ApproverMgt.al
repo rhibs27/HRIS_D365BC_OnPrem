@@ -263,13 +263,13 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
     end;
 
-    // procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
-    // var
-    //     DecryptedEmployeeNo: Code[60];
-    //     SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
-    // begin
-    //     exit(SaaSLoginMgmt.DecryptCode(AccessToken));
-    // end;
+    procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
+    var
+        DecryptedEmployeeNo: Code[60];
+        SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
+    begin
+        exit(SaaSLoginMgmt.DecryptCode(AccessToken));
+    end;
 
     procedure CheckApproverSAAS(EmpActNo: Code[20]; ApproverNo: code[20]) //saas
     var
@@ -601,7 +601,7 @@ codeunit 50017 "Approver Mgt"
             end;
         end;
         if ApprovalStatusField = Format(ApprovalStatus::Pending) then begin
-            //CheckApproverSAAS(DocumentNo, GetApproverNoSAAS(AccessToken));
+            CheckApproverSAAS(DocumentNo, GetApproverNoSAAS(AccessToken));
             ApprovalHRMS.Reset();
             ApprovalHRMS.SetRange("Document No.", DocumentNo);
             ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Open);
@@ -609,12 +609,12 @@ codeunit 50017 "Approver Mgt"
                 repeat
                     if Approved then begin
                         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
-                        //ApprovalHRMS.Validate("Approved By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
+                        ApprovalHRMS.Validate("Approved By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
                         RecRef.Field(100).Validate(ApprovalHRMS.Status);
                     end
                     else begin
                         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
-                        //ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
+                        ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
                         RecRef.Field(16).Validate(ApprovalStatus::Rejected);
                         case EmployeeActivityType of
                             EmployeeActivityType::"Leave Request":
@@ -957,7 +957,7 @@ codeunit 50017 "Approver Mgt"
             end;
         end;
         if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
-            //CheckRequesterSAAS(DocNumber, GetApproverNoSAAS(AccessToken));
+            CheckRequesterSAAS(DocNumber, GetApproverNoSAAS(AccessToken));
             CheckFirstApproverSequence(DocNumber);
             Approver.Reset();
             Approver.SetRange("Document No.", DocNumber);
