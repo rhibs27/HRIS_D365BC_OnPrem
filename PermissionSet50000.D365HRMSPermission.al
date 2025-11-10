@@ -797,5 +797,13 @@ permissionset 50000 D365HRMSPermission
         report "Payroll Voucher summary 2" = X,
         report "Process Daily Attendance" = X,
         codeunit "Process Daily Attendance" = X,
-        page "Emp. Edit Add. Attach. Subform" = X;
+        page "Emp. Edit Add. Attach. Subform" = X,
+        tabledata "Attributes Usage History" = RIMD,
+        tabledata "OverTime Ledger Entry" = RIMD,
+        tabledata "RF Contribution" = RIMD,
+        table "Attributes Usage History" = X,
+        table "OverTime Ledger Entry" = X,
+        table "RF Contribution" = X,
+        page "Attribute Usage History" = X,
+        page "RF Contribution Lines" = X;
 }
