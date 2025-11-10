@@ -280,6 +280,8 @@ codeunit 50022 "Allowance Assignment Mgt"
                 exit(PGSetup."Holiday All. Amt (Regular)");
             PGSetup."Friday Counter":
                 exit(PGSetup."Festival Counter(Regular)");
+            PGSetup."Dashain Allowance":
+                exit(PGSetup."Dashain Allowance Amount");
             else
                 exit(0);
         end;
@@ -309,6 +311,8 @@ codeunit 50022 "Allowance Assignment Mgt"
                 EmployeeAttendanceActivity."Teller Allowance Days" := 1;
             PGSetup."ATM Custodian":
                 EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
+            PGSetup."Dashain Allowance":
+                EmployeeAttendanceActivity."Dashain Allowance Days" := 1;
         end;
     end;
 
@@ -323,7 +327,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         Clear(NoOfDays);
         if Employee.Get(EmpNo) then;
         NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
-        EngNep.Reset;
         case AllowanceType of
             PGSetup."Evening Counter":
                 begin
@@ -404,6 +407,10 @@ codeunit 50022 "Allowance Assignment Mgt"
                     SalaryLevel.Get(Employee."Salary Level");
                     exit(SalaryLevel."Friday Allowance");
                 end;
+            PGSetup."Dashain Allowance":
+                begin
+                    exit(PGSetup."Dashain Allowance Amount");
+                end;
         end;
     end;
 
@@ -442,7 +449,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         for FromDate := FromDate to ToDate do begin
             AllowanceAssignLine.Init();
             AllowanceAssignLine.Validate("No.", DocumentNo);
-            AllowanceAssignLine.Validate("Emp Act Type", AllowanceAssignLine."Emp Act Type"::"Allowance Assignment");
+            AllowanceAssignLine.Validate("Emp Act Type", AllowanceAssignHeader."Activity Type");
             AllowanceAssignLine.Validate(Code, AllowanceAssignHeader.Code);
             AllowanceAssignLine.Validate(Name, AllowanceAssignHeader.Name);
             AllowanceAssignLine.Validate(Type, AllowanceAssignHeader.Type);

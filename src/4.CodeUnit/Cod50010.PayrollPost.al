@@ -152,12 +152,9 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeader.Irregular := PayrollHeader.Irregular;
         PostedPayrollHeader."Posted Date" := CurrentDateTime;
         PostedPayrollHeader.Insert;
-        // if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
-        //     if PayrollHeader."Encashment Code" <> '' then
-        //         PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader, PostedPayrollHeader."No.");
-        //     if PayrollHeader."Encashment Period" <> PayrollHeader."Encashment Period"::" " then
-        //         PayrollEngine.UpdateOTDisbursedEncashPeriod(PayrollHeader, PostedPayrollHeader."No.");
-        // end;
+        if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
+            PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader."No.", PostedPayrollHeader."No.");
+        end;
         // if PayrollHeader.Type = PayrollHeader.Type::Payroll then
         //     PayrollEngine.UpdateOTDisbursedAllowances(PayrollHeader, PostedPayrollHeader."No.");
     end;

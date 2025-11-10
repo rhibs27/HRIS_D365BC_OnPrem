@@ -1713,6 +1713,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Cash Risk Days - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 644771389 - Field 950309641 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dashain Allowance Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Dashain Allowance Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 644771389 - Field 995090288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Date Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1783,6 +1788,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Late Check Out Day - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 644771389 - Field 125613877 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Late Deduction - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 644771389 - Field 1025539169 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1807,6 +1817,11 @@
           <source>Nepali Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Nepali Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 644771389 - Field 4103329565 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Night Shift Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Night Shift Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 644771389 - Field 4229597264 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OT Days</source>
@@ -3703,6 +3718,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Daily Food Allowance - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 950309641 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dashain Allowance Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Dashain Allowance Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 651111352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Day Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3823,6 +3843,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Leave Description - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 456123437 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Leave Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 2884927559 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Morning Counter Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3847,6 +3872,11 @@
           <source>Outdoor Duty Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Outdoor Duty Day - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 95901174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverNight Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field OverNight Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 1897504286 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overtime Disbursed</source>
@@ -10533,11 +10563,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1075377117 - NamedType 3752334001" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Compensatory leave has been restricted in HRMS.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - NamedType Text002</note>
-        </trans-unit>
         <trans-unit id="Table 1075377117 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cannot delete document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10817,6 +10842,276 @@
           <source>User ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field User ID - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverTime Ledger Entry</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3540177482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Actual OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Actual OT Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1765229233 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Adjustment Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Adjustment Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3027137289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Approved Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Branch Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Branch Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 4069904181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Cancelled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 354043904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckIn Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field CheckIn Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1008583654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckOut OverNight</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field CheckOut OverNight - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 815150303 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckOut Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field CheckOut Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1976374057 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Compensatory Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Compensatory Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Department Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3334877077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Department Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Deputation On - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 163506987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Deputation On Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Employee Work Shift - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3757697615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Encashment Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Encashment Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field End Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1977718373 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field End Date (BS) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 329134311 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Entry No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2999614507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Estimated Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Estimated Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1039546900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Evening OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Evening OT Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2826435036 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Extension Counter Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Functional Title - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3123372377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Line No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1207451066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Morning OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Morning OT Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 949215307 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field No. of Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field No. Series - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 503080369 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OT Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field OT Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2141911646 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OT Disbursed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field OT Disbursed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2904977159 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OT Eligible Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field OT Eligible Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Claim Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Overtime Claim Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2574111894 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Payroll No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 35450067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Posted - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Posting Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Province Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 237720087 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Province Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3252948560 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Requested Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Reversed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1141149497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Level Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Salary Level Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1577567912 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shortcut Dimension 1 Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Shortcut Dimension 1 Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Start Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2948251216 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Start Date (BS) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1661189934 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Total OT Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field Unit Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3185859766 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>User ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime Ledger Entry - Field User ID - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2531192895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overtime Line</source>
@@ -11807,6 +12102,16 @@
           <source>COSPO Functioal Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field COSPO Functioal Title - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 3880738988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dashain Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Dashain Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 695487240 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dashain Allowance Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Dashain Allowance Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 503417789 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Dashain Renumeration</source>
@@ -13192,6 +13497,11 @@
           <source>Current Non-Payments</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Current Non-Payments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 950309641 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dashain Allowance Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Dashain Allowance Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation On</source>
@@ -14692,6 +15002,11 @@
           <source>Emp Act. No</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Emp Act. No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 398093632 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Act Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Employee Act Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
@@ -23253,6 +23568,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Cash Risk Days - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 644771389 - Control 950309641 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Dashain Allowance Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Dashain Allowance Days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 644771389 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23293,6 +23613,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Late Day - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 644771389 - Control 125613877 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Late Deduction Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Late Deduction - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 644771389 - Control 1025539169 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Leave Day field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23302,6 +23627,11 @@
           <source>Specifies the value of the Morning Counter Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Morning Counter Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 644771389 - Control 4103329565 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Night Shift Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Night Shift Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 644771389 - Control 4229597264 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the OT Days field.</source>
@@ -36903,6 +37233,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Cash Risk Percent - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 695487240 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Dashain Allowance Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Dashain Allowance Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 22792705 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Evening Counter (Contract) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38452,6 +38787,11 @@
           <source>Specifies the value of the Current Non-Payments field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Current Non-Payments - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 950309641 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Dashain Allowance Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Dashain Allowance Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 3488572172 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Disable Person Reduction field.</source>
@@ -48228,16 +48568,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control AttendanceDateTo - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 818810397 - Control 140103378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Select to include employees on leave in the report.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control IncludeLeaveEmployees - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 818810397 - Control 140103378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Include Leave Employees</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control IncludeLeaveEmployees - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Report 818810397 - Control 3787164932 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Select to show only absent employees.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51747,11 +52077,6 @@
           <source>Executes the OT Form action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action OT Form - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 1528904982 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Out of Office Forms action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Out of Office Forms - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 1060540328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Promote Employee action.</source>
@@ -59687,6 +60012,11 @@
           <source>CIT</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue CIT - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 519394539 - EnumValue 3880738988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dashain Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Dashain Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 519394539 - EnumValue 401584293 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Dashain Overtime</source>

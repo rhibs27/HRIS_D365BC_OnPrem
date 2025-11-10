@@ -90,4 +90,8 @@ enum 50032 "Payroll SubType"
     {
         Caption = 'Dashain Overtime';
     }
+    value(22; "Dashain Allowance")
+    {
+        Caption = 'Dashain Allowance';
+    }
 }

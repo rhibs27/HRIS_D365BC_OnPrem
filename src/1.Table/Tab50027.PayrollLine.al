@@ -336,6 +336,9 @@ table 50027 "Payroll Line"
         field(50; "Night Shifts"; Decimal)
         {
         }
+        field(51; "Dashain Allowance Days"; Decimal)
+        {
+        }
         field(61; "Variable Field 50501"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
@@ -2132,7 +2135,7 @@ table 50027 "Payroll Line"
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                 //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
-                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * "LWP Days") / TotalDaysInMonth);
+                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * ("LWP Days" + "Late Days")) / TotalDaysInMonth);
                     if TotalAmount > 0 then
                         exit(TotalAmount)
                     else

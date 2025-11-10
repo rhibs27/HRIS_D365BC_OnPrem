@@ -1,8 +1,6 @@
 table 50042 "Attendance Header"
 {
     DataClassification = CustomerContent;
-    // version ATM19.01.01
-
     fields
     {
         field(1; "No."; Code[20])
@@ -190,12 +188,16 @@ table 50042 "Attendance Header"
     end;
 
     trigger OnInsert()
+    var
+        AttendanceRec: Record "Attendance Header";
     begin
         AttendanceSetup.Get;
-        if "No." = '' then begin
-            TestNoSeries;
-            HrMgt.InitNoSeriesNew(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
-        end;
+        AttendanceSetup.TestField("Attendance Document No. Series");
+        HRMgt.InitNoSeriesNew(AttendanceSetup."Attendance Document No. Series", xRec."No. Series", Today, "No.", "No. Series");
+        AttendanceRec.ReadIsolation(IsolationLevel::ReadUncommitted);
+        AttendanceRec.SetLoadFields("No.");
+        while AttendanceRec.Get("No.") do
+            "No." := NoSeriesCodeunit.GetNextNo("No. Series");
         InitRecord;
         "Assigned User ID" := UserId;
         "Document Date" := Today;

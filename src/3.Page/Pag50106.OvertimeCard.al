@@ -1,6 +1,5 @@
 page 50106 "Overtime Card"
 {
-    // version 1.00,OT,Bulk Cash,Out of Office
     PageType = Card;
     SourceTable = "OverTime";
     ApplicationArea = All;
@@ -143,13 +142,6 @@ page 50106 "Overtime Card"
                     ApplicationArea = All;
                 }
             }
-            // part(Attachment; "Attachment Subform")
-            // {
-            //     SubPageLink = "No." = field("No."),
-            //                   Type = const(" "),
-            //                   "Employee Code" = field("Employee No.");
-            //     ApplicationArea = All;
-            // }
             group(Control6)
             {
                 Caption = 'Remarks';
@@ -160,12 +152,6 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Reason for OT field.';
                     ApplicationArea = All;
                 }
-                // field("Screener Remarks"; Rec."Screener Remarks")
-                // {
-                //     Editable = ForScreen;
-                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
-                //     ApplicationArea = All;
-                // }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     Editable = IsPending;
@@ -181,30 +167,6 @@ page 50106 "Overtime Card"
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
-            // group(Approval)
-            // {
-            //     Caption = 'Approval';
-            //     field("Recommender Code"; Rec."Recommender Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Recommender Name"; Rec."Recommender Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Name field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Code"; Rec."Approver Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Name"; Rec."Approver Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Name field.';
-            //         ApplicationArea = All;
-            //     }
-            // }
         }
     }
 
@@ -232,38 +194,6 @@ page 50106 "Overtime Card"
         }
         area(Navigation)
         {
-            // action("Recommend Request")
-            // {
-            //     Image = Register;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     Visible = false;
-            //     ToolTip = 'Executes the Recommend Request action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want to recommend the request?', false) then
-            //             HRMgt.RecommendEmployeeActivity(Rec."No.");
-            //     end;
-            // }
-            // action("Screen Request")
-            // {
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     // Visible = ForScreen;
-            //     Visible = false;
-            //     ToolTip = 'Executes the Screen Request action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         // ResignationMgt.ScreenResignationForOvertime(Rec);
-            //     end;
-            // }
             action("Approve Request")
             {
                 Image = Approve;
@@ -293,7 +223,6 @@ page 50106 "Overtime Card"
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
                 Visible = IsPending;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want reject the request?', false) then begin
@@ -306,27 +235,12 @@ page 50106 "Overtime Card"
                     end;
                 end;
             }
-            // action("Change Recommender Approver")
-            // {
-            //     Image = ReOpen;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the Change Recommender Approver action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         Rec.ReopenDocument;
-            //     end;
-            // }
         }
     }
 
     trigger OnAfterGetRecord()
     begin
-        SetLayout
+        SetLayout;
     end;
 
     trigger OnOpenPage()
@@ -352,14 +266,9 @@ page 50106 "Overtime Card"
 
     var
         HRMgt: Codeunit "HR Mgt.";
-        ResignationMgt: Codeunit "Resignation Mgt";
         OverTimeMgt: Codeunit "OverTime Mgt";
         IsApplied: Boolean;
         FormEditable: Boolean;
-        // ForRecommend: Boolean;
-        // ForReject: Boolean;
-        ForApprove: Boolean;
-        // ForScreen: Boolean;
         IsPending: Boolean;
         IsOpen: Boolean;
         IsApprove: Boolean;
@@ -381,43 +290,5 @@ page 50106 "Overtime Card"
         else
             ApprovalStatusView := true;
         RecRef.GetTable(Rec);
-
-        // case Rec."Approval Status" of
-        //     Rec."Approval Status"::Rejected, Rec."Approval Status"::Open:
-        //         begin
-        //             ForReject := false;
-        //             ForApprove := false;
-        //         end;
-        //     Rec."Approval Status"::"Pending":
-        //         begin
-        //              := true;
-        //             ForReject := true;
-        //             ForApprove := false;
-        //             ForScreen := false;
-        //         end;
-        //     Rec."Approval Status"::Recommended:
-        //         begin
-        //             ForRecommend := false;
-        //             ForReject := true;
-        //             ForApprove := true;
-        //             ForScreen := false;
-        //         end;
-        //     Rec."Approval Status"::Screened:
-        //         begin
-        //             ForRecommend := false;
-        //             ForReject := false;
-        //             ForApprove := false;
-        //             ForScreen := false;
-        //         end;
-        //     Rec."Approval Status"::Approved:
-        //         begin
-        //             ForRecommend := false;
-        //             ForApprove := false;
-        //             ForReject := true;
-        //             ForScreen := true;
-        //         end;
-        // end;
     end;
-
-
 }

@@ -33,7 +33,7 @@ page 50150 "Allowance Assignment Subform"
 
                     trigger OnValidate()
                     begin
-                        CurrPage.Update;
+                        // CurrPage.Update;
                     end;
                 }
                 field("Employee Code"; Rec."Employee Code")
@@ -90,7 +90,6 @@ page 50150 "Allowance Assignment Subform"
                     ToolTip = 'Specifies the value of the Substitue of Line No. field.';
                     ApplicationArea = All;
                     Visible = not AllowanceClaim;
-                    ;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -119,7 +118,6 @@ page 50150 "Allowance Assignment Subform"
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
                 Visible = DocumentApproved and not AllowanceClaim;
-
                 trigger OnAction()
                 var
                     AllowanceLineTemp: Record "Allowance Assignment Line" temporary;
@@ -153,7 +151,7 @@ page 50150 "Allowance Assignment Subform"
                 Image = Insert;
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
-                Visible = DocumentOpen and not AllowanceClaim;
+                Visible = DocumentOpen;
 
                 trigger OnAction()
                 var
@@ -180,7 +178,10 @@ page 50150 "Allowance Assignment Subform"
                                 Evaluate(FromDate, AllowanceLine.GetFilter("From Date"));
                                 Evaluate(ToDate, AllowanceLine.GetFilter("To Date"));
                                 Evaluate(AllowanceType, AllowanceLine.GetFilter("Allowance Type"));
-                                Evaluate(EmployeeCode, AllowanceLine.GetFilter("Employee Code"));
+                                if AllowanceAssignmentHeader."Activity Type" = AllowanceAssignmentHeader."Activity Type"::"Allowance Assignment" then
+                                    Evaluate(EmployeeCode, AllowanceLine.GetFilter("Employee Code"))
+                                else
+                                    EmployeeCode := AllowanceAssignmentHeader."Employee No.";
                             end;
                             AllowanceAssignmentMgt.InsertAllowanceLine(rec."No.", AllowanceType, panel::" ", EmployeeCode, FromDate, ToDate);
                             CurrPage.Update();
