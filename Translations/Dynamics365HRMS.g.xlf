@@ -1878,6 +1878,51 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Week Off Day - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1462507268 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Attributes Usage History</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attribute Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Attribute Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 761498003 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Effective Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Effective Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 1627640004 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Entry Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Reversed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12132,6 +12177,11 @@
           <source>Primary Key</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Primary Key - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1971899752 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pro Rate Female Rebate</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Pro Rate Female Rebate - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 1394610726 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Relocation Allowance</source>
@@ -23292,6 +23342,51 @@
           <source>Specifies the value of the Week Off Day field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Week Off Day - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Attributes Usage History</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the amount.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the payroll attribute code.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Attribute Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 761498003 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the effective date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Effective Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the employee name.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the employee number.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 1627640004 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the entry date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Entry Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the entry number.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 3744289816 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether the entry is reversed.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Reversed - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
@@ -36362,6 +36457,11 @@
           <source>Specifies the value of the Previous Year Payroll Enable field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Previous Year Payroll Enable - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1702530172 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether the Female Rebate in Income Tax is to pro rated as per SST and RIT</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Pro Rated Female Rebate - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1753554737 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Return Tax field.</source>
