@@ -3588,7 +3588,7 @@ codeunit 50008 "Payroll Engine"
         Message(Text001);
     end;
 
-    procedure UpdateOTDisbursedEncashCode(PayrollNo: Code[20])
+    procedure UpdateOTDisbursedEncashCode(PayrollNo: Code[20]; PostedPayrollNo: code[20])
     var
         PayrollLineRec: Record "Payroll Line";
         OverTimeLedgerEntry: Record "OverTime Ledger Entry";
@@ -3602,7 +3602,12 @@ codeunit 50008 "Payroll Engine"
                 OverTimeLedgerEntry.SetRange("Payroll No.", PayrollNo);
                 OverTimeLedgerEntry.SetRange(OverTimeLedgerEntry."Approval Status", OverTimeLedgerEntry."Approval Status"::Approved);
                 OverTimeLedgerEntry.SetRange("OT Disbursed", false);
-                OverTimeLedgerEntry.ModifyAll("OT Disbursed", true);
+                if OverTimeLedgerEntry.FindSet() then
+                    repeat
+                        OverTimeLedgerEntry.Validate("OT Disbursed", true);
+                        OverTimeLedgerEntry.Validate("Payroll No.", PostedPayrollNo);
+                        OverTimeLedgerEntry.Modify();
+                    until OverTimeLedgerEntry.Next() = 0;
             until PayrollLineRec.Next = 0;
     end;
 

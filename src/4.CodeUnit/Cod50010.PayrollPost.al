@@ -153,7 +153,7 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeader."Posted Date" := CurrentDateTime;
         PostedPayrollHeader.Insert;
         if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
-            PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader."No.");
+            PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader."No.", PostedPayrollHeader."No.");
         end;
         // if PayrollHeader.Type = PayrollHeader.Type::Payroll then
         //     PayrollEngine.UpdateOTDisbursedAllowances(PayrollHeader, PostedPayrollHeader."No.");

@@ -17,21 +17,6 @@ table 50158 "OverTime Ledger Entry"
             var
                 EmpVar: Record Employee;
             begin
-                if EmpVar.Get("Employee No.") then begin
-                    Validate("Employee Name", EmpVar."Full Name");
-                    Validate("Branch Code", EmpVar."Branch Code");
-                    Validate("Department Code", EmpVar."Department Code");
-                    Validate("Deputation On", EmpVar."Deputation on");
-                    validate("Deputation On Code", EmpVar."Deputation on code");
-                    Validate("Salary Level Code", EmpVar."Salary Level");
-                    Validate("Functional Title", EmpVar."Functional Title");
-                    Validate("Province Code", EmpVar."Province Code");
-                    Validate("Unit Code", EmpVar."Unit Code");
-                    Validate("Extension Counter Code", EmpVar."Extension Counter Code");
-                    Validate("Branch Name", EmpVar."Branch Name");
-                    Validate("Department Name", EmpVar."Department Name");
-                    Validate("Province Name", EmpVar."Province Name");
-                end;
             end;
         }
         field(4; "Employee Name"; Text[50])
@@ -39,10 +24,6 @@ table 50158 "OverTime Ledger Entry"
         }
         field(5; Posted; Boolean)
         {
-        }
-        field(6; "No. Series"; Code[20])
-        {
-            TableRelation = "No. Series";
         }
         field(7; "Start Date"; Date)
         {
@@ -73,35 +54,8 @@ table 50158 "OverTime Ledger Entry"
         field(14; Remarks; Text[100])
         {
         }
-        field(15; "User ID"; Text[50])
-        {
-            Editable = false;
-            TableRelation = "User Setup"."User ID";
-        }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-        }
-        field(17; "Shortcut Dimension 1 Code"; Code[20])
-        {
-            CaptionClass = '1,2,1';
-            Editable = false;
-        }
-        field(18; "Department Code"; Code[20])
-        {
-            Editable = false;
-        }
-        field(19; "Branch Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(20; "Department Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(21; "Functional Title"; Code[20])
-        {
-            Editable = false;
-            TableRelation = "Functional Title";
         }
         field(22; "Line No"; Integer)
         {
@@ -112,25 +66,11 @@ table 50158 "OverTime Ledger Entry"
             Editable = false;
             TableRelation = "Employee Work Shift";
         }
-        field(24; "Salary Level Code"; Code[20])
-        {
-            Editable = false;
-            TableRelation = "Salary Level";
-        }
         field(26; "Posting Date"; Date)
         {
             Editable = false;
         }
 
-        field(28; "Extension Counter Code"; Code[20])
-        {
-        }
-        field(30; "Province Code"; Code[20])
-        {
-        }
-        field(31; "Unit Code"; Code[20])
-        {
-        }
         field(32; "Compensatory Days"; Decimal)
         {
         }
@@ -142,22 +82,6 @@ table 50158 "OverTime Ledger Entry"
         }
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {
-        }
-        field(40; "Branch Code"; Code[20]) //Used in all Employee activity
-        {
-        }
-
-        field(61; "Deputation On"; Enum "Deputation Type")
-        {
-
-        }
-        field(62; "Deputation On Code"; Code[20])
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(63; "Province Name"; Code[50])
-        {
-            DataClassification = ToBeClassified;
         }
 
         // OverTime 

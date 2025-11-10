@@ -559,7 +559,8 @@ codeunit 50015 "OverTime Mgt"
         OverTimeLedgerEntry.No := OvertimeLine."No.";
         OverTimeLedgerEntry.Type := OvertimeLine.Type;
         OverTimeLedgerEntry."Line No" := OvertimeLine."Line No.";
-        OverTimeLedgerEntry.Validate("Employee No.", OvertimeLine."Employee Code");
+        OverTimeLedgerEntry."Employee No." := OvertimeLine."Employee Code";
+        OverTimeLedgerEntry."Employee Name" := OvertimeLine."Employee Name";
         OverTimeLedgerEntry."Start Date" := OvertimeLine."Overtime Date";
         OverTimeLedgerEntry."End Date" := OvertimeLine."Overtime Date";
         OverTimeLedgerEntry.Remarks := OvertimeLine.Remarks;
@@ -586,7 +587,8 @@ codeunit 50015 "OverTime Mgt"
         OverTimeLedgerEntry.Init();
         OverTimeLedgerEntry.No := Overtime."No.";
         OverTimeLedgerEntry.Type := Overtime.Type;
-        OverTimeLedgerEntry.Validate("Employee No.", Overtime."Employee No.");
+        OverTimeLedgerEntry."Employee No." := Overtime."Employee No.";
+        OverTimeLedgerEntry."Employee Name" := Overtime."Employee Name";
         OverTimeLedgerEntry."Start Date" := Overtime."Start Date";
         OverTimeLedgerEntry."End Date" := Overtime."End Date";
         OverTimeLedgerEntry."Fiscal Year" := Overtime."Fiscal Year";

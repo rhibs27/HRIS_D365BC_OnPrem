@@ -160,7 +160,6 @@ table 50124 Leave
         }
         field(10; "Requested Date"; Date)
         {
-            Editable = false;
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -285,15 +284,12 @@ table 50124 Leave
         }
         field(39; Cancelled; Boolean)
         {
-            Editable = false;
         }
         field(40; "Cancelled No."; Code[20])
         {
-            Editable = false;
         }
         field(41; "Cancelled Document No."; Code[20])
         {
-            Editable = false;
         }
         field(50; "Contact No."; Text[50])
         {
@@ -452,6 +448,7 @@ table 50124 Leave
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
+
     trigger OnInsert()
     var
         LeaveRec: Record Leave;

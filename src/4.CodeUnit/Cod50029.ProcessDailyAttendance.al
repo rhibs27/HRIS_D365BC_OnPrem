@@ -141,7 +141,7 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Check Out Time" <> 0T) and (EmpAttendance."Check In Time" <> 0T) then
             EmpAttendance."Actual Work Time" := EmpAttendance."Check Out Time" - EmpAttendance."Check In Time";
         if (EmpAttendance."Check In Difference" <> 0) and (EmpAttendance."Check Out Difference" <> 0) then
-            EmpAttendance."Work Time Difference" := EmpAttendance."Check In Difference" - EmpAttendance."Check Out Difference";
+            EmpAttendance."Work Time Difference" := EmpAttendance."Check In Difference" + EmpAttendance."Check Out Difference";
     end;
 
     local procedure UpdateLateDay()

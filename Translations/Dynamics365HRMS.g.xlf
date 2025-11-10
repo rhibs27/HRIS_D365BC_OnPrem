@@ -12438,6 +12438,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Primary Key - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1971899752 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pro Rate Female Rebate</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Pro Rate Female Rebate - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 1394610726 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Relocation Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36692,6 +36697,11 @@
           <source>Specifies the value of the Previous Year Payroll Enable field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Previous Year Payroll Enable - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1702530172 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether the Female Rebate in Income Tax is to pro rated as per SST and RIT</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Pro Rated Female Rebate - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1753554737 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Return Tax field.</source>
