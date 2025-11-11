@@ -22913,6 +22913,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Action Approve Request - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2173113815 - Action 1225782422 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Add a file as an attachment. You can attach images as well as documents.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Action Attachments - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2173113815 - Action 1225782422 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachments</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Action Attachments - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2173113815 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38022,11 +38032,6 @@
           <source>Specifies the value of the Document Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control Document Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3181578682 - Control 545490910 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control Employee Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Control 3757697615 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Encashment Code field.</source>

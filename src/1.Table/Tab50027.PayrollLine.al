@@ -2857,7 +2857,7 @@ table 50027 "Payroll Line"
                     else
                         if AllowanceAmt <> 0 then
                             PayrollAttrUses.Amount := AllowanceAmt;
-                    if (not PayrollAttrUses."Static Amount") or (PayrollAttrUses.Amount = 0) then
+                    if not PayrollAttrUses."Static Amount" then
                         PayrollAttrUses.Modify();
                 end
                 else begin

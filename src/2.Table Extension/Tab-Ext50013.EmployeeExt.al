@@ -977,8 +977,9 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = true;
             trigger OnValidate()
             begin
-                if "Confirmation Date" < "Employment Date" then
-                    Error('Confirmation date cannot be less than employment date');
+                if "Confirmation Date" <> 0D then
+                    if "Confirmation Date" < "Employment Date" then
+                        Error('Confirmation date cannot be less than employment date');
                 "Confirmation Date (B.S.)" := EngNepDate.getNepaliDate("Confirmation Date");
             end;
         }
