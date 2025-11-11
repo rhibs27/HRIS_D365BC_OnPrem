@@ -1,4 +1,4 @@
-page 50367 "Assignment Memo Card"
+page 50373 "Assignment Memo Card"
 {
     ApplicationArea = All;
     Caption = 'Memo Card';

@@ -119,7 +119,6 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
-                    Visible = false;
                 }
                 field("Child's Gender"; Rec."Child's Gender")
                 {
@@ -187,9 +186,7 @@ page 50100 "Posted Leave Card"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
-                                "Document Type" = field(Type);
+                SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
             }
         }

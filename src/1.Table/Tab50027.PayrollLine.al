@@ -336,6 +336,9 @@ table 50027 "Payroll Line"
         field(50; "Night Shifts"; Decimal)
         {
         }
+        field(51; "Dashain Allowance Days"; Decimal)
+        {
+        }
         field(61; "Variable Field 50501"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
@@ -1799,6 +1802,8 @@ table 50027 "Payroll Line"
                         CalculateDifferentialInterestAmount(AttributeAmount);
                         if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
                             CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
+
+                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
                         if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
@@ -2136,7 +2141,7 @@ table 50027 "Payroll Line"
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                 //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
-                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * "LWP Days") / TotalDaysInMonth);
+                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * ("LWP Days" + "Late Days")) / TotalDaysInMonth);
                     if TotalAmount > 0 then
                         exit(TotalAmount)
                     else
@@ -2335,7 +2340,6 @@ table 50027 "Payroll Line"
                         PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
                         AttributeAmount := AttributeAmount + PriorPromotionAmt + PrevAttributeAmt - CurrentAttributeAmtAbsent;
                     end;
-
                     RoundAmount(AttributeAmount);
                     if PayrollAttributesUsage.Get(PayrollAttributes.Code, "Employee No.") then begin // update to payroll line only if payrollattruses found
                         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
@@ -3025,6 +3029,49 @@ table 50027 "Payroll Line"
             AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", '');
     end;
 
+    local procedure GetBackdatedAmountEmployeeWiseDateWise(EmpCode: Code[20]; AttrCode: Code[20]): Decimal
+    var
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
+        AsOfDay: Integer;
+        OneDayAmount: Decimal;
+        AmountAsOfDate: Decimal;
+        BackDatedAmount: Decimal;
+    begin
+        PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
+        PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
+        PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
+        if PayrollAttrUsageHistory.FindFirst() then begin
+            AsOfDay := PayrollHeader."From Date" - PayrollAttrUsageHistory."Effective Date";
+            OneDayAmount := (PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") / FindTotalDays();
+            BackDatedAmount := OneDayAmount * AsOfDay;
+            //BackDatedAmount := AmountAsOfDate - PreviouslyPaidAmountToBeReduced(EmpCode, AttrCode, PayrollAttrUsageHistory."Effective Date");
+        end;
+        exit(BackDatedAmount);
+    end;
+
+    local procedure FindTotalDays(): Decimal
+    var
+        PayrollGenSetup: Record "Payroll General Setup";
+    begin
+        PayrollGenSetup.Get();
+        if PayrollGenSetup."Total Days From" = PayrollGenSetup."Total Days From"::Year then
+            exit(PayrollGenSetup."Total Days" / 12)
+        else
+            exit("Total Days"); // from payroll line
+    end;
+
+    local procedure PreviouslyPaidAmountToBeReduced(EmpCode: Code[20]; AttrCode: Code[20]; EffectiveDate: Date): Decimal
+    var
+        DetailedEmployeeLedgerEntry: Record "Detailed Employee Ledger Entry";
+    begin
+        DetailedEmployeeLedgerEntry.SetRange("Employee No.", EmpCode);
+        DetailedEmployeeLedgerEntry.SetRange("Payroll Attribute Code", AttrCode);
+        DetailedEmployeeLedgerEntry.SetRange(Reversed, false);
+        DetailedEmployeeLedgerEntry.SetFilter("Posting Date", '%1..%2', EffectiveDate, PayrollHeader."From Date");
+        DetailedEmployeeLedgerEntry.CalcSums(Amount);
+        exit(DetailedEmployeeLedgerEntry.Amount);
+    end;
+
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
@@ -3034,7 +3081,7 @@ table 50027 "Payroll Line"
     [IntegrationEvent(false, false)]
     local procedure OnGetPayrollAttributesOnBeforeSaveValue(var PayrollLine: Record "Payroll Line")
     begin
-        //use if needed additional companyspecific validation or amount update
+        //use if needed additional company specific validation or amount update
     end;
 
     [IntegrationEvent(false, false)]

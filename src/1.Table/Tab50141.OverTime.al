@@ -50,14 +50,12 @@ table 50141 OverTime
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Branch Code", EmpVar."Branch Code");
                     Validate(Department, EmpVar."Department Code");
-                    // validate("Deputation Code", EmpVar."Deputation on code");
-                    // Validate("Auth. Account No.", EmpVar."Bank Account No.");
+                    Validate("Deputation Type", EmpVar."Deputation on");
+                    validate("Deputation Code", EmpVar."Deputation on code");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
-                    // Validate("Sub Province Code", EmpVar."Sub Province Code");
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
-                    // Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Department Name", EmpVar."Department Name");
@@ -89,12 +87,13 @@ table 50141 OverTime
             var
                 EmployeeAttendance: Record "Employee Attendance & Activity";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
+                if EmployeeRec.Get("Employee No.") then
+                    if "Start Date" <> 0D then begin
+                        if "Start Date" < EmployeeRec."Employment Date" then
+                            Error('Cannot apply before your employment date');
+                    end;
                 if Type <> Type::Overtime then
                     if "Employee No." = '' then
                         if not HrMgt.IsSaaS() then
@@ -103,12 +102,6 @@ table 50141 OverTime
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
                 if type = type::Overtime then begin
                     EmployeeAttendance.Reset;
                     EmployeeAttendance.SetRange("Employee No.", "Employee No.");
@@ -124,7 +117,6 @@ table 50141 OverTime
                         end;
                     end else
                         Error('No Attendance Found on %1', rec."Start Date");
-                    // OverTimeMgt.CheckOvertime(Rec);
                     if "Start Date" <> xRec."Start Date" then begin
                         Clear("Overtime Claim Type");
                         Clear("End Date");
@@ -151,12 +143,7 @@ table 50141 OverTime
                     Error('Date range exceed');
                 if Type = Type::"Overtime Bulk" then
                     CheckForExistingDate();
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
             end;
         }
         // field(9; "No. of Days"; Decimal)
@@ -258,9 +245,6 @@ table 50141 OverTime
                         if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
                             if "Start Date" >= Today then
                                 Error('You cannot apply OverTime in current and future date.');
-                            // Validate("End Date", "Start Date");
-                            //Add Control for OverTime and OverTime Request is Allowed for already attendance date <<santosh<< /3/17/2025/<<
-                            // OverTimeMgt.CheckOvertime(Rec);
                             Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
                         end;
                         Clear("Compensatory Days");
@@ -348,14 +332,7 @@ table 50141 OverTime
         }
         field(54; "Encashment Code"; Code[30])
         {
-            TableRelation = "OT Encashment Setup";
-            trigger OnValidate()
-            begin
-                /*IF EncashmentPeriodSetup.GET("Encashment Code") THEN
-                  "Encashment Period" := EncashmentPeriodSetup.Period
-                ELSE
-                  CLEAR("Encashment Period");*/
-            end;
+            Editable = false;
         }
         field(55; "OT Amount"; Decimal)
         {
@@ -410,8 +387,6 @@ table 50141 OverTime
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Deputation Code") then
                             "Deputation Name" := OrganizationStructureList.Name;
                 end;
-                //GetApprover();
-                // CheckForSameWeek;
             end;
         }
         field(63; "Deputation Name"; Text[100])
@@ -541,11 +516,6 @@ table 50141 OverTime
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
         EmployeeRec: Record Employee;
-        Text002: Label 'Compensatory leave has been restricted in HRMS.';
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        PayrollGenSetup: Record "Payroll General Setup";
-        SalaryLevelRec: Record "Salary Level";
-        SalaryGrade: Record "Salary Grade";
         ApproverMgt: Codeunit "Approver Mgt";
         IsHandled: Boolean;
         AttendanceSetup: Record "Attendance Setup";

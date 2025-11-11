@@ -1,4 +1,4 @@
-table 50162 "Assignment Memo Ledger Entry"
+table 50163 "Assignment Memo Ledger Entry"
 {
     //data in this table will be created only after approval of assignment memo documents.
     Caption = 'Assignment Memo Ledger Entry';
@@ -9,7 +9,7 @@ table 50162 "Assignment Memo Ledger Entry"
     {
         field(1; "Entry No."; Integer)
         {
-            Caption = 'Enrty No.';
+            Caption = 'Entry No.';
         }
         field(2; "Document No."; Code[20])
         {

@@ -1,4 +1,4 @@
-table 50160 "Assignment Memo Header"
+table 50161 "Assignment Memo Header"
 {
     Caption = 'Assignment Memo Header';
     DataClassification = ToBeClassified;

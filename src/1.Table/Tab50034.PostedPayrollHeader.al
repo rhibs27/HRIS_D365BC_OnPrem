@@ -259,6 +259,7 @@ table 50034 "Posted Payroll Header"
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
         LeaveEarn: Record "Leave Earn";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        OvertimeLedgerEntry: Record "OverTime Ledger Entry";
     begin
         LeaveEarn.SetRange("Payroll Posted", true);
         LeaveEarn.SetRange("Payroll Document No", PostedDocNo);
@@ -281,5 +282,14 @@ table 50034 "Posted Payroll Header"
                 AssignmentMemoLedgerEntry.Open := true;
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
+
+        OvertimeLedgerEntry.Reset();
+        OvertimeLedgerEntry.SetRange("Payroll No.", PostedDocNo);
+        if OvertimeLedgerEntry.FindSet() then
+            repeat
+                OvertimeLedgerEntry."Payroll No." := '';
+                OvertimeLedgerEntry."OT Disbursed" := false;
+                OvertimeLedgerEntry.Modify();
+            until OvertimeLedgerEntry.Next() = 0;
     end;
 }

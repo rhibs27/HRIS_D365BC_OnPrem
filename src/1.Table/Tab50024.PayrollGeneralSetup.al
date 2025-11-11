@@ -451,6 +451,12 @@ table 50024 "Payroll General Setup"
         }
         field(140; "Allowance Claim Limit (days)"; Integer) { }
         field(141; "Night Shift Allowance"; Code[20]) { }
+
+        field(142; "Dashain Allowance"; Code[20])
+        {
+            TableRelation = "Payroll Attributes" where(Subtype = filter("Payroll SubType"::"Dashain Allowance"));
+        }
+        field(143; "Dashain Allowance Amount"; Decimal) { }
         field(150; "Allowance Assignment Memo Nos"; Code[20])
         {
             TableRelation = "No. Series";
@@ -470,8 +476,8 @@ table 50024 "Payroll General Setup"
         }
         field(502; "Backdated Payroll Reverse"; Boolean)
         {
-
         }
+
         field(503; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
@@ -479,6 +485,9 @@ table 50024 "Payroll General Setup"
         field(504; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+        }
+        field(505; "Pro Rate Female Rebate"; Boolean)
+        {
         }
     }
 

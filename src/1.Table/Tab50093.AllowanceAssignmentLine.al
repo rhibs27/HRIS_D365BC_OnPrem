@@ -64,7 +64,7 @@ table 50093 "Allowance Assignment Line"
                     if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
                         AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
 
-                    OverTimeMgt.CheckApprovedOvertimeExists(Rec);
+                    //OverTimeMgt.CheckApprovedOvertimeExists(Rec); not needed in base 
                 end;
                 if Employee.Get("Employee Code") then
                     "Employee Name" := Employee."Full Name"
@@ -328,49 +328,22 @@ table 50093 "Allowance Assignment Line"
 
     end;
 
-    procedure ValidateAllowanceType(): Boolean
+    procedure ValidateAllowanceType()
+    var
+        AttendanceMgt: Codeunit "Attendance Mgt";
+        PGSetup: Record "Payroll General Setup";
     begin
         TestField("Allowance Type");
-        BaseCalenderChange.Reset;
-        BaseCalenderChange.SetRange(Date, "From Date");
-        //BaseCalenderChange.SetRange(Nonworking, TRUE);
-        if BaseCalenderChange.FindFirst then;
-
+        PGSetup.Get();
         case "Allowance Type" of
-            'FESTIVAL':
+            PGSetup."Dashain Allowance":
                 begin
-                    if (BaseCalenderChange."Holiday Type" = BaseCalenderChange."Holiday Type"::Festival)
-                      and (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
-                        "To Date" := "From Date";
-                        "No. of Days" := 1;
-                        exit(true);
-                    end
-                    else
-                        Error('Selected date is not festival.');
-                end;
-            'FRIDAY COUNTER':
-                begin
-                    if HrMgt.IsFriday("From Date") then begin
-                        "To Date" := "From Date";
-                        "No. of Days" := 1;
-                        exit(true);
-                    end
-                    else
-                        Error('Selected day is not friday.');
-                end;
-            'HOLIDAY COUNTER':
-                begin
-                    if (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
-                        "To Date" := "From Date";
-                        "No. of Days" := 1;
-                        exit(true);
-                    end
-                    else
-                        Error('Selected date is not marked as holiday in calendar.');
+                    if not HrMgt.IsDashinTihar("From Date") then
+                        Error('Selected date is not Dashain Tihar.');
+                    if not AttendanceMgt.CheckEmployeePresent("Employee Code", "From Date") then
+                        Error('Attendance Not Found On %1', "From Date");
                 end;
         end;
-
-        exit(true);
     end;
 
     procedure CalculateNoOfDays(var _AllowanceLine: Record "Allowance Assignment Line")

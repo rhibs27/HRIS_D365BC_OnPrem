@@ -19,24 +19,6 @@ codeunit 50005 "Transfer Mgt."
         PAGE.Run(PAGE::"Transfer Request Card", EmpTransfer);
     end;
 
-    procedure OpenOutofOfficeForms(EmpCode: Code[20])
-    var
-        OverTime: Record OverTime temporary;
-    begin
-        Clear(Employee);
-        Employee.Get(EmpCode);
-        OverTime.Init;
-        OverTime.Validate("Employee No.", EmpCode);
-        OverTime.Validate("Functional Title", Employee."Functional Title");
-        OverTime.Validate(Type, OverTime.Type::"Out of Office");
-        OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
-        OverTime.Validate("Requested Date", Today);
-        OverTime.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        OverTime.Validate(Department, Employee."Department Code");
-        OverTime.Insert;
-        PAGE.Run(PAGE::"Overtime Card", OverTime);
-    end;
-
     procedure SendTransferApproval(TempEmpHRtransfer: Record "Employee Transfer" temporary): Boolean
     var
         EmphrTransfer: Record "Employee Transfer";

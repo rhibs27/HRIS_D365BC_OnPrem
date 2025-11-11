@@ -178,6 +178,11 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = all;
                 }
+                field("Pro Rated Female Rebate"; Rec."Pro Rate Female Rebate")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies whether the Female Rebate in Income Tax is to pro rated as per SST and RIT';
+                }
             }
             group("Posting Group")
             {
@@ -401,6 +406,11 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = All;
                 }
+                field("Dashain Allowance"; Rec."Dashain Allowance")
+                {
+                    ApplicationArea = All;
+                }
+
 
 
             }
@@ -669,6 +679,11 @@ page 50031 "Payroll General Setup"
                 field("ATM Custodian contract (month)"; Rec."ATM Custodian contract (month)")
                 {
                     ToolTip = 'Specifies the value of the ATM cust. Allow. (comtract) field.';
+                    ApplicationArea = All;
+                }
+                field("Dashain Allowance Amount"; Rec."Dashain Allowance Amount")
+                {
+                    ToolTip = 'Specifies the value of the Dashain Allowance Amount field.';
                     ApplicationArea = All;
                 }
                 field("Allowance Claim Limit (days)"; Rec."Allowance Claim Limit (days)")

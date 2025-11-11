@@ -17,7 +17,7 @@ page 50246 "Overtime Bulk Card"
                 field("Deputation Type"; Rec."Deputation Type")
                 {
                     ToolTip = 'Specifies the value of the Branch Type field.', Comment = '%';
-                    Editable = IsOpen;
+                    Editable = false;
                     ApplicationArea = all;
                 }
                 field("Deputation Code"; Rec."Deputation Code")
