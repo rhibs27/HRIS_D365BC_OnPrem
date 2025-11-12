@@ -263,7 +263,7 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
     end;
 
-#if CLOUD
+#if SaasFeature
     procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
     var
         DecryptedEmployeeNo: Code[60];
@@ -573,7 +573,7 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
-#if CLOUD
+#if SaasFeature
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean; AccessToken: Code[60])//SAAS
     var
         ApprovalHRMS: Record "Approval HRMS";
@@ -953,7 +953,7 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
-#if CLOUD
+#if SaasFeature
     procedure WithDrawRequest(var RecRef: RecordRef; AccessToken: code[60]) //SAAS
     var
         Approver: Record "Approval HRMS";
@@ -1060,7 +1060,7 @@ codeunit 50017 "Approver Mgt"
         end;
     end;
 
-#if CLOUD
+#if SaasFeature
     procedure WithDrawRequestAPI(documentNo: Code[20]; EmpActType: Text; AccessToken: code[60]) //SAAS
     var
         EmpActTypeEnum: Enum "Employee Activity Type";
