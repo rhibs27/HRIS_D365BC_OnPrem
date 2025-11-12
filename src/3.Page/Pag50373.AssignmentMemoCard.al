@@ -94,6 +94,10 @@ page 50373 "Assignment Memo Card"
                 SubPageLink = "Document No." = field("No.");
                 UpdatePropagation = Both;
             }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No.");
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;

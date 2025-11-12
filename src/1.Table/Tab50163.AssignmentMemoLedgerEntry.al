@@ -84,6 +84,32 @@ table 50163 "Assignment Memo Ledger Entry"
             Caption = 'Employee Work Shift';
             TableRelation = "Employee Work Shift";
         }
+
+        //attendance related fields (for employee activity type = Assignment and shift)
+        field(50; "Present Days"; Decimal)
+        {
+            Caption = 'Present Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Attendance & Activity"."Present Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+        }
+        field(51; "Week Off Days"; Decimal)
+        {
+            Caption = 'Week Off Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Attendance & Activity"."Week Off Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+        }
+        field(52; "Leave Days"; Decimal)
+        {
+            Caption = 'Leave Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Attendance & Activity"."Leave Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+        }
+        field(53; "Absent Days"; Decimal)
+        {
+            Caption = 'Absent Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Attendance & Activity"."Absent Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+        }
     }
     keys
     {
@@ -107,5 +133,21 @@ table 50163 "Assignment Memo Ledger Entry"
             exit(AssignmentMemoLedgerEntry."Entry No." + 1)
         else
             exit(1);
+    end;
+
+    procedure CheckDuplicateLedgerEntryExist(EmployeeNo: Code[20]; PostingDate: Date; EmpActType: Enum "Employee Activity Type"; PayrollAttrCode: Code[20]; EntryNo: Integer): Boolean
+    var
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+    begin
+        AssignmentMemoLedgerEntry.SetLoadFields("Entry No.", "Employee No.", "Posting Date", "Employee Activity Type", "Payroll Attribute Code");
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeNo);
+        AssignmentMemoLedgerEntry.SetRange("Posting Date", PostingDate);
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", EmpActType);
+        AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttrCode);
+        AssignmentMemoLedgerEntry.SetFilter("Entry No.", '<> %1', EntryNo);
+        if AssignmentMemoLedgerEntry.IsEmpty() then
+            exit(false)
+        else
+            exit(true);
     end;
 }

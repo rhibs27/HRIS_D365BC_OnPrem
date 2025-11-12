@@ -74,9 +74,7 @@ table 50162 "Assignment Memo Line"
                 if "Payroll Attribute Code" <> '' then begin
                     AllowanceConfiguration.Reset();
                     AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
-                    if AllowanceConfiguration.FindFirst() then
-                        "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration)
-                    else
+                    if not AllowanceConfiguration.FindFirst() then
                         Error('Invalid allowance selected!');
 
                     //check if assignment memo header contains the same payroll attribute
@@ -297,6 +295,24 @@ table 50162 "Assignment Memo Line"
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateToCheck);
         PayCyclePeriod.FindFirst();
         exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1);
+    end;
+
+    //calculate allowance amount for the line before send for approval
+    procedure CalculateAmountForLine()
+    begin
+        if "Payroll Attribute Code" <> '' then begin
+            AllowanceConfiguration.Reset();
+            AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
+            AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
+            if AllowanceConfiguration.FindSet() then begin
+                repeat
+                    if GetAllowanceConfigAmount(AllowanceConfiguration) <> 0 then begin
+                        "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration);
+                        break;
+                    end;
+                until AllowanceConfiguration.Next() = 0;
+            end
+        end;
     end;
 
 }

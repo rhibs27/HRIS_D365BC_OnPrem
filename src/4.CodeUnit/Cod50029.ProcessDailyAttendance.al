@@ -22,7 +22,7 @@ codeunit 50029 "Process Daily Attendance"
         CalendarDescription: Text;
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
         PGSetup: Record "Payroll General Setup";
-        AssignmentMemoLedgerENtry: Record "Assignment Memo Ledger Entry";
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
 
     procedure UpdateEmpAttendance()
     begin
@@ -61,6 +61,9 @@ codeunit 50029 "Process Daily Attendance"
         // if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Absent Day" = 0) and (EmpAttendance."Week Off Day" = 0) and (EmpAttendance."Tour Day" = 0) and (EmpAttendance."Leave Day" = 0) and (EmpAttendance."Transfer Day" = 0) and (EmpAttendance."Training Day" = 0) then
         // CheckAndInsertTimeDifference();
         EmpAttendance.Modify(true);
+
+        //Update attendance for assignment memo if exists
+
     end;
 
     local procedure ResetDays()
@@ -91,12 +94,12 @@ codeunit 50029 "Process Daily Attendance"
     local procedure GetShiftCodeformShiftAssignment(): Code[20]
     begin
         if PGSetup."Use Allowance Configuration" then begin
-            AssignmentMemoLedgerENtry.SetLoadFields("Employee Activity Type", "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
-            AssignmentMemoLedgerENtry.SetRange("Employee Activity Type", AssignmentMemoLedgerENtry."Employee Activity Type"::"Shift Assignment Memo");
-            AssignmentMemoLedgerENtry.SetRange("Employee No.", EmpAttendance."Employee No.");
-            AssignmentMemoLedgerENtry.SetRange("Posting Date", EmpAttendance."Attendance Date");
-            AssignmentMemoLedgerENtry.SetRange("Substituted Employee No.", '');
-            exit(AssignmentMemoLedgerENtry."Employee Work Shift");
+            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
+            AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
+            AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
+            AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
+            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
         end
         else begin
             ShiftLine.Reset();
@@ -382,5 +385,4 @@ codeunit 50029 "Process Daily Attendance"
     begin
         FromSyncProcess := VarFromSyncProcess;
     end;
-
 }

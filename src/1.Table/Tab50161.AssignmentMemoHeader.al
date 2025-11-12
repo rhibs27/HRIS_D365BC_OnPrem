@@ -268,6 +268,8 @@ table 50161 "Assignment Memo Header"
         AutoInsertDatesForrequestAllowance();
         // if GuiAllowed then
         //     AllowanceAssignmentMgt.GenerateIncDocuments("Activity Type", "No.", "Requester Employee No.", '');
+        if "No." <> '' then
+            InsertDocumentAttachment("Activity Type", "No.", "Employee No.");
     end;
 
     var
@@ -287,5 +289,19 @@ table 50161 "Assignment Memo Header"
             "From Date" := WorkDate();
             "To date" := PGSetup."Prev Fiscal Year End Date";
         end;
+    end;
+
+    procedure InsertDocumentAttachment(EmpActType: Enum "Employee Activity Type"; DocumentNo: Code[20]; EmployeeNo: Code[50])
+    var
+        IncDocAttachment: Record "Incoming Document";
+    begin
+        IncDocAttachment.Init();
+        IncDocAttachment."No." := DocumentNo;
+        IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
+        IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
+        if EmpActType = EmpActType::"Request Allowance" then
+            IncDocAttachment.Validate("Employee Code", EmployeeNo);
+        IncDocAttachment.Validate("Employee Activity Type", EmpActType);
+        IncDocAttachment.Insert(true);
     end;
 }

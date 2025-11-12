@@ -1163,6 +1163,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 836412028 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Absent Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Absent Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1213,6 +1218,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Entry No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 194313464 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Leave Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 4259830144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Open</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1238,6 +1248,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Posting Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 4287538008 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Present Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Present Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 709576389 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Substituted Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1252,6 +1267,11 @@
           <source>Valid To Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Valid To Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2051636496 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Week Off Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Week Off Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assignment Memo Line</source>
@@ -58123,6 +58143,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Allowance Assignment - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 3043223467 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Assignment Memo</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Allowance Assignment Memo - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 1691263759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58232,6 +58257,11 @@
           <source>Salary Advance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Salary Advance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 1448368435 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Assignment Memo</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Shift Assignment Memo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Claim</source>

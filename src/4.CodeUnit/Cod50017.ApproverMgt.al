@@ -263,13 +263,15 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
     end;
 
+#if CLOUD
     procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
     var
         DecryptedEmployeeNo: Code[60];
-    // SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
+        SaaSLoginMgmt: Codeunit SaaSLoginMgmt;
     begin
-        // exit(SaaSLoginMgmt.DecryptCode(AccessToken));
+        exit(SaaSLoginMgmt.DecryptCode(AccessToken));
     end;
+#endif
 
     procedure CheckApproverSAAS(EmpActNo: Code[20]; ApproverNo: code[20]) //saas
     var
@@ -571,6 +573,7 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
+#if CLOUD
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean; AccessToken: Code[60])//SAAS
     var
         ApprovalHRMS: Record "Approval HRMS";
@@ -815,6 +818,7 @@ codeunit 50017 "Approver Mgt"
         end else
             Error('Document Status Must be in Pending');
     end;
+#endif
 
     procedure CheckRequester(EmpActNo: Code[20])//onprem
     begin
@@ -949,6 +953,7 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
+#if CLOUD
     procedure WithDrawRequest(var RecRef: RecordRef; AccessToken: code[60]) //SAAS
     var
         Approver: Record "Approval HRMS";
@@ -1002,6 +1007,8 @@ codeunit 50017 "Approver Mgt"
         end else
             Error('Document Status Must be in Pending');
     end;
+#endif
+
     // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
     procedure WithDrawRequestAPI(documentNo: Code[20]; EmpActType: Text)//onprem
     var
@@ -1053,6 +1060,7 @@ codeunit 50017 "Approver Mgt"
         end;
     end;
 
+#if CLOUD
     procedure WithDrawRequestAPI(documentNo: Code[20]; EmpActType: Text; AccessToken: code[60]) //SAAS
     var
         EmpActTypeEnum: Enum "Employee Activity Type";
@@ -1102,6 +1110,8 @@ codeunit 50017 "Approver Mgt"
                 end;
         end;
     end;
+#endif
+
     // >>  Reopen Document Dynamically using RecRef>> Santosh 2025-10-29 >>
     procedure ReopenDocument(var RecRef: RecordRef)
     var

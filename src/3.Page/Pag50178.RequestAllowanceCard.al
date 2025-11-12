@@ -65,6 +65,12 @@ page 50178 "Request Allowance Card"
                 ApplicationArea = All;
                 Editable = IsOpen;
             }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No."),
+                              "Employee Code" = field("Employee No.");
+                ApplicationArea = All;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;

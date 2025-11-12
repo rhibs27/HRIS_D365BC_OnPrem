@@ -2935,76 +2935,13 @@ table 50027 "Payroll Line"
                                             false));
 
             AllowanceConfiguration.Source::" ":
-                if IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode) then
+                if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode, PayrollHeader."To Date") then
                     if AllowanceConfiguration.Formula <> '' then
                         exit(AllowanceConfiguration.EvaluateAmountForEmployee(AllowanceConfiguration.Formula, EmployeeCode))
                     else
                         exit(AllowanceConfiguration.Amount);
 
         end;
-    end;
-
-    procedure IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration: Record "Allowance Configuration"; EmployeeCode: Code[20]): Boolean
-    var
-        EmpVar: Record Employee;
-        OrgStructureList: Record "Organization Structure List";
-        AllowanceConfiguration2: Record "Allowance Configuration";
-        ServiceYear: Decimal;
-        Month: Integer;
-        Days: Integer;
-    begin
-        EmpVar.SetRange("No.", EmployeeCode);
-        if AllowanceConfiguration."Province Code" <> '' then
-            EmpVar.SetFilter("Province Code", AllowanceConfiguration."Province Code");
-        if AllowanceConfiguration."Branch Code" <> '' then
-            EmpVar.SetFilter("Branch Code", AllowanceConfiguration."Branch Code");
-        if AllowanceConfiguration."Department Code" <> '' then
-            EmpVar.SetFilter("Department Code", AllowanceConfiguration."Department Code");
-        if not EmpVar.FindFirst() then
-            exit(false);
-
-        if AllowanceConfiguration."Employment Type" <> AllowanceConfiguration."Employment Type"::" " then
-            EmpVar.SetRange("Employment Type", AllowanceConfiguration."Employment Type");
-        if AllowanceConfiguration."Employee Work Shift" <> '' then
-            EmpVar.SetRange("Employee Work Shift", AllowanceConfiguration."Employee Work Shift");
-        if AllowanceConfiguration."Salary Level" <> '' then
-            EmpVar.SetRange("Salary Level", AllowanceConfiguration."Salary Level");
-        if AllowanceConfiguration."Functional Title" <> '' then
-            EmpVar.SetRange("Functional Title", AllowanceConfiguration."Functional Title");
-        if not EmpVar.FindFirst() then
-            exit(false);
-
-        EmpVar.FindFirst();
-        if OrgStructureList.Get(OrgStructureList.Type::Branch, EmpVar."Branch Code") then begin
-            if (AllowanceConfiguration.Region <> AllowanceConfiguration.Region::" ") and (OrgStructureList.Region <> AllowanceConfiguration.Region) then
-                exit(false);
-
-            if (AllowanceConfiguration."Outside/Inside Valley" <> AllowanceConfiguration."Outside/Inside Valley"::" ") and
-            (OrgStructureList."InsideOutside Valley" <> AllowanceConfiguration."Outside/Inside Valley") then
-                exit(false);
-
-            if AllowanceConfiguration."Remote Area Category" <> '' then
-                if OrgStructureList."Remote Area Category" <> AllowanceConfiguration."Remote Area Category" then
-                    exit(false);
-        end
-        else if (AllowanceConfiguration.Region <> AllowanceConfiguration.Region::" ") or
-                (AllowanceConfiguration."Outside/Inside Valley" <> AllowanceConfiguration."Outside/Inside Valley"::" ") or
-                (AllowanceConfiguration."Remote Area Category" <> '') then
-            exit(false);
-
-        if AllowanceConfiguration."Min Service Yr. Eligibility" <> 0 then begin
-            ServiceYear := Date2DMY(PayrollHeader."To Date", 3) - Date2DMY(EmpVar."Employment Date", 3);
-            Month := Date2DMY(PayrollHeader."From Date", 2) - Date2DMY(EmpVar."Employment Date", 2);
-            Days := Date2DMY(PayrollHeader."From Date", 1) - Date2DMY(EmpVar."Employment Date", 1);
-            if Days < 0 then
-                Month := month - 1;
-            if Month < 0 then
-                ServiceYear := ServiceYear - 1;
-            if ServiceYear < AllowanceConfiguration."Min Service Yr. Eligibility" then
-                exit(false);
-
-        end;
-        exit(true);
     end;
 
     procedure MultipleConfigForSameAttribute(AllConfig: Record "Allowance Configuration"): Boolean
