@@ -114,6 +114,7 @@ table 50149 "Approval HRMS"
         ShiftAssignment: Record "Shift Assignment Header";
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -134,7 +135,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Overtime, "Document Type"::"Overtime Bulk":
                 if OT.Get("Document No.") then
                     RecRef.GetTable(OT);
-            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim", "Document Type"::"Request Allowance":
+            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim":
                 if AllowanceAssignment.Get("Document No.") then
                     RecRef.GetTable(AllowanceAssignment);
             "Document Type"::Retirement:
@@ -162,6 +163,9 @@ table 50149 "Approval HRMS"
             "Document Type"::Insurance:
                 if Insurance.Get("Document No.") then
                     RecRef.GetTable(Insurance);
+            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
+                if AssignmentMemoHdr.Get("Document No.") then
+                    RecRef.GetTable(AssignmentMemoHdr);
         end;
 
         RecRef.SetRecFilter();
@@ -186,6 +190,7 @@ table 50149 "Approval HRMS"
         ApproverMgt: Codeunit "Approver Mgt";
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -206,7 +211,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Overtime:
                 if OT.Get("Document No.") then
                     RecRef.GetTable(OT);
-            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim", "Document Type"::"Request Allowance":
+            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim":
                 if AllowanceAssignment.Get("Document No.") then
                     RecRef.GetTable(AllowanceAssignment);
             "Document Type"::Retirement:
@@ -234,6 +239,9 @@ table 50149 "Approval HRMS"
             "Document Type"::Insurance:
                 if Insurance.Get("Document No.") then
                     RecRef.GetTable(Insurance);
+            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
+                if AssignmentMemoHdr.Get("Document No.") then
+                    RecRef.GetTable(AssignmentMemoHdr);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, true);
     end;
@@ -256,6 +264,7 @@ table 50149 "Approval HRMS"
         ApproverMgt: Codeunit "Approver Mgt";
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -279,7 +288,7 @@ table 50149 "Approval HRMS"
             "Document Type"::Overtime:
                 if OT.Get("Document No.") then
                     RecRef.GetTable(OT);
-            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim", "Document Type"::"Request Allowance":
+            "Document Type"::"Allowance Assignment", "Document Type"::"Allowance Assignment Claim":
                 if AllowanceAssignment.Get("Document No.") then
                     RecRef.GetTable(AllowanceAssignment);
             "Document Type"::Retirement:
@@ -307,6 +316,9 @@ table 50149 "Approval HRMS"
             "Document Type"::Insurance:
                 if Insurance.Get("Document No.") then
                     RecRef.GetTable(Insurance);
+            "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
+                if AssignmentMemoHdr.Get("Document No.") then
+                    RecRef.GetTable(AssignmentMemoHdr);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, false);
     end;

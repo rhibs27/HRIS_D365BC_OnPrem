@@ -122,4 +122,12 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Allowance Assignment';
     }
+    value(32; "Allowance Assignment Memo")
+    {
+        Caption = 'Allowance Assignment Memo';
+    }
+    value(33; "Shift Assignment Memo")
+    {
+        Caption = 'Shift Assignment Memo';
+    }
 }

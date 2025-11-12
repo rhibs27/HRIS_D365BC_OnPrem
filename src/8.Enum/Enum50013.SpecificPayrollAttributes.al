@@ -65,4 +65,8 @@ enum 50013 "Specific Payroll Attributes"
     {
         Caption = 'Reimbursement';
     }
+    value(16; "Holiday Allowance")
+    {
+        Caption = 'Holiday Allowance';
+    }
 }

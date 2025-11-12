@@ -93,6 +93,15 @@ page 50049 "Employee Work Shift"
                     ToolTip = 'Specifies the value of the Winter End Date field.';
                     ApplicationArea = All;
                 }
+                field("Default Employee Type"; Rec."Default Employee Type")
+                {
+                    ToolTip = 'Specifies the value of the Default Employee Type field.';
+                    ApplicationArea = All;
+                }
+                field("Payroll Attribute Code"; Rec."Payroll Attribute Code")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attribute Code field.', Comment = '%';
+                }
                 field("Registered Employees"; Rec."Registered Employees")
                 {
                     ToolTip = 'Specifies the value of the Registered Employees field.';

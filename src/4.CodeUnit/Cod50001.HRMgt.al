@@ -5,6 +5,7 @@ codeunit 50001 "HR Mgt."
     trigger OnRun()
     begin
     end;
+
     var
         HrPermission: Record "Rolewise Job Description";
         Text001: Label 'The previous column set could not be found.';
@@ -131,6 +132,7 @@ codeunit 50001 "HR Mgt."
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: CodeUnit "Travel Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
+
     procedure MoveToMagicPath(SourceFileName: Text[1024]) DestinationFileName: Text[1024]
     var
     // FileSystemObject: Automation;todo
@@ -141,6 +143,7 @@ codeunit 50001 "HR Mgt."
         // Create(FileSystemObject, true, true); todo
         // FileSystemObject.MoveFile(SourceFileName, DestinationFileName);todo
     end;
+
     procedure RecommendCandidate(Candidate: Record Candidate; IsApproved: Boolean)
     var
         VacancyHeader: Record "Vacancy Header";
@@ -158,6 +161,7 @@ codeunit 50001 "HR Mgt."
             Candidate.Validate(Status, Candidate.Status::" ");
         Candidate.Modify;
     end;
+
     procedure RecommendCandidateAPI(Candidate: Record Candidate; IsApproved: Boolean; employeeNo: Code[20])
     var
         VacancyHeader: Record "Vacancy Header";
@@ -174,6 +178,7 @@ codeunit 50001 "HR Mgt."
             Candidate.Validate(Status, Candidate.Status::" ");
         Candidate.Modify;
     end;
+
     procedure ApplyForPromoiton(Candidate: Record Candidate)
     var
         VacancyHeader: Record "Vacancy Header";
@@ -188,6 +193,7 @@ codeunit 50001 "HR Mgt."
         Candidate.Validate(Status, Candidate.Status::Applied);
         Candidate.Modify;
     end;
+
     procedure UpdatePromotion(EmpNo: Code[20])
     var
         PromotionPageBuilder: FilterPageBuilder;
@@ -251,6 +257,7 @@ codeunit 50001 "HR Mgt."
             Message('Employee Promoted');
         end;
     end;
+
     procedure ReturnNepaliYear(EnglishDate: Date): Integer
     begin
         EngNep.Reset;
@@ -258,6 +265,7 @@ codeunit 50001 "HR Mgt."
         if EngNep.FindFirst then
             exit(EngNep."Nepali Year");
     end;
+
     local procedure GetOneLessSalaryCode(SalaryCode: Code[20]): Text[20]
     var
         SalaryLevel: Record "Salary Level";
@@ -269,6 +277,7 @@ codeunit 50001 "HR Mgt."
         if SalaryLevel2.FindLast then
             exit(SalaryLevel2.Code);
     end;
+
     procedure SelectEligibleEmployee(VacancyCode: Code[20])
     var
         VacancyHeader: Record "Vacancy Header";
@@ -321,6 +330,7 @@ codeunit 50001 "HR Mgt."
                 until Employee.Next = 0;
         end;
     end;
+
     local procedure InsertPromotionCandidate(VacancyHeader: Record "Vacancy Header")
     var
         Candidate: Record Candidate;
@@ -336,6 +346,7 @@ codeunit 50001 "HR Mgt."
         Candidate.Validate(Status, Candidate.Status::" ");
         Candidate.Insert(true);
     end;
+
     procedure PromoteEmployee(CandidateNo: Code[20]; VacancyNo: Code[20])
     var
         Candidate: Record Candidate;
@@ -362,6 +373,7 @@ codeunit 50001 "HR Mgt."
         Employee."Promotion Date" := Today;
         Employee.Modify;
     end;
+
     procedure PostRecruitement(MemoNo: Code[20])
     var
         Recruitment: Record "Recruitment Memo";
@@ -515,6 +527,7 @@ codeunit 50001 "HR Mgt."
             TempRecruLine.DeleteAll;
         end;
     end;
+
     procedure LookupSalaryLevel(SalLevelText: Text): Text
     var
         PageSalaryLevel: Page "Salary Levels";
@@ -529,6 +542,7 @@ codeunit 50001 "HR Mgt."
         if PageSalaryLevel.RunModal = ACTION::OK then
             exit(PageSalaryLevel.ReturnSalLevelText);
     end;
+
     procedure ValidateJobTitle(var VacaHeader: Record "Vacancy Header")
     var
         JobTitle: Record "Job Title";
@@ -564,6 +578,7 @@ codeunit 50001 "HR Mgt."
             Clear(VacaHeader."Banking Experience");
         end;
     end;
+
     procedure SelectionCommitteeApproval(VacancyCode: Code[20])
     var
         SelectionComimttee: Record "Selection Commitee";
@@ -604,6 +619,7 @@ codeunit 50001 "HR Mgt."
         end else
             Message('Already Approved.');
     end;
+
     procedure ExportCandidateXML(VacancyCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -614,6 +630,7 @@ codeunit 50001 "HR Mgt."
         Candidate.SetRange("Vacancy Code", VacancyCode);
         XMLPORT.Run(50000, false, false, Candidate);
     end;
+
     procedure ImportCandidateXML(VacancyCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -628,6 +645,7 @@ codeunit 50001 "HR Mgt."
             Vacancy.Modify;
         end;
     end;
+
     procedure ShowCandidateList(VacancyCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -643,6 +661,7 @@ codeunit 50001 "HR Mgt."
         CandidateList.LookupMode(true);
         if CandidateList.RunModal = ACTION::LookupOK then;
     end;
+
     procedure ShowPotentialCandidate(VacancyCode: Code[20])
     var
         PotentialCandidate: Record "Potential Candidates";
@@ -653,6 +672,7 @@ codeunit 50001 "HR Mgt."
         PotentialCandidate.FilterGroup(0);
         //IF PAGE.RUNMODAL(PAGE::"Transfer Claim Form",PotentialCandidate) = ACTION::LookupOK THEN;
     end;
+
     procedure SystemScreen(VacancyCode: Code[20])
     var
         VacancyHeader: Record "Vacancy Header";
@@ -688,6 +708,7 @@ codeunit 50001 "HR Mgt."
         end else
             Message(Text001);
     end;
+
     procedure InterviewScheduleEmailToCandidate(VacancyCode: Code[20]; IsReschedule: Boolean)
     var
         Candidate: Record Candidate;
@@ -752,6 +773,7 @@ codeunit 50001 "HR Mgt."
         if Counter <> 0 then
             Message('Mail Sent');
     end;
+
     procedure CandidateListmailToInterviewer(VacancyCode: Code[20]; Reschedule: Boolean)
     var
         CompanyInfo: Record "Company Information";
@@ -840,6 +862,7 @@ codeunit 50001 "HR Mgt."
             Message('Not Sent');
         Clear(Filename);
     end;
+
     procedure SelectFinalCandidates(VacancyCode: Code[20])
     var
         InterviewEvaluationEntry: Record "Evaluation Entry";
@@ -878,6 +901,7 @@ codeunit 50001 "HR Mgt."
             Candidate.MODIFY;
          end;*/
     end;
+
     procedure SendOfferLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
     var
         CompanyInfo: Record "Company Information";
@@ -955,6 +979,7 @@ codeunit 50001 "HR Mgt."
         end;
         //  end;
     end;
+
     procedure SendAppointmentLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
     var
         CompanyInfo: Record "Company Information";
@@ -1032,6 +1057,7 @@ codeunit 50001 "HR Mgt."
         end;
         //  end;
     end;
+
     procedure ShowWrittenExamEntries(VacancyCode: Code[20]; CandidateFilter: Text)
     var
         EvaluationEntires: Record "Evaluation Entry";
@@ -1044,6 +1070,7 @@ codeunit 50001 "HR Mgt."
         EvaluationEntires.FilterGroup(0);
         PAGE.Run(PAGE::"Wrtitten/Group Dis. Marks", EvaluationEntires);
     end;
+
     procedure GenerateWrittenExamEntries(VacancyCode: Code[20]; CandidateFilter: Text)
     var
         Candidate: Record Candidate;
@@ -1077,6 +1104,7 @@ codeunit 50001 "HR Mgt."
                     until Candidate.Next = 0;
             until EvaAttribute.Next = 0;
     end;
+
     procedure ShowGroupDiscussionEntries(VacancyCode: Code[20]; CandidateFilter: Text)
     var
         EvaluationEntires: Record "Evaluation Entry";
@@ -1089,6 +1117,7 @@ codeunit 50001 "HR Mgt."
         EvaluationEntires.FilterGroup(0);
         PAGE.Run(PAGE::"Wrtitten/Group Dis. Marks", EvaluationEntires);
     end;
+
     procedure GenerateGroupDiscussionEntries(VacancyCode: Code[20]; CandidateFilter: Text)
     var
         Candidate: Record Candidate;
@@ -1127,6 +1156,7 @@ codeunit 50001 "HR Mgt."
                     until Candidate.Next = 0;
             until EvaAttribute.Next = 0;
     end;
+
     procedure ShortlistViaWrittenExam(VacancyCode: Code[20])
     var
         VacancyHeader: Record "Vacancy Header";
@@ -1168,6 +1198,7 @@ codeunit 50001 "HR Mgt."
         end else
             Message(Text001);
     end;
+
     procedure ShowInterviewerEntries(VacancyCode: Code[20]; CandidateFilter: Text)
     var
         EvaluationEntires: Record "Evaluation Entry";
@@ -1187,6 +1218,7 @@ codeunit 50001 "HR Mgt."
         //END ELSE
         //MESSAGE('You are not eligible to open interviewer entries');
     end;
+
     procedure GenerateInterviewerEntries(VacancyCode: Code[20]; CandidateFilter: Text)
     var
         Candidate: Record Candidate;
@@ -1233,6 +1265,7 @@ codeunit 50001 "HR Mgt."
         else
             Error('Employee %1 is not an interviewer for this Vacancy.', Employee."Full Name");
     end;
+
     procedure GenerateInterviewerEntriesAPI(VacancyCode: Code[20]; CandidateFilter: Text; employeeCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -1278,6 +1311,7 @@ codeunit 50001 "HR Mgt."
         else
             Error('Employee %1 is not an interviewer for this Vacancy.', Employee."Full Name");
     end;
+
     procedure GenerateInterviewedCandidate(VacancyCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -1305,6 +1339,7 @@ codeunit 50001 "HR Mgt."
         */
         ShortlistInterviewedCandidate(VacancyCode);
     end;
+
     procedure ShortlistInterviewedCandidate(VacancyCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -1341,6 +1376,7 @@ codeunit 50001 "HR Mgt."
         IF CandidateRec."Interviewer Count" <> InterviewerCount THEN
           ERROR('Candidate Marks has not submitted by All Interviewer.');*/
     end;
+
     procedure ShowVacancyFromRecruitement(MemoNo: Code[20])
     var
         PageVacancyList: Page "Vacancy List";
@@ -1356,6 +1392,7 @@ codeunit 50001 "HR Mgt."
         PageVacancyList.SetTableView(VacaHeadaer);
         PageVacancyList.Run;
     end;
+
     local procedure CalculateCandidateAvgMarks(VacancyCode: Code[20])
     var
         EvaluationEntry: Record "Evaluation Entry";
@@ -1455,6 +1492,7 @@ codeunit 50001 "HR Mgt."
                 Candidate.Modify;
             until Candidate.Next = 0;
     end;
+
     procedure CalculateCandidateTotalMarks(VacancyCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -1488,6 +1526,7 @@ codeunit 50001 "HR Mgt."
             until Candidate.Next = 0;
         Message('Marks Calculated.');
     end;
+
     procedure SubmitEvaluationEntry(CandidateCode: Code[20]; EvaluationEntry: Record "Evaluation Entry")
     var
         Candidate: Record Candidate;
@@ -1499,6 +1538,7 @@ codeunit 50001 "HR Mgt."
         EvaluationEntry.Submitted := true;
         EvaluationEntry.Modify;
     end;
+
     procedure GenerateEligibleCandidate(SalaryRank: Integer; ProvinceCode: Code[20]; VacancyLine: Record "Vacancy Line")
     var
         SalaryLevel: Record "Salary Level";
@@ -1534,15 +1574,18 @@ codeunit 50001 "HR Mgt."
                 until Employee.Next = 0;
         end;
     end;
+
     local procedure "----------VacancyForm-----------"()
     begin
         //>>pradhan IMERemit1.00
     end;
+
     [EventSubscriber(ObjectType::Codeunit, 1502, 'OnAddWorkflowCategoriesToLibrary', '', false, false)]
     local procedure AddVacancyWorkflowCategoriesToLibrary()
     begin
         InsertWorkflowCategory(VacancyDocCategoryTxt, CustVacancyCategoryDescTxt);
     end;
+
     local procedure InsertVacancyApprovalWorkflowTemplate()
     var
         Workflow: Record Workflow;
@@ -1551,6 +1594,7 @@ codeunit 50001 "HR Mgt."
         InsertVacancyApprovalWorkflowDetails(Workflow);
         MarkWorkflowAsTemplate(Workflow);
     end;
+
     local procedure InsertVacancyApprovalWorkflowDetails(var Workflow: Record Workflow)
     var
         Vacancy: Record "Vacancy Header";
@@ -1567,6 +1611,7 @@ codeunit 50001 "HR Mgt."
           OnVacancyDocCancelForApprovalCode,
           WorkflowStepArgument, true);
     end;
+
     procedure BuildVacancyConditions(Status: Option): Text
     var
         Vacancy: Record "Vacancy Header";
@@ -1575,6 +1620,7 @@ codeunit 50001 "HR Mgt."
         exit(StrSubstNo(VacancyTypeCondnTxt, Encode(Vacancy.GetView(false))));
         //<<Pradhan IMERemit1.00
     end;
+
     local procedure InsertWorkflowCategory("Code": Code[20]; Description: Text[100])
     var
         WorkflowCategory: Record "Workflow Category";
@@ -1584,6 +1630,7 @@ codeunit 50001 "HR Mgt."
         WorkflowCategory.Description := Description;
         if WorkflowCategory.Insert then;
     end;
+
     local procedure InsertWorkflowTemplate(var Workflow: Record Workflow; WorkflowCode: Code[17]; WorkflowDescription: Text[100]; CategoryCode: Code[20])
     begin
         Workflow.Init;
@@ -1593,15 +1640,18 @@ codeunit 50001 "HR Mgt."
         Workflow.Enabled := false;
         if Workflow.Insert then;
     end;
+
     procedure GetWorkflowTemplateCode(WorkflowCode: Code[17]): Code[20]
     begin
         exit(CustomTemplateTok + WorkflowCode);
     end;
+
     local procedure MarkWorkflowAsTemplate(var Workflow: Record Workflow)
     begin
         Workflow.Validate(Template, true);
         Workflow.Modify(true);
     end;
+
     local procedure PopulateWorkflowStepArgument(var WorkflowStepArgument: Record "Workflow Step Argument"; ApproverType: Option; ApproverLimitType: Option; ApprovalEntriesPage: Integer; WorkflowUserGroupCode: Code[20]; DueDateFormula: DateFormula; ShowConfirmationMessage: Boolean)
     begin
         WorkflowStepArgument.Init;
@@ -1613,12 +1663,14 @@ codeunit 50001 "HR Mgt."
         WorkflowStepArgument."Link Target Page" := ApprovalEntriesPage;
         WorkflowStepArgument."Show Confirmation Message" := ShowConfirmationMessage;
     end;
+
     local procedure Encode(Text: Text): Text
     var
         XMLDOMManagement: Codeunit "XML DOM Management";
     begin
         exit(XMLDOMManagement.XMLEscape(Text));
     end;
+
     [EventSubscriber(ObjectType::Codeunit, 2, 'OnCompanyInitialize', '', false, false)]
     procedure InsertWorkflowTemplates()
     begin
@@ -1626,14 +1678,17 @@ codeunit 50001 "HR Mgt."
         InsertTrainingApprovalWorkflowTemplate;   //>>training
         InsertFacilitatorApprovalWorkflowTemplate; //>>Facilitator
     end;
+
     local procedure "--------Vacancy Workflow-----------"()
     begin
         //>>pradhan IMERemit1.00
     end;
+
     procedure OnVacancyDocSendForApprovalCode(): Code[128]
     begin
         exit(UpperCase('OnVacancyDocSendForApproval'));
     end;
+
     [EventSubscriber(ObjectType::Table, Database::"Vacancy Header", 'OnSendVacancyDocForApproval', '', false, false)]
     local procedure OnVacancyDocSendForApproval(var Vacancy: Record "Vacancy Header")
     var
@@ -1641,6 +1696,7 @@ codeunit 50001 "HR Mgt."
     begin
         WorkflowManagement.HandleEvent(OnVacancyDocSendForApprovalCode, Vacancy);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowEventsToLibrary', '', false, false)]
     local procedure AddVacancyEventToLibrary()
     var
@@ -1649,6 +1705,7 @@ codeunit 50001 "HR Mgt."
         WorkflowEventHandling.AddEventToLibrary(OnVacancyDocSendForApprovalCode, DATABASE::"Vacancy Header", VacancySendForApproval, 0, false);
         WorkflowEventHandling.AddEventToLibrary(OnVacancyDocCancelForApprovalCode, DATABASE::"Vacancy Header", VacancyCancelForApproval, 0, false);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowEventPredecessorsToLibrary', '', false, false)]
     local procedure AddVacancyWorkflowEventResponseCombinationsToLibrary(EventFunctionName: Code[128])
     var
@@ -1663,6 +1720,7 @@ codeunit 50001 "HR Mgt."
                 WorkflowEventHandling.AddEventPredecessor(OnVacancyDocCancelForApprovalCode, WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode);
         end;
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowTableRelationsToLibrary', '', false, false)]
     local procedure AddVacancyWorkflowTableRelationsToLibrary()
     var
@@ -1670,10 +1728,12 @@ codeunit 50001 "HR Mgt."
     begin
         WorkflowSetup.InsertTableRelation(DATABASE::"Vacancy Header", 0, DATABASE::"Approval Entry", 22);
     end;
+
     procedure OnVacancyDocCancelForApprovalCode(): Code[128]
     begin
         exit(UpperCase('OnVacancyDocCancelForApproval'));
     end;
+
     [EventSubscriber(ObjectType::Table, Database::"Vacancy Header", 'OnCancelVacancyDocForApproval', '', false, false)]
     local procedure OnVacancyDocCancelForApproval(var Vacancy: Record "Vacancy Header")
     var
@@ -1682,10 +1742,12 @@ codeunit 50001 "HR Mgt."
         WorkflowManagement.HandleEvent(OnVacancyDocCancelForApprovalCode, Vacancy);
         //<<Pradhan IMERemit1.00
     end;
+
     local procedure "-------------RecruitementMemo--------------------------"()
     begin
         //>>Pradhan IMERemit1.00
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsesToLibrary', '', false, false)]
     local procedure AddVacancyResponseToLibrary()
     var
@@ -1696,14 +1758,17 @@ codeunit 50001 "HR Mgt."
         WorkflowResponseHandling.AddResponseToLibrary(VacancySetStatusToPendingApprovalCode, 0, SetVacancyToPendingApprovalTxt, 'GROUP 50000');
         WorkflowResponseHandling.AddResponseToLibrary(VacancyCreateAndApproveApprovalRequestAutomaticallyCode, 0, CreateVacancyApproveApprovalRequestAutomaticallyTxt, 'Group 50000');
     end;
+
     procedure VacancySetStatusToPendingApprovalCode(): Code[128]
     begin
         exit(UpperCase('VacancySetStatusToPendingApproval'));
     end;
+
     procedure VacancySetStatusToPendingApproval(var Variant: Variant)
     begin
         SetStatusToPendingApproval(Variant);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsePredecessorsToLibrary', '', false, false)]
     local procedure AddVacancyWorkflowsEventResponseCombinationsToLibrary(ResponseFunctionName: Code[128])
     var
@@ -1739,6 +1804,7 @@ codeunit 50001 "HR Mgt."
                 WorkflowResponseHandling.AddResponsePredecessor(VacancySetStatusToPendingApprovalCode, OnVacancyDocSendForApprovalCode);
         end;
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", 'OnExecuteWorkflowResponse', '', false, false)]
     local procedure ExecuteVacancyWorkflowResponses(var ResponseExecuted: Boolean; Variant: Variant; xVariant: Variant; ResponseWorkflowStepInstance: Record "Workflow Step Instance")
     var
@@ -1773,14 +1839,17 @@ codeunit 50001 "HR Mgt."
                     end;
             end;
     end;
+
     procedure VacancyReleaseDocumentCode(): Code[128]
     begin
         exit(UpperCase('VacancyReleaseDocument'));
     end;
+
     procedure VacancyOpenDocumentCode(): Code[128]
     begin
         exit(UpperCase('VacancyOpenDocument'));
     end;
+
     local procedure VacancyReleaseDocument(var Variant: Variant)
     var
         ApprovalEntry: Record "Approval Entry";
@@ -1805,6 +1874,7 @@ codeunit 50001 "HR Mgt."
                 Error(UnsupportedRecordTypeErr, RecRef.Caption);
         end;
     end;
+
     local procedure VacancyOpenDocument(var Variant: Variant)
     var
         ApprovalEntry: Record "Approval Entry";
@@ -1829,10 +1899,12 @@ codeunit 50001 "HR Mgt."
                 Error(UnsupportedRecordTypeErr, RecRef.Caption);
         end;
     end;
+
     procedure VacancyCreateApprovalRequestsCode(): Code[128]
     begin
         exit(UpperCase('VacancyCreateApprovalRequests'));
     end;
+
     local procedure VacancyCreateApprovalRequests(Variant: Variant; WorkflowStepInstance: Record "Workflow Step Instance")
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -1841,10 +1913,12 @@ codeunit 50001 "HR Mgt."
         RecRef.GetTable(Variant);
         ApprovalsMgmt.CreateApprovalRequests(RecRef, WorkflowStepInstance);
     end;
+
     procedure VacancyCreateAndApproveApprovalRequestAutomaticallyCode(): Code[128]
     begin
         exit(UpperCase('VacancyFromCreateAndApproveApprovalRequestAutomatically'));
     end;
+
     local procedure VacancyCreateAndApproveApprovalRequestAutomatically(Variant: Variant; WorkflowStepInstance: Record "Workflow Step Instance")
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -1854,6 +1928,7 @@ codeunit 50001 "HR Mgt."
         ApprovalsMgmt.CreateAndAutomaticallyApproveRequest(RecRef, WorkflowStepInstance);
         //<<Pradhan IMERemit1.00
     end;
+
     procedure SetStatusToPendingApproval(var Variant: Variant)
     var
         SalesHeader: Record "Sales Header";
@@ -1895,14 +1970,17 @@ codeunit 50001 "HR Mgt."
                 Error(UnsupportedRecordTypeErr, RecRef.Caption);
         end;
     end;
+
     local procedure "---------------Training--------------"()
     begin
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Setup", 'OnAddWorkflowCategoriesToLibrary', '', false, false)]
     local procedure AddTrainingWorkflowCategoriesToLibrary()
     begin
         InsertWorkflowCategory(TrainingDocCategoryTxt, CustTrainingCategoryDescTxt);
     end;
+
     local procedure InsertTrainingApprovalWorkflowTemplate()
     var
         Workflow: Record Workflow;
@@ -1911,6 +1989,7 @@ codeunit 50001 "HR Mgt."
         InsertTrainingApprovalWorkflowDetails(Workflow);
         MarkWorkflowAsTemplate(Workflow);
     end;
+
     local procedure InsertTrainingApprovalWorkflowDetails(var Workflow: Record Workflow)
     var
         TrainHead: Record "Training Header";
@@ -1927,6 +2006,7 @@ codeunit 50001 "HR Mgt."
           OnTrainingDocCancelForApprovalCode,
           WorkflowStepArgument, true);
     end;
+
     procedure BuildTrainingConditions(Status: Option): Text
     var
         TrainHead: Record "Training Header";
@@ -1934,14 +2014,17 @@ codeunit 50001 "HR Mgt."
         TrainHead.SetRange("Approval Status", Status);
         exit(StrSubstNo(TrainingTypeCondnTxt, Encode(TrainHead.GetView(false))));
     end;
+
     procedure OnTrainingDocSendForApprovalCode(): Code[128]
     begin
         exit(UpperCase('OnTrainingDocSendForApproval'));
     end;
+
     procedure OnTrainingDocCancelForApprovalCode(): Code[128]
     begin
         exit(UpperCase('OnTrainingDocCancelForApproval'));
     end;
+
     [EventSubscriber(ObjectType::Table, Database::"Training Header", 'OnSendTrainingDocForApproval', '', false, false)]
     local procedure OnTrainingDocSendForApproval(var TrainHead: Record "Training Header")
     var
@@ -1949,6 +2032,7 @@ codeunit 50001 "HR Mgt."
     begin
         WorkflowManagement.HandleEvent(OnTrainingDocSendForApprovalCode, TrainHead);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowEventsToLibrary', '', false, false)]
     local procedure AddTrainingEventToLibrary()
     var
@@ -1957,6 +2041,7 @@ codeunit 50001 "HR Mgt."
         WorkflowEventHandling.AddEventToLibrary(OnTrainingDocSendForApprovalCode, DATABASE::"Training Header", TrainingSendForApproval, 0, false);
         WorkflowEventHandling.AddEventToLibrary(OnTrainingDocCancelForApprovalCode, DATABASE::"Training Header", TrainingCancelForApproval, 0, false);
     end;
+
     [EventSubscriber(ObjectType::Table, Database::"Training Header", 'OnCancelTrainingDocForApproval', '', false, false)]
     local procedure OnTrainingDocCancelForApproval(var TrainHead: Record "Training Header")
     var
@@ -1965,6 +2050,7 @@ codeunit 50001 "HR Mgt."
         WorkflowManagement.HandleEvent(OnTrainingDocCancelForApprovalCode, TrainHead);
         //<<Pradhan IMERemit1.00
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowEventPredecessorsToLibrary', '', false, false)]
     local procedure AddTrainingWorkflowEventResponseCombinationsToLibrary(EventFunctionName: Code[128])
     var
@@ -1979,6 +2065,7 @@ codeunit 50001 "HR Mgt."
                 WorkflowEventHandling.AddEventPredecessor(OnTrainingDocCancelForApprovalCode, WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode);
         end;
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowTableRelationsToLibrary', '', false, false)]
     local procedure AddTrainingWorkflowTableRelationsToLibrary()
     var
@@ -1986,9 +2073,11 @@ codeunit 50001 "HR Mgt."
     begin
         WorkflowSetup.InsertTableRelation(DATABASE::"Training Header", 0, DATABASE::"Approval Entry", 22);
     end;
+
     local procedure "-------------------"()
     begin
     end;
+
     [EventSubscriber(ObjectType::Codeunit, codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsesToLibrary', '', false, false)]
     local procedure AddTrainingResponseToLibrary()
     var
@@ -1999,14 +2088,17 @@ codeunit 50001 "HR Mgt."
         WorkflowResponseHandling.AddResponseToLibrary(TrainingSetStatusToPendingApprovalCode, 0, SetTrainingToPendingApprovalTxt, 'GROUP 50000');
         WorkflowResponseHandling.AddResponseToLibrary(TrainingCreateAndApproveApprovalRequestAutomaticallyCode, 0, CreateTrainingApproveApprovalRequestAutomaticallyTxt, 'Group 50000');
     end;
+
     procedure TrainingSetStatusToPendingApprovalCode(): Code[128]
     begin
         exit(UpperCase('TrainingSetStatusToPendingApproval'));
     end;
+
     procedure TrainingSetStatusToPendingApproval(var Variant: Variant)
     begin
         SetStatusToPendingApproval(Variant);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsePredecessorsToLibrary', '', false, false)]
     local procedure AddTrainingWorkflowsEventResponseCombinationsToLibrary(ResponseFunctionName: Code[128])
     var
@@ -2042,6 +2134,7 @@ codeunit 50001 "HR Mgt."
                 WorkflowResponseHandling.AddResponsePredecessor(TrainingSetStatusToPendingApprovalCode, OnTrainingDocSendForApprovalCode);
         end;
     end;
+
     [EventSubscriber(ObjectType::Codeunit, codeunit::"Workflow Response Handling", 'OnExecuteWorkflowResponse', '', false, false)]
     local procedure ExecuteTrainingWorkflowResponses(var ResponseExecuted: Boolean; Variant: Variant; xVariant: Variant; ResponseWorkflowStepInstance: Record "Workflow Step Instance")
     var
@@ -2076,14 +2169,17 @@ codeunit 50001 "HR Mgt."
                     end;
             end;
     end;
+
     procedure TrainingOpenDocumentCode(): Code[128]
     begin
         exit(UpperCase('TrainingOpenDocument'));
     end;
+
     procedure TrainingReleaseDocumentCode(): Code[128]
     begin
         exit(UpperCase('TrainingReleaseDocument'));
     end;
+
     local procedure TrainingReleaseDocument(var Variant: Variant)
     var
         ApprovalEntry: Record "Approval Entry";
@@ -2108,6 +2204,7 @@ codeunit 50001 "HR Mgt."
                 Error(UnsupportedRecordTypeErr, RecRef.Caption);
         end;
     end;
+
     local procedure TrainingOpenDocument(var Variant: Variant)
     var
         ApprovalEntry: Record "Approval Entry";
@@ -2132,10 +2229,12 @@ codeunit 50001 "HR Mgt."
                 Error(UnsupportedRecordTypeErr, RecRef.Caption);
         end;
     end;
+
     procedure TrainingCreateApprovalRequestsCode(): Code[128]
     begin
         exit(UpperCase('TrainingCreateApprovalRequests'));
     end;
+
     local procedure TrainingCreateApprovalRequests(Variant: Variant; WorkflowStepInstance: Record "Workflow Step Instance")
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -2144,10 +2243,12 @@ codeunit 50001 "HR Mgt."
         RecRef.GetTable(Variant);
         ApprovalsMgmt.CreateApprovalRequests(RecRef, WorkflowStepInstance);
     end;
+
     procedure TrainingCreateAndApproveApprovalRequestAutomaticallyCode(): Code[128]
     begin
         exit(UpperCase('TrainingFromCreateAndApproveApprovalRequestAutomatically'));
     end;
+
     local procedure TrainingCreateAndApproveApprovalRequestAutomatically(Variant: Variant; WorkflowStepInstance: Record "Workflow Step Instance")
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -2157,14 +2258,17 @@ codeunit 50001 "HR Mgt."
         ApprovalsMgmt.CreateAndAutomaticallyApproveRequest(RecRef, WorkflowStepInstance);
         //<<Pradhan IMERemit1.00
     end;
+
     local procedure "--------------Facilitator Pool(Training)--------------"()
     begin
     end;
+
     [EventSubscriber(ObjectType::Codeunit, 1502, 'OnAddWorkflowCategoriesToLibrary', '', false, false)]
     local procedure AddFacilitatorWorkflowCategoriesToLibrary()
     begin
         InsertWorkflowCategory(FacilitatorDocCategoryTxt, CustFacilitatorCategoryDescTxt);
     end;
+
     local procedure InsertFacilitatorApprovalWorkflowTemplate()
     var
         Workflow: Record Workflow;
@@ -2173,6 +2277,7 @@ codeunit 50001 "HR Mgt."
         InsertFacilitatorApprovalWorkflowDetails(Workflow);
         MarkWorkflowAsTemplate(Workflow);
     end;
+
     local procedure InsertFacilitatorApprovalWorkflowDetails(var Workflow: Record Workflow)
     var
         Facilitator: Record "Facilitator Pool";
@@ -2189,6 +2294,7 @@ codeunit 50001 "HR Mgt."
           OnFacilitatorDocCancelForApprovalCode,
           WorkflowStepArgument, true);
     end;
+
     procedure BuildFacilitatorConditions(Status: Option): Text
     var
         Facilitator: Record "Facilitator Pool";
@@ -2196,14 +2302,17 @@ codeunit 50001 "HR Mgt."
         Facilitator.SetRange("Approval Status", Status);
         exit(StrSubstNo(FacilitatorTypeCondnTxt, Encode(Facilitator.GetView(false))));
     end;
+
     procedure OnFacilitatorDocSendForApprovalCode(): Code[128]
     begin
         exit(UpperCase('OnFacilitatorDocSendForApproval'));
     end;
+
     procedure OnFacilitatorDocCancelForApprovalCode(): Code[128]
     begin
         exit(UpperCase('OnFacilitatorDocCancelForApproval'));
     end;
+
     [EventSubscriber(ObjectType::Table, Database::"Facilitator Pool", 'OnSendFacilitatorDocForApproval', '', false, false)]
     local procedure OnFacilitatorDocSendForApproval(var Facilitator: Record "Facilitator Pool")
     var
@@ -2211,6 +2320,7 @@ codeunit 50001 "HR Mgt."
     begin
         WorkflowManagement.HandleEvent(OnFacilitatorDocSendForApprovalCode, Facilitator);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowEventsToLibrary', '', false, false)]
     local procedure AddFacilitatorEventToLibrary()
     var
@@ -2219,6 +2329,7 @@ codeunit 50001 "HR Mgt."
         WorkflowEventHandling.AddEventToLibrary(OnFacilitatorDocSendForApprovalCode, DATABASE::"Facilitator Pool", FacilitatorSendForApproval, 0, false);
         WorkflowEventHandling.AddEventToLibrary(OnFacilitatorDocCancelForApprovalCode, DATABASE::"Facilitator Pool", FacilitatorCancelForApproval, 0, false);
     end;
+
     [EventSubscriber(ObjectType::Table, Database::"Facilitator Pool", 'OnCancelFacilitatorDocForApproval', '', false, false)]
     local procedure OnFacilitatorDocCancelForApproval(var Facilitator: Record "Facilitator Pool")
     var
@@ -2227,6 +2338,7 @@ codeunit 50001 "HR Mgt."
         WorkflowManagement.HandleEvent(OnFacilitatorDocCancelForApprovalCode, Facilitator);
         //<<Pradhan IMERemit1.00
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowEventPredecessorsToLibrary', '', false, false)]
     local procedure AddFacilitatorWorkflowEventResponseCombinationsToLibrary(EventFunctionName: Code[128])
     var
@@ -2241,6 +2353,7 @@ codeunit 50001 "HR Mgt."
                 WorkflowEventHandling.AddEventPredecessor(OnFacilitatorDocCancelForApprovalCode, WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode);
         end;
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Event Handling", 'OnAddWorkflowTableRelationsToLibrary', '', false, false)]
     local procedure AddFacilitatorWorkflowTableRelationsToLibrary()
     var
@@ -2248,9 +2361,11 @@ codeunit 50001 "HR Mgt."
     begin
         WorkflowSetup.InsertTableRelation(DATABASE::"Facilitator Pool", 0, DATABASE::"Approval Entry", 22);
     end;
+
     local procedure "--------------------------------------"()
     begin
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsesToLibrary', '', false, false)]
     local procedure AddFacilitatorResponseToLibrary()
     var
@@ -2261,14 +2376,17 @@ codeunit 50001 "HR Mgt."
         WorkflowResponseHandling.AddResponseToLibrary(FacilitatorSetStatusToPendingApprovalCode, 0, SetFacilitatorToPendingApprovalTxt, 'GROUP 50000');
         WorkflowResponseHandling.AddResponseToLibrary(FacilitatorCreateAndApproveApprovalRequestAutomaticallyCode, 0, CreateFacilitatorApproveApprovalRequestAutomaticallyTxt, 'Group 50000');
     end;
+
     procedure FacilitatorSetStatusToPendingApprovalCode(): Code[128]
     begin
         exit(UpperCase('FacilitatorSetStatusToPendingApproval'));
     end;
+
     procedure FacilitatorSetStatusToPendingApproval(var Variant: Variant)
     begin
         SetStatusToPendingApproval(Variant);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", 'OnAddWorkflowResponsePredecessorsToLibrary', '', false, false)]
     local procedure AddFacilitatorWorkflowsEventResponseCombinationsToLibrary(ResponseFunctionName: Code[128])
     var
@@ -2304,6 +2422,7 @@ codeunit 50001 "HR Mgt."
                 WorkflowResponseHandling.AddResponsePredecessor(FacilitatorSetStatusToPendingApprovalCode, OnFacilitatorDocSendForApprovalCode);
         end;
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", 'OnExecuteWorkflowResponse', '', false, false)]
     local procedure ExecuteFacilitatorWorkflowResponses(var ResponseExecuted: Boolean; Variant: Variant; xVariant: Variant; ResponseWorkflowStepInstance: Record "Workflow Step Instance")
     var
@@ -2338,14 +2457,17 @@ codeunit 50001 "HR Mgt."
                     end;
             end;
     end;
+
     procedure FacilitatorOpenDocumentCode(): Code[128]
     begin
         exit(UpperCase('FacilitatorOpenDocument'));
     end;
+
     procedure FacilitatorReleaseDocumentCode(): Code[128]
     begin
         exit(UpperCase('FacilitatorReleaseDocument'));
     end;
+
     local procedure FacilitatorReleaseDocument(var Variant: Variant)
     var
         ApprovalEntry: Record "Approval Entry";
@@ -2370,6 +2492,7 @@ codeunit 50001 "HR Mgt."
                 Error(UnsupportedRecordTypeErr, RecRef.Caption);
         end;
     end;
+
     local procedure FacilitatorOpenDocument(var Variant: Variant)
     var
         ApprovalEntry: Record "Approval Entry";
@@ -2394,10 +2517,12 @@ codeunit 50001 "HR Mgt."
                 Error(UnsupportedRecordTypeErr, RecRef.Caption);
         end;
     end;
+
     procedure FacilitatorCreateApprovalRequestsCode(): Code[128]
     begin
         exit(UpperCase('FacilitatorCreateApprovalRequests'));
     end;
+
     local procedure FacilitatorCreateApprovalRequests(Variant: Variant; WorkflowStepInstance: Record "Workflow Step Instance")
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -2406,10 +2531,12 @@ codeunit 50001 "HR Mgt."
         RecRef.GetTable(Variant);
         ApprovalsMgmt.CreateApprovalRequests(RecRef, WorkflowStepInstance);
     end;
+
     procedure FacilitatorCreateAndApproveApprovalRequestAutomaticallyCode(): Code[128]
     begin
         exit(UpperCase('FacilitatorFromCreateAndApproveApprovalRequestAutomatically'));
     end;
+
     local procedure FacilitatorCreateAndApproveApprovalRequestAutomatically(Variant: Variant; WorkflowStepInstance: Record "Workflow Step Instance")
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
@@ -2419,9 +2546,11 @@ codeunit 50001 "HR Mgt."
         ApprovalsMgmt.CreateAndAutomaticallyApproveRequest(RecRef, WorkflowStepInstance);
         //<<Pradhan IMERemit1.00
     end;
+
     local procedure "-------HR Mgt--------"()
     begin
     end;
+
     procedure getDateinFormat(DateVar: Date): Text
     var
         Day: Text;
@@ -2442,6 +2571,7 @@ codeunit 50001 "HR Mgt."
         Year := Format(Date2DMY(DateVar, 3));
         exit(Day + '-' + Month + '-' + Year);
     end;
+
     procedure getTimeInFormat(varTime: Time): Text
     var
         Milliseconds: Integer;
@@ -2487,6 +2617,7 @@ codeunit 50001 "HR Mgt."
         end;
         exit(HoursText + ':' + MinutesText + ' ' + TimeText);
     end;
+
     procedure CheckForCitizen(CitizenNo: Code[30]; CitizenPlace: Code[20])
     var
         ErrorCitizenError: Label 'Citizenship No %1 of issed place %2 already exist.';
@@ -2497,6 +2628,7 @@ codeunit 50001 "HR Mgt."
         if Employee.FindFirst then
             Error(ErrorCitizenError, CitizenNo, CitizenPlace);
     end;
+
     procedure GetChoraChori(Gender: Enum "Employee Gender"): Text
     var
         Relative: Record Relative;
@@ -2512,6 +2644,7 @@ codeunit 50001 "HR Mgt."
             end;
         end;
     end;
+
     procedure GetNatiNatini(Gender: Enum "Employee Gender"): Text
     var
         Relative: Record Relative;
@@ -2527,6 +2660,7 @@ codeunit 50001 "HR Mgt."
             end;
         end;
     end;
+
     procedure CheckDistrictName(DistrictName: Text)
     var
         DistrictVar: Record District;
@@ -2537,6 +2671,7 @@ codeunit 50001 "HR Mgt."
         if not DistrictVar.FindFirst then
             Error(ErrorDistrict, DistrictName);
     end;
+
     procedure CheckCountryName(CountryName: Text)
     var
         Country: Record "Country/Region";
@@ -2547,6 +2682,7 @@ codeunit 50001 "HR Mgt."
         if not Country.FindFirst then
             Error(ErrorDistrict, CountryName);
     end;
+
     procedure LookupCountry(): Text
     var
         PageCountry: Page "Countries/Regions";
@@ -2560,6 +2696,7 @@ codeunit 50001 "HR Mgt."
             exit(Country.Name);
         end;
     end;
+
     procedure LookupCountryOtherThenNepalAndSAARC(): Text
     var
         PageCountry: Page "Countries/Regions";
@@ -2577,6 +2714,7 @@ codeunit 50001 "HR Mgt."
             exit(Country.Name);
         end;
     end;
+
     procedure LookupCountrySAARC(IsSAARC: Boolean): Text
     var
         PageCountry: Page "Countries/Regions";
@@ -2593,6 +2731,7 @@ codeunit 50001 "HR Mgt."
             exit(Country.Name);
         end;
     end;
+
     procedure LookupDistrict(ProvienceName: Text; xDisTxt: Text): Text
     var
         PageDistrict: Page "District";
@@ -2610,6 +2749,7 @@ codeunit 50001 "HR Mgt."
         end;
         exit(xDisTxt);
     end;
+
     procedure LookupAllDistrict(): Text
     var
         PageDistrict: Page "District";
@@ -2623,6 +2763,7 @@ codeunit 50001 "HR Mgt."
             exit(DistrictVar."District Name");
         end;
     end;
+
     procedure CheckMunicipalityName(MunicipalityName: Text[50])
     var
         Municipality: Record Municipality;
@@ -2633,6 +2774,7 @@ codeunit 50001 "HR Mgt."
         if not Municipality.FindFirst then
             Error(ErrorDistrict, MunicipalityName);
     end;
+
     procedure LookupMunicipalityName(DistrictName: Text[50]; MunicipalityName: Text): Text
     var
         PageMunicipality: Page "Municipalities";
@@ -2650,6 +2792,7 @@ codeunit 50001 "HR Mgt."
         end;
         exit(MunicipalityName);
     end;
+
     procedure CheckProvience(ProvienceName: Text)
     var
         ProvienceVar: Record Province;
@@ -2660,6 +2803,7 @@ codeunit 50001 "HR Mgt."
         if not ProvienceVar.FindFirst then
             Error(ErrorProvience, ProvienceName);
     end;
+
     procedure LookupProvience(xProvTxt: Text): Text
     var
         PageProvience: Page "Provinces List";
@@ -2676,6 +2820,7 @@ codeunit 50001 "HR Mgt."
         end;
         exit(xProvTxt);
     end;
+
     procedure LookupProvinceOrganization(): Text[500]
     var
         ProvienceOrganizationList: Record "Organization Structure List";
@@ -2700,6 +2845,7 @@ codeunit 50001 "HR Mgt."
             exit(ConcatenatedValues);
         end;
     end;
+
     procedure LookupBranch(Province: Text): Text[500]
     var
         OrganizationStructureList: Record "Organization Structure List";
@@ -2726,6 +2872,7 @@ codeunit 50001 "HR Mgt."
             exit(ConcatenatedValues);
         end;
     end;
+
     procedure LookupMultipleDistrict(): Text[500]
     var
         District: Record District;
@@ -2749,6 +2896,7 @@ codeunit 50001 "HR Mgt."
             exit(ConcatenatedValues);
         end;
     end;
+
     procedure LookupMultipleMunicipality(): Text[500]
     var
         Municipality: Record Municipality;
@@ -2772,6 +2920,7 @@ codeunit 50001 "HR Mgt."
             exit(ConcatenatedValues);
         end;
     end;
+
     procedure LookupEmployee(): Text[500]
     var
         Employee: Record Employee;
@@ -2795,6 +2944,7 @@ codeunit 50001 "HR Mgt."
             exit(ConcatenatedValues);
         end;
     end;
+
     procedure LookupDepartment(Province: Text; Branch: Text): Text[500]
     var
         OrganizationStructureList: Record "Organization Structure List";
@@ -2821,6 +2971,7 @@ codeunit 50001 "HR Mgt."
             exit(ConcatenatedValues);
         end;
     end;
+
     procedure LookupFunctionalTitile(FunctTitleText: Text): Text
     var
         PageFunctTitle: Page "Functional Title List";
@@ -2835,6 +2986,7 @@ codeunit 50001 "HR Mgt."
         if PageFunctTitle.RunModal = ACTION::OK then
             exit(PageFunctTitle.ReturnFunctTitleText);
     end;
+
     procedure ValidateTaxCode(Gender: Enum "Employee Gender"; MaritalStatus: Enum "Marital Status"): Code[20]
     var
         TaxCodeVar: Record "Tax Setup Header";
@@ -2845,11 +2997,13 @@ codeunit 50001 "HR Mgt."
         if TaxCodeVar.FindFirst then
             exit(TaxCodeVar.Code);
     end;
+
     procedure ReturnCurrencyCode(CurrCode: Code[20]): Text
     begin
         if CurrCode <> '' then
             exit(' (' + CurrCode + ')');
     end;
+
     procedure SetCalendarHolidayProvience(xProviencetext: Text[150]): Text[150]
     var
         PageProvicence: Page "Provinces List";
@@ -2868,6 +3022,7 @@ codeunit 50001 "HR Mgt."
                 exit(PageProvicence.ReturnProvText);
         end;
     end;
+
     procedure ReturnSelectedEmployeeCode(xEmployeeCode: Text): Text
     var
         PageEmployeeList: Page "Select Employee List";
@@ -2882,6 +3037,7 @@ codeunit 50001 "HR Mgt."
             exit(PageEmployeeList.ReturnEmployeeText);
         end;
     end;
+
     procedure ReturnFiscalYear(EngDate: Date): Text
     begin
         EngNep.Reset;
@@ -2889,6 +3045,7 @@ codeunit 50001 "HR Mgt."
         if EngNep.FindFirst then
             exit(EngNep."Fiscal Year");
     end;
+
     procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
     var
         EngNep: Record "English-Nepali Date";
@@ -2899,6 +3056,7 @@ codeunit 50001 "HR Mgt."
         if EngNep.FindLast then
             exit(EngNep."English Date");
     end;
+
     procedure ReturnEmpName(EmpCode: Code[20]): Text
     begin
         if Employee.Get(EmpCode) then
@@ -2925,6 +3083,7 @@ codeunit 50001 "HR Mgt."
                 end;
             until EmailMessage.Next = 0;
     end;
+
     procedure GetEmailReceipent(DocumentNo: Code[20]; DocumentType: Enum "Employee Activity Type"; DocumentStatus: Enum "Approval Status"; var EmailReceipientText: List of [Text]; var EmailCCReceipent: List of [Text]; var EmailBCCReceipent: List of [Text]; TemplateCode: Code[20])
     var
         EmailReceipent: Record "Email Template Recipient";
@@ -2977,6 +3136,7 @@ codeunit 50001 "HR Mgt."
                 end;
         end;
     end;
+
     procedure SendMailFromTemplate(TableNo: Integer;
             DocumentType: enum "Employee Activity Type";
                               ApprovalStatus: Enum "approval status";
@@ -3187,14 +3347,17 @@ codeunit 50001 "HR Mgt."
                 Email.Send(CodeunitEmailMessage);
         end;
     end;
+
     procedure GetNoDaysInMonth(): Decimal
     begin
         PRSetup.Get;
         exit(Round((PRSetup."Payroll Fiscal Year End Date" - PRSetup."Payroll Fiscal Year Start Date" + 1) / 12, 0.01, '='));
     end;
+
     local procedure "-----Training-------"()
     begin
     end;
+
     procedure CaluateDuration(StartTime: Time; EndTime: Time; NoOfDays: Decimal): Duration
     var
         ErrorTime: Label 'Start time cannot be greater than end time';
@@ -3204,6 +3367,7 @@ codeunit 50001 "HR Mgt."
                 Error(ErrorTime);
         exit((EndTime - StartTime) * NoOfDays);
     end;
+
     procedure CheckAgeAndBirthday(BirthdayDate: Date; CheckAgeDate: Date; var AgeYears: Integer; var AgeDays: Integer; var IsBirthDayDate: Boolean)
     var
         TestDate: Date;
@@ -3217,6 +3381,7 @@ codeunit 50001 "HR Mgt."
         AgeDays := CheckAgeDate - BirthdayDate;
         IsBirthDayDate := TestDate = CheckAgeDate;
     end;
+
     procedure GetEmailReceipents(TraininNo: Code[20]): Text
     var
         TrainingLine: Record "Training Line";
@@ -3235,6 +3400,7 @@ codeunit 50001 "HR Mgt."
             until TrainingLine.Next = 0;
         exit(ReceipentText);
     end;
+
     procedure InsertEmployeeWiseTrainingQuestion(TrainingNo: Code[20]; EmployeeNo: Code[20])
     var
         SubQuet: Record "Employee Question Setup";
@@ -3265,6 +3431,7 @@ codeunit 50001 "HR Mgt."
                 end;
             until SubQuet.Next = 0;
     end;
+
     procedure ShowTrainerList(TrainingNo: Code[20]; EmployeeNo: Code[20])
     var
         QATrain: Record "Employee Feedback";
@@ -3278,6 +3445,7 @@ codeunit 50001 "HR Mgt."
         QATrain.FilterGroup(0);
         PAGE.Run(PAGE::"Employee Training Feedback", QATrain);
     end;
+
     procedure ShowTrainingList(TrainingNo: Code[20]; EmployeeNo: Code[20])
     var
         QATrain: Record "Employee Feedback";
@@ -3291,6 +3459,7 @@ codeunit 50001 "HR Mgt."
         QATrain.FilterGroup(0);
         PAGE.Run(PAGE::"Employee Training Feedback", QATrain);
     end;
+
     local procedure CalculateTrainingMarks(TrainNo: Code[20]; EmpNo: Code[20]): Decimal
     var
         QATrain: Record "Employee Feedback";
@@ -3306,6 +3475,7 @@ codeunit 50001 "HR Mgt."
         if QATrain.Count <> 0 then
             exit(TotalMarks / QATrain.Count);
     end;
+
     local procedure CalculateTrainerMarks(TrainNo: Code[20]; EmpNo: Code[20]): Decimal
     var
         QATrain: Record "Employee Feedback";
@@ -3321,6 +3491,7 @@ codeunit 50001 "HR Mgt."
         if QATrain.Count <> 0 then
             exit(TotalMarks / QATrain.Count);
     end;
+
     procedure CalTraineeRemarksTraining(TrainNo: Code[20]; EmpNo: Code[20])
     var
         TrainLine: Record "Training Line";
@@ -3335,6 +3506,7 @@ codeunit 50001 "HR Mgt."
             TrainLine.Modify;
         end;
     end;
+
     procedure CalTrainingMarks(TrainNo: Code[20])
     var
         TrainHead: Record "Training Header";
@@ -3355,6 +3527,7 @@ codeunit 50001 "HR Mgt."
             end;
         end;
     end;
+
     procedure GenerateTraineeForTraining(TrainNo: Code[20])
     var
         TrainHead: Record "Training Header";
@@ -3396,6 +3569,7 @@ codeunit 50001 "HR Mgt."
                 TrainLine.Insert(true);
             until Employee.Next = 0;
     end;
+
     local procedure GetTrainingBody(var TrainHeader: Record "Training Header")
     var
         BodyText1: Text;
@@ -3430,6 +3604,7 @@ codeunit 50001 "HR Mgt."
         CodeunitEmailMessage.AppendToBody(TrainHeader.FieldCaption(Venue) + Colon + Format(TrainHeader.Venue) + '<br>');
         CodeunitEmailMessage.AppendToBody('<br>' + BodyText1 + '<br>');
     end;
+
     local procedure GetTransferBody(var EmployeeTransfer: Record "Employee Transfer")
     var
         BodyText1: Text;
@@ -3547,10 +3722,12 @@ codeunit 50001 "HR Mgt."
                 CodeunitEmailMessage.AppendToBody('Functional title ' + Colon + FunctionalTitle.Description + '<br>');
         end;
     end;
+
     procedure CreateNewLine(): Text
     begin
         CodeunitEmailMessage.AppendToBody('<br><br>');
     end;
+
     procedure ExportTrainee(TrainingHeader: Record "Training Header")
     var
         TrainingLine: Record "Training Line";
@@ -3573,6 +3750,7 @@ codeunit 50001 "HR Mgt."
         end;
         CreateExcelBook(ExportTraineeTxt);
     end;
+
     procedure ExportTraineeAttendance(TrainingHeader: Record "Training Header")
     var
         TrainingAttendance: Record "Training Attendance";
@@ -3595,14 +3773,17 @@ codeunit 50001 "HR Mgt."
         end;
         CreateExcelBook(ExportAttendanceTxt);
     end;
+
     local procedure MakeExcelDataHeader(HeadingCaption: Text; CellType: Option Number,Text,Date,Time)
     begin
         ExcelBuffer.AddColumn(HeadingCaption, false, '', true, false, true, '', CellType);
     end;
+
     local procedure MakeExcelDataBody(BodyValue: Variant; CellType: Option Number,Text,Date,Time)
     begin
         ExcelBuffer.AddColumn(BodyValue, false, '', false, false, false, '', CellType);
     end;
+
     local procedure CreateExcelBook(SheetName: Text)
     begin
         ExcelBuffer.CreateNewBook(SheetName);
@@ -3610,6 +3791,7 @@ codeunit 50001 "HR Mgt."
         // ExcelBuffer.CreateBookAndOpenExcel('', SheetName, '', '', UserId);
         Error('');
     end;
+
     procedure ImportTrainee(TrainingHeader: Record "Training Header")
     var
         TotalRows: Integer;
@@ -3631,6 +3813,7 @@ codeunit 50001 "HR Mgt."
         ExcelBuffer.DeleteAll;
         Message('Trainees imported successfully.');
     end;
+
     local procedure OpenReadExcelBook()
     var
         ServerFileName: Text;
@@ -3647,10 +3830,12 @@ codeunit 50001 "HR Mgt."
         ExcelBuffer.OpenBookStream(InStr, SheetName);
         ExcelBuffer.ReadSheet;
     end;
+
     local procedure GetLastRowandColumn(var TotalRows: Integer)
     begin
         TotalRows := ExcelBuffer.Count;
     end;
+
     local procedure GetValueAtCell(RowNo: Integer; ColNo: Integer): Text
     begin
         if ExcelBuffer.Get(RowNo, ColNo) then
@@ -3658,6 +3843,7 @@ codeunit 50001 "HR Mgt."
         else
             exit('');
     end;
+
     local procedure InsertTrainee(RowNo: Integer; TrainingNo: Code[20]; LineNo: Integer)
     var
         TrainingLine: Record "Training Line";
@@ -3675,6 +3861,7 @@ codeunit 50001 "HR Mgt."
                 TrainingLine.Insert(true);
         end;
     end;
+
     procedure ImportTraineeAttendance(TrainingHeader: Record "Training Header")
     var
         TotalRows: Integer;
@@ -3696,6 +3883,7 @@ codeunit 50001 "HR Mgt."
         ExcelBuffer.DeleteAll;
         Message('Attendance imported successfully.');
     end;
+
     local procedure InsertTraineeAttendance(RowNo: Integer; TrainingNo: Code[20]; LineNo: Integer)
     var
         TrainingAttendance: Record "Training Attendance";
@@ -3717,6 +3905,7 @@ codeunit 50001 "HR Mgt."
                 TrainingAttendance.Insert(true);
         end;
     end;
+
     local procedure UploadExcelFileToImport(var ServerFileName: Text; var SheetName: Text)
     var
         FileManagement: Codeunit "File Management";
@@ -3731,6 +3920,7 @@ codeunit 50001 "HR Mgt."
         // tmpBlob.CreateInStream(InStr);
         SheetName := ExcelBuffer.SelectSheetsNameStream(InStr);
     end;
+
     procedure GetEmployeeName(EmpCode: Code[20]; var EmpName: Text)
     var
         Temp: Text;
@@ -3749,6 +3939,7 @@ codeunit 50001 "HR Mgt."
         end;
         EmpName := CopyStr(Temp, 1, 50);
     end;
+
     procedure GetEmployeeNo(): Code[20]
     begin
         Employee.Reset;
@@ -3756,6 +3947,7 @@ codeunit 50001 "HR Mgt."
         Employee.FindFirst;
         exit(Employee."No.");
     end;
+
     procedure GetBranchCode(): Code[20]
     begin
         Employee.Reset;
@@ -3763,28 +3955,33 @@ codeunit 50001 "HR Mgt."
         Employee.FindFirst;
         exit(Employee."Branch Code");
     end;
+
     procedure GetEmployeeDeputationDistrictName(DeputationType: Enum "Deputation Type"; DeputaionOnCode: code[20]): text[50]
     begin
         if OrgStructureList.Get(DeputationType, DeputaionOnCode) then
             exit(OrgStructureList."District Name")
     end;
+
     procedure GetEmployeeDeputationMunicipalityCode(DeputationType: Enum "Deputation Type"; DeputaionOnCode: code[20]): text[50]
     begin
         if OrgStructureList.Get(DeputationType, DeputaionOnCode) then
             exit(OrgStructureList."Municipality Code")
     end;
+
     procedure GetEmployeeName(EmployeeCode: Code[20]): Text[50]
     begin
         Employee.Reset;
         if Employee.Get(EmployeeCode) then
             exit(Employee."Full Name");
     end;
+
     procedure GetFunctionalTitleCode(EmployeeCode: Code[20]): Text[20]
     begin
         Employee.Reset;
         if Employee.Get(EmployeeCode) then
             exit(Employee."Functional Title");
     end;
+
     procedure GetHrHead(): Code[20]
     begin
         HRSetup.Get;
@@ -3797,6 +3994,7 @@ codeunit 50001 "HR Mgt."
         if Employee.FindFirst then
             exit(Employee."No.");
     end;
+
     procedure InsertAttachmentLines(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])
     var
         IncomingDocument: Record "Incoming Document";
@@ -3821,6 +4019,7 @@ codeunit 50001 "HR Mgt."
                 end;
             until AttachmentMandatory.Next = 0;
     end;
+
     procedure CheckDocumentApprover(DocumentNo: Code[20])
     var
         DocumentApproverRec: Record "Document Approver";
@@ -3857,6 +4056,7 @@ codeunit 50001 "HR Mgt."
         BodyText1: Text;
     begin
     end;
+
     procedure AddRemoveDocApprover(EmpCode: Code[20]; IsDocApprover: Boolean)
     var
         DocApporver: Record "Document Approver";
@@ -3895,9 +4095,11 @@ codeunit 50001 "HR Mgt."
                 end;
             until Resignation.Next = 0;
     end;
+
     local procedure "--------------FOR REPORTS---------------"()
     begin
     end;
+
     procedure WorkStationFunction(EmployeeRec: Record Employee) WorkStation: Text
     var
         // DimensionValue: Record "Dimension Value";
@@ -3934,6 +4136,7 @@ codeunit 50001 "HR Mgt."
             IF SalaryLevel.GET(EmployeeRec."Salary Level") THEN
           WorkStation += ' in the internal job grade of '+ SalaryLevel.Description;*/
     end;
+
     procedure getDeputation(empCode: Code[20]): Text
     var
         employee: Record Employee;
@@ -3941,10 +4144,12 @@ codeunit 50001 "HR Mgt."
         if employee.Get(empCode) then
             exit(employee."Deputation On Code");
     end;
+
     procedure ReturnCalendarDescription(): Text
     begin
         exit(CalendarDescription);
     end;
+
     procedure IsWinter(CheckDate: Date; EmployeeWorkShift: Record "Employee Work Shift"): Boolean
     begin
         if (CheckDate >= EmployeeWorkShift."Winter Start Date") and (CheckDate <= EmployeeWorkShift."Winter End Date") then
@@ -3952,6 +4157,7 @@ codeunit 50001 "HR Mgt."
         else
             exit(false)
     end;
+
     procedure IsFriday(CheckDate: Date): Boolean
     begin
         EngNep.Reset;
@@ -3959,6 +4165,7 @@ codeunit 50001 "HR Mgt."
         EngNep.FindFirst;
         exit(EngNep.Week = EngNep.Week::Friday);
     end;
+
     procedure GetNepaliDate(EnglishDate: Date): Text
     begin
         Clear(EngNep);
@@ -4000,6 +4207,7 @@ codeunit 50001 "HR Mgt."
             EmployeeInsuranceInfoPage.Run;
         end;
     end;
+
     procedure OpenRFRequest(EmpCode: Code[20]; var TempRetirementFund: Record "Retirement Fund")
     var
         PostedPayrollHdr: Record "Posted Payroll Header";
@@ -4066,6 +4274,7 @@ codeunit 50001 "HR Mgt."
         if GuiAllowed then
             PAGE.Run(PAGE::"Retirement Fund Card", TempRetirementFund)
     end;
+
     procedure CalculateRetirementFund(var RF: Record "Retirement Fund"; ProjectionMonth: Integer)
     begin
         RF."Total Committed Contribution" := (RF."RTF Amount (Month)" * (ProjectionMonth)) +
@@ -4078,6 +4287,7 @@ codeunit 50001 "HR Mgt."
         if RF."Lumpsum Space Max Benefit" < 0 then
             RF."Lumpsum Space Max Benefit" := 0;
     end;
+
     procedure ScreenRF(var RetirementFund: Record "Retirement Fund")
     var
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
@@ -4111,6 +4321,7 @@ codeunit 50001 "HR Mgt."
                 Employee.Modify;
             until PayrollAttributesUsage.Next = 0;
     end;
+
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund"): Boolean
     var
         RFContibution: Record "RF Contribution";
@@ -4146,6 +4357,7 @@ codeunit 50001 "HR Mgt."
             Message('Retirement fund request sent for apporval.');
         exit(true);
     end;
+
     procedure ScreenAllRetirementFund()
     var
         RetirementFund: Record "Retirement Fund";
@@ -4175,6 +4387,7 @@ codeunit 50001 "HR Mgt."
             until Employee.Next = 0;
         Message('Completed.');
     end;
+
     procedure UpdateEmploymentDate(EmpCode: Code[20])
     var
         EmpPageBuilder: FilterPageBuilder;
@@ -4221,6 +4434,7 @@ codeunit 50001 "HR Mgt."
             Message('Update.');
         end;
     end;
+
     procedure ResignationEmailSend(EmployeeNo: Code[20])
     var
         EmpRec: Record Employee;
@@ -4298,6 +4512,7 @@ codeunit 50001 "HR Mgt."
             //MESSAGE('Success');
         end;
     end;
+
     procedure GetEmpName(): Text
     begin
         Employee.Reset;
@@ -4305,6 +4520,7 @@ codeunit 50001 "HR Mgt."
         Employee.FindFirst;
         exit(Employee."Full Name");
     end;
+
     procedure GetEmpNameSaas(EmployeeNo: code[20]): Text
     begin
         Employee.Reset;
@@ -4312,6 +4528,7 @@ codeunit 50001 "HR Mgt."
         Employee.FindFirst;
         exit(Employee."Full Name");
     end;
+
     procedure SendEmailOfferLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
     var
         CompanyInfo: Record "Company Information";
@@ -4580,6 +4797,7 @@ codeunit 50001 "HR Mgt."
             Email.Send(CodeunitEmailMessage);
         end;
     end;
+
     procedure LookUpMunicipalityKPI(xMunicipalityTxt: Text[50]): Text[50]
     var
         PageMunicipality: Page Municipalities;
@@ -4596,6 +4814,7 @@ codeunit 50001 "HR Mgt."
         end;
         exit(xMunicipalityTxt);
     end;
+
     procedure InsertFacilitatorDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record "Workflow Step Argument"; ShowConfirmationMessage: Boolean);
     VAR
         SentForApprovalEventID: Integer;
@@ -4668,6 +4887,7 @@ codeunit 50001 "HR Mgt."
             OnRequestDelegatedEventID);
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
     end;
+
     procedure InsertTrainingDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record "Workflow Step Argument"; ShowConfirmationMessage: Boolean);
     VAR
         SentForApprovalEventID: Integer;
@@ -4740,6 +4960,7 @@ codeunit 50001 "HR Mgt."
             OnRequestDelegatedEventID);
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
     end;
+
     procedure InsertVacancyDocApprovalWorkflowSteps(Workflow: Record Workflow; DocSendForApprovalConditionString: Text; DocSendForApprovalEventCode: Code[128]; DocCanceledConditionString: Text; DocCanceledEventCode: Code[128]; WorkflowStepArgument: Record 1523; ShowConfirmationMessage: Boolean);
     VAR
         SentForApprovalEventID: Integer;
@@ -4812,6 +5033,7 @@ codeunit 50001 "HR Mgt."
             OnRequestDelegatedEventID);
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
     end;
+
     procedure CheckDateStatus(CalendarCode: Code[20];
                                 TargetDate: Date;
                                 VAR Description: Text[50];
@@ -4892,6 +5114,7 @@ codeunit 50001 "HR Mgt."
         Clear(Community);
         Clear(Disabled);
     end;
+
     procedure CheckSaturday(CheckDate: Date; CalCode: Code[10]): Boolean
     var
         BaseCalendarChange: Record "Base Calendar Change";
@@ -4904,6 +5127,7 @@ codeunit 50001 "HR Mgt."
                 exit(BaseCalendarChange.Nonworking);
         end;
     end;
+
     procedure GenerateActualMatrixData(VAR RecRef: RecordRef; SetWanted: Option; MaximumSetLength: Integer; CaptionFieldNo: Integer; VAR RecordPosition: Text; VAR CaptionSet: ARRAY[32] OF Text[80]; VAR CaptionRange: Text; VAR CurrSetLength: Integer; VAR DescCaptionSet: ARRAY[32] OF Text; DescCaptionFieldNo: Integer; ShowCaption: Boolean);
     VAR
         Steps: Integer;
@@ -5040,6 +5264,7 @@ codeunit 50001 "HR Mgt."
                 CaptionRange := DescCaptionSet[1] + '..' + DescCaptionSet[CurrSetLength];
         end;
     end;
+
     procedure InitNoSeriesNew(SetupNoSeries: Code[20]; xRecNoSeries: Code[20]; DocDate: Date; var DocNo: Code[20]; var RecNoSeries: Code[20])
     var
         NoSeries: Codeunit "No. Series";
@@ -5050,6 +5275,7 @@ codeunit 50001 "HR Mgt."
             RecNoSeries := SetupNoSeries;
         DocNo := NoSeries.PeekNextNo(RecNoSeries, DocDate)
     end;
+
     procedure SetDefaultSeries(var NewNoSeriesCode: Code[20]; NoSeriesCode: Code[20])
     var
         GlobalNoSeries: record "No. Series";
@@ -5060,6 +5286,7 @@ codeunit 50001 "HR Mgt."
                 NewNoSeriesCode := GlobalNoSeries.Code;
         end;
     end;
+
     procedure getServicePeriodText(var Employee: Record Employee)
     var
         NewEmploymentDate: Date;
@@ -5081,6 +5308,7 @@ codeunit 50001 "HR Mgt."
             end;
         end;
     end;
+
     procedure GetAdjustedEmploymentDate(Employee: Record Employee; EmplymentDate: Date; EndDate: Date): Date
     var
         AdjustingDays: Integer;
@@ -5107,6 +5335,7 @@ codeunit 50001 "HR Mgt."
             exit(NewEmploymentDate);
         end;
     end;
+
     procedure GetAge(BirthDate: Date; ToDate: Date) Age: Text
     var
         Year, Month, Days : Integer;
@@ -5136,6 +5365,7 @@ codeunit 50001 "HR Mgt."
             ReturnValue += Format(Days) + DayText;
         exit(ReturnValue);
     end;
+
     procedure GetAgeInteger(BirthDate: Date; ToDate: Date; var year: Integer; var Month: Integer; var Days: Integer)
     begin
         year := Date2DMY(ToDate, 3) - Date2DMY(BirthDate, 3);
@@ -5150,6 +5380,7 @@ codeunit 50001 "HR Mgt."
             Month := 12 - Abs(Month);
         end;
     end;
+
     procedure GetNextEntryNo(TableID: Integer): Integer
     var
         RecRef: RecordRef;
@@ -5172,6 +5403,7 @@ codeunit 50001 "HR Mgt."
         end;
         exit(NextEntryNo + 1);
     end;
+
     procedure GetAgeBS(BirthDate: Code[20]; ToDate: Code[20]) Age: Text
     var
         Year, Month, Days : Integer;
@@ -5201,6 +5433,7 @@ codeunit 50001 "HR Mgt."
             ReturnValue += Format(Days) + DayText;
         exit(ReturnValue);
     end;
+
     procedure GetAgeIntegerBS(BirthDate: Code[20]; ToDate: Code[20]; var year: Integer; var Month: Integer; var Days: Integer)
     var
         EngNep: Record "English-Nepali Date";
@@ -5224,6 +5457,7 @@ codeunit 50001 "HR Mgt."
             Month := 12 - Abs(Month);
         end;
     end;
+
     procedure GetMonthEndDayNepali(NepaliYear: Integer; NepaliMonth: Integer): Integer
     var
         EngNep2: Record "English-Nepali Date";
@@ -5233,12 +5467,14 @@ codeunit 50001 "HR Mgt."
         if EngNep2.findlast() then
             exit(EngNep2."Nepali Day");
     end;
+
     procedure IsSaaS(): Boolean
     var
         EnvInfo: Codeunit "Environment Information";
     Begin
         exit(EnvInfo.IsSaaS());
     End;
+
     procedure CreateEmpActLedger(EmpActType: Enum "Employee Activity Type";
                                     DocNo: Code[20];
                                     EmpNo: Code[20];
@@ -5268,6 +5504,7 @@ codeunit 50001 "HR Mgt."
             end;
         EmpActLedgerEntry.insert();
     end;
+
     procedure CancelEmpActLedgerForDateRange(EmpActType: Enum "Employee Activity Type";
                                                              DocNo: Code[20];
                                                              EmpNo: Code[20];
@@ -5286,6 +5523,7 @@ codeunit 50001 "HR Mgt."
                     EmpActLedgerEntry.Rename(EmpActType, DocNo, EmpNo, DateVar."Period Start", true);
             until DateVar.Next() = 0;
     end;
+
     procedure CreateEmpActLedgerForDateRange(
                                     EmpActType: Enum "Employee Activity Type";
                                                     DocNo: Code[20];
@@ -5309,6 +5547,7 @@ codeunit 50001 "HR Mgt."
                 );
             until DateRec.Next() = 0;
     end;
+
     procedure GetCompanyOneLineAddress(var CompanyName: Text[100]; var CompanyOneLineAddress: Text[250]; var CompanyCommunicationAddress: Text[250])
     var
         CompanyInfo: Record "Company Information";
@@ -5332,6 +5571,7 @@ codeunit 50001 "HR Mgt."
                 CompanyCommunicationAddress += CompanyInfo.FieldCaption("E-Mail") + ' : ' + CompanyInfo."E-Mail";
         end;
     end;
+
     local procedure OneLineAddress(var AddrArray: array[8] of Text[50]) OneLineAddress: Text
     var
         i: Integer;
@@ -5346,6 +5586,32 @@ codeunit 50001 "HR Mgt."
         end;
         exit(OneLineAddress);
     end;
+
+    procedure LookupEmployeeByOrgStructure(ProvinceCode: Code[20]; BranchCode: Code[20]; DepartmentCode: Code[20]; UnitCode: Code[20]; EmpCode: Code[20]): Code[20]
+    var
+        EmployeeRec: Record Employee;
+        EmployeeListPage: Page "Employee List";
+    begin
+        if EmpCode <> '' then
+            EmployeeRec.SetRange("No.", EmpCode);
+        if ProvinceCode <> '' then
+            EmployeeRec.SetRange("Province Code", ProvinceCode);
+        if BranchCode <> '' then
+            EmployeeRec.SetRange("Branch Code", BranchCode);
+        if DepartmentCode <> '' then
+            EmployeeRec.SetRange("Department Code", DepartmentCode);
+        if UnitCode <> '' then
+            EmployeeRec.SetRange("Unit Code", UnitCode);
+        EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
+
+        EmployeeListPage.LookupMode(true);
+        EmployeeListPage.SetTableView(EmployeeRec);
+        if EmployeeListPage.RunModal() = ACTION::LookupOK then begin
+            EmployeeListPage.GetRecord(EmployeeRec);
+            exit(EmployeeRec."No.");
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin

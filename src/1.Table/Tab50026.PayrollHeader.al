@@ -197,7 +197,7 @@ table 50026 "Payroll Header"
                     Validate("From Date", 0D);
                     Validate("From Date", PayCyclePeriod."Start Date");
                     Validate("To Date", PayCyclePeriod."End Date");
-                    "Posting Date" := Today;
+                    "Posting Date" := PayCyclePeriod."Pay Date";
                     if PGSetup."Previous Year Payroll Enable" then
                         CheckDateNotAllowedPrev(PGSetup."Prev Fiscal Year End Date")
                     else
@@ -620,7 +620,7 @@ table 50026 "Payroll Header"
             Employee.SetRange("Resignation Date", "From Date", "To Date");
         Employee.SetRange(Settled, false);
         if PayCyclePeriod.Get("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period") then
-            Employee.SetFilter("Employment Date", '<>%1', PayCyclePeriod."Pay Date");
+            Employee.SetFilter("Employment Date", '<%1', PayCyclePeriod."Pay Date");
         if "Employee Type" <> "Employee Type"::" " then
             Employee.SetRange("Employment Type", "Employee Type");
         if Employee.FindSet then
