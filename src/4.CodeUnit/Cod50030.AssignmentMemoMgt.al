@@ -404,6 +404,8 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        PayrollAttribute: Record "Payroll Attributes";
+        CreateAdjustmentledger: Boolean;
     begin
         //while requesting create a assignment line entry from unclaimed allowance ledger entry
         AssignmentMemoLedgerEntry.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
@@ -443,6 +445,61 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLedgerEntry."Claimed Doc No." := AllowanceAssignmentHdr."No.";
                 AssignmentMemoLedgerEntry.Claimed := true;
                 AssignmentMemoLedgerEntry.Modify();
+
+            until AssignmentMemoLedgerEntry.Next() = 0;
+
+        //
+        AssignmentMemoLedgerEntry.Reset();
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange("Attendance Checked", false);
+        AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
+        if AssignmentMemoLedgerEntry.FindSet() then
+            repeat
+                //check is employee attendance is marked for the allowance request date
+                PayrollAttribute.Get(AssignmentMemoLedgerEntry."Payroll Attribute Code");
+                AssignmentMemoLedgerEntry.CalcFields("Present Days", "Leave Days", "Leave Days", "Week Off Days", "Absent Days");
+                if (AssignmentMemoLedgerEntry."Present Days" > 0) or (AssignmentMemoLedgerEntry."Absent Days" > 0) then begin
+                    AssignmentMemoLedgerEntry."Attendance Checked" := true;
+                    AssignmentMemoLedgerEntry.Modify();
+                    CreateAdjustmentledger := false;
+                end
+                else if AssignmentMemoLedgerEntry."Week Off Days" > 0 then begin
+                    AssignmentMemoLedgerEntry."Attendance Checked" := true;
+                    AssignmentMemoLedgerEntry.Modify();
+                    if PayrollAttribute."Specific Attributes" = PayrollAttribute."Specific Attributes"::"Holiday Allowance" then
+                        CreateAdjustmentledger := true
+                    else
+                        CreateAdjustmentledger := false;
+                end
+                else begin
+                    CreateAdjustmentledger := true;
+                    AssignmentMemoLedgerEntry."Attendance Checked" := true;
+                    AssignmentMemoLedgerEntry.Modify();
+                end;
+
+                if CreateAdjustmentledger then begin
+                    //create opposite ledger line
+                    Clear(AssignmentMemoLine);
+                    AssignmentMemoLine.Init();
+                    AssignmentMemoLine.Validate("Document No.", AllowanceAssignmentHdr."No.");
+                    AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
+                    AssignmentMemoLine.Validate("Employee No.", AssignmentMemoLedgerEntry."Employee No.");
+                    AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+                    AssignmentMemoLine.Validate("Payroll Attribute Code", AssignmentMemoLedgerEntry."Payroll Attribute Code");
+                    AssignmentMemoLine.Validate("From Date", AssignmentMemoLedgerEntry."Posting Date");
+                    AssignmentMemoLine.Validate("To Date", AssignmentMemoLedgerEntry."Posting Date");
+                    AssignmentMemoLine.Validate("Allowance Amount", AssignmentMemoLedgerEntry.Amount);
+                    AssignmentMemoLine."Assign Memo Ledger Entry No." := AssignmentMemoLedgerEntry."Entry No.";
+                    AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
+                    AssignmentMemoLine.Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
+                    AssignmentMemoLine."Allowance Amount" := -AssignmentMemoLedgerEntry.Amount;
+                    AssignmentMemoLine.Insert(true);
+                    AssignmentMemoLine.Validate("Payroll Attribute Code");
+                    AssignmentMemoLine.Modify();
+
+                    // no need to mark allowance
+                end;
 
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;

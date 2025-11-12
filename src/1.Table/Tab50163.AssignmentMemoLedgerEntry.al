@@ -110,6 +110,10 @@ table 50163 "Assignment Memo Ledger Entry"
             FieldClass = FlowField;
             CalcFormula = sum("Employee Attendance & Activity"."Absent Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
         }
+        field(54; "Attendance Checked"; Boolean)
+        {
+            Caption = 'Attendance Checked';
+        }
     }
     keys
     {

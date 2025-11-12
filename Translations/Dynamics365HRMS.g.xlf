@@ -1178,6 +1178,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field ATM Site - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 1546690556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Checked</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Attendance Checked - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 2541479021 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -61637,6 +61642,11 @@
           <source>Education Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Education Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 3747420402 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Holiday Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Holiday Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2615421126 - EnumValue 353172556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Recover</source>
