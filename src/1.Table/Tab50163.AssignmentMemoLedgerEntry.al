@@ -114,6 +114,10 @@ table 50163 "Assignment Memo Ledger Entry"
         {
             Caption = 'Attendance Checked';
         }
+        field(55; "Blocked for Payroll"; Boolean)
+        {
+            Caption = 'Blocked for Payroll';
+        }
     }
     keys
     {

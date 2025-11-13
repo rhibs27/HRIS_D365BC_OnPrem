@@ -1073,6 +1073,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (amt)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Fuel Limit (amt) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3095358712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (ltr)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Fuel Limit (ltr) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 783730271 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No of Lines</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1182,6 +1192,11 @@
           <source>Attendance Checked</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Attendance Checked - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2110140186 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Blocked for Payroll</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Blocked for Payroll - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 2541479021 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed</source>
@@ -1318,6 +1333,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field ATM Site - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1546690556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Checked</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Attendance Checked - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 887550446 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed as Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1368,6 +1388,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3692456998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Claimed (ltr)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Fuel Claimed (ltr) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (amt)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Fuel Limit (amt) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3095358712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (ltr)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Fuel Limit (ltr) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 1928739672 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Grade/Class</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1412,6 +1447,11 @@
           <source>School Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field School Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 163660763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specific Payroll Attribute</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Specific Payroll Attribute - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 1713785062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Substitute of Line No.</source>
@@ -43923,6 +43963,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control From Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 2546113746 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Limit (amt) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Fuel Limit (amt) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 3095358712 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Limit (ltr) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Fuel Limit (ltr) - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2985527303 - Control 783730271 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No of Lines field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -43987,6 +44037,11 @@
           <source>Specifies the value of the Distance (KM) field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Distance (KM) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 3692456998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Claimed (ltr) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Fuel Claimed (ltr) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3106374893 - Control 1928739672 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Grade/Class field.</source>
@@ -55892,6 +55947,11 @@
           <source>Last Placement Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Last Placement Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 281179121 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Last Placement Date (B.S.)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Last Placement Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3544158917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Login</source>

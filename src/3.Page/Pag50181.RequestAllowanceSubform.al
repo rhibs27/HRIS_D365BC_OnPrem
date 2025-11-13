@@ -29,7 +29,10 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Allowance Amount field.';
                     ApplicationArea = All;
-                    Editable = false;
+                }
+                field("Fuel Claimed (ltr)"; Rec."Fuel Claimed (ltr)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Claimed (ltr) field.', Comment = '%';
                 }
                 field("School Name"; Rec."School Name")
                 {
