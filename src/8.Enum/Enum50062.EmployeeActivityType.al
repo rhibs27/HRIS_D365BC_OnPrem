@@ -128,4 +128,12 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Request Allowance';
     }
+    value(32; "Allowance Assignment Memo")
+    {
+        Caption = 'Allowance Assignment Memo';
+    }
+    value(33; "Shift Assignment Memo")
+    {
+        Caption = 'Shift Assignment Memo';
+    }
 }

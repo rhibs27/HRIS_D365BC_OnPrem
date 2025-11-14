@@ -777,8 +777,11 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
         BasicAmount: Decimal;
+        Substring1: Text;
+        SubString2: Text;
+        SubString3: Text;
+        Length: Integer;
     begin
-
         Expression := DelChr(Expression, '=');
         PayrollAttributes.Reset;
         PayrollAttributes.SetRange(Type, PayrollAttributes.Type::Benefits);
@@ -816,9 +819,20 @@ codeunit 50008 "Payroll Engine"
                     PayrollAttributesUsage.Reset;
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-                    if PayrollAttributesUsage.FindFirst then
-                        Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition)
-                    else
+                    if PayrollAttributesUsage.FindFirst then begin
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
+                        if PayrollAttributesUsage.Amount < 0 then begin
+                            Length := StrLen(Expression);
+                            Substring1 := CopyStr(Expression, 1, StrPosition - 2);
+                            SubString2 := CopyStr(Expression, StrPosition);
+                            SubString3 := CopyStr(Expression, StrPosition - 1, 1);
+                            if SubString3 = '-' then
+                                Expression := InsStr(Substring1 + SubString2, '+' + Format(Abs(PayrollAttributesUsage.Amount)), StrPosition - 1)
+                            else if SubString3 = '+' then
+                                Expression := InsStr(Substring1 + SubString2, '-' + Format(Abs(PayrollAttributesUsage.Amount)), StrPosition - 1)
+                        end else
+                            Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition)
+                    end else
                         Expression := InsStr(Expression, Format(0), StrPosition);
                 end;
             end;

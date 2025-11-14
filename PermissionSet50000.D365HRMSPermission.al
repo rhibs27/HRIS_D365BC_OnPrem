@@ -805,5 +805,19 @@ permissionset 50000 D365HRMSPermission
         table "OverTime Ledger Entry" = X,
         table "RF Contribution" = X,
         page "Attribute Usage History" = X,
-        page "RF Contribution Lines" = X;
+        page "RF Contribution Lines" = X,
+        tabledata "Assignment Memo Header" = RIMD,
+        tabledata "Assignment Memo Ledger Entry" = RIMD,
+        tabledata "Assignment Memo Line" = RIMD,
+        table "Assignment Memo Header" = X,
+        table "Assignment Memo Ledger Entry" = X,
+        table "Assignment Memo Line" = X,
+        report "Import Employee Payroll Plan" = X,
+        codeunit "Assignment Memo Mgt" = X,
+        page "Assignment Memo Card" = X,
+        page "Assignment Memo Ledger Entries" = X,
+        page "Assignment Memo Subform" = X,
+        page "Assignment Memos" = X,
+        page "Shift Assignment Memo Subform" = X,
+        page "Shift Assignment Memos" = X;
 }

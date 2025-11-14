@@ -4,7 +4,7 @@ page 50182 "Allowance Requests"
     Caption = 'Allowance Requests';
     CardPageId = "Request Allowance Card";
     PageType = List;
-    SourceTable = "Allowance Assignment Header";
+    SourceTable = "Assignment Memo Header";
     SourceTableView = where("Activity Type" = const("Request Allowance"));
     UsageCategory = Lists;
     InsertAllowed = false;
@@ -21,11 +21,11 @@ page 50182 "Allowance Requests"
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                 }
-                field("Employee No."; Rec."Employee No.")
+                field("Requester Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No field.';
                 }
-                field("Employee Name"; Rec."Employee Name")
+                field("Requester Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                 }

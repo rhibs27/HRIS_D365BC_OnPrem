@@ -21,6 +21,9 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceMgt: Codeunit "Attendance Mgt";
         CalendarDescription: Text;
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
+        PGSetup: Record "Payroll General Setup";
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure UpdateEmpAttendance()
     begin
@@ -59,6 +62,9 @@ codeunit 50029 "Process Daily Attendance"
         // if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Absent Day" = 0) and (EmpAttendance."Week Off Day" = 0) and (EmpAttendance."Tour Day" = 0) and (EmpAttendance."Leave Day" = 0) and (EmpAttendance."Transfer Day" = 0) and (EmpAttendance."Training Day" = 0) then
         // CheckAndInsertTimeDifference();
         EmpAttendance.Modify(true);
+
+        //Update attendance for assignment memo if exists
+
     end;
 
     local procedure ResetDays()
@@ -88,12 +94,22 @@ codeunit 50029 "Process Daily Attendance"
 
     local procedure GetShiftCodeformShiftAssignment(): Code[20]
     begin
-        ShiftLine.Reset();
-        ShiftLine.SetRange("Roster Date", EmpAttendance."Attendance Date");
-        ShiftLine.SetRange("Employee No", EmpAttendance."Employee No.");
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-        ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-        exit(ShiftLine."Employee Work Shift");
+        if PGSetup."Use Allowance Configuration" then begin
+            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
+            AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
+            AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
+            AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
+            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
+        end
+        else begin
+            ShiftLine.Reset();
+            ShiftLine.SetRange("Roster Date", EmpAttendance."Attendance Date");
+            ShiftLine.SetRange("Employee No", EmpAttendance."Employee No.");
+            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+            ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
+            exit(ShiftLine."Employee Work Shift");
+        end;
     end;
 
     procedure ProcessHolidayAndShiftNormal()
@@ -166,6 +182,7 @@ codeunit 50029 "Process Daily Attendance"
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveRequest: Record Leave;
         SourceNoText: Text;
+        Ishandled: Boolean;
     begin
         Clear(SourceNoText);
         EmpActLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
@@ -221,8 +238,11 @@ codeunit 50029 "Process Daily Attendance"
                             AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
                         end;
                     else begin
-                        EmpAttendance."Source No." := '';
-                        EmpAttendance."Employee Activity Found" := false;
+                        OnAfterProcessDayFromEmpActLedgerEntry(EmpActLedgerEntry, Ishandled);
+                        if not Ishandled then begin
+                            EmpAttendance."Source No." := '';
+                            EmpAttendance."Employee Activity Found" := false;
+                        end;
                     end;
                 end;
             until EmpActLedgerEntry.Next() = 0;
@@ -287,6 +307,7 @@ codeunit 50029 "Process Daily Attendance"
     procedure GetSetup()
     begin
         AttSetup.Get;
+        PGSetup.Get;
         AttSetup.TestField("Base Calender");
         Employee.Get(EmpAttendance."Employee No.");
         Date.Get(Date."Period Type"::Date, EmpAttendance."Attendance Date");
@@ -368,5 +389,10 @@ codeunit 50029 "Process Daily Attendance"
     procedure GetSyncProcessBoolean(VarFromSyncProcess: Boolean)
     begin
         FromSyncProcess := VarFromSyncProcess;
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterProcessDayFromEmpActLedgerEntry(Var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry"; var Ishandled: Boolean)
+    begin
     end;
 }

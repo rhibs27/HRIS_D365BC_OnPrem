@@ -60,6 +60,17 @@ table 50045 "Employee Work Shift"
         {
             DataClassification = ToBeClassified;
         }
+        field(20; "Default Employee Type"; Enum "Employee Type")
+        {
+            Caption = 'Default Employee Type';
+            DataClassification = ToBeClassified;
+        }
+        field(21; "Payroll Attribute Code"; Code[20])
+        {
+            Caption = 'Payroll Attribute Code';
+            DataClassification = ToBeClassified;
+            TableRelation = "Payroll Attributes";
+        }
     }
     keys
     {
