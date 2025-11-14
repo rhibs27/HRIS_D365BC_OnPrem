@@ -182,6 +182,7 @@ codeunit 50029 "Process Daily Attendance"
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveRequest: Record Leave;
         SourceNoText: Text;
+        Ishandled: Boolean;
     begin
         Clear(SourceNoText);
         EmpActLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
@@ -236,13 +237,12 @@ codeunit 50029 "Process Daily Attendance"
                         begin
                             AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
                         end;
-                    EmpActLedgerEntry."Document Type"::"Allowance Assignment":
-                        begin
-                            AllowanceAssignmentWithoutClaim(AllowanceAssignmentLine."Employee Code", AllowanceAssignmentLine."From Date");
-                        end;
                     else begin
-                        EmpAttendance."Source No." := '';
-                        EmpAttendance."Employee Activity Found" := false;
+                        OnAfterProcessDayFromEmpActLedgerEntry(EmpActLedgerEntry, Ishandled);
+                        if not Ishandled then begin
+                            EmpAttendance."Source No." := '';
+                            EmpAttendance."Employee Activity Found" := false;
+                        end;
                     end;
                 end;
             until EmpActLedgerEntry.Next() = 0;
@@ -391,9 +391,8 @@ codeunit 50029 "Process Daily Attendance"
         FromSyncProcess := VarFromSyncProcess;
     end;
 
-
     [IntegrationEvent(false, false)]
-    procedure AllowanceAssignmentWithoutClaim(Var EmployeeCode: Code[20]; var AttendanceDate: Date)
+    procedure OnAfterProcessDayFromEmpActLedgerEntry(Var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry"; var Ishandled: Boolean)
     begin
     end;
 }

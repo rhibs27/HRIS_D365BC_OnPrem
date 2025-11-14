@@ -46,7 +46,6 @@ codeunit 50000 "Leave Mgt."
         IsHandled: Boolean;
         LeaveReq: Record Leave;
         CalculatedDays: Decimal;
-        IsHandled1: Boolean;
     begin
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
@@ -56,10 +55,9 @@ codeunit 50000 "Leave Mgt."
                     Difference := 1
                 else
                     Difference := 0.5;
-            IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, LeaveType, EmpCode, IsHandled1, CalculatedDays);
-            if IsHandled1 then
+            OnCalculateNoOfDaysinLeave(LeaveReq, StartDate, EndDate, LeaveCode, LeaveType, EmpCode, IsHandled, CalculatedDays);
+            if IsHandled then
                 exit(CalculatedDays);
-            OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
             if not IsHandled then begin
                 if LeaveTypeSetup."Exclude Non Working Days" then
                     exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
@@ -1757,12 +1755,6 @@ codeunit 50000 "Leave Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnCalculateNoOfDaysinLeave(var LeaveTypeSetup: Record "Leave Type Setup"; var StartDate: Date; var EndDate: Date;
-                                        var Empcode: code[20]; var IsHandled: Boolean)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
     local procedure OnGenerateLeaveOnBeforeLeaveCalculation(var LeaveTypeSetup: Record "Leave Type Setup"; var EmpVar: Record Employee; var SkipLeaveEarn: Boolean)
     begin
     end;
@@ -1775,7 +1767,7 @@ codeunit 50000 "Leave Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; LeaveType: Enum "Leave Type"; EmpCode: Code[20]; var IsHandled1: Boolean; var CalculatedDays: Decimal)
+    procedure OnCalculateNoOfDaysinLeave(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; LeaveType: Enum "Leave Type"; EmpCode: Code[20]; var IsHandled1: Boolean; var CalculatedDays: Decimal)
     begin
     end;
 

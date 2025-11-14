@@ -72,7 +72,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         ApproverMgt: Codeunit "Approver Mgt";
         IsHandled: Boolean;
     begin
-        AllowanceAssignmentApprovalReject(Approved, EntryNo, IsHandled);// prabhu allowance assignment approve reject case
+        AllowanceAssignmentApprovalReject(Approved, EntryNo, IsHandled);
         If not IsHandled then begin
             EmpAllowance.Get(EntryNo);
             AllowanceLine.Reset;
