@@ -23,6 +23,7 @@ codeunit 50029 "Process Daily Attendance"
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
         PGSetup: Record "Payroll General Setup";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure UpdateEmpAttendance()
     begin
@@ -181,6 +182,7 @@ codeunit 50029 "Process Daily Attendance"
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveRequest: Record Leave;
         SourceNoText: Text;
+        Ishandled: Boolean;
     begin
         Clear(SourceNoText);
         EmpActLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
@@ -236,8 +238,11 @@ codeunit 50029 "Process Daily Attendance"
                             AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
                         end;
                     else begin
-                        EmpAttendance."Source No." := '';
-                        EmpAttendance."Employee Activity Found" := false;
+                        OnAfterProcessDayFromEmpActLedgerEntry(EmpActLedgerEntry, Ishandled);
+                        if not Ishandled then begin
+                            EmpAttendance."Source No." := '';
+                            EmpAttendance."Employee Activity Found" := false;
+                        end;
                     end;
                 end;
             until EmpActLedgerEntry.Next() = 0;
@@ -384,5 +389,10 @@ codeunit 50029 "Process Daily Attendance"
     procedure GetSyncProcessBoolean(VarFromSyncProcess: Boolean)
     begin
         FromSyncProcess := VarFromSyncProcess;
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterProcessDayFromEmpActLedgerEntry(Var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry"; var Ishandled: Boolean)
+    begin
     end;
 }
