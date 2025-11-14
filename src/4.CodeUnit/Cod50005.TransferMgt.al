@@ -393,6 +393,7 @@ codeunit 50005 "Transfer Mgt."
             Error('You Cannot Acknowledge Before Date of Joining');
         AttachmentSetup.Reset;
         AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.SetFilter(Subtype, '%1|%2', AttachmentSetup.Subtype::Acknowledge, AttachmentSetup.Subtype::" ");
         AttachmentSetup.SetRange("Transfer Category", EmpHrTransfer."Transfer Category");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.Find('-') then
@@ -483,17 +484,19 @@ codeunit 50005 "Transfer Mgt."
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
-        IncomingDocument.Reset();
-        IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
-        if IncomingDocument.FindSet() then
-            repeat
-                AttachmentSetup.Reset();
-                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
-                if AttachmentSetup.FindFirst() then
-                    if AttachmentSetup.Mandatory then
-                        if IncomingDocument."File Name" = '' then
-                            Error('Upload Attachment');
-            until IncomingDocument.Next() = 0;
+
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.setfilter(Subtype, '%1|%2', AttachmentSetup.Subtype::Handover, AttachmentSetup.Subtype::" ");
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.FindFirst() then begin
+            IncomingDocument.Reset;
+            IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+            IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
+            IncomingDocument.SetRange("File Name", '');
+            if IncomingDocument.FindFirst then
+                Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
+        end;
+
         if not HrMgt.IsSaaS() then
             if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
                 Error('You arenot Eligible')

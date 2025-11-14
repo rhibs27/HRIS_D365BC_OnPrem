@@ -24,6 +24,7 @@ table 50096 "Employee Service History"
             begin
                 if Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
+                    Validate("Employee Attendance ID", Employee."Employee Attendance ID");
 
                     if not "Package Record" then begin
                         Validate("Deputation On(From)", Employee."Deputation on");
@@ -255,6 +256,10 @@ table 50096 "Employee Service History"
         field(67; "Unit Description (To)"; text[50]) { }
         field(68; "Effective Date (B.S.)"; Code[10]) { }
         field(69; "Package Record"; Boolean) { }
+        field(70; "Employee Attendance ID"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

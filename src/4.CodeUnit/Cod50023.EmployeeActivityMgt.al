@@ -90,10 +90,13 @@ codeunit 50023 EmployeeActivityMgt
         TransferRequest, EmphrTransfer : Record "Employee Transfer";
         PostedEmployeeTransfer: Record "Posted Employee Journal";
         TransferEmployeeJournal: Record "Employee Activity Journal";
+        HrSetup: Record "Human Resources Setup";
     begin
+        HrSetup.Get();
         TransferEmployeeJournal.Reset();
         TransferEmployeeJournal.SetRange("Emp Act. No", EmpActNo);
-        TransferEmployeeJournal.setrange("Approval Status", TransferEmployeeJournal."Approval Status"::Approved);
+        if not HrSetup."Skip Approval On HR Transfer" then  //to allow Transfer Journal Post without Approval
+            TransferEmployeeJournal.setrange("Approval Status", TransferEmployeeJournal."Approval Status"::Approved);
         if TransferEmployeeJournal.FindSet() then
             repeat
                 TransferRequest.Init();

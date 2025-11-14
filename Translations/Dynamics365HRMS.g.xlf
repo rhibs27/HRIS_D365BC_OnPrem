@@ -1528,6 +1528,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Qualification Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1955267922 - Field 1761304904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Subtype</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Subtype - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1955267922 - Field 3135334477 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Table ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6553,6 +6558,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Effective Date (B.S.) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 565250863 - Field 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Attendance ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Employee Attendance ID - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 565250863 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9772,6 +9782,11 @@
           <source>Ecosystem</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Ecosystem - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Attendance ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Employee Attendance ID - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3212359541 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
@@ -54473,16 +54488,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Training Question - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 2051781008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Transfer Claim Approver field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer Claim Approver - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 4087076640 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Transfer No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 27828016 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Travel Claimed No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54877,6 +54882,21 @@
           <source>Specifies the value of the Retirement Fund Nos. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Retirement Fund Nos. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 3717497202 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Skip Approval On HR Transfer field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Skip Approval On HR Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2051781008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Transfer Claim Approver field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer Claim Approver - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 4087076640 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Transfer No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 566724986 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the BMAF Dist. Criteria (H) field.</source>
@@ -57533,6 +57553,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Shift Assignment Series - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 3717497202 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Skip Approval On HR Transfer</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Skip Approval On HR Transfer - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 201297846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Spouse Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58192,6 +58217,21 @@
           <source>On-Site</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum ATM Site - EnumValue On-Site - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2318393622 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2318393622 - EnumValue 4147068940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Acknowledge</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue Acknowledge - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2318393622 - EnumValue 1376382783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Handover</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue Handover - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

@@ -559,7 +559,6 @@ page 50066 "Transfer Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                // "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
