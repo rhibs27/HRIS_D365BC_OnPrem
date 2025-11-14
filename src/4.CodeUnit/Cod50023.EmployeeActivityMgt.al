@@ -99,6 +99,10 @@ codeunit 50023 EmployeeActivityMgt
             TransferEmployeeJournal.setrange("Approval Status", TransferEmployeeJournal."Approval Status"::Approved);
         if TransferEmployeeJournal.FindSet() then
             repeat
+                if HrSetup."Attach. Mand Transfer-Jnl-Post" then
+                    if not TransferEmployeeJournal.Attachment.HasValue then
+                        Error('Please attach the mandatory document in Transfer Journal No %1 and line no %2 before posting', TransferEmployeeJournal."Emp Act. No", TransferEmployeeJournal."Line No");
+
                 TransferRequest.Init();
                 TransferRequest.Validate("No.", '');
                 TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");

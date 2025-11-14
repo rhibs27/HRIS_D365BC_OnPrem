@@ -697,5 +697,9 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50152; "Attach. Mand Transfer-Jnl-Post"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
     }
 }

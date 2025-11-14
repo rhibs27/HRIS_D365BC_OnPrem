@@ -31,6 +31,7 @@ table 50075 "Employee Activity Journal"
                 if EmpVar.Get("Employee No.") then begin
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
+                    Validate("From Branch", EmpVar."Branch Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate(Department, EmpVar."Department Code");
                     Validate("Province Code", EmpVar."Province Code");
@@ -360,6 +361,7 @@ table 50075 "Employee Activity Journal"
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
                     "To Branch" := "Shortcut Dimension 1 Code";
+                    "To Branch" := "From Branch";
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
@@ -702,6 +704,14 @@ table 50075 "Employee Activity Journal"
                     if not AttendanceMgt.CheckOverNightShift("Employee Work Shift") then
                         Error('%1 do not have Overnight Shift on %2', "Employee Name", "Start Date")
             end;
+        }
+        field(111; Attachment; Media)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(112; "Attachment File Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
         }
     }
     keys

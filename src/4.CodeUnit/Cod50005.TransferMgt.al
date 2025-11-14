@@ -408,7 +408,8 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Acknowledged);
         EmpHrTransfer.Modify;
         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin
-            case EmpHrTransfer."Deputation On (To)" of
+
+            case EmpHrTransfer."Deputation On (To)" of  //Why selective update
                 EmpHrTransfer."Deputation On (To)"::Branch:
                     begin
                         EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
@@ -582,6 +583,27 @@ codeunit 50005 "Transfer Mgt."
     [IntegrationEvent(false, false)]
     procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
     begin
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Transfer Mgt.", OnAfterTransferAcknowledge, '', false, false)]
+    local procedure OnAfterTransferAcknowledgeSpecific(var transfer: Record "Employee Transfer"; var Employee: Record Employee)
+    var
+        PGSetup: Record "Payroll General Setup";
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            exit;
+
+        if transfer."Province Code (To)" <> '' then
+            Employee.Validate("Province Code", transfer."Province Code (To)");
+        if transfer."To Branch" <> '' then
+            Employee.Validate("Branch Code", transfer."To Branch");
+        if transfer."Department Code (To)" <> '' then
+            Employee.Validate("Department Code", transfer."Department Code (To)");
+        if transfer."Extension Counter (To)" <> '' then
+            Employee.Validate("Extension Counter Code", transfer."Extension Counter (To)");
+        if transfer."Unit (To)" <> '' then
+            Employee.Validate("Unit Code", transfer."Unit (To)");
     end;
 
     var

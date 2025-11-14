@@ -68,6 +68,16 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
                     if ServiceEvent <> ServiceEvent::"Internal Appointment" then
                         EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
+
+                    if EmployeeTransfer."Province Code (To)" <> '' then
+                        EmpServiceHis.Validate("Province Code (To)", EmployeeTransfer."Province Code (To)");
+                    if EmployeeTransfer."To Branch" <> '' then
+                        EmpServiceHis.Validate("Branch Code (To)", EmployeeTransfer."To Branch");
+                    if EmployeeTransfer."Department Code (To)" <> '' then
+                        EmpServiceHis.Validate("Department Code (To)", EmployeeTransfer."Department Code (To)");
+                    if EmployeeTransfer."Unit (To)" <> '' then
+                        EmpServiceHis.Validate("Unit Code (To)", EmployeeTransfer."Unit (To)");
+
                     EmpServiceHis.Insert(true);
                 end;
         end;

@@ -224,4 +224,47 @@ codeunit 50020 "Attachment Mgt."
                     ERROR('Approval status must be Open.')
         end;
     end;
+
+    procedure ImportAttachment(RecRef: RecordRef; EmpActType: Enum "Employee Activity Type")
+    var
+        Extension: Text;
+        FileMgt: Codeunit "File Management";
+        InStreamPic: InStream;
+        FromFileName: Text;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+        FieldNo: Integer;
+        FieldName: Text;
+        EmployeeActivityJournal: Record "Employee Activity Journal";
+    begin
+        case RecRef.Number of
+            Database::"Employee Activity Journal":
+                begin
+                    RecRef.GetTable(EmployeeActivityJournal);
+                    FieldNo := EmployeeActivityJournal.FieldNo("Attachment");
+                    FieldName := EmployeeActivityJournal.FieldCaption("Attachment");
+                end;
+
+        end;
+
+
+        // if Rec.Attachment.HasValue() then
+        //     if not Confirm('There is an existing attachment. Do you wish to proceed') then
+        //         exit;
+        // if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
+        //     // check file size 
+        //     if Rec."Change in Emp Type" = Rec."Change in Emp Type"::Qualification then
+        //         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Employee Document Type"::Education))
+        //     else
+        //         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
+
+        //     // Check File Extension
+        //     Extension := FileMgt.GetExtension(FromFileName);
+        //     if Extension = '' then
+        //         Error('Invalid file. Please upload jpg, png or pdf files.');
+        //     AttachmentMgt.checkAttachmentExtensionImage(Extension);
+        //     Clear(Rec.Attachment);
+        //     Rec.Attachment.ImportStream(InStreamPic, FromFileName);
+        //     Rec.Modify(true);
+        // end;
+    end;
 }

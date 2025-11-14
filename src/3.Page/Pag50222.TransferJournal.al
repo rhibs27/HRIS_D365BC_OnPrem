@@ -116,6 +116,18 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                     Editable = IsOpen;
                 }
+                field("Attachment File Name"; Rec."Attachment File Name")
+                {
+                    ToolTip = 'Specifies the value of the Attachment File Name field.', Comment = '%';
+                    trigger OnAssistEdit()
+                    begin
+
+                    end;
+                }
+                field(Attachment; Rec.Attachment)
+                {
+                    ToolTip = 'Specifies the value of the Attachment field.', Comment = '%';
+                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
