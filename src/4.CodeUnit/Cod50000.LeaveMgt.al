@@ -56,7 +56,7 @@ codeunit 50000 "Leave Mgt."
                     Difference := 1
                 else
                     Difference := 0.5;
-            IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled1, CalculatedDays);
+            IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, LeaveType, EmpCode, IsHandled1, CalculatedDays);
             if IsHandled1 then
                 exit(CalculatedDays);
             OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
@@ -860,37 +860,41 @@ codeunit 50000 "Leave Mgt."
         TempCancelDocument: Record "Cancel Document" temporary;
         Approval: record "Approval HRMS";
         HRSetup: Record "Human Resources Setup";
+        Ishandel: Boolean;
     begin
         HRSetup.Get();
-        if leave.Cancelled then
-            Error('Leave request no. %1 is already cancelled.', Leave."No.");
-        if Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
-            Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
-        Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
-        Leave.TestField("Cancelled Document No.", '');
-        // Clear Approval line
-        Approval.Reset();
-        Approval.SetRange("Document No.", '');
-        Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
-        Approval.SetRange("Employee No", Leave."Employee No.");
-        Approval.DeleteAll();
-        TempCancelDocument.Init;
-        TempCancelDocument.Validate(Cancelled, true);
-        TempCancelDocument.Validate("Employee No.", Leave."Employee No.");
-        TempCancelDocument.Validate("Employee Name", Leave."Employee Name");
-        TempCancelDocument.Validate("Approval Status", TempCancelDocument."Approval Status"::Open);
-        TempCancelDocument.Validate(Type, Leave.Type);
-        TempCancelDocument.Validate("Leave Code", Leave."Leave Code");
-        TempCancelDocument.Validate("Leave Description", Leave."Leave Description");
-        TempCancelDocument.Validate("Leave Type", Leave."Leave Type");
-        TempCancelDocument.Validate("Requested Date", Today);
-        TempCancelDocument.Validate("Start Date", Leave."Start Date");
-        TempCancelDocument.Validate("End Date", Leave."End Date");
-        TempCancelDocument.Validate("No. of Days", Leave."No. of Days");
-        TempCancelDocument."Cancelled Document No." := Leave."No.";
-        TempCancelDocument."No." := '';
-        TempCancelDocument.Insert;
-        PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
+        OnBeforeCancelLeaveRequest(Leave, Ishandel);
+        if not Ishandel then begin
+            if leave.Cancelled then
+                Error('Leave request no. %1 is already cancelled.', Leave."No.");
+            if Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
+                Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
+            Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
+            Leave.TestField("Cancelled Document No.", '');
+            // Clear Approval line
+            Approval.Reset();
+            Approval.SetRange("Document No.", '');
+            Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
+            Approval.SetRange("Employee No", Leave."Employee No.");
+            Approval.DeleteAll();
+            TempCancelDocument.Init;
+            TempCancelDocument.Validate(Cancelled, true);
+            TempCancelDocument.Validate("Employee No.", Leave."Employee No.");
+            TempCancelDocument.Validate("Employee Name", Leave."Employee Name");
+            TempCancelDocument.Validate("Approval Status", TempCancelDocument."Approval Status"::Open);
+            TempCancelDocument.Validate(Type, Leave.Type);
+            TempCancelDocument.Validate("Leave Code", Leave."Leave Code");
+            TempCancelDocument.Validate("Leave Description", Leave."Leave Description");
+            TempCancelDocument.Validate("Leave Type", Leave."Leave Type");
+            TempCancelDocument.Validate("Requested Date", Today);
+            TempCancelDocument.Validate("Start Date", Leave."Start Date");
+            TempCancelDocument.Validate("End Date", Leave."End Date");
+            TempCancelDocument.Validate("No. of Days", Leave."No. of Days");
+            TempCancelDocument."Cancelled Document No." := Leave."No.";
+            TempCancelDocument."No." := '';
+            TempCancelDocument.Insert;
+            PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
+        end;
     end;
 
     procedure CheckLeaveCount(EmployeeNo: Code[20]) CountStartDate: Date
@@ -1770,7 +1774,7 @@ codeunit 50000 "Leave Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled1: Boolean; var CalculatedDays: Decimal)
+    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; LeaveType: Enum "Leave Type"; EmpCode: Code[20]; var IsHandled1: Boolean; var CalculatedDays: Decimal)
     begin
     end;
 
@@ -1805,4 +1809,9 @@ codeunit 50000 "Leave Mgt."
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveTypeSetup: Record "Leave Type Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeCancelLeaveRequest(leave: Record Leave; var IsHandled: Boolean)
+    begin
+    end;
 }
