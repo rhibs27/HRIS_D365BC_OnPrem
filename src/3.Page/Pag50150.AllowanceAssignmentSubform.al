@@ -13,7 +13,7 @@ page 50150 "Allowance Assignment Subform"
         {
             repeater(Group)
             {
-                // Editable = FormEditable;
+                Editable = FormEditable;
                 field("No."; Rec."No.")
                 {
                     Visible = false;

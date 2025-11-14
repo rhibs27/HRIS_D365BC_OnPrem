@@ -152,7 +152,7 @@ table 50093 "Allowance Assignment Line"
         field(17; "Approved Date"; Date) { }
         field(19; "Approval Status"; Enum "Approval Status")
         {
-            // Editable = false;
+            Editable = false;
         }
         field(20; "No. of Days"; Decimal)
         {
