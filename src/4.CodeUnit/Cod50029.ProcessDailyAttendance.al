@@ -23,6 +23,7 @@ codeunit 50029 "Process Daily Attendance"
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
         PGSetup: Record "Payroll General Setup";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure UpdateEmpAttendance()
     begin
@@ -235,6 +236,10 @@ codeunit 50029 "Process Daily Attendance"
                         begin
                             AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
                         end;
+                    EmpActLedgerEntry."Document Type"::"Allowance Assignment":
+                        begin
+                            AllowanceAssignmentWithoutClaim(AllowanceAssignmentLine."Employee Code", AllowanceAssignmentLine."From Date");
+                        end;
                     else begin
                         EmpAttendance."Source No." := '';
                         EmpAttendance."Employee Activity Found" := false;
@@ -384,5 +389,11 @@ codeunit 50029 "Process Daily Attendance"
     procedure GetSyncProcessBoolean(VarFromSyncProcess: Boolean)
     begin
         FromSyncProcess := VarFromSyncProcess;
+    end;
+
+
+    [IntegrationEvent(false, false)]
+    procedure AllowanceAssignmentWithoutClaim(Var EmployeeCode: Code[20]; var AttendanceDate: Date)
+    begin
     end;
 }
