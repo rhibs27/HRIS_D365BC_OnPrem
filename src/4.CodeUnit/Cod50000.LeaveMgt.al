@@ -770,6 +770,7 @@ codeunit 50000 "Leave Mgt."
         LeavePeriod: Record "Accounting Period";
         isHandled: Boolean;
     begin
+        OnBeforeLeaveApplyRequest(leave);
         CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
         CheckHalfLeave(Leave."Start Date", Leave."End Date", Leave."Leave Type", Leave."Leave Code");
         CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
@@ -1798,6 +1799,16 @@ codeunit 50000 "Leave Mgt."
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeCancelLeaveRequest(leave: Record Leave; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeLeaveApplyRequest(var Leave: Record Leave)
+    begin
+    end;
+
     var
         EngNep: Record "English-Nepali Date";
         LeaveError: Label 'You cannot apply leave in Present day %1.';
@@ -1810,8 +1821,5 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
 
-    [IntegrationEvent(false, false)]
-    procedure OnBeforeCancelLeaveRequest(leave: Record Leave; var IsHandled: Boolean)
-    begin
-    end;
+
 }
