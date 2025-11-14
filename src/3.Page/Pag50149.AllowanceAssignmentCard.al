@@ -64,7 +64,7 @@ page 50149 "Allowance Assignment Card"
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
-                    Enabled = false;
+                    // Enabled = false;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
@@ -91,7 +91,7 @@ page 50149 "Allowance Assignment Card"
                               Type = field(Type);
                 UpdatePropagation = Both;
                 ApplicationArea = All;
-                Editable = IsOpen;
+                // Editable = IsOpen;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
