@@ -121,11 +121,11 @@ report 50067 "Process Daily Attendance"
                     //     Caption = 'Sync Biometric Attendance Before Processing';
                     //     ApplicationArea = All;
                     // }
-                    // field(EmailIds; EmailIds)
-                    // {
-                    //     Caption = 'Email Id';
-                    //     ApplicationArea = All;
-                    // }
+                    field(EmailIds; EmailIds)
+                    {
+                        Caption = 'Email Id';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }

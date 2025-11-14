@@ -85,15 +85,10 @@ page 50033 "Payroll Attributes Usage"
                 ToolTip = 'Executes the Import Attributes action.';
                 trigger OnAction()
                 var
-                    EmpVar: Record Employee;
-                    FilterPage: FilterPageBuilder;
-                    Ptxt: Label 'Select Employee';
-                    EmpCode: Code[20];
-                    PayrollEngine: Codeunit "Payroll Engine";
                     ImportPayrollAttrReport: Report "Import Payroll Attributes";
                 begin
                     Clear(ImportPayrollAttrReport);
-                    ImportPayrollAttrReport.SetEmployeeNo(Rec."Employee Code");
+                    ImportPayrollAttrReport.SetEmployeeNo(Rec.GetFilter("Employee Code"));
                     ImportPayrollAttrReport.Run();
                 end;
             }

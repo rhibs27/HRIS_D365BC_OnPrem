@@ -151,6 +151,19 @@ page 50227 "Leave Journal"
                         EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
+            action("Import From Excel")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = ImportExcel;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
+                        exit;
+                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Leave Request");
+                end;
+            }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -195,4 +208,5 @@ page 50227 "Leave Journal"
         LeaveMgt: Codeunit "Leave Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
+        ExcelImportMgt: Codeunit "Excel Import";
 }

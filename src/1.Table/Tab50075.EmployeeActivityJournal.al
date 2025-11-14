@@ -80,12 +80,7 @@ table 50075 "Employee Activity Journal"
                             EmployeeActMgt.CheckAttendanceMissedInJournal("Employee No.", "Start Date");
                         end;
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -111,12 +106,7 @@ table 50075 "Employee Activity Journal"
                     if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
                         Error('Leave code and leave type cannot be blank')
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
                 if "End Date" <> 0D then begin
                     if "Employee Act Type" = "Employee Act Type"::"Leave Request" then
                         Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
@@ -148,12 +138,7 @@ table 50075 "Employee Activity Journal"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Requested Date"));
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -262,18 +247,18 @@ table 50075 "Employee Activity Journal"
             begin
                 if "Leave Code" <> xRec."Leave Code" then begin
                     Clear("For Death Of");
-                    if LeaveTypeVar.Get("Leave Code") then begin
-                        Validate("Leave Description", LeaveTypeVar.Description);
-                        Validate("Pay Type", LeaveTypeVar."Pay Type");
-                        Clear("Start Date");
-                        Clear("End Date");
-                        Clear("No. of Days");
-                    end else begin
-                        Clear("Leave Description");
-                        Clear("Pay Type");
-                    end;
+                    Clear("Start Date");
+                    Clear("End Date");
+                    Clear("No. of Days");
                     Clear("Compensatory Date");
                     Clear("Child's Gender");
+                end;
+                if LeaveTypeVar.Get("Leave Code") then begin
+                    Validate("Leave Description", LeaveTypeVar.Description);
+                    Validate("Pay Type", LeaveTypeVar."Pay Type");
+                end else begin
+                    Clear("Leave Description");
+                    Clear("Pay Type");
                 end;
             end;
         }
@@ -404,16 +389,6 @@ table 50075 "Employee Activity Journal"
                     ValidateDeputationOnTo
             end;
         }
-        // field(54; "Province Code (To)"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
-        //     trigger OnValidate()
-        //     begin
-        //         if "Deputation On (To)" = "Deputation On (To)"::Province then
-        //             ValidateDeputationOnTo
-        //     end;
-        // }
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
@@ -602,22 +577,6 @@ table 50075 "Employee Activity Journal"
                     Validate("Province Code (To)", OrganizationStructureLine.Code);
             end;
         }
-        // field(78; "To Branch"; Code[20])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
-        //     trigger OnValidate()
-        //     var
-        //         OrganizationStructureLine: Record "Organization Structure Line";
-        //     begin
-        //         ValidateDeputationOnTo;
-        //         OrganizationStructureLine.Reset();
-        //         OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
-        //         OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
-        //         if OrganizationStructureLine.FindFirst() then
-        //             Validate("Province Code (To)", OrganizationStructureLine.Code);
-        //     end;
-        // }
         field(79; "Deputation On Code"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -717,7 +676,7 @@ table 50075 "Employee Activity Journal"
         if "Requester Employee" = '' then
             if not HrMgt.IsSaaS() then
                 "Requester Employee" := HrMgt.GetEmployeeNo();
-        "Requested Date" := Today;
+        Validate("Requested Date", Today);
     end;
 
     trigger OnDelete()
@@ -778,7 +737,7 @@ table 50075 "Employee Activity Journal"
             ApprovalHRMS.SetRange("Document No.", '');
             ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
             ApprovalHRMS.DeleteAll();
-            if not HrMgt.IsSaaS() then
+            if HrMgt.IsSaaS() then
                 ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
             else
                 ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");

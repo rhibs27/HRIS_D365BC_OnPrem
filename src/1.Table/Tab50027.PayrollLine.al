@@ -2124,6 +2124,7 @@ table 50027 "Payroll Line"
         PostedPayHeader: Record "Posted Payroll Header";
         TotalDaysInMonth: Decimal;
         TotalAmount: Decimal;
+        IsHandled: Boolean;
     begin
         if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
             TotalDaysInMonth := PGSetup."Total Days" / 12
@@ -2135,6 +2136,9 @@ table 50027 "Payroll Line"
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                 //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
+                    OnBeforeCalculateTotalAmount("Total Days", "LWP Days", TotalAmount, IsHandled);
+                    if IsHandled then
+                        exit(TotalAmount);
                     TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * ("LWP Days" + "Late Days")) / TotalDaysInMonth);
                     if TotalAmount > 0 then
                         exit(TotalAmount)
@@ -3016,11 +3020,16 @@ table 50027 "Payroll Line"
         OneDayAmount: Decimal;
         AmountAsOfDate: Decimal;
         BackDatedAmount: Decimal;
+        PayCyclePeriod: Record "Pay Cycle Period";
     begin
         PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         if PayrollAttrUsageHistory.FindFirst() then begin
+            PayCyclePeriod.Reset();
+            PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Effective Date");
+            if PayCyclePeriod.FindFirst() then
+                exit(PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount");
             AsOfDay := PayrollHeader."From Date" - PayrollAttrUsageHistory."Effective Date";
             OneDayAmount := (PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") / FindTotalDays();
             BackDatedAmount := OneDayAmount * AsOfDay;
@@ -3073,5 +3082,11 @@ table 50027 "Payroll Line"
     local procedure OnBeforeExitOfBaseAmountForCIT(EmployeeCode: Code[20]; var BaseAmount: Decimal)
     begin
         //Additional Allowance amount if needed to be included
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateTotalAmount(TotalDays: Decimal; LwpDays: Decimal; var Amount: Decimal; var IsHandled: Boolean)
+    begin
+        //If Additional calculation for amount
     end;
 }
