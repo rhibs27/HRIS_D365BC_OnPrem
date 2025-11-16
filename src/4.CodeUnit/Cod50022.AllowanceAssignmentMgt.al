@@ -70,49 +70,53 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceLine: Record "Allowance Assignment Line";
         ApprovalLine: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
+        IsHandled: Boolean;
     begin
-        EmpAllowance.Get(EntryNo);
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", EntryNo);
-        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
-        if AllowanceLine.Findset() then
-            repeat
-                if Approved then begin
-                    AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
-                    AllowanceLine.Validate("Approved Date", Today);
-                    AllowanceLine.Modify();
-                    HrMgt.CreateEmpActLedger(AllowanceLine."Emp Act Type", EmpAllowance."No.", AllowanceLine."Employee Code", AllowanceLine."From Date", False, 1);
-                    if AllowanceLine."Emp Act Type" = AllowanceLine."Emp Act Type"::"Allowance Assignment Claim" then
-                        UpdateClaimInAllowanceRequest(AllowanceLine);
-                end;
-            until AllowanceLine.Next() = 0;
-        if Approved and (EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment Claim") then begin
+        AllowanceAssignmentApprovalReject(Approved, EntryNo, IsHandled);
+        If not IsHandled then begin
+            EmpAllowance.Get(EntryNo);
             AllowanceLine.Reset;
             AllowanceLine.SetRange("No.", EntryNo);
-            AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Approved);
-            AllowanceLine.SetRange("Emp Act Type", AllowanceLine."Emp Act Type"::"Allowance Assignment Claim");
-            if AllowanceLine.FindSet() then
+            AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
+            if AllowanceLine.Findset() then
                 repeat
-                    if AllowanceLine."From Date" <= Today then
-                        AttendanceMgt.DailyAttendanceUpdate(AllowanceLine."From Date", AllowanceLine."From Date", AllowanceLine."Employee Code");
-                until AllowanceLine.next = 0;
-        end;
-        if not Approved then begin
-            if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment" then begin
-                AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::open);
-                ApprovalLine.Reset();
-                ApprovalLine.SetRange("Document No.", EntryNo);
-                ApprovalLine.DeleteAll(true);
-                ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type", EmpAllowance."Approval Status");
-            end else if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment Claim" then begin
-                AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
-            end
-            else if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Request Allowance" then begin
+                    if Approved then begin
+                        AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
+                        AllowanceLine.Validate("Approved Date", Today);
+                        AllowanceLine.Modify();
+                        HrMgt.CreateEmpActLedger(AllowanceLine."Emp Act Type", EmpAllowance."No.", AllowanceLine."Employee Code", AllowanceLine."From Date", False, 1);
+                        if AllowanceLine."Emp Act Type" = AllowanceLine."Emp Act Type"::"Allowance Assignment Claim" then
+                            UpdateClaimInAllowanceRequest(AllowanceLine);
+                    end;
+                until AllowanceLine.Next() = 0;
+            if Approved and (EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment Claim") then begin
                 AllowanceLine.Reset;
                 AllowanceLine.SetRange("No.", EntryNo);
-                AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
-                if AllowanceLine.Findset() then
+                AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Approved);
+                AllowanceLine.SetRange("Emp Act Type", AllowanceLine."Emp Act Type"::"Allowance Assignment Claim");
+                if AllowanceLine.FindSet() then
+                    repeat
+                        if AllowanceLine."From Date" <= Today then
+                            AttendanceMgt.DailyAttendanceUpdate(AllowanceLine."From Date", AllowanceLine."From Date", AllowanceLine."Employee Code");
+                    until AllowanceLine.next = 0;
+            end;
+            if not Approved then begin
+                if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment" then begin
+                    AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::open);
+                    ApprovalLine.Reset();
+                    ApprovalLine.SetRange("Document No.", EntryNo);
+                    ApprovalLine.DeleteAll(true);
+                    ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type", EmpAllowance."Approval Status");
+                end else if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment Claim" then begin
                     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
+                end
+                else if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Request Allowance" then begin
+                    AllowanceLine.Reset;
+                    AllowanceLine.SetRange("No.", EntryNo);
+                    AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
+                    if AllowanceLine.Findset() then
+                        AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
+                end;
             end;
         end;
     end;
@@ -280,6 +284,8 @@ codeunit 50022 "Allowance Assignment Mgt"
                 exit(PGSetup."Holiday All. Amt (Regular)");
             PGSetup."Friday Counter":
                 exit(PGSetup."Festival Counter(Regular)");
+            PGSetup."Dashain Allowance":
+                exit(PGSetup."Dashain Allowance Amount");
             else
                 exit(0);
         end;
@@ -309,6 +315,8 @@ codeunit 50022 "Allowance Assignment Mgt"
                 EmployeeAttendanceActivity."Teller Allowance Days" := 1;
             PGSetup."ATM Custodian":
                 EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
+            PGSetup."Dashain Allowance":
+                EmployeeAttendanceActivity."Dashain Allowance Days" := 1;
         end;
     end;
 
@@ -323,7 +331,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         Clear(NoOfDays);
         if Employee.Get(EmpNo) then;
         NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
-        EngNep.Reset;
         case AllowanceType of
             PGSetup."Evening Counter":
                 begin
@@ -404,6 +411,10 @@ codeunit 50022 "Allowance Assignment Mgt"
                     SalaryLevel.Get(Employee."Salary Level");
                     exit(SalaryLevel."Friday Allowance");
                 end;
+            PGSetup."Dashain Allowance":
+                begin
+                    exit(PGSetup."Dashain Allowance Amount");
+                end;
         end;
     end;
 
@@ -442,7 +453,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         for FromDate := FromDate to ToDate do begin
             AllowanceAssignLine.Init();
             AllowanceAssignLine.Validate("No.", DocumentNo);
-            AllowanceAssignLine.Validate("Emp Act Type", AllowanceAssignLine."Emp Act Type"::"Allowance Assignment");
+            AllowanceAssignLine.Validate("Emp Act Type", AllowanceAssignHeader."Activity Type");
             AllowanceAssignLine.Validate(Code, AllowanceAssignHeader.Code);
             AllowanceAssignLine.Validate(Name, AllowanceAssignHeader.Name);
             AllowanceAssignLine.Validate(Type, AllowanceAssignHeader.Type);
@@ -624,4 +635,10 @@ codeunit 50022 "Allowance Assignment Mgt"
         HrMgt: Codeunit "HR Mgt.";
         PayCyclePeriod: Record "Pay Cycle Period";
         AttendanceMgt: Codeunit "Attendance Mgt";
+
+
+    [IntegrationEvent(false, false)]
+    procedure AllowanceAssignmentApprovalReject(Var Approved: Boolean; var EntryNo: Code[20]; var IsHandeled: Boolean)
+    begin
+    end;
 }

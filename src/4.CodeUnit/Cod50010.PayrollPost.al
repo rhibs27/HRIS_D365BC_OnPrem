@@ -152,12 +152,9 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeader.Irregular := PayrollHeader.Irregular;
         PostedPayrollHeader."Posted Date" := CurrentDateTime;
         PostedPayrollHeader.Insert;
-        // if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
-        //     if PayrollHeader."Encashment Code" <> '' then
-        //         PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader, PostedPayrollHeader."No.");
-        //     if PayrollHeader."Encashment Period" <> PayrollHeader."Encashment Period"::" " then
-        //         PayrollEngine.UpdateOTDisbursedEncashPeriod(PayrollHeader, PostedPayrollHeader."No.");
-        // end;
+        if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
+            PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader."No.", PostedPayrollHeader."No.");
+        end;
         // if PayrollHeader.Type = PayrollHeader.Type::Payroll then
         //     PayrollEngine.UpdateOTDisbursedAllowances(PayrollHeader, PostedPayrollHeader."No.");
     end;
@@ -479,7 +476,7 @@ codeunit 50010 "Payroll-Post"
     var
         LeaveEarn: Record "Leave Earn";
         AllowanceAssignLine: Record "Allowance Assignment Line";
-
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
             LeaveType.Reset;
@@ -513,6 +510,16 @@ codeunit 50010 "Payroll-Post"
         AllowanceAssignLine.SetRange("Payroll Doc No.", PayrollHeader."No.");
         if AllowanceAssignLine.FindSet() then
             AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
+
+        //check and update Assignment memo lines if any
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PayrollHeader."No.");
+        if AssignmentMemoLedgerEntry.FindSet() then
+            repeat
+                AssignmentMemoLedgerEntry."Payroll Document No." := PostedPayrollHeader."No.";
+                AssignmentMemoLedgerEntry.Open := false;
+                AssignmentMemoLedgerEntry.Modify();
+            until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
 }

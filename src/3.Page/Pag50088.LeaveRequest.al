@@ -37,11 +37,8 @@ page 50088 "Leave Request"
                         LeaveType.Get(Rec."Leave Code");
                         IsCompensatory := LeaveType."Leave Category" = Leavetype."Leave Category"::Substitute;
                         IsBereavement := LeaveType."Leave Category" = LeaveType."Leave Category"::"Bereavement Leave";
-                        // if IsCompensatory then
-                        //     RemainingDays := 0;
-                        // if Rec."Leave Code" <> xRec."Leave Code" then
-                        //     GenerateAttachment;
                         IsPaternity := LeaveType."Leave Category" = leavetype."Leave Category"::"Paternity Leave";
+                        CurrPage.Update();
                     end;
                 }
                 field("Leave Description"; Rec."Leave Description")
@@ -146,7 +143,6 @@ page 50088 "Leave Request"
                     Editable = IsBereavement;
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
-                    Visible = IsBereavement;
                 }
                 field("Contact No."; Rec."Contact No.")
                 {

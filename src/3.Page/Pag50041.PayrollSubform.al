@@ -146,6 +146,11 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Night Shifts field.';
                     ApplicationArea = All;
                 }
+                field("Dashain Allowance Days"; Rec."Dashain Allowance Days")
+                {
+                    ToolTip = 'Specifies the value of the Dashain Allowance Days field.';
+                    ApplicationArea = All;
+                }
                 field("Variable Field 50501"; Rec."Variable Field 50501")
                 {
                     Visible = Field50501Visible;

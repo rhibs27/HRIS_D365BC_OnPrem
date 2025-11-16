@@ -346,6 +346,8 @@ table 50024 "Payroll General Setup"
         field(98; "Default Work Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
+            ObsoleteState = Removed;
+            ObsoleteReason = 'Removed for enhance';
         }
         field(99; "Relocation Allowance"; Code[20])
         {
@@ -451,6 +453,24 @@ table 50024 "Payroll General Setup"
         }
         field(140; "Allowance Claim Limit (days)"; Integer) { }
         field(141; "Night Shift Allowance"; Code[20]) { }
+
+        field(142; "Dashain Allowance"; Code[20])
+        {
+            TableRelation = "Payroll Attributes" where(Subtype = filter("Payroll SubType"::"Dashain Allowance"));
+        }
+        field(143; "Dashain Allowance Amount"; Decimal) { }
+        field(150; "Allowance Assignment Memo Nos"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(151; "Request Allowance Nos"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(152; "Shift Assignment Memo Nos"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
         field(500; "Use Allowance Configuration"; Boolean) { }
         field(501; "Payroll Archive Nos."; Code[20])
         {
@@ -458,8 +478,8 @@ table 50024 "Payroll General Setup"
         }
         field(502; "Backdated Payroll Reverse"; Boolean)
         {
-
         }
+
         field(503; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";

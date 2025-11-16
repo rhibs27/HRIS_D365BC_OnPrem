@@ -8,15 +8,12 @@ codeunit 50015 "OverTime Mgt"
         Overtime.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
         Overtime.SetRange("Start Date", AllowanceAssignmentLine."From Date");
         Overtime.SetRange("Approval Status", Overtime."Approval Status"::Approved);
-        // EmployeeActivity.SetFilter("Actual Hours", '<>%1', 0);
         if Overtime.FindFirst then
             Error('Approved Overtime exists. You cannot choose this employee.');
     end;
 
     procedure CheckOvertimeEligibility(var OverTime: Record OverTime; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
     var
-        // WorkShift: Record "Employee Work Shift";
-        // AttendanceLog: Record "Attendance Log";
         EmployeeAttendance: Record "Employee Attendance & Activity";
         MorningOTHrs: Decimal;
         EveningOTHrs: Decimal;
@@ -61,10 +58,6 @@ codeunit 50015 "OverTime Mgt"
                 OverTime."Morning OT Hours" := MorningOTHrs;
                 OverTime."Evening OT Hours" := EveningOTHrs;
                 TotalOTHrs := MorningOTHrs + EveningOTHrs;
-                // end else begin
-                //     RejectionRemarks := 'System rejected. Punch out does not exceed standard punch out time.';
-                //     exit(false);
-                // end;
             end else begin
                 TotalOTHrs := Round((EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") / 3600000, 0.01, '<');
                 // if TotalOTHrs < HRSetup."OT eligible hour" then
@@ -73,14 +66,12 @@ codeunit 50015 "OverTime Mgt"
             end;
         end else begin
             Error('Attendance Log not found.');
-            // exit(false);
         end;
         exit(true);
     end;
 
     procedure OpenOTForms(EmpCode: Code[20])
     var
-        //EmpAct: Record "Employee Activity" temporary;
         OverTime: Record OverTime temporary;
         SalaryLevel: Record "Salary Level";
         OTEligibleError: Label 'Employee %1 is not eligible for OT.';
@@ -154,8 +145,6 @@ codeunit 50015 "OverTime Mgt"
                         Error('Please enter reason for OT before submitting.');
                 end;
         end;
-        // if TempOvertime."No. of Days" <= 0 then
-        //     Error(ErrorNoOfDays); santosh commented for over time
         if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::Encashment then begin
             TempOvertime.TestField("OT Amount");
         end;
@@ -167,36 +156,8 @@ codeunit 50015 "OverTime Mgt"
         EmpOvertime.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending");
         EmpOvertime.Validate("User ID", UserId);
         EmpOvertime.Insert(true);
-        //OverTimeMgt.AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No."); no require attachment
-        Message('Document has been sent for apporval.');
-        // case EmpOvertime.Type of
-        //     EmpOvertime.Type::"Out of Office":
-        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-        //     EmpOvertime.Type::Overtime:
-        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-        //     EmpOvertime.Type::"Bulk Cash":
-        //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, EmpOvertime."Employee No.", EmpOvertime."No.");   //For email
-        // end;
+        Message('Document has been sent for approval.');
         exit(true);
-    end;
-
-
-    procedure OpenOutofOfficeForms(EmpCode: Code[20])
-    var
-        OverTime: Record OverTime temporary;
-    begin
-        Clear(Employee);
-        Employee.Get(EmpCode);
-        OverTime.Init;
-        OverTime.Validate("Employee No.", EmpCode);
-        OverTime.Validate("Functional Title", Employee."Functional Title");
-        OverTime.Validate(Type, OverTime.Type::"Out of Office");
-        OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
-        OverTime.Validate("Requested Date", Today);
-        OverTime.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        OverTime.Validate(Department, Employee."Department Code");
-        OverTime.Insert;
-        PAGE.Run(PAGE::"Overtime Card", OverTime);
     end;
 
     procedure CheckOvertime(var OverTime: Record OverTime)
@@ -294,7 +255,7 @@ codeunit 50015 "OverTime Mgt"
             EmployeeAttendanceActivity."OT Hrs" := overTime."Actual OT Hours";
             EmployeeAttendanceActivity.Modify(true);
         end;
-        EmployeeActMgt.UpdateOvertimeInEmployeeAct(OverTime);
+        UpdateOvertimeInOverTimeLedger(OverTime);
         if OverTime."Overtime Claim Type" = OverTime."Overtime Claim Type"::"Substitute Leave" then
             leaveEarnOverTime(overTimeNo);
     end;
@@ -464,8 +425,8 @@ codeunit 50015 "OverTime Mgt"
             Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
         else begin
             Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
-            Employee.SetRange("Deputation On code", OverTime."Deputation Code");
         end;
+        Employee.SetRange("Deputation On code", OverTime."Deputation Code");
         Employee.SetRange("Staff level", Employee."Staff level"::"Non Clerical Staff");
         if Employee.FindSet() then
             repeat
@@ -477,7 +438,6 @@ codeunit 50015 "OverTime Mgt"
                     OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
                     OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
                     OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
-                    // Only create overtime line if it doesn't exist for this specific date
                     if not OvertimeLineCheck.FindFirst() then begin
                         // Check if employee attendance exists for this date
                         EmployeeAttendance.Reset;
@@ -561,7 +521,7 @@ codeunit 50015 "OverTime Mgt"
             repeat
                 if Approved then begin
                     InsertOvertimeLineInAttendance(OvertimeLine);
-                    EmployeeActMgt.UpdateOvertimeLineInEmployeeAct(OvertimeLine);
+                    UpdateOvertimeLineInOvertimeLedger(OvertimeLine);
                     OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Approved);
                     OvertimeLine.Validate("Approved Date", Today);
                     OvertimeLine.Modify();
@@ -589,6 +549,65 @@ codeunit 50015 "OverTime Mgt"
             EmployeeAttendanceActivity."OT Hrs" := OvertimeLine."Actual OT Hours";
         end;
         EmployeeAttendanceActivity.Modify;
+    end;
+
+    procedure UpdateOvertimeLineInOvertimeLedger(OvertimeLine: Record "Overtime Line")
+    var
+        OverTimeLedgerEntry: Record "OverTime Ledger Entry";
+    begin
+        OverTimeLedgerEntry.Init();
+        OverTimeLedgerEntry.No := OvertimeLine."No.";
+        OverTimeLedgerEntry.Type := OvertimeLine.Type;
+        OverTimeLedgerEntry."Line No" := OvertimeLine."Line No.";
+        OverTimeLedgerEntry."Employee No." := OvertimeLine."Employee Code";
+        OverTimeLedgerEntry."Employee Name" := OvertimeLine."Employee Name";
+        OverTimeLedgerEntry."Start Date" := OvertimeLine."Overtime Date";
+        OverTimeLedgerEntry."End Date" := OvertimeLine."Overtime Date";
+        OverTimeLedgerEntry.Remarks := OvertimeLine.Remarks;
+        OverTimeLedgerEntry."Fiscal Year" := HrMgt.ReturnFiscalYear(OvertimeLine."Overtime Date");
+        OverTimeLedgerEntry."Approval Status" := OvertimeLine."Approval Status"::Approved;
+        OverTimeLedgerEntry."Approved Date" := OvertimeLine."Approved Date";
+        OverTimeLedgerEntry."Overtime Claim Type" := OvertimeLine."Overtime Claim Type";
+        OverTimeLedgerEntry."Employee Work Shift" := OvertimeLine."Employee Work Shift";
+        OverTimeLedgerEntry."CheckIn Time" := OvertimeLine."Check In Time";
+        OverTimeLedgerEntry."CheckOut Time" := OvertimeLine."Check Out Time";
+        OverTimeLedgerEntry."Actual OT Hours" := OvertimeLine."Actual OT Hours";
+        OverTimeLedgerEntry."OT Amount" := OvertimeLine."OT Amount";
+        OverTimeLedgerEntry."Morning OT Hours" := OvertimeLine."Morning OT Hours";
+        OverTimeLedgerEntry."Evening OT Hours" := OvertimeLine."Evening OT Hours";
+        OverTimeLedgerEntry."Total OT Hours" := OvertimeLine."Total OT Hours";
+        OverTimeLedgerEntry."Posting Date" := Today;
+        OverTimeLedgerEntry.Insert(true);
+    end;
+
+    procedure UpdateOvertimeInOverTimeLedger(Overtime: Record "Overtime")
+    var
+        OverTimeLedgerEntry: Record "OverTime Ledger Entry";
+    begin
+        OverTimeLedgerEntry.Init();
+        OverTimeLedgerEntry.No := Overtime."No.";
+        OverTimeLedgerEntry.Type := Overtime.Type;
+        OverTimeLedgerEntry."Employee No." := Overtime."Employee No.";
+        OverTimeLedgerEntry."Employee Name" := Overtime."Employee Name";
+        OverTimeLedgerEntry."Start Date" := Overtime."Start Date";
+        OverTimeLedgerEntry."End Date" := Overtime."End Date";
+        OverTimeLedgerEntry."Fiscal Year" := Overtime."Fiscal Year";
+        OverTimeLedgerEntry."Approval Status" := Overtime."Approval Status";
+        OverTimeLedgerEntry."Approved Date" := Overtime."Approved Date";
+        OverTimeLedgerEntry."Requested Date" := Overtime."Requested Date";
+        OverTimeLedgerEntry.Remarks := Overtime.Remarks;
+        OverTimeLedgerEntry."Overtime Claim Type" := Overtime."Overtime Claim Type";
+        OverTimeLedgerEntry."Employee Work Shift" := Overtime."Employee Work Shift";
+        OverTimeLedgerEntry."CheckIn Time" := Overtime."Check In Time";
+        OverTimeLedgerEntry."CheckOut Time" := Overtime."Check Out Time";
+        OverTimeLedgerEntry."Compensatory Days" := Overtime."Compensatory Days";
+        OverTimeLedgerEntry."Actual OT Hours" := Overtime."Actual OT Hours";
+        OverTimeLedgerEntry."OT Amount" := Overtime."OT Amount";
+        OverTimeLedgerEntry."Morning OT Hours" := Overtime."Morning OT Hours";
+        OverTimeLedgerEntry."Evening OT Hours" := Overtime."Evening OT Hours";
+        OverTimeLedgerEntry."Total OT Hours" := Overtime."Total OT Hours";
+        OverTimeLedgerEntry."Posting Date" := Today;
+        OverTimeLedgerEntry.Insert(true);
     end;
 
     [IntegrationEvent(false, false)]
