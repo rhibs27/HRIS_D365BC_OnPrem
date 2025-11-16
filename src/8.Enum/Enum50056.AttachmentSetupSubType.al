@@ -1,7 +1,7 @@
 enum 50056 "Attachment Setup SubType"
 {
     Extensible = true;
-    
+
     value(0; " ")
     {
         Caption = ' ';
@@ -14,4 +14,9 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Acknowledge';
     }
+    value(3; "Transfer Letter")
+    {
+        Caption = 'Transfer Letter';
+    }
+
 }

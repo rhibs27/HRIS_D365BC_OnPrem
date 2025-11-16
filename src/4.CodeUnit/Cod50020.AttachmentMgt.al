@@ -1,24 +1,9 @@
 codeunit 50020 "Attachment Mgt."
 {
     var
-        HRSetup: Record "Human Resources Setup";
-        HRMgt: Codeunit "HR Mgt.";
-        Employee: Record Employee;
         FileMgt: Codeunit "File Management";
 
     procedure UploadAttachment(IncomingDocument: Record "Incoming Document")
-    var
-        TempBlob: Codeunit "Temp Blob";
-        InStream: InStream;
-        Extension: Text;
-        DocFoundEmpActivity: Boolean;
-        DocFoundEmpLoan: Boolean;
-        AppraisalDocFound: Boolean;
-        EmployeeLoanAdvance: Record "Employee Loan/Advance";
-        AppraisalEmp: Record Appraisal;
-        EmployeeActivityFolder: Text;
-        CleanedFileName: text;
-        IncomingDocumentAttachment: Record "Incoming Document Attachment";
 
     begin
         // Validate Incoming Document
@@ -225,46 +210,46 @@ codeunit 50020 "Attachment Mgt."
         end;
     end;
 
-    procedure ImportAttachment(RecRef: RecordRef; EmpActType: Enum "Employee Activity Type")
+    procedure ImportAttachmentToEmpActJnl(EmpActJnl: Record "Employee Activity Journal")
     var
         Extension: Text;
         FileMgt: Codeunit "File Management";
         InStreamPic: InStream;
         FromFileName: Text;
         AttachmentMgt: Codeunit "Attachment Mgt.";
-        FieldNo: Integer;
-        FieldName: Text;
-        EmployeeActivityJournal: Record "Employee Activity Journal";
     begin
-        case RecRef.Number of
-            Database::"Employee Activity Journal":
-                begin
-                    RecRef.GetTable(EmployeeActivityJournal);
-                    FieldNo := EmployeeActivityJournal.FieldNo("Attachment");
-                    FieldName := EmployeeActivityJournal.FieldCaption("Attachment");
-                end;
+        if EmpActJnl.Attachment.HasValue() then
+            if not Confirm('There is an existing attachment. Do you wish to replace it?') then
+                exit;
+        if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
+            // check file size 
+            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(EmpActJnl."Employee Act Type"));
 
+            // Check File Extension
+            Extension := FileMgt.GetExtension(FromFileName);
+            if Extension = '' then
+                Error('Invalid file. Please upload jpg, png or pdf files.');
+
+            AttachmentMgt.checkAttachmentExtensionImage(Extension);
+            Clear(EmpActJnl.Attachment);
+            EmpActJnl.Attachment.ImportStream(InStreamPic, FromFileName);
+            EmpActJnl."Attachment File Name" := FromFileName;
+            EmpActJnl.Modify(true);
         end;
+    end;
 
-
-        // if Rec.Attachment.HasValue() then
-        //     if not Confirm('There is an existing attachment. Do you wish to proceed') then
-        //         exit;
-        // if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-        //     // check file size 
-        //     if Rec."Change in Emp Type" = Rec."Change in Emp Type"::Qualification then
-        //         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Employee Document Type"::Education))
-        //     else
-        //         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
-
-        //     // Check File Extension
-        //     Extension := FileMgt.GetExtension(FromFileName);
-        //     if Extension = '' then
-        //         Error('Invalid file. Please upload jpg, png or pdf files.');
-        //     AttachmentMgt.checkAttachmentExtensionImage(Extension);
-        //     Clear(Rec.Attachment);
-        //     Rec.Attachment.ImportStream(InStreamPic, FromFileName);
-        //     Rec.Modify(true);
-        // end;
+    procedure ExportAttachmentFromEmpActJnl(EmpActJnl: Record "Employee Activity Journal")
+    var
+        InStream: InStream;
+        FileManagement: Codeunit "File Management";
+        ToFile: Text;
+        ItemTenantMedia: Record "Tenant Media";
+    begin
+        if ItemTenantMedia.Get(EmpActJnl.Attachment.MediaId) then begin
+            ToFile := Format(EmpActJnl."Employee No.") + '_' + format(EmpActJnl."Document No") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
+            ItemTenantMedia.CalcFields(Content);
+            ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
+            DownloadFromStream(Instream, '', '', '', ToFile);
+        end;
     end;
 }

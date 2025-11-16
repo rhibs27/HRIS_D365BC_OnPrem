@@ -91,6 +91,7 @@ codeunit 50023 EmployeeActivityMgt
         PostedEmployeeTransfer: Record "Posted Employee Journal";
         TransferEmployeeJournal: Record "Employee Activity Journal";
         HrSetup: Record "Human Resources Setup";
+        AttachmentSetup: Record "Attachment Setup";
     begin
         HrSetup.Get();
         TransferEmployeeJournal.Reset();
@@ -99,7 +100,12 @@ codeunit 50023 EmployeeActivityMgt
             TransferEmployeeJournal.setrange("Approval Status", TransferEmployeeJournal."Approval Status"::Approved);
         if TransferEmployeeJournal.FindSet() then
             repeat
-                if HrSetup."Attach. Mand Transfer-Jnl-Post" then
+
+                //check for mandatory attachment
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+                AttachmentSetup.SetRange(Mandatory, true);
+                if AttachmentSetup.FindFirst() then
                     if not TransferEmployeeJournal.Attachment.HasValue then
                         Error('Please attach the mandatory document in Transfer Journal No %1 and line no %2 before posting', TransferEmployeeJournal."Emp Act. No", TransferEmployeeJournal."Line No");
 
@@ -118,7 +124,9 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Transfer Type", TransferEmployeeJournal."Transfer Type");
                 TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
                 TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
+                TransferRequest.Validate("Incoming Supervisior 2", TransferEmployeeJournal."Incoming Supervisor 2");
                 TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
+                TransferRequest.Validate("Outgoing Branch Rep. Person 2", TransferEmployeeJournal."Outgoing Branch Rep. Person 2");
                 TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
                 TransferRequest.Validate("Approver Role To", TransferEmployeeJournal."Approver Role (TO)");
                 TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
@@ -127,6 +135,11 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Approved Date", Today);
                 TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
                 TransferRequest.Insert(true);
+
+                //Handle the attachment transfer from Employee Activity Journal to Posted Employee Journal
+                if TransferEmployeeJournal.Attachment.HasValue then
+                    InsertTransferLetterAttachment(TransferEmployeeJournal, TransferRequest);
+
                 PostedEmployeeTransfer.Init();
                 PostedEmployeeTransfer.TransferFields(TransferEmployeeJournal);
                 TransferEmployeeJournal.Delete();
@@ -377,6 +390,80 @@ codeunit 50023 EmployeeActivityMgt
         if EmpActJournal.FindFirst then
             Error('Attendance Already Applied for date %1 of %2', AttendanceDate, EmpNo);
 
+    end;
+
+    procedure InsertTransferLetterAttachment(var EmployeeActivityJournal: Record "Employee Activity Journal"; var EmployeeTransfer: Record "Employee Transfer")
+    var
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+        AttachmentSetup.FindFirst();
+
+        InsertAttachment(EmployeeActivityJournal,
+                        EmployeeTransfer."No.",
+                        EmployeeTransfer."Employee No.",
+                        EmployeeTransfer.Type,
+                        AttachmentSetup."Attachment Code");
+    end;
+
+    procedure InsertAttachment(EmpActJnl: Record "Employee Activity Journal"; DocumentNo: Code[20]; EmpNo: Code[20]; EmpActType: Enum "Employee Activity Type"; AttachmentsetupCode: Code[20])
+    var
+
+        IncDocument, IncDocument2 : Record "Incoming Document";
+        IncomingDocAttachment: Record "Incoming Document Attachment";
+        TenantMedia: Record "Tenant Media";
+        InStream: InStream;
+        OutStream: OutStream;
+        FileManagement: Codeunit "File Management";
+        FileName: Text;
+        FileExtension: Text;
+    begin
+        if EmpActJnl.Attachment.HasValue then begin
+            IncDocument2.SetRange("No.", DocumentNo);
+            IncDocument2.SetRange("Employee Code", EmpNo);
+            IncDocument2.SetRange("Attachment Code", AttachmentsetupCode);
+            if IncDocument2.FindFirst() then
+                IncDocument := IncDocument2
+            else begin
+                IncDocument.Init();
+                IncDocument."No." := DocumentNo;
+                IncDocument."Document No." := DocumentNo;
+                IncDocument."Table ID" := Database::"Employee Activity Journal";
+                IncDocument."Employee Activity Type" := EmpActType;
+                IncDocument."Employee Code" := EmpNo;
+                IncDocument."Attachment Code" := AttachmentsetupCode;
+                IncDocument.Insert(true);
+            end;
+
+            if TenantMedia.Get(EmpActJnl.Attachment.MediaId) then begin
+                TenantMedia.CalcFields(Content);
+                TenantMedia.Content.CreateInStream(InStream);
+
+                // Get file name and extension
+                if EmpActJnl."Attachment File Name" <> '' then
+                    FileName := EmpActJnl."Attachment File Name"
+                else
+                    FileName := TenantMedia.Description;
+
+                FileExtension := FileManagement.GetExtension(FileName);
+
+                // Create incoming document attachment record
+                IncomingDocAttachment.Init();
+                IncomingDocAttachment."Incoming Document Entry No." := IncDocument."Entry No.";
+                IncomingDocAttachment."Line No." := 10000;
+                IncomingDocAttachment.Name := CopyStr(FileName, 1, MaxStrLen(IncomingDocAttachment.Name));
+                IncomingDocAttachment."File Extension" := CopyStr(FileExtension, 1, MaxStrLen(IncomingDocAttachment."File Extension"));
+                IncomingDocAttachment.Type := IncomingDocAttachment.Type::Image;
+                IncomingDocAttachment.Content.CreateOutStream(OutStream);
+                CopyStream(OutStream, InStream);
+                IncomingDocAttachment.Insert(true);
+
+                // Update Incoming Document with file name
+                IncDocument."File Name" := CopyStr(FileName, 1, MaxStrLen(IncDocument."File Name"));
+                IncDocument.Modify();
+            end;
+        end;
     end;
 
     [IntegrationEvent(false, false)]

@@ -77,6 +77,8 @@ codeunit 50024 "Service History Mgt"
                         EmpServiceHis.Validate("Department Code (To)", EmployeeTransfer."Department Code (To)");
                     if EmployeeTransfer."Unit (To)" <> '' then
                         EmpServiceHis.Validate("Unit Code (To)", EmployeeTransfer."Unit (To)");
+                    if EmployeeTransfer."Approver Role To" <> '' then
+                        EmpServiceHis.Validate("Approver Role (To)", EmployeeTransfer."Approver Role To");
 
                     EmpServiceHis.Insert(true);
                 end;

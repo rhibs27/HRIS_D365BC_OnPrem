@@ -377,7 +377,8 @@ codeunit 50005 "Transfer Mgt."
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
         if not HrMgt.IsSaaS() then
-            if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
+            if (EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo) and
+               (EmpHrTransfer."Incoming Supervisior 2" <> HRMgt.GetEmployeeNo) then
                 Error('You are not Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
@@ -393,7 +394,7 @@ codeunit 50005 "Transfer Mgt."
             Error('You Cannot Acknowledge Before Date of Joining');
         AttachmentSetup.Reset;
         AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
-        AttachmentSetup.SetFilter(Subtype, '%1|%2', AttachmentSetup.Subtype::Acknowledge, AttachmentSetup.Subtype::" ");
+        AttachmentSetup.SetFilter("Sub Type", '%1|%2', AttachmentSetup."Sub Type"::Acknowledge, AttachmentSetup."Sub Type"::" ");
         AttachmentSetup.SetRange("Transfer Category", EmpHrTransfer."Transfer Category");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.Find('-') then
@@ -436,6 +437,7 @@ codeunit 50005 "Transfer Mgt."
             end;
             EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
+            EmployeeRec.Validate("Last Placement Date", EmpHrTransfer."Date of Joining Of Transfer"); // this should be update based on transfer type
         end;
         OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
         EmployeeRec.Modify;
@@ -487,7 +489,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
 
         AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
-        AttachmentSetup.setfilter(Subtype, '%1|%2', AttachmentSetup.Subtype::Handover, AttachmentSetup.Subtype::" ");
+        AttachmentSetup.setfilter("Sub Type", '%1|%2', AttachmentSetup."Sub Type"::Handover, AttachmentSetup."Sub Type"::" ");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.FindFirst() then begin
             IncomingDocument.Reset;
@@ -516,7 +518,8 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField(Handover, true);
         if not HrMgt.IsSaaS() then
-            if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
+            if (EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
+             (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo) then
                 Error('You are not Eligible')
             else begin
                 EmpHrTransfer.Validate(Takeover, true);

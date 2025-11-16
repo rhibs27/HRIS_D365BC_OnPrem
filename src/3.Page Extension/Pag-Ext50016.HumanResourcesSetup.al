@@ -472,13 +472,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Skip Approval On HR Transfer field.', Comment = '%';
                 }
-                field("Attach. Mand Transfer-Jnl-Post"; Rec."Attach. Mand Transfer-Jnl-Post")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Attachment Mandatory for Transfer Journal Posting';
-                    ToolTip = 'Specifies the value of the Attach. Mand Transfer-Jnl-Post field.', Comment = '%';
-                }
-
             }
             group("Allowance Assignment")
             {

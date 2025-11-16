@@ -27,6 +27,11 @@ page 50163 "Attachment Setup"
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
                 }
+                field(Subtype; Rec."Sub Type")
+                {
+                    ToolTip = 'Specifies the value of the Subtype field.', Comment = '%';
+                }
+
                 field("Leave Type Code"; Rec."Leave Type Code")
                 {
                     ToolTip = 'Specifies the value of the Leave Type Code field.';

@@ -119,15 +119,22 @@ page 50222 "Transfer Journal"
                 field("Attachment File Name"; Rec."Attachment File Name")
                 {
                     ToolTip = 'Specifies the value of the Attachment File Name field.', Comment = '%';
-                    trigger OnAssistEdit()
+                    Editable = false;
+                    trigger OnDrillDown()
                     begin
-
+                        if Rec.Attachment.HasValue() then
+                            //export the attachment
+                            AttachmentMgt.ExportAttachmentFromEmpActJnl(Rec)
+                        else
+                            //import the attachment
+                            begin
+                            Rec.TestField("Approval Status", Rec."Approval Status"::Open);
+                            AttachmentMgt.ImportAttachmentToEmpActJnl(Rec);
+                        end;
+                        CurrPage.Update();
                     end;
                 }
-                field(Attachment; Rec.Attachment)
-                {
-                    ToolTip = 'Specifies the value of the Attachment field.', Comment = '%';
-                }
+
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -195,6 +202,19 @@ page 50222 "Transfer Journal"
                         EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
+            action("Import Attachment")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Import;
+                Visible = IsOpen;
+                trigger OnAction()
+                begin
+                    AttachmentMgt.ImportAttachmentToEmpActJnl(Rec);
+                    CurrPage.Update();
+                end;
+            }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -203,6 +223,7 @@ page 50222 "Transfer Journal"
         Rec."Employee Act Type" := Rec."Employee Act Type"::"HR Transfer";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
+        Rec."Attachment File Name" := SelectFileTxt;
         CurrPage.Update(false);
     end;
 
@@ -234,6 +255,8 @@ page 50222 "Transfer Journal"
         ApproverMgt: Codeunit "Approver Mgt";
         HrSetup: Record "Human Resources Setup";
         SkipApproval: Boolean;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+        SelectFileTxt: Label 'Attach File(s)...';
 
     local procedure SetFieldEnable();
     begin

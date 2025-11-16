@@ -38,6 +38,7 @@ table 50096 "Employee Service History"
                         Validate("Branch Code (From)", Employee."Branch Code");
                         Validate("Department Code (From)", Employee."Department Code");
                         Validate("Unit Code (From)", Employee."Union Code");
+                        Validate("Approver Role (From)", Employee."Approver Role");
 
                         Validate("Deputation On (To)", Employee."Deputation on");
                         Validate("Deputation Code (To)", Employee."Deputation On Code");
@@ -50,6 +51,7 @@ table 50096 "Employee Service History"
                         Validate("Branch Code (To)", Employee."Branch Code");
                         Validate("Department Code (To)", Employee."Department Code");
                         Validate("Unit Code (To)", Employee."Unit Code");
+                        Validate("Approver Role (To)", Employee."Approver Role");
                     end;
                 end
                 else
@@ -259,6 +261,14 @@ table 50096 "Employee Service History"
         field(70; "Employee Attendance ID"; Text[20])
         {
             DataClassification = ToBeClassified;
+        }
+        field(71; "Approver Role (From)"; Code[20])
+        {
+            TableRelation = "Approval Role";
+        }
+        field(72; "Approver Role (To)"; Code[20])
+        {
+            TableRelation = "Approval Role";
         }
     }
 
