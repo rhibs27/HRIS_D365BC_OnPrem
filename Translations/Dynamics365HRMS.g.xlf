@@ -1883,11 +1883,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1462507268 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Amount</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Amount - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1462507268 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1917,6 +1912,16 @@
           <source>Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 3021883852 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>New Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field New Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 4071086205 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Old Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Old Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1462507268 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reversed</source>
@@ -23348,11 +23353,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 568297125 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the amount.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Amount - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 568297125 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the payroll attribute code.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23382,6 +23382,16 @@
           <source>Specifies the entry number.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 3021883852 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the amount.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control New Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 4071086205 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the amount.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Old Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 568297125 - Control 3744289816 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies whether the entry is reversed.</source>
@@ -48187,6 +48197,26 @@
           <source>Specifies the value of the EmployeeFilter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Emp Loan Outstanding Update - Control Employee No. Filter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1217676068 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Annual Payroll Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1217676068 - Control 845401037 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Control EndDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1217676068 - Control 3534140189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Control PayCycleTermCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1217676068 - Control 3605153064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Control StartDate - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2687215901 - Control 96532759 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the UpdateEmployee field.</source>
