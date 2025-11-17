@@ -346,8 +346,6 @@ table 50140 "Employee Transfer"
                     "Deputation On (To)" := "Deputation On";
                     GetTransferName;
                 end;
-                if "Transfer Type" = "Transfer Type"::"Cross Transfer" then
-                    "Deputation On (To)" := "Deputation On (To)"::" ";
             end;
         }
         field(53; "Shortcut Dimension 1 Code (To)"; Code[20])

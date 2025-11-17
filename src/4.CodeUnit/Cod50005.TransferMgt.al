@@ -5,6 +5,9 @@ codeunit 50005 "Transfer Mgt."
         EmpTransfer: Record "Employee Transfer" temporary;
         RequestError: Label 'You are not eligible to request for a transfer.';
         ApprovalEntry: Record "Approval HRMS";
+        AttachmentSetup: Record "Attachment Setup";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+        Incdocument, Incdocument2 : Record "Incoming Document";
     begin
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Employee Transfer");
@@ -16,6 +19,24 @@ codeunit 50005 "Transfer Mgt."
         EmpTransfer.Validate("Employee No.", EmpCode);
         EmpTransfer.Validate("Approval Status", EmpTransfer."Approval Status"::Open);
         EmpTransfer.Insert;
+
+        //if attachment is mandatory then insert the attachment lines
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.FindFirst() then begin
+            Incdocument2.SetRange("Employee Code", EmpCode);
+            Incdocument2.SetRange("Employee Activity Type", Incdocument2."Employee Activity Type"::"Employee Transfer");
+            Incdocument2.SetRange("No.", EmpTransfer."No.");
+            if not Incdocument2.FindFirst() then begin
+                Incdocument.Init();
+                Incdocument."Employee Code" := EmpCode;
+                Incdocument."Employee Activity Type" := Incdocument."Employee Activity Type"::"Employee Transfer";
+                Incdocument."Attachment Code" := AttachmentSetup."Attachment Code";
+                Incdocument."No." := EmpTransfer."No.";
+                Incdocument.Insert(true);
+            end;
+        end;
         PAGE.Run(PAGE::"Transfer Request Card", EmpTransfer);
     end;
 
@@ -53,6 +74,19 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending");
         EmphrTransfer.Validate("User ID", UserId);
         EmphrTransfer.Insert(true);
+
+        // transfer the attachment lines
+        IncomingDoc.Reset;
+        IncomingDoc.SetRange("Employee Code", TempEmphrtransfer."Employee No.");
+        IncomingDoc.SetRange("No.", TempEmphrtransfer."No.");
+        IncomingDoc.SetRange("Employee Activity Type", IncomingDoc."Employee Activity Type"::"Employee Transfer");
+        if IncomingDoc.FindSet() then
+            repeat
+                IncomingDoc."No." := EmphrTransfer."No.";
+                IncomingDoc."Document No." := EmphrTransfer."No.";
+                IncomingDoc.Modify();
+            until IncomingDoc.Next() = 0;
+
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, EmphrTransfer."Employee No.", EmphrTransfer."No.", false);   //For email
         Message(TransferSent);
         exit(true);

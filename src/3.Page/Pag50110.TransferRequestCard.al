@@ -151,6 +151,14 @@ page 50110 "Transfer Request Card"
                     ToolTip = 'Specifies the value of the Requested Branch Name 3 field.', Comment = '%';
                 }
             }
+            part(Attachment; "Attachment Subform")
+            {
+                Editable = false;
+                SubPageLink = "No." = field("No."),
+                                "Employee Code" = field("Employee No."),
+                                "Employee Activity Type" = field(Type);
+                ApplicationArea = All;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;

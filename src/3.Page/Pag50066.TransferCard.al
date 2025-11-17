@@ -492,7 +492,7 @@ page 50066 "Transfer Card"
             {
                 Editable = not IsACK;
                 SubPageLink = "No." = field("No.");
-                Visible = IsApproved and rec."Is Transfer Details Added" or IsACK or IsHold;
+                // Visible = IsApproved and rec."Is Transfer Details Added" or IsACK or IsHold;
                 ApplicationArea = All;
             }
             group(Remarks)
