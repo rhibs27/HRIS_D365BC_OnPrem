@@ -693,6 +693,9 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             TableRelation = "No. Series";
         }
-
+        field(50151; "Skip Approval On HR Transfer"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
     }
 }

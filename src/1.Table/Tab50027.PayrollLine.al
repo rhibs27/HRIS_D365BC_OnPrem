@@ -2895,20 +2895,17 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", '%1|%2', '', PayrollDocNo);
+        AssignmentMemoLedgerEntry.SetRange("Blocked for Payroll", false);
         AssignmentMemoLedgerEntry.SetRange("Open", true);
-        // if LeaveCode <> '' then
-        //     AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
         if getLastAmount then begin
-            // AssignmentMemoLedgerEntry.SetRange("Valid From Date", FromDate, ToDate);  //to be checked
-            // AssignmentMemoLedgerEntry.SetRange("Valid To Date", FromDate, ToDate);
             AssignmentMemoLedgerEntry.CalcSums(Amount);
-            exit(AssignmentMemoLedgerEntry."Amount");
+            exit(round(AssignmentMemoLedgerEntry."Amount", 0.01, '='));
         end else begin
             AssignmentMemoLedgerEntry.CalcSums(Amount);
             Amt := AssignmentMemoLedgerEntry."Amount";
             if AssignmentMemoLedgerEntry.FindSet() then
                 AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", PayrollDocNo);
-            exit(Amt);
+            exit(round(Amt, 0.01, '='));
         end;
 
     end;
@@ -2923,7 +2920,7 @@ table 50027 "Payroll Line"
                                             AllowanceConfiguration."Leave Code",
                                             0D,
                                             PayrollHeader."To Date",
-                                            false));
+                                            true));
 
             AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,

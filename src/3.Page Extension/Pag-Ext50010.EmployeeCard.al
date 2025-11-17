@@ -771,12 +771,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Last Placement Date field.';
 
                 }
-                // field("Approver Code"; Rec."Approver Code")
-                // {
-                //     Visible = false;
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Approver Code field.';
-                // }
                 field("Approver Role"; Rec."Approver Role")
                 {
                     ApplicationArea = All;

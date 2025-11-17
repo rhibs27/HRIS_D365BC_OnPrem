@@ -82,6 +82,14 @@ table 50162 "Assignment Memo Line"
                         if AssignmentMemoHdr."Payroll Attribute Code" <> '' then
                             if AssignmentMemoHdr."Payroll Attribute Code" <> "Payroll Attribute Code" then
                                 Error('Payroll Attribute Code does not match with the header.');
+
+                    if Employee.Get("Employee No.") then begin
+                        SalaryLevel.Get(Employee."Salary Level");
+                        if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                            "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
+                            "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                        end;
+                    end;
                 end;
             end;
         }
@@ -109,7 +117,6 @@ table 50162 "Assignment Memo Line"
         }
         field(24; "Allowance Amount"; Decimal)
         {
-            Editable = false;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
 
@@ -133,10 +140,26 @@ table 50162 "Assignment Memo Line"
             FieldClass = FlowFilter;
         }
 
+        field(39; "Fuel Limit (ltr)"; Decimal) { }
+
+        field(40; "Fuel Limit (amt)"; Decimal) { }
+        field(41; "Fuel Claimed (ltr)"; Decimal)
+        {
+        }
+        field(42; "Specific Payroll Attribute"; Enum "Specific Payroll Attributes")
+        {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Allowance Configuration"."Specific Payroll Attribute" where("Payroll Attribute" = field("Payroll Attribute Code")));
+
+        }
         field(54; "Assign Memo Ledger Entry No."; Integer)
         {
             Editable = false;
             //will updated when requested against unclaimed ledger entry
+        }
+        field(55; "Attendance Checked"; Boolean)
+        {
+            Caption = 'Attendance Checked';
         }
 
         //If there is education allowance then these fields will be used.
@@ -207,10 +230,6 @@ table 50162 "Assignment Memo Line"
 
         if "Line No." = 0 then
             GetLineNo();
-
-        // if ("Emp Act Type" = "Emp Act Type"::"Request Allowance") and AssignmentMemoHdr.Get("Document No.") then
-        //     if AssignmentMemoHdr."Requester Employee No." <> '' then
-        //         Validate("Employee Code", AssignmentMemoHdr."Requester Employee No.");
     end;
 
     var
@@ -269,7 +288,7 @@ table 50162 "Assignment Memo Line"
             else
                 MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No.");
 
-            exit(Round(MonthlyAmt / NoofDaysInMonth, 0.01, '='));
+            exit(Round(MonthlyAmt / NoofDaysInMonth, 0.0001, '='));
         end;
     end;
 
@@ -299,20 +318,32 @@ table 50162 "Assignment Memo Line"
 
     //calculate allowance amount for the line before send for approval
     procedure CalculateAmountForLine()
+    var
+        IsHandled: Boolean;
     begin
         if "Payroll Attribute Code" <> '' then begin
+            OnBeforeCalculateAmountForLine(Rec, IsHandled);
+
+            if IsHandled then
+                exit;
+
             AllowanceConfiguration.Reset();
             AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
             AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
             if AllowanceConfiguration.FindSet() then begin
                 repeat
-                    if GetAllowanceConfigAmount(AllowanceConfiguration) <> 0 then begin
-                        "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration);
+                    "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration);
+                    if "Allowance Amount" <> 0 then
                         break;
-                    end;
+
                 until AllowanceConfiguration.Next() = 0;
-            end
+            end;
         end;
     end;
 
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
+    begin
+    end;
 }

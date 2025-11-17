@@ -100,6 +100,19 @@ table 50161 "Assignment Memo Header"
         field(15; "Payroll Attribute Code"; Code[20])
         {
             TableRelation = "Allowance Configuration"."Payroll Attribute";
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+                SalaryLevel: Record "Salary Level";
+            begin
+                if Employee.Get("Employee No.") then begin
+                    SalaryLevel.Get(Employee."Salary Level");
+                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                        "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
+                        "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                    end;
+                end;
+            end;
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
@@ -174,6 +187,9 @@ table 50161 "Assignment Memo Header"
         {
 
         }
+        field(39; "Fuel Limit (ltr)"; Decimal) { }
+
+        field(40; "Fuel Limit (amt)"; Decimal) { }
         field(100; "Status"; Text[20])
         {
         }
@@ -265,11 +281,7 @@ table 50161 "Assignment Memo Header"
                     end;
             end;
 
-        AutoInsertDatesForrequestAllowance();
-        // if GuiAllowed then
-        //     AllowanceAssignmentMgt.GenerateIncDocuments("Activity Type", "No.", "Requester Employee No.", '');
-        if "No." <> '' then
-            InsertDocumentAttachment("Activity Type", "No.", "Employee No.");
+        AutoInsertDatesForRequestAllowance();
     end;
 
     var
@@ -282,7 +294,7 @@ table 50161 "Assignment Memo Header"
         PGSetup: Record "Payroll General Setup";
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
 
-    procedure AutoInsertDatesForrequestAllowance()
+    procedure AutoInsertDatesForRequestAllowance()
     begin
         if "Activity Type" = "Activity Type"::"Request Allowance" then begin
             PGSetup.Get();

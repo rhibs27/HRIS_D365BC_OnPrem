@@ -63,6 +63,9 @@ table 50111 "Attachment Setup"
         {
             TableRelation = "Payroll Attributes".Code where("Activity Type" = filter("Employee Activity Type"::"Transfer Claim"));
         }
+        field(14; "Sub Type"; Enum "Attachment Setup Subtype")
+        {
+        }
 
     }
 

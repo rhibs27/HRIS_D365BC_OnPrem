@@ -31,6 +31,7 @@ table 50075 "Employee Activity Journal"
                 if EmpVar.Get("Employee No.") then begin
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
+                    Validate("From Branch", EmpVar."Branch Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate(Department, EmpVar."Department Code");
                     Validate("Province Code", EmpVar."Province Code");
@@ -360,6 +361,7 @@ table 50075 "Employee Activity Journal"
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
                     "To Branch" := "Shortcut Dimension 1 Code";
+                    "To Branch" := "From Branch";
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
@@ -626,6 +628,39 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(81; "Incoming Supervisor 2"; Code[20])
+        {
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            Description = 'Transfer';
+            trigger OnValidate()
+            begin
+                if EmpVar.Get("Incoming Supervisor 2") then
+                    Validate("Incoming Supervisor Name 2", EmpVar."Full Name")
+                else
+                    Clear("Incoming Supervisor Name 2");
+            end;
+        }
+        field(82; "Incoming Supervisor Name 2"; Text[50])
+        {
+
+        }
+        field(83; "Outgoing Branch Rep. Person 2"; Code[20])
+        {
+            Description = 'Transfer';
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            trigger OnValidate()
+            begin
+                if "Outgoing Branch Rep. Person 2" <> '' then begin
+                    EmployeeRec.Get("Outgoing Branch Rep. Person 2");
+                    "Outgoing Rep. Person Name 2" := EmployeeRec."Full Name";
+                end;
+                if "Outgoing Branch Rep. Person 2" = "Employee No." then
+                    Error('Cannot Select Yourself as Outgoing Reporting person');
+            end;
+        }
+        field(84; "Outgoing Rep. Person Name 2"; Text[50])
+        {
+        }
         // OverTime
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
@@ -703,6 +738,14 @@ table 50075 "Employee Activity Journal"
                         Error('%1 do not have Overnight Shift on %2', "Employee Name", "Start Date")
             end;
         }
+        field(111; Attachment; Media)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(112; "Attachment File Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
@@ -733,6 +776,7 @@ table 50075 "Employee Activity Journal"
         EngNep: Record "English-Nepali Date";
         CurrDocumentNo: Boolean;
     begin
+        HRSetup.Get();
         ActivityJournal.Reset();
         ActivityJournal.SetRange("Emp Act. No", LastActJnlLine."Emp Act. No");
         ActivityJournal.SetRange("Employee Act Type", LastActJnlLine."Employee Act Type");
@@ -760,10 +804,12 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.SetRange("Document No.", '');
                 ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
                 ApprovalHRMS.DeleteAll();
-                if HrMgt.IsSaaS() then
-                    ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
-                else
-                    ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+
+                if not (HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer")) then
+                    if HrMgt.IsSaaS() then
+                        ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
+                    else
+                        ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
     end;
 
