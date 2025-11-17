@@ -13,7 +13,7 @@ report 50034 "Loan Deed Vehicle Loan"
         {
             DataItemTableView = where("Loan Type" = filter("Vehicle Loan"));
             column(RequestedLoanDate; "Offer Letter Date(Nepali)") { }
-            column(EmployeeCode; "Employee Code") { }
+            column(EmployeeCode; "Employee No.") { }
             column(AppliedLoanAdvance; "Applied Loan/Advance") { }
             column(Age; EmpVar.Age) { }
             column(CurrentYear; CurrentYear) { }
@@ -35,7 +35,7 @@ report 50034 "Loan Deed Vehicle Loan"
 
             trigger OnAfterGetRecord()
             begin
-                if EmpVar.Get("Employee Code") then;
+                if EmpVar.Get("Employee No.") then;
                 Clear(EngNepaliDate);
                 EngNepaliDate.Reset;
                 EngNepaliDate.SetRange("English Date", Today);

@@ -5938,10 +5938,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Area of Plot - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 2117271168 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch</source>
+        <trans-unit id="Table 3188117941 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Branch - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Branch Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
@@ -5952,6 +5952,11 @@
           <source>Citizenship Issue Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Citizenship Issue Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 2931230269 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Citizenship No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Citizenship No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2255723595 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Commercial Value of Property</source>
@@ -5978,25 +5983,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Date of Birth - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 3569352441 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Date of Joining</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Date of Joining - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2354549727 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>DBR Ratio</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field DBR Ratio - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 1651921640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Department</source>
+        <trans-unit id="Table 3188117941 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Department - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Department Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3334877077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Department Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Deputation On - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 163506987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Deputation On Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
@@ -6028,16 +6038,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field EMI - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 1163389707 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Citizenship No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Employee Citizenship No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 387747209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Employee Code - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6047,6 +6047,21 @@
           <source>Employee Name in Nepali</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Employee Name in Nepali - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 545490910 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Employee Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 1722922112 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employment Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Employment Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3692447332 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Equity Financing Declaration</source>
@@ -6058,20 +6073,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Estimated Cost of Construction - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 2826435036 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Extension Counter Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 1055780678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Extension Counter Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3004222473 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Father's Name In Nepali</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Father's Name In Nepali - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Fiscal Year - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3964856256 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Frequency</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Frequency - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 3935197361 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>FY</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field FY - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2303302321 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Gender</source>
@@ -6108,10 +6133,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Job Title - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 3594614433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Job Type</source>
+        <trans-unit id="Table 3188117941 - Field 2693197405 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Acc. Open Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Job Type - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Loan Acc. Open Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 1744124526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Account Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Loan Account Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3672140454 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Account No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Loan Account No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2890994464 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Loan Enhancement</source>
@@ -6202,6 +6237,16 @@
           <source>Proposed Owner (Nepali)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Proposed Owner (Nepali) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Province Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 237720087 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Province Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3411289587 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Purpose of Advance Salary</source>
@@ -6327,6 +6372,11 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Unit Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 655095483 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Unit Name</source>
@@ -21443,11 +21493,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - NamedType Colon</note>
         </trans-unit>
-        <trans-unit id="Codeunit 852765344 - NamedType 1842838417" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Only %1 can approve this document.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - NamedType ERROR BM</note>
-        </trans-unit>
         <trans-unit id="Codeunit 852765344 - NamedType 2314441303" size-unit="char" translate="yes" xml:space="preserve">
           <source>Duration from disbursement date of previos loan is not greater than 5 years.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21487,16 +21532,6 @@
           <source>Approval status must be open.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method SendApprovaLoan - NamedType APPROVALERROR</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 852765344 - Method 3410379453 - NamedType 269919882" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Document verified.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method VerifyLoan - NamedType Verified</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 852765344 - Method 3410379453 - NamedType 1589241084" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Document already verfied.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method VerifyLoan - NamedType AlreadyVerified</note>
         </trans-unit>
         <trans-unit id="Codeunit 621810791 - Method 1432892794 - NamedType 3099596048" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send request ?</source>

@@ -12,7 +12,7 @@ report 50040 "Personal Loan Deed"
         {
             DataItemTableView = where("Loan Type" = const("Personal Loan"));
             RequestFilterFields = "No.";
-            column(EmployeeCode; "Employee Code") { }
+            column(EmployeeCode; "Employee No.") { }
             column(EmployeeName; EmpVar."Full Name (Nepali)") { }
             column(CitizenShipIssueDate; EmpVar."Citizenship Date (B.S.)") { }
             column(Age; EmpVar.Age) { }
@@ -37,7 +37,7 @@ report 50040 "Personal Loan Deed"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
                 Clear(EngNepaliDate);
                 Clear(District);
                 District.SetRange("District Name", EmpVar."Permanent District");

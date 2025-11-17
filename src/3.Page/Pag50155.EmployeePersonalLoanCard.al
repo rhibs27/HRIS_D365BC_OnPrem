@@ -10,7 +10,7 @@ page 50155 "Employee Personal Loan Card"
         {
             group("Employee Information")
             {
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Employee Code field.';
@@ -37,7 +37,7 @@ page 50155 "Employee Personal Loan Card"
                     ToolTip = 'Specifies the value of the Date of Birth field.';
                     ApplicationArea = All;
                 }
-                field("Job Type"; Rec."Job Type")
+                field("Job Type"; Rec."Employee Type")
                 {
                     ToolTip = 'Specifies the value of the Job Type field.';
                     ApplicationArea = All;
@@ -53,7 +53,7 @@ page 50155 "Employee Personal Loan Card"
                     ToolTip = 'Specifies the value of the Gender field.';
                     ApplicationArea = All;
                 }
-                field("Date of Joining"; Rec."Date of Joining")
+                field("Date of Joining"; Rec."Employment Date")
                 {
                     ToolTip = 'Specifies the value of the Date of Joining field.';
                     ApplicationArea = All;
@@ -173,7 +173,7 @@ page 50155 "Employee Personal Loan Card"
             group("Security Documentation")
             {
                 Visible = IsApproved;
-                field("Employee Citizenship No."; Rec."Employee Citizenship No.")
+                field("Employee Citizenship No."; Rec."Citizenship No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
                     ApplicationArea = All;
@@ -297,7 +297,7 @@ page 50155 "Employee Personal Loan Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee Code"),
+                                "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
@@ -641,7 +641,7 @@ page 50155 "Employee Personal Loan Card"
         CreateIncomingDocumentVisible := not OfficeMgt.IsOutlookMobileApp;
         SetLayout();
         if Rec."Approval Status" = Rec."Approval Status"::Open then begin
-            Rec.Validate("Employee Code");
+            Rec.Validate("Employee No.");
             Rec.Modify(true);
         end;
         RecRef.GetTable(Rec);

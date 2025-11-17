@@ -15,13 +15,13 @@ report 50035 "Naamsari Vehicle Loan"
             column(VehicleEngineNo; "Vehicle Engine No.") { }
             column(VehicleChasisNo; "Vehicle Chasis No.") { }
             column(VehicleRegistrationNo; "Vehicle Registration No.") { }
-            column(EmployeeCode; "Employee Code") { }
+            column(EmployeeCode; "Employee No.") { }
             column(EmpName; EmpVar."Full Name (Nepali)") { }
             column(VehicleTypeNepali; "Vehicle Type (Nepali)") { }
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
             end;
         }
     }

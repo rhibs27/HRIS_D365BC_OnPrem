@@ -3265,7 +3265,7 @@ codeunit 50001 "HR Mgt."
                         if EmpLoan.Get(DocumentNo) then begin
                             Employee.Reset;
                             if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::Rejected] then
-                                Employee.SetRange("No.", EmpLoan."Employee Code")
+                                Employee.SetRange("No.", EmpLoan."Employee No.")
                             else
                                 if Employee.FindFirst then
                                     repeat
@@ -4195,7 +4195,7 @@ codeunit 50001 "HR Mgt."
         EmployeeInsuranceInformation.SetRange("Linked Home Loan Account No.", EmployeeLoanAdvance."No.");
         if not EmployeeInsuranceInformation.FindFirst then begin
             EmployeeInsuranceInformation.Init;
-            EmployeeInsuranceInformation."Employee No." := EmployeeLoanAdvance."Employee Code";
+            EmployeeInsuranceInformation."Employee No." := EmployeeLoanAdvance."Employee No.";
             EmployeeInsuranceInformation."Employee Name" := EmployeeLoanAdvance."Employee Name";
             EmployeeInsuranceInformation."Linked Home Loan Account No." := EmployeeLoanAdvance."No.";
             EmployeeInsuranceInformation."Is Home Loan TieUp" := true;
