@@ -410,7 +410,7 @@ page 50158 "Employee Vehicle Loan Card"
                     LoanMgt: Codeunit "Loan Mgt.";
                 begin
                     if LoanMgt.ValidateDocument(Rec) then
-                        Message('Leave Document is validated');
+                        Message('Loan Document is validated');
                 end;
             }
             action("Send Approval Request")

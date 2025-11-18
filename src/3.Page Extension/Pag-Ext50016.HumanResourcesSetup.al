@@ -107,26 +107,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Resignation No. field.';
             }
-            field("Salary Advance No."; Rec."Salary Advance No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Salary Advance No. field.';
-            }
-            field("Personal Loan No."; Rec."Personal Loan No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Personal Loan No. field.';
-            }
-            field("Home Loan No."; Rec."Home Loan No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Home Loan No. field.';
-            }
-            field("Vehicle Loan No."; Rec."Vehicle Loan No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Vehicle Loan No. field.';
-            }
+
             field("OT eligible hour"; Rec."OT eligible hour")
             {
                 ApplicationArea = All;
@@ -148,11 +129,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Attendance Missed No. field.';
             }
-            field("Loan Disbursement Email"; Rec."Loan Disbursement Email")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Loan Disbursement Email field.';
-            }
+
             field("Cancel Document No. Series"; Rec."Cancel Document No. Series")
             {
                 ApplicationArea = All;
@@ -532,6 +509,29 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Reject Email Temp field.';
+                }
+            }
+            group("Loan & Advances")
+            {
+                field("Salary Advance No."; Rec."Salary Advance No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Salary Advance No. field.';
+                }
+                field("Personal Loan No."; Rec."Personal Loan No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Personal Loan No. field.';
+                }
+                field("Home Loan No."; Rec."Home Loan No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Home Loan No. field.';
+                }
+                field("Vehicle Loan No."; Rec."Vehicle Loan No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Vehicle Loan No. field.';
                 }
             }
             group(Grade)

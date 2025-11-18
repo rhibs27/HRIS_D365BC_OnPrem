@@ -29,14 +29,9 @@ codeunit 50002 "Loan Mgt."
         Colon: Label ' : ';
         PrevLoanAmt: Decimal;
         VehicleLoanReapplyErr: Label 'Duration from disbursement date of previos loan is not greater than 5 years.';
-        GLSetup: Record "General Ledger Setup";
-        // DepartVar: Record Department;
-        // EmpHierMaster: Record "Employee Hierarchy Master";
         HomeLoanReapplyErr: Label 'Duration from disbursement date of previos loan is not greater than 5 years.';
-        // SMTPSetup: Record "SMTP Mail Setup";
         CompanyInfo: Record "Company Information";
         LoanError: Label 'Your previous loan or salary advance %1 is still pending.Please wait until your previous salary advance or loan is approved.';
-        // JsonTextReader: DotNet JsonTextReader;
         AcctNo: Text;
         SchemeTypeText: Text;
         Balance: Decimal;
@@ -45,38 +40,58 @@ codeunit 50002 "Loan Mgt."
         EMIValue: Decimal;
         LineNo2: Integer;
         BelowSOAmt: Decimal;
+        CodeunitEmailMessage: Codeunit "Email Message";
+        Email: Codeunit Email;
 
     procedure CalculateFields(var EmpLoan: Record "Employee Loan/Advance")
     var
+        EmpSalaryAdv: Record "Employee Loan/Advance";
         AgeDays: Integer;
         IsBirthDay: Boolean;
         RemServicePeriodAsPerBankTenure: Decimal;
         RemAgePeriodAsPerBankTenure: Decimal;
+        IsHandledSalarycalc: Boolean;
     begin
+        //check mandatory setup fields
         HRSetup.Get;
         HRSetup.TestField("DBR Ratio");
         HRSetup.TestField("V.loan Repay. Limit above SO");
         HRSetup.TestField("Vehicle Loan Eligible Month");
         HRSetup.TestField("Home Loan Eligible Month");
+        HRSetup.TestField("Retirement Age");
+
+
+        //loan document fields update based on employee information
         EmpLoan."Eligible Loan/Advance" := 0;
         EmpLoan."Gross Salary" := 0;
+
         if not Employee.Get(EmpLoan."Employee No.") then
             exit;
         Employee.TestField("Birth Date");
-        GLSetup.Get;
         EmpLoan."Employee Name" := Employee."Full Name";
         EmpLoan."Job Title" := Employee."Salary Level";
         EmpLoan."Employee Type" := Employee."Employment Type";
         EmpLoan."Employment Date" := Employee."Employment Date";
         EmpLoan.Gender := Employee.Gender;
+        EmpLoan."Date of Birth" := Employee."Birth Date";
+
         if Employee."Confirmation Date" = 0D then
-            Error('Confirmation Date must have value in employee %1.', Employee.FullName);
+            Error('Confirmation Date must have value in employee %1.', Employee.FullName);  //this ensure only permanent employee eligible for loan/advance
+        EmpLoan.Validate("Province Code", Employee."Province Code");
+        EmpLoan.Validate("Branch Code", Employee."Branch Code");
+        EmpLoan.Validate("Department Code", Employee."Department Code");
+        EmpLoan.Validate("Extension Counter Code", Employee."Extension Counter Code");
+        EmpLoan.Validate("Unit Code", Employee."Unit Code");
+        EmpLoan."Citizenship No." := Employee."Citizen Number";
+        EmpLoan."Citizenship Issue Date" := Employee."Citizenship Issue Date";
+        EmpLoan."Employee Name in Nepali" := Employee."Full Name (Nepali)";
+        EmpLoan."Father's Name In Nepali" := Employee."Father's Name (Nepali)";
+        EmpLoan."Grandfather's Name In Nepali" := Employee."GrandFather's Name (Nepali)";
+
         Evaluate(EmpLoan."Confirmation Service Period", Format((Today - Employee."Confirmation Date") / 365));
         EmpLoan.Validate("Confirmation Service Period", Round(EmpLoan."Confirmation Service Period", 0.01, '='));
-        EmpLoan."Department Code" := Employee."Department Code";
-        EmpLoan."Date of Birth" := Employee."Birth Date";
-        HRMgt.CheckAgeAndBirthday(EmpLoan."Date of Birth", Today, EmpLoan.Age, AgeDays, IsBirthDay);
-        HRSetup.TestField("Retirement Age");
+        HRMgt.CheckAgeAndBirthday(EmpLoan."Date of Birth", Today, EmpLoan.Age, AgeDays, IsBirthDay);  //really needed?
+
         EmpLoan."Remaining Service Period" := HRSetup."Retirement Age" - EmpLoan.Age;
         Evaluate(RemServicePeriodAsPerBankTenure, Format(30 - (Today - Employee."Employment Date") / 365));
         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" then begin
@@ -93,42 +108,38 @@ codeunit 50002 "Loan Mgt."
             if EmpLoan."Remaining Service Period" > RemServicePeriodAsPerBankTenure then
                 EmpLoan."Remaining Service Period" := RemServicePeriodAsPerBankTenure;
         end;
-        EmpLoan."Branch Code" := Employee."Global Dimension 1 Code";//branch
-        EmpLoan."Branch Name" := Employee."Branch Name";
-        EmpLoan."Department Name" := Employee."Department Name";
-        EmpLoan."Unit Name" := Employee."Unit Name";
-        // if DimensionValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
-        //     EmpLoan."Branch Name" := DimensionValue.Name;
-        // if DepartVar.Get(Employee."Department Code") then
-        //     EmpLoan."Department Name" := DepartVar.Name;
-        // if EmpHierMaster.Get(Employee."Unit Code") then
-        //     EmpLoan."Unit Name" := EmpHierMaster.Description;
-        EmpLoan."Citizenship Issue Date" := Employee."Citizenship Issue Date";
-        EmpLoan."Citizenship No." := Employee."Citizen Number";
-        EmpLoan."Employee Name in Nepali" := Employee."Full Name (Nepali)";
-        EmpLoan."Father's Name In Nepali" := Employee."Father's Name (Nepali)";
-        EmpLoan."Grandfather's Name In Nepali" := Employee."GrandFather's Name (Nepali)";
-        //frequency
-        EmpSalaryAdv.Reset;
+
+        //Get the loan frequency
+        EmpSalaryAdv.SetLoadFields("No.", "Employee No.", "Approval Status", "Fiscal Year", "Loan Type");
         EmpSalaryAdv.SetRange("Employee No.", EmpLoan."Employee No.");
         EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetRange("Fiscal Year", EmpLoan."Fiscal Year");
         EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
         EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
         EmpLoan.Frequency := EmpSalaryAdv.Count;
-        SalaryLevel.Get(Employee."Salary Level");
-        SalaryGrade.Get(Employee."Salary Grade");
-        EmpLoan."Gross Salary" := SalaryLevel."Basic Salary" +
-                            SalaryLevel.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel."Basic Salary";
-        BelowSOAmt := GetLFAAndDashainAllowance(SalaryLevel, SalaryGrade);
+
+        //gross salary calculation. This can be company specific
+        OnCalculateFieldsOnBeforeCalculateGrossSalary(EmpLoan, IsHandledSalarycalc);
+        if not IsHandledSalarycalc then begin
+            SalaryLevel.Get(Employee."Salary Level");
+            SalaryGrade.Get(Employee."Salary Grade");
+            EmpLoan."Gross Salary" := SalaryLevel."Basic Salary" +
+                                SalaryLevel.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel."Basic Salary";
+        end;
+
+        //check eligible amount
         CalculateEligibleLoanAmount(EmpLoan);
         if EmpLoan."Applied Loan/Advance" <> 0 then
-            //IF "Total Loan Amount"> "Eligible Loan/Advance" THEN
-            if EmpLoan."Applied Loan/Advance" > EmpLoan."Eligible Loan/Advance" then //pram
+            if EmpLoan."Applied Loan/Advance" > EmpLoan."Eligible Loan/Advance" then
                 Error('Applied loan exceeded.');
+
+        //calculate EMI
         CalculateEMI(EmpLoan);
+
+        //calculate DBR
         CalculateDBR(EmpLoan, SalaryLevel);
-        //InsertApprover(EmpLoan);
+
+        //insert attachment lines
         InsertAttachmentLines(EmpLoan);
     end;
 
@@ -328,7 +339,7 @@ codeunit 50002 "Loan Mgt."
         PreviosuEMI := LoanOutstanding.EMI;
         LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
-        LoanOutstanding.SetRange("Scheme Type", 'ODA');
+        LoanOutstanding.SetRange("Scheme Type", 'ODA'); //need setup
         LoanOutstanding.CalcSums("Loan Limit");
         EmpLoanInterest.Reset;
         EmpLoanInterest.SetRange("Loan Type", EmpLoanInterest."Loan Type"::"Personal Loan");
@@ -372,9 +383,10 @@ codeunit 50002 "Loan Mgt."
         end else
             TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI; //+Homeloan.EMI;
         //all emi + advance / gross
-        CheckSalaryLevel.Reset();
-        CheckSalaryLevel.SetRange("Senior Officer Level", true);
-        CheckSalaryLevel.FindFirst;
+        // CheckSalaryLevel.Reset();
+        // CheckSalaryLevel.SetRange("Senior Officer Level", true);
+        // CheckSalaryLevel.FindFirst;  // aslo hard code
+
         if SalaryLevel.Rank > CheckSalaryLevel.Rank then begin
             EmpLoan."DBR Ratio" := TotalEMI / EmpLoan."Gross Salary" * 100;
             HRSetup.Get;
@@ -388,64 +400,35 @@ codeunit 50002 "Loan Mgt."
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
         end;
     end;
-    // local procedure InsertApprover(var EmpLoan: Record "Employee Loan/Advance")//santosh commented
-    // var
-    //     EmployeeRec: Record Employee;
-    // begin
-    //     if EmpLoan.Recommender = '' then begin
-    //         Employee.Get(EmpLoan."Employee Code");
-    //         EmpLoan.Validate(Recommender, Employee."Approver Code");
-    //     end;
-    //     if EmpLoan.Approver = '' then begin
-    //         HRSetup.Get;
-    //         HRSetup.TestField("HR Head Functional Title");
-    //         HRSetup.TestField("HR Department Code");
-    //         EmployeeRec.Reset;
-    //         EmployeeRec.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-    //         EmployeeRec.SetRange("Department Code", HRSetup."HR Department Code");
-    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
-    //         if EmployeeRec.FindFirst then
-    //             EmpLoan.Validate(Approver, EmployeeRec."No.");
-    //     end;
-    //     /*
-    //     UpdateApproval(Employee,
-    //                   EmpLoan.Recommender,
-    //                   EmpLoan.Approver,
-    //                   EmpLoan."Recommender Name",
-    //                   EmpLoan."Approver Name",
-    //                   FALSE
-    //                  );
-    //                  */
-    // end;
+
     local procedure InsertAttachmentLines(var EmpLoan: Record "Employee Loan/Advance")
     var
         IncomingDocument: Record "Incoming Document";
-        AttachmentMandatory: Record "Attachment Setup";
+        AttachmentSetup: Record "Attachment Setup";
     begin
-        AttachmentMandatory.Reset;
-        //AttachmentMandatory.SetRange("Table ID", DATABASE::"Employee Loan/Advance");
-        AttachmentMandatory.SetFilter(Type, Format(EmpLoan."Loan Type"));
-        AttachmentMandatory.SetRange("Purpose of Housing Loan", EmpLoan."Purpose of Housing Loan");
-        AttachmentMandatory.SetRange(Enhancement, EmpLoan."Loan Enhancement");
-        if AttachmentMandatory.FindFirst then
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetFilter(Type, Format(EmpLoan."Loan Type"));
+        AttachmentSetup.SetRange("Purpose of Housing Loan", EmpLoan."Purpose of Housing Loan");
+        AttachmentSetup.SetRange(Enhancement, EmpLoan."Loan Enhancement");
+        if AttachmentSetup.FindFirst then
             repeat
                 IncomingDocument.Reset;
                 IncomingDocument.SetRange("Table ID", DATABASE::"Employee Loan/Advance");
                 IncomingDocument.SetRange("No.", EmpLoan."No.");
-                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+                IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
                 if not IncomingDocument.FindFirst then begin
                     IncomingDocument.Reset;
                     IncomingDocument.Init;
                     IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
                     IncomingDocument.Description := EmpLoan.TableName;
-                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+                    IncomingDocument."Attachment Code" := AttachmentSetup."Attachment Code";
                     IncomingDocument."No." := EmpLoan."No.";
                     IncomingDocument."Employee Code" := EmpLoan."Employee No.";
                     IncomingDocument."Employee Activity Type" := EmpLoan.Type::Loan;
                     IncomingDocument."Table ID" := DATABASE::"Employee Loan/Advance";
                     IncomingDocument.Insert(true);
                 end;
-            until AttachmentMandatory.Next = 0;
+            until AttachmentSetup.Next = 0;
     end;
 
     procedure GetInterestRate(StartingDate: Date; LoanType: enum "Loan Type"): Decimal
@@ -1951,10 +1934,6 @@ codeunit 50002 "Loan Mgt."
         Clear(LoanLimit);
     end;
 
-    local procedure "----Loan----"()
-    begin
-    end;
-
     procedure DisbursementEmailToEmployee(EmpLoanAdvCode: Code[20])
     var
         EmpAdvLoan: Record "Employee Loan/Advance";
@@ -2062,7 +2041,9 @@ codeunit 50002 "Loan Mgt."
         end;
     end;
 
-    var
-        CodeunitEmailMessage: Codeunit "Email Message";
-        Email: Codeunit Email;
+    [IntegrationEvent(false, false)]
+    local procedure OnCalculateFieldsOnBeforeCalculateGrossSalary(var EmpLoan: Record "Employee Loan/Advance"; var IsHandled: Boolean)
+    begin
+    end;
+
 }

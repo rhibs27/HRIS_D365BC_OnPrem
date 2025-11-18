@@ -18,5 +18,8 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Transfer Letter';
     }
-
+    value(4; "Employee Transfer Request")
+    {
+        Caption = 'Employee Transfer Request';
+    }
 }

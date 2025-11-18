@@ -547,6 +547,10 @@ table 50106 "Employee Loan/Advance"
     keys
     {
         key(Key1; "No.") { }
+        key(Key2; "Employee No.", "Loan Type", Settled)
+        {
+            Clustered = true;
+        }
     }
 
     fieldgroups { }
@@ -664,7 +668,7 @@ table 50106 "Employee Loan/Advance"
     var
         EmpSalaryAdv: Record "Employee Loan/Advance";
     begin
-        EmpSalaryAdv.Reset;
+        EmpSalaryAdv.SetLoadFields("No.", "Loan Type", "Approval Status", "Employee No.", Settled);
         EmpSalaryAdv.SetRange("Employee No.", "Employee No.");
         EmpSalaryAdv.SetRange("Loan Type", "Loan Type");
         if "Loan Type" in ["Loan Type"::"Personal Loan"] then
@@ -692,7 +696,7 @@ table 50106 "Employee Loan/Advance"
         EmpSalaryAdv: Record "Employee Loan/Advance";
     begin
         HRSetup.Get;
-        EmpSalaryAdv.Reset;
+        EmpSalaryAdv.SetLoadFields("No.", "Loan Type", "Approval Status", "Employee No.", Settled);
         EmpSalaryAdv.SetRange("Employee No.", "Employee No.");
         EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
         EmpSalaryAdv.SetRange("Approval Status", EmpSalaryAdv."Approval Status"::Approved);
@@ -706,7 +710,7 @@ table 50106 "Employee Loan/Advance"
     var
         EmpSalaryAdvance: Record "Employee Loan/Advance";
     begin
-        EmpSalaryAdvance.Reset;
+        EmpSalaryAdvance.SetLoadFields("No.", "Loan Type", "Approval Status", "Employee No.", Settled, "Fiscal Year");
         EmpSalaryAdvance.SetRange("Employee No.", "Employee No.");
         EmpSalaryAdvance.SetRange("Loan Type", EmpSalaryAdvance."Loan Type"::"Salary Advance");
         EmpSalaryAdvance.SetRange("Approval Status", EmpSalaryAdvance."Approval Status"::Approved);

@@ -104,7 +104,7 @@ table 50135 "Encashment Request"
         if "Employee No." = '' then
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
-        Validate("Approval Status", "Approval Status"::Pending);
+        Validate("Approval Status", "Approval Status"::Open);
         TestField(Type);
         HRSetup.Get;
         if "No." = '' then begin
@@ -122,6 +122,11 @@ table 50135 "Encashment Request"
                     end;
             end;
         end;
+    end;
+
+    trigger OnDelete()
+    begin
+        Rec.TestField("Approval Status", "Approval Status"::Open);
     end;
 
     var
@@ -147,9 +152,12 @@ table 50135 "Encashment Request"
         if (NoOfDays <> 0) and (LeaveCode <> '') and (EmployeeNo <> '') then begin
             LeaveTypeSetup.SetRange(Code, LeaveCode);
             LeaveTypeSetup.SetFilter("Employee No. Filter", EmployeeNo);
-            LeaveTypeSetup.CalcFields("Remaining Days");
-            if NoOfDays > LeaveTypeSetup."Remaining Days" then
-                Error('No of days can not exceed the leave balance %1', LeaveTypeSetup."Remaining Days");
+            LeaveTypeSetup.SetFilter("Date Filter", '..%1', WorkDate);
+            if LeaveTypeSetup.FindFirst() then begin
+                LeaveTypeSetup.calcFields("Remaining Days");
+                if NoOfDays > LeaveTypeSetup."Remaining Days" then
+                    Error('No of days can not exceed the leave balance %1', LeaveTypeSetup."Remaining Days");
+            end;
         end;
     end;
 
