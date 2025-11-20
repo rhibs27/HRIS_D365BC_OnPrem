@@ -717,15 +717,8 @@ table 50075 "Employee Activity Journal"
     trigger OnInsert()
     begin
         "User ID" := UserId;
-<<<<<<< HEAD
-        if "Requester Employee" = '' then
-            if not HrMgt.IsSaaS() then
-                "Requester Employee" := HrMgt.GetEmployeeNo();
-        Validate("Requested Date", Today);
-=======
         "Requester Employee" := HrMgt.GetEmployeeNo();
-        "Requested Date" := Today;
->>>>>>> main
+        Validate("Requested Date", Today);
     end;
 
     trigger OnDelete()
@@ -770,10 +763,8 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.SetRange("Document No.", '');
                 ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
                 ApprovalHRMS.DeleteAll();
-
                 if HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer") then
                     SkipApproval := true;
-
                 if not SkipApproval then
                     ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
@@ -790,10 +781,7 @@ table 50075 "Employee Activity Journal"
             ApprovalHRMS.SetRange("Document No.", '');
             ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
             ApprovalHRMS.DeleteAll();
-            if HrMgt.IsSaaS() then
-                ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
-            else
-                ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+            ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             FirstLine := false;
             EmpActNo := "Emp Act. No";
         end;
