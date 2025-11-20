@@ -108,7 +108,6 @@ page 50089 "Leave Requests"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Open action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.FilterGroup(2);
@@ -166,6 +165,38 @@ page 50089 "Leave Requests"
                     Rec.FilterGroup(2);
                     ClearAll();
                     Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action(WithDrawn)
+            {
+                Image = Return;
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the withdrawn action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Withdrawn);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Category4;
+                Image = ClearFilter;
+                ToolTip = 'Executes the Clear filter action.';
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Approval Status");
                     Rec.FilterGroup(0);
                 end;
             }

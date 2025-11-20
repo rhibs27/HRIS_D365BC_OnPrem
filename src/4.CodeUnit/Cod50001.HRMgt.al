@@ -7,7 +7,6 @@ codeunit 50001 "HR Mgt."
     end;
 
     var
-        HrPermission: Record "Rolewise Job Description";
         Text001: Label 'The previous column set could not be found.';
         Text002: Label 'The period could not be found.';
         Text003: label 'There are no Calendar entries within the filter.';
@@ -18,6 +17,7 @@ codeunit 50001 "HR Mgt."
         Employee: Record Employee;
         EmailRecipients: Text;
         HRSetup: Record "Human Resources Setup";
+        EmployeeActivityJournal: Record "Employee Activity Journal";
         leave: Record Leave;
         TravelRequest: Record "Travel Request";
         AttendanceMissed: Record "Attendance Missed";
@@ -30,12 +30,6 @@ codeunit 50001 "HR Mgt."
         TrainHead: Record "Training Header";
         Candidate: Record Candidate;
         AllowanceHeader: Record "Allowance Assignment Header";
-        OutStr: OutStream;
-        InStr: InStream;
-        tmpBlob: Codeunit "Temp Blob";
-        recRef: RecordRef;
-        format: ReportFormat;
-        FunctionalTitle: Record "Functional Title";
         OrgStructureList: Record "Organization Structure List";
         CompanyInfo: Record "Company Information";
         EngNep: Record "English-Nepali Date";
@@ -3106,7 +3100,7 @@ codeunit 50001 "HR Mgt."
                                 EmailCCReceipent.Add(EmailReceipent."Email Recipients");
                         until EmailReceipent.Next = 0;
                 end;
-            DocumentType::"Leave Request", DocumentType::"Travel Request":
+            DocumentType::"Leave Request", DocumentType::"Travel Request", DocumentType::"Attendance Missed":
                 begin
                     case DocumentStatus of
                         DocumentStatus::Pending:
@@ -3146,24 +3140,25 @@ codeunit 50001 "HR Mgt."
     var
         EmailTemplate: Record "Email Template";
         Header, Footer, Body, Disclaimer : text;
-        Email: Codeunit Email;
-        CodeunitEmailMessage: Codeunit "Email Message";
+        // Email: Codeunit Email;
+        // CodeunitEmailMessage: Codeunit "Email Message";
+        JournalDocumentType: Label 'Document Type';
         EmailReceipientText: List of [Text];
         EmailCCReceipent: List of [Text];
         EmailBCCReceipent: List of [Text];
-        AddEmailReceipentFromTemplate: Boolean;
-        RegardsMessage: Label 'Thanks and Regards,<br>';
+        AddEmailReceipentFromTemplate, IsHandled : Boolean;
         AllowanceBodyText: Label '<br>The allowance assignment from %1 Branch/Extension Counter for the week %2 of month %3 has not been recorded till date.<br>Request you to assign it till EOD.<br>';
-        FileName: Text;
         CalcuationDate: Date;
         Week: Integer;
     begin
+        OnBeforeCreateEmailFromTemplate(TableNo, DocumentType, ApprovalStatus, EmployeeNo, DocumentNo, Cancelled, IsHandled);
+        if IsHandled then
+            exit;
         Clear(EmailReceipientText);
-        Clear(InStr);
+        Clear(CodeunitEmailMessage);
         HRSetup.Get;
         if ApprovalStatus = ApprovalStatus::Pending then
             Employee.Get(EmployeeNo);
-        Clear(CodeunitEmailMessage);
         EmailTemplate.Reset;
         EmailTemplate.SetRange("Document Type", DocumentType);
         EmailTemplate.SetRange("Approval Status", ApprovalStatus);
@@ -3188,7 +3183,7 @@ codeunit 50001 "HR Mgt."
                 DATABASE::Leave:
                     begin
                         if DocumentType = DocumentType::"Leave Request" then begin
-                            Leave.Get(DocumentNo);
+                            if Leave.Get(DocumentNo) then;
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Employee No.") + Colon + Format(Leave."Employee No.") + '<br>');
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Employee Name") + Colon + Format(Leave."Employee Name") + '<br>');
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Leave Type") + Colon + Format(Leave."Leave Description") + '<br>');
@@ -3203,10 +3198,15 @@ codeunit 50001 "HR Mgt."
                 Database::"Attendance Missed":
                     begin
                         if DocumentType = DocumentType::"Attendance Missed" then begin
-                            AttendanceMissed.Get(DocumentNo);
+                            if AttendanceMissed.Get(DocumentNo) then;
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Employee No.") + Colon + Format(AttendanceMissed."Employee No.") + '<br>');
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Employee Name") + Colon + Format(AttendanceMissed."Employee Name") + '<br>');
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Start Date") + Colon + Format(AttendanceMissed."Start Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Previous Check In Time") + Colon + Format(AttendanceMissed."Previous Check In Time") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Previous Check Out Time") + Colon + Format(AttendanceMissed."Previous Check Out Time") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Check In Time") + Colon + Format(AttendanceMissed."Check In Time") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Check Out Time") + Colon + Format(AttendanceMissed."Check Out Time") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Checkout OverNight") + Colon + Format(AttendanceMissed."Checkout OverNight") + '<br>');
                             CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption(Remarks) + Colon + Format(AttendanceMissed.Remarks) + '<br>');
                             if ApprovalStatus = ApprovalStatus::Rejected then
                                 CodeunitEmailMessage.AppendToBody(AttendanceMissed.FieldCaption("Rejection Remarks") + Colon + Format(AttendanceMissed."Rejection Remarks") + '<br>');
@@ -3333,6 +3333,22 @@ codeunit 50001 "HR Mgt."
                         end;
                         CodeunitEmailMessage.AppendToBody(StrSubstNo(AllowanceBodyText, Week, EngNep."English Month"));
                         CodeunitEmailMessage.AppendToBody('<br><br>');
+                    end;
+                DATABASE::"Employee Activity Journal":
+                    begin
+                        if EmployeeActivityJournal.Get(DocumentNo) then
+                            if EmployeeActivityJournal."Employee Act Type" = EmployeeActivityJournal."Employee Act Type"::"Leave Request" then begin
+                                CodeunitEmailMessage.AppendToBody(JournalDocumentType + Colon + Format(EmployeeActivityJournal."Employee Act Type") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption("Employee No.") + Colon + Format(EmployeeActivityJournal."Employee No.") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption("Employee Name") + Colon + Format(EmployeeActivityJournal."Employee Name") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption("Leave Type") + Colon + Format(EmployeeActivityJournal."Leave Description") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption("Start Date") + Colon + Format(EmployeeActivityJournal."Start Date") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption("End Date") + Colon + Format(EmployeeActivityJournal."End Date") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption("No. of Days") + Colon + Format(EmployeeActivityJournal."No. of Days") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption(Remarks) + Colon + Format(EmployeeActivityJournal.Remarks) + '<br>');
+                                if ApprovalStatus = ApprovalStatus::Rejected then
+                                    CodeunitEmailMessage.AppendToBody(EmployeeActivityJournal.FieldCaption("Rejection Remarks") + Colon + Format(EmployeeActivityJournal."Rejection Remarks") + '<br>');
+                            end;
                     end;
             end;
             CodeunitEmailMessage.AppendToBody('<br>');
@@ -5616,5 +5632,16 @@ codeunit 50001 "HR Mgt."
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
         //Can be Used to skp mail for paticular employee
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeCreateEmailFromTemplate(var TableNo: Integer; var DocumentType: enum "Employee Activity Type";
+                              var ApprovalStatus: Enum "approval status";
+                              var EmployeeNo: Text;
+                              var DocumentNo: Code[20];
+                              var Cancelled: Boolean;
+                              var IsHandled: Boolean);
+    begin
+        //Can be used to changes or modify any paramater before Create Email From Template
     end;
 }

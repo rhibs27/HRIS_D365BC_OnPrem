@@ -388,8 +388,8 @@ codeunit 50008 "Payroll Engine"
                         SocialSecurityTaxAmount := MonthlyTax
                     else begin
                         if PGSetup."Pro Rate Female Rebate" then begin
-                            if TaxSetupHeader."Special Tax Exempt %" <> 0 then
-                                SocialSecurityTaxAmount := SocialSecurityTaxAmount - SocialSecurityTaxAmount * TaxSetupHeader."Special Tax Exempt %" / 100;
+                            if TaxSetupHeader.Gender = TaxSetupHeader.Gender::Female then
+                                SocialSecurityTaxAmount := ((SocialSecurityTax - SocialSecurityTax * (TaxSetupHeader."Special Tax Exempt %" / 100)) - TotalSSTPaid) / (RemainingMonth + 1)
                         end;
                     end;
 

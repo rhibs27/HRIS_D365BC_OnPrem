@@ -325,27 +325,10 @@ page 50351 "Travel Claim"
                 ToolTip = 'Executes the Apply Travel Claim action.';
                 ApplicationArea = All;
                 Visible = IsOpen;
-
                 trigger OnAction()
                 begin
                     TravelMgt.ApplyForTravelClaim(Rec);
                     CurrPage.Close;
-                end;
-            }
-            action("Recommend Travel Request")
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Recommend Travel Request action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // if Confirm('Do you want to recommend the travel claim?', false) then
-                    //     TravelMgt.RecommendEmployeeTravel(Rec."No.");
                 end;
             }
             action("Approve Travel Request")
@@ -378,7 +361,6 @@ page 50351 "Travel Claim"
                 ToolTip = 'Executes the Reject Travel Request action.';
                 ApplicationArea = All;
                 Visible = IsPending;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel claim?', false) then begin
@@ -390,184 +372,6 @@ page 50351 "Travel Claim"
                         end;
                     end;
                 end;
-            }
-            action(Screen)
-            {
-                Image = "Action";
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // TravelMgt.ScreenResignationforTravel(Rec);
-                    // CurrPage.Close;
-                end;
-            }
-            action("Final Approve Request")
-            {
-                Caption = 'Final Approve';
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Final Approve action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // TravelMgt.FinalApproveForTravel(Rec);
-                    // CurrPage.Close;
-                end;
-            }
-        }
-        // area(Navigation)
-        // {
-        //     action(Open)
-        //     {
-        //         Promoted = true;
-        //         PromotedCategory = Category4;
-        //         PromotedIsBig = true;
-        //         ToolTip = 'Executes the Open action.';
-        //         ApplicationArea = All;
-
-        //         trigger OnAction()
-        //         begin
-        //             Rec.FilterGroup(2);
-        //             ClearAll();
-        //             Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
-        //             Rec.FilterGroup(0);
-        //         end;
-        //     }
-        //     action(Screened)
-        //     {
-        //         Promoted = true;
-        //         PromotedCategory = Category4;
-        //         PromotedIsBig = true;
-        //         ToolTip = 'Executes the Screened action.';
-        //         ApplicationArea = All;
-        //         Visible = false;
-
-        //         trigger OnAction()
-        //         begin
-        //             // Rec.FilterGroup(2);
-        //             // ClearAll();
-        //             // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-        //             // Rec.FilterGroup(0);
-        //         end;
-        //     }
-        //     action("Pending Approval")
-        //     {
-        //         Image = PendingApproval;
-        //         Promoted = true;
-        //         PromotedCategory = Category4;
-        //         PromotedIsBig = true;
-        //         ToolTip = 'Executes the Pending Approval action.';
-        //         ApplicationArea = All;
-
-        //         trigger OnAction()
-        //         begin
-        //             Rec.FilterGroup(2);
-        //             ClearAll();
-        //             Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
-        //             Rec.FilterGroup(0);
-        //         end;
-        //     }
-        //     action(Recommended)
-        //     {
-        //         Image = Approve;
-        //         Promoted = true;
-        //         PromotedCategory = Category4;
-        //         PromotedIsBig = true;
-        //         ToolTip = 'Executes the Recommended action.';
-        //         ApplicationArea = All;
-        //         Visible = false;
-
-        //         trigger OnAction()
-        //         begin
-        //             // Rec.FilterGroup(2);
-        //             // ClearAll();
-        //             // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-
-        //             // Rec.FilterGroup(0);
-        //         end;
-        //     }
-        //     action(Approved)
-        //     {
-        //         Image = Approve;
-        //         Promoted = true;
-        //         PromotedCategory = Category4;
-        //         PromotedIsBig = true;
-        //         ToolTip = 'Executes the Approved action.';
-        //         ApplicationArea = All;
-        //         trigger OnAction()
-        //         begin
-        //             Rec.FilterGroup(2);
-        //             ClearAll();
-        //             Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
-        //             Rec.FilterGroup(0);
-        //         end;
-        //     }
-        //     action(Rejected)
-        //     {
-        //         Image = DeleteQtyToHandle;
-        //         Promoted = true;
-        //         PromotedCategory = Category4;
-        //         PromotedIsBig = true;
-        //         ToolTip = 'Executes the Rejected action.';
-        //         ApplicationArea = All;
-
-        //         trigger OnAction()
-        //         begin
-        //             Rec.FilterGroup(2);
-        //             ClearAll();
-        //             Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
-        //             Rec.FilterGroup(0);
-        //         end;
-        //     }
-        //     action("Final Approve")
-        //     {
-        //         Image = Flow;
-        //         Promoted = true;
-        //         PromotedCategory = Category4;
-        //         PromotedIsBig = true;
-        //         PromotedOnly = true;
-        //         ToolTip = 'Executes the Final Approve action.';
-        //         ApplicationArea = All;
-        //         Visible = false;
-
-        //         trigger OnAction()
-        //         begin
-        //             // Rec.FilterGroup(2);
-        //             // ClearAll();
-        //             // Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
-        //             // Rec.FilterGroup(0);
-        //         end;
-        //     }
-        // }
-        area(Reporting)
-        {
-            action("Print Travel Claim")
-            {
-                Image = Travel;
-                Promoted = true;
-                PromotedCategory = "Report";
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Print Travel Claim action.';
-                ApplicationArea = All;
-
-                // trigger OnAction()
-                // begin
-                //     if not Confirm('Do you want to print travel claim ?', false) then
-                //         exit;
-                //     //CurrPage.SetSelectionFilter(Rec);
-                //     Report.Run(Report::"Travel Claim Processing Report", true, false, Rec);
-                // end;
             }
         }
     }
@@ -581,9 +385,6 @@ page 50351 "Travel Claim"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-        // IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
-        // if Salarylevel.Get(Rec."Salary Level Code") then;
-        // if TravelWith.Get(Rec."Travel With") then;
     end;
 
     trigger OnOpenPage()
@@ -602,15 +403,10 @@ page 50351 "Travel Claim"
     var
         HRMgt: Codeunit "HR Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
-        IsPending: Boolean;
+        IsOpen, IsPending, IsApproved : Boolean;
         RecRef: RecordRef;
         ApprovalMgt: Codeunit "Approver Mgt";
-        IsOpen: Boolean;
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
-        //IsApplied: Boolean;
-        //IsRecommended: Boolean;
-        IsApproved: Boolean;
-    //IsScreened: Boolean;
 }
 

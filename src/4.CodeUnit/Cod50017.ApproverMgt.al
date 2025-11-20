@@ -921,7 +921,7 @@ codeunit 50017 "Approver Mgt"
             end;
     end;
 
-    procedure CheckDocumentForwithdraw(EmpActType: enum "Employee Activity Type"; DocNo: Code[20])
+    procedure CheckDocumentForWithdraw(EmpActType: enum "Employee Activity Type"; DocNo: Code[20])
     var
         ApprovalHRMS: Record "Approval HRMS";
     begin

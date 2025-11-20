@@ -537,7 +537,9 @@ table 50039 "Payroll Journal Line"
         }
         field(74; Type; Enum "Payroll Header Type")
         {
-
+        }
+        field(75; "LWP Days"; Decimal)
+        {
         }
     }
 
@@ -742,7 +744,8 @@ table 50039 "Payroll Journal Line"
         "Total Days" := PayrollLine."Total Days";
         "OT Hrs (30MIN)" := PayrollLine."OT Hrs";
         "OT Days" := PayrollLine."OT Days";
-        "Late Days" := PayrollLine."Late Rate";
+        "Late Rate" := PayrollLine."Late Rate";
+        "LWP Days" := PayrollLine."LWP Days";
         "Deputation On" := PayrollLine."Deputation On";
         "Deputation Value" := PayrollLine."Deputation Value";
         "Sol ID" := PayrollLine."Sol ID";

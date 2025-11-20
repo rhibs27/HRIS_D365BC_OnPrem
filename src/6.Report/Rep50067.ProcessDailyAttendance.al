@@ -91,8 +91,6 @@ report 50067 "Process Daily Attendance"
 
                 if AttSetup."Different Emp. ID for Device" then
                     CheckAndUpdateEmployeeInLog();
-
-
                 if not JobQueueActive then begin
                     IntCount += 1;
                     ProgressWindow.Update(1, Employee."No.");
@@ -121,11 +119,11 @@ report 50067 "Process Daily Attendance"
                     //     Caption = 'Sync Biometric Attendance Before Processing';
                     //     ApplicationArea = All;
                     // }
-                    // field(EmailIds; EmailIds)
-                    // {
-                    //     Caption = 'Email Id';
-                    //     ApplicationArea = All;
-                    // }
+                    field(EmailIds; EmailIds)
+                    {
+                        Caption = 'Email Id';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }

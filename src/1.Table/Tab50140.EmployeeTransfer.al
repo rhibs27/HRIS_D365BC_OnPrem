@@ -78,17 +78,11 @@ table 50140 "Employee Transfer"
         {
             trigger OnValidate()
             begin
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
                 end;
-                //<<check for leave
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -102,12 +96,7 @@ table 50140 "Employee Transfer"
             var
                 TravelMgt: Codeunit "Travel Mgt.";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
                 if "End Date" <> 0D then
                     Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date"))
                 else begin
@@ -124,12 +113,7 @@ table 50140 "Employee Transfer"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Requested Date"));
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -154,24 +138,6 @@ table 50140 "Employee Transfer"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            trigger OnValidate()
-            begin
-                // if "Approval Status" = "Approval Status"::Approved then
-                //     if Type = Type::Resignation then begin
-                //         EmployeeRec.Get("Employee No.");
-                //         // EmployeeRec.Validate("Resignation Date", "HR Proposed Date");
-                //         // EmployeeRec.VALIDATE(Status,EmployeeRec.Status::Inactive);
-                //         EmployeeRec.Modify;
-                //     end;
-                // if "Approval Status" = "Approval Status"::Screened then begin
-                //     Validate("Screener Date", Today);
-                //     Validate("Screener ID", HRMgt.GetEmployeeNo);
-                // end;
-                // if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
-                //     Validate("Final Approver Date", Today);
-                //     Validate("Final Approver", HRMgt.GetEmployeeNo);
-                // end;
-            end;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
@@ -226,7 +192,6 @@ table 50140 "Employee Transfer"
         }
         field(30; "Province Code"; Code[20])
         {
-            // TableRelation = Province;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -276,27 +241,6 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
-        // field(45; "Final Approver"; Code[20])
-        // {
-        //     Editable = false;
-        //     TableRelation = Employee;
-        //     trigger OnValidate()
-        //     begin
-        //         if EmployeeRec.Get("Final Approver") then
-        //             Validate("Final Approver Name", EmployeeRec."Full Name")
-        //         else
-        //             Clear("Final Approver Name");
-        //     end;
-        // }
-        // field(46; "Final Approver Name"; Text[50])
-        // {
-        //     Description = 'S';
-        //     Editable = false;
-        // }
-        // field(47; "Final Approver Date"; Date)
-        // {
-        //     Editable = false;
-        // }
         field(45; Handover; Boolean)
         {
             DataClassification = ToBeClassified;
@@ -340,11 +284,9 @@ table 50140 "Employee Transfer"
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
-                    GetTransferName;
                 end;
                 if "Transfer Type" in ["Transfer Type"::"Inter Branch", "Transfer Type"::"Inter Department", "Transfer Type"::"Inter Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
-                    GetTransferName;
                 end;
             end;
         }
@@ -352,14 +294,12 @@ table 50140 "Employee Transfer"
         {
             CaptionClass = '1,2,1';
             Description = 'Transfer';
-            // TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Shortcut Dimension 1 Code (To)" <> xRec."Shortcut Dimension 1 Code (To)" then begin
-                    // GLSetup.Get;
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, OrganizationStructureList.Code) then begin
                         "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Department Code (To)" := '';
@@ -372,20 +312,11 @@ table 50140 "Employee Transfer"
         field(55; "Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            // TableRelation = Province;
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
-            // Editable = false;
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
             begin
-                // if "Province Code (To)" <> xRec."Province Code (To)" then begin
-                //     // if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
-                //     // if ProvinceVar.Get("Province Code (To)") then begin
-                //     //     "Province Name To" := OrganizationStructureList."Province Name";
-                //     //     "Shortcut Dimension 1 Code (To)" := '';
-                //     // end;
-                //     ValidateDeputationOnTo();
                 if "Deputation on (To)" = "Deputation on (To)"::Province then begin
                     "Department Code (To)" := '';
                     "Unit (To)" := '';
@@ -399,7 +330,6 @@ table 50140 "Employee Transfer"
                     else
                         Clear("Province Name");
                 end;
-                // end;
             end;
         }
         field(56; "Unit (To)"; Code[20])
@@ -411,7 +341,6 @@ table 50140 "Employee Transfer"
                 if "Unit (To)" <> xRec."Unit (To)" then begin
                     Clear("Unit Name To");
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit (To)") then begin
-                        // "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Extension Name To" := '';
                         "Unit Name To" := OrganizationStructureList.Name;
                         "Shortcut Dimension 1 Code (To)" := '';
@@ -428,10 +357,6 @@ table 50140 "Employee Transfer"
                 OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Department Code (To)" <> xRec."Department Code (To)" then begin
-                    // if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
-                    //     "Province Code (To)" := OrganizationStructureList."Province Code";
-                    //     "Department Name To" := OrganizationStructureList.Name;
-                    // end;
                     "Unit (To)" := '';
                     "Unit Name To" := '';
                     "Shortcut Dimension 1 Code (To)" := '';
@@ -458,26 +383,6 @@ table 50140 "Employee Transfer"
             TableRelation = "Approval Role";
             DataClassification = ToBeClassified;
         }
-        // field(58; "Reporting Line 1 (To)"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 1"));
-        // }
-        // field(59; "Reporting Line 2 (To)"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 2"));
-        // }
-        // field(60; "Eco-System (To)"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Eco-System"));
-        // }
-        // field(61; "Office (To)"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST(Office));
-        // }
         field(62; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
@@ -489,7 +394,6 @@ table 50140 "Employee Transfer"
                 if "Extension Counter (To)" <> xRec."Extension Counter (To)" then begin
                     Clear("Extension Name To");
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter (To)") then begin
-                        // "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Extension Name To" := OrganizationStructureList.Name;
                         "Department Code (To)" := '';
                         "Unit (To)" := '';
@@ -620,16 +524,6 @@ table 50140 "Employee Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        // field(75; "Transfer Allowance Approval"; enum "Approval Status")
-        // {
-        //     Description = 'Transfer';
-        // }
-        // field(76; "Transfer Claim Recommender"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = Employee;
-        //     ValidateTableRelation = false;
-        // }
         field(77; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
@@ -645,47 +539,16 @@ table 50140 "Employee Transfer"
                     Error('Cannot Select Yourself as Outgoing Reporting person');
             end;
         }
-        // field(78; "Transfer Claim Reviewer"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = Employee;
-        // }
         field(79; "Acknowledged Date"; Date)
         {
             Description = 'Transfer';
             Editable = false;
         }
-        // field(80; "Transfer Claim Reviewer Name"; Text[30])
-        // {
-        //     CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Transfer Claim Reviewer")));
-        //     Description = 'Transfer';
-        //     Editable = false;
-        //     FieldClass = FlowField;
-        // }
         field(81; "Outgoing Reporting Person Name"; Text[100])
         {
-            // CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
             Description = 'Transfer';
             Editable = false;
-            // FieldClass = FlowField;
         }
-        // field(82; Reviewer; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = Employee;
-        //     trigger OnValidate()
-        //     begin
-        //         if EmpVar.Get(Reviewer) then
-        //             Validate("Reviewer Name", EmpVar."Full Name")
-        //         else
-        //             Clear("Reviewer Name");
-        //     end;
-        // }
-        // field(83; "Reviewer Name"; Text[50])
-        // {
-        //     Description = 'Transfer';
-        //     Editable = false;
-        // }
         field(84; "Incoming Supervisior"; Code[20])
         {
             Description = 'Transfer';
@@ -703,9 +566,6 @@ table 50140 "Employee Transfer"
             Description = 'Transfer';
             Editable = false;
         }
-        // field(86; "Reviewer Remarks"; Text[50])
-        // {
-        // }
         field(87; "Reason for Transfer"; Text[100])
         {
             Description = 'Transfer';
@@ -767,11 +627,6 @@ table 50140 "Employee Transfer"
         {
             Description = 'Transfer';
             Editable = false;
-            trigger OnValidate()
-            begin
-                // if "On Hold Date" <> 0D then
-                //     Validate("Transfer Effective Date", "On Hold Date")
-            end;
         }
         field(98; "Reason For Cancel"; Text[50])
         {
@@ -999,7 +854,6 @@ table 50140 "Employee Transfer"
             if "Employee No." = '' then
                 if not HrMgt.IsSaaS() then
                     Validate("Employee No.", HRMgt.GetEmployeeNo());
-            //"Approval Status" := "Approval Status"::Pending;
         end;
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -1123,18 +977,6 @@ table 50140 "Employee Transfer"
         if not (Type in [Type::"Employee Transfer", Type::"HR Transfer"]) then
             exit;
         if EmpVar.Get("Employee No.") then begin
-            /* VALIDATE("Deputation On (To)",EmpVar."Deputation on");
-             VALIDATE("Province Code (To)", EmpVar."Province Code");
-             VALIDATE("Sub Province Code (To)", EmpVar."Sub Province Code");
-             VALIDATE("Shortcut Dimension 1 Code (To)",EmpVar."Global Dimension 1 Code");
-             VALIDATE("Department Code (To)",EmpVar."Department Code");
-             VALIDATE("Unit (To)", EmpVar."Unit Code");
-             VALIDATE("Reporting Line 1 (To)", EmpVar."Reporting Line 1");
-             VALIDATE("Reporting Line 2 (To)", EmpVar."Reporting Line 2");
-             VALIDATE("Eco-System (To)", EmpVar."Eco-System");
-             VALIDATE("Extension Counter (To)",EmpVar."Extension Counter Code");
-             VALIDATE("Office (To)", EmpVar.Office);
-             VALIDATE("Functional Title (To)", EmpVar."Functional Title");*/
             EmpVar.TestField("Employment Date");
             if EmpVar."Last Placement Date" <> 0D then
                 Validate("Curr. Placement Period(Month)", Round((Today - EmpVar."Last Placement Date") / 30, 0.01, '='))
@@ -1150,78 +992,9 @@ table 50140 "Employee Transfer"
         "Employee Tranfer".SetRange("Employee No.", "Employee No.");
         "Employee Tranfer".SetRange(Type, "Employee Tranfer".Type::"HR Transfer");
         "Employee Tranfer".SetFilter("No.", '<>%1', "No.");
-        // "Employee Tranfer".SetFilter("Approval Status", '<>%1&<>%2&<>%3', "Approval Status"::Acknowledged, "Approval Status"::Cancelled, "Approval Status"::Rejected);
         "Employee Tranfer".SetFilter("Approval Status", '%1', "Approval Status"::Pending);
         if "Employee Tranfer".FindFirst then
             Error('Transfer for employee %1 (%2) is still pending. Please check the transfer no. %3', "Employee Tranfer"."Employee Name", "Employee Tranfer"."Employee No.", "Employee Tranfer"."No.");
-    end;
-
-    local procedure GetTransferName()
-    var
-    // GLSetup: Record "General Ledger Setup";
-    // DimValue: Record "Dimension Value";
-    // DepartVar: Record Department;
-    // ProvinceVar: Record Province;
-    // SubProvinceVar: Record "Sub Province";
-    // EmpHie: Record "Employee Hierarchy Master";
-    begin
-        // Clear(BranchName);
-        // Clear(BranchNameTo);
-        // Clear(DepartmentNameTo);
-        // Clear(DepartmentName);
-        // Clear(ProvinceName);
-        // Clear(ProvinceNameTo);
-        // Clear(SubProvinceName);
-        // Clear(SubProvinceNameTo);
-        // Clear(UnitNameTo);
-        // Clear(UnitName);
-        // Clear(ExtensionName);
-        // Clear(ExtensionNameTo);
-        // GLSetup.Get;
-        // if FunctionalTitle.Get("Functional Title") then
-        //     FunctionalDescFrom := FunctionalTitle.Description;
-        // if FunctionalTitle.Get("Functional Title (To)") then
-        //     FunctionalDescTo := FunctionalTitle.Description;
-        // if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-        //     BranchName := DimValue.Name;
-        // if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code (To)") then
-        //     BranchNameTo := DimValue.Name;
-        // if DepartVar.Get(Department) then
-        //     DepartmentName := DepartVar.Name;
-        // if DepartVar.Get("Department Code (To)") then
-        //     DepartmentNameTo := DepartVar.Name;
-        // if ProvinceVar.Get("Province Code") then
-        //     ProvinceName := ProvinceVar.Description;
-        // if ProvinceVar.Get("Province Code (To)") then
-        //     ProvinceNameTo := ProvinceVar.Description;
-        // SubProvinceVar.Reset;
-        // SubProvinceVar.SetRange(Code, "Sub Province Code");
-        // if SubProvinceVar.FindFirst then
-        //     SubProvinceName := SubProvinceVar.City;
-        // SubProvinceVar.Reset;
-        // SubProvinceVar.SetRange(Code, "Sub Province Code (To)");
-        // if SubProvinceVar.FindFirst then
-        //     SubProvinceNameTo := SubProvinceVar.City;
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        // EmpHie.SetRange(Code, "Unit Code");
-        // if EmpHie.FindFirst then
-        //     UnitName := EmpHie.Description;
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        // EmpHie.SetRange(Code, "Unit (To)");
-        // if EmpHie.FindFirst then
-        //     UnitNameTo := EmpHie.Description;
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        // EmpHie.SetRange(Code, "Extension Counter Code");
-        // if EmpHie.FindFirst then
-        //     ExtensionName := EmpHie.Description;
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        // EmpHie.SetRange(Code, "Extension Counter (To)");
-        // if EmpHie.FindFirst then
-        //     ExtensionNameTo := EmpHie.Description;
     end;
 
     local procedure ValidateDeputationOnTo();
@@ -1254,7 +1027,6 @@ table 50140 "Employee Transfer"
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code (to)") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
-                    // Validate("Province Code (To)", OrganizationStructureList."Province Code");
                     Validate("Province Name To", OrganizationStructureList."Province Name");
                 end;
         end;
@@ -1269,48 +1041,10 @@ table 50140 "Employee Transfer"
         EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
-        // LeaveTypeVar: Record "Leave Type Setup";
-        // WorkShift: Record "Employee Work Shift";
-        SalaryLevel: Record "Salary Level";
-        GLSetup: Record "General Ledger Setup";
-        DimValue: Record "Dimension Value";
         "Employee Tranfer": Record "Employee Transfer";
-        SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         OrganizationStructureList: Record "Organization Structure List";
-        // INVALID: Label 'Invalid %1';
-        // EmpRelative: Record "Employee Relative";
-        // SystemAccessControl: Record "System Access Control";
-        // AccessControlLine: Record "Access Control Request Line";
-        ProvinceVar: Record Province;
-        // SubProvinceVar: Record "Sub Province";
-        // // DepartVar: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
         Standardtext: Record "Standard Text";
-        // BranchNameTo: Text;
-        // DepartmentNameTo: Text;
-        // ProvinceNameTo: Text;
-        // SubProvinceNameTo: Text;
-        // ExtensionNameTo: Text;
-        // UnitNameTo: Text;
-        // BranchName: Text;
-        // DepartmentName: Text;
-        // ProvinceName: Text;
-        // SubProvinceName: Text;
-        // ExtensionName: Text;
-        // UnitName: Text;
         FunctionalTitle: Record "Functional Title";
-        // FunctionalDescFrom: Text;
-        // FunctionalDescTo: Text;
-        //EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        //LeaveError: Label 'You cannot apply leave in Present day %1.';
-        // EmpActivityRec: Record "Employee Activity";
         Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
-        //Text002: Label 'Compensatory leave has been restricted in HRMS.';
-        //EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        //PayrollGenSetup: Record "Payroll General Setup";
-        //SalaryLevelRec: Record "Salary Level";
-        //SalaryGrade: Record "Salary Grade";
-        // EncashmentPeriodSetup: Record "OT Encashment Setup";
-        Error1: Label 'Cannot apply before your employment date.';
 }

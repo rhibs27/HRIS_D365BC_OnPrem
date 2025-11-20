@@ -294,13 +294,13 @@ codeunit 50029 "Process Daily Attendance"
 
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
     var
-        LeaveMgt: Codeunit "Leave Mgt.";
+        AttendanceMgt: Codeunit "Attendance Mgt";
         ReturnBool: Boolean;
     begin
         ReturnBool := false;
         Clear(CalendarDescription);
-        ReturnBool := LeaveMgt.GetNonWorkingDays(Date, Date, EmpNo) <> 0;
-        CalendarDescription := LeaveMgt.ReturnCalendarDescription;
+        ReturnBool := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
+        CalendarDescription := AttendanceMgt.ReturnCalendarDescription;
         exit(ReturnBool);
     end;
 

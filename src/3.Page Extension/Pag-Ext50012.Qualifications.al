@@ -25,6 +25,11 @@ pageextension 50012 Qualifications extends Qualifications
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Rank field.';
             }
+            field("GPA Scale"; Rec."GPA Scale")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of GPA Scale field.';
+            }
         }
     }
     trigger OnAfterGetRecord()
