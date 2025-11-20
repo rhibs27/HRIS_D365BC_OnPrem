@@ -343,12 +343,6 @@ table 50024 "Payroll General Setup"
             TableRelation = "Payroll Attributes".Code;
         }
         field(97; "Allowance Email Days"; Integer) { }
-        field(98; "Default Work Shift"; Code[20])
-        {
-            TableRelation = "Employee Work Shift";
-            ObsoleteState = Removed;
-            ObsoleteReason = 'Removed for enhance';
-        }
         field(99; "Relocation Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes";

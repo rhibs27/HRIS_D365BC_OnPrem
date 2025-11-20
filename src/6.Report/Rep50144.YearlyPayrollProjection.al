@@ -888,6 +888,7 @@ report 50144 "Yearly Payroll Projection"
         exit(TempDetailedEmpLedgerEntry.Count);
     end;
     // Determines the last pay cycle for an employee based on termination or contract expiry
+
     procedure GetLastPayCycle(EmpCode: Code[20]): Integer
     var
         PGSetup: Record "Payroll General Setup";
@@ -900,18 +901,28 @@ report 50144 "Yearly Payroll Projection"
             exit(RemainingMonth);
         if not PGSetup.Get() then
             exit(RemainingMonth);
+
         // Handle terminated employees
         if EmpRec.Status = EmpRec.Status::Terminated then
-            if EmpRec."Termination Date" <> 0D then
+            if (EmpRec."Termination Date" <> 0D) then
                 if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Termination Date") and
                    (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Termination Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriodForTermination(EmpRec, 'MONTHLY', PayCycleTerm);
+                    RemainingMonth := PayrollRepMgt.GetPayPeriod(emprec."Termination Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+
+        // Handle resigned employees - check BOTH Inactive AND Active status with resignation date
+        if (EmpRec.Status = EmpRec.Status::Inactive) or (EmpRec.Status = EmpRec.Status::Active) then
+            if (EmpRec."Resignation Date" <> 0D) then
+                if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Resignation Date") and
+                   (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Resignation Date") then
+                    RemainingMonth := PayrollRepMgt.GetPayPeriod(EmpRec."Resignation Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+
         // Handle contract employees with expiry dates
         if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then
             if EmpRec."Contract Expiry Date" <> 0D then
                 if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Contract Expiry Date") and
                    (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Contract Expiry Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(EmpRec, 'MONTHLY', PayCycleTerm);
+                    RemainingMonth := PayrollRepMgt.GetPayPeriod(EmpRec."Contract Expiry Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+
         exit(RemainingMonth);
     end;
     // Gets insurance amount for specific insurance type with validation

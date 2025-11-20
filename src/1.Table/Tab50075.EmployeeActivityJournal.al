@@ -44,6 +44,9 @@ table 50075 "Employee Activity Journal"
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Deputation On Code", EmpVar."Deputation On Code");
                     Validate("Approver Role", EmpVar."Approver Role");
+                    "Leave Code" := '';
+                    "Start Date" := 0D;
+                    "End Date" := 0D;
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
@@ -757,9 +760,7 @@ table 50075 "Employee Activity Journal"
     trigger OnInsert()
     begin
         "User ID" := UserId;
-        if "Requester Employee" = '' then
-            if not HrMgt.IsSaaS() then
-                "Requester Employee" := HrMgt.GetEmployeeNo();
+        "Requester Employee" := HrMgt.GetEmployeeNo();
         "Requested Date" := Today;
     end;
 
@@ -775,6 +776,7 @@ table 50075 "Employee Activity Journal"
         EmpVar: Record Employee;
         EngNep: Record "English-Nepali Date";
         CurrDocumentNo: Boolean;
+        SkipApproval: Boolean;
     begin
         HRSetup.Get();
         ActivityJournal.Reset();
@@ -805,11 +807,11 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
                 ApprovalHRMS.DeleteAll();
 
-                if not (HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer")) then
-                    if HrMgt.IsSaaS() then
-                        ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
-                    else
-                        ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+                if HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer") then
+                    SkipApproval := true;
+
+                if not SkipApproval then
+                    ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
     end;
 

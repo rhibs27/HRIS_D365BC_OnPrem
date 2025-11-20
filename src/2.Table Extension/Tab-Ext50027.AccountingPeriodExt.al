@@ -20,7 +20,7 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
             DataClassification = AccountData;
             Caption = 'Leave Year Closed';
         }
-        field(50004; "Quarterly"; Enum Quarterly)
+        field(50004; "Quarterly"; Enum Quater)
         {
         }
     }
