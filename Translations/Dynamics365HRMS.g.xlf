@@ -2368,11 +2368,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Attribute Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1462507268 - Field 761498003 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Effective Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Effective Date - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1462507268 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2382,6 +2377,11 @@
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field End Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1462507268 - Field 1627640004 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Entry Date</source>
@@ -2407,6 +2407,21 @@
           <source>Reversed</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Reversed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 4267346559 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Source Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Source Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 587895070 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Source Document Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Source Document Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Start Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
@@ -24568,11 +24583,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Attribute Code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 568297125 - Control 761498003 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the effective date.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Effective Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 568297125 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the employee name.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24583,8 +24593,13 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Employee No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 568297125 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the End date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control End Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 568297125 - Control 1627640004 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the entry date.</source>
+          <source>Specifies the Entry date.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Entry Date - Property ToolTip</note>
         </trans-unit>
@@ -24607,6 +24622,11 @@
           <source>Specifies whether the entry is reversed.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Reversed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the Start date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Start Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
@@ -49872,6 +49892,11 @@
           <source>EmployeeJobQueue</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report EmployeeJobQue - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 916383554 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ETDS Voucher</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report ETDS Voucher - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 3424873321 - Control 3083556976 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the referenceNo field.</source>
