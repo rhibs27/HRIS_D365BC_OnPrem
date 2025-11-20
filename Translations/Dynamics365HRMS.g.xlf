@@ -10323,6 +10323,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Exclude Non Working Days - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 273467859 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Friday Half Leave Allowed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Friday Half Leave Allowed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 2303302321 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Gender</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20954,12 +20959,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
+          <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 2770053341 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
+          <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSAAS - NamedType ApproveNotEligibleError</note>
         </trans-unit>
@@ -35472,6 +35477,11 @@
           <source>Specifies the value of the Exclude Non Working Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Exclude Non Working Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 310427152 - Control 273467859 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if Friday Half Leave Allowed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Friday Half Leave Allowed - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 2303302321 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Gender field.</source>
@@ -61478,10 +61488,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Quarterly - EnumValue 4th Quarter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2117110986 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 2117110986 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Quater - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Quater - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2117110986 - EnumValue 139100102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>First</source>
