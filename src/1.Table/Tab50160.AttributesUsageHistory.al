@@ -2,7 +2,6 @@ table 50160 "Attributes Usage History"
 {
     Caption = 'Payroll Attributes Usage History';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "Entry No."; Integer)
@@ -36,9 +35,9 @@ table 50160 "Attributes Usage History"
             Caption = 'New Amount';
             DecimalPlaces = 2 : 2;
         }
-        field(7; "Effective Date"; Date)
+        field(7; "Start Date"; Date)
         {
-            Caption = 'Effective Date';
+            Caption = 'Start Date';
         }
         field(8; "Entry Date"; Date)
         {
@@ -47,6 +46,18 @@ table 50160 "Attributes Usage History"
         field(9; Reversed; Boolean)
         {
             Caption = 'Reversed';
+        }
+        field(10; "End Date"; Date)
+        {
+            Caption = 'End Date';
+        }
+        field(11; "Source Document Type"; Enum "Employee Activity Type")
+        {
+            Caption = 'Source Document Type';
+        }
+        field(12; "Source Document No."; Code[20])
+        {
+            Caption = 'Source Document No.';
         }
     }
     keys
