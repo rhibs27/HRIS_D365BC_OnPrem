@@ -5,6 +5,9 @@ codeunit 50005 "Transfer Mgt."
         EmpTransfer: Record "Employee Transfer" temporary;
         RequestError: Label 'You are not eligible to request for a transfer.';
         ApprovalEntry: Record "Approval HRMS";
+        AttachmentSetup: Record "Attachment Setup";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+        Incdocument, Incdocument2 : Record "Incoming Document";
     begin
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Employee Transfer");
@@ -16,6 +19,24 @@ codeunit 50005 "Transfer Mgt."
         EmpTransfer.Validate("Employee No.", EmpCode);
         EmpTransfer.Validate("Approval Status", EmpTransfer."Approval Status"::Open);
         EmpTransfer.Insert;
+
+        //if attachment is mandatory then insert the attachment lines
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.FindFirst() then begin
+            Incdocument2.SetRange("Employee Code", EmpCode);
+            Incdocument2.SetRange("Employee Activity Type", Incdocument2."Employee Activity Type"::"Employee Transfer");
+            Incdocument2.SetRange("No.", EmpTransfer."No.");
+            if not Incdocument2.FindFirst() then begin
+                Incdocument.Init();
+                Incdocument."Employee Code" := EmpCode;
+                Incdocument."Employee Activity Type" := Incdocument."Employee Activity Type"::"Employee Transfer";
+                Incdocument."Attachment Code" := AttachmentSetup."Attachment Code";
+                Incdocument."No." := EmpTransfer."No.";
+                Incdocument.Insert(true);
+            end;
+        end;
         PAGE.Run(PAGE::"Transfer Request Card", EmpTransfer);
     end;
 
@@ -53,6 +74,19 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending");
         EmphrTransfer.Validate("User ID", UserId);
         EmphrTransfer.Insert(true);
+
+        // transfer the attachment lines
+        IncomingDoc.Reset;
+        IncomingDoc.SetRange("Employee Code", TempEmphrtransfer."Employee No.");
+        IncomingDoc.SetRange("No.", TempEmphrtransfer."No.");
+        IncomingDoc.SetRange("Employee Activity Type", IncomingDoc."Employee Activity Type"::"Employee Transfer");
+        if IncomingDoc.FindSet() then
+            repeat
+                IncomingDoc."No." := EmphrTransfer."No.";
+                IncomingDoc."Document No." := EmphrTransfer."No.";
+                IncomingDoc.Modify();
+            until IncomingDoc.Next() = 0;
+
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, EmphrTransfer."Employee No.", EmphrTransfer."No.", false);   //For email
         Message(TransferSent);
         exit(true);
@@ -377,7 +411,8 @@ codeunit 50005 "Transfer Mgt."
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
         if not HrMgt.IsSaaS() then
-            if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
+            if (EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo) and
+               (EmpHrTransfer."Incoming Supervisior 2" <> HRMgt.GetEmployeeNo) then
                 Error('You are not Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
@@ -393,6 +428,7 @@ codeunit 50005 "Transfer Mgt."
             Error('You Cannot Acknowledge Before Date of Joining');
         AttachmentSetup.Reset;
         AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.SetFilter("Sub Type", '%1|%2', AttachmentSetup."Sub Type"::Acknowledge, AttachmentSetup."Sub Type"::" ");
         AttachmentSetup.SetRange("Transfer Category", EmpHrTransfer."Transfer Category");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.Find('-') then
@@ -407,7 +443,8 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Acknowledged);
         EmpHrTransfer.Modify;
         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin
-            case EmpHrTransfer."Deputation On (To)" of
+
+            case EmpHrTransfer."Deputation On (To)" of  //Why selective update
                 EmpHrTransfer."Deputation On (To)"::Branch:
                     begin
                         EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
@@ -434,6 +471,7 @@ codeunit 50005 "Transfer Mgt."
             end;
             EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
+            EmployeeRec.Validate("Last Placement Date", EmpHrTransfer."Date of Joining Of Transfer"); // this should be update based on transfer type
         end;
         OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
         EmployeeRec.Modify;
@@ -483,17 +521,19 @@ codeunit 50005 "Transfer Mgt."
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
-        IncomingDocument.Reset();
-        IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
-        if IncomingDocument.FindSet() then
-            repeat
-                AttachmentSetup.Reset();
-                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
-                if AttachmentSetup.FindFirst() then
-                    if AttachmentSetup.Mandatory then
-                        if IncomingDocument."File Name" = '' then
-                            Error('Upload Attachment');
-            until IncomingDocument.Next() = 0;
+
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.setfilter("Sub Type", '%1|%2', AttachmentSetup."Sub Type"::Handover, AttachmentSetup."Sub Type"::" ");
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.FindFirst() then begin
+            IncomingDocument.Reset;
+            IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+            IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
+            IncomingDocument.SetRange("File Name", '');
+            if IncomingDocument.FindFirst then
+                Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
+        end;
+
         if not HrMgt.IsSaaS() then
             if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
                 Error('You arenot Eligible')
@@ -512,7 +552,8 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField(Handover, true);
         if not HrMgt.IsSaaS() then
-            if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
+            if (EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
+             (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo) then
                 Error('You are not Eligible')
             else begin
                 EmpHrTransfer.Validate(Takeover, true);
@@ -579,6 +620,27 @@ codeunit 50005 "Transfer Mgt."
     [IntegrationEvent(false, false)]
     procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
     begin
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Transfer Mgt.", OnAfterTransferAcknowledge, '', false, false)]
+    local procedure OnAfterTransferAcknowledgeSpecific(var transfer: Record "Employee Transfer"; var Employee: Record Employee)
+    var
+        PGSetup: Record "Payroll General Setup";
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            exit;
+
+        if transfer."Province Code (To)" <> '' then
+            Employee.Validate("Province Code", transfer."Province Code (To)");
+        if transfer."To Branch" <> '' then
+            Employee.Validate("Branch Code", transfer."To Branch");
+        if transfer."Department Code (To)" <> '' then
+            Employee.Validate("Department Code", transfer."Department Code (To)");
+        if transfer."Extension Counter (To)" <> '' then
+            Employee.Validate("Extension Counter Code", transfer."Extension Counter (To)");
+        if transfer."Unit (To)" <> '' then
+            Employee.Validate("Unit Code", transfer."Unit (To)");
     end;
 
     var

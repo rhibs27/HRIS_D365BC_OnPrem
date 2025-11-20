@@ -432,23 +432,43 @@ codeunit 50027 "Payroll Report Mgt."
     //             exit(PostedPayrollLine."1 Slab Amount" - PPLine."Monthly Taxable SST");
     // end;
 
-    procedure GetPayPeriodForTermination(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
+    procedure GetPayPeriod(RecordDate: Date; PayCode: Code[20]; PayTerm: Code[20]): Integer
     var
         PayPeriod: Record "Pay Cycle Period";
     begin
 
-        if Emp."Termination Date" = 0D then
-            Error('Invalid termination date');
+        if RecordDate = 0D then
+            Error('Invalid date');
         PayPeriod.Reset();
         PayPeriod.SetRange("Pay Cycle Code", PayCode);
         PayPeriod.SetRange("Pay Cycle Term", PayTerm);
-        PayPeriod.SetFilter("Start Date", '<=%1', Emp."Termination Date" - 1);
-        PayPeriod.SetFilter("End Date", '>= %1', Emp."Termination Date" - 1);
+        PayPeriod.SetFilter("Start Date", '<=%1', RecordDate - 1);
+        PayPeriod.SetFilter("End Date", '>= %1', RecordDate - 1);
         if PayPeriod.FindFirst() then
             exit(PayPeriod.Period)
         else
             Error('Pay period doest match');
     end;
+
+    procedure GetPayPeriodForResignation(PayCode: Code[20]; PayTerm: Code[20]): Integer
+    var
+        PayPeriod: Record "Pay Cycle Period";
+        Emp: Record Employee;
+    begin
+        if Emp."Resignation Date" = 0D then
+            Error('Invalid resignation date');
+
+        PayPeriod.Reset();
+        PayPeriod.SetRange("Pay Cycle Code", PayCode);
+        PayPeriod.SetRange("Pay Cycle Term", PayTerm);
+        PayPeriod.SetFilter("Start Date", '<=%1', Emp."Resignation Date" - 1);
+        PayPeriod.SetFilter("End Date", '>= %1', Emp."Resignation Date" - 1);
+        if PayPeriod.FindFirst() then
+            exit(PayPeriod.Period)
+        else
+            Error('Pay period does not match');
+    end;
+
 
     procedure GetPayPeriodForContractExp(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
     var
@@ -855,7 +875,7 @@ codeunit 50027 "Payroll Report Mgt."
             if EmpRec."Termination Date" <> 0D then
                 if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Termination Date") and
                 (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Termination Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriodForTermination(EmpRec, 'MONTHLY', PayCycleTerm);
+                    RemainingMonth := PayrollRepMgt.GetPayPeriod(EmpRec."Termination Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
 
         //contract expiry EmpRec
         if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then

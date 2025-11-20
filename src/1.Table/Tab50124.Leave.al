@@ -50,12 +50,13 @@ table 50124 Leave
                     Validate("Department Name", EmpVar."Department Name");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Province Name", EmpVar."Province Name");
+                    Validate("Employee Attendance ID", EmpVar."Employee Attendance ID");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
                     Validate(Department, '');
-                    // Validate("Auth. Account No.", '');//NILESH
                     Validate("Salary Level Code", '');
+                    Validate("Employee Attendance ID", '');
                 end;
             end;
         }
@@ -408,6 +409,10 @@ table 50124 Leave
         field(63; "Deputation On Code"; Code[20])
         {
             Editable = false;
+            DataClassification = ToBeClassified;
+        }
+        field(64; "Employee Attendance ID"; Text[20])
+        {
             DataClassification = ToBeClassified;
         }
         field(100; "Status"; Text[20])

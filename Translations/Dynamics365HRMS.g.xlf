@@ -1073,6 +1073,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (amt)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Fuel Limit (amt) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3095358712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (ltr)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Fuel Limit (ltr) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 783730271 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No of Lines</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1182,6 +1192,11 @@
           <source>Attendance Checked</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Attendance Checked - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2110140186 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Blocked for Payroll</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Blocked for Payroll - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 2541479021 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed</source>
@@ -1318,6 +1333,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field ATM Site - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 1546690556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Checked</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Attendance Checked - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 887550446 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed as Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1368,6 +1388,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3692456998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Claimed (ltr)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Fuel Claimed (ltr) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (amt)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Fuel Limit (amt) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3095358712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (ltr)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Fuel Limit (ltr) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 1928739672 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Grade/Class</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1412,6 +1447,11 @@
           <source>School Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field School Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 163660763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specific Payroll Attribute</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Specific Payroll Attribute - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 1713785062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Substitute of Line No.</source>
@@ -1487,6 +1527,11 @@
           <source>Qualification Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Qualification Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1955267922 - Field 692903808 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Sub Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1955267922 - Field 3135334477 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Table ID</source>
@@ -2323,11 +2368,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Attribute Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1462507268 - Field 761498003 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Effective Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Effective Date - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1462507268 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2337,6 +2377,11 @@
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field End Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1462507268 - Field 1627640004 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Entry Date</source>
@@ -2362,6 +2407,21 @@
           <source>Reversed</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Reversed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 4267346559 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Source Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Source Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 587895070 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Source Document Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Source Document Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Start Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
@@ -3638,6 +3698,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Approver Role (TO) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1159403147 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Attachment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 347119804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment File Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Attachment File Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3828,10 +3898,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisor - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 4044117736 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisor 2 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 2237329363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Incoming Supervisor Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisor Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1714656917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisor Name 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Code</source>
@@ -3887,6 +3967,16 @@
           <source>Outgoing Branch Rep. Person</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Outgoing Branch Rep. Person - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1117432544 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Outgoing Branch Rep. Person 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Outgoing Branch Rep. Person 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 4201482945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Outgoing Rep. Person Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Outgoing Rep. Person Name 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 3895839318 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Outgoing Reporting Person Name</source>
@@ -6403,6 +6493,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Question Setup - Field Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 565250863 - Field 78988826 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role (From)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Approver Role (From) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 730618525 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role (To)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Approver Role (To) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 565250863 - Field 2126801762 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code (From)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6512,6 +6612,11 @@
           <source>Effective Date (B.S.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Effective Date (B.S.) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Attendance ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Employee Attendance ID - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 565250863 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
@@ -6898,10 +7003,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Incoming Supervisior - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 75123239 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisior 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Incoming Supervisior 2 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3659416491 - Field 2709328988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Incoming Supervisior Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Incoming Supervisior Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 2203125710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisior Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Incoming Supervisior Name 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3659416491 - Field 1261567229 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Is Transfer Details Added</source>
@@ -6942,6 +7057,16 @@
           <source>Outgoing Branch Rep. Person</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Outgoing Branch Rep. Person - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 1117432544 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Outgoing Branch Rep. Person 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Outgoing Branch Rep. Person 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 4201482945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Outgoing Rep. Person Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Outgoing Rep. Person Name 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3659416491 - Field 3895839318 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Outgoing Reporting Person Name</source>
@@ -7038,6 +7163,36 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Remote Area Allow. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 268647664 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Branch</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Branch - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 3416816130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Branch 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Branch 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 2779119513 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Branch 3</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Branch 3 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 3007360189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Branch Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Branch Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 2975881051 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Branch Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Branch Name 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 3613577668 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Branch Name 3</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Branch Name 3 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3659416491 - Field 3252948560 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Requested Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7048,10 +7203,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Province - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 4110753092 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Province 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Province 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 3473056475 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Province 3</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Province 3 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3659416491 - Field 429476743 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Requested Province Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Province Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 3649678441 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Province Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Province Name 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 4287375058 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Province Name 3</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Requested Province Name 3 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3659416491 - Field 1141149497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Level Code</source>
@@ -9733,6 +9908,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Ecosystem - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Attendance ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Employee Attendance ID - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3212359541 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10157,6 +10337,11 @@
           <source>Exclude Non Working Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Exclude Non Working Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 273467859 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Friday Half Leave Allowed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Friday Half Leave Allowed - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 2303302321 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Gender</source>
@@ -15268,6 +15453,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Approver Role (TO) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 1159403147 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Attachment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 347119804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment File Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Attachment File Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15463,10 +15658,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisor - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 4044117736 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisor 2 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 2237329363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Incoming Supervisor Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisor Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 1714656917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisor Name 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Code</source>
@@ -15522,6 +15727,16 @@
           <source>Outgoing Branch Rep. Person</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Outgoing Branch Rep. Person - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 1117432544 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Outgoing Branch Rep. Person 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Outgoing Branch Rep. Person 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 4201482945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Outgoing Rep. Person Name 2</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Outgoing Rep. Person Name 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 3895839318 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Outgoing Reporting Person Name</source>
@@ -20759,12 +20974,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
+          <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 2770053341 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
+          <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSAAS - NamedType ApproveNotEligibleError</note>
         </trans-unit>
@@ -23523,6 +23738,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Setup - Control Qualification Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1955267922 - Control 1761304904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Subtype field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Setup - Control Subtype - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1955267922 - Control 3135334477 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Table ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24368,11 +24588,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Attribute Code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 568297125 - Control 761498003 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the effective date.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Effective Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 568297125 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the employee name.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24383,8 +24598,13 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Employee No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 568297125 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the End date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control End Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 568297125 - Control 1627640004 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the entry date.</source>
+          <source>Specifies the Entry date.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Entry Date - Property ToolTip</note>
         </trans-unit>
@@ -24407,6 +24627,11 @@
           <source>Specifies whether the entry is reversed.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Reversed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 568297125 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the Start date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Usage History - Control Start Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3439860152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Device Config.</source>
@@ -35273,6 +35498,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Exclude Non Working Days - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 310427152 - Control 273467859 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if Friday Half Leave Allowed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Friday Half Leave Allowed - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 310427152 - Control 2303302321 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Gender field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43923,6 +44153,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control From Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 2546113746 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Limit (amt) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Fuel Limit (amt) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 3095358712 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Limit (ltr) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Fuel Limit (ltr) - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2985527303 - Control 783730271 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No of Lines field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -43987,6 +44227,11 @@
           <source>Specifies the value of the Distance (KM) field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Distance (KM) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 3692456998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fuel Claimed (ltr) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Fuel Claimed (ltr) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3106374893 - Control 1928739672 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Grade/Class field.</source>
@@ -47468,15 +47713,65 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Reason For Transfer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 268647664 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Branch - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 3416816130 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Branch 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 2779119513 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Branch 3 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 3007360189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Branch Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 2975881051 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch Name 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Branch Name 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 3613577668 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch Name 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Branch Name 3 - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1733013553 - Control 2467821014 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Province field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 4110753092 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 3473056475 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province 3 - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1733013553 - Control 429476743 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Branch field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 3649678441 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province Name 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province Name 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 4287375058 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province Name 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province Name 3 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 1780950718 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Transfer Effective Date field.</source>
@@ -47643,6 +47938,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 276376150 - NamedType 494866634" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attach File(s)...</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - NamedType SelectFileTxt</note>
+        </trans-unit>
         <trans-unit id="Page 276376150 - Control 3598852419 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approver Role (TO) field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -47652,6 +47952,11 @@
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 276376150 - Control 347119804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attachment File Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Attachment File Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Control 3566412157 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Department Code (To) field.</source>
@@ -47808,15 +48113,65 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Reason For Transfer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 268647664 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Branch - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 3416816130 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Branch 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 2779119513 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Branch 3 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 3007360189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Branch Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 2975881051 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch Name 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Branch Name 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 3613577668 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch Name 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Branch Name 3 - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1090393226 - Control 2467821014 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Transfer To Province field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 4110753092 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 3473056475 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province 3 - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1090393226 - Control 429476743 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Transfer To Province Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 3649678441 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province Name 2 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province Name 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 4287375058 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province Name 3 field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province Name 3 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1090393226 - Action 2493986398 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Send Approval Request action.</source>
@@ -49567,6 +49922,11 @@
           <source>EmployeeJobQueue</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report EmployeeJobQue - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 916383554 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ETDS Voucher</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report ETDS Voucher - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 3424873321 - Control 3083556976 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the referenceNo field.</source>
@@ -54438,16 +54798,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Training Question - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 2051781008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Transfer Claim Approver field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer Claim Approver - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 4087076640 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Transfer No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 27828016 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Travel Claimed No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54842,6 +55192,21 @@
           <source>Specifies the value of the Retirement Fund Nos. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Retirement Fund Nos. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 3717497202 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Skip Approval On HR Transfer field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Skip Approval On HR Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2051781008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Transfer Claim Approver field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer Claim Approver - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 4087076640 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Transfer No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Transfer No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 566724986 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the BMAF Dist. Criteria (H) field.</source>
@@ -55912,6 +56277,11 @@
           <source>Last Placement Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Last Placement Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 281179121 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Last Placement Date (B.S.)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Last Placement Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3544158917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Login</source>
@@ -57493,6 +57863,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Shift Assignment Series - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 3717497202 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Skip Approval On HR Transfer</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Skip Approval On HR Transfer - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 201297846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Spouse Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58152,6 +58527,26 @@
           <source>On-Site</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum ATM Site - EnumValue On-Site - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2318393622 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2318393622 - EnumValue 4147068940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Acknowledge</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue Acknowledge - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2318393622 - EnumValue 1376382783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Handover</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue Handover - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2318393622 - EnumValue 3902115623 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Letter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue Transfer Letter - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
@@ -61138,10 +61533,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Quarterly - EnumValue 4th Quarter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2117110986 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 2117110986 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Quater - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Quater - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2117110986 - EnumValue 139100102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>First</source>

@@ -43,15 +43,20 @@ page 50367 "Attribute Usage History"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the amount.';
                 }
-                field("Effective Date"; Rec."Effective Date")
+                field("Start Date"; Rec."Start Date")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the effective date.';
+                    ToolTip = 'Specifies the Start date.';
+                }
+                field("End Date"; Rec."End Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the End date.';
                 }
                 field("Entry Date"; Rec."Entry Date")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the entry date.';
+                    ToolTip = 'Specifies the Entry date.';
                 }
                 field(Reversed; Rec.Reversed)
                 {

@@ -86,11 +86,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Training Question field.';
             }
-            field("Transfer No."; Rec."Transfer No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Transfer No. field.';
-            }
+
             field("OT No."; Rec."OT No.")
             {
                 ApplicationArea = All;
@@ -136,11 +132,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the OT eligible hour field.';
             }
-            field("Transfer Claim Approver"; Rec."Transfer Claim Approver")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Transfer Claim Approver field.';
-            }
+
             field("Experience No. Series"; Rec."Experience No. Series")
             {
                 ApplicationArea = All;
@@ -461,6 +453,24 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the BMAF Dist. Criteria (H) field.';
+                }
+            }
+            group(Transfer)
+            {
+                field("Transfer No."; Rec."Transfer No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Transfer No. field.';
+                }
+                field("Transfer Claim Approver"; Rec."Transfer Claim Approver")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Transfer Claim Approver field.';
+                }
+                field("Skip Approval On HR Transfer"; Rec."Skip Approval On HR Transfer")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Skip Approval On HR Transfer field.', Comment = '%';
                 }
             }
             group("Allowance Assignment")
