@@ -12,7 +12,8 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                 if Qualification.get("Qualification Code") then begin
                     Validate("Qualification Type", Qualification."Qualification Type");
                     Validate(Rank, Qualification.Rank);
-                    Validate("GPA Scale", "GPA Scale");
+                    if "GPA Scale" <> 0 then
+                        Validate("GPA Scale", "GPA Scale");
                 end;
             end;
         }
@@ -95,9 +96,8 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             // MinValue = 0;
             trigger OnValidate()
             begin
-                If "GPA Scale" <> 0 then
-                    if CGPA > "GPA Scale" then
-                        Error('CGPA cannot be greater than GPA Scale');
+                if CGPA > "GPA Scale" then
+                    Error('CGPA cannot be greater than GPA Scale');
             end;
         }
         field(50013; Attachment; Media)
