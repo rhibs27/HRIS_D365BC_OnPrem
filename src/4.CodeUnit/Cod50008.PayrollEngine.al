@@ -3035,15 +3035,15 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Female Tax Credit" := TaxExempt;
         if TaxAtOnceAnnualTax < 0 then
             TaxAtOnceAnnualTax := 0;
-        PayrollLine."Net Tax Liability" := TaxAtOnceAnnualTax;
-        PayrollLine."Total Tax Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening" + Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
-        PayrollLine."Total SST Paid" := Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
-        PayrollLine."Total Tax Remuneration Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening";
-        PayrollLine."Current Benefit" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits;
-        PayrollLine."Current Non-Payments" := CurrentNonPaymentBenefits;
-        PayrollLine."Current Deduction" := TaxAtOnceCurrentDeduction;
-        PayrollLine."SST Base Amount" := GetSSTBaseAmount(PayrollLine);
-        PayrollLine."RIT Base Amount" := PayrollLine."Current Benefit" + PayrollLine."Current Non-Payments" - PayrollLine."SST Base Amount";
+        PayrollLine."Net Tax Liability" := Round(TaxAtOnceAnnualTax, 0.01, '=');
+        PayrollLine."Total Tax Paid" := Round(Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening" + Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening", 0.01, '=');
+        PayrollLine."Total SST Paid" := Round(Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening", 0.01, '=');
+        PayrollLine."Total Tax Remuneration Paid" := Round(Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening", 0.01, '=');
+        PayrollLine."Current Benefit" := Round(TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits, 0.01, '=');
+        PayrollLine."Current Non-Payments" := Round(CurrentNonPaymentBenefits, 0.01, '=');
+        PayrollLine."Current Deduction" := Round(TaxAtOnceCurrentDeduction, 0.01, '=');
+        PayrollLine."SST Base Amount" := Round(GetSSTBaseAmount(PayrollLine), 0.01, '=');
+        PayrollLine."RIT Base Amount" := Round(PayrollLine."Current Benefit" + PayrollLine."Current Non-Payments" - PayrollLine."SST Base Amount", 0.01, '=');
 
         PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
     end;
@@ -3051,6 +3051,8 @@ codeunit 50008 "Payroll Engine"
     local procedure GetSSTBaseAmount(PayrollLineRec: Record "Payroll Line"): Decimal
     begin
         if SocialSecurityTaxAmount >= MonthlyTax then
+            exit(PayrollLineRec."Current Benefit" + PayrollLineRec."Current Non-Payments")
+        else if ((SocialSecurityTaxAmount / 0.01) >= (PayrollLineRec."Current Benefit" + PayrollLineRec."Current Non-Payments")) then
             exit(PayrollLineRec."Current Benefit" + PayrollLineRec."Current Non-Payments")
         else
             exit(SocialSecurityTaxAmount / 0.01);

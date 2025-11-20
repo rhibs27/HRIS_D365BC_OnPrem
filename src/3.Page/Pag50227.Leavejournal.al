@@ -87,7 +87,7 @@ page 50227 "Leave Journal"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("Emp Act. No");
+                SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
         }
     }
@@ -172,6 +172,7 @@ page 50227 "Leave Journal"
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
         CurrPage.Update(false);
+        SetLayout();
     end;
 
     trigger OnAfterGetCurrRecord()
@@ -182,6 +183,7 @@ page 50227 "Leave Journal"
     trigger OnOpenPage()
     begin
         SetLayout();
+        CurrPage.Update();
     end;
 
     procedure SetLayout()

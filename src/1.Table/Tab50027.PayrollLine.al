@@ -1800,8 +1800,10 @@ table 50027 "Payroll Line"
 
 
                         CalculateDifferentialInterestAmount(AttributeAmount);
-                        if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
-                            CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
+                        CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
+                        CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
+                        // if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
+                        //     CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
 
                         AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
@@ -1996,23 +1998,7 @@ table 50027 "Payroll Line"
         exit(NumberStack[NsNo]);
     end;
 
-    procedure CalculateProRataAmountAfterTransfer(AttrUsage: Record "Payroll Attributes Usage"; var Amount: Decimal)
-    var
-        TotalDays: Decimal;
-    begin
-        GetPayrollHeader();
-        TotalDays := "Total Days";
-        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
-            TotalDays := PGSetup."Total Days" / 12;
-        if (AttrUsage."Start Date" < PayrollHeader."From Date") and (AttrUsage."End Date" > PayrollHeader."To Date") then
-            exit;
-        if (AttrUsage."End Date" <> 0D) and (AttrUsage."End Date" < PayrollHeader."From Date") then
-            Amount := 0
-        else if (AttrUsage."Start Date" >= PayrollHeader."From Date") and (AttrUsage."Start Date" <= PayrollHeader."To Date") then
-            Amount := Amount * (PayrollHeader."To Date" - AttrUsage."Start Date" + 1) / TotalDays
-        else if (AttrUsage."End Date" >= PayrollHeader."From Date") and (AttrUsage."End Date" <= PayrollHeader."To Date") then
-            Amount := Amount - Amount * (PayrollHeader."To Date" - AttrUsage."End Date") / TotalDays;
-    end;
+
 
     procedure ResolveColumn(var Expression: Code[100]; BasicFromLine: Boolean)
     var
@@ -2899,20 +2885,17 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", '%1|%2', '', PayrollDocNo);
+        AssignmentMemoLedgerEntry.SetRange("Blocked for Payroll", false);
         AssignmentMemoLedgerEntry.SetRange("Open", true);
-        // if LeaveCode <> '' then
-        //     AllowanceAssignmentLine.SetRange("Leave Code", LeaveCode);
         if getLastAmount then begin
-            // AssignmentMemoLedgerEntry.SetRange("Valid From Date", FromDate, ToDate);  //to be checked
-            // AssignmentMemoLedgerEntry.SetRange("Valid To Date", FromDate, ToDate);
             AssignmentMemoLedgerEntry.CalcSums(Amount);
-            exit(AssignmentMemoLedgerEntry."Amount");
+            exit(round(AssignmentMemoLedgerEntry."Amount", 0.01, '='));
         end else begin
             AssignmentMemoLedgerEntry.CalcSums(Amount);
             Amt := AssignmentMemoLedgerEntry."Amount";
             if AssignmentMemoLedgerEntry.FindSet() then
                 AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", PayrollDocNo);
-            exit(Amt);
+            exit(round(Amt, 0.01, '='));
         end;
 
     end;
@@ -2927,7 +2910,7 @@ table 50027 "Payroll Line"
                                             AllowanceConfiguration."Leave Code",
                                             0D,
                                             PayrollHeader."To Date",
-                                            false));
+                                            true));
 
             AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
@@ -2970,6 +2953,63 @@ table 50027 "Payroll Line"
             AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", '');
     end;
 
+    local procedure CalculateProRataAmtFromStartDate(EmpCode: Code[20]; AttrCode: Code[20]; var ProRatedAmount: Decimal)
+    var
+        AttrUsageHistory: Record "Attributes Usage History";
+    begin
+        AttrUsageHistory.Reset();
+        AttrUsageHistory.SetRange("Employee No.", EmpCode);
+        AttrUsageHistory.SetRange("Attribute Code", AttrCode);
+        AttrUsageHistory.SetRange(Reversed, false);
+        AttrUsageHistory.SetFilter("Start Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
+        if AttrUsageHistory.FindFirst() then begin
+            ProRatedAmount := AttrUsageHistory."Old Amount" + GetDifferentialAmount(AttrUsageHistory."New Amount",
+                                                                                    AttrUsageHistory."Old Amount",
+                                                                                    AttrUsageHistory."Start Date",
+                                                                                    PayrollHeader."To Date");
+            if (AttrUsageHistory."End Date" <> 0D) and (AttrUsageHistory."End Date" < PayrollHeader."To Date") then
+                ProRatedAmount := AttrUsageHistory."Old Amount" + GetDifferentialAmount(AttrUsageHistory."New Amount",
+                                                                                        AttrUsageHistory."Old Amount",
+                                                                                        AttrUsageHistory."End Date",
+                                                                                        AttrUsageHistory."Start Date");
+        end;
+    end;
+
+    local procedure CalculateProRataAmtFromEndDate(EmpCode: Code[20]; AttrCode: Code[20]; var ProRatedAmount: Decimal)
+    var
+        AttrUsageHistory: Record "Attributes Usage History";
+    begin
+        AttrUsageHistory.Reset();
+        AttrUsageHistory.SetRange("Employee No.", EmpCode);
+        AttrUsageHistory.SetRange("Attribute Code", AttrCode);
+        AttrUsageHistory.SetRange(Reversed, false);
+        AttrUsageHistory.SetFilter("End Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
+        if AttrUsageHistory.FindFirst() then begin
+            ProRatedAmount := GetDifferentialAmount(AttrUsageHistory."New Amount",
+                                                    0,
+                                                    PayrollHeader."From Date",
+                                                    AttrUsageHistory."End Date");
+        end;
+    end;
+
+    procedure CalculateProRataAmountAfterTransfer(AttrUsage: Record "Payroll Attributes Usage"; var Amount: Decimal)
+    var
+        TotalDays: Decimal;
+    begin
+        GetPayrollHeader();
+        TotalDays := "Total Days";
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            TotalDays := PGSetup."Total Days" / 12;
+        if (AttrUsage."Start Date" < PayrollHeader."From Date") and (AttrUsage."End Date" > PayrollHeader."To Date") then
+            exit;
+        if (AttrUsage."End Date" <> 0D) and (AttrUsage."End Date" < PayrollHeader."From Date") then
+            Amount := 0
+        else if (AttrUsage."Start Date" >= PayrollHeader."From Date") and (AttrUsage."Start Date" <= PayrollHeader."To Date") then
+            Amount := Amount * (PayrollHeader."To Date" - AttrUsage."Start Date" + 1) / TotalDays
+        else if (AttrUsage."End Date" >= PayrollHeader."From Date") and (AttrUsage."End Date" <= PayrollHeader."To Date") then
+            Amount := Amount - Amount * (PayrollHeader."To Date" - AttrUsage."End Date") / TotalDays;
+    end;
+
     local procedure GetBackdatedAmountEmployeeWiseDateWise(EmpCode: Code[20]; AttrCode: Code[20]): Decimal
     var
         PayrollAttrUsageHistory: Record "Attributes Usage History";
@@ -2983,16 +3023,12 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         if PayrollAttrUsageHistory.FindFirst() then begin
-            PayCyclePeriod.Reset();
-            PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Effective Date");
-            if PayCyclePeriod.FindFirst() then
-                exit(PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount");
             AsOfDay := PayrollHeader."From Date" - PayrollAttrUsageHistory."Effective Date";
             OneDayAmount := (PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") / FindTotalDays();
             BackDatedAmount := OneDayAmount * AsOfDay;
             //BackDatedAmount := AmountAsOfDate - PreviouslyPaidAmountToBeReduced(EmpCode, AttrCode, PayrollAttrUsageHistory."Effective Date");
         end;
-        exit(BackDatedAmount);
+        exit(DifferentialAmount)
     end;
 
     local procedure FindTotalDays(): Decimal
@@ -3005,6 +3041,7 @@ table 50027 "Payroll Line"
         else
             exit("Total Days"); // from payroll line
     end;
+
 
     local procedure PreviouslyPaidAmountToBeReduced(EmpCode: Code[20]; AttrCode: Code[20]; EffectiveDate: Date): Decimal
     var
@@ -3039,11 +3076,5 @@ table 50027 "Payroll Line"
     local procedure OnBeforeExitOfBaseAmountForCIT(EmployeeCode: Code[20]; var BaseAmount: Decimal)
     begin
         //Additional Allowance amount if needed to be included
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeCalculateTotalAmount(TotalDays: Decimal; LwpDays: Decimal; var Amount: Decimal; var IsHandled: Boolean)
-    begin
-        //If Additional calculation for amount
     end;
 }

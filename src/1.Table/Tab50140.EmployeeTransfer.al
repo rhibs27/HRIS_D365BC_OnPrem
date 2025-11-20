@@ -580,17 +580,17 @@ table 50140 "Employee Transfer"
                     Error('Date of joining of transfer %1 cannot be less than HR Proposed date %2', "Date of Joining Of Transfer", "Transfer Effective Date");
             end;
         }
-        field(89; "Transfer Remarks"; Text[50])
+        field(89; "Transfer Remarks"; Text[250])
         {
             Description = 'Transfer';
         }
-        field(90; "Temporary Address"; Text[65])
+        field(90; "Temporary Address"; Text[150])
         {
         }
-        field(91; "Temporary Province"; Text[30])
+        field(91; "Temporary Province"; Text[50])
         {
         }
-        field(92; "Temporary District"; Text[30])
+        field(92; "Temporary District"; Text[50])
         {
         }
         field(93; "Notify to"; Text[200])
@@ -701,6 +701,140 @@ table 50140 "Employee Transfer"
         }
         field(202; "Salary Level Name"; Text[100])
         {
+            Editable = false;
+        }
+        field(203; "Requested Branch"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                Clear("Requested Branch Name");
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Requested Branch") then
+                    Validate("Requested Branch Name", OrganizationStructureList.Name)
+                else
+                    Clear("Requested Branch Name");
+            end;
+        }
+        field(204; "Requested Branch Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+
+        field(205; "Requested Province 2"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                if "Requested Province 2" <> xRec."Requested Province 2" then begin
+                    Clear("Requested Province Name 2");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Requested Province 2") then
+                        Validate("Requested Province Name 2", OrganizationStructureList.Name)
+                    else
+                        Clear("Requested Province Name 2");
+                end;
+            end;
+        }
+        field(206; "Requested Province Name 2"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(207; "Requested Branch 2"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                Clear("Requested Branch Name 2");
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Requested Branch 2") then
+                    Validate("Requested Branch Name 2", OrganizationStructureList.Name)
+                else
+                    Clear("Requested Branch Name 2");
+            end;
+        }
+        field(208; "Requested Branch Name 2"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+
+        field(209; "Requested Province 3"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                if "Requested Province 3" <> xRec."Requested Province 3" then begin
+                    Clear("Requested Province Name 3");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Requested Province 3") then
+                        Validate("Requested Province Name 3", OrganizationStructureList.Name)
+                    else
+                        Clear("Requested Province Name 3");
+                end;
+            end;
+        }
+        field(210; "Requested Province Name 3"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(211; "Requested Branch 3"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                Clear("Requested Branch Name 3");
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Requested Branch 3") then
+                    Validate("Requested Branch Name 3", OrganizationStructureList.Name)
+                else
+                    Clear("Requested Branch Name 3");
+            end;
+        }
+        field(212; "Requested Branch Name 3"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+
+        field(300; "Incoming Supervisior 2"; Code[20])
+        {
+            Description = 'Transfer';
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            trigger OnValidate()
+            begin
+                if EmpVar.Get("Incoming Supervisior 2") then
+                    Validate("Incoming Supervisior Name 2", EmpVar."Full Name")
+                else
+                    Clear("Incoming Supervisior Name 2");
+            end;
+        }
+        field(301; "Incoming Supervisior Name 2"; Text[50])
+        {
+            Description = 'Transfer';
+            Editable = false;
+        }
+        field(302; "Outgoing Branch Rep. Person 2"; Code[20])
+        {
+            Description = 'Transfer';
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            trigger OnValidate()
+            begin
+                if "Outgoing Branch Rep. Person 2" <> '' then begin
+                    EmployeeRec.Get("Outgoing Branch Rep. Person 2");
+                    "Outgoing Rep. Person Name 2" := EmployeeRec."Full Name";
+                end else
+                    Clear("Outgoing Rep. Person Name 2");
+                if "Outgoing Branch Rep. Person 2" = "Employee No." then
+                    Error('Cannot Select Yourself as Outgoing Reporting person');
+            end;
+        }
+        field(303; "Outgoing Rep. Person Name 2"; Text[100])
+        {
+            Description = 'Transfer';
             Editable = false;
         }
     }

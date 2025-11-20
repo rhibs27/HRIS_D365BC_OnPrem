@@ -1268,6 +1268,10 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50140; "Last Placement Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Last Placement Date (B.S.)" := EngNepDate.getNepaliDate("Last Placement Date");
+            end;
         }
         field(50141; "Contract Renew Date"; Date)
         {
@@ -1542,6 +1546,14 @@ tableextension 50013 "Employee Ext" extends Employee
                 MailManagement: Codeunit "Mail Management";
             begin
                 MailManagement.ValidateEmailAddressField("Nominee Email");
+            end;
+        }
+        field(50189; "Last Placement Date (B.S.)"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Last Placement Date" := EngNepDate.getEngDate("Last Placement Date (B.S.)");
             end;
         }
 

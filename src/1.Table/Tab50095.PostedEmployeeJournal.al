@@ -335,7 +335,24 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(81; "Incoming Supervisor 2"; Code[20])
+        {
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            Description = 'Transfer';
+        }
+        field(82; "Incoming Supervisor Name 2"; Text[50])
+        {
 
+        }
+        field(83; "Outgoing Branch Rep. Person 2"; Code[20])
+        {
+            Description = 'Transfer';
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+
+        }
+        field(84; "Outgoing Rep. Person Name 2"; Text[50])
+        {
+        }
         // OverTime 
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
@@ -396,6 +413,14 @@ table 50095 "Posted Employee Journal"
             DataClassification = ToBeClassified;
         }
         field(110; "CheckOut OverNight"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(111; Attachment; Media)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(112; "Attachment File Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }

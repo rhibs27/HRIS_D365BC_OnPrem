@@ -1,24 +1,9 @@
 codeunit 50020 "Attachment Mgt."
 {
     var
-        HRSetup: Record "Human Resources Setup";
-        HRMgt: Codeunit "HR Mgt.";
-        Employee: Record Employee;
         FileMgt: Codeunit "File Management";
 
     procedure UploadAttachment(IncomingDocument: Record "Incoming Document")
-    var
-        TempBlob: Codeunit "Temp Blob";
-        InStream: InStream;
-        Extension: Text;
-        DocFoundEmpActivity: Boolean;
-        DocFoundEmpLoan: Boolean;
-        AppraisalDocFound: Boolean;
-        EmployeeLoanAdvance: Record "Employee Loan/Advance";
-        AppraisalEmp: Record Appraisal;
-        EmployeeActivityFolder: Text;
-        CleanedFileName: text;
-        IncomingDocumentAttachment: Record "Incoming Document Attachment";
 
     begin
         // Validate Incoming Document
@@ -222,6 +207,49 @@ codeunit 50020 "Attachment Mgt."
                     Error('You are not allowed to Upload attachment');
             end else if EmployeeTransfer."Approval Status" <> EmployeeTransfer."Approval Status"::Open then
                     ERROR('Approval status must be Open.')
+        end;
+    end;
+
+    procedure ImportAttachmentToEmpActJnl(EmpActJnl: Record "Employee Activity Journal")
+    var
+        Extension: Text;
+        FileMgt: Codeunit "File Management";
+        InStreamPic: InStream;
+        FromFileName: Text;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+    begin
+        if EmpActJnl.Attachment.HasValue() then
+            if not Confirm('There is an existing attachment. Do you wish to replace it?') then
+                exit;
+        if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
+            // check file size 
+            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(EmpActJnl."Employee Act Type"));
+
+            // Check File Extension
+            Extension := FileMgt.GetExtension(FromFileName);
+            if Extension = '' then
+                Error('Invalid file. Please upload jpg, png or pdf files.');
+
+            AttachmentMgt.checkAttachmentExtensionImage(Extension);
+            Clear(EmpActJnl.Attachment);
+            EmpActJnl.Attachment.ImportStream(InStreamPic, FromFileName);
+            EmpActJnl."Attachment File Name" := FromFileName;
+            EmpActJnl.Modify(true);
+        end;
+    end;
+
+    procedure ExportAttachmentFromEmpActJnl(EmpActJnl: Record "Employee Activity Journal")
+    var
+        InStream: InStream;
+        FileManagement: Codeunit "File Management";
+        ToFile: Text;
+        ItemTenantMedia: Record "Tenant Media";
+    begin
+        if ItemTenantMedia.Get(EmpActJnl.Attachment.MediaId) then begin
+            ToFile := Format(EmpActJnl."Employee No.") + '_' + format(EmpActJnl."Document No") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
+            ItemTenantMedia.CalcFields(Content);
+            ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
+            DownloadFromStream(Instream, '', '', '', ToFile);
         end;
     end;
 }

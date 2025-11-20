@@ -116,9 +116,29 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                     Editable = IsOpen;
                 }
+                field("Attachment File Name"; Rec."Attachment File Name")
+                {
+                    ToolTip = 'Specifies the value of the Attachment File Name field.', Comment = '%';
+                    Editable = false;
+                    trigger OnDrillDown()
+                    begin
+                        if Rec.Attachment.HasValue() then
+                            //export the attachment
+                            AttachmentMgt.ExportAttachmentFromEmpActJnl(Rec)
+                        else
+                            //import the attachment
+                            begin
+                            Rec.TestField("Approval Status", Rec."Approval Status"::Open);
+                            AttachmentMgt.ImportAttachmentToEmpActJnl(Rec);
+                        end;
+                        CurrPage.Update();
+                    end;
+                }
+
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
+                Visible = not SkipApproval;
                 Editable = false;
                 SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
@@ -133,7 +153,7 @@ page 50222 "Transfer Journal"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsOpen;
+                Visible = IsOpen and not SkipApproval;
                 Image = SendApprovalRequest;
                 trigger OnAction()
                 begin
@@ -160,7 +180,7 @@ page 50222 "Transfer Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = Post;
-                Visible = IsApproved;
+                Visible = IsApproved or SkipApproval;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Post Transfer?', false) then begin
@@ -182,6 +202,19 @@ page 50222 "Transfer Journal"
                         EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
+            action("Import Attachment")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Import;
+                Visible = IsOpen;
+                trigger OnAction()
+                begin
+                    AttachmentMgt.ImportAttachmentToEmpActJnl(Rec);
+                    CurrPage.Update();
+                end;
+            }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -190,6 +223,7 @@ page 50222 "Transfer Journal"
         Rec."Employee Act Type" := Rec."Employee Act Type"::"HR Transfer";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
+        Rec."Attachment File Name" := SelectFileTxt;
         CurrPage.Update(false);
     end;
 
@@ -220,6 +254,10 @@ page 50222 "Transfer Journal"
         TransferMgt: Codeunit "Transfer Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
+        HrSetup: Record "Human Resources Setup";
+        SkipApproval: Boolean;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+        SelectFileTxt: Label 'Attach File(s)...';
 
     local procedure SetFieldEnable();
     begin
@@ -269,10 +307,13 @@ page 50222 "Transfer Journal"
                     UnitEdit := FALSE;
                 end;
         end;
+        TransferJournalOnAfterSetFieldEditable(Rec, ProvinceEdit, BranchEdit, ExtensionCounterEdit, DepartmentEdit, UnitEdit);
     end;
 
     procedure SetLayout()
     begin
+        HrSetup.Get();
+
         IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
@@ -281,5 +322,16 @@ page 50222 "Transfer Journal"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+
+        if HrSetup."Skip Approval On HR Transfer" then begin
+            SkipApproval := HrSetup."Skip Approval On HR Transfer";
+            IsApproved := IsApproved and not SkipApproval;
+            IsPending := IsPending and not SkipApproval;
+        end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure TransferJournalOnAfterSetFieldEditable(var Rec: Record "Employee Activity Journal"; var ProvinceEdit: Boolean; var BranchEdit: Boolean; var ExtensionCounterEdit: Boolean; var DepartmentEdit: Boolean; var UnitEdit: Boolean)
+    begin
     end;
 }

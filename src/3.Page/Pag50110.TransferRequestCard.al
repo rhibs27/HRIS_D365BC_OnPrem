@@ -110,6 +110,54 @@ page 50110 "Transfer Request Card"
                     ToolTip = 'Specifies the value of the Transfer To Province Name field.';
                     ApplicationArea = All;
                 }
+                field("Requested Branch"; Rec."Requested Branch")
+                {
+                    ToolTip = 'Specifies the value of the Requested Branch field.', Comment = '%';
+                }
+                field("Requested Branch Name"; Rec."Requested Branch Name")
+                {
+                    ToolTip = 'Specifies the value of the Requested Branch Name field.', Comment = '%';
+                }
+                field("Requested Province 2"; Rec."Requested Province 2")
+                {
+                    ToolTip = 'Specifies the value of the Requested Province 2 field.', Comment = '%';
+                }
+                field("Requested Province Name 2"; Rec."Requested Province Name 2")
+                {
+                    ToolTip = 'Specifies the value of the Requested Province Name 2 field.', Comment = '%';
+                }
+                field("Requested Branch 2"; Rec."Requested Branch 2")
+                {
+                    ToolTip = 'Specifies the value of the Requested Branch 2 field.', Comment = '%';
+                }
+                field("Requested Branch Name 2"; Rec."Requested Branch Name 2")
+                {
+                    ToolTip = 'Specifies the value of the Requested Branch Name 2 field.', Comment = '%';
+                }
+                field("Requested Province 3"; Rec."Requested Province 3")
+                {
+                    ToolTip = 'Specifies the value of the Requested Province 3 field.', Comment = '%';
+                }
+                field("Requested Province Name 3"; Rec."Requested Province Name 3")
+                {
+                    ToolTip = 'Specifies the value of the Requested Province Name 3 field.', Comment = '%';
+                }
+                field("Requested Branch 3"; Rec."Requested Branch 3")
+                {
+                    ToolTip = 'Specifies the value of the Requested Branch 3 field.', Comment = '%';
+                }
+                field("Requested Branch Name 3"; Rec."Requested Branch Name 3")
+                {
+                    ToolTip = 'Specifies the value of the Requested Branch Name 3 field.', Comment = '%';
+                }
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                Editable = false;
+                SubPageLink = "No." = field("No."),
+                                "Employee Code" = field("Employee No."),
+                                "Employee Activity Type" = field(Type);
+                ApplicationArea = All;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {

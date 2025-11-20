@@ -57,6 +57,16 @@ page 50178 "Request Allowance Card"
                 {
                     ToolTip = 'Specifies the value of the No of Lines field.', Comment = '%';
                 }
+                field("Fuel Limit (ltr)"; Rec."Fuel Limit (ltr)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (ltr) field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Fuel Limit (amt)"; Rec."Fuel Limit (amt)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (amt) field.', Comment = '%';
+                    Editable = false;
+                }
             }
             part(line; "Request Allowance Subform")
             {

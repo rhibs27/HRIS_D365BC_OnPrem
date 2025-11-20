@@ -178,14 +178,12 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine: Record "Assignment Memo Line";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
+        IsHandled: Boolean;
     begin
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
             AssignmentMemoHdr.TestField(Remarks);
 
-        if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Request Allowance" then begin
-            if AssignmentMemoHdr."Approval Status" = AssignmentMemoHdr."Approval Status"::Open then
-                AllowancerequestOnbeforeSendForApproval(AssignmentmemoHdr."No.");
-        end;
+        AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);
 
         ApproverMgt.UpdateFirstApproverStatus(AssignmentmemoHdr."No.");
 
@@ -523,7 +521,7 @@ codeunit 50030 "Assignment Memo Mgt"
         if IncomingDoc.Insert(true) then;
     end;
 
-    procedure AllowancerequestOnbeforeSendForApproval(DocNo: Code[20])
+    procedure AllowanceRequestOnbeforeSendForApproval(DocNo: Code[20])
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AssignmentMemoLine: Record "Assignment Memo Line";
@@ -673,5 +671,11 @@ codeunit 50030 "Assignment Memo Mgt"
     begin
         if not Approved and (RecRef.Number = Database::"Assignment Memo Header") then
             SkipRecRefModifyOnReject := true;
+    end;
+
+
+    [IntegrationEvent(false, false)]
+    local procedure AssignmentMemoOnbeforeSendForApproval(var AssignmentMemoHdr: Record "Assignment Memo Header"; var IsHandled: Boolean)
+    begin
     end;
 }
