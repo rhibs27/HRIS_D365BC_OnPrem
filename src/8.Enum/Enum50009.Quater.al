@@ -2,9 +2,9 @@ enum 50009 Quater
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; First)
     {
