@@ -9868,6 +9868,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Approver Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Branch Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3212359541 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
           <note from="Developer" annotates="general" priority="2"></note>

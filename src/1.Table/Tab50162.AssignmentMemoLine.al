@@ -332,7 +332,8 @@ table 50162 "Assignment Memo Line"
             AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
             if AllowanceConfiguration.FindSet() then begin
                 repeat
-                    "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration);
+                    if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, "Employee No.", "To Date") then
+                        "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration);
                     if "Allowance Amount" <> 0 then
                         break;
 
