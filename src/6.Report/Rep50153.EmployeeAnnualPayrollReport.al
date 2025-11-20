@@ -11,10 +11,14 @@ report 50153 "Employee Annual Payroll Report"
         dataitem(Employee; Employee)
         {
             RequestFilterFields = "No.";
-            column(CompanyInformationName; CompanyInformation.Name) { }
-            column(CompanyInformationPic; CompanyInformation.Picture) { }
-            column(CompanyInformationAddr; CompanyInformation.Address) { }
-            column(CompanyInformationPh; CompanyInformation."Phone No.") { }
+            column(ComInfoName; ComInfo.Name) { }
+            column(ComInfoPic; ComInfo.Picture) { }
+            // column(ComInfoAddr; ComInfo.GetCompanyPhysicalAddr()) { }
+            // column(ComInfoPh; ComInfo.GetCompanyCommunicationAddr()) { }
+            // column(CompanyInformationName; CompanyInformation.Name) { }
+            // column(CompanyInformationPic; CompanyInformation.Picture) { }
+            column(ComInfoAddr; ComInfo.Address) { }
+            column(ComInfoPh; ComInfo."Phone No.") { }
             column(Date_Filter; 'Date Filter : ' + Format(StartDate) + '..' + Format(EndDate)) { }
             column(No_; "No.") { }
             column(FullName; FullName) { }
@@ -25,7 +29,7 @@ report 50153 "Employee Annual Payroll Report"
             column(SumTotalNonTaxableBenefit; SumTotalNonTaxableBenefit) { }
             dataitem(AttributeType; Integer)
             {
-                DataItemTableView = where(Number = filter(0 .. 2));
+                DataItemTableView = where(Number = filter(0 .. 5));
                 column(AttributeTypeCode; Enum::"Attribute Type".FromInteger(AttributeType.Number)) { }
                 dataitem("Payroll Column Configuration"; "Payroll Column Configuration")
                 {
@@ -131,6 +135,7 @@ report 50153 "Employee Annual Payroll Report"
     end;
 
     var
+        ComInfo: Record "Company Information";
         CompanyInformation: Record "Company Information";
         PayCycleTermCode: Code[20];
         DetailedEmployeeLedgerEntry: array[2] of Record "Detailed Employee Ledger Entry";

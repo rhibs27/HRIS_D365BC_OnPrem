@@ -1677,17 +1677,17 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
-        <Field Name="CompanyInformationName">
-          <DataField>CompanyInformationName</DataField>
+        <Field Name="ComInfoName">
+          <DataField>ComInfoName</DataField>
         </Field>
-        <Field Name="CompanyInformationPic">
-          <DataField>CompanyInformationPic</DataField>
+        <Field Name="ComInfoPic">
+          <DataField>ComInfoPic</DataField>
         </Field>
-        <Field Name="CompanyInformationAddr">
-          <DataField>CompanyInformationAddr</DataField>
+        <Field Name="ComInfoAddr">
+          <DataField>ComInfoAddr</DataField>
         </Field>
-        <Field Name="CompanyInformationPh">
-          <DataField>CompanyInformationPh</DataField>
+        <Field Name="ComInfoPh">
+          <DataField>ComInfoPh</DataField>
         </Field>
         <Field Name="Date_Filter">
           <DataField>Date_Filter</DataField>
