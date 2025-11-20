@@ -3918,6 +3918,41 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Line No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 3672140454 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Account No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Account No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 2233458183 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Account Opening Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Account Opening Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 2590445211 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Disbursed Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Disbursed Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1676886993 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Expiry Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Expiry Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1174496120 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Interest Rate (%)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Interest Rate (%) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 4223056951 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Settlement Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Settlement Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 2228618656 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1207451066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Morning OT Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35868,6 +35903,76 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan &amp; Advance cues - Control Rejected Vehicle Loan - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1304637111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - NamedType 494866634" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attach File(s)...</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - NamedType SelectFileTxt</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 347119804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attachment File Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Attachment File Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 3672140454 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Account No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Account No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 2233458183 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Account Opening Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Account Opening Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 2590445211 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Disbursed Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Disbursed Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 1676886993 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Expiry Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Expiry Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 1174496120 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Interest Rate (%) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Interest Rate (%) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 4223056951 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Settlement Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Settlement Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 2228618656 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 3710982960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Posting Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Posting Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3458748400 - Control 629845928 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Account ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58628,6 +58733,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Leave Request - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 1304637111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Loan Journal - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 1411835413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Medical Insurance Claim</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -59512,6 +59622,11 @@
           <source>Loan Attachment</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Loan Attachment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 1304637111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Loan Journal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 1411835413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Medical Insurance Claim</source>

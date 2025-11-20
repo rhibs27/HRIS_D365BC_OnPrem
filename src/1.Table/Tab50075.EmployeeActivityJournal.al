@@ -749,6 +749,36 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+        //loan
+        //to import past loan details
+        field(115; "Loan Type"; Enum "Loan Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(116; "Loan Disbursed Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(117; "Loan Account No."; text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(118; "Loan Account Opening Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(119; "Loan Interest Rate (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(120; "Loan Expiry Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(121; "Loan Settlement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
@@ -810,6 +840,7 @@ table 50075 "Employee Activity Journal"
                 if HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer") then
                     SkipApproval := true;
 
+                OnSetupNewLineOnBeforeInsertApproval(Rec, SkipApproval);
                 if not SkipApproval then
                     ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
@@ -859,6 +890,11 @@ table 50075 "Employee Activity Journal"
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
                 end;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSetupNewLineOnBeforeInsertApproval(var EmpActJnl: Record "Employee Activity Journal"; var SkipApproval: Boolean)
+    begin
     end;
 
     var

@@ -130,4 +130,8 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Shift Assignment Memo';
     }
+    value(34; "Loan Journal")
+    {
+        Caption = 'Loan Journal';
+    }
 }
