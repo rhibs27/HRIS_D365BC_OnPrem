@@ -1,10 +1,10 @@
-report 50152 "Employee Annual Payroll Report"
+report 50153 "Employee Annual Payroll Report"
 {
     ApplicationArea = All;
     Caption = 'Employee Annual Payroll Report';
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
-    RDLCLayout = './src/6.Report/Rep50152.EmployeeAnnualPayrollReport.rdl';
+    RDLCLayout = './src/6.Report/Rep50153.EmployeeAnnualPayrollReport.rdl';
 
     dataset
     {
