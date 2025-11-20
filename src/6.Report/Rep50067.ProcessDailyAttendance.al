@@ -91,8 +91,6 @@ report 50067 "Process Daily Attendance"
 
                 if AttSetup."Different Emp. ID for Device" then
                     CheckAndUpdateEmployeeInLog();
-
-
                 if not JobQueueActive then begin
                     IntCount += 1;
                     ProgressWindow.Update(1, Employee."No.");

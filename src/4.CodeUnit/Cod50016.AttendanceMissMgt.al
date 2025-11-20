@@ -79,6 +79,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             AttendanceMissed1.Validate("Approval Status", AttendanceMissed1."Approval Status"::Pending);
             AttendanceMissed1.Insert(true);
         end;
+        HRMgt.SendMailFromTemplate(DATABASE::"Attendance Missed", AttendanceMissed1.Type, "Approval Status"::Pending, AttendanceMissed1."Employee No.", AttendanceMissed1."No.", false);   //For email
         exit(AttendanceMissed1."No.");
     end;
 

@@ -130,6 +130,7 @@ table 50075 "Employee Activity Journal"
                     LeaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
                     LeaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
                     LeaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
+                    leaveMgt.CheckForMultipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
                     LeaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
                 end
             end;

@@ -9638,11 +9638,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3212359541 - NamedType 2822857925" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot apply leave in Present day %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - NamedType LeaveError</note>
-        </trans-unit>
         <trans-unit id="Table 3212359541 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cannot delete document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9812,11 +9807,6 @@
           <source>Leave Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Leave Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3212359541 - Field 456123437 - Method 2126772001 - NamedType 1960708476" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Half Leaves cannot be applied in multiple days.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Leave Type - Method OnValidate - NamedType HalfLeaveError</note>
         </trans-unit>
         <trans-unit id="Table 3212359541 - Field 3465265737 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>LFA Paid</source>
@@ -21103,10 +21093,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method InsertVacancyDocApprovalWorkflowSteps - NamedType ApprovalRequestCanceledMsg</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 1898609077 - NamedType 2229816073" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Thanks and Regards,&lt;br&gt;</source>
+        <trans-unit id="Codeunit 3904381950 - Method 1898609077 - NamedType 2742202986" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType RegardsMessage</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType JournalDocumentType</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 1898609077 - NamedType 4180801903" size-unit="char" translate="yes" xml:space="preserve">
           <source>&lt;br&gt;The allowance assignment from %1 Branch/Extension Counter for the week %2 of month %3 has not been recorded till date.&lt;br&gt;Request you to assign it till EOD.&lt;br&gt;</source>
@@ -21243,10 +21233,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckForLeaveCriteria - NamedType NoLeaveDaysError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2342910349 - Method 503046420 - NamedType 4209622089" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 2342910349 - Method 3607085344 - NamedType 4209622089" size-unit="char" translate="yes" xml:space="preserve">
           <source>Your %1 Leave has exceeded maximum days limit as %1 cannot exceed %2 consecutive days.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckForMulipleRequest - NamedType ErrorforConsecutive</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckForMultipleRequest - NamedType ErrorforConsecutive</note>
         </trans-unit>
         <trans-unit id="Codeunit 2342910349 - Method 2247308866 - NamedType 1960708476" size-unit="char" translate="yes" xml:space="preserve">
           <source>Half Leaves cannot be applied in multiple days.</source>
@@ -54873,6 +54863,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Relocation Dist. Criteria (T) - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 1665138118 - Control 2377832346 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1665138118">
+          <source>Specifies the value of GPA Scale field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Qualifications - Control GPA Scale - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 1665138118 - Control 264531091 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1665138118">
           <source>Specifies the value of the Qualification Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57632,6 +57627,11 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2950119068 - Field 2377832346 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2251411675">
+          <source>GPA Scale</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Qualification Ext - Field GPA Scale - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2950119068 - Field 264531091 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2251411675">
           <source>Qualification Type</source>

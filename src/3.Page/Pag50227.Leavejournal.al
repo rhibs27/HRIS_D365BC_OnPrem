@@ -103,7 +103,6 @@ page 50227 "Leave Journal"
                 Image = SendApprovalRequest;
                 Visible = IsOpen;
                 trigger OnAction()
-
                 begin
                     if Confirm('Do you want to Send for Approval request?', false) then
                         EmpActMgt.SendForApproval(Rec."Emp Act. No", rec."Employee Act Type"::"Leave Request");
@@ -200,12 +199,6 @@ page 50227 "Leave Journal"
     var
         StatusView, ApprovalStatusView : Boolean;
         IsOpen, IsPending, IsApproved, IsRejected : Boolean;
-        UnitEdit: Boolean;
-        DepartmentEdit: Boolean;
-        ExtensionCounterEdit: Boolean;
-        BranchEdit: Boolean;
-        ProvinceEdit: Boolean;
-        LeaveMgt: Codeunit "Leave Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
         ExcelImportMgt: Codeunit "Excel Import";

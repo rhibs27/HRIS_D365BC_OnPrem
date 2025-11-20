@@ -63,6 +63,4 @@ page 50185 "Cancelled Leave List"
             }
         }
     }
-    var
-        leaveMgt: Codeunit "Leave Mgt.";
 }

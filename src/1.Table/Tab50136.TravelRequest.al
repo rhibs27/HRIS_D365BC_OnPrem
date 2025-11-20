@@ -80,12 +80,7 @@ table 50136 "Travel Request"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -106,12 +101,7 @@ table 50136 "Travel Request"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
                 if "End Date" <> 0D then
                     Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date"))
                 else begin
@@ -208,12 +198,7 @@ table 50136 "Travel Request"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Requested Date"));
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -230,10 +215,6 @@ table 50136 "Travel Request"
         }
         field(14; Remarks; Text[100])
         {
-            trigger OnValidate()
-            begin
-                Clear("Rejection Remarks");
-            end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -300,10 +281,6 @@ table 50136 "Travel Request"
         }
         field(36; "Rejection Remarks"; Text[100])
         {
-            trigger OnValidate()
-            begin
-                Clear(Remarks);
-            end;
         }
         field(37; "Approved Date"; Date)
         {
@@ -748,6 +725,10 @@ table 50136 "Travel Request"
                         begin
                             HRSetup.TestField("Travel Claimed No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            TravelRequest.ReadIsolation(IsolationLevel::ReadUncommitted);
+                            TravelRequest.SetLoadFields("No.");
+                            while TravelRequest.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                             HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
@@ -851,7 +832,6 @@ table 50136 "Travel Request"
         TravelMgt: Codeunit "Travel Mgt.";
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
-        DimValue: Record "Dimension Value";
         TravelRequest: Record "Travel Request";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;

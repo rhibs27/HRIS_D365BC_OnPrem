@@ -183,7 +183,6 @@ page 50088 "Leave Request"
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
                 Editable = false;
-                //Editable = SubFormEdit;
             }
         }
     }
@@ -216,12 +215,9 @@ page 50088 "Leave Request"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec.Type := Rec.Type::"Leave Request";
-        // if not HRSetup."Approval From Setup" then
-        //     SubFormEdit := true;
     end;
 
     var
-        // HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         RemainingDays: Decimal;
 
@@ -231,8 +227,6 @@ page 50088 "Leave Request"
         TempIncomingDoc: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
         Approval: Record "Approval HRMS";
-        //SubFormEdit: Boolean;
-        HRSetup: Record "Human Resources Setup";
 
     local procedure GenerateAttachment()
     begin
