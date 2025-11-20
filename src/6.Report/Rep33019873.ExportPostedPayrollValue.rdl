@@ -2074,7 +2074,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -6060,6 +6059,9 @@
                                       </TablixHeader>
                                     </TablixMember>
                                   </TablixMembers>
+                                  <Visibility>
+                                    <Hidden>true</Hidden>
+                                  </Visibility>
                                 </TablixMember>
                                 <TablixMember>
                                   <TablixHeader>
@@ -6276,6 +6278,9 @@
                                       </TablixHeader>
                                     </TablixMember>
                                   </TablixMembers>
+                                  <Visibility>
+                                    <Hidden>true</Hidden>
+                                  </Visibility>
                                 </TablixMember>
                                 <TablixMember>
                                   <TablixHeader>
@@ -6499,7 +6504,7 @@
                             </TablixMember>
                           </TablixMembers>
                           <Visibility>
-                            <Hidden>=(Fields!ShowTaxDetails.Value)</Hidden>
+                            <Hidden>true</Hidden>
                           </Visibility>
                         </TablixMember>
                       </TablixMembers>
@@ -6935,6 +6940,9 @@
                               </TablixMembers>
                             </TablixMember>
                           </TablixMembers>
+                          <Visibility>
+                            <Hidden>=iif(sum(Fields!Amt.value)=0,true,false)</Hidden>
+                          </Visibility>
                         </TablixMember>
                       </TablixMembers>
                     </TablixMember>
@@ -7339,6 +7347,9 @@
                                   </TablixHeader>
                                 </TablixMember>
                               </TablixMembers>
+                              <Visibility>
+                                <Hidden>=iif(sum(Fields!Amt.value)=0,true,false)</Hidden>
+                              </Visibility>
                             </TablixMember>
                           </TablixMembers>
                         </TablixMember>

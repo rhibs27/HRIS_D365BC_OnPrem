@@ -240,7 +240,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 end;
             end;
         }
-        field(301; "Access Token"; code[60])
+        field(50301; "Access Token"; code[60])
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;

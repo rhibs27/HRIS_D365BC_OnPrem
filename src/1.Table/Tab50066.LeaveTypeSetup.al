@@ -126,6 +126,13 @@ table 50066 "Leave Type Setup"
         }
         field(38; "Half Leave Allowed"; Boolean)
         {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if not "Half Leave Allowed" then begin
+                    "Friday Half Leave Allowed" := false;
+                end;
+            end;
         }
         field(40; "Minimum Leave at once"; Decimal)
         {
@@ -163,6 +170,10 @@ table 50066 "Leave Type Setup"
         field(114; "Service Period Calc On"; Option)
         {
             OptionMembers = "Employment Date","Confirmation Date";
+        }
+        field(115; "Friday Half Leave Allowed"; Boolean)
+        {
+            DataClassification = ToBeClassified;
         }
         field(500; Blocked; Boolean) { }
         field(502; "Used Days"; Decimal)

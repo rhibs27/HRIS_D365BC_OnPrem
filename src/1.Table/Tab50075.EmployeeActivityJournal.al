@@ -44,6 +44,9 @@ table 50075 "Employee Activity Journal"
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Deputation On Code", EmpVar."Deputation On Code");
                     Validate("Approver Role", EmpVar."Approver Role");
+                    "Leave Code" := '';
+                    "Start Date" := 0D;
+                    "End Date" := 0D;
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
