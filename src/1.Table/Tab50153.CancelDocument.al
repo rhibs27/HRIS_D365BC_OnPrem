@@ -317,6 +317,7 @@ table 50153 "Cancel Document"
     trigger OnInsert()
     var
         IsHandled: Boolean;
+        CancelledDocument: Record "Cancel Document";
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -325,6 +326,10 @@ table 50153 "Cancel Document"
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
                 HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                CancelDocumentRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                CancelDocumentRec.SetLoadFields("No.");
+                while CancelDocumentRec.Get("No.") do
+                    "No." := NoSeriesMgt.GetNextNo("No. Series");
                 OnInsertCancelDocumentOnBeforeCreateApproval(Rec, IsHandled);
                 if not IsHandled then
                     ApproverMgt.InsertApprovalCancelled("Employee No.", "No.", Type, Cancelled);

@@ -238,6 +238,7 @@ page 50222 "Transfer Journal"
     begin
         SetFieldEnable;
         SetLayout();
+        CurrPage.Update();
     end;
 
     var

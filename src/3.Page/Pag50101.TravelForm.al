@@ -282,39 +282,8 @@ page 50101 "Travel Form"
                 SubPageLink = "Document No." = field("No.");
                 Editable = false;
             }
-            // group(Approval)
-            // {
-            //     Editable = false;
-            //     field("Approval Status"; Rec."Approval Status")
-            //     {
-            //         Editable = false;
-            //         ToolTip = 'Specifies the value of the Approval Status field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Recommender Code"; Rec."Recommender Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Recommender Name"; Rec."Recommender Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Name field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Code"; Rec."Approver Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Name"; Rec."Approver Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Name field.';
-            //         ApplicationArea = All;
-            //     }
-            // }
         }
     }
-
     actions
     {
         area(Processing)
@@ -329,29 +298,10 @@ page 50101 "Travel Form"
                 ToolTip = 'Executes the Apply Travel Request action.';
                 ApplicationArea = All;
                 Visible = IsOpen;
-
                 trigger OnAction()
                 begin
                     TravelMgt.ApplyForTravel(Rec);
                     CurrPage.Close;
-                end;
-            }
-            action("Recommend Travel Request")
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Recommend Travel Request action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // if Confirm('Do you want to recommend the travel request?', false) then begin
-                    //     TravelMgt.RecommendEmployeeTravel(Rec."No.");
-                    //     CurrPage.Close;
-                    // end;
                 end;
             }
             action("Approve Travel Request")
@@ -364,7 +314,6 @@ page 50101 "Travel Form"
                 Visible = IsPending and not rec.Extended;
                 ToolTip = 'Executes the Approve Travel Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the travel request?', false) then begin
@@ -372,39 +321,6 @@ page 50101 "Travel Form"
                         Message('Travel Request is Approved by %1', HRMgt.GetEmpName());
                         CurrPage.Close;
                     end;
-                end;
-            }
-            action(Screen)
-            {
-                Image = "Action";
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // TravelMgt.ScreenResignationforTravel(Rec);
-                    // CurrPage.Close;
-                end;
-            }
-            action("Final Approve Request")
-            {
-                Caption = 'Final Approve';
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Final Approve action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // TravelMgt.FinalApproveForTravel(Rec);
-                    // CurrPage.Close;
                 end;
             }
             action("Reject Travel Request")
@@ -417,14 +333,12 @@ page 50101 "Travel Form"
                 ToolTip = 'Executes the Reject Travel Request action.';
                 ApplicationArea = All;
                 Visible = IsPending;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel request?', false) then begin
                         Rec.TestField("Rejection Remarks");
                         ApproverMgt.ApproveRejectDocument(RecRef, false);
                         Message('Travel Request is Rejected by %1', HRMgt.GetEmpName());
-                        // TravelMgt.ApprovedRejectTravelApproval(false, Rec."No.");
                         CurrPage.Close;
                     end;
                 end;
@@ -483,48 +397,6 @@ page 50101 "Travel Form"
                         Error(ErrorExtended, Rec.GetExtendedTravelNo);
                 end;
             }
-            action("Change Approver")
-            {
-                Image = Change;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Change Approver action.';
-                ApplicationArea = All;
-                Visible = false;
-
-                trigger OnAction()
-                begin
-                    // if Confirm(CofirmApprover) then begin 
-                    //     if Rec."Approval Status" in [Rec."Approval Status"::Pending, Rec."Approval Status"::Recommended] then
-                    //         HRMgt.PopUpChangingTravelApprover(Rec)
-                    //     else
-                    //         Error(ApproverMessage, Rec."Approval Status");
-                    // end;
-                end;
-            }
-            action("Change Recommender")
-            {
-                Image = Change;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Change Recommender action.';
-                ApplicationArea = All;
-                Visible = false;
-
-                trigger OnAction()
-                begin
-                    // if Confirm(ConfirmRecommender) then begin 
-                    //     if Rec."Approval Status" = Rec."Approval Status"::Pending then
-                    //         HRMgt.PopUpChangingTravelRecommender(Rec)
-                    //     else
-                    //         Error(RecommenderMessage, Rec."Approval Status");
-                    // end;
-                end;
-            }
         }
         area(Reporting)
         {
@@ -548,23 +420,6 @@ page 50101 "Travel Form"
         }
     }
 
-    trigger OnDeleteRecord(): Boolean
-    begin
-        if not GuiAllowed then
-            Error('Cannot be deleted')
-    end;
-
-    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
-    begin
-        if not GuiAllowed then
-            Error('Cannot be inserted')
-    end;
-
-    trigger OnModifyRecord(): Boolean
-    begin
-        if not GuiAllowed then
-            Error('Cannot be modified')
-    end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
@@ -573,8 +428,6 @@ page 50101 "Travel Form"
 
     trigger OnOpenPage()
     begin
-
-
         IsOpen := Rec."Approval Status" = Rec."Approval Status"::open;
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
@@ -582,36 +435,20 @@ page 50101 "Travel Form"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-        // IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
-        // IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
         if not GuiAllowed then begin
             Rec.SetRange(Type, Rec.Type::"Travel Request");
             Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
         end;
         RecRef.GetTable(Rec);
-
     end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
-
-
-        IsPending: Boolean;
-
-        IsApproved: Boolean;
-
-        IsOpen: Boolean;
-        //IsScreened: Boolean;
+        IsOpen, IsPending, IsApproved : Boolean;
         ErrorExtended: Label 'This Travel is order is Extended. Please try Travel order No %1.';
-        //
-        //IsRecommended: Boolean;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
         TravelMgt: Codeunit "Travel Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
-        CofirmApprover: Label 'Do you want to modify approver of Travel Request ?';
-        ConfirmRecommender: Label 'Do you want to modify recomender of Travel Request ?';
-        ApproverMessage: Label 'Approver cannot be changed, when the travel request has been %1.';
-        RecommenderMessage: Label 'Recommender cannot be changed, when the travel request has been %1.';
 }

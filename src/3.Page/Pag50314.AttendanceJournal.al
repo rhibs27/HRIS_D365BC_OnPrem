@@ -78,7 +78,7 @@ page 50314 "Attendance Journal"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("Emp Act. No");
+                SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
         }
     }
@@ -179,6 +179,7 @@ page 50314 "Attendance Journal"
     trigger OnOpenPage()
     begin
         SetLayout();
+        CurrPage.Update();
     end;
 
     procedure SetLayout()
@@ -196,12 +197,6 @@ page 50314 "Attendance Journal"
     var
         StatusView, ApprovalStatusView : Boolean;
         IsOpen, IsPending, IsApproved, IsRejected : Boolean;
-        UnitEdit: Boolean;
-        DepartmentEdit: Boolean;
-        ExtensionCounterEdit: Boolean;
-        BranchEdit: Boolean;
-        ProvinceEdit: Boolean;
-        LeaveMgt: Codeunit "Leave Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
         ExcelImportMgt: Codeunit "Excel Import";

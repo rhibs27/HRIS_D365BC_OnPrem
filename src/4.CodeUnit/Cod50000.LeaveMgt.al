@@ -206,9 +206,6 @@ codeunit 50000 "Leave Mgt."
         NoOfRecrod := leave.Count;
         if NoOfRecrod <> 0 then
             Error('Leave has already been request between %1 to %2', StartDate, EndDate);
-        EngNep.Reset;
-        EngNep.SetRange("English Date", Today);
-        if EngNep.FindFirst then;
         leave.Reset;
         leave.SetRange("Employee No.", EmpCode);
         leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
@@ -225,7 +222,6 @@ codeunit 50000 "Leave Mgt."
 
     procedure CheckForLeaveCriteria(LeaveCode: Code[20]; StartDate: Date; EndDate: Date; EmpCode: Code[20]; NoofDays: Decimal)
     var
-        //EmpAct: Record "Employee Activity";
         Leave: Record Leave;
         LeaveTypeSetup: Record "Leave Type Setup";
         NoLeaveDaysError: Label 'You do not have enough leave Days.';
@@ -270,38 +266,41 @@ codeunit 50000 "Leave Mgt."
                 Error(NoLeaveDaysError);
     end;
 
-    procedure CheckForMulipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
+    procedure CheckForMultipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
     var
-        //EmpAct: Record "Employee Activity";
         Leave: Record Leave;
         LeaveTypeSetup: Record "Leave Type Setup";
         ErrorforConsecutive: Label 'Your %1 Leave has exceeded maximum days limit as %1 cannot exceed %2 consecutive days.';
+        PreviousWorkingDate, NextWorkingDate : Date;
     begin
         LeaveTypeSetup.Get(LeaveCode);
         if LeaveTypeSetup."Limit Max. Leave at Once" then begin
+            PreviousWorkingDate := GetPreviousWorkingDate(StartDate - 1, true);
+            NextWorkingDate := GetPreviousWorkingDate(EndDate + 1, false);
             Leave.Reset;
             Leave.SetRange("Leave Code", LeaveCode);
             Leave.SetRange("Employee No.", EmpCode);
-            Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
-            Leave.SetRange("End Date", StartDate - 1);
+            Leave.Setfilter("Approval Status", '%1|%2', Leave."Approval Status"::Approved, Leave."Approval Status"::Pending);
+            Leave.SetRange("End Date", PreviousWorkingDate);
             Leave.SetRange(Cancelled, false);
             if Leave.FindFirst then begin
                 if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
                     Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
                 else
-                    CheckForMulipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays + Leave."No. of Days");
+                    CheckForMultipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays + Leave."No. of Days");
             end;
             Clear(Leave);
             Leave.SetRange("Leave Code", LeaveCode);
             Leave.SetRange("Employee No.", EmpCode);
-            Leave.SetRange("Start Date", EndDate + 1);
+            Leave.SetRange("Start Date", NextWorkingDate);
             if Leave.FindFirst then begin
                 if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
                     Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
                 else
-                    CheckForMulipleRequest(LeaveCode, EmpCode, StartDate, EndDate + 1, NoOfDays + Leave."No. of Days");
+                    CheckForMultipleRequest(LeaveCode, EmpCode, StartDate, EndDate + 1, NoOfDays + Leave."No. of Days");
             end;
         end;
+        OnAfterCheckForMultipleLeaveRequest(LeaveTypeSetup, EmpCode, StartDate, EndDate, NoOfDays);
     end;
 
     procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Enum "Employee Type"; Gender: enum "Employee Gender";
@@ -671,11 +670,8 @@ codeunit 50000 "Leave Mgt."
                     LeaveEarn.Validate("Employee No.", Empcode);
                     LeaveEarn.Validate("Leave Description", LeaveType.Description);
                     LeaveEarn.Validate(Type, LeaveEarn.Type::EmpTypeChanged);
-                    EngNep.Reset;
-                    EngNep.SetRange("English Date", Today);
-                    if EngNep.FindFirst then;
                     LeaveEarn.Validate("Posted Date", Today);
-                    LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
+                    LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
                     LeaveEarn.Validate("Balancing Days", -LeaveType."Remaining Days");
                     LeaveEarn.Insert(true);
                 end;
@@ -697,11 +693,8 @@ codeunit 50000 "Leave Mgt."
                 LeaveEarn.Validate("Employee No.", Empcode);
                 LeaveEarn.Validate("Leave Description", LeaveType.Description);
                 LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
-                EngNep.Reset;
-                EngNep.SetRange("English Date", Today);
-                if EngNep.FindFirst then;
                 LeaveEarn.Validate("Posted Date", Today);
-                LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
+                LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
                 if LeaveType."Calculate Proratawise" then
                     LeaveEarn.Validate("Balancing Days", CalculateProDataLeave(LeaveType.Code, Employee."Confirmation Date"))
                 else
@@ -740,10 +733,6 @@ codeunit 50000 "Leave Mgt."
                         if TempIncomingDoc."File Name" = '' then      //attachment mandatory for leave
                             Error('Attachment must be uploaded');
                 end;
-            // TempIncomingDoc.Validate("No.", EmpActNo);
-            // TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
-            // TempIncomingDoc.Validate("Employee Code", EmpNo);
-            // TempIncomingDoc.Modify;
             until TempIncomingDoc.Next = 0;
     end;
 
@@ -774,7 +763,7 @@ codeunit 50000 "Leave Mgt."
         CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
         // CheckEmployeeAttendance(leave."Employee No.", leave."Start Date", Leave."End Date", leave."Leave Type"); Remove this Condition After Bank request
         CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
-        CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
+        CheckForMultipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
                 exit;
@@ -840,13 +829,6 @@ codeunit 50000 "Leave Mgt."
         Employee.TestField("Employment Date");
         if not Confirm('Do you want to add leave balance for contract employee ?', false) then
             exit;
-        /*LeaveEarn.Reset();
-        LeaveEarn.SetRange(EmpNo,"No.");
-        LeaveEarn.SetRange("Fiscal year",ReturnFiscalYear(TODAY));
-        LeaveEarn.SetRange(Type,LeaveEarn.Type::Earned);
-        IF LeaveEarn.FindFirst() THEN
-          ERROR('Leave Earn has already been carried out for this fiscal year');
-          */
         TempLeaveEarn.Init;
         TempLeaveEarn.Validate("Employee No.", Employee."No.");
         TempLeaveEarn.Insert;
@@ -855,7 +837,6 @@ codeunit 50000 "Leave Mgt."
 
     procedure OpenCancelEmpActivity(Leave: Record Leave)
     var
-        //TempLeave: Record "Leave" temporary;
         TempCancelDocument: Record "Cancel Document" temporary;
         Approval: record "Approval HRMS";
         HRSetup: Record "Human Resources Setup";
@@ -919,7 +900,6 @@ codeunit 50000 "Leave Mgt."
     begin
         EmpAttendActivity.Reset;
         EmpAttendActivity.SetRange("Employee No.", EmpNo);
-        //EmpAttendActivity.SetRange("Day Type",EmpAttendActivity."Day Type"::"Working Day");
         EmpAttendActivity.SetRange("Present Day", 1);
         EmpAttendActivity.SetFilter("Attendance Date", '>%1', FromDate);
         exit(EmpAttendActivity.Count);
@@ -1528,14 +1508,10 @@ codeunit 50000 "Leave Mgt."
                                         Office: Code[20]): Integer
     var
         leaveLedger: Record "Leave Earn";
-        EngNep: Record "English-Nepali Date";
         EmpVar: Record Employee;
         LeaveTypeSetup: Record "Leave Type Setup";
         AllowanceConfig: Record "Allowance Configuration";
     begin
-        EngNep.Reset;
-        EngNep.SetRange("English Date", PostingDate);
-        if EngNep.FindFirst then;
         EmpVar.Get(empCode);
         Clear(leaveLedger);
         leaveLedger.Init();
@@ -1546,7 +1522,7 @@ codeunit 50000 "Leave Mgt."
         leaveLedger.Validate(Type, LeaveEarnType);
         leaveLedger.Validate("Balancing Days", BalanceDays);
         leaveLedger.Validate("Leave Request No", ExtDocumentNo);
-        leaveLedger."Fiscal Year" := EngNep."Fiscal Year";
+        leaveLedger."Fiscal Year" := HRMgt.ReturnFiscalYear(PostingDate);
         leaveLedger.Remarks := Remarks;
         leaveLedger.Insert(true);
 
@@ -1937,6 +1913,28 @@ codeunit 50000 "Leave Mgt."
             until Date.Next() = 0;
     end;
 
+    procedure GetPreviousWorkingDate(DateToCheck: Date; PreviousWorkingdate: Boolean): Date
+    var
+        CalendarChange: Record "Base Calendar Change";
+        CheckDate: Date;
+    begin
+        CheckDate := DateToCheck;
+        repeat
+            // Look for date in Base Calendar Change
+            CalendarChange.SetRange("Date", CheckDate);
+            if CalendarChange.FindFirst() then begin
+                if CalendarChange.Nonworking then
+                    if PreviousWorkingdate then begin
+                        CheckDate := CheckDate - 1 // Skip holiday
+                    end else
+                        CheckDate := CheckDate + 1
+                else
+                    exit(CheckDate);
+            end else
+                exit(CheckDate);
+        until false;
+    end;
+
     procedure ReturnCalendarDescription(): Text
     begin
         exit(CalendarDescription);
@@ -2052,6 +2050,12 @@ codeunit 50000 "Leave Mgt."
     local procedure OnAfterApproveLeaveRequestOnbeforeProcessAttendance(var Leave: Record Leave)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckForMultipleLeaveRequest(LeaveTypeSetup: Record "Leave Type Setup"; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
+    begin
+    end;
+
 
     var
         EngNep: Record "English-Nepali Date";

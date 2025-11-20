@@ -616,8 +616,10 @@ table 50026 "Payroll Header"
             Employee.SetRange(Status, Employee.Status::Active);
             Employee.SetFilter("Resignation Date", '%1|>%2', 0D, "To Date");
         end;
-        if Type = Type::Resignation then
+        if Type = Type::Resignation then begin
+            // Employee.Setfilter(Status, '%1|%2', Employee.Status::Active, Employee.Status::Terminated);
             Employee.SetRange("Resignation Date", "From Date", "To Date");
+        end;
         Employee.SetRange(Settled, false);
         if PayCyclePeriod.Get("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period") then
             Employee.SetFilter("Employment Date", '<%1', PayCyclePeriod."Pay Date");

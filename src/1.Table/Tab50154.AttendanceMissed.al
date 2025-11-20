@@ -87,12 +87,7 @@ table 50154 "Attendance Missed"
                             Validate("Employee Work Shift", EmpAttendanceActivity."Employee Working Shift");
                         end;
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -106,25 +101,11 @@ table 50154 "Attendance Missed"
         {
             trigger OnValidate()
             var
-                LeaveMgt: Codeunit "Leave Mgt.";
-                leaveType: Enum "Leave Type";
                 DateError: Label 'Start Date (%1) must be less than End Date (%2).';
             begin
                 if "Start Date" > "End Date" then
                     Error(DateError, "Start Date", "End Date");
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
-                //>>Calculate No. of Days Santosh
-                // if "End Date" <> 0D then
-                //     Validate("No. of Days", "End Date" - "Start Date" + 1)
-                // else begin
-                //     Clear("End Date (BS)");
-                //     Clear("No. of Days");
-                // end;
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
             end;
         }
         // field(9; "No. of Days"; Decimal)
@@ -138,12 +119,7 @@ table 50154 "Attendance Missed"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Requested Date"));
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -160,10 +136,6 @@ table 50154 "Attendance Missed"
         }
         field(14; Remarks; Text[100])
         {
-            trigger OnValidate()
-            begin
-                Clear("Rejection Remarks");
-            end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -334,7 +306,6 @@ table 50154 "Attendance Missed"
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                             if not "From Journal" then begin
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
-                                HRMgt.SendMailFromTemplate(DATABASE::"Attendance Missed", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                             end;
                         end;
                 end;
@@ -363,10 +334,8 @@ table 50154 "Attendance Missed"
         NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
-        EmployeeRec: Record Employee;
         StandardText: Record "Standard Text";
         EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         ApprovalEntry: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";

@@ -225,29 +225,6 @@ page 50092 "Travel Request Form"
                 SubPageLink = "Document No." = field("No.");
                 Editable = false;
             }
-            // group(Approvals)
-            // {
-            //     field("Recommender Code"; Rec."Recommender Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Recommender Name"; Rec."Recommender Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Name field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Code"; Rec."Approver Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Name"; Rec."Approver Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Name field.';
-            //         ApplicationArea = All;
-            //     }
-            // }
         }
     }
     actions
@@ -287,13 +264,6 @@ page 50092 "Travel Request Form"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec.Type := Rec.Type::"Travel Request";
-    end;
-
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        // if not IsApplied then
-        //     if not Confirm('The data will be erased. Do you want to continue?', true) then
-        //         Error('');
     end;
 
     var

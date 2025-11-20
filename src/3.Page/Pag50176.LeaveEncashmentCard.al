@@ -180,6 +180,5 @@ page 50176 "Leave Encashment Card"
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
         IsCancelled := Rec.Cancelled;
         RecRef.GetTable(Rec);
-
     end;
 }

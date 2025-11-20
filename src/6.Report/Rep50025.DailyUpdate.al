@@ -13,7 +13,7 @@ report 50025 "Daily Update"
             {
                 group(Option)
                 {
-                    field("Update Emp. Age & Service Period"; _UpdateAgeAndServicePeriod)
+                    field("Update Emp. Age & Service Period"; UpdateAgeAndServicePeriod)
                     {
                         ToolTip = 'Specifies the value of the _UpdateAgeAndServicePeriod field.';
                         ApplicationArea = All;
@@ -29,14 +29,14 @@ report 50025 "Daily Update"
 
     trigger OnPreReport()
     begin
-        if _UpdateAgeAndServicePeriod then begin
+        if UpdateAgeAndServicePeriod then begin
             UpdateAgeServicePeriod();
             UpdateEmployeeServiceDuration
         end;
     end;
 
     var
-        _UpdateAgeAndServicePeriod: Boolean;
+        UpdateAgeAndServicePeriod: Boolean;
         _SendEmailForTransferAcknowledgement: Boolean;
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";

@@ -19,5 +19,8 @@ tableextension 50014 "Qualification Ext" extends Qualification
         {
             DataClassification = ToBeClassified;
         }
+        field(50015; "GPA Scale"; Decimal)
+        {
+        }
     }
 }

@@ -272,6 +272,14 @@ table 50048 "Employee Attendance & Activity"
         {
             DataClassification = ToBeClassified;
         }
+        field(114; "Deputation On"; Enum "Deputation Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(115; "Deputation On Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(200; "Entry Type"; Enum "Attendance Entry Type")
         {
             Caption = 'Entry Type';
@@ -309,7 +317,9 @@ table 50048 "Employee Attendance & Activity"
         "Branch Name" := Employee."Branch Name";
         "Department Code" := Employee."Department Code";
         "Department Name" := Employee."Department Name";
-        "Unit Code" := Employee."Union Code";
+        "Unit Code" := Employee."Unit Code";
         "Extension Counter" := Employee."Extension Counter Code";
+        "Deputation On" := Employee."Deputation on";
+        "Deputation On Code" := Employee."Deputation On Code";
     end;
 }

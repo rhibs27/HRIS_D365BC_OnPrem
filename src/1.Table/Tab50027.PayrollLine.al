@@ -1800,6 +1800,7 @@ table 50027 "Payroll Line"
 
 
                         CalculateDifferentialInterestAmount(AttributeAmount);
+
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         // if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
@@ -2113,6 +2114,7 @@ table 50027 "Payroll Line"
         PostedPayHeader: Record "Posted Payroll Header";
         TotalDaysInMonth: Decimal;
         TotalAmount: Decimal;
+        IsHandled: Boolean;
     begin
         if CalculatedAmount < 0 then
             exit(CalculatedAmount);
@@ -2127,6 +2129,9 @@ table 50027 "Payroll Line"
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                 //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
+                    OnBeforeCalculateTotalAmount("Total Days", "LWP Days", TotalAmount, IsHandled);
+                    if IsHandled then
+                        exit(TotalAmount);
                     TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * ("LWP Days" + "Late Days")) / TotalDaysInMonth);
                     if TotalAmount > 0 then
                         exit(TotalAmount)
@@ -2953,7 +2958,10 @@ table 50027 "Payroll Line"
     var
         AttrUsageHistory: Record "Attributes Usage History";
     begin
-        AttrUsageHistory.Reset();
+        PayCyclePeriod.Reset();
+        PayCyclePeriod.SetRange("Start Date", AttrUsageHistory."Start Date");
+        if PayCyclePeriod.FindFirst() then
+            exit;
         AttrUsageHistory.SetRange("Employee No.", EmpCode);
         AttrUsageHistory.SetRange("Attribute Code", AttrCode);
         AttrUsageHistory.SetRange(Reversed, false);
@@ -2966,8 +2974,8 @@ table 50027 "Payroll Line"
             if (AttrUsageHistory."End Date" <> 0D) and (AttrUsageHistory."End Date" < PayrollHeader."To Date") then
                 ProRatedAmount := AttrUsageHistory."Old Amount" + GetDifferentialAmount(AttrUsageHistory."New Amount",
                                                                                         AttrUsageHistory."Old Amount",
-                                                                                        AttrUsageHistory."End Date",
-                                                                                        AttrUsageHistory."Start Date");
+                                                                                        AttrUsageHistory."Start Date",
+                                                                                        AttrUsageHistory."End Date");
         end;
     end;
 
@@ -3013,16 +3021,23 @@ table 50027 "Payroll Line"
         OneDayAmount: Decimal;
         AmountAsOfDate: Decimal;
         BackDatedAmount: Decimal;
+        PayCyclePeriod: Record "Pay Cycle Period";
     begin
         PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         PayrollAttrUsageHistory.SetFilter("Start Date", '<%1', PayrollHeader."From Date");
-        if PayrollAttrUsageHistory.FindFirst() then
-            exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
-                                        PayrollAttrUsageHistory."Old Amount",
-                                        PayrollAttrUsageHistory."Start Date",
-                                        PayrollHeader."From Date"));
+        if PayrollAttrUsageHistory.FindFirst() then begin
+            PayCyclePeriod.Reset();
+            PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Start Date");
+            if PayCyclePeriod.FindFirst() then
+                exit(PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount")
+            else
+                exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
+                                PayrollAttrUsageHistory."Old Amount",
+                                PayrollAttrUsageHistory."Start Date",
+                                PayrollHeader."From Date"));
+        end;
     end;
 
     local procedure GetDifferentialAmount(NewAmount: Decimal; OldAmount: Decimal; FromDate: Date; ToDate: Date): Decimal
@@ -3087,6 +3102,12 @@ table 50027 "Payroll Line"
     local procedure OnBeforeExitOfBaseAmountForCIT(EmployeeCode: Code[20]; var BaseAmount: Decimal)
     begin
         //Additional Allowance amount if needed to be included
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateTotalAmount(TotalDays: Decimal; LwpDays: Decimal; var Amount: Decimal; var IsHandled: Boolean)
+    begin
+        //If Additional calculation for amount
     end;
 
     [IntegrationEvent(false, false)]

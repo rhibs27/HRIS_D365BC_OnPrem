@@ -78,8 +78,8 @@ table 50124 Leave
             var
                 IsHandled: Boolean;
             begin
-                if Type <> Type::Overtime then
-                    EmployeeRec.Get("Employee No.");
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
+                if EmployeeRec.Get("Employee No.") then;
                 OnBeforeCheckEmploymentAndConfirmationDate("Employee No.", "Start Date", "Leave Code", IsHandled);
                 if not IsHandled then
                     if "Start Date" <> 0D then begin
@@ -97,13 +97,6 @@ table 50124 Leave
                         if "Start Date" > EmployeeRec."Contract Expiry Date" then
                             Error('Cannot apply leave after contract expiry date');
                 end;
-                //<<check for leave
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
                 if GuiAllowed then
                     if "Start Date" <> xRec."Start Date" then begin
                         Clear("End Date");
@@ -118,12 +111,7 @@ table 50124 Leave
             var
                 IsHandled: Boolean;
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
                 if GuiAllowed then begin
                     if Type = Type::"Leave Request" then
                         TestField("Leave Code");
@@ -154,7 +142,7 @@ table 50124 Leave
                         leaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
                         leaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
                         leaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
-                        leaveMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
+                        leaveMgt.CheckForMultipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
                         leaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
                         leaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
                     end;
@@ -164,15 +152,10 @@ table 50124 Leave
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Requested Date"));
             end;
         }
-        field(11; "Fiscal Year"; Text[10])
+        field(11; "Fiscal Year"; Text[20])
         {
             Editable = false;
         }
@@ -186,10 +169,6 @@ table 50124 Leave
         }
         field(14; Remarks; Text[100])
         {
-            // trigger OnValidate()
-            // begin
-            //     Clear("Rejection Remarks");
-            // end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -271,10 +250,6 @@ table 50124 Leave
         }
         field(36; "Rejection Remarks"; Text[100])
         {
-            // trigger OnValidate()
-            // begin
-            //     Clear(Remarks);
-            // end;
         }
         field(37; "Approved Date"; Date)
         {
@@ -318,7 +293,6 @@ table 50124 Leave
                         end;
                         Clear("Compensatory Date");
                         Clear("Child's Gender");
-                        // Clear("Contact No."); //nilesh
                     end;
                 end else
                     if LeaveTypeVar.Get("Leave Code") then
@@ -332,9 +306,6 @@ table 50124 Leave
         field(53; "Leave Type"; Enum "Leave Type")
         {
             trigger OnValidate()
-            var
-                LeaveTypeSetup: Record "Leave Type Setup";
-                HalfLeaveError: Label 'Half Leaves cannot be applied in multiple days.';
             begin
                 WorkShift.Get("Employee Work Shift");
                 case "Leave Type" of
@@ -462,8 +433,6 @@ table 50124 Leave
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
         EmployeeRec: Record Employee;
-        EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        LeaveError: Label 'You cannot apply leave in Present day %1.';
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
