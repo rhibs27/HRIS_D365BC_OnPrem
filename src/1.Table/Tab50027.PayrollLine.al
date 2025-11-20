@@ -3029,10 +3029,17 @@ table 50027 "Payroll Line"
     var
         NoOfDays: Integer;
         OneDayAmount: Decimal;
+        DifferentialAmount: Decimal;
+        IsHandled: Boolean;
     begin
-        NoOfDays := ToDate - FromDate + 1;
-        OneDayAmount := (NewAmount - OldAmount) / FindTotalDays();
-        exit(OneDayAmount * NoOfDays)
+        IsHandled := false;
+        OnBeforeExitOfDifferentialAmount(PayrollHeader, ToDate, NewAmount, DifferentialAmount, IsHandled);
+        if not IsHandled then begin
+            NoOfDays := ToDate - FromDate + 1;
+            OneDayAmount := (NewAmount - OldAmount) / FindTotalDays();
+            DifferentialAmount := OneDayAmount * NoOfDays;
+        end;
+        exit(DifferentialAmount)
     end;
 
     local procedure FindTotalDays(): Decimal
@@ -3078,6 +3085,12 @@ table 50027 "Payroll Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeExitOfBaseAmountForCIT(EmployeeCode: Code[20]; var BaseAmount: Decimal)
+    begin
+        //Additional Allowance amount if needed to be included
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeExitofDifferentialAmount(PayrollHeaderRec: Record "Payroll Header"; EndDate: Date; Amount: Decimal; var ExitAmount: Decimal; var IsHandled: Boolean)
     begin
         //Additional Allowance amount if needed to be included
     end;
