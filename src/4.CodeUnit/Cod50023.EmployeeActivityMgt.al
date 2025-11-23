@@ -484,6 +484,22 @@ codeunit 50023 EmployeeActivityMgt
         //add status = approved filter here is approval needed
         if LoanJournal.FindSet() then
             repeat
+                //check mandatory fields before posting
+                LoanJournal.TestField(Remarks);
+                LoanJournal.TestField("Employee No.");
+                LoanJournal.TestField("Loan Type");
+                LoanJournal.TestField("Loan Account No.");
+                LoanJournal.TestField("Loan Disbursed Amount");
+                if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then begin
+                    LoanJournal.TestField("Loan Account Opening Date");
+                    LoanJournal.TestField("Loan Expiry Date");
+                end else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then begin
+                    LoanJournal.TestField("Insurance Company");
+                    LoanJournal.TestField("Policy No");
+                    LoanJournal.TestField("Yearly Premium Amount");
+                    LoanJournal.TestField("First Premium Date");
+                end;
+
                 //check for mandatory attachment here if needed
                 AttachmentSetup.Reset();
                 AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Loan Journal");
@@ -495,7 +511,12 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeLoanRec.Init();
                 EmployeeLoanRec.Type := EmployeeLoanRec.Type::Loan;
                 EmployeeLoanRec."Loan Type" := LoanJournal."Loan Type";
-                EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Vehicle Loan No.");
+
+                if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then
+                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Vehicle Loan No.")
+                else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then
+                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Home Loan No.");
+
                 EmployeeLoanRec.Validate("Employee No.", LoanJournal."Employee No.");
                 EmployeeLoanRec."Loan Account No." := LoanJournal."Loan Account No.";
                 EmployeeLoanRec."Interest Rate" := LoanJournal."Loan Interest Rate (%)";
@@ -506,6 +527,11 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeLoanRec."Loan Expiry Date" := LoanJournal."Loan Expiry Date";
                 EmployeeLoanRec."Disbursement Date" := LoanJournal."Posting Date";
                 EmployeeLoanRec."Settlement Date" := LoanJournal."Loan Settlement Date";
+                EmployeeLoanRec."Insurance Company" := LoanJournal."Insurance Company";
+                EmployeeLoanRec."Policy No" := LoanJournal."Policy No";
+                EmployeeLoanRec."Yearly Premium Amount" := LoanJournal."Yearly Premium Amount";
+                EmployeeLoanRec."First Premium Date" := LoanJournal."First Premium Date";
+
                 EmployeeLoanRec.Validate(Remarks, LoanJournal.Remarks);
                 EmployeeLoanRec.Validate("Approval Status", EmployeeLoanRec."Approval Status"::Approved);
                 EmployeeLoanRec."Approved Date" := LoanJournal."Posting Date";

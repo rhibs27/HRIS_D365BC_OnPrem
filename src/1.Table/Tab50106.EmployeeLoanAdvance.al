@@ -529,6 +529,7 @@ table 50106 "Employee Loan/Advance"
         {
 
         }
+        //flow loan journal
         field(201; "Loan Account No."; text[30])
         {
             Description = 'Loan Account No.';
@@ -540,6 +541,22 @@ table 50106 "Employee Loan/Advance"
         field(204; "Loan Acc. Open Date"; Date)
         {
             Description = 'Loan Account Open Date';
+        }
+        field(205; "Yearly Premium Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(206; "Insurance Company"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(207; "Policy No"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(208; "First Premium Date"; Date)
+        {
+            DataClassification = ToBeClassified;
         }
 
     }

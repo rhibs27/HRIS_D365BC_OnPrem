@@ -212,7 +212,6 @@ table 50075 "Employee Activity Journal"
         }
         field(26; "Posting Date"; Date)
         {
-            Editable = false;
         }
         field(28; "Extension Counter Code"; Code[20])
         {
@@ -736,6 +735,23 @@ table 50075 "Employee Activity Journal"
             DataClassification = ToBeClassified;
         }
         field(121; "Loan Settlement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        //additional for home loan insurance
+        field(122; "Yearly Premium Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(123; "Insurance Company"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(124; "Policy No"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(125; "First Premium Date"; Date)
         {
             DataClassification = ToBeClassified;
         }

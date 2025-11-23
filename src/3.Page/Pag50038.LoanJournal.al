@@ -54,6 +54,22 @@ page 50038 "Loan Journal"
                 {
                     ToolTip = 'Specifies the value of the Loan Settlement Date field.', Comment = '%';
                 }
+                field("Policy No"; Rec."Policy No")
+                {
+                    ToolTip = 'Specifies the value of the Policy No field.', Comment = '%';
+                }
+                field("Yearly Premium Amount"; Rec."Yearly Premium Amount")
+                {
+                    ToolTip = 'Specifies the value of the Yearly Premium Amount field.', Comment = '%';
+                }
+                field("Insurance Company"; Rec."Insurance Company")
+                {
+                    ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
+                }
+                field("First Premium Date"; Rec."First Premium Date")
+                {
+                    ToolTip = 'Specifies the value of the First Premium Date field.', Comment = '%';
+                }
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';

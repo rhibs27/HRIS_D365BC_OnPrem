@@ -3868,6 +3868,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Extension Counter Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 3961695999 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>First Premium Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field First Premium Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fiscal Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3912,6 +3917,11 @@
           <source>Incoming Supervisor Name 2</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisor Name 2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 4290892503 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Company</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Insurance Company - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Code</source>
@@ -4032,6 +4042,11 @@
           <source>Payroll No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Payroll No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 582562091 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Policy No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Policy No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 35450067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posted</source>
@@ -4182,6 +4197,11 @@
           <source>User ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field User ID - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 3549911343 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Yearly Premium Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Yearly Premium Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 3092782213 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Absent Day</source>
@@ -6148,6 +6168,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Father's Name In Nepali - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3961695999 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>First Premium Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field First Premium Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fiscal Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6177,6 +6202,11 @@
           <source>Incoming Document Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Incoming Document Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 4290892503 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Company</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Insurance Company - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3046439657 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Tieup</source>
@@ -6282,6 +6312,11 @@
           <source>Plot No. of Property</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Plot No. of Property - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 582562091 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Policy No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Policy No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 4276608987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Previous Loan Amount</source>
@@ -6477,6 +6512,11 @@
           <source>Vehicle Type (Nepali)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Vehicle Type (Nepali) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3549911343 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Yearly Premium Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Yearly Premium Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3935423716 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Amount</source>
@@ -30093,11 +30133,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan List - Control Requested Loan Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 553338552 - Control 1895218171 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Screened Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan List - Control Screened Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 553338552 - Control 902249373 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Settled field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30123,11 +30158,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan List - Action Pending Approval - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 553338552 - Action 3380760239 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Recommended action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan List - Action Recommended - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 553338552 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Rejected action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30137,11 +30167,6 @@
           <source>Executes the Return action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan List - Action Return - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 553338552 - Action 269919882 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Verified action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan List - Action Verified - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 553338552 - Action 145331266 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Delivery Order Vehicle  Loan action.</source>
@@ -35948,6 +35973,16 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Employee No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 3961695999 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the First Premium Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control First Premium Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 4290892503 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Company field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Insurance Company - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1304637111 - Control 3672140454 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Loan Account No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -35983,6 +36018,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 582562091 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Policy No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Policy No - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1304637111 - Control 3710982960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Posting Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -35992,6 +36032,11 @@
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 3549911343 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Yearly Premium Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Yearly Premium Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3458748400 - Control 629845928 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Account ID field.</source>
@@ -54758,6 +54803,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Feedback Attach. Location - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1038723040 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Home Loan No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Home Loan No. - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 4221602140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the KPI Appriasal No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54772,6 +54822,11 @@
           <source>Specifies the value of the KRA Setup No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control KRA Setup No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 491801281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Loan Disbursement Email field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Loan Disbursement Email - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 11342033 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Offer No. field.</source>
@@ -54793,6 +54848,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Out of office No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2676934573 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Personal Loan No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Personal Loan No. - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 927315662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Portal Feedback No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54812,6 +54872,11 @@
           <source>Specifies the value of the Resignation No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Resignation No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 751220555 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Salary Advance No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Salary Advance No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2051627541 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Service History No. Series field.</source>
@@ -54852,6 +54917,11 @@
           <source>Specifies the value of the Vacancy Nos. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Vacancy Nos. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1898056405 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Vehicle Loan No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Vehicle Loan No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2728713896 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Evening Counter Eligible Time field.</source>
@@ -55037,26 +55107,6 @@
           <source>Specifies the value of the Vehicle Loan Eligible Month field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Vehicle Loan Eligible Month - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 1038723040 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Home Loan No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Home Loan No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 2676934573 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Personal Loan No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Personal Loan No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 751220555 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Salary Advance No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Salary Advance No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 1898056405 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Vehicle Loan No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Vehicle Loan No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 3138485035 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Interview Schedule Candidate field.</source>
