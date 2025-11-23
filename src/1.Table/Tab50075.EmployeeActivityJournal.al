@@ -848,10 +848,6 @@ table 50075 "Employee Activity Journal"
         end;
     end;
 
-    [IntegrationEvent(false, false)]
-    local procedure OnSetupNewLineOnBeforeInsertApproval(var EmpActJnl: Record "Employee Activity Journal"; var SkipApproval: Boolean)
-    begin
-    end;
 
     var
         EmpVar: Record Employee;
@@ -873,4 +869,9 @@ table 50075 "Employee Activity Journal"
         ApprovalHRMS: Record "Approval HRMS";
         Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
         Error1: Label 'Cannot apply before your employment date.';
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSetupNewLineOnBeforeInsertApproval(var EmpActJnl: Record "Employee Activity Journal"; var SkipApproval: Boolean)
+    begin
+    end;
 }
