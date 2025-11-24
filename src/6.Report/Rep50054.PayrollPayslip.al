@@ -22,6 +22,7 @@ report 50054 "Payroll Payslip"
         dataitem(Header; "Posted Payroll Header")
         {
             DataItemTableView = where(Reversed = const(false));
+            PrintOnlyIfDetail = true;
             column(No_PostedPayrollHeader; Header."No.") { }
             dataitem(EmployeeLedger; "Employee Ledger Entry")
             {
