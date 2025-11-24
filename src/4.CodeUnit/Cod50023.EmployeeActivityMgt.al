@@ -493,11 +493,13 @@ codeunit 50023 EmployeeActivityMgt
                 if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then begin
                     LoanJournal.TestField("Loan Account Opening Date");
                     LoanJournal.TestField("Loan Expiry Date");
+                    HrSetup.TestField("Vehicle Loan No.");
                 end else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then begin
                     LoanJournal.TestField("Insurance Company");
                     LoanJournal.TestField("Policy No");
                     LoanJournal.TestField("Yearly Premium Amount");
                     LoanJournal.TestField("First Premium Date");
+                    HrSetup.TestField("Home Loan Insur. TieUp No.");
                 end;
 
                 //check for mandatory attachment here if needed
@@ -515,7 +517,7 @@ codeunit 50023 EmployeeActivityMgt
                 if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then
                     EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Vehicle Loan No.")
                 else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then
-                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Home Loan No.");
+                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Home Loan Insur. TieUp No.");
 
                 EmployeeLoanRec.Validate("Employee No.", LoanJournal."Employee No.");
                 EmployeeLoanRec."Loan Account No." := LoanJournal."Loan Account No.";

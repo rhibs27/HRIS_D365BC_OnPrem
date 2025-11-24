@@ -338,9 +338,7 @@ page 50158 "Employee Vehicle Loan Card"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
-                                "Document Type" = field(Type);
+                SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
             }
         }
@@ -689,10 +687,10 @@ page 50158 "Employee Vehicle Loan Card"
         CreateIncomingDocumentVisible := not OfficeMgt.IsOutlookMobileApp;
         SetLayout();
         AppliedLoan := Rec."Applied Loan/Advance";
-        if Rec."Approval Status" = Rec."Approval Status"::Open then begin
-            Rec.Validate("Employee No.");
-            Rec.Modify(true);
-        end;
+        // if Rec."Approval Status" = Rec."Approval Status"::Open then begin
+        //     Rec.Validate("Employee No.");
+        //     Rec.Modify(true);
+        // end;
         RecRef.GetTable(Rec);
     end;
 

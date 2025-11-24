@@ -54,6 +54,7 @@ table 50106 "Employee Loan/Advance"
                         Error('Employee is not Permanent. Cannot apply for loan/advance.');
                     if Employee.Status <> employee.Status::Active then
                         Error('Employee is not active. Cannot apply for loan/advance.');
+                    "Employee Name" := Employee.FullName();
                     Validate("Employee Type", "Employee Type");
                     Validate("Job Title", Employee."Job Title");
                     Validate(Gender, Employee.Gender);

@@ -7,6 +7,7 @@ page 50157 "Employee Vehicle Loan List"
     SourceTableView = where("Loan Type" = const("Vehicle Loan"));
     UsageCategory = Lists;
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {

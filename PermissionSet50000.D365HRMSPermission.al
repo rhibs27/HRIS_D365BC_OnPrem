@@ -821,5 +821,6 @@ permissionset 50000 D365HRMSPermission
         page "Shift Assignment Memo Subform" = X,
         page "Shift Assignment Memos" = X,
         report "ETDS Voucher" = X,
-        page "Loan Journal" = X;
+        page "Loan Journal" = X,
+        page "Home Loan Ins Tieup List" = X;
 }
