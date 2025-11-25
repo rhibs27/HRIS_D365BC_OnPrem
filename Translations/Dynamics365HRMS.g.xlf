@@ -50023,6 +50023,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - Control Till Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2216759426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Master with payroll</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Master - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 962532164 - Control 486908828 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the DocumentNo field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
