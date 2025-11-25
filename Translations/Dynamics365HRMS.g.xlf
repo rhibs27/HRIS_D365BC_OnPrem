@@ -12533,6 +12533,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Global Dimension 2 Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3652447633 - Field 1424395051 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Irregular</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Irregular - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3652447633 - Field 2706074918 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Is Loan EMI Applicable</source>
           <note from="Developer" annotates="general" priority="2"></note>
