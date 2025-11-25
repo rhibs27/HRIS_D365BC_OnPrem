@@ -270,6 +270,8 @@ table 50096 "Employee Service History"
         {
             TableRelation = "Approval Role";
         }
+        field(73; "Staff Level (From)"; Enum "Staff Type") { }
+        field(74; "Staff Level (To)"; Enum "Staff Type") { }
     }
 
     keys

@@ -452,7 +452,7 @@ table 50075 "Employee Activity Journal"
         }
         field(60; "Functional Title (To)"; Code[20])
         {
-            Description = 'Transfer';
+            Description = 'Transfer / Promotion';
             TableRelation = "Functional Title";
         }
         field(61; "Deputation On"; Enum "Deputation Type")
@@ -681,6 +681,7 @@ table 50075 "Employee Activity Journal"
         }
         field(103; "Approver Role (TO)"; Code[20])
         {
+            Description = 'Transfer / Promotion';
             TableRelation = "Approval Role";
         }
         field(108; "CheckIn Time"; Time)
@@ -709,6 +710,17 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+        // Promotion
+        field(121; "Promoted Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
+        field(122; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(124; "Promoted Staff Level"; Enum "Staff Type") { }
+        field(125; "Promotion Date"; Date) { }
     }
     keys
     {

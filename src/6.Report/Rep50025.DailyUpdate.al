@@ -18,6 +18,11 @@ report 50025 "Daily Update"
                         ToolTip = 'Specifies the value of the _UpdateAgeAndServicePeriod field.';
                         ApplicationArea = All;
                     }
+                    field(UpdatePromotionDetails; UpdatePromotionDetails)
+                    {
+                        ToolTip = 'Specifies the value of the Update Promotion Details field.';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }
@@ -33,11 +38,13 @@ report 50025 "Daily Update"
             UpdateAgeServicePeriod();
             UpdateEmployeeServiceDuration
         end;
+        if UpdatePromotionDetails then
+            UpdatePromotion;
     end;
 
     var
         UpdateAgeAndServicePeriod: Boolean;
-        _SendEmailForTransferAcknowledgement: Boolean;
+        UpdatePromotionDetails: Boolean;
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         AgeDays: Integer;
@@ -88,5 +95,20 @@ report 50025 "Daily Update"
 
             until Employee.Next() = 0;
         Message('service duration updated successfully');
+    end;
+
+    local procedure UpdatePromotion()
+    var
+        ServiceHistory: Record "Employee Service History";
+        PromotionMgt: Codeunit "Promotion Mgt";
+    begin
+        ServiceHistory.Reset();
+        ServiceHistory.SetLoadFields("Service Event", "Effective Date", "Service History Code");
+        ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Promotion);
+        ServiceHistory.SetRange("Effective Date", Today);
+        if ServiceHistory.FindSet() then
+            repeat
+                PromotionMgt.UpdateInEmployeeProfile(ServiceHistory."Service History Code");
+            until ServiceHistory.Next() = 0;
     end;
 }
