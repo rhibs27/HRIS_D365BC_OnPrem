@@ -122,6 +122,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Home Loan No. field.';
             }
+            field("Home Loan Insur. TieUp No."; Rec."Home Loan Insur. TieUp No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Home Loan Insur. TieUp No. field.', Comment = '%';
+            }
             field("Vehicle Loan No."; Rec."Vehicle Loan No.")
             {
                 ApplicationArea = All;

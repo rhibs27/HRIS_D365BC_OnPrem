@@ -19,7 +19,7 @@ report 50037 "Promissory Note Vehicle Loan"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
             end;
         }
     }

@@ -1,7 +1,7 @@
 page 50159 "Employee Home Loan List"
 {
     CardPageId = "Employee Home Loan Card";
-    DataCaptionFields = "No.", "Employee Code", "Employee Name";
+    DataCaptionFields = "No.", "Employee No.", "Employee Name";
     PageType = List;
     SourceTable = "Employee Loan/Advance";
     SourceTableView = where("Loan Type" = const("Home Loan"));
@@ -19,7 +19,7 @@ page 50159 "Employee Home Loan List"
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
@@ -39,7 +39,7 @@ page 50159 "Employee Home Loan List"
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
                 }
-                field(Department; Rec.Department)
+                field(Department; Rec."Department Code")
                 {
                     ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;

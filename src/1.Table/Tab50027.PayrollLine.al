@@ -2724,7 +2724,7 @@ table 50027 "Payroll Line"
         EmpSalAdv: Record "Employee Loan/Advance";
     begin
         EmpSalAdv.Reset;
-        EmpSalAdv.SetRange("Employee Code", "Employee No.");
+        EmpSalAdv.SetRange("Employee No.", "Employee No.");
         EmpSalAdv.SetRange("Approval Status", EmpSalAdv."Approval Status"::Approved);
         EmpSalAdv.SetRange(Settled, false);
         EmpSalAdv.SetRange("Loan Type", EmpSalAdv."Loan Type"::"Salary Advance");

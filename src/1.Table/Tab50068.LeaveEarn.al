@@ -78,6 +78,18 @@ table 50068 "Leave Earn"
         {
             TableRelation = "Payroll Attributes";
         }
+        field(19; "Encashment Amount"; Decimal)
+        {
+            Caption = 'Encashment Amount';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if "Encashment Amount" <> 0 then begin
+                    TestField(Type, Type::Encashed);
+                    TestField("Payroll Attribute");
+                end;
+            end;
+        }
     }
 
     keys

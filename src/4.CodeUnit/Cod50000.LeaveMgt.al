@@ -993,6 +993,7 @@ codeunit 50000 "Leave Mgt."
         end;
         //create emp act ledger entry
         GenerateEmpActLedgerFromLeave(leave);
+        OnAfterApproveLeaveRequestOnbeforeProcessAttendance(leave);
         Commit();
         // Update Daily Attendance
         if leave."Start Date" <= Today then begin
@@ -1508,6 +1509,8 @@ codeunit 50000 "Leave Mgt."
     var
         leaveLedger: Record "Leave Earn";
         EmpVar: Record Employee;
+        LeaveTypeSetup: Record "Leave Type Setup";
+        AllowanceConfig: Record "Allowance Configuration";
     begin
         EmpVar.Get(empCode);
         Clear(leaveLedger);
@@ -1522,6 +1525,20 @@ codeunit 50000 "Leave Mgt."
         leaveLedger."Fiscal Year" := HRMgt.ReturnFiscalYear(PostingDate);
         leaveLedger.Remarks := Remarks;
         leaveLedger.Insert(true);
+
+        if LeaveEarnType = LeaveEarnType::Encashed then begin
+            if BalanceDays < 0 then begin
+                //update the encashment amount which later flows to payroll
+                LeaveTypeSetup.Get(leaveCode);
+                LeaveTypeSetup.TestField(Encashable, true);
+                leaveLedger."Payroll Attribute" := LeaveTypeSetup."Payroll Attribute";
+                if LeaveTypeSetup."Encashed Formula" <> '' then
+                    leaveLedger."Encashment Amount" := AllowanceConfig.EvaluateAmountForEmployee(LeaveTypeSetup."Encashed Formula", empCode);
+                leaveLedger.Modify(true);
+
+            end;
+        end;
+
         exit(entryNo + 1);
     end;
 
@@ -1923,6 +1940,44 @@ codeunit 50000 "Leave Mgt."
         exit(CalendarDescription);
     end;
 
+    procedure OpenLeaveEncashmentRequest(EmployeeNo: Code[20])
+    var
+        EncashmentRequest, EncashmentRequest2 : Record "Encashment Request";
+
+    begin
+        // Implementation to open leave encashment request for the given employee
+        EncashmentRequest2.SetRange("Employee No.", EmployeeNo);
+        EncashmentRequest2.SetRange("Approval Status", EncashmentRequest2."Approval Status"::Open);
+        if EncashmentRequest2.FindFirst() then begin
+            Message('There is already an open leave encashment request for employee %1. Opening the existing request.', EmployeeNo);
+            PAGE.Run(PAGE::"Leave Encashment Card", EncashmentRequest2);
+            exit;
+        end;
+
+        EncashmentRequest.Init();
+        EncashmentRequest.Validate(Type, EncashmentRequest.Type::"Leave Encashment");
+        EncashmentRequest.Validate("Employee No.", EmployeeNo);
+        EncashmentRequest.Validate("Approval Status", EncashmentRequest."Approval Status"::Open);
+        EncashmentRequest.Insert(true);
+        PAGE.Run(PAGE::"Leave Encashment Card", EncashmentRequest);
+    end;
+
+    procedure SendApprovalleaveEncashment(EncashmentRequest: Record "Encashment Request")
+    var
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        EncashmentRequest.OnbeforeSendForApproval();
+        EncashmentRequest.Validate("Approval Status", EncashmentRequest."Approval Status"::Pending);
+        EncashmentRequest.Modify();
+
+        ApprovalHRMS.SetRange("Document No.", EncashmentRequest."No.");
+        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Leave Encashment");
+        ApprovalHRMS.SetRange("Approval Sequence", 1);
+        if ApprovalHRMS.FindSet() then
+            ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
+
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
     begin
@@ -1988,6 +2043,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeLeaveApplyRequest(var Leave: Record Leave)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterApproveLeaveRequestOnbeforeProcessAttendance(var Leave: Record Leave)
     begin
     end;
 

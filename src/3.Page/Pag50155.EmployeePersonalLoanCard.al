@@ -10,7 +10,7 @@ page 50155 "Employee Personal Loan Card"
         {
             group("Employee Information")
             {
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Employee Code field.';
@@ -37,7 +37,7 @@ page 50155 "Employee Personal Loan Card"
                     ToolTip = 'Specifies the value of the Date of Birth field.';
                     ApplicationArea = All;
                 }
-                field("Job Type"; Rec."Job Type")
+                field("Job Type"; Rec."Employee Type")
                 {
                     ToolTip = 'Specifies the value of the Job Type field.';
                     ApplicationArea = All;
@@ -53,7 +53,7 @@ page 50155 "Employee Personal Loan Card"
                     ToolTip = 'Specifies the value of the Gender field.';
                     ApplicationArea = All;
                 }
-                field("Date of Joining"; Rec."Date of Joining")
+                field("Date of Joining"; Rec."Employment Date")
                 {
                     ToolTip = 'Specifies the value of the Date of Joining field.';
                     ApplicationArea = All;
@@ -173,7 +173,7 @@ page 50155 "Employee Personal Loan Card"
             group("Security Documentation")
             {
                 Visible = IsApproved;
-                field("Employee Citizenship No."; Rec."Employee Citizenship No.")
+                field("Employee Citizenship No."; Rec."Citizenship No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
                     ApplicationArea = All;
@@ -261,25 +261,14 @@ page 50155 "Employee Personal Loan Card"
             }
             group("Group Remarks")
             {
-                // field("Screener Remarks"; Rec."Screener Remarks")
-                // {
-                //     Editable = ForScreen;
-                //     MultiLine = true;
-                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
-                //     ApplicationArea = All;
-                // }
+
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = IsPending;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-                // field("Recommendation Remarks"; Rec."Recommendation Remarks")
-                // {
-                //     Editable = ForRecommend;
-                //     ToolTip = 'Specifies the value of the Recommendation Remarks field.';
-                //     ApplicationArea = All;
-                // }
+
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
                     Editable = IsPending;
@@ -297,38 +286,12 @@ page 50155 "Employee Personal Loan Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee Code"),
+                                "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
 
-            //group(Approval)
-            //{
 
-            // field(Recommender; Rec.Recommender)
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Recommender field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Recommender Name"; Rec."Recommender Name")
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Recommender Name field.';
-            //     ApplicationArea = All;
-            // }
-            // field(Approver; Rec.Approver)
-            // {
-            //     Editable = ForScreen;
-            //     ToolTip = 'Specifies the value of the Approver field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Approver Name"; Rec."Approver Name")
-            // {
-            //     ToolTip = 'Specifies the value of the Approver Name field.';
-            //     ApplicationArea = All;
-            // }
-            //}
         }
     }
     actions
@@ -641,7 +604,7 @@ page 50155 "Employee Personal Loan Card"
         CreateIncomingDocumentVisible := not OfficeMgt.IsOutlookMobileApp;
         SetLayout();
         if Rec."Approval Status" = Rec."Approval Status"::Open then begin
-            Rec.Validate("Employee Code");
+            Rec.Validate("Employee No.");
             Rec.Modify(true);
         end;
         RecRef.GetTable(Rec);
@@ -679,11 +642,7 @@ page 50155 "Employee Personal Loan Card"
 
     local procedure SetLayout()
     begin
-        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
-        //                 Rec."Approval Status"::Open];
 
-        //FormVisible := "Approval Status" IN ["Approval Status"::" ", "Approval Status"::Cancelled,
-        //              "Approval Status"::Open];
 
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
@@ -700,20 +659,7 @@ page 50155 "Employee Personal Loan Card"
                     ForApprove := true;
                     ForScreen := false;
                 end;
-            // Rec."Approval Status"::Recommended:
-            //     begin
-            //         ForRecommend := false;
-            //         ForReject := true;
-            //         ForApprove := false;
-            //         ForScreen := true;
-            //     end;
-            // Rec."Approval Status"::Screened:
-            //     begin
-            //         ForRecommend := false;
-            //         ForReject := true;
-            //         ForApprove := true;
-            //         ForScreen := false;
-            //     end;
+
             Rec."Approval Status"::Rejected, Rec."Approval Status"::Approved:
                 begin
                     ForRecommend := false;
@@ -731,10 +677,5 @@ page 50155 "Employee Personal Loan Card"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
 
-        // if Rec."Approval Status" in [Rec."Approval Status"::Recommended, Rec."Approval Status"::Screened,
-        //                           Rec."Approval Status"::Approved, Rec."Approval Status"::Rejected] then
-        //     AfterRecommendedVisible := true
-        // else
-        //     AfterRecommendedVisible := false;
     end;
 }

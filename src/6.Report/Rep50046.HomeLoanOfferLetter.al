@@ -24,7 +24,7 @@ report 50046 "Home Loan Offer Letter"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
             end;
         }
     }

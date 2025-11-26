@@ -66,35 +66,6 @@ page 50136 "Transfer Claim Form"
                     ApplicationArea = All;
                 }
             }
-            // group(Allowance)
-            // {
-            //     Editable = false;
-            //     field("Outstation/Discomfort Allow."; Rec."Outstation/Discomfort Allow.")
-            //     {
-            //         ToolTip = 'Specifies the value of the Outstation/Discomfort Allow. field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("BM Accomodation Allow."; Rec."BM Accomodation Allow.")
-            //     {
-            //         ToolTip = 'Specifies the value of the BM Accomodation Allow. field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Remote Area Allow."; Rec."Remote Area Allow.")
-            //     {
-            //         ToolTip = 'Specifies the value of the Remote Area Allow. field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Relocation Allow."; Rec."Relocation Allow.")
-            //     {
-            //         ToolTip = 'Specifies the value of the Relocation Allow. field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Officiating Allow."; Rec."Officiating Allow.")
-            //     {
-            //         ToolTip = 'Specifies the value of the Officiating Allow. field.';
-            //         ApplicationArea = All;
-            //     }
-            // }
 
             part("transfer claim details attachment"; "Transfer Claim Details Subform")
             {
@@ -116,92 +87,6 @@ page 50136 "Transfer Claim Form"
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
-            // group(Approval)
-            // {
-            //     field("Transfer Claim Recommender"; Rec."Transfer Claim Recommender")
-            //     {
-            //         ToolTip = 'Specifies the value of the Transfer Claim Recommender field.';
-            //         ApplicationArea = All;
-
-            //         trigger OnValidate()
-            //         begin
-            //             if Employee.Get(Rec."Transfer Claim Recommender") then
-            //                 RecommederName := Employee."Full Name"
-            //             else
-            //                 RecommederName := '';
-            //         end;
-            //     }
-            //     field("Recommender Name"; RecommederName)
-            //     {
-            //         Editable = false;
-            //         ToolTip = 'Specifies the value of the RecommederName field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Transfer Claim Reviewer"; Rec."Transfer Claim Reviewer")
-            //     {
-            //         ToolTip = 'Specifies the value of the Transfer Claim Reviewer field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Transfer Claim Reviewer Name"; Rec."Transfer Claim Reviewer Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Transfer Claim Reviewer Name field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Transfer Claim Apporver Remarks"; TransferClaimApproverRemarks)
-            //     {
-            //         ToolTip = 'Specifies the value of the TransferClaimApproverRemarks field.';
-            //         ApplicationArea = All;
-
-            //         trigger OnValidate()
-            //         begin
-            //             if ReasonCode.Get(Rec."No.") then begin
-            //                 ReasonCode."Transf. Claim Apporver Remarks" := TransferClaimApproverRemarks;
-            //                 ReasonCode.Modify;
-            //             end else begin
-            //                 ReasonCode.Init;
-            //                 ReasonCode.Validate(Code, Rec."No.");
-            //                 ReasonCode."Transf. Claim Apporver Remarks" := TransferClaimApproverRemarks;
-            //                 ReasonCode.Insert;
-            //             end;
-            //         end;
-            //     }
-            //     field("Trasnfer Cl. Recommender Remarks"; TransferClaimRecommenderRemarks)
-            //     {
-            //         ToolTip = 'Specifies the value of the TransferClaimRecommenderRemarks field.';
-            //         ApplicationArea = All;
-
-            //         trigger OnValidate()
-            //         begin
-            //             if ReasonCode.Get(Rec."No.") then begin
-            //                 ReasonCode."Transf. Claim Recomm. Remarks" := TransferClaimRecommenderRemarks;
-            //                 ReasonCode.Modify;
-            //             end else begin
-            //                 ReasonCode.Init;
-            //                 ReasonCode.Validate(Code, Rec."No.");
-            //                 ReasonCode."Transf. Claim Recomm. Remarks" := TransferClaimRecommenderRemarks;
-            //                 ReasonCode.Insert;
-            //             end;
-            //         end;
-            //     }
-            //     field("Transfer Claim Reviewer Remarks"; TransferClaimReviewerRemarks)
-            //     {
-            //         ToolTip = 'Specifies the value of the TransferClaimReviewerRemarks field.';
-            //         ApplicationArea = All;
-
-            //         trigger OnValidate()
-            //         begin
-            //             if ReasonCode.Get(Rec."No.") then begin
-            //                 ReasonCode."Transf. Claim Reviewer Remarks" := TransferClaimReviewerRemarks;
-            //                 ReasonCode.Modify;
-            //             end else begin
-            //                 ReasonCode.Init;
-            //                 ReasonCode.Validate(Code, Rec."No.");
-            //                 ReasonCode."Transf. Claim Reviewer Remarks" := TransferClaimReviewerRemarks;
-            //                 ReasonCode.Insert;
-            //             end;
-            //         end;
-            //     }
-            // }
         }
     }
 
@@ -252,15 +137,6 @@ page 50136 "Transfer Claim Form"
 
                 trigger OnAction()
                 begin
-                    // if Confirm('Approve this document?', false) then begin
-                    // if Rec."Transfer Allowance Approval" = Rec."Transfer Allowance Approval"::"Pending Approval" then
-                    //     TransferMgt.ApproveRejectTransferClaim(true, Rec, TransferClaimRecommenderRemarks)
-                    // else if Rec."Transfer Allowance Approval" = Rec."Transfer Allowance Approval"::Recommended then
-                    //     TransferMgt.ApproveRejectTransferClaim(true, Rec, TransferClaimReviewerRemarks)
-                    // else if Rec."Transfer Allowance Approval" = Rec."Transfer Allowance Approval"::Reviewed then
-                    //     TransferMgt.ApproveRejectTransferClaim(true, Rec, TransferClaimApproverRemarks)
-                    // else
-                    //     Error('Cannot approve this document.');
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Message('Transfer Allowance is Approved by %1', HRMgt.GetEmpName());
@@ -280,15 +156,6 @@ page 50136 "Transfer Claim Form"
 
                 trigger OnAction()
                 begin
-                    // if Confirm('Approve this document?', false) then begin
-                    //     if Rec."Transfer Allowance Approval" = Rec."Transfer Allowance Approval"::"Pending Approval" then
-                    //         TransferMgt.ApproveRejectTransferClaim(false, Rec, TransferClaimRecommenderRemarks)
-                    //     else if Rec."Transfer Allowance Approval" = Rec."Transfer Allowance Approval"::Recommended then
-                    //         TransferMgt.ApproveRejectTransferClaim(false, Rec, TransferClaimReviewerRemarks)
-                    //     else if Rec."Transfer Allowance Approval" = Rec."Transfer Allowance Approval"::Reviewed then
-                    //         TransferMgt.ApproveRejectTransferClaim(false, Rec, TransferClaimApproverRemarks);
-
-                    // end;
                     if Confirm('Do you want reject the request?', false) then begin
                         IF REC."Rejection Remarks" = '' then
                             Error('Rejection Remarks is Empty')
@@ -304,45 +171,12 @@ page 50136 "Transfer Claim Form"
     trigger OnOpenPage()
     begin
         SetLayout();
-        // if IsOpen then
-        //     ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Transfer Claim", Rec."Approval Status");
     end;
 
     trigger OnAfterGetRecord()
     begin
         SetLayout();
-        // Rec.CalcFields("Transfer Claim Reviewer Name");
-        // if Employee.Get(Rec."Transfer Claim Recommender") then
-        //     RecommederName := Employee."Full Name"
-        // else
-        //     RecommederName := '';
-        //HRMgt.CalculateAllowance(Rec);
-        // if not (Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "]) then begin
-        //     CurrPage.Editable(false);
-        //     IsOpen := false;
-        // end else
-        //     IsOpen := true;
-
-        // if ReasonCode.Get(Rec."No.") then begin
-        //     TransferClaimReviewerRemarks := ReasonCode."Transf. Claim Reviewer Remarks";
-        //     TransferClaimRecommenderRemarks := ReasonCode."Transf. Claim Recomm. Remarks";
-        //     TransferClaimApproverRemarks := ReasonCode."Transf. Claim Apporver Remarks";
-        // end;
     end;
-
-    // trigger OnQueryClosePage(CloseAction: Action): Boolean
-    // begin
-    //     if not IsApplied and IsOpen then
-    //         if not Confirm('The data will be erased. Do you want to continue?', true) then
-    //             Error('')
-    //         else begin
-    //             Approval.Reset();
-    //             Approval.setRange("Document Type", Approval."Document Type"::"Transfer Claim");
-    //             Approval.SetRange("Document No.", '');
-    //             Approval.SetRange("Employee No", Rec."Employee No.");
-    //             Approval.DeleteAll();
-    //         end;
-    // end;
 
     var
         Employee: Record Employee;

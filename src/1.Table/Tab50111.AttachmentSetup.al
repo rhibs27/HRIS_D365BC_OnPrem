@@ -139,7 +139,7 @@ table 50111 "Attachment Setup"
 
                     IncomingDocument.Init;
                     IncomingDocument."Entry No." := EntryNo;
-                    IncomingDocument.Validate("Employee Code", EmployeeLoanAdvance."Employee Code");
+                    IncomingDocument.Validate("Employee Code", EmployeeLoanAdvance."Employee No.");
                     IncomingDocument.Validate("No.", EmployeeLoanAdvance."No.");
                     IncomingDocument.Validate("Attachment Code", "Attachment Code");
                     IncomingDocument.Validate("Table ID", Database::"Employee Loan/Advance");
