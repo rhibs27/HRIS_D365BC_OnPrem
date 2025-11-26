@@ -136,7 +136,7 @@ table 50025 "Payroll Attributes"
         field(32; "Tax at once"; Boolean)
         {
         }
-        field(33; "Finacle GL Name"; Text[30])
+        field(33; "Finacle GL Name"; Text[100])
         {
         }
         field(34; "Tax Info Report Type"; Enum "Tax Info Report Type")

@@ -141,7 +141,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         {
             DataClassification = ToBeClassified;
         }
-        field(50026; "Finacle GL Name"; Text[50])
+        field(50026; "Finacle GL Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
