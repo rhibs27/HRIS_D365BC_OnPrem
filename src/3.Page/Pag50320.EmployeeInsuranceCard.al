@@ -270,14 +270,24 @@ page 50320 "Employee Insurance Card"
                 ApplicationArea = All;
                 Visible = IsApproved and Rec.Expired = false;
                 trigger OnAction()
+                var
+                    PageBuilder: FilterPageBuilder;
                 begin
-                    if Confirm('Do you want to expire the insurance contract?', false) then
-                        if Rec.Remarks = '' then
-                            Error('Kindly enter remarks before marking an insurance expired.')
-                        else
-                            Rec.Expired := true;
-                    Rec.Modify();
-                    Message('Insurance Contract marked as expired successfully.');
+                    if Confirm('Do you want to expire the insurance contract?', false) then begin
+                        PageBuilder.AddRecord('Enter Insurance Expiry Remarks', Rec);
+                        PageBuilder.AddField('Enter Insurance Expiry Remarks', Rec.Remarks);
+                        if PageBuilder.RunModal() then begin
+                            Rec.SetView(PageBuilder.GetView('Enter Insurance Expiry Remarks'));
+                            if Rec.GetFilter(Remarks) = '' then
+                                Error('Kindly enter remarks before marking an insurance expired.')
+                            else begin
+                                Rec.Expired := true;
+                                Rec.Remarks := Rec.GetFilter(Remarks);
+                                Rec.Modify();
+                                Message('Insurance Contract marked as expired successfully.');
+                            end;
+                        end;
+                    end;
                     CurrPage.Update();
                 end;
             }

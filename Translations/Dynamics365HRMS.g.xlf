@@ -28358,6 +28358,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Action Send Request - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2990168411 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
+          <source>New, Report, Process, Filters</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Property PromotedActionCategories</note>
+        </trans-unit>
         <trans-unit id="Page 2990168411 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Insurance Lists</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28377,6 +28382,11 @@
           <source>Specifies the value of the Employee No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 1481297009 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Expired field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Expired - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2990168411 - Control 3236702554 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Insurance Amount field.</source>
@@ -28443,6 +28453,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Clear Filter - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 1148090692 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes Mark as Expired action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Mark as Expired - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2990168411 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28457,11 +28472,6 @@
           <source>Executes the Rejected action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Rejected - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2990168411 - Action 1148090692 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the clear filter action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Mark as Expired - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 295158414 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attribute Code field.</source>
