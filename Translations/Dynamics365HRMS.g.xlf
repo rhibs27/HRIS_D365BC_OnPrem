@@ -7128,6 +7128,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Handover - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 1318691895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>handover Completion Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field handover Completion Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3659416491 - Field 2584380905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Incoming Supervisior</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15507,6 +15512,11 @@
           <source>Pay Cycle Term</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Pay Cycle Term - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 186303905 - Field 147145378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt Divsion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Setup Lines - Field Tax Ex. Amt Divsion - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 186303905 - Field 2140931000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tax Ex. Amt. not Exceed on Donation Limit</source>
@@ -39903,6 +39913,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Setup Lines - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 186303905 - Control 147145378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Tax Ex. Amt Divsion field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Setup Lines - Control Tax Ex. Amt Divsion - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3884601073 - Control 525896060 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the 1% Slab field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60737,6 +60752,11 @@
           <source>Casual Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Casual Leave - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 3548790258 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Force Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Force Leave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4204176933 - EnumValue 3254799098 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Maternity Leave</source>

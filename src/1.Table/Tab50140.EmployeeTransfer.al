@@ -837,6 +837,10 @@ table 50140 "Employee Transfer"
             Description = 'Transfer';
             Editable = false;
         }
+        field(304; "handover Completion Date"; Date)
+        {
+            Description = 'Transfer';
+        }
     }
     keys
     {
