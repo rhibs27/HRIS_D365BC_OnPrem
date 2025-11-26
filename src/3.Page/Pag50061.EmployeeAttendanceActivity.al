@@ -1,9 +1,9 @@
 page 50061 "Employee Attendance & Activity"
 {
-    DeleteAllowed = false;
-    Editable = false;
-    InsertAllowed = false;
-    ModifyAllowed = false;
+    // DeleteAllowed = false;
+    // Editable = false;
+    // InsertAllowed = false;
+    // ModifyAllowed = false;
     PageType = List;
     SourceTable = "Employee Attendance & Activity";
     UsageCategory = Lists;
