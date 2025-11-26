@@ -5612,6 +5612,35 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
+    procedure InsertIntoAttributeUsageHistory(AttributeAdjustmentLine: Record "Attribute Adjustment Line")
+    var
+        AttributesUsageHistory: Record "Attributes Usage History";
+    begin
+        AttributesUsageHistory.Init();
+        AttributesUsageHistory."Entry No." := GetEntryNo();
+        AttributesUsageHistory."Employee No." := AttributeAdjustmentLine."Employee No.";
+        AttributesUsageHistory."Employee Name" := AttributeAdjustmentLine."Employee Name";
+        AttributesUsageHistory."Attribute Code" := AttributeAdjustmentLine."Attribute Code";
+        AttributesUsageHistory."Old Amount" := AttributeAdjustmentLine."Old Amount";
+        AttributesUsageHistory."New Amount" := AttributeAdjustmentLine."New Amount";
+        AttributesUsageHistory."Start Date" := AttributeAdjustmentLine."Effective Start Date";
+        AttributesUsageHistory."Entry Date" := Today;
+        AttributesUsageHistory."End Date" := AttributeAdjustmentLine."Effective End Date";
+        AttributesUsageHistory."Source Document Type" := AttributeAdjustmentLine."Adjustment Type";
+        AttributesUsageHistory."Source Document No." := AttributeAdjustmentLine."Document No.";
+        AttributesUsageHistory.Insert();
+    end;
+
+    local procedure GetEntryNo(): Integer
+    var
+        AttributesUsageHistory: Record "Attributes Usage History";
+    begin
+        if AttributesUsageHistory.FindLast() then
+            exit(AttributesUsageHistory."Entry No." + 1);
+
+        exit(1);
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin

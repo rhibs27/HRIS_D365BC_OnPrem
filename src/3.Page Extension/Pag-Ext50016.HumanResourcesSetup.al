@@ -4,6 +4,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
     {
         addafter("Employee Nos.")
         {
+            field("Attribute Adjustment Nos."; Rec."Attribute Adjustment Nos.")
+            {
+                ApplicationArea = All;
+                ToolTip = '';
+            }
             field("Service History No. Series"; Rec."Service History No. Series")
             {
                 ApplicationArea = All;
