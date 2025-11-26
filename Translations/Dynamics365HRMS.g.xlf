@@ -6798,11 +6798,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3659416491 - NamedType 3548723355" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Cannot apply before your employment date.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - NamedType Error1</note>
-        </trans-unit>
         <trans-unit id="Table 3659416491 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot apply Transfer of Effective Date less than %1.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21833,16 +21828,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckLodgingAmtOther - NamedType ErrorLodgingError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2020391132 - Method 3903792981 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status must be %1 or %2.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method TravelApproved - NamedType ApprovalStatusError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 2020391132 - Method 3903792981 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status must be in %1 or %2.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method TravelApproved - NamedType ErrorReject</note>
-        </trans-unit>
         <trans-unit id="Page 3526745218 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Active Employee</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28454,14 +28439,14 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Approved - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2990168411 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Rejected action.</source>
+          <source>Executes the clear filter action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Clear Filter - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2990168411 - Action 520546656 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2990168411 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action open - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Open - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2990168411 - Action 3481143665 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Pending action.</source>
@@ -28472,6 +28457,11 @@
           <source>Executes the Rejected action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Rejected - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 1148090692 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the clear filter action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Mark as Expired - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 295158414 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attribute Code field.</source>
@@ -35388,6 +35378,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action Approved - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1942697859 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Clear filter action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action Clear Filter - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1942697859 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35402,6 +35397,11 @@
           <source>Executes the Rejected action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action Rejected - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1942697859 - Action 2929972384 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the withdrawn action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 639139532 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Ajusted sequentially for absent days in Settlement</source>
@@ -48433,35 +48433,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Approve Travel Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1674581342 - Action 1302548166 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Final Approve action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Final Approve Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1674581342 - Action 1302548166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Final Approve</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Final Approve Request - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1674581342 - Action 1776704271 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Recommend Travel Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Recommend Travel Request - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1674581342 - Action 2168537394 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Travel Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Reject Travel Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1674581342 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Screen - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1674581342 - Action 3659212205 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Print Travel Claim action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Print Travel Claim - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1881967133 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
           <source>New,Process,Report,SetFilter</source>
@@ -48543,6 +48518,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim Lists - Action Approved - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1881967133 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the clear filter action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim Lists - Action Clear Filter - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1881967133 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48558,35 +48538,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim Lists - Action Rejected - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1881967133 - Action 3659212205 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Print Travel Claim action.</source>
+        <trans-unit id="Page 1881967133 - Action 2929972384 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Withdrawn action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim Lists - Action Print Travel Claim - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - NamedType 161058594" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approver cannot be changed, when the travel request has been %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - NamedType ApproverMessage</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - NamedType 1788864507" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to modify approver of Travel Request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - NamedType CofirmApprover</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - NamedType 4046549955" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to modify recomender of Travel Request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - NamedType ConfirmRecommender</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim Lists - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - NamedType 4115184945" size-unit="char" translate="yes" xml:space="preserve">
           <source>This Travel is order is Extended. Please try Travel order No %1.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - NamedType ErrorExtended</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - NamedType 2307617372" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recommender cannot be changed, when the travel request has been %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - NamedType RecommenderMessage</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the "Approval Status field.</source>
@@ -48808,16 +48768,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Approve Travel Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1635708066 - Action 299741613 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Change Approver action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Change Approver - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - Action 2376050703 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Change Recommender action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Change Recommender - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1635708066 - Action 2405515526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Claim Travel action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48838,30 +48788,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action ExtendTravelRequest - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1635708066 - Action 1302548166 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Final Approve action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Final Approve Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - Action 1302548166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Final Approve</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Final Approve Request - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - Action 1776704271 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Recommend Travel Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Recommend Travel Request - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1635708066 - Action 2168537394 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Travel Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Reject Travel Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1635708066 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Screen - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - Action 2751157318 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the WithDraw Request action.</source>
@@ -49128,10 +49058,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Approved - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1666541910 - Action 3778903877 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Final Approve action.</source>
+        <trans-unit id="Page 1666541910 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the clear filter action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Final Approve - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Clear Filter - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1666541910 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
@@ -49143,30 +49073,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Pending Approval - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1666541910 - Action 3380760239 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Recommended action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Recommended - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1666541910 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Rejected action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Rejected - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1666541910 - Action 1735395895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screened action.</source>
+        <trans-unit id="Page 1666541910 - Action 2929972384 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Withdrawn action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Screened - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1666541910 - Action 1392435954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Travel Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Approve Travel Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1666541910 - Action 1776704271 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Recommend Travel Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action Recommend Travel Request - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1666541910 - Action 2168537394 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Travel Request action.</source>

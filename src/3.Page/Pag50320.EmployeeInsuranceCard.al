@@ -260,6 +260,27 @@ page 50320 "Employee Insurance Card"
                     end;
                 end;
             }
+            action("Mark as Expired")
+            {
+                Image = RemoveContacts;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ApplicationArea = All;
+                Visible = IsApproved and Rec.Expired = false;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to expire the insurance contract?', false) then
+                        if Rec.Remarks = '' then
+                            Error('Kindly enter remarks before marking an insurance expired.')
+                        else
+                            Rec.Expired := true;
+                    Rec.Modify();
+                    Message('Insurance Contract marked as expired successfully.');
+                    CurrPage.Update();
+                end;
+            }
         }
     }
     trigger OnOpenPage()
@@ -294,6 +315,7 @@ page 50320 "Employee Insurance Card"
         ApproverMgt: Codeunit "Approver Mgt";
         IsPending: Boolean;
         IsOpen: Boolean;
+        IsApproved: Boolean;
         RecRef: RecordRef;
         ApprovalMgt: Codeunit "Approver Mgt";
         HrMgt: Codeunit "HR Mgt.";
@@ -304,6 +326,7 @@ page 50320 "Employee Insurance Card"
     begin
         IsPending := Rec."Approval Status" = rec."Approval Status"::Pending;
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
 
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true

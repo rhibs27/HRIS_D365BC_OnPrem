@@ -2119,6 +2119,10 @@ table 50027 "Payroll Line"
         if CalculatedAmount < 0 then
             exit(CalculatedAmount);
 
+        if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
+            if PayrollAttributesUsage."RF Contribution Type" <> PayrollAttributesUsage."RF Contribution Type"::Percent then
+                exit(CalculatedAmount);
+
         if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
             TotalDaysInMonth := PGSetup."Total Days" / 12
         else
@@ -2970,12 +2974,14 @@ table 50027 "Payroll Line"
             ProRatedAmount := AttrUsageHistory."Old Amount" + GetDifferentialAmount(AttrUsageHistory."New Amount",
                                                                                     AttrUsageHistory."Old Amount",
                                                                                     AttrUsageHistory."Start Date",
-                                                                                    PayrollHeader."To Date");
+                                                                                    PayrollHeader."To Date",
+                                                                                    false);
             if (AttrUsageHistory."End Date" <> 0D) and (AttrUsageHistory."End Date" < PayrollHeader."To Date") then
                 ProRatedAmount := AttrUsageHistory."Old Amount" + GetDifferentialAmount(AttrUsageHistory."New Amount",
                                                                                         AttrUsageHistory."Old Amount",
                                                                                         AttrUsageHistory."Start Date",
-                                                                                        AttrUsageHistory."End Date");
+                                                                                        AttrUsageHistory."End Date",
+                                                                                        false);
         end;
     end;
 
@@ -2992,7 +2998,8 @@ table 50027 "Payroll Line"
             ProRatedAmount := GetDifferentialAmount(AttrUsageHistory."New Amount",
                                                     0,
                                                     PayrollHeader."From Date",
-                                                    AttrUsageHistory."End Date");
+                                                    AttrUsageHistory."End Date",
+                                                    true);
         end;
     end;
 
@@ -3034,13 +3041,14 @@ table 50027 "Payroll Line"
                 exit(PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount")
             else
                 exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
-                                PayrollAttrUsageHistory."Old Amount",
-                                PayrollAttrUsageHistory."Start Date",
-                                PayrollHeader."From Date"));
+                                            PayrollAttrUsageHistory."Old Amount",
+                                            PayrollAttrUsageHistory."Start Date",
+                                            PayrollHeader."From Date",
+                                            false));
         end;
     end;
 
-    local procedure GetDifferentialAmount(NewAmount: Decimal; OldAmount: Decimal; FromDate: Date; ToDate: Date): Decimal
+    local procedure GetDifferentialAmount(NewAmount: Decimal; OldAmount: Decimal; FromDate: Date; ToDate: Date; IsEndDateCalculation: Boolean): Decimal
     var
         NoOfDays: Integer;
         OneDayAmount: Decimal;
@@ -3048,7 +3056,8 @@ table 50027 "Payroll Line"
         IsHandled: Boolean;
     begin
         IsHandled := false;
-        OnBeforeExitOfDifferentialAmount(PayrollHeader, ToDate, NewAmount, DifferentialAmount, IsHandled);
+        if IsEndDateCalculation then
+            OnBeforeExitOfDifferentialAmount(PayrollHeader, ToDate, NewAmount, DifferentialAmount, IsHandled);
         if not IsHandled then begin
             NoOfDays := ToDate - FromDate + 1;
             OneDayAmount := (NewAmount - OldAmount) / FindTotalDays();
