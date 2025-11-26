@@ -260,6 +260,37 @@ page 50320 "Employee Insurance Card"
                     end;
                 end;
             }
+            action("Mark as Expired")
+            {
+                Image = RemoveContacts;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ApplicationArea = All;
+                Visible = IsApproved and Rec.Expired = false;
+                trigger OnAction()
+                var
+                    PageBuilder: FilterPageBuilder;
+                begin
+                    if Confirm('Do you want to expire the insurance contract?', false) then begin
+                        PageBuilder.AddRecord('Enter Insurance Expiry Remarks', Rec);
+                        PageBuilder.AddField('Enter Insurance Expiry Remarks', Rec.Remarks);
+                        if PageBuilder.RunModal() then begin
+                            Rec.SetView(PageBuilder.GetView('Enter Insurance Expiry Remarks'));
+                            if Rec.GetFilter(Remarks) = '' then
+                                Error('Kindly enter remarks before marking an insurance expired.')
+                            else begin
+                                Rec.Expired := true;
+                                Rec.Remarks := Rec.GetFilter(Remarks);
+                                Rec.Modify();
+                                Message('Insurance Contract marked as expired successfully.');
+                            end;
+                        end;
+                    end;
+                    CurrPage.Update();
+                end;
+            }
         }
     }
     trigger OnOpenPage()
@@ -294,6 +325,7 @@ page 50320 "Employee Insurance Card"
         ApproverMgt: Codeunit "Approver Mgt";
         IsPending: Boolean;
         IsOpen: Boolean;
+        IsApproved: Boolean;
         RecRef: RecordRef;
         ApprovalMgt: Codeunit "Approver Mgt";
         HrMgt: Codeunit "HR Mgt.";
@@ -304,6 +336,7 @@ page 50320 "Employee Insurance Card"
     begin
         IsPending := Rec."Approval Status" = rec."Approval Status"::Pending;
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
 
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
