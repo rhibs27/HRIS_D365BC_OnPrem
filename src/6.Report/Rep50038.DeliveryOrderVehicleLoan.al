@@ -13,7 +13,7 @@ report 50038 "Delivery Order Vehicle  Loan"
             column(todaydate; "Offer Letter Issued Date") { }
             column(NameofSupplier; "Name of Supplier") { }
             column(AddressofSupplier; "Address of Supplier") { }
-            column(EmployeeCode; "Employee Code") { }
+            column(EmployeeCode; "Employee No.") { }
             column(EmployeeName; "Employee Name") { }
             column(AppliedLoanAdvance; "Applied Loan/Advance") { }
         }

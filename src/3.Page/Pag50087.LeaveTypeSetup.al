@@ -52,6 +52,13 @@ page 50087 "Leave Type Setup"
                 {
                     ToolTip = 'Specifies the if half Leave Allowed';
                     ApplicationArea = All;
+
+                }
+                field("Friday Half Leave Allowed"; Rec."Friday Half Leave Allowed")
+                {
+                    ToolTip = 'Specifies if Friday Half Leave Allowed';
+                    ApplicationArea = all;
+                    Editable = Rec."Half Leave Allowed";
                 }
                 field("Maximum Leave at once"; Rec."Maximum Leave at once")
                 {
@@ -191,6 +198,10 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'If checked leave taken will not be counted in service period';
                     ApplicationArea = All;
                 }
+                field("Encashed Formula"; Rec."Encashed Formula")
+                {
+                    ToolTip = 'Specifies how encashed amount is calculated. Operand in formula are the payroll attributes', Comment = '%';
+                }
 
             }
         }
@@ -218,6 +229,7 @@ page 50087 "Leave Type Setup"
         IsLookuped: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveCodes: Text[100];
+
 
     procedure LookedUpped()
     begin

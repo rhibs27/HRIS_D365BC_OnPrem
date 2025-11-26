@@ -271,9 +271,12 @@ page 50150 "Allowance Assignment Subform"
         case Typefilter of
             Format(Rec.Type::Branch):
                 Rec.Type := Rec.Type::Branch;
-
             Format(Rec.Type::"Extension Counter"):
                 Rec.Type := Rec.Type::"Extension Counter";
+            Format(Rec.Type::Department):
+                Rec.Type := Rec.Type::Department;
+            Format(Rec.Type::Unit):
+                Rec.Type := Rec.Type::Unit;
         end;
         SetLayout();
     end;

@@ -108,7 +108,7 @@ page 50201 "Retirement Fund Card"
             group("Current Details")
             {
                 Caption = 'Current Details';
-                Editable = ActionVisible;
+                Editable = IsOpen;
                 group(Monthly)
                 {
                     Caption = 'Monthly';
@@ -218,6 +218,7 @@ page 50201 "Retirement Fund Card"
             {
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
+                Editable = IsOpen;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -239,7 +240,7 @@ page 50201 "Retirement Fund Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ActionVisible;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Submit action.';
                 ApplicationArea = All;
 
@@ -290,7 +291,7 @@ page 50201 "Retirement Fund Card"
                         else begin
                             RecRef.GetTable(Rec);
                             ApprovalMgt.ApproveRejectDocument(RecRef, false);
-                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                            Message('Retirement Fund is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
                 end;
@@ -350,14 +351,14 @@ page 50201 "Retirement Fund Card"
     trigger OnAfterGetRecord()
     begin
         IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
-        ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
+        IsOpen := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
         IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
     end;
 
     trigger OnOpenPage()
     begin
         IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
-        ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
+        IsOpen := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
     end;
@@ -376,7 +377,7 @@ page 50201 "Retirement Fund Card"
         HRMgt: Codeunit "HR Mgt.";
         IsApplied: Boolean;
         IsScreened: Boolean;
-        ActionVisible: Boolean;
+        IsOpen: Boolean;
         IsPending: Boolean;
         ApprovalMgt: Codeunit "Approver Mgt";
         IsApproved: Boolean;

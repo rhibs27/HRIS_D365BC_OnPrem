@@ -10,7 +10,7 @@ pageextension 50008 ChangeLogEntries extends "Change Log Entries"
     trigger OnOpenPage()
 
     begin
-        UserSetup.Get(UserId); //Abhiral 12.05.2022
+        UserSetup.Get(UserId);
         if not UserSetup."Can View Change Log" then
             Error(Err001);
     end;

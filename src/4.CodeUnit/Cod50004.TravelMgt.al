@@ -545,8 +545,6 @@ codeunit 50004 "Travel Mgt."
         if (DepartureDate = 0D) or (ArrivalDate = 0D) then
             exit;
         HRSetup.Get;
-        //Duration1 :=(CREATEDATETIME(TODAY,0T) - CREATEDATETIME(TODAY-1,DepatureTime));
-        //Duration2 := (CREATEDATETIME(TODAY,ArrivalTime) - (CREATEDATETIME(TODAY,0T)));
         TotalDuration := (CreateDateTime(ArrivalDate, ArrivalTime) - CreateDateTime(DepartureDate, DepartureTime)) / 1000 / 60 / 60;
         NoofDays := Round(TotalDuration / 24, 1, '<');
         TotalDuration := TotalDuration mod 24;
@@ -604,7 +602,6 @@ codeunit 50004 "Travel Mgt."
         if TravelRequest."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
         Employee.Get(TravelRequest."Employee No.");
-        // Clear(TravelRequest);
         SalaryLevel.Get(Employee."Salary Level");
         ApplyForTravelClaimWithEmployeeSalary(TravelRequest, TravelRequest2, IsHandled);
         if not IsHandled then begin
@@ -652,31 +649,25 @@ codeunit 50004 "Travel Mgt."
     procedure TravelApproved(TravelCode: Code[20])
     var
         TravelRequest: Record "Travel Request";
-        LeaveEarn: Record "Leave Earn";
-        ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-        ErrorReject: Label 'Approval Status must be in %1 or %2.';
-        EmpAttendActivity: Record "Employee Attendance & Activity";
-        LeaveTypeSetup: Record "Leave Type Setup";
-        DateRec: Record Date;
         AttendanceMgt: Codeunit "Attendance Mgt";
     begin
         TravelRequest.Get(TravelCode);
         if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
             HRMgt.CreateEmpActLedgerForDateRange(TravelRequest.Type, TravelRequest."No.", TravelRequest."Employee No.", TravelRequest."Start Date", TravelRequest."End Date");
             AttendanceMgt.DailyAttendanceUpdate(travelRequest."Start Date", travelRequest."End Date", travelRequest."Employee No.");
-            Employee.Get(TravelRequest."Employee No.");
-            Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
-            AttendanceSetup.Get;
-            Employee.Get(TravelRequest."Employee No.");
-            Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
-            if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-                if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-                    Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-                else
-                    Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-            end else
-                Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-            Employee.Modify;
+            // Employee.Get(TravelRequest."Employee No.");
+            // Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+            // AttendanceSetup.Get;
+            // Employee.Get(TravelRequest."Employee No.");
+            // Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+            // if AttendanceSetup."Activate Punch in Date" <> 0D then begin
+            //     if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
+            //         Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+            //     else
+            //         Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+            // end else
+            //     Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+            // Employee.Modify;
         end;
         TravelRequest."Approved Date" := Today;
         TravelRequest.Modify();

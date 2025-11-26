@@ -205,7 +205,6 @@ page 50100 "Posted Leave Card"
                 ToolTip = 'Executes the Apply for Leave action.';
                 ApplicationArea = All;
                 Visible = IsOpen;
-
                 trigger OnAction()
                 begin
                     if LeaveMgt.ApplyForLeave(Rec) <> '' then begin
@@ -269,7 +268,6 @@ page 50100 "Posted Leave Card"
                 begin
                     if Confirm('Do you want Cancel the request?', false) then begin
                         LeaveMgt.OpenCancelEmpActivity(Rec);
-                        // Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }

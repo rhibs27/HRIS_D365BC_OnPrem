@@ -1721,6 +1721,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Report.RunModal(Report::"Generate Leave Balance", true, false, Employee);
                     end;
                 }
+
                 action("Confirmation Employee")
                 {
                     ApplicationArea = All;
@@ -1750,6 +1751,21 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         Rec.RFRequest;
+                    end;
+                }
+                action("Request Leave Encashment")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Allocate;
+                    PromotedCategory = Category4;
+                    ToolTip = 'Executes the Request Leave Encashment action.';
+                    trigger OnAction()
+                    var
+                        LeaveMgt: Codeunit "Leave Mgt.";
+                    begin
+                        LeaveMgt.OpenLeaveEncashmentRequest(Rec."No.");
                     end;
                 }
             }

@@ -77,22 +77,6 @@ page 50093 "Travel Requests"
     {
         area(Processing)
         {
-            action("Recommend Travel Request")
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Recommend Travel Request action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // if Confirm('Do you want to recommend the travel request?', false) then
-                    //     TravelMgt.RecommendEmployeeTravel(Rec."No.");
-                end;
-            }
             action("Approve Travel Request")
             {
                 Image = Approve;
@@ -150,23 +134,6 @@ page 50093 "Travel Requests"
                     Rec.FilterGroup(0);
                 end;
             }
-            action(Screened)
-            {
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Screened action.';
-                ApplicationArea = All;
-                Visible = false;
-
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    // Rec.FilterGroup(0);
-                end;
-            }
             action("Pending Approval")
             {
                 Image = PendingApproval;
@@ -182,24 +149,6 @@ page 50093 "Travel Requests"
                     ClearAll();
                     Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
                     Rec.FilterGroup(0);
-                end;
-            }
-            action(Recommended)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Recommended action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-
-                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)
@@ -236,22 +185,36 @@ page 50093 "Travel Requests"
                     Rec.FilterGroup(0);
                 end;
             }
-            action("Final Approve")
+            action(WithDrawn)
             {
-                Image = Flow;
+                Image = Return;
                 Promoted = true;
                 PromotedCategory = Category4;
                 PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Final Approve action.';
+                ToolTip = 'Executes the Withdrawn action.';
                 ApplicationArea = All;
-                Visible = false;
+
                 trigger OnAction()
                 begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
-                    // Rec.FilterGroup(0);
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Withdrawn);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Category4;
+                Image = ClearFilter;
+                ToolTip = 'Executes the clear filter action.';
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Approval Status");
+                    Rec.FilterGroup(0);
                 end;
             }
         }

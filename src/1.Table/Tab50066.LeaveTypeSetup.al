@@ -126,6 +126,13 @@ table 50066 "Leave Type Setup"
         }
         field(38; "Half Leave Allowed"; Boolean)
         {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if not "Half Leave Allowed" then begin
+                    "Friday Half Leave Allowed" := false;
+                end;
+            end;
         }
         field(40; "Minimum Leave at once"; Decimal)
         {
@@ -164,6 +171,10 @@ table 50066 "Leave Type Setup"
         {
             OptionMembers = "Employment Date","Confirmation Date";
         }
+        field(115; "Friday Half Leave Allowed"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(500; Blocked; Boolean) { }
         field(502; "Used Days"; Decimal)
         {
@@ -181,6 +192,14 @@ table 50066 "Leave Type Setup"
         }
         field(504; "Encash Date"; Date) { }
         field(505; "Encash Remarks"; Text[100]) { }
+        field(506; "Encashed Formula"; Code[20])
+        {
+            trigger OnLookup()
+            begin
+                if "Encashed Formula" <> '' then
+                    TestField(Encashable, true);
+            end;
+        }
     }
     keys
     {

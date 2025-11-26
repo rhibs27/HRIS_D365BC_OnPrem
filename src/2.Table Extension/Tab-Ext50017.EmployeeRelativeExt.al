@@ -38,22 +38,22 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         field(50003; "Name(Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
-            Description = 'In Nepali   for loan';
+            Description = 'In Nepali for loan';
         }
         field(50004; "Fathers Name(Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
-            Description = 'In Nepali   for loan';
+            Description = 'In Nepali for loan';
         }
         field(50005; "GrandFather Name(Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
-            Description = 'In Nepali   for loan';
+            Description = 'In Nepali for loan';
         }
         field(50006; District; Text[50])
         {
             DataClassification = CustomerContent;
-            Description = 'In Nepali   for loan';
+            Description = 'In Nepali for loan';
             trigger OnValidate()
             begin
                 if (Rec."District" <> xRec."District") and ("District" <> '') then
@@ -77,7 +77,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
 
             trigger OnLookup()
             begin
-                Validate("VDC/Municipality", HRMgt.LookupMunicipalityName('', "VDC/Municipality"));
+                Validate("VDC/Municipality", HRMgt.LookupMunicipalityName(District, "VDC/Municipality"));
             end;
         }
         field(50008; "Ward No"; Integer)
@@ -240,7 +240,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 end;
             end;
         }
-        field(301; "Access Token"; code[60])
+        field(50301; "Access Token"; code[60])
         {
             caption = 'Access Token';
             DataClassification = CustomerContent;

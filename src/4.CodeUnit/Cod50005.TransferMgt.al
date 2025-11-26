@@ -22,11 +22,12 @@ codeunit 50005 "Transfer Mgt."
 
         //if attachment is mandatory then insert the attachment lines
         AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
-        AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+        AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Employee Transfer Request");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.FindFirst() then begin
             Incdocument2.SetRange("Employee Code", EmpCode);
             Incdocument2.SetRange("Employee Activity Type", Incdocument2."Employee Activity Type"::"Employee Transfer");
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Employee Transfer Request");
             Incdocument2.SetRange("No.", EmpTransfer."No.");
             if not Incdocument2.FindFirst() then begin
                 Incdocument.Init();

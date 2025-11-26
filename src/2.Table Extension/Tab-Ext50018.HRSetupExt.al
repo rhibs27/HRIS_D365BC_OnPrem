@@ -697,7 +697,12 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50152; "Attribute Adjustment Nos."; Code[20])
+        field(50152; "Home Loan Insur. TieUp No."; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+        }
+        field(50153; "Attribute Adjustment Nos."; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;

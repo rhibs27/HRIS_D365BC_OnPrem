@@ -11,7 +11,7 @@ page 50153 "Employee Salary Advance Card"
             group(General)
             {
                 Editable = IsOpen;
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Employee Code field.';
@@ -35,7 +35,7 @@ page 50153 "Employee Salary Advance Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Job Type"; Rec."Job Type")
+                field("Job Type"; Rec."Employee Type")
                 {
                     ToolTip = 'Specifies the value of the Job Type field.';
                     ApplicationArea = All;
@@ -50,7 +50,7 @@ page 50153 "Employee Salary Advance Card"
                     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
                     ApplicationArea = All;
                 }
-                field("Date of Joining"; Rec."Date of Joining")
+                field("Date of Joining"; Rec."Employment Date")
                 {
                     ToolTip = 'Specifies the value of the Date of Joining field.';
                     ApplicationArea = All;
@@ -212,7 +212,7 @@ page 50153 "Employee Salary Advance Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee Code"),
+                                "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }

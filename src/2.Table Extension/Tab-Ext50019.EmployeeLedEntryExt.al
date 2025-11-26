@@ -59,6 +59,7 @@ tableextension 50019 "Employee Led. Entry Ext " extends "Employee Ledger Entry"
         {
             DataClassification = ToBeClassified;
         }
+        field(50025; "LWP Days"; Decimal) { DataClassification = ToBeClassified; }
     }
     procedure CopyFromPayrollJnlLine(var PayrollJournalLine: Record "Payroll Journal Line" temporary);
     begin
@@ -80,6 +81,7 @@ tableextension 50019 "Employee Led. Entry Ext " extends "Employee Ledger Entry"
         "Tour Days" := PayrollJournalLine."Tour Days";
         "Half Days" := PayrollJournalLine."Half Days";
         "Late Days" := PayrollJournalLine."Late Days";
+        "LWP Days" := PayrollJournalLine."LWP Days";
         "Overtime Days" := PayrollJournalLine."OT Days";
         "OT Hrs (30MIN)" := PayrollJournalLine."OT Hrs (30MIN)";
         "Late Rate" := PayrollJournalLine."Late Rate";

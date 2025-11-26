@@ -245,22 +245,40 @@ codeunit 50017 "Approver Mgt"
         end;
     end;
     // >> Check  valid Login Approver for Approve >> Santosh 2025-03-04 >>
-    procedure CheckApprover(EmpActNo: Code[20]) // onprem
+    procedure CheckApprover(EmpActNo: Code[20]): Boolean // onprem
     begin
         CheckApprover(EmpActNo, HRMgt.GetEmployeeNo());
     end;
 
-    procedure CheckApprover(EmpActNo: Code[20]; ApproverNo: code[20]) //saas
+    procedure CheckApprover(EmpActNo: Code[20]; ApproverNo: code[20]): Boolean //saas
     var
         ApprovalLine: Record "Approval HRMS";
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document';
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
+        IsHRApprover: Boolean;
     begin
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
-        if not ApprovalLine.Findfirst() then
+        if ApprovalLine.FindFirst() then
+            exit(false);
+        IsHRApprover := false;
+        if HRSetup.Get() and Employee.Get(ApproverNo) then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    IsHRApprover := true;
+            end
+            else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    IsHRApprover := true;
+            end;
+        end;
+        if not IsHRApprover then
             Error(ApproveNotEligibleError);
+        exit(true);
     end;
 
 #if SaasFeature
@@ -272,19 +290,37 @@ codeunit 50017 "Approver Mgt"
         exit(SaaSLoginMgmt.DecryptCode(AccessToken));
     end;
 #endif
-
-    procedure CheckApproverSAAS(EmpActNo: Code[20]; ApproverNo: code[20]) //saas
+    procedure CheckApproverSAAS(EmpActNo: Code[20]; ApproverNo: Code[20]): Boolean
     var
         ApprovalLine: Record "Approval HRMS";
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document';
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
+        IsHRApprover: Boolean;
     begin
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
-        if not ApprovalLine.Findfirst() then
+        if ApprovalLine.FindFirst() then
+            exit(false);
+        IsHRApprover := false;
+        if HRSetup.Get() and Employee.Get(ApproverNo) then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    IsHRApprover := true;
+            end
+            else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    IsHRApprover := true;
+            end;
+        end;
+        if not IsHRApprover then
             Error(ApproveNotEligibleError);
+        exit(true);
     end;
+
 
     procedure CheckApproverBoolean(EmpActNo: Code[20]): Boolean // onprem
     begin
@@ -572,7 +608,6 @@ codeunit 50017 "Approver Mgt"
         end else
             Error('Document Status Must be in Pending');
     end;
-
 #if SaasFeature
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean; AccessToken: Code[60])//SAAS
     var
@@ -819,7 +854,6 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 #endif
-
     procedure CheckRequester(EmpActNo: Code[20])//onprem
     begin
         CheckRequester(EmpActNo, HRMgt.GetEmployeeNo());
@@ -887,7 +921,7 @@ codeunit 50017 "Approver Mgt"
             end;
     end;
 
-    procedure CheckDocumentForwithdraw(EmpActType: enum "Employee Activity Type"; DocNo: Code[20])
+    procedure CheckDocumentForWithdraw(EmpActType: enum "Employee Activity Type"; DocNo: Code[20])
     var
         ApprovalHRMS: Record "Approval HRMS";
     begin

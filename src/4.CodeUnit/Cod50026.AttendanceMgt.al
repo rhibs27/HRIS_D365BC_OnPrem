@@ -80,10 +80,239 @@ codeunit 50026 "Attendance Mgt"
                 exit(true);
     end;
 
+    procedure GetNonWorkingDaysFromAttendance(AttendanceDate: Date; DeputationOn: Enum "Deputation Type"; DeputationOnCode: Code[20]; ProvinceCode: Code[20]; EmpCode: Code[20]): Integer
+    var
+        Description: Text;
+        Provinces: Text;
+        Gender: Enum "Employee Gender";
+        OrganizationStructureList, EmployeeOrganizationStructureList : Record "Organization Structure List";
+        DistrictList: Record District;
+        MunicipalityList: Record Municipality;
+        CalendarDate: Record Date;
+        Counter: Integer;
+        isNonWorkingDay, FilterMatched : Boolean;
+        BaseCalendar: Record "Base Calendar";
+        InOutValley: Enum "Outside/Inside Valley";
+        PostingRegion: Enum Region;
+        Branch, District, MunicipalityFilter : Text;
+        Community: Enum "Community Type";
+        EmployeeFilter: Text[500];
+        Disabled: Boolean;
+        EmployeeRec: Record Employee;
+    begin
+        if EmployeeOrganizationStructureList.Get(DeputationOn, DeputationOnCode) then;
+        Counter := 0;
+        PayrollSetup.Get;
+        Employee.Get(EmpCode);
+        CalendarDate.SetRange("Period Type", CalendarDate."Period Type"::Date);
+        CalendarDate.SetRange("Period Start", AttendanceDate);
+        if CalendarDate.Find('-') then
+            repeat
+                isNonWorkingDay := true;
+                if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
+                    CalendarDescription := Description;
+                    if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (District = '') and (MunicipalityFilter = '') and (community = community::" ") and (EmployeeFilter = '') and (not Disabled) then
+                        Counter += 1
+                    else begin
+                        if Provinces <> '' then begin
+                            Clear(FilterMatched);
+                            OrganizationStructureList.Reset;
+                            OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
+                            OrganizationStructureList.SetFilter(Code, Provinces);
+                            if OrganizationStructureList.Find('-') then
+                                repeat
+                                    if (ProvinceCode = OrganizationStructureList.Code) then begin
+                                        FilterMatched := true;
+                                        break;
+                                    end;
+                                until OrganizationStructureList.Next = 0;
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
+                        end;
+                        if Gender <> Gender::" " then
+                            isNonWorkingDay := isNonWorkingDay and (Employee.Gender = gender);
+                        if PostingRegion <> PostingRegion::" " then
+                            isNonWorkingDay := isNonWorkingDay and (PostingRegion = EmployeeOrganizationStructureList.Region);
+                        if Branch <> '' then begin
+                            Clear(FilterMatched);
+                            OrganizationStructureList.Reset;
+                            OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
+                            OrganizationStructureList.SetFilter(Code, Branch);
+                            if OrganizationStructureList.Find('-') then
+                                repeat
+                                    if (OrganizationStructureList.Code = EmployeeOrganizationStructureList.Code) then begin
+                                        FilterMatched := true;
+                                        break;
+                                    end;
+                                until OrganizationStructureList.Next = 0;
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
+                        end;
+                        if District <> '' then begin
+                            Clear(FilterMatched);
+                            DistrictList.Reset;
+                            DistrictList.Setfilter("District Name", District);
+                            if DistrictList.Find('-') then
+                                repeat
+                                    if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(DeputationOn, DeputationOnCode)) then begin
+                                        break;
+                                    end;
+                                until DistrictList.Next = 0;
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
+                        end;
+                        if (MunicipalityFilter <> '') then begin
+                            Clear(FilterMatched);
+                            MunicipalityList.Reset;
+                            MunicipalityList.Setfilter(Code, MunicipalityFilter);
+                            if MunicipalityList.Find('-') then
+                                repeat
+                                    if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(DeputationOn, DeputationOnCode)) then begin
+                                        FilterMatched := true;
+                                        break;
+                                    end;
+                                until MunicipalityList.Next = 0;
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
+                        end;
+                        if InOutValley <> InOutValley::" " then
+                            isNonWorkingDay := isNonWorkingDay and (EmployeeOrganizationStructureList."InsideOutside Valley" = InOutValley);
+                        if Community <> Community::" " then
+                            isNonWorkingDay := isNonWorkingDay and (Employee.Community = Community);
+                        if EmployeeFilter <> '' then begin
+                            Clear(FilterMatched);
+                            EmployeeRec.Reset;
+                            EmployeeRec.Setfilter("No.", EmployeeFilter);
+                            if EmployeeRec.Find('-') then
+                                repeat
+                                    if (EmployeeRec."No." = EmpCode) then begin
+                                        FilterMatched := true;
+                                        break;
+                                    end;
+                                until EmployeeRec.Next = 0;
+                            isNonWorkingDay := isNonWorkingDay and FilterMatched;
+                        end;
+                        if Disabled then
+                            isNonWorkingDay := isNonWorkingDay and (Employee.Disabled = disabled);
+                        //check OR condition
+                        GetNonWorkingDaysOR(PayrollSetup."Base Calendar", CalendarDate."Period Start", DeputationOn, DeputationOnCode, ProvinceCode, Employee, isNonWorkingDay);
+                        if isNonWorkingDay then  //The day is holiday for that employee
+                            Counter += 1;
+                    end;
+                end;
+            until CalendarDate.Next = 0;
+        exit(Counter);
+    end;
+
+    procedure GetNonWorkingDaysOR(BaseCalCode: Code[20]; TargetDate: Date; DeputationOn: Enum "Deputation Type"; DeputationOnCode: Code[20]; ProvinceCode: Code[20]; Employee: Record Employee; var isNonWorkingDay: Boolean)
+    var
+        Description: Text;
+        Provinces: Text;
+        Gender: Enum "Employee Gender";
+        OrganizationStructureList, EmployeeOrganizationStructureList : Record "Organization Structure List";
+        DistrictList: Record District;
+        MunicipalityList: Record Municipality;
+        Counter: Integer;
+        FilterMatched: Boolean;
+        BaseCalendar: Record "Base Calendar";
+        InOutValley: Enum "Outside/Inside Valley";
+        PostingRegion: Enum Region;
+        Branch, District, MunicipalityFilter : Text;
+        Community: Enum "Community Type";
+        EmployeeFilter: Text[500];
+        Disabled: Boolean;
+        EmployeeRec: Record Employee;
+    begin
+        if EmployeeOrganizationStructureList.Get(DeputationOn, DeputationOnCode) then;
+        if LeaveMgt.CheckDateStatusOR(PayrollSetup."Base Calendar", TargetDate, Description, Provinces, Gender, InOutValley, PostingRegion, Branch, District, MunicipalityFilter, Community, EmployeeFilter, Disabled) then begin
+            CalendarDescription := Description;
+            if Provinces <> '' then begin
+                Clear(FilterMatched);
+                OrganizationStructureList.Reset;
+                OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
+                OrganizationStructureList.SetFilter(Code, Provinces);
+                if OrganizationStructureList.Find('-') then
+                    repeat
+                        if (ProvinceCode = OrganizationStructureList.Code) then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until OrganizationStructureList.Next = 0;
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+            if Gender <> Gender::" " then
+                isNonWorkingDay := isNonWorkingDay or (Employee.Gender = gender);
+            if PostingRegion <> PostingRegion::" " then
+                isNonWorkingDay := isNonWorkingDay or (PostingRegion = EmployeeOrganizationStructureList.Region);
+            if Branch <> '' then begin
+                Clear(FilterMatched);
+                OrganizationStructureList.Reset;
+                OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
+                OrganizationStructureList.SetFilter(Code, Branch);
+                if OrganizationStructureList.Find('-') then
+                    repeat
+                        if (OrganizationStructureList.Code = EmployeeOrganizationStructureList.Code) then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until OrganizationStructureList.Next = 0;
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+            if District <> '' then begin
+                Clear(FilterMatched);
+                DistrictList.Reset;
+                DistrictList.Setfilter("District Name", District);
+                if DistrictList.Find('-') then
+                    repeat
+                        if (DistrictList."District Name" = HRMgt.GetEmployeeDeputationDistrictName(DeputationOn, DeputationOnCode)) then begin
+                            break;
+                        end;
+                    until DistrictList.Next = 0;
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+            if (MunicipalityFilter <> '') then begin
+                Clear(FilterMatched);
+                MunicipalityList.Reset;
+                MunicipalityList.Setfilter(Code, MunicipalityFilter);
+                if MunicipalityList.Find('-') then
+                    repeat
+                        if (MunicipalityList.Code = HRMgt.GetEmployeeDeputationMunicipalityCode(DeputationOn, DeputationOnCode)) then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until MunicipalityList.Next = 0;
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+            if InOutValley <> InOutValley::" " then
+                isNonWorkingDay := isNonWorkingDay or (EmployeeOrganizationStructureList."InsideOutside Valley" = InOutValley);
+            if Community <> Community::" " then
+                isNonWorkingDay := isNonWorkingDay or (Employee.Community = Community);
+            if EmployeeFilter <> '' then begin
+                Clear(FilterMatched);
+                EmployeeRec.Reset;
+                EmployeeRec.Setfilter("No.", EmployeeFilter);
+                if EmployeeRec.Find('-') then
+                    repeat
+                        if (EmployeeRec."No." = Employee."No.") then begin
+                            FilterMatched := true;
+                            break;
+                        end;
+                    until EmployeeRec.Next = 0;
+                isNonWorkingDay := isNonWorkingDay or FilterMatched;
+            end;
+            if Disabled then
+                isNonWorkingDay := isNonWorkingDay or (Employee.Disabled = disabled);
+        end;
+    end;
+
+    procedure ReturnCalendarDescription(): Text
+    begin
+        exit(CalendarDescription);
+    end;
+
     var
         AttendanceLog: Record "Attendance Log";
         EngNep: Record "English-Nepali Date";
         CalendarDescription: Text;
         Employee: Record Employee;
+        PayrollSetup: Record "Payroll General Setup";
+        HRMgt: Codeunit "HR Mgt.";
+        LeaveMgt: Codeunit "Leave Mgt.";
 
 }

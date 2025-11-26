@@ -179,7 +179,7 @@ page 50321 "Employee Insurance Lists"
                 PromotedIsBig = true;
                 PromotedCategory = Process;
                 Image = ClearFilter;
-                ToolTip = 'Executes the Rejected action.';
+                ToolTip = 'Executes the clear filter action.';
 
                 trigger OnAction()
                 begin

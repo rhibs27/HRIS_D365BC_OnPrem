@@ -388,8 +388,8 @@ codeunit 50008 "Payroll Engine"
                         SocialSecurityTaxAmount := MonthlyTax
                     else begin
                         if PGSetup."Pro Rate Female Rebate" then begin
-                            if TaxSetupHeader."Special Tax Exempt %" <> 0 then
-                                SocialSecurityTaxAmount := SocialSecurityTaxAmount - SocialSecurityTaxAmount * TaxSetupHeader."Special Tax Exempt %" / 100;
+                            if TaxSetupHeader.Gender = TaxSetupHeader.Gender::Female then
+                                SocialSecurityTaxAmount := ((SocialSecurityTax - SocialSecurityTax * (TaxSetupHeader."Special Tax Exempt %" / 100)) - TotalSSTPaid) / (RemainingMonth + 1)
                         end;
                     end;
 
@@ -2556,7 +2556,7 @@ codeunit 50008 "Payroll Engine"
             PGSetup."Salary Advance":
                 begin
                     SalaryAdvance.Reset;
-                    SalaryAdvance.SetRange("Employee Code", Employee."No.");
+                    SalaryAdvance.SetRange("Employee No.", Employee."No.");
                     SalaryAdvance.SetRange("Loan Type", SalaryAdvance."Loan Type"::"Salary Advance");
                     SalaryAdvance.SetRange("Approval Status", SalaryAdvance."Approval Status"::Approved);
                     SalaryAdvance.SetRange(Settled, false);
@@ -3478,7 +3478,7 @@ codeunit 50008 "Payroll Engine"
     begin
         PayrollGeneralSetup.Get;
         EmpLoanAdvance.Reset;
-        EmpLoanAdvance.SetRange("Employee Code", EmployeeNo);
+        EmpLoanAdvance.SetRange("Employee No.", EmployeeNo);
         EmpLoanAdvance.SetRange("Repayment Mode", EmpLoanAdvance."Repayment Mode"::"Insurance Tieup");
         EmpLoanAdvance.SetRange("Approval Status", EmpLoanAdvance."Approval Status"::Approved);
         EmpLoanAdvance.SetRange(Settled, false);

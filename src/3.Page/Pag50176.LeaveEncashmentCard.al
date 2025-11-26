@@ -12,17 +12,8 @@ page 50176 "Leave Encashment Card"
             group("Document Details")
             {
                 Caption = 'Document Details';
+                Editable = IsOpen;
 
-                field("Type"; Rec."Type")
-                {
-                    ToolTip = 'Specifies the value of the Type field.', Comment = '%';
-                    Editable = false;
-                }
-                field("No."; Rec."No.")
-                {
-                    ToolTip = 'Specifies the value of the No. field.', Comment = '%';
-                    Editable = false;
-                }
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
@@ -44,7 +35,7 @@ page 50176 "Leave Encashment Card"
             }
             group("Leave Encashment Details")
             {
-
+                Editable = IsOpen;
                 field("Leave Code"; Rec."Leave Code")
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.', Comment = '%';
@@ -62,15 +53,15 @@ page 50176 "Leave Encashment Card"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-                field("Cancellation Remarks"; Rec."Cancellation Remarks")
-                {
-                    ToolTip = 'Specifies the value of the Cancellation Remarks field.', Comment = '%';
-                }
+
+            }
+            group("Approval Details")
+            {
+                Editable = isPending;
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.', Comment = '%';
                 }
-
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -85,6 +76,21 @@ page 50176 "Leave Encashment Card"
     {
         area(Processing)
         {
+            action("Send Approval Request")
+            {
+                Image = SendApprovalRequest;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Send Approval Request action.';
+                ApplicationArea = All;
+                Visible = IsOpen;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to send approval request?', false) then
+                        LeaveMgt.SendApprovalleaveEncashment(Rec);
+                end;
+            }
             action("Approve Request")
             {
                 Image = Approve;
@@ -99,7 +105,7 @@ page 50176 "Leave Encashment Card"
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApprovalMgt.ApproveRejectDocument(RecRef, true);
-                        Message('Employee Edit is Approved by %1', HRMgt.GetEmpName());
+                        Message('Leave encashment is Approved by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -120,7 +126,7 @@ page 50176 "Leave Encashment Card"
                             Error('Rejection Remarks is Empty')
                         else begin
                             ApprovalMgt.ApproveRejectDocument(RecRef, false);
-                            Message('Employee Edit is Rejected by %1', HRMgt.GetEmpName());
+                            Message('Leave encashment is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
                 end;
@@ -165,14 +171,14 @@ page 50176 "Leave Encashment Card"
         ApprovalMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
-        IsPending, IsApproved, IsRejected, IsCancelled : boolean;
+        IsPending, IsApproved, IsRejected, IsCancelled, IsOpen : boolean;
     local procedure SetLayout()
     begin
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
         IsCancelled := Rec.Cancelled;
         RecRef.GetTable(Rec);
-
     end;
 }

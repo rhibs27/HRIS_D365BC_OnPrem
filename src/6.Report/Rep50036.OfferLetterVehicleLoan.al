@@ -28,7 +28,7 @@ report 50036 "Offer Letter Vehicle Loan"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
             end;
         }
     }
