@@ -93,6 +93,16 @@ page 50089 "Leave Requests"
                     ToolTip = 'Specifies the value of the Compensatory Date field.';
                     ApplicationArea = All;
                 }
+
+                field("Branch Name"; Rec."Branch Name")
+                {
+                    ApplicationArea = All;
+                }
+                field("Salary Level Code"; Rec."Salary Level Code")
+                {
+                    ApplicationArea = All;
+                }
+                
             }
         }
     }

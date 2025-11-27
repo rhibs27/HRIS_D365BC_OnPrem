@@ -261,7 +261,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup.SetRange(Code, LeaveCode);
         if LeaveTypeSetup.FindFirst then
             LeaveTypeSetup.CalcFields("Remaining Days");
-        if (LeaveTypeSetup."Leave Category" <> LeaveTypeSetup."Leave Category"::Substitute) and (not LeaveTypeSetup."Skip Balance Check") then
+        if (LeaveTypeSetup."Leave Category" <> LeaveTypeSetup."Leave Category"::Substitute) and (not LeaveTypeSetup."Skip Balance Check") and (not LeaveTypeSetup."Allow Duplicate Request") then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
                 Error(NoLeaveDaysError);
     end;
@@ -326,6 +326,7 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
+        LeavetypSetup.SetRange("Allow Duplicate Request", false);
         if LeavetypSetup.FindSet() then
             repeat
                 Clear(LeaveEarn);
@@ -376,6 +377,7 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
+        LeavetypSetup.SetRange("Allow Duplicate Request", false);
         LeavetypSetup.SetRange("Employee No. Filter", Employee."No.");
         if LeavetypSetup.Find('-') then
             repeat
@@ -429,6 +431,7 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
+        LeavetypSetup.SetRange("Allow Duplicate Request", false);
         if LeavetypSetup.Find('-') then
             repeat
                 Clear(LeaveEarn);
@@ -489,7 +492,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup.SetFilter("Employee No. Filter", EmpCode);
         if LeaveTypeSetup.FindFirst then
             LeaveTypeSetup.CalcFields("Remaining Days");
-        if not LeaveTypeSetup."Skip Balance Check" then
+        if (not LeaveTypeSetup."Skip Balance Check") and (not LeaveTypeSetup."Allow Duplicate Request") then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
                 Error('You do not have enough remaining days for leave %1', LeaveTypeSetup.Description);
     end;
@@ -638,7 +641,7 @@ codeunit 50000 "Leave Mgt."
                     (LeaveType."AML Eligible") then
                     exit(true);
                 if ((EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday) or
-                  (LeaveType."AML Eligible") or (LeaveType."Skip Balance Check")) and (EmpAttendActivity."Check In Time" <> 0T) then
+                  (LeaveType."AML Eligible") or (LeaveType."Skip Balance Check") or (LeaveType."Allow Duplicate Request")) and (EmpAttendActivity."Check In Time" <> 0T) then
                     exit(true)
                 else
                     Error(ErrorPresent, CompensatoryDate);
@@ -685,6 +688,7 @@ codeunit 50000 "Leave Mgt."
         LeaveType.SetFilter("Leave Category", '<>%1', LeaveType."Leave Category"::Substitute);
         LeaveType.SetRange("Needed HR Permission", false);
         LeaveType.SetRange("Skip Balance Check", false);
+        LeaveType.SetRange("Allow Duplicate Request", false);
         if LeaveType.Find('-') then
             repeat
                 LeaveEarn.Init;
@@ -811,6 +815,11 @@ codeunit 50000 "Leave Mgt."
         OnBeforeCheckPendingForLeave(leaveRequestNo, LeaveCode, EmployeeNo, IsHandled);
         if IsHandled then
             exit;
+        //Allows reapplying the same leave code despite pending requests if Allow Duplicate Request Boolean is true.
+        if LeaveTypeSetup.Get(LeaveCode) then begin
+            if LeaveTypeSetup."Allow Duplicate Request" then
+                exit;
+        end;
         LeaveTable.Reset;
         LeaveTable.SetFilter("No.", '<>%1', leaveRequestNo);
         LeaveTable.SetRange("Employee No.", EmployeeNo);
@@ -975,6 +984,14 @@ codeunit 50000 "Leave Mgt."
                      leave.Remarks,
                      '');
         end;
+        //Complete record of substitutes in leave history
+        LeaveEarn.Reset();
+        LeaveEarn.SetRange("Employee No.", leave."Employee No.");
+        LeaveEarn.SetRange("Leave Code", leave."Leave Code");
+        LeaveEarn.SetRange("Fiscal Year", leave."Fiscal Year");
+        if LeaveEarn.FindSet(true) then
+            LeaveEarn.ModifyAll("Substitute Person Code", leave."Substitute Person Code");
+        LeaveEarn.ModifyAll("Substitute Person Name", leave."Substitute Person Name");
         LeaveTypeSetup.get(leave."Leave Code");
         if LeaveTypeSetup."Exclude in Service Period" then begin
             //Create Service inactivity line

@@ -53,7 +53,7 @@ table 50068 "Leave Earn"
         {
             Editable = false;
         }
-        field(12; Remarks; Text[50]) { }
+        field(12; Remarks; Text[250]) { }
         field(13; Closed; Boolean) { }
         field(14; "Overtime Request No"; Code[20])
         {
@@ -78,6 +78,21 @@ table 50068 "Leave Earn"
         {
             TableRelation = "Payroll Attributes";
         }
+        field(19; "Substitute Person Code"; Code[20])
+        {
+            Caption = 'Substitute Person Code';
+
+            trigger OnValidate()
+            begin
+                UpdateSubstitutePersonName();
+            end;
+        }
+        field(20; "Substitute Person Name"; Text[50])
+        {
+            Caption = 'Substitute Person Name';
+            Editable = false;
+            DataClassification = CustomerContent;
+        }
     }
 
     keys
@@ -93,6 +108,8 @@ table 50068 "Leave Earn"
 
     trigger OnInsert()
     begin
+        if "Substitute Person Code" <> '' then
+            UpdateSubstitutePersonName();
     end;
 
     var
@@ -115,5 +132,18 @@ table 50068 "Leave Earn"
         LeaveEarn.Insert(true);
 
         Message('Leave balance added successfully.');
+    end;
+
+    local procedure UpdateSubstitutePersonName()
+    var
+        EmployeeRec: Record Employee;
+    begin
+        if "Substitute Person Code" <> '' then begin
+            if EmployeeRec.Get("Substitute Person Code") then
+                "Substitute Person Name" := EmployeeRec."Full Name"
+            else
+                Clear("Substitute Person Name");
+        end else
+            Clear("Substitute Person Name");
     end;
 }
