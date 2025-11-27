@@ -78,7 +78,7 @@ table 50068 "Leave Earn"
         {
             TableRelation = "Payroll Attributes";
         }
-        field(19; "Substitute Person Code"; Code[20])
+        field(20; "Substitute Person Code"; Code[20])
         {
             Caption = 'Substitute Person Code';
 
@@ -87,7 +87,7 @@ table 50068 "Leave Earn"
                 UpdateSubstitutePersonName();
             end;
         }
-        field(20; "Substitute Person Name"; Text[50])
+        field(21; "Substitute Person Name"; Text[50])
         {
             Caption = 'Substitute Person Name';
             Editable = false;

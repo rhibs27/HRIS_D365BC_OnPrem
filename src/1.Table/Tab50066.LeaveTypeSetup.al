@@ -192,7 +192,7 @@ table 50066 "Leave Type Setup"
         }
         field(504; "Encash Date"; Date) { }
         field(505; "Encash Remarks"; Text[100]) { }
-        field(506; "Allow Duplicate Request"; Boolean) { }
+        field(507; "Allow Duplicate Request"; Boolean) { }
     }
     keys
     {
