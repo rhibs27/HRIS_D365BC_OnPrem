@@ -22,7 +22,6 @@ table 50068 "Leave Earn"
         field(4; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then
@@ -93,7 +92,6 @@ table 50068 "Leave Earn"
         field(20; "Substitute Person Code"; Code[20])
         {
             Caption = 'Substitute Person Code';
-
             trigger OnValidate()
             begin
                 UpdateSubstitutePersonName();
@@ -120,8 +118,7 @@ table 50068 "Leave Earn"
 
     trigger OnInsert()
     begin
-        if "Substitute Person Code" <> '' then
-            UpdateSubstitutePersonName();
+
     end;
 
     var
@@ -150,12 +147,9 @@ table 50068 "Leave Earn"
     var
         EmployeeRec: Record Employee;
     begin
-        if "Substitute Person Code" <> '' then begin
-            if EmployeeRec.Get("Substitute Person Code") then
-                "Substitute Person Name" := EmployeeRec."Full Name"
-            else
-                Clear("Substitute Person Name");
-        end else
-            Clear("Substitute Person Name");
+        if EmployeeRec.Get("Substitute Person Code") then
+            "Substitute Person Name" := EmployeeRec."Full Name"
+        else
+            Clear("Substitute Person Name")
     end;
 }

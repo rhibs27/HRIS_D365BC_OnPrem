@@ -200,7 +200,6 @@ table 50066 "Leave Type Setup"
                     TestField(Encashable, true);
             end;
         }
-        field(507; "Allow Duplicate Request"; Boolean) { }
     }
     keys
     {

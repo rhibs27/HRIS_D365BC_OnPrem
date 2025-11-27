@@ -317,12 +317,9 @@ table 50153 "Cancel Document"
             var
                 EmployeeRec: Record Employee;
             begin
-                if "Substitute Person Code" <> '' then begin
-                    if EmployeeRec.Get("Substitute Person Code") then
-                        "Substitute Person Name" := EmployeeRec."Full Name"
-                    else
-                        Clear("Substitute Person Name");
-                end else
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
                     Clear("Substitute Person Name");
             end;
         }
@@ -330,7 +327,6 @@ table 50153 "Cancel Document"
         {
             Caption = 'Substitute Person Name';
             Editable = false;
-
         }
 
     }
@@ -394,7 +390,6 @@ table 50153 "Cancel Document"
                         end;
                 end;
             end;
-        UpdateSalaryLevelDescription();
     end;
 
     trigger OnDelete()
@@ -429,12 +424,9 @@ table 50153 "Cancel Document"
     var
         SalaryLevelRec: Record "Salary Level";
     begin
-        if "Salary Level Code" <> '' then begin
-            if SalaryLevelRec.Get("Salary Level Code") then
-                "Salary Level Description" := SalaryLevelRec.Description
-            else
-                Clear("Salary Level Description");
-        end else
+        if SalaryLevelRec.Get("Salary Level Code") then
+            "Salary Level Description" := SalaryLevelRec.Description
+        else
             Clear("Salary Level Description");
     end;
 

@@ -10368,11 +10368,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Adjustment Sequence - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 310427152 - Field 95255513 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Allow Duplicate Request</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Allow Duplicate Request - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 310427152 - Field 1785283783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>AML Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12138,25 +12133,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Method RunArchive - NamedType Text001</note>
         </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 112640352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Additional Time Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Additional Time Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 2359252340 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Allowance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2214390665 - Field 703249269 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowances</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Allowances - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 2460244903 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Annual Income Inc. Grade</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Annual Income Inc. Grade - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2214390665 - Field 2410790940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Archive Version</source>
@@ -12177,21 +12157,6 @@
           <source>Category</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Category - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 658814222 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Club Membership</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Club Membership - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 1172491987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Communication Reim. Allowence</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Communication Reim. Allowence - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 1632833437 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Dashain Remuneration</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Dashain Remuneration - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2214390665 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
@@ -12223,21 +12188,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Expire Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 3608448648 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Facilitator Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Facilitator Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 1230024623 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Friday Counter Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Friday Counter Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 2817493743 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grade</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Grade - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2214390665 - Field 3804105292 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Grade Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12248,45 +12198,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field KPI Incentive % - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 3938407325 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Level Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Level Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 119639637 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>LFA Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field LFA Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 2855902768 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Night Shift Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Night Shift Allowance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2214390665 - Field 4114968965 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. of grade</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field No. of grade - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 3158510099 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Officiating Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Officiating Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 1647169576 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Outstation Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Outstation Allowance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2214390665 - Field 1018677426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rank</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Rank - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 1394610726 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Relocation Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Relocation Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2214390665 - Field 926976356 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remote Allowance Amount</source>
@@ -12303,50 +12223,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Remote Area Deduction - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 3937123853 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Risk Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Risk Allowance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2214390665 - Field 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Level</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Salary Level - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 2235867818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Staff Vehicle Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Staff Vehicle Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 1822658655 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Standard Basic Salary</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Standard Basic Salary - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 3184760576 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Starting Point</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Starting Point - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2214390665 - Field 1576726507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Store /Acc Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Store /Acc Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 876920385 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>TA Fooding</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field TA Fooding - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 936534903 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>TA Lodging</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field TA Lodging - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 1318806744 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>TA Out of Pocket</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field TA Out of Pocket - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2214390665 - Field 3808951907 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Table Name</source>
@@ -12357,16 +12242,6 @@
           <source>Table No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Table No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 2199808208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total Basic Salary</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Total Basic Salary - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2214390665 - Field 842145714 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total Income Inc. Grade</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Total Income Inc. Grade - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2214390665 - Field 3808709378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transportation Allowance</source>
@@ -60967,6 +60842,11 @@
           <source>Casual Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Casual Leave - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 3548790258 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Force Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Force Leave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4204176933 - EnumValue 3254799098 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Maternity Leave</source>

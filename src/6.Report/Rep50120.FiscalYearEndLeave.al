@@ -82,7 +82,6 @@ report 50120 FiscalYearEndLeave
         LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
         // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetRange("Skip Balance Check", false);
-        LeaveTypeSetup.setRange("Allow Duplicate Request", false);
         LeaveTypeSetup.SetFilter("Leave Category", '<>%1', LeaveTypeSetup."Leave Category"::Substitute);
         LeaveTypeSetup.SetRange("Needed HR Permission", false);
         //LeaveTypeSetup.SetRange("Employee No. Filter",Employee."No.");
@@ -139,7 +138,6 @@ report 50120 FiscalYearEndLeave
         // LeavetypSetup.SetRange(Compensatory, false);
         //LeavetypSetup.SetRange("Needed HR Permission",FALSE);
         LeavetypSetup.SetRange("Skip Balance Check", false);
-        LeavetypSetup.SetRange("Allow Duplicate Request", false);
         LeavetypSetup.SetRange("AML Eligible", true);
         if LeavetypSetup.Find('-') then
             repeat
