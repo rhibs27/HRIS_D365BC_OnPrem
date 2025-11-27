@@ -1,7 +1,7 @@
 page 50152 "Employee Salary Advance List"
 {
     CardPageId = "Employee Salary Advance Card";
-    DataCaptionFields = "No.", "Employee Code", "Employee Name";
+    DataCaptionFields = "No.", "Employee No.", "Employee Name";
     PageType = List;
     SourceTable = "Employee Loan/Advance";
     SourceTableView = where("Loan Type" = const("Salary Advance"));
@@ -19,7 +19,7 @@ page 50152 "Employee Salary Advance List"
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
@@ -34,7 +34,7 @@ page 50152 "Employee Salary Advance List"
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
                 }
-                field("Job Type"; Rec."Job Type")
+                field("Job Type"; Rec."Employee Type")
                 {
                     ToolTip = 'Specifies the value of the Job Type field.';
                     ApplicationArea = All;
@@ -54,7 +54,7 @@ page 50152 "Employee Salary Advance List"
                     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
                     ApplicationArea = All;
                 }
-                field("Date of Joining"; Rec."Date of Joining")
+                field("Date of Joining"; Rec."Employment Date")
                 {
                     ToolTip = 'Specifies the value of the Date of Joining field.';
                     ApplicationArea = All;
@@ -75,7 +75,7 @@ page 50152 "Employee Salary Advance List"
                     ToolTip = 'Specifies the value of the Purpose of Advance Salary field.';
                     ApplicationArea = All;
                 }
-                field(FY; Rec.FY)
+                field(FY; Rec."Fiscal Year")
                 {
                     Caption = 'Fiscal Year';
                     ToolTip = 'Specifies the value of the Fiscal Year field.';

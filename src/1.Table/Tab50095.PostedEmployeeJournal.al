@@ -426,10 +426,16 @@ table 50095 "Posted Employee Journal"
         }
 
         // Promotion
-        field(121; "Promoted Salary Grade"; Code[20]) { }
-        field(122; "Promoted Salary level"; Code[20]) { }
-        field(124; "Promoted Staff Level"; Enum "Staff Type") { }
-        field(125; "Promotion Date"; Date) { }
+        field(150; "Promoted Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
+        field(151; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(152; "Promoted Staff Level"; Enum "Staff Type") { }
+        field(153; "Promotion Date"; Date) { }
     }
     keys
     {

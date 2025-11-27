@@ -11,7 +11,7 @@ report 50044 "Promissory Note Personal Loan"
             DataItemTableView = where("Loan Type" = const("Personal Loan"));
             column(RequestedLoanDate; "Offer Letter Date(Nepali)") { }
             column(AppliedLoanAdvance; "Applied Loan/Advance") { }
-            column(EmployeeCode; "Employee Code") { }
+            column(EmployeeCode; "Employee No.") { }
             column(DisbursedAmt; "Disbursed Amount") { }
             column(AmountInWordsNepali; "Amount In Words (Nepali)") { }
             column(OfferLetterIssuedDate; "Offer Letter Date(Nepali)") { }
@@ -20,7 +20,7 @@ report 50044 "Promissory Note Personal Loan"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
             end;
         }
     }

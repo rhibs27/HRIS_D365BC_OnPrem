@@ -136,8 +136,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Shift Assignment Memo';
     }
-    value(34; "Employee Confirmation")
+    value(34; "Loan Journal")
     {
-        Caption = 'Employee Confirmation';
+        Caption = 'Loan Journal';
     }
 }

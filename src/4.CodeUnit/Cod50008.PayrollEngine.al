@@ -2556,7 +2556,7 @@ codeunit 50008 "Payroll Engine"
             PGSetup."Salary Advance":
                 begin
                     SalaryAdvance.Reset;
-                    SalaryAdvance.SetRange("Employee Code", Employee."No.");
+                    SalaryAdvance.SetRange("Employee No.", Employee."No.");
                     SalaryAdvance.SetRange("Loan Type", SalaryAdvance."Loan Type"::"Salary Advance");
                     SalaryAdvance.SetRange("Approval Status", SalaryAdvance."Approval Status"::Approved);
                     SalaryAdvance.SetRange(Settled, false);
@@ -3251,7 +3251,7 @@ codeunit 50008 "Payroll Engine"
         LeaveDays: Decimal;
     begin
         LeaveTypeSetup.Reset();
-        LeaveTypeSetup.SetRange("AML Eligible", true);
+        LeaveTypeSetup.SetRange("Leave Category", LeaveTypeSetup."Leave Category"::"Annual Leave");
         LeaveTypeSetup.SetRange("Leave For Employee Type", EmpType);
         if not LeaveTypeSetup.FindFirst() then
             exit;
@@ -3259,7 +3259,7 @@ codeunit 50008 "Payroll Engine"
         PGSetup.Get();
         LeaveEarn.Reset();
         LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-        LeaveEarn.SetRange(Type, LeaveEarn.Type::Used);
+        LeaveEarn.SetRange(Type, LeaveEarn.Type::Used, LeaveEarn.Type::Cancelled);
         LeaveEarn.SetRange("Payroll Posted", false);
         LeaveEarn.SetRange("Leave Code", TempLeaveCode);
         if LeaveEarn.FindSet() then
@@ -3306,9 +3306,7 @@ codeunit 50008 "Payroll Engine"
                 SalaryLevel.Get(Employee."Salary Level");
                 exit(Round(SalaryLevel."Leave Fare Allowance", 0.01, '='))
             end;
-
         end;
-
     end;
 
     local procedure GetSettlementAttendance(var SettlementLine: Record "Payroll Line"; var SettlementHeader: Record "Payroll Header")
@@ -3478,7 +3476,7 @@ codeunit 50008 "Payroll Engine"
     begin
         PayrollGeneralSetup.Get;
         EmpLoanAdvance.Reset;
-        EmpLoanAdvance.SetRange("Employee Code", EmployeeNo);
+        EmpLoanAdvance.SetRange("Employee No.", EmployeeNo);
         EmpLoanAdvance.SetRange("Repayment Mode", EmpLoanAdvance."Repayment Mode"::"Insurance Tieup");
         EmpLoanAdvance.SetRange("Approval Status", EmpLoanAdvance."Approval Status"::Approved);
         EmpLoanAdvance.SetRange(Settled, false);

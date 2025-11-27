@@ -10,7 +10,7 @@ page 50158 "Employee Vehicle Loan Card"
         {
             group("Employee Information")
             {
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Employee Code field.';
@@ -205,7 +205,7 @@ page 50158 "Employee Vehicle Loan Card"
             group("Security Documentation")
             {
                 Visible = IsApproved;
-                field("Employee Citizenship No."; Rec."Employee Citizenship No.")
+                field("Employee Citizenship No."; Rec."Citizenship No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
                     ApplicationArea = All;
@@ -319,24 +319,11 @@ page 50158 "Employee Vehicle Loan Card"
             group("Group Remarks")
             {
                 Editable = IsPending;
-                // field("Screener Remarks"; Rec."Screener Remarks")
-                // {
-                //     Editable = ForScreen;
-                //     MultiLine = true;
-                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
-                //     ApplicationArea = All;
-                // }
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-                // field("Recommendation Remarks"; Rec."Recommendation Remarks")
-                // {
-                //     Editable = ForRecommend;
-                //     ToolTip = 'Specifies the value of the Recommendation Remarks field.';
-                //     ApplicationArea = All;
-                // }
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remark field.';
@@ -351,43 +338,9 @@ page 50158 "Employee Vehicle Loan Card"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee Code"),
-                                "Document Type" = field(Type);
+                SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
             }
-            // group(Approval)
-            // {
-            // field(Recommender; Rec.Recommender)
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Recommender field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Recommender Name"; Rec."Recommender Name")
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Recommender Name field.';
-            //     ApplicationArea = All;
-            // }
-            // field(Screener; Rec.Screener)
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Screener field.';
-            //     ApplicationArea = All;
-            // }
-            // field(Approver; Rec.Approver)
-            // {
-            //     Editable = ForScreen;
-            //     ToolTip = 'Specifies the value of the Approver field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Approver Name"; Rec."Approver Name")
-            // {
-            //     ToolTip = 'Specifies the value of the Approver Name field.';
-            //     ApplicationArea = All;
-            // }
-            //}
         }
     }
 
@@ -410,7 +363,7 @@ page 50158 "Employee Vehicle Loan Card"
                     LoanMgt: Codeunit "Loan Mgt.";
                 begin
                     if LoanMgt.ValidateDocument(Rec) then
-                        Message('Leave Document is validated');
+                        Message('Loan Document is validated');
                 end;
             }
             action("Send Approval Request")
@@ -734,10 +687,10 @@ page 50158 "Employee Vehicle Loan Card"
         CreateIncomingDocumentVisible := not OfficeMgt.IsOutlookMobileApp;
         SetLayout();
         AppliedLoan := Rec."Applied Loan/Advance";
-        if Rec."Approval Status" = Rec."Approval Status"::Open then begin
-            Rec.Validate("Employee Code");
-            Rec.Modify(true);
-        end;
+        // if Rec."Approval Status" = Rec."Approval Status"::Open then begin
+        //     Rec.Validate("Employee No.");
+        //     Rec.Modify(true);
+        // end;
         RecRef.GetTable(Rec);
     end;
 
@@ -748,8 +701,6 @@ page 50158 "Employee Vehicle Loan Card"
         HasIncomingDocument: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
         AppliedLoan: Decimal;
-        // FormEditable: Boolean;
-        // FormVisible: Boolean;
 
         ForApprove: Boolean;
 
@@ -776,12 +727,6 @@ page 50158 "Employee Vehicle Loan Card"
 
     local procedure SetLayout()
     begin
-        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
-        //                 Rec."Approval Status"::Open];
-
-        // FormVisible := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
-        //                 Rec."Approval Status"::Open];
-
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
                 begin
@@ -797,20 +742,6 @@ page 50158 "Employee Vehicle Loan Card"
                     ForApprove := true;
                     ForScreen := true;
                 end;
-            // Rec."Approval Status"::Recommended:
-            //     begin
-            //         ForRecommend := false;
-            //         ForReject := true;
-            //         ForApprove := false;
-            //         ForScreen := true;
-            //     end;
-            // Rec."Approval Status"::Screened:
-            //     begin
-            //         ForRecommend := false;
-            //         ForReject := true;
-            //         ForApprove := true;
-            //         ForScreen := false;
-            //     end;
             Rec."Approval Status"::Rejected, Rec."Approval Status"::Approved:
                 begin
                     ForRecommend := false;
@@ -827,11 +758,5 @@ page 50158 "Employee Vehicle Loan Card"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-
-        // if Rec."Approval Status" in [Rec."Approval Status"::Recommended, Rec."Approval Status"::Screened,
-        //                           Rec."Approval Status"::Approved, Rec."Approval Status"::Rejected] then
-        //     AfterRecommendedVisible := true
-        // else
-        //     AfterRecommendedVisible := false;
     end;
 }

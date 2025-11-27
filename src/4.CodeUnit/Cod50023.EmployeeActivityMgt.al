@@ -520,6 +520,104 @@ codeunit 50023 EmployeeActivityMgt
         else
             Error('There is no Document to post');
         Message('Employee Promotion is posted')
+    end;
+
+    procedure PostLoanInBulk(EmpActNo: Code[20])
+    var
+        EmployeeLoanRec, EmployeeLoanRec2 : Record "Employee Loan/Advance";
+        PostedLoanJnl: Record "Posted Employee Journal";
+        LoanJournal: Record "Employee Activity Journal";
+        HrSetup: Record "Human Resources Setup";
+        AttachmentSetup: Record "Attachment Setup";
+        NoSeries: Codeunit "No. Series";
+    begin
+        //note that this procedure assume you are just recording the loan record that is already processed. 
+        //Thus there wont be validation and what so ever
+
+        HrSetup.Get();
+        LoanJournal.Reset();
+        LoanJournal.SetRange("Emp Act. No", EmpActNo);
+        //add status = approved filter here is approval needed
+        if LoanJournal.FindSet() then
+            repeat
+                //check mandatory fields before posting
+                LoanJournal.TestField(Remarks);
+                LoanJournal.TestField("Employee No.");
+                LoanJournal.TestField("Loan Type");
+                LoanJournal.TestField("Loan Account No.");
+                LoanJournal.TestField("Loan Disbursed Amount");
+                if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then begin
+                    LoanJournal.TestField("Loan Account Opening Date");
+                    LoanJournal.TestField("Loan Expiry Date");
+                    HrSetup.TestField("Vehicle Loan No.");
+                end else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then begin
+                    LoanJournal.TestField("Insurance Company");
+                    LoanJournal.TestField("Policy No");
+                    LoanJournal.TestField("Yearly Premium Amount");
+                    LoanJournal.TestField("First Premium Date");
+                    HrSetup.TestField("Home Loan Insur. TieUp No.");
+                end;
+
+                //check for mandatory attachment here if needed
+                AttachmentSetup.Reset();
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Loan Journal");
+                AttachmentSetup.SetRange(Mandatory, true);
+                if AttachmentSetup.FindFirst() then
+                    if not LoanJournal.Attachment.HasValue then
+                        Error('Please attach the mandatory document in Loan Journal No %1 and line no %2 before posting', LoanJournal."Emp Act. No", LoanJournal."Line No");
+
+                EmployeeLoanRec.Init();
+                EmployeeLoanRec.Type := EmployeeLoanRec.Type::Loan;
+                EmployeeLoanRec."Loan Type" := LoanJournal."Loan Type";
+
+                if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then
+                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Vehicle Loan No.")
+                else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then
+                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Home Loan Insur. TieUp No.");
+
+                EmployeeLoanRec.Validate("Employee No.", LoanJournal."Employee No.");
+                EmployeeLoanRec."Loan Account No." := LoanJournal."Loan Account No.";
+                EmployeeLoanRec."Interest Rate" := LoanJournal."Loan Interest Rate (%)";
+                EmployeeLoanRec."Loan Acc. Open Date" := LoanJournal."Loan Account Opening Date";
+                EmployeeLoanRec.Disbursed := true;
+                EmployeeLoanRec."Applied Loan/Advance" := LoanJournal."Loan Disbursed Amount";
+                EmployeeLoanRec."Disbursed Amount" := LoanJournal."Loan Disbursed Amount";
+                EmployeeLoanRec."Loan Expiry Date" := LoanJournal."Loan Expiry Date";
+                EmployeeLoanRec."Disbursement Date" := LoanJournal."Posting Date";
+                EmployeeLoanRec."Settlement Date" := LoanJournal."Loan Settlement Date";
+                EmployeeLoanRec."Insurance Company" := LoanJournal."Insurance Company";
+                EmployeeLoanRec."Policy No" := LoanJournal."Policy No";
+                EmployeeLoanRec."Yearly Premium Amount" := LoanJournal."Yearly Premium Amount";
+                EmployeeLoanRec."First Premium Date" := LoanJournal."First Premium Date";
+
+                EmployeeLoanRec.Validate(Remarks, LoanJournal.Remarks);
+                EmployeeLoanRec.Validate("Approval Status", EmployeeLoanRec."Approval Status"::Approved);
+                EmployeeLoanRec."Approved Date" := LoanJournal."Posting Date";
+                EmployeeLoanRec.Insert();
+
+                //Handle the attachment transfer from Employee Activity Journal to loan document if any
+                if LoanJournal.Attachment.HasValue then begin
+                    AttachmentSetup.Reset();
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Loan Journal");
+                    AttachmentSetup.FindFirst();
+                    InsertAttachment(LoanJournal,
+                                    EmployeeLoanRec."No.",
+                                    EmployeeLoanRec."Employee No.",
+                                    EmployeeLoanRec.Type,
+                                    AttachmentSetup."Attachment Code");
+                end;
+
+                PostedLoanJnl.Init();
+                PostedLoanJnl.TransferFields(LoanJournal);
+                LoanJournal.Delete();
+                PostedLoanJnl.Validate(Posted, true);
+                PostedLoanJnl.Validate("Document No", EmployeeLoanRec."No.");
+                PostedLoanJnl.Insert(true);
+            until LoanJournal.next() = 0
+        else
+            Error('There is no Document to post');
+
+        Message('Loan Journal is posted')
 
     end;
 
