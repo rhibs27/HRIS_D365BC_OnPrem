@@ -326,7 +326,6 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
-        LeavetypSetup.SetRange("Allow Duplicate Request", false);
         if LeavetypSetup.FindSet() then
             repeat
                 Clear(LeaveEarn);
@@ -377,7 +376,6 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
-        LeavetypSetup.SetRange("Allow Duplicate Request", false);
         LeavetypSetup.SetRange("Employee No. Filter", Employee."No.");
         if LeavetypSetup.Find('-') then
             repeat
@@ -431,7 +429,6 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
-        LeavetypSetup.SetRange("Allow Duplicate Request", false);
         if LeavetypSetup.Find('-') then
             repeat
                 Clear(LeaveEarn);
@@ -688,7 +685,6 @@ codeunit 50000 "Leave Mgt."
         LeaveType.SetFilter("Leave Category", '<>%1', LeaveType."Leave Category"::Substitute);
         LeaveType.SetRange("Needed HR Permission", false);
         LeaveType.SetRange("Skip Balance Check", false);
-        LeaveType.SetRange("Allow Duplicate Request", false);
         if LeaveType.Find('-') then
             repeat
                 LeaveEarn.Init;
@@ -987,11 +983,11 @@ codeunit 50000 "Leave Mgt."
         //Complete record of substitutes in leave history
         LeaveEarn.Reset();
         LeaveEarn.SetRange("Employee No.", leave."Employee No.");
-        LeaveEarn.SetRange("Leave Code", leave."Leave Code");
-        LeaveEarn.SetRange("Fiscal Year", leave."Fiscal Year");
-        if LeaveEarn.FindSet(true) then
-            LeaveEarn.ModifyAll("Substitute Person Code", leave."Substitute Person Code");
-        LeaveEarn.ModifyAll("Substitute Person Name", leave."Substitute Person Name");
+        LeaveEarn.SetRange("Leave Request No", leave."No.");
+        if LeaveEarn.Findfirst() then begin
+            LeaveEarn.Validate("Substitute Person Code", Leave."Substitute Person Code");
+            LeaveEarn.Modify();
+        end;
         LeaveTypeSetup.get(leave."Leave Code");
         if LeaveTypeSetup."Exclude in Service Period" then begin
             //Create Service inactivity line
