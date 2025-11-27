@@ -114,6 +114,7 @@ table 50141 OverTime
                             Validate("Check In Time", EmployeeAttendance."Check In Time");
                             Validate("Check Out Time", EmployeeAttendance."Check Out Time");
                             Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
+                            Validate("Day Type", EmployeeAttendance."Day Type");
                         end;
                     end else
                         Error('No Attendance Found on %1', rec."Start Date");
@@ -414,6 +415,11 @@ table 50141 OverTime
         {
             DataClassification = ToBeClassified;
         }
+        field(68; "Day Type"; Enum "Day Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+
         field(100; Status; text[20])
         {
         }

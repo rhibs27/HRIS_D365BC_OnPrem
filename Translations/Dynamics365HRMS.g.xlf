@@ -11278,6 +11278,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Compensatory Days - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 651111352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Day Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Day Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1075377117 - Field 1651921640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11722,6 +11727,11 @@
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Overtime Line - Field Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2531192895 - Field 651111352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Day Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Overtime Line - Field Day Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2531192895 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Type</source>
@@ -36933,6 +36943,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Compensatory Days - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 651111352 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Day Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Day Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 651111352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Day Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Day Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3592273345 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37102,6 +37122,16 @@
           <source>Check Out Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control checkOutTime - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 3991860224 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Day Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control dayType - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 3991860224 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Day Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control dayType - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2397156723 - Control 1020011527 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
@@ -49947,6 +49977,11 @@
           <source>Specifies the value of the _UpdateAgeAndServicePeriod field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control Update Emp. Age &amp; Service Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1722841060 - Control 1642700900 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Update Promotion Details field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdatePromotionDetails - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 4065356657 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Darbandi</source>

@@ -24,6 +24,12 @@ page 50258 "Overtime Subform"
                     Caption = 'Employee Work Shift';
                     ApplicationArea = All;
                 }
+                field(dayType; Rec."Day Type")
+                {
+                    ToolTip = 'Specifies the value of the Day Type field.', Comment = '%';
+                    Caption = 'Day Type';
+                    ApplicationArea = All;
+                }
                 field(overtimeDate; Rec."Overtime Date")
                 {
                     ToolTip = 'Specifies the value of the Overtime Date field.', Comment = '%';
