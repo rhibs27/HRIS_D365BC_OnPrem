@@ -2366,7 +2366,7 @@ table 50027 "Payroll Line"
         PayrollAttUsage: Record "Payroll Attributes Usage";
     begin
         if PayrollAttUsage.Get(PayrollCode, "Employee No.") then begin
-            if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+            if not PayrollAttUsage."Static Amount" then
                 PayrollAttUsage.Amount := Amt;
             PayrollAttUsage.Modify;
         end;
