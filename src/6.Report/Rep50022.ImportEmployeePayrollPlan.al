@@ -29,6 +29,7 @@ report 50022 "Import Employee Payroll Plan"
                         Employee.SetFilter("Resignation Date", '%1|>%2', 0D, PayrollHeader."To Date");
                     end;
                 end;
+
                 if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then
                     Employee.SetFilter("Employment Date", '<%1', PayCyclePeriod."Pay Date");
             end;

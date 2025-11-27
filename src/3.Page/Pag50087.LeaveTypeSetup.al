@@ -198,6 +198,10 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'If checked leave taken will not be counted in service period';
                     ApplicationArea = All;
                 }
+                field("Encashed Formula"; Rec."Encashed Formula")
+                {
+                    ToolTip = 'Specifies how encashed amount is calculated. Operand in formula are the payroll attributes', Comment = '%';
+                }
 
             }
         }

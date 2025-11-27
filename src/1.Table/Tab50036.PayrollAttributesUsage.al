@@ -131,6 +131,12 @@ table 50036 "Payroll Attributes Usage"
             Editable = false;
             DataClassification = ToBeClassified;
         }
+        field(23; Irregular; Boolean)
+        {
+            CalcFormula = lookup("Payroll Attributes".Irregular where(Code = field(Code)));
+            Editable = false;
+            FieldClass = FlowField;
+        }
     }
 
     keys

@@ -15,7 +15,7 @@ report 50051 "Loan/Salary Advance Report"
             column(DepartmentName_; "Employee Loan/Advance"."Department Name") { }
             column(UnitName_; "Employee Loan/Advance"."Unit Name") { }
             column(VehiclePurchaseType_; "Employee Loan/Advance"."Vehicle Purchase Type") { }
-            column(EmployeeCitizenshipNo_; "Employee Loan/Advance"."Employee Citizenship No.") { }
+            column(EmployeeCitizenshipNo_; "Employee Loan/Advance"."Citizenship No.") { }
             column(CitizenshipIssueDate_; "Employee Loan/Advance"."Citizenship Issue Date") { }
             column(Remarks_; "Employee Loan/Advance".Remarks) { }
             column(EligibleLoanAdvance_; "Employee Loan/Advance"."Eligible Loan/Advance") { }
@@ -87,19 +87,19 @@ report 50051 "Loan/Salary Advance Report"
             column(ApprovedByBoard_; Format("Employee Loan/Advance"."Approved By Board")) { }
             column(PreviousLoanAmount_; "Employee Loan/Advance"."Previous Loan Amount") { }
             column(SalaryLevel_; "Employee Loan/Advance"."Salary Level") { }
-            column(DateofJoining_; "Employee Loan/Advance"."Date of Joining") { }
+            column(DateofJoining_; "Employee Loan/Advance"."Employment Date") { }
             column(Frequency_; "Employee Loan/Advance".Frequency) { }
             column(GrossSalary_; "Employee Loan/Advance"."Gross Salary") { }
-            column(FY_; "Employee Loan/Advance".FY) { }
-            column(Department_; "Employee Loan/Advance".Department) { }
+            column(FY_; "Employee Loan/Advance"."Fiscal Year") { }
+            column(Department_; "Employee Loan/Advance"."Department Code") { }
             column(DateofBirth_; "Employee Loan/Advance"."Date of Birth") { }
             column(Age_; "Employee Loan/Advance".Age) { }
-            column(Branch_; "Employee Loan/Advance".Branch) { }
+            column(Branch_; "Employee Loan/Advance"."Branch Code") { }
             column(RemainingServicePeriod_; "Employee Loan/Advance"."Remaining Service Period") { }
-            column(EmployeeCode_; "Employee Loan/Advance"."Employee Code") { }
+            column(EmployeeCode_; "Employee Loan/Advance"."Employee No.") { }
             column(EmployeeName_; "Employee Loan/Advance"."Employee Name") { }
             column(JobTitle_; "Employee Loan/Advance"."Job Title") { }
-            column(JobType_; "Employee Loan/Advance"."Job Type") { }
+            column(JobType_; "Employee Loan/Advance"."Employee Type") { }
             column(Gender_; "Employee Loan/Advance".Gender) { }
             column(ConfirmationServicePeriod_; "Employee Loan/Advance"."Confirmation Service Period") { }
             column(Title; StrSubstNo(Title, "Employee Loan/Advance"."Loan Type")) { }

@@ -212,7 +212,6 @@ table 50075 "Employee Activity Journal"
         }
         field(26; "Posting Date"; Date)
         {
-            Editable = false;
         }
         field(28; "Extension Counter Code"; Code[20])
         {
@@ -709,6 +708,53 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+        //loan
+        //to import past loan details
+        field(115; "Loan Type"; Enum "Loan Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(116; "Loan Disbursed Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(117; "Loan Account No."; text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(118; "Loan Account Opening Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(119; "Loan Interest Rate (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(120; "Loan Expiry Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(121; "Loan Settlement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        //additional for home loan insurance
+        field(122; "Yearly Premium Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(123; "Insurance Company"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(124; "Policy No"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(125; "First Premium Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
@@ -768,6 +814,8 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.DeleteAll();
                 if HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer") then
                     SkipApproval := true;
+
+                OnSetupNewLineOnBeforeInsertApproval(Rec, SkipApproval);
                 if not SkipApproval then
                     ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
@@ -816,6 +864,7 @@ table 50075 "Employee Activity Journal"
         end;
     end;
 
+
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
@@ -836,4 +885,9 @@ table 50075 "Employee Activity Journal"
         ApprovalHRMS: Record "Approval HRMS";
         Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
         Error1: Label 'Cannot apply before your employment date.';
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSetupNewLineOnBeforeInsertApproval(var EmpActJnl: Record "Employee Activity Journal"; var SkipApproval: Boolean)
+    begin
+    end;
 }

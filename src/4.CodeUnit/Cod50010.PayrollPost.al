@@ -369,6 +369,7 @@ codeunit 50010 "Payroll-Post"
     var
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
         PayrollAttributes: Record "Payroll Attributes";
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
     begin
         PayrollLine.Reset;
         PayrollLine.SetRange("Document No.", PayrollHeader."No.");
@@ -387,6 +388,20 @@ codeunit 50010 "Payroll-Post"
                                 PayrollAttributesUsage.Modify;
                             end;
                         until PayrollAttributes.Next = 0;
+
+                    //To Automate stop payment of payroll attribute with end date in history.
+                    PayrollAttrUsageHistory.Reset();
+                    PayrollAttrUsageHistory.SetRange("End Date", PayrollHeader."From Date", PayrollHeader."To Date");
+                    if PayrollAttrUsageHistory.FindSet() then
+                        repeat
+                            PayrollAttributesUsage.Reset();
+                            PayrollAttributesUsage.SetRange(Code, PayrollAttrUsageHistory."Attribute Code");
+                            PayrollAttributesUsage.SetRange("Employee Code", PayrollAttrUsageHistory."Employee No.");
+                            if PayrollAttrUsageHistory.FindFirst() then begin
+                                PayrollAttributesUsage.Amount := 0;
+                                PayrollAttributesUsage.Modify;
+                            end
+                        until PayrollAttrUsageHistory.Next() = 0;
                 end;
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                     Employee.Get(PayrollLine."Employee No.");

@@ -1,12 +1,13 @@
 page 50157 "Employee Vehicle Loan List"
 {
     CardPageId = "Employee Vehicle Loan Card";
-    DataCaptionFields = "No.", "Employee Code", "Employee Name";
+    DataCaptionFields = "No.", "Employee No.", "Employee Name";
     PageType = List;
     SourceTable = "Employee Loan/Advance";
     SourceTableView = where("Loan Type" = const("Vehicle Loan"));
     UsageCategory = Lists;
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {
@@ -19,7 +20,7 @@ page 50157 "Employee Vehicle Loan List"
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
@@ -39,7 +40,7 @@ page 50157 "Employee Vehicle Loan List"
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
                 }
-                field(Department; Rec.Department)
+                field(Department; Rec."Department Code")
                 {
                     ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;
@@ -69,36 +70,11 @@ page 50157 "Employee Vehicle Loan List"
                     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
                     ApplicationArea = All;
                 }
-                field("Screened Date"; Rec."Screened Date")
-                {
-                    ToolTip = 'Specifies the value of the Screened Date field.';
-                    ApplicationArea = All;
-                }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-                // field(Recommender; Rec.Recommender)
-                // {
-                //     ToolTip = 'Specifies the value of the Recommender field.';
-                //     ApplicationArea = All;
-                // }
-                // field(Approver; Rec.Approver)
-                // {
-                //     ToolTip = 'Specifies the value of the Approver field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Recommender Name"; Rec."Recommender Name")
-                // {
-                //     ToolTip = 'Specifies the value of the Recommender Name field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Approver Name"; Rec."Approver Name")
-                // {
-                //     ToolTip = 'Specifies the value of the Approver Name field.';
-                //     ApplicationArea = All;
-                // }
                 field(Settled; Rec.Settled)
                 {
                     ToolTip = 'Specifies the value of the Settled field.';
@@ -153,59 +129,26 @@ page 50157 "Employee Vehicle Loan List"
                     Rec.FilterGroup(0);
                 end;
             }
-            action(Verified)
-            {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Verified action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    // Rec.FilterGroup(0);
-                end;
-            }
+
             action("Pending Approval")
             {
-                Image = PendingApproval;
+                Image = Approvals;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Pending Approval action.';
                 ApplicationArea = All;
-                Visible = false;
+                Visible = true;
 
                 trigger OnAction()
                 begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
-                    // Rec.FilterGroup(0);
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
+                    Rec.FilterGroup(0);
                 end;
             }
-            action(Recommended)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Recommended action.';
-                ApplicationArea = All;
-                Visible = false;
 
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-
-                    // Rec.FilterGroup(0);
-                end;
-            }
             action(Approved)
             {
                 Image = Approve;
@@ -248,6 +191,7 @@ page 50157 "Employee Vehicle Loan List"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Return action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -344,11 +288,4 @@ page 50157 "Employee Vehicle Loan List"
             }
         }
     }
-
-    trigger OnOpenPage()
-    begin
-        /*FILTERGROUP(2);
-        SETFILTER("Approval Status",'<>%1',"Approval Status"::Open);
-        FILTERGROUP(0);*/
-    end;
 }

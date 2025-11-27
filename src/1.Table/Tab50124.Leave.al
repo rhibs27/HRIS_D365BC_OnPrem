@@ -51,6 +51,7 @@ table 50124 Leave
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Province Name", EmpVar."Province Name");
                     Validate("Employee Attendance ID", EmpVar."Employee Attendance ID");
+                    Validate("Branch Code", EmpVar."Branch Code");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -390,6 +391,19 @@ table 50124 Leave
         field(64; "Employee Attendance ID"; Text[20])
         {
             DataClassification = ToBeClassified;
+        }
+        field(65; "Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            trigger OnValidate()
+            var
+                OrgStructureList: Record "Organization Structure List";
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code") then
+                    Validate("Branch Name", OrgStructureList.Name)
+                else
+                    Validate("Branch Name", '');
+            end;
         }
         field(100; "Status"; Text[20])
         {

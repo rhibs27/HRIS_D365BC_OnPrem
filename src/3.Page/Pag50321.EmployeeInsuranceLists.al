@@ -11,6 +11,7 @@ page 50321 "Employee Insurance Lists"
     SourceTableView = where(type = filter("Employee Activity Type"::Insurance));
     UsageCategory = Lists;
     CardPageId = "Employee Insurance Card";
+    PromotedActionCategories = 'New, Report, Process, Filters';
 
     layout
     {
@@ -94,6 +95,11 @@ page 50321 "Employee Insurance Lists"
                     ToolTip = 'Specifies the value of the Annual Premium Amount field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field(Expired; Rec.Expired)
+                {
+                    ToolTip = 'Specifies the value of the Expired field.', Comment = '%';
+                    ApplicationArea = All;
+                }
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
@@ -107,12 +113,12 @@ page 50321 "Employee Insurance Lists"
     {
         area(Processing)
         {
-            action(open)
+            action(Open)
             {
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 Image = Open;
                 ToolTip = 'Executes the Open action.';
                 trigger OnAction()
@@ -128,7 +134,7 @@ page 50321 "Employee Insurance Lists"
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 Image = pending;
                 ToolTip = 'Executes the Pending action.';
                 trigger OnAction()
@@ -144,7 +150,7 @@ page 50321 "Employee Insurance Lists"
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 Image = Approve;
                 ToolTip = 'Executes the Approved action.';
                 trigger OnAction()
@@ -160,7 +166,7 @@ page 50321 "Employee Insurance Lists"
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 Image = Reject;
                 ToolTip = 'Executes the Rejected action.';
 
@@ -177,7 +183,7 @@ page 50321 "Employee Insurance Lists"
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 Image = ClearFilter;
                 ToolTip = 'Executes the clear filter action.';
 
@@ -186,6 +192,23 @@ page 50321 "Employee Insurance Lists"
                     Rec.FilterGroup(2);
                     rec.SetRange("Approval Status");
                     Rec.FilterGroup(0);
+                end;
+            }
+            action("Mark as Expired")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                Image = RemoveContacts;
+                ToolTip = 'Executes Mark as Expired action.';
+                Visible = false;
+
+                trigger OnAction()
+                var
+                    PageBuilder: FilterPageBuilder;
+                    Remarks: Text;
+                begin
+
                 end;
             }
         }

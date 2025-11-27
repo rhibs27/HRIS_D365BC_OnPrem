@@ -11,7 +11,7 @@ report 50045 "Home Loan UnderTaking"
         {
             DataItemTableView = where("Loan Type" = const("Home Loan"));
             column(todaydate; "Offer Letter Issued Date") { }
-            column(EmployeeCode; "Employee Code") { }
+            column(EmployeeCode; "Employee No.") { }
             column(EmployeeName; "Employee Name") { }
             column(AppliedLoanAdvance; "Applied Loan/Advance") { }
             column(ExistingOwnerName; "Name of Owner") { }

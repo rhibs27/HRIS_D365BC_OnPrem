@@ -413,8 +413,6 @@ codeunit 50030 "Assignment Memo Mgt"
         if AllowanceConfigSource = AllowanceConfigSource::Shift then
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
 
-        AssignmentMemoLedgerEntry.SetRange("Valid From Date", 0D);
-        AssignmentMemoLedgerEntry.SetRange("Valid To Date", 0D);
         if AllowanceAssignmentHdr."Payroll Attribute Code" <> '' then
             AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
         AssignmentMemoLedgerEntry.SetRange(Open, true);
@@ -422,27 +420,31 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry.SetRange("Claimed Doc No.", '');
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
-                Clear(AssignmentMemoLine);
-                AssignmentMemoLine.Init();
-                AssignmentMemoLine.Validate("Document No.", AllowanceAssignmentHdr."No.");
-                AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
-                AssignmentMemoLine.Validate("Employee No.", AssignmentMemoLedgerEntry."Employee No.");
-                AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
-                AssignmentMemoLine.Validate("Payroll Attribute Code", AssignmentMemoLedgerEntry."Payroll Attribute Code");
-                AssignmentMemoLine.Validate("From Date", AssignmentMemoLedgerEntry."Posting Date");
-                AssignmentMemoLine.Validate("To Date", AssignmentMemoLedgerEntry."Posting Date");
-                AssignmentMemoLine.Validate("Allowance Amount", AssignmentMemoLedgerEntry.Amount);
-                AssignmentMemoLine."Assign Memo Ledger Entry No." := AssignmentMemoLedgerEntry."Entry No.";
-                AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
-                AssignmentMemoLine.Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
-                AssignmentMemoLine.Insert(true);
-                AssignmentMemoLine.Validate("Payroll Attribute Code");
-                AssignmentMemoLine.Modify();
+                AssignmentMemoLedgerEntry.CalcFields("Leave Days");
+                if AssignmentMemoLedgerEntry."Leave Days" = 0 then begin  //only calim if employee is present or will be present on that date
+                    //create assignment memo line
+                    Clear(AssignmentMemoLine);
+                    AssignmentMemoLine.Init();
+                    AssignmentMemoLine.Validate("Document No.", AllowanceAssignmentHdr."No.");
+                    AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
+                    AssignmentMemoLine.Validate("Employee No.", AssignmentMemoLedgerEntry."Employee No.");
+                    AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+                    AssignmentMemoLine.Validate("Payroll Attribute Code", AssignmentMemoLedgerEntry."Payroll Attribute Code");
+                    AssignmentMemoLine.Validate("From Date", AssignmentMemoLedgerEntry."Posting Date");
+                    AssignmentMemoLine.Validate("To Date", AssignmentMemoLedgerEntry."Posting Date");
+                    AssignmentMemoLine.Validate("Allowance Amount", AssignmentMemoLedgerEntry.Amount);
+                    AssignmentMemoLine."Assign Memo Ledger Entry No." := AssignmentMemoLedgerEntry."Entry No.";
+                    AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
+                    AssignmentMemoLine.Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
+                    AssignmentMemoLine.Insert(true);
+                    AssignmentMemoLine.Validate("Payroll Attribute Code");
+                    AssignmentMemoLine.Modify();
 
-                // mark allowance
-                AssignmentMemoLedgerEntry."Claimed Doc No." := AllowanceAssignmentHdr."No.";
-                AssignmentMemoLedgerEntry.Claimed := true;
-                AssignmentMemoLedgerEntry.Modify();
+                    // mark allowance
+                    AssignmentMemoLedgerEntry."Claimed Doc No." := AllowanceAssignmentHdr."No.";
+                    AssignmentMemoLedgerEntry.Claimed := true;
+                    AssignmentMemoLedgerEntry.Modify();
+                end;
 
             until AssignmentMemoLedgerEntry.Next() = 0;
 

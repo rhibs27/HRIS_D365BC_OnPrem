@@ -130,4 +130,13 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Shift Assignment Memo';
     }
+    value(34; "Loan Journal")
+    {
+        Caption = 'Loan Journal';
+    }
+    //to mandatory attachment for specific loan type
+    value(35; "Home Loan Insurance Tieup")
+    {
+        Caption = 'Home Loan Insurance Tieup';
+    }
 }

@@ -22,7 +22,7 @@ report 50041 "Offer Letter Personal Loan"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
             end;
         }
     }

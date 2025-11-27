@@ -396,7 +396,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50031; "Salary Advance"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Employee Loan/Advance"."Remaining Amount" where("Employee Code" = field("No."),
+            CalcFormula = sum("Employee Loan/Advance"."Remaining Amount" where("Employee No." = field("No."),
                                                                                                                      "Loan Type" = const("Salary Advance"),
                                                                                                                      Settled = const(false),
                                                                                                                      "Approval Status" = const(Approved)));
