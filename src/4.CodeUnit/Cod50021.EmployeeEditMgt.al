@@ -446,6 +446,8 @@ codeunit 50021 "Employee Edit Mgt."
     var
         Employee: Record Employee;
         EmployeeEditLine: Record "Employee Edit Line";
+        EmployeeRelative: Record "Employee Relative";
+        Relative: Record Relative;
     begin
         EmployeeEditLine.SetRange("Document No.", EmpEditNo);
         EmployeeEditLine.FindFirst();
@@ -454,6 +456,31 @@ codeunit 50021 "Employee Edit Mgt."
                 Employee.Validate("Marital Status", EmployeeEditLine."Marital Status");
                 Employee.Modify();
             end;
+            //also update the employee relatives
+            EmployeeRelative.SetRange("Employee No.", EmployeeEditLine."Employee No.");
+            EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Spouse);
+            if EmployeeRelative.FindFirst() then begin
+                EmployeeRelative.Validate("Full Name", EmployeeEditLine."Spouse Name");
+                EmployeeRelative.Validate("Birth Date", EmployeeEditLine."Spouse DOB");
+                EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."Spouse citizenship No.");
+                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEditLine."Spouse Citiz. Issued Place");
+                EmployeeRelative.Modify();
+            end
+            else begin
+                Relative.SetRange(Relation, Relative.Relation::Spouse);
+                Relative.FindFirst();
+
+                EmployeeRelative.Init();
+                EmployeeRelative.Validate("Line No.", GetNextLineNoRelative(EmployeeEditLine."Employee No."));
+                EmployeeRelative.Validate("Employee No.", EmployeeEditLine."Employee No.");
+                EmployeeRelative.Validate("Relative Code", Relative.Code);
+                EmployeeRelative.Validate("Full Name", EmployeeEditLine."Spouse Name");
+                EmployeeRelative.Validate("Birth Date", EmployeeEditLine."Spouse DOB");
+                EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."Spouse citizenship No.");
+                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEditLine."Spouse Citiz. Issued Place");
+                EmployeeRelative.Insert();
+            end;
+            ImportEditLineAttachmentsToEmployee(EmpEditNo);
         end;
     end;
 
@@ -472,6 +499,7 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Vehicle Owner Name", EmployeeEditLine."Vehicle Owner Name");
                     Employee.Modify();
                 end;
+                ImportEditLineAttachmentsToEmployee(EmpEditNo);
             end;
         end;
     end;

@@ -15,6 +15,22 @@ page 50053 "Emp Edit Marital S Update Sub"
                 {
                     ToolTip = 'Specifies the value of the Marital Status field.', Comment = '%';
                 }
+                field("Spouse Name"; Rec."Spouse Name")
+                {
+                    ToolTip = 'Specifies the value of the Spouse Name field.', Comment = '%';
+                }
+                field("Spouse DOB"; Rec."Spouse DOB")
+                {
+                    ToolTip = 'Specifies the value of the Spouse DOB field.', Comment = '%';
+                }
+                field("Spouse citizenship No."; Rec."Spouse citizenship No.")
+                {
+                    ToolTip = 'Specifies the value of the Spouse citizenship No. field.', Comment = '%';
+                }
+                field("Spouse Citiz. Issued Place"; Rec."Spouse Citiz. Issued Place")
+                {
+                    ToolTip = 'Specifies the value of the Spouse Citiz. Issued Place field.', Comment = '%';
+                }
             }
         }
     }

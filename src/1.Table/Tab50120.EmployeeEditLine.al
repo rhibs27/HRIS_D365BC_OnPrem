@@ -255,6 +255,31 @@ table 50120 "Employee Edit Line"
         {
             DataClassification = CustomerContent;
         }
+        field(72; "Spouse Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(73; "Spouse DOB"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(74; "Spouse citizenship No."; text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(75; "Spouse Citiz. Issued Place"; text[50])
+        {
+            trigger OnValidate()
+            begin
+                if (Rec."Spouse Citiz. Issued Place" <> xRec."Spouse Citiz. Issued Place") and ("Spouse Citiz. Issued Place" <> '') then
+                    HRMgt.CheckDistrictName("Spouse Citiz. Issued Place");
+            end;
+
+            trigger OnLookup()
+            begin
+                Validate("Spouse Citiz. Issued Place", HRMgt.LookupAllDistrict());
+            end;
+        }
         field(1000; "Changed Field"; Text[1020])
         {
             Description = 'This field includes the name of fields that are updated from portal';
@@ -275,4 +300,6 @@ table 50120 "Employee Edit Line"
             Clustered = true;
         }
     }
+    var
+        HRMgt: Codeunit "HR Mgt.";
 }
