@@ -820,7 +820,7 @@ codeunit 50008 "Payroll Engine"
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then begin
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN
                         if PayrollAttributesUsage.Amount < 0 then begin
                             Length := StrLen(Expression);
                             Substring1 := CopyStr(Expression, 1, StrPosition - 2);
@@ -850,6 +850,8 @@ codeunit 50008 "Payroll Engine"
         EmployeeLedgerEntry.SetRange("Employee No.", Employee."No.");
         EmployeeLedgerEntry.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         EmployeeLedgerEntry.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+        // EmployeeLedgerEntry.SetRange(Reversed, false);
+        EmployeeLedgerEntry.SetFilter(Amount, '<>%1', 0);
         if EmployeeLedgerEntry.FindLast then
             LastPayCyclePeriod := EmployeeLedgerEntry."Pay Cycle Period";
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then
