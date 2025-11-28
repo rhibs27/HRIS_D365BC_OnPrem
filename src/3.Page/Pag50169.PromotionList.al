@@ -1,8 +1,8 @@
-page 50169 "Promotion History"
+page 50169 "Promotion List"
 {
     Editable = false;
     PageType = List;
-    SourceTable = "Promotion History";
+    SourceTable = "Promotion";
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -10,7 +10,7 @@ page 50169 "Promotion History"
     {
         area(Content)
         {
-            repeater(Genral)
+            repeater(General)
             {
                 field("Employee No."; Rec."Employee No.")
                 {
@@ -22,7 +22,7 @@ page 50169 "Promotion History"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field("Previous Salary Level Code"; Rec."Previous Salary Level Code")
+                field("Previous Salary Level Code"; Rec."Previous Salary Level")
                 {
                     ToolTip = 'Specifies the value of the Previous Salary Level Code field.';
                     ApplicationArea = All;
@@ -32,17 +32,12 @@ page 50169 "Promotion History"
                     ToolTip = 'Specifies the value of the Previous Salary Grade field.';
                     ApplicationArea = All;
                 }
-                field("Previous Salary Level Desc."; Rec."Previous Salary Level Desc.")
+                field("Previous Salary Level Desc."; Rec."Previous Salary Description")
                 {
                     ToolTip = 'Specifies the value of the Previous Salary Level Desc. field.';
                     ApplicationArea = All;
                 }
-                field("Previous Salary Grade Desc."; Rec."Previous Salary Grade Desc.")
-                {
-                    ToolTip = 'Specifies the value of the Previous Salary Grade Desc. field.';
-                    ApplicationArea = All;
-                }
-                field("Promoted Salary Level Code"; Rec."Promoted Salary Level Code")
+                field("Promoted Salary Level Code"; Rec."Promoted Salary Level")
                 {
                     ToolTip = 'Specifies the value of the Promoted Salary Level Code field.';
                     ApplicationArea = All;
@@ -52,17 +47,7 @@ page 50169 "Promotion History"
                     ToolTip = 'Specifies the value of the Promoted Salary Grade field.';
                     ApplicationArea = All;
                 }
-                field("Promoted Salary Level Desc."; Rec."Promoted Salary Level Desc.")
-                {
-                    ToolTip = 'Specifies the value of the Promoted Salary Level Desc. field.';
-                    ApplicationArea = All;
-                }
-                field("Promoted Salary Grade Desc."; Rec."Promoted Salary Grade Desc.")
-                {
-                    ToolTip = 'Specifies the value of the Promoted Salary Grade Desc. field.';
-                    ApplicationArea = All;
-                }
-                field("Promoted Date"; Rec."Promoted Date")
+                field("Promoted Date"; Rec."Promotion Date")
                 {
                     ToolTip = 'Specifies the value of the Promoted Date field.';
                     ApplicationArea = All;
@@ -72,7 +57,7 @@ page 50169 "Promotion History"
                     ToolTip = 'Specifies the value of the Previous Functional Title field.';
                     ApplicationArea = All;
                 }
-                field("Previous Functional Desc."; Rec."Previous Functional Desc.")
+                field("Previous Functional Desc."; Rec."Previous Functional Title Desc")
                 {
                     ToolTip = 'Specifies the value of the Previous Functional Desc. field.';
                     ApplicationArea = All;
@@ -80,21 +65,6 @@ page 50169 "Promotion History"
                 field("Promoted Functional Title"; Rec."Promoted Functional Title")
                 {
                     ToolTip = 'Specifies the value of the Promoted Functional Title field.';
-                    ApplicationArea = All;
-                }
-                field("Promoted Functional Desc."; Rec."Promoted Functional Desc.")
-                {
-                    ToolTip = 'Specifies the value of the Promoted Functional Desc. field.';
-                    ApplicationArea = All;
-                }
-                field("Created Date Time"; Rec."Created Date Time")
-                {
-                    ToolTip = 'Specifies the value of the Created Date Time field.';
-                    ApplicationArea = All;
-                }
-                field("Created By"; Rec."Created By")
-                {
-                    ToolTip = 'Specifies the value of the Created By field.';
                     ApplicationArea = All;
                 }
             }

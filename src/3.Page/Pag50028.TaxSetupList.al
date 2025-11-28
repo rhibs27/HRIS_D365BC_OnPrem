@@ -1,7 +1,5 @@
 page 50028 "Tax Setup List"
 {
-    // version PRM19.01.01
-
     CardPageId = "Tax Setup Card";
     PageType = List;
     SourceTable = "Tax Setup Header";

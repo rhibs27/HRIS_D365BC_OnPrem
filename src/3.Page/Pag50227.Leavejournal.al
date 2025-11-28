@@ -163,6 +163,19 @@ page 50227 "Leave Journal"
                     ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Leave Request");
                 end;
             }
+            action("Export Format for Excel")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Export;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
+                        exit;
+                    ExcelImportMgt.ExportLeaveSheet(Rec);
+                end;
+            }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)

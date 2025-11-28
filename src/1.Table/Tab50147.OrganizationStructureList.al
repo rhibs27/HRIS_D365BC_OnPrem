@@ -110,14 +110,10 @@ table 50147 "Organization Structure List"
         }
         field(31; "No. of Off-Site ATM"; Integer) { }
         field(32; "No. of On-Side ATM"; Integer) { }
-        field(33; "Telephone No"; Text[30])
+        field(33; "Telephone No"; Text[100])
         {
-            trigger OnValidate()
-            begin
-                if not TypeHelper.IsPhoneNumber(Rec."Telephone No") then
-                    Error('Phone No Validation Error');
-            end;
         }
+        field(34; "Address"; Text[100]) { }
     }
     keys
     {

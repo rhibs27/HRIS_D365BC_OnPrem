@@ -86,7 +86,7 @@ codeunit 50024 "Service History Mgt"
             ServiceEvent::Promotion:
                 begin
                     Promotion.Get(DocNo);
-                    Employee.get(Promotion."Employee Code");
+                    Employee.get(Promotion."Employee No.");
                     EmpServiceHis.Init;
                     EmpServiceHis.Validate("Service Event", ServiceEvent);
                     EmpServiceHis.Validate("Employee No.", Employee."No.");

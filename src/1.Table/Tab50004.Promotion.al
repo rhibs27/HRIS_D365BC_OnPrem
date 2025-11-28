@@ -1,4 +1,4 @@
-table 50164 Promotion
+table 50004 Promotion
 {
     DataClassification = CustomerContent;
     //Field 1,2,16,37 100 are used in ApprovalMgt Codeunit as field Ref << Santosh 3.25.2025
@@ -16,7 +16,7 @@ table 50164 Promotion
             end;
         }
         field(2; Type; Enum "Employee Activity Type") { }
-        field(3; "Employee Code"; Code[20])
+        field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee."No.";
             trigger OnValidate()
@@ -26,14 +26,15 @@ table 50164 Promotion
         }
         field(4; "Employee Name"; Text[50]) { }
         field(5; "Date of Employment"; Date) { }
-        field(6; "Functional Title"; Code[20])
+        field(6; "Previous Functional Title"; Code[20])
         {
             Editable = false;
             TableRelation = "Functional Title";
         }
-        field(7; "Functional Title Desc"; Text[100]) { }
-        field(8; "Salary Level"; Code[20]) { }
-        field(9; "Job Grade"; Code[20]) { }
+        field(7; "Previous Functional Title Desc"; Text[100]) { }
+        field(8; "Previous Salary Level"; Code[20]) { }
+        field(9; "Previous Salary Grade"; Code[20]) { }
+        field(10; "Previous Salary Description"; text[50]) { }
 
         field(16; "Approval Status"; Enum "Approval Status")
         {
@@ -175,7 +176,7 @@ table 50164 Promotion
             end;
         if not GuiAllowed then begin
             if not HrMgt.IsSaaS() then
-                "Employee Code" := HRMgt.GetEmployeeNo();
+                "Employee No." := HRMgt.GetEmployeeNo();
         end;
     end;
 
@@ -188,7 +189,7 @@ table 50164 Promotion
         else begin
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", "No.");
-            ApprovalEntry.SetRange("Employee No", "Employee Code");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
         end;
     end;
@@ -229,13 +230,14 @@ table 50164 Promotion
         Clear("Deputation on");
         Clear("Unit Code");
         Clear("Unit Name");
-        Clear("Functional Title Desc");
+        Clear("Previous Functional Title Desc");
         Clear("Sol Id");
-        if EmployeeVar.Get("Employee Code") then begin
-            "Functional Title" := EmployeeVar."Functional Title";
+        if EmployeeVar.Get("Employee No.") then begin
+            "Previous Functional Title" := EmployeeVar."Functional Title";
             "Employee Name" := EmployeeVar."Full Name";
-            "Salary Level" := EmployeeVar."Salary Level";
-            "Job Grade" := EmployeeVar."Salary Grade";
+            "Previous Salary Level" := EmployeeVar."Salary Level";
+            "Previous Salary Grade" := EmployeeVar."Salary Grade";
+            "Previous Salary Description" := EmployeeVar."Salary Level Description";
             "Date of Employment" := EmployeeVar."Employment Date";
             Validate("Sol Id", EmployeeVar."Sol Id");
             Validate("Deputation on", EmployeeVar."Deputation on");
@@ -250,7 +252,7 @@ table 50164 Promotion
             Validate("Extension Counter Name", EmployeeVar."Extension Counter Name");
             Validate("Unit Code", EmployeeVar."Unit Code");
             Validate("Unit Name", EmployeeVar."Unit Name");
-            Validate("Functional Title Desc", EmployeeVar."Functional Title Desc");
+            Validate("Previous Functional Title Desc", EmployeeVar."Functional Title Desc");
         end;
     end;
 }

@@ -495,7 +495,7 @@ codeunit 50023 EmployeeActivityMgt
             repeat
                 Promotion.Init();
                 Promotion.Validate("No.", '');
-                Promotion.Validate("Employee Code", PromotionEmployeeJournal."Employee No.");
+                Promotion.Validate("Employee No.", PromotionEmployeeJournal."Employee No.");
                 Promotion.Validate("Promoted Functional Title", PromotionEmployeeJournal."Functional Title (To)");
                 Promotion.Validate("Promoted Approver Role", PromotionEmployeeJournal."Approver Role (TO)");
                 Promotion.Validate("Promoted Salary level", PromotionEmployeeJournal."Promoted Salary level");
