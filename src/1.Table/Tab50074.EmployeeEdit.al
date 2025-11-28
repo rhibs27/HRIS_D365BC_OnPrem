@@ -465,15 +465,4 @@ table 50074 "Employee Edit"
                     end;
             end;
     end;
-
-    Procedure UpdateEmployeeEditLine(EmpEdit: Record "Employee Edit")
-    var
-        EmpEditLine: Record "Employee Edit Line";
-    begin
-        if not GuiAllowed then
-            exit;
-        EmpEditLine.SetRange("Document No.", EmpEdit."No.");
-        if EmpEditLine.FindSet() then
-            EmpEditLine.ModifyAll("Change in Emp Type", EmpEdit."Changes In Employee Type", false);
-    end;
 }

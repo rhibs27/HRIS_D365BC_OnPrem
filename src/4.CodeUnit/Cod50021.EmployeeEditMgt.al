@@ -34,6 +34,10 @@ codeunit 50021 "Employee Edit Mgt."
                 end;
             EmployeeEditType::"Additional Documents":
                 ImportEditLineAttachmentsToEmployee(EmployeeEdit."No.");
+            EmployeeEditType::"Vehicle Info Update":
+                EmployeevehicleInfoUpdate(EmployeeEdit."No.");
+            EmployeeEditType::"Marital Status Update":
+                EmployeeMaritalStatusUpdate(EmployeeEdit."No.");
         end;
     end;
 
@@ -436,6 +440,40 @@ codeunit 50021 "Employee Edit Mgt."
             exit(CopyStr(FileName, DotPos + 1))
         else
             exit('');
+    end;
+
+    procedure EmployeeMaritalStatusUpdate(EmpEditNo: Code[20])
+    var
+        Employee: Record Employee;
+        EmployeeEditLine: Record "Employee Edit Line";
+    begin
+        EmployeeEditLine.SetRange("Document No.", EmpEditNo);
+        EmployeeEditLine.FindFirst();
+        if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::"Marital Status Update" then begin
+            if Employee.Get(EmployeeEditLine."Employee No.") then begin
+                Employee.Validate("Marital Status", EmployeeEditLine."Marital Status");
+                Employee.Modify();
+            end;
+        end;
+    end;
+
+    procedure EmployeevehicleInfoUpdate(EmpEditNo: Code[20])
+    var
+        Employee: Record Employee;
+        EmployeeEditLine: Record "Employee Edit Line";
+    begin
+        EmployeeEditLine.SetRange("Document No.", EmpEditNo);
+        EmployeeEditLine.FindFirst();
+        if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::"Vehicle Info Update" then begin
+            if Employee.Get(EmployeeEditLine."Employee No.") then begin
+                if EmployeeEditLine."Vehicle Type" <> EmployeeEditLine."Vehicle Type"::" " then begin
+                    Employee.Validate("Vehicle Type", EmployeeEditLine."Vehicle Type");
+                    Employee.Validate("Vehicle No.", EmployeeEditLine."Vehicle No.");
+                    Employee.Validate("Vehicle Owner Name", EmployeeEditLine."Vehicle Owner Name");
+                    Employee.Modify();
+                end;
+            end;
+        end;
     end;
 
     [IntegrationEvent(false, false)]

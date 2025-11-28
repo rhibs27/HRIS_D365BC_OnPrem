@@ -43,10 +43,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             visible = false;
         }
-        // modify("Employment Date")
-        // {
-        //    Editable = false;
-        // }
+
         modify("Application Method")
 
         {
@@ -102,10 +99,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         modify("Phone No.")
         { Visible = false; }
-        // modify("Country/Region Code")
-        // {
-        //     Editable = false;
-        // }
+
         modify("Post Code")
         {
             Editable = false;
@@ -149,12 +143,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the NAV Login ID field.';
             }
-            // field("Mobile No."; Rec."Mobile No.")
-            // {
-            //     ApplicationArea = All;
-            //     ToolTip = 'Specifies the value of the Mobile No. field.';
 
-            // }
 
             field("Date of Birth (B.S.)"; Rec."Date of Birth (B.S.)")
             {
@@ -616,9 +605,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Branch Code"; Rec."Branch Code")
                 {
                     ApplicationArea = All;
-                    // Editable = BranchEdit;
-                    // Enabled = BranchVisible;
-                    // Enabled = false;
                     ToolTip = 'Specifies the value of the Branch Code field.';
 
                 }
@@ -632,8 +618,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Extension Counter Code"; Rec."Extension Counter Code")
                 {
                     ApplicationArea = All;
-                    // Editable = ExtensionCounterEdit;
-                    // Enabled = ExtensionCounterVisible;
                     ToolTip = 'Specifies the value of the Extension Counter Code field.';
 
                 }
@@ -659,8 +643,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Department Code"; Rec."Department Code")
                 {
-                    // Editable = DepartmentEdit;
-                    // Enabled = DepartmentVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Department Code field.';
 
@@ -674,8 +656,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Unit Code"; Rec."Unit Code")
                 {
-                    // Editable = UnitEdit;
-                    // Enabled = UnitVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Unit Code field.';
 
@@ -687,12 +667,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Unit Name field.';
 
                 }
-                // field(Cluster; Rec.Cluster)
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Cluster field.';
-
-                // }
                 field("Inside/Outside Valley"; Rec."Inside/Outside Valley")
                 {
                     ApplicationArea = All;
@@ -876,13 +850,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the CIT No. field.';
             }
-            // field("CIT Office Cont. Deduction"; Rec."CIT Office Cont. Deduction")
-            // {
-            //     ApplicationArea = All;
-            //     Caption = 'CIT Deduction Amount';
-            //     ToolTip = 'Specifies the value of the CIT Deduction Amount field.';
-
-            // }
             field("PF No."; Rec."PF No.")
             {
                 ApplicationArea = All;
@@ -1093,41 +1060,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the KPI Deputation field.', Comment = '%';
                 }
             }
-            // part(PayrollAttributesUsage; "Payroll Attributes Usage")
-            // {
-            //     ApplicationArea = All;
-            //     SubPageView = WHERE(Subtype = FILTER("Employer Contribution" | "Employee Contribution" | CIT | "Lump Sum Contribution" | RF),
-            //                       Type = CONST(Deduction));
-            //     SubPageLink = "Employee Code" = FIELD("No.");
-
-            // }
-            // part(AccessControlSubform; "Access Control Subform")
-            // {
-            //     ApplicationArea = All;
-            //     SubPageLink = Type = CONST(Employee), Code = FIELD("No.");
-            //     Editable = false;
-            // }
-            // part(AttachmentSubform; "Attachment Subform")
-            // {
-            //     Caption = 'Attachments';
-            //     SubPageLink = "Order No." = FIELD("No.");
-            //     ApplicationArea = All;
-
-            // }
-            // part(LoanOutstandingSubform; "Loan Outstanding Subform")
-            // {
-            //     ApplicationArea = All;
-            //     SubPageLink = "Employee No." = FIELD("No.");
-
-            // }
-            // part(EmployeeLeaveDays; "Employee Leave Days")
-            // {
-            //     Editable = false;
-            //     ApplicationArea = All;
-            //     //SubPageLink =
-            //     SubPageView = WHERE("Remaining Days" = FILTER(> 0));
-            //     SubPageLink = "Employee No. Filter" = FIELD("No.");
-            // }
         }
         moveafter(Control3; "Attached Documents")
 
@@ -1898,21 +1830,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     end;
                 }
-                // action("Access Control")
-                // {
-                //     ApplicationArea = All;
-                //     Promoted = true;
-                //     Visible = false;
-                //     PromotedIsBig = true;
-                //     Image = Register;
-                //     PromotedCategory = Category6;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Access Control action.';
-                //     trigger OnAction()
-                //     begin
-                //         HRMgt.OpenGrantAccessControl(Rec."No.");
-                //     end;
-                // }
+
                 action("Transfer History")
                 {
                     ApplicationArea = All;
@@ -1939,25 +1857,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory.RUN;
                     end;
                 }
-                // action("Access Control History")
-                // {
-                //     ApplicationArea = All;
-                //     RunObject = Page "Access Control History";
-                //     RunPageView = WHERE(Status = CONST(approved));
-                //     RunPageLink = "Employee No." = FIELD("No.");
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = History;
-                //     PromotedCategory = Category6;
-                //     PromotedOnly = true;
-                //     RunPageMode = View;
-                //     ToolTip = 'Executes the Access Control History action.';
 
-                //     trigger OnAction()
-                //     begin
-
-                //     end;
-                // }
                 action("Show Leave Earn")
                 {
                     ApplicationArea = All;
@@ -2125,37 +2025,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             PayrollEngine.InsertPayrollAttributes;
                     end;
                 }
-                // action("Leave Earn (Contract)")
-                // {
-                //     ApplicationArea = All;
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = EditFilter;
-                //     PromotedCategory = Category7;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Leave Earn (Contract) action.';
-                //     trigger OnAction()
-                //     var
 
-                //         TempLeaveEarn: Record "Leave Earn";
-                //     begin
-                //         LeaveMgt.CreateLeaveEarnContract(Rec);
-                //     end;
-                // }
-                // action("Insert Mandatory Attachments")
-                // {
-                //     ApplicationArea = All;
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = Insert;
-                //     PromotedCategory = Category7;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Insert Mandatory Attachments action.';
-                //     trigger OnAction()
-                //     begin
-                //         InsertAttachmentLines(Rec);
-                //     end;
-                // }
                 action("Update Employment Date")
                 {
                     ApplicationArea = All;

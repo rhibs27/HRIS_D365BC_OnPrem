@@ -187,6 +187,7 @@ pageextension 50011 "Employee List" extends "Employee List"
                 ApplicationArea = All;
                 Caption = 'Job Position';
             }
+
         }
     }
     actions

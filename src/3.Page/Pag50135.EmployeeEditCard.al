@@ -217,6 +217,20 @@ page 50135 "Employee Edit Card"
                 SubPageView = where("Change in Emp Type" = filter("Additional Documents"));
                 ApplicationArea = all;
             }
+            part("Vehicle Info Details"; "Emp. Edit Vehicle Info Subform")
+            {
+                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Vehicle Info Update";
+                SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter("Vehicle Info Update"));
+                ApplicationArea = all;
+            }
+            part("Emp Edit Marital S Update Sub"; "Emp Edit Marital S Update Sub")
+            {
+                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Marital Status Update";
+                SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter("Marital Status Update"));
+                ApplicationArea = all;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;

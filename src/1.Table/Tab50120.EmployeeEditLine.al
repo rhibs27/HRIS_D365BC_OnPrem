@@ -239,6 +239,22 @@ table 50120 "Employee Edit Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(68; "Vehicle Type"; Enum "Vehicle Type")
+        {
+            DataClassification = CustomerContent;
+        }
+        field(69; "Vehicle No."; Text[50])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(70; "Vehicle Owner Name"; Text[150])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(71; "Marital Status"; Enum "Marital Status")
+        {
+            DataClassification = CustomerContent;
+        }
         field(1000; "Changed Field"; Text[1020])
         {
             Description = 'This field includes the name of fields that are updated from portal';

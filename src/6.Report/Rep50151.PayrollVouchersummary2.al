@@ -58,16 +58,15 @@ report 50151 "Payroll Voucher summary 2"
             var
                 UnitCost: Decimal;
                 BudgetedAmt: Decimal;
+                GLEntry: Record "G/L Entry";
             begin
                 if "Posted Payroll Header".Reversed then
                     CurrReport.Skip();
 
-                GLAccount.Reset;
-                GLAccount.SetRange("No.", PGSetup."Net Payable Account Code");
-                GLAccount.SetFilter("Document No. Filter", "Posted Payroll Header".GetFilter("No."));
-                GLAccount.FindFirst;
-                GLAccount.CalcFields("Net Change");
-                TotaNetPay := GLAccount."Net Change";
+                GLEntry.SetLoadFields("Document No.", Amount);
+                GLEntry.SetRange("Document No.", "Posted Payroll Header"."No.");
+                GLEntry.CalcSums(Amount);
+                TotaNetPay := GLEntry.Amount;
 
                 PayrollAttributes.Reset;
                 PayrollAttributes.SetFilter(Subtype, '<>%1&<>%2', PayrollAttributes.Subtype::"Lump Sum Contribution", PayrollAttributes.Subtype::"Tax on Interest");
