@@ -10,7 +10,7 @@ table 50025 "Payroll Attributes"
         {
             NotBlank = true;
         }
-        field(2; Description; Text[30])
+        field(2; Description; Text[50])
         {
         }
         field(3; Type; enum "Payroll Type")

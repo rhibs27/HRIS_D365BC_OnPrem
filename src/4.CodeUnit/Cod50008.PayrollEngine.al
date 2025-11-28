@@ -850,6 +850,7 @@ codeunit 50008 "Payroll Engine"
         EmployeeLedgerEntry.SetRange("Employee No.", Employee."No.");
         EmployeeLedgerEntry.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         EmployeeLedgerEntry.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+        EmployeeLedgerEntry.SetRange(Reversed, false);
         if EmployeeLedgerEntry.FindLast then
             LastPayCyclePeriod := EmployeeLedgerEntry."Pay Cycle Period";
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then

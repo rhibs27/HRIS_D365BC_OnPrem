@@ -9,6 +9,7 @@ report 50023 "Employee Master"
     {
         dataitem(Employee; Employee)
         {
+            RequestFilterFields = "No.", "Employment Type", "Branch Code", "Department Code", "Salary Level";
             column(No; "No.")
             {
             }
