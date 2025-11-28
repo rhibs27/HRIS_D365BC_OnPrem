@@ -209,8 +209,13 @@ table 50153 "Cancel Document"
             Editable = false;
             TableRelation = "Salary Level";
             trigger OnValidate()
+            var
+                SalaryLevelRec: Record "Salary Level";
             begin
-                UpdateSalaryLevelDescription();
+                if SalaryLevelRec.Get("Salary Level Code") then
+                    "Salary Level Description" := SalaryLevelRec.Description
+                else
+                    Clear("Salary Level Description");
             end;
         }
         field(28; "Extension Counter Code"; Code[20])
@@ -339,9 +344,6 @@ table 50153 "Cancel Document"
         key(Key2; "Start Date")
         {
         }
-
-
-
     }
     trigger OnInsert()
     var
@@ -419,16 +421,6 @@ table 50153 "Cancel Document"
         ApproverMgt: Codeunit "Approver Mgt";
         OrganizationStructureList: Record "Organization Structure List";
         CancelDocumentRec: Record "Cancel Document";
-
-    local procedure UpdateSalaryLevelDescription()
-    var
-        SalaryLevelRec: Record "Salary Level";
-    begin
-        if SalaryLevelRec.Get("Salary Level Code") then
-            "Salary Level Description" := SalaryLevelRec.Description
-        else
-            Clear("Salary Level Description");
-    end;
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertCancelDocumentOnBeforeCreateApproval(var CancelDoc: Record "Cancel Document"; var IsHandled: Boolean);

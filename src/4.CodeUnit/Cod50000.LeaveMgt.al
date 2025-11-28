@@ -870,6 +870,8 @@ codeunit 50000 "Leave Mgt."
             TempCancelDocument.Validate("Start Date", Leave."Start Date");
             TempCancelDocument.Validate("End Date", Leave."End Date");
             TempCancelDocument.Validate("No. of Days", Leave."No. of Days");
+            TempCancelDocument.Validate("Substitute Person Code", Leave."Substitute Person Code");
+            TempCancelDocument.Validate("Substitute Person Name", Leave."Substitute Person Name");
             TempCancelDocument."Cancelled Document No." := Leave."No.";
             TempCancelDocument."No." := '';
             TempCancelDocument.Insert;

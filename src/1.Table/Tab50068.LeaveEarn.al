@@ -93,8 +93,13 @@ table 50068 "Leave Earn"
         {
             Caption = 'Substitute Person Code';
             trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
             begin
-                UpdateSubstitutePersonName();
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
+                    Clear("Substitute Person Name")
             end;
         }
         field(21; "Substitute Person Name"; Text[50])
@@ -141,15 +146,5 @@ table 50068 "Leave Earn"
         LeaveEarn.Insert(true);
 
         Message('Leave balance added successfully.');
-    end;
-
-    local procedure UpdateSubstitutePersonName()
-    var
-        EmployeeRec: Record Employee;
-    begin
-        if EmployeeRec.Get("Substitute Person Code") then
-            "Substitute Person Name" := EmployeeRec."Full Name"
-        else
-            Clear("Substitute Person Name")
     end;
 }

@@ -219,11 +219,16 @@ table 50124 Leave
         {
             Editable = false;
             TableRelation = "Salary Level";
-            trigger OnValidate()
-            begin
-                UpdateSalaryLevelDescription();
-            end;
 
+            trigger OnValidate()
+            var
+                SalaryLevelRec: Record "Salary Level";
+            begin
+                if SalaryLevelRec.Get("Salary Level Code") then
+                    "Salary Level Description" := SalaryLevelRec.Description
+                else
+                    Clear("Salary Level Description");
+            end;
         }
         field(28; "Extension Counter Code"; Code[20])
         {
@@ -552,16 +557,6 @@ table 50124 Leave
                     end;
             end;
         end;
-    end;
-
-    local procedure UpdateSalaryLevelDescription()
-    var
-        SalaryLevelRec: Record "Salary Level";
-    begin
-        if SalaryLevelRec.Get("Salary Level Code") then
-            "Salary Level Description" := SalaryLevelRec.Description
-        else
-            Clear("Salary Level Description");
     end;
 
     [IntegrationEvent(false, false)]

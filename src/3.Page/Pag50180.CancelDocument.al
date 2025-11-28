@@ -82,12 +82,14 @@ page 50180 "Cancel Document"
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
+                    Editable = false;
 
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Reason Code"; Rec."Reason Code")
                 {
