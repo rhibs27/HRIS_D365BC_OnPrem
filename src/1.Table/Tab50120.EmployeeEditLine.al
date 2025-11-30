@@ -88,7 +88,6 @@ table 50120 "Employee Edit Line"
         field(36; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
-            // MaxValue = 4;
             trigger OnValidate()
             begin
                 if CGPA > "GPA Scale" then

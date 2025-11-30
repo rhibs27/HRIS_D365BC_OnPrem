@@ -5053,6 +5053,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Attachment - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 27999376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Attachment Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 1576740555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Birth Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5087,6 +5092,11 @@
           <source>CitizenShip Issue Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field CitizenShip Issue Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 4206377070 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Citizenship Issued Place</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Citizenship Issued Place - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2170999773 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>CitizenShip No.</source>
@@ -5212,6 +5222,11 @@
           <source>Passport No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Passport No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1600748834 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Passport Validity Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Passport Validity Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 3557664220 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Percentage</source>

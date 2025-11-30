@@ -479,7 +479,7 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeRelative.Validate("Citizenship Issued District", EmployeeEdit."Spouse Citiz. Issued Place");
                 EmployeeRelative.Insert();
             end;
-            ImportEditLineAttachmentsToEmployee(EmpEditNo);
+            ImportEmployeeEditLineAttachmentsToEmployee(EmpEditNo);
         end;
     end;
 
@@ -497,8 +497,50 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Vehicle Owner Name", EmployeeEdit."Vehicle Owner Name");
                     Employee.Modify();
                 end;
-                ImportEditLineAttachmentsToEmployee(EmpEditNo);
+                ImportEmployeeEditLineAttachmentsToEmployee(EmpEditNo);
             end;
+        end;
+    end;
+
+    procedure ImportEmployeeEditLineAttachmentsToEmployee(EmployeeEditNo: Code[20])
+    var
+
+        EmployeeEdit: Record "Employee Edit";
+        Employee: Record Employee;
+        FromRecRef: RecordRef;
+        ToRecRef: RecordRef;
+        TempBlob: Codeunit "Temp Blob";
+        FileName: Text;
+        FileExtension: Text;
+        ToTableId: Integer;
+        DocumentAttachment: Record "Document Attachment";
+        InStr: InStream;
+        OutStr: OutStream;
+    begin
+        ToTableId := Database::Employee;
+        if not EmployeeEdit.Get(EmployeeEditNo) then
+            exit;
+        if not Employee.Get(EmployeeEdit."Employee No.") then
+            exit;
+
+        if EmployeeEdit.Attachment.HasValue() then begin
+            FileName := Format(EmployeeEdit."Changes In Employee Type") + ' Attachment' + EmployeeEdit."Employee No.";
+            if FileName = '' then
+                FileName := 'Attachment';
+            // Get file extension from Attachment field
+            FileExtension := GetMediaFileExtension(EmployeeEdit.Attachment.MediaId(), FileName);
+            TempBlob.CreateOutStream(OutStr);
+            EmployeeEdit.Attachment.ExportStream(OutStr);
+            Employee.Get(EmployeeEdit."Employee No.");
+            FromRecRef.GetTable(Employee);
+            Clear(DocumentAttachment);
+            DocumentAttachment.Init();
+            DocumentAttachment."Table ID" := Database::Employee;
+            DocumentAttachment."No." := EmployeeEdit."Employee No.";
+            DocumentAttachment."File Name" := FileName;
+            DocumentAttachment."File Extension" := FileExtension;
+            DocumentAttachment."Attachment Document Type" := EmployeeEdit."Attachment Code";
+            DocumentAttachment.SaveAttachment(FromRecRef, FileName, TempBlob);
         end;
     end;
 

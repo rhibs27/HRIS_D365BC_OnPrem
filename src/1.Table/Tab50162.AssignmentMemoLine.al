@@ -14,12 +14,13 @@ table 50162 "Assignment Memo Line"
         {
             TableRelation = Employee where(Status = const(Active));
             trigger OnValidate()
+            var
+                AssignmentMemoHdr: Record "Assignment Memo Header";
             begin
                 if Employee.Get("Employee No.") then
                     "Employee Name" := Employee."Full Name"
                 else
                     "Employee Name" := '';
-
             end;
 
             trigger OnLookup()
@@ -49,6 +50,12 @@ table 50162 "Assignment Memo Line"
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
 
+                //calculate the amout for requested allowance line
+                if "To Date" <> 0D then
+                    if "Emp Act Type" = "Emp Act Type"::"Request Allowance" then begin
+                        if ("Payroll Attribute Code" <> '') and ("Employee No." <> '') then
+                            CalculateAmountForLine();
+                    end;
             end;
         }
         field(8; "To Date"; Date)

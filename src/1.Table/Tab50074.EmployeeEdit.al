@@ -75,9 +75,6 @@ table 50074 "Employee Edit"
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
-            trigger OnValidate()
-            begin
-            end;
         }
         field(17; "Requested Date"; Date)
         {
@@ -133,32 +130,38 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            ObsoleteState = pending;
         }
         field(24; Description; Code[100])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            ObsoleteState = pending;
         }
         field(25; "Institution/Company"; Code[100])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            ObsoleteState = pending;
         }
         field(26; Percentage; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            ObsoleteState = pending;
         }
         field(27; Stream; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'example- Science, Management etc.';
+            ObsoleteState = pending;
         }
         field(28; Year; Text[4])
         {
             DataClassification = CustomerContent;
             Description = 'Date of Completion of particular study';
             CharAllowed = '09';
+            ObsoleteState = Pending;
             trigger OnValidate()
             var
                 Date: Integer;
@@ -383,6 +386,26 @@ table 50074 "Employee Edit"
                 Validate("Spouse Citiz. Issued Place", HRMgt.LookupAllDistrict());
             end;
         }
+        field(76; "Attachment Code"; Code[20])
+        {
+            Caption = 'Attachment Code';
+            Description = 'Attachment Code';
+            TableRelation = "Attachment Setup"."Attachment Code";
+        }
+        field(77; "Citizenship Issued Place"; Text[50])
+        {
+            Caption = 'Citizenship Issued Place';
+            Description = 'Official Document';
+
+        }
+        field(78; "Passport Validity Date"; Date)
+        {
+            Caption = 'Passport Validity Date';
+            Description = 'Official Document';
+            DataClassification = CustomerContent;
+        }
+
+
         field(100; "Status"; Text[20])
         {
             Editable = false;
