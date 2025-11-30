@@ -13,11 +13,9 @@ report 50022 "Import Employee Payroll Plan"
             begin
                 PGSetup.Get;
                 AttendanceSetup.Get;
-
                 PayrollLine.Reset;
                 PayrollLine.SetRange("Document No.", PayrollHeader."No.");
                 PayrollLine.DeleteAll(true);
-
                 case PayrollHeader.Type of
                     PayrollHeader.Type::Resignation:
                         Employee.SetRange("Resignation Date", PayrollHeader."From Date", PayrollHeader."To Date");

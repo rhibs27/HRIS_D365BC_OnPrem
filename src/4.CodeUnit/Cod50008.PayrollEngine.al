@@ -820,7 +820,7 @@ codeunit 50008 "Payroll Engine"
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then begin
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN
                         if PayrollAttributesUsage.Amount < 0 then begin
                             Length := StrLen(Expression);
                             Substring1 := CopyStr(Expression, 1, StrPosition - 2);

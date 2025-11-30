@@ -541,6 +541,8 @@ table 50039 "Payroll Journal Line"
         field(75; "LWP Days"; Decimal)
         {
         }
+        field(76; "Salary Level"; code[20]) { DataClassification = ToBeClassified; }
+        field(77; "Salary Grade"; code[20]) { DataClassification = ToBeClassified; }
     }
 
     keys
@@ -752,6 +754,9 @@ table 50039 "Payroll Journal Line"
         "Shortcut Dimension 1 Code" := PayrollLine."Global Dimension 1 Code";
         "Shortcut Dimension 2 Code" := PayrollLine."Global Dimension 2 Code";
         "Dimension Set ID" := PayrollLine."Dimension Set ID";
+        "Salary Level" := PayrollLine."Salary Level";
+        "Salary Grade" := PayrollLine."Salary Grade";
+
     end;
 
     procedure CopyFromPayrollHeader(var PayrollHeader: Record "Payroll Header")
