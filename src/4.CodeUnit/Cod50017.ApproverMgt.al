@@ -262,23 +262,8 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
-        if ApprovalLine.FindFirst() then
-            exit(false);
-        IsHRApprover := false;
-        if HRSetup.Get() and Employee.Get(ApproverNo) then begin
-            if HRSetup."HR Head Functional Title" = '' then begin
-                if Employee."Department Code" = HRSetup."HR Department Code" then
-                    IsHRApprover := true;
-            end
-            else begin
-                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
-                   (Employee."Department Code" = HRSetup."HR Department Code") then
-                    IsHRApprover := true;
-            end;
-        end;
-        if not IsHRApprover then
+        if not ApprovalLine.FindFirst() then
             Error(ApproveNotEligibleError);
-        exit(true);
     end;
 
 #if SaasFeature

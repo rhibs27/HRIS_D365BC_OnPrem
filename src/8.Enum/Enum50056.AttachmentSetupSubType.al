@@ -22,4 +22,12 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Employee Transfer Request';
     }
+    value(5; "Vehicle Info Update")
+    {
+        Caption = 'Vehicle Info Update';
+    }
+    value(6; "Marital Status Update")
+    {
+        Caption = 'Marital Status Update';
+    }
 }

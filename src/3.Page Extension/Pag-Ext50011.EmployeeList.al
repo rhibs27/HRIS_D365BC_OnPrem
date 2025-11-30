@@ -2,27 +2,11 @@ pageextension 50011 "Employee List" extends "Employee List"
 {
     layout
     {
-        modify("First Name")
-        {
-            Visible = false;
-        }
-        modify("Last Name")
-        {
-            Visible = false;
-        }
-        modify("Search Name")
-        {
-            Visible = false;
-        }
         modify("Balance (LCY)")
         {
             Visible = false;
         }
         modify(Comment)
-        {
-            Visible = false;
-        }
-        modify("Job Title")
         {
             Visible = false;
         }

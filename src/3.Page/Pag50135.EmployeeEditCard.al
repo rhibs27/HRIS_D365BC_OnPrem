@@ -83,11 +83,6 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Mobile No. field.';
                     ApplicationArea = All;
                 }
-                field("Marital Status"; Rec."Marital Status")
-                {
-                    ToolTip = 'Specifies the value of the Marital Status field.';
-                    ApplicationArea = All;
-                }
                 field("Email (Personal)"; Rec."Email (Personal)")
                 {
                     ToolTip = 'Specifies the value of the Email (Personal) field.';
@@ -98,11 +93,7 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Differently Able field.';
                     ApplicationArea = All;
                 }
-                field("Vehicle Type"; Rec."Vehicle Type")
-                {
-                    ToolTip = 'Specifies the value of the Vehicle Type field.';
-                    ApplicationArea = All;
-                }
+
                 field("Temporary Address"; Rec."Temporary Address")
                 {
                     ToolTip = 'Specifies the value of the Temporary Address field.';
@@ -173,6 +164,52 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Driving License No field.';
                 }
             }
+            group(VehicleInformation)
+            {
+                Editable = false;
+                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Vehicle Info Update";
+                field("Vehicle Type"; Rec."Vehicle Type")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Type field.';
+                    ApplicationArea = All;
+                }
+                field("Vehicle No."; Rec."Vehicle No.")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle No. field.';
+                    ApplicationArea = All;
+                }
+                field("Vehicle Owner Name"; Rec."Vehicle Owner Name")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Owner Name field.', Comment = '%';
+                }
+            }
+            group(MaritalStatusUpdate)
+            {
+                Editable = false;
+                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Marital Status Update";
+                field("Marital Status"; Rec."Marital Status")
+                {
+                    ToolTip = 'Specifies the value of the Marital Status field.';
+                    ApplicationArea = All;
+                }
+                field("Spouse Name"; Rec."Spouse Name")
+                {
+                    ToolTip = 'Specifies the value of the Spouse Name field.', Comment = '%';
+                }
+                field("Spouse DOB"; Rec."Spouse DOB")
+                {
+                    ToolTip = 'Specifies the value of the Spouse DOB field.', Comment = '%';
+                }
+                field("Spouse citizenship No."; Rec."Spouse citizenship No.")
+                {
+                    ToolTip = 'Specifies the value of the Spouse citizenship No. field.', Comment = '%';
+                }
+                field("Spouse Citiz. Issued Place"; Rec."Spouse Citiz. Issued Place")
+                {
+                    ToolTip = 'Specifies the value of the Spouse Citiz. Issued Place field.', Comment = '%';
+                }
+
+            }
 
             part("Qualification Details"; "Emp. Edit Qualifi Subform")
             {
@@ -217,20 +254,7 @@ page 50135 "Employee Edit Card"
                 SubPageView = where("Change in Emp Type" = filter("Additional Documents"));
                 ApplicationArea = all;
             }
-            part("Vehicle Info Details"; "Emp. Edit Vehicle Info Subform")
-            {
-                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Vehicle Info Update";
-                SubPageLink = "Document No." = field("No.");
-                SubPageView = where("Change in Emp Type" = filter("Vehicle Info Update"));
-                ApplicationArea = all;
-            }
-            part("Emp Edit Marital S Update Sub"; "Emp Edit Marital S Update Sub")
-            {
-                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Marital Status Update";
-                SubPageLink = "Document No." = field("No.");
-                SubPageView = where("Change in Emp Type" = filter("Marital Status Update"));
-                ApplicationArea = all;
-            }
+
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;

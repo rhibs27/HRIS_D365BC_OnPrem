@@ -241,10 +241,6 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         OrgStrucList.TestField("Sol ID");
         SolID := OrgStruclist."Sol ID";
 
-        EngNepDate.Reset;
-        EngNepDate.SetRange("English Date", "Pay Period Start Date");
-        if EngNepDate.FindFirst then;
-
         if PayrollAttributes."Static GL Ledger" then begin
             PayrollAttributes.TestField("Static GL Ledger Account");
             Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account");

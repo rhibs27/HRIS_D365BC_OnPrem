@@ -445,25 +445,24 @@ codeunit 50021 "Employee Edit Mgt."
     procedure EmployeeMaritalStatusUpdate(EmpEditNo: Code[20])
     var
         Employee: Record Employee;
-        EmployeeEditLine: Record "Employee Edit Line";
+        EmployeeEdit: Record "Employee Edit";
         EmployeeRelative: Record "Employee Relative";
         Relative: Record Relative;
     begin
-        EmployeeEditLine.SetRange("Document No.", EmpEditNo);
-        EmployeeEditLine.FindFirst();
-        if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::"Marital Status Update" then begin
-            if Employee.Get(EmployeeEditLine."Employee No.") then begin
-                Employee.Validate("Marital Status", EmployeeEditLine."Marital Status");
+        EmployeeEdit.Get(EmpEditNo);
+        if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Marital Status Update" then begin
+            if Employee.Get(EmployeeEdit."Employee No.") then begin
+                Employee.Validate("Marital Status", EmployeeEdit."Marital Status");
                 Employee.Modify();
             end;
             //also update the employee relatives
-            EmployeeRelative.SetRange("Employee No.", EmployeeEditLine."Employee No.");
+            EmployeeRelative.SetRange("Employee No.", EmployeeEdit."Employee No.");
             EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Spouse);
             if EmployeeRelative.FindFirst() then begin
-                EmployeeRelative.Validate("Full Name", EmployeeEditLine."Spouse Name");
-                EmployeeRelative.Validate("Birth Date", EmployeeEditLine."Spouse DOB");
-                EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."Spouse citizenship No.");
-                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEditLine."Spouse Citiz. Issued Place");
+                EmployeeRelative.Validate("Full Name", EmployeeEdit."Spouse Name");
+                EmployeeRelative.Validate("Birth Date", EmployeeEdit."Spouse DOB");
+                EmployeeRelative.Validate("Citizenship No.", EmployeeEdit."Spouse citizenship No.");
+                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEdit."Spouse Citiz. Issued Place");
                 EmployeeRelative.Modify();
             end
             else begin
@@ -471,13 +470,13 @@ codeunit 50021 "Employee Edit Mgt."
                 Relative.FindFirst();
 
                 EmployeeRelative.Init();
-                EmployeeRelative.Validate("Line No.", GetNextLineNoRelative(EmployeeEditLine."Employee No."));
-                EmployeeRelative.Validate("Employee No.", EmployeeEditLine."Employee No.");
+                EmployeeRelative.Validate("Line No.", GetNextLineNoRelative(EmployeeEdit."Employee No."));
+                EmployeeRelative.Validate("Employee No.", EmployeeEdit."Employee No.");
                 EmployeeRelative.Validate("Relative Code", Relative.Code);
-                EmployeeRelative.Validate("Full Name", EmployeeEditLine."Spouse Name");
-                EmployeeRelative.Validate("Birth Date", EmployeeEditLine."Spouse DOB");
-                EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."Spouse citizenship No.");
-                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEditLine."Spouse Citiz. Issued Place");
+                EmployeeRelative.Validate("Full Name", EmployeeEdit."Spouse Name");
+                EmployeeRelative.Validate("Birth Date", EmployeeEdit."Spouse DOB");
+                EmployeeRelative.Validate("Citizenship No.", EmployeeEdit."Spouse citizenship No.");
+                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEdit."Spouse Citiz. Issued Place");
                 EmployeeRelative.Insert();
             end;
             ImportEditLineAttachmentsToEmployee(EmpEditNo);
@@ -487,16 +486,15 @@ codeunit 50021 "Employee Edit Mgt."
     procedure EmployeevehicleInfoUpdate(EmpEditNo: Code[20])
     var
         Employee: Record Employee;
-        EmployeeEditLine: Record "Employee Edit Line";
+        EmployeeEdit: Record "Employee Edit";
     begin
-        EmployeeEditLine.SetRange("Document No.", EmpEditNo);
-        EmployeeEditLine.FindFirst();
-        if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::"Vehicle Info Update" then begin
-            if Employee.Get(EmployeeEditLine."Employee No.") then begin
-                if EmployeeEditLine."Vehicle Type" <> EmployeeEditLine."Vehicle Type"::" " then begin
-                    Employee.Validate("Vehicle Type", EmployeeEditLine."Vehicle Type");
-                    Employee.Validate("Vehicle No.", EmployeeEditLine."Vehicle No.");
-                    Employee.Validate("Vehicle Owner Name", EmployeeEditLine."Vehicle Owner Name");
+        EmployeeEdit.Get(EmpEditNo);
+        if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then begin
+            if Employee.Get(EmployeeEdit."Employee No.") then begin
+                if EmployeeEdit."Vehicle Type" <> EmployeeEdit."Vehicle Type"::" " then begin
+                    Employee.Validate("Vehicle Type", EmployeeEdit."Vehicle Type");
+                    Employee.Validate("Vehicle No.", EmployeeEdit."Vehicle No.");
+                    Employee.Validate("Vehicle Owner Name", EmployeeEdit."Vehicle Owner Name");
                     Employee.Modify();
                 end;
                 ImportEditLineAttachmentsToEmployee(EmpEditNo);

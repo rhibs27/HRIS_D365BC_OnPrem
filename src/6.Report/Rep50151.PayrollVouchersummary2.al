@@ -63,8 +63,9 @@ report 50151 "Payroll Voucher summary 2"
                 if "Posted Payroll Header".Reversed then
                     CurrReport.Skip();
 
-                GLEntry.SetLoadFields("Document No.", Amount);
+                GLEntry.SetLoadFields("Document No.", "G/L Account No.", Amount);
                 GLEntry.SetRange("Document No.", "Posted Payroll Header"."No.");
+                GLEntry.SetRange("G/L Account No.", PGSetup."Net Payable Account Code");
                 GLEntry.CalcSums(Amount);
                 TotaNetPay := GLEntry.Amount;
 
