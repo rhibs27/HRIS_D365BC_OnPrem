@@ -427,7 +427,8 @@ codeunit 50021 "Employee Edit Mgt."
     begin
         if not TenantMedia.Get(MediaId) then
             exit('');
-        FileName := TenantMedia.Description;
+        if TenantMedia.Description <> '' then
+            FileName := TenantMedia.Description;
         exit(LowerCase(GetFileExtension(FileName)));
     end;
 
@@ -524,11 +525,13 @@ codeunit 50021 "Employee Edit Mgt."
             exit;
 
         if EmployeeEdit.Attachment.HasValue() then begin
-            FileName := Format(EmployeeEdit."Changes In Employee Type") + ' Attachment' + EmployeeEdit."Employee No.";
+            FileName := Format(EmployeeEdit."Changes In Employee Type") + '-Attachment-' + EmployeeEdit."Employee No.";
             if FileName = '' then
                 FileName := 'Attachment';
             // Get file extension from Attachment field
             FileExtension := GetMediaFileExtension(EmployeeEdit.Attachment.MediaId(), FileName);
+            if FileName = '.' + FileExtension then
+                FileName := Format(EmployeeEdit."Changes In Employee Type") + '-Attachment-' + EmployeeEdit."Employee No.";
             TempBlob.CreateOutStream(OutStr);
             EmployeeEdit.Attachment.ExportStream(OutStr);
             Employee.Get(EmployeeEdit."Employee No.");

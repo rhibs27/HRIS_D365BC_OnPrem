@@ -14,6 +14,7 @@ table 50163 "Assignment Memo Ledger Entry"
         field(2; "Document No."; Code[20])
         {
             Caption = 'Document No.';
+            TableRelation = "Assignment Memo Header";
         }
         field(3; "Posting Date"; Date)
         {
@@ -60,6 +61,7 @@ table 50163 "Assignment Memo Ledger Entry"
         field(11; "Payroll Attribute Code"; Code[20])
         {
             Caption = 'Payroll Attribute Code';
+            TableRelation = "Payroll Attributes";
         }
         field(12; "Valid From Date"; Date)
         {

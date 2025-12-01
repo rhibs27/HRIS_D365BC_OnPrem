@@ -349,9 +349,28 @@ table 50162 "Assignment Memo Line"
         end;
     end;
 
+    procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
+    var
+        AssignmentMemoLine: Record "Assignment Memo Line";
+    begin
+        AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
+        AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code");
+        AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
+        AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
+        if not AssignmentMemoLine.IsEmpty() then
+            Error(TEXT001, PAssignMemo."Employee No.", PAssignMemo."Payroll Attribute Code", Format(PAssignMemo."From Date"));
+
+        OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
+    end;
+
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCheckDuplicateAssignmentMemoLineOnAfterCheck(var AssignmentMemoLine: Record "Assignment Memo Line")
     begin
     end;
 }

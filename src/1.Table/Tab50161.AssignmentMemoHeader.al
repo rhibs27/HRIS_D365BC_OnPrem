@@ -298,8 +298,10 @@ table 50161 "Assignment Memo Header"
     begin
         if "Activity Type" = "Activity Type"::"Request Allowance" then begin
             PGSetup.Get();
-            "From Date" := WorkDate();
-            "To date" := PGSetup."Prev Fiscal Year End Date";
+            if "From Date" = 0D then
+                "From Date" := WorkDate();
+            if "To date" = 0D then
+                "To date" := PGSetup."Payroll Fiscal Year End Date";
         end;
     end;
 
