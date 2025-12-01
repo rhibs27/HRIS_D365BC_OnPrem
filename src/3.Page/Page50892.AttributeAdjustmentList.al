@@ -3,7 +3,7 @@ page 50376 "Attribute Adjustment List"
     PageType = List;
     SourceTable = "Attribute Adjustment Header";
     ApplicationArea = All;
-    Caption = 'Attribute Adjustment';
+    Caption = 'Attribute Adjustments';
     UsageCategory = Lists;
     CardPageID = "Attribute Adjustment Card";
 
@@ -14,8 +14,9 @@ page 50376 "Attribute Adjustment List"
             repeater(Group)
             {
                 field("Document No."; Rec."Document No.") { ApplicationArea = All; }
-                field("Document Type"; Rec."Document Type") { ApplicationArea = All; }
                 field("Pay Cycle Code"; Rec."Pay Cycle Code") { ApplicationArea = All; }
+                field("Pay Cycle Term"; Rec."Pay Cycle Term") { ApplicationArea = All; }
+                field("Pay Cycle Period"; Rec."Pay Cycle Period") { ApplicationArea = All; }
                 field("Approval Status"; Rec."Approval Status") { ApplicationArea = All; }
             }
         }

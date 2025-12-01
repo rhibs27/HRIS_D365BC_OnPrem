@@ -752,7 +752,7 @@ codeunit 50000 "Leave Mgt."
 
     procedure ApplyForLeave(var Leave: Record "Leave"): Code[20]
     var
-        ConfirmLeave: Label 'Do you want to send leave request ?';
+        ConfirmLeave: Label 'Do you want to send leave request?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         LeavePeriod: Record "Accounting Period";
         isHandled: Boolean;

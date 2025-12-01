@@ -36,6 +36,7 @@ page 50375 "Attribute Adjustment Lines"
             {
                 Caption = 'Export to Excel';
                 ApplicationArea = All;
+                Image = ExportToExcel;
                 trigger OnAction()
                 begin
                     if Rec."Document No." = '' then
@@ -48,6 +49,7 @@ page 50375 "Attribute Adjustment Lines"
             {
                 Caption = 'Import from Excel';
                 ApplicationArea = All;
+                Image = ImportExcel;
                 trigger OnAction()
                 begin
                     if Rec."Document No." = '' then

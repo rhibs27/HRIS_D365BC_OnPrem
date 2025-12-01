@@ -3,8 +3,7 @@ page 50374 "Attribute Adjustment Card"
     PageType = Card;
     SourceTable = "Attribute Adjustment Header";
     ApplicationArea = All;
-    Caption = 'Attribute Adjustment';
-
+    Caption = 'Attribute Adjustment Card';
     layout
     {
         area(content)
@@ -12,26 +11,69 @@ page 50374 "Attribute Adjustment Card"
             group(General)
             {
                 Caption = 'General';
-                field("Document Type"; Rec."Document Type") { ApplicationArea = All; }
-                field("Pay Cycle Code"; Rec."Pay Cycle Code") { ApplicationArea = All; }
-                field("Pay Cycle Term"; Rec."Pay Cycle Term") { ApplicationArea = All; }
-                field("Pay Cycle Period"; Rec."Pay Cycle Period") { ApplicationArea = All; }
+                field("Document No."; Rec."Document No.")
+                {
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update;
+                    end;
+                }
+                field("Pay Cycle Code"; Rec."Pay Cycle Code")
+                {
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+                field("Pay Cycle Period"; Rec."Pay Cycle Period")
+                {
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    ApplicationArea = All;
+                    Visible = IsPending;
+                }
+                field("Approval Status"; Rec."Approval Status") { ApplicationArea = All; }
+            }
+            group(Filters)
+            {
                 field("Payroll Attribute Filter"; Rec."Payroll Attribute Filter") { ApplicationArea = All; }
                 field("Employee Filter"; Rec."Employee Filter") { ApplicationArea = All; }
                 field("Adjustment Type Filter"; Rec."Adjustment Type Filter") { ApplicationArea = All; }
-                field("Approval Status"; Rec."Approval Status") { ApplicationArea = All; }
             }
 
             part(AdjustLines; "Attribute Adjustment Lines")
             {
                 ApplicationArea = All;
                 SubPageLink = "Document No." = field("Document No.");
+                Editable = IsOpen;
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                SubPageLink = "Document No." = field("Document No.");
+                ApplicationArea = all;
+                Editable = false;
             }
         }
     }
 
     actions
     {
+        area(Promoted)
+        {
+            actionref(SubmitForApproval; "Submit for Approval") { }
+            actionref(ReOpen; "ReOpen Document") { }
+            actionref(ApproveDocument; "Approve Document") { }
+            actionref(RejectDocument; "Reject Document") { }
+        }
         area(processing)
         {
             action(Validate)
@@ -45,116 +87,102 @@ page 50374 "Attribute Adjustment Card"
                 Caption = 'Release';
                 ApplicationArea = All;
             }
-
-            group(RequestApproval)
+            action("Submit for Approval")
             {
-                Caption = 'Request Approval';
-                action(SendApprovalRequest)
-                {
-                    Caption = 'Send Approval Request';
-                    ApplicationArea = All;
-                    Enabled = not OpenApprovalEntriesExist;
-                    trigger OnAction()
-                    var
-                        RecRef: RecordRef;
-                        AttributeAdjustmentLine: Record "Attribute Adjustment Line";
-                        HRMgt: Codeunit "HR Mgt.";
-                    begin
-                        ApproverMgt.UpdateFirstApproverStatus(Rec."Document No.");
-                        AttributeAdjustmentLine.SetRange("Document No.", Rec."Document No.");
-                        if AttributeAdjustmentLine.FindSet() then
-                            repeat
-                                HRMgt.InsertIntoAttributeUsageHistory(AttributeAdjustmentLine);
-                            until AttributeAdjustmentLine.Next() = 0;
-
-                        Message('Approval request set to Pending.');
-                    end;
-                }
-
-                action(CancelApprovalRequest)
-                {
-                    Caption = 'Cancel Approval Request';
-                    ApplicationArea = All;
-                    Enabled = OpenApprovalEntriesExist;
-                    trigger OnAction()
-                    var
-                        RecRef: RecordRef;
-                    begin
-                        RecRef.GetTable(Rec);
-                        ApproverMgt.WithDrawRequest(RecRef);
-                        CurrPage.Update();
-                    end;
-                }
+                Caption = 'Submit for Approval';
+                Image = Suggest;
+                ApplicationArea = All;
+                Visible = IsOpen;
+                ToolTip = 'Executes the Approve Request action.';
+                trigger OnAction()
+                begin
+                    Rec.ApplyForAttributeAdj(Rec);
+                    CurrPage.Update(true);
+                end;
             }
 
-            group(Approval)
+            action("ReOpen Document")
             {
-                Caption = 'Approval';
-                action(Approve)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Approve';
-                    Image = Approve;
-                    Promoted = true;
-                    PromotedCategory = Category4;
-                    PromotedIsBig = true;
-                    ToolTip = 'Approve the requested changes.';
-                    Visible = OpenApprovalEntriesExistForCurrUser;
+                Caption = 'Re-Open Document';
+                ApplicationArea = All;
+                Visible = IsPending and not OpenApprovalEntriesExistForCurrUser;
+                Image = ReOpen;
+                trigger OnAction()
+                begin
+                    RecRef.GetTable(Rec);
+                    ApproverMgt.ReopenDocument(RecRef);
+                    CurrPage.Update(true);
+                end;
+            }
 
-                    trigger OnAction()
-                    var
-                        HRMgt: Codeunit "HR Mgt.";
-                        AttributeAdjustmentLine: Record "Attribute Adjustment Line";
-                    begin
-                        ApprovalsMgmt.ApproveRecordApprovalRequest(Rec.RecordId);
+            action("Approve Document")
+            {
+                ApplicationArea = All;
+                Caption = 'Approve';
+                Image = Approve;
+                ToolTip = 'Approve the requested changes.';
+                Visible = OpenApprovalEntriesExistForCurrUser;
 
-                        AttributeAdjustmentLine.SetRange("Document No.", Rec."Document No.");
-                        if AttributeAdjustmentLine.FindSet() then
-                            repeat
-                                HRMgt.InsertIntoAttributeUsageHistory(AttributeAdjustmentLine);
-                            until AttributeAdjustmentLine.Next() = 0;
-                        CurrPage.Update();
+                trigger OnAction()
+                var
+                    AttributeAdjLine: Record "Attribute Adjustment Line";
+                begin
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        RecRef.GetTable(Rec);
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
+                        Rec."Rejection Remarks" := '';
+                        Message('Attribute Adjustment is approved by %1', HRMgt.GetEmpName());
                     end;
-                }
-                action(Reject)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Reject';
-                    Image = Reject;
-                    Promoted = true;
-                    PromotedCategory = Category4;
-                    PromotedIsBig = true;
-                    ToolTip = 'Reject the approval request.';
-                    Visible = OpenApprovalEntriesExistForCurrUser;
+                    CurrPage.Close();
+                end;
+            }
+            action("Reject Document")
+            {
+                ApplicationArea = All;
+                Caption = 'Reject';
+                Image = Reject;
+                ToolTip = 'Reject the approval request.';
+                Visible = OpenApprovalEntriesExistForCurrUser;
 
-                    trigger OnAction()
-                    begin
-                        ApprovalsMgmt.RejectRecordApprovalRequest(Rec.RecordId);
-                        CurrPage.Update();
-                    end;
-                }
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want to reject the request?', false) then
+                        exit;
+                    if Rec."Rejection Remarks" = '' then
+                        Error('Please enter rejection remarks.');
+                    RecRef.GetTable(Rec);
+                    ApproverMgt.ApproveRejectDocument(RecRef, false);
+                    Message('Attribute Adjustment is rejected by %1', HRMgt.GetEmpName());
+                    CurrPage.Close();
+                end;
             }
         }
     }
 
     trigger OnAfterGetRecord()
     begin
-        OpenApprovalEntriesExist := ApprovalsMgmt.HasOpenApprovalEntries(Rec.RecordId);
-        OpenApprovalEntriesExistForCurrUser := ApprovalsMgmt.HasOpenApprovalEntriesForCurrentUser(Rec.RecordId);
+        OpenApprovalEntriesExist := ApproverMgt.HasOpenApprovalEntries(Rec."Document No.");
+        OpenApprovalEntriesExistForCurrUser := ApproverMgt.HasOpenApprovalEntriesForCurrentUser(Rec."Document No.", HRMgt.GetEmployeeNo());
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
     end;
 
     trigger OnOpenPage()
-    var
-        ApproverMgt: Codeunit "Approver Mgt";
     begin
-        // if Rec."Approval Status" = Rec."Approval Status"::Created then
-        //ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::Resignation, Rec."Approval Status");
+        // IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        // IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
     end;
 
+
     var
+        IsOpen: Boolean;
+        IsPending: Boolean;
         AttrAdjMgt: Codeunit "Excel Import";
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         ApproverMgt: Codeunit "Approver Mgt";
         OpenApprovalEntriesExist: Boolean;
         OpenApprovalEntriesExistForCurrUser: Boolean;
+
+        HRMgt: Codeunit "HR Mgt.";
+        RecRef: RecordRef;
 }

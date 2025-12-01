@@ -23,9 +23,10 @@ table 50165 "Attribute Adjustment Line"
             var
                 EmployeeRec: Record Employee;
             begin
-
                 if EmployeeRec.Get("Employee No.") then
-                    "Employee Name" := EmployeeRec.FullName();
+                    "Employee Name" := EmployeeRec.FullName()
+                else
+                    Clear("Employee Name");
             end;
         }
 
@@ -37,6 +38,7 @@ table 50165 "Attribute Adjustment Line"
         field(5; "Adjustment Type"; Enum "Employee Activity Type")
         {
             Caption = 'Adjustment Type';
+            ValuesAllowed = " ", Promotion, Confirmation, "Employee Transfer";
         }
 
         field(6; "Attribute Code"; Code[20])
