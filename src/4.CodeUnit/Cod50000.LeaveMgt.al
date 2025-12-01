@@ -798,7 +798,7 @@ codeunit 50000 "Leave Mgt."
             Leave.modify();
         end;
         if GuiAllowed then
-            HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.", false);   //For email
+            EmailMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.", false);   //For email
         exit(Leave."No.");
     end;
 
@@ -2072,6 +2072,7 @@ codeunit 50000 "Leave Mgt."
         LeaveError: Label 'You cannot apply leave in Present day %1.';
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         PayrollSetup: Record "Payroll General Setup";
         CalendarDescription: Text;
         HRSetup: Record "Human Resources Setup";

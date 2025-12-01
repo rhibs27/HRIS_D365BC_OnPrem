@@ -40,12 +40,6 @@ page 50067 "Resignation Card"
                     ApplicationArea = All;
                     Editable = IsOpen;
                 }
-                // field(Remarks; Rec.Remarks)
-                // {
-                //     Caption = 'Supervisor Remarks';
-                //     ToolTip = 'Specifies the value of the Supervisor Remarks field.';
-                //     ApplicationArea = All;
-                // }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
@@ -81,11 +75,6 @@ page 50067 "Resignation Card"
                         ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                         ApplicationArea = All;
                     }
-                    // field("Sub Province Code"; Rec."Sub Province Code")
-                    // {
-                    //     ToolTip = 'Specifies the value of the Sub Province Code field.';
-                    //     ApplicationArea = All;
-                    // }
                     field("Province Code"; Rec."Province Code")
                     {
                         ToolTip = 'Specifies the value of the Province Code field.';
@@ -101,24 +90,9 @@ page 50067 "Resignation Card"
                         ToolTip = 'Specifies the value of the Department field.';
                         ApplicationArea = All;
                     }
-                    field("Compensatory Days"; Rec."Compensatory Days")
-                    {
-                        ToolTip = 'Specifies the value of the Compensatory Days field.';
-                        ApplicationArea = All;
-                    }
                     field("Payroll No."; Rec."Payroll No.")
                     {
                         ToolTip = 'Specifies the value of the Payroll No. field.';
-                        ApplicationArea = All;
-                    }
-                    field(Ecosystem; Rec.Ecosystem)
-                    {
-                        ToolTip = 'Specifies the value of the Ecosystem field.';
-                        ApplicationArea = All;
-                    }
-                    field("Office Code"; Rec."Office Code")
-                    {
-                        ToolTip = 'Specifies the value of the Office Code field.';
                         ApplicationArea = All;
                     }
                 }
@@ -127,17 +101,15 @@ page 50067 "Resignation Card"
                     Caption = 'Resignation Details';
                     field("Proposed Date of Resignation"; Rec."Proposed Date of Resignation")
                     {
-                        // Caption = 'Proposed Date of Closed of Business Hour';
                         ToolTip = 'Specifies the value of the Proposed Date of Closed of Business Hour field.';
                         ApplicationArea = All;
                         Editable = IsOpen;
                     }
-                    // field("Supervisor Proposed Date"; Rec."Supervisor Proposed Date")
-                    // {
-                    //     Editable = not DocumentEditable;
-                    //     ToolTip = 'Specifies the value of the Supervisor Proposed Date field.';
-                    //     ApplicationArea = All;
-                    // }
+                    field("Supervisor Proposed Date"; Rec."Supervisor Proposed Date")
+                    {
+                        ToolTip = 'Specifies the value of the Supervisor Proposed Date field.';
+                        ApplicationArea = All;
+                    }
                     field("Reason Code"; Rec."Reason Code")
                     {
                         ToolTip = 'Specifies the value of the Reason Code field.';
@@ -192,27 +164,6 @@ page 50067 "Resignation Card"
                                 "Document Type" = field(Type);
                 ApplicationArea = All;
             }
-            // group(Approver)
-            // {
-            //     Caption = 'Approver';
-            // field("Recommender Code"; Rec."Recommender Code")
-            // {
-            //     Caption = 'Supervisor Code';
-            //     ToolTip = 'Specifies the value of the Supervisor Code field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Recommender Name"; Rec."Recommender Name")
-            // {
-            //     Caption = 'Supervisor Name';
-            //     ToolTip = 'Specifies the value of the Supervisor Name field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Screener Remarks"; Rec."Screener Remarks")
-            // {
-            //     ToolTip = 'Specifies the value of the Screener Remarks field.';
-            //     ApplicationArea = All;
-            // }
-            // }
             part("Resign Clearance Verifier"; "Document Approver Resignation")
             {
                 Caption = 'Resign Clearance Verifier';
@@ -454,7 +405,6 @@ page 50067 "Resignation Card"
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         ApprovalSent: Boolean;
-        //DocumentEditable: Boolean;
         IsRejected: Boolean;
         IsPending: Boolean;
         IsApproved: Boolean;
@@ -469,7 +419,6 @@ page 50067 "Resignation Card"
     local procedure SetLayout()
     begin
         ApprovalSent := not (Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "]);
-        //DocumentEditable := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;

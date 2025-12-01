@@ -1023,7 +1023,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
+                ResignMgt.AddRemoveDocApprover("No.", "Resignation Approver");
             end;
         }
 
@@ -1608,6 +1608,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Text003: Label 'ENU=%1 is not a contract Employee.';
         EngNepDate: Record "English-Nepali Date";
         HRMgt: Codeunit "HR Mgt.";
+        ResignMgt: Codeunit "Resignation Mgt";
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         LoanMgt: Codeunit "Loan Mgt.";

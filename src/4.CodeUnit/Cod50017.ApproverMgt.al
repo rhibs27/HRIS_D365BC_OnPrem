@@ -496,7 +496,7 @@ codeunit 50017 "Approver Mgt"
                         ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
                         ApprovalHRMS2.Modify;
                     until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
                 end
                 else begin
                     // If no next approval step found then set the status to approved
@@ -586,7 +586,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
             else begin
@@ -603,7 +603,7 @@ codeunit 50017 "Approver Mgt"
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
+                EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -751,7 +751,7 @@ codeunit 50017 "Approver Mgt"
                         ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
                         ApprovalHRMS2.Modify;
                     until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
                 end
                 else begin
                     // If no next approval step found then set the status to approved
@@ -831,7 +831,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
             else begin
@@ -848,7 +848,7 @@ codeunit 50017 "Approver Mgt"
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
+                EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -1597,6 +1597,7 @@ codeunit 50017 "Approver Mgt"
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         leaveMgt: Codeunit "Leave Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         AttendanceMissed: Codeunit "AttendanceMiss mgt";

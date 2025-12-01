@@ -88,7 +88,7 @@ codeunit 50005 "Transfer Mgt."
                 IncomingDoc.Modify();
             until IncomingDoc.Next() = 0;
 
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, EmphrTransfer."Employee No.", EmphrTransfer."No.", false);   //For email
+        EmailMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, EmphrTransfer."Employee No.", EmphrTransfer."No.", false);   //For email
         Message(TransferSent);
         exit(true);
     end;
@@ -135,7 +135,7 @@ codeunit 50005 "Transfer Mgt."
         end;
         EmpHrTransfer.Validate("Is Transfer Details Added", true);
         EmpHrTransfer.Modify();
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer.Remarks, EmpHrTransfer."No.", false);
+        EmailMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer.Remarks, EmpHrTransfer."No.", false);
         if EmpHrTransfer."Transfer Effective Date" <= Today then begin
             if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin
                 EmployeeRec."Disable Punch in" := true;
@@ -477,7 +477,7 @@ codeunit 50005 "Transfer Mgt."
         OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
         EmployeeRec.Modify;
         Message(Acknowledged);
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
+        EmailMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
     end;
 
     procedure OpenTransferClaim(EmpCode: Code[20]; TransferOrderNo: Code[20])
@@ -650,6 +650,7 @@ codeunit 50005 "Transfer Mgt."
         Employee1: Record Employee;
         PayrollSetup: Record "Payroll General Setup";
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         EmployeeRec: Record Employee;
         OverTimeMgt: Codeunit "OverTime Mgt";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
