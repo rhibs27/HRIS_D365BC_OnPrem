@@ -2738,6 +2738,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Salary Level Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3821175371 - Field 856766472 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Level Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Salary Level Description - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3821175371 - Field 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2752,6 +2757,16 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3821175371 - Field 3347103494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Substitute Person Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3821175371 - Field 2360230556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Substitute Person Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3821175371 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -10213,6 +10228,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Salary Level Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 856766472 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Level Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Salary Level Description - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3212359541 - Field 1577567912 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shortcut Dimension 1 Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10237,6 +10257,16 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 3347103494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Substitute Person Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 2360230556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Substitute Person Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3212359541 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -10342,6 +10372,16 @@
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 3347103494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Substitute Person Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 2360230556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Substitute Person Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2977078565 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -14012,6 +14052,16 @@
           <source>Reversing Entry</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Journal Line - Field Reversing Entry - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3977045334 - Field 3370741491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Grade</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Journal Line - Field Salary Grade - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3977045334 - Field 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Journal Line - Field Salary Level - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3977045334 - Field 1577567912 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shortcut Dimension 1 Code</source>
@@ -25133,6 +25183,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3821175371 - Control 3347103494 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Substitute person code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Substitute Person Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3821175371 - Control 2360230556 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Substitute person code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Substitute Person Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3821175371 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35683,6 +35743,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Request - Control Start Time - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3584713366 - Control 3347103494 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Substitute person code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Request - Control Substitute Person Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3584713366 - Control 2360230556 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Substitute person code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Request - Control Substitute Person Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3584713366 - Action 943228888 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Apply for Leave action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -42352,6 +42422,16 @@
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 5914874 - Control 3347103494 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Substitute person code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Substitute Person Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 5914874 - Control 2360230556 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Substitute person code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Substitute Person Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 5914874 - Control 2969163710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remark</source>
@@ -57332,6 +57412,16 @@
           <source>Present Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Led. Entry Ext  - Field Present Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4274179184 - Field 3370741491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1874461389">
+          <source>Salary Grade</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Led. Entry Ext  - Field Salary Grade - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4274179184 - Field 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1874461389">
+          <source>Salary Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Led. Entry Ext  - Field Salary Level - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4274179184 - Field 2550690551 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1874461389">
           <source>Total Days</source>
