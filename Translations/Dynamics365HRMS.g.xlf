@@ -8348,6 +8348,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Allowance Assignment Claim - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 470349803 - Field 3043223467 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Assignment Memo</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Allowance Assignment Memo - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 470349803 - Field 1139199036 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approved Home Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8483,6 +8488,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Rejected Vehicle Loan - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 470349803 - Field 3823775251 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Request Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Request Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 470349803 - Field 3973430723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resignation By Age</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8497,6 +8507,11 @@
           <source>Shift Assignment</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Shift Assignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1448368435 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Assignment Memo</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Shift Assignment Memo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 138479717 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Temporary Ended Staff</source>
