@@ -219,6 +219,16 @@ table 50124 Leave
         {
             Editable = false;
             TableRelation = "Salary Level";
+
+            trigger OnValidate()
+            var
+                SalaryLevelRec: Record "Salary Level";
+            begin
+                if SalaryLevelRec.Get("Salary Level Code") then
+                    "Salary Level Description" := SalaryLevelRec.Description
+                else
+                    Clear("Salary Level Description");
+            end;
         }
         field(28; "Extension Counter Code"; Code[20])
         {
@@ -405,6 +415,33 @@ table 50124 Leave
         }
         field(200; Claimed; Boolean) { }
         field(201; "Claimed Doc No."; Code[20]) { }
+
+        field(202; "Salary Level Description"; Text[50])
+        {
+            Caption = 'Salary Level Description';
+            Editable = false;
+        }
+        field(203; "Substitute Person Code"; code[20])
+        {
+            Caption = 'Substitute Person Code';
+            TableRelation = Employee."No.";
+            trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
+            begin
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
+                    Clear("Substitute Person Name");
+            end;
+        }
+        field(204; "Substitute Person Name"; text[50])
+        {
+            Caption = 'Substitute Person Name';
+            Editable = false;
+
+        }
+
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';

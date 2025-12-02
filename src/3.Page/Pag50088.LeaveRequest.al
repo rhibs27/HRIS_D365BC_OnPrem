@@ -71,6 +71,17 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
                     ApplicationArea = All;
                 }
+                field("Substitute Person Code"; Rec."Substitute Person Code")
+                {
+                    ToolTip = 'Specifies the value of Substitute person code';
+                    ApplicationArea = All;
+
+                }
+                field("Substitute Person Name"; Rec."Substitute Person Name")
+                {
+                    ToolTip = 'Specifies the value of Substitute person code';
+                    ApplicationArea = All;
+                }
                 field("Start Time"; Rec."Start Time")
                 {
                     Editable = false;

@@ -489,7 +489,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup.SetFilter("Employee No. Filter", EmpCode);
         if LeaveTypeSetup.FindFirst then
             LeaveTypeSetup.CalcFields("Remaining Days");
-        if not LeaveTypeSetup."Skip Balance Check" then
+        if (not LeaveTypeSetup."Skip Balance Check") then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
                 Error('You do not have enough remaining days for leave %1', LeaveTypeSetup.Description);
     end;
@@ -870,6 +870,8 @@ codeunit 50000 "Leave Mgt."
             TempCancelDocument.Validate("Start Date", Leave."Start Date");
             TempCancelDocument.Validate("End Date", Leave."End Date");
             TempCancelDocument.Validate("No. of Days", Leave."No. of Days");
+            TempCancelDocument.Validate("Substitute Person Code", Leave."Substitute Person Code");
+            TempCancelDocument.Validate("Substitute Person Name", Leave."Substitute Person Name");
             TempCancelDocument."Cancelled Document No." := Leave."No.";
             TempCancelDocument."No." := '';
             TempCancelDocument.Insert;
@@ -974,6 +976,14 @@ codeunit 50000 "Leave Mgt."
                      leaveNo,
                      leave.Remarks,
                      '');
+        end;
+        //Complete record of substitutes in leave history
+        LeaveEarn.Reset();
+        LeaveEarn.SetRange("Employee No.", leave."Employee No.");
+        LeaveEarn.SetRange("Leave Request No", leave."No.");
+        if LeaveEarn.Findfirst() then begin
+            LeaveEarn.Validate("Substitute Person Code", Leave."Substitute Person Code");
+            LeaveEarn.Modify();
         end;
         LeaveTypeSetup.get(leave."Leave Code");
         if LeaveTypeSetup."Exclude in Service Period" then begin
