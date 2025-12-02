@@ -820,7 +820,7 @@ codeunit 50008 "Payroll Engine"
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then begin
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN
                         if PayrollAttributesUsage.Amount < 0 then begin
                             Length := StrLen(Expression);
                             Substring1 := CopyStr(Expression, 1, StrPosition - 2);
@@ -850,6 +850,8 @@ codeunit 50008 "Payroll Engine"
         EmployeeLedgerEntry.SetRange("Employee No.", Employee."No.");
         EmployeeLedgerEntry.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         EmployeeLedgerEntry.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+        // EmployeeLedgerEntry.SetRange(Reversed, false);
+        EmployeeLedgerEntry.SetFilter(Amount, '<>%1', 0);
         if EmployeeLedgerEntry.FindLast then
             LastPayCyclePeriod := EmployeeLedgerEntry."Pay Cycle Period";
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then
@@ -3251,7 +3253,7 @@ codeunit 50008 "Payroll Engine"
         LeaveDays: Decimal;
     begin
         LeaveTypeSetup.Reset();
-        LeaveTypeSetup.SetRange("AML Eligible", true);
+        LeaveTypeSetup.SetRange("Leave Category", LeaveTypeSetup."Leave Category"::"Annual Leave");
         LeaveTypeSetup.SetRange("Leave For Employee Type", EmpType);
         if not LeaveTypeSetup.FindFirst() then
             exit;
@@ -3259,7 +3261,7 @@ codeunit 50008 "Payroll Engine"
         PGSetup.Get();
         LeaveEarn.Reset();
         LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-        LeaveEarn.SetRange(Type, LeaveEarn.Type::Used);
+        LeaveEarn.SetRange(Type, LeaveEarn.Type::Used, LeaveEarn.Type::Cancelled);
         LeaveEarn.SetRange("Payroll Posted", false);
         LeaveEarn.SetRange("Leave Code", TempLeaveCode);
         if LeaveEarn.FindSet() then
@@ -3306,9 +3308,7 @@ codeunit 50008 "Payroll Engine"
                 SalaryLevel.Get(Employee."Salary Level");
                 exit(Round(SalaryLevel."Leave Fare Allowance", 0.01, '='))
             end;
-
         end;
-
     end;
 
     local procedure GetSettlementAttendance(var SettlementLine: Record "Payroll Line"; var SettlementHeader: Record "Payroll Header")
