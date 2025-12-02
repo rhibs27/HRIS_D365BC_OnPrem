@@ -53483,11 +53483,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="XmlPort 1394986634 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Export leave Journal</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">XmlPort Export leave Journal - Property Caption</note>
-        </trans-unit>
         <trans-unit id="XmlPort 1871036555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Export Payroll</source>
           <note from="Developer" annotates="general" priority="2"></note>
