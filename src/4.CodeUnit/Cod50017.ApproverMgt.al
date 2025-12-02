@@ -482,7 +482,6 @@ codeunit 50017 "Approver Mgt"
                     OnRejectDocumentOnBeforeRecRefModify(RecRef, Approved, SkipRecRefModifyOnReject, IsExit);
                     if not SkipRecRefModifyOnReject then begin
                         RecRef.Modify();
-
                         ApprovalHRMS.Modify();
                     end;
                     if IsExit then
