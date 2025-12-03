@@ -114,6 +114,7 @@ table 50147 "Organization Structure List"
         {
         }
         field(34; "Address"; Text[100]) { }
+        field(35; "Fax No"; Text[100]) { }
     }
     keys
     {
@@ -122,6 +123,4 @@ table 50147 "Organization Structure List"
             Clustered = true;
         }
     }
-    var
-        TypeHelper: Codeunit "Type Helper";
 }
