@@ -582,11 +582,6 @@ codeunit 50015 "OverTime Mgt"
     begin
     end;
 
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeGetEmployeeFilter(var Overtime: Record OverTime; var Ishandled: Boolean)
-    begin
-    end;
-
     var
         HRSetup: Record "Human Resources Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
