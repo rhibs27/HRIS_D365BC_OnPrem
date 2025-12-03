@@ -87,40 +87,35 @@ table 50141 OverTime
             var
                 EmployeeAttendance: Record "Employee Attendance & Activity";
             begin
-                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
-                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
-                if EmployeeRec.Get("Employee No.") then
-                    if "Start Date" <> 0D then begin
-                        if "Start Date" < EmployeeRec."Employment Date" then
-                            Error('Cannot apply before your employment date');
-                    end;
-                if Type <> Type::Overtime then
-                    if "Employee No." = '' then
-                        if not HrMgt.IsSaaS() then
-                            EmployeeRec.Get(HrMgt.GetEmployeeNo());
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
-                if type = type::Overtime then begin
-                    EmployeeAttendance.Reset;
-                    EmployeeAttendance.SetRange("Employee No.", "Employee No.");
-                    EmployeeAttendance.SetRange("Attendance Date", "Start Date");
-                    if EmployeeAttendance.FindFirst() then begin
-                        if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
-                            Error('No punch in or punch out found.');
-                        end
-                        else begin
-                            Validate("Check In Time", EmployeeAttendance."Check In Time");
-                            Validate("Check Out Time", EmployeeAttendance."Check Out Time");
-                            Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
-                            Validate("Day Type", EmployeeAttendance."Day Type");
+                OnBeforeOTDateValidation(rec, IsHandled);
+                if not IsHandled then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
+                    Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
+                    if EmployeeRec.Get("Employee No.") then
+                        if "Start Date" <> 0D then begin
+                            if "Start Date" < EmployeeRec."Employment Date" then
+                                Error('Cannot apply before your employment date');
                         end;
-                    end else
-                        Error('No Attendance Found on %1', rec."Start Date");
-                    if "Start Date" <> xRec."Start Date" then begin
-                        Clear("Overtime Claim Type");
-                        Clear("End Date");
+                    if type = type::Overtime then begin
+                        EmployeeAttendance.Reset;
+                        EmployeeAttendance.SetRange("Employee No.", "Employee No.");
+                        EmployeeAttendance.SetRange("Attendance Date", "Start Date");
+                        if EmployeeAttendance.FindFirst() then begin
+                            if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
+                                Error('No punch in or punch out found.');
+                            end
+                            else begin
+                                Validate("Check In Time", EmployeeAttendance."Check In Time");
+                                Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                                Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
+                                Validate("Day Type", EmployeeAttendance."Day Type");
+                            end;
+                        end else
+                            Error('No Attendance Found on %1', rec."Start Date");
+                        if "Start Date" <> xRec."Start Date" then begin
+                            Clear("Overtime Claim Type");
+                            Clear("End Date");
+                        end;
                     end;
                 end;
             end;
@@ -184,7 +179,7 @@ table 50141 OverTime
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            Editable = false;
+            // Editable = false;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
@@ -510,6 +505,11 @@ table 50141 OverTime
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeOTAmountCalculate(Var Overtime: Record OverTime; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeOTDateValidation(Var Overtime: Record OverTime; var IsHandled: Boolean)
     begin
     end;
 
