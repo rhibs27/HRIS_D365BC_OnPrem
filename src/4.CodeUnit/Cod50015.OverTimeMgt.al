@@ -413,7 +413,8 @@ codeunit 50015 "OverTime Mgt"
                                     OvertimeLine.Validate("Overtime Date", CurrentDate);
                                     OvertimeLine.Validate("Check In Time", EmployeeAttendance."Check In Time");
                                     OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
-                                    OvertimeLine.Validate("Day Type", EmployeeAttendance."Day Type");
+                                    OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                                    OvertimeLine.Validate("OverNight Shift", EmployeeAttendance."OverNight Shift");
                                     OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Open);
                                     GetLineNo(OvertimeLine);
                                     OvertimeLine.Insert();

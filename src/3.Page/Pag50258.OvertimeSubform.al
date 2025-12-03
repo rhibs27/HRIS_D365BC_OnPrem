@@ -66,6 +66,13 @@ page 50258 "Overtime Subform"
                     Caption = 'OT Amount';
                     ApplicationArea = All;
                 }
+                field(overnightShift; Rec."OverNight Shift")
+                {
+                    ToolTip = 'Specifies the value of the OverNight Shift field.', Comment = '%';
+                    Caption = 'OverNight Shift';
+                    ApplicationArea = All;
+                }
+
                 field(remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';

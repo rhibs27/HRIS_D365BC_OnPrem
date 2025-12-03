@@ -155,10 +155,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceMissed.Get(AttendanceMissCode);
         Employee.Get(AttendanceMissed."Employee No.");
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then begin
-            if (Employee."No." = Employee."Employee Attendance ID") or (Employee."Employee Attendance ID" = '') then
-                MachineEmpNo := Employee."No."
-            else
-                MachineEmpNo := Employee."Employee Attendance ID";
+            MachineEmpNo := ReturnEmpMachineCode(Employee."No.");
             if AttendanceMissed."Check In Time" <> 0T then
                 if not CheckAttendanceLogs(MachineEmpNo, AttendanceMissed."Start Date", AttendanceMissed."Check In Time") then begin//Check Already exits logs
                     AttendanceLog.Init();
@@ -240,5 +237,14 @@ codeunit 50016 "AttendanceMiss Mgt"
         EmpDateTime := MachineEmpNo + Format(AttendanceDate, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(LogTime, 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
         FindRecord := AttendanceLogs.Get(EmpDateTime);
         exit(FindRecord);
+    end;
+
+    procedure ReturnEmpMachineCode(EmpCode: Code[20]): Code[20]
+    begin
+        Employee.Get(EmpCode);
+        if (Employee."No." = Employee."Employee Attendance ID") or (Employee."Employee Attendance ID" = '') then
+            exit(Employee."No.")
+        else
+            exit(Employee."Employee Attendance ID");
     end;
 }

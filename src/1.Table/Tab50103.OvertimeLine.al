@@ -162,6 +162,10 @@ table 50103 "Overtime Line"
         {
             Editable = false;
         }
+        field(28; "OverNight Shift"; Boolean)
+        {
+            Editable = false;
+        }
 
     }
     keys

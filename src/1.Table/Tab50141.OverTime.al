@@ -109,6 +109,7 @@ table 50141 OverTime
                                 Validate("Check Out Time", EmployeeAttendance."Check Out Time");
                                 Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
                                 Validate("Day Type", EmployeeAttendance."Day Type");
+                                Validate("Overnight Shift", EmployeeAttendance."OverNight Shift");
                             end;
                         end else
                             Error('No Attendance Found on %1', rec."Start Date");
@@ -313,6 +314,9 @@ table 50141 OverTime
         // {
         // }
         field(106; "Time Duration"; Duration) { }
+        field(50; "Overnight Shift"; Boolean)
+        {
+        }
         field(51; "Estimated Hours"; Decimal)
         {
         }
@@ -540,8 +544,7 @@ table 50141 OverTime
         overtime1.SetRange(Type, overtime1.Type::"Overtime Bulk");
         OverTime1.SetRange("Fiscal Year", "Fiscal Year");
         OverTime1.SetRange("Deputation Type", "Deputation Type");
-        if "Deputation Type" = "Deputation Type"::Branch then
-            OverTime1.SetRange("Deputation Code", "Deputation Code");
+        OverTime1.SetRange("Deputation Code", "Deputation Code");
         OverTime1.SetFilter("Approval Status", '<>%1&<>%2', OverTime1."Approval Status"::Rejected, overtime1."Approval Status"::Canceled);
         if OverTime1.Findset then
             repeat
