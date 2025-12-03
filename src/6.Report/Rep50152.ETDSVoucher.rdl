@@ -24,85 +24,6 @@
       <rd:DataSourceID>18d757c3-73b1-4016-a1fd-02cbdfc3f46b</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="NepaliMonth">
-          <DataField>NepaliMonth</DataField>
-        </Field>
-        <Field Name="NepaliYear">
-          <DataField>NepaliYear</DataField>
-        </Field>
-        <Field Name="Posting_Date">
-          <DataField>Posting_Date</DataField>
-        </Field>
-        <Field Name="Narration">
-          <DataField>Narration</DataField>
-        </Field>
-        <Field Name="CompanyName">
-          <DataField>CompanyName</DataField>
-        </Field>
-        <Field Name="CompanyAddress">
-          <DataField>CompanyAddress</DataField>
-        </Field>
-        <Field Name="CompanyPicture">
-          <DataField>CompanyPicture</DataField>
-        </Field>
-        <Field Name="Document_No_">
-          <DataField>Document_No_</DataField>
-        </Field>
-        <Field Name="SST">
-          <DataField>SST</DataField>
-        </Field>
-        <Field Name="SSTFormat">
-          <DataField>SSTFormat</DataField>
-        </Field>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="EmployeeName">
-          <DataField>EmployeeName</DataField>
-        </Field>
-        <Field Name="PanNo">
-          <DataField>PanNo</DataField>
-        </Field>
-        <Field Name="SST_Base_Amount">
-          <DataField>SST_Base_Amount</DataField>
-        </Field>
-        <Field Name="SST_Base_AmountFormat">
-          <DataField>SST_Base_AmountFormat</DataField>
-        </Field>
-        <Field Name="Document_No_2">
-          <DataField>Document_No_2</DataField>
-        </Field>
-        <Field Name="RIT">
-          <DataField>RIT</DataField>
-        </Field>
-        <Field Name="RITFormat">
-          <DataField>RITFormat</DataField>
-        </Field>
-        <Field Name="EmployeeNo2">
-          <DataField>EmployeeNo2</DataField>
-        </Field>
-        <Field Name="EmployeeName2">
-          <DataField>EmployeeName2</DataField>
-        </Field>
-        <Field Name="PanNo2">
-          <DataField>PanNo2</DataField>
-        </Field>
-        <Field Name="RIT_Base_Amount">
-          <DataField>RIT_Base_Amount</DataField>
-        </Field>
-        <Field Name="RIT_Base_AmountFormat">
-          <DataField>RIT_Base_AmountFormat</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -1735,12 +1656,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -1778,4 +1693,83 @@ End Function
 </Code>
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="NepaliMonth">
+          <DataField>NepaliMonth</DataField>
+        </Field>
+        <Field Name="NepaliYear">
+          <DataField>NepaliYear</DataField>
+        </Field>
+        <Field Name="Posting_Date">
+          <DataField>Posting_Date</DataField>
+        </Field>
+        <Field Name="Narration">
+          <DataField>Narration</DataField>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+        </Field>
+        <Field Name="CompanyPicture">
+          <DataField>CompanyPicture</DataField>
+        </Field>
+        <Field Name="Document_No_">
+          <DataField>Document_No_</DataField>
+        </Field>
+        <Field Name="SST">
+          <DataField>SST</DataField>
+        </Field>
+        <Field Name="SSTFormat">
+          <DataField>SSTFormat</DataField>
+        </Field>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+        </Field>
+        <Field Name="PanNo">
+          <DataField>PanNo</DataField>
+        </Field>
+        <Field Name="SST_Base_Amount">
+          <DataField>SST_Base_Amount</DataField>
+        </Field>
+        <Field Name="SST_Base_AmountFormat">
+          <DataField>SST_Base_AmountFormat</DataField>
+        </Field>
+        <Field Name="Document_No_2">
+          <DataField>Document_No_2</DataField>
+        </Field>
+        <Field Name="RIT">
+          <DataField>RIT</DataField>
+        </Field>
+        <Field Name="RITFormat">
+          <DataField>RITFormat</DataField>
+        </Field>
+        <Field Name="EmployeeNo2">
+          <DataField>EmployeeNo2</DataField>
+        </Field>
+        <Field Name="EmployeeName2">
+          <DataField>EmployeeName2</DataField>
+        </Field>
+        <Field Name="PanNo2">
+          <DataField>PanNo2</DataField>
+        </Field>
+        <Field Name="RIT_Base_Amount">
+          <DataField>RIT_Base_Amount</DataField>
+        </Field>
+        <Field Name="RIT_Base_AmountFormat">
+          <DataField>RIT_Base_AmountFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

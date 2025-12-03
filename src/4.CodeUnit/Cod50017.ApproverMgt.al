@@ -359,6 +359,7 @@ codeunit 50017 "Approver Mgt"
         RFContribution: Record "RF Contribution";
         AttributeAdj: Record "Attribute Adjustment Header";
         SkipRecRefModifyOnReject: Boolean;
+        IsExit: Boolean;
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -490,11 +491,13 @@ codeunit 50017 "Approver Mgt"
                             Error('Rejected Status not Found On Status Master Setup');
                     end;
 
-                    OnRejectDocumentOnBeforeRecRefModify(RecRef, Approved, SkipRecRefModifyOnReject);
-                    if not SkipRecRefModifyOnReject then
+                    OnRejectDocumentOnBeforeRecRefModify(RecRef, Approved, SkipRecRefModifyOnReject, IsExit);
+                    if not SkipRecRefModifyOnReject then begin
                         RecRef.Modify();
-
-                    ApprovalHRMS.Modify();
+                        ApprovalHRMS.Modify();
+                    end;
+                    if IsExit then
+                        exit;
                 until ApprovalHRMS.Next() = 0;
                 // Modify the record dynamically
             end;
@@ -1653,7 +1656,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean)
+    local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean; var IsExit: Boolean)
     begin
     end;
 
