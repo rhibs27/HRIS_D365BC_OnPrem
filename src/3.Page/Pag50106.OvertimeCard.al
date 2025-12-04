@@ -51,6 +51,12 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Employee Work Shift field.';
                     ApplicationArea = All;
                 }
+                field("Day Type"; Rec."Day Type")
+                {
+                    Caption = 'Day Type';
+                    ToolTip = 'Specifies the value of the Day Type field.';
+                    ApplicationArea = All;
+                }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';

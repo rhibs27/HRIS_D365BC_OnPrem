@@ -24,6 +24,12 @@ page 50258 "Overtime Subform"
                     Caption = 'Employee Work Shift';
                     ApplicationArea = All;
                 }
+                field(dayType; Rec."Day Type")
+                {
+                    ToolTip = 'Specifies the value of the Day Type field.', Comment = '%';
+                    Caption = 'Day Type';
+                    ApplicationArea = All;
+                }
                 field(overtimeDate; Rec."Overtime Date")
                 {
                     ToolTip = 'Specifies the value of the Overtime Date field.', Comment = '%';
@@ -60,6 +66,13 @@ page 50258 "Overtime Subform"
                     Caption = 'OT Amount';
                     ApplicationArea = All;
                 }
+                field(overnightShift; Rec."OverNight Shift")
+                {
+                    ToolTip = 'Specifies the value of the OverNight Shift field.', Comment = '%';
+                    Caption = 'OverNight Shift';
+                    ApplicationArea = All;
+                }
+
                 field(remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
