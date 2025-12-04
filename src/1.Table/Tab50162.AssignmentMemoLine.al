@@ -376,6 +376,11 @@ table 50162 "Assignment Memo Line"
             exit;
         if PAssignMemo."Line No." = 0 then
             exit;
+        if PAssignMemo."ATM Site" <> PAssignMemo."ATM Site"::" " then   // for atm andvault key allow multiple entries
+            exit;
+        if PAssignMemo.Panel <> PAssignMemo.Panel::" " then
+            exit;
+
         AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
         AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
