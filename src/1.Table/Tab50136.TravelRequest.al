@@ -51,6 +51,7 @@ table 50136 "Travel Request"
                     Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
+                    Validate("Functional Title Desc", EmpVar."Functional Title Desc");
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
@@ -674,6 +675,10 @@ table 50136 "Travel Request"
         field(95; "Lodging Per Day Limit"; Decimal)
         {
             Editable = false;
+        }
+        field(96; "Functional Title Desc"; Text[20])
+        {
+            DataClassification = ToBeClassified;
         }
         field(100; Status; Text[20])
         {

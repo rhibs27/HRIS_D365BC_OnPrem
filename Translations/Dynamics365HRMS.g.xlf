@@ -20658,6 +20658,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Functional Title - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 621202891 - Field 2696944170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Desc</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Functional Title Desc - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 621202891 - Field 3647694100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Lodging Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
