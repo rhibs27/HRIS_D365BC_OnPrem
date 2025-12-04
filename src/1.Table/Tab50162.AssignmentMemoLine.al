@@ -50,12 +50,7 @@ table 50162 "Assignment Memo Line"
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
 
-                //calculate the amout for requested allowance line
-                if "To Date" <> 0D then
-                    if "Emp Act Type" = "Emp Act Type"::"Request Allowance" then begin
-                        if ("Payroll Attribute Code" <> '') and ("Employee No." <> '') then
-                            CalculateAmountForLine();
-                    end;
+                CheckDuplicateAssignmentMemoLine(Rec);
             end;
         }
         field(8; "To Date"; Date)
@@ -68,6 +63,14 @@ table 50162 "Assignment Memo Line"
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
 
+                CheckDuplicateAssignmentMemoLine(Rec);
+
+                //calculate the amout for requested allowance line
+                if "To Date" <> 0D then
+                    if "Emp Act Type" = "Emp Act Type"::"Request Allowance" then begin
+                        if ("Payroll Attribute Code" <> '') and ("Employee No." <> '') then
+                            CalculateAmountForLine();
+                    end;
             end;
         }
         field(9; "Payroll Attribute Code"; Code[20])
@@ -237,6 +240,9 @@ table 50162 "Assignment Memo Line"
 
         if "Line No." = 0 then
             GetLineNo();
+
+
+        CheckDuplicateAssignmentMemoLine(Rec);
     end;
 
     var
@@ -353,6 +359,14 @@ table 50162 "Assignment Memo Line"
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
     begin
+        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then
+            exit;
+        if PAssignMemo."Employee No." = '' then
+            exit;
+        if PAssignMemo."Payroll Attribute Code" = '' then
+            exit;
+        if PAssignMemo."Line No." = 0 then
+            exit;
         AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
         AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");

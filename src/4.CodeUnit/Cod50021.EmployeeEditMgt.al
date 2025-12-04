@@ -531,7 +531,7 @@ codeunit 50021 "Employee Edit Mgt."
             // Get file extension from Attachment field
             FileExtension := GetMediaFileExtension(EmployeeEdit.Attachment.MediaId(), FileName);
             if FileName = '.' + FileExtension then
-                FileName := Format(EmployeeEdit."Changes In Employee Type") + '-Attachment-' + EmployeeEdit."Employee No.";
+                FileName := Format(EmployeeEdit."Changes In Employee Type") + '-Attachment-' + EmployeeEdit."Employee No." + '.' + FileExtension;
             TempBlob.CreateOutStream(OutStr);
             EmployeeEdit.Attachment.ExportStream(OutStr);
             Employee.Get(EmployeeEdit."Employee No.");
