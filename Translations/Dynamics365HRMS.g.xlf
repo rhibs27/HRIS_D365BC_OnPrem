@@ -11303,6 +11303,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field District Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 2202210442 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fax No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Fax No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 1782750502 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>InsideOutside Valley</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11582,6 +11587,11 @@
           <source>OT Eligible Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field OT Eligible Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 2460758998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overnight Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Overnight Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overtime Claim Type</source>
@@ -11967,6 +11977,11 @@
           <source>OT Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Overtime Line - Field OT Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2531192895 - Field 95901174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverNight Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Overtime Line - Field OverNight Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2531192895 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overtime Claim Type</source>
@@ -36953,6 +36968,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control District Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 2202210442 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fax No Field</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Fax No - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 1782750502 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the InsideOutside Valley field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -37442,6 +37462,16 @@
           <source>OT Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control oTAmount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 3964023102 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the OverNight Shift field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control overnightShift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 3964023102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverNight Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control overnightShift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2397156723 - Control 1841097529 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Overtime Date field.</source>
