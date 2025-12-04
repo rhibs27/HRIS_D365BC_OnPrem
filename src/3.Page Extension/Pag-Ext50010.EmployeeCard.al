@@ -1747,7 +1747,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category5;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Request Vehicle Loan action.';
-
                     trigger OnAction()
                     begin
                         CLEAR(LoanMgt);
@@ -1876,7 +1875,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 action("Promotion History")
                 {
                     ApplicationArea = All;
-                    RunObject = Page "Promotion History";
+                    RunObject = Page "Promotion List";
                     RunPageLink = "Employee No." = FIELD("No.");
                     Promoted = true;
                     PromotedIsBig = true;
@@ -1884,10 +1883,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category6;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Promotion History action.';
-                    trigger OnAction()
-                    begin
-
-                    end;
                 }
                 action("Service History")
                 {
@@ -1898,7 +1893,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category6;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Service History action.';
-
                     trigger OnAction()
                     begin
                         ServiceHistory.Reset();

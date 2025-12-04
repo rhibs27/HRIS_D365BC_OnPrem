@@ -1609,7 +1609,7 @@ table 50027 "Payroll Line"
         LeaveEarn: Record "Leave Earn";
         UsedDays: Decimal;
         EngNep: Record "English-Nepali Date";
-        PromotionHistory: Record "Promotion History";
+        PromotionHistory: Record "Promotion";
         PayrollLine: Record "Payroll Line";
         EmployeeAdj: Record "Employee Payroll Adjustment";
         SettlementRecovery: Decimal;
@@ -2320,19 +2320,19 @@ table 50027 "Payroll Line"
                     FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
                     Evaluate(AttributeAmount, Format(FieldRefs.Value));
                     CurrentAttributeAmt := AttributeAmount;
-                    if PromotionHistory."Promoted Date" <> 0D then begin
-                        AttributeAmount := AttributeAmount / "Total Days" * (PayCyclePeriod."End Date" - PromotionHistory."Promoted Date" + 1);
+                    if PromotionHistory."Promotion Date" <> 0D then begin
+                        AttributeAmount := AttributeAmount / "Total Days" * (PayCyclePeriod."End Date" - PromotionHistory."Promotion Date" + 1);
                         RecRefs.Reset;
                         FieldRefs := RecRefs.Field(1);
                         FieldRefs.SetRange(PromotionHistory."Previous Salary Grade");
                         FieldRefs := RecRefs.Field(2);
-                        FieldRefs.SetRange(PromotionHistory."Previous Salary Level Code");
+                        FieldRefs.SetRange(PromotionHistory."Previous Salary Level");
                         RecRefs.FindFirst;
                         FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
                         Evaluate(PriorPromotionAmt, Format(FieldRefs.Value));
                         PrevAttributeAmt := GetAmountAfterAbsentismPromotionPrevious(PriorPromotionAmt);
                         CurrentAttributeAmtAbsent := GetAmountAfterAbsentismCurrent(CurrentAttributeAmt, PriorPromotionAmt);
-                        PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
+                        PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promotion Date" - PayCyclePeriod."Start Date");
                         AttributeAmount := AttributeAmount + PriorPromotionAmt + PrevAttributeAmt - CurrentAttributeAmtAbsent;
                     end;
                     RoundAmount(AttributeAmount);
@@ -2690,7 +2690,7 @@ table 50027 "Payroll Line"
         Clear(PromotionHistory);
         PromotionHistory.Reset;
         PromotionHistory.SetRange("Employee No.", "Employee No.");
-        PromotionHistory.SetRange("Promoted Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+        PromotionHistory.SetRange("Promotion Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
         if PromotionHistory.FindFirst then begin
             PromotionFound := true;
             //Absent Days for LWP before and after promotion
@@ -2698,7 +2698,7 @@ table 50027 "Payroll Line"
             EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
             EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
             EmployeeAttendActivity.SetRange("Present Day", 0);
-            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PromotionHistory."Promoted Date" - 1);
+            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PromotionHistory."Promotion Date" - 1);
             EmployeeAttendActivity.CalcSums("Absent Day");
             rec."Absent Days Before Promotion" := EmployeeAttendActivity."Absent Day";
 
@@ -2709,7 +2709,7 @@ table 50027 "Payroll Line"
             //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
             //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
             EmployeeAttendActivity.SetRange("Attendance Date");
-            EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
+            EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promotion Date", PayCyclePeriod."Pay Date" - 1);
             EmployeeAttendActivity.CalcSums("Absent Day");
             Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
             // EmployeeAttendActivity.SetRange("Attendance Date");

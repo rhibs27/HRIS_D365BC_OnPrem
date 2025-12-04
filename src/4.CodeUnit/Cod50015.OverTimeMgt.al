@@ -170,42 +170,16 @@ codeunit 50015 "OverTime Mgt"
         EmployeeWorkShift, RejectionRemarks : Text;
         ShiftLine: Record "Shift Line";
     begin
-        ShiftLine.Reset();
-        ShiftLine.SetRange("Employee No", OverTime."Employee No.");
-        ShiftLine.SetRange("Roster Date", OverTime."Start Date");
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-        if ShiftLine.FindFirst() then
-            EmployeeWorkShift := ShiftLine."Employee Work Shift"
-        else begin
-            Employee.Get(OverTime."Employee No.");
-            EmployeeWorkShift := Employee."Employee Work Shift"
-        end;
-        Workshift.Reset;
+        EmployeeWorkShift := ShiftMgt.ReturnEmployeeWorkShift(OverTime."Employee No.", OverTime."Start Date");
+        WorkShift.Reset;
         if not WorkShift.get(EmployeeWorkShift) then
             Error('Work shift not Found in Employee WorkShift');
-        Workshift.TestField("Start Time");
-        Workshift.TestField("End Time");
-        Workshift.TestField("Friday End Time");
-        Workshift.TestField("Winter Start Date");
-        Workshift.TestField("Winter End Date");
-        Workshift.TestField("Winter End Time");
+        ShiftMgt.CheckWorkShiftFields(WorkShift);
         StartTime := 0T;
         EndTime := 0T;
         StandardWorkingHrs := 0;
         StartTime := WorkShift."Start Time";
-
-        if HRMgt.IsWinter(OverTime."Start Date", Workshift) then begin
-            if HRMgt.IsFriday(OverTime."Start Date") then
-                EndTime := WorkShift."Friday End Time"
-            else
-                EndTime := WorkShift."Winter End Time";
-        end else begin
-            if HRMgt.IsFriday(OverTime."Start Date") then
-                EndTime := WorkShift."Friday End Time"
-            else
-                EndTime := WorkShift."End Time";
-        end;
-
+        EndTime := ShiftMgt.ReturnShiftEndTime(OverTime."Start Date", WorkShift);
         StandardWorkingHrs := (EndTime - StartTime) / 3600000;
         if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
             OverTime."Total OT Hours" := ActualOTHrs;
@@ -331,49 +305,28 @@ codeunit 50015 "OverTime Mgt"
         OvertimeLine.SetRange("No.", OvertimeNo);
         if OvertimeLine.FindSet() then
             repeat
-                ShiftLine.Reset();
-                ShiftLine.SetRange("Employee No", OverTime."Employee No.");
-                ShiftLine.SetRange("Roster Date", OverTime."Start Date");
-                ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-                if ShiftLine.FindFirst() then
-                    EmployeeWorkShift := ShiftLine."Employee Work Shift"
-                else begin
-                    Employee.Get(OverTime."Employee No.");
-                    EmployeeWorkShift := Employee."Employee Work Shift"
-                end;
-                Workshift.Reset;
+                HRSetup.Get;
+                HRSetup.TestField("OT eligible hour");
+                EmployeeWorkShift := ShiftMgt.ReturnEmployeeWorkShift(OvertimeLine."Employee Code", OvertimeLine."Overtime Date");
+                OvertimeLine."Employee Work Shift" := EmployeeWorkShift;
+                WorkShift.Reset;
                 if not WorkShift.get(EmployeeWorkShift) then
                     Error('Work shift not Found in Employee WorkShift');
-                Workshift.TestField("Start Time");
-                Workshift.TestField("End Time");
-                Workshift.TestField("Friday End Time");
-                Workshift.TestField("Winter Start Date");
-                Workshift.TestField("Winter End Date");
-                Workshift.TestField("Winter End Time");
+
+                ShiftMgt.CheckWorkShiftFields(WorkShift);
+
                 StartTime := 0T;
                 EndTime := 0T;
                 StandardWorkingHrs := 0;
-                StartTime := WorkShift."Start Time";
-                if HRMgt.IsWinter(OvertimeLine."Overtime Date", Workshift) then begin
-                    if HRMgt.IsFriday(OvertimeLine."Overtime Date") then
-                        EndTime := WorkShift."Friday End Time"
-                    else
-                        EndTime := WorkShift."Winter End Time";
-                end else begin
-                    if HRMgt.IsFriday(OvertimeLine."Overtime Date") then
-                        EndTime := WorkShift."Friday End Time"
-                    else
-                        EndTime := WorkShift."End Time";
-                end;
-                StandardWorkingHrs := (EndTime - StartTime) / 3600000;
-
-                HRSetup.Get;
-                HRSetup.TestField("OT eligible hour");
                 MorningOTHrs := 0;
                 EveningOTHrs := 0;
                 TotalOTHrs := 0;
                 CheckInDifference := 0;
-                OnBeforeCheckOTHrs(OvertimeLine, StartTime, EndTime, IsHandled);
+
+                StartTime := WorkShift."Start Time";
+                EndTime := ShiftMgt.ReturnShiftEndTime(OvertimeLine."Overtime Date", WorkShift);
+                StandardWorkingHrs := (EndTime - StartTime) / 3600000;
+                OnBeforeCheckOTHrs(OvertimeLine, EmployeeWorkShift, StartTime, EndTime, IsHandled);
                 if not IsHandled then
                     if LeaveMgt.GetNonWorkingDays(OvertimeLine."Overtime Date", OvertimeLine."Overtime Date", OvertimeLine."Employee Code") = 0 then begin
                         if (OvertimeLine."Check In Time" <= StartTime) then
@@ -395,11 +348,11 @@ codeunit 50015 "OverTime Mgt"
                         OvertimeLine."Evening OT Hours" := EveningOTHrs;
                         OvertimeLine."Total OT Hours" := MorningOTHrs + EveningOTHrs;
                         OvertimeLine."Actual OT hours" := OvertimeLine."Total OT Hours";
-                        OverTimeMgt.OTAmountCalculate(OvertimeLine."Employee Code", OvertimeLine."Overtime Date", '', OvertimeLine."Actual OT hours");
+                        OvertimeLine."OT Amount" := OverTimeMgt.OTAmountCalculate(OvertimeLine."Employee Code", OvertimeLine."Overtime Date", '', OvertimeLine."Actual OT hours");
                     end else begin
                         OvertimeLine."Total OT Hours" := Round((OvertimeLine."Check Out Time" - OvertimeLine."Check In Time") / 3600000, 0.01, '<');
                         OvertimeLine."Actual OT hours" := OvertimeLine."Total OT Hours";
-                        OverTimeMgt.OTAmountCalculate(OvertimeLine."Employee Code", OvertimeLine."Overtime Date", '', OvertimeLine."Actual OT hours");
+                        OvertimeLine."OT Amount" := OverTimeMgt.OTAmountCalculate(OvertimeLine."Employee Code", OvertimeLine."Overtime Date", '', OvertimeLine."Actual OT hours");
                     end;
                 OvertimeLine.Modify();
                 if OvertimeLine."Total OT Hours" <= 0 then begin
@@ -415,61 +368,66 @@ codeunit 50015 "OverTime Mgt"
         OvertimeLine, OvertimeLineCheck : Record "Overtime Line";
         EmployeeAttendance: Record "Employee Attendance & Activity";
         CurrentDate: Date;
+        Ishandled: Boolean;
     begin
-        OvertimeLineCheck.Reset;
-        OvertimeLineCheck.SetRange("No.", OverTime."No.");
-        OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
-        OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record      
-        Employee.Reset();
-        if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
-            Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
-        else begin
-            Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
-        end;
-        Employee.SetRange("Deputation On code", OverTime."Deputation Code");
-        Employee.SetRange("Staff level", Employee."Staff level"::"Non Clerical Staff");
-        if Employee.FindSet() then
-            repeat
-                // Loop through each date in the range
-                CurrentDate := OverTime."Start Date";
-                while CurrentDate <= OverTime."End Date" do begin
-                    // Check if overtime line already exists for this specific employee and date
-                    OvertimeLineCheck.Reset;
-                    OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
-                    OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
-                    OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
-                    if not OvertimeLineCheck.FindFirst() then begin
-                        // Check if employee attendance exists for this date
-                        EmployeeAttendance.Reset;
-                        EmployeeAttendance.SetRange("Employee No.", Employee."No.");
-                        EmployeeAttendance.SetRange("Attendance Date", CurrentDate);
-                        if EmployeeAttendance.FindFirst() then begin
-                            if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check Out Time" <> 0T) then begin
-                                OvertimeLine.Init();
-                                OverTimeLine.Validate("No.", OverTime."No.");
-                                OvertimeLine.Validate("Employee Code", Employee."No.");
-                                OvertimeLine.Validate("Employee Name", Employee.FullName);
-                                OvertimeLine.Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
-                                OvertimeLine.Validate("Deputation Type", OverTime."Deputation Type");
-                                OvertimeLine.Validate(Code, OverTime."Deputation Code");
-                                OvertimeLine.Validate(Name, OverTime."Deputation Name");
-                                OvertimeLine.Validate(Type, OverTime.Type);
-                                OvertimeLine.Validate("Overtime Date", CurrentDate);
-                                OvertimeLine.Validate("Check In Time", EmployeeAttendance."Check In Time");
-                                OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
-                                OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Open);
-                                GetLineNo(OvertimeLine);
-                                OvertimeLine.Insert();
+        OnBeforeGetEmployeeFilter(OverTime, Ishandled);
+        If not Ishandled then begin
+            OvertimeLineCheck.Reset;
+            OvertimeLineCheck.SetRange("No.", OverTime."No.");
+            OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
+            OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record    
+            Employee.Reset();
+            if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
+                Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
+            else begin
+                Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
+            end;
+            Employee.SetRange("Deputation On code", OverTime."Deputation Code");
+            Employee.SetRange("Staff level", Employee."Staff level"::"Non Clerical Staff");
+            if Employee.FindSet() then
+                repeat
+                    // Loop through each date in the range
+                    CurrentDate := OverTime."Start Date";
+                    while CurrentDate <= OverTime."End Date" do begin
+                        // Check if overtime line already exists for this specific employee and date
+                        OvertimeLineCheck.Reset;
+                        OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
+                        OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
+                        OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
+                        if not OvertimeLineCheck.FindFirst() then begin
+                            // Check if employee attendance exists for this date
+                            EmployeeAttendance.Reset;
+                            EmployeeAttendance.SetRange("Employee No.", Employee."No.");
+                            EmployeeAttendance.SetRange("Attendance Date", CurrentDate);
+                            if EmployeeAttendance.FindFirst() then begin
+                                if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check Out Time" <> 0T) then begin
+                                    OvertimeLine.Init();
+                                    OverTimeLine.Validate("No.", OverTime."No.");
+                                    OvertimeLine.Validate("Employee Code", Employee."No.");
+                                    OvertimeLine.Validate("Employee Name", Employee.FullName);
+                                    OvertimeLine.Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
+                                    OvertimeLine.Validate("Deputation Type", OverTime."Deputation Type");
+                                    OvertimeLine.Validate(Code, OverTime."Deputation Code");
+                                    OvertimeLine.Validate(Name, OverTime."Deputation Name");
+                                    OvertimeLine.Validate(Type, OverTime.Type);
+                                    OvertimeLine.Validate("Overtime Date", CurrentDate);
+                                    OvertimeLine.Validate("Check In Time", EmployeeAttendance."Check In Time");
+                                    OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                                    OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                                    OvertimeLine.Validate("OverNight Shift", EmployeeAttendance."OverNight Shift");
+                                    OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Open);
+                                    GetLineNo(OvertimeLine);
+                                    OvertimeLine.Insert();
+                                end;
                             end;
                         end;
+                        CurrentDate := CurrentDate + 1;
                     end;
-                    CurrentDate := CurrentDate + 1;
-                end;
-            until Employee.Next() = 0;
-        OverTime."Get Employee" := true;
-        OverTime."Calculate Overtime" := false; // Reset Calculate Overtime flag
-        OverTime.Modify();
-
+                until Employee.Next() = 0;
+            OverTime."Get Employee" := true;
+            OverTime."Calculate Overtime" := false; // Reset Calculate Overtime flag
+            OverTime.Modify();
+        end;
     end;
 
     procedure GetLineNo(var OvertimeLine: Record "Overtime Line")
@@ -616,7 +574,12 @@ codeunit 50015 "OverTime Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnBeforeCheckOTHrs(var OvertimeLine: Record "Overtime Line"; StartTime: Time; EndTime: Time; var IsHandled: Boolean)
+    procedure OnBeforeCheckOTHrs(var OvertimeLine: Record "Overtime Line"; EmployeeWorkShift: Code[20]; StartTime: Time; EndTime: Time; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGetEmployeeFilter(var Overtime: Record OverTime; var Ishandled: Boolean)
     begin
     end;
 
@@ -630,4 +593,5 @@ codeunit 50015 "OverTime Mgt"
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         LeaveEarn: Record "Leave Earn";
         EmployeeActMgt: Codeunit EmployeeActivityMgt;
+        ShiftMgt: Codeunit "Shift Assignment Mgt";
 }

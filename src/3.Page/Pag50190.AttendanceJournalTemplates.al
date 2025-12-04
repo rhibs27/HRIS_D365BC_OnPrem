@@ -1,7 +1,5 @@
 page 50190 "Attendance Journal Templates"
 {
-    // version AMS6.1.0
-
     PageType = List;
     SourceTable = "Employee Service History";
     ApplicationArea = All;
