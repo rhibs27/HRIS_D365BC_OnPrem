@@ -157,20 +157,60 @@ codeunit 50025 "Shift Assignment Mgt"
 
     procedure ValidateEmployeeOnDate(var LineRec: Record "Shift Line")
     var
-        Shiftline: Record "Shift Line";
+        ShiftLine: Record "Shift Line";
     begin
-
-        Shiftline.SetRange(Type, LineRec.Type::"Shift Assignment");
-        Shiftline.SetRange("No.", LineRec."No.");
-        Shiftline.SetRange("Employee No", LineRec."Employee No");
-        Shiftline.SetRange("Roster Date", LineRec."Roster Date");
-        Shiftline.SetFilter("Line No", '<>%1', LineRec."Line No");
-
-        if Shiftline.FindFirst() then
+        ShiftLine.SetRange(Type, LineRec.Type::"Shift Assignment");
+        ShiftLine.SetRange("No.", LineRec."No.");
+        ShiftLine.SetRange("Employee No", LineRec."Employee No");
+        ShiftLine.SetRange("Roster Date", LineRec."Roster Date");
+        ShiftLine.SetFilter("Line No", '<>%1', LineRec."Line No");
+        if ShiftLine.FindFirst() then
             Error('Employee %1 is already scheduled on %1 at Line No. %2', LineRec."Employee Name", LineRec."Roster Date", Shiftline."Line No");
+    end;
+
+    procedure ReturnEmployeeWorkShift(EmployeeNo: Code[20]; ShiftDate: Date): Code[20];
+    var
+        ShiftLine: Record "Shift Line";
+    begin
+        ShiftLine.Reset();
+        ShiftLine.SetRange("Employee No", EmployeeNo);
+        ShiftLine.SetRange("Roster Date", ShiftDate);
+        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+        if ShiftLine.FindFirst() then
+            exit(ShiftLine."Employee Work Shift")
+        else begin
+            Employee.Get(EmployeeNo);
+            exit(Employee."Employee Work Shift");
+        end;
+    end;
+
+    procedure CheckWorkShiftFields(EmployeeWorkShift: Record "Employee Work Shift");
+    begin
+        EmployeeWorkShift.TestField("Start Time");
+        EmployeeWorkShift.TestField("End Time");
+        EmployeeWorkShift.TestField("Friday End Time");
+        EmployeeWorkShift.TestField("Winter Start Date");
+        EmployeeWorkShift.TestField("Winter End Date");
+        EmployeeWorkShift.TestField("Winter End Time");
+    end;
+
+    procedure ReturnShiftEndTime(ShiftDate: date; var WorkShift: Record "Employee Work Shift"): Time
+    begin
+        if HRMgt.IsWinter(ShiftDate, WorkShift) then begin
+            if HRMgt.IsFriday(ShiftDate) then
+                exit(WorkShift."Friday End Time")
+            else
+                exit(WorkShift."Winter End Time");
+        end else begin
+            if HRMgt.IsFriday(ShiftDate) then
+                exit(WorkShift."Friday End Time")
+            else
+                exit(WorkShift."End Time");
+        end;
     end;
 
     var
         Employee: Record Employee;
+        HRMgt: Codeunit "HR Mgt.";
 
 }

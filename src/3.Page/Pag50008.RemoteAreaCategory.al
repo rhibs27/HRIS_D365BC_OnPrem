@@ -1,7 +1,5 @@
 page 50008 "Remote Area Category"
 {
-    // version KPI1.00
-
     PageType = List;
     SourceTable = "Remote Area Category";
     UsageCategory = Lists;
