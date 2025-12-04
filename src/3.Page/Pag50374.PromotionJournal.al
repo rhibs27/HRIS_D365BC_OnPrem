@@ -1,10 +1,10 @@
-page 50227 "Leave Journal"
+page 50374 "Promotion Journal"
 {
     ApplicationArea = All;
-    Caption = 'Leave Journal';
+    Caption = 'Promotion Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
-    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Leave Request"));
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::Promotion));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout
@@ -21,46 +21,31 @@ page 50227 "Leave Journal"
                 field("Employee Name"; Rec."Employee Name")
                 {
                 }
-                field("Leave Code"; Rec."Leave Code")
+                field("Promotion Date"; Rec."Promotion Date")
                 {
-                    ToolTip = 'Specifies the value of the Leave Code field.';
-                    ApplicationArea = All;
                     Editable = IsOpen;
                 }
-                field("Leave Description"; Rec."Leave Description")
+                field("Functional Title (To)"; Rec."Functional Title (To)")
                 {
-                    ToolTip = 'Specifies the value of the Leave Description field.';
-                    ApplicationArea = All;
-                }
-                field("Leave Type"; Rec."Leave Type")
-                {
-                    ToolTip = 'Specifies the value of the Leave Type field.';
-                    ApplicationArea = All;
                     Editable = IsOpen;
                 }
-                field("Adjustment Type"; Rec."Adjustment Type")
+                field("Promoted Salary level"; Rec."Promoted Salary level")
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Adjustment Type field';
+                    Editable = IsOpen;
                 }
-                field("Start Date"; Rec."Start Date")
+                field("Promoted Salary Grade"; Rec."Promoted Salary Grade")
                 {
-                    ToolTip = 'Specifies the value of the Start Date field.';
-                    ApplicationArea = All;
-                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen;
+                    Editable = IsOpen;
                 }
-                field("End Date"; Rec."End Date")
+                field("Promoted Staff Level"; Rec."Promoted Staff Level")
                 {
-                    ToolTip = 'Specifies the value of the End Date field.';
-                    ApplicationArea = All;
-                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen;
+                    Editable = IsOpen;
                 }
-                field("No. of Days"; Rec."No. of Days")
+                field("Approver Role (TO)"; Rec."Approver Role (TO)")
                 {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
-                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
+                    Editable = IsOpen;
                 }
+
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -105,7 +90,7 @@ page 50227 "Leave Journal"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Send for Approval request?', false) then
-                        EmpActMgt.SendForApproval(Rec."Emp Act. No", rec."Employee Act Type"::"Leave Request");
+                        EmpActMgt.SendForApproval(Rec."Emp Act. No", rec."Employee Act Type"::Promotion);
                 end;
             }
             action("Approve")
@@ -132,7 +117,7 @@ page 50227 "Leave Journal"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Post Leave?', false) then begin
-                        EmpActMgt.PostLeaveJournal(rec."Emp Act. No");
+                        EmpActMgt.PostPromotionJournal(rec."Emp Act. No");
                         CurrPage.Close();
                     end;
                 end;
@@ -158,22 +143,9 @@ page 50227 "Leave Journal"
                 Image = ImportExcel;
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
+                    if not Confirm('Do you want Import Promotion Journal From Excel?', false) then
                         exit;
-                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Leave Request");
-                end;
-            }
-            action("Export Format for Excel")
-            {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Image = Export;
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
-                        exit;
-                    ExcelImportMgt.ExportLeaveSheet(Rec);
+                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::Promotion);
                 end;
             }
         }
@@ -181,7 +153,7 @@ page 50227 "Leave Journal"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::Open;
-        Rec."Employee Act Type" := Rec."Employee Act Type"::"Leave Request";
+        Rec."Employee Act Type" := Rec."Employee Act Type"::Promotion;
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
         CurrPage.Update(false);

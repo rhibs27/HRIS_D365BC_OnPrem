@@ -424,6 +424,18 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
         }
+
+        // Promotion
+        field(150; "Promoted Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
+        field(151; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(152; "Promoted Staff Level"; Enum "Staff Type") { }
+        field(153; "Promotion Date"; Date) { }
     }
     keys
     {

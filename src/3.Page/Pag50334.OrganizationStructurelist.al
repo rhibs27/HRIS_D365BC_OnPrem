@@ -60,6 +60,18 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Municipality field.', Comment = '%';
                 }
+                field("Telephone No"; Rec."Telephone No")
+                {
+                    ToolTip = 'Specifies the value of the Telephone No Field', Comment = '%';
+                }
+                field("Address"; Rec.Address)
+                {
+                    ToolTip = 'Specifies the value of the Address Field', Comment = '%';
+                }
+                field("Fax No"; Rec."Fax No")
+                {
+                    ToolTip = 'Specifies the value of the Fax No Field', Comment = '%';
+                }
                 field("Remote Area Category"; Rec."Remote Area Category")
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';

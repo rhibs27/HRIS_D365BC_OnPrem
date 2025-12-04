@@ -2371,7 +2371,7 @@ codeunit 50008 "Payroll Engine"
         PriorRemoteAll: Decimal;
         RemoteAll: Decimal;
         EmployeeTranfer: Record "Employee Transfer";
-        PromotionHistory: Record "Promotion History";
+        PromotionHistory: Record "Promotion";
         ServiceHistory: Record "Employee Service History";
         InitialDate: Date;
         BranchCode: Code[20];
@@ -2394,7 +2394,7 @@ codeunit 50008 "Payroll Engine"
         LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level");
         PayrollHeader.Get(PayrollLineVar."Document No.");
 
-        if PriorLevelwise.Get(PromotionHistory."Previous Salary Grade", PromotionHistory."Previous Salary Level Code") then;
+        if PriorLevelwise.Get(PromotionHistory."Previous Salary Grade", PromotionHistory."Previous Salary Level") then;
         case PayAttributeCode of
 
             PGSetup."Relocation Allowance":
@@ -2576,13 +2576,13 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Comm. Reimbursement":
                 begin
-                    if PromotionHistory."Promoted Date" = 0D then
+                    if PromotionHistory."Promotion Date" = 0D then
                         Amount := LevelWiseAttributes."Communication Reim. Allowence"
                     else begin
-                        Amount := LevelWiseAttributes."Communication Reim. Allowence" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - PromotionHistory."Promoted Date" + 1);
+                        Amount := LevelWiseAttributes."Communication Reim. Allowence" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - PromotionHistory."Promotion Date" + 1);
                         Clear(LevelWiseAttributes);
-                        if LevelWiseAttributes.Get(PromotionHistory."Previous Salary Grade", PromotionHistory."Previous Salary Level Code") then
-                            PriorAmount := LevelWiseAttributes."Communication Reim. Allowence" / PayrollLineVar."Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
+                        if LevelWiseAttributes.Get(PromotionHistory."Previous Salary Grade", PromotionHistory."Previous Salary Level") then
+                            PriorAmount := LevelWiseAttributes."Communication Reim. Allowence" / PayrollLineVar."Total Days" * (PromotionHistory."Promotion Date" - PayCyclePeriod."Start Date");
                     end;
                     if (PriorAmount + Amount) = 0 then begin
                         if FuntionalTitle.Get(Employee."Functional Title") then
@@ -2717,9 +2717,9 @@ codeunit 50008 "Payroll Engine"
             PGSetup."Staff Vehicle Allowance":
                 begin
                     if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
-                        if PromotionHistory."Promoted Date" <> 0D then
-                            exit((LevelWiseAttributes."Staff Vehicle Allowance" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - PromotionHistory."Promoted Date")) +
-                                  (PriorLevelwise."Staff Vehicle Allowance" / PayrollLineVar."Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date")));
+                        if PromotionHistory."Promotion Date" <> 0D then
+                            exit((LevelWiseAttributes."Staff Vehicle Allowance" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - PromotionHistory."Promotion Date")) +
+                                  (PriorLevelwise."Staff Vehicle Allowance" / PayrollLineVar."Total Days" * (PromotionHistory."Promotion Date" - PayCyclePeriod."Start Date")));
                         exit(LevelWiseAttributes."Staff Vehicle Allowance");//oman
                     end;
                 end;

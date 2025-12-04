@@ -288,6 +288,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Salary Level Description");
                     Clear("Staff level");
                 end;
+                Validate("Job Title", "Salary Level");
             end;
         }
         field(50015; "Salary Grade"; Code[20])

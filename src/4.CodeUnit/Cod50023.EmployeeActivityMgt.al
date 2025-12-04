@@ -26,6 +26,10 @@ codeunit 50023 EmployeeActivityMgt
                         begin
                             ConfirmAttendanceJournalDetails(EmpActJnl1);
                         end;
+                    DocumentType::Promotion:
+                        begin
+                            CheckPromotionDetails(EmpActJnl1);
+                        end;
                 end;
                 EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
                 EmpActJnl1.Modify();
@@ -389,7 +393,6 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJournal.SetRange("Start Date", AttendanceDate);
         if EmpActJournal.FindFirst then
             Error('Attendance Already Applied for date %1 of %2', AttendanceDate, EmpNo);
-
     end;
 
     procedure InsertTransferLetterAttachment(var EmployeeActivityJournal: Record "Employee Activity Journal"; var EmployeeTransfer: Record "Employee Transfer")
@@ -464,6 +467,59 @@ codeunit 50023 EmployeeActivityMgt
                 IncDocument.Modify();
             end;
         end;
+    end;
+
+    procedure CheckPromotionDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    begin
+        EmployeeACTJnl.TestField("Employee No.");
+        EmployeeACTJnl.TestField("Promotion Date");
+        EmployeeACTJnl.TestField("Functional Title (To)");
+        EmployeeACTJnl.TestField("Promoted Salary level");
+        EmployeeACTJnl.TestField("Promoted Salary Grade");
+        EmployeeACTJnl.TestField("Approver Role (TO)");
+        EmployeeACTJnl.TestField("Promoted Staff Level");
+    end;
+
+    procedure PostPromotionJournal(EmpActNo: Code[20])
+    var
+        Promotion: Record Promotion;
+        PostedPromotionJournal: Record "Posted Employee Journal";
+        PromotionEmployeeJournal: Record "Employee Activity Journal";
+        PromotionMgt: Codeunit "Promotion Mgt";
+        ServiceEvent: Enum "Service Event";
+        ServiceHistoryCode: Code[20];
+    begin
+        PromotionEmployeeJournal.Reset();
+        PromotionEmployeeJournal.SetRange("Emp Act. No", EmpActNo);
+        if PromotionEmployeeJournal.FindSet() then
+            repeat
+                Promotion.Init();
+                Promotion.Validate("No.", '');
+                Promotion.Validate("Employee No.", PromotionEmployeeJournal."Employee No.");
+                Promotion.Validate("Promoted Functional Title", PromotionEmployeeJournal."Functional Title (To)");
+                Promotion.Validate("Promoted Approver Role", PromotionEmployeeJournal."Approver Role (TO)");
+                Promotion.Validate("Promoted Salary level", PromotionEmployeeJournal."Promoted Salary level");
+                Promotion.Validate("Promoted Salary Grade", PromotionEmployeeJournal."Promoted Salary Grade");
+                Promotion.Validate("Promoted Staff Level", PromotionEmployeeJournal."Promoted Staff Level");
+                Promotion.Validate("Promotion Date", PostedPromotionJournal."Promotion Date");
+                Promotion.Validate("Approval Status", PromotionEmployeeJournal."Approval Status"::Approved);
+                Promotion.Validate("Approved Date", Today);
+                Promotion.Validate(Type, PromotionEmployeeJournal.Type::Promotion);
+                Promotion.Insert(true);
+                PostedPromotionJournal.Init();
+                PostedPromotionJournal.TransferFields(PromotionEmployeeJournal);
+                PromotionEmployeeJournal.Delete();
+                PostedPromotionJournal.Validate(Posted, true);
+                PostedPromotionJournal.Validate("Document No", Promotion."No.");
+                PostedPromotionJournal.Insert(true);
+                OnAfterPromotionJournalPost(PromotionEmployeeJournal, PostedPromotionJournal, Promotion);
+                ServiceHistoryCode := ServiceHistory.AddToServiceHistory(Promotion."No.", ServiceEvent::Promotion, '', PostedPromotionJournal."Promotion Date");
+                if PostedPromotionJournal."Promotion Date" <= Today then
+                    PromotionMgt.UpdateInEmployeeProfile(ServiceHistoryCode);
+            until PromotionEmployeeJournal.next() = 0
+        else
+            Error('There is no Document to post');
+        Message('Employee Promotion is posted')
     end;
 
     procedure PostLoanInBulk(EmpActNo: Code[20])
@@ -575,9 +631,16 @@ codeunit 50023 EmployeeActivityMgt
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnAfterPromotionJournalPost(var PromotionEmployeeJournal: Record "Employee Activity Journal"; var PostedPromotionJournal: Record "Posted Employee Journal"; Var Promotion: Record Promotion)
+    begin
+        //For any control or modify after Promotion is posted
+    end;
+
     var
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistory: Codeunit "Service History Mgt";
 
 }

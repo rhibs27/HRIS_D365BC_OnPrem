@@ -191,8 +191,8 @@ codeunit 50001 "HR Mgt."
     procedure UpdatePromotion(EmpNo: Code[20])
     var
         PromotionPageBuilder: FilterPageBuilder;
-        PromotionHistory: Record "Promotion History";
-        PromoHis: Record "Promotion History";
+        PromotionHistory: Record "Promotion";
+        PromoHis: Record "Promotion";
         LineNo: Integer;
         PromotedDate: Date;
         ServiceHistory: Record "Employee Service History";
@@ -201,32 +201,25 @@ codeunit 50001 "HR Mgt."
     begin
         Employee.Get(EmpNo);
         PromotionPageBuilder.AddRecord('Promote Employee', PromotionHistory);
-        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Salary Level Code");
+        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Salary Level");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Salary Grade");
-        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Date");
+        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promotion Date");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Functional Title");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory.Remarks);
         if PromotionPageBuilder.RunModal then begin
             PromotionHistory.SetView(PromotionPageBuilder.GetView('Promote Employee'));
-            PromoHis.Reset;
-            PromoHis.SetRange("Employee No.", EmpNo);
-            if PromoHis.FindLast then
-                LineNo := PromoHis."Line No." + 10000
-            else
-                LineNo := 10000;
-            Evaluate(PromotedDate, PromotionHistory.GetFilter("Promoted Date"));
+            Evaluate(PromotedDate, PromotionHistory.GetFilter("Promotion Date"));
             Clear(PromoHis);
             PromoHis.Init;
             PromoHis.Validate("Employee No.", EmpNo);
-            PromoHis.Validate("Promoted Date", PromotedDate);
-            PromoHis.Validate("Promoted Salary Level Code", PromotionHistory.GetFilter("Promoted Salary Level Code"));
+            PromoHis.Validate("Promotion Date", PromotedDate);
+            PromoHis.Validate("Promoted Salary Level", PromotionHistory.GetFilter("Promoted Salary Level"));
             PromoHis.Validate("Promoted Salary Grade", PromotionHistory.GetFilter("Promoted Salary Grade"));
             PromoHis.Validate("Promoted Functional Title", PromotionHistory.GetFilter("Promoted Functional Title"));
             PromoHis.Validate(Remarks, PromotionHistory.GetFilter(Remarks));
-            PromoHis.Validate("Line No.", LineNo);
             PromoHis.Insert(true);
             ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpNo, ServiceHistory."Service Event"::"Internal Appointment", 'Promoted', PromotedDate);
-            Employee.Validate("Salary Level", PromotionHistory.GetFilter("Promoted Salary Level Code"));
+            Employee.Validate("Salary Level", PromotionHistory.GetFilter("Promoted Salary Level"));
             Employee.Validate("Salary Grade", PromotionHistory.GetFilter("Promoted Salary Grade"));
             Employee.Validate("Functional Title", PromotionHistory.GetFilter("Promoted Functional Title"));
             Employee.Validate("Promotion Date", PromotedDate);
