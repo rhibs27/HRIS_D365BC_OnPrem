@@ -1338,6 +1338,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Attendance Checked - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 401110193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bill Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Bill Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3745161256 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bill No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Bill No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 887550446 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed as Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44947,6 +44957,16 @@
           <source>Specifies the value of the ATM Site field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control ATM Site - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 401110193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bill Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Bill Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 3745161256 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bill No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Bill No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3106374893 - Control 887550446 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Claimed as Leave field.</source>

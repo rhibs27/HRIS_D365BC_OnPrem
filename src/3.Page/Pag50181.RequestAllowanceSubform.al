@@ -62,6 +62,14 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Claimed as Leave field.', Comment = '%';
                 }
+                field("Bill Date"; Rec."Bill Date")
+                {
+                    ToolTip = 'Specifies the value of the Bill Date field.', Comment = '%';
+                }
+                field("Bill No."; Rec."Bill No.")
+                {
+                    ToolTip = 'Specifies the value of the Bill No. field.', Comment = '%';
+                }
 
                 field("Approval Status"; Rec."Approval Status")
                 {

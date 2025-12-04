@@ -211,6 +211,15 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Claimed as Leave';
         }
+        //Reimbursement fields
+        field(300; "Bill Date"; Date)
+        {
+            Caption = 'Bill Date';
+        }
+        field(301; "Bill No."; Text[50])
+        {
+            Caption = 'Bill No.';
+        }
     }
 
     keys

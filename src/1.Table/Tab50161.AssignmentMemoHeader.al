@@ -1,5 +1,7 @@
 table 50161 "Assignment Memo Header"
 {
+    //pay cycle based allowance assignment memo
+    //doesnot support multiple pay cycle terms periods
     Caption = 'Assignment Memo Header';
     DataClassification = ToBeClassified;
 
@@ -51,6 +53,8 @@ table 50161 "Assignment Memo Header"
 
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
+
+                ValidateDatesAreWithinMonth("From Date", "To date");
             end;
         }
         field(4; "To date"; Date)
@@ -62,6 +66,8 @@ table 50161 "Assignment Memo Header"
                     if "From Date" > "To date" then
                         Error('Invalid date.');
                 end;
+                //check if dates are within the months
+                ValidateDatesAreWithinMonth("From Date", "To date");
             end;
         }
 
@@ -317,5 +323,21 @@ table 50161 "Assignment Memo Header"
             IncDocAttachment.Validate("Employee Code", EmployeeNo);
         IncDocAttachment.Validate("Employee Activity Type", EmpActType);
         IncDocAttachment.Insert(true);
+    end;
+
+    procedure ValidateDatesAreWithinMonth(fromDate: Date; toDate: Date)
+    var
+        PayCycleperiod: Record "Pay Cycle Period";
+    begin
+        if (fromDate = 0D) or (toDate = 0D) then
+            exit;
+        PayCycleperiod.SetFilter("Start Date", '<=%1', fromDate);
+        PayCycleperiod.SetFilter("End Date", '>=%1', toDate);
+        if not PayCycleperiod.FindFirst then
+            Error('From Date and To Date must be within the same Pay Cycle Period. Also ensure that paycycle period is created for the period');
+
+        "Pay Cycle Code" := PayCycleperiod."Pay Cycle Code";
+        "Pay Cycle Term" := PayCycleperiod."Pay Cycle Term";
+        "Pay Cycle Period" := PayCycleperiod.Period;
     end;
 }
