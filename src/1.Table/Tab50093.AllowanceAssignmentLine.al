@@ -78,7 +78,7 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("Employee Code", "Allowance Type", "From Date", "Emp Act Type");
+                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date", "Emp Act Type");
                 AllowanceMgt.CheckMutuallyExclusive(Rec);
                 AllowanceMgt.CheckDate(Rec);
                 AllowanceMgt.CheckMaximumEmployeeInBranch(Rec);

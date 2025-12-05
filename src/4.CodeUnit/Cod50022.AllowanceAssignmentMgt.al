@@ -51,7 +51,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                     AllowanceLineCheck.TestField("From Date");
                     AllowanceLineCheck.TestField("Allowance Type");
                     // AllowanceLineCheck.TestField("To Date");
-                    CheckEmployeeAlreadyExistsForSameEmployee(AllowanceLineCheck."Employee Code", AllowanceLineCheck."Allowance Type", AllowanceLineCheck."From Date", AllowanceLineCheck."Emp Act Type");
+                    CheckEmployeeAlreadyExistsForSameEmployee(AllowanceLineCheck."No.", AllowanceLineCheck."Line No.", AllowanceLineCheck."Employee Code", AllowanceLineCheck."Allowance Type", AllowanceLineCheck."From Date", AllowanceLineCheck."Emp Act Type");
                     CheckMutuallyExclusive(AllowanceLineCheck);
                     CheckDate(AllowanceLineCheck);
                     CheckMaximumEmployeeInBranch(AllowanceLineCheck);
@@ -193,11 +193,13 @@ codeunit 50022 "Allowance Assignment Mgt"
             Error('Employee not eligbile for this allowance type.');
     end;
 
-    procedure CheckEmployeeAlreadyExistsForSameEmployee(EmpNo: Code[20]; AllowanceType: Code[20]; FromDate: Date; EmpActType: Enum "Employee Activity Type")
+    procedure CheckEmployeeAlreadyExistsForSameEmployee(No: Code[20]; LineNo: Integer; EmpNo: Code[20]; AllowanceType: Code[20]; FromDate: Date; EmpActType: Enum "Employee Activity Type")
     var
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
     begin
         AllowanceAssignmentLine.Reset;
+        AllowanceAssignmentLine.Setfilter("No.", '<>%1', No);
+        AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
         AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
         AllowanceAssignmentLine.SetRange("Emp Act Type", EmpActType);
         AllowanceAssignmentLine.SetRange("Allowance Type", AllowanceType);
