@@ -3683,6 +3683,27 @@ codeunit 50008 "Payroll Engine"
             Error('Payroll Attribute for Overtime not found');
     end;
 
+    procedure InitSalaryDeductionEntries(EmployeeNo: Code[20];
+                                        DeductionDate: Date;
+                                        Type: Enum "Attribute Deduction Type";
+                                        PayCycleCode: Code[20];
+                                        PayCycleTerm: Code[20];
+                                        PayCyclePeriod: Integer)
+    var
+        AttribDeductionEntry: Record "Attribute Deduction Entry";
+    begin
+        AttribDeductionEntry.Init();
+        AttribDeductionEntry."Employee No." := EmployeeNo;
+        AttribDeductionEntry."Deduction Date" := DeductionDate;
+        AttribDeductionEntry."Deduction Type" := Type;
+        AttribDeductionEntry."Pay Cycle Code" := PayCycleCode;
+        AttribDeductionEntry."Pay Cycle Term" := PayCycleTerm;
+        AttribDeductionEntry."Pay Cycle Period" := PayCyclePeriod;
+        AttribDeductionEntry.Count := 1;
+        AttribDeductionEntry.Insert(true);
+    end;
+
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeInsertEmployeePayrollAdjustment(var EmployeePayrollAdjustment: Record "Employee Payroll Adjustment")
     begin

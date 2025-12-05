@@ -343,6 +343,7 @@ table 50042 "Attendance Header"
         EmpAttenActivity: array[2] of Record "Employee Attendance & Activity";
         AttendanceSummary: Record "Attendance Summary";
         DeductionType: Enum "Attribute Deduction Type";
+        PayrollEngine: Codeunit "Payroll Engine";
     begin
         AttendanceSummary.Reset();
         AttendanceSummary.SetRange("Document No.", AttenHeader."No.");
@@ -354,12 +355,12 @@ table 50042 "Attendance Header"
                 EmpAttenActivity[0].SetRange("Absent Day", 1);
                 if EmpAttenActivity[0].FindSet() then
                     repeat
-                        InitSalaryDeductionEntries(EmpAttenActivity[0]."Employee No.",
-                                                    EmpAttenActivity[0]."Attendance Date",
-                                                    DeductionType::Absent,
-                                                    AttenHeader."Pay Cycle Code",
-                                                    AttenHeader."Pay Cycle Term",
-                                                    AttenHeader."Pay Cycle Period");
+                        PayrollEngine.InitSalaryDeductionEntries(EmpAttenActivity[0]."Employee No.",
+                                                                EmpAttenActivity[0]."Attendance Date",
+                                                                DeductionType::Absent,
+                                                                AttenHeader."Pay Cycle Code",
+                                                                AttenHeader."Pay Cycle Term",
+                                                                AttenHeader."Pay Cycle Period");
                     until EmpAttenActivity[0].Next() = 0;
 
                 EmpAttenActivity[1].Reset();
@@ -369,34 +370,14 @@ table 50042 "Attendance Header"
                 EmpAttenActivity[1].SetRange("Pay Type", EmpAttenActivity[1]."Pay Type"::Unpaid);
                 if EmpAttenActivity[1].FindSet() then
                     repeat
-                        InitSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
-                                                    EmpAttenActivity[1]."Attendance Date",
-                                                    DeductionType::LWP,
-                                                    AttenHeader."Pay Cycle Code",
-                                                    AttenHeader."Pay Cycle Term",
-                                                    AttenHeader."Pay Cycle Period");
+                        PayrollEngine.InitSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
+                                                                EmpAttenActivity[1]."Attendance Date",
+                                                                DeductionType::LWP,
+                                                                AttenHeader."Pay Cycle Code",
+                                                                AttenHeader."Pay Cycle Term",
+                                                                AttenHeader."Pay Cycle Period");
                     until EmpAttenActivity[1].Next() = 0;
             until AttendanceSummary.Next = 0;
-    end;
-
-    procedure InitSalaryDeductionEntries(EmployeeNo: Code[20];
-                                        DeductionDate: Date;
-                                        Type: Enum "Attribute Deduction Type";
-                                        PayCycleCode: Code[20];
-                                        PayCycleTerm: Code[20];
-                                        PayCyclePeriod: Integer)
-    var
-        AttribDeductionEntry: Record "Attribute Deduction Entry";
-    begin
-        AttribDeductionEntry.Init();
-        AttribDeductionEntry."Employee No." := EmployeeNo;
-        AttribDeductionEntry."Deduction Date" := DeductionDate;
-        AttribDeductionEntry."Deduction Type" := Type;
-        AttribDeductionEntry."Pay Cycle Code" := PayCycleCode;
-        AttribDeductionEntry."Pay Cycle Term" := PayCycleTerm;
-        AttribDeductionEntry."Pay Cycle Period" := PayCyclePeriod;
-        AttribDeductionEntry.Count := 1;
-        AttribDeductionEntry.Insert(true);
     end;
 
     local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: enum "Approval Status")
