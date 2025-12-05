@@ -33,11 +33,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Branch Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2264809808 - Field 257067854 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Change Approver Remarks</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Change Approver Remarks - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -223,16 +218,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Last Modified Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 3726133055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Document No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Document No - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -263,25 +248,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Payroll Doc No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 922203080 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recurring Completed</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Recurring Completed - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Rejection Remarks - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 1532841482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screened By</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Screened By - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 1895218171 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screened Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Screened Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - Field 1713785062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Substitute of Line No.</source>
@@ -11303,6 +11273,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field District Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 2202210442 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fax No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Fax No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 1782750502 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>InsideOutside Valley</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11582,6 +11557,11 @@
           <source>OT Eligible Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field OT Eligible Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 2460758998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overnight Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Overnight Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overtime Claim Type</source>
@@ -11967,6 +11947,11 @@
           <source>OT Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Overtime Line - Field OT Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2531192895 - Field 95901174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverNight Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Overtime Line - Field OverNight Shift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2531192895 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Overtime Claim Type</source>
@@ -21318,6 +21303,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Vacancy Line - Field Vacancy No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Codeunit 16707583 - Method 1807768225 - NamedType 377269713" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Allowance Assignment Mgt - Method CheckMaximumEmployeeInBranch - NamedType TEXT002</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1293262007 - NamedType 2958218723" size-unit="char" translate="yes" xml:space="preserve">
           <source> : </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22462,11 +22452,6 @@
           <source>Specifies the value of the Approved Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Approved Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3157096233 - Control 257067854 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Change Approver Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Change Approver Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3157096233 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
@@ -36953,6 +36938,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control District Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 2202210442 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fax No Field</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Fax No - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 1782750502 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the InsideOutside Valley field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -37442,6 +37432,16 @@
           <source>OT Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control oTAmount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 3964023102 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the OverNight Shift field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control overnightShift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 3964023102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverNight Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control overnightShift - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2397156723 - Control 1841097529 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Overtime Date field.</source>
