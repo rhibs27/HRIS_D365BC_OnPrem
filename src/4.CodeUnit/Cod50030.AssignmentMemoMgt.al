@@ -43,7 +43,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         if not AssignmentMemoHdr.Get(docNo) then
-            Error('Assignment Memo %1 not found.', docNo);
+            Error('Assignment %1 not found.', docNo);
 
         if not IsApproved then begin
             if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then  //substitute approval pending
@@ -236,7 +236,7 @@ codeunit 50030 "Assignment Memo Mgt"
 
         //check if substitute dates are within the original assignment memo line dates
         if not ((FromDate >= AssignmentMemoLine."From Date") and (ToDate <= AssignmentMemoLine."To Date")) then
-            Error('Substitute dates must be within the original assignment memo line dates.');
+            Error('Substitute dates must be within the original assignment line dates.');
 
         //check conflicting substitute assignment
         CheckConflictingSubstituteAssignment(docNo, lineNo, fromDate, toDate);
@@ -294,7 +294,7 @@ codeunit 50030 "Assignment Memo Mgt"
                         if not DateList.Contains(Daterec."Period Start") then
                             DateList.Add(Daterec."Period Start")
                         else
-                            Error('Conflicting Substitute Assignment Memo exists for the selected date range %1 to %2.', fromDate, toDate);
+                            Error('Conflicting substitute assignment exists for the selected date range %1 to %2.', fromDate, toDate);
                     until Daterec.Next() = 0;
 
             until AssignmentMemoLine.Next() = 0;
@@ -523,88 +523,88 @@ codeunit 50030 "Assignment Memo Mgt"
         if IncomingDoc.Insert(true) then;
     end;
 
-    procedure AllowanceRequestOnbeforeSendForApproval(DocNo: Code[20])
-    var
-        AssignmentMemoHdr: Record "Assignment Memo Header";
-        AssignmentMemoLine: Record "Assignment Memo Line";
-        PayrollAttribute: Record "Payroll Attributes";
-        AllowanceConfig: Record "Allowance Configuration";
-    begin
-        AssignmentMemoHdr.Get(DocNo);
+    // procedure AllowanceRequestOnbeforeSendForApproval(DocNo: Code[20])  //moved to extension
+    // var
+    //     AssignmentMemoHdr: Record "Assignment Memo Header";
+    //     AssignmentMemoLine: Record "Assignment Memo Line";
+    //     PayrollAttribute: Record "Payroll Attributes";
+    //     AllowanceConfig: Record "Allowance Configuration";
+    // begin
+    //     AssignmentMemoHdr.Get(DocNo);
 
-        if AssignmentMemoHdr."Activity Type" <> AssignmentMemoHdr."Activity Type"::"Request Allowance" then
-            exit;
+    //     if AssignmentMemoHdr."Activity Type" <> AssignmentMemoHdr."Activity Type"::"Request Allowance" then
+    //         exit;
 
-        AssignmentMemoLine.SetRange("Document No.", DocNo);
-        if AssignmentMemoLine.FindSet() then
-            repeat
-                AssignmentMemoLine.TestField("Approval Status", AssignmentMemoLine."Approval Status"::Open);
-                PayrollAttribute.Get(AssignmentMemoLine."Payroll Attribute Code");
-                case PayrollAttribute."Specific Attributes" of
-                    PayrollAttribute."Specific Attributes"::"OutStation Allowance":
-                        AssignmentMemoLine.TestField("Distance (KM)");
-                    PayrollAttribute."Specific Attributes"::"Education Allowance":
-                        begin
-                            AssignmentMemoLine.TestField("Name of Children");
-                            AssignmentMemoLine.TestField("School Name");
-                            AssignmentMemoLine.TestField("Grade/Class");
-                        end;
-                end;
-                AllowanceConfig.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
-                if AllowanceConfig.FindFirst then begin
-                    if AllowanceConfig.Source in [AllowanceConfig.Source::Shift, AllowanceConfig.Source::Assignment] then
-                        if not CheckIfEmployeeIsPresentForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date") then
-                            Error('Attendance not found for %1 on %2', AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date");
+    //     AssignmentMemoLine.SetRange("Document No.", DocNo);
+    //     if AssignmentMemoLine.FindSet() then
+    //         repeat
+    //             AssignmentMemoLine.TestField("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+    //             PayrollAttribute.Get(AssignmentMemoLine."Payroll Attribute Code");
+    //             case PayrollAttribute."Specific Attributes" of
+    //                 PayrollAttribute."Specific Attributes"::"OutStation Allowance":
+    //                     AssignmentMemoLine.TestField("Distance (KM)");
+    //                 PayrollAttribute."Specific Attributes"::"Education Allowance":
+    //                     begin
+    //                         AssignmentMemoLine.TestField("Name of Children");
+    //                         AssignmentMemoLine.TestField("School Name");
+    //                         AssignmentMemoLine.TestField("Grade/Class");
+    //                     end;
+    //             end;
+    //             AllowanceConfig.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
+    //             if AllowanceConfig.FindFirst then begin
+    //                 if AllowanceConfig.Source in [AllowanceConfig.Source::Shift, AllowanceConfig.Source::Assignment] then
+    //                     if not CheckIfEmployeeIsPresentForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date") then
+    //                         Error('Attendance not found for %1 on %2', AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date");
 
-                    if AllowanceConfig.Source = AllowanceConfig.Source::Leave then
-                        if not CheckIfLeaveExistForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."Document No.", AssignmentMemoLine."Payroll Attribute Code") then
-                            Error('Unclaimed Leave not found for %1', AssignmentMemoLine."Employee No.");
-                end;
+    //                 if AllowanceConfig.Source = AllowanceConfig.Source::Leave then
+    //                     if not CheckIfLeaveExistForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."Document No.", AssignmentMemoLine."Payroll Attribute Code") then
+    //                         Error('Unclaimed leave not found for %1', AssignmentMemoLine."Employee No.");
+    //             end;
 
-            until AssignmentMemoLine.Next() = 0;
-    end;
+    //         until AssignmentMemoLine.Next() = 0;
+    // end;
 
-    procedure CheckIfLeaveExistForAllowance(EmpCode: Code[20]; DocNo: Code[20]; AllowanceType: Code[20]): Boolean
-    var
-        LeaveRec: Record Leave;
-        LeaveTypeSetUp: Record "Leave Type Setup";
-    begin
-        LeaveTypeSetUp.SetRange("Payroll Attribute", AllowanceType);
-        if not LeaveTypeSetUp.FindFirst() then
-            exit(false);
+    // procedure CheckIfLeaveExistForAllowance(EmpCode: Code[20]; DocNo: Code[20]; AllowanceType: Code[20]): Boolean
+    // var
+    //     LeaveRec: Record Leave;
+    //     LeaveTypeSetUp: Record "Leave Type Setup";
+    // begin
+    //     LeaveTypeSetUp.SetRange("Payroll Attribute", AllowanceType);
+    //     if not LeaveTypeSetUp.FindFirst() then
+    //         exit(false);
 
-        LeaveRec.SetRange("Employee No.", EmpCode);
-        LeaveRec.SetRange("Leave code", LeaveTypeSetUp.Code);
-        LeaveRec.SetRange("Approval Status", LeaveRec."Approval Status"::Approved);
-        LeaveRec.SetRange(Claimed, false);
-        if LeaveRec.FindLast() then begin
-            LeaveRec."Claimed Doc No." := '';
-            LeaveRec.Claimed := true;
-            LeaveRec.Modify();
-            exit(true);
-        end;
-    end;
+    //     LeaveRec.SetRange("Employee No.", EmpCode);
+    //     LeaveRec.SetRange("Leave code", LeaveTypeSetUp.Code);
+    //     LeaveRec.SetRange("Approval Status", LeaveRec."Approval Status"::Approved);
+    //     LeaveRec.SetRange(Claimed, false);
+    //     if LeaveRec.FindLast() then begin
+    //         LeaveRec."Claimed Doc No." := '';
+    //         LeaveRec.Claimed := true;
+    //         LeaveRec.Modify();
+    //         exit(true);
+    //     end;
+    // end;
 
-    procedure CheckIfEmployeeIsPresentForAllowance(EmpCode: Code[20]; FromDate: Date; ToDate: Date): Boolean
-    var
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-    begin
-        //do not check for future dates
-        if (FromDate > WorkDate()) and (ToDate > WorkDate()) then
-            exit(true);
-        if (FromDate <= WorkDate()) and (ToDate > WorkDate()) then
-            ToDate := WorkDate();
-        EmployeeAttendanceActivity.SetLoadFields("Employee No.", "Attendance Date");
-        EmployeeAttendanceActivity.SetRange("Employee No.", EmpCode);
-        EmployeeAttendanceActivity.SetRange("Attendance Date", FromDate, ToDate);
-        if EmployeeAttendanceActivity.FindSet() then begin
-            repeat
-                if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then
-                    exit(false);
-            until EmployeeAttendanceActivity.Next() = 0;
-            exit(true);
-        end;
-    end;
+    // procedure CheckIfEmployeeIsPresentForAllowance(EmpCode: Code[20]; FromDate: Date; ToDate: Date): Boolean
+    // var
+    //     EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+    // begin
+    //     //do not check for future dates
+    //     if (FromDate > WorkDate()) and (ToDate > WorkDate()) then
+    //         exit(true);
+    //     if (FromDate <= WorkDate()) and (ToDate > WorkDate()) then
+    //         ToDate := WorkDate();
+    //     EmployeeAttendanceActivity.SetLoadFields("Employee No.", "Attendance Date");
+    //     EmployeeAttendanceActivity.SetRange("Employee No.", EmpCode);
+    //     EmployeeAttendanceActivity.SetRange("Attendance Date", FromDate, ToDate);
+    //     if EmployeeAttendanceActivity.FindSet() then begin
+    //         repeat
+    //             if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then
+    //                 exit(false);
+    //         until EmployeeAttendanceActivity.Next() = 0;
+    //         exit(true);
+    //     end;
+    // end;
 
 
     //shift assignment section

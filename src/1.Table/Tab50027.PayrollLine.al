@@ -2908,7 +2908,7 @@ table 50027 "Payroll Line"
     procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
     begin
         case AllowanceConfiguration.Source of
-            AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+            AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
@@ -2917,7 +2917,7 @@ table 50027 "Payroll Line"
                                             PayrollHeader."To Date",
                                             true));
 
-            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
+            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift, AllowanceConfiguration.Source::Leave:  //monthly (assign and caim)
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
