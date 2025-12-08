@@ -1298,11 +1298,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 4002069225 - NamedType 4034540392" size-unit="char" translate="yes" xml:space="preserve">
-          <source>%1 and %2 cannot be assigned on same date %3.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - NamedType TEXT001</note>
-        </trans-unit>
         <trans-unit id="Table 4002069225 - NamedType 377269713" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
           <note from="Developer" annotates="general" priority="2"></note>

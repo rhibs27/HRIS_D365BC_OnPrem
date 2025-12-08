@@ -2836,6 +2836,7 @@ table 50027 "Payroll Line"
         PayrollAttrUses: Record "Payroll Attributes Usage";
         PayrollAttrUses2: Record "Payroll Attributes Usage";
         AllowanceAmt: Decimal;
+        IsHandled: Boolean;
     begin
         PGSetup.Get();
         GetPayrollHeader();
@@ -2845,29 +2846,33 @@ table 50027 "Payroll Line"
         AllowanceConfiguration.Reset();
         if AllowanceConfiguration.FindSet() then
             repeat
-                AllowanceAmt := 0;
-                AllowanceAmt := GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration,
-                                                                            "Document No.",
-                                                                            "Employee No.");
+                OnBeforeGettingAllowanceAmtFromAllowanceConfiguration(AllowanceConfiguration, Rec, IsHandled);
+                if not IsHandled then begin
+                    AllowanceAmt := 0;
+                    AllowanceAmt := GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration,
+                                                                                "Document No.",
+                                                                                "Employee No.");
 
-                if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
-                    if not MultipleConfigForSameAttribute(AllowanceConfiguration) then
-                        PayrollAttrUses.Amount := AllowanceAmt
-                    else
-                        if AllowanceAmt <> 0 then
-                            PayrollAttrUses.Amount := AllowanceAmt;
-                    if not PayrollAttrUses."Static Amount" then
-                        PayrollAttrUses.Modify();
-                end
-                else begin
-                    if AllowanceAmt <> 0 then begin
-                        Clear(PayrollAttrUses2);
-                        PayrollAttrUses2.Init();
-                        PayrollAttrUses2.Validate(Code, AllowanceConfiguration."Payroll Attribute");
-                        PayrollAttrUses2.Validate("Employee Code", "Employee No.");
-                        PayrollAttrUses2.Validate(Amount, AllowanceAmt);
-                        if PayrollAttrUses2.Insert() then;
+                    if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
+                        if not MultipleConfigForSameAttribute(AllowanceConfiguration) then
+                            PayrollAttrUses.Amount := AllowanceAmt
+                        else
+                            if AllowanceAmt <> 0 then
+                                PayrollAttrUses.Amount := AllowanceAmt;
+                        if not PayrollAttrUses."Static Amount" then
+                            PayrollAttrUses.Modify();
+                    end
+                    else begin
+                        if AllowanceAmt <> 0 then begin
+                            Clear(PayrollAttrUses2);
+                            PayrollAttrUses2.Init();
+                            PayrollAttrUses2.Validate(Code, AllowanceConfiguration."Payroll Attribute");
+                            PayrollAttrUses2.Validate("Employee Code", "Employee No.");
+                            PayrollAttrUses2.Validate(Amount, AllowanceAmt);
+                            if PayrollAttrUses2.Insert() then;
+                        end;
                     end;
+
                 end;
 
             until AllowanceConfiguration.Next() = 0;
@@ -3123,5 +3128,11 @@ table 50027 "Payroll Line"
     local procedure OnBeforeExitofDifferentialAmount(PayrollHeaderRec: Record "Payroll Header"; EndDate: Date; Amount: Decimal; var ExitAmount: Decimal; var IsHandled: Boolean)
     begin
         //Additional Allowance amount if needed to be included
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeGettingAllowanceAmtFromAllowanceConfiguration(AllowanceConfiguration: Record "Allowance Configuration"; PayrollLine: Record "Payroll Line"; var IsHandled: Boolean)
+    begin
+        //conditional step to skip allowance amount fetching from assignment memo ledger
     end;
 }

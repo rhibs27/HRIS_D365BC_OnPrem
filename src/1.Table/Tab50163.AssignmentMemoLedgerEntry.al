@@ -130,7 +130,7 @@ table 50163 "Assignment Memo Ledger Entry"
         key(key2; "Employee No.", "Document No.", "Posting Date", "Employee Activity Type")
         {
         }
-        key(key3; "Payroll Document No.", "Substituted Employee No.", Open)
+        key(key3; "Payroll Document No.", "Substituted Employee No.", Open, "Blocked for Payroll")
         {
         }
     }

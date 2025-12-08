@@ -260,7 +260,6 @@ table 50162 "Assignment Memo Line"
         AssignmentMemoLine: Record "Assignment Memo Line";
         AssignmentMemoLine2: Record "Assignment Memo Line";
         BaseCalenderChange: Record "Base Calendar Change";
-        TEXT001: Label '%1 and %2 cannot be assigned on same date %3.';
         TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PGSetup: Record "Payroll General Setup";
         HrMgt: Codeunit "HR Mgt.";
@@ -317,15 +316,20 @@ table 50162 "Assignment Memo Line"
     procedure CheckandValidateTheDates(DateToCheck: Date)
     var
         AssignmentmemoHdr: Record "Assignment Memo Header";
+        Employee: Record Employee;
     begin
         AssignmentmemoHdr.Get("Document No.");
-        if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
-            exit;
+        // if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+        //     exit;
 
         AssignmentmemoHdr.TestField("From Date");
         AssignmentmemoHdr.TestField("To Date");
         if (DateToCheck < AssignmentmemoHdr."From Date") or (DateToCheck > AssignmentmemoHdr."To Date") then
             Error('Date is not within the valid range.');
+
+        if Employee.Get("Employee No.") then
+            if DateToCheck < Employee."Employment Date" then
+                Error('Date cannot be before employment date %1.', Employee."Employment Date");
     end;
 
     procedure GetNoofDaysInMonth(DateToCheck: Date): Integer
@@ -374,6 +378,8 @@ table 50162 "Assignment Memo Line"
             exit;
         if PAssignMemo."Payroll Attribute Code" = '' then
             exit;
+        if PAssignMemo."Payroll Attribute Code" in ['ATM ALLOWANCE'] then
+            exit; // allow multiple entries for atm and vault key allowance
         if PAssignMemo."Line No." = 0 then
             exit;
         if PAssignMemo."ATM Site" <> PAssignMemo."ATM Site"::" " then   // for atm andvault key allow multiple entries
@@ -382,9 +388,11 @@ table 50162 "Assignment Memo Line"
         AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
         AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
+        AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
+        AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
         AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
         if not AssignmentMemoLine.IsEmpty() then
-            Error(TEXT001, PAssignMemo."Employee No.", PAssignMemo."Payroll Attribute Code", Format(PAssignMemo."From Date"));
+            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee No.", Format(PAssignMemo."From Date"));
 
         OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
     end;

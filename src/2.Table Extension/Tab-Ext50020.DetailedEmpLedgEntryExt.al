@@ -244,8 +244,8 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         if PayrollAttributes."Static GL Ledger" then begin
             PayrollAttributes.TestField("Static GL Ledger Account");
             Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account");
-        end else
-            Validate("Finacle GL No", SolID + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
+        end else if PayrollAttributes."CBS GL Code" <> '' then
+                Validate("Finacle GL No", SolID + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
         Validate("Finacle GL Name", PayrollAttributes."Finacle GL Name");
     end;
 
