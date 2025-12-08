@@ -1,4 +1,4 @@
-table 50032 "Attribute Deduction Entry"
+table 50032 "Salary Deduction Entry"
 {
     Caption = 'Salary Deduction Entry';
     DataClassification = ToBeClassified;
@@ -37,7 +37,7 @@ table 50032 "Attribute Deduction Entry"
         {
             Caption = 'Pay Cycle Period';
         }
-        field(9; "Count"; Integer)
+        field(9; "Amount"; Decimal)
         {
             Caption = 'Count';
         }

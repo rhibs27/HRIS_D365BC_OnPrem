@@ -3690,17 +3690,16 @@ codeunit 50008 "Payroll Engine"
                                         PayCycleTerm: Code[20];
                                         PayCyclePeriod: Integer)
     var
-        AttribDeductionEntry: Record "Attribute Deduction Entry";
+        SalaryDeductEntry: Record "Salary Deduction Entry";
     begin
-        AttribDeductionEntry.Init();
-        AttribDeductionEntry."Employee No." := EmployeeNo;
-        AttribDeductionEntry."Deduction Date" := DeductionDate;
-        AttribDeductionEntry."Deduction Type" := Type;
-        AttribDeductionEntry."Pay Cycle Code" := PayCycleCode;
-        AttribDeductionEntry."Pay Cycle Term" := PayCycleTerm;
-        AttribDeductionEntry."Pay Cycle Period" := PayCyclePeriod;
-        AttribDeductionEntry.Count := 1;
-        AttribDeductionEntry.Insert(true);
+        SalaryDeductEntry.Init();
+        SalaryDeductEntry."Employee No." := EmployeeNo;
+        SalaryDeductEntry."Deduction Date" := DeductionDate;
+        SalaryDeductEntry."Deduction Type" := Type;
+        SalaryDeductEntry."Pay Cycle Code" := PayCycleCode;
+        SalaryDeductEntry."Pay Cycle Term" := PayCycleTerm;
+        SalaryDeductEntry."Pay Cycle Period" := PayCyclePeriod;
+        SalaryDeductEntry.Insert(true);
     end;
 
 
