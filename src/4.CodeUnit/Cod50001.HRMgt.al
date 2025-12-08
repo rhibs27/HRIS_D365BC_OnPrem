@@ -5299,19 +5299,25 @@ codeunit 50001 "HR Mgt."
     procedure getServicePeriodText(var Employee: Record Employee)
     var
         NewEmploymentDate: Date;
+        LastDate: Date;
     begin
         if Employee."Employment Date" <> 0D then begin
             NewEmploymentDate := GetAdjustedEmploymentDate(Employee, Employee."Employment Date", Today);
+
+            LastDate := Employee."Termination Date";
+            if Employee."Resignation Date" <> 0D then
+                LastDate := Employee."Resignation Date";
+
             HRSetup.Get();
             if HRSetup."Calculate Age using Nepali C." then begin
-                if Employee."Termination Date" <> 0D then
-                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Employee."Termination Date"))
+                if LastDate <> 0D then
+                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(LastDate))
                 else
                     Employee."Service Period text" := GetAgeBS(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Today));
             end
             else begin
-                if Employee."Termination Date" <> 0D then
-                    Employee."Service Period text" := GetAge(NewEmploymentDate, Employee."Termination Date")
+                if LastDate <> 0D then
+                    Employee."Service Period text" := GetAge(NewEmploymentDate, LastDate)
                 else
                     Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
             end;
