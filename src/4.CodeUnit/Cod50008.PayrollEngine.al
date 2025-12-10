@@ -3681,6 +3681,12 @@ codeunit 50008 "Payroll Engine"
             exit(PayrollAttributes.Code)
         else
             Error('Payroll Attribute for Overtime not found');
+        OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
+    end;
+
+    procedure ModifyLeaveEarnEmployeeDetails(PostedPayrollHeader: Record "Posted Payroll Header")
+    begin
+        OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
     end;
 
     [IntegrationEvent(false, false)]
@@ -3713,6 +3719,12 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to perform get the dashain allowance for the employee before entering the process
         //You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterReverseChangeGBBLRecord(PostedPayrollHeader: Record "Posted Payroll Header")
+    begin
+
     end;
 
 }

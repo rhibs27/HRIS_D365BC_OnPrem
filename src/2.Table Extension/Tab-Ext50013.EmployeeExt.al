@@ -1564,6 +1564,23 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
         }
         field(50201; "Identity Mark"; text[250]) { }
+        field(50202; "Transfer Date"; Date)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Transfer Date (B.S.)" := EngNepDate.getNepaliDate("Transfer Date");
+            end;
+
+        }
+        field(50203; "Transfer Date (B.S.)"; Code[20])
+        {
+            DataClassification = CustomerContent;
+
+        }
+       
+
+
     }
     keys
     {

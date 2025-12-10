@@ -1138,6 +1138,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         LeavePeriod, LeavePeriod1 : Record "Accounting Period";
         EmpVar, EmpVar2 : Record Employee;
+        EmploymentContract: Record "Employment Contract";
         AttendanceMgt: Codeunit "Attendance Mgt";
         LastEntryNo: Integer;
         AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays, NoOfCreditPeriods : Decimal;
@@ -1148,6 +1149,8 @@ codeunit 50000 "Leave Mgt."
         CurrentQuarter: Enum Quater;
         QuarterStartDate, QuarterEndDate : Date;
         TotalDaysInPeriod, EligibleDays : Integer;
+        ContractRenewDate, ContractExpiryDate : Date;
+        LeavesLapseOnRenew: Boolean;
     begin
         Clear(LastEntryNo);
         Clear(ProRataStartDate);
@@ -1166,15 +1169,54 @@ codeunit 50000 "Leave Mgt."
         if EmpVar.FindSet() then begin
             repeat
                 Clear(SkipLeaveEarn);
+                Clear(LeavesLapseOnRenew);
+                Clear(ContractRenewDate);
+                Clear(ContractExpiryDate);
+
+                // NEW: Check for Contract Renew logic
+                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and
+                   (EmpVar."Emplymt. Contract Code" <> '') then begin
+                    if EmploymentContract.Get(EmpVar."Emplymt. Contract Code") then begin
+                        if EmploymentContract."Leaves Lapse On Contract Renew" then begin
+                            LeavesLapseOnRenew := true;
+                            ContractRenewDate := EmpVar."Contract Renew Date";
+                            ContractExpiryDate := EmpVar."Contract Expiry Date";
+
+                            // Validate contract dates exist
+                            if (ContractRenewDate = 0D) or (ContractExpiryDate = 0D) then
+                                SkipLeaveEarn := true;
+
+                            // Check if PostingDate is within valid range
+                            if not SkipLeaveEarn then begin
+                                if (PostingDate < ContractRenewDate) or (PostingDate > ContractExpiryDate) then
+                                    SkipLeaveEarn := true;
+                            end;
+
+                            // REMOVED: Don't check at employee level
+                            // The check will happen per leave type in the later logic
+                            // This allows proper per-leave-type generation
+
+                            // IMPORTANT: Override LeaveYearStartDate and LeaveYearEndDate ONLY when boolean is true
+                            if not SkipLeaveEarn and LeavesLapseOnRenew then begin
+                                LeaveYearStartDate := ContractRenewDate;
+                                LeaveYearEndDate := ContractExpiryDate;
+                            end;
+                        end;
+                    end;
+                end;
+
                 if not SkipLeaveEarn then begin
+                    // Set period dates based on contract or leave year
                     if EmpVar."Employment Date" < LeaveYearStartDate then
                         CreditPeriodStartDate := LeaveYearStartDate
                     else
                         CreditPeriodStartDate := EmpVar."Employment Date";
+
                     if PostingDate < LeaveYearEndDate then
                         CreditPeriodEndDate := PostingDate
                     else
                         CreditPeriodEndDate := LeaveYearEndDate;
+
                     if (EmpVar."Termination Date" <> 0D) and (EmpVar."Termination Date" < CreditPeriodEndDate) then
                         CreditPeriodEndDate := EmpVar."Termination Date";
                     ServiceYears := CalculateYearsBetweenDates(EmpVar."Employment Date", PostingDate);
@@ -1354,14 +1396,15 @@ codeunit 50000 "Leave Mgt."
                                             end else
                                                 //annual logic
                                                 if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Annual then begin
-                                                    ProRataStartDate := LeavePeriod.GetLeaveYearStartDate(PostingDate);
+                                                    // Use LeaveYearStartDate/EndDate which are already overridden for contract case
+                                                    ProRataStartDate := LeaveYearStartDate;
                                                     if EmpVar."Employment Date" > ProRataStartDate then
                                                         ProRataStartDate := EmpVar."Employment Date";
-                                                    ProRataEndDate := LeavePeriod.GetLeaveYearEndDate(PostingDate);
+                                                    ProRataEndDate := LeaveYearEndDate;
                                                     if EmpVar."Termination Date" <> 0D then
                                                         ProRataEndDate := EmpVar."Termination Date";
-                                                    if ProRataEndDate >= LeavePeriod.GetLeaveYearEndDate(PostingDate) then
-                                                        ProRataEndDate := LeavePeriod.GetLeaveYearEndDate(PostingDate);
+                                                    if ProRataEndDate >= LeaveYearEndDate then
+                                                        ProRataEndDate := LeaveYearEndDate;
                                                     Clear(EmpConfDate);
                                                     case LeaveTypeSetup."Leave For Employee Type" of
                                                         LeaveTypeSetup."Leave For Employee Type"::" ":
@@ -1386,7 +1429,7 @@ codeunit 50000 "Leave Mgt."
                                                     if not SkipLeaveEarn then begin
                                                         if ProRataStartDate < EmpConfDate then
                                                             ProRataStartDate := EmpConfDate;
-                                                        if (EmpConfDate <= LeavePeriod.GetLeaveYearStartDate(PostingDate)) and (ProRataEndDate = LeavePeriod.GetLeaveYearEndDate(PostingDate)) then
+                                                        if (EmpConfDate <= LeaveYearStartDate) and (ProRataEndDate = LeaveYearEndDate) then
                                                             ActualCreditLimit := AnnualCreditLimit
                                                         else begin
                                                             if LeaveTypeSetup."Calculate Proratawise" then begin
@@ -1416,7 +1459,6 @@ codeunit 50000 "Leave Mgt."
                                         if not SkipLeaveEarn then begin
                                             LeaveLedgerEntry.Reset();
                                             LeaveLedgerEntry.SetRange("Leave Code", LeaveTypeSetup.Code);
-                                            LeaveLedgerEntry.SetRange(Type, LeaveLedgerEntry.Type::Earned);
                                             LeaveLedgerEntry.SetRange("Employee No.", EmpVar."No.");
                                             if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Quarterly then
                                                 LeaveLedgerEntry.SetRange("Posted Date", QuarterStartDate, QuarterEndDate)

@@ -616,13 +616,12 @@ codeunit 50017 "Approver Mgt"
     var
         ApprovalHRMS: Record "Approval HRMS";
         ApprovalHRMS2: Record "Approval HRMS";
-        // ApproveNotEligibleError: Label 'You are not Eligible to Approve or reject this document ';
-        ApprovalStatusField: text;
+        ApprovalStatusField: Text;
         ApprovalStatus: Enum "Approval Status";
         EmployeeActivityType: Enum "Employee Activity Type";
         StatusMaster: Record "Status Master";
         FieldRef: FieldRef;
-        Fieldref2: FieldRef;
+        FieldRef2: FieldRef;
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
         LeaveEncahRequest: Record "Encashment Request";
@@ -631,6 +630,7 @@ codeunit 50017 "Approver Mgt"
         EnvironmentInformation: Codeunit "Environment Information";
         Cancelled: Boolean;
         EmployeeNo: Code[20];
+        HRSuper: Boolean;
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -638,8 +638,8 @@ codeunit 50017 "Approver Mgt"
                     FieldRef := RecRef.Field(RetirementFund.FieldNo("Approval Status"));
                     ApprovalStatusField := FieldRef.Value;
                     EmployeeActivityType := EmployeeActivityType::Retirement;
-                    Fieldref2 := RecRef.Field(RetirementFund.FieldNo("No."));
-                    DocumentNo := Fieldref2.Value();
+                    FieldRef2 := RecRef.Field(RetirementFund.FieldNo("No."));
+                    DocumentNo := FieldRef2.Value();
                 end;
             Database::"Encashment Request":
                 begin
@@ -653,210 +653,167 @@ codeunit 50017 "Approver Mgt"
                     Cancelled := FieldRef.Value;
                 end;
             else begin
-                //old code
                 ApprovalStatusField := Format((RecRef.Field(16)));
                 EmployeeActivityType := RecRef.Field(2).Value;
                 DocumentNo := RecRef.Field(1).Value;
             end;
         end;
-        if ApprovalStatusField = Format(ApprovalStatus::Pending) then begin
-            CheckApproverSAAS(DocumentNo, GetApproverNoSAAS(AccessToken));
-            ApprovalHRMS.Reset();
-            ApprovalHRMS.SetRange("Document No.", DocumentNo);
+
+        if ApprovalStatusField <> Format(ApprovalStatus::Pending) then
+            Error('Document Status Must be in Pending');
+
+        //CHECK APPROVER,IDENTIFY IF Approver from HR setup
+        HRSuper := CheckApproverSAAS(DocumentNo, GetApproverNoSAAS(AccessToken));
+
+        // GET ALL APPROVAL LINES
+        ApprovalHRMS.Reset();
+        ApprovalHRMS.SetRange("Document No.", DocumentNo);
+        if not HRSuper then
             ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Open);
-            if ApprovalHRMS.FindSet() then begin
-                repeat
-                    if Approved then begin
-                        ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
-                        ApprovalHRMS.Validate("Approved By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
-                        RecRef.Field(100).Validate(ApprovalHRMS.Status);
-                    end
-                    else begin
-                        ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
-                        ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
-                        RecRef.Field(16).Validate(ApprovalStatus::Rejected);
-                        case EmployeeActivityType of
-                            EmployeeActivityType::"Leave Request":
-                                //for leave Cancelled Reject
-                                begin
-                                    if RecRef.Field(39).value then
-                                        leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
-                                end;
-                            //for travel claim Reject
-                            EmployeeActivityType::"Travel Claim":
-                                begin
-                                    TravelMgt.TravelClaimReject(RecRef.Field(1).Value);
-                                end;
-                            EmployeeActivityType::"Transfer Claim":
-                                begin
-                                    TransferMgt.RejectTransferClaim(RecRef.Field(1).Value);
-                                end;
-                            //for Allowance claim return
-                            EmployeeActivityType::"Allowance Assignment":
-                                begin
-                                    RecRef.Field(16).Validate(ApprovalStatus::Open);
-                                    RecRef.Field(100).Validate('');
-                                    RecRef.Modify();
-                                    AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
-                                    exit;
-                                end;
-                            EmployeeActivityType::"Overtime Bulk":
-                                begin
-                                    RecRef.Field(16).Validate(ApprovalStatus::Open);
-                                    RecRef.Field(100).Validate('');
-                                    RecRef.Modify();
-                                    OverTimeMgt.ApproveRejectOvertimeLine(false, RecRef.Field(1).Value);
-                                    exit;
-                                end;
-                            //for Allowance claim Reject
-                            EmployeeActivityType::"Allowance Assignment Claim":
-                                begin
-                                    AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
-                                end;
-                            EmployeeActivityType::"Shift Assignment":
-                                begin
-                                    RecRef.Field(16).Validate(ApprovalStatus::Open);
-                                    RecRef.Field(100).Validate('');
-                                    RecRef.Modify();
-                                    ShiftAssignmentMgt.ApproveRejectShiftLine(false, RecRef.Field(1).Value);
-                                    exit;
-                                end;
-                            EmployeeActivityType::Retirement:
-                                begin
-                                    RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
-                                    RecRef.Modify();
-                                end;
-                            EmployeeActivityType::"Leave Encashment":
-                                RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
-                        end;
-                        OnAfterDocumentRejected(RecRef);
-                        // Get the Rejected Status from Status Master
-                        StatusMaster.Reset();
-                        StatusMaster.SetRange(Rejected, true);
-                        if StatusMaster.FindFirst() then begin
-                            RecRef.Field(100).Validate(StatusMaster.Status);
-                        end
-                        else
-                            Error('Rejected Status not Found On Status Master Setup');
-                    end;
-                    RecRef.Modify();
-                    ApprovalHRMS.Modify();
-                until ApprovalHRMS.Next() = 0;
-                // Modify the record dynamically
-            end;
-            //Find next approval step
-            if Approved then begin
-                ApprovalHRMS2.Reset();
-                ApprovalHRMS2.SetRange("Document No.", DocumentNo);
-                ApprovalHRMS2.SetRange("Approval Sequence", ApprovalHRMS."Approval Sequence" + 1);
-                if ApprovalHRMS2.FindSet() then begin
-                    repeat
-                        ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
-                        ApprovalHRMS2.Modify;
-                    until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
+
+        if ApprovalHRMS.FindSet() then begin
+            repeat
+                if Approved then begin
+                    ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
+                    ApprovalHRMS.Validate("Approved By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
+                    RecRef.Field(100).Validate(ApprovalHRMS.Status);
                 end
                 else begin
-                    // If no next approval step found then set the status to approved
-                    if EmployeeActivityType = EmployeeActivityType::Retirement then begin
-                        RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved);
-                    end
-                    else begin
-                        //old code
-                        RecRef.Field(16).Validate(ApprovalStatus::Approved);
-                        RecRef.Field(37).Validate(Today);
-                    end;
-                    RecRef.Modify();
+                    ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+                    ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
+                    RecRef.Field(16).Validate(ApprovalStatus::Rejected);
+
+                    //REJECTION
                     case EmployeeActivityType of
-                        //for leave
                         EmployeeActivityType::"Leave Request":
-                            begin
-                                if RecRef.Field(39).value then
-                                    leaveMgt.ApproveCancelledLeave(RecRef.Field(1).Value) // For Cancelled Leave
-                                else
-                                    leaveMgt.LeaveApproved(RecRef.Field(1).Value); // For leave Approved
-                            end;
-                        EmployeeActivityType::"Travel Request":
-                            begin
-                                TravelMgt.TravelApproved(RecRef.Field(1).Value);
-                            end;
+                            if RecRef.Field(39).Value() then
+                                leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value);
                         EmployeeActivityType::"Travel Claim":
-                            begin
-                                TravelMgt.TravelClaimApproved(RecRef.Field(1).Value);
-                            end;
-                        EmployeeActivityType::"Attendance Missed":
-                            begin
-                                AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
-                            end;
+                            TravelMgt.TravelClaimReject(RecRef.Field(1).Value);
                         EmployeeActivityType::"Transfer Claim":
+                            TransferMgt.RejectTransferClaim(RecRef.Field(1).Value);
+                        EmployeeActivityType::"Allowance Assignment":
                             begin
-                                TransferMgt.ApproveTransferClaim(RecRef.Field(1).Value);
-                            end;
-                        EmployeeActivityType::Overtime:
-                            begin
-                                OverTimeMgt.ApproveOverTime(RecRef.Field(1).Value);
-                            end;
-                        EmployeeActivityType::Resignation:
-                            begin
-                                ResignationMgt.ApproveResignation(RecRef.Field(1).Value);
-                            end;
-                        EmployeeActivityType::"Employee Edit":
-                            begin
-                                ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
-                            end;
-                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim", EmployeeActivityType::"Request Allowance":
-                            begin
-                                AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
+                                RecRef.Field(16).Validate(ApprovalStatus::Open);
+                                RecRef.Field(100).Validate('');
+                                RecRef.Modify();
+                                AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
+                                exit;
                             end;
                         EmployeeActivityType::"Overtime Bulk":
                             begin
-                                OverTimeMgt.ApproveRejectOvertimeLine(true, RecRef.Field(1).Value);
+                                RecRef.Field(16).Validate(ApprovalStatus::Open);
+                                RecRef.Field(100).Validate('');
+                                RecRef.Modify();
+                                OverTimeMgt.ApproveRejectOvertimeLine(false, RecRef.Field(1).Value);
+                                exit;
                             end;
+                        EmployeeActivityType::"Allowance Assignment Claim":
+                            AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                         EmployeeActivityType::"Shift Assignment":
                             begin
-                                ShiftAssignmentMgt.ApproveRejectShiftLine(true, RecRef.Field(1).Value);
+                                RecRef.Field(16).Validate(ApprovalStatus::Open);
+                                RecRef.Field(100).Validate('');
+                                RecRef.Modify();
+                                ShiftAssignmentMgt.ApproveRejectShiftLine(false, RecRef.Field(1).Value);
+                                exit;
                             end;
                         EmployeeActivityType::Retirement:
                             begin
-                                RetirementFund.Get(RecRef.RecordId);
-                                HRMgt.ScreenRF(RetirementFund);
-                            end;
-                        EmployeeActivityType::"Late Attendance":
-                            begin
-                                AttendanceMgt.ApproveLateAttendance(RecRef.Field(1).Value);
+                                RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
+                                RecRef.Modify();
                             end;
                         EmployeeActivityType::"Leave Encashment":
-                            begin
-                                if RecRef.Field(39).value then
-                                    leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
-                                else
-                                    leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true)
-                            end;
+                            RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                     end;
-                    OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
+                    StatusMaster.Reset();
+                    StatusMaster.SetRange(Rejected, true);
+                    if StatusMaster.FindFirst() then
+                        RecRef.Field(100).Validate(StatusMaster.Status)
+                    else
+                        Error('Rejected Status not Found On Status Master Setup');
                 end;
-            end
-            else begin
-                //rejection case
-                //reject all the approval for that document
-                ApprovalHRMS.Reset();
-                ApprovalHRMS.SetRange("Document No.", DocumentNo);
-                ApprovalHRMS.SetRange("Document Type", EmployeeActivityType);
-                if ApprovalHRMS.FindSet() then
-                    repeat
-                        if ApprovalHRMS."Approval Status" in [ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open, ApprovalHRMS."Approval Status"::Pending] then begin
-                            ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
-                            ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
-                            ApprovalHRMS.Modify();
-                        end;
-                    until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
+
+                RecRef.Modify();
+                ApprovalHRMS.Modify();
+            until ApprovalHRMS.Next() = 0;
+        end;
+
+        //HR setup APPROVER
+        if HRSuper then begin
+            // Approve or reject ALL approval lines
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", DocumentNo);
+            if ApprovalHRMS.FindSet() then
+                repeat
+                    if Approved then begin
+                        ApprovalHRMS."Approval Status" := ApprovalHRMS."Approval Status"::Approved;
+                        ApprovalHRMS."Approved By" := HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken));
+                    end else begin
+                        ApprovalHRMS."Approval Status" := ApprovalHRMS."Approval Status"::Rejected;
+                        ApprovalHRMS."Rejected By" := HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken));
+                    end;
+                    ApprovalHRMS.Modify();
+                until ApprovalHRMS.Next() = 0;
+            if Approved then begin
+                RecRef.Field(16).Validate(ApprovalStatus::Approved);
+                RecRef.Field(37).Validate(Today);
+            end else begin
+                RecRef.Field(16).Validate(ApprovalStatus::Rejected);
             end;
-        end else
-            Error('Document Status Must be in Pending');
+
+            RecRef.Modify();
+
+            // All Logic
+            if Approved then begin
+                case EmployeeActivityType of
+                    EmployeeActivityType::"Leave Request":
+                        if RecRef.Field(39).Value then
+                            leaveMgt.ApproveCancelledLeave(RecRef.Field(1).Value)
+                        else
+                            leaveMgt.LeaveApproved(RecRef.Field(1).Value);
+                    EmployeeActivityType::"Travel Request":
+                        TravelMgt.TravelApproved(RecRef.Field(1).Value);
+                    EmployeeActivityType::"Travel Claim":
+                        TravelMgt.TravelClaimApproved(RecRef.Field(1).Value);
+                    EmployeeActivityType::"Attendance Missed":
+                        AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
+                    EmployeeActivityType::"Transfer Claim":
+                        TransferMgt.ApproveTransferClaim(RecRef.Field(1).Value);
+                    EmployeeActivityType::Overtime:
+                        OverTimeMgt.ApproveOverTime(RecRef.Field(1).Value);
+                    EmployeeActivityType::Resignation:
+                        ResignationMgt.ApproveResignation(RecRef.Field(1).Value);
+                    EmployeeActivityType::"Employee Edit":
+                        ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
+                    EmployeeActivityType::"Allowance Assignment",
+                    EmployeeActivityType::"Allowance Assignment Claim",
+                    EmployeeActivityType::"Request Allowance":
+                        AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
+                    EmployeeActivityType::"Overtime Bulk":
+                        OverTimeMgt.ApproveRejectOvertimeLine(true, RecRef.Field(1).Value);
+                    EmployeeActivityType::"Shift Assignment":
+                        ShiftAssignmentMgt.ApproveRejectShiftLine(true, RecRef.Field(1).Value);
+                    EmployeeActivityType::Retirement:
+                        begin
+                            RetirementFund.Get(RecRef.RecordId);
+                            HRMgt.ScreenRF(RetirementFund);
+                        end;
+                    EmployeeActivityType::"Late Attendance":
+                        AttendanceMgt.ApproveLateAttendance(RecRef.Field(1).Value);
+                    EmployeeActivityType::"Leave Encashment":
+                        leaveMgt.ApproveLeaveEncashRequest(RecRef.Field(LeaveEncahRequest.FieldNo("No.")).Value, true);
+                end;
+            end;
+
+            exit;
+        end;
+        if Approved then begin
+        end else begin
+        end;
     end;
 #endif
+
     procedure CheckRequester(EmpActNo: Code[20])//onprem
     begin
         CheckRequester(EmpActNo, HRMgt.GetEmployeeNo());

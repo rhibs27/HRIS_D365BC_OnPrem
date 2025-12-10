@@ -7,6 +7,14 @@ report 50057 "Mail for Payroll"
     {
         dataitem("Posted Payroll Header"; "Posted Payroll Header")
         {
+            trigger OnPreDataItem()
+            begin
+                if YearFilter <> 0 then
+                    SetRange("Nepali Year", YearFilter);
+                if MonthFilter <> MonthFilter::" " then
+                    SetRange("Nepali Month", MonthFilter);
+            end;
+
             trigger OnAfterGetRecord()
             var
                 CodeunitEmailMessage: Codeunit "Email Message";
@@ -20,73 +28,88 @@ report 50057 "Mail for Payroll"
                 CompanyInfo.Get;
                 // SMTPSetup.Get;
                 Clear(CodeunitEmailMessage);
-                if DocumentProfile = DocumentProfile::"Posted Payroll" then begin
-                    //  IF PostedPayHeader.GET(DocumentNo) THEN;
-                    PostedPayHeader.SetRange("No.", "No.");
-                    PosPayLine.Reset;
-                    PosPayLine.SetRange("Document No.", "No.");
-                    PosPayLine.SetFilter("Employee No.", EmpFilter);
-                    PosPayLine.SetFilter("Global Dimension 2 Code", BranchCode);
-                    if PosPayLine.Find('-') then
-                        repeat
-                            Clear(Body);
-                            Clear(Header);
-                            Clear(Footer);
-                            Employee.Get(PosPayLine."Employee No.");
-                            EmailTemplate.Reset;
-                            EmailTemplate.SetRange("Document Profile", DocumentProfile);
-                            if EmailTemplate.FindFirst then begin
-                                if CheckValidEmailAddress(Employee."Company E-Mail") then begin
-                                    if Confirm('Invalid email of employee %1. Do you want to skip it?', false, Employee."Full Name") then
-                                        break
-                                    else
-                                        Error('');
-                                end;
-                                // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Employee."Company E-Mail", EmailTemplate.Subject + ' ' + Format("Nepali Month") + ',' + Format("Nepali Year"), '', true);
-                                CodeunitEmailMessage.Create(Employee."Company E-Mail", EmailTemplate.Subject, ' ');
-                                EmailMessage.Reset;
-                                EmailMessage.SetRange("Template Code", EmailTemplate.Code);
-                                if EmailMessage.Find('-') then
-                                    repeat
-                                        case EmailMessage.Type of
-                                            EmailMessage.Type::Header:
-                                                begin
-                                                    Header += EmailMessage."Body Message";
-                                                end;
+                PostedPayHeader.SetRange("No.", "No.");
+                PosPayLine.Reset;
+                PosPayLine.SetRange("Document No.", "No.");
+                PosPayLine.SetFilter("Employee No.", EmpFilter);
+                PosPayLine.SetFilter("Global Dimension 2 Code", BranchCode);
 
-                                            EmailMessage.Type::Body:
-                                                begin
-                                                    Body += EmailMessage."Body Message" + ' ' + Format("Nepali Month") + ',' + Format("Nepali Year");
-                                                end;
-                                            EmailMessage.Type::Footer:
-                                                begin
-                                                    Footer += EmailMessage."Body Message" + '<br>';
-                                                end;
-                                        end;
-                                    until EmailMessage.Next = 0;
-                                CodeunitEmailMessage.AppendToBody(Header);
-                                CodeunitEmailMessage.AppendToBody('<br><br>');
-                                CodeunitEmailMessage.AppendToBody(Body);
-                                CodeunitEmailMessage.AppendToBody('<br><br>');
-                                Clear(PaySlip);
-                                PaySlip.SetEmployeeFilter(PosPayLine."Employee No.");
-                                PaySlip.SetTableView(PostedPayHeader);
-                                // FilePath := ThreeTierMgt.ClientTempFileName('pdf');//+'\Salary Slip.pdf';
-                                FilePath := 'D:\Salary slip.pdf';
-                                recRef.GetTable(PostedPayHeader);
-                                tmpBlob.CreateOutStream(OutStr);
-                                Report.SaveAs(Report::"Payroll Payslip", '', format::Pdf, OutStr, recRef);
+                if PosPayLine.Find('-') then
+                    repeat
+                        Clear(Body);
+                        Clear(Header);
+                        Clear(Footer);
+                        Employee.Get(PosPayLine."Employee No.");
+                        EmailTemplate.Reset;
+                        EmailTemplate.SetRange("Sub Type", "Email Sub Type"::Payroll);
 
-                                // PaySlip.SaveAsPdf(FilePath);
-                                tmpBlob.CreateInStream(InStr);
-                                CodeunitEmailMessage.AddAttachment(FilePath, '.pdf', InStr);
-                                // CodeunitEmailMessage.AddAttachment(FilePath, 'salary slip.pdf');
-                                CodeunitEmailMessage.AppendToBody(Footer);
-                                if Email.Send(CodeunitEmailMessage) then;
-                                Clear(FilePath);
+                        if EmailTemplate.FindFirst then begin
+                            if CheckValidEmailAddress(Employee."Company E-Mail") then begin
+                                if Confirm('Invalid email of employee %1. Do you want to skip it?', false, Employee."Full Name") then
+                                    break
+                                else
+                                    Error('');
                             end;
-                        until PosPayLine.Next = 0;
-                end;
+                            // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Employee."Company E-Mail", EmailTemplate.Subject + ' ' + Format("Nepali Month") + ',' + Format("Nepali Year"), '', true);
+                            CodeunitEmailMessage.Create(Employee."Company E-Mail", EmailTemplate.Subject, ' ', true);
+                            EmailMessage.Reset;
+                            EmailMessage.SetRange("Template Code", EmailTemplate.Code);
+
+                            if EmailMessage.Find('-') then
+                                repeat
+                                    case EmailMessage.Type of
+
+                                        EmailMessage.Type::Header:
+                                            begin
+                                                Header :=
+                                                    StrSubstNo(
+                                                        EmailMessage."Body Message",
+                                                        Employee."Full Name"
+                                                    );
+                                            end;
+
+                                        EmailMessage.Type::Body:
+                                            begin
+                                                Body :=
+                                                    StrSubstNo(
+                                                        EmailMessage."Body Message",
+                                                        Format("Nepali Month"),
+                                                        Format("Nepali Year")
+                                                    );
+                                            end;
+
+                                        EmailMessage.Type::Footer:
+                                            begin
+                                                if Footer = '' then
+                                                    Footer := EmailMessage."Body Message"
+                                                else
+                                                    Footer := Footer + '<br>' + EmailMessage."Body Message";
+                                            end;
+                                    end;
+                                until EmailMessage.Next = 0;
+                            CodeunitEmailMessage.AppendToBody(Header);
+                            CodeunitEmailMessage.AppendToBody('<br><br>');
+                            CodeunitEmailMessage.AppendToBody(Body);
+                            CodeunitEmailMessage.AppendToBody('<br><br>');
+                            CodeunitEmailMessage.AppendToBody(Footer);
+                            CodeunitEmailMessage.AppendToBody('<br><br>');
+                            // Generate and attach payslip PDF
+                            Clear(PaySlip);
+                            PaySlip.SetEmployeeFilter(PosPayLine."Employee No.");
+                            PaySlip.SetTableView(PostedPayHeader);
+                            // FilePath := ThreeTierMgt.ClientTempFileName('pdf');//+'\Salary Slip.pdf';
+                            //FilePath := 'D:\Salary slip.pdf';
+                            recRef.GetTable(PostedPayHeader);
+                            tmpBlob.CreateOutStream(OutStr);
+                            Report.SaveAs(Report::"Payroll Payslip", '', format::Pdf, OutStr, recRef);
+                            // PaySlip.SaveAsPdf(FilePath);
+                            tmpBlob.CreateInStream(InStr);
+                            CodeunitEmailMessage.AddAttachment('Payslip.pdf', 'application/pdf', InStr);
+                            // CodeunitEmailMessage.AddAttachment(FilePath, 'salary slip.pdf');
+                            if Email.Send(CodeunitEmailMessage) then;
+                            Clear(FilePath);
+                        end;
+                    until PosPayLine.Next = 0;
                 Message('Mail has been sent.');
             end;
         }
@@ -121,7 +144,7 @@ report 50057 "Mail for Payroll"
 
     trigger OnPreReport()
     begin
-        DocumentProfile := DocumentProfile::"Posted Payroll";
+
     end;
 
     var
@@ -138,9 +161,12 @@ report 50057 "Mail for Payroll"
         PostedPayHeader: Record "Posted Payroll Header";
         PaySlip: Report "Payroll Payslip";
         FilePath: Text;
-        DocumentProfile: Option " ","Employee Actvity","Posted Payroll";
         EmpFilter: Text;
         BranchCode: Code[20];
+        YearFilter: Integer;
+        MonthFilter: Enum "Nepali Month";
+
+
 
     local procedure CheckValidEmailAddress(EmailAddress: Text): Boolean
     var
@@ -162,5 +188,11 @@ report 50057 "Mail for Payroll"
 
         if NoOfAtSigns <> 1 then
             exit(true);
+    end;
+
+    procedure SetYearMonth(Year: Integer; Month: Enum "Nepali Month")
+    begin
+        YearFilter := Year;
+        MonthFilter := Month;
     end;
 }

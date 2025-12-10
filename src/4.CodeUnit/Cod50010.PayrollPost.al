@@ -345,6 +345,7 @@ codeunit 50010 "Payroll-Post"
             until PayrollLine.Next = 0;
             //IF PayrollHeader.Type = PayrollHeader.Type::Resignation THEN
             //PayrollEngine.GetLeaveDaysForSettlement(PayrollLine."Total Adjusted Leave Days",SickLeave,"Annual Leave",PayrollLine."Employee No.",TRUE);
+            OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader);
         end;
         Window.Update(3, CreatingGLEntriesTxt);
         LineCount := 0;
@@ -495,7 +496,6 @@ codeunit 50010 "Payroll-Post"
     begin
         if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
             LeaveType.Reset;
-            LeaveType.SetRange("AML Eligible", true);
             LeaveType.SetRange("Leave For Employee Type", PayrollLineRec."Employee Type");
             LeaveType.FindFirst;
 
@@ -537,4 +537,9 @@ codeunit 50010 "Payroll-Post"
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader: Record "Payroll Header")
+    begin
+
+    end;
 }

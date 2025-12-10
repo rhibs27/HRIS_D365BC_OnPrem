@@ -411,10 +411,9 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(TakeOver, true);
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
-        if not HrMgt.IsSaaS() then
-            if (EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo) and
-               (EmpHrTransfer."Incoming Supervisior 2" <> HRMgt.GetEmployeeNo) then
-                Error('You are not Eligible for Employee Acknowledge');
+        if (EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo) and
+           (EmpHrTransfer."Incoming Supervisior 2" <> HRMgt.GetEmployeeNo) then
+            Error('You are not Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);
@@ -473,6 +472,7 @@ codeunit 50005 "Transfer Mgt."
             EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
             EmployeeRec.Validate("Last Placement Date", EmpHrTransfer."Date of Joining Of Transfer"); // this should be update based on transfer type
+            EmployeeRec.Validate("Transfer Date", EmpHrTransfer."Transfer Effective Date");
         end;
         OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
         EmployeeRec.Modify;
@@ -534,16 +534,14 @@ codeunit 50005 "Transfer Mgt."
             if IncomingDocument.FindFirst then
                 Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
         end;
-
-        if not HrMgt.IsSaaS() then
-            if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
-                Error('You arenot Eligible')
-            else begin
-                EmpHrTransfer.Validate(Handover, true);
-                EmpHrTransfer.Modify();
-                if GuiAllowed then
-                    Message('Handover Submitted Successfully');
-            end;
+        if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
+            Error('You are not Eligible')
+        else begin
+            EmpHrTransfer.Validate(Handover, true);
+            EmpHrTransfer.Modify();
+            if GuiAllowed then
+                Message('Handover Submitted Successfully');
+        end;
     end;
 
     procedure TakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
@@ -552,16 +550,16 @@ codeunit 50005 "Transfer Mgt."
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField(Handover, true);
-        if not HrMgt.IsSaaS() then
-            if (EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
-             (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo) then
-                Error('You are not Eligible')
-            else begin
-                EmpHrTransfer.Validate(Takeover, true);
-                EmpHrTransfer.Modify();
-                if GuiAllowed then
-                    Message('Takeover Successfull');
-            end
+
+        if (EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
+                (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo) then
+            Error('You are not Eligible')
+        else begin
+            EmpHrTransfer.Validate(Takeover, true);
+            EmpHrTransfer.Modify();
+            if GuiAllowed then
+                Message('Takeover Successful');
+        end
     end;
 
     procedure CheckClaimAttachments(EmpActNo: Code[20]; EmpNo: Code[20])

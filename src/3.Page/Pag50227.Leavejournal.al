@@ -83,6 +83,14 @@ page 50227 "Leave Journal"
                     ApplicationArea = All;
                     Editable = IsOpen or IsPending;
                 }
+                field("Substitute Person Code"; Rec."Substitute Person Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Substitute Person Name"; Rec."Substitute Person Name")
+                {
+                    ApplicationArea = All;
+                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
