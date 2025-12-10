@@ -1556,7 +1556,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50191; "Vehicle No."; Text[30])
+        field(50191; "Vehicle No."; Text[50])
         {
             DataClassification = CustomerContent;
         }
@@ -1587,9 +1587,11 @@ tableextension 50013 "Employee Ext" extends Employee
 
     trigger OnDelete()
     var
-
+        UserSetup: Record "User Setup";
     begin
-        Error('');
+        UserSetup.Get(UserId);
+        if Not UserSetup."Is Admin" then
+            Error('Not allowed');
     end;
 
     trigger OnRename()

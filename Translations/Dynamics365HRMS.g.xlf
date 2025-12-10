@@ -113,6 +113,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Return - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Designation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Salary Level - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1033,6 +1038,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Approved Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 1548889467 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment Exists</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Attachment Exists - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1137,6 +1147,11 @@
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Designation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Salary Level - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3474915042 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -23093,6 +23108,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Approved Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2015830974 - Control 1548889467 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Indicates whether an attachment exists for the allowance request.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Attachment Exists - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2015830974 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the English Year field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23107,6 +23127,11 @@
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2015830974 - Control 680804136 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Attribute Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Payroll Attribute Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2015830974 - Control 3717226677 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
@@ -23952,6 +23977,11 @@
           <source>Specifies the value of the ATM Site field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control ATM Site - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 2110140186 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Blocked for Payroll field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Blocked for Payroll - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2241004978 - Control 2541479021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Claimed field.</source>
@@ -52592,6 +52622,11 @@
           <source>Specifies the value of the PayCycleTerm field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Method 3075606970 - NamedType 2128685181" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 cannot be blank.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Method ValidateRequiredFields - NamedType MissingFieldErr</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 4133302435 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Contract Expiry Date field.</source>

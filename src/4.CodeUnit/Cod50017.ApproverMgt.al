@@ -22,6 +22,7 @@ codeunit 50017 "Approver Mgt"
         Approval1: Record "Approval HRMS";
         SequenceOneCount, ApprovalEntryCount : Integer;
         isHandled, SkipError : Boolean;
+
     begin
         EmpRequest.Get(EmployeeNo);
         //if employee is a manual approver
@@ -84,9 +85,10 @@ codeunit 50017 "Approver Mgt"
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
                     end
-                    else
+                    else begin
                         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
                             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
+                    end;
                 until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
@@ -258,12 +260,27 @@ codeunit 50017 "Approver Mgt"
         Employee: Record Employee;
         IsHRApprover: Boolean;
     begin
-        ApprovalLine.Reset();
-        ApprovalLine.SetRange("Document No.", EmpActNo);
-        ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
-        ApprovalLine.SetRange("Approver No", ApproverNo);
-        if not ApprovalLine.FindFirst() then
-            Error(ApproveNotEligibleError);
+        IsHRApprover := false;
+        if HRSetup.Get() and Employee.Get(ApproverNo) then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    IsHRApprover := true;
+            end
+            else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    IsHRApprover := true;
+            end;
+        end;
+        if not IsHRApprover then begin
+            ApprovalLine.Reset();
+            ApprovalLine.SetRange("Document No.", EmpActNo);
+            ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
+            ApprovalLine.SetRange("Approver No", ApproverNo);
+            if not ApprovalLine.FindFirst() then
+                Error(ApproveNotEligibleError);
+
+        end;
     end;
 
 #if SaasFeature

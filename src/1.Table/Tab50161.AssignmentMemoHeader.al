@@ -153,21 +153,42 @@ table 50161 "Assignment Memo Header"
             Description = 'Only for Portal functionalities.';
             trigger OnValidate()
             var
-                Employee: Record Employee;
+                Employee, Employee2 : Record Employee;
+
+                HrMgt: Codeunit "HR Mgt.";
             begin
+
                 if Employee.Get("Employee No.") then begin
                     "Employee Name" := Employee.FullName();
                     "Permanent Address" := Employee.Address;
                     "Temporary Address" := Employee."Temporary Address";
+                    "Salary Level" := Employee."Salary Level";
 
-                    if "Activity Type" in ["Activity Type"::"Request Allowance", "Activity Type"::"Shift Assignment Memo"] then begin
+                    if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
                         "Province Code" := Employee."Province Code";
                         "Branch Code" := Employee."Branch Code";
                         "Department Code" := Employee."Department Code";
                         "Unit Code" := Employee."Unit Code";
                     end;
-                end else
-                    "Employee Name" := '';
+                end else begin
+                    if not GuiAllowed then begin
+                        if Employee2.Get(HrMgt.GetEmployeeNo()) then begin
+                            "Employee Name" := Employee2.FullName();
+                            "Permanent Address" := Employee2.Address;
+                            "Temporary Address" := Employee2."Temporary Address";
+                            "Salary Level" := Employee2."Salary Level";
+
+                            if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
+                                "Province Code" := Employee."Province Code";
+                                "Branch Code" := Employee."Branch Code";
+                                "Department Code" := Employee."Department Code";
+                                "Unit Code" := Employee."Unit Code";
+                            end;
+                        end;
+                    end;
+
+                end;
+
             end;
         }
         field(24; "Employee Name"; Text[100])
@@ -186,6 +207,11 @@ table 50161 "Assignment Memo Header"
             FieldClass = FlowField;
             CalcFormula = Sum("Assignment Memo Line"."Allowance Amount" where("Document No." = field("No.")));
         }
+        field(27; "Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level".Code;
+            Caption = 'Designation';
+        }
         field(37; "Approved Date"; Date)
         {
         }
@@ -196,6 +222,12 @@ table 50161 "Assignment Memo Header"
         field(39; "Fuel Limit (ltr)"; Decimal) { }
 
         field(40; "Fuel Limit (amt)"; Decimal) { }
+        field(41; "Attachment Exists"; Boolean)
+        {
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = Exist("Incoming Document" where("Employee Activity Type" = const("Request Allowance"), "No." = field("No.")));
+        }
         field(100; "Status"; Text[20])
         {
         }
@@ -230,11 +262,6 @@ table 50161 "Assignment Memo Header"
             ApprovalHrms.Reset;
             ApprovalHrms.SetRange("Document No.", "No.");
             ApprovalHrms.DeleteAll(true);
-
-            //clear marked document
-            // if Rec."Activity Type" = Rec."Activity Type"::"Request Allowance" then begin
-            //     AllowanceAssignmentMgt.ClearMarkedAllowanceData(Rec."No.");
-            // end;
         end;
     end;
 
@@ -246,6 +273,7 @@ table 50161 "Assignment Memo Header"
         "Document Date" := WorkDate();
         PGSetup.Get();
         TestField("Employee No.");
+        Validate("Employee No.");
         if "No." = '' then
             case "Activity Type" of
                 "Activity Type"::"Allowance Assignment Memo":
@@ -301,13 +329,17 @@ table 50161 "Assignment Memo Header"
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
 
     procedure AutoInsertDatesForRequestAllowance()
+    var
+        PaycyclePeriod: Record "Pay Cycle Period";
     begin
         if "Activity Type" = "Activity Type"::"Request Allowance" then begin
-            PGSetup.Get();
-            if "From Date" = 0D then
-                "From Date" := WorkDate();
-            if "To date" = 0D then
-                "To date" := PGSetup."Payroll Fiscal Year End Date";
+            if ("From Date" = 0D) and ("To Date" = 0D) then begin
+                PaycyclePeriod.Setfilter("Start Date", '<=%1', WorkDate());
+                PaycyclePeriod.SetFilter("End Date", '>=%1', WorkDate());
+                PaycyclePeriod.FindFirst();
+                "From Date" := PaycyclePeriod."Start Date";
+                "To date" := PaycyclePeriod."End Date";
+            end;
         end;
     end;
 

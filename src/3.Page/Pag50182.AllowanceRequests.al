@@ -41,6 +41,10 @@ page 50182 "Allowance Requests"
                 {
                     ToolTip = 'Specifies the value of the To date field.';
                 }
+                field("Payroll Attribute Code"; Rec."Payroll Attribute Code")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attribute Code field.', Comment = '%';
+                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -48,6 +52,10 @@ page 50182 "Allowance Requests"
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
+                }
+                field("Attachment Exists"; Rec."Attachment Exists")
+                {
+                    ToolTip = 'Indicates whether an attachment exists for the allowance request.';
                 }
             }
         }
