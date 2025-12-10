@@ -1138,6 +1138,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         LeavePeriod, LeavePeriod1 : Record "Accounting Period";
         EmpVar, EmpVar2 : Record Employee;
+        EmploymentContract: Record "Employment Contract";
         AttendanceMgt: Codeunit "Attendance Mgt";
         LastEntryNo: Integer;
         AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays, NoOfCreditPeriods : Decimal;
@@ -1148,6 +1149,8 @@ codeunit 50000 "Leave Mgt."
         CurrentQuarter: Enum Quater;
         QuarterStartDate, QuarterEndDate : Date;
         TotalDaysInPeriod, EligibleDays : Integer;
+        ContractRenewDate, ContractExpiryDate : Date;
+        LeavesLapseOnRenew: Boolean;
     begin
         Clear(LastEntryNo);
         Clear(ProRataStartDate);
@@ -1166,6 +1169,37 @@ codeunit 50000 "Leave Mgt."
         if EmpVar.FindSet() then begin
             repeat
                 Clear(SkipLeaveEarn);
+                Clear(LeavesLapseOnRenew);
+                Clear(ContractRenewDate);
+                Clear(ContractExpiryDate);
+
+                // NEW: Check for Contract Renew logic
+                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and
+                   (EmpVar."Emplymt. Contract Code" <> '') then begin
+                    if EmploymentContract.Get(EmpVar."Emplymt. Contract Code") then begin
+                        if EmploymentContract."Leaves Lapse On Contract Renew" then begin
+                            LeavesLapseOnRenew := true;
+                            ContractRenewDate := EmpVar."Contract Renew Date";
+                            ContractExpiryDate := EmpVar."Contract Expiry Date";
+
+                            // Validate contract dates exist
+                            if (ContractRenewDate = 0D) or (ContractExpiryDate = 0D) then
+                                SkipLeaveEarn := true;
+
+                            // Check if PostingDate is within valid range
+                            if not SkipLeaveEarn then begin
+                                if (PostingDate < ContractRenewDate) or (PostingDate > ContractExpiryDate) then
+                                    SkipLeaveEarn := true;
+                            end;
+                            // Override LeaveYearStartDate and LeaveYearEndDate ONLY when boolean is true
+                            if not SkipLeaveEarn and LeavesLapseOnRenew then begin
+                                LeaveYearStartDate := ContractRenewDate;
+                                LeaveYearEndDate := ContractExpiryDate;
+                            end;
+                        end;
+                    end;
+                end;
+
                 if not SkipLeaveEarn then begin
                     if EmpVar."Employment Date" < LeaveYearStartDate then
                         CreditPeriodStartDate := LeaveYearStartDate
