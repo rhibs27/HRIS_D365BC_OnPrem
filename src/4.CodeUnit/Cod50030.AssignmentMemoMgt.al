@@ -690,12 +690,10 @@ codeunit 50030 "Assignment Memo Mgt"
         PayrollAttributes: Record "Payroll Attributes";
         Employee: Record Employee;
         Salarylevel: Record "Salary Level";
+        AssignmeoLine: Record "Assignment Memo Line";
     begin
         if not PayrollAttributes.Get(AssignmentMemoLine."Payroll Attribute Code") then
             exit;
-
-        // if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::Reimbursement then
-        //     exit;
 
         Employee.Get(AssignmentMemoLine."Employee No.");
         Salarylevel.Get(Employee."Salary Level");
@@ -713,6 +711,20 @@ codeunit 50030 "Assignment Memo Mgt"
                 if GetAssignmentLineAmount(AssignmentMemoLine."Document No.") > Salarylevel."Transportation Allowance" then
                     Error('Reimbursement amount exceeds the limit of allowable Rs. %1.', Salarylevel."Transportation Allowance");
             end;
+
+            if AssignmentMemoLine."Allowance Amount" = 0 then
+                Error('Reimbursement amount or fuel claimed must have a value.');
+
+        end;
+
+        if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::"Education Allowance" then begin
+            AssignmeoLine.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
+            AssignmeoLine.SetFilter("Approval Status", '<>%1', AssignmeoLine."Approval Status"::Rejected);
+            AssignmeoLine.SetRange("Payroll Attribute Code", AssignmentMemoLine."Payroll Attribute Code");
+            AssignmeoLine.SetRange("From Date", AssignmentMemoLine."From Date");
+            AssignmeoLine.SetRange("To Date", AssignmentMemoLine."To Date");
+            if AssignmeoLine.Count > 2 then
+                Error('You can claim Education Allowance for maximum two children only.');
         end;
     end;
 

@@ -37,6 +37,14 @@ page 50371 "Shift Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
+                }
+                field("Pay Cycle Period"; Rec."Pay Cycle Period")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Period field.', Comment = '%';
+                }
                 field("Province Code"; Rec."Province Code")
                 {
                     ToolTip = 'Specifies the value of the Province Code field.', Comment = '%';

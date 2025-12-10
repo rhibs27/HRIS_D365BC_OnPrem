@@ -14,7 +14,7 @@ table 50163 "Assignment Memo Ledger Entry"
         field(2; "Document No."; Code[20])
         {
             Caption = 'Document No.';
-            TableRelation = "Assignment Memo Header";
+            // TableRelation = "Assignment Memo Header";
         }
         field(3; "Posting Date"; Date)
         {

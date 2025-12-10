@@ -23113,20 +23113,40 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Attachment Exists - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2015830974 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the English Year field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Fiscal Year - Property ToolTip</note>
+        <trans-unit id="Page 2015830974 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Branch Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Branch Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2015830974 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Department Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Department Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2015830974 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the From Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control From Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2015830974 - Control 783730271 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No of Lines field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control No of Lines - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2015830974 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2015830974 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Pay Cycle Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2015830974 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2015830974 - Control 680804136 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Payroll Attribute Code field.</source>
@@ -23147,6 +23167,11 @@
           <source>Specifies the value of the To date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control To date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2015830974 - Control 2238596476 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Total Line Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Requests - Control Total Line Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2859016585 - Control 3710982960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Posting Date field.</source>
@@ -46972,6 +46997,16 @@
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Memos - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3618796574 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Memos - Control Pay Cycle Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3618796574 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Memos - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3618796574 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Code field.</source>
