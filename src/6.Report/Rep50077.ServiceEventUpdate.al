@@ -24,6 +24,7 @@ report 50077 "Service Event Update"
                         TableRelation = "Functional Title";
                         ToolTip = 'Specifies the value of the FunctionalTitle field.';
                         ApplicationArea = All;
+                        ShowMandatory = true;
                     }
                     field("Salary level"; SalaryLevel)
                     {
@@ -72,7 +73,7 @@ report 50077 "Service Event Update"
                         Caption = 'Remarks';
                         ToolTip = 'Specifies the value of the Remarks field.';
                         ApplicationArea = All;
-                        ShowMandatory = true;
+                        // ShowMandatory = true;
                     }
                     field("Employment Type"; EmploymentType)
                     {
@@ -128,8 +129,13 @@ report 50077 "Service Event Update"
                 }
             }
         }
-
         actions { }
+        trigger OnQueryClosePage(CloseAction: Action): Boolean
+        begin
+            if CloseAction in [Action::OK, Action::LookupOK] then
+                ValidateRequiredFields();
+            exit(true);
+        end;
     }
 
     labels { }
@@ -332,5 +338,25 @@ report 50077 "Service Event Update"
     begin
         // IsAppointment := true;
         EmpNo := EmpCode;
+    end;
+
+    local procedure ValidateRequiredFields(): Boolean
+    var
+        MissingFields: Text;
+        MissingFieldErr: Label '%1 cannot be blank.';
+    begin
+        if ServiceEvent = ServiceEvent::" " then
+            Error(MissingFieldErr, 'Service Event');
+        if FunctionalTitle = '' then
+            Error(MissingFieldErr, 'Functional Title');
+
+        if SalaryLevel = '' then
+            Error(MissingFieldErr, 'Salary Level');
+
+        if EmploymentType = EmploymentType::" " then
+            Error(MissingFieldErr, 'Employment Type');
+
+        if EffectiveDate = 0D then
+            Error(MissingFieldErr, 'Effective Date');
     end;
 }
