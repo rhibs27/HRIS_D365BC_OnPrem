@@ -150,13 +150,10 @@ codeunit 50023 EmployeeActivityMgt
                 PostedEmployeeTransfer.Validate(Posted, true);
                 PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
                 PostedEmployeeTransfer.Insert(true);
-                OnAfterTransferJournalPost(TransferEmployeeJournal, TransferRequest);
+                OnAfterTransferJournalPost(PostedEmployeeTransfer, TransferRequest);
             until TransferEmployeeJournal.next() = 0
         else
             Error('There is no Document to post');
-
-        Message('Transfer Journal is posted')
-
     end;
 
     procedure PostLeaveJournal(EmpActNo: Code[20])
@@ -212,7 +209,6 @@ codeunit 50023 EmployeeActivityMgt
             until leaveJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Leave is posted');
     end;
 
     procedure PostAttendanceJournal(EmpActNo: Code[20])
@@ -252,7 +248,6 @@ codeunit 50023 EmployeeActivityMgt
             until AttendanceMissedJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Attendance Journal is posted');
     end;
 
     procedure RejectJournal(var EmployeeActJournal: Record "Employee Activity Journal"; Reject: Boolean)
@@ -622,7 +617,7 @@ codeunit 50023 EmployeeActivityMgt
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
+    procedure OnAfterTransferJournalPost(var PostedTransferEmployeeJournalACK: Record "Posted Employee Journal"; var TransferRequest: Record "Employee Transfer")
     begin
     end;
 
