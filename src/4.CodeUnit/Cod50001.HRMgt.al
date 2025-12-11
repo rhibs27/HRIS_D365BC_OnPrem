@@ -5511,6 +5511,7 @@ codeunit 50001 "HR Mgt."
                 EmpActLedgerEntry."Leave Type" := Leave."Leave Type";
                 EmpActLedgerEntry."Leave Code" := Leave."Leave Code";
             end;
+        OnBeforeInsertEmpActLedger(EmpActType, DocNo, EmpActLedgerEntry);
         EmpActLedgerEntry.insert();
     end;
 
@@ -5625,6 +5626,11 @@ codeunit 50001 "HR Mgt."
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
         //Can be Used to skp mail for paticular employee
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20]; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
+    begin
     end;
 
     [IntegrationEvent(false, false)]

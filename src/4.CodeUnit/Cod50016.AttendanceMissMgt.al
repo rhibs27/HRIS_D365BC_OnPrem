@@ -127,18 +127,22 @@ codeunit 50016 "AttendanceMiss Mgt"
     procedure CheckForLeaveOnAttendanceMissed(StartDate: Date; EndDate: Date; EmpCode: Code[20])
     var
         EmployeeAttendance: Record "Employee Attendance & Activity";
+        IsHandled: Boolean;
     begin
         if (StartDate > Today) or (EndDate > Today) then
             Error('Start date or end date cannot be greater than today');
-        Employee.Get(EmpCode);
-        EmployeeAttendance.Reset;
-        EmployeeAttendance.SetRange("Employee No.", EmpCode);
-        EmployeeAttendance.SetRange("Attendance Date", StartDate, EndDate);
-        EmployeeAttendance.FilterGroup(-1);
-        EmployeeAttendance.SetRange("Leave Day", 1);
-        EmployeeAttendance.FilterGroup(0);
-        if EmployeeAttendance.FindFirst then
-            Error('You were on a leave on date %1.', EmployeeAttendance."Attendance Date");
+        OnSkipForCallBackApprovedLeave(StartDate, EndDate, EmpCode, IsHandled);
+        if not IsHandled then begin
+            Employee.Get(EmpCode);
+            EmployeeAttendance.Reset;
+            EmployeeAttendance.SetRange("Employee No.", EmpCode);
+            EmployeeAttendance.SetRange("Attendance Date", StartDate, EndDate);
+            EmployeeAttendance.FilterGroup(-1);
+            EmployeeAttendance.SetRange("Leave Day", 1);
+            EmployeeAttendance.FilterGroup(0);
+            if EmployeeAttendance.FindFirst then
+                Error('You were on a leave on date %1.', EmployeeAttendance."Attendance Date");
+        end;
     end;
 
     // >> On Approve Attendance Missed >> Santosh >> 2025-03-04
@@ -246,5 +250,10 @@ codeunit 50016 "AttendanceMiss Mgt"
             exit(Employee."No.")
         else
             exit(Employee."Employee Attendance ID");
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSkipForCallBackApprovedLeave(StartDate: Date; EndDate: Date; EmployeeCode: Code[20]; var Ishandled: Boolean)
+    begin
     end;
 }

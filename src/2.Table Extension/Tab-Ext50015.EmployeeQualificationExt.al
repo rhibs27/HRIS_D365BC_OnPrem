@@ -12,6 +12,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                 if Qualification.get("Qualification Code") then begin
                     Validate("Qualification Type", Qualification."Qualification Type");
                     Validate(Rank, Qualification.Rank);
+                    Validate("GPA Scale", Qualification."GPA Scale");
                     if "GPA Scale" <> 0 then
                         Validate("GPA Scale", "GPA Scale");
                 end;
