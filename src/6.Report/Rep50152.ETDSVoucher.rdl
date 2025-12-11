@@ -11,7 +11,7 @@
       <am:Name>MSRB</am:Name>
       <am:Version>15.1.30001.02</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2025-11-27T08:57:25.4097985Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2025-12-04T11:21:54.3122256Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -368,9 +368,7 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -606,8 +604,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox86">
-                          <rd:DefaultName>Textbox86</rd:DefaultName>
+                        <Textbox Name="SST">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -617,7 +614,6 @@
                                   <Value>=Fields!SST.Value</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
-                                    <Format>=First(Fields!SSTFormat.Value, "DataSet_Result")</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1630,10 +1626,8 @@
               <Value>=First(Fields!CompanyPicture.Value, "DataSet_Result")</Value>
               <MIMEType>image/jpeg</MIMEType>
               <Sizing>FitProportional</Sizing>
-              <Top>0.01958in</Top>
-              <Left>0.01958in</Left>
-              <Height>0.65819in</Height>
-              <Width>1.00691in</Width>
+              <Height>0.67777in</Height>
+              <Width>1.02649in</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>
