@@ -10,7 +10,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditType: Enum "Employee Edit Type";
     begin
         EmployeeEdit.get(EmployeeEditCode);
-        EmployeeEditOnBeforeSendForApproval(EmployeeEdit);
+        EmployeeEditOnBeforeApprove(EmployeeEdit);
         case EmployeeEdit."Changes In Employee Type" of
             EmployeeEditType::Details:
                 begin
@@ -364,7 +364,7 @@ codeunit 50021 "Employee Edit Mgt."
         end;
     end;
 
-    procedure EmployeeEditOnBeforeSendForApproval(EmployeeEdit: Record "Employee Edit")
+    procedure EmployeeEditOnBeforeApprove(EmployeeEdit: Record "Employee Edit")
     var
         EmployeeEditLine: Record "Employee Edit Line";
     begin
@@ -372,6 +372,21 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
         if EmployeeEditLine.FindSet() then
             EmployeeEditLine.ModifyAll("Employee No.", EmployeeEdit."Employee No.", false);
+
+        if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then begin
+            EmployeeEdit.TestField("Vehicle Type");
+            EmployeeEdit.TestField("Claim Type");
+            if EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"] then begin
+                EmployeeEdit.TestField("Vehicle No.", '');
+                EmployeeEdit.TestField("Vehicle Owner Name", '');
+                EmployeeEdit.TestField("Ownership Start/End Date", 0D);
+            end else begin
+                EmployeeEdit.TestField("Vehicle No.");
+                EmployeeEdit.TestField("Vehicle Owner Name");
+                EmployeeEdit.TestField("Ownership Start/End Date");
+            end;
+
+        end;
     end;
 
     procedure ImportEditLineAttachmentsToEmployee(EmployeeEditNo: Code[20])
@@ -488,6 +503,7 @@ codeunit 50021 "Employee Edit Mgt."
     var
         Employee: Record Employee;
         EmployeeEdit: Record "Employee Edit";
+        isHandled: Boolean;
     begin
         EmployeeEdit.Get(EmpEditNo);
         if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then begin
@@ -496,9 +512,12 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("Vehicle Type", EmployeeEdit."Vehicle Type");
                     Employee.Validate("Vehicle No.", EmployeeEdit."Vehicle No.");
                     Employee.Validate("Vehicle Owner Name", EmployeeEdit."Vehicle Owner Name");
+                    Employee.Validate("Ownership Start/End Date", EmployeeEdit."Ownership Start/End Date");
                     Employee.Modify();
                 end;
                 ImportEmployeeEditLineAttachmentsToEmployee(EmpEditNo);
+
+                OnAfterEmployeeVehicleInfoUpdate(EmployeeEdit, Employee, isHandled);  //auto insert transportation request if clain type is transportation
             end;
         end;
     end;
@@ -547,8 +566,32 @@ codeunit 50021 "Employee Edit Mgt."
         end;
     end;
 
+    procedure EmployeeEditSendForApproval(EmployeeEditCode: Code[20])
+    var
+        EmployeeEdit: Record "Employee Edit";
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        EmployeeEdit.get(EmployeeEditCode);
+        EmployeeEditOnBeforeApprove(EmployeeEdit);
+        EmployeeEdit."Approval Status" := EmployeeEdit."Approval Status"::Pending;
+        EmployeeEdit.Modify();
+
+        ApprovalHRMS.SetRange("Document No.", EmployeeEdit."No.");
+        ApprovalHRMS.SetRange("Approval Sequence", 1);
+        ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Created);
+        if ApprovalHRMS.FindSet() then
+            ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
+
+        Message('Approval request has been sent.');
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnApproveEmployeeEditOnbeforeModifyEmployee(var EmployeeEdit: Record "Employee Edit"; var Employee: Record Employee);
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterEmployeeVehicleInfoUpdate(var EmployeeEdit: Record "Employee Edit"; var Employee: Record Employee; var IsHandled: Boolean)
     begin
     end;
 }

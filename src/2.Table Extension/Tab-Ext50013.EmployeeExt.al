@@ -1560,6 +1560,10 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
+        field(50192; "Ownership Start/End Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
         field(50200; "Do not Calculate Salary"; boolean)
         {
             DataClassification = CustomerContent;

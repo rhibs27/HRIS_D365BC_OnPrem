@@ -130,38 +130,32 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
-            ObsoleteState = pending;
         }
         field(24; Description; Code[100])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
-            ObsoleteState = pending;
         }
         field(25; "Institution/Company"; Code[100])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
-            ObsoleteState = pending;
         }
         field(26; Percentage; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
-            ObsoleteState = pending;
         }
         field(27; Stream; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'example- Science, Management etc.';
-            ObsoleteState = pending;
         }
         field(28; Year; Text[4])
         {
             DataClassification = CustomerContent;
             Description = 'Date of Completion of particular study';
             CharAllowed = '09';
-            ObsoleteState = Pending;
             trigger OnValidate()
             var
                 Date: Integer;
@@ -172,17 +166,29 @@ table 50074 "Employee Edit"
             end;
         }
         field(29; Designation; Text[30])
-        { DataClassification = CustomerContent; }
+        {
+            DataClassification = CustomerContent;
+
+        }
         field(30; "Time Period"; Decimal)
-        { DataClassification = CustomerContent; }
+        {
+            DataClassification = CustomerContent;
+
+        }
         field(31; Remuneration; Decimal)
-        { DataClassification = CustomerContent; }
+        {
+            DataClassification = CustomerContent;
+
+        }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
         field(33; Remarks; Text[50])
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
-        { DataClassification = CustomerContent; }
+        {
+            DataClassification = CustomerContent;
+
+        }
         field(35; "Qualification Type"; Enum "Qualification Type")
         {
             DataClassification = CustomerContent;
@@ -190,7 +196,6 @@ table 50074 "Employee Edit"
         field(36; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
-            MaxValue = 4;
         }
         field(37; "Approved Date"; Date)
         {
@@ -352,6 +357,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = ToBeClassified;
         }
+        //vehicle info for employee
         field(69; "Vehicle No."; Text[50])
         {
             DataClassification = CustomerContent;
@@ -360,7 +366,12 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
         }
+        field(71; "Ownership Start/End Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
 
+        //employee marital info update
         field(72; "Spouse Name"; Text[100])
         {
             DataClassification = CustomerContent;
@@ -404,7 +415,20 @@ table 50074 "Employee Edit"
             Description = 'Official Document';
             DataClassification = CustomerContent;
         }
-
+        field(79; "Claim Type"; Code[20])
+        {
+            TableRelation = "Payroll Attributes";
+            Description = 'transportation claim attribute. It should be updated while selecting the vehicle type.';
+            trigger OnValidate()
+            var
+                PayrollAttr: Record "Payroll Attributes";
+            begin
+                if PayrollAttr.Get("Claim Type") then begin
+                    if not (PayrollAttr."Specific Attributes" in [PayrollAttr."Specific Attributes"::"Transportation Allowance", PayrollAttr."Specific Attributes"::Reimbursement]) then
+                        Error('Claim Type must be of Transportation or Reimbursement type.');
+                end;
+            end;
+        }
 
         field(100; "Status"; Text[20])
         {
@@ -501,11 +525,15 @@ table 50074 "Employee Edit"
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
+
         if "Employee No." = '' then
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
+
         Validate(Type, Type::"Employee Edit");
-        Validate("Approval Status", "Approval Status"::Pending);
+
+        if not GuiAllowed then
+            Validate("Approval Status", "Approval Status"::Pending);
         HRSetup.Get;
         if "No." = '' then
             case Type of
@@ -521,5 +549,26 @@ table 50074 "Employee Edit"
                         ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                     end;
             end;
+
+        CheckIfWithinAllowancePeriod();
+    end;
+
+    procedure CheckIfWithinAllowancePeriod()
+    var
+        PayCyclePeriod: Record "Pay Cycle Period";
+    begin
+        if "Changes In Employee Type" <> "Changes In Employee Type"::"Vehicle Info Update" then
+            exit;
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', "Requested Date");
+        PayCyclePeriod.SetFilter("End Date", '>=%1', "Requested Date");
+        PayCyclePeriod.FindFirst();
+        if PayCyclePeriod."Allowance Start Date" <> 0D then
+            if "Requested Date" <= PayCyclePeriod."Allowance Start Date" then
+                if "Changes In Employee Type" = "Changes In Employee Type"::"Vehicle Info Update" then
+                    Error('Vehicle update can not be requested until %1 for this month', PayCyclePeriod."Allowance Start Date");
+        if PayCyclePeriod."Allowance End Date" <> 0D then
+            if "Requested Date" >= PayCyclePeriod."Allowance End Date" then
+                if "Changes In Employee Type" = "Changes In Employee Type"::"Vehicle Info Update" then
+                    Error('Vehicle update can not be requested from %1 for this month', PayCyclePeriod."Allowance End Date");
     end;
 }

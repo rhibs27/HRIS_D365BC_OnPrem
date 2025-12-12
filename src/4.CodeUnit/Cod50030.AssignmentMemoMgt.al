@@ -179,13 +179,17 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure SendApprovalAssignmentMemo(var AssignmentmemoHdr: Record "Assignment Memo Header")
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLine, AssignmentMemoLine2 : Record "Assignment Memo Line";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
         IsHandled: Boolean;
     begin
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
             AssignmentMemoHdr.TestField(Remarks);
+
+        AssignmentMemoLine2.SetRange("Document No.", AssignmentmemoHdr."No.");
+        if AssignmentMemoLine2.Count = 0 then
+            Error('Nothing to send for approval.');
 
         AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);
 
@@ -308,6 +312,52 @@ codeunit 50030 "Assignment Memo Mgt"
 
     end;
 
+    procedure CreateNewAssignmentMemoFromCopyDoc(SourceDocNo: Code[20]; FromDate: Date; ToDate: Date; empCode: Code[20])
+    var
+        SourceAssignmentMemoHdr, AssignmentMemoHdr : Record "Assignment Memo Header";
+        SourceAssignmentMemoLine, AssignmentMemoLine : Record "Assignment Memo Line";
+    begin
+        SourceAssignmentMemoHdr.Get(SourceDocNo);
+        SourceAssignmentMemoHdr.TestField("Activity Type", SourceAssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo");
+        SourceAssignmentMemoHdr.TestField("Approval Status", SourceAssignmentMemoHdr."Approval Status"::Approved);
+
+        SourceAssignmentMemoLine.SetRange("Document No.", SourceDocNo);
+        SourceAssignmentMemoLine.SetRange("Approval Status", SourceAssignmentMemoLine."Approval Status"::Approved);
+        if SourceAssignmentMemoLine.IsEmpty() then
+            Error('No lines found in the source assignment memo %1.', SourceDocNo);
+
+        //create new assignment memo header
+        AssignmentMemoHdr.Init();
+        AssignmentMemoHdr.Validate("Activity Type", SourceAssignmentMemoHdr."Activity Type");
+        AssignmentMemoHdr.Validate("Province Code", SourceAssignmentMemoHdr."Province Code");
+        AssignmentMemoHdr.Validate("Branch Code", SourceAssignmentMemoHdr."Branch Code");
+        AssignmentMemoHdr.Validate("Department Code", SourceAssignmentMemoHdr."Department Code");
+        AssignmentMemoHdr.Validate("Unit Code", SourceAssignmentMemoHdr."Unit Code");
+        AssignmentMemoHdr.Validate("Employee No.", empCode);
+        AssignmentMemoHdr.Validate("From Date", FromDate);
+        AssignmentMemoHdr.Validate("To Date", ToDate);
+        AssignmentMemoHdr.Validate("Approval Status", AssignmentMemoHdr."Approval Status"::Open);
+        AssignmentMemoHdr.Insert(true);
+
+        //copy lines
+        SourceAssignmentMemoLine.Reset();
+        SourceAssignmentMemoLine.SetRange("Document No.", SourceDocNo);
+        SourceAssignmentMemoLine.SetRange("Approval Status", SourceAssignmentMemoLine."Approval Status"::Approved);
+        SourceAssignmentMemoLine.SetRange("Substitute of Line No.", 0);
+        if SourceAssignmentMemoLine.FindSet() then
+            repeat
+                AssignmentMemoLine.Init();
+                AssignmentMemoLine.TransferFields(SourceAssignmentMemoLine);
+                AssignmentMemoLine.Validate("Document No.", AssignmentMemoHdr."No.");
+                AssignmentMemoLine.Validate("From Date", FromDate);
+                AssignmentMemoLine.Validate("To Date", ToDate);
+                AssignmentMemoLine.Validate("Allowance Amount", 0);
+                AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+                AssignmentMemoLine.CalculateAmountForLine();
+                AssignmentMemoLine.Insert(true);
+            until SourceAssignmentMemoLine.Next() = 0;
+    end;
+
     //request allowance section
     procedure OpenAllowance(EmpCode: Code[20]; AllowanceType: code[20])
     var
@@ -352,7 +402,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr.Init;
         AssignmentMemoHdr.Validate("Employee No.", EmpCode);
         AssignmentMemoHdr.Validate("Activity Type", AssignmentMemoHdr."Activity Type"::"Request Allowance");
-        AssignmentMemoHdr."Payroll Attribute Code" := AllowanceType;
+        AssignmentMemoHdr.Validate("Payroll Attribute Code", AllowanceType);
         AssignmentMemoHdr.AutoInsertDatesForRequestAllowance();
         AssignmentMemoHdr.Validate("Approval Status", AssignmentMemoHdr."Approval Status"::Open);
         AssignmentMemoHdr.Insert(true);
@@ -377,10 +427,10 @@ codeunit 50030 "Assignment Memo Mgt"
         AllowanceConfig.FindFirst();
 
         case AllowanceConfig.Source of
-            AllowanceConfig.Source::" ",
-            AllowanceConfig.Source::Direct,
-            AllowanceConfig.Source::Leave:
-                CreateAllowanceRequestLine(AssignmentMemoHdr);
+            // AllowanceConfig.Source::" ",
+            // AllowanceConfig.Source::Direct,
+            // AllowanceConfig.Source::Leave:
+            //     CreateAllowanceRequestLine(AssignmentMemoHdr);
             AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift:
                 CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
 
@@ -673,7 +723,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     PayCyclePeriod.FindFirst();
                     if PayCyclePeriod."Allowance End Date" <> 0D then
                         if WorkDate() >= PayCyclePeriod."Allowance End Date" then
-                            Error('Cannot approve/reject the allowance request as the allowance end date %1 has passed.', PayCyclePeriod."Allowance End Date");
+                            if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Request Allowance" then
+                                Error('Cannot approve/reject the allowance request as the allowance end date %1 has passed.', PayCyclePeriod."Allowance End Date");
 
 
                     if ApprovalStatusField = 'Approved' then begin
@@ -719,7 +770,7 @@ codeunit 50030 "Assignment Memo Mgt"
 
         if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::"Education Allowance" then begin
             AssignmeoLine.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
-            AssignmeoLine.SetFilter("Approval Status", '<>%1', AssignmeoLine."Approval Status"::Rejected);
+            AssignmeoLine.SetFilter("Approval Status", '%1|%2', AssignmeoLine."Approval Status"::Pending, AssignmeoLine."Approval Status"::Approved);
             AssignmeoLine.SetRange("Payroll Attribute Code", AssignmentMemoLine."Payroll Attribute Code");
             AssignmeoLine.SetRange("From Date", AssignmentMemoLine."From Date");
             AssignmeoLine.SetRange("To Date", AssignmentMemoLine."To Date");

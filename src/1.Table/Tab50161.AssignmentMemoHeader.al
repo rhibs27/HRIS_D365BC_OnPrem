@@ -110,6 +110,7 @@ table 50161 "Assignment Memo Header"
             var
                 Employee: Record Employee;
                 SalaryLevel: Record "Salary Level";
+                PayrollAttr: Record "Payroll Attributes";
             begin
                 if Employee.Get("Employee No.") then begin
                     SalaryLevel.Get(Employee."Salary Level");
@@ -117,6 +118,11 @@ table 50161 "Assignment Memo Header"
                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                         "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
                     end;
+                end;
+                if PayrollAttr.Get("Payroll Attribute Code") then begin
+                    "Payroll Attr. Description" := PayrollAttr.Description;
+                end else begin
+                    "Payroll Attr. Description" := '';
                 end;
             end;
         }
@@ -154,8 +160,8 @@ table 50161 "Assignment Memo Header"
             trigger OnValidate()
             var
                 Employee, Employee2 : Record Employee;
-
                 HrMgt: Codeunit "HR Mgt.";
+                SalaryLevel: Record "Salary Level";
             begin
 
                 if Employee.Get("Employee No.") then begin
@@ -169,6 +175,14 @@ table 50161 "Assignment Memo Header"
                         "Branch Code" := Employee."Branch Code";
                         "Department Code" := Employee."Department Code";
                         "Unit Code" := Employee."Unit Code";
+
+                        if Employee.Get("Employee No.") then begin
+                            SalaryLevel.Get(Employee."Salary Level");
+                            if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                                "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
+                                "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                            end;
+                        end;
                     end;
                 end else begin
                     if not GuiAllowed then begin
@@ -183,6 +197,15 @@ table 50161 "Assignment Memo Header"
                                 "Branch Code" := Employee."Branch Code";
                                 "Department Code" := Employee."Department Code";
                                 "Unit Code" := Employee."Unit Code";
+
+                                if Employee.Get("Employee No.") then begin
+                                    SalaryLevel.Get(Employee."Salary Level");
+                                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                                        "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
+                                        "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                                    end;
+                                end;
+
                             end;
                         end;
                     end;
@@ -227,6 +250,12 @@ table 50161 "Assignment Memo Header"
             Editable = false;
             FieldClass = FlowField;
             CalcFormula = Exist("Incoming Document" where("Employee Activity Type" = const("Request Allowance"), "No." = field("No.")));
+        }
+        field(42; "Payroll Attr. Description"; Text[100])
+        {
+        }
+        field(43; "Nepali Month"; Enum "Nepali Month")
+        {
         }
         field(100; "Status"; Text[20])
         {
@@ -316,6 +345,7 @@ table 50161 "Assignment Memo Header"
             end;
 
         AutoInsertDatesForRequestAllowance();
+        CheckIfWithinAllowancePeriod();
     end;
 
     var
@@ -378,5 +408,25 @@ table 50161 "Assignment Memo Header"
         "Pay Cycle Code" := PayCycleperiod."Pay Cycle Code";
         "Pay Cycle Term" := PayCycleperiod."Pay Cycle Term";
         "Pay Cycle Period" := PayCycleperiod.Period;
+        "Nepali Month" := PayCycleperiod."Nepali Month";
+    end;
+
+    procedure CheckIfWithinAllowancePeriod()
+    var
+        PayCyclePeriod: Record "Pay Cycle Period";
+    begin
+        if "Activity Type" <> "Activity Type"::"Request Allowance" then
+            exit;
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', "Document Date");
+        PayCyclePeriod.SetFilter("End Date", '>=%1', "Document Date");
+        PayCyclePeriod.FindFirst();
+        if PayCyclePeriod."Allowance Start Date" <> 0D then
+            if "Document Date" <= PayCyclePeriod."Allowance Start Date" then
+                if "Activity Type" = "Activity Type"::"Request Allowance" then
+                    Error('Allowance can not be requested until %1.', PayCyclePeriod."Allowance Start Date");
+        if PayCyclePeriod."Allowance End Date" <> 0D then
+            if "Document Date" >= PayCyclePeriod."Allowance End Date" then
+                if "Activity Type" = "Activity Type"::"Request Allowance" then
+                    Error('Allowance can not be requested from %1.', PayCyclePeriod."Allowance End Date");
     end;
 }

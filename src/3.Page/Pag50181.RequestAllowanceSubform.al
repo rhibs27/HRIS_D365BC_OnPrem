@@ -70,6 +70,10 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Bill No. field.', Comment = '%';
                 }
+                field("Amount per Ltr."; Rec."Amount per Ltr.")
+                {
+                    ToolTip = 'Specifies the value of the Amount per Ltr. field.', Comment = '%';
+                }
 
                 field("Approval Status"; Rec."Approval Status")
                 {

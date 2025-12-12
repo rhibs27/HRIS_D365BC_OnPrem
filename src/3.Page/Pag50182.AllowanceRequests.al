@@ -33,6 +33,10 @@ page 50182 "Allowance Requests"
                 {
                     ToolTip = 'Specifies the value of the Payroll Attribute Code field.', Comment = '%';
                 }
+                field("Payroll Attr. Description"; Rec."Payroll Attr. Description")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attr. Description field.', Comment = '%';
+                }
                 field("Pay Cycle Term"; Rec."Pay Cycle Term")
                 {
                     ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
@@ -40,6 +44,11 @@ page 50182 "Allowance Requests"
                 field("Pay Cycle Period"; Rec."Pay Cycle Period")
                 {
                     ToolTip = 'Specifies the value of the Pay Cycle Period field.', Comment = '%';
+                }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                    Editable = false;
                 }
                 field("From Date"; Rec."From Date")
                 {

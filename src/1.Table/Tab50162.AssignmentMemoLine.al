@@ -127,6 +127,11 @@ table 50162 "Assignment Memo Line"
         }
         field(24; "Allowance Amount"; Decimal)
         {
+            trigger OnValidate()
+            begin
+                if ("Allowance Amount" <> 0) and ("Fuel Claimed (ltr)" <> 0) then
+                    "Amount per Ltr." := Round("Allowance Amount" / "Fuel Claimed (ltr)", 0.01, '=');
+            end;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
 
@@ -155,11 +160,20 @@ table 50162 "Assignment Memo Line"
         field(40; "Fuel Limit (amt)"; Decimal) { }
         field(41; "Fuel Claimed (ltr)"; Decimal)
         {
+            trigger OnValidate()
+            begin
+                if ("Allowance Amount" <> 0) and ("Fuel Claimed (ltr)" <> 0) then
+                    "Amount per Ltr." := Round("Allowance Amount" / "Fuel Claimed (ltr)", 0.01, '=');
+            end;
         }
         field(42; "Specific Payroll Attribute"; Enum "Specific Payroll Attributes")
         {
             FieldClass = FlowField;
             CalcFormula = Lookup("Allowance Configuration"."Specific Payroll Attribute" where("Payroll Attribute" = field("Payroll Attribute Code")));
+
+        }
+        field(43; "Amount per Ltr."; Decimal)
+        {
 
         }
         field(54; "Assign Memo Ledger Entry No."; Integer)

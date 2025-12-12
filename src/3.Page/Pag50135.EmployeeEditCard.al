@@ -3,16 +3,16 @@ page 50135 "Employee Edit Card"
     PageType = Card;
     ApplicationArea = All;
     SourceTable = "Employee Edit";
-    InsertAllowed = false;
-    DeleteAllowed = false;
-    Editable = false;
+    // InsertAllowed = false;
+    // DeleteAllowed = false;
+    // Editable = false;
     layout
     {
         area(Content)
         {
             group(General)
             {
-
+                Editable = isOpenOrCreated;
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
@@ -62,7 +62,7 @@ page 50135 "Employee Edit Card"
 
                 field(Remark; Rec.Remarks)
                 {
-                    Editable = false;
+                    Editable = isOpenOrCreated;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
@@ -76,7 +76,7 @@ page 50135 "Employee Edit Card"
 
             group("Employee Information")
             {
-                Editable = false;
+                Editable = isOpenOrCreated and (Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details);
                 Visible = DetailsChanges;
                 field("Mobile No."; Rec."Mobile No.")
                 {
@@ -136,7 +136,8 @@ page 50135 "Employee Edit Card"
 
             group("Official Document")
             {
-                Editable = false;
+                Editable = isOpenOrCreated and (Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details);
+
                 Visible = DetailsChanges;
                 field("passport No."; Rec."Passport No.")
                 {
@@ -166,26 +167,42 @@ page 50135 "Employee Edit Card"
             }
             group(VehicleInformation)
             {
-                Editable = false;
+                Editable = isOpenOrCreated and ((Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::Created));
+
                 Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Vehicle Info Update";
                 field("Vehicle Type"; Rec."Vehicle Type")
                 {
                     ToolTip = 'Specifies the value of the Vehicle Type field.';
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Vehicle No."; Rec."Vehicle No.")
                 {
                     ToolTip = 'Specifies the value of the Vehicle No. field.';
                     ApplicationArea = All;
+                    Editable = (Rec."Vehicle Type" <> Rec."Vehicle Type"::"No Vehicle") or (Rec."Vehicle Type" = Rec."Vehicle Type"::" ");
                 }
                 field("Vehicle Owner Name"; Rec."Vehicle Owner Name")
                 {
                     ToolTip = 'Specifies the value of the Vehicle Owner Name field.', Comment = '%';
+                    Editable = (Rec."Vehicle Type" <> Rec."Vehicle Type"::"No Vehicle") or (Rec."Vehicle Type" = Rec."Vehicle Type"::" ");
+                }
+                field("Ownership Start/End Date"; Rec."Ownership Start/End Date")
+                {
+                    ToolTip = 'Specifies the value of the Ownership Start/End Date field.', Comment = '%';
+                    Editable = (Rec."Vehicle Type" <> Rec."Vehicle Type"::"No Vehicle") or (Rec."Vehicle Type" = Rec."Vehicle Type"::" ");
+                }
+                field("Claim Type"; Rec."Claim Type")
+                {
+                    ToolTip = 'Specifies the value of the Claim Type field.', Comment = '%';
                 }
             }
             group(MaritalStatusUpdate)
             {
-                Editable = false;
+                Editable = isOpenOrCreated and ((Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::Created));
                 Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Marital Status Update";
                 field("Marital Status"; Rec."Marital Status")
                 {
@@ -277,6 +294,25 @@ page 50135 "Employee Edit Card"
     {
         area(Processing)
         {
+            action("Send Approval Request")
+            {
+                Image = SendApprovalRequest;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = isOpenOrCreated;
+                ToolTip = 'Executes the Approve Request action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    EmployeeEditMgt: Codeunit "Employee Edit Mgt.";
+                begin
+                    if Confirm('Do you want to send for approval the request?', false) then begin
+                        EmployeeEditMgt.EmployeeEditSendForApproval(Rec."No.");
+                    end;
+                end;
+            }
             action("Approve Request")
             {
                 Image = Approve;
@@ -330,7 +366,7 @@ page 50135 "Employee Edit Card"
     end;
 
     var
-        IsPending, IsRejected, IsApproved : Boolean;
+        IsPending, IsRejected, IsApproved, isOpenOrCreated : Boolean;
         StatusView, ApprovalStatusView : Boolean;
         RecRef: RecordRef;
         DetailsChanges, Relative, LanguageChange, QualificationChanges, WorkExperienceChanges, AchievementChanges, AdditionalDocuments : Boolean;
@@ -350,6 +386,7 @@ page 50135 "Employee Edit Card"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        isOpenOrCreated := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::Created);
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else

@@ -70,4 +70,41 @@ page 50370 "Assignment Memos"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("New Assignment Memo")
+            {
+                ApplicationArea = All;
+                Caption = 'New Assignment Memo';
+                Image = NewDocument;
+                Promoted = true;
+                PromotedCategory = New;
+                ShortCutKey = 'Ctrl+N';
+                trigger OnAction()
+                var
+                    Filterpage: FilterPageBuilder;
+                    AssignmentMemoHeader, AssignmentMemoHeader2 : Record "Assignment Memo Header";
+                    docNo: Code[20];
+                    AssignmentmemoMgt: Codeunit "Assignment Memo Mgt";
+                    FromDate, ToDate : Date;
+                begin
+                    Clear(Filterpage);
+                    Filterpage.AddRecord('Copy From..', Rec);
+                    Filterpage.AddField('Copy From', Rec."From Date");
+                    Filterpage.AddField('Copy From', Rec."To Date");
+                    if Filterpage.RunModal() then begin
+                        Rec.setview(Filterpage.GetView('Copy From'));
+                        docNo := Rec.GetFilter("No.");
+                        Evaluate(FromDate, Rec.GetFilter("From Date"));
+                        Evaluate(ToDate, Rec.GetFilter("To Date"));
+                    end;
+                    if (docNo <> '') and (FromDate <> 0D) and (ToDate <> 0D) then begin
+                        AssignmentmemoMgt.CreateNewAssignmentMemoFromCopyDoc(docNo, FromDate, ToDate, Rec."Employee No.");
+                    end;
+                end;
+            }
+        }
+    }
 }
