@@ -676,7 +676,7 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
-        field(96; "Functional Title Desc"; Text[20])
+        field(96; "Functional Title Desc"; Text[30])
         {
             DataClassification = ToBeClassified;
         }

@@ -2,14 +2,6 @@ tableextension 50014 "Qualification Ext" extends Qualification
 {
     fields
     {
-        modify(code)
-        {
-            trigger OnBeforeValidate()
-            begin
-                if Code = '' then
-                    Error('Code cannot be blank.');
-            end;
-        }
         field(50000; "Type"; Enum "Emp. document Type")
         {
             DataClassification = CustomerContent;
@@ -31,4 +23,13 @@ tableextension 50014 "Qualification Ext" extends Qualification
         {
         }
     }
+    trigger OnBeforeInsert()
+    begin
+        TestField(Code);
+    end;
+
+    trigger OnBeforeModify()
+    begin
+        TestField(Code);
+    end;
 }
