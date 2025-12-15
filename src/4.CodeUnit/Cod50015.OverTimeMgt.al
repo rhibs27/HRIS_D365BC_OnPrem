@@ -415,61 +415,64 @@ codeunit 50015 "OverTime Mgt"
         OvertimeLine, OvertimeLineCheck : Record "Overtime Line";
         EmployeeAttendance: Record "Employee Attendance & Activity";
         CurrentDate: Date;
+        Ishandled: Boolean;
     begin
-        OvertimeLineCheck.Reset;
-        OvertimeLineCheck.SetRange("No.", OverTime."No.");
-        OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
-        OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record      
-        Employee.Reset();
-        if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
-            Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
-        else begin
-            Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
-        end;
-        Employee.SetRange("Deputation On code", OverTime."Deputation Code");
-        Employee.SetRange("Staff level", Employee."Staff level"::"Non Clerical Staff");
-        if Employee.FindSet() then
-            repeat
-                // Loop through each date in the range
-                CurrentDate := OverTime."Start Date";
-                while CurrentDate <= OverTime."End Date" do begin
-                    // Check if overtime line already exists for this specific employee and date
-                    OvertimeLineCheck.Reset;
-                    OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
-                    OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
-                    OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
-                    if not OvertimeLineCheck.FindFirst() then begin
-                        // Check if employee attendance exists for this date
-                        EmployeeAttendance.Reset;
-                        EmployeeAttendance.SetRange("Employee No.", Employee."No.");
-                        EmployeeAttendance.SetRange("Attendance Date", CurrentDate);
-                        if EmployeeAttendance.FindFirst() then begin
-                            if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check Out Time" <> 0T) then begin
-                                OvertimeLine.Init();
-                                OverTimeLine.Validate("No.", OverTime."No.");
-                                OvertimeLine.Validate("Employee Code", Employee."No.");
-                                OvertimeLine.Validate("Employee Name", Employee.FullName);
-                                OvertimeLine.Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
-                                OvertimeLine.Validate("Deputation Type", OverTime."Deputation Type");
-                                OvertimeLine.Validate(Code, OverTime."Deputation Code");
-                                OvertimeLine.Validate(Name, OverTime."Deputation Name");
-                                OvertimeLine.Validate(Type, OverTime.Type);
-                                OvertimeLine.Validate("Overtime Date", CurrentDate);
-                                OvertimeLine.Validate("Check In Time", EmployeeAttendance."Check In Time");
-                                OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
-                                OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Open);
-                                GetLineNo(OvertimeLine);
-                                OvertimeLine.Insert();
+        OnBeforeGetEmployeeFilter(OverTime, Ishandled);
+        If not Ishandled then begin
+            OvertimeLineCheck.Reset;
+            OvertimeLineCheck.SetRange("No.", OverTime."No.");
+            OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
+            OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record    
+            Employee.Reset();
+            if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
+                Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
+            else begin
+                Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
+            end;
+            Employee.SetRange("Deputation On code", OverTime."Deputation Code");
+            Employee.SetRange("Staff level", Employee."Staff level"::"Non Clerical Staff");
+            if Employee.FindSet() then
+                repeat
+                    // Loop through each date in the range
+                    CurrentDate := OverTime."Start Date";
+                    while CurrentDate <= OverTime."End Date" do begin
+                        // Check if overtime line already exists for this specific employee and date
+                        OvertimeLineCheck.Reset;
+                        OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
+                        OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
+                        OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
+                        if not OvertimeLineCheck.FindFirst() then begin
+                            // Check if employee attendance exists for this date
+                            EmployeeAttendance.Reset;
+                            EmployeeAttendance.SetRange("Employee No.", Employee."No.");
+                            EmployeeAttendance.SetRange("Attendance Date", CurrentDate);
+                            if EmployeeAttendance.FindFirst() then begin
+                                if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check Out Time" <> 0T) then begin
+                                    OvertimeLine.Init();
+                                    OverTimeLine.Validate("No.", OverTime."No.");
+                                    OvertimeLine.Validate("Employee Code", Employee."No.");
+                                    OvertimeLine.Validate("Employee Name", Employee.FullName);
+                                    OvertimeLine.Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
+                                    OvertimeLine.Validate("Deputation Type", OverTime."Deputation Type");
+                                    OvertimeLine.Validate(Code, OverTime."Deputation Code");
+                                    OvertimeLine.Validate(Name, OverTime."Deputation Name");
+                                    OvertimeLine.Validate(Type, OverTime.Type);
+                                    OvertimeLine.Validate("Overtime Date", CurrentDate);
+                                    OvertimeLine.Validate("Check In Time", EmployeeAttendance."Check In Time");
+                                    OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                                    OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Open);
+                                    GetLineNo(OvertimeLine);
+                                    OvertimeLine.Insert();
+                                end;
                             end;
                         end;
+                        CurrentDate := CurrentDate + 1;
                     end;
-                    CurrentDate := CurrentDate + 1;
-                end;
-            until Employee.Next() = 0;
-        OverTime."Get Employee" := true;
-        OverTime."Calculate Overtime" := false; // Reset Calculate Overtime flag
-        OverTime.Modify();
-
+                until Employee.Next() = 0;
+            OverTime."Get Employee" := true;
+            OverTime."Calculate Overtime" := false; // Reset Calculate Overtime flag
+            OverTime.Modify();
+        end;
     end;
 
     procedure GetLineNo(var OvertimeLine: Record "Overtime Line")
@@ -617,6 +620,11 @@ codeunit 50015 "OverTime Mgt"
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeCheckOTHrs(var OvertimeLine: Record "Overtime Line"; StartTime: Time; EndTime: Time; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGetEmployeeFilter(var Overtime: Record OverTime; var Ishandled: Boolean)
     begin
     end;
 

@@ -24933,6 +24933,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action ExportToExcel - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1254391634 - Action 3869266350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Get Additional Attributes</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action Get Additional Attibutes - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1254391634 - Action 3545432896 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Import from Excel</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24947,6 +24952,11 @@
           <source>Attribute Adjustments</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment List - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2878192907 - Action 3869266350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Get Additional Attributes</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment List - Action Get Additional Attibutes - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 568297125 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Attributes Usage History</source>
@@ -50307,6 +50317,11 @@
           <source>Unit Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control UnitCodeFilter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2062958821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Detailed Ledger Entry</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Detailed Ledger Entry - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 3276795145 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Leave Balance</source>

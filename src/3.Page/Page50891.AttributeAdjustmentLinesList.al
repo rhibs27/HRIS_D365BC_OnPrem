@@ -58,6 +58,22 @@ page 50375 "Attribute Adjustment Lines"
                     CurrPage.Update();
                 end;
             }
+            action("Get Additional Attibutes")
+            {
+                ApplicationArea = All;
+                Caption = 'Get Additional Attributes';
+                Image = GetLines;
+                trigger OnAction()
+                var
+                    AdjustmentHeader: Record "Attribute Adjustment Header";
+                    PayrollPost: Codeunit "Payroll-Post";
+                begin
+                    AdjustmentHeader.Get(Rec."Document No.");
+                    PayrollPost.UpdatePayrollAttributesInAttributeAdjustmentLine(AdjustmentHeader);
+                    CurrPage.Update();
+                    Message('Additional Attributes have been fetched successfully.');
+                end;
+            }
         }
     }
     var

@@ -66,6 +66,10 @@ table 50165 "Attribute Adjustment Line"
         {
             Caption = 'Effective End Date';
         }
+        field(11; "System Calculated"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

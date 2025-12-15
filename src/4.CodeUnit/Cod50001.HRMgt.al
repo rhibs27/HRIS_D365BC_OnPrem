@@ -5656,7 +5656,8 @@ codeunit 50001 "HR Mgt."
         AttributesUsageHistory."Source Document No." := AttributeAdjustmentLine."Document No.";
         AttributesUsageHistory.Insert(true);
 
-        UpdatePayrollAttributeUsage(AttributeAdjustmentLine."Employee No.", AttributeAdjustmentLine."Attribute Code", AttributeAdjustmentLine."New Amount");
+        if not AttributeAdjustmentLine."System Calculated" then
+            UpdatePayrollAttributeUsage(AttributeAdjustmentLine."Employee No.", AttributeAdjustmentLine."Attribute Code", AttributeAdjustmentLine."New Amount");
     end;
 
     local procedure UpdatePayrollAttributeUsage(EmployeeNo: Code[20]; AttributeCode: Code[20]; AttributeAmount: Decimal)

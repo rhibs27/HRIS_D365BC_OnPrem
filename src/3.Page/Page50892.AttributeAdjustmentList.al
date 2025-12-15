@@ -26,7 +26,20 @@ page 50376 "Attribute Adjustment List"
     {
         area(processing)
         {
+            action("Get Additional Attibutes")
+            {
+                ApplicationArea = All;
+                Caption = 'Get Additional Attributes';
+                Image = GetLines;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                trigger OnAction()
+                begin
 
+                end;
+            }
         }
     }
 }
