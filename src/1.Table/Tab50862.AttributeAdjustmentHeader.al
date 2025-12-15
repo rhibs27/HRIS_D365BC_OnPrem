@@ -34,7 +34,7 @@ table 50164 "Attribute Adjustment Header"
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
 
-        field(50; "Pay Cycle Period"; Code[20])
+        field(50; "Pay Cycle Period"; Integer)
         {
             Caption = 'Pay Cycle Period';
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
