@@ -23,12 +23,12 @@ tableextension 50014 "Qualification Ext" extends Qualification
         {
         }
     }
-    trigger OnBeforeInsert()
+    trigger OnAfterInsert()
     begin
         TestField(Code);
     end;
 
-    trigger OnBeforeModify()
+    trigger OnAfterModify()
     begin
         TestField(Code);
     end;
