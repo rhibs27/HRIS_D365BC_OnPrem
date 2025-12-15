@@ -1696,7 +1696,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = Post;
                     PromotedCategory = Category4;
                     PromotedOnly = true;
-                    ToolTip = 'Executes the Promote Employ  ee action.';
+                    ToolTip = 'Executes the Promote Employee action.';
 
                     trigger OnAction()
                     begin
