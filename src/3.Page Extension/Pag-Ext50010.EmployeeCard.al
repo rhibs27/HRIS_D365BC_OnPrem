@@ -1815,7 +1815,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category5;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Request Vehicle Loan action.';
-
                     trigger OnAction()
                     begin
                         CLEAR(LoanMgt);
@@ -1898,21 +1897,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     end;
                 }
-                // action("Access Control")
-                // {
-                //     ApplicationArea = All;
-                //     Promoted = true;
-                //     Visible = false;
-                //     PromotedIsBig = true;
-                //     Image = Register;
-                //     PromotedCategory = Category6;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Access Control action.';
-                //     trigger OnAction()
-                //     begin
-                //         HRMgt.OpenGrantAccessControl(Rec."No.");
-                //     end;
-                // }
                 action("Transfer History")
                 {
                     ApplicationArea = All;
@@ -1939,25 +1923,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory.RUN;
                     end;
                 }
-                // action("Access Control History")
-                // {
-                //     ApplicationArea = All;
-                //     RunObject = Page "Access Control History";
-                //     RunPageView = WHERE(Status = CONST(approved));
-                //     RunPageLink = "Employee No." = FIELD("No.");
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = History;
-                //     PromotedCategory = Category6;
-                //     PromotedOnly = true;
-                //     RunPageMode = View;
-                //     ToolTip = 'Executes the Access Control History action.';
-
-                //     trigger OnAction()
-                //     begin
-
-                //     end;
-                // }
                 action("Show Leave Earn")
                 {
                     ApplicationArea = All;
@@ -1976,7 +1941,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 action("Promotion History")
                 {
                     ApplicationArea = All;
-                    RunObject = Page "Promotion History";
+                    RunObject = Page "Promotion List";
                     RunPageLink = "Employee No." = FIELD("No.");
                     Promoted = true;
                     PromotedIsBig = true;
@@ -1984,10 +1949,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category6;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Promotion History action.';
-                    trigger OnAction()
-                    begin
-
-                    end;
                 }
                 action("Service History")
                 {
@@ -1998,7 +1959,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category6;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Service History action.';
-
                     trigger OnAction()
                     begin
                         ServiceHistory.Reset();

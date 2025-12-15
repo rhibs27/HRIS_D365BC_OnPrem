@@ -87,51 +87,13 @@ codeunit 50028 "Excel Import"
             LastRow := ExcelBuffer."Row No.";
             FirstLine := true;
             for RowNo := 2 to LastRow do begin
-                if EmpActType = EmpActType::"Attendance Missed" then begin
-                    EmployeeActJournal.Init();
-                    EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
-                    EmployeeActJournal.Validate("Employee Act Type", EmpActType);
-                    EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Open);
-                    Evaluate(EmployeeActJournal."Employee No.", GetValueAtCell(RowNo, 1));
-                    EmployeeActJournal.Validate("Employee No.");
-                    Evaluate(EmployeeActJournal."Start Date", GetValueAtCell(RowNo, 3));
-                    EmployeeActJournal.Validate("Start Date");
-                    Evaluate(EmployeeActJournal."CheckIn Time", GetValueAtCell(RowNo, 4));
-                    EmployeeActJournal.Validate("CheckIn Time");
-                    Evaluate(EmployeeActJournal."CheckOut Time", GetValueAtCell(RowNo, 5));
-                    EmployeeActJournal.Validate("CheckOut Time");
-                    Evaluate(EmployeeActJournal."CheckOut OverNight", GetValueAtCell(RowNo, 6));
-                    EmployeeActJournal.Validate("CheckOut OverNight");
-                    Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 7));
-                    EmployeeActJournal.Validate(Remarks);
-                    EmployeeActJournal.InsertApproval(FirstLine, EmpActNo);
-                    EmployeeActJournal."Emp Act. No" := EmpActNo;
-                    EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
-                    EmployeeActJournal.Insert(true);
-                end;
-                if EmpActType = EmpActType::"Leave Request" then begin
-                    EmployeeActJournal.Init();
-                    EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
-                    EmployeeActJournal.Validate("Employee Act Type", EmpActType);
-                    EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Open);
-                    Evaluate(EmployeeActJournal."Employee No.", GetValueAtCell(RowNo, 1));
-                    EmployeeActJournal.Validate("Employee No.");
-                    Evaluate(EmployeeActJournal."Leave Code", GetValueAtCell(RowNo, 3));
-                    EmployeeActJournal.Validate("Leave Code");
-                    Evaluate(EmployeeActJournal."Leave Type", GetValueAtCell(RowNo, 4));
-                    EmployeeActJournal.Validate("Leave Type");
-                    Evaluate(EmployeeActJournal."Adjustment Type", GetValueAtCell(RowNo, 5));
-                    EmployeeActJournal.Validate("Adjustment Type");
-                    Evaluate(EmployeeActJournal."Start Date", GetValueAtCell(RowNo, 6));
-                    EmployeeActJournal.Validate("Start Date");
-                    Evaluate(EmployeeActJournal."End Date", GetValueAtCell(RowNo, 7));
-                    EmployeeActJournal.Validate("End Date");
-                    Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 8));
-                    EmployeeActJournal.Validate(Remarks);
-                    EmployeeActJournal.InsertApproval(FirstLine, EmpActNo);
-                    EmployeeActJournal."Emp Act. No" := EmpActNo;
-                    EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
-                    EmployeeActJournal.Insert(true);
+                case EmpActType of
+                    EmpActType::"Attendance Missed":
+                        ImportAttendanceLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
+                    EmpActType::"Leave Request":
+                        ImportLeaveLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
+                    EmpActType::Promotion:
+                        ImportPromotionLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
                 end;
             end;
         end;
@@ -173,6 +135,116 @@ codeunit 50028 "Excel Import"
     local procedure EvaluateBoolean(Value: Text): Boolean
     begin
         exit(LowerCase(Value) in ['yes', 'true', '1']);
+    end;
+
+    local procedure ImportAttendanceLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; FirstLine: Boolean)
+    begin
+        EmployeeActJournal.Init();
+        EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
+        EmployeeActJournal.Validate("Employee Act Type", EmployeeActJournal."Employee Act Type"::"Attendance Missed");
+        EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Open);
+        Evaluate(EmployeeActJournal."Employee No.", GetValueAtCell(RowNo, 1));
+        EmployeeActJournal.Validate("Employee No.");
+        Evaluate(EmployeeActJournal."Start Date", GetValueAtCell(RowNo, 3));
+        EmployeeActJournal.Validate("Start Date");
+        Evaluate(EmployeeActJournal."CheckIn Time", GetValueAtCell(RowNo, 4));
+        EmployeeActJournal.Validate("CheckIn Time");
+        Evaluate(EmployeeActJournal."CheckOut Time", GetValueAtCell(RowNo, 5));
+        EmployeeActJournal.Validate("CheckOut Time");
+        Evaluate(EmployeeActJournal."CheckOut OverNight", GetValueAtCell(RowNo, 6));
+        EmployeeActJournal.Validate("CheckOut OverNight");
+        Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 7));
+        EmployeeActJournal.Validate(Remarks);
+        EmployeeActJournal.InsertApproval(FirstLine, DocNo);
+        EmployeeActJournal."Emp Act. No" := DocNo;
+        EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
+        EmployeeActJournal.Insert(true);
+    end;
+
+    local procedure ImportLeaveLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; FirstLine: Boolean)
+    begin
+        EmployeeActJournal.Init();
+        EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
+        EmployeeActJournal.Validate("Employee Act Type", EmployeeActJournal."Employee Act Type"::"Leave Request");
+        EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Open);
+        Evaluate(EmployeeActJournal."Employee No.", GetValueAtCell(RowNo, 1));
+        EmployeeActJournal.Validate("Employee No.");
+        Evaluate(EmployeeActJournal."Leave Code", GetValueAtCell(RowNo, 3));
+        EmployeeActJournal.Validate("Leave Code");
+        Evaluate(EmployeeActJournal."Leave Type", GetValueAtCell(RowNo, 4));
+        EmployeeActJournal.Validate("Leave Type");
+        Evaluate(EmployeeActJournal."Adjustment Type", GetValueAtCell(RowNo, 5));
+        EmployeeActJournal.Validate("Adjustment Type");
+        Evaluate(EmployeeActJournal."Start Date", GetValueAtCell(RowNo, 6));
+        EmployeeActJournal.Validate("Start Date");
+        Evaluate(EmployeeActJournal."End Date", GetValueAtCell(RowNo, 7));
+        EmployeeActJournal.Validate("End Date");
+        Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 8));
+        EmployeeActJournal.Validate(Remarks);
+        EmployeeActJournal.InsertApproval(FirstLine, DocNo);
+        EmployeeActJournal."Emp Act. No" := DocNo;
+        EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
+        EmployeeActJournal.Insert(true);
+    end;
+
+    local procedure ImportPromotionLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; FirstLine: Boolean)
+    begin
+        EmployeeActJournal.Init();
+        EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
+        EmployeeActJournal.Validate("Employee Act Type", EmployeeActJournal."Employee Act Type"::Promotion);
+        EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Open);
+        Evaluate(EmployeeActJournal."Employee No.", GetValueAtCell(RowNo, 1));
+        EmployeeActJournal.Validate("Employee No.");
+        Evaluate(EmployeeActJournal."Promotion Date", GetValueAtCell(RowNo, 3));
+        EmployeeActJournal.Validate("Promotion Date");
+        Evaluate(EmployeeActJournal."Functional Title (To)", GetValueAtCell(RowNo, 4));
+        EmployeeActJournal.Validate("Functional Title (To)");
+        Evaluate(EmployeeActJournal."Promoted Salary level", GetValueAtCell(RowNo, 5));
+        EmployeeActJournal.Validate("Promoted Salary level");
+        Evaluate(EmployeeActJournal."Promoted Salary Grade", GetValueAtCell(RowNo, 6));
+        EmployeeActJournal.Validate("Promoted Salary Grade");
+        Evaluate(EmployeeActJournal."Promoted Staff Level", GetValueAtCell(RowNo, 7));
+        EmployeeActJournal.Validate("Promoted Staff Level");
+        Evaluate(EmployeeActJournal."Approver Role (TO)", GetValueAtCell(RowNo, 8));
+        EmployeeActJournal.Validate("Approver Role (TO)");
+        Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 9));
+        EmployeeActJournal.Validate(Remarks);
+        EmployeeActJournal.InsertApproval(FirstLine, DocNo);
+        EmployeeActJournal."Emp Act. No" := DocNo;
+        EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
+        EmployeeActJournal.Insert(true);
+    end;
+
+    procedure ExportLeaveSheet(EmployeeActJournal: Record "Employee Activity Journal")
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+    begin
+        //Header
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Employee No."), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Employee Name"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Leave Code"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Leave Type"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Adjustment Type"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Start Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("End Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption(Remarks), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //Data
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Employee No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Employee Name", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Leave Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Leave Type", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Adjustment Type", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Start Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."End Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //
+        TempExcelBuffer.CreateNewBook('leaveJournal');
+        TempExcelBuffer.WriteSheet('leaveJournal', CompanyName, UserId);
+        TempExcelBuffer.CloseBook();
+        TempExcelBuffer.SetFriendlyFilename('leaveJournal');
+        TempExcelBuffer.OpenExcel();
     end;
 
     //23 

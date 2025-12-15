@@ -90,7 +90,7 @@ page 50292 "KPI Appriasal Province"
                     ApplicationArea = All;
                 }
             }
-            part("KPI Appraisal (NIC) Line"; "KPI Appraisal (NIC) Line")
+            part("KPI Appraisal Line"; "KPI Appraisal Line")
             {
                 SubPageLink = "Appraisal Code" = field("Appraisal Code");
                 ApplicationArea = All;

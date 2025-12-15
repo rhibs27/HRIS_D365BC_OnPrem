@@ -70,6 +70,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Shift Assignment Series field.';
             }
+            field("Promotion No."; Rec."Promotion No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Promotion Series field.';
+            }
             field("Employee Act. Journal Series"; Rec."Employee Act. Journal Series")
             {
                 ApplicationArea = All;

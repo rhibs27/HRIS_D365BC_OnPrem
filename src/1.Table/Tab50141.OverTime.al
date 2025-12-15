@@ -96,14 +96,6 @@ table 50141 OverTime
                             if "Start Date" < EmployeeRec."Employment Date" then
                                 Error('Cannot apply before your employment date');
                         end;
-                    if Type <> Type::Overtime then
-                        if "Employee No." = '' then
-                            if not HrMgt.IsSaaS() then
-                                EmployeeRec.Get(HrMgt.GetEmployeeNo());
-                    if "Start Date" <> 0D then begin
-                        if "Start Date" < EmployeeRec."Employment Date" then
-                            Error('Cannot apply before your employment date');
-                    end;
                     if type = type::Overtime then begin
                         EmployeeAttendance.Reset;
                         EmployeeAttendance.SetRange("Employee No.", "Employee No.");
@@ -116,6 +108,8 @@ table 50141 OverTime
                                 Validate("Check In Time", EmployeeAttendance."Check In Time");
                                 Validate("Check Out Time", EmployeeAttendance."Check Out Time");
                                 Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
+                                Validate("Day Type", EmployeeAttendance."Day Type");
+                                Validate("Overnight Shift", EmployeeAttendance."OverNight Shift");
                             end;
                         end else
                             Error('No Attendance Found on %1', rec."Start Date");
@@ -320,6 +314,9 @@ table 50141 OverTime
         // {
         // }
         field(106; "Time Duration"; Duration) { }
+        field(50; "Overnight Shift"; Boolean)
+        {
+        }
         field(51; "Estimated Hours"; Decimal)
         {
         }
@@ -417,6 +414,11 @@ table 50141 OverTime
         {
             DataClassification = ToBeClassified;
         }
+        field(68; "Day Type"; Enum "Day Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+
         field(100; Status; text[20])
         {
         }
@@ -542,8 +544,7 @@ table 50141 OverTime
         overtime1.SetRange(Type, overtime1.Type::"Overtime Bulk");
         OverTime1.SetRange("Fiscal Year", "Fiscal Year");
         OverTime1.SetRange("Deputation Type", "Deputation Type");
-        if "Deputation Type" = "Deputation Type"::Branch then
-            OverTime1.SetRange("Deputation Code", "Deputation Code");
+        OverTime1.SetRange("Deputation Code", "Deputation Code");
         OverTime1.SetFilter("Approval Status", '<>%1&<>%2', OverTime1."Approval Status"::Rejected, overtime1."Approval Status"::Canceled);
         if OverTime1.Findset then
             repeat
