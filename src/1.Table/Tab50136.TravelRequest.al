@@ -680,6 +680,10 @@ table 50136 "Travel Request"
         {
             DataClassification = ToBeClassified;
         }
+        field(97; "Advance Disbursed"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(100; Status; Text[20])
         {
             DataClassification = ToBeClassified;

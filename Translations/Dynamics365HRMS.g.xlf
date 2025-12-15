@@ -20683,6 +20683,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Advance Cash Required - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 621202891 - Field 659061973 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Advance Disbursed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Advance Disbursed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 621202891 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -49643,6 +49648,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Control Approval Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1666541910 - Control 569466453 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Advance Cash Required field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Control Disbursed Advance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1666541910 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -49712,6 +49722,11 @@
           <source>Executes the Withdrawn action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action WithDrawn - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1666541910 - Action 43549783 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action &amp;Advance Disbursed - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1666541910 - Action 1392435954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Travel Request action.</source>
@@ -52478,6 +52493,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Method 3075606970 - NamedType 2128685181" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 cannot be blank.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Method ValidateRequiredFields - NamedType MissingFieldErr</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Control 4133302435 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Contract Expiry Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53869,7 +53889,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action OT Form - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 1060540328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Promote Employ  ee action.</source>
+          <source>Executes the Promote Employee action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Promote Employee - Property ToolTip</note>
         </trans-unit>
