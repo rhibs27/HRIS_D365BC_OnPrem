@@ -66,7 +66,7 @@ page 50376 "Attribute Adjustment Lines"
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
                 ApplicationArea = All;
             }
-            action("Get Additional Attibutes")
+            action("Get Additional Attributes")
             {
                 ApplicationArea = All;
                 Caption = 'Get Additional Attributes';
