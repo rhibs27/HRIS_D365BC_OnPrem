@@ -71,7 +71,16 @@ page 50005 "Leave Period"
                 PromotedIsBig = true;
                 ToolTip = 'Closes the leave periods of the first open year.';
                 trigger OnAction()
+                var
+                    EmploymentContract: Record "Employment Contract";
+                    Employee: Record Employee;
                 begin
+                    if (Employee."Employment Type" = Employee."Employment Type"::Contract) and
+                       (Employee."Emplymt. Contract Code" <> '') then begin
+                        EmploymentContract.Get(Employee."Emplymt. Contract Code");
+                        if EmploymentContract."Leaves Lapse on contract renew" then
+                            exit;
+                    end;
                     Rec.CloseLeaveYear(true);
                     CurrPage.Update();
                 end;

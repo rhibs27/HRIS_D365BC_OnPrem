@@ -1179,13 +1179,14 @@ codeunit 50000 "Leave Mgt."
                     if EmploymentContract.Get(EmpVar."Emplymt. Contract Code") then begin
                         if EmploymentContract."Leaves Lapse On Contract Renew" then begin
                             LeavesLapseOnRenew := true;
-                            ContractRenewDate := EmpVar."Contract Renew Date";
+                            if EmpVar."Contract Renew Date" <> 0D then
+                                ContractRenewDate := EmpVar."Contract Renew Date"
+                            else
+                                ContractRenewDate := EmpVar."Employment Date";
                             ContractExpiryDate := EmpVar."Contract Expiry Date";
-
                             // Validate contract dates exist
                             if (ContractRenewDate = 0D) or (ContractExpiryDate = 0D) then
                                 SkipLeaveEarn := true;
-
                             // Check if PostingDate is within valid range
                             if not SkipLeaveEarn then begin
                                 if (PostingDate < ContractRenewDate) or (PostingDate > ContractExpiryDate) then
