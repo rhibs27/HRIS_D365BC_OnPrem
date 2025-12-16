@@ -171,8 +171,6 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Posting Region");
                     Clear("Inside/Outside Valley");
                     Clear("Sol Id");
-                    Clear("Functional Title");
-                    clear("Functional Title Desc");
                 end;
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
@@ -197,11 +195,8 @@ tableextension 50013 "Employee Ext" extends Employee
                 else begin
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then
                         Validate("Department Name", OrganizationStructureList.Name)
-                    else begin
+                    else
                         Clear("Department Name");
-                        Clear("Functional Title");
-                        Clear("Functional Title Desc");
-                    end;
                 end;
 
             end;
@@ -292,8 +287,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 else begin
                     Clear("Salary Level Description");
                     Clear("Staff level");
-                    clear("Functional Title");
-                    Clear("Functional Title Desc");
                 end;
                 Validate("Job Title", "Salary Level");
             end;
@@ -1002,10 +995,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 OrganizationStructureList: Record "Organization Structure list";
             begin
                 TestField("Branch Code");
-                if rec."Extension Counter Code" <> xRec."Extension Counter Code" then begin
-                    clear(rec."Functional Title");
-                    Clear(rec."Functional Title Desc");
-                end;
                 if "Deputation on" = "Deputation on"::"Extension Counter" then
                     ValidateDeputationOn
                 else if "Deputation on" = "Deputation on"::Branch then
@@ -1013,6 +1002,8 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Extension Counter Name", OrganizationStructureList.Name);
                 if "Extension Counter Code" = '' then
                     Clear("Extension Counter Name");
+
+
             end;
         }
 
