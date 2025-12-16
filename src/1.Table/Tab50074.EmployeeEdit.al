@@ -369,6 +369,16 @@ table 50074 "Employee Edit"
         field(71; "Ownership Start/End Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                EngNep: Record "English-Nepali Date";
+            begin
+                if "Ownership Start/End Date" <> 0D then begin
+                    if "Ownership Start/End Date" > WorkDate() then
+                        Error('Ownership Start/End Date cannot a future date.');
+                    Validate("Ownership Start/End Date (B.S)", EngNep.getNepaliDate("Ownership Start/End Date"));
+                end;
+            end;
         }
 
         //employee marital info update

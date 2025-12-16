@@ -97,7 +97,8 @@ table 50164 "Assignment Memo Line Copy"
                         SalaryLevel.Get(Employee."Salary Level");
                         if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
                             "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
-                            "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                            if "Fuel Limit (ltr)" = 0 then
+                                "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                         end;
                     end;
                 end;
@@ -231,8 +232,11 @@ table 50164 "Assignment Memo Line Copy"
             Caption = 'Bill Date';
             trigger OnValidate()
             begin
-                if "Bill Date" <> 0D then
+                if "Bill Date" <> 0D then begin
+                    if "Bill Date" > WorkDate() then
+                        Error('Bill Date cannot be a future date.');
                     CheckandValidateTheDates("Bill Date");
+                end;
             end;
         }
         field(301; "Bill No."; Text[50])
@@ -251,7 +255,7 @@ table 50164 "Assignment Memo Line Copy"
         CannotDelete: Label 'Cannot delete document.';
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created, "Approval Status"::Open]) then
             Error(CannotDelete);
 
         if AssignmentMemoLedgerEntry.Get("Assign Memo Ledger Entry No.") then begin
@@ -264,7 +268,7 @@ table 50164 "Assignment Memo Line Copy"
     trigger OnInsert()
     begin
         "Document Date" := WorkDate();
-        Validate("Approval Status", "Approval Status"::" ");
+        Validate("Approval Status", "Approval Status"::Open);
 
         if "Line No." = 0 then
             GetLineNo();

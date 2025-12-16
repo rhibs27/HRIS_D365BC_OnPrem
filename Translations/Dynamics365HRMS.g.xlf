@@ -19573,11 +19573,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Friday Allowance - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1640361694 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Fuel Limit (amt)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Fuel Limit (amt) - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1640361694 - Field 3095358712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fuel Limit (ltr)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28443,6 +28438,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Changes In Employee Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 852516776 - Control 2171820062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Claim Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Claim Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 852516776 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28458,6 +28458,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 852516776 - Control 3981642649 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Ownership Start/End Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Ownership Start/End Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 852516776 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Rejection Remarks field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28472,6 +28477,21 @@
           <source>Specifies the value of the Requested Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Requested Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 1535571897 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vehicle No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Vehicle No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 2578505386 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vehicle Owner Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Vehicle Owner Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 481545316 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vehicle Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Vehicle Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 18544478 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Attachment</source>
@@ -46472,11 +46492,6 @@
           <source>Friday ALlowance Per Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Friday Allowance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3544505483 - Control 2546113746 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Fuel Limit (amt) field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Fuel Limit (amt) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3544505483 - Control 3095358712 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fuel Limit (ltr) field.</source>

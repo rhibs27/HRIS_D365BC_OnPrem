@@ -439,6 +439,7 @@ codeunit 50030 "Assignment Memo Mgt"
                 CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
 
         end;
+        CreateAllowanceRequestLineForEducation(AssignmentMemoHdr);
     end;
 
     procedure CreateAllowanceRequestLine(AllowanceAssignmentHdr: Record "Assignment Memo Header")
@@ -456,6 +457,51 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Insert(true);
         AssignmentMemoLine.Validate("Payroll Attribute Code");
         AssignmentMemoLine.Modify();
+    end;
+
+    procedure CreateAllowanceRequestLineForEducation(AllowanceAssignmentHdr: Record "Assignment Memo Header")
+    var
+        AssignmentMemoLine: Record "Assignment Memo Line";
+        PayrollAttribute: Record "Payroll Attributes";
+        LastAssignmentMemoHdr: Record "Assignment Memo Header";
+        LastAssignmentMemoLine: Record "Assignment Memo Line";
+    begin
+        PayrollAttribute.Get(AllowanceAssignmentHdr."Payroll Attribute Code");
+        if PayrollAttribute."Specific Attributes" <> PayrollAttribute."Specific Attributes"::"Education Allowance" then
+            exit;
+
+        //check if there is pending education allowance request
+        LastAssignmentMemoHdr.Reset();
+        LastAssignmentMemoHdr.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
+        LastAssignmentMemoHdr.SetRange("Activity Type", LastAssignmentMemoHdr."Activity Type"::"Request Allowance");
+        LastAssignmentMemoHdr.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
+        LastAssignmentMemoHdr.SetRange("Approval Status", LastAssignmentMemoHdr."Approval Status"::"Pending");
+        if not LastAssignmentMemoHdr.IsEmpty() then
+            Error('You have pending education allowance request.');
+
+        //get last approved education allowance request
+        LastAssignmentMemoHdr.Reset();
+        LastAssignmentMemoHdr.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
+        LastAssignmentMemoHdr.SetRange("Activity Type", LastAssignmentMemoHdr."Activity Type"::"Request Allowance");
+        LastAssignmentMemoHdr.SetRange("Approval Status", LastAssignmentMemoHdr."Approval Status"::Approved);
+        LastAssignmentMemoHdr.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
+        LastAssignmentMemoHdr.SetFilter("No.", '<>%1', AllowanceAssignmentHdr."No.");
+        if LastAssignmentMemoHdr.FindLast() then begin
+            LastAssignmentMemoLine.SetRange("Document No.", LastAssignmentMemoHdr."No.");
+            if LastAssignmentMemoLine.FindSet() then
+                repeat
+                    Clear(AssignmentMemoLine);
+                    AssignmentMemoLine.Init();
+                    AssignmentMemoLine := LastAssignmentMemoLine;
+                    AssignmentMemoLine.Validate("Document No.", AllowanceAssignmentHdr."No.");
+                    AssignmentMemoLine.Validate("From Date", AllowanceAssignmentHdr."From Date");
+                    AssignmentMemoLine.Validate("To Date", AllowanceAssignmentHdr."To Date");
+                    AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+                    AssignmentMemoLine.Insert(true);
+                    AssignmentMemoLine.Validate("Payroll Attribute Code");
+                    AssignmentMemoLine.Modify();
+                until LastAssignmentMemoLine.Next() = 0;
+        end;
     end;
 
     procedure CreateAllowanceRequestLineFromAssignmentLine(AllowanceAssignmentHdr: Record "Assignment Memo Header"; AllowanceConfigSource: Enum "Allowance Config. Source")
@@ -689,15 +735,15 @@ codeunit 50030 "Assignment Memo Mgt"
 
         end;
 
-        if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::"Education Allowance" then begin
-            AssignmeoLine.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
-            AssignmeoLine.SetFilter("Approval Status", '%1|%2', AssignmeoLine."Approval Status"::Pending, AssignmeoLine."Approval Status"::Approved);
-            AssignmeoLine.SetRange("Payroll Attribute Code", AssignmentMemoLine."Payroll Attribute Code");
-            AssignmeoLine.SetRange("From Date", AssignmentMemoLine."From Date");
-            AssignmeoLine.SetRange("To Date", AssignmentMemoLine."To Date");
-            if AssignmeoLine.Count > 2 then
-                Error('You can claim Education Allowance for maximum two children only.');
-        end;
+        // if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::"Education Allowance" then begin
+        //     AssignmeoLine.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
+        //     AssignmeoLine.SetFilter("Approval Status", '%1|%2', AssignmeoLine."Approval Status"::Pending, AssignmeoLine."Approval Status"::Approved);
+        //     AssignmeoLine.SetRange("Payroll Attribute Code", AssignmentMemoLine."Payroll Attribute Code");
+        //     AssignmeoLine.SetRange("From Date", AssignmentMemoLine."From Date");
+        //     AssignmeoLine.SetRange("To Date", AssignmentMemoLine."To Date");
+        //     if AssignmeoLine.Count > 2 then
+        //         Error('You can claim Education Allowance for maximum two children only.');
+        // end;
     end;
 
     procedure GetAssignmentLineAmount(DocNo: Code[20]): Decimal
@@ -754,13 +800,13 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure ProcessAssignmentRequestFromCopyTable(var AssignmentMemoHdr: Record "Assignment Memo Header"; var IsHandled: Boolean)
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLine, AssignmentMemoLine2 : Record "Assignment Memo Line";
         AssignmentMemoLineCopy: Record "Assignment Memo Line Copy";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
 
-        FuelLimit, TempFuelLimit : Decimal;
-        AmountLimit, TempAmountLimit : Decimal;
+        FuelLimit, TempFuelLimit, RemainingFuelLimit : Decimal;
+        AmountLimit, TempAmountLimit, RemainingAmountLimit : Decimal;
         FuelClaimed, AmountClaimed : Decimal;
         PayrollAttributes: Record "Payroll Attributes";
     begin
@@ -783,6 +829,24 @@ codeunit 50030 "Assignment Memo Mgt"
             AmountLimit := SalaryLevel."Transportation Allowance";
         end;
 
+        //check limit
+        AssignmentMemoLine2.Reset();
+        AssignmentMemoLine2.SetRange("Employee No.", AssignmentMemoHdr."Employee No.");
+        AssignmentMemoLine2.SetRange("Payroll Attribute Code", AssignmentMemoHdr."Payroll Attribute Code");
+        AssignmentMemoLine2.SetFilter("Approval Status", '%1|%2', AssignmentMemoLine2."Approval Status"::Pending, AssignmentMemoLine2."Approval Status"::Approved);
+        AssignmentMemoLine2.SetRange("From Date", AssignmentMemoHdr."To date");
+        AssignmentMemoLine2.SetRange("To Date", AssignmentMemoHdr."To Date");
+        AssignmentMemoLine2.CalcSums("Fuel Claimed (ltr)");
+        AssignmentMemoLine2.CalcSums("Allowance Amount");
+
+        RemainingFuelLimit := FuelLimit - AssignmentMemoLine2."Fuel Claimed (ltr)";
+        RemainingAmountLimit := AmountLimit - AssignmentMemoLine2."Allowance Amount";
+        if (RemainingFuelLimit <= 0) and (FuelLimit > 0) then
+            Error('Fuel claimed exceeds the limit of allowable %1 liters.', FuelLimit);
+
+        if (RemainingAmountLimit <= 0) and (AmountLimit > 0) then
+            Error('Reimbursement amount exceeds the limit of allowable Rs. %1.', AmountLimit);
+
         AssignmentMemoLineCopy.SetCurrentKey("Amount per Ltr.");
         AssignmentMemoLineCopy.SetRange("Document No.", AssignmentMemoHdr."No.");
         AssignmentMemoLineCopy.SetFilter("Amount per Ltr.", '>0');
@@ -790,11 +854,11 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLineCopy.CalcSums("Fuel Claimed (ltr)");
         AssignmentMemoLineCopy.CalcSums("Allowance Amount");
         TempFuelLimit := AssignmentMemoLineCopy."Fuel Claimed (ltr)";
-        if (TempFuelLimit > FuelLimit) and (FuelLimit > 0) then
-            TempFuelLimit := FuelLimit;
-        AmountClaimed := AssignmentMemoLineCopy."Allowance Amount";
-        if (AmountClaimed > AmountLimit) and (AmountLimit > 0) then
-            TempAmountLimit := AmountLimit;
+        if (TempFuelLimit >= RemainingFuelLimit) and (FuelLimit > 0) then
+            TempFuelLimit := RemainingFuelLimit;
+        TempAmountLimit := AssignmentMemoLineCopy."Allowance Amount";
+        if (TempAmountLimit >= RemainingAmountLimit) and (AmountLimit > 0) then
+            TempAmountLimit := RemainingAmountLimit;
         if FuelLimit > 0 then begin
             FuelClaimed := 0;
             AmountClaimed := 0;
@@ -809,7 +873,7 @@ codeunit 50030 "Assignment Memo Mgt"
                         AmountClaimed += (TempFuelLimit * AssignmentMemoLineCopy."Amount per Ltr.");
                         TempFuelLimit := 0;
                     end
-                until (AssignmentMemoLineCopy.Next() = 0) or (FuelClaimed = FuelLimit);
+                until (AssignmentMemoLineCopy.Next() = 0) or (FuelClaimed >= RemainingFuelLimit);
         end
         else begin
             AmountClaimed := 0;
@@ -826,11 +890,24 @@ codeunit 50030 "Assignment Memo Mgt"
                         TempAmountLimit := 0;
                     end
 
-                until (AssignmentMemoLineCopy.Next() = 0) or (AmountClaimed = AmountLimit);
+                until (AssignmentMemoLineCopy.Next() = 0) or (AmountClaimed >= RemainingAmountLimit);
         end;
 
         if (FuelClaimed = 0) and (AmountClaimed = 0) then
             exit;
+
+        // //check limit
+        // AssignmentMemoLine2.SetRange("Employee No.", AssignmentMemoHdr."Employee No.");
+        // AssignmentMemoLine2.SetRange("Payroll Attribute Code", AssignmentMemoHdr."Payroll Attribute Code");
+        // AssignmentMemoLine2.SetFilter("Approval Status", '%1|%2', AssignmentMemoLine2."Approval Status"::Pending, AssignmentMemoLine2."Approval Status"::Approved);
+        // AssignmentMemoLine2.SetRange("From Date", AssignmentMemoHdr."To date");
+        // AssignmentMemoLine2.SetRange("To Date", AssignmentMemoHdr."To Date");
+        // AssignmentMemoLine2.CalcSums("Fuel Claimed (ltr)");
+        // AssignmentMemoLine2.CalcSums("Allowance Amount");
+        // if ((AssignmentMemoLine2."Fuel Claimed (ltr)" + FuelClaimed) > FuelLimit) and (FuelLimit > 0) then
+        //     Error('Fuel claimed exceeds the limit of allowable %1 liters.', FuelLimit);
+        // if ((AssignmentMemoLine2."Allowance Amount" + AmountClaimed) > AmountLimit) and (AmountLimit > 0) then
+        //     Error('Reimbursement amount exceeds the limit of allowable Rs. %1.', AmountLimit);
 
         AssignmentMemoLine.Init();
         AssignmentMemoLine.Validate("Document No.", AssignmentMemoHdr."No.");

@@ -44,6 +44,31 @@ page 50235 "Employee Edit list"
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
+                field("Vehicle Type"; Rec."Vehicle Type")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Vehicle Type field.';
+                }
+                field("Vehicle No."; Rec."Vehicle No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Vehicle No. field.';
+                }
+                field("Vehicle Owner Name"; Rec."Vehicle Owner Name")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Vehicle Owner Name field.', Comment = '%';
+                }
+                field("Ownership Start/End Date"; Rec."Ownership Start/End Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Ownership Start/End Date field.', Comment = '%';
+                }
+                field("Claim Type"; Rec."Claim Type")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Claim Type field.', Comment = '%';
+                }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';

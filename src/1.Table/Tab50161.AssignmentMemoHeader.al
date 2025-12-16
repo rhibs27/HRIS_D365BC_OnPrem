@@ -116,7 +116,8 @@ table 50161 "Assignment Memo Header"
                     SalaryLevel.Get(Employee."Salary Level");
                     if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
-                        "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                        if "Fuel Limit (ltr)" = 0 then
+                            "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                     end;
                 end;
                 if PayrollAttr.Get("Payroll Attribute Code") then begin
@@ -180,7 +181,8 @@ table 50161 "Assignment Memo Header"
                             SalaryLevel.Get(Employee."Salary Level");
                             if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
                                 "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
-                                "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                                if "Fuel Limit (ltr)" = 0 then
+                                    "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                             end;
                         end;
                     end;
@@ -202,7 +204,8 @@ table 50161 "Assignment Memo Header"
                                     SalaryLevel.Get(Employee."Salary Level");
                                     if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
                                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
-                                        "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                                        if "Fuel Limit (ltr)" = 0 then
+                                            "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                                     end;
                                 end;
 
