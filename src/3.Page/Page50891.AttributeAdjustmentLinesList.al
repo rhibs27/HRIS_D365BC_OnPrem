@@ -77,6 +77,8 @@ page 50376 "Attribute Adjustment Lines"
                     PayrollPost: Codeunit "Payroll-Post";
                 begin
                     AdjustmentHeader.Get(Rec."Document No.");
+                    if not (AdjustmentHeader."Adjustment Type" in [AdjustmentHeader."Adjustment Type"::Promotion, AdjustmentHeader."Adjustment Type"::Confirmation]) then
+                        Error('Adjustment Type must be %1 and %2', AdjustmentHeader."Adjustment Type"::Promotion, AdjustmentHeader."Adjustment Type"::Confirmation);
                     PayrollPost.UpdatePayrollAttributesInAttributeAdjustmentLine(AdjustmentHeader);
                     CurrPage.Update();
                     Message('Additional Attributes have been fetched successfully.');
