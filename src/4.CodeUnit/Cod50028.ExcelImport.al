@@ -96,8 +96,8 @@ codeunit 50028 "Excel Import"
                         ImportPromotionLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
                 end;
             end;
+            Message(ExcelImportSuccess);
         end;
-        Message(ExcelImportSuccess);
     end;
 
     local procedure GetValueAtCell(RowNo: Integer; ColNo: Integer): Text
@@ -246,6 +246,85 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.WriteSheet('leaveJournal', CompanyName, UserId);
         TempExcelBuffer.CloseBook();
         TempExcelBuffer.SetFriendlyFilename('leaveJournal');
+        TempExcelBuffer.OpenExcel();
+    end;
+
+    procedure ImportShiftLineFromExcelSheet(DocNo: Code[20])
+    var
+        FileMgt: Codeunit "File Management";
+        IStream: InStream;
+        FromFile, CellValue : Text;
+        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
+        FieldRef: FieldRef;
+        RecRef: RecordRef;
+        ShiftLine: Record "Shift Line";
+        ShiftAssignmentHeader: Record "Shift Assignment Header";
+    begin
+        if UploadIntoStream('Import From Excel', '', '', FromFile, IStream) then begin
+            if FromFile <> '' then begin
+                FileName := FileMgt.GetFileName(FromFile);
+                SheetName := ExcelBuffer.SelectSheetsNameStream(IStream);
+            end
+            else
+                Error('No file found.');
+            if ShiftAssignmentHeader.Get(DocNo) then;
+            ExcelBuffer.Reset();
+            ExcelBuffer.DeleteAll();
+            ExcelBuffer.OpenBookStream(IStream, SheetName);
+            ExcelBuffer.ReadSheet();
+            ExcelBuffer.SetRange("Column No.", 1);
+            ExcelBuffer.FindLast();
+            LastRow := ExcelBuffer."Row No.";
+            for RowNo := 2 to LastRow do begin
+                ShiftLine.Init();
+                ShiftLine.Validate(Type, ShiftLine.Type::"Shift Assignment");
+                ShiftLine.Validate("Approval Status", ShiftLine."Approval Status"::Open);
+                if ShiftAssignmentHeader."Deputation Sub Type" = ShiftAssignmentHeader."Deputation Sub Type"::" " then begin
+                    ShiftLine.Validate("Deputation Type", ShiftAssignmentHeader."Deputation Type");
+                    ShiftLine.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Code");
+                end else begin
+                    ShiftLine.Validate("Deputation Type", ShiftAssignmentHeader."Deputation Sub Type");
+                    ShiftLine.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Sub Type Code");
+                end;
+                ShiftLine.Validate("No.", DocNo);
+                ShiftLine."Line No" := ShiftLine.GetLineNo(DocNo);
+                Evaluate(ShiftLine."Employee No", GetValueAtCell(RowNo, 1));
+                ShiftLine.Validate("Employee No");
+                Evaluate(ShiftLine."Employee Work Shift", GetValueAtCell(RowNo, 3));
+                ShiftLine.Validate("Employee Work Shift");
+                Evaluate(ShiftLine."Roster Date", GetValueAtCell(RowNo, 4));
+                ShiftLine.Validate("Roster Date");
+                Evaluate(ShiftLine.Remarks, GetValueAtCell(RowNo, 5));
+                ShiftLine.Validate(Remarks);
+                ShiftLine.Insert(true);
+            end;
+            Message(ExcelImportSuccess);
+        end;
+    end;
+
+    procedure ExportShiftAssignmentLineFormat(ShiftLine: Record "Shift Line")
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+    begin
+        //Header
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Employee No"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Employee Name"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Employee Work Shift"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Roster Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption(Remarks), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //Data
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(ShiftLine."Employee No", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine."Employee Name", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine."Employee Work Shift", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine."Roster Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
+        TempExcelBuffer.AddColumn(ShiftLine.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //
+        TempExcelBuffer.CreateNewBook('ShiftLine');
+        TempExcelBuffer.WriteSheet('ShiftLine', CompanyName, UserId);
+        TempExcelBuffer.CloseBook();
+        TempExcelBuffer.SetFriendlyFilename('ShiftLine');
         TempExcelBuffer.OpenExcel();
     end;
 

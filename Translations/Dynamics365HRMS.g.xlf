@@ -46968,6 +46968,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Approve Substitute - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 939157021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Format for Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Export Format for Excel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 1731482064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import From Excel.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Import From Excel - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1561849558 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
