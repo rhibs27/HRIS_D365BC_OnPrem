@@ -264,7 +264,7 @@ table 50164 "Assignment Memo Line Copy"
     trigger OnInsert()
     begin
         "Document Date" := WorkDate();
-        Validate("Approval Status", "Approval Status"::Open);
+        Validate("Approval Status", "Approval Status"::" ");
 
         if "Line No." = 0 then
             GetLineNo();
