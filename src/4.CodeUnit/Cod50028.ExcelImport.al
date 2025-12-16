@@ -139,7 +139,7 @@ codeunit 50028 "Excel Import"
         exit(LowerCase(Value) in ['yes', 'true', '1']);
     end;
 
-    local procedure ImportAttendanceLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; FirstLine: Boolean)
+    local procedure ImportAttendanceLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; var DocNo: Code[20]; var FirstLine: Boolean)
     begin
         EmployeeActJournal.Init();
         EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
@@ -163,7 +163,7 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal.Insert(true);
     end;
 
-    local procedure ImportLeaveLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; FirstLine: Boolean)
+    local procedure ImportLeaveLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; var DocNo: Code[20]; var FirstLine: Boolean)
     begin
         EmployeeActJournal.Init();
         EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
@@ -189,7 +189,7 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal.Insert(true);
     end;
 
-    local procedure ImportPromotionLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; FirstLine: Boolean)
+    local procedure ImportPromotionLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; var DocNo: Code[20]; var FirstLine: Boolean)
     begin
         EmployeeActJournal.Init();
         EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");

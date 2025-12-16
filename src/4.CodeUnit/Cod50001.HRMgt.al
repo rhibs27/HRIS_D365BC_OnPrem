@@ -126,6 +126,7 @@ codeunit 50001 "HR Mgt."
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: CodeUnit "Travel Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
+        ApprovalMgt: Codeunit "Approver Mgt";
 
     procedure MoveToMagicPath(SourceFileName: Text[1024]) DestinationFileName: Text[1024]
     var
@@ -4334,8 +4335,6 @@ codeunit 50001 "HR Mgt."
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund"): Boolean
     var
         RFContibution: Record "RF Contribution";
-        ApprovalHRMS: REcord "Approval HRMS";
-        LoanMgt: Codeunit "Loan Mgt.";
     begin
         if GuiAllowed then
             if not Confirm('Do you want to send retirement fund for approval?', false) then
@@ -4345,12 +4344,7 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.TestField("Employee No.");
         TempRetirementFund.Validate("Approval Status", TempRetirementFund."Approval Status"::Pending);
         TempRetirementFund.Modify(true);
-        ApprovalHRMS.SetRange("Document No.", TempRetirementFund."No.");
-        ApprovalHRMS.SetRange("Approval Sequence", 1);
-        if ApprovalHRMS.FindFirst() then begin
-            ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Open);
-            ApprovalHRMS.Modify();
-        end;
+        ApprovalMgt.UpdateFirstApproverStatus(TempRetirementFund."No.");
         RFContibution.SetRange("Employee No.", TempRetirementFund."Employee No.");
         RFContibution.SetRange("Document No.", TempRetirementFund."No.");
         if RFContibution.FindSet() then
@@ -4359,7 +4353,9 @@ codeunit 50001 "HR Mgt."
                     Error('Type must be same in Header and line.');
                 RFContibution."Approval Status" := RFContibution."Approval Status"::Pending;
                 RFContibution.Modify();
-            until RFContibution.Next = 0;
+            until RFContibution.Next = 0
+        else
+            Error('Error Retirement Fund Line not Found in %1', TempRetirementFund."No.");
         //   RFContibution.DeleteAll();
         //SendMailFromTemplate(DATABASE::"Employee Activity",EmpAct.Type::"Travel Request",EmpAct."Approval Status"::Open,'',EmpAct."Employee No.",EmpAct."No.",0);   //For email
         if GuiAllowed then
@@ -5485,11 +5481,11 @@ codeunit 50001 "HR Mgt."
     End;
 
     procedure CreateEmpActLedger(EmpActType: Enum "Employee Activity Type";
-                                    DocNo: Code[20];
-                                    EmpNo: Code[20];
-                                    ActDate: Date;
-                                    Cancelled: Boolean;
-                                    Days: Decimal)
+                                                 DocNo: Code[20];
+                                                 EmpNo: Code[20];
+                                                 ActDate: Date;
+                                                 Cancelled: Boolean;
+                                                 Days: Decimal)
     var
         EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
         Leave: Record Leave;
