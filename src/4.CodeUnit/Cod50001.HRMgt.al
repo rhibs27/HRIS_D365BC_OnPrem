@@ -5507,7 +5507,7 @@ codeunit 50001 "HR Mgt."
                 EmpActLedgerEntry."Leave Type" := Leave."Leave Type";
                 EmpActLedgerEntry."Leave Code" := Leave."Leave Code";
             end;
-        OnBeforeInsertEmpActLedger(EmpActType, DocNo, EmpActLedgerEntry);
+        OnBeforeInsertEmpActLedger(EmpActType, DocNo, EmpNo, ActDate, EmpActLedgerEntry);
         EmpActLedgerEntry.insert();
     end;
 
@@ -5625,7 +5625,7 @@ codeunit 50001 "HR Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20]; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
+    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20]; EmpNo: Code[20]; ActDate: Date; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
     begin
     end;
 

@@ -1711,6 +1711,7 @@ page 50041 "Payroll Subform"
                 {
                     ToolTip = 'Specifies the value of the Property Insurance Premium field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Balance Taxable Income"; Rec."Taxable Income")
                 {
