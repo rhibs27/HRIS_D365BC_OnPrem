@@ -1,6 +1,6 @@
-table 50162 "Assignment Memo Line"
+table 50164 "Assignment Memo Line Copy"
 {
-    Caption = 'Assignment Memo Line';
+    Caption = 'Assignment Memo Line Copy';
     DataClassification = ToBeClassified;
 
     fields
@@ -283,8 +283,8 @@ table 50162 "Assignment Memo Line"
     var
         Employee: Record Employee;
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AssignmentMemoLine: Record "Assignment Memo Line";
-        AssignmentMemoLine2: Record "Assignment Memo Line";
+        AssignmentMemoLine: Record "Assignment Memo Line Copy";
+        AssignmentMemoLine2: Record "Assignment Memo Line Copy";
         BaseCalenderChange: Record "Base Calendar Change";
         TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PGSetup: Record "Payroll General Setup";
@@ -297,7 +297,7 @@ table 50162 "Assignment Memo Line"
 
     local procedure GetLineNo()
     var
-        AllowanceLine: Record "Assignment Memo Line";
+        AllowanceLine: Record "Assignment Memo Line Copy";
     begin
         AllowanceLine.Reset;
         AllowanceLine.SetCurrentKey("Document No.", "Line No.");
@@ -374,7 +374,6 @@ table 50162 "Assignment Memo Line"
         IsHandled: Boolean;
     begin
         if "Payroll Attribute Code" <> '' then begin
-            OnBeforeCalculateAmountForLine(Rec, IsHandled);
 
             if IsHandled then
                 exit;
@@ -394,7 +393,7 @@ table 50162 "Assignment Memo Line"
         end;
     end;
 
-    procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
+    procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line Copy")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
     begin
@@ -420,10 +419,9 @@ table 50162 "Assignment Memo Line"
         if not AssignmentMemoLine.IsEmpty() then
             Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee No.", Format(PAssignMemo."From Date"));
 
-        OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
     end;
 
-    procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line")
+    procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line Copy")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
     begin
@@ -439,15 +437,5 @@ table 50162 "Assignment Memo Line"
             if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
                 AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
         end;
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnCheckDuplicateAssignmentMemoLineOnAfterCheck(var AssignmentMemoLine: Record "Assignment Memo Line")
-    begin
     end;
 }

@@ -68,6 +68,15 @@ page 50178 "Request Allowance Card"
                     Editable = false;
                 }
             }
+            part(line1; "Request Allowance Subform Copy")
+            {
+                SubPageLink = "Document No." = field("No."), "Emp Act Type" = field("Activity Type");
+                UpdatePropagation = Both;
+                ApplicationArea = All;
+                Editable = IsOpen;
+                Visible = reimbursementView;
+            }
+
             part(line; "Request Allowance Subform")
             {
                 SubPageLink = "Document No." = field("No."), "Emp Act Type" = field("Activity Type");
@@ -167,13 +176,20 @@ page 50178 "Request Allowance Card"
         IsOpen, IsPending, IsApprove : Boolean;
         RecRef: RecordRef;
         AllowanceClaim: Boolean;
+        reimbursementView: Boolean;
 
     local procedure SetLayout()
+    var
+        Payrollattributes: Record "Payroll Attributes";
     begin
         FormEditable := rec."Approval Status" = rec."Approval Status"::Open;
         IsPending := Rec."Approval Status" = rec."Approval Status"::"Pending";
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
         IsApprove := Rec."Approval Status" = rec."Approval Status"::Approved;
         RecRef.GetTable(Rec);
+
+        if Payrollattributes.Get(Rec."Payroll Attribute Code") then begin
+            reimbursementView := Payrollattributes."Specific Attributes" = Payrollattributes."Specific Attributes"::Reimbursement;
+        end
     end;
 }

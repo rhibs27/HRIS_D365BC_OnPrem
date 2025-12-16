@@ -184,6 +184,7 @@ codeunit 50030 "Assignment Memo Mgt"
         ApprovalHrms: Record "Approval HRMS";
         IsHandled: Boolean;
     begin
+        ProcessAssignmentRequestFromCopyTable(AssignmentmemoHdr, IsHandled);
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
             AssignmentMemoHdr.TestField(Remarks);
 
@@ -397,6 +398,9 @@ codeunit 50030 "Assignment Memo Mgt"
         Allowanceconfig: Record "Allowance Configuration";
         PGSetup: Record "Payroll General Setup";
     begin
+        //check for allowance eligibility
+        CheckAllowanceELIgibility(EmpCode, AllowanceType);
+
         PGSetup.Get();
 
         AssignmentMemoHdr.Init;
@@ -579,89 +583,6 @@ codeunit 50030 "Assignment Memo Mgt"
         if IncomingDoc.Insert(true) then;
     end;
 
-    // procedure AllowanceRequestOnbeforeSendForApproval(DocNo: Code[20])  //moved to extension
-    // var
-    //     AssignmentMemoHdr: Record "Assignment Memo Header";
-    //     AssignmentMemoLine: Record "Assignment Memo Line";
-    //     PayrollAttribute: Record "Payroll Attributes";
-    //     AllowanceConfig: Record "Allowance Configuration";
-    // begin
-    //     AssignmentMemoHdr.Get(DocNo);
-
-    //     if AssignmentMemoHdr."Activity Type" <> AssignmentMemoHdr."Activity Type"::"Request Allowance" then
-    //         exit;
-
-    //     AssignmentMemoLine.SetRange("Document No.", DocNo);
-    //     if AssignmentMemoLine.FindSet() then
-    //         repeat
-    //             AssignmentMemoLine.TestField("Approval Status", AssignmentMemoLine."Approval Status"::Open);
-    //             PayrollAttribute.Get(AssignmentMemoLine."Payroll Attribute Code");
-    //             case PayrollAttribute."Specific Attributes" of
-    //                 PayrollAttribute."Specific Attributes"::"OutStation Allowance":
-    //                     AssignmentMemoLine.TestField("Distance (KM)");
-    //                 PayrollAttribute."Specific Attributes"::"Education Allowance":
-    //                     begin
-    //                         AssignmentMemoLine.TestField("Name of Children");
-    //                         AssignmentMemoLine.TestField("School Name");
-    //                         AssignmentMemoLine.TestField("Grade/Class");
-    //                     end;
-    //             end;
-    //             AllowanceConfig.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
-    //             if AllowanceConfig.FindFirst then begin
-    //                 if AllowanceConfig.Source in [AllowanceConfig.Source::Shift, AllowanceConfig.Source::Assignment] then
-    //                     if not CheckIfEmployeeIsPresentForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date") then
-    //                         Error('Attendance not found for %1 on %2', AssignmentMemoLine."Employee No.", AssignmentMemoLine."From Date");
-
-    //                 if AllowanceConfig.Source = AllowanceConfig.Source::Leave then
-    //                     if not CheckIfLeaveExistForAllowance(AssignmentMemoLine."Employee No.", AssignmentMemoLine."Document No.", AssignmentMemoLine."Payroll Attribute Code") then
-    //                         Error('Unclaimed leave not found for %1', AssignmentMemoLine."Employee No.");
-    //             end;
-
-    //         until AssignmentMemoLine.Next() = 0;
-    // end;
-
-    // procedure CheckIfLeaveExistForAllowance(EmpCode: Code[20]; DocNo: Code[20]; AllowanceType: Code[20]): Boolean
-    // var
-    //     LeaveRec: Record Leave;
-    //     LeaveTypeSetUp: Record "Leave Type Setup";
-    // begin
-    //     LeaveTypeSetUp.SetRange("Payroll Attribute", AllowanceType);
-    //     if not LeaveTypeSetUp.FindFirst() then
-    //         exit(false);
-
-    //     LeaveRec.SetRange("Employee No.", EmpCode);
-    //     LeaveRec.SetRange("Leave code", LeaveTypeSetUp.Code);
-    //     LeaveRec.SetRange("Approval Status", LeaveRec."Approval Status"::Approved);
-    //     LeaveRec.SetRange(Claimed, false);
-    //     if LeaveRec.FindLast() then begin
-    //         LeaveRec."Claimed Doc No." := '';
-    //         LeaveRec.Claimed := true;
-    //         LeaveRec.Modify();
-    //         exit(true);
-    //     end;
-    // end;
-
-    // procedure CheckIfEmployeeIsPresentForAllowance(EmpCode: Code[20]; FromDate: Date; ToDate: Date): Boolean
-    // var
-    //     EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-    // begin
-    //     //do not check for future dates
-    //     if (FromDate > WorkDate()) and (ToDate > WorkDate()) then
-    //         exit(true);
-    //     if (FromDate <= WorkDate()) and (ToDate > WorkDate()) then
-    //         ToDate := WorkDate();
-    //     EmployeeAttendanceActivity.SetLoadFields("Employee No.", "Attendance Date");
-    //     EmployeeAttendanceActivity.SetRange("Employee No.", EmpCode);
-    //     EmployeeAttendanceActivity.SetRange("Attendance Date", FromDate, ToDate);
-    //     if EmployeeAttendanceActivity.FindSet() then begin
-    //         repeat
-    //             if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then
-    //                 exit(false);
-    //         until EmployeeAttendanceActivity.Next() = 0;
-    //         exit(true);
-    //     end;
-    // end;
-
     procedure ClearAssignmentMemoLedgerDataOnLineReject(ledgerEntryNo: Integer)
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
@@ -797,6 +718,132 @@ codeunit 50030 "Assignment Memo Mgt"
         exit(AssignmentMemoLine."Fuel Claimed (ltr)");
     end;
 
+    procedure CheckAllowanceELIgibility(EmpCode: Code[20]; AllowanceType: Code[20])
+    var
+        Employee: Record Employee;
+        Salarylevel: Record "Salary Level";
+        PayrollAttributes: Record "Payroll Attributes";
+        EmployeeEdit: Record "Employee Edit";
+    begin
+        if EmpCode = '' then
+            exit;
+        if AllowanceType = '' then
+            exit;
+        PayrollAttributes.Get(AllowanceType);
+        Employee.Get(EmpCode);
+
+        case PayrollAttributes."Specific Attributes" of
+            PayrollAttributes."Specific Attributes"::Reimbursement:
+                begin
+                    Salarylevel.Get(Employee."Salary Level");
+                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler (EV)", Employee."Vehicle Type"::"Two Wheeler (EV)", Employee."Vehicle Type"::" ", Employee."Vehicle Type"::"No Vehicle"] then
+                        Error('You are not eligible to claim Transportation Reimbursement.');
+
+                    EmployeeEdit.SetLoadFields("Employee No.", "Requested Date", "Claim Type", "Vehicle Type", "Approval Status", "Changes In Employee Type");
+                    EmployeeEdit.SetCurrentKey("Requested Date");
+                    EmployeeEdit.SetRange("Employee No.", EmpCode);
+                    EmployeeEdit.SetRange("Changes In Employee Type", EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update");
+                    EmployeeEdit.SetRange("Approval Status", EmployeeEdit."Approval Status"::Approved);
+                    if EmployeeEdit.FindLast() then begin
+                        if EmployeeEdit."Claim Type" <> AllowanceType then
+                            Error('You are not eligible to claim %1 as your claim type was updated to %2 on %3.', AllowanceType, EmployeeEdit."Claim Type", EmployeeEdit."Requested Date");
+                    end;
+                end;
+        end;
+    end;
+
+    procedure ProcessAssignmentRequestFromCopyTable(var AssignmentMemoHdr: Record "Assignment Memo Header"; var IsHandled: Boolean)
+    var
+        AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLineCopy: Record "Assignment Memo Line Copy";
+        SalaryLevel: Record "Salary Level";
+        Employee: Record Employee;
+
+        FuelLimit, TempFuelLimit : Decimal;
+        AmountLimit, TempAmountLimit : Decimal;
+        FuelClaimed, AmountClaimed : Decimal;
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        //get limit
+        if not PayrollAttributes.Get(AssignmentMemoHdr."Payroll Attribute Code") then
+            exit;
+
+        if PayrollAttributes."Specific Attributes" <> PayrollAttributes."Specific Attributes"::Reimbursement then
+            exit;
+
+        Employee.Get(AssignmentMemoHdr."Employee No.");
+        SalaryLevel.Get(Employee."Salary Level");
+
+        if (Employee."Vehicle Type" in [Employee."Vehicle Type"::"Two Wheeler", Employee."Vehicle Type"::"Four Wheeler"])
+            and (SalaryLevel.Rank >= 16) then begin
+            FuelLimit := SalaryLevel."Fuel Limit (ltr)";
+            AmountLimit := 0;
+        end else begin
+            FuelLimit := 0;
+            AmountLimit := SalaryLevel."Transportation Allowance";
+        end;
+
+        AssignmentMemoLineCopy.SetCurrentKey("Amount per Ltr.");
+        AssignmentMemoLineCopy.SetRange("Document No.", AssignmentMemoHdr."No.");
+        AssignmentMemoLineCopy.SetFilter("Amount per Ltr.", '>0');
+        AssignmentMemoLineCopy.SetAscending("Amount per Ltr.", false);
+        AssignmentMemoLineCopy.CalcSums("Fuel Claimed (ltr)");
+        AssignmentMemoLineCopy.CalcSums("Allowance Amount");
+        TempFuelLimit := AssignmentMemoLineCopy."Fuel Claimed (ltr)";
+        if (TempFuelLimit > FuelLimit) and (FuelLimit > 0) then
+            TempFuelLimit := FuelLimit;
+        AmountClaimed := AssignmentMemoLineCopy."Allowance Amount";
+        if (AmountClaimed > AmountLimit) and (AmountLimit > 0) then
+            TempAmountLimit := AmountLimit;
+        if FuelLimit > 0 then begin
+            FuelClaimed := 0;
+            AmountClaimed := 0;
+            if AssignmentMemoLineCopy.FindSet() then
+                repeat
+                    if TempFuelLimit - AssignmentMemoLineCopy."Fuel Claimed (ltr)" >= 0 then begin
+                        FuelClaimed += AssignmentMemoLineCopy."Fuel Claimed (ltr)";
+                        AmountClaimed += AssignmentMemoLineCopy."Allowance Amount";
+                        TempFuelLimit -= AssignmentMemoLineCopy."Fuel Claimed (ltr)";
+                    end else begin
+                        FuelClaimed += TempFuelLimit;
+                        AmountClaimed += (TempFuelLimit * AssignmentMemoLineCopy."Amount per Ltr.");
+                        TempFuelLimit := 0;
+                    end
+                until (AssignmentMemoLineCopy.Next() = 0) or (FuelClaimed = FuelLimit);
+        end
+        else begin
+            AmountClaimed := 0;
+            fuelClaimed := 0;
+            if AssignmentMemoLineCopy.FindSet() then
+                repeat
+                    if TempAmountLimit - AssignmentMemoLineCopy."Allowance Amount" >= 0 then begin
+                        AmountClaimed += AssignmentMemoLineCopy."Allowance Amount";
+                        FuelClaimed += AssignmentMemoLineCopy."Fuel Claimed (ltr)";
+                        TempAmountLimit -= AssignmentMemoLineCopy."Allowance Amount";
+                    end else begin
+                        AmountClaimed += TempAmountLimit;
+                        FuelClaimed += Round((TempAmountLimit / AssignmentMemoLineCopy."Amount per Ltr."), 0.01, '=');
+                        TempAmountLimit := 0;
+                    end
+
+                until (AssignmentMemoLineCopy.Next() = 0) or (AmountClaimed = AmountLimit);
+        end;
+
+        if (FuelClaimed = 0) and (AmountClaimed = 0) then
+            exit;
+
+        AssignmentMemoLine.Init();
+        AssignmentMemoLine.Validate("Document No.", AssignmentMemoHdr."No.");
+        AssignmentMemoLine.Validate("Emp Act Type", AssignmentMemoHdr."Activity Type");
+        AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
+        AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+        AssignmentMemoLine.Validate("Payroll Attribute Code", AssignmentMemoHdr."Payroll Attribute Code");
+        AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."To Date");
+        AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
+        AssignmentMemoLine.Validate("Fuel Claimed (ltr)", FuelClaimed);
+        AssignmentMemoLine.Validate("Allowance Amount", AmountClaimed);
+        AssignmentMemoLine.Insert(true);
+    end;
 
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]
     local procedure OnafterInsertAssignmentMemoHeader(var Rec: Record "Assignment Memo Header")

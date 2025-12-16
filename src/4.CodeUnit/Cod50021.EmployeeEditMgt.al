@@ -379,7 +379,6 @@ codeunit 50021 "Employee Edit Mgt."
             if EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"] then begin
                 EmployeeEdit.TestField("Vehicle No.", '');
                 EmployeeEdit.TestField("Vehicle Owner Name", '');
-                EmployeeEdit.TestField("Ownership Start/End Date", 0D);
             end else begin
                 EmployeeEdit.TestField("Vehicle No.");
                 EmployeeEdit.TestField("Vehicle Owner Name");
@@ -387,6 +386,9 @@ codeunit 50021 "Employee Edit Mgt."
             end;
 
         end;
+
+        //check for attachment mandatory
+        CheckAttachmentmandatoryForEmployeeEdit(EmployeeEdit)
     end;
 
     procedure ImportEditLineAttachmentsToEmployee(EmployeeEditNo: Code[20])
@@ -583,6 +585,42 @@ codeunit 50021 "Employee Edit Mgt."
             ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
 
         Message('Approval request has been sent.');
+    end;
+
+    procedure CheckAttachmentmandatoryForEmployeeEdit(var EmployeeEdit: Record "Employee Edit")
+    var
+        IncomingDocument: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.SetRange(Mandatory, true);
+        case EmployeeEdit."Changes In Employee Type" of
+            EmployeeEdit."Changes In Employee Type"::Qualification:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Education);
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+            EmployeeEdit."Changes In Employee Type"::"Work Experience",
+            EmployeeEdit."Changes In Employee Type"::Achievement:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Work Experience");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+            EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update":
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Vehicle Info Update");
+                    if AttachmentSetup.FindFirst() then begin
+                        if not EmployeeEdit.Attachment.HasValue() then
+                            if not (EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"]) then
+                                Error('Attachment is mandatory for %1. Please attach the required document.', Format(EmployeeEdit."Changes In Employee Type"));
+                    end;
+                end;
+            EmployeeEdit."Changes In Employee Type"::Details:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+        end;
     end;
 
     [IntegrationEvent(false, false)]

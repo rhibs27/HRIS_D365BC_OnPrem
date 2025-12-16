@@ -429,6 +429,18 @@ table 50074 "Employee Edit"
                 end;
             end;
         }
+        field(80; "Ownership Start/End Date (B.S)"; code[20])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                EngNep: Record "English-Nepali Date";
+            begin
+                if EngNep.getEngDate("Ownership Start/End Date (B.S)") = 0D then
+                    Error('Please enter the nepali date in YYYY/MM/DD format.');
+                Validate("Ownership Start/End Date", EngNep.getEngDate("Ownership Start/End Date (B.S)"));
+            end;
+        }
 
         field(100; "Status"; Text[20])
         {
@@ -570,5 +582,50 @@ table 50074 "Employee Edit"
             if "Requested Date" >= PayCyclePeriod."Allowance End Date" then
                 if "Changes In Employee Type" = "Changes In Employee Type"::"Vehicle Info Update" then
                     Error('Vehicle update can not be requested from %1 for this month', PayCyclePeriod."Allowance End Date");
+    end;
+
+    procedure InsertAttachment()
+    var
+        IncomingDocument: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        if not GuiAllowed then
+            exit;
+        if "No." = '' then
+            exit;
+
+        AttachmentSetup.SetRange(Mandatory, true);
+        case "Changes In Employee Type" of
+            "Changes In Employee Type"::Qualification:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Education);
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+            "Changes In Employee Type"::"Work Experience",
+            "Changes In Employee Type"::Achievement:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Work Experience");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+            "Changes In Employee Type"::"Vehicle Info Update":
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Vehicle Info Update");
+                end;
+            "Changes In Employee Type"::Details:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+
+        end;
+        if AttachmentSetup.FindFirst() then begin
+            IncomingDocument.Init();
+            IncomingDocument."Employee Activity Type" := Type;
+            IncomingDocument."Document No." := "No.";
+            IncomingDocument."Attachment Code" := AttachmentSetup."Attachment Code";
+            IncomingDocument."Employee Code" := "Employee No.";
+            IncomingDocument.Insert(true);
+        end;
     end;
 }
