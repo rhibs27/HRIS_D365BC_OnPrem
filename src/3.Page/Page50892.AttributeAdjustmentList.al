@@ -1,4 +1,4 @@
-page 50376 "Attribute Adjustment List"
+page 50377 "Attribute Adjustment List"
 {
     PageType = List;
     SourceTable = "Attribute Adjustment Header";

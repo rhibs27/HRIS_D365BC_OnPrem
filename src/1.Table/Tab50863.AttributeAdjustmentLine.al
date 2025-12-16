@@ -39,12 +39,28 @@ table 50165 "Attribute Adjustment Line"
         {
             Caption = 'Adjustment Type';
             ValuesAllowed = " ", Promotion, Confirmation, "Employee Transfer";
+
+            trigger OnValidate()
+            var
+                AttributeAdj: Record "Attribute Adjustment Header";
+            begin
+                AttributeAdj.Get("Document No.");
+                TestField("Adjustment Type", AttributeAdj."Adjustment Type");
+            end;
+
         }
 
         field(6; "Attribute Code"; Code[20])
         {
             Caption = 'Attribute Code';
             TableRelation = "Payroll Attributes"."Code";
+            trigger OnValidate()
+            var
+                PayrollAttrUsage: Record "Payroll Attributes Usage";
+            begin
+                PayrollAttrUsage.Get("Attribute Code", "Employee No.");
+                Validate("Old Amount", PayrollAttrUsage.Amount);
+            end;
         }
 
         field(7; "Old Amount"; Decimal)

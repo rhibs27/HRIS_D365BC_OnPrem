@@ -2363,10 +2363,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Method OnDelete - NamedType CannotDelete</note>
         </trans-unit>
-        <trans-unit id="Table 3120113408 - Field 3064454905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Adjustment Type Filter</source>
+        <trans-unit id="Table 3120113408 - Field 1765229233 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Adjustment Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Field Adjustment Type Filter - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Field Adjustment Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3120113408 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
@@ -2462,6 +2462,11 @@
           <source>Old Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Old Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3281230887 - Field 948387087 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>System Calculated</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field System Calculated - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1462507268 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Attributes Usage History</source>
@@ -25167,6 +25172,11 @@
           <source>Insert Line</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action InsertLine - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1254391634 - Action 3652447633 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Payroll Attributes Usage action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action Payroll Attributes Usage - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2878192907 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Adjustments</source>
@@ -50583,11 +50593,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control UnitCodeFilter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 2062958821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Detailed Ledger Entry</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Detailed Ledger Entry - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Report 3276795145 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Leave Balance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -52687,6 +52692,11 @@
           <source>Specifies the value of the PayCycleTerm field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Method 3075606970 - NamedType 2128685181" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 cannot be blank.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Method ValidateRequiredFields - NamedType MissingFieldErr</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 4133302435 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Contract Expiry Date field.</source>

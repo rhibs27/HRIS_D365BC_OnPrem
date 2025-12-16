@@ -1,4 +1,4 @@
-page 50374 "Attribute Adjustment Card"
+page 50375 "Attribute Adjustment Card"
 {
     PageType = Card;
     SourceTable = "Attribute Adjustment Header";
@@ -47,7 +47,7 @@ page 50374 "Attribute Adjustment Card"
             {
                 field("Payroll Attribute Filter"; Rec."Payroll Attribute Filter") { ApplicationArea = All; }
                 field("Employee Filter"; Rec."Employee Filter") { ApplicationArea = All; }
-                field("Adjustment Type Filter"; Rec."Adjustment Type Filter") { ApplicationArea = All; }
+                field("Adjustment Type"; Rec."Adjustment Type") { ApplicationArea = All; }
             }
 
             part(AdjustLines; "Attribute Adjustment Lines")

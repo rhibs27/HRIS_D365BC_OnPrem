@@ -1,4 +1,4 @@
-page 50375 "Attribute Adjustment Lines"
+page 50376 "Attribute Adjustment Lines"
 {
     PageType = ListPart;
     SourceTable = "Attribute Adjustment Line";
@@ -57,6 +57,14 @@ page 50375 "Attribute Adjustment Lines"
                     AttrAdjMgt.ImportLines(Rec."Document No.");
                     CurrPage.Update();
                 end;
+            }
+            action("Payroll Attributes Usage")
+            {
+                Image = PaymentDays;
+                RunObject = page "Payroll Attributes Usage";
+                RunPageLink = "Employee Code" = field("Employee No.");
+                ToolTip = 'Executes the Payroll Attributes Usage action.';
+                ApplicationArea = All;
             }
             action("Get Additional Attibutes")
             {

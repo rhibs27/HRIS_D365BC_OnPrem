@@ -51,11 +51,11 @@ table 50164 "Attribute Adjustment Header"
             Caption = 'Employee Filter';
         }
 
-        field(80; "Adjustment Type Filter"; Text[50])
+        field(80; "Adjustment Type"; Enum "Employee Activity Type")
         {
-            Caption = 'Adjustment Type Filter';
+            Caption = 'Adjustment Type';
+            ValuesAllowed = " ", Promotion, Confirmation, "Employee Transfer";
         }
-
         field(90; "Approval Status"; Enum "Approval Status")
         {
             Caption = 'Approval Status';

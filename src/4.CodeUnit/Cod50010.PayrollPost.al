@@ -572,11 +572,12 @@ codeunit 50010 "Payroll-Post"
                     NewAttributeAdjustmentLine."Document No." := AttributeAdjustmentHeader."Document No.";
                     NewAttributeAdjustmentLine."Line No." := GetLineNo(AttributeAdjustmentHeader."Document No.");
                     NewAttributeAdjustmentLine.Validate("Employee No.", TempEmployee."No.");
-                    NewAttributeAdjustmentLine."Adjustment Type" := NewAttributeAdjustmentLine."Adjustment Type"::Confirmation;
+                    NewAttributeAdjustmentLine."Adjustment Type" := AttributeAdjustmentHeader."Adjustment Type";
                     NewAttributeAdjustmentLine."Attribute Code" := PayrollAttributes.Code;
                     NewAttributeAdjustmentLine."New Amount" := EvaluateAmountOnAttributeAdjustment(PayrollAttributes.Formula, AttributeAdjustmentHeader, TempEmployee."No.", true); // all new amount
                     NewAttributeAdjustmentLine."Old Amount" := EvaluateAmountOnAttributeAdjustment(PayrollAttributes.Formula, AttributeAdjustmentHeader, TempEmployee."No.", false); // all old amount
                     NewAttributeAdjustmentLine."System Calculated" := true;
+                    GetEffectiveStartDateEndDate(NewAttributeAdjustmentLine);
                     NewAttributeAdjustmentLine.Insert();
                 until PayrollAttributes.Next() = 0;
         until TempEmployee.Next() = 0;
@@ -593,6 +594,18 @@ codeunit 50010 "Payroll-Post"
             exit(AttributeAdjustmentLine."Line No." + 10000);
 
         exit(10000);
+    end;
+
+    local procedure GetEffectiveStartDateEndDate(var AdjLine: Record "Attribute Adjustment Line")
+    var
+        AttributeAdjustmentLine: Record "Attribute Adjustment Line";
+    begin
+        AttributeAdjustmentLine.SetRange("Document No.", AdjLine."Document No.");
+        AttributeAdjustmentLine.SetRange("Employee No.", AdjLine."Employee No.");
+        if not AttributeAdjustmentLine.FindLast() then
+            exit;
+        AdjLine."Effective Start Date" := AttributeAdjustmentLine."Effective Start Date";
+        AdjLine."Effective End Date" := AttributeAdjustmentLine."Effective End Date";
     end;
 
     local procedure EvaluateAmountOnAttributeAdjustment(Expression: Code[100]; AttributeAdjustmentHeader: Record "Attribute Adjustment Header"; EmpCode: Code[20]; IsNewAmount: Boolean): Decimal
@@ -778,6 +791,4 @@ codeunit 50010 "Payroll-Post"
             exit(1);
         exit(0);
     end;
-
-
 }
