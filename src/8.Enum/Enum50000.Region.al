@@ -10,6 +10,10 @@ enum 50000 Region
     {
         Caption = 'Hilly';
     }
+    value(3; Himalayan)
+    {
+        Caption = 'Himalayan';
+    }
     value(2; Terai)
     {
         Caption = 'Terai';

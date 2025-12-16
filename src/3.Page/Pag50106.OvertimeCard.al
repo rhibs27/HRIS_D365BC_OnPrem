@@ -16,6 +16,7 @@ page 50106 "Overtime Card"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
