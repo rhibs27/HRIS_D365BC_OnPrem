@@ -1852,9 +1852,9 @@ table 50027 "Payroll Line"
             repeat
                 RetirementFundHeader.Reset();
                 RetirementFundHeader.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RetirementFundHeader.SetRange("Approval Status", RetirementFundHeader."Approval Status"::Approved);
                 if not RetirementFundHeader.FindLast() then
                     exit;
-
                 RFContributionLine.Reset();
                 if RetirementFundHeader.Type = RetirementFundHeader.Type::Manual then begin
                     //  RFContributionLine.SetRange("Nepali Month ", PayrollHeader."Nepali Month");
@@ -1864,12 +1864,13 @@ table 50027 "Payroll Line"
                 end;
                 RFContributionLine.SetRange("Employee No.", PayrollAttrUses."Employee Code");
                 RFContributionLine.SetRange(Type, PayrollAttrUses."RF Contribution Type");
+                RFContributionLine.SetRange("Document No.", RetirementFundHeader."No.");
+                RFContributionLine.SetRange("Approval Status", RFContributionLine."Approval Status"::Approved);
                 if RFContributionLine.FindLast() then begin
                     if RFContributionLine.Type = RFContributionLine.Type::Percent then
                         PayrollAttrUses.Validate(Amount, (GetAmountRFContribution(RetirementFundHeader."Employee No.") * RFContributionLine.Amount) / 100)
                     else
                         PayrollAttrUses.Validate(Amount, RFContributionLine.Amount);
-
                     PayrollAttrUses.Modify();
                 end
             until PayrollAttributes.Next() = 0;
@@ -2115,12 +2116,13 @@ table 50027 "Payroll Line"
         TotalDaysInMonth: Decimal;
         TotalAmount: Decimal;
         IsHandled: Boolean;
+        RFContribution: Enum "RF Contribution Type";
     begin
         if CalculatedAmount < 0 then
             exit(CalculatedAmount);
 
         if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
-            if PayrollAttributesUsage."RF Contribution Type" <> PayrollAttributesUsage."RF Contribution Type"::Percent then
+            if PayrollAttributesUsage."RF Contribution Type" in [RFContribution::Fixed, RFContribution::Manual, RFContribution::Optimum] then
                 exit(CalculatedAmount);
 
         if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
