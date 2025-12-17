@@ -2418,6 +2418,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Adjustment Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3281230887 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Approval Status - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3281230887 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21513,6 +21518,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckRequester - NamedType ApproveNotEligibleError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 3759036176 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not eligible to withdraw this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckRequesterBoolean - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3295680700 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25129,7 +25139,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Release - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 627680985 - Action 27065144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Re-Open Document</source>
+          <source>Re-Open</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action ReOpen Document - Property Caption</note>
         </trans-unit>
@@ -25158,10 +25168,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action ExportToExcel - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1254391634 - Action 3869266350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1254391634 - Action 1542681300 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Get Additional Attributes</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action Get Additional Attibutes - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action Get Additional Attributes - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1254391634 - Action 3545432896 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Import from Excel</source>

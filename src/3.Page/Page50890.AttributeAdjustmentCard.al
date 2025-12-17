@@ -41,13 +41,12 @@ page 50375 "Attribute Adjustment Card"
                     ApplicationArea = All;
                     Visible = IsPending;
                 }
+                field("Adjustment Type"; Rec."Adjustment Type")
+                {
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
                 field("Approval Status"; Rec."Approval Status") { ApplicationArea = All; }
-            }
-            group(Filters)
-            {
-                field("Payroll Attribute Filter"; Rec."Payroll Attribute Filter") { ApplicationArea = All; }
-                field("Employee Filter"; Rec."Employee Filter") { ApplicationArea = All; }
-                field("Adjustment Type"; Rec."Adjustment Type") { ApplicationArea = All; }
             }
 
             part(AdjustLines; "Attribute Adjustment Lines")
@@ -103,9 +102,9 @@ page 50375 "Attribute Adjustment Card"
 
             action("ReOpen Document")
             {
-                Caption = 'Re-Open Document';
+                Caption = 'Re-Open';
                 ApplicationArea = All;
-                Visible = IsPending and not OpenApprovalEntriesExistForCurrUser;
+                Visible = IsPending;
                 Image = ReOpen;
                 trigger OnAction()
                 begin

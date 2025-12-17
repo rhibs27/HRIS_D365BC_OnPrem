@@ -323,8 +323,11 @@ codeunit 50017 "Approver Mgt"
 
 
     procedure CheckApproverBoolean(EmpActNo: Code[20]): Boolean // onprem
+    var
+        x: Boolean;
     begin
-        CheckApproverBoolean(EmpActNo, HRMgt.GetEmployeeNo());
+        x := CheckApproverBoolean(EmpActNo, HRMgt.GetEmployeeNo());
+        exit(x)
     end;
 
     procedure CheckApproverBoolean(EmpActNo: Code[20]; ApproverNo: code[20]): Boolean //saas
@@ -888,6 +891,19 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
     end;
 
+    procedure CheckRequesterBoolean(EmpActNo: Code[20]): Boolean
+    var
+        ApprovalLine: Record "Approval HRMS";
+        ApproveNotEligibleError: Label 'You are not eligible to withdraw this document ';
+        x: Boolean;
+    begin
+        ApprovalLine.SetRange("Document No.", EmpActNo);
+        ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
+        if ApprovalLine.FindFirst() then
+            x := true;
+        exit(x);
+    end;
+
     procedure CheckRequesterSAAS(EmpActNo: Code[20]; ApproverNo: code[20])
     var
         ApprovalLine: Record "Approval HRMS";
@@ -1199,7 +1215,8 @@ codeunit 50017 "Approver Mgt"
         end;
 
         if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
-            CheckApprover(DocNumber);
+            if not (CheckApproverBoolean(DocNumber) or CheckRequesterBoolean(DocNumber)) then
+                Error('Not eligible to re-open the document.');
             CheckFirstApproverSequence(DocNumber);
             Approver.Reset();
             Approver.SetRange("Document No.", DocNumber);
@@ -1216,7 +1233,7 @@ codeunit 50017 "Approver Mgt"
                 RecRef.Modify();
             end;
         end else
-            Error('Document Status Must be in Pending');
+            Error('Document status ust be in Pending.');
     end;
 
     procedure IsFinalApprover(DocNo: Code[20]): Boolean

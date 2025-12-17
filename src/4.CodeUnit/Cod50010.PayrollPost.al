@@ -543,6 +543,8 @@ codeunit 50010 "Payroll-Post"
         AttributeAdjustmentLine, NewAttributeAdjustmentLine : Record "Attribute Adjustment Line";
         TempEmployee: Record Employee temporary;
         PayCyclePeriod: Record "Pay Cycle Period";
+        PayrollAttribUsage: Record "Payroll Attributes Usage";
+        Formula: Code[100];
     begin
         AttributeAdjustmentLine.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
         if AttributeAdjustmentLine.FindSet() then
@@ -560,29 +562,46 @@ codeunit 50010 "Payroll-Post"
 
         PayCyclePeriod.Get(AttributeAdjustmentHeader."Pay Cycle Code", AttributeAdjustmentHeader."Pay Cycle Term", AttributeAdjustmentHeader."Pay Cycle Period");
 
+        //Delete Existing System Generated Adjustment Lines to avoid duplication
+        AttributeAdjustmentLine.Reset();
+        AttributeAdjustmentLine.SetRange("System Calculated", true);
+        AttributeAdjustmentLine.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
+        if AttributeAdjustmentLine.FindSet() then
+            AttributeAdjustmentLine.DeleteAll();
+
         TempEmployee.Reset();
         TempEmployee.FindSet();
         repeat
-            PayrollAttributes.SetFilter(Formula, '<>%1', '');
-            if PayrollAttributes.FindSet() then
+            PayrollAttribUsage.SetRange("Formula Exists", true);
+            PayrollAttribUsage.SetRange("Employee Code", TempEmployee."No.");
+            if PayrollAttribUsage.FindSet() then
                 repeat
                     Clear(NewAttributeAdjustmentLine);
-
+                    Clear(Formula);
                     NewAttributeAdjustmentLine.Init();
                     NewAttributeAdjustmentLine."Document No." := AttributeAdjustmentHeader."Document No.";
                     NewAttributeAdjustmentLine."Line No." := GetLineNo(AttributeAdjustmentHeader."Document No.");
                     NewAttributeAdjustmentLine.Validate("Employee No.", TempEmployee."No.");
                     NewAttributeAdjustmentLine."Adjustment Type" := AttributeAdjustmentHeader."Adjustment Type";
-                    NewAttributeAdjustmentLine."Attribute Code" := PayrollAttributes.Code;
-                    NewAttributeAdjustmentLine."New Amount" := EvaluateAmountOnAttributeAdjustment(PayrollAttributes.Formula, AttributeAdjustmentHeader, TempEmployee."No.", true); // all new amount
-                    NewAttributeAdjustmentLine."Old Amount" := EvaluateAmountOnAttributeAdjustment(PayrollAttributes.Formula, AttributeAdjustmentHeader, TempEmployee."No.", false); // all old amount
+                    NewAttributeAdjustmentLine."Attribute Code" := PayrollAttribUsage.Code;
+                    Formula := GetPayrollAttributeFormula(PayrollAttribUsage.Code);
+                    NewAttributeAdjustmentLine."New Amount" := EvaluateAmountOnAttributeAdjustment(Formula, AttributeAdjustmentHeader, TempEmployee."No.", true); // all new amount
+                    NewAttributeAdjustmentLine."Old Amount" := EvaluateAmountOnAttributeAdjustment(Formula, AttributeAdjustmentHeader, TempEmployee."No.", false); // all old amount
                     NewAttributeAdjustmentLine."System Calculated" := true;
                     GetEffectiveStartDateEndDate(NewAttributeAdjustmentLine);
                     NewAttributeAdjustmentLine.Insert();
-                until PayrollAttributes.Next() = 0;
+                until PayrollAttribUsage.Next() = 0;
         until TempEmployee.Next() = 0;
 
         TempEmployee.DeleteAll();
+    end;
+
+    procedure GetPayrollAttributeFormula(AttributeCode: Code[20]): Code[100]
+    var
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        PayrollAttributes.Get(AttributeCode);
+        exit(PayrollAttributes.Formula);
     end;
 
     local procedure GetLineNo(DocumentNo: Code[20]): Integer
