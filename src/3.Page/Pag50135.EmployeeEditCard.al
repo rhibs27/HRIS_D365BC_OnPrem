@@ -199,6 +199,10 @@ page 50135 "Employee Edit Card"
                 {
                     ToolTip = 'Specifies the value of the Claim Type field.', Comment = '%';
                 }
+                field("Fuel Type"; Rec."Fuel Type")
+                {
+
+                }
             }
             group(MaritalStatusUpdate)
             {

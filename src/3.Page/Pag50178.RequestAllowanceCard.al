@@ -67,6 +67,26 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Fuel Limit (amt) field.', Comment = '%';
                     Editable = false;
                 }
+                field("Vehicle Type"; Rec."Vehicle Type")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Type field.', Comment = '%';
+                }
+                field("Vehicle No."; Rec."Vehicle No.")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle No. field.', Comment = '%';
+                }
+                field("Vehicle Owner Name"; Rec."Vehicle Owner Name")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Owner Name field.', Comment = '%';
+                }
+                field("Ownership Start/End Date"; Rec."Ownership Start/End Date")
+                {
+                    ToolTip = 'Specifies the value of the Ownership Start/End Date field.', Comment = '%';
+                }
+                field("Fuel Type"; Rec."Fuel Type")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Type field.', Comment = '%';
+                }
             }
             part(line1; "Request Allowance Subform Copy")
             {

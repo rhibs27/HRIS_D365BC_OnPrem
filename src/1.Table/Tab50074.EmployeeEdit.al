@@ -376,7 +376,7 @@ table 50074 "Employee Edit"
                 if "Ownership Start/End Date" <> 0D then begin
                     if "Ownership Start/End Date" > WorkDate() then
                         Error('Ownership Start/End Date cannot a future date.');
-                    Validate("Ownership Start/End Date (B.S)", EngNep.getNepaliDate("Ownership Start/End Date"));
+                    "Ownership Start/End Date (B.S)" := EngNep.getNepaliDate("Ownership Start/End Date");
                 end;
             end;
         }
@@ -450,6 +450,10 @@ table 50074 "Employee Edit"
                     Error('Please enter the nepali date in YYYY/MM/DD format.');
                 Validate("Ownership Start/End Date", EngNep.getEngDate("Ownership Start/End Date (B.S)"));
             end;
+        }
+        field(81; "Fuel Type"; Enum "Fuel Type")
+        {
+            DataClassification = CustomerContent;
         }
 
         field(100; "Status"; Text[20])

@@ -119,6 +119,8 @@ table 50161 "Assignment Memo Header"
                         if "Fuel Limit (ltr)" = 0 then
                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                     end;
+                    if "Activity Type" = "Activity Type"::"Request Allowance" then
+                        GetVehicleDetails();
                 end;
                 if PayrollAttr.Get("Payroll Attribute Code") then begin
                     "Payroll Attr. Description" := PayrollAttr.Description;
@@ -185,6 +187,7 @@ table 50161 "Assignment Memo Header"
                                     "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                             end;
                         end;
+                        GetVehicleDetails();
                     end;
                 end else begin
                     if not GuiAllowed then begin
@@ -208,6 +211,7 @@ table 50161 "Assignment Memo Header"
                                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                                     end;
                                 end;
+                                GetVehicleDetails();
 
                             end;
                         end;
@@ -259,6 +263,25 @@ table 50161 "Assignment Memo Header"
         }
         field(43; "Nepali Month"; Enum "Nepali Month")
         {
+        }
+        field(50; "Vehicle Type"; Enum "Vehicle Type")
+        {
+        }
+        field(51; "Vehicle No."; Text[50])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(52; "Vehicle Owner Name"; Text[150])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(53; "Fuel Type"; Enum "Fuel Type")
+        {
+            DataClassification = CustomerContent;
+        }
+        field(71; "Ownership Start/End Date"; Date)
+        {
+            DataClassification = CustomerContent;
         }
         field(100; "Status"; Text[20])
         {
@@ -436,5 +459,22 @@ table 50161 "Assignment Memo Header"
             if "Document Date" >= PayCyclePeriod."Allowance End Date" then
                 if "Activity Type" = "Activity Type"::"Request Allowance" then
                     Error('Allowance can not be requested from %1.', PayCyclePeriod."Allowance End Date");
+    end;
+
+    procedure GetVehicleDetails()
+    var
+        Employee: Record Employee;
+        EmployeeEdit: Record "Employee Edit";
+    begin
+        if Employee.Get("Employee No.") then begin
+            EmployeeEdit.SetRange("Employee No.", Employee."No.");
+            if EmployeeEdit.FindLast() then begin
+                "Vehicle Type" := EmployeeEdit."Vehicle Type";
+                "Vehicle No." := EmployeeEdit."Vehicle No.";
+                "Vehicle Owner Name" := EmployeeEdit."Vehicle Owner Name";
+                "Fuel Type" := EmployeeEdit."Fuel Type";
+                "Ownership Start/End Date" := EmployeeEdit."Ownership Start/End Date";
+            end;
+        end;
     end;
 }

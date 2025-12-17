@@ -387,6 +387,8 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeEdit.TestField("Vehicle No.");
                 EmployeeEdit.TestField("Vehicle Owner Name");
                 EmployeeEdit.TestField("Ownership Start/End Date");
+                // if EmployeeEdit."Vehicle Type" = EmployeeEdit."Vehicle Type"::"Four Wheeler" then
+                //     EmployeeEdit.TestField("Fuel Type");
             end;
 
         end;
