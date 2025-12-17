@@ -20688,6 +20688,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Advance Cash Required - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 621202891 - Field 659061973 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Advance Disbursed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Advance Disbursed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 621202891 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20882,6 +20887,11 @@
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Functional Title - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 621202891 - Field 2696944170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Desc</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Functional Title Desc - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 621202891 - Field 3647694100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Lodging Allowance</source>
@@ -49673,6 +49683,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Control Approval Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1666541910 - Control 569466453 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Advance Cash Required field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Control Disbursed Advance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1666541910 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -49742,6 +49757,11 @@
           <source>Executes the Withdrawn action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action WithDrawn - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1666541910 - Action 43549783 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action &amp;Advance Disbursed - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1666541910 - Action 1392435954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Travel Request action.</source>
