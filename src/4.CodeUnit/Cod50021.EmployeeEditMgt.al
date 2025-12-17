@@ -371,6 +371,9 @@ codeunit 50021 "Employee Edit Mgt."
     procedure EmployeeEditOnBeforeApprove(EmployeeEdit: Record "Employee Edit")
     var
         EmployeeEditLine: Record "Employee Edit Line";
+        EmployeeEdit2: Record "Employee Edit";
+        AssignmentMemoHeader: Record "Assignment Memo Header";
+        PayrollAttributes: Record "Payroll Attributes";
     begin
         EmployeeEdit.TestField("Employee No.");
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
@@ -380,6 +383,23 @@ codeunit 50021 "Employee Edit Mgt."
         if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then begin
             EmployeeEdit.TestField("Vehicle Type");
             EmployeeEdit.TestField("Claim Type");
+
+            //do not allow multiple pending
+            EmployeeEdit2.SetRange("Employee No.", EmployeeEdit."Employee No.");
+            EmployeeEdit2.SetRange("Changes In Employee Type", EmployeeEdit."Changes In Employee Type");
+            EmployeeEdit2.SetRange("Approval Status", EmployeeEdit2."Approval Status"::Pending);
+            EmployeeEdit2.SetFilter("No.", '<>%1', EmployeeEdit."No.");
+            if not EmployeeEdit2.IsEmpty() then
+                Error('There is already a pending Vehicle Info Update request for this employee. Please resolve it before creating a new one.');
+
+            //do not allow if reimbursement is pending
+            AssignmentMemoHeader.SetRange("Employee No.", EmployeeEdit."Employee No.");
+            AssignmentMemoHeader.SetRange("Activity Type", AssignmentMemoHeader."Activity Type"::"Request Allowance");
+            AssignmentMemoHeader.SetRange("Payroll Attribute Code", EmployeeEdit."Claim Type");
+            AssignmentMemoHeader.SetRange("Approval Status", AssignmentMemoHeader."Approval Status"::Pending);
+            if not AssignmentMemoHeader.IsEmpty() then
+                Error('There is a pending reimbursement request for this employee under the selected Claim Type. Please resolve it before creating a new Vehicle Info Update request.');
+
             if EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"] then begin
                 EmployeeEdit.TestField("Vehicle No.", '');
                 EmployeeEdit.TestField("Vehicle Owner Name", '');
