@@ -240,7 +240,7 @@ codeunit 50029 "Process Daily Attendance"
                             AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
                         end;
                     else begin
-                        OnAfterProcessDayFromEmpActLedgerEntry(EmpActLedgerEntry, Ishandled);
+                        OnAfterProcessDayFromEmpActLedgerEntry(EmpAttendance, EmpActLedgerEntry, Ishandled);
                         if not Ishandled then begin
                             EmpAttendance."Source No." := '';
                             EmpAttendance."Employee Activity Found" := false;
@@ -394,7 +394,7 @@ codeunit 50029 "Process Daily Attendance"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterProcessDayFromEmpActLedgerEntry(Var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry"; var Ishandled: Boolean)
+    procedure OnAfterProcessDayFromEmpActLedgerEntry(var EmpAttendance: Record "Employee Attendance & Activity"; Var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry"; var Ishandled: Boolean)
     begin
     end;
 }
