@@ -424,7 +424,7 @@ codeunit 50010 "Payroll-Post"
         exit(FieldValue);
     end;
 
-    procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date; ServiceDays: Decimal): Boolean
+    procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var ServiceDays: Decimal): Boolean
     var
         EmployeeServiceHistory: Record "Employee Service History";
     begin
@@ -432,9 +432,10 @@ codeunit 50010 "Payroll-Post"
         EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
         EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
         EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-        if EmployeeServiceHistory.FindFirst() then
+        if EmployeeServiceHistory.FindFirst() then begin
             ServiceDays := EmployeeServiceHistory."Effective Date" - FromDate + 1;
-        exit(true)
+            exit(true)
+        end;
     end;
 
     procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var DeputationType: Enum "Deputation Type"): Code[20]
