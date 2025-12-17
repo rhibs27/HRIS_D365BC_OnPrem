@@ -324,7 +324,7 @@ codeunit 50017 "Approver Mgt"
 
     procedure CheckApproverBoolean(EmpActNo: Code[20]): Boolean // onprem
     begin
-        CheckApproverBoolean(EmpActNo, HRMgt.GetEmployeeNo());
+        exit(CheckApproverBoolean(EmpActNo, HRMgt.GetEmployeeNo()));
     end;
 
     procedure CheckApproverBoolean(EmpActNo: Code[20]; ApproverNo: code[20]): Boolean //saas
