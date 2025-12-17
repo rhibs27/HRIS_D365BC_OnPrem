@@ -15,9 +15,22 @@ page 50165 "Emp. Edit Relative Subform"
                 {
                     ToolTip = 'Specifies the value of the Relative Code field.', Comment = '%';
                 }
+                field("First Name"; Rec."First Name")
+                {
+                    ToolTip = 'Specifies the value of the First Name field.', Comment = '%';
+                }
+                field("Middle Name"; Rec."Middle Name")
+                {
+                    ToolTip = 'Specifies the value of the Middle Name field.', Comment = '%';
+                }
+                field("Last Name"; Rec."Last Name")
+                {
+                    ToolTip = 'Specifies the value of the Last Name field.', Comment = '%';
+                }
                 field("Full Name"; Rec."Full Name")
                 {
                     ToolTip = 'Specifies the value of the Full Name field.', Comment = '%';
+                    Editable = false;
                 }
                 field("Relative Phone No."; Rec."Relative Phone No.")
                 {

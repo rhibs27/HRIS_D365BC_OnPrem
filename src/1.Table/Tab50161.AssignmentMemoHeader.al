@@ -291,6 +291,10 @@ table 50161 "Assignment Memo Header"
             AssignmentMemoLine.SetRange("Document No.", "No.");
             AssignmentMemoLine.DeleteAll(true);
 
+            AssignmentmemoLineCopy.Reset;
+            AssignmentmemoLineCopy.SetRange("Document No.", "No.");
+            AssignmentmemoLineCopy.DeleteAll(true);
+
             ApprovalHrms.Reset;
             ApprovalHrms.SetRange("Document No.", "No.");
             ApprovalHrms.DeleteAll(true);
@@ -360,6 +364,7 @@ table 50161 "Assignment Memo Header"
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PGSetup: Record "Payroll General Setup";
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+        AssignmentmemoLineCopy: Record "Assignment Memo Line Copy";
 
     procedure AutoInsertDatesForRequestAllowance()
     var

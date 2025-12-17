@@ -39,6 +39,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeEditType::"Marital Status Update":
                 EmployeeMaritalStatusUpdate(EmployeeEdit."No.");
         end;
+        CreatePayrollAttrUsesOnApprovedEmployeeEdit(EmployeeEdit);
     end;
 
     local procedure EmployeeDetails(Var EmployeeEdit: Record "Employee Edit")
@@ -267,6 +268,9 @@ codeunit 50021 "Employee Edit Mgt."
         end;
         EmployeeRelative.Validate("Employee No.", EmployeeEditLine."Employee No.");
         EmployeeRelative.Validate("Relative Code", EmployeeEditLine."Relative Code");
+        EmployeeRelative.Validate("First Name", EmployeeEditLine."First Name");
+        EmployeeRelative.Validate("Middle Name", EmployeeEditLine."Middle Name");
+        EmployeeRelative.Validate("Last Name", EmployeeEditLine."Last Name");
         EmployeeRelative.Validate("Full Name", EmployeeEditLine."Full Name");
         EmployeeRelative.Validate("Relative's Employee No.", EmployeeEditLine."Relative's Employee No.");
         EmployeeRelative.Validate("Phone No.", EmployeeEditLine."Relative Phone No.");
@@ -620,6 +624,26 @@ codeunit 50021 "Employee Edit Mgt."
                     AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
                 end;
+        end;
+    end;
+
+    procedure CreatePayrollAttrUsesOnApprovedEmployeeEdit(var EmployeeEdit: Record "Employee Edit")
+    var
+        PayrollAtttrUses, PayrollAtttrUses2 : Record "Payroll Attributes Usage";
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        if EmployeeEdit."Claim Type" = '' then
+            exit;
+        if not PayrollAttributes.Get(EmployeeEdit."Claim Type") then
+            exit;
+
+        PayrollAtttrUses2.SetRange("Employee Code", EmployeeEdit."Employee No.");
+        PayrollAtttrUses2.SetRange(code, EmployeeEdit."Claim Type");
+        if not PayrollAtttrUses2.FindFirst() then begin
+            PayrollAtttrUses.Init();
+            PayrollAtttrUses.Validate("Employee Code", EmployeeEdit."Employee No.");
+            PayrollAtttrUses.Validate(code, EmployeeEdit."Claim Type");
+            if PayrollAtttrUses.Insert(true) then;
         end;
     end;
 

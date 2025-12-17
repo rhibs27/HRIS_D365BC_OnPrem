@@ -85,6 +85,7 @@ codeunit 50030 "Assignment Memo Mgt"
 
                 until AssignmentMemoLine.Next() = 0;
 
+            CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
             OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
         end;
     end;
@@ -920,6 +921,20 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Validate("Fuel Claimed (ltr)", FuelClaimed);
         AssignmentMemoLine.Validate("Allowance Amount", AmountClaimed);
         AssignmentMemoLine.Insert(true);
+    end;
+
+    procedure CreatePayrollAttrUsesOnApprovedAssignmentMemo(var AssignmentMemoHdr: Record "Assignment Memo Header")
+    var
+        PayrollAtttrUses, PayrollAtttrUses2 : Record "Payroll Attributes Usage";
+    begin
+        PayrollAtttrUses2.SetRange("Code", AssignmentMemoHdr."Payroll Attribute Code");
+        PayrollAtttrUses2.SetRange("Employee Code", AssignmentMemoHdr."Employee No.");
+        if PayrollAtttrUses2.IsEmpty() then begin
+            PayrollAtttrUses.Init();
+            PayrollAtttrUses.Validate("Code", AssignmentMemoHdr."Payroll Attribute Code");
+            PayrollAtttrUses.Validate("Employee Code", AssignmentMemoHdr."Employee No.");
+            PayrollAtttrUses.Insert(true);
+        end;
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]

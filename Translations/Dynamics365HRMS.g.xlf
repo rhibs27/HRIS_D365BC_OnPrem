@@ -5818,6 +5818,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Employee Relative In Bank - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1631507388 - Field 3444679095 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>First Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field First Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1631507388 - Field 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>From Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5843,6 +5848,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Language - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1631507388 - Field 4068742839 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Last Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Last Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1631507388 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5852,6 +5862,11 @@
           <source>lt.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field lt. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1631507388 - Field 1064199390 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Middle Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Middle Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1631507388 - Field 537631876 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Original Line No.</source>
@@ -27203,15 +27218,30 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Employee Relative In Bank - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 3444679095 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the First Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control First Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3477846856 - Control 2981864456 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Full Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Full Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 4068742839 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Last Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Last Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3477846856 - Control 2119304492 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the lt field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control lt - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 1064199390 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Middle Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Middle Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3477846856 - Control 1324252289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Relative CitizenShip No. field.</source>
