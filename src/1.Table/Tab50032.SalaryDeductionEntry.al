@@ -57,6 +57,7 @@ table 50032 "Salary Deduction Entry"
         {
             Caption = 'Reversal of Entry No.';
         }
+        // tp publish
     }
     keys
     {
