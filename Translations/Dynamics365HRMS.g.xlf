@@ -11458,6 +11458,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field No. of Vault Key - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 3183363825 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>NRB No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field NRB No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20798,6 +20803,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Advance Cash Required - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 621202891 - Field 659061973 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Advance Disbursed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Advance Disbursed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 621202891 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20992,6 +21002,11 @@
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Functional Title - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 621202891 - Field 2696944170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Desc</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Functional Title Desc - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 621202891 - Field 3647694100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Lodging Allowance</source>
@@ -37238,6 +37253,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No. of Vault Key - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 3183363825 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the NRB No Field</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control NRB No - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 1237689382 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -46053,6 +46073,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Approved - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 733203159 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Clear filter action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Clear Filter - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 733203159 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46062,6 +46087,16 @@
           <source>Executes the Pending Approval action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Pending Approval - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 733203159 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Rejected - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 733203159 - Action 2929972384 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the withdrawn action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2559681272 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
@@ -49868,6 +49903,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Control Approval Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1666541910 - Control 569466453 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Advance Cash Required field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Control Disbursed Advance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1666541910 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -49937,6 +49977,11 @@
           <source>Executes the Withdrawn action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action WithDrawn - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1666541910 - Action 43549783 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Requests - Action &amp;Advance Disbursed - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1666541910 - Action 1392435954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Travel Request action.</source>
@@ -56018,10 +56063,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control BMAF Dist. Criteria (T) - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1602662006 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Outstation Dist. Criteria (Himal) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Outstation Dist. Crit. (Himal) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1602662006 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Outstation Dist. Criteria (Himal)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Outstation Dist. Crit. (Himal) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2834319086 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Outstation Dist. Criteria (H) field.</source>
+          <source>Specifies the value of the Outstation Dist. Criteria (Hilly) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Outstation Dist. Criteria (H) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2834319086 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Outstation Dist. Criteria (Hilly)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Outstation Dist. Criteria (H) - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 1237903810 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Outstation Dist. Criteria (T) field.</source>
@@ -58537,6 +58597,11 @@
           <source>Out of office No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Out of office No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1602662006 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Outstation Dist. Crit. (Himal)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Outstation Dist. Crit. (Himal) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2834319086 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Outstation Dist. Criteria (H)</source>
@@ -62497,6 +62562,11 @@
           <source>Hilly</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Region - EnumValue Hilly - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2241665020 - EnumValue 203735290 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Himalayan</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Region - EnumValue Himalayan - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2241665020 - EnumValue 2319476557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Terai</source>

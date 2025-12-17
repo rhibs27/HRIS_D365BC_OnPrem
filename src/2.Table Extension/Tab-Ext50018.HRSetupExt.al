@@ -708,5 +708,9 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'Attribute Adjustment No. Series';
         }
+        field(50154; "Outstation Dist. Crit. (Himal)"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
     }
 }

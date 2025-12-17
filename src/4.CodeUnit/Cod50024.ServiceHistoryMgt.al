@@ -100,6 +100,8 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate("Effective Date", Promotion."Promotion Date");
                     EmpServiceHis.Insert(true);
                 end;
+            else
+                OnAfterAddToServiceHistory(DocNo, ServiceEvent, RemarksVar, EffectiveDate);
         end;
         exit(EmpServiceHis."Service History Code");
     end;
@@ -612,5 +614,11 @@ codeunit 50024 "Service History Mgt"
                     ServiceHistory."Outstation Eligible" := PreviousServiceHistory."Outstation Eligible";
             ServiceHistory.Modify;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterAddToServiceHistory(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date)
+    begin
+        //For add of Any Service Event
     end;
 }
