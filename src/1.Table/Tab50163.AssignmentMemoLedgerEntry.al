@@ -120,6 +120,11 @@ table 50163 "Assignment Memo Ledger Entry"
         {
             Caption = 'Blocked for Payroll';
         }
+        field(56; Reversed; Boolean)
+        {
+            Caption = 'Reversed';
+            Editable = false;
+        }
     }
     keys
     {
@@ -145,19 +150,19 @@ table 50163 "Assignment Memo Ledger Entry"
             exit(1);
     end;
 
-    procedure CheckDuplicateLedgerEntryExist(EmployeeNo: Code[20]; PostingDate: Date; EmpActType: Enum "Employee Activity Type"; PayrollAttrCode: Code[20]; EntryNo: Integer): Boolean
-    var
-        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
-    begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Entry No.", "Employee No.", "Posting Date", "Employee Activity Type", "Payroll Attribute Code");
-        AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeNo);
-        AssignmentMemoLedgerEntry.SetRange("Posting Date", PostingDate);
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", EmpActType);
-        AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttrCode);
-        AssignmentMemoLedgerEntry.SetFilter("Entry No.", '<> %1', EntryNo);
-        if AssignmentMemoLedgerEntry.IsEmpty() then
-            exit(false)
-        else
-            exit(true);
-    end;
+    // procedure CheckDuplicateLedgerEntryExist(EmployeeNo: Code[20]; PostingDate: Date; EmpActType: Enum "Employee Activity Type"; PayrollAttrCode: Code[20]; EntryNo: Integer): Boolean
+    // var
+    //     AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+    // begin
+    //     AssignmentMemoLedgerEntry.SetLoadFields("Entry No.", "Employee No.", "Posting Date", "Employee Activity Type", "Payroll Attribute Code");
+    //     AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeNo);
+    //     AssignmentMemoLedgerEntry.SetRange("Posting Date", PostingDate);
+    //     AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", EmpActType);
+    //     AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttrCode);
+    //     AssignmentMemoLedgerEntry.SetFilter("Entry No.", '<> %1', EntryNo);
+    //     if AssignmentMemoLedgerEntry.IsEmpty() then
+    //         exit(false)
+    //     else
+    //         exit(true);
+    // end;
 }

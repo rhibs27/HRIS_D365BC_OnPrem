@@ -148,7 +148,8 @@ table 50162 "Assignment Memo Line"
                                                  "Employee No." = field("Employee No."),
                                                  "Payroll Attribute Code" = field("Payroll Attribute Code"),
                                                  "Document No." = field("Document No."),
-                                                 Open = const(true)));
+                                                 Open = const(true),
+                                                 Reversed = const(false)));
         }
         field(32; "ATM Site"; Enum "ATM Site") { }
         field(33; "Date Filter"; Date)
@@ -185,6 +186,11 @@ table 50162 "Assignment Memo Line"
         field(55; "Attendance Checked"; Boolean)
         {
             Caption = 'Attendance Checked';
+        }
+        field(56; Reversed; Boolean)
+        {
+            Caption = 'Reversed';
+            Editable = false;
         }
 
         //If there is education allowance then these fields will be used.

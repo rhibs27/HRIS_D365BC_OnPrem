@@ -46,6 +46,8 @@ table 50027 "Payroll Line"
                 Validate("Employee Type", Employee."Employment Type");
                 Validate("Employee Name", Employee.FullName);
                 Validate("Deputation On", Employee."Deputation on");
+                if "Deputation Value" = '' then
+                    Validate("Deputation Value", Employee."Deputation On Code");
                 Validate("Sol ID", Employee."Sol Id");
                 Validate("CIT No.", Employee."CIT No.");
                 Validate("PF No.", Employee."PF No.");
@@ -2891,8 +2893,9 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);
@@ -3096,7 +3099,6 @@ table 50027 "Payroll Line"
         DetailedEmployeeLedgerEntry.CalcSums(Amount);
         exit(DetailedEmployeeLedgerEntry.Amount);
     end;
-
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")

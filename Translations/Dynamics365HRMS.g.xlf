@@ -1168,6 +1168,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Remarks - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Reversed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Designation</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1322,6 +1327,11 @@
           <source>Present Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Present Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Reversed - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 709576389 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Substituted Employee No.</source>
@@ -1502,6 +1512,11 @@
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Reversed - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 3678056765 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>School Name</source>
@@ -24258,6 +24273,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Action Reject Request - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2173113815 - Action 505149012 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reverse action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Action Reverse - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2173113815 - Action 2493986398 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Send Approval Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24342,6 +24362,11 @@
           <source>Specifies the value of the Posting Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Posting Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 3744289816 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Reversed field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Reversed - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2241004978 - Control 709576389 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Substituted Employee No. field.</source>
@@ -45363,6 +45388,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Action Reject Request - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2985527303 - Action 505149012 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reverse action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Action Reverse - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2985527303 - Action 2493986398 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Send Approval Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47332,6 +47362,11 @@
           <source>Executes the Reject Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Action 505149012 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reverse action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Action Reverse - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1622105057 - Action 2493986398 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Send Approval Request action.</source>

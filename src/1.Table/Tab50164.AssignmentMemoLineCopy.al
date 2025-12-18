@@ -148,7 +148,8 @@ table 50164 "Assignment Memo Line Copy"
                                                  "Employee No." = field("Employee No."),
                                                  "Payroll Attribute Code" = field("Payroll Attribute Code"),
                                                  "Document No." = field("Document No."),
-                                                 Open = const(true)));
+                                                 Open = const(true),
+                                                 Reversed = const(false)));
         }
         field(32; "ATM Site"; Enum "ATM Site") { }
         field(33; "Date Filter"; Date)

@@ -95,8 +95,9 @@ codeunit 50029 "Process Daily Attendance"
     local procedure GetShiftCodeformShiftAssignment(): Code[20]
     begin
         if PGSetup."Use Allowance Configuration" then begin
-            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
+            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
+            AssignmentMemoLedgerEntry.SetRange(Reversed, false);
             AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
             AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
             AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');

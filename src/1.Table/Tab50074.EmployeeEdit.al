@@ -577,6 +577,8 @@ table 50074 "Employee Edit"
             end;
 
         CheckIfWithinAllowancePeriod();
+        if not GuiAllowed then
+            CheckForVehicleInfoUpdate(Rec);
     end;
 
     procedure CheckIfWithinAllowancePeriod()
@@ -641,5 +643,33 @@ table 50074 "Employee Edit"
             IncomingDocument."Employee Code" := "Employee No.";
             IncomingDocument.Insert(true);
         end;
+    end;
+
+    procedure CheckForVehicleInfoUpdate(EmployeeEdit: Record "Employee Edit")
+    var
+        EmployeeEdit2: Record "Employee Edit";
+        AssignmentMemoHeader: Record "Assignment Memo Header";
+    begin
+        if "Changes In Employee Type" <> "Changes In Employee Type"::"Vehicle Info Update" then
+            exit;
+
+        if EmployeeEdit."Approval Status" <> EmployeeEdit."Approval Status"::Pending then
+            exit;
+        //do not allow multiple pending
+        EmployeeEdit2.SetRange("Employee No.", EmployeeEdit."Employee No.");
+        EmployeeEdit2.SetRange("Changes In Employee Type", EmployeeEdit."Changes In Employee Type");
+        EmployeeEdit2.SetRange("Approval Status", EmployeeEdit2."Approval Status"::Pending);
+        EmployeeEdit2.SetFilter("No.", '<>%1', EmployeeEdit."No.");
+        if not EmployeeEdit2.IsEmpty() then
+            Error('There is already a pending Vehicle Info Update request for this employee. Please resolve it before creating a new one.');
+
+        //do not allow if reimbursement is pending
+        AssignmentMemoHeader.SetRange("Employee No.", EmployeeEdit."Employee No.");
+        AssignmentMemoHeader.SetRange("Activity Type", AssignmentMemoHeader."Activity Type"::"Request Allowance");
+        AssignmentMemoHeader.SetRange("Payroll Attribute Code", EmployeeEdit."Claim Type");
+        AssignmentMemoHeader.SetRange("Approval Status", AssignmentMemoHeader."Approval Status"::Pending);
+        if not AssignmentMemoHeader.IsEmpty() then
+            Error('There is a pending reimbursement request for this employee under the selected Claim Type. Please resolve it before creating a new Vehicle Info Update request.');
+
     end;
 }

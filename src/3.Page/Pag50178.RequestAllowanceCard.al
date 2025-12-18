@@ -173,6 +173,24 @@ page 50178 "Request Allowance Card"
                         ApproverMgt.ApproveRejectDocument(RecRef, false)
                 end;
             }
+            action(Reverse)
+            {
+                Image = ReverseRegister;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reverse action.';
+                ApplicationArea = All;
+                Visible = IsApprove;
+                trigger OnAction()
+                var
+                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                begin
+                    if Confirm('Do you want to reverse the document?', false) then
+                        AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
+                end;
+            }
 
         }
     }
