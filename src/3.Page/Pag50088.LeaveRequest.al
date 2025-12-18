@@ -56,19 +56,24 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                 }
-                field("End Date"; Rec."End Date")
-                {
-                    ToolTip = 'Specifies the value of the End Date field.';
-                    ApplicationArea = All;
-                }
                 field("Start Date (BS)"; Rec."Start Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the Start Date (BS) field.';
                     ApplicationArea = All;
                 }
+                field("End Date"; Rec."End Date")
+                {
+                    ToolTip = 'Specifies the value of the End Date field.';
+                    ApplicationArea = All;
+                }
                 field("End Date (BS)"; Rec."End Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
+                    ApplicationArea = All;
+                }
+                field("No. of Days"; Rec."No. of Days")
+                {
+                    ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
                 field("Substitute Person Code"; Rec."Substitute Person Code")
@@ -108,11 +113,6 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the End Time field.';
                     ApplicationArea = All;
                     Editable = false;
-                }
-                field("No. of Days"; Rec."No. of Days")
-                {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
