@@ -906,7 +906,6 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open);
-
         AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
@@ -955,7 +954,7 @@ codeunit 50030 "Assignment Memo Mgt"
         //reverse ledger entries
         if AssignemntMemoHeader."Activity Type" in [AssignemntMemoHeader."Activity Type"::"Allowance Assignment Memo", AssignemntMemoHeader."Activity Type"::"Shift Assignment Memo"] then begin
             //check if claimed
-            AssignemntMemoLedgerEntry.SetRange("Claimed Doc No.", DocNo);
+            AssignemntMemoLedgerEntry.SetRange("Document No.", DocNo);
             if AssignemntMemoLedgerEntry.FindSet() then
                 repeat
                     if AssignemntMemoLedgerEntry.Claimed then
@@ -968,7 +967,7 @@ codeunit 50030 "Assignment Memo Mgt"
 
         end else if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Request Allowance" then begin
             //check if payroll is posted
-            AssignemntMemoLedgerEntry.SetRange("Claimed Doc No.", DocNo);
+            AssignemntMemoLedgerEntry.SetRange("Document No.", DocNo);
             AssignemntMemoLedgerEntry.SetFilter("Payroll Document No.", '<>%1', '');
             if AssignemntMemoLedgerEntry.FindSet() then
                 repeat
