@@ -443,8 +443,8 @@ codeunit 50010 "Payroll-Post"
             ServiceDays := EmployeeServiceHistory."Effective Date" - FromDate + 1;
             DeputationType := EmployeeServiceHistory."Deputation On(From)";
             DeputationCode := EmployeeServiceHistory."Deputation Code (From)";
-            if OrgStructList.Get(DeputationType, DeputationCode) then
-                DimensionValue := OrgStructList."Dimension Value Code";
+            OrgStructList.Get(DeputationType, DeputationCode);
+            DimensionValue := OrgStructList."Dimension Value Code";
             exit(true)
         end;
     end;
