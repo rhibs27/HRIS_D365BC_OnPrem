@@ -45,6 +45,10 @@ page 50371 "Shift Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Pay Cycle Period field.', Comment = '%';
                 }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
                 field("Province Code"; Rec."Province Code")
                 {
                     ToolTip = 'Specifies the value of the Province Code field.', Comment = '%';

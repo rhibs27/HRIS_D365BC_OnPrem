@@ -1298,6 +1298,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Leave Days - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2906764345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Nepali Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Nepali Month - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 4259830144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Open</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1307,6 +1312,21 @@
           <source>Panel</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Panel - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Pay Cycle Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 3972573639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Pay Cycle Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Pay Cycle Term - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 680804136 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Attribute Code</source>
@@ -24343,6 +24363,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Enrty No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Nepali Month - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2241004978 - Control 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Open field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -24352,6 +24377,16 @@
           <source>Specifies the value of the Pannel field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Pannel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Pay Cycle Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2241004978 - Control 680804136 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Payroll Attribute Code field.</source>
@@ -24382,6 +24417,16 @@
           <source>Specifies the value of the Valid To Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Valid To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Action 3489466695 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Updates the Nepali Month field for the selected ledger entries.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Action Update Nepali Months - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Action 3489466695 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Nepali Months</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Action Update Nepali Months - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4134390525 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assignment Memo Subform</source>
@@ -24468,10 +24513,35 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control From Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1643821006 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control Nepali Month - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1643821006 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1643821006 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control Pay Cycle Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1643821006 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control Pay Cycle Term - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1643821006 - Control 3731189834 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Attr. Description field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control Payroll Attr. Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1643821006 - Control 680804136 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Attribute Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control Payroll Attribute Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1643821006 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Code field.</source>
@@ -47457,6 +47527,11 @@
           <source>Specifies the value of the From Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Memos - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3618796574 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Memos - Control Nepali Month - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3618796574 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>

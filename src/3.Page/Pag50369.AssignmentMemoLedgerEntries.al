@@ -40,6 +40,18 @@ page 50369 "Assignment Memo Ledger Entries"
                     ToolTip = 'Specifies the value of the Posting Date field.', Comment = '%';
                     Editable = false;
                 }
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
+                }
+                field("Pay Cycle Period"; Rec."Pay Cycle Period")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Period field.', Comment = '%';
+                }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
                 field(Amount; Rec.Amount)
                 {
                     ToolTip = 'Specifies the value of the Amount field.', Comment = '%';
@@ -103,6 +115,34 @@ page 50369 "Assignment Memo Ledger Entries"
                     ToolTip = 'Specifies the value of the Reversed field.', Comment = '%';
                 }
 
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("Update Nepali Months")
+            {
+                Caption = 'Update Nepali Months';
+                ToolTip = 'Updates the Nepali Month field for the selected ledger entries.';
+                Image = Update;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                trigger OnAction()
+                var
+                    AssignMemoLedgEntry: Record "Assignment Memo Ledger Entry";
+                begin
+                    AssignMemoLedgEntry.SetRange("Nepali Month", AssignMemoLedgEntry."Nepali Month"::" ");
+                    if AssignMemoLedgEntry.FindSet() then
+                        repeat
+                            AssignMemoLedgEntry.Validate("Posting Date");
+                            AssignMemoLedgEntry.Modify();
+                        until AssignMemoLedgEntry.Next() = 0;
+                    Message('Updated Nepali Months for all entries with blank Nepali Month.');
+                end;
             }
         }
     }

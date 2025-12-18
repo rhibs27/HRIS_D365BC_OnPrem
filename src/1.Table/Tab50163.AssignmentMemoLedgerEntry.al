@@ -19,6 +19,25 @@ table 50163 "Assignment Memo Ledger Entry"
         field(3; "Posting Date"; Date)
         {
             Caption = 'Posting Date';
+            trigger OnValidate()
+            var
+                PayCyclePeriod: Record "Pay Cycle Period";
+            begin
+                // validate paycycle related fields based on posting date
+                PayCyclePeriod.SetFilter("Start Date", '<=%1', "Posting Date");
+                PayCyclePeriod.SetFilter("End Date", '>=%1', "Posting Date");
+                if PayCyclePeriod.FindFirst() then begin
+                    "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
+                    "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
+                    "Pay Cycle Period" := PayCyclePeriod."Period";
+                    "Nepali Month" := PayCyclePeriod."Nepali Month";
+                end else begin
+                    "Pay Cycle Code" := '';
+                    "Pay Cycle Term" := '';
+                    "Pay Cycle Period" := 0;
+                    "Nepali Month" := "Nepali Month"::" "
+                end;
+            end;
         }
         field(4; "Employee No."; Code[20])
         {
@@ -125,6 +144,27 @@ table 50163 "Assignment Memo Ledger Entry"
             Caption = 'Reversed';
             Editable = false;
         }
+        field(57; "Pay Cycle Code"; Code[20])
+        {
+            TableRelation = "Pay Cycle";
+
+        }
+        field(58; "Pay Cycle Term"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+
+
+        }
+        field(59; "Pay Cycle Period"; Integer)
+        {
+            TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
+                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
+
+        }
+        field(60; "Nepali Month"; Enum "Nepali Month")
+        {
+        }
+
     }
     keys
     {

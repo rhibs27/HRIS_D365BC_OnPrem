@@ -65,6 +65,26 @@ page 50370 "Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
+                }
+                field("Pay Cycle Period"; Rec."Pay Cycle Period")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Period field.', Comment = '%';
+                }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
+                field("Payroll Attribute Code"; Rec."Payroll Attribute Code")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attribute Code field.', Comment = '%';
+                }
+                field("Payroll Attr. Description"; Rec."Payroll Attr. Description")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attr. Description field.', Comment = '%';
+                }
 
 
             }
