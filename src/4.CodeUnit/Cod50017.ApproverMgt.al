@@ -1095,6 +1095,7 @@ codeunit 50017 "Approver Mgt"
                     WithDrawRequest(RecRef);
                 end;
         end;
+        OnAfterOtherDocumentType(documentNo, EmpActTypeEnum);
     end;
 
 #if SaasFeature
@@ -1595,6 +1596,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean; var IsExit: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterOtherDocumentType(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type")
     begin
     end;
 

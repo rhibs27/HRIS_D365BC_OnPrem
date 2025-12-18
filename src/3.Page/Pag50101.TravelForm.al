@@ -261,7 +261,7 @@ page 50101 "Travel Form"
                 {
                     ToolTip = 'Specifies the value of the Extended field.';
                     ApplicationArea = All;
-                    Editable = false;
+                    // Editable = false;
                 }
                 // field("Currency Code"; Rec."Currency Code")
                 // {
