@@ -1051,7 +1051,7 @@ codeunit 50017 "Approver Mgt"
     var
         EmpActTypeEnum: Enum "Employee Activity Type";
         Leave: Record Leave;
-        TravelRequest: Record "Travel Request";
+        TravelRequest, TravelRequest2 : Record "Travel Request";
         RecRef: RecordRef;
         RetirementFund: Record "Retirement Fund";
         AttendanceMissed: Record "Attendance Missed";
@@ -1073,6 +1073,9 @@ codeunit 50017 "Approver Mgt"
                     if TravelRequest.Get(documentNo) then begin
                         RecRef.GetTable(TravelRequest);
                         WithDrawRequest(RecRef);
+                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+                            TravelRequest2.Extended := false;
+                        TravelRequest2.Modify();
                     end;
                 end;
             EmpActTypeEnum::Retirement:
