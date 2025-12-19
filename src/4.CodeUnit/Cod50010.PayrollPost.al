@@ -536,4 +536,5 @@ codeunit 50010 "Payroll-Post"
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
+
 }
