@@ -82,4 +82,12 @@ page 50371 "Shift Assignment Memos"
             }
         }
     }
+    trigger OnOpenPage()
+    var
+        PGSetup: Record "Payroll general Setup";
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            Error('Allowance Configuration is not enabled in Payroll General Setup. Please enable it to access shift requests.');
+    end;
 }

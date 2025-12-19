@@ -829,5 +829,8 @@ permissionset 50000 D365HRMSPermission
         codeunit "Promotion Mgt" = X,
         page "Promotion Journal" = X,
         page "KPI Appraisal Line" = X,
-        page "Promotion List" = X;
+        page "Promotion List" = X,
+        tabledata "Assignment Memo Line Copy" = RIMD,
+        table "Assignment Memo Line Copy" = X,
+        page "Request Allowance Subform Copy" = X;
 }

@@ -991,6 +991,13 @@ codeunit 50030 "Assignment Memo Mgt"
 
     end;
 
+    procedure CheckIfAlowanceIsSubstitutePending(AssignmentMemoHdr: Record "Assignment Memo Header")
+    begin
+        if AssignmentMemoHdr."Activity Type" <> AssignmentMemoHdr."Activity Type"::"Request Allowance" then
+            exit;
+
+    end;
+
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]
     local procedure OnafterInsertAssignmentMemoHeader(var Rec: Record "Assignment Memo Header")
     var

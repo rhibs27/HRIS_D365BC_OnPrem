@@ -41,6 +41,16 @@ page 50181 "Request Allowance Subform"
                 field("Name of Children"; Rec."Name of Children")
                 {
                     ToolTip = 'Specifies the value of the Name of Children field.', Comment = '%';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        EmployeeRelative: Record "Employee Relative";
+                        EmployeerelativePage: Page "Employee Relatives";
+                    begin
+                        EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
+                        EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
+                        if Page.RunModal(Page::"Employee Relatives", EmployeeRelative) = Action::LookupOK then
+                            Rec."Name of Children" := EmployeeRelative."Full Name";
+                    end;
                 }
                 field("Grade/Class"; Rec."Grade/Class")
                 {

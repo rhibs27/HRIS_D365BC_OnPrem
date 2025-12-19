@@ -90,4 +90,12 @@ page 50182 "Allowance Requests"
             }
         }
     }
+    trigger OnOpenPage()
+    var
+        PGSetup: Record "Payroll general Setup";
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            Error('Allowance Configuration is not enabled in Payroll General Setup. Please enable it to access Allowance Requests.');
+    end;
 }

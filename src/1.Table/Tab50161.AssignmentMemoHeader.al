@@ -335,6 +335,7 @@ table 50161 "Assignment Memo Header"
     begin
         "Document Date" := WorkDate();
         PGSetup.Get();
+        PGSetup.TestField("Use Allowance Configuration");
         TestField("Employee No.");
         Validate("Employee No.");
         if "No." = '' then

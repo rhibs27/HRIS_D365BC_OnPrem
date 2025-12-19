@@ -375,7 +375,7 @@ table 50074 "Employee Edit"
             begin
                 if "Ownership Start/End Date" <> 0D then begin
                     if "Ownership Start/End Date" > WorkDate() then
-                        Error('Ownership Start/End Date cannot a future date.');
+                        Error('Ownership Start/End Date cannot be future date.');
                     "Ownership Start/End Date (B.S)" := EngNep.getNepaliDate("Ownership Start/End Date");
                 end;
             end;
@@ -576,7 +576,7 @@ table 50074 "Employee Edit"
                     end;
             end;
 
-        CheckIfWithinAllowancePeriod();
+        // CheckIfWithinAllowancePeriod();
         if not GuiAllowed then
             CheckForVehicleInfoUpdate(Rec);
     end;

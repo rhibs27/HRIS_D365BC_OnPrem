@@ -53318,6 +53318,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Statutory Bonus Calculation - Control FiscalYear - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 89099533 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Assignment Memo</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Substitute Assignment Memo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 89099533 - Control 4105281732 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Filter Criteria</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Substitute Assignment Memo - Control GroupName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 89099533 - Control 2526681557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Substitute Assignment Memo - Control EmployeeNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 89099533 - Control 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Substitute Assignment Memo - Control From Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 89099533 - Control 2565971985 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Substitute Assignment Memo - Control To Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 1490373417 - Control 167187449 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the As on date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
