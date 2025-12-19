@@ -1,4 +1,4 @@
-codeunit 50032 "Attribute Adjustment"
+codeunit 50032 "Attribute Adjustment Mgt"
 {
     trigger OnRun()
     begin

@@ -358,6 +358,7 @@ codeunit 50017 "Approver Mgt"
         LeaveEncahRequest: Record "Encashment Request";
         PayrollEngine: Codeunit "Payroll Engine";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
         Cancelled: Boolean;
         RFContribution: Record "RF Contribution";
         AttributeAdj: Record "Attribute Adjustment Header";
@@ -603,7 +604,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::"Attribute Adjustment":
                             begin
-                                HRMgt.OnApprovalOfAttributeAdjustment(RecRef.Field(AttributeAdj.FieldNo("Document No.")).Value);
+                                AttributeAdjustmentMgt.OnApprovalOfAttributeAdjustment(RecRef.Field(AttributeAdj.FieldNo("Document No.")).Value);
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);

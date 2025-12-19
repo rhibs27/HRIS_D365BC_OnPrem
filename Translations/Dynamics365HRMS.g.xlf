@@ -2418,11 +2418,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Adjustment Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3281230887 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Approval Status - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3281230887 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
