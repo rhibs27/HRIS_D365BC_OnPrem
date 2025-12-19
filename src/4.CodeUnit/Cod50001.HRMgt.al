@@ -5618,55 +5618,6 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure OnApprovalOfAttributeAdjustment(DocumentNo: Code[20])
-    var
-        AttribAdjLine: Record "Attribute Adjustment Line";
-    begin
-        AttribAdjLine.Reset();
-        AttribAdjLine.SetRange("Document No.", DocumentNo);
-        if AttribAdjLine.FindSet() then
-            repeat
-                InsertIntoAttributeUsageHistory(AttribAdjLine);
-            until AttribAdjLine.Next() = 0;
-    end;
-
-    local procedure InsertIntoAttributeUsageHistory(AttributeAdjustmentLine: Record "Attribute Adjustment Line")
-    var
-        AttributesUsageHistory: Record "Attributes Usage History";
-    begin
-        AttributesUsageHistory.Init();
-        AttributesUsageHistory."Employee No." := AttributeAdjustmentLine."Employee No.";
-        AttributesUsageHistory."Employee Name" := AttributeAdjustmentLine."Employee Name";
-        AttributesUsageHistory."Attribute Code" := AttributeAdjustmentLine."Attribute Code";
-        AttributesUsageHistory."Old Amount" := AttributeAdjustmentLine."Old Amount";
-        AttributesUsageHistory."New Amount" := AttributeAdjustmentLine."New Amount";
-        AttributesUsageHistory."Start Date" := AttributeAdjustmentLine."Effective Start Date";
-        AttributesUsageHistory."End Date" := AttributeAdjustmentLine."Effective End Date";
-        AttributesUsageHistory."Source Document Type" := AttributeAdjustmentLine."Adjustment Type";
-        AttributesUsageHistory."Source Document No." := AttributeAdjustmentLine."Document No.";
-        AttributesUsageHistory.Insert(true);
-
-        if not AttributeAdjustmentLine."System Calculated" then
-            UpdatePayrollAttributeUsage(AttributeAdjustmentLine."Employee No.", AttributeAdjustmentLine."Attribute Code", AttributeAdjustmentLine."New Amount");
-    end;
-
-    local procedure UpdatePayrollAttributeUsage(EmployeeNo: Code[20]; AttributeCode: Code[20]; AttributeAmount: Decimal)
-    var
-        AttributeUsage: Record "Payroll Attributes Usage";
-    begin
-        if AttributeUsage.Get(AttributeCode, EmployeeNo) then begin
-            AttributeUsage.Amount := AttributeAmount;
-            AttributeUsage.Modify();
-        end
-        else begin
-            AttributeUsage.Init();
-            AttributeUsage.Code := AttributeCode;
-            AttributeUsage."Employee Code" := EmployeeNo;
-            AttributeUsage.Amount := AttributeAmount;
-            AttributeUsage.Insert();
-        end;
-    end;
-
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
