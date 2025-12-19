@@ -211,6 +211,14 @@ table 50162 "Assignment Memo Line"
             Caption = 'Distance (KM)';
             DecimalPlaces = 2 : 2;
         }
+        field(105; "Valid Until"; Date)
+        {
+            Caption = 'Valid Until';
+        }
+        field(106; Discontinued; Boolean)
+        {
+            Caption = 'Discontinued';
+        }
 
         //field related to shift assignment
         field(201; "Employee Work Shift"; Code[20])

@@ -56,6 +56,14 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Grade/Class field.', Comment = '%';
                 }
+                field("Valid Until"; Rec."Valid Until")
+                {
+                    ToolTip = 'Specifies the value of the Valid Until field.', Comment = '%';
+                }
+                field(Discontinued; Rec.Discontinued)
+                {
+                    ToolTip = 'Specifies the value of the Discontinued field.', Comment = '%';
+                }
                 field("Distance (KM)"; Rec."Distance (KM)")
                 {
                     ToolTip = 'Specifies the value of the Distance (KM) field.', Comment = '%';

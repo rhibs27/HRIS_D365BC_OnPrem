@@ -1438,6 +1438,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Date Filter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2742120333 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Discontinued</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Discontinued - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 4218068288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Distance (KM)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1562,6 +1567,11 @@
           <source>To Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field To Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2604361992 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Valid Until</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Valid Until - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3967234942 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assignment Memo Line Copy</source>
@@ -5407,6 +5417,11 @@
           <source>Claim Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Claim Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1010130102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Claimed Type Effective Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Claimed Type Effective Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 1774546989 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Contact Number</source>
@@ -28557,6 +28572,11 @@
           <source>Specifies the value of the Claim Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Claim Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1010130102 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Claimed Type Effective Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Claimed Type Effective Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2113601774 - Control 3981642649 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Ownership Start/End Date field.</source>

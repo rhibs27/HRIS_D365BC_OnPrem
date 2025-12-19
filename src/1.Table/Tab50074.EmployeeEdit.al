@@ -448,14 +448,17 @@ table 50074 "Employee Edit"
             begin
                 if EngNep.getEngDate("Ownership Start/End Date (B.S)") = 0D then
                     Error('Please enter the nepali date in YYYY/MM/DD format.');
-                Validate("Ownership Start/End Date", EngNep.getEngDate("Ownership Start/End Date (B.S)"));
+                "Ownership Start/End Date" := EngNep.getEngDate("Ownership Start/End Date (B.S)");
             end;
         }
         field(81; "Fuel Type"; Enum "Fuel Type")
         {
             DataClassification = CustomerContent;
         }
-
+        field(82; "Claimed Type Effective Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
         field(100; "Status"; Text[20])
         {
             Editable = false;

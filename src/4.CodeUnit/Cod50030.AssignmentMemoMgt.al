@@ -906,7 +906,6 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open);
-        AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AssignmentMemoLine."Payroll Attribute Code");
@@ -929,7 +928,7 @@ codeunit 50030 "Assignment Memo Mgt"
             AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
             if AssignmentMemoLine.FindSet() then
                 repeat
-                    if CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
+                    if not CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
                         Error('Allowance for %1 is already substituted on %2. Cannot proceed with your allowance request.', AssignmentMemoLine."Payroll Attribute Code", AssignmentMemoLine."From Date");
                 until AssignmentMemoLine.Next() = 0;
         end;

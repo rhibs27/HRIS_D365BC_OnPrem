@@ -199,6 +199,10 @@ page 50135 "Employee Edit Card"
                 {
                     ToolTip = 'Specifies the value of the Claim Type field.', Comment = '%';
                 }
+                field("Claimed Type Effective Date"; Rec."Claimed Type Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Claimed Type Effective Date field.', Comment = '%';
+                }
                 field("Fuel Type"; Rec."Fuel Type")
                 {
 
