@@ -6813,6 +6813,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Employment Type (To) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 565250863 - Field 490670982 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter (From)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Counter (From) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 3404248433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter (To)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Counter (To) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 2615882756 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Description (From)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Description (From) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 1095526767 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Description (To)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Description (To) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 565250863 - Field 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>From Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23732,6 +23752,16 @@
           <source>Specifies the value of the Request Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Control Request Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2313503208 - Action 2451702508 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Excel Format action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Action Export Excel Format - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2313503208 - Action 5983814 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import Setup action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Action Import Setup - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 804884198 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval setup Subform</source>

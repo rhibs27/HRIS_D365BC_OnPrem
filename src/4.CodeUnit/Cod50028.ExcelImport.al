@@ -32,11 +32,21 @@ codeunit 50028 "Excel Import"
             for RowNo := 2 to LastRow do begin
                 RecRef.Init();
                 for ColNo := 1 to (NoOfField - 1) do begin
-                    if Database::"Employee Payroll Adjustment" = TableID then begin
-                        FieldRef := RecRef.Field(1);
-                        FieldRef.Validate(DocNo);
+                    case TableID of
+                        Database::"Employee Payroll Adjustment":
+                            begin
+                                FieldRef := RecRef.Field(1);
+                                FieldRef.Validate(DocNo);
+                                FieldRef := RecRef.Field(ColNo + 1);
+                            end;
+                        Database::"Import Attribute Usage":
+                            begin
+                                FieldRef := RecRef.Field(ColNo + 1);//Reduced by 1 to exclude 2 fields in the table referred i.e. Entry Number and Posted
+                            end;
+                        else
+                            FieldRef := RecRef.Field(ColNo)
                     end;
-                    FieldRef := RecRef.Field(ColNo + 1);//Reduced by 1 to exclude 2 fields in the table referred i.e. Entry Number and Posted
+
                     CellValue := GetValueAtCell(RowNo, ColNo);
                     if CellValue <> '' then begin
                         case FieldRef.Type of
@@ -48,8 +58,10 @@ codeunit 50028 "Excel Import"
                                 FieldRef.Validate(EvaluateDate(CellValue));
                             FieldRef.Type::Boolean:
                                 FieldRef.Validate(EvaluateBoolean(CellValue));
-                            else
-                                FieldRef.Validate(CellValue);
+                            else begin
+                                Evaluate(FieldRef, CellValue);
+                                FieldRef.Validate(FieldRef.Value);
+                            end;
                         end;
                     end;
                 end;
@@ -57,6 +69,32 @@ codeunit 50028 "Excel Import"
             end;
             Message(ExcelImportSuccess);
         end;
+    end;
+
+    procedure ExportDataInExcel(var RecRef: RecordRef)
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+        RowNo, LastRow, NoOfField, ColNo : Integer;
+    begin
+        //Header
+        NoOfField := RecRef.FieldCount;
+        TempExcelBuffer.NewRow();
+        for ColNo := 1 to (NoOfField) do begin
+            TempExcelBuffer.AddColumn(RecRef.Field(ColNo).Caption(), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        end;
+        //Data
+        if RecRef.FindSet() then
+            repeat
+                TempExcelBuffer.NewRow();
+                for ColNo := 1 to (NoOfField) do begin
+                    TempExcelBuffer.AddColumn(RecRef.Field(ColNo), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                end;
+            until RecRef.Next() = 0;
+        TempExcelBuffer.CreateNewBook(RecRef.Caption());
+        TempExcelBuffer.WriteSheet(RecRef.Caption(), CompanyName, UserId);
+        TempExcelBuffer.CloseBook();
+        TempExcelBuffer.SetFriendlyFilename(RecRef.Caption());
+        TempExcelBuffer.OpenExcel();
     end;
 
     procedure ImportJournalFromExcelSheet(EmpActType: Enum "Employee Activity Type")

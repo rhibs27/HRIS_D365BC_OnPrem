@@ -26,12 +26,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             begin
                 Age := (Today - "Birth Date") div 365;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Birth Date");
-                if EngNepDate.FindFirst then
-                    "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
-                else
-                    "Date of Birth (B.S.)" := '';
+                "Date of Birth (B.S.)" := EngNepDate.getNepaliDate("Birth Date");
                 HrSetup.Get();
                 if HrSetup."Calculate Age using Nepali C." then
                     "Age Text" := HRMgt.GetAgeBS(EngNepDate.getNepaliDate("Birth Date"), EngNepDate.getNepaliDate(Today))
