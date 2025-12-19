@@ -13,16 +13,11 @@ report 50153 "Employee Annual Payroll Report"
             RequestFilterFields = "No.";
             column(ComInfoName; ComInfo.Name) { }
             column(ComInfoPic; ComInfo.Picture) { }
-            // column(ComInfoAddr; ComInfo.GetCompanyPhysicalAddr()) { }
-            // column(ComInfoPh; ComInfo.GetCompanyCommunicationAddr()) { }
-            // column(CompanyInformationName; CompanyInformation.Name) { }
-            // column(CompanyInformationPic; CompanyInformation.Picture) { }
             column(ComInfoAddr; ComInfo.Address) { }
             column(ComInfoPh; ComInfo."Phone No.") { }
             column(Date_Filter; 'Date Filter : ' + Format(StartDate) + '..' + Format(EndDate)) { }
             column(No_; "No.") { }
             column(FullName; FullName) { }
-            //    column(Office; Office) { }
             column(Job_Title; "Job Title") { }
             column(Tax_Code; "Tax Code") { }
             column(TotalNonTaxableBenefit; TotalNonTaxableBenefit) { }
@@ -38,6 +33,7 @@ report 50153 "Employee Annual Payroll Report"
                     column(TotalAmount; TotalAmount) { }
                     trigger OnAfterGetRecord()
                     begin
+                        DetailedEmployeeLedgerEntry[2].SetLoadFields(Amount);
                         DetailedEmployeeLedgerEntry[1].Reset();
                         DetailedEmployeeLedgerEntry[1].SetRange("Employee No.", Employee."No.");
                         DetailedEmployeeLedgerEntry[1].SetRange("Payroll Attribute Code", "Payroll Column Configuration"."Variable Field Code");
@@ -65,9 +61,16 @@ report 50153 "Employee Annual Payroll Report"
                 Clear(TotalNonTaxableBenefit);
                 DetailedEmployeeLedgerEntry[2].Reset();
                 DetailedEmployeeLedgerEntry[2].SetRange("Employee No.", Employee."No.");
-                if not DetailedEmployeeLedgerEntry[2].FindFirst() then
+                if DetailedEmployeeLedgerEntry[2].IsEmpty() then
                     CurrReport.Skip();
 
+                DetailedEmployeeLedgerEntry[2].Reset();
+                DetailedEmployeeLedgerEntry[2].SetRange("Employee No.", Employee."No.");
+                DetailedEmployeeLedgerEntry[2].SetRange(Reversed, false);
+                if DetailedEmployeeLedgerEntry[2].IsEmpty() then
+                    CurrReport.Skip();
+
+                DetailedEmployeeLedgerEntry[2].SetLoadFields(Amount);
                 DetailedEmployeeLedgerEntry[2].Reset();
                 DetailedEmployeeLedgerEntry[2].SetRange("Employee No.", Employee."No.");
                 DetailedEmployeeLedgerEntry[2].SetRange("Posting Date", StartDate, EndDate);
