@@ -326,10 +326,8 @@ codeunit 50017 "Approver Mgt"
 
     procedure CheckApproverBoolean(EmpActNo: Code[20]): Boolean // onprem
     var
-        x: Boolean;
     begin
-        x := CheckApproverBoolean(EmpActNo, HRMgt.GetEmployeeNo());
-        exit(x)
+        exit(CheckApproverBoolean(EmpActNo, HRMgt.GetEmployeeNo()));
     end;
 
     procedure CheckApproverBoolean(EmpActNo: Code[20]; ApproverNo: code[20]): Boolean //saas
@@ -898,13 +896,11 @@ codeunit 50017 "Approver Mgt"
     var
         ApprovalLine: Record "Approval HRMS";
         ApproveNotEligibleError: Label 'You are not eligible to withdraw this document ';
-        x: Boolean;
     begin
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
-        if ApprovalLine.FindFirst() then
-            x := true;
-        exit(x);
+        if not ApprovalLine.IsEmpty() then
+            exit(true);
     end;
 
     procedure CheckRequesterSAAS(EmpActNo: Code[20]; ApproverNo: code[20])
@@ -1611,9 +1607,10 @@ codeunit 50017 "Approver Mgt"
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document No.", DocumentNo);
         ApprovalEntry.SetRange("Approval Status", ApprovalEntry."Approval Status"::Open);
-        if ApprovalEntry.IsEmpty then
+        if ApprovalEntry.IsEmpty() then
             exit(false);
-        exit(not ApprovalEntry.IsEmpty);
+
+        exit(true);
     end;
 
     procedure HasOpenApprovalEntriesForCurrentUser(DocumentNo: Code[20]; EmployeeNo: Code[20]): Boolean

@@ -83,8 +83,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
         AttributeAdjustmentLine.Reset();
         AttributeAdjustmentLine.SetRange("System Calculated", true);
         AttributeAdjustmentLine.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
-        if AttributeAdjustmentLine.FindSet() then
-            AttributeAdjustmentLine.DeleteAll();
+        AttributeAdjustmentLine.DeleteAll();
 
         TempEmployee.Reset();
         TempEmployee.FindSet();
