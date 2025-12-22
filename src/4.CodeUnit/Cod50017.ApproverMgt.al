@@ -1215,10 +1215,11 @@ codeunit 50017 "Approver Mgt"
             end;
         end;
 
-        if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
+        if ApprovalStatusField in [Format(ApprovalStatusEnum::Pending), Format(ApprovalStatusEnum::Released)] then begin
             if not (CheckApproverBoolean(DocNumber) or CheckRequesterBoolean(DocNumber)) then
                 Error('Not eligible to re-open the document.');
-            CheckFirstApproverSequence(DocNumber);
+            if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then
+                CheckFirstApproverSequence(DocNumber);
             Approver.Reset();
             Approver.SetRange("Document No.", DocNumber);
             Approver.SetRange("Approval Sequence", 1);

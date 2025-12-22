@@ -3,7 +3,7 @@ page 50376 "Attribute Adjustment Lines"
     PageType = ListPart;
     SourceTable = "Attribute Adjustment Line";
     ApplicationArea = All;
-    Caption = 'Attribute Adjustment Lines';
+    Caption = 'Adjustment Lines';
     AutoSplitKey = true;
     layout
     {
@@ -66,24 +66,25 @@ page 50376 "Attribute Adjustment Lines"
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
                 ApplicationArea = All;
             }
-            action("Get Additional Attributes")
-            {
-                ApplicationArea = All;
-                Caption = 'Get Additional Attributes';
-                Image = GetLines;
-                trigger OnAction()
-                var
-                    AdjustmentHeader: Record "Attribute Adjustment Header";
-                    AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
-                begin
-                    AdjustmentHeader.Get(Rec."Document No.");
-                    if not (AdjustmentHeader."Adjustment Type" in [AdjustmentHeader."Adjustment Type"::Promotion, AdjustmentHeader."Adjustment Type"::Confirmation]) then
-                        Error('Adjustment Type must be %1 and %2', AdjustmentHeader."Adjustment Type"::Promotion, AdjustmentHeader."Adjustment Type"::Confirmation);
-                    AttributeAdjustmentMgt.UpdatePayrollAttributesInAttributeAdjustmentLine(AdjustmentHeader);
-                    CurrPage.Update();
-                    Message('Additional Attributes have been fetched successfully.');
-                end;
-            }
+            //May be needed if selection filter is required for specific employee
+            // action("Get Additional Attributes")
+            // {
+            //     ApplicationArea = All;
+            //     Caption = 'Get Additional Attributes';
+            //     Image = GetLines;
+            //     trigger OnAction()
+            //     var
+            //         AdjustmentHeader: Record "Attribute Adjustment Header";
+            //         AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
+            //     begin
+            //         AdjustmentHeader.Get(Rec."Document No.");
+            //         if not (AdjustmentHeader."Adjustment Type" in [AdjustmentHeader."Adjustment Type"::Promotion, AdjustmentHeader."Adjustment Type"::Confirmation]) then
+            //             Error('Adjustment Type must be %1 and %2', AdjustmentHeader."Adjustment Type"::Promotion, AdjustmentHeader."Adjustment Type"::Confirmation);
+            //         AttributeAdjustmentMgt.UpdatePayrollAttributesInAttributeAdjustmentLine(AdjustmentHeader);
+            //         CurrPage.Update();
+            //         Message('Additional Attributes have been fetched successfully.');
+            //     end;
+            // }
         }
     }
     var

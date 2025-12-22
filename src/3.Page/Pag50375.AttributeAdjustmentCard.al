@@ -53,7 +53,7 @@ page 50375 "Attribute Adjustment Card"
             {
                 ApplicationArea = All;
                 SubPageLink = "Document No." = field("Document No.");
-                Editable = IsOpen;
+                Editable = IsOpen or IsReleased;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -68,6 +68,7 @@ page 50375 "Attribute Adjustment Card"
     {
         area(Promoted)
         {
+            actionref(Release; "Release Document") { }
             actionref(SubmitForApproval; "Submit for Approval") { }
             actionref(ReOpen; "ReOpen Document") { }
             actionref(ApproveDocument; "Approve Document") { }
@@ -81,17 +82,30 @@ page 50375 "Attribute Adjustment Card"
                 ApplicationArea = All;
             }
 
-            action(Release)
+            action("Release Document")
             {
                 Caption = 'Release';
                 ApplicationArea = All;
+                Image = GetLines;
+                Visible = IsOpen;
+                trigger OnAction()
+                var
+                    AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
+                begin
+                    if not (Rec."Adjustment Type" in [Rec."Adjustment Type"::Promotion, Rec."Adjustment Type"::Confirmation]) then
+                        Error('Adjustment Type must be %1 and %2', Rec."Adjustment Type"::Promotion, Rec."Adjustment Type"::Confirmation);
+                    AttributeAdjustmentMgt.UpdatePayrollAttributesInAttributeAdjustmentLine(Rec);
+                    "Approval Status" := "Approval Status"::Released;
+                    CurrPage.Update();
+                    Message('Additional Attributes have been fetched successfully.');
+                end;
             }
             action("Submit for Approval")
             {
                 Caption = 'Submit for Approval';
                 Image = Suggest;
                 ApplicationArea = All;
-                Visible = IsOpen;
+                Visible = IsReleased;
                 ToolTip = 'Executes the Approve Request action.';
                 trigger OnAction()
                 begin
@@ -104,7 +118,7 @@ page 50375 "Attribute Adjustment Card"
             {
                 Caption = 'Re-Open';
                 ApplicationArea = All;
-                Visible = IsPending;
+                Visible = IsPending or IsReleased;
                 Image = ReOpen;
                 trigger OnAction()
                 begin
@@ -164,6 +178,7 @@ page 50375 "Attribute Adjustment Card"
         OpenApprovalEntriesExistForCurrUser := ApproverMgt.HasOpenApprovalEntriesForCurrentUser(Rec."Document No.", HRMgt.GetEmployeeNo());
         IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsReleased := Rec."Approval Status" = Rec."Approval Status"::Released;
     end;
 
     trigger OnOpenPage()
@@ -172,15 +187,17 @@ page 50375 "Attribute Adjustment Card"
         // IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
     end;
 
+    protected var
+        IsOpen: Boolean;
+        IsReleased: Boolean;
+        IsPending: Boolean;
+        OpenApprovalEntriesExist: Boolean;
+        OpenApprovalEntriesExistForCurrUser: Boolean;
 
     var
-        IsOpen: Boolean;
-        IsPending: Boolean;
         AttrAdjMgt: Codeunit "Excel Import";
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         ApproverMgt: Codeunit "Approver Mgt";
-        OpenApprovalEntriesExist: Boolean;
-        OpenApprovalEntriesExistForCurrUser: Boolean;
 
         HRMgt: Codeunit "HR Mgt.";
         RecRef: RecordRef;

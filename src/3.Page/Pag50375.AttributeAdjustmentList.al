@@ -6,7 +6,8 @@ page 50377 "Attribute Adjustment List"
     Caption = 'Attribute Adjustments';
     UsageCategory = Lists;
     CardPageID = "Attribute Adjustment Card";
-
+    ModifyAllowed = false;
+    DeleteAllowed = false;
     layout
     {
         area(content)
@@ -26,20 +27,7 @@ page 50377 "Attribute Adjustment List"
     {
         area(processing)
         {
-            action("Get Additional Attibutes")
-            {
-                ApplicationArea = All;
-                Caption = 'Get Additional Attributes';
-                Image = GetLines;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                trigger OnAction()
-                begin
 
-                end;
-            }
         }
     }
 }

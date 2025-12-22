@@ -22,11 +22,16 @@ table 50165 "Attribute Adjustment Line"
             trigger OnValidate()
             var
                 EmployeeRec: Record Employee;
+                AttributeAdj: Record "Attribute Adjustment Header";
             begin
-                if EmployeeRec.Get("Employee No.") then
-                    "Employee Name" := EmployeeRec.FullName()
-                else
+                if EmployeeRec.Get("Employee No.") then begin
+                    "Employee Name" := EmployeeRec.FullName();
+                    AttributeAdj.Get("Document No.");
+                    Validate("Adjustment Type", AttributeAdj."Adjustment Type");
+                end else begin
                     Clear("Employee Name");
+                    Clear("Adjustment Type");
+                end;
             end;
         }
 

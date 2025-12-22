@@ -106,7 +106,8 @@ codeunit 50032 "Attribute Adjustment Mgt"
                     NewAttributeAdjustmentLine."Old Amount" := EvaluateAmountOnAttributeAdjustment(Formula, AttributeAdjustmentHeader, TempEmployee."No.", false); // all old amount
                     NewAttributeAdjustmentLine."System Calculated" := true;
                     GetEffectiveStartDateEndDate(NewAttributeAdjustmentLine);
-                    NewAttributeAdjustmentLine.Insert();
+                    if NewAttributeAdjustmentLine."Old Amount" <> 0 then
+                        NewAttributeAdjustmentLine.Insert();
                 until PayrollAttribUsage.Next() = 0;
         until TempEmployee.Next() = 0;
 

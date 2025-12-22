@@ -2359,7 +2359,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Week Off Day - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3120113408 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Cannot delete document.</source>
+          <source>Cannot delete %1 document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Method OnDelete - NamedType CannotDelete</note>
         </trans-unit>
@@ -25143,10 +25143,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Reject Document - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 627680985 - Action 4032263875 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 627680985 - Action 2725661554 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Release</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Release - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Release Document - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 627680985 - Action 27065144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Re-Open</source>
@@ -25169,7 +25169,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Validate - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1254391634 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attribute Adjustment Lines</source>
+          <source>Adjustment Lines</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Property Caption</note>
         </trans-unit>
@@ -25177,11 +25177,6 @@
           <source>Export to Excel</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action ExportToExcel - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1254391634 - Action 1542681300 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Get Additional Attributes</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action Get Additional Attributes - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1254391634 - Action 3545432896 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Import from Excel</source>
@@ -25202,11 +25197,6 @@
           <source>Attribute Adjustments</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment List - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2878192907 - Action 3869266350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Get Additional Attributes</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment List - Action Get Additional Attibutes - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 568297125 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll Attributes Usage History</source>
