@@ -702,7 +702,13 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50153; "Outstation Dist. Crit. (Himal)"; Decimal)
+        field(50153; "Attribute Adjustment Nos."; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+            Description = 'Attribute Adjustment No. Series';
+        }
+        field(50154; "Outstation Dist. Crit. (Himal)"; Decimal)
         {
             DataClassification = CustomerContent;
         }

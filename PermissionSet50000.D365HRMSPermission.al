@@ -832,5 +832,11 @@ permissionset 50000 D365HRMSPermission
         page "Promotion List" = X,
         tabledata "Assignment Memo Line Copy" = RIMD,
         table "Assignment Memo Line Copy" = X,
-        page "Request Allowance Subform Copy" = X;
+        page "Request Allowance Subform Copy" = X,
+        table "Attribute Adjustment Header" = X,
+        table "Attribute Adjustment Line" = X,
+        codeunit "Attribute Adjustment Mgt" = X,
+        page "Attribute Adjustment Card" = X,
+        page "Attribute Adjustment Lines" = X,
+        page "Attribute Adjustment List" = X;
 }
