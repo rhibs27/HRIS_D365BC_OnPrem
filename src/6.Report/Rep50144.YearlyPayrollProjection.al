@@ -535,27 +535,72 @@ report 50144 "Yearly Payroll Projection"
     local procedure CalculateRemainingMonths(var LastEntryNo: Integer): Integer
     var
         PostedPayrollHeader: Record "Posted Payroll Header";
+        EmpRec: Record Employee;
         RemainingMonth: Integer;
+        LastActualPeriod: Integer;
+        FinalPeriod: Integer;
+        StartProjectionFrom: Integer;
+        HasActualEntries: Boolean;
     begin
+        RemainingMonth := 0;
+        LastActualPeriod := 0;
+        FinalPeriod := 0;
+        StartProjectionFrom := 0;
+        HasActualEntries := false;
+        // Get the final period when employee leaves
+        FinalPeriod := GetLastPayCycle(EmployeeFilter);
+        // Get employee record for additional checks
+        if not EmpRec.Get(EmployeeFilter) then
+            exit(0);
+        // Look for existing payroll entries for this employee
         DetailedEmpLedgerEntry.Reset();
         DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
-        DetailedEmpLedgerEntry.SetFilter("Employee No.", EmployeeFilter);
+        DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
         DetailedEmpLedgerEntry.SetRange(Reversed, false);
+        if DetailedEmpLedgerEntry.FindSet() then begin
+            HasActualEntries := true;
+            // Find the latest period with actual data
+            repeat
+                if DetailedEmpLedgerEntry."Pay Cycle Period" > LastActualPeriod then
+                    LastActualPeriod := DetailedEmpLedgerEntry."Pay Cycle Period";
+            until DetailedEmpLedgerEntry.Next() = 0;
+        end;
+        // Also check posted payroll headers to find the latest processed period
         PostedPayrollHeader.Reset();
         PostedPayrollHeader.SetCurrentKey("Pay Cycle Period");
         PostedPayrollHeader.SetRange("Pay Cycle Term", PayCycleTerm);
+        //issue anup
         PostedPayrollHeader.SetRange(Reversed, false);
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.type::Payroll);
         PostedPayrollHeader.SetAscending("Pay Cycle Period", true);
         if PostedPayrollHeader.FindLast() then begin
-            DetailedEmpLedgerEntry.SetRange("Document No.", PostedPayrollHeader."No.");
-            DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
-            if DetailedEmpLedgerEntry.FindLast() then begin
-                CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, LastEntryNo);
-                RemainingMonth := GetLastPayCycle(EmployeeFilter) - DetailedEmpLedgerEntry."Pay Cycle Period";
-            end else begin
+            if PostedPayrollHeader."Pay Cycle Period" > LastActualPeriod then
+                LastActualPeriod := PostedPayrollHeader."Pay Cycle Period";
+            HasActualEntries := true;
+        end;
+        // DECISION LOGIC: When to start projection
+        if HasActualEntries then begin
+            // We have actual entries - project only FUTURE periods
+            if LastActualPeriod < FinalPeriod then begin
+                StartProjectionFrom := LastActualPeriod + 1; // Start from NEXT period after last actual
+                CreateTempDetailedLedgerFromPAttrUsage(StartProjectionFrom, LastEntryNo);
+                RemainingMonth := FinalPeriod - LastActualPeriod;
+            end
+            else begin
+                // Employee already left in last actual period - no projection needed
+                RemainingMonth := 0;
+            end;
+        end
+        else begin
+            // No actual entries found - project full period if employee is active
+            if FinalPeriod > 0 then begin
                 CreateTempDetailedLedgerFromPAttrUsage(1, LastEntryNo);
-                RemainingMonth := GetLastPayCycle(EmployeeFilter);
+                RemainingMonth := FinalPeriod;
+            end
+            else begin
+                // Regular employee with no end date - project full year
+                CreateTempDetailedLedgerFromPAttrUsage(1, LastEntryNo);
+                RemainingMonth := MONTHS_PER_YEAR;
             end;
         end;
         exit(RemainingMonth);
@@ -894,25 +939,55 @@ report 50144 "Yearly Payroll Projection"
         EmpRec: Record Employee;
         PayrollRepMgt: Codeunit "Payroll Report Mgt.";
         RemainingMonth: Integer;
+        FinalPeriod: Integer;
+        ContractPeriod: Integer;
     begin
         RemainingMonth := MONTHS_PER_YEAR;
+        FinalPeriod := 0;
+        ContractPeriod := 0;
         if not EmpRec.Get(EmpCode) then
             exit(RemainingMonth);
         if not PGSetup.Get() then
             exit(RemainingMonth);
-        // Handle terminated employees
-        if EmpRec.Status = EmpRec.Status::Terminated then
-            if EmpRec."Termination Date" <> 0D then
+        // SCENARIO 1: ALREADY TERMINATED EMPLOYEES
+        if EmpRec.Status = EmpRec.Status::Terminated then begin
+            if (EmpRec."Termination Date" <> 0D) then
                 if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Termination Date") and
                    (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Termination Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriodForTermination(EmpRec, 'MONTHLY', PayCycleTerm);
-        // Handle contract employees with expiry dates
-        if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then
+                    FinalPeriod := PayrollRepMgt.GetPayPeriod(EmpRec."Termination Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+        end
+        // SCENARIO 2: ALREADY RESIGNED/INACTIVE EMPLOYEES
+        else if EmpRec.Status = EmpRec.Status::Inactive then begin
+            if (EmpRec."Resignation Date" <> 0D) then
+                if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Resignation Date") and
+                   (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Resignation Date") then
+                    FinalPeriod := PayrollRepMgt.GetPayPeriod(EmpRec."Resignation Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+        end;
+        // SCENARIO 3: ACTIVE EMPLOYEES WITH FUTURE RESIGNATION DATE (Notice Period)
+        if EmpRec.Status = EmpRec.Status::Active then begin
+            if (EmpRec."Resignation Date" <> 0D) then
+                if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Resignation Date") and
+                   (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Resignation Date") then
+                    FinalPeriod := PayrollRepMgt.GetPayPeriod(EmpRec."Resignation Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+        end;
+        // SCENARIO 4: CONTRACT EMPLOYEES (Separate check that applies to all statuses)
+        if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then begin
             if EmpRec."Contract Expiry Date" <> 0D then
                 if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Contract Expiry Date") and
-                   (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Contract Expiry Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(EmpRec, 'MONTHLY', PayCycleTerm);
-        exit(RemainingMonth);
+                   (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Contract Expiry Date") then begin
+                    ContractPeriod := PayrollRepMgt.GetPayPeriod(EmpRec."Contract Expiry Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+                    // Take the earliest end date between contract and termination/resignation
+                    if (FinalPeriod = 0) then
+                        FinalPeriod := ContractPeriod
+                    else if (ContractPeriod < FinalPeriod) then
+                        FinalPeriod := ContractPeriod;
+                end;
+        end;
+        // Return the appropriate final period
+        if FinalPeriod > 0 then
+            exit(FinalPeriod)
+        else
+            exit(RemainingMonth);
     end;
     // Gets insurance amount for specific insurance type with validation
     local procedure GetInsuranceAmount(EmployeeNo: Code[20]; InsuranceType: Enum "Employee Insurance Type"): Decimal
@@ -1101,29 +1176,47 @@ report 50144 "Yearly Payroll Projection"
         InsertData: Boolean;
         CalculatedAmount: Decimal;
         ProRataAmount: Decimal;
+        LastValidPeriod: Integer;
+        EmpRec: Record Employee;
     begin
         if not PgSetup.Get() then
             exit;
         if not EmpVar.Get(EmployeeFilter) then
             exit;
-        // Loop through each remaining pay period
-        for i := StartPeriod to GetLastPayCycle(EmployeeFilter) do begin
+        // Get employee record for validation
+        if not EmpRec.Get(EmployeeFilter) then
+            exit;
+        // Determine the last valid period for projection
+        LastValidPeriod := GetLastPayCycle(EmployeeFilter);
+        // CRITICAL VALIDATION: Only project valid future periods
+        if (StartPeriod > LastValidPeriod) or (StartPeriod < 1) then
+            exit;
+        // Ensure we don't project beyond the valid period
+        if LastValidPeriod > MONTHS_PER_YEAR then
+            LastValidPeriod := MONTHS_PER_YEAR;
+        // Loop only through valid future periods up to the final period
+        for i := StartPeriod to LastValidPeriod do begin
             PayrollAttrUsage.Reset();
             PayrollAttrUsage.SetRange("Employee Code", EmployeeFilter);
-            if PayrollAttrUsage.FindSet() then
+            if PayrollAttrUsage.FindSet() then begin
                 repeat
                     InsertData := false;
+                    CalculatedAmount := 0;
+                    ProRataAmount := 0;
                     PayrollAttrUsage.CalcFields(Type, Subtype, "Formula Exists");
-                    // Check if this attribute should be projected
+                    // Check if this attribute should be projected for FUTURE periods
                     if CheckIfProjectable(PayrollAttrUsage.Code) then begin
-                        // Check if this period should be included based on start/end dates
+                        // Check if this FUTURE period should be included based on date ranges
                         if ShouldIncludePeriod(i, PayrollAttrUsage."Start Date", PayrollAttrUsage."End Date") then
                             InsertData := true;
                     end;
-                    if PayAttr.Get(PayrollAttrUsage.Code) then begin
+                    // Additional attribute-specific checks
+                    if InsertData and PayAttr.Get(PayrollAttrUsage.Code) then begin
+                        // Check pay cycle period restriction
                         if PayAttr."Pay Cycle Period" <> 0 then
                             if PayAttr."Pay Cycle Period" <> i then
                                 InsertData := false;
+                        // Check pay frequency restriction
                         if (PayAttr."Pay Frequency" <> 0) and (GetPaidFrequency(PayAttr.Code) >= PayAttr."Pay Frequency") then
                             InsertData := false;
                     end;
@@ -1147,7 +1240,8 @@ report 50144 "Yearly Payroll Projection"
                         if PayrollAttrUsage."Formula Exists" then begin
                             PayrollReportMgt.SetEmployeeCode(EmployeeFilter);
                             CalculatedAmount := PayrollReportMgt.getAttributeAmount(EmployeeFilter, PayrollAttrUsage.Code);
-                        end else
+                        end
+                        else
                             CalculatedAmount := PayrollAttrUsage.Amount;
                         // Apply pro-rata calculation using actual pay cycle period dates
                         ProRataAmount := CalculateProRataAmount(CalculatedAmount, i,
@@ -1161,6 +1255,7 @@ report 50144 "Yearly Payroll Projection"
                         end;
                     end;
                 until PayrollAttrUsage.Next() = 0;
+            end;
         end;
     end;
 

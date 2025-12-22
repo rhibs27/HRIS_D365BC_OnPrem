@@ -128,11 +128,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Approval Grace Period field.';
                     ApplicationArea = All;
                 }
-                field("Default Work Shift"; Rec."Default Work Shift")
-                {
-                    ToolTip = 'Specifies the value of the Default Work Shift field.';
-                    ApplicationArea = All;
-                }
+                // field("Default Work Shift"; Rec."Default Work Shift")
+                // {
+                //     ToolTip = 'Specifies the value of the Default Work Shift field.';
+                //     ApplicationArea = All;
+                // }
                 field("Allowance Email Days"; Rec."Allowance Email Days")
                 {
                     ToolTip = 'Specifies the value of the Allowance Email Days field.';
@@ -406,6 +406,11 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = All;
                 }
+                field("Dashain Allowance"; Rec."Dashain Allowance")
+                {
+                    ApplicationArea = All;
+                }
+
 
 
             }
@@ -676,6 +681,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the ATM cust. Allow. (comtract) field.';
                     ApplicationArea = All;
                 }
+                field("Dashain Allowance Amount"; Rec."Dashain Allowance Amount")
+                {
+                    ToolTip = 'Specifies the value of the Dashain Allowance Amount field.';
+                    ApplicationArea = All;
+                }
                 field("Allowance Claim Limit (days)"; Rec."Allowance Claim Limit (days)")
                 {
                     ToolTip = 'Specifies the limit to create Allowance claim document from Allowance End date';
@@ -774,6 +784,24 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Compensatory Leave Hour field.';
                     ApplicationArea = All;
                 }
+            }
+            group("Assignment Memos")
+            {
+                Visible = Rec."Use Allowance Configuration";
+
+                field("Allowance Assignment Memo Nos"; Rec."Allowance Assignment Memo Nos")
+                {
+                    ToolTip = 'Specifies the value of the Allowance Assignment Memo Nos field.', Comment = '%';
+                }
+                field("Request Allowance Nos"; Rec."Request Allowance Nos")
+                {
+                    ToolTip = 'Specifies the value of the Request Allowance Nos field.', Comment = '%';
+                }
+                field("Shift Assignment Memo Nos"; Rec."Shift Assignment Memo Nos")
+                {
+                    ToolTip = 'Specifies the value of the Shift Assignment Memo Nos field.', Comment = '%';
+                }
+
             }
             part(PayrollSetupLines; "Payroll Setup Lines")
             {

@@ -20,10 +20,10 @@ report 50149 "Employee Attendance Report"
             column(Attendance_Date; "Attendance Date")
             {
             }
-            column(Check_In_Time; "Check In Time")
+            column(Check_In_Time; Format("Check In Time"))
             {
             }
-            column(Check_Out_Time; "Check Out Time")
+            column(Check_Out_Time; Format("Check Out Time"))
             {
             }
             column(Status; Status)
@@ -179,9 +179,29 @@ report 50149 "Employee Attendance Report"
             column(TotalOvertimeHours; TotalOvertimeHours)
             {
             }
-            column(AttendanceStatus; GetAttendanceStatus())
+            column(AttendanceStatus; Remarks)
             {
             }
+            dataitem(Leave; Leave)
+            {
+                DataItemLink = "Employee No." = field("Employee No.");
+                DataItemTableView = where("Approval Status" = filter("Approval Status"::Pending));
+                column(Remarks; Remarks) { }
+                column(No; "No.")
+                {
+                }
+                column(StartDate; "Start Date") { }
+                column(EndDate; "End Date") { }
+                column(NoOfDays; "No. of Days") { }
+                trigger OnPreDataItem()
+                begin
+                    Leave.SetFilter("Start Date", '<=%1', "Employee Attendance"."Attendance Date");
+                    Leave.Setfilter("End Date", '>=%1', "Employee Attendance"."Attendance Date");
+                    Leave.SetRange("Approval Status", "Approval Status"::Pending);
+                end;
+
+            }
+
             trigger OnPreDataItem()
             begin
                 CompanyInfo.Get();
@@ -214,6 +234,11 @@ report 50149 "Employee Attendance Report"
                     SetRange("Absent Day", 1);
                 end;
                 // Apply leave filters
+                // if not IncludeLeaveEmployees then
+                //     SetFilter("Leave Day", '<>%1', 1)
+                // else
+                //     SetRange("Leave Day", 1);
+
                 if not IncludeLeaveEmployees then
                     SetFilter("Leave Day", '<>%1', 1)
                 else
@@ -266,12 +291,12 @@ report 50149 "Employee Attendance Report"
                         Caption = 'Show Absent Employees Only';
                         ToolTip = 'Select to show only absent employees.';
                     }
-                    field(IncludeLeaveEmployees; IncludeLeaveEmployees)
-                    {
-                        ApplicationArea = All;
-                        Caption = 'Include Leave Employees';
-                        ToolTip = 'Select to include employees on leave in the report.';
-                    }
+                    // field(IncludeLeaveEmployees; IncludeLeaveEmployees)
+                    // {
+                    //     ApplicationArea = All;
+                    //     Caption = 'Include Leave Employees';
+                    //     ToolTip = 'Select to include employees on leave in the report.';
+                    // }
                     field(AttendanceDateFrom; AttendanceDateFrom)
                     {
                         ApplicationArea = All;
@@ -339,7 +364,6 @@ report 50149 "Employee Attendance Report"
                 AttendanceDateFrom := Today;
             if AttendanceDateTo = 0D then
                 AttendanceDateTo := Today;
-            GetCurrentEmployeeDeputation;
         end;
     }
     var

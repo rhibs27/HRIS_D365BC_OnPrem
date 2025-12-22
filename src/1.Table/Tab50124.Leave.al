@@ -50,12 +50,14 @@ table 50124 Leave
                     Validate("Department Name", EmpVar."Department Name");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Province Name", EmpVar."Province Name");
+                    Validate("Employee Attendance ID", EmpVar."Employee Attendance ID");
+                    Validate("Branch Code", EmpVar."Branch Code");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
                     Validate(Department, '');
-                    // Validate("Auth. Account No.", '');//NILESH
                     Validate("Salary Level Code", '');
+                    Validate("Employee Attendance ID", '');
                 end;
             end;
         }
@@ -73,31 +75,28 @@ table 50124 Leave
         field(7; "Start Date"; Date)
         {
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
-                if Type <> Type::Overtime then
-                    EmployeeRec.Get("Employee No.");
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                    if Type = Type::"Leave Request" then begin
-                        if EmployeeRec."Confirmation Date" <> 0D then
-                            if "Start Date" < EmployeeRec."Confirmation Date" then
-                                Error('Cannot apply before your confirmation date.');
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
+                if EmployeeRec.Get("Employee No.") then;
+                OnBeforeCheckEmploymentAndConfirmationDate("Employee No.", "Start Date", "Leave Code", IsHandled);
+                if not IsHandled then
+                    if "Start Date" <> 0D then begin
+                        if "Start Date" < EmployeeRec."Employment Date" then
+                            Error('Cannot apply before your employment date');
+                        if Type = Type::"Leave Request" then begin
+                            if EmployeeRec."Confirmation Date" <> 0D then
+                                if "Start Date" < EmployeeRec."Confirmation Date" then
+                                    Error('Cannot apply before your confirmation date.');
+                        end;
                     end;
-                end;
                 //>>check for leave
                 if Type = Type::"Leave Request" then begin
                     if EmployeeRec."Contract Expiry Date" <> 0D then
                         if "Start Date" > EmployeeRec."Contract Expiry Date" then
                             Error('Cannot apply leave after contract expiry date');
                 end;
-                //<<check for leave
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
                 if GuiAllowed then
                     if "Start Date" <> xRec."Start Date" then begin
                         Clear("End Date");
@@ -112,12 +111,7 @@ table 50124 Leave
             var
                 IsHandled: Boolean;
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
                 if GuiAllowed then begin
                     if Type = Type::"Leave Request" then
                         TestField("Leave Code");
@@ -148,7 +142,7 @@ table 50124 Leave
                         leaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
                         leaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
                         leaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
-                        leaveMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
+                        leaveMgt.CheckForMultipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
                         leaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
                         leaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
                     end;
@@ -158,15 +152,10 @@ table 50124 Leave
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Requested Date"));
             end;
         }
-        field(11; "Fiscal Year"; Text[10])
+        field(11; "Fiscal Year"; Text[20])
         {
             Editable = false;
         }
@@ -180,10 +169,6 @@ table 50124 Leave
         }
         field(14; Remarks; Text[100])
         {
-            // trigger OnValidate()
-            // begin
-            //     Clear("Rejection Remarks");
-            // end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -234,18 +219,32 @@ table 50124 Leave
         {
             Editable = false;
             TableRelation = "Salary Level";
+
+            trigger OnValidate()
+            var
+                SalaryLevelRec: Record "Salary Level";
+            begin
+                if SalaryLevelRec.Get("Salary Level Code") then
+                    "Salary Level Description" := SalaryLevelRec.Description
+                else
+                    Clear("Salary Level Description");
+            end;
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            Editable = false;
         }
         field(30; "Province Code"; Code[20])
         {
+            Editable = false;
         }
         field(29; "Province Name"; Code[50])
         {
+            Editable = false;
         }
         field(31; "Unit Code"; Code[20])
         {
+            Editable = false;
         }
         field(32; "Compensatory Days"; Decimal)
         {
@@ -261,13 +260,10 @@ table 50124 Leave
         }
         field(36; "Rejection Remarks"; Text[100])
         {
-            // trigger OnValidate()
-            // begin
-            //     Clear(Remarks);
-            // end;
         }
         field(37; "Approved Date"; Date)
         {
+            Editable = false;
         }
         field(38; "Approver Type"; Enum "Approver Type")
         {
@@ -281,7 +277,6 @@ table 50124 Leave
         }
         field(41; "Cancelled Document No."; Code[20])
         {
-            Editable = false;
         }
         field(50; "Contact No."; Text[50])
         {
@@ -308,7 +303,6 @@ table 50124 Leave
                         end;
                         Clear("Compensatory Date");
                         Clear("Child's Gender");
-                        // Clear("Contact No."); //nilesh
                     end;
                 end else
                     if LeaveTypeVar.Get("Leave Code") then
@@ -322,9 +316,6 @@ table 50124 Leave
         field(53; "Leave Type"; Enum "Leave Type")
         {
             trigger OnValidate()
-            var
-                LeaveTypeSetup: Record "Leave Type Setup";
-                HalfLeaveError: Label 'Half Leaves cannot be applied in multiple days.';
             begin
                 WorkShift.Get("Employee Work Shift");
                 case "Leave Type" of
@@ -391,6 +382,7 @@ table 50124 Leave
         }
         field(61; "Deputation On"; Enum "Deputation Type")
         {
+            Editable = false;
             DataClassification = ToBeClassified;
         }
         field(62; "Form Journal"; Boolean)
@@ -398,13 +390,58 @@ table 50124 Leave
         }
         field(63; "Deputation On Code"; Code[20])
         {
+            Editable = false;
             DataClassification = ToBeClassified;
+        }
+        field(64; "Employee Attendance ID"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(65; "Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            trigger OnValidate()
+            var
+                OrgStructureList: Record "Organization Structure List";
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code") then
+                    Validate("Branch Name", OrgStructureList.Name)
+                else
+                    Validate("Branch Name", '');
+            end;
         }
         field(100; "Status"; Text[20])
         {
         }
         field(200; Claimed; Boolean) { }
         field(201; "Claimed Doc No."; Code[20]) { }
+
+        field(202; "Salary Level Description"; Text[50])
+        {
+            Caption = 'Salary Level Description';
+            Editable = false;
+        }
+        field(203; "Substitute Person Code"; code[20])
+        {
+            Caption = 'Substitute Person Code';
+            TableRelation = Employee."No.";
+            trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
+            begin
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
+                    Clear("Substitute Person Name");
+            end;
+        }
+        field(204; "Substitute Person Name"; text[50])
+        {
+            Caption = 'Substitute Person Name';
+            Editable = false;
+
+        }
+
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
@@ -433,11 +470,10 @@ table 50124 Leave
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
         EmployeeRec: Record Employee;
-        EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        LeaveError: Label 'You cannot apply leave in Present day %1.';
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
+
     trigger OnInsert()
     var
         LeaveRec: Record Leave;
@@ -530,6 +566,11 @@ table 50124 Leave
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterApplyForLeave(var Leave: Record Leave)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckEmploymentAndConfirmationDate(EmployeeNo: Code[20]; StartDate: date; LeaveCode: Code[20]; Var IsHandled: Boolean)
     begin
     end;
 }

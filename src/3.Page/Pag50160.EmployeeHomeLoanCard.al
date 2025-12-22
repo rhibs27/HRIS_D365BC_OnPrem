@@ -10,7 +10,7 @@ page 50160 "Employee Home Loan Card"
         {
             group("Employee Information")
             {
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Employee Code field.';
@@ -214,7 +214,7 @@ page 50160 "Employee Home Loan Card"
             group("Security Documentation")
             {
                 Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
-                field("Employee Citizenship No."; Rec."Employee Citizenship No.")
+                field("Employee Citizenship No."; Rec."Citizenship No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
                     ApplicationArea = All;
@@ -369,25 +369,14 @@ page 50160 "Employee Home Loan Card"
             }
             group("Group Remarks")
             {
-                // field("Screener Remarks"; Rec."Screener Remarks")
-                // {
-                //     Editable = ForScreen;
-                //     MultiLine = true;
-                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
-                //     ApplicationArea = All;
-                // }
+
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = IsPending;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-                // field("Recommendation Remarks"; Rec."Recommendation Remarks")
-                // {
-                //     Editable = ForRecommend;
-                //     ToolTip = 'Specifies the value of the Recommendation Remarks field.';
-                //     ApplicationArea = All;
-                // }
+
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
                     Editable = IsPending;
@@ -405,42 +394,11 @@ page 50160 "Employee Home Loan Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee Code"),
+                                "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
-            // group(Approval)
-            // {
-            // field(Recommender; Rec.Recommender)
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Recommender field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Recommender Name"; Rec."Recommender Name")
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Recommender Name field.';
-            //     ApplicationArea = All;
-            // }
-            // field(Screener; Rec.Screener)
-            // {
-            //     Editable = false;
-            //     ToolTip = 'Specifies the value of the Screener field.';
-            //     ApplicationArea = All;
-            // }
-            // field(Approver; Rec.Approver)
-            // {
-            //     Editable = ForScreen;
-            //     ToolTip = 'Specifies the value of the Approver field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Approver Name"; Rec."Approver Name")
-            // {
-            //     ToolTip = 'Specifies the value of the Approver Name field.';
-            //     ApplicationArea = All;
-            // }
-            // }
+
         }
         area(FactBoxes)
         {
@@ -710,7 +668,7 @@ page 50160 "Employee Home Loan Card"
             Rec.Validate("Requested Loan Date", Today);
             Rec.Validate("Repayment Period", 1);
             Rec.Validate("Applied Loan/Advance", 0);
-            Rec.Validate("Employee Code");
+            Rec.Validate("Employee No.");
             Rec.Modify(true);
         end;
         RecRef.GetTable(Rec);
@@ -722,7 +680,6 @@ page 50160 "Employee Home Loan Card"
         OfficeMgt: Codeunit "Office Management";
         HasIncomingDocument: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
-        // FormEditable: Boolean;
 
         ForApprove: Boolean;
 
@@ -748,11 +705,6 @@ page 50160 "Employee Home Loan Card"
 
     local procedure SetLayout()
     begin
-        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
-        //                 Rec."Approval Status"::Open];
-        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
-        //                 Rec."Approval Status"::Open];
-
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
                 begin
@@ -768,20 +720,6 @@ page 50160 "Employee Home Loan Card"
                     ForApprove := true;
                     ForScreen := false;
                 end;
-            // Rec."Approval Status"::Recommended:
-            //     begin
-            //         ForRecommend := false;
-            //         ForReject := true;
-            //         ForApprove := false;
-            //         ForScreen := true;
-            //     end;
-            // Rec."Approval Status"::Screened:
-            //     begin
-            //         ForRecommend := false;
-            //         ForReject := true;
-            //         ForApprove := true;
-            //         ForScreen := false;
-            //     end;
             Rec."Approval Status"::Rejected:
                 begin
                     ForRecommend := false;

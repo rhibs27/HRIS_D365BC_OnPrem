@@ -152,12 +152,9 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeader.Irregular := PayrollHeader.Irregular;
         PostedPayrollHeader."Posted Date" := CurrentDateTime;
         PostedPayrollHeader.Insert;
-        // if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
-        //     if PayrollHeader."Encashment Code" <> '' then
-        //         PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader, PostedPayrollHeader."No.");
-        //     if PayrollHeader."Encashment Period" <> PayrollHeader."Encashment Period"::" " then
-        //         PayrollEngine.UpdateOTDisbursedEncashPeriod(PayrollHeader, PostedPayrollHeader."No.");
-        // end;
+        if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
+            PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader."No.", PostedPayrollHeader."No.");
+        end;
         // if PayrollHeader.Type = PayrollHeader.Type::Payroll then
         //     PayrollEngine.UpdateOTDisbursedAllowances(PayrollHeader, PostedPayrollHeader."No.");
     end;
@@ -205,7 +202,10 @@ codeunit 50010 "Payroll-Post"
         PriorTrfAttributeAmount: Decimal;
         UsePayrollAttributeUsageAllocation: Boolean;
         LeaveEarn: Record "Leave Earn";
-        DeputationType: Enum "Deputation Type";
+        DeputationTypeBeforeTransfer: Enum "Deputation Type";
+        DeputationCodeBeforeTransfer: Code[20];
+        DimensionValueBeforeTransfer: Code[20];
+        ServiceDaysBeforeTransfer: Decimal;
     begin
         RecRef.Open(Database::"Payroll Line");
         FieldRef := RecRef.Field(1);
@@ -280,18 +280,23 @@ codeunit 50010 "Payroll-Post"
                                     PayrollJournalLine."Account No." := PayrollAttributes."G/L Account No.";
                                 if PGSetup."Salary Advance" = PayrollAttributes.Code then
                                     PayrollJournalLine."External Document No." := PayrollLine."Salary Advance No.";
-                                if CheckTransferInServiceHistory(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date") then begin
-                                    if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then begin
-                                        PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * GetServiceDaysBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date"), 0.01, '=');
-                                        PayrollJournalLine.Amount := PriorTrfAttributeAmount;
-                                        LineBalance += PriorTrfAttributeAmount;
-                                        PayrollJournalLine."Shortcut Dimension 1 Code" := GetDimensionBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date", DeputationType);
-                                        PayrollJournalLine."Deputation On" := GetDeputationOnBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date");
-                                        PayrollJournalLine."Deputation Value" := GetDeputationValueBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date");
-                                        PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
-                                        UpdatePayrollJnl(PayrollJournalLine);
-                                        PostEmployee(PayrollJournalLine);
-                                    end;
+                                if CheckTransferInServiceHistory(PayrollLine."Employee No.", PayrollHeader."From Date",
+                                                                PayrollHeader."To Date", ServiceDaysBeforeTransfer,
+                                                                DeputationTypeBeforeTransfer, DeputationCodeBeforeTransfer,
+                                                                DimensionValueBeforeTransfer) then begin
+                                    if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+                                        PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * ServiceDaysBeforeTransfer, 0.01, '=')
+                                    else if PGSetup."Total Days From" = PGSetup."Total Days From"::Month then
+                                        PriorTrfAttributeAmount := Round(FieldValue / PayrollLine."Total Days" * ServiceDaysBeforeTransfer, 0.01, '=');
+                                    PayrollJournalLine.Amount := PriorTrfAttributeAmount;
+                                    LineBalance += PriorTrfAttributeAmount;
+                                    PayrollJournalLine."Shortcut Dimension 1 Code" := DimensionValueBeforeTransfer;
+                                    PayrollJournalLine."Deputation On" := DeputationTypeBeforeTransfer;
+                                    PayrollJournalLine."Deputation Value" := DeputationCodeBeforeTransfer;
+                                    PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                                    UpdatePayrollJnl(PayrollJournalLine);
+                                    PostEmployee(PayrollJournalLine);
+
                                     InitPayrollJnlLine(PayrollJournalLine, LastLineNo);
                                     PayrollJournalLine.Description := PayrollAttributes.Description;
                                     PayrollJournalLine."Account Type" := PayrollJournalLine."Account Type"::"G/L Account";
@@ -372,6 +377,7 @@ codeunit 50010 "Payroll-Post"
     var
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
         PayrollAttributes: Record "Payroll Attributes";
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
     begin
         PayrollLine.Reset;
         PayrollLine.SetRange("Document No.", PayrollHeader."No.");
@@ -390,6 +396,20 @@ codeunit 50010 "Payroll-Post"
                                 PayrollAttributesUsage.Modify;
                             end;
                         until PayrollAttributes.Next = 0;
+
+                    //To Automate stop payment of payroll attribute with end date in history.
+                    PayrollAttrUsageHistory.Reset();
+                    PayrollAttrUsageHistory.SetRange("End Date", PayrollHeader."From Date", PayrollHeader."To Date");
+                    if PayrollAttrUsageHistory.FindSet() then
+                        repeat
+                            PayrollAttributesUsage.Reset();
+                            PayrollAttributesUsage.SetRange(Code, PayrollAttrUsageHistory."Attribute Code");
+                            PayrollAttributesUsage.SetRange("Employee Code", PayrollAttrUsageHistory."Employee No.");
+                            if PayrollAttrUsageHistory.FindFirst() then begin
+                                PayrollAttributesUsage.Amount := 0;
+                                PayrollAttributesUsage.Modify;
+                            end
+                        until PayrollAttrUsageHistory.Next() = 0;
                 end;
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                     Employee.Get(PayrollLine."Employee No.");
@@ -410,76 +430,72 @@ codeunit 50010 "Payroll-Post"
         exit(FieldValue);
     end;
 
-    procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Boolean
+    procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var ServiceDays: Decimal; var DeputationType: Enum "Deputation Type"; var DeputationCode: Code[20]; var DimensionValue: Code[20]): Boolean
     var
         EmployeeServiceHistory: Record "Employee Service History";
+        OrgStructList: Record "Organization Structure List";
     begin
         EmployeeServiceHistory.Reset;
         EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
         EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
         EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-        if EmployeeServiceHistory.FindFirst() then
-            exit(true)
-    end;
-
-    local procedure GetServiceDaysBeforeTransfer(EmpNo: Code[20]; FromDate: Date): Decimal
-    var
-        EmployeeServiceHistory: Record "Employee Service History";
-    begin
-        EmployeeServiceHistory.Reset;
-        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
-        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
-        if EmployeeServiceHistory.FindFirst() then
-            exit(EmployeeServiceHistory."Effective Date" - FromDate + 1)
-    end;
-
-    procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var DeputationType: Enum "Deputation Type"): Code[20]
-    var
-        EmployeeServiceHistory: Record "Employee Service History";
-        OrganizationStructureList: Record "Organization Structure List";
-    begin
-        EmployeeServiceHistory.Reset;
-        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
-        EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
         if EmployeeServiceHistory.FindFirst() then begin
+            ServiceDays := EmployeeServiceHistory."Effective Date" - FromDate + 1;
             DeputationType := EmployeeServiceHistory."Deputation On(From)";
-            If OrganizationStructureList.get(DeputationType, EmployeeServiceHistory."Deputation Code (From)") then
-                exit(OrganizationStructureList."Dimension Value Code")
+            DeputationCode := EmployeeServiceHistory."Deputation Code (From)";
+            OrgStructList.Get(DeputationType, DeputationCode);
+            DimensionValue := OrgStructList."Dimension Value Code";
+            exit(true)
         end;
     end;
 
-    procedure GetDeputationOnBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Enum "Deputation Type"
-    var
-        EmployeeServiceHistory: Record "Employee Service History";
-        OrganizationStructureList: Record "Organization Structure List";
-    begin
-        EmployeeServiceHistory.Reset;
-        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
-        EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
-        if EmployeeServiceHistory.FindFirst() then
-            exit(EmployeeServiceHistory."Deputation On(From)");
-    end;
+    // procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var DeputationType: Enum "Deputation Type"): Code[20]
+    // var
+    //     EmployeeServiceHistory: Record "Employee Service History";
+    //     OrganizationStructureList: Record "Organization Structure List";
+    // begin
+    //     EmployeeServiceHistory.Reset;
+    //     EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+    //     EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+    //     EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+    //     if EmployeeServiceHistory.FindFirst() then begin
+    //         DeputationType := EmployeeServiceHistory."Deputation On(From)";
+    //         If OrganizationStructureList.get(DeputationType, EmployeeServiceHistory."Deputation Code (From)") then
+    //             exit(OrganizationStructureList."Dimension Value Code")
+    //     end;
+    // end;
 
-    procedure GetDeputationValueBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
-    var
-        EmployeeServiceHistory: Record "Employee Service History";
-        OrganizationStructureList: Record "Organization Structure List";
-    begin
-        EmployeeServiceHistory.Reset;
-        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
-        EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
-        if EmployeeServiceHistory.FindFirst() then
-            exit(EmployeeServiceHistory."Deputation Code (From)");
-    end;
+    // procedure GetDeputationOnBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Enum "Deputation Type"
+    // var
+    //     EmployeeServiceHistory: Record "Employee Service History";
+    //     OrganizationStructureList: Record "Organization Structure List";
+    // begin
+    //     EmployeeServiceHistory.Reset;
+    //     EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+    //     EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+    //     EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+    //     if EmployeeServiceHistory.FindFirst() then
+    //         exit(EmployeeServiceHistory."Deputation On(From)");
+    // end;
+
+    // procedure GetDeputationValueBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
+    // var
+    //     EmployeeServiceHistory: Record "Employee Service History";
+    //     OrganizationStructureList: Record "Organization Structure List";
+    // begin
+    //     EmployeeServiceHistory.Reset;
+    //     EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+    //     EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+    //     EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+    //     if EmployeeServiceHistory.FindFirst() then
+    //         exit(EmployeeServiceHistory."Deputation Code (From)");
+    // end;
 
     procedure UpdateSourceDocumentOnPayrollPost(PayrollAttributes: Record "Payroll Attributes"; PayrollLineRec: Record "Payroll Line")
     var
         LeaveEarn: Record "Leave Earn";
         AllowanceAssignLine: Record "Allowance Assignment Line";
-
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
             LeaveType.Reset;
@@ -513,6 +529,16 @@ codeunit 50010 "Payroll-Post"
         AllowanceAssignLine.SetRange("Payroll Doc No.", PayrollHeader."No.");
         if AllowanceAssignLine.FindSet() then
             AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
+
+        //check and update Assignment memo lines if any
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PayrollHeader."No.");
+        if AssignmentMemoLedgerEntry.FindSet() then
+            repeat
+                AssignmentMemoLedgerEntry."Payroll Document No." := PostedPayrollHeader."No.";
+                AssignmentMemoLedgerEntry.Open := false;
+                AssignmentMemoLedgerEntry.Modify();
+            until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
 }

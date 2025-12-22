@@ -208,6 +208,15 @@ table 50153 "Cancel Document"
         {
             Editable = false;
             TableRelation = "Salary Level";
+            trigger OnValidate()
+            var
+                SalaryLevelRec: Record "Salary Level";
+            begin
+                if SalaryLevelRec.Get("Salary Level Code") then
+                    "Salary Level Description" := SalaryLevelRec.Description
+                else
+                    Clear("Salary Level Description");
+            end;
         }
         field(28; "Extension Counter Code"; Code[20])
         {
@@ -299,6 +308,31 @@ table 50153 "Cancel Document"
         field(100; Status; text[20])
         {
         }
+        field(101; "Salary Level Description"; Text[50])
+        {
+            Caption = 'Salary Level Description';
+            Editable = false;
+
+        }
+        field(102; "Substitute Person Code"; code[20])
+        {
+            Caption = 'Substitute Person Code';
+            TableRelation = Employee."No.";
+            trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
+            begin
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
+                    Clear("Substitute Person Name");
+            end;
+        }
+        field(103; "Substitute Person Name"; text[50])
+        {
+            Caption = 'Substitute Person Name';
+            Editable = false;
+        }
 
     }
     keys
@@ -310,13 +344,11 @@ table 50153 "Cancel Document"
         key(Key2; "Start Date")
         {
         }
-
-
-
     }
     trigger OnInsert()
     var
         IsHandled: Boolean;
+        CancelledDocument: Record "Cancel Document";
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -325,6 +357,10 @@ table 50153 "Cancel Document"
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
                 HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                CancelDocumentRec.ReadIsolation(IsolationLevel::ReadCommitted);
+                CancelDocumentRec.SetLoadFields("No.");
+                while CancelDocumentRec.Get("No.") do
+                    "No." := NoSeriesMgt.GetNextNo("No. Series");
                 OnInsertCancelDocumentOnBeforeCreateApproval(Rec, IsHandled);
                 if not IsHandled then
                     ApproverMgt.InsertApprovalCancelled("Employee No.", "No.", Type, Cancelled);

@@ -31,6 +31,7 @@ table 50075 "Employee Activity Journal"
                 if EmpVar.Get("Employee No.") then begin
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
+                    Validate("From Branch", EmpVar."Branch Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate(Department, EmpVar."Department Code");
                     Validate("Province Code", EmpVar."Province Code");
@@ -43,6 +44,9 @@ table 50075 "Employee Activity Journal"
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Deputation On Code", EmpVar."Deputation On Code");
                     Validate("Approver Role", EmpVar."Approver Role");
+                    "Leave Code" := '';
+                    "Start Date" := 0D;
+                    "End Date" := 0D;
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
@@ -80,12 +84,7 @@ table 50075 "Employee Activity Journal"
                             EmployeeActMgt.CheckAttendanceMissedInJournal("Employee No.", "Start Date");
                         end;
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -111,12 +110,7 @@ table 50075 "Employee Activity Journal"
                     if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
                         Error('Leave code and leave type cannot be blank')
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
                 if "End Date" <> 0D then begin
                     if "Employee Act Type" = "Employee Act Type"::"Leave Request" then
                         Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
@@ -140,6 +134,7 @@ table 50075 "Employee Activity Journal"
                     LeaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
                     LeaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
                     LeaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
+                    leaveMgt.CheckForMultipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
                     LeaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
                 end
             end;
@@ -148,12 +143,7 @@ table 50075 "Employee Activity Journal"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Requested Date"));
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -222,7 +212,6 @@ table 50075 "Employee Activity Journal"
         }
         field(26; "Posting Date"; Date)
         {
-            Editable = false;
         }
         field(28; "Extension Counter Code"; Code[20])
         {
@@ -262,18 +251,18 @@ table 50075 "Employee Activity Journal"
             begin
                 if "Leave Code" <> xRec."Leave Code" then begin
                     Clear("For Death Of");
-                    if LeaveTypeVar.Get("Leave Code") then begin
-                        Validate("Leave Description", LeaveTypeVar.Description);
-                        Validate("Pay Type", LeaveTypeVar."Pay Type");
-                        Clear("Start Date");
-                        Clear("End Date");
-                        Clear("No. of Days");
-                    end else begin
-                        Clear("Leave Description");
-                        Clear("Pay Type");
-                    end;
+                    Clear("Start Date");
+                    Clear("End Date");
+                    Clear("No. of Days");
                     Clear("Compensatory Date");
                     Clear("Child's Gender");
+                end;
+                if LeaveTypeVar.Get("Leave Code") then begin
+                    Validate("Leave Description", LeaveTypeVar.Description);
+                    Validate("Pay Type", LeaveTypeVar."Pay Type");
+                end else begin
+                    Clear("Leave Description");
+                    Clear("Pay Type");
                 end;
             end;
         }
@@ -360,6 +349,7 @@ table 50075 "Employee Activity Journal"
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
                     "To Branch" := "Shortcut Dimension 1 Code";
+                    "To Branch" := "From Branch";
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
@@ -404,16 +394,6 @@ table 50075 "Employee Activity Journal"
                     ValidateDeputationOnTo
             end;
         }
-        // field(54; "Province Code (To)"; Code[20])
-        // {
-        //     Description = 'Transfer';
-        //     TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
-        //     trigger OnValidate()
-        //     begin
-        //         if "Deputation On (To)" = "Deputation On (To)"::Province then
-        //             ValidateDeputationOnTo
-        //     end;
-        // }
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
@@ -471,7 +451,7 @@ table 50075 "Employee Activity Journal"
         }
         field(60; "Functional Title (To)"; Code[20])
         {
-            Description = 'Transfer';
+            Description = 'Transfer / Promotion';
             TableRelation = "Functional Title";
         }
         field(61; "Deputation On"; Enum "Deputation Type")
@@ -602,22 +582,6 @@ table 50075 "Employee Activity Journal"
                     Validate("Province Code (To)", OrganizationStructureLine.Code);
             end;
         }
-        // field(78; "To Branch"; Code[20])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
-        //     trigger OnValidate()
-        //     var
-        //         OrganizationStructureLine: Record "Organization Structure Line";
-        //     begin
-        //         ValidateDeputationOnTo;
-        //         OrganizationStructureLine.Reset();
-        //         OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
-        //         OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
-        //         if OrganizationStructureLine.FindFirst() then
-        //             Validate("Province Code (To)", OrganizationStructureLine.Code);
-        //     end;
-        // }
         field(79; "Deputation On Code"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -625,6 +589,39 @@ table 50075 "Employee Activity Journal"
         field(80; "Deputation On Code To"; Code[20])
         {
             DataClassification = ToBeClassified;
+        }
+        field(81; "Incoming Supervisor 2"; Code[20])
+        {
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            Description = 'Transfer';
+            trigger OnValidate()
+            begin
+                if EmpVar.Get("Incoming Supervisor 2") then
+                    Validate("Incoming Supervisor Name 2", EmpVar."Full Name")
+                else
+                    Clear("Incoming Supervisor Name 2");
+            end;
+        }
+        field(82; "Incoming Supervisor Name 2"; Text[50])
+        {
+
+        }
+        field(83; "Outgoing Branch Rep. Person 2"; Code[20])
+        {
+            Description = 'Transfer';
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            trigger OnValidate()
+            begin
+                if "Outgoing Branch Rep. Person 2" <> '' then begin
+                    EmployeeRec.Get("Outgoing Branch Rep. Person 2");
+                    "Outgoing Rep. Person Name 2" := EmployeeRec."Full Name";
+                end;
+                if "Outgoing Branch Rep. Person 2" = "Employee No." then
+                    Error('Cannot Select Yourself as Outgoing Reporting person');
+            end;
+        }
+        field(84; "Outgoing Rep. Person Name 2"; Text[50])
+        {
         }
         // OverTime
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
@@ -683,6 +680,7 @@ table 50075 "Employee Activity Journal"
         }
         field(103; "Approver Role (TO)"; Code[20])
         {
+            Description = 'Transfer / Promotion';
             TableRelation = "Approval Role";
         }
         field(108; "CheckIn Time"; Time)
@@ -703,6 +701,73 @@ table 50075 "Employee Activity Journal"
                         Error('%1 do not have Overnight Shift on %2', "Employee Name", "Start Date")
             end;
         }
+        field(111; Attachment; Media)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(112; "Attachment File Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        //loan
+        //to import past loan details
+        field(115; "Loan Type"; Enum "Loan Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(116; "Loan Disbursed Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(117; "Loan Account No."; text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(118; "Loan Account Opening Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(119; "Loan Interest Rate (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(120; "Loan Expiry Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(121; "Loan Settlement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        //additional for home loan insurance
+        field(122; "Yearly Premium Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(123; "Insurance Company"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(124; "Policy No"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(125; "First Premium Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        // Promotion
+        field(150; "Promoted Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
+        field(151; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(152; "Promoted Staff Level"; Enum "Staff Type") { }
+        field(153; "Promotion Date"; Date) { }
     }
     keys
     {
@@ -714,10 +779,8 @@ table 50075 "Employee Activity Journal"
     trigger OnInsert()
     begin
         "User ID" := UserId;
-        if "Requester Employee" = '' then
-            if not HrMgt.IsSaaS() then
-                "Requester Employee" := HrMgt.GetEmployeeNo();
-        "Requested Date" := Today;
+        "Requester Employee" := HrMgt.GetEmployeeNo();
+        Validate("Requested Date", Today);
     end;
 
     trigger OnDelete()
@@ -732,7 +795,9 @@ table 50075 "Employee Activity Journal"
         EmpVar: Record Employee;
         EngNep: Record "English-Nepali Date";
         CurrDocumentNo: Boolean;
+        SkipApproval: Boolean;
     begin
+        HRSetup.Get();
         ActivityJournal.Reset();
         ActivityJournal.SetRange("Emp Act. No", LastActJnlLine."Emp Act. No");
         ActivityJournal.SetRange("Employee Act Type", LastActJnlLine."Employee Act Type");
@@ -760,9 +825,11 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.SetRange("Document No.", '');
                 ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
                 ApprovalHRMS.DeleteAll();
-                if HrMgt.IsSaaS() then
-                    ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
-                else
+                if HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer") then
+                    SkipApproval := true;
+
+                OnSetupNewLineOnBeforeInsertApproval(Rec, SkipApproval);
+                if not SkipApproval then
                     ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
     end;
@@ -778,10 +845,7 @@ table 50075 "Employee Activity Journal"
             ApprovalHRMS.SetRange("Document No.", '');
             ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
             ApprovalHRMS.DeleteAll();
-            if not HrMgt.IsSaaS() then
-                ApproverMgt.InsertApproval("Requester Employee", "Emp Act. No", Type, "Approval Status")
-            else
-                ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+            ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             FirstLine := false;
             EmpActNo := "Emp Act. No";
         end;
@@ -813,6 +877,7 @@ table 50075 "Employee Activity Journal"
         end;
     end;
 
+
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
@@ -833,4 +898,9 @@ table 50075 "Employee Activity Journal"
         ApprovalHRMS: Record "Approval HRMS";
         Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
         Error1: Label 'Cannot apply before your employment date.';
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSetupNewLineOnBeforeInsertApproval(var EmpActJnl: Record "Employee Activity Journal"; var SkipApproval: Boolean)
+    begin
+    end;
 }

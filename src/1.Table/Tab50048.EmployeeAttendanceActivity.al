@@ -248,6 +248,14 @@ table 50048 "Employee Attendance & Activity"
             Caption = 'Leave Code';
             TableRelation = "Leave Type Setup";
         }
+        field(108; "Dashain Allowance Days"; Decimal)
+        {
+            Caption = 'Dashain Allowance Days';
+        }
+        field(109; "OverNight Shift"; Boolean)
+        {
+            Caption = 'OverNight Shift';
+        }
         field(110; "Check-In Device IP"; text[20])
         {
 
@@ -259,6 +267,18 @@ table 50048 "Employee Attendance & Activity"
         field(112; "Extension Counter"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"));
+        }
+        field(113; "Leave Type"; Enum "Leave Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(114; "Deputation On"; Enum "Deputation Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(115; "Deputation On Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
         }
         field(200; "Entry Type"; Enum "Attendance Entry Type")
         {
@@ -297,7 +317,9 @@ table 50048 "Employee Attendance & Activity"
         "Branch Name" := Employee."Branch Name";
         "Department Code" := Employee."Department Code";
         "Department Name" := Employee."Department Name";
-        "Unit Code" := Employee."Union Code";
+        "Unit Code" := Employee."Unit Code";
         "Extension Counter" := Employee."Extension Counter Code";
+        "Deputation On" := Employee."Deputation on";
+        "Deputation On Code" := Employee."Deputation On Code";
     end;
 }

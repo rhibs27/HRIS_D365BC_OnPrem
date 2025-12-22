@@ -22,7 +22,6 @@ table 50068 "Leave Earn"
         field(4; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then
@@ -53,7 +52,7 @@ table 50068 "Leave Earn"
         {
             Editable = false;
         }
-        field(12; Remarks; Text[50]) { }
+        field(12; Remarks; Text[250]) { }
         field(13; Closed; Boolean) { }
         field(14; "Overtime Request No"; Code[20])
         {
@@ -78,6 +77,37 @@ table 50068 "Leave Earn"
         {
             TableRelation = "Payroll Attributes";
         }
+        field(19; "Encashment Amount"; Decimal)
+        {
+            Caption = 'Encashment Amount';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if "Encashment Amount" <> 0 then begin
+                    TestField(Type, Type::Encashed);
+                    TestField("Payroll Attribute");
+                end;
+            end;
+        }
+        field(20; "Substitute Person Code"; Code[20])
+        {
+            Caption = 'Substitute Person Code';
+            trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
+            begin
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
+                    Clear("Substitute Person Name")
+            end;
+        }
+        field(21; "Substitute Person Name"; Text[50])
+        {
+            Caption = 'Substitute Person Name';
+            Editable = false;
+            DataClassification = CustomerContent;
+        }
     }
 
     keys
@@ -93,6 +123,7 @@ table 50068 "Leave Earn"
 
     trigger OnInsert()
     begin
+
     end;
 
     var

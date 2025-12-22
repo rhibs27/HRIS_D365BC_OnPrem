@@ -21,6 +21,8 @@ codeunit 50027 "Payroll Report Mgt."
         BasicAmt: Decimal;
         PayrollAttributesUsage1: Record "Payroll Attributes Usage";
         PayrollEngine: Codeunit "Payroll Engine";
+        SalaryLevel: Record "Salary Level";
+        Employee: Record Employee;
     begin
         PayrollAttributesUsage.Get(PayrollCode, EmpCode);
         PayAttr.Get(PayrollCode);
@@ -39,7 +41,11 @@ codeunit 50027 "Payroll Report Mgt."
             if PayrollAttributesUsage1.FindLast then
                 BasicAmt := PayrollAttributesUsage1.Amount;
 
-            // exit(EvaluateAmount(SkipOneTimeAttr(PayAttr.Formula), BasicAmt))
+            if BasicAmt = 0 then begin
+                Employee.Get(EmpCode);
+                SalaryLevel.Get(Employee."Salary Level");
+                BasicAmt := SalaryLevel."Basic Salary";
+            end;
             exit(EvaluateAmount(PayAttr.Formula, BasicAmt))
         end;
     end;
@@ -266,7 +272,7 @@ codeunit 50027 "Payroll Report Mgt."
 
         PGSetup.Get;
         GetGlobalAttributes(Employee);
-        GetLevelToGeogAttributes(Employee);
+        GetAttributesFromAllowanceConfiguration(Employee."No.");
 
         PayrollAttributesUsage1.Reset();
         PayrollAttributesUsage1.SetRange(Subtype, PayrollAttributesUsage1.Subtype::Basic);
@@ -278,6 +284,7 @@ codeunit 50027 "Payroll Report Mgt."
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         PayrollAttributesUsage.SetRange("Formula Exists", true);
+        PayrollAttributesUsage.SetRange(Irregular, false);
         if PayrollAttributesUsage.FindFirst then
             repeat
                 PayrollAttributes.Reset;
@@ -286,8 +293,7 @@ codeunit 50027 "Payroll Report Mgt."
                 if PayrollAttributes.FindFirst then begin
                     AttributeAmount := 0;
                     if PayrollAttributes.Formula <> '' then
-                        // AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, basicAmt);
-                    AttributeAmount := EvaluateAmount(SkipOneTimeAttr(PayrollAttributes.Formula), basicAmt);
+                        AttributeAmount := EvaluateAmount(SkipOneTimeAttr(PayrollAttributes.Formula), basicAmt);
 
                     PayrollAttributesUsage.Amount := AttributeAmount;
                     PayrollAttributesUsage.Modify();
@@ -331,56 +337,6 @@ codeunit 50027 "Payroll Report Mgt."
                 end;
             until PayrollColumnConfiguration.Next = 0;
         end;
-    end;
-
-    procedure GetLevelToGeogAttributes(Employee: Record Employee)
-    var
-        PayrollColumnConfiguration: Record "Payroll Column Configuration";
-        AttributeAmount: Decimal;
-        RecRefs: RecordRef;
-        FieldRefs: FieldRef;
-        PayrollAttUsage: Record "Payroll Attributes Usage";
-        PayrollAttributes: Record "Payroll Attributes";
-    begin
-        // PayrollColumnConfiguration.Reset;
-        // PayrollColumnConfiguration.SetRange("Table No.", Database::"Level-Geographical Allowances");
-        // if PayrollColumnConfiguration.FindSet then begin
-        //     RecRefs.Open(Database::"Level-Geographical Allowances");
-        //     repeat
-        //         if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
-        //             AttributeAmount := 0;
-        //             if PayrollAttributes.Status = PayrollAttributes.Status::Active then begin
-        //                 Employee.CalcFields("Geographical Category");
-        //                 FieldRefs := RecRefs.Field(1);
-        //                 FieldRefs.SetRange(Employee."Salary Level");
-        //                 FieldRefs := RecRefs.Field(2);
-        //                 FieldRefs.SetRange(Employee."Geographical Category");
-
-        //                 RecRefs.FindFirst;
-        //                 FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
-        //                 Evaluate(AttributeAmount, Format(FieldRefs.Value));
-        //                 PayrollAttUsage.Reset();
-        //                 PayrollAttUsage.SetRange("Employee Code", Employee."No.");
-        //                 PayrollAttUsage.SetRange(Code, PayrollAttributes.Code);
-        //                 if PayrollAttUsage.FindFirst() then begin
-        //                     PayrollAttUsage.Amount := AttributeAmount;
-        //                     PayrollAttUsage.Modify();
-        //                 end;
-        //             end;
-        //         end;
-        //     until PayrollColumnConfiguration.Next = 0;
-        // end;
-    end;
-
-    procedure GetDesignationDescription(DesignationCode: Code[20]): Text
-    // var
-    //     HRMaster: Record "HR Master";
-    begin
-
-        // if HRMaster.Get(HRMaster.Type::Designation, DesignationCode) then
-        //     exit(HRMaster.Description)
-        // else
-        //     exit('')
     end;
 
     // procedure GetMonthlyTaxableSlab(PostedPayrollLine: Record "Posted Payroll Line"; SST: Boolean): Decimal;
@@ -432,23 +388,43 @@ codeunit 50027 "Payroll Report Mgt."
     //             exit(PostedPayrollLine."1 Slab Amount" - PPLine."Monthly Taxable SST");
     // end;
 
-    procedure GetPayPeriodForTermination(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
+    procedure GetPayPeriod(RecordDate: Date; PayCode: Code[20]; PayTerm: Code[20]): Integer
     var
         PayPeriod: Record "Pay Cycle Period";
     begin
 
-        if Emp."Termination Date" = 0D then
-            Error('Invalid termination date');
+        if RecordDate = 0D then
+            Error('Invalid date');
         PayPeriod.Reset();
         PayPeriod.SetRange("Pay Cycle Code", PayCode);
         PayPeriod.SetRange("Pay Cycle Term", PayTerm);
-        PayPeriod.SetFilter("Start Date", '<=%1', Emp."Termination Date" - 1);
-        PayPeriod.SetFilter("End Date", '>= %1', Emp."Termination Date" - 1);
+        PayPeriod.SetFilter("Start Date", '<=%1', RecordDate - 1);
+        PayPeriod.SetFilter("End Date", '>= %1', RecordDate - 1);
         if PayPeriod.FindFirst() then
             exit(PayPeriod.Period)
         else
             Error('Pay period doest match');
     end;
+
+    procedure GetPayPeriodForResignation(PayCode: Code[20]; PayTerm: Code[20]): Integer
+    var
+        PayPeriod: Record "Pay Cycle Period";
+        Emp: Record Employee;
+    begin
+        if Emp."Resignation Date" = 0D then
+            Error('Invalid resignation date');
+
+        PayPeriod.Reset();
+        PayPeriod.SetRange("Pay Cycle Code", PayCode);
+        PayPeriod.SetRange("Pay Cycle Term", PayTerm);
+        PayPeriod.SetFilter("Start Date", '<=%1', Emp."Resignation Date" - 1);
+        PayPeriod.SetFilter("End Date", '>= %1', Emp."Resignation Date" - 1);
+        if PayPeriod.FindFirst() then
+            exit(PayPeriod.Period)
+        else
+            Error('Pay period does not match');
+    end;
+
 
     procedure GetPayPeriodForContractExp(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
     var
@@ -855,7 +831,7 @@ codeunit 50027 "Payroll Report Mgt."
             if EmpRec."Termination Date" <> 0D then
                 if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Termination Date") and
                 (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Termination Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriodForTermination(EmpRec, 'MONTHLY', PayCycleTerm);
+                    RemainingMonth := PayrollRepMgt.GetPayPeriod(EmpRec."Termination Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
 
         //contract expiry EmpRec
         if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then
@@ -926,4 +902,117 @@ codeunit 50027 "Payroll Report Mgt."
             PayrollProjectionMonth := GetLastPayCycleForEmployee(EmpCode, PayCycleTerm);
     end;
 
+    procedure GetAttributesFromAllowanceConfiguration(EmpNo: Code[20])
+    var
+        AllowanceConfiguration: Record "Allowance Configuration";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        PayrollAttrUses2: Record "Payroll Attributes Usage";
+        AllowanceAmt: Decimal;
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            exit;
+
+        AllowanceConfiguration.Reset();
+        if AllowanceConfiguration.FindSet() then
+            repeat
+                AllowanceAmt := 0;
+                AllowanceAmt := GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration,
+                                                                            '',
+                                                                            EmpNo);
+
+                if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", EmpNo) then begin
+                    if not MultipleConfigForSameAttribute(AllowanceConfiguration) then
+                        PayrollAttrUses.Amount := AllowanceAmt
+                    else
+                        if AllowanceAmt <> 0 then
+                            PayrollAttrUses.Amount := AllowanceAmt;
+                    if not PayrollAttrUses."Static Amount" then
+                        PayrollAttrUses.Modify();
+                end
+                else begin
+                    if AllowanceAmt <> 0 then begin
+                        Clear(PayrollAttrUses2);
+                        PayrollAttrUses2.Init();
+                        PayrollAttrUses2.Validate(Code, AllowanceConfiguration."Payroll Attribute");
+                        PayrollAttrUses2.Validate("Employee Code", EmpNo);
+                        PayrollAttrUses2.Validate(Amount, AllowanceAmt);
+                        if PayrollAttrUses2.Insert() then;
+                    end;
+                end;
+
+            until AllowanceConfiguration.Next() = 0;
+    end;
+
+    procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
+    begin
+        case AllowanceConfiguration.Source of
+            AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+                exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
+                                            EmployeeCode,
+                                            AllowanceConfiguration."Payroll Attribute",
+                                            AllowanceConfiguration."Leave Code",
+                                            0D,
+                                            WorkDate(),
+                                            true));
+
+            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
+                exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
+                                            EmployeeCode,
+                                            AllowanceConfiguration."Payroll Attribute",
+                                            AllowanceConfiguration."Leave Code",
+                                            0D,
+                                            WorkDate(),
+                                            false));
+
+            AllowanceConfiguration.Source::" ":
+                if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode, WorkDate()) then
+                    if AllowanceConfiguration.Formula <> '' then
+                        exit(AllowanceConfiguration.EvaluateAmountForEmployee(AllowanceConfiguration.Formula, EmployeeCode))
+                    else
+                        exit(AllowanceConfiguration.Amount);
+
+        end;
+    end;
+
+    procedure MultipleConfigForSameAttribute(AllConfig: Record "Allowance Configuration"): Boolean
+    var
+        AllConfig2: Record "Allowance Configuration";
+    begin
+        AllConfig2.SetRange("Payroll Attribute", AllConfig."Payroll Attribute");
+        if AllConfig2.Count > 1 then
+            exit(true)
+        else
+            exit(false);
+    end;
+
+    procedure GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo: Code[20];
+                                       EmployeeCode: Code[20];
+                                        PayrollAttr: Code[20];
+                                        LeaveCode: Code[20];
+                                        FromDate: Date;
+                                        ToDate: Date;
+                                        getLastAmount: Boolean): Decimal
+    var
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        Amt: Decimal;
+    begin
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
+        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
+        AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
+        AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);
+        AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", '%1|%2', '', PayrollDocNo);
+        AssignmentMemoLedgerEntry.SetRange("Blocked for Payroll", false);
+        AssignmentMemoLedgerEntry.SetRange("Open", true);
+        if getLastAmount then begin
+            AssignmentMemoLedgerEntry.CalcSums(Amount);
+            exit(round(AssignmentMemoLedgerEntry."Amount", 0.01, '='));
+        end else begin
+            AssignmentMemoLedgerEntry.CalcSums(Amount);
+            Amt := AssignmentMemoLedgerEntry."Amount";
+            exit(round(Amt, 0.01, '='));
+        end;
+
+    end;
 }

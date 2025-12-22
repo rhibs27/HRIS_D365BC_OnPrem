@@ -102,7 +102,7 @@ table 50147 "Organization Structure List"
         }
         field(17; "Dimension Value Code"; Code[20])
         {
-            TableRelation = "Dimension Value".Code where("Deputation On Type" = field(Type)); 
+            TableRelation = "Dimension Value".Code where("Deputation On Type" = field(Type));
         }
         field(30; "No. of Vault Key"; Integer)
         {
@@ -110,7 +110,12 @@ table 50147 "Organization Structure List"
         }
         field(31; "No. of Off-Site ATM"; Integer) { }
         field(32; "No. of On-Side ATM"; Integer) { }
-
+        field(33; "Telephone No"; Text[100])
+        {
+        }
+        field(34; "Address"; Text[100]) { }
+        field(35; "Fax No"; Text[100]) { }
+        field(36; "NRB No"; Text[20]) { }
     }
     keys
     {

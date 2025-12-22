@@ -37,11 +37,8 @@ page 50088 "Leave Request"
                         LeaveType.Get(Rec."Leave Code");
                         IsCompensatory := LeaveType."Leave Category" = Leavetype."Leave Category"::Substitute;
                         IsBereavement := LeaveType."Leave Category" = LeaveType."Leave Category"::"Bereavement Leave";
-                        // if IsCompensatory then
-                        //     RemainingDays := 0;
-                        // if Rec."Leave Code" <> xRec."Leave Code" then
-                        //     GenerateAttachment;
                         IsPaternity := LeaveType."Leave Category" = leavetype."Leave Category"::"Paternity Leave";
+                        CurrPage.Update();
                     end;
                 }
                 field("Leave Description"; Rec."Leave Description")
@@ -59,19 +56,35 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                 }
-                field("End Date"; Rec."End Date")
-                {
-                    ToolTip = 'Specifies the value of the End Date field.';
-                    ApplicationArea = All;
-                }
                 field("Start Date (BS)"; Rec."Start Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the Start Date (BS) field.';
                     ApplicationArea = All;
                 }
+                field("End Date"; Rec."End Date")
+                {
+                    ToolTip = 'Specifies the value of the End Date field.';
+                    ApplicationArea = All;
+                }
                 field("End Date (BS)"; Rec."End Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
+                    ApplicationArea = All;
+                }
+                field("No. of Days"; Rec."No. of Days")
+                {
+                    ToolTip = 'Specifies the value of the No. of Days field.';
+                    ApplicationArea = All;
+                }
+                field("Substitute Person Code"; Rec."Substitute Person Code")
+                {
+                    ToolTip = 'Specifies the value of Substitute person code';
+                    ApplicationArea = All;
+
+                }
+                field("Substitute Person Name"; Rec."Substitute Person Name")
+                {
+                    ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
                 }
                 field("Start Time"; Rec."Start Time")
@@ -100,11 +113,6 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the End Time field.';
                     ApplicationArea = All;
                     Editable = false;
-                }
-                field("No. of Days"; Rec."No. of Days")
-                {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -146,7 +154,6 @@ page 50088 "Leave Request"
                     Editable = IsBereavement;
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
-                    Visible = IsBereavement;
                 }
                 field("Contact No."; Rec."Contact No.")
                 {
@@ -187,7 +194,6 @@ page 50088 "Leave Request"
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
                 Editable = false;
-                //Editable = SubFormEdit;
             }
         }
     }
@@ -220,12 +226,9 @@ page 50088 "Leave Request"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec.Type := Rec.Type::"Leave Request";
-        // if not HRSetup."Approval From Setup" then
-        //     SubFormEdit := true;
     end;
 
     var
-        // HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         RemainingDays: Decimal;
 
@@ -235,8 +238,6 @@ page 50088 "Leave Request"
         TempIncomingDoc: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
         Approval: Record "Approval HRMS";
-        //SubFormEdit: Boolean;
-        HRSetup: Record "Human Resources Setup";
 
     local procedure GenerateAttachment()
     begin

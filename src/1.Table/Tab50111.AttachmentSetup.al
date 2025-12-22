@@ -63,6 +63,9 @@ table 50111 "Attachment Setup"
         {
             TableRelation = "Payroll Attributes".Code where("Activity Type" = filter("Employee Activity Type"::"Transfer Claim"));
         }
+        field(14; "Sub Type"; Enum "Attachment Setup Subtype")
+        {
+        }
 
     }
 
@@ -136,7 +139,7 @@ table 50111 "Attachment Setup"
 
                     IncomingDocument.Init;
                     IncomingDocument."Entry No." := EntryNo;
-                    IncomingDocument.Validate("Employee Code", EmployeeLoanAdvance."Employee Code");
+                    IncomingDocument.Validate("Employee Code", EmployeeLoanAdvance."Employee No.");
                     IncomingDocument.Validate("No.", EmployeeLoanAdvance."No.");
                     IncomingDocument.Validate("Attachment Code", "Attachment Code");
                     IncomingDocument.Validate("Table ID", Database::"Employee Loan/Advance");

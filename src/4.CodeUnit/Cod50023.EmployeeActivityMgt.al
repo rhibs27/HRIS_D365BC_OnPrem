@@ -26,6 +26,10 @@ codeunit 50023 EmployeeActivityMgt
                         begin
                             ConfirmAttendanceJournalDetails(EmpActJnl1);
                         end;
+                    DocumentType::Promotion:
+                        begin
+                            CheckPromotionDetails(EmpActJnl1);
+                        end;
                 end;
                 EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
                 EmpActJnl1.Modify();
@@ -90,12 +94,25 @@ codeunit 50023 EmployeeActivityMgt
         TransferRequest, EmphrTransfer : Record "Employee Transfer";
         PostedEmployeeTransfer: Record "Posted Employee Journal";
         TransferEmployeeJournal: Record "Employee Activity Journal";
+        HrSetup: Record "Human Resources Setup";
+        AttachmentSetup: Record "Attachment Setup";
     begin
+        HrSetup.Get();
         TransferEmployeeJournal.Reset();
         TransferEmployeeJournal.SetRange("Emp Act. No", EmpActNo);
-        TransferEmployeeJournal.setrange("Approval Status", TransferEmployeeJournal."Approval Status"::Approved);
+        if not HrSetup."Skip Approval On HR Transfer" then  //to allow Transfer Journal Post without Approval
+            TransferEmployeeJournal.setrange("Approval Status", TransferEmployeeJournal."Approval Status"::Approved);
         if TransferEmployeeJournal.FindSet() then
             repeat
+
+                //check for mandatory attachment
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+                AttachmentSetup.SetRange(Mandatory, true);
+                if AttachmentSetup.FindFirst() then
+                    if not TransferEmployeeJournal.Attachment.HasValue then
+                        Error('Please attach the mandatory document in Transfer Journal No %1 and line no %2 before posting', TransferEmployeeJournal."Emp Act. No", TransferEmployeeJournal."Line No");
+
                 TransferRequest.Init();
                 TransferRequest.Validate("No.", '');
                 TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
@@ -111,7 +128,9 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Transfer Type", TransferEmployeeJournal."Transfer Type");
                 TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
                 TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
+                TransferRequest.Validate("Incoming Supervisior 2", TransferEmployeeJournal."Incoming Supervisor 2");
                 TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
+                TransferRequest.Validate("Outgoing Branch Rep. Person 2", TransferEmployeeJournal."Outgoing Branch Rep. Person 2");
                 TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
                 TransferRequest.Validate("Approver Role To", TransferEmployeeJournal."Approver Role (TO)");
                 TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
@@ -120,19 +139,21 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Approved Date", Today);
                 TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
                 TransferRequest.Insert(true);
+
+                //Handle the attachment transfer from Employee Activity Journal to Posted Employee Journal
+                if TransferEmployeeJournal.Attachment.HasValue then
+                    InsertTransferLetterAttachment(TransferEmployeeJournal, TransferRequest);
+
                 PostedEmployeeTransfer.Init();
                 PostedEmployeeTransfer.TransferFields(TransferEmployeeJournal);
                 TransferEmployeeJournal.Delete();
                 PostedEmployeeTransfer.Validate(Posted, true);
                 PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
                 PostedEmployeeTransfer.Insert(true);
-                OnAfterTransferJournalPost(TransferEmployeeJournal, TransferRequest);
+                OnAfterTransferJournalPost(PostedEmployeeTransfer, TransferRequest);
             until TransferEmployeeJournal.next() = 0
         else
             Error('There is no Document to post');
-
-        Message('Transfer Journal is posted')
-
     end;
 
     procedure PostLeaveJournal(EmpActNo: Code[20])
@@ -188,7 +209,6 @@ codeunit 50023 EmployeeActivityMgt
             until leaveJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Leave is posted');
     end;
 
     procedure PostAttendanceJournal(EmpActNo: Code[20])
@@ -228,7 +248,6 @@ codeunit 50023 EmployeeActivityMgt
             until AttendanceMissedJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Attendance Journal is posted');
     end;
 
     procedure RejectJournal(var EmployeeActJournal: Record "Employee Activity Journal"; Reject: Boolean)
@@ -369,11 +388,236 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJournal.SetRange("Start Date", AttendanceDate);
         if EmpActJournal.FindFirst then
             Error('Attendance Already Applied for date %1 of %2', AttendanceDate, EmpNo);
+    end;
+
+    procedure InsertTransferLetterAttachment(var EmployeeActivityJournal: Record "Employee Activity Journal"; var EmployeeTransfer: Record "Employee Transfer")
+    var
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+        AttachmentSetup.FindFirst();
+
+        InsertAttachment(EmployeeActivityJournal,
+                        EmployeeTransfer."No.",
+                        EmployeeTransfer."Employee No.",
+                        EmployeeTransfer.Type,
+                        AttachmentSetup."Attachment Code");
+    end;
+
+    procedure InsertAttachment(EmpActJnl: Record "Employee Activity Journal"; DocumentNo: Code[20]; EmpNo: Code[20]; EmpActType: Enum "Employee Activity Type"; AttachmentsetupCode: Code[20])
+    var
+
+        IncDocument, IncDocument2 : Record "Incoming Document";
+        IncomingDocAttachment: Record "Incoming Document Attachment";
+        TenantMedia: Record "Tenant Media";
+        InStream: InStream;
+        OutStream: OutStream;
+        FileManagement: Codeunit "File Management";
+        FileName: Text;
+        FileExtension: Text;
+    begin
+        if EmpActJnl.Attachment.HasValue then begin
+            IncDocument2.SetRange("No.", DocumentNo);
+            IncDocument2.SetRange("Employee Code", EmpNo);
+            IncDocument2.SetRange("Attachment Code", AttachmentsetupCode);
+            if IncDocument2.FindFirst() then
+                IncDocument := IncDocument2
+            else begin
+                IncDocument.Init();
+                IncDocument."No." := DocumentNo;
+                IncDocument."Document No." := DocumentNo;
+                IncDocument."Table ID" := Database::"Employee Activity Journal";
+                IncDocument."Employee Activity Type" := EmpActType;
+                IncDocument."Employee Code" := EmpNo;
+                IncDocument."Attachment Code" := AttachmentsetupCode;
+                IncDocument.Insert(true);
+            end;
+
+            if TenantMedia.Get(EmpActJnl.Attachment.MediaId) then begin
+                TenantMedia.CalcFields(Content);
+                TenantMedia.Content.CreateInStream(InStream);
+
+                // Get file name and extension
+                if EmpActJnl."Attachment File Name" <> '' then
+                    FileName := EmpActJnl."Attachment File Name"
+                else
+                    FileName := TenantMedia.Description;
+
+                FileExtension := FileManagement.GetExtension(FileName);
+
+                // Create incoming document attachment record
+                IncomingDocAttachment.Init();
+                IncomingDocAttachment."Incoming Document Entry No." := IncDocument."Entry No.";
+                IncomingDocAttachment."Line No." := 10000;
+                IncomingDocAttachment.Name := CopyStr(FileName, 1, MaxStrLen(IncomingDocAttachment.Name));
+                IncomingDocAttachment."File Extension" := CopyStr(FileExtension, 1, MaxStrLen(IncomingDocAttachment."File Extension"));
+                IncomingDocAttachment.Type := IncomingDocAttachment.Type::Image;
+                IncomingDocAttachment.Content.CreateOutStream(OutStream);
+                CopyStream(OutStream, InStream);
+                IncomingDocAttachment.Insert(true);
+
+                // Update Incoming Document with file name
+                IncDocument."File Name" := CopyStr(FileName, 1, MaxStrLen(IncDocument."File Name"));
+                IncDocument.Modify();
+            end;
+        end;
+    end;
+
+    procedure CheckPromotionDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    begin
+        EmployeeACTJnl.TestField("Employee No.");
+        EmployeeACTJnl.TestField("Promotion Date");
+        EmployeeACTJnl.TestField("Functional Title (To)");
+        EmployeeACTJnl.TestField("Promoted Salary level");
+        EmployeeACTJnl.TestField("Promoted Salary Grade");
+        EmployeeACTJnl.TestField("Approver Role (TO)");
+        EmployeeACTJnl.TestField("Promoted Staff Level");
+    end;
+
+    procedure PostPromotionJournal(EmpActNo: Code[20])
+    var
+        Promotion: Record Promotion;
+        PostedPromotionJournal: Record "Posted Employee Journal";
+        PromotionEmployeeJournal: Record "Employee Activity Journal";
+        PromotionMgt: Codeunit "Promotion Mgt";
+        ServiceEvent: Enum "Service Event";
+        ServiceHistoryCode: Code[20];
+    begin
+        PromotionEmployeeJournal.Reset();
+        PromotionEmployeeJournal.SetRange("Emp Act. No", EmpActNo);
+        if PromotionEmployeeJournal.FindSet() then
+            repeat
+                Promotion.Init();
+                Promotion.Validate("No.", '');
+                Promotion.Validate("Employee No.", PromotionEmployeeJournal."Employee No.");
+                Promotion.Validate("Promoted Functional Title", PromotionEmployeeJournal."Functional Title (To)");
+                Promotion.Validate("Promoted Approver Role", PromotionEmployeeJournal."Approver Role (TO)");
+                Promotion.Validate("Promoted Salary level", PromotionEmployeeJournal."Promoted Salary level");
+                Promotion.Validate("Promoted Salary Grade", PromotionEmployeeJournal."Promoted Salary Grade");
+                Promotion.Validate("Promoted Staff Level", PromotionEmployeeJournal."Promoted Staff Level");
+                Promotion.Validate("Promotion Date", PostedPromotionJournal."Promotion Date");
+                Promotion.Validate("Approval Status", PromotionEmployeeJournal."Approval Status"::Approved);
+                Promotion.Validate("Approved Date", Today);
+                Promotion.Validate(Type, PromotionEmployeeJournal.Type::Promotion);
+                Promotion.Insert(true);
+                PostedPromotionJournal.Init();
+                PostedPromotionJournal.TransferFields(PromotionEmployeeJournal);
+                PromotionEmployeeJournal.Delete();
+                PostedPromotionJournal.Validate(Posted, true);
+                PostedPromotionJournal.Validate("Document No", Promotion."No.");
+                PostedPromotionJournal.Insert(true);
+                OnAfterPromotionJournalPost(PromotionEmployeeJournal, PostedPromotionJournal, Promotion);
+                ServiceHistoryCode := ServiceHistory.AddToServiceHistory(Promotion."No.", ServiceEvent::Promotion, '', PostedPromotionJournal."Promotion Date");
+                if PostedPromotionJournal."Promotion Date" <= Today then
+                    PromotionMgt.UpdateInEmployeeProfile(ServiceHistoryCode);
+            until PromotionEmployeeJournal.next() = 0
+        else
+            Error('There is no Document to post');
+        Message('Employee Promotion is posted')
+    end;
+
+    procedure PostLoanInBulk(EmpActNo: Code[20])
+    var
+        EmployeeLoanRec, EmployeeLoanRec2 : Record "Employee Loan/Advance";
+        PostedLoanJnl: Record "Posted Employee Journal";
+        LoanJournal: Record "Employee Activity Journal";
+        HrSetup: Record "Human Resources Setup";
+        AttachmentSetup: Record "Attachment Setup";
+        NoSeries: Codeunit "No. Series";
+    begin
+        //note that this procedure assume you are just recording the loan record that is already processed. 
+        //Thus there wont be validation and what so ever
+
+        HrSetup.Get();
+        LoanJournal.Reset();
+        LoanJournal.SetRange("Emp Act. No", EmpActNo);
+        //add status = approved filter here is approval needed
+        if LoanJournal.FindSet() then
+            repeat
+                //check mandatory fields before posting
+                LoanJournal.TestField(Remarks);
+                LoanJournal.TestField("Employee No.");
+                LoanJournal.TestField("Loan Type");
+                LoanJournal.TestField("Loan Account No.");
+                LoanJournal.TestField("Loan Disbursed Amount");
+                if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then begin
+                    LoanJournal.TestField("Loan Account Opening Date");
+                    LoanJournal.TestField("Loan Expiry Date");
+                    HrSetup.TestField("Vehicle Loan No.");
+                end else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then begin
+                    LoanJournal.TestField("Insurance Company");
+                    LoanJournal.TestField("Policy No");
+                    LoanJournal.TestField("Yearly Premium Amount");
+                    LoanJournal.TestField("First Premium Date");
+                    HrSetup.TestField("Home Loan Insur. TieUp No.");
+                end;
+
+                //check for mandatory attachment here if needed
+                AttachmentSetup.Reset();
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Loan Journal");
+                AttachmentSetup.SetRange(Mandatory, true);
+                if AttachmentSetup.FindFirst() then
+                    if not LoanJournal.Attachment.HasValue then
+                        Error('Please attach the mandatory document in Loan Journal No %1 and line no %2 before posting', LoanJournal."Emp Act. No", LoanJournal."Line No");
+
+                EmployeeLoanRec.Init();
+                EmployeeLoanRec.Type := EmployeeLoanRec.Type::Loan;
+                EmployeeLoanRec."Loan Type" := LoanJournal."Loan Type";
+
+                if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then
+                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Vehicle Loan No.")
+                else if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Home Loan Insurance Tieup" then
+                    EmployeeLoanRec."No." := NoSeries.GetNextNo(HrSetup."Home Loan Insur. TieUp No.");
+
+                EmployeeLoanRec.Validate("Employee No.", LoanJournal."Employee No.");
+                EmployeeLoanRec."Loan Account No." := LoanJournal."Loan Account No.";
+                EmployeeLoanRec."Interest Rate" := LoanJournal."Loan Interest Rate (%)";
+                EmployeeLoanRec."Loan Acc. Open Date" := LoanJournal."Loan Account Opening Date";
+                EmployeeLoanRec.Disbursed := true;
+                EmployeeLoanRec."Applied Loan/Advance" := LoanJournal."Loan Disbursed Amount";
+                EmployeeLoanRec."Disbursed Amount" := LoanJournal."Loan Disbursed Amount";
+                EmployeeLoanRec."Loan Expiry Date" := LoanJournal."Loan Expiry Date";
+                EmployeeLoanRec."Disbursement Date" := LoanJournal."Posting Date";
+                EmployeeLoanRec."Settlement Date" := LoanJournal."Loan Settlement Date";
+                EmployeeLoanRec."Insurance Company" := LoanJournal."Insurance Company";
+                EmployeeLoanRec."Policy No" := LoanJournal."Policy No";
+                EmployeeLoanRec."Yearly Premium Amount" := LoanJournal."Yearly Premium Amount";
+                EmployeeLoanRec."First Premium Date" := LoanJournal."First Premium Date";
+
+                EmployeeLoanRec.Validate(Remarks, LoanJournal.Remarks);
+                EmployeeLoanRec.Validate("Approval Status", EmployeeLoanRec."Approval Status"::Approved);
+                EmployeeLoanRec."Approved Date" := LoanJournal."Posting Date";
+                EmployeeLoanRec.Insert();
+
+                //Handle the attachment transfer from Employee Activity Journal to loan document if any
+                if LoanJournal.Attachment.HasValue then begin
+                    AttachmentSetup.Reset();
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Loan Journal");
+                    AttachmentSetup.FindFirst();
+                    InsertAttachment(LoanJournal,
+                                    EmployeeLoanRec."No.",
+                                    EmployeeLoanRec."Employee No.",
+                                    EmployeeLoanRec.Type,
+                                    AttachmentSetup."Attachment Code");
+                end;
+
+                PostedLoanJnl.Init();
+                PostedLoanJnl.TransferFields(LoanJournal);
+                LoanJournal.Delete();
+                PostedLoanJnl.Validate(Posted, true);
+                PostedLoanJnl.Validate("Document No", EmployeeLoanRec."No.");
+                PostedLoanJnl.Insert(true);
+            until LoanJournal.next() = 0
+        else
+            Error('There is no Document to post');
+
+        Message('Loan Journal is posted')
 
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
+    procedure OnAfterTransferJournalPost(var PostedTransferEmployeeJournalACK: Record "Posted Employee Journal"; var TransferRequest: Record "Employee Transfer")
     begin
     end;
 
@@ -382,9 +626,16 @@ codeunit 50023 EmployeeActivityMgt
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnAfterPromotionJournalPost(var PromotionEmployeeJournal: Record "Employee Activity Journal"; var PostedPromotionJournal: Record "Posted Employee Journal"; Var Promotion: Record Promotion)
+    begin
+        //For any control or modify after Promotion is posted
+    end;
+
     var
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistory: Codeunit "Service History Mgt";
 
 }

@@ -34,4 +34,8 @@ enum 50018 "Leave Category"
     {
         Caption = 'Substitute';
     }
+    value(8; "Force Leave")
+    {
+        Caption = 'Force Leave';
+    }
 }

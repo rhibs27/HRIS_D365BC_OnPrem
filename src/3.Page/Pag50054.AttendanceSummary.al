@@ -119,6 +119,21 @@ page 50054 "Attendance Summary"
                     ToolTip = 'Specifies the value of the Teller Days field.';
                     ApplicationArea = All;
                 }
+                field("Dashain Allowance Days"; Rec."Dashain Allowance Days")
+                {
+                    ToolTip = 'Specifies the value of the Dashain Allowance Days field.';
+                    ApplicationArea = All;
+                }
+                field("Night Shift Days"; Rec."Night Shift Days")
+                {
+                    ToolTip = 'Specifies the value of the Night Shift Days field.';
+                    ApplicationArea = All;
+                }
+                field("Late Deduction"; rec."Late Deduction")
+                {
+                    ToolTip = 'Specifies the value of the Late Deduction Days field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }

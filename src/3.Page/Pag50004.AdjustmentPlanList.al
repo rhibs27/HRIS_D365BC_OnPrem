@@ -1,7 +1,5 @@
 page 50004 "Adjustment Plan List"
 {
-    // version PRM19.01.01
-
     CardPageId = "Payroll Plan";
     Editable = false;
     PageType = List;
@@ -9,7 +7,6 @@ page 50004 "Adjustment Plan List"
     SourceTableView = where(Type = const(Adjustment));
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)

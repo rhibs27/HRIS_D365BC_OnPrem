@@ -159,27 +159,37 @@ page 50102 "Travel Claim Lists"
                     Rec.FilterGroup(0);
                 end;
             }
-        }
-        area(Reporting)
-        {
-            action("Print Travel Claim")
+            action(WithDrawn)
             {
-                Image = Travel;
+                Image = Return;
                 Promoted = true;
-                PromotedCategory = "Report";
+                PromotedCategory = Category4;
                 PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = true;
-                ToolTip = 'Executes the Print Travel Claim action.';
+                ToolTip = 'Executes the Withdrawn action.';
                 ApplicationArea = All;
 
-                // trigger OnAction()
-                // begin
-                //     if not Confirm('Do you want to print travel claim ?', false) then
-                //         exit;
-                //     CurrPage.SetSelectionFilter(Rec);
-                //     Report.Run(Report::"Travel Claim Processing Report", true, false, Rec);
-                // end;
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Withdrawn);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Category4;
+                Image = ClearFilter;
+                ToolTip = 'Executes the clear filter action.';
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Approval Status");
+                    Rec.FilterGroup(0);
+                end;
             }
         }
     }

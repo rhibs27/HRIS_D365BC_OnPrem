@@ -40,7 +40,7 @@ table 50031 "Emp. Act. Ledger Entry"
         {
             Caption = 'Day';
         }
-        field(8; "Leave Type"; Enum "Day Type")
+        field(8; "Leave Type"; Enum "Leave Type")
         {
             Caption = 'Leave Type';
         }

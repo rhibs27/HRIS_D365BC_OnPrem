@@ -62,6 +62,17 @@ page 50100 "Posted Leave Card"
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
                     ApplicationArea = All;
                 }
+                field("Substitute Person Code"; Rec."Substitute Person Code")
+                {
+                    ToolTip = 'Specifies the value of Substitute person code';
+                    ApplicationArea = All;
+
+                }
+                field("Substitute Person Name"; Rec."Substitute Person Name")
+                {
+                    ToolTip = 'Specifies the value of Substitute person code';
+                    ApplicationArea = All;
+                }
                 field("Branch"; Rec."Shortcut Dimension 1 Code")
                 {
                     ToolTip = 'Specifies the value of the Branch field.';
@@ -119,7 +130,6 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
-                    Visible = false;
                 }
                 field("Child's Gender"; Rec."Child's Gender")
                 {
@@ -187,9 +197,7 @@ page 50100 "Posted Leave Card"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
-                                "Document Type" = field(Type);
+                SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
             }
         }
@@ -208,7 +216,6 @@ page 50100 "Posted Leave Card"
                 ToolTip = 'Executes the Apply for Leave action.';
                 ApplicationArea = All;
                 Visible = IsOpen;
-
                 trigger OnAction()
                 begin
                     if LeaveMgt.ApplyForLeave(Rec) <> '' then begin
@@ -272,7 +279,6 @@ page 50100 "Posted Leave Card"
                 begin
                     if Confirm('Do you want Cancel the request?', false) then begin
                         LeaveMgt.OpenCancelEmpActivity(Rec);
-                        // Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }

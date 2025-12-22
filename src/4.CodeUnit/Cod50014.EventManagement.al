@@ -210,6 +210,14 @@ codeunit 50014 "Event Management"
                 end;
             Database::"Employee Insurance Information":
                 CardPageID := Page::"Employee Insurance Card";
+            Database::"Assignment Memo Header":
+                begin
+                    ActType := RecordRef.Field(2).Value;
+                    if ActType = ActType::"Request Allowance" then
+                        CardPageID := Page::"Request Allowance Card"
+                    else if ActType in [ActType::"Allowance Assignment Memo", ActType::"Shift Assignment Memo"] then
+                        CardPageID := Page::"Assignment Memo Card";
+                end;
         end;
     end;
 }

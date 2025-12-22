@@ -24,6 +24,7 @@ table 50096 "Employee Service History"
             begin
                 if Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
+                    Validate("Employee Attendance ID", Employee."Employee Attendance ID");
 
                     if not "Package Record" then begin
                         Validate("Deputation On(From)", Employee."Deputation on");
@@ -37,6 +38,7 @@ table 50096 "Employee Service History"
                         Validate("Branch Code (From)", Employee."Branch Code");
                         Validate("Department Code (From)", Employee."Department Code");
                         Validate("Unit Code (From)", Employee."Union Code");
+                        Validate("Approver Role (From)", Employee."Approver Role");
 
                         Validate("Deputation On (To)", Employee."Deputation on");
                         Validate("Deputation Code (To)", Employee."Deputation On Code");
@@ -49,6 +51,7 @@ table 50096 "Employee Service History"
                         Validate("Branch Code (To)", Employee."Branch Code");
                         Validate("Department Code (To)", Employee."Department Code");
                         Validate("Unit Code (To)", Employee."Unit Code");
+                        Validate("Approver Role (To)", Employee."Approver Role");
                     end;
                 end
                 else
@@ -255,6 +258,20 @@ table 50096 "Employee Service History"
         field(67; "Unit Description (To)"; text[50]) { }
         field(68; "Effective Date (B.S.)"; Code[10]) { }
         field(69; "Package Record"; Boolean) { }
+        field(70; "Employee Attendance ID"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(71; "Approver Role (From)"; Code[20])
+        {
+            TableRelation = "Approval Role";
+        }
+        field(72; "Approver Role (To)"; Code[20])
+        {
+            TableRelation = "Approval Role";
+        }
+        field(73; "Staff Level (From)"; Enum "Staff Type") { }
+        field(74; "Staff Level (To)"; Enum "Staff Type") { }
     }
 
     keys

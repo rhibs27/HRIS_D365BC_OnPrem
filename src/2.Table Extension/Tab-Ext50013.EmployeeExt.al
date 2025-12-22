@@ -288,6 +288,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Salary Level Description");
                     Clear("Staff level");
                 end;
+                Validate("Job Title", "Salary Level");
             end;
         }
         field(50015; "Salary Grade"; Code[20])
@@ -396,7 +397,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50031; "Salary Advance"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Employee Loan/Advance"."Remaining Amount" where("Employee Code" = field("No."),
+            CalcFormula = sum("Employee Loan/Advance"."Remaining Amount" where("Employee No." = field("No."),
                                                                                                                      "Loan Type" = const("Salary Advance"),
                                                                                                                      Settled = const(false),
                                                                                                                      "Approval Status" = const(Approved)));
@@ -506,6 +507,24 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50047; "Employment Type"; enum "Employee Type")
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                EmployeeWorkShift: Record "Employee Work Shift";
+                IsHandled: Boolean;
+            begin
+                OnValidateEmploymentType(Rec, xRec, IsHandled);
+                if IsHandled then
+                    exit;
+                EmployeeWorkShift.SetRange("Default Employee Type", Rec."Employment Type");
+                if EmployeeWorkShift.FindFirst() then
+                    Rec."Employee Work Shift" := EmployeeWorkShift.Code
+                else begin
+                    EmployeeWorkShift.Reset();
+                    EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
+                    if EmployeeWorkShift.FindFirst() then
+                        Rec."Employee Work Shift" := EmployeeWorkShift.Code;
+                end;
+            end;
         }
         field(50048; "Province Name"; Text[50])
         {
@@ -959,8 +978,9 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = true;
             trigger OnValidate()
             begin
-                if "Confirmation Date" < "Employment Date" then
-                    Error('Confirmation date cannot be less than employment date');
+                if "Confirmation Date" <> 0D then
+                    if "Confirmation Date" < "Employment Date" then
+                        Error('Confirmation date cannot be less than employment date');
                 "Confirmation Date (B.S.)" := EngNepDate.getNepaliDate("Confirmation Date");
             end;
         }
@@ -1249,6 +1269,10 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50140; "Last Placement Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Last Placement Date (B.S.)" := EngNepDate.getNepaliDate("Last Placement Date");
+            end;
         }
         field(50141; "Contract Renew Date"; Date)
         {
@@ -1467,22 +1491,22 @@ tableextension 50013 "Employee Ext" extends Employee
             Caption = 'Trainee/Probation End Date';
         }
 
-        field(50181; "Appointment Date"; Date)
+        field(50181; "Appointment Letter Date"; Date)
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                "Appointment Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Date");
+                "Appointment Letter Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Letter Date");
             end;
 
         }
 
-        field(50182; "Appointment Date (B.S.)"; Code[20])
+        field(50182; "Appointment Letter Date (B.S.)"; Code[20])
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                "Appointment Date" := EngNepDate.getEngDate("Appointment Date (B.S.)");
+                "Appointment Letter Date" := EngNepDate.getEngDate("Appointment Letter Date (B.S.)");
             end;
         }
         field(50183; "Automatic Attendance"; Boolean)
@@ -1523,6 +1547,14 @@ tableextension 50013 "Employee Ext" extends Employee
                 MailManagement: Codeunit "Mail Management";
             begin
                 MailManagement.ValidateEmailAddressField("Nominee Email");
+            end;
+        }
+        field(50189; "Last Placement Date (B.S.)"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Last Placement Date" := EngNepDate.getEngDate("Last Placement Date (B.S.)");
             end;
         }
 
@@ -1727,12 +1759,6 @@ tableextension 50013 "Employee Ext" extends Employee
         OverTimeMgt.OpenOTForms("No.");
     end;
 
-    procedure OutOfOffice();
-    begin
-        TransferMgt.OpenOutofOfficeForms("No.");
-    end;
-
-
     procedure GetOutstandingAmt(): Decimal;
     begin
         LoanMgt.GetEmployeeSalaryOutstandingAmt("No.");
@@ -1855,5 +1881,10 @@ tableextension 50013 "Employee Ext" extends Employee
             DefaultDimension."Dimension Value Code" := '';
             DefaultDimension.Modify();
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnValidateEmploymentType(var Rec: Record "Employee"; var xRec: Record "Employee"; var IsHandled: Boolean)
+    begin
     end;
 }

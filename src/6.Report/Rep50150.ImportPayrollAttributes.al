@@ -15,7 +15,7 @@ report 50150 "Import Payroll Attributes"
                 PayrollAttrUses2: Record "Payroll Attributes Usage";
             begin
                 Employee.Reset();
-                Employee.SetLoadFields("No.", Status, "Employment Type", "Emplymt. Contract Code");
+                Employee.SetLoadFields("No.", "Tax Code", Status, "Employment Type", "Emplymt. Contract Code");
                 if EmployeeNo <> '' then
                     employee.SetRange("No.", EmployeeNo);
                 Employee.SetRange(Status, Employee.Status::Active);
@@ -24,6 +24,7 @@ report 50150 "Import Payroll Attributes"
                     Employee.SetRange("Employment Type", PayrollAttributes."Employee Type");
                 if PayrollAttributes."Emplymt. Contract Code" <> '' then
                     Employee.SetRange("Emplymt. Contract Code", PayrollAttributes."Emplymt. Contract Code");
+                OnAfterFilterEmployee(PayrollAttributes, Employee);
                 if Employee.FindSet() then
                     repeat
                         Clear(PayrollAttrUses);
@@ -34,7 +35,13 @@ report 50150 "Import Payroll Attributes"
                             if PayrollAttrUses2.Insert() then;
                         end;
                     until Employee.Next() = 0;
+            end;
 
+            trigger OnPreDataItem()
+            begin
+                if not IncludeNonPayment then begin
+                    PayrollAttributes.Setfilter(Type, '<>%1', PayrollAttributes.Type::"Non-Payment");
+                end;
             end;
         }
     }
@@ -52,6 +59,11 @@ report 50150 "Import Payroll Attributes"
                         Caption = 'Employee No';
                         ApplicationArea = all;
                     }
+                    field(IncludeNonPayment; IncludeNonPayment)
+                    {
+                        Caption = 'Include Non Payment';
+                        ApplicationArea = all;
+                    }
                 }
             }
         }
@@ -62,18 +74,19 @@ report 50150 "Import Payroll Attributes"
             }
         }
     }
-
-    trigger OnPreReport()
-    begin
-
-    end;
-
     var
         EmployeeNo: Code[20];
         Employee: Record Employee;
+        IncludeNonPayment: Boolean;
 
     procedure SetEmployeeNo(EmpNo: Code[20])
     begin
         EmployeeNo := EmpNo;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterFilterEmployee(PayrollAttributes: Record "Payroll Attributes"; var Employee: Record Employee)
+    begin
+        //Add more filter on employee Based on attributes
     end;
 }

@@ -111,10 +111,10 @@ table 50095 "Posted Employee Journal"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        // field(25; "Employee Act Type"; Enum "Employee Activity Type")
-        // {
-        //     Editable = false;
-        // }
+        field(25; "Employee Act Type"; Enum "Employee Activity Type")
+        {
+            Editable = false;
+        }
         field(26; "Posting Date"; Date)
         {
             Editable = false;
@@ -335,7 +335,24 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(81; "Incoming Supervisor 2"; Code[20])
+        {
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+            Description = 'Transfer';
+        }
+        field(82; "Incoming Supervisor Name 2"; Text[50])
+        {
 
+        }
+        field(83; "Outgoing Branch Rep. Person 2"; Code[20])
+        {
+            Description = 'Transfer';
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
+
+        }
+        field(84; "Outgoing Rep. Person Name 2"; Text[50])
+        {
+        }
         // OverTime 
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
@@ -399,6 +416,26 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(111; Attachment; Media)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(112; "Attachment File Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        // Promotion
+        field(150; "Promoted Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
+        field(151; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(152; "Promoted Staff Level"; Enum "Staff Type") { }
+        field(153; "Promotion Date"; Date) { }
     }
     keys
     {

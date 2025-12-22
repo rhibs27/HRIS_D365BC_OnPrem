@@ -43,7 +43,7 @@ report 50042 "Guarantee Personal Loan"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Get("Employee Code");
+                EmpVar.Get("Employee No.");
 
                 Clear(EmpDistrict);
                 EmpDistrict.SetRange("District Code", EmpVar."Citizenship Issue Place Code");

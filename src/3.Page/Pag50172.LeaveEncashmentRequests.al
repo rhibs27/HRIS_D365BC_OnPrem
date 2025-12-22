@@ -6,6 +6,7 @@ page 50172 "Leave Encashment Requests"
     SourceTable = "Encashment Request";
     UsageCategory = Lists;
     CardPageId = "Leave Encashment Card";
+    InsertAllowed = false;
 
     layout
     {

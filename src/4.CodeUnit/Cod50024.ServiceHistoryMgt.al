@@ -3,6 +3,7 @@ codeunit 50024 "Service History Mgt"
     var
         Employee, Employee1 : Record Employee;
         HrMgt: Codeunit "HR Mgt.";
+        Promotion: Record "Promotion";
 
     procedure AddToServiceHistory(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date): Code[20]
     var
@@ -68,8 +69,39 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
                     if ServiceEvent <> ServiceEvent::"Internal Appointment" then
                         EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
+
+                    if EmployeeTransfer."Province Code (To)" <> '' then
+                        EmpServiceHis.Validate("Province Code (To)", EmployeeTransfer."Province Code (To)");
+                    if EmployeeTransfer."To Branch" <> '' then
+                        EmpServiceHis.Validate("Branch Code (To)", EmployeeTransfer."To Branch");
+                    if EmployeeTransfer."Department Code (To)" <> '' then
+                        EmpServiceHis.Validate("Department Code (To)", EmployeeTransfer."Department Code (To)");
+                    if EmployeeTransfer."Unit (To)" <> '' then
+                        EmpServiceHis.Validate("Unit Code (To)", EmployeeTransfer."Unit (To)");
+                    if EmployeeTransfer."Approver Role To" <> '' then
+                        EmpServiceHis.Validate("Approver Role (To)", EmployeeTransfer."Approver Role To");
+
                     EmpServiceHis.Insert(true);
                 end;
+            ServiceEvent::Promotion:
+                begin
+                    Promotion.Get(DocNo);
+                    Employee.get(Promotion."Employee No.");
+                    EmpServiceHis.Init;
+                    EmpServiceHis.Validate("Service Event", ServiceEvent);
+                    EmpServiceHis.Validate("Employee No.", Employee."No.");
+                    EmpServiceHis.Validate("Effective Date", EffectiveDate);
+                    EmpServiceHis.Validate(Remarks, Promotion.Remarks);
+                    EmpServiceHis.Validate("Functional Title (To)", Promotion."Promoted Functional Title");
+                    EmpServiceHis.Validate("Salary Level (To)", Promotion."Promoted Salary level");
+                    EmpServiceHis.Validate("Salary Grade (To)", Promotion."Promoted Salary Grade");
+                    EmpServiceHis.Validate("Approver Role (To)", Promotion."Promoted Approver Role");
+                    EmpServiceHis.Validate("Staff Level (To)", Promotion."Promoted Staff Level");
+                    EmpServiceHis.Validate("Effective Date", Promotion."Promotion Date");
+                    EmpServiceHis.Insert(true);
+                end;
+            else
+                OnAfterAddToServiceHistory(DocNo, ServiceEvent, RemarksVar, EffectiveDate);
         end;
         exit(EmpServiceHis."Service History Code");
     end;
@@ -162,7 +194,7 @@ codeunit 50024 "Service History Mgt"
             DeputationOn::Province:
                 begin
                     if OrganizationStructureList.Get(OrganizationStructureList.type::Province, Employee."Province Code") then
-                        exit(OrganizationStructureList.Name)
+                        exit(OrganizationStructureList.Code)
                 end;
             DeputationOn::Branch:
                 begin
@@ -582,5 +614,11 @@ codeunit 50024 "Service History Mgt"
                     ServiceHistory."Outstation Eligible" := PreviousServiceHistory."Outstation Eligible";
             ServiceHistory.Modify;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterAddToServiceHistory(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date)
+    begin
+        //For add of Any Service Event
     end;
 }

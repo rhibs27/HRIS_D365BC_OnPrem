@@ -36,6 +36,11 @@ table 50135 "Encashment Request"
         field(6; "No. of Days"; Decimal)
         {
             Caption = 'No. of Days';
+            trigger OnValidate()
+            begin
+                if ("No. of Days" <> 0) and ("Leave Code" <> '') and ("Employee No." <> '') then
+                    ValidateNoOfDays("Employee No.", "Leave Code", "No. of Days");
+            end;
         }
         field(7; "Posting Date"; Date)
         {
@@ -99,7 +104,7 @@ table 50135 "Encashment Request"
         if "Employee No." = '' then
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
-        Validate("Approval Status", "Approval Status"::Pending);
+        Validate("Approval Status", "Approval Status"::Open);
         TestField(Type);
         HRSetup.Get;
         if "No." = '' then begin
@@ -119,6 +124,11 @@ table 50135 "Encashment Request"
         end;
     end;
 
+    trigger OnDelete()
+    begin
+        Rec.TestField("Approval Status", "Approval Status"::Open);
+    end;
+
     var
         HrSetup: Record "Human Resources Setup";
         Employee: Record Employee;
@@ -126,4 +136,29 @@ table 50135 "Encashment Request"
         NoSeries: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
+
+    procedure OnbeforeSendForApproval()
+    begin
+        TestField("Employee No.");
+        TestField("Leave Code");
+        TestField("No. of Days");
+        ValidateNoOfDays("Employee No.", "Leave Code", "No. of Days");
+    end;
+
+    procedure ValidateNoOfDays(EmployeeNo: Code[20]; LeaveCode: Code[20]; NoOfDays: Decimal)
+    var
+        LeaveTypeSetup: Record "Leave Type Setup";
+    begin
+        if (NoOfDays <> 0) and (LeaveCode <> '') and (EmployeeNo <> '') then begin
+            LeaveTypeSetup.SetRange(Code, LeaveCode);
+            LeaveTypeSetup.SetFilter("Employee No. Filter", EmployeeNo);
+            LeaveTypeSetup.SetFilter("Date Filter", '..%1', WorkDate);
+            if LeaveTypeSetup.FindFirst() then begin
+                LeaveTypeSetup.calcFields("Remaining Days");
+                if NoOfDays > LeaveTypeSetup."Remaining Days" then
+                    Error('No of days can not exceed the leave balance %1', LeaveTypeSetup."Remaining Days");
+            end;
+        end;
+    end;
+
 }

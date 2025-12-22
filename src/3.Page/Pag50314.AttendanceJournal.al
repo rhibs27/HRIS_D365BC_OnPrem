@@ -78,7 +78,7 @@ page 50314 "Attendance Journal"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("Emp Act. No");
+                SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
         }
     }
@@ -95,10 +95,20 @@ page 50314 "Attendance Journal"
                 Visible = IsOpen;
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want to Send for Approval request?', false) then
-                        exit;
-
-                    EmpActMgt.SendForApproval(Rec."Emp Act. No", Rec."Employee Act Type"::"Attendance Missed");
+                    if Confirm('Do you want to Send for Approval request?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Attendance Missed");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), Rec."Employee Act Type"::"Attendance Missed");
+                        end;
+                    end;
                 end;
             }
             action("Approve")
@@ -110,10 +120,20 @@ page 50314 "Attendance Journal"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want to Approve request?', false) then
-                        exit;
-
-                    ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
+                    if Confirm('Do you want to Approve request?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Attendance Missed");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            ApproverMgt.ApproveJournalDocument(ListOfDocNo.Get(i), true);
+                        end;
+                    end;
                 end;
             }
 
@@ -126,10 +146,20 @@ page 50314 "Attendance Journal"
                 Visible = IsApproved;
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want to Post Attendance Journal?', false) then
-                        exit;
-                    EmpActMgt.PostAttendanceJournal(Rec."Emp Act. No");
-                    CurrPage.Close();
+                    if Confirm('Do you want to Post Document?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.PostAttendanceJournal(ListOfDocNo.Get(i));
+                        end;
+                        Message('Attendance Journal is posted');
+                        CurrPage.Close();
+                    end;
                 end;
             }
             action(Reject)
@@ -179,6 +209,7 @@ page 50314 "Attendance Journal"
     trigger OnOpenPage()
     begin
         SetLayout();
+        CurrPage.Update();
     end;
 
     procedure SetLayout()
@@ -196,13 +227,9 @@ page 50314 "Attendance Journal"
     var
         StatusView, ApprovalStatusView : Boolean;
         IsOpen, IsPending, IsApproved, IsRejected : Boolean;
-        UnitEdit: Boolean;
-        DepartmentEdit: Boolean;
-        ExtensionCounterEdit: Boolean;
-        BranchEdit: Boolean;
-        ProvinceEdit: Boolean;
-        LeaveMgt: Codeunit "Leave Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
         ExcelImportMgt: Codeunit "Excel Import";
+        ListOfDocNo: List of [code[20]];
+        i: Integer;
 }

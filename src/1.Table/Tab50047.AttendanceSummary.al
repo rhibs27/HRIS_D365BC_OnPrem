@@ -1,8 +1,6 @@
 table 50047 "Attendance Summary"
 {
     DataClassification = CustomerContent;
-    // version ATM19.01.01
-
     fields
     {
         field(1; "Document No."; Code[20])
@@ -264,6 +262,31 @@ table 50047 "Attendance Summary"
                                                                                               "Attendance Date" = field("Allowance Date Filter"),
                                                                                               "Teller Allowance Days" = filter(<> 0)));
 
+        }
+        field(38; "Dashain Allowance Days"; Decimal)
+        {
+            FieldClass = FlowField;
+            Editable = false;
+            CalcFormula = sum("Employee Attendance & Activity"."Dashain Allowance Days" where("Employee No." = field("Employee No."),
+                                                                                              "Attendance Date" = field("Allowance Date Filter"),
+                                                                                              "Dashain Allowance Days" = filter(<> 0)));
+        }
+        field(39; "Night Shift Days"; Integer)
+        {
+            FieldClass = FlowField;
+            Editable = false;
+            CalcFormula = count("Employee Attendance & Activity" where("Employee No." = field("Employee No."),
+                                                                    "Attendance Date" = field("Date Filter"),
+                                                                    "Present Day" = filter(<> 0),
+                                                                    "OverNight Shift" = filter(true)));
+        }
+        field(40; "Late Deduction"; Integer)
+        {
+            FieldClass = FlowField;
+            Editable = false;
+            CalcFormula = count("Employee Attendance & Activity" where("Employee No." = field("Employee No."),
+                                                                    "Attendance Date" = field("Date Filter"),
+                                                                    "Late Deduction" = filter(true)));
         }
     }
     keys

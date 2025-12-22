@@ -1,7 +1,7 @@
 page 50154 "Employee Personal Loan List"
 {
     CardPageId = "Employee Personal Loan Card";
-    DataCaptionFields = "No.", "Employee Code", "Employee Name";
+    DataCaptionFields = "No.", "Employee No.", "Employee Name";
     PageType = List;
     SourceTable = "Employee Loan/Advance";
     SourceTableView = where("Loan Type" = const("Personal Loan"));
@@ -19,7 +19,7 @@ page 50154 "Employee Personal Loan List"
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
-                field("Employee Code"; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;

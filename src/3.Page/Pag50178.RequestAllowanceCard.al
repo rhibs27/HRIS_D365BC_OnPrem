@@ -3,7 +3,7 @@ page 50178 "Request Allowance Card"
     ApplicationArea = All;
     Caption = 'Request Allowance Card';
     PageType = Card;
-    SourceTable = "Allowance Assignment Header";
+    SourceTable = "Assignment Memo Header";
     layout
     {
         area(Content)
@@ -20,12 +20,7 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     Editable = false;
                 }
-                field("Fiscal Year"; Rec."Fiscal Year")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the English Year field.';
-                    ApplicationArea = All;
-                }
+
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
@@ -49,19 +44,42 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Approved Date"; Rec."Approved Date")
+                field(Remarks; Rec.Remarks)
                 {
-                    ToolTip = 'Specifies the value of the Approved Date field.';
-                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
 
+                field("Total Line Amount"; Rec."Total Line Amount")
+                {
+                    ToolTip = 'Specifies the value of the Total Line Amount field.', Comment = '%';
+                }
+                field("No of Lines"; Rec."No of Lines")
+                {
+                    ToolTip = 'Specifies the value of the No of Lines field.', Comment = '%';
+                }
+                field("Fuel Limit (ltr)"; Rec."Fuel Limit (ltr)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (ltr) field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Fuel Limit (amt)"; Rec."Fuel Limit (amt)")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Limit (amt) field.', Comment = '%';
+                    Editable = false;
+                }
             }
             part(line; "Request Allowance Subform")
             {
-                SubPageLink = "No." = field("No."), "Emp Act Type" = field("Activity Type");
+                SubPageLink = "Document No." = field("No."), "Emp Act Type" = field("Activity Type");
                 UpdatePropagation = Both;
                 ApplicationArea = All;
                 Editable = IsOpen;
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No."),
+                              "Employee Code" = field("Employee No.");
+                ApplicationArea = All;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -72,15 +90,7 @@ page 50178 "Request Allowance Card"
                 ApplicationArea = all;
             }
         }
-        area(FactBoxes)
-        {
-            part(Control19; "Allowance Factbox")
-            {
-                SubPageLink = "Entry No. Filter" = field("No."),
-                              "Branch Filter" = field(Code);
-                ApplicationArea = All;
-            }
-        }
+
     }
     actions
     {
@@ -97,10 +107,8 @@ page 50178 "Request Allowance Card"
                 Visible = IsOpen;
                 trigger OnAction()
                 begin
-                    AllowanceLine.Reset;
-                    AllowanceLine.SetRange("No.", Rec."No.");
                     if Confirm('Do you want to send approval request?', false) then
-                        AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine);
+                        AllowanceMgt.SendApprovalAssignmentMemo(Rec);
                 end;
             }
 
@@ -136,22 +144,7 @@ page 50178 "Request Allowance Card"
                         ApproverMgt.ApproveRejectDocument(RecRef, false)
                 end;
             }
-            action("Allowance Assignment Summary")
-            {
-                Image = Report;
-                Promoted = true;
-                PromotedCategory = Report;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Shows Allowance Assignment Summary Report';
-                ApplicationArea = All;
-                trigger OnAction()
 
-                begin
-                    Report.Run(Report::"Allowance Assignment Summary", true, false, Rec);
-                end;
-
-            }
         }
     }
 
@@ -166,9 +159,9 @@ page 50178 "Request Allowance Card"
     end;
 
     var
-        AllowanceLine: Record "Allowance Assignment Line";
+        AssignmentMemoLine: Record "Assignment Memo Line";
         FormEditable: Boolean;
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
+        AllowanceMgt: Codeunit "Assignment Memo Mgt";
         Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove : Boolean;

@@ -4,6 +4,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
     {
         addafter("Employee Nos.")
         {
+            field("Attribute Adjustment Nos."; Rec."Attribute Adjustment Nos.")
+            {
+                ApplicationArea = All;
+                ToolTip = '';
+            }
             field("Service History No. Series"; Rec."Service History No. Series")
             {
                 ApplicationArea = All;
@@ -65,6 +70,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Shift Assignment Series field.';
             }
+            field("Promotion No."; Rec."Promotion No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Promotion Series field.';
+            }
             field("Employee Act. Journal Series"; Rec."Employee Act. Journal Series")
             {
                 ApplicationArea = All;
@@ -86,11 +96,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Training Question field.';
             }
-            field("Transfer No."; Rec."Transfer No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Transfer No. field.';
-            }
+
             field("OT No."; Rec."OT No.")
             {
                 ApplicationArea = All;
@@ -126,6 +132,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Home Loan No. field.';
             }
+            field("Home Loan Insur. TieUp No."; Rec."Home Loan Insur. TieUp No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Home Loan Insur. TieUp No. field.', Comment = '%';
+            }
             field("Vehicle Loan No."; Rec."Vehicle Loan No.")
             {
                 ApplicationArea = All;
@@ -136,11 +147,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the OT eligible hour field.';
             }
-            field("Transfer Claim Approver"; Rec."Transfer Claim Approver")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Transfer Claim Approver field.';
-            }
+
             field("Experience No. Series"; Rec."Experience No. Series")
             {
                 ApplicationArea = All;
@@ -455,12 +462,37 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 field("Outstation Dist. Criteria (H)"; Rec."Outstation Dist. Criteria (H)")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (H) field.';
+                    Caption = 'Outstation Dist. Criteria (Hilly)';
+                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (Hilly) field.';
                 }
                 field("BMAF Dist. Criteria (H)"; Rec."BMAF Dist. Criteria (H)")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the BMAF Dist. Criteria (H) field.';
+                }
+                field("Outstation Dist. Crit. (Himal)"; Rec."Outstation Dist. Crit. (Himal)")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Outstation Dist. Criteria (Himal)';
+                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (Himal) field.';
+                }
+            }
+            group(Transfer)
+            {
+                field("Transfer No."; Rec."Transfer No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Transfer No. field.';
+                }
+                field("Transfer Claim Approver"; Rec."Transfer Claim Approver")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Transfer Claim Approver field.';
+                }
+                field("Skip Approval On HR Transfer"; Rec."Skip Approval On HR Transfer")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Skip Approval On HR Transfer field.', Comment = '%';
                 }
             }
             group("Allowance Assignment")

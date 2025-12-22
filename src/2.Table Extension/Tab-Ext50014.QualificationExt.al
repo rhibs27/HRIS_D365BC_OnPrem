@@ -19,5 +19,17 @@ tableextension 50014 "Qualification Ext" extends Qualification
         {
             DataClassification = ToBeClassified;
         }
+        field(50015; "GPA Scale"; Decimal)
+        {
+        }
     }
+    trigger OnAfterInsert()
+    begin
+        TestField(Code);
+    end;
+
+    trigger OnAfterModify()
+    begin
+        TestField(Code);
+    end;
 }

@@ -771,12 +771,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Last Placement Date field.';
 
                 }
-                // field("Approver Code"; Rec."Approver Code")
-                // {
-                //     Visible = false;
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Approver Code field.';
-                // }
                 field("Approver Role"; Rec."Approver Role")
                 {
                     ApplicationArea = All;
@@ -914,11 +908,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addbefore("Employment Date")
         {
-            field("Appointment Date"; Rec."Appointment Date")
+            field("Appointment Date"; Rec."Appointment Letter Date")
             {
                 ApplicationArea = all;
             }
-            Field("Appointment Date (B.S.)"; Rec."Appointment Date (B.S.)")
+            Field("Appointment Date (B.S.)"; Rec."Appointment Letter Date (B.S.)")
             {
                 ApplicationArea = all;
             }
@@ -1471,22 +1465,55 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     var
                         FilterPageBuilder: FilterPageBuilder;
-                        Allowanceconfig: Record "Allowance Configuration";
+                        Allowanceconfig: Record "Assignment Memo Header";
                         AllowanceType: Code[20];
+                        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                     begin
                         FilterPageBuilder.AddRecord('Select Allowance Type', Allowanceconfig);
-                        FilterPageBuilder.ADdField('Select Allowance Type', Allowanceconfig."Payroll Attribute");
+                        FilterPageBuilder.ADdField('Select Allowance Type', Allowanceconfig."Payroll Attribute Code");
                         if FilterPageBuilder.RunModal then begin
                             Allowanceconfig.SetView(FilterPageBuilder.GetView('Select Allowance Type'));
-                            if Allowanceconfig.GetFilter("Payroll Attribute") = '' then
+                            if Allowanceconfig.GetFilter("Payroll Attribute Code") = '' then
                                 Error('Allowance Type must have value');
-                            AllowanceType := Allowanceconfig.GetFilter("Payroll Attribute");
+                            AllowanceType := Allowanceconfig.GetFilter("Payroll Attribute Code");
                         end else
                             if AllowanceType = '' then
                                 Error('Allowance Type must have value');
 
-                        // AllowanceAssignmentMgt.OpenAllowance(Rec."No.", AllowanceType);
+                        AssignmentMemoMgt.OpenAllowance(Rec."No.", AllowanceType);
 
+                    end;
+                }
+                action("Allowance Assignment Memo")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Allowance Assignment action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    var
+                        AllowanceMemoMgt: Codeunit "Assignment Memo Mgt";
+                    begin
+                        AllowanceMemoMgt.OpenAllowanceRequestMemo(Rec."No.");
+                    end;
+                }
+                action("Shift Assignment Memo")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Shift Assignment action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    var
+                        AllowanceMemoMgt: Codeunit "Assignment Memo Mgt";
+                    begin
+                        AllowanceMemoMgt.OpenShiftRequest(Rec."No.");
                     end;
                 }
                 action("Shift Assignment")
@@ -1527,22 +1554,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         AttendanceMissedMgt.OpenLateAttendance(Rec."No.");
-                    end;
-                }
-                action("Out of Office Forms")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Planning;
-                    PromotedCategory = Category4;
-                    PromotedOnly = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Out of Office Forms action.';
-                    trigger OnAction()
-                    begin
-                        Rec.OutOfOffice;
-                        CurrPage.CLOSE
                     end;
                 }
                 action("Medical insurance Claim")
@@ -1710,6 +1721,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Report.RunModal(Report::"Generate Leave Balance", true, false, Employee);
                     end;
                 }
+
                 action("Confirmation Employee")
                 {
                     ApplicationArea = All;
@@ -1739,6 +1751,21 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         Rec.RFRequest;
+                    end;
+                }
+                action("Request Leave Encashment")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Allocate;
+                    PromotedCategory = Category4;
+                    ToolTip = 'Executes the Request Leave Encashment action.';
+                    trigger OnAction()
+                    var
+                        LeaveMgt: Codeunit "Leave Mgt.";
+                    begin
+                        LeaveMgt.OpenLeaveEncashmentRequest(Rec."No.");
                     end;
                 }
             }
@@ -1788,7 +1815,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category5;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Request Vehicle Loan action.';
-
                     trigger OnAction()
                     begin
                         CLEAR(LoanMgt);
@@ -1871,21 +1897,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     end;
                 }
-                // action("Access Control")
-                // {
-                //     ApplicationArea = All;
-                //     Promoted = true;
-                //     Visible = false;
-                //     PromotedIsBig = true;
-                //     Image = Register;
-                //     PromotedCategory = Category6;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Access Control action.';
-                //     trigger OnAction()
-                //     begin
-                //         HRMgt.OpenGrantAccessControl(Rec."No.");
-                //     end;
-                // }
                 action("Transfer History")
                 {
                     ApplicationArea = All;
@@ -1912,25 +1923,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory.RUN;
                     end;
                 }
-                // action("Access Control History")
-                // {
-                //     ApplicationArea = All;
-                //     RunObject = Page "Access Control History";
-                //     RunPageView = WHERE(Status = CONST(approved));
-                //     RunPageLink = "Employee No." = FIELD("No.");
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = History;
-                //     PromotedCategory = Category6;
-                //     PromotedOnly = true;
-                //     RunPageMode = View;
-                //     ToolTip = 'Executes the Access Control History action.';
-
-                //     trigger OnAction()
-                //     begin
-
-                //     end;
-                // }
                 action("Show Leave Earn")
                 {
                     ApplicationArea = All;
@@ -1949,7 +1941,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 action("Promotion History")
                 {
                     ApplicationArea = All;
-                    RunObject = Page "Promotion History";
+                    RunObject = Page "Promotion List";
                     RunPageLink = "Employee No." = FIELD("No.");
                     Promoted = true;
                     PromotedIsBig = true;
@@ -1957,10 +1949,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category6;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Promotion History action.';
-                    trigger OnAction()
-                    begin
-
-                    end;
                 }
                 action("Service History")
                 {
@@ -1971,7 +1959,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category6;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Service History action.';
-
                     trigger OnAction()
                     begin
                         ServiceHistory.Reset();
@@ -2327,17 +2314,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     var
-        WorkShift: Record "Work Shift";
+        EmployeeWorkShift: Record "Employee Work Shift";
     begin
-        PGSetup.GET;
-        PGSetup.TestField("Default Work Shift");
-        Rec.VALIDATE("Employee Work Shift", PGSetup."Default Work Shift");
-    end;
-
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        // IF NOT Rec.Saved THEN
-        //     ERROR('Employee Card must be saved first');
+        EmployeeWorkShift.SetRange("Default Employee Type", Rec."Employment Type");
+        if EmployeeWorkShift.FindFirst() then
+            Rec."Employee Work Shift" := EmployeeWorkShift.Code
+        else begin
+            EmployeeWorkShift.Reset();
+            EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
+            if EmployeeWorkShift.FindFirst() then
+                Rec."Employee Work Shift" := EmployeeWorkShift.Code;
+        end;
     end;
 
     local procedure SetFieldEnable();
