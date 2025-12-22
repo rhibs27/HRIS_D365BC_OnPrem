@@ -50543,6 +50543,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Emp Loan Outstanding Update - Control Employee No. Filter - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 1217676068 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Annual Payroll Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1217676068 - Control 845401037 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Control EndDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1217676068 - Control 3534140189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Control PayCycleTermCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1217676068 - Control 3605153064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Annual Payroll Report - Control StartDate - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2687215901 - Control 96532759 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the UpdateEmployee field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
