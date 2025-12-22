@@ -20,6 +20,10 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     Editable = false;
                 }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
 
                 field("From Date"; Rec."From Date")
                 {

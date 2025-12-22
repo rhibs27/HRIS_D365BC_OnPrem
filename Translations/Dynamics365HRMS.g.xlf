@@ -13253,6 +13253,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Column Configuration - Field Variable Field Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 2477013471 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allow Future Allowance Request</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Allow Future Allowance Request - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3263916037 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Assignment Memo Nos</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24382,6 +24387,11 @@
           <source>Specifies the value of the From Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2173113815 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Control Nepali Month - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2173113815 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
@@ -38973,6 +38983,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Columns - Control Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 2477013471 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Allow Future Allowance Request field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Allow Future Allowance Request - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3263916037 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Assignment Memo Nos field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -45642,6 +45657,11 @@
           <source>Specifies the value of the Fuel Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Fuel Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Nepali Month - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2985527303 - Control 783730271 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No of Lines field.</source>

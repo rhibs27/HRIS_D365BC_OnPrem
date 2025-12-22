@@ -658,6 +658,24 @@ table 50074 "Employee Edit"
 
         if EmployeeEdit."Approval Status" <> EmployeeEdit."Approval Status"::Pending then
             exit;
+
+        if not GuiAllowed and (EmployeeEdit."Approval Status" = EmployeeEdit."Approval Status"::Pending) then begin
+            EmployeeEdit.TestField("Vehicle Type");
+            EmployeeEdit.TestField("Claim Type");
+            EmployeeEdit.TestField("Claimed Type Effective Date");
+
+            if EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"] then begin
+                EmployeeEdit.TestField("Vehicle No.", '');
+                EmployeeEdit.TestField("Vehicle Owner Name", '');
+            end else begin
+                EmployeeEdit.TestField("Vehicle No.");
+                EmployeeEdit.TestField("Vehicle Owner Name");
+                EmployeeEdit.TestField("Ownership Start/End Date");
+                if EmployeeEdit."Vehicle Type" = EmployeeEdit."Vehicle Type"::"Four Wheeler" then
+                    EmployeeEdit.TestField("Fuel Type");
+            end;
+        end;
+
         //do not allow multiple pending
         EmployeeEdit2.SetRange("Employee No.", EmployeeEdit."Employee No.");
         EmployeeEdit2.SetRange("Changes In Employee Type", EmployeeEdit."Changes In Employee Type");

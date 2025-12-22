@@ -250,6 +250,9 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr.Get(docNo);
         AssignmentMemoLine.Get(docNo, lineNo);
 
+        //check if there is pending request allowance exist for the document
+        CheckIfPendingClaimedAllowanceExist(docNo, lineNo);
+
         //check if substitute dates are within the original assignment memo line dates
         if not ((FromDate >= AssignmentMemoLine."From Date") and (ToDate <= AssignmentMemoLine."To Date")) then
             Error('Substitute dates must be within the original assignment line dates.');
@@ -908,9 +911,11 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open);
-        AssignmentMemoLedgerEntry.SetRange(Reversed, false);
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open, Reversed);
+
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
+        AssignmentMemoLedgerEntry.SetRange(Reversed, false);
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AssignmentMemoLine."Payroll Attribute Code");
         AssignmentMemoLedgerEntry.SetRange("Posting Date", AssignmentMemoLine."From Date");
         AssignmentMemoLedgerEntry.SetRange(Open, true);
@@ -933,8 +938,43 @@ codeunit 50030 "Assignment Memo Mgt"
                 repeat
                     if not CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
                         Error('Allowance for %1 is already substituted on %2. Cannot proceed with your allowance request.', AssignmentMemoLine."Payroll Attribute Code", AssignmentMemoLine."From Date");
+
+                    //check if pending substituted exist.
+                    CheckIfSubstituteDocumentPendingExist(AssignmentMemoLine);
+
                 until AssignmentMemoLine.Next() = 0;
         end;
+    end;
+
+    procedure CheckIfSubstituteDocumentPendingExist(AssignmentMemoLine: Record "Assignment Memo Line")
+    var
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+        AssignmentMemoLine2: Record "Assignment Memo Line";
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+    begin
+        if AssignmentMemoLedgerEntry.Get(AssignmentMemoLine."Assign Memo Ledger Entry No.") then begin
+            AssignmentMemoHdr.Get(AssignmentMemoLedgerEntry."Document No.");
+            if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then
+                Error('There is a pending substitute assignment. Cannot proceed with your allowance request.Please try again later.');
+        end
+        else
+            Error('Linked allowance assignment not found!');
+    end;
+
+    procedure CheckIfPendingClaimedAllowanceExist(DocNo: Code[20]; LineNo: Integer)
+    var
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+    begin
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open, Reversed);
+        AssignmentMemoLedgerEntry.SetRange("Document No.", DocNo);
+        AssignmentMemoLedgerEntry.SetRange(Claimed, true);
+        if AssignmentMemoLedgerEntry.FindSet() then
+            repeat
+                AssignmentMemoHdr.Get(AssignmentMemoLedgerEntry."Claimed Doc No.");
+                if AssignmentMemoHdr."Approval Status" = AssignmentMemoHdr."Approval Status"::Pending then
+                    Error('There is a pending claimed allowance for %1 on %2. Cannot proceed with substitution.', AssignmentMemoLedgerEntry."Payroll Attribute Code", AssignmentMemoLedgerEntry."Posting Date");
+            until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
     // TODO: Implement Assignment Memo Reverse

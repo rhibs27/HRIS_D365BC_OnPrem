@@ -55,6 +55,7 @@ table 50161 "Assignment Memo Header"
                     Clear("To date");
 
                 ValidateDatesAreWithinMonth("From Date", "To date");
+                CheckIfAllowFutureAllowanceRequest();
             end;
         }
         field(4; "To date"; Date)
@@ -68,6 +69,7 @@ table 50161 "Assignment Memo Header"
                 end;
                 //check if dates are within the months
                 ValidateDatesAreWithinMonth("From Date", "To date");
+                CheckIfAllowFutureAllowanceRequest();
             end;
         }
 
@@ -263,6 +265,28 @@ table 50161 "Assignment Memo Header"
         }
         field(43; "Nepali Month"; Enum "Nepali Month")
         {
+            trigger OnValidate()
+            var
+                PayCyclePeriod: Record "Pay Cycle Period";
+                PGSetup: Record "Payroll General Setup";
+            begin
+                //based on nepali month selected update the from date to date and other field
+                PGSetup.Get();
+                PGSetup.TestField("Payroll Fiscal Year Start Date");
+
+                PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
+                PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
+                if PayCyclePeriod.FindFirst() then begin
+                    "From Date" := PayCyclePeriod."Start Date";
+                    "To date" := PayCyclePeriod."End Date";
+                    "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
+                    "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
+                    "Pay Cycle Period" := PayCyclePeriod.Period;
+                    CheckIfAllowFutureAllowanceRequest();
+                end else begin
+                    Error('No pay cycle period found for the selected Nepali Month.');
+                end;
+            end;
         }
         field(50; "Vehicle Type"; Enum "Vehicle Type")
         {
@@ -481,5 +505,29 @@ table 50161 "Assignment Memo Header"
                 "Ownership Start/End Date" := EmployeeEdit."Ownership Start/End Date";
             end;
         end;
+    end;
+
+    procedure CheckIfAllowFutureAllowanceRequest()
+    var
+        PGSetup: Record "Payroll General Setup";
+        PayCyclePeriod: Record "Pay Cycle Period";
+    begin
+        if "From Date" = 0D then
+            exit;
+        if "To Date" = 0D then
+            exit;
+        if "Activity Type" <> "Activity Type"::"Request Allowance" then
+            exit;
+        PayCyclePeriod.SetFilter("Start Date", '<=', WorkDate());
+        PayCyclePeriod.SetFilter("End Date", '>=', WorkDate());
+        PayCyclePeriod.FindFirst();
+
+        PGSetup.Get();
+        if ((not PGSetup."Allow Future Allowance Request") and
+            ("From Date" > PayCyclePeriod."End Date")) then
+            Error('Future allowance request is not allowed as per payroll setup.');
+
+        if ((not PGSetup."Allow Future Allowance Request") and ("To Date" > PayCyclePeriod."End Date")) then
+            Error('Future allowance request is not allowed as per payroll setup.');
     end;
 }
