@@ -1,4 +1,4 @@
-page 50375 "Request Allowance Subform Copy"
+page 50378 "Request Allowance Subform Copy"
 {
     ApplicationArea = All;
     Caption = 'Request Allowance Subform Copy';

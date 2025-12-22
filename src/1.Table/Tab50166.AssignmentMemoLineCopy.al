@@ -1,4 +1,4 @@
-table 50164 "Assignment Memo Line Copy"
+table 50166 "Assignment Memo Line Copy"
 {
     Caption = 'Assignment Memo Line Copy';
     DataClassification = ToBeClassified;
