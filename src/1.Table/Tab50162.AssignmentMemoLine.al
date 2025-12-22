@@ -211,9 +211,10 @@ table 50162 "Assignment Memo Line"
             Caption = 'Distance (KM)';
             DecimalPlaces = 2 : 2;
         }
-        field(105; "Valid Until"; Date)
+        field(105; "Effective From (Edu.)"; Date)
         {
-            Caption = 'Valid Until';
+            Caption = 'Effective From';
+            Description = 'for education allowance only';
         }
         field(106; Discontinued; Boolean)
         {

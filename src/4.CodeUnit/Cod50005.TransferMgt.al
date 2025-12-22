@@ -475,7 +475,7 @@ codeunit 50005 "Transfer Mgt."
             EmployeeRec.Validate("Last Placement Date", EmpHrTransfer."Date of Joining Of Transfer"); // this should be update based on transfer type
         end;
         OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
-        EmployeeRec.Modify;
+        EmployeeRec.Modify(true);  //updating employee record
         Message(Acknowledged);
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
     end;

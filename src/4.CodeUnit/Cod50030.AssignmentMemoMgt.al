@@ -40,6 +40,7 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AssignmentMemoLine: Record "Assignment Memo Line";
+        SkipAssignmentLedgerCreation: Boolean;
     begin
         if not AssignmentMemoHdr.Get(docNo) then
             Error('Assignment %1 not found.', docNo);
@@ -80,7 +81,9 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine.Modify();
 
                     //create assignment memo ledger entry
-                    CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
+                    CheckSkipAssignmentLedgerCreation(AssignmentMemoLine, SkipAssignmentLedgerCreation);
+                    if not SkipAssignmentLedgerCreation then
+                        CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
 
                 until AssignmentMemoLine.Next() = 0;
 
@@ -1022,6 +1025,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnafterApproveAssignmentMemo(var AssignmentMemoHdr: Record "Assignment Memo Header")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckSkipAssignmentLedgerCreation(var AssignmentMemoLine: Record "Assignment Memo Line"; var SkipAssignmentLedgerCreation: Boolean)
     begin
     end;
 }

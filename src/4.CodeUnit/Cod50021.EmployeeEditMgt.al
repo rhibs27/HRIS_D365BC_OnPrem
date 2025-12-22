@@ -374,16 +374,18 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEdit2: Record "Employee Edit";
         AssignmentMemoHeader: Record "Assignment Memo Header";
         PayrollAttributes: Record "Payroll Attributes";
+        IsHandled: Boolean;
     begin
         EmployeeEdit.TestField("Employee No.");
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
         if EmployeeEditLine.FindSet() then
             EmployeeEditLine.ModifyAll("Employee No.", EmployeeEdit."Employee No.", false);
 
+        //This has link to transportation and transportation reimbursement. If not needed you can skip this via setup or integration event.
         if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then begin
             EmployeeEdit.TestField("Vehicle Type");
             EmployeeEdit.TestField("Claim Type");
-
+            EmployeeEdit.TestField("Claimed Type Effective Date");
 
             if EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"] then begin
                 EmployeeEdit.TestField("Vehicle No.", '');
@@ -392,10 +394,9 @@ codeunit 50021 "Employee Edit Mgt."
                 EmployeeEdit.TestField("Vehicle No.");
                 EmployeeEdit.TestField("Vehicle Owner Name");
                 EmployeeEdit.TestField("Ownership Start/End Date");
-                // if EmployeeEdit."Vehicle Type" = EmployeeEdit."Vehicle Type"::"Four Wheeler" then
-                //     EmployeeEdit.TestField("Fuel Type");
+                if EmployeeEdit."Vehicle Type" = EmployeeEdit."Vehicle Type"::"Four Wheeler" then
+                    EmployeeEdit.TestField("Fuel Type");
             end;
-
         end;
 
         //check for attachment mandatory

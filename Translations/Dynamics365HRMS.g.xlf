@@ -1458,6 +1458,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Document No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2255154332 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Effective From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Effective From (Edu.) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 3884370130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Act Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1567,11 +1572,6 @@
           <source>To Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field To Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4002069225 - Field 2604361992 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Valid Until</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Valid Until - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3967234942 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assignment Memo Line Copy</source>
@@ -45528,10 +45528,20 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Claimed as Leave - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 2742120333 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Discontinued field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Discontinued - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3106374893 - Control 4218068288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Distance (KM) field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Distance (KM) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 1502012365 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Effective From/To Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Effective From/To Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3106374893 - Control 3692456998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fuel Claimed (ltr) field.</source>

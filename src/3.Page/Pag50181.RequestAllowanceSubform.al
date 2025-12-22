@@ -56,9 +56,9 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Grade/Class field.', Comment = '%';
                 }
-                field("Valid Until"; Rec."Valid Until")
+                field("Effective From/To Date"; Rec."Effective From (Edu.)")
                 {
-                    ToolTip = 'Specifies the value of the Valid Until field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Effective From/To Date field.', Comment = '%';
                 }
                 field(Discontinued; Rec.Discontinued)
                 {
