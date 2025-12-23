@@ -32,21 +32,11 @@ codeunit 50028 "Excel Import"
             for RowNo := 2 to LastRow do begin
                 RecRef.Init();
                 for ColNo := 1 to (NoOfField - 1) do begin
-                    case TableID of
-                        Database::"Employee Payroll Adjustment":
-                            begin
-                                FieldRef := RecRef.Field(1);
-                                FieldRef.Validate(DocNo);
-                                FieldRef := RecRef.Field(ColNo + 1);
-                            end;
-                        Database::"Import Attribute Usage":
-                            begin
-                                FieldRef := RecRef.Field(ColNo + 1);//Reduced by 1 to exclude 2 fields in the table referred i.e. Entry Number and Posted
-                            end;
-                        else
-                            FieldRef := RecRef.Field(ColNo)
+                    if Database::"Employee Payroll Adjustment" = TableID then begin
+                        FieldRef := RecRef.Field(1);
+                        FieldRef.Validate(DocNo);
                     end;
-
+                    FieldRef := RecRef.Field(ColNo + 1);//Reduced by 1 to exclude 2 fields in the table referred i.e. Entry Number and Posted
                     CellValue := GetValueAtCell(RowNo, ColNo);
                     if CellValue <> '' then begin
                         case FieldRef.Type of
@@ -58,10 +48,8 @@ codeunit 50028 "Excel Import"
                                 FieldRef.Validate(EvaluateDate(CellValue));
                             FieldRef.Type::Boolean:
                                 FieldRef.Validate(EvaluateBoolean(CellValue));
-                            else begin
-                                Evaluate(FieldRef, CellValue);
-                                FieldRef.Validate(FieldRef.Value);
-                            end;
+                            else
+                                FieldRef.Validate(CellValue);
                         end;
                     end;
                 end;
@@ -69,32 +57,6 @@ codeunit 50028 "Excel Import"
             end;
             Message(ExcelImportSuccess);
         end;
-    end;
-
-    procedure ExportDataInExcel(var RecRef: RecordRef)
-    var
-        TempExcelBuffer: Record "Excel Buffer" temporary;
-        RowNo, LastRow, NoOfField, ColNo : Integer;
-    begin
-        //Header
-        NoOfField := RecRef.FieldCount;
-        TempExcelBuffer.NewRow();
-        for ColNo := 1 to (NoOfField) do begin
-            TempExcelBuffer.AddColumn(RecRef.Field(ColNo).Caption(), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-        end;
-        //Data
-        if RecRef.FindSet() then
-            repeat
-                TempExcelBuffer.NewRow();
-                for ColNo := 1 to (NoOfField) do begin
-                    TempExcelBuffer.AddColumn(RecRef.Field(ColNo), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                end;
-            until RecRef.Next() = 0;
-        TempExcelBuffer.CreateNewBook(RecRef.Caption());
-        TempExcelBuffer.WriteSheet(RecRef.Caption(), CompanyName, UserId);
-        TempExcelBuffer.CloseBook();
-        TempExcelBuffer.SetFriendlyFilename(RecRef.Caption());
-        TempExcelBuffer.OpenExcel();
     end;
 
     procedure ImportJournalFromExcelSheet(EmpActType: Enum "Employee Activity Type")
@@ -138,16 +100,6 @@ codeunit 50028 "Excel Import"
         end;
     end;
 
-    local procedure GetValueAtCell(RowNo: Integer; ColNo: Integer): Text
-    begin
-
-        ExcelBuffer.Reset();
-        if ExcelBuffer.Get(RowNo, ColNo) then
-            exit(ExcelBuffer."Cell Value as Text")
-        else
-            exit('');
-    end;
-
     local procedure EvaluateInt(Value: Text): Integer
     var
         IntValue: Integer;
@@ -162,6 +114,14 @@ codeunit 50028 "Excel Import"
     begin
         Evaluate(DecValue, Value);
         exit(DecValue);
+    end;
+
+    local procedure EvaluateInteger(Value: Text): Integer
+    var
+        IntValue: Decimal;
+    begin
+        Evaluate(IntValue, Value);
+        exit(IntValue);
     end;
 
     local procedure EvaluateDate(Value: Text): Date
@@ -225,17 +185,6 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal."Emp Act. No" := DocNo;
         EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
         EmployeeActJournal.Insert(true);
-    end;
-
-    local procedure GetNextLineNo(ShiftLine: Record "Shift Line"; DocNo: Code[20]): Integer
-    var
-        LastShiftLine: Record "Shift Line";
-    begin
-        LastShiftLine.SetRange("No.", DocNo);
-        if LastShiftLine.FindLast() then
-            exit(LastShiftLine."Line No" + 10000)
-        else
-            exit(10000);
     end;
 
     local procedure ImportPromotionLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; var DocNo: Code[20]; var FirstLine: Boolean)
@@ -377,11 +326,174 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.OpenExcel();
     end;
 
+    //23 
+    procedure ExportLines(DocumentNo: Code[20])
+    var
+        AdjLine: Record "Attribute Adjustment Line";
+        CellType: Option Number,Text,Date,Time;
+    begin
+        ExcelBuffer.Reset;
+        ExcelBuffer.DeleteAll;
+        MakeExcelDataHeader(AdjLine.FieldCaption("Document No."), CellType::Text);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Line No."), CellType::Number);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Employee No."), CellType::Text);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Employee Name"), CellType::Text);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Adjustment Type"), CellType::Text);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Attribute Code"), CellType::Text);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Old Amount"), CellType::Number);
+        MakeExcelDataHeader(AdjLine.FieldCaption("New Amount"), CellType::Number);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Effective Start Date"), CellType::Date);
+        MakeExcelDataHeader(AdjLine.FieldCaption("Effective End Date"), CellType::Date);
+
+        AdjLine.Reset;
+        AdjLine.SetRange("Document No.", DocumentNo);
+        if AdjLine.FindFirst then
+            repeat
+                ExcelBuffer.NewRow;
+                MakeExcelDataBody(AdjLine."Document No.", CellType::Text);
+                MakeExcelDataBody(AdjLine."Line No.", CellType::Number);
+                MakeExcelDataBody(AdjLine."Employee No.", CellType::Text);
+                MakeExcelDataBody(AdjLine."Employee Name", CellType::Text);
+                MakeExcelDataBody(AdjLine."Adjustment Type", CellType::Text);
+                MakeExcelDataBody(AdjLine."Attribute Code", CellType::Text);
+                MakeExcelDataBody(AdjLine."Old Amount", CellType::Number);
+                MakeExcelDataBody(AdjLine."New Amount", CellType::Number);
+                MakeExcelDataBody(AdjLine."Effective Start Date", CellType::Date);
+                MakeExcelDataBody(AdjLine."Effective End Date", CellType::Date);
+            until AdjLine.Next = 0;
+
+        CreateExcelBook('Attribute Adjustment Lines');
+    end;
+
+    procedure ImportLines(DocumentNo: Code[20])
+    var
+        FirstLine: Boolean;
+        IStream: InStream;
+        FromFile, CellValue : Text;
+        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
+        TotalRows: Integer;
+        AdjLine: Record "Attribute Adjustment Line";
+        FileMgt: Codeunit "File Management";
+    begin
+        if UploadIntoStream('Import From Excel', '', '', FromFile, IStream) then begin
+            if FromFile <> '' then begin
+                FileName := FileMgt.GetFileName(FromFile);
+                SheetName := ExcelBuffer.SelectSheetsNameStream(IStream);
+            end
+            else
+                Error('No file found.');
+            ExcelBuffer.Reset();
+            ExcelBuffer.DeleteAll();
+            ExcelBuffer.OpenBookStream(IStream, SheetName);
+            ExcelBuffer.ReadSheet();
+            ExcelBuffer.SetRange("Column No.", 1);
+            ExcelBuffer.FindLast();
+            LastRow := ExcelBuffer."Row No.";
+            FirstLine := true;
+            AdjLine.SetRange("Document No.", DocumentNo);
+            if AdjLine.FindLast then
+                LineNo := AdjLine."Line No.";
+
+            for RowNo := 2 to LastRow do begin
+                LineNo += 10000;
+                InsertLine(RowNo, DocumentNo, LineNo);
+            end;
+            // Message('%1 lines imported successfully.', TotalRows - 1);
+
+        end;
+        if not ExcelBuffer.IsEmpty() then
+            ExcelBuffer.DeleteAll;
+    end;
+
+    local procedure MakeExcelDataHeader(HeadingCaption: Text; CellType: Option Number,Text,Date,Time)
+    begin
+        ExcelBuffer.AddColumn(HeadingCaption, false, '', true, false, true, '', CellType);
+    end;
+
+    local procedure MakeExcelDataBody(BodyValue: Variant; CellType: Option Number,Text,Date,Time)
+    begin
+        ExcelBuffer.AddColumn(BodyValue, false, '', false, false, false, '', CellType);
+    end;
+
+    local procedure CreateExcelBook(SheetName: Text)
+    var
+        ExcelFileName: Label 'Attribute_%1_%2';
+    begin
+        ExcelBuffer.CreateNewBook(SheetName);
+        ExcelBuffer.WriteSheet(SheetName, CompanyName, UserId);
+        ExcelBuffer.CloseBook();
+        ExcelBuffer.SetFriendlyFilename(StrSubstNo(ExcelFileName, CurrentDateTime, UserId));
+        ExcelBuffer.OpenExcel();
+    end;
+
+    local procedure OpenReadExcelBook()
+    var
+        InStr: InStream;
+        SheetName: Text;
+        FileUploaded: Boolean;
+    begin
+        UploadIntoStream(UploadFileTxt, ExlExt, '', Filename, InStr);
+        ExcelBuffer.Reset;
+        ExcelBuffer.LockTable;
+        ExcelBuffer.OpenBookStream(InStr, SheetName);
+        ExcelBuffer.ReadSheet;
+    end;
+
+    local procedure GetLastRowandColumn(var TotalRows: Integer)
+    begin
+        TotalRows := ExcelBuffer.Count;
+    end;
+
+    local procedure GetValueAtCell(RowNo: Integer; ColNo: Integer): Text
+    begin
+        if ExcelBuffer.Get(RowNo, ColNo) then
+            exit(ExcelBuffer."Cell Value as Text")
+        else
+            exit('');
+    end;
+
+    local procedure InsertLine(RowNo: Integer; DocumentNo: Code[20]; var LineNo: Integer)
+    var
+        AdjLine: Record "Attribute Adjustment Line";
+        EffStart: Date;
+        EffEnd: Date;
+    begin
+        AdjLine.Init();
+        AdjLine."Document No." := DocumentNo;
+        AdjLine."Line No." := LineNo;
+        AdjLine.Validate("Employee No.", GetValueAtCell(RowNo, 3));
+        AdjLine.Validate("Employee Name", GetValueAtCell(RowNo, 4));
+        //   AdjLine.Validate("Adjustment Type", EvaluateInteger(GetValueAtCell(RowNo, 5)));
+        Evaluate(AdjLine."Adjustment Type", GetValueAtCell(RowNo, 5));
+        AdjLine.Validate("Attribute Code", GetValueAtCell(RowNo, 6));
+        if GetValueAtCell(RowNo, 7) <> '' then
+            AdjLine.Validate("Old Amount", EvaluateDecimal(GetValueAtCell(RowNo, 7)));
+        if GetValueAtCell(RowNo, 8) <> '' then
+            AdjLine.Validate("New Amount", EvaluateDecimal(GetValueAtCell(RowNo, 8)));
+        if GetValueAtCell(RowNo, 9) <> '' then begin
+            Evaluate(EffStart, GetValueAtCell(RowNo, 9));
+            AdjLine.Validate("Effective Start Date", EffStart);
+        end;
+        if GetValueAtCell(RowNo, 10) <> '' then begin
+            Evaluate(EffEnd, GetValueAtCell(RowNo, 10));
+            AdjLine.Validate("Effective End Date", EffEnd);
+        end;
+        if AdjLine."Employee No." <> '' then
+            AdjLine.Insert(true);
+    end;
+
+    //23
+
     var
         ExcelBuffer: Record "Excel Buffer" temporary;
         Filename: Text[250];
         SheetName: Text[250];
         ExcelImportSuccess: Label 'Data is successfully imported.';
-        ShiftMgt: Codeunit "Shift Assignment Mgt";
+
+        tmpBlob: Codeunit "Temp Blob";
+        i: Integer;
+        UploadFileTxt: Label 'Select the Excel File to Import';
+        ExlExt: Label '.xlsx';
+
 
 }
