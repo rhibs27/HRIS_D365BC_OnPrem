@@ -71,27 +71,31 @@ page 50092 "Travel Request Form"
                 {
                     ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                     ApplicationArea = All;
-                }
-                field(Department; Rec.Department)
-                {
-                    ToolTip = 'Specifies the value of the Department field.';
-                    ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Branch Name"; Rec."Branch Name")
                 {
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
                 }
-                field("Functional Title"; Rec."Functional Title")
+                field(Department; Rec.Department)
                 {
-                    ToolTip = 'Specifies the value of the Functional Title field.';
+                    ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Department Name"; Rec."Department Name")
                 {
                     ToolTip = 'Specifies the value of the Department Name field.';
                     ApplicationArea = All;
                 }
+
+                field("Functional Title"; Rec."Functional Title")
+                {
+                    ToolTip = 'Specifies the value of the Functional Title field.';
+                    ApplicationArea = All;
+                }
+
                 field("Travel Order No."; Rec."Travel Order No.")
                 {
                     ToolTip = 'Specifies the value of the Travel Order No. field.';

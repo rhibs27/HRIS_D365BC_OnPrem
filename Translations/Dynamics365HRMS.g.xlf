@@ -23733,6 +23733,16 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Control Request Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2313503208 - Action 1081835701 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Setup in Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Action Export Setup - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2313503208 - Action 5983814 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import Setup action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Action Import Setup - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 804884198 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval setup Subform</source>
           <note from="Developer" annotates="general" priority="2"></note>
