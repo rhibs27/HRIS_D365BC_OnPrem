@@ -104,6 +104,7 @@ codeunit 50008 "Payroll Engine"
         HLInsAmt: Decimal;
         Text001: Label 'Over Time Employee Import Successfully.';
         Text002: Label 'Over Time Amount Updated Successfully.';
+        HomeLoanInsuranceTieUP: Record "Employee Loan/Advance";
 
     local procedure GetAttendanceSetup()
     begin
@@ -249,12 +250,14 @@ codeunit 50008 "Payroll Engine"
         if DonationLimit2 < DonationTaxBenefit then
             DonationTaxBenefit := DonationLimit2;
         //Life Insurance
-        LoanOutstanding.Reset;
-        LoanOutstanding.SetRange("Employee No.", Employee."No.");
-        LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
-        LoanOutstanding.SetRange("Scheme Code", '');
-        if LoanOutstanding.FindFirst then
-            HLInsAmt := LoanOutstanding.EMI * 12;
+        HomeLoanInsuranceTieUP.Reset;
+        HomeLoanInsuranceTieUP.SetRange("Employee No.", Employee."No.");
+        HomeLoanInsuranceTieUP.SetRange("Loan Type", HomeLoanInsuranceTieUP."Loan Type"::"Home Loan Insurance Tieup");
+        HomeLoanInsuranceTieUP.SetRange("Approval Status", HomeLoanInsuranceTieUP."Approval Status"::Approved);
+        HomeLoanInsuranceTieUP.SetRange(Settled, false);
+        HomeLoanInsuranceTieUP.CalcSums("Yearly Premium Amount");
+        HLInsAmt := HomeLoanInsuranceTieUP."Yearly Premium Amount";
+
         Employee.CalcFields("Premium of Life Insurance", "Premium of Health Insurance", "Premium Property Insurance");
         InsuranceAmount := Employee."Premium of Life Insurance" + HLInsAmt;
         InsuranceLimit1 := PGSetup."Tax Ex. Life Insurance Amt.";
