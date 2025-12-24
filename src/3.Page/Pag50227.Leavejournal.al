@@ -86,6 +86,7 @@ page 50227 "Leave Journal"
                 field("Substitute Person Code"; Rec."Substitute Person Code")
                 {
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {

@@ -412,11 +412,10 @@ codeunit 50005 "Transfer Mgt."
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
         UserSetup.Get(UserId);
-        if not UserSetup."Is Admin" then begin
-            if (EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo) and
-               (EmpHrTransfer."Incoming Supervisior 2" <> HRMgt.GetEmployeeNo) then
-                Error('You are not Eligible for Employee Acknowledge');
-        end;
+        if ((EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo) and
+    (EmpHrTransfer."Incoming Supervisior 2" <> HRMgt.GetEmployeeNo)) and
+    (not UserSetup."Is Admin") then
+            Error('You are not Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);
@@ -538,10 +537,8 @@ codeunit 50005 "Transfer Mgt."
                 Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
         end;
         UserSetup.Get(UserId);
-        if not UserSetup."Is Admin" then begin
-            if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
-                Error('You are not Eligible');
-        end
+        if ((EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo)) and (not UserSetup."Is Admin") then
+            Error('You arenot Eligible')
         else begin
             EmpHrTransfer.Validate(Handover, true);
             EmpHrTransfer.Modify();
@@ -558,17 +555,17 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(Handover, true);
 
         UserSetup.get(UserId);
-        if not UserSetup."Is Admin" then begin
-            if (EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
-                    (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo) then
-                Error('You are not Eligible');
-        end
+        if ((EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
+    (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo)) and
+    (not UserSetup."Is Admin") then
+            Error('You are not Eligible')
         else begin
             EmpHrTransfer.Validate(Takeover, true);
             EmpHrTransfer.Modify();
             if GuiAllowed then
                 Message('Takeover Successful');
-        end
+        end;
+
     end;
 
     procedure CheckClaimAttachments(EmpActNo: Code[20]; EmpNo: Code[20])

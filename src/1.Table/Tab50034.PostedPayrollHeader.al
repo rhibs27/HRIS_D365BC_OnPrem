@@ -259,8 +259,6 @@ table 50034 "Posted Payroll Header"
                     PostedPayrollHeader.Reversed := true;
                     PostedPayrollHeader.Modify;
                     ReverseSourceDocumentsOnPayrollReverse(PostedPayrollHeader."No.");
-                    // OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
-
                     Message('Payroll %1 has been reversed successfully.', PostedPayrollHeader."No.");
                 end;
         end;
