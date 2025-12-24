@@ -43,7 +43,7 @@ table 50141 OverTime
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-            Editable = false;
+            // Editable = false;
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin

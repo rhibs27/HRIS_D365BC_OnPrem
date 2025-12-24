@@ -4,6 +4,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
     {
         addafter("Employee Nos.")
         {
+            field("Attribute Adjustment Nos."; Rec."Attribute Adjustment Nos.")
+            {
+                ApplicationArea = All;
+                ToolTip = '';
+            }
             field("Service History No. Series"; Rec."Service History No. Series")
             {
                 ApplicationArea = All;
@@ -457,12 +462,19 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 field("Outstation Dist. Criteria (H)"; Rec."Outstation Dist. Criteria (H)")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (H) field.';
+                    Caption = 'Outstation Dist. Criteria (Hilly)';
+                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (Hilly) field.';
                 }
                 field("BMAF Dist. Criteria (H)"; Rec."BMAF Dist. Criteria (H)")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the BMAF Dist. Criteria (H) field.';
+                }
+                field("Outstation Dist. Crit. (Himal)"; Rec."Outstation Dist. Crit. (Himal)")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Outstation Dist. Criteria (Himal)';
+                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (Himal) field.';
                 }
             }
             group(Transfer)

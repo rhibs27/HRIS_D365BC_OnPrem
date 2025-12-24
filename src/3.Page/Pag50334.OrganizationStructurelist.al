@@ -72,6 +72,10 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Fax No Field', Comment = '%';
                 }
+                field("NRB No"; Rec."NRB No")
+                {
+                    ToolTip = 'Specifies the value of the NRB No Field', Comment = '%';
+                }
                 field("Remote Area Category"; Rec."Remote Area Category")
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
