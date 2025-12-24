@@ -140,4 +140,12 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Loan Journal';
     }
+    value(35; "Attribute Adjustment")
+    {
+        Caption = 'Attribute Adjustment';
+    }
+    value(36; Confirmation)
+    {
+        Caption = 'Confirmation';
+    }
 }
