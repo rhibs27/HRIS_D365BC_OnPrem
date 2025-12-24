@@ -482,6 +482,17 @@ codeunit 50028 "Excel Import"
             AdjLine.Insert(true);
     end;
 
+    local procedure GetNextLineNo(ShiftLine: Record "Shift Line"; DocNo: Code[20]): Integer
+    var
+        LastShiftLine: Record "Shift Line";
+    begin
+        LastShiftLine.SetRange("No.", DocNo);
+        if LastShiftLine.FindLast() then
+            exit(LastShiftLine."Line No" + 10000)
+        else
+            exit(10000);
+    end;
+
     //23
 
     var
