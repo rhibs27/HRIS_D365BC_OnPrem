@@ -13,7 +13,6 @@ codeunit 50008 "Payroll Engine"
         Employee: Record Employee;
         PGSetup: Record "Payroll General Setup";
         AttendanceSetup: Record "Attendance Setup";
-        AttendanceMgt: Codeunit "Attendance Mgt";
         TaxSetupHeader: Record "Tax Setup Header";
         TaxSetupLine: Record "Tax Setup Line";
         PayrollAttributes: Record "Payroll Attributes";
@@ -58,7 +57,6 @@ codeunit 50008 "Payroll Engine"
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
-        Text000: Label 'You must specify %1.';
         Text005: Label 'Default Journal';
         Text004: Label 'DEFAULT';
         PostedPayrollHeader: Record "Posted Payroll Header";
@@ -100,10 +98,8 @@ codeunit 50008 "Payroll Engine"
         TotalTaxWithoutSST: Decimal;
         EmployeeLumpsum: Decimal;
         PropertyInsuranceTaxBenefit: Decimal;
-        LoanOutstanding: Record "Loan Outstanding from Finacle";
         HLInsAmt: Decimal;
         Text001: Label 'Over Time Employee Import Successfully.';
-        Text002: Label 'Over Time Amount Updated Successfully.';
         HomeLoanInsuranceTieUP: Record "Employee Loan/Advance";
 
     local procedure GetAttendanceSetup()
