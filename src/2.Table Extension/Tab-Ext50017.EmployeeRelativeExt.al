@@ -184,7 +184,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 end;
             end;
         }
-        field(50018; "E-mail"; text[30])
+        field(50018; "E-mail"; text[80])
         {
             DataClassification = CustomerContent;
         }

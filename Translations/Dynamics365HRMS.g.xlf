@@ -7553,6 +7553,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Department Name To - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 1521402580 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Departure Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Departure Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3659416491 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation On</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7657,11 +7662,6 @@
           <source>Handover</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Handover - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3659416491 - Field 1318691895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>handover Completion Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field handover Completion Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3659416491 - Field 2584380905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Incoming Supervisior</source>

@@ -343,7 +343,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = ToBeClassified;
         }
-        field(65; "Relative Mail"; Text[30])
+        field(65; "Relative Mail"; Text[80])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()

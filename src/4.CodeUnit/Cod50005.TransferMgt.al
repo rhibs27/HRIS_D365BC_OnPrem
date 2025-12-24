@@ -519,6 +519,7 @@ codeunit 50005 "Transfer Mgt."
     var
         IncomingDocument: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
+        UserSetup: Record "User Setup";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
@@ -535,15 +536,15 @@ codeunit 50005 "Transfer Mgt."
                 Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
         end;
 
-        if not HrMgt.IsSaaS() then
-            if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
-                Error('You arenot Eligible')
-            else begin
-                EmpHrTransfer.Validate(Handover, true);
-                EmpHrTransfer.Modify();
-                if GuiAllowed then
-                    Message('Handover Submitted Successfully');
-            end;
+        UserSetup.Get(UserId);
+        if EmpHrTransfer."Employee No." <> HRMgt.GetEmployeeNo then
+            if not UserSetup."Is Admin" then
+                Error('You arenot Eligible');
+
+        EmpHrTransfer.Validate(Handover, true);
+        EmpHrTransfer.Modify();
+        if GuiAllowed then
+            Message('Handover Submitted Successfully');
     end;
 
     procedure TakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
@@ -561,7 +562,8 @@ codeunit 50005 "Transfer Mgt."
                 EmpHrTransfer.Modify();
                 if GuiAllowed then
                     Message('Takeover Successfull');
-            end
+            end;
+        OnafterTakeoverApprove(EmpHrTransfer);
     end;
 
     procedure CheckClaimAttachments(EmpActNo: Code[20]; EmpNo: Code[20])
@@ -620,6 +622,11 @@ codeunit 50005 "Transfer Mgt."
 
     [IntegrationEvent(false, false)]
     procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnafterTakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
     begin
     end;
 

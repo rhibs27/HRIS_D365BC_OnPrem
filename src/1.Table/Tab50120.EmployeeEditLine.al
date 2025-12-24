@@ -213,7 +213,7 @@ table 50120 "Employee Edit Line"
             Caption = 'VDC';
             DataClassification = CustomerContent;
         }
-        field(63; "Relative Mail"; Text[30])
+        field(63; "Relative Mail"; Text[80])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()

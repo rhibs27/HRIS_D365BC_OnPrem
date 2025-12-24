@@ -364,8 +364,6 @@ table 50162 "Assignment Memo Line"
         Employee: Record Employee;
     begin
         AssignmentmemoHdr.Get("Document No.");
-        // if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
-        //     exit;
 
         AssignmentmemoHdr.TestField("From Date");
         AssignmentmemoHdr.TestField("To Date");

@@ -837,9 +837,9 @@ table 50140 "Employee Transfer"
             Description = 'Transfer';
             Editable = false;
         }
-        field(304; "handover Completion Date"; Date)
+        field(304; "Departure Date"; Date)
         {
-            Description = 'Transfer';
+            Description = 'Transfer. It is checked while doing takeover process.';
         }
     }
     keys

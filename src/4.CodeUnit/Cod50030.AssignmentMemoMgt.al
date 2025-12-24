@@ -505,6 +505,7 @@ codeunit 50030 "Assignment Memo Mgt"
         //while requesting create a assignment line entry from unclaimed allowance ledger entry
         AssignmentMemoLedgerEntry.SetRange("Employee No.", AllowanceAssignmentHdr."Employee No.");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
+        AssignmentMemoLedgerEntry.SetRange("Posting Date", AllowanceAssignmentHdr."From Date", AllowanceAssignmentHdr."To Date");
 
         if AllowanceConfigSource = AllowanceConfigSource::Assignment then
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
@@ -1030,13 +1031,6 @@ codeunit 50030 "Assignment Memo Mgt"
         //mark reversed in header
         AssignemntMemoHeader.Reversed := true;
         AssignemntMemoHeader.Modify();
-
-    end;
-
-    procedure CheckIfAlowanceIsSubstitutePending(AssignmentMemoHdr: Record "Assignment Memo Header")
-    begin
-        if AssignmentMemoHdr."Activity Type" <> AssignmentMemoHdr."Activity Type"::"Request Allowance" then
-            exit;
 
     end;
 

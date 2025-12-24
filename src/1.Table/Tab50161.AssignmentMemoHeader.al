@@ -518,8 +518,8 @@ table 50161 "Assignment Memo Header"
             exit;
         if "Activity Type" <> "Activity Type"::"Request Allowance" then
             exit;
-        PayCyclePeriod.SetFilter("Start Date", '<=', WorkDate());
-        PayCyclePeriod.SetFilter("End Date", '>=', WorkDate());
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', WorkDate());
+        PayCyclePeriod.SetFilter("End Date", '>=%1', WorkDate());
         PayCyclePeriod.FindFirst();
 
         PGSetup.Get();

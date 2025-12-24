@@ -69,6 +69,11 @@ page 50235 "Employee Edit list"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Claim Type field.', Comment = '%';
                 }
+                field("Claimed Type Effective Date"; Rec."Claimed Type Effective Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Claimed Type Effective Date field.', Comment = '%';
+                }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
