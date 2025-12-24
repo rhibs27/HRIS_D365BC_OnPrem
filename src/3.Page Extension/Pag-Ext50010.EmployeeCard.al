@@ -917,19 +917,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = all;
             }
         }
-        addbefore("Resignation Date (B.S.)")
-        {
-            field("Transfer Date"; Rec."Transfer Date")
-            {
-                ApplicationArea = All;
-                Editable = false;
-            }
-            field("Transfer Date (B.S.)"; Rec."Transfer Date (B.S.)")
-            {
-                ApplicationArea = All;
-                Editable = false;
-            }
-        }
         addafter(Payments)
         {
             group(Payrolls)
