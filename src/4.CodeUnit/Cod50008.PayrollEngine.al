@@ -252,6 +252,7 @@ codeunit 50008 "Payroll Engine"
         HomeLoanInsuranceTieUP.Reset;
         HomeLoanInsuranceTieUP.SetRange("Employee No.", Employee."No.");
         HomeLoanInsuranceTieUP.SetRange("Loan Type", HomeLoanInsuranceTieUP."Loan Type"::"Home Loan Insurance Tieup");
+        HomeLoanInsuranceTieUP.SetRange("Approval Status", HomeLoanInsuranceTieUP."Approval Status"::Approved);
         HomeLoanInsuranceTieUP.SetRange(Settled, false);
         if HomeLoanInsuranceTieUP.FindFirst then
             HLInsAmt := HomeLoanInsuranceTieUP."Yearly Premium Amount";
