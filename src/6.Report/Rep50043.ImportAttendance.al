@@ -8,10 +8,8 @@ report 50043 "Import Attendance"
     {
         dataitem(FilteredEmployee; Employee)
         {
-            DataItemTableView = where(Status = const(Active));
-            //DataItemTableView = where(Status = filter(Status::Active));
+            DataItemTableView = where(Status = filter(Status::Active));
             RequestFilterFields = "No.", "Global Dimension 1 Code";
-
             trigger OnAfterGetRecord()
             begin
                 ImportEmployee;

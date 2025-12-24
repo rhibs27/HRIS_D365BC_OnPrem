@@ -71,10 +71,7 @@ page 50005 "Leave Period"
                 PromotedIsBig = true;
                 ToolTip = 'Closes the leave periods of the first open year.';
                 trigger OnAction()
-                var
-                    Employee: Record Employee;
                 begin
-                    Employee.SetRange(Status, Employee.Status::Active);
                     Rec.CloseLeaveYear(true);
                     CurrPage.Update();
                 end;
