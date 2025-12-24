@@ -90,11 +90,7 @@ codeunit 50028 "Excel Import"
                     TempExcelBuffer.AddColumn(RecRef.Field(ColNo), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 end;
             until RecRef.Next() = 0;
-        TempExcelBuffer.CreateNewBook(RecRef.Caption());
-        TempExcelBuffer.WriteSheet(RecRef.Caption(), CompanyName, UserId);
-        TempExcelBuffer.CloseBook();
-        TempExcelBuffer.SetFriendlyFilename(RecRef.Caption());
-        TempExcelBuffer.OpenExcel();
+        CreateExcelBook(RecRef.Caption());
     end;
 
     procedure ImportJournalFromExcelSheet(EmpActType: Enum "Employee Activity Type")
@@ -152,14 +148,6 @@ codeunit 50028 "Excel Import"
     begin
         Evaluate(DecValue, Value);
         exit(DecValue);
-    end;
-
-    local procedure EvaluateInteger(Value: Text): Integer
-    var
-        IntValue: Decimal;
-    begin
-        Evaluate(IntValue, Value);
-        exit(IntValue);
     end;
 
     local procedure EvaluateDate(Value: Text): Date
@@ -278,11 +266,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(EmployeeActJournal."End Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(EmployeeActJournal.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
         //
-        TempExcelBuffer.CreateNewBook('leaveJournal');
-        TempExcelBuffer.WriteSheet('leaveJournal', CompanyName, UserId);
-        TempExcelBuffer.CloseBook();
-        TempExcelBuffer.SetFriendlyFilename('leaveJournal');
-        TempExcelBuffer.OpenExcel();
+        CreateExcelBook('leaveJournal');
     end;
 
     //23 
@@ -376,12 +360,12 @@ codeunit 50028 "Excel Import"
 
     local procedure CreateExcelBook(SheetName: Text)
     var
-        ExcelFileName: Label 'Attribute_%1_%2';
+        ExcelFileName: Label '%1_%2_%3';
     begin
         ExcelBuffer.CreateNewBook(SheetName);
         ExcelBuffer.WriteSheet(SheetName, CompanyName, UserId);
         ExcelBuffer.CloseBook();
-        ExcelBuffer.SetFriendlyFilename(StrSubstNo(ExcelFileName, CurrentDateTime, UserId));
+        ExcelBuffer.SetFriendlyFilename(StrSubstNo(ExcelFileName, SheetName, CurrentDateTime, UserId));
         ExcelBuffer.OpenExcel();
     end;
 
@@ -515,11 +499,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(ShiftLine."Roster Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(ShiftLine.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
         //
-        TempExcelBuffer.CreateNewBook('ShiftLine');
-        TempExcelBuffer.WriteSheet('ShiftLine', CompanyName, UserId);
-        TempExcelBuffer.CloseBook();
-        TempExcelBuffer.SetFriendlyFilename('ShiftLine');
-        TempExcelBuffer.OpenExcel();
+        CreateExcelBook('ShiftLine');
     end;
 
     var
@@ -527,11 +507,8 @@ codeunit 50028 "Excel Import"
         Filename: Text[250];
         SheetName: Text[250];
         ExcelImportSuccess: Label 'Data is successfully imported.';
-
         tmpBlob: Codeunit "Temp Blob";
         i: Integer;
         UploadFileTxt: Label 'Select the Excel File to Import';
         ExlExt: Label '.xlsx';
-
-
 }
