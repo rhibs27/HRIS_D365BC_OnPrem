@@ -556,7 +556,7 @@ codeunit 50005 "Transfer Mgt."
         if ((EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
     (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo)) then
     if (not UserSetup."Is Admin") then
-            Error('You are not Eligible');
+            Error('You are notEligible');
             EmpHrTransfer.Validate(Takeover, true);
             EmpHrTransfer.Modify();
             if GuiAllowed then
