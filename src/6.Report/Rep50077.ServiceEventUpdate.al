@@ -358,5 +358,13 @@ report 50077 "Service Event Update"
 
         if EffectiveDate = 0D then
             Error(MissingFieldErr, 'Effective Date');
+
+        if EmploymentType = EmploymentType::Contract then
+            if ContractExpiryDate = 0D then
+                if ContractExpiryMonth = ContractExpiryMonth::" " then
+                    Error('Contract Expiry Month must have value.');
+        if EmploymentType = EmploymentType::Probation then
+            if ProbationPeriod = ProbationPeriod::" " then
+                Error('Probation Period must have value.');
     end;
 }
