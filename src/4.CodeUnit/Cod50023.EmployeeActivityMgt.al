@@ -146,11 +146,11 @@ codeunit 50023 EmployeeActivityMgt
 
                 PostedEmployeeTransfer.Init();
                 PostedEmployeeTransfer.TransferFields(TransferEmployeeJournal);
-                TransferEmployeeJournal.Delete();
                 PostedEmployeeTransfer.Validate(Posted, true);
                 PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
                 PostedEmployeeTransfer.Insert(true);
                 OnAfterTransferJournalPost(PostedEmployeeTransfer, TransferRequest);
+                TransferEmployeeJournal.Delete();
             until TransferEmployeeJournal.next() = 0
         else
             Error('There is no Document to post');
