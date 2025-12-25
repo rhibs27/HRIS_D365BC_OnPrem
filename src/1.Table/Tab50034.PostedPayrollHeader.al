@@ -186,10 +186,17 @@ table 50034 "Posted Payroll Header"
     procedure SendEmail(DocumentNo: Code[20])
     var
         PostedPayrollHeaderRec: Record "Posted Payroll Header";
+        MailForPayrollReport: Report "Mail for Payroll";
     begin
         PostedPayrollHeaderRec.Reset;
         PostedPayrollHeaderRec.SetRange("No.", DocumentNo);
-        Report.Run(Report::"Mail for Payroll", true, true, PostedPayrollHeaderRec);
+        //Report.Run(Report::"Mail for Payroll", true, true, PostedPayrollHeaderRec);
+        if PostedPayrollHeaderRec.FindFirst() then begin
+            Clear(MailForPayrollReport);
+            MailForPayrollReport.SetYearMonth(PostedPayrollHeaderRec."Nepali Year", PostedPayrollHeaderRec."Nepali Month");
+            MailForPayrollReport.SetTableView(PostedPayrollHeaderRec);
+            MailForPayrollReport.Run();
+        end;
     end;
 
     procedure ReverseDocument(var PostedPayrollHeader: Record "Posted Payroll Header")
@@ -256,6 +263,7 @@ table 50034 "Posted Payroll Header"
                 end;
         end;
     end;
+
 
     procedure ReverseSourceDocumentsOnPayrollReverse(PostedDocNo: Code[20])
     var

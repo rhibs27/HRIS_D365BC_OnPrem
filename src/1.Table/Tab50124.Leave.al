@@ -424,7 +424,7 @@ table 50124 Leave
         field(203; "Substitute Person Code"; code[20])
         {
             Caption = 'Substitute Person Code';
-            TableRelation = Employee."No.";
+            TableRelation = Employee."No." WHERE(Status = CONST(Active));
             trigger OnValidate()
             var
                 EmployeeRec: Record Employee;
