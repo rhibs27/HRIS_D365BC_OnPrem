@@ -342,6 +342,7 @@ table 50042 "Attendance Header"
     var
         EmpAttenActivity: array[2] of Record "Employee Attendance & Activity";
         AttendanceSummary: Record "Attendance Summary";
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
         DeductionType: Enum "Attribute Deduction Type";
         PayrollEngine: Codeunit "Payroll Engine";
     begin
@@ -361,6 +362,20 @@ table 50042 "Attendance Header"
                                                                 AttenHeader."Pay Cycle Code",
                                                                 AttenHeader."Pay Cycle Term",
                                                                 AttenHeader."Pay Cycle Period");
+                        PayrollAttributeUsage.Reset();
+                        PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[0]."Employee No.");
+                        if PayrollAttributeUsage.FindSet() then
+                            repeat
+                                PayrollEngine.InsertDetailedSalaryDeductionEntries(EmpAttenActivity[0]."Employee No.",
+                                                                        EmpAttenActivity[0]."Attendance Date",
+                                                                        DeductionType::Absent,
+                                                                        AttenHeader."Pay Cycle Code",
+                                                                        AttenHeader."Pay Cycle Term",
+                                                                        AttenHeader."Pay Cycle Period",
+                                                                        PayrollAttributeUsage."Type",
+                                                                        PayrollAttributeUsage.Code,
+                                                                        PayrollAttributeUsage.Amount);
+                            until PayrollAttributeUsage.Next() = 0;
                     until EmpAttenActivity[0].Next() = 0;
 
                 EmpAttenActivity[1].Reset();
@@ -376,9 +391,24 @@ table 50042 "Attendance Header"
                                                                 AttenHeader."Pay Cycle Code",
                                                                 AttenHeader."Pay Cycle Term",
                                                                 AttenHeader."Pay Cycle Period");
+                        PayrollAttributeUsage.Reset();
+                        PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[0]."Employee No.");
+                        if PayrollAttributeUsage.FindSet() then
+                            repeat
+                                PayrollEngine.InsertDetailedSalaryDeductionEntries(EmpAttenActivity[0]."Employee No.",
+                                                                        EmpAttenActivity[0]."Attendance Date",
+                                                                        DeductionType::LWP,
+                                                                        AttenHeader."Pay Cycle Code",
+                                                                        AttenHeader."Pay Cycle Term",
+                                                                        AttenHeader."Pay Cycle Period",
+                                                                        PayrollAttributeUsage."Type",
+                                                                        PayrollAttributeUsage.Code,
+                                                                        PayrollAttributeUsage.Amount);
+                            until PayrollAttributeUsage.Next() = 0;
                     until EmpAttenActivity[1].Next() = 0;
             until AttendanceSummary.Next = 0;
     end;
+
 
     local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: enum "Approval Status")
     var
