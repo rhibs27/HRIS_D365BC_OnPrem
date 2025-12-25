@@ -312,7 +312,6 @@ table 50026 "Payroll Header"
     trigger OnInsert()
     var
         PayrollHdrs: Record "Payroll Header";
-        NoSeries: Record "No. Series";
     begin
         PRSetup.Get;
 

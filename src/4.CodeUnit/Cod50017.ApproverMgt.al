@@ -261,10 +261,9 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine.Reset();
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
-        //ApprovalLine.SetRange("Approver No", ApproverNo);
+        ApprovalLine.SetRange("Approver No", ApproverNo);
         if ApprovalLine.FindFirst() then
             exit(false);
-        IsHRApprover := false;
         if HRSetup.Get() and Employee.Get(ApproverNo) then begin
             if HRSetup."HR Head Functional Title" = '' then begin
                 if Employee."Department Code" = HRSetup."HR Department Code" then
@@ -280,6 +279,20 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
         exit(true);
     end;
+#if SaasFeature
+    procedure CheckApproverSaas(EmpActNo: Code[20]; ApproverNo: code[20]): Boolean
+    var
+        ApprovalLine: Record "Approval HRMS";
+        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    begin
+        ApprovalLine.Reset();
+        ApprovalLine.SetRange("Document No.", EmpActNo);
+        ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
+        ApprovalLine.SetRange("Approver No", ApproverNo);
+        if not ApprovalLine.Findfirst() then
+            Error(ApproveNotEligibleError);
+    end;
+#endif
 
 #if SaasFeature
     procedure GetApproverNoSAAS(AccessToken: Code[60]): code[60] // Saas
@@ -652,7 +665,7 @@ codeunit 50017 "Approver Mgt"
         OnApproverejectDocumentOnBeforeCheckApprover(RecRef, EmployeeActivityType, DocumentNo, ApprovalStatusField);
 
         if ApprovalStatusField = Format(ApprovalStatus::Pending) then begin
-            CheckApprover(DocumentNo, GetApproverNoSAAS(AccessToken));
+            CheckApproverSaas(DocumentNo, GetApproverNoSAAS(AccessToken));
             ApprovalHRMS.Reset();
             ApprovalHRMS.SetRange("Document No.", DocumentNo);
             ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Open);
