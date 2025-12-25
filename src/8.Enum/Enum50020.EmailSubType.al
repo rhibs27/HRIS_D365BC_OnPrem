@@ -14,4 +14,8 @@ enum 50020 "Email Sub Type"
     {
         Caption = 'Selection Committee';
     }
+    value(3; "Payroll")
+    {
+        Caption = 'Payroll';
+    }
 }

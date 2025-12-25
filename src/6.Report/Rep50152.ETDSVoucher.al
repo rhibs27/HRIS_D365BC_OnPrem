@@ -40,7 +40,7 @@ report 50152 "ETDS Voucher"
             {
                 DataItemLink = "Document No." = field("No.");
                 column(Document_No_2; "Document No.") { }
-                column(RIT; RITField) { }
+                column(RIT; ROUND(RITField, GlSetup."Amount Rounding Precision")) { }
                 column(EmployeeNo2; "Employee No.") { }
                 column(EmployeeName2; "Employee Name") { }
                 column(PanNo2; "Pan No.") { }
@@ -110,4 +110,5 @@ report 50152 "ETDS Voucher"
         RITField: Decimal;
         PayrollAttributes: Record "Payroll Attributes";
         PayrollColConfig: Record "Payroll Column Configuration";
+        GlSetup: Record "General Ledger Setup";
 }

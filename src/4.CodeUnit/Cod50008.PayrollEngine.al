@@ -13,7 +13,6 @@ codeunit 50008 "Payroll Engine"
         Employee: Record Employee;
         PGSetup: Record "Payroll General Setup";
         AttendanceSetup: Record "Attendance Setup";
-        AttendanceMgt: Codeunit "Attendance Mgt";
         TaxSetupHeader: Record "Tax Setup Header";
         TaxSetupLine: Record "Tax Setup Line";
         PayrollAttributes: Record "Payroll Attributes";
@@ -58,7 +57,6 @@ codeunit 50008 "Payroll Engine"
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
-        Text000: Label 'You must specify %1.';
         Text005: Label 'Default Journal';
         Text004: Label 'DEFAULT';
         PostedPayrollHeader: Record "Posted Payroll Header";
@@ -100,10 +98,9 @@ codeunit 50008 "Payroll Engine"
         TotalTaxWithoutSST: Decimal;
         EmployeeLumpsum: Decimal;
         PropertyInsuranceTaxBenefit: Decimal;
-        HomeLoanInsuranceTieUP: Record "Employee Loan/Advance";
         HLInsAmt: Decimal;
         Text001: Label 'Over Time Employee Import Successfully.';
-        Text002: Label 'Over Time Amount Updated Successfully.';
+        HomeLoanInsuranceTieUP: Record "Employee Loan/Advance";
 
     local procedure GetAttendanceSetup()
     begin
@@ -3683,6 +3680,12 @@ codeunit 50008 "Payroll Engine"
             exit(PayrollAttributes.Code)
         else
             Error('Payroll Attribute for Overtime not found');
+        OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
+    end;
+
+    procedure ModifyLeaveEarnEmployeeDetails(PostedPayrollHeader: Record "Posted Payroll Header")
+    begin
+        OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
     end;
 
     [IntegrationEvent(false, false)]
@@ -3715,6 +3718,12 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to perform get the dashain allowance for the employee before entering the process
         //You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterReverseChangeGBBLRecord(PostedPayrollHeader: Record "Posted Payroll Header")
+    begin
+
     end;
 
 }
