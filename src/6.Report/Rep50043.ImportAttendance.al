@@ -8,7 +8,7 @@ report 50043 "Import Attendance"
     {
         dataitem(FilteredEmployee; Employee)
         {
-            DataItemTableView = where("NAV Login ID" = filter(<> ''));
+            DataItemTableView = where(Status = filter(Status::Active));
             RequestFilterFields = "No.", "Global Dimension 1 Code";
 
             trigger OnAfterGetRecord()

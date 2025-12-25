@@ -263,7 +263,10 @@ report 50067 "Process Daily Attendance"
 
         case Employee.Status of
             Employee.Status::Active:
-                exit(true);
+                if (Employee."Resignation Date" = 0D) or (Employee."Resignation Date" > FromDate) then
+                    exit(true)
+                else
+                    exit(false);
             Employee.Status::Inactive:
 
                 if Employee."Inactive Date" > FromDate then
