@@ -188,7 +188,7 @@ report 50077 "Service Event Update"
         Employee.Validate("Salary Level", SalaryLevel);
         Employee.Validate("Salary Grade", SalaryGrade);
         if EmploymentType = EmploymentType::Permanent then
-            Employee."Confirmation Date" := EffectiveDate;
+            Employee.Validate("Confirmation Date", EffectiveDate);
         Employee.Validate("Employment Type", EmploymentType);
         if ServiceEvent = ServiceEvent::Appointment then
             Employee.Validate("Employment Date", EffectiveDate)
