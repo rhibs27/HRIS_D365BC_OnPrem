@@ -217,6 +217,23 @@ page 50052 "Attendance Card"
                         Rec.ImportEmployee;
                     end;
                 }
+
+                action("Salary Deduction")
+                {
+                    Image = ReOpen;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the Re-Open action.';
+                    ApplicationArea = All;
+
+                    trigger OnAction()
+                    var
+                        AttendanceHeader: Record "Attendance Header";
+                    begin
+                        Rec.OnBeforePostingAttendanceSummary(Rec);
+                    end;
+                }
             }
         }
     }
