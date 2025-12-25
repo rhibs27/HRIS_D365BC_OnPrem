@@ -1428,7 +1428,6 @@ codeunit 50000 "Leave Mgt."
                                             LeaveLedgerEntry.CalcSums("Balancing Days");
                                             if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
                                                 LeaveDaysToCredit := ActualCreditLimit - LeaveLedgerEntry."Balancing Days";
-                                                IsHandled := false;
                                                 OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
                                                 if not IsHandled then begin
                                                     if HRSetup."Leave Rounding Precision" <> 0 then
@@ -1463,7 +1462,6 @@ codeunit 50000 "Leave Mgt."
                                             LeaveLedgerEntry.SetRange("Posted Date", CreditPeriodStartDate, CreditPeriodEndDate);
                                             LeaveLedgerEntry.CalcSums("Balancing Days");
                                             if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
-                                                IsHandled := false;
                                                 OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
                                                 if not IsHandled then begin
                                                     if HRSetup."Leave Rounding Precision" <> 0 then
