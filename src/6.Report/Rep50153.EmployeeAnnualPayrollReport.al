@@ -11,10 +11,7 @@ report 50153 "Employee Annual Payroll Report"
         dataitem(Employee; Employee)
         {
             RequestFilterFields = "No.";
-            column(ComInfoName; ComInfo.Name) { }
-            column(ComInfoPic; ComInfo.Picture) { }
-            column(ComInfoAddr; ComInfo.Address) { }
-            column(ComInfoPh; ComInfo."Phone No.") { }
+
             column(Date_Filter; 'Date Filter : ' + Format(StartDate) + '..' + Format(EndDate)) { }
             column(No_; "No.") { }
             column(FullName; FullName) { }
@@ -28,12 +25,14 @@ report 50153 "Employee Annual Payroll Report"
                 column(AttributeTypeCode; Enum::"Attribute Type".FromInteger(AttributeType.Number)) { }
                 dataitem("Payroll Column Configuration"; "Payroll Column Configuration")
                 {
+                    DataItemTableView = where("Table No." = const(Database::"Payroll Line"));
+
                     column(Variable_Field_Code; "Variable Field Code") { }
                     column(Field_No_; "Field No.") { }
                     column(TotalAmount; TotalAmount) { }
                     trigger OnAfterGetRecord()
                     begin
-                        DetailedEmployeeLedgerEntry[2].SetLoadFields(Amount);
+                        DetailedEmployeeLedgerEntry[1].SetLoadFields(Amount);
                         DetailedEmployeeLedgerEntry[1].Reset();
                         DetailedEmployeeLedgerEntry[1].SetRange("Employee No.", Employee."No.");
                         DetailedEmployeeLedgerEntry[1].SetRange("Payroll Attribute Code", "Payroll Column Configuration"."Variable Field Code");
@@ -51,7 +50,7 @@ report 50153 "Employee Annual Payroll Report"
 
                     trigger OnPreDataItem()
                     begin
-                        SetRange("Table No.", Database::"Payroll Line");
+                        // SetRange("Table No.", Database::"Payroll Line");
                     end;
                 }
             }
