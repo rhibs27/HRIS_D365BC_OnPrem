@@ -12783,6 +12783,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3652447633 - Field 1529750507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deduct on Absent</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Deduct on Absent - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3652447633 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19369,7 +19374,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Deduction Entry - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2632004129 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Count</source>
+          <source>Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Deduction Entry - Field Amount - Property Caption</note>
         </trans-unit>
@@ -24627,6 +24632,11 @@
           <source>Executes the Re-Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action Re-Open - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4257513725 - Action 3520000325 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Re-Open action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action Salary Deduction - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2653894362 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Journal</source>
@@ -46298,6 +46308,56 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Rolewise Job Descriptions - Control Role Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 503905947 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Deduction Entries</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Count field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 3252322165 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deduction Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Deduction Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 3042341177 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deduction Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Deduction Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Entry No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Pay Cycle Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Pay Cycle Term - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 3744289816 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Reversed field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Reversed - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2373495646 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53932,16 +53992,6 @@
           <source>Specifies the pay cycle term for the projection.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Pay Cycle Term - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Query 1691374343 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Ledger Query</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Ledger Query - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Query 2903092201 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Ledger Query</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Ledger Query 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="XmlPort 1871036555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Export Payroll</source>

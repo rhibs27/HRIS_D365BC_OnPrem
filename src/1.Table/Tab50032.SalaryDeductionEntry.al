@@ -39,7 +39,7 @@ table 50032 "Salary Deduction Entry"
         }
         field(9; "Amount"; Decimal)
         {
-            Caption = 'Count';
+            Caption = 'Amount';
         }
         field(10; "Payroll Posted"; Boolean)
         {
