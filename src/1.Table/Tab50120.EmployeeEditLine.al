@@ -88,7 +88,6 @@ table 50120 "Employee Edit Line"
         field(36; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
-            // MaxValue = 4;
             trigger OnValidate()
             begin
                 if CGPA > "GPA Scale" then
@@ -103,6 +102,8 @@ table 50120 "Employee Edit Line"
         {
             DataClassification = ToBeClassified;
         }
+
+        // Employee Relatives
         field(45; "Relative Code"; Code[10])
         {
             Caption = 'Relative Code';
@@ -110,15 +111,9 @@ table 50120 "Employee Edit Line"
             DataClassification = CustomerContent;
             TableRelation = Relative;
         }
-        field(46; "Full Name"; Text[30])
+        field(46; "Full Name"; Text[100])
         {
             Caption = 'Full Name';
-            Description = 'Employee Relative';
-            DataClassification = CustomerContent;
-        }
-        field(59; "Birth Date"; Date)
-        {
-            Caption = 'Birth Date';
             Description = 'Employee Relative';
             DataClassification = CustomerContent;
         }
@@ -198,6 +193,12 @@ table 50120 "Employee Edit Line"
             Description = 'Language Proficiency';
             DataClassification = CustomerContent;
         }
+        field(59; "Birth Date"; Date)
+        {
+            Caption = 'Birth Date';
+            Description = 'Employee Relative';
+            DataClassification = CustomerContent;
+        }
         field(60; Running; Boolean)
         {
         }
@@ -212,7 +213,7 @@ table 50120 "Employee Edit Line"
             Caption = 'VDC';
             DataClassification = CustomerContent;
         }
-        field(63; "Relative Mail"; Text[30])
+        field(63; "Relative Mail"; Text[80])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()
@@ -239,6 +240,33 @@ table 50120 "Employee Edit Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(71; "First Name"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            Description = 'Employee relative';
+            trigger OnValidate()
+            begin
+                "Full Name" := FullName();
+            end;
+        }
+        field(72; "Middle Name"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            Description = 'Employee relative';
+            trigger OnValidate()
+            begin
+                "Full Name" := FullName();
+            end;
+        }
+        field(73; "Last Name"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            Description = 'Employee relative';
+            trigger OnValidate()
+            begin
+                "Full Name" := FullName();
+            end;
+        }
         field(1000; "Changed Field"; Text[1020])
         {
             Description = 'This field includes the name of fields that are updated from portal';
@@ -259,4 +287,17 @@ table 50120 "Employee Edit Line"
             Clustered = true;
         }
     }
+    var
+        HRMgt: Codeunit "HR Mgt.";
+
+    procedure FullName(): Text[100]
+    var
+        NewFullName: Text[100];
+        Handled: Boolean;
+    begin
+        if "Middle Name" = '' then
+            exit("First Name" + ' ' + "Last Name");
+
+        exit("First Name" + ' ' + "Middle Name" + ' ' + "Last Name");
+    end;
 }

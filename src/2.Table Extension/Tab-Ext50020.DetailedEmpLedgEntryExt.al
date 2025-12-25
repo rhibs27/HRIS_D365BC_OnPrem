@@ -141,7 +141,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         {
             DataClassification = ToBeClassified;
         }
-        field(50026; "Finacle GL Name"; Text[50])
+        field(50026; "Finacle GL Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
@@ -241,15 +241,11 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         OrgStrucList.TestField("Sol ID");
         SolID := OrgStruclist."Sol ID";
 
-        EngNepDate.Reset;
-        EngNepDate.SetRange("English Date", "Pay Period Start Date");
-        if EngNepDate.FindFirst then;
-
         if PayrollAttributes."Static GL Ledger" then begin
             PayrollAttributes.TestField("Static GL Ledger Account");
             Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account");
-        end else
-            Validate("Finacle GL No", SolID + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
+        end else if PayrollAttributes."CBS GL Code" <> '' then
+                Validate("Finacle GL No", SolID + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
         Validate("Finacle GL Name", PayrollAttributes."Finacle GL Name");
     end;
 

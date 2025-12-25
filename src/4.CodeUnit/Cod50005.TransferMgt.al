@@ -476,7 +476,7 @@ codeunit 50005 "Transfer Mgt."
             EmployeeRec.Validate("Last Placement Date", EmpHrTransfer."Date of Joining Of Transfer"); // this should be update based on transfer type
         end;
         OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
-        EmployeeRec.Modify;
+        EmployeeRec.Modify(true);  //updating employee record
         Message(Acknowledged);
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
     end;
@@ -520,6 +520,7 @@ codeunit 50005 "Transfer Mgt."
     var
         IncomingDocument: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
+        UserSetup: Record "User Setup";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
@@ -549,19 +550,23 @@ codeunit 50005 "Transfer Mgt."
     procedure TakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
     var
         IncomingDocument: Record "Incoming Document";
+        UserSetup: Record "User Setup";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField(Handover, true);
         UserSetup.get(UserId);
-        if ((EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and
-    (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo)) then
-    if (not UserSetup."Is Admin") then
-            Error('You are notEligible');
-            EmpHrTransfer.Validate(Takeover, true);
-            EmpHrTransfer.Modify();
-            if GuiAllowed then
-                Message('Takeover Successful');
-        end;
+        if (EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo) then
+            if not UserSetup."Is Admin" then
+                Error('You are not Eligible');
+
+        EmpHrTransfer.Validate(Takeover, true);
+        EmpHrTransfer.Modify();
+        if GuiAllowed then
+            Message('Takeover Successfull');
+
+        OnafterTakeoverApprove(EmpHrTransfer);
+    end;
+
     procedure CheckClaimAttachments(EmpActNo: Code[20]; EmpNo: Code[20])
     var
         TempIncomingDoc: Record "Incoming Document";
@@ -618,6 +623,11 @@ codeunit 50005 "Transfer Mgt."
 
     [IntegrationEvent(false, false)]
     procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnafterTakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
     begin
     end;
 

@@ -46,6 +46,8 @@ table 50027 "Payroll Line"
                 Validate("Employee Type", Employee."Employment Type");
                 Validate("Employee Name", Employee.FullName);
                 Validate("Deputation On", Employee."Deputation on");
+                if "Deputation Value" = '' then
+                    Validate("Deputation Value", Employee."Deputation On Code");
                 Validate("Sol ID", Employee."Sol Id");
                 Validate("CIT No.", Employee."CIT No.");
                 Validate("PF No.", Employee."PF No.");
@@ -2368,7 +2370,7 @@ table 50027 "Payroll Line"
         PayrollAttUsage: Record "Payroll Attributes Usage";
     begin
         if PayrollAttUsage.Get(PayrollCode, "Employee No.") then begin
-            if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+            if not PayrollAttUsage."Static Amount" then
                 PayrollAttUsage.Amount := Amt;
             PayrollAttUsage.Modify;
         end;
@@ -2838,6 +2840,7 @@ table 50027 "Payroll Line"
         PayrollAttrUses: Record "Payroll Attributes Usage";
         PayrollAttrUses2: Record "Payroll Attributes Usage";
         AllowanceAmt: Decimal;
+        IsHandled: Boolean;
     begin
         PGSetup.Get();
         GetPayrollHeader();
@@ -2847,29 +2850,33 @@ table 50027 "Payroll Line"
         AllowanceConfiguration.Reset();
         if AllowanceConfiguration.FindSet() then
             repeat
-                AllowanceAmt := 0;
-                AllowanceAmt := GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration,
-                                                                            "Document No.",
-                                                                            "Employee No.");
+                OnBeforeGettingAllowanceAmtFromAllowanceConfiguration(AllowanceConfiguration, Rec, IsHandled);
+                if not IsHandled then begin
+                    AllowanceAmt := 0;
+                    AllowanceAmt := GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration,
+                                                                                "Document No.",
+                                                                                "Employee No.");
 
-                if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
-                    if not MultipleConfigForSameAttribute(AllowanceConfiguration) then
-                        PayrollAttrUses.Amount := AllowanceAmt
-                    else
-                        if AllowanceAmt <> 0 then
-                            PayrollAttrUses.Amount := AllowanceAmt;
-                    if not PayrollAttrUses."Static Amount" then
-                        PayrollAttrUses.Modify();
-                end
-                else begin
-                    if AllowanceAmt <> 0 then begin
-                        Clear(PayrollAttrUses2);
-                        PayrollAttrUses2.Init();
-                        PayrollAttrUses2.Validate(Code, AllowanceConfiguration."Payroll Attribute");
-                        PayrollAttrUses2.Validate("Employee Code", "Employee No.");
-                        PayrollAttrUses2.Validate(Amount, AllowanceAmt);
-                        if PayrollAttrUses2.Insert() then;
+                    if PayrollAttrUses.Get(AllowanceConfiguration."Payroll Attribute", "Employee No.") then begin
+                        if not MultipleConfigForSameAttribute(AllowanceConfiguration) then
+                            PayrollAttrUses.Amount := AllowanceAmt
+                        else
+                            if AllowanceAmt <> 0 then
+                                PayrollAttrUses.Amount := AllowanceAmt;
+                        if not PayrollAttrUses."Static Amount" then
+                            PayrollAttrUses.Modify();
+                    end
+                    else begin
+                        if AllowanceAmt <> 0 then begin
+                            Clear(PayrollAttrUses2);
+                            PayrollAttrUses2.Init();
+                            PayrollAttrUses2.Validate(Code, AllowanceConfiguration."Payroll Attribute");
+                            PayrollAttrUses2.Validate("Employee Code", "Employee No.");
+                            PayrollAttrUses2.Validate(Amount, AllowanceAmt);
+                            if PayrollAttrUses2.Insert() then;
+                        end;
                     end;
+
                 end;
 
             until AllowanceConfiguration.Next() = 0;
@@ -2886,8 +2893,9 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);
@@ -2910,7 +2918,7 @@ table 50027 "Payroll Line"
     procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
     begin
         case AllowanceConfiguration.Source of
-            AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+            AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
@@ -2919,7 +2927,7 @@ table 50027 "Payroll Line"
                                             PayrollHeader."To Date",
                                             true));
 
-            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
+            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift, AllowanceConfiguration.Source::Leave:  //monthly (assign and caim)
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
@@ -3092,7 +3100,6 @@ table 50027 "Payroll Line"
         exit(DetailedEmployeeLedgerEntry.Amount);
     end;
 
-
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
     begin
@@ -3125,5 +3132,11 @@ table 50027 "Payroll Line"
     local procedure OnBeforeExitofDifferentialAmount(PayrollHeaderRec: Record "Payroll Header"; EndDate: Date; Amount: Decimal; var ExitAmount: Decimal; var IsHandled: Boolean)
     begin
         //Additional Allowance amount if needed to be included
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeGettingAllowanceAmtFromAllowanceConfiguration(AllowanceConfiguration: Record "Allowance Configuration"; PayrollLine: Record "Payroll Line"; var IsHandled: Boolean)
+    begin
+        //conditional step to skip allowance amount fetching from assignment memo ledger
     end;
 }

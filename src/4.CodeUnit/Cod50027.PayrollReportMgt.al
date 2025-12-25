@@ -329,7 +329,7 @@ codeunit 50027 "Payroll Report Mgt."
                         PayrollAttUsage.SetRange("Employee Code", Employee."No.");
                         PayrollAttUsage.SetRange(Code, PayrollAttributes.Code);
                         if PayrollAttUsage.FindFirst() then begin
-                            if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+                            if not PayrollAttUsage."Static Amount" then
                                 PayrollAttUsage.Amount := AttributeAmount;
                             PayrollAttUsage.Modify();
                         end;
@@ -997,8 +997,9 @@ codeunit 50027 "Payroll Report Mgt."
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);

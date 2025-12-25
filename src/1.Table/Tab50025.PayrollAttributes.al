@@ -10,7 +10,7 @@ table 50025 "Payroll Attributes"
         {
             NotBlank = true;
         }
-        field(2; Description; Text[30])
+        field(2; Description; Text[50])
         {
         }
         field(3; Type; enum "Payroll Type")
@@ -136,7 +136,7 @@ table 50025 "Payroll Attributes"
         field(32; "Tax at once"; Boolean)
         {
         }
-        field(33; "Finacle GL Name"; Text[30])
+        field(33; "Finacle GL Name"; Text[100])
         {
         }
         field(34; "Tax Info Report Type"; Enum "Tax Info Report Type")
