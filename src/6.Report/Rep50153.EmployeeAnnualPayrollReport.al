@@ -50,7 +50,7 @@ report 50153 "Employee Annual Payroll Report"
 
                     trigger OnPreDataItem()
                     begin
-                        // SetRange("Table No.", Database::"Payroll Line");
+                        
                     end;
                 }
             }
