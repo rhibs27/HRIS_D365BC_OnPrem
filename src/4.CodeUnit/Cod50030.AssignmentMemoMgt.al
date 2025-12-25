@@ -479,6 +479,7 @@ codeunit 50030 "Assignment Memo Mgt"
         LastAssignmentMemoHdr.SetFilter("No.", '<>%1', AllowanceAssignmentHdr."No.");
         if LastAssignmentMemoHdr.FindLast() then begin
             LastAssignmentMemoLine.SetRange("Document No.", LastAssignmentMemoHdr."No.");
+            LastAssignmentMemoLine.SetRange(Discontinued, false);
             if LastAssignmentMemoLine.FindSet() then
                 repeat
                     Clear(AssignmentMemoLine);

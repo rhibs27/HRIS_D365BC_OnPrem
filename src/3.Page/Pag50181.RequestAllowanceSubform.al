@@ -56,9 +56,14 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Grade/Class field.', Comment = '%';
                 }
+                field("Effective Months (Edu.)"; Rec."Effective Months (Edu.)")
+                {
+                    ToolTip = 'Specifies the value of the Effective Months field.', Comment = '%';
+                }
                 field("Effective From/To Date"; Rec."Effective From (Edu.)")
                 {
                     ToolTip = 'Specifies the value of the Effective From/To Date field.', Comment = '%';
+                    Editable = false;
                 }
                 field(Discontinued; Rec.Discontinued)
                 {

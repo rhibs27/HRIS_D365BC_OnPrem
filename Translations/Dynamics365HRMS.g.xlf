@@ -1463,6 +1463,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Effective From (Edu.) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 793658519 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Effective Months</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Effective Months (Edu.) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 3884370130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Act Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5537,6 +5542,11 @@
           <source>Claim Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Claim Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1721813929 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Claim Type Effective Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Claim Type Effective Month - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 1010130102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed Type Effective Date</source>
@@ -28803,6 +28813,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Claim Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1721813929 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Claim Type Effective Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Claim Type Effective Month - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2113601774 - Control 1010130102 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Claimed Type Effective Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -45792,6 +45807,11 @@
           <source>Specifies the value of the Effective From/To Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Effective From/To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 793658519 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Effective Months field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Effective Months (Edu.) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3106374893 - Control 3692456998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fuel Claimed (ltr) field.</source>

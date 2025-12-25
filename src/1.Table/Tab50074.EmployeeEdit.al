@@ -459,6 +459,27 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
         }
+        field(83; "Claim Type Effective Month"; Enum "Nepali Month")
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                PgSetup: Record "Payroll General Setup";
+                PayCyclePeriod: Record "Pay Cycle Period";
+            begin
+                if "Claim Type Effective Month" = "Claim Type Effective Month"::" " then
+                    exit;
+                PgSetup.Get();
+                PgSetup.TestField("Payroll Fiscal Year Start Date");
+
+                PayCyclePeriod.SetFilter("Start Date", '>=%1', PgSetup."Payroll Fiscal Year Start Date");
+                PayCyclePeriod.SetRange("Nepali Month", "Claim Type Effective Month");
+                PayCyclePeriod.FindFirst();
+
+                Validate("Claimed Type Effective Date", PayCyclePeriod."Start Date");
+
+            end;
+        }
         field(100; "Status"; Text[20])
         {
             Editable = false;
@@ -538,7 +559,7 @@ table 50074 "Employee Edit"
         CannotDelete: Label 'Cannot delete document.';
         ApprovalEntry: Record "Approval HRMS";
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open, "Approval Status"::Created]) then
             Error(CannotDelete)
         else begin
             ApprovalEntry.Reset();

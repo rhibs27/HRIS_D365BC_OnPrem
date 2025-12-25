@@ -453,8 +453,7 @@ table 50161 "Assignment Memo Header"
     begin
         if (fromDate = 0D) or (toDate = 0D) then
             exit;
-        // if "Activity Type" = "Activity Type"::"Shift Assignment Memo" then
-        //     exit;
+
         PayCycleperiod.SetFilter("Start Date", '<=%1', fromDate);
         PayCycleperiod.SetFilter("End Date", '>=%1', toDate);
         if not PayCycleperiod.FindFirst then

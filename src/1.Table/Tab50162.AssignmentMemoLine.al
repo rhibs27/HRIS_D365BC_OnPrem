@@ -220,6 +220,25 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Discontinued';
         }
+        field(107; "Effective Months (Edu.)"; Enum "Nepali Month")
+        {
+            Caption = 'Effective Months';
+            Description = 'for education allowance only';
+            trigger OnValidate()
+            var
+                PayCyclePeriod: Record "Pay Cycle Period";
+            begin
+                if "Effective Months (Edu.)" = "Effective Months (Edu.)"::" " then
+                    exit;
+                PGSetup.Get();
+                PGSetup.TestField("Payroll Fiscal Year Start Date");
+
+                PayCyclePeriod.SetRange("Nepali Month", "Effective Months (Edu.)");
+                PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
+                PayCyclePeriod.FindFirst();
+                Validate("Effective From (Edu.)", PayCyclePeriod."Start Date");
+            end;
+        }
 
         //field related to shift assignment
         field(201; "Employee Work Shift"; Code[20])
