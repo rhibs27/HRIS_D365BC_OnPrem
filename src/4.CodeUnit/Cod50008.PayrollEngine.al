@@ -3738,6 +3738,7 @@ codeunit 50008 "Payroll Engine"
         DetailedSalaryDeductEntry."Attribute Type" := AttributeType;
         DetailedSalaryDeductEntry."Attribute Code" := AttributeCode;
         DetailedSalaryDeductEntry.Amount := CalculateDeductedAmount(Amount, DetailedSalaryDeductEntry);
+
         DetailedSalaryDeductEntry.Insert(true);
     end;
 
@@ -3766,11 +3767,12 @@ codeunit 50008 "Payroll Engine"
             exit((TotalAmount / CalculatedDays) * SignFactor);
     end;
 
-    local procedure CalculateTotalDays(DetailedSalaryDeductEntry: Record "Det Salary Deduction Entries"): Integer
+    local procedure CalculateTotalDays(DetailedSalaryDeductEntry: Record "Det Salary Deduction Entries"): Decimal
     var
         PGSetup: Record "Payroll General Setup";
         PayCyclePeriod: Record "Pay Cycle Period";
     begin
+        PGSetup.Get();
         if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
             exit(PGSetup."Total Days" / 12);
 
