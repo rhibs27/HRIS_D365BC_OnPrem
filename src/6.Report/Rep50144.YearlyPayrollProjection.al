@@ -569,7 +569,7 @@ report 50144 "Yearly Payroll Projection"
         PostedPayrollHeader.Reset();
         PostedPayrollHeader.SetCurrentKey("Pay Cycle Period");
         PostedPayrollHeader.SetRange("Pay Cycle Term", PayCycleTerm);
-        //issue anup
+        //No to see if issue arises
         PostedPayrollHeader.SetRange(Reversed, false);
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.type::Payroll);
         PostedPayrollHeader.SetAscending("Pay Cycle Period", true);

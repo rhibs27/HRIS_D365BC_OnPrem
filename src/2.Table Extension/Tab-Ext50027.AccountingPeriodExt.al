@@ -82,6 +82,7 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
         HRMgt: Codeunit "HR Mgt.";
         LeaveText: Text;
         LeaveMgt: Codeunit "Leave Mgt.";
+        EmploymentContract: Record "Employment Contract";
     begin
         Clear(leaveLedgerEntryNo);
         Clear(LeaveText);
@@ -110,15 +111,20 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
                         Employee.SetFilter("Termination Date", '%1|>%2', 0D, OpenPeriodStartDate);
                         if Employee.FindSet() then
                             repeat
-                                Clear(TotalLeaveDays);
-                                leaveLedgerEntryNo := LeaveMgt.GetNextLeaveLedgerEntryNo();
-                                LeaveLedgerEntry.SetRange("Employee No.", Employee."No.");
-                                LeaveLedgerEntry.SetFilter("Leave Code", LeaveTypeSetup.Code);
-                                LeaveLedgerEntry.SetRange("Posted Date", OpenPeriodStartDate, OpenPeriodEndDate);
-                                LeaveLedgerEntry.CalcSums("Balancing Days");
-                                TotalLeaveDays := LeaveLedgerEntry."Balancing Days";
-                                if TotalLeaveDays > 0 then
-                                    LeaveMgt.CreateLeaveLedger(Employee."No.", LeaveTypeSetup.Code, OpenPeriodEndDate, Enum::"Leave Earn Type"::Collapsed, -TotalLeaveDays, leaveLedgerEntryNo, '', LeaveText, '');
+                                if EmploymentContract.Get(Employee."Emplymt. Contract Code") then;
+                                if not ((Employee."Employment Type" = Employee."Employment Type"::Contract) and
+                           (Employee."Emplymt. Contract Code" <> '') and EmploymentContract."Leaves Lapse on contract renew") then begin
+                                    Clear(TotalLeaveDays);
+                                    leaveLedgerEntryNo := LeaveMgt.GetNextLeaveLedgerEntryNo();
+                                    LeaveLedgerEntry.SetRange("Employee No.", Employee."No.");
+                                    LeaveLedgerEntry.SetFilter("Leave Code", LeaveTypeSetup.Code);
+                                    LeaveLedgerEntry.SetRange("Posted Date", OpenPeriodStartDate, OpenPeriodEndDate);
+                                    LeaveLedgerEntry.CalcSums("Balancing Days");
+                                    TotalLeaveDays := LeaveLedgerEntry."Balancing Days";
+                                    if TotalLeaveDays > 0 then
+                                        LeaveMgt.CreateLeaveLedger(Employee."No.", LeaveTypeSetup.Code, OpenPeriodEndDate, Enum::"Leave Earn Type"::Collapsed, -TotalLeaveDays, leaveLedgerEntryNo, '', LeaveText, '');
+
+                                end;
                             until Employee.Next() = 0;
                     until LeaveTypeSetup.Next() = 0;
             end;

@@ -1569,6 +1569,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
         }
         field(50201; "Identity Mark"; text[250]) { }
+
     }
     keys
     {

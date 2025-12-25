@@ -74,7 +74,10 @@ table 50138 "Payroll Archive"
         {
             Description = 'KPI1.00';
         }
-
+        //level wise attribute
+        field(206; Grade; Decimal)
+        {
+        }
         //Allowance configuration
     }
     keys
@@ -116,6 +119,7 @@ table 50138 "Payroll Archive"
     var
         PayrollArchive: Record "Payroll Archive";
         SalaryLevel: Record "Salary Level";
+        LevelwiseAttribute: Record "Level Wise Attributes";
         lastEntryNo: Integer;
         DocNo: Code[20];
         PGSetup: Record "Payroll General Setup";
@@ -154,8 +158,8 @@ table 50138 "Payroll Archive"
                     PayrollArchive.Modify(true);
                     lastEntryNo += 1;
                 until SalaryLevel.Next() = 0;
-        end
-        else if TableNo = Database::"Remote Area Category" then begin
+
+        end else if TableNo = Database::"Remote Area Category" then begin
             RACategory.Reset();
             if RACategory.FindSet() then
                 repeat
@@ -172,6 +176,24 @@ table 50138 "Payroll Archive"
                     PayrollArchive.Modify(true);
                     lastEntryNo += 1;
                 until RACategory.Next() = 0;
+
+        end else if TableNo = Database::"Level Wise Attributes" then begin
+            LevelwiseAttribute.Reset();
+            if LevelwiseAttribute.FindSet() then
+                repeat
+                    Clear(PayrollArchive);
+                    PayrollArchive.Init();
+                    PayrollArchive."Entry No." := lastEntryNo;
+                    PayrollArchive."Table No." := TableNo;
+                    PayrollArchive."Table Name" := LevelwiseAttribute.TableCaption;
+                    PayrollArchive."Effective Date" := EffectiveDate;
+                    PayrollArchive."Expire Date" := ExpireDate;
+                    PayrollArchive."Document No." := DocNo;
+                    PayrollArchive.Insert(true);
+                    PayrollArchive.CopyFromLevelWiseAttribute(LevelwiseAttribute);
+                    PayrollArchive.Modify(true);
+                    lastEntryNo += 1;
+                until LevelwiseAttribute.Next() = 0;
         end;
 
     end;
@@ -198,6 +220,12 @@ table 50138 "Payroll Archive"
         "KPI Incentive %" := RACategory."KPI Incentive %";
     end;
 
+    procedure CopyFromLevelWiseAttribute(LevelwiseAttribute: Record "Level Wise Attributes")
+    begin
+        Grade := LevelwiseAttribute.Grade;
+        "Salary Level" := LevelwiseAttribute."Level Code";
+        "Basic Salary":=LevelwiseAttribute."Standard Basic Salary";
+    end;
 
     procedure CheckForDuplicate(TableNo: Integer; EffectiveDate: Date; ExpireDate: Date)
     var
