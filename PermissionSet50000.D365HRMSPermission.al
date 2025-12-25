@@ -829,5 +829,13 @@ permissionset 50000 D365HRMSPermission
         codeunit "Promotion Mgt" = X,
         page "Promotion Journal" = X,
         page "KPI Appraisal Line" = X,
-        page "Promotion List" = X;
+        page "Promotion List" = X,
+        tabledata "Attribute Adjustment Header" = RIMD,
+        tabledata "Attribute Adjustment Line" = RIMD,
+        table "Attribute Adjustment Header" = X,
+        table "Attribute Adjustment Line" = X,
+        codeunit "Attribute Adjustment Mgt" = X,
+        page "Attribute Adjustment Card" = X,
+        page "Attribute Adjustment Lines" = X,
+        page "Attribute Adjustment List" = X;
 }
