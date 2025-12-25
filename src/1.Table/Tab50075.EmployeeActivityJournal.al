@@ -757,6 +757,28 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+
+        field(126; "Substitute Person Code"; code[20])
+        {
+            Caption = 'Substitute Person Code';
+            TableRelation = Employee."No." WHERE(Status = CONST(Active));
+            trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
+            begin
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
+                    Clear("Substitute Person Name");
+            end;
+        }
+        field(127; "Substitute Person Name"; text[50])
+        {
+            Caption = 'Substitute Person Name';
+            Editable = false;
+
+        }
+
         // Promotion
         field(150; "Promoted Salary Grade"; Code[20])
         {

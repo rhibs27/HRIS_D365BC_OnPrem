@@ -13,7 +13,6 @@ codeunit 50008 "Payroll Engine"
         Employee: Record Employee;
         PGSetup: Record "Payroll General Setup";
         AttendanceSetup: Record "Attendance Setup";
-        AttendanceMgt: Codeunit "Attendance Mgt";
         TaxSetupHeader: Record "Tax Setup Header";
         TaxSetupLine: Record "Tax Setup Line";
         PayrollAttributes: Record "Payroll Attributes";
@@ -58,7 +57,6 @@ codeunit 50008 "Payroll Engine"
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
-        Text000: Label 'You must specify %1.';
         Text005: Label 'Default Journal';
         Text004: Label 'DEFAULT';
         PostedPayrollHeader: Record "Posted Payroll Header";
@@ -100,10 +98,9 @@ codeunit 50008 "Payroll Engine"
         TotalTaxWithoutSST: Decimal;
         EmployeeLumpsum: Decimal;
         PropertyInsuranceTaxBenefit: Decimal;
-        LoanOutstanding: Record "Loan Outstanding from Finacle";
         HLInsAmt: Decimal;
         Text001: Label 'Over Time Employee Import Successfully.';
-        Text002: Label 'Over Time Amount Updated Successfully.';
+        HomeLoanInsuranceTieUP: Record "Employee Loan/Advance";
 
     local procedure GetAttendanceSetup()
     begin
@@ -249,12 +246,14 @@ codeunit 50008 "Payroll Engine"
         if DonationLimit2 < DonationTaxBenefit then
             DonationTaxBenefit := DonationLimit2;
         //Life Insurance
-        LoanOutstanding.Reset;
-        LoanOutstanding.SetRange("Employee No.", Employee."No.");
-        LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
-        LoanOutstanding.SetRange("Scheme Code", '');
-        if LoanOutstanding.FindFirst then
-            HLInsAmt := LoanOutstanding.EMI * 12;
+        HomeLoanInsuranceTieUP.Reset;
+        HomeLoanInsuranceTieUP.SetRange("Employee No.", Employee."No.");
+        HomeLoanInsuranceTieUP.SetRange("Loan Type", HomeLoanInsuranceTieUP."Loan Type"::"Home Loan Insurance Tieup");
+        HomeLoanInsuranceTieUP.SetRange("Approval Status", HomeLoanInsuranceTieUP."Approval Status"::Approved);
+        HomeLoanInsuranceTieUP.SetRange(Settled, false);
+        HomeLoanInsuranceTieUP.CalcSums("Yearly Premium Amount");
+        HLInsAmt := HomeLoanInsuranceTieUP."Yearly Premium Amount";
+
         Employee.CalcFields("Premium of Life Insurance", "Premium of Health Insurance", "Premium Property Insurance");
         InsuranceAmount := Employee."Premium of Life Insurance" + HLInsAmt;
         InsuranceLimit1 := PGSetup."Tax Ex. Life Insurance Amt.";
@@ -3681,6 +3680,12 @@ codeunit 50008 "Payroll Engine"
             exit(PayrollAttributes.Code)
         else
             Error('Payroll Attribute for Overtime not found');
+        OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
+    end;
+
+    procedure ModifyLeaveEarnEmployeeDetails(PostedPayrollHeader: Record "Posted Payroll Header")
+    begin
+        OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
     end;
 
     procedure InitSalaryDeductionEntries(EmployeeNo: Code[20];
@@ -3809,6 +3814,12 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to perform get the dashain allowance for the employee before entering the process
         //You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterReverseChangeGBBLRecord(PostedPayrollHeader: Record "Posted Payroll Header")
+    begin
+
     end;
 
 }

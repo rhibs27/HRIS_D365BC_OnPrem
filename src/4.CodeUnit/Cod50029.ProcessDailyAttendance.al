@@ -37,8 +37,8 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Present Day" := 1;
             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
         end;
-        // Need to discuss 
-        // if (EmpAttendance."Present Day" > 0) and (EmpAttendance."Shift Start Time" <> 0T) then 
+        // Need to discuss
+        // if (EmpAttendance."Present Day" > 0) and (EmpAttendance."Shift Start Time" <> 0T) then
         //     EmpAttendance."OT Hrs" := Round((EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time") / (60 * 60000), 0.01, '=') + Round((EmpAttendance."Shift Start Time" - EmpAttendance."Check In Time") / (60 * 60000), 0.01, '=');
 
         if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then
@@ -55,6 +55,8 @@ codeunit 50029 "Process Daily Attendance"
         end;
 
         UpdateAttendanceRemarks();
+        if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Leave Day" <> 0) then
+            EmpAttendance.Validate("Present Day", 1 - EmpAttendance."Leave Day");
 
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Week Off Day" = 1) then
             EmpAttendance."Present in Holiday" := 1;
@@ -207,8 +209,12 @@ codeunit 50029 "Process Daily Attendance"
                             EmpAttendance."Leave Type" := EmpActLedgerEntry."Leave Type";
                             if LeaveRequest.Get(EmpActLedgerEntry."Document No.") then begin
                                 EmpAttendance."Leave Code" := LeaveRequest."Leave Code";
-                                if LeaveTypeSetup.Get(LeaveRequest."Leave Code") then
+                                if LeaveTypeSetup.Get(LeaveRequest."Leave Code") then begin
                                     EmpAttendance."Leave Description" := LeaveTypeSetup.Description;
+                                    EmpAttendance."Pay Type" := LeaveTypeSetup."Pay Type";
+                                end;
+
+
                             end;
                             EmpAttendance.Remarks := UpperCase(Format(EmpAttendance."Leave Description")) + ' LEAVE';
                         end;
