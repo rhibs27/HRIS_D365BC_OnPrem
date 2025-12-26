@@ -138,8 +138,8 @@ table 50141 OverTime
                     Error('Invalid date.');
                 if "End date" > "Start Date" + 32 then // 32 days is the maximum range for Nepali date conversion
                     Error('Date range exceed');
-                if Type = Type::"Overtime Bulk" then
-                    CheckForExistingDate();
+                // if Type = Type::"Overtime Bulk" then
+                // CheckForExistingDate();
                 Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
             end;
         }
