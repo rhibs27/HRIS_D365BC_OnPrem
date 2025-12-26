@@ -978,6 +978,7 @@ codeunit 50000 "Leave Mgt."
                      leave.Remarks,
                      '');
             LeaveTypeSetup.SetRange(Code, leave."Leave Code");
+            LeaveTypeSetup.SetRange("Credit Method", LeaveTypeSetup."Credit Method"::"On Approval");
             if LeaveTypeSetup.FindFirst then begin
                 CreateLeaveLedger(leave."Employee No.", leave."Leave Code", leave."Start Date", leaveEarn.Type::Earned, leave."No. of Days", GetNextLeaveLedgerEntryNo(), leaveNo, leave.Remarks, '');
             end;
