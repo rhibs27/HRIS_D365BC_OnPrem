@@ -49,8 +49,13 @@ codeunit 50022 "Allowance Assignment Mgt"
                 repeat
                     AllowanceLineCheck.TestField("Employee Code");
                     AllowanceLineCheck.TestField("From Date");
-                    // AllowanceLineCheck.TestField("To Date");
                     AllowanceLineCheck.TestField("Allowance Type");
+                    // AllowanceLineCheck.TestField("To Date");
+                    CheckEmployeeAlreadyExistsForSameEmployee(AllowanceLineCheck."No.", AllowanceLineCheck."Line No.", AllowanceLineCheck."Employee Code", AllowanceLineCheck."Allowance Type", AllowanceLineCheck."From Date", AllowanceLineCheck."Emp Act Type");
+                    CheckMutuallyExclusive(AllowanceLineCheck);
+                    CheckDate(AllowanceLineCheck);
+                    CheckMaximumEmployeeInBranch(AllowanceLineCheck);
+                    ValidateAllowanceType(AllowanceLineCheck);
                     if AllowanceLineCheck."Allowance Type" in [PayrollGenSetup."Vault Key", PayrollGenSetup."ATM Custodian"] then begin
                         if AllowanceLineCheck.Panel = AllowanceLineCheck.Panel::" " then
                             Error('Must select panel for allowance type Atm custodian allowance and Key custodian allowance of line no. %1', AllowanceLineCheck."Line No.");
@@ -188,16 +193,17 @@ codeunit 50022 "Allowance Assignment Mgt"
             Error('Employee not eligbile for this allowance type.');
     end;
 
-    procedure CheckEmployeeAlreadyExistsforSameEmployee(No: Code[20]; LineNo: Integer; EmpNo: Code[20]; Allowancetype: Code[20]; FromDate: Date; EmpActType: Enum "Employee Activity Type")
+    procedure CheckEmployeeAlreadyExistsForSameEmployee(No: Code[20]; LineNo: Integer; EmpNo: Code[20]; AllowanceType: Code[20]; FromDate: Date; EmpActType: Enum "Employee Activity Type")
     var
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
     begin
         AllowanceAssignmentLine.Reset;
-        // AllowanceAssignmentLine.SetRange("No.", No);
-        // AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
+        AllowanceAssignmentLine.Setfilter("No.", '<>%1', No);
+        AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
         AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
         AllowanceAssignmentLine.SetRange("Emp Act Type", EmpActType);
-        AllowanceAssignmentLine.SetRange("Allowance Type", Allowancetype);
+        AllowanceAssignmentLine.SetRange("Allowance Type", AllowanceType);
+        AllowanceAssignmentLine.Setfilter("Substitute Type", '%1|%2', AllowanceAssignmentLine."Substitute Type"::" ", AllowanceAssignmentLine."Substitute Type"::"Added as Substitute");
         AllowanceAssignmentLine.SetFilter("Approval Status", '<>%1', AllowanceAssignmentLine."Approval Status"::Rejected);
         AllowanceAssignmentLine.SetRange("From Date", FromDate);
         if AllowanceAssignmentLine.FindFirst then
@@ -623,6 +629,90 @@ codeunit 50022 "Allowance Assignment Mgt"
                 PAGE.Run(PAGE::"request allowance Card", AllowanceAssignment2);
         end;
     end;
+
+    procedure CheckMaximumEmployeeInBranch(AllowanceLineRec: Record "Allowance Assignment Line")
+    var
+        AllowanceLine: Record "Allowance Assignment Line";
+        BranchWiseAllowance: Record "BranchWise/Extension Allowance";
+        TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
+        AllowanceCount: Integer;
+    begin
+        AllowanceLine.Reset;
+        AllowanceLine.SetRange(Type, AllowanceLineRec.Type);
+        AllowanceLine.SetRange("Allowance Type", AllowanceLineRec."Allowance Type");
+        AllowanceLine.SetRange(Code, AllowanceLineRec.Code);
+        AllowanceLine.SetRange("From Date", AllowanceLineRec."From Date");
+        AllowanceLine.Setfilter("Substitute Type", '%1|%2', AllowanceLine."Substitute Type"::" ", AllowanceLine."Substitute Type"::"Added as Substitute");
+        AllowanceLine.SetFilter("Approval Status", '%1|%2', AllowanceLine."Approval Status"::Pending, AllowanceLine."Approval Status"::Approved);
+        AllowanceCount := AllowanceLine.count();
+        if BranchWiseAllowance.Get(AllowanceLineRec.Type, AllowanceLineRec.Code, AllowanceLineRec."Allowance Type") then
+            if BranchWiseAllowance."Max. No. of Staffs" <> 0 then
+                if AllowanceCount >= BranchWiseAllowance."Max. No. of Staffs" then
+                    Error(TEXT002, AllowanceLineRec.Name, AllowanceLineRec."Allowance Type",
+                            BranchWiseAllowance.FieldCaption("Max. No. of Staffs"));
+    end;
+
+    procedure CheckDate(AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    var
+        AllowanceHeader: Record "Allowance Assignment Header";
+    begin
+        AllowanceHeader.Get(AllowanceAssignmentLine."No.");
+        AllowanceHeader.TestField("From Date");
+        AllowanceHeader.TestField("To date");
+        if AllowanceAssignmentLine."From Date" <> 0D then
+            if (AllowanceAssignmentLine."From Date" < AllowanceHeader."From Date") or (AllowanceAssignmentLine."From Date" > AllowanceHeader."To date") then
+                Error('Date is not within period.');
+
+        if AllowanceAssignmentLine."To Date" <> 0D then
+            if AllowanceAssignmentLine."To Date" > AllowanceHeader."To date" then
+                Error('Date is not within period.');
+        // CalculateNoOfDays(Rec);
+    end;
+
+    procedure ValidateAllowanceType(AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    var
+        AttendanceMgt: Codeunit "Attendance Mgt";
+        PGSetup: Record "Payroll General Setup";
+    begin
+        AllowanceAssignmentLine.TestField("Allowance Type");
+        PGSetup.Get();
+        case AllowanceAssignmentLine."Allowance Type" of
+            PGSetup."Dashain Allowance":
+                begin
+                    if not HrMgt.IsDashinTihar(AllowanceAssignmentLine."From Date") then
+                        Error('Selected date is not Dashain Tihar.');
+                    if not AttendanceMgt.CheckEmployeePresent(AllowanceAssignmentLine."Employee Code", AllowanceAssignmentLine."From Date") then
+                        Error('Attendance Not Found On %1', AllowanceAssignmentLine."From Date");
+                end;
+        end;
+    end;
+
+    procedure CheckMutuallyExclusive(AllowanceAssignmentLineRec: Record "Allowance Assignment Line")
+    var
+        PayrollAttribute: Record "Payroll Attributes";
+        PayrollAttribute1: Record "Payroll Attributes";
+        AllowanceLine: Record "Allowance Assignment Line";
+        TEXT001: Label '%1 and %2 cannot be assigned on same date %3.';
+    begin
+        //if one mutual exclusive allowance is already selected, no other mutually exclusive allowance is allowed.
+        AllowanceLine.Reset;
+        AllowanceLine.SetRange("No.", AllowanceAssignmentLineRec."No.");
+        AllowanceLine.SetFilter("Line No.", '<>%1', AllowanceAssignmentLineRec."Line No.");
+        AllowanceLine.SetFilter("From Date", '<=%1', AllowanceAssignmentLineRec."From Date");
+        AllowanceLine.SetFilter("To Date", '>=%1', AllowanceAssignmentLineRec."From Date");
+        AllowanceLine.SetFilter("Allowance Type", '<>%1', AllowanceAssignmentLineRec."Allowance Type");
+        AllowanceLine.SetRange(Type, AllowanceAssignmentLineRec.Type);
+        if AllowanceLine.FindFirst then
+            repeat
+                PayrollAttribute.Get(AllowanceAssignmentLineRec."Allowance Type");
+                if PayrollAttribute."Mutually Exclusive" then begin
+                    PayrollAttribute1.Get(AllowanceLine."Allowance Type");
+                    if PayrollAttribute1."Mutually Exclusive" then
+                        Error(TEXT001, AllowanceLine."Allowance Type", AllowanceAssignmentLineRec."Allowance Type", AllowanceLine."From Date");
+                end;
+            until AllowanceLine.Next = 0;
+    end;
+
 
     var
         Employee: Record Employee;
