@@ -72,7 +72,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCurrentDeduction: Decimal;
         TaxAtOnceCurrentDonation: Decimal;
         TaxAtOnceCurrentGratuity: Decimal;
-        TaxatOnceCurrentNonPayments: Decimal;
+        TaxAtOnceCurrentNonPayments: Decimal;
         TaxAtOnceProjectedNonPayments: Decimal;
         TaxAtOnceProjectionEarning: Decimal;
         TaxAtOnceTotalAnnualEarning: Decimal;
