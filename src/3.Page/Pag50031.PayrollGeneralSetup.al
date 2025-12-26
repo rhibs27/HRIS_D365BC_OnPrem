@@ -801,6 +801,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Shift Assignment Memo Nos field.', Comment = '%';
                 }
+                field("Allow Future Allowance Request"; Rec."Allow Future Allowance Request")
+                {
+                    ToolTip = 'Specifies the value of the Allow Future Allowance Request field.', Comment = '%';
+                }
 
             }
             part(PayrollSetupLines; "Payroll Setup Lines")
