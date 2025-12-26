@@ -967,6 +967,7 @@ codeunit 50000 "Leave Mgt."
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
+
             CreateLeaveLedger(leave."Employee No.",
                      leave."Leave Code",
                      leave."Start Date",
@@ -976,6 +977,10 @@ codeunit 50000 "Leave Mgt."
                      leaveNo,
                      leave.Remarks,
                      '');
+            LeaveTypeSetup.SetRange(Code, leave."Leave Code");
+            if LeaveTypeSetup.FindFirst then begin
+                CreateLeaveLedger(leave."Employee No.", leave."Leave Code", leave."Start Date", leaveEarn.Type::Earned, leave."No. of Days", GetNextLeaveLedgerEntryNo(), leaveNo, leave.Remarks, '');
+            end;
         end;
         //Complete record of substitutes in leave history
         LeaveEarn.Reset();
@@ -2101,7 +2106,6 @@ codeunit 50000 "Leave Mgt."
     begin
     end;
 
-
     var
         EngNep: Record "English-Nepali Date";
         LeaveError: Label 'You cannot apply leave in Present day %1.';
@@ -2113,6 +2117,5 @@ codeunit 50000 "Leave Mgt."
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveTypeSetup: Record "Leave Type Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
-
 
 }
