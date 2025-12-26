@@ -37,13 +37,13 @@ page 50149 "Allowance Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
                     ApplicationArea = All;
-                    Editable = IsOpen and not AllowanceClaim;
+                    Editable = IsOpen;
                 }
                 field("To date"; Rec."To date")
                 {
                     ToolTip = 'Specifies the value of the To date field.';
                     ApplicationArea = All;
-                    Editable = IsOpen and not AllowanceClaim;
+                    Editable = IsOpen;
                     trigger OnValidate()
                     begin
                         CurrPage.Update;
@@ -55,16 +55,9 @@ page 50149 "Allowance Assignment Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
-
-                field("Change Approver Remarks"; Rec."Change Approver Remarks")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Change Approver Remarks field.';
-                    ApplicationArea = All;
-                }
                 field("Approval Status"; Rec."Approval Status")
                 {
-                    Enabled = false;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
@@ -89,7 +82,6 @@ page 50149 "Allowance Assignment Card"
                 SubPageLink = "No." = field("No."),
                               Code = field(Code),
                               Type = field(Type);
-                UpdatePropagation = Both;
                 ApplicationArea = All;
                 Editable = IsOpen;
             }
@@ -225,7 +217,6 @@ page 50149 "Allowance Assignment Card"
 
     local procedure SetLayout()
     begin
-        CurrPage.AllowanceSubform.Page._SetFilter(Rec."Allowance Type Filter");
         FormEditable := rec."Approval Status" = rec."Approval Status"::Open;
         IsPending := Rec."Approval Status" = rec."Approval Status"::"Pending";
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;

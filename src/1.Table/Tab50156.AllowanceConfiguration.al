@@ -2,7 +2,6 @@ table 50156 "Allowance Configuration"
 {
     Caption = 'Allowance Configuration';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "Entry No."; Integer)

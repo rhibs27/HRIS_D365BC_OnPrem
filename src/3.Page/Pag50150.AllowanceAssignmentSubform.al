@@ -22,7 +22,7 @@ page 50150 "Allowance Assignment Subform"
                 }
                 field("Line No."; Rec."Line No.")
                 {
-                    Visible = true; //anuapam visible=false
+                    Visible = true; //anuapam
                     ToolTip = 'Specifies the value of the Line No. field.';
                     ApplicationArea = All;
                 }
@@ -30,18 +30,11 @@ page 50150 "Allowance Assignment Subform"
                 {
                     ToolTip = 'Specifies the value of the Allowance Type field.';
                     ApplicationArea = All;
-
-                    trigger OnValidate()
-                    begin
-                        // CurrPage.Update;
-                    end;
                 }
                 field("Employee Code"; Rec."Employee Code")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
-                    Editable = not AllowanceClaim;
-                    Visible = not AllowanceClaim;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
@@ -98,7 +91,6 @@ page 50150 "Allowance Assignment Subform"
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    // Visible = AllowanceClaim;
                     Visible = false;
                     Editable = AllowanceClaim and DocumentPending;
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
@@ -256,14 +248,8 @@ page 50150 "Allowance Assignment Subform"
         SetLayout();
     end;
 
-    trigger OnAfterGetCurrRecord()
-    begin
-        SetLayout();
-    end;
-
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec."Allowance Type" := AllowanceTypeFilter;
         Rec.FilterGroup(4);
         Typefilter := Rec.GetFilter(Type);
         Rec.Code := Rec.GetFilter(Code);
@@ -278,6 +264,10 @@ page 50150 "Allowance Assignment Subform"
             Format(Rec.Type::Unit):
                 Rec.Type := Rec.Type::Unit;
         end;
+        AllowanceHeader.Get(rec."No.");
+        if AllowanceHeader."Activity Type" = AllowanceHeader."Activity Type"::"Allowance Assignment Claim" then
+            Rec.Validate("Employee Code", AllowanceHeader."Employee No.");
+        Rec.Validate("Emp Act Type", AllowanceHeader."Activity Type");
         SetLayout();
     end;
 
@@ -287,14 +277,7 @@ page 50150 "Allowance Assignment Subform"
         DocumentOpen, DocumentApproved, DocumentPending : Boolean;
         Typefilter: Text;
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
-
-
-    procedure _SetFilter(_AllowanceTypeFilter: Code[20])
-    begin
-        AllowanceTypeFilter := _AllowanceTypeFilter;
-        Rec.SetFilter("Allowance Type", AllowanceTypeFilter);
-        CurrPage.Update;
-    end;
+        AllowanceHeader: Record "Allowance Assignment Header";
 
     trigger OnOpenPage()
     begin
@@ -318,10 +301,5 @@ page 50150 "Allowance Assignment Subform"
             CurrPage.Caption('Allowance Assignment Claim Subform');
 
         FormEditable := DocumentOpen;
-    end;
-
-    procedure GetSelectedLines(var _AllowanceLine: Record "Allowance Assignment Line")
-    begin
-        CurrPage.SetSelectionFilter(_AllowanceLine);
     end;
 }
