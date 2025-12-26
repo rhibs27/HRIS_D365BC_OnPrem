@@ -92,8 +92,6 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         field(50012; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
-            // MaxValue = 4;
-            // MinValue = 0;
             trigger OnValidate()
             begin
                 if CGPA > "GPA Scale" then

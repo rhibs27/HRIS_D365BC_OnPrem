@@ -24,16 +24,6 @@ codeunit 50014 "Event Management"
         end;
     end;
 
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Reversal-Post", 'OnRunOnAfterConfirm', '', false, false)]
-    local procedure OnRunOnAfterConfirm(HideDialog: Boolean; PrintRegister: Boolean; var Handled: Boolean; var ReversalEntry: Record "Reversal Entry")
-    begin
-        // todo
-        // IF ReversalEntry.IsPayrollEntry THEN
-        //     PayrollReversalPost.RUN(TempReversalEntry) //NICASIA
-        // ELSE
-        //     ReversalPost.RUN(TempReversalEntry);
-        // Handled := true;
-    end;
     // Attachment fileSize  and type Limit While Upload << Santosh << 4-2-205
     [EventSubscriber(ObjectType::Table, Database::"Document Attachment", 'OnBeforeSaveAttachment', '', false, false)]
     local procedure OnBeforeSaveAttachment(var DocumentAttachment: Record "Document Attachment"; var FileName: Text; var RecRef: RecordRef; var TempBlob: Codeunit "Temp Blob")
@@ -65,12 +55,7 @@ codeunit 50014 "Event Management"
     begin
         EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
     end;
-    // [EventSubscriber(ObjectType::Table, Database::"Service Item Line", 'OnBeforeCalculateResponseDateTime', '', false, false)]
-    // local procedure OnBeforeCalculateResponseDateTime(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
-    // var
-    // begin
-    //EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
-    // end;
+
     [EventSubscriber(ObjectType::Page, Page::"Base Calendar Entries Subform", OnUpdateBaseCalendarChanges, '', false, false)]
     local procedure "Base Calendar Entries Subform_OnUpdateBaseCalendarChanges"(var BaseCalendarChange: Record "Base Calendar Change"; var CustCalendarChange: Record "Customized Calendar Change")
     begin
@@ -91,18 +76,7 @@ codeunit 50014 "Event Management"
             Resolved := true;
         end;
     end;
-    // [EventSubscriber(ObjectType::Codeunit, Codeunit::"System Initialization", OnAfterLogin, '', false, false)]
-    // local procedure "System Initialization_OnAfterLogin"()
-    // var
-    //     ActiveSession: Record "Active Session";
-    // begin
-    //     ActiveSession.SetRange("User ID", UserId);
-    //     ActiveSession.Setfilter("Session ID", '<>%1', SessionId());
-    //     if ActiveSession.FindSet() then
-    //         repeat
-    //             StopSession(ActiveSession."Session ID");
-    //         until ActiveSession.Next() = 0;
-    // end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Page Management", 'OnConditionalCardPageIDNotFound', '', true, true)]
     local procedure OnConditionalCardPageIDNotFound(RecordRef: RecordRef; var CardPageID: Integer)
     var

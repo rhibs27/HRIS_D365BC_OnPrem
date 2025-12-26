@@ -1,6 +1,6 @@
-table 50162 "Assignment Memo Line"
+table 50166 "Assignment Memo Line Copy"
 {
-    Caption = 'Assignment Memo Line';
+    Caption = 'Assignment Memo Line Copy';
     DataClassification = ToBeClassified;
 
     fields
@@ -187,11 +187,6 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Attendance Checked';
         }
-        field(56; Reversed; Boolean)
-        {
-            Caption = 'Reversed';
-            Editable = false;
-        }
 
         //If there is education allowance then these fields will be used.
         field(101; "Name of Children"; Text[100])
@@ -210,34 +205,6 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Distance (KM)';
             DecimalPlaces = 2 : 2;
-        }
-        field(105; "Effective From (Edu.)"; Date)
-        {
-            Caption = 'Effective From';
-            Description = 'for education allowance only';
-        }
-        field(106; Discontinued; Boolean)
-        {
-            Caption = 'Discontinued';
-        }
-        field(107; "Effective Months (Edu.)"; Enum "Nepali Month")
-        {
-            Caption = 'Effective Months';
-            Description = 'for education allowance only';
-            trigger OnValidate()
-            var
-                PayCyclePeriod: Record "Pay Cycle Period";
-            begin
-                if "Effective Months (Edu.)" = "Effective Months (Edu.)"::" " then
-                    exit;
-                PGSetup.Get();
-                PGSetup.TestField("Payroll Fiscal Year Start Date");
-
-                PayCyclePeriod.SetRange("Nepali Month", "Effective Months (Edu.)");
-                PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
-                PayCyclePeriod.FindFirst();
-                Validate("Effective From (Edu.)", PayCyclePeriod."Start Date");
-            end;
         }
 
         //field related to shift assignment
@@ -289,7 +256,7 @@ table 50162 "Assignment Memo Line"
         CannotDelete: Label 'Cannot delete document.';
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created, "Approval Status"::Open]) then
             Error(CannotDelete);
 
         if AssignmentMemoLedgerEntry.Get("Assign Memo Ledger Entry No.") then begin
@@ -321,8 +288,8 @@ table 50162 "Assignment Memo Line"
     var
         Employee: Record Employee;
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AssignmentMemoLine: Record "Assignment Memo Line";
-        AssignmentMemoLine2: Record "Assignment Memo Line";
+        AssignmentMemoLine: Record "Assignment Memo Line Copy";
+        AssignmentMemoLine2: Record "Assignment Memo Line Copy";
         BaseCalenderChange: Record "Base Calendar Change";
         TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PGSetup: Record "Payroll General Setup";
@@ -335,7 +302,7 @@ table 50162 "Assignment Memo Line"
 
     local procedure GetLineNo()
     var
-        AllowanceLine: Record "Assignment Memo Line";
+        AllowanceLine: Record "Assignment Memo Line Copy";
     begin
         AllowanceLine.Reset;
         AllowanceLine.SetCurrentKey("Document No.", "Line No.");
@@ -383,6 +350,8 @@ table 50162 "Assignment Memo Line"
         Employee: Record Employee;
     begin
         AssignmentmemoHdr.Get("Document No.");
+        // if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+        //     exit;
 
         AssignmentmemoHdr.TestField("From Date");
         AssignmentmemoHdr.TestField("To Date");
@@ -410,7 +379,6 @@ table 50162 "Assignment Memo Line"
         IsHandled: Boolean;
     begin
         if "Payroll Attribute Code" <> '' then begin
-            OnBeforeCalculateAmountForLine(Rec, IsHandled);
 
             if IsHandled then
                 exit;
@@ -430,7 +398,7 @@ table 50162 "Assignment Memo Line"
         end;
     end;
 
-    procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
+    procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line Copy")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
     begin
@@ -456,10 +424,9 @@ table 50162 "Assignment Memo Line"
         if not AssignmentMemoLine.IsEmpty() then
             Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee No.", Format(PAssignMemo."From Date"));
 
-        OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
     end;
 
-    procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line")
+    procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line Copy")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
     begin
@@ -475,15 +442,5 @@ table 50162 "Assignment Memo Line"
             if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
                 AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
         end;
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnCheckDuplicateAssignmentMemoLineOnAfterCheck(var AssignmentMemoLine: Record "Assignment Memo Line")
-    begin
     end;
 }

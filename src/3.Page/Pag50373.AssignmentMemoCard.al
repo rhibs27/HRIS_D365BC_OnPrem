@@ -17,6 +17,11 @@ page 50373 "Assignment Memo Card"
                 {
                     ToolTip = 'Specifies the value of the No. field.', Comment = '%';
                 }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
+
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
@@ -180,6 +185,25 @@ page 50373 "Assignment Memo Card"
                     RecRef.GetTable(Rec);
                     DocumentAttachmentDetails.OpenForRecRef(RecRef);
                     DocumentAttachmentDetails.RunModal();
+                end;
+            }
+
+            action(Reverse)
+            {
+                Image = ReverseRegister;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reverse action.';
+                ApplicationArea = All;
+                Visible = IsApprove;
+                trigger OnAction()
+                var
+                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                begin
+                    if Confirm('Do you want to reverse the document?', false) then
+                        AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
                 end;
             }
 
