@@ -9,6 +9,8 @@ report 50023 "Employee Master"
     {
         dataitem(Employee; Employee)
         {
+            RequestFilterFields = "No.", "Employment Type", "Branch Code", "Department Code", "Salary Level";
+            column(FilterApplied; FilterApplied) { }
             column(No; "No.")
             {
             }
@@ -159,6 +161,12 @@ report 50023 "Employee Master"
             column(LastPlacementDateBS; "Last Placement Date (B.S.)")
             {
             }
+            column(PromotionDate_Employee; "Promotion Date")
+            {
+            }
+            column(PromotionDateBS_Employee; "Promotion Date (B.S.)")
+            {
+            }
             column(ResignationDate; "Resignation Date")
             {
             }
@@ -269,6 +277,11 @@ report 50023 "Employee Master"
             }
         }
     }
+    trigger OnPreReport()
+    begin
+        FilterApplied := Employee.GetFilters();
+    end;
+
     var
         EmployeeQualification: Record "Employee Qualification";
         EmployeeBankAccount: Record "Employee Bank Account";
@@ -276,4 +289,5 @@ report 50023 "Employee Master"
         LastQualification: Text[100];
         LastGPA: Decimal;
         AdditionalBankAccountNo: Text[50];
+        FilterApplied: Text[100];
 }

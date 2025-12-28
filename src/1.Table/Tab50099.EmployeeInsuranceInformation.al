@@ -142,6 +142,11 @@ table 50099 "Employee Insurance Information"
         {
             TableRelation = "Status Master";
         }
+        field(301; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+        }
         //     field(20; "Life Insurance Company"; Enum "Life Insurance Company")
         //     {
         //     }

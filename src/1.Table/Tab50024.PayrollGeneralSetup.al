@@ -465,6 +465,9 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "No. Series";
         }
+        field(153; "Allow Future Allowance Request"; Boolean)
+        {
+        }
         field(500; "Use Allowance Configuration"; Boolean) { }
         field(501; "Payroll Archive Nos."; Code[20])
         {

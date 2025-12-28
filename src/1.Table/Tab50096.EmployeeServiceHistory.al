@@ -311,7 +311,14 @@ table 50096 "Employee Service History"
     procedure UpdateDuration(ServiceHistoryFrom: Record "Employee Service History")
     var
         EmpServiceHistory: Record "Employee Service History";
+        EmployeeRec: Record Employee;
+        LastServiceDate: Date;
     begin
+        EmployeeRec.Get(ServiceHistoryFrom."Employee No.");
+        LastServiceDate := EmployeeRec."Termination Date";
+        if EmployeeRec."Resignation Date" <> 0D then
+            LastServiceDate := EmployeeRec."Resignation Date";
+
         EmpServiceHistory.SetRange("Employee No.", ServiceHistoryFrom."Employee No.");
         EmpServiceHistory.SetCurrentKey("Effective Date");
         EmpServiceHistory.SetAscending("Effective Date", true);
@@ -326,8 +333,12 @@ table 50096 "Employee Service History"
         EmpServiceHistory.SetFilter("Effective Date", '>%1', ServiceHistoryFrom."Effective Date");
         if EmpServiceHistory.FindFirst() then
             ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", EmpServiceHistory."Effective Date" - 1)
-        else
-            ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", Today);
+        else begin
+            if LastServiceDate <> 0D then
+                ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", LastServiceDate)
+            else
+                ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", Today);
+        end;
         ServiceHistoryFrom.Modify();
     end;
 

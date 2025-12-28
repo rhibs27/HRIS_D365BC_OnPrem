@@ -305,6 +305,24 @@ table 50116 "HR Cue"
         {
             FieldClass = FlowFilter;
         }
+        field(100; "Allowance Assignment Memo"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Allowance Assignment Memo"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(101; "Request Allowance"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Request Allowance"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(102; "Shift Assignment Memo"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Shift Assignment Memo"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
     }
 
     keys

@@ -26,12 +26,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             begin
                 Age := (Today - "Birth Date") div 365;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Birth Date");
-                if EngNepDate.FindFirst then
-                    "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
-                else
-                    "Date of Birth (B.S.)" := '';
+                "Date of Birth (B.S.)" := EngNepDate.getNepaliDate("Birth Date");
                 HrSetup.Get();
                 if HrSetup."Calculate Age using Nepali C." then
                     "Age Text" := HRMgt.GetAgeBS(EngNepDate.getNepaliDate("Birth Date"), EngNepDate.getNepaliDate(Today))
@@ -1377,7 +1372,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-        field(50164; "Emergency Contact Email"; Text[50])
+        field(50164; "Emergency Contact Email"; Text[80])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()
@@ -1539,7 +1534,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = ToBeClassified;
         }
 
-        field(50188; "Nominee Email"; Text[50])
+        field(50188; "Nominee Email"; Text[80])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()
@@ -1557,13 +1552,24 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Last Placement Date" := EngNepDate.getEngDate("Last Placement Date (B.S.)");
             end;
         }
-
-
+        field(50190; "Vehicle Owner Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50191; "Vehicle No."; Text[50])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50192; "Ownership Start/End Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
         field(50200; "Do not Calculate Salary"; boolean)
         {
             DataClassification = CustomerContent;
         }
         field(50201; "Identity Mark"; text[250]) { }
+
     }
     keys
     {
@@ -1586,9 +1592,11 @@ tableextension 50013 "Employee Ext" extends Employee
 
     trigger OnDelete()
     var
-
+        UserSetup: Record "User Setup";
     begin
-        Error('');
+        UserSetup.Get(UserId);
+        if Not UserSetup."Is Admin" then
+            Error('Not allowed');
     end;
 
     trigger OnRename()

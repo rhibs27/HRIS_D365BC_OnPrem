@@ -339,7 +339,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50069; "Attendance Email"; Code[20])
+        field(50069; "Attendance Email"; Code[80])
         {
             TableRelation = "Email Template";
             DataClassification = CustomerContent;
@@ -606,7 +606,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "Email Template";
             DataClassification = CustomerContent;
         }
-        field(50130; "Loan Disbursement Email"; Code[20])
+        field(50130; "Loan Disbursement Email"; Code[80])
         {
             TableRelation = "Email Template";
             DataClassification = CustomerContent;
