@@ -338,7 +338,7 @@ table 50042 "Attendance Header"
         end;
     end;
 
-    procedure OnBeforePostingAttendanceSummary(AttenHeader: Record "Attendance Header")
+    procedure GenerateSalaryDeductionEntries()
     var
         EmpAttenActivity: array[2] of Record "Employee Attendance & Activity";
         AttendanceSummary: Record "Attendance Summary";
@@ -347,11 +347,11 @@ table 50042 "Attendance Header"
         PayrollEngine: Codeunit "Payroll Engine";
     begin
         AttendanceSummary.Reset();
-        AttendanceSummary.SetRange("Document No.", AttenHeader."No.");
+        AttendanceSummary.SetRange("Document No.", "No.");
         if AttendanceSummary.FindSet() then
             repeat
                 EmpAttenActivity[1].Reset();
-                EmpAttenActivity[1].SetRange("Attendance Date", AttenHeader."From Date", AttenHeader."To Date");
+                EmpAttenActivity[1].SetRange("Attendance Date", "From Date", "To Date");
                 EmpAttenActivity[1].SetRange("Employee No.", AttendanceSummary."Employee No.");
                 EmpAttenActivity[1].SetRange("Absent Day", 1);
                 if EmpAttenActivity[1].FindSet() then
@@ -359,9 +359,9 @@ table 50042 "Attendance Header"
                         PayrollEngine.InitSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
                                                                 EmpAttenActivity[1]."Attendance Date",
                                                                 DeductionType::Absent,
-                                                                AttenHeader."Pay Cycle Code",
-                                                                AttenHeader."Pay Cycle Term",
-                                                                AttenHeader."Pay Cycle Period");
+                                                                "Pay Cycle Code",
+                                                                "Pay Cycle Term",
+                                                                "Pay Cycle Period");
                         PayrollAttributeUsage.Reset();
                         PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[1]."Employee No.");
                         PayrollAttributeUsage.SetRange("Deduct on Absent", true);
@@ -371,9 +371,9 @@ table 50042 "Attendance Header"
                                 PayrollEngine.InsertDetailedSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
                                                                         EmpAttenActivity[1]."Attendance Date",
                                                                         DeductionType::Absent,
-                                                                        AttenHeader."Pay Cycle Code",
-                                                                        AttenHeader."Pay Cycle Term",
-                                                                        AttenHeader."Pay Cycle Period",
+                                                                        "Pay Cycle Code",
+                                                                        "Pay Cycle Term",
+                                                                        "Pay Cycle Period",
                                                                         PayrollAttributeUsage."Type",
                                                                         PayrollAttributeUsage.Code,
                                                                         PayrollAttributeUsage.Amount);
@@ -381,7 +381,7 @@ table 50042 "Attendance Header"
                     until EmpAttenActivity[1].Next() = 0;
 
                 EmpAttenActivity[2].Reset();
-                EmpAttenActivity[2].SetRange("Attendance Date", AttenHeader."From Date", AttenHeader."To Date");
+                EmpAttenActivity[2].SetRange("Attendance Date", "From Date", "To Date");
                 EmpAttenActivity[2].SetRange("Employee No.", AttendanceSummary."Employee No.");
                 EmpAttenActivity[2].SetRange("Leave Day", 1);
                 EmpAttenActivity[2].SetRange("Pay Type", EmpAttenActivity[1]."Pay Type"::Unpaid);
@@ -390,9 +390,9 @@ table 50042 "Attendance Header"
                         PayrollEngine.InitSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
                                                                 EmpAttenActivity[2]."Attendance Date",
                                                                 DeductionType::LWP,
-                                                                AttenHeader."Pay Cycle Code",
-                                                                AttenHeader."Pay Cycle Term",
-                                                                AttenHeader."Pay Cycle Period");
+                                                                "Pay Cycle Code",
+                                                                "Pay Cycle Term",
+                                                                "Pay Cycle Period");
                         PayrollAttributeUsage.Reset();
                         PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[2]."Employee No.");
                         PayrollAttributeUsage.SetRange("Deduct on Absent", true);
@@ -402,9 +402,9 @@ table 50042 "Attendance Header"
                                 PayrollEngine.InsertDetailedSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
                                                                         EmpAttenActivity[2]."Attendance Date",
                                                                         DeductionType::LWP,
-                                                                        AttenHeader."Pay Cycle Code",
-                                                                        AttenHeader."Pay Cycle Term",
-                                                                        AttenHeader."Pay Cycle Period",
+                                                                        "Pay Cycle Code",
+                                                                        "Pay Cycle Term",
+                                                                        "Pay Cycle Period",
                                                                         PayrollAttributeUsage."Type",
                                                                         PayrollAttributeUsage.Code,
                                                                         PayrollAttributeUsage.Amount);

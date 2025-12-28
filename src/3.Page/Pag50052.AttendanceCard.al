@@ -218,21 +218,33 @@ page 50052 "Attendance Card"
                     end;
                 }
 
-                action("Salary Deduction")
+                action("Generate Deductions")
                 {
-                    Image = ReOpen;
+                    Image = CreateLinesFromJob;
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    ToolTip = 'Executes the Re-Open action.';
+                    ToolTip = 'Executes the Generate Deductions action.';
                     ApplicationArea = All;
 
                     trigger OnAction()
                     var
                         AttendanceHeader: Record "Attendance Header";
                     begin
-                        Rec.OnBeforePostingAttendanceSummary(Rec);
+                        Rec.GenerateSalaryDeductionEntries();
                     end;
+                }
+                action("View Deductions")
+                {
+                    Image = AnalysisView;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the View Deductions action';
+                    ApplicationArea = All;
+                    RunObject = page "Salary Deduction Entries";
+                    RunPageLink = "Pay Cycle Code" = field("Pay Cycle Code"), "Pay Cycle Term" = field("Pay Cycle Term"), "Pay Cycle Period" = field("Pay Cycle Period");
+                    RunPageMode = View;
                 }
             }
         }

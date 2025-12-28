@@ -40,6 +40,10 @@ table 50032 "Salary Deduction Entry"
         field(9; "Amount"; Decimal)
         {
             Caption = 'Amount';
+            CalcFormula = sum("Det Salary Deduction Entries".Amount where("Employee No." = field("Employee No."),
+                                                                         "Deduction Date" = field("Deduction Date")));
+            Editable = false;
+            FieldClass = FlowField;
         }
         field(10; "Payroll Posted"; Boolean)
         {
@@ -52,6 +56,7 @@ table 50032 "Salary Deduction Entry"
         field(12; Reversed; Boolean)
         {
             Caption = 'Reversed';
+            Editable = false;
         }
         field(13; "Reversal of Entry No."; Integer)
         {
@@ -65,4 +70,13 @@ table 50032 "Salary Deduction Entry"
             Clustered = true;
         }
     }
+    trigger OnDelete()
+    var
+        DetSalaryDeductionEntry: Record "Det Salary Deduction Entries";
+    begin
+        DetSalaryDeductionEntry.Reset();
+        DetSalaryDeductionEntry.SetRange("Employee No.", "Employee No.");
+        DetSalaryDeductionEntry.SetRange("Deduction Date", "Deduction Date");
+        DetSalaryDeductionEntry.DeleteAll();
+    end;
 }

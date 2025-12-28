@@ -3474,7 +3474,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Table Daily Attendance Question - Field Sync to Portal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3012161856 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Det Salary Deduction Entries</source>
+          <source>Detailed Salary Deduction Entries</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Property Caption</note>
         </trans-unit>
@@ -4342,6 +4342,16 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 3347103494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Substitute Person Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 2360230556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Person Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Substitute Person Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 4180430401 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Branch</source>
@@ -5987,6 +5997,11 @@
           <source>Cannot delete document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Method OnDelete - NamedType CannotDelete</note>
+        </trans-unit>
+        <trans-unit id="Table 617144856 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Access Token - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 617144856 - Field 178863986 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Annual Premium Amount</source>
@@ -12427,6 +12442,11 @@
           <source>Expire Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Expire Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2214390665 - Field 2817493743 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Grade</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Grade - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2214390665 - Field 3804105292 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Grade Code</source>
@@ -21653,11 +21673,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 2770053341 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSAAS - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22218,20 +22233,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method OpenOTForms - NamedType OTEligibleError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 601271653 - NamedType 2476940767" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You must specify %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Payroll Engine - NamedType Text000</note>
-        </trans-unit>
         <trans-unit id="Codeunit 601271653 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
           <source>Over Time Employee Import Successfully.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Payroll Engine - NamedType Text001</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 601271653 - NamedType 3752334001" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Over Time Amount Updated Successfully.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Payroll Engine - NamedType Text002</note>
         </trans-unit>
         <trans-unit id="Codeunit 601271653 - NamedType 732759939" size-unit="char" translate="yes" xml:space="preserve">
           <source>DEFAULT</source>
@@ -24613,6 +24618,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action &amp;Functions - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 4257513725 - Action 4002804369 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Generate Deductions action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action Generate Deductions - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4257513725 - Action 3221530081 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Import Employee action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24633,10 +24643,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action Re-Open - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 4257513725 - Action 3520000325 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Re-Open action.</source>
+        <trans-unit id="Page 4257513725 - Action 515767299 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the View Deductions action</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action Salary Deduction - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action View Deductions - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2653894362 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Journal</source>
@@ -26619,7 +26629,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Daily Attendance Questions - Action Sync to HR Portal - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3012161856 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Det Salary Deduction Entries</source>
+          <source>Detailed Salary Deduction Entries</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Det Salary Deduction Entries - Property Caption</note>
         </trans-unit>
@@ -36572,6 +36582,11 @@
           <source>F&amp;unctions</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Action Functions - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3400942707 - Action 3849759392 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the &amp;Archive action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Action &amp;Archive - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3400942707 - Action 2049298406 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Create all combinations action.</source>
@@ -58153,6 +58168,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Ward No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 463950854 - Field 86003253 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 463950854">
+          <source>Leaves Lapse On Contract Renew</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employment Contract - Field Leaves Lapse On Contract Renew - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 2254553953 - Field 822268484 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2254553953">
           <source>Decimal Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60517,6 +60537,11 @@
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Email Sub Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2512069868 - EnumValue 3324647799 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Email Sub Type - EnumValue Payroll - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2512069868 - EnumValue 2047286255 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Selection Committee</source>

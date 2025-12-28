@@ -1,8 +1,9 @@
 table 50166 "Det Salary Deduction Entries"
 {
-    Caption = 'Det Salary Deduction Entries';
+    Caption = 'Detailed Salary Deduction Entries';
     DataClassification = ToBeClassified;
-
+    DrillDownPageId = "Det Salary Deduction Entries";
+    LookupPageId = "Det Salary Deduction Entries";
     fields
     {
         field(1; "Entry No."; Integer)
