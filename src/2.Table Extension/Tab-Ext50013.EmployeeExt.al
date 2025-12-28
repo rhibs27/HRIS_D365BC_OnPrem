@@ -328,20 +328,20 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   Reversed = const(false)));
             Editable = false;
         }
-        field(50020; "Full Name (Nepali)"; Text[30])
+        field(50020; "Full Name (Nepali)"; Text[50])
         {
             Description = 'In Nepali';
         }
-        field(50021; "Father's Name (Nepali)"; Text[30])
+        field(50021; "Father's Name (Nepali)"; Text[50])
         {
             Description = 'In Nepali';
         }
-        field(50022; "Mother's Name (Nepali)"; Text[30])
+        field(50022; "Mother's Name (Nepali)"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali';
         }
-        field(50023; "GrandFather's Name (Nepali)"; Text[30])
+        field(50023; "GrandFather's Name (Nepali)"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali';

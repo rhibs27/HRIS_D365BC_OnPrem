@@ -155,7 +155,7 @@ report 50023 "Employee Master"
             column(ServicePeriodText; "Service Period Text")
             {
             }
-            column(LastPlacementDate; "Last Placement Date")
+            column(LastPlacementDate; Format("Last Placement Date"))
             {
             }
             column(LastPlacementDateBS; "Last Placement Date (B.S.)")

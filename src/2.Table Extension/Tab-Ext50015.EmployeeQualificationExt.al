@@ -65,7 +65,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                     Error('Date is in Future');
             end;
         }
-        field(50004; Designation; Text[30])
+        field(50004; Designation; Text[50])
         { DataClassification = CustomerContent; }
         field(50005; "Time Period"; Decimal)
         { DataClassification = CustomerContent; }
@@ -76,7 +76,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             DataClassification = CustomerContent;
             CharAllowed = '09';
         }
-        field(50008; Remarks; Text[30])
+        field(50008; Remarks; Text[100])
         { DataClassification = CustomerContent; }
         field(50009; Rank; Integer)
         { DataClassification = CustomerContent; }

@@ -756,6 +756,7 @@ codeunit 50030 "Assignment Memo Mgt"
         Salarylevel: Record "Salary Level";
         PayrollAttributes: Record "Payroll Attributes";
         EmployeeEdit: Record "Employee Edit";
+        AllowanceConfig: Record "Allowance Configuration";
     begin
         if EmpCode = '' then
             exit;
@@ -780,6 +781,16 @@ codeunit 50030 "Assignment Memo Mgt"
                         if EmployeeEdit."Claim Type" <> AllowanceType then
                             Error('You are not eligible to claim %1 as your claim type was updated to %2 on %3.', AllowanceType, EmployeeEdit."Claim Type", EmployeeEdit."Requested Date");
                     end;
+                end;
+
+            PayrollAttributes."Specific Attributes"::"Remote Area Allowance",
+            payrollAttributes."Specific Attributes"::"OutStation Allowance":
+                begin
+                    AllowanceConfig.SetRange("Payroll Attribute", AllowanceType);
+                    AllowanceConfig.FindFirst();
+
+                    if AllowanceConfig.IsValidAllowanceConfigurationForEmployee(AllowanceConfig, EmpCode, WorkDate()) then
+                        Error('You are not eligible to claim %1 as per the policy.', PayrollAttributes.Description);
                 end;
         end;
     end;
@@ -1035,14 +1046,40 @@ codeunit 50030 "Assignment Memo Mgt"
 
     end;
 
+    procedure CheckIfValueexistInPipedValue(PipedValues: Text; targetValue: text): Boolean
+    var
+    begin
+        exit(StrPos('|' + PipedValues + '|', '|' + targetValue + '|') > 0);
+    end;
+
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]
     local procedure OnafterInsertAssignmentMemoHeader(var Rec: Record "Assignment Memo Header")
     var
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+        AllowanceConfig, AllowanceConfig2 : Record "Allowance Configuration";
+        IsEligibleForShiftAllowance: Boolean;
     begin
-        if Rec."Activity Type" = Rec."Activity Type"::"Request Allowance" then
-            if not GuiAllowed then
+        if Rec."Activity Type" = Rec."Activity Type"::"Request Allowance" then begin
+            if not GuiAllowed then begin
+                CheckAllowanceELIgibility(Rec."Employee No.", Rec."Payroll Attribute Code");
                 AssignmentMemoMgt.CreateAllowanceAssignmentLineFromRequest(Rec."No.");
+            end;
+        end else if Rec."Activity Type" = Rec."Activity Type"::"Shift Assignment Memo" then begin
+            if Rec."Branch Code" = '' then
+                exit;
+
+            AllowanceConfig.SetRange(Source, AllowanceConfig.Source::Shift);
+            if AllowanceConfig.FindSet() then
+                repeat
+                    if CheckIfValueexistInPipedValue(AllowanceConfig."Branch Code", Rec."Branch Code") or (AllowanceConfig."Branch Code" = '') then begin
+                        IsEligibleForShiftAllowance := true;
+                        break;
+                    end;
+                until AllowanceConfig.Next() = 0;
+
+            if not IsEligibleForShiftAllowance then
+                Error('Shift assignment is not applicable for branch %1.', Rec."Branch Code");
+        end;
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approver Mgt", OnRejectDocumentOnBeforeRecRefModify, '', false, false)]

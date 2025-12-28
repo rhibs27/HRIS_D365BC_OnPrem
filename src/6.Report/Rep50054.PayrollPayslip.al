@@ -269,7 +269,7 @@ report 50054 "Payroll Payslip"
         PayPeriod: Text[250];
         Dim1Code: Text[250];
         Dim2Code: Text[250];
-        AttributeDescription: Text[30];
+        AttributeDescription: Text[50];
         Text026: Label 'ZERO';
         Text027: Label 'HUNDRED';
         Text028: Label 'AND';

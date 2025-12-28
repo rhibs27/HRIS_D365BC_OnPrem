@@ -51303,10 +51303,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control Update Emp. Age &amp; Service Period - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 1722841060 - Control 3290192482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether to update the last placement date of employees.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateLastPlacementDate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1722841060 - Control 3290192482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Last Placement Date of Employees</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateLastPlacementDate - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 1722841060 - Control 1642700900 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Update Promotion Details field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdatePromotionDetails - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1722841060 - Control 3870162685 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether to update service duration for inactive employees.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateServiceDurationForInactiveEmployees - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1722841060 - Control 3870162685 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Service Duration for Inactive Employees</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateServiceDurationForInactiveEmployees - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 4065356657 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Darbandi</source>
@@ -60202,6 +60222,11 @@
           <source>At least One Approver Role Mandatory</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Approval Sending Policy - EnumValue At least One Approver Role Mandatory - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4009567469 - EnumValue 3207462967 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>At Least One Role Per Sequence Mandatory</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Approval Sending Policy - EnumValue At Least One Role Per Sequence Mandatory - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 868085935 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>

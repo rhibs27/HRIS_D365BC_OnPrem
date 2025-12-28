@@ -10,7 +10,7 @@ codeunit 50031 "Promotion Mgt"
                 EmployeeRec.Validate("Functional Title", ServiceHistory."Functional Title (To)");
                 EmployeeRec.Validate("Staff level", ServiceHistory."Staff Level (To)");
                 EmployeeRec.Validate("Promotion Date", ServiceHistory."Effective Date");
-                EmployeeRec.Modify;
+                EmployeeRec.Modify(true);
             end;
     end;
 
