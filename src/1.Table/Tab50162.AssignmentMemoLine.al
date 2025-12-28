@@ -253,6 +253,7 @@ table 50162 "Assignment Memo Line"
                     if EmployeeWorkShift."Payroll Attribute Code" = '' then
                         Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
                     Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
+                    CheckAndValidateShiftAssignment();
                 end;
             end;
         }
@@ -475,6 +476,36 @@ table 50162 "Assignment Memo Line"
             if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
                 AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
         end;
+    end;
+
+    procedure CheckAndValidateShiftAssignment()
+    var
+        AllowanceConfig: Record "Allowance Configuration";
+        IsEligibleForShiftAllowance: Boolean;
+        AssignmentmemoMgt: Codeunit "Assignment Memo Mgt";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+    begin
+        if "Emp Act Type" <> "Emp Act Type"::"Shift Assignment Memo" then
+            exit;
+
+        if "Payroll Attribute Code" = '' then
+            exit;
+
+        AssignmentMemoHdr.Get("Document No.");
+
+        AllowanceConfig.SetRange(Source, AllowanceConfig.Source::Shift);
+        AllowanceConfig.SetRange("Payroll Attribute", "Payroll Attribute Code");
+        if AllowanceConfig.FindSet() then
+            repeat
+                if AssignmentmemoMgt.CheckIfValueexistInPipedValue(AllowanceConfig."Branch Code", AssignmentMemoHdr."Branch Code") or (AllowanceConfig."Branch Code" = '') then begin
+                    IsEligibleForShiftAllowance := true;
+                    break;
+                end;
+            until AllowanceConfig.Next() = 0;
+
+        if not IsEligibleForShiftAllowance then
+            Error('Shift assignment is not applicable for branch %1.', AssignmentMemoHdr."Branch Code");
+
     end;
 
     [IntegrationEvent(false, false)]

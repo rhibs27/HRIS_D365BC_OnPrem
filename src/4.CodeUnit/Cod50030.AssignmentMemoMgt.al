@@ -1064,21 +1064,6 @@ codeunit 50030 "Assignment Memo Mgt"
                 CheckAllowanceELIgibility(Rec."Employee No.", Rec."Payroll Attribute Code");
                 AssignmentMemoMgt.CreateAllowanceAssignmentLineFromRequest(Rec."No.");
             end;
-        end else if Rec."Activity Type" = Rec."Activity Type"::"Shift Assignment Memo" then begin
-            if Rec."Branch Code" = '' then
-                exit;
-
-            AllowanceConfig.SetRange(Source, AllowanceConfig.Source::Shift);
-            if AllowanceConfig.FindSet() then
-                repeat
-                    if CheckIfValueexistInPipedValue(AllowanceConfig."Branch Code", Rec."Branch Code") or (AllowanceConfig."Branch Code" = '') then begin
-                        IsEligibleForShiftAllowance := true;
-                        break;
-                    end;
-                until AllowanceConfig.Next() = 0;
-
-            if not IsEligibleForShiftAllowance then
-                Error('Shift assignment is not applicable for branch %1.', Rec."Branch Code");
         end;
     end;
 

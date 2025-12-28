@@ -3027,23 +3027,25 @@ codeunit 50001 "HR Mgt."
     end;
 
     procedure ReturnFiscalYear(EngDate: Date): Text
+    var
+        EngNep: Record "English-Nepali Date";
     begin
-        EngNep.Reset;
+        EngNep.SetLoadFields("English Date", "Fiscal Year");
         EngNep.SetRange("English Date", EngDate);
         if EngNep.FindFirst then
             exit(EngNep."Fiscal Year");
     end;
 
-    procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
-    var
-        EngNep: Record "English-Nepali Date";
-    begin
-        EngNep.Reset;
-        EngNep.SetRange("Fiscal Year", FiscalYear);
-        EngNep.SetCurrentKey("English Date");
-        if EngNep.FindLast then
-            exit(EngNep."English Date");
-    end;
+    // procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
+    // var
+    //     EngNep: Record "English-Nepali Date";
+    // begin
+    //     EngNep.Reset;
+    //     EngNep.SetRange("Fiscal Year", FiscalYear);
+    //     EngNep.SetCurrentKey("English Date");
+    //     if EngNep.FindLast then
+    //         exit(EngNep."English Date");
+    // end;
 
     procedure ReturnEmpName(EmpCode: Code[20]): Text
     begin
