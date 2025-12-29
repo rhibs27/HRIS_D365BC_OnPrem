@@ -35,6 +35,12 @@ report 50025 "Daily Update"
                         ToolTip = 'Specifies whether to update service duration for inactive employees.';
                         ApplicationArea = All;
                     }
+                    field(UpdateEmployeeSeniority; UpdateEmployeeSeniority)
+                    {
+                        Caption = 'Update Employee Seniority';
+                        ToolTip = 'Specifies whether to update employee seniority.';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }
@@ -54,6 +60,9 @@ report 50025 "Daily Update"
             UpdatePromotion;
         if UpdateLastPlacementDate then
             UpdateLastPlacementDateOfEmployees();
+
+        if UpdateEmployeeSeniority then
+            HRMgt.AssignEmployeeSeniority();
     end;
 
     var
@@ -66,6 +75,7 @@ report 50025 "Daily Update"
 
         UpdateLastPlacementDate: Boolean;
         UpdateServiceDurationForInactiveEmployees: Boolean;
+        UpdateEmployeeSeniority: Boolean;
 
     local procedure UpdateAgeServicePeriod()
     var

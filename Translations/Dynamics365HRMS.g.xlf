@@ -51468,6 +51468,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control Update Emp. Age &amp; Service Period - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 1722841060 - Control 3127680453 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether to update employee seniority.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateEmployeeSeniority - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1722841060 - Control 3127680453 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Employee Seniority</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateEmployeeSeniority - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 1722841060 - Control 3290192482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies whether to update the last placement date of employees.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58453,6 +58463,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Saved - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 3767790842 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Seniarity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Seniarity - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3299627436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Service Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58622,21 +58637,6 @@
           <source>Permanent Address</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change Address - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Change 3444679095 - Method 3059879501 - NamedType 3482496012" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>^[A-Za-z]+$</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change First Name - Method OnAfterValidate - NamedType Pattern</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Change 4068742839 - Method 3059879501 - NamedType 3482496012" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>^[A-Za-z .]+$</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change Last Name - Method OnAfterValidate - NamedType Pattern</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Change 1064199390 - Method 3059879501 - NamedType 3482496012" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>^[A-Za-z .]+$</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change Middle Name - Method OnAfterValidate - NamedType Pattern</note>
         </trans-unit>
         <trans-unit id="TableExtension 4274179184 - Field 836412028 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1874461389">
           <source>Absent Days</source>

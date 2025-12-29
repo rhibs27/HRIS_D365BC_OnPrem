@@ -5626,6 +5626,35 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
+    procedure AssignEmployeeSeniority()
+    var
+        SalaryLevel: Record "Salary Level";
+        Employee: Record Employee;
+        EmployeeCount: Integer;
+    begin
+        SalaryLevel.Reset();
+        SalaryLevel.SetFilter(Rank, '>%1', 0);
+        if SalaryLevel.FindSet() then
+            repeat
+
+                EmployeeCount := 0;
+                SalaryLevel.TestField(Rank);
+
+                Employee.Reset();
+                Employee.SetCurrentKey("Employment Date");
+                Employee.SetRange("Salary Level", SalaryLevel.Code);
+                Employee.SetRange(Status, Employee.Status::Active);
+                Employee.SetAscending("Employment Date", false);
+                if Employee.FindSet() then
+                    repeat
+                        EmployeeCount += 1;
+                        Employee.Seniarity := SalaryLevel.Rank * 1000 + EmployeeCount;
+                        Employee.Modify();
+                    until Employee.Next() = 0;
+
+            until SalaryLevel.Next() = 0;
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
