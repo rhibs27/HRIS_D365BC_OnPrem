@@ -41,10 +41,33 @@ page 50181 "Request Allowance Subform"
                 field("Name of Children"; Rec."Name of Children")
                 {
                     ToolTip = 'Specifies the value of the Name of Children field.', Comment = '%';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        EmployeeRelative: Record "Employee Relative";
+                        EmployeerelativePage: Page "Employee Relatives";
+                    begin
+                        EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
+                        EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
+                        if Page.RunModal(Page::"Employee Relatives", EmployeeRelative) = Action::LookupOK then
+                            Rec."Name of Children" := EmployeeRelative."Full Name";
+                    end;
                 }
                 field("Grade/Class"; Rec."Grade/Class")
                 {
                     ToolTip = 'Specifies the value of the Grade/Class field.', Comment = '%';
+                }
+                field("Effective Months (Edu.)"; Rec."Effective Months (Edu.)")
+                {
+                    ToolTip = 'Specifies the value of the Effective Months field.', Comment = '%';
+                }
+                field("Effective From/To Date"; Rec."Effective From (Edu.)")
+                {
+                    ToolTip = 'Specifies the value of the Effective From/To Date field.', Comment = '%';
+                    Editable = false;
+                }
+                field(Discontinued; Rec.Discontinued)
+                {
+                    ToolTip = 'Specifies the value of the Discontinued field.', Comment = '%';
                 }
                 field("Distance (KM)"; Rec."Distance (KM)")
                 {
@@ -61,6 +84,18 @@ page 50181 "Request Allowance Subform"
                 field("Claimed as Leave"; Rec."Claimed as Leave")
                 {
                     ToolTip = 'Specifies the value of the Claimed as Leave field.', Comment = '%';
+                }
+                field("Bill Date"; Rec."Bill Date")
+                {
+                    ToolTip = 'Specifies the value of the Bill Date field.', Comment = '%';
+                }
+                field("Bill No."; Rec."Bill No.")
+                {
+                    ToolTip = 'Specifies the value of the Bill No. field.', Comment = '%';
+                }
+                field("Amount per Ltr."; Rec."Amount per Ltr.")
+                {
+                    ToolTip = 'Specifies the value of the Amount per Ltr. field.', Comment = '%';
                 }
 
                 field("Approval Status"; Rec."Approval Status")

@@ -22,4 +22,8 @@ enum 50077 "Vehicle Type"
     {
         Caption = 'Four Wheeler (EV)';
     }
+    value(5; "No Vehicle")
+    {
+        Caption = 'No Vehicle';
+    }
 }

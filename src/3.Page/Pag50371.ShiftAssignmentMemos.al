@@ -37,6 +37,18 @@ page 50371 "Shift Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
+                }
+                field("Pay Cycle Period"; Rec."Pay Cycle Period")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Period field.', Comment = '%';
+                }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
                 field("Province Code"; Rec."Province Code")
                 {
                     ToolTip = 'Specifies the value of the Province Code field.', Comment = '%';
@@ -70,4 +82,12 @@ page 50371 "Shift Assignment Memos"
             }
         }
     }
+    trigger OnOpenPage()
+    var
+        PGSetup: Record "Payroll general Setup";
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            Error('Allowance Configuration is not enabled in Payroll General Setup. Please enable it to access shift requests.');
+    end;
 }

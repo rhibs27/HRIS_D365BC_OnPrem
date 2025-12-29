@@ -34,4 +34,12 @@ enum 50117 "Employee Edit Type"
     {
         Caption = 'Additional Documents';
     }
+    value(9; "Vehicle Info Update")
+    {
+        Caption = 'Vehicle Info Update';
+    }
+    value(10; "Marital Status Update")
+    {
+        Caption = 'Marital Status Update';
+    }
 }

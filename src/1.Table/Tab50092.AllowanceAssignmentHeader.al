@@ -160,6 +160,11 @@ table 50092 "Allowance Assignment Header"
             Editable = false;
             DataClassification = ToBeClassified;
         }
+        field(26; "Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+            Caption = 'Designation';
+        }
         field(37; "Approved Date"; Date)
         {
             Editable = false;

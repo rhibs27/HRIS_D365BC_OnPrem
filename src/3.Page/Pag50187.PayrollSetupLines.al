@@ -15,10 +15,11 @@ page 50187 "Payroll Setup Lines"
                 {
                     ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
                 }
-                field("Tax Ex. Amt. on Retirement"; Rec."Tax Ex. Amt. on Retirement")
+                field("Tax Ex. Amt Divsion"; Rec."Tax Ex. Amt Divsion")
                 {
-                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Tax Ex. Amt Divsion field.', Comment = '%';
                 }
+
                 field("Tax Ex. Amt. not Exceeding"; Rec."Tax Ex. Amt. not Exceeding")
                 {
                     ApplicationArea = All;

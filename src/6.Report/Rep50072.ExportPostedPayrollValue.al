@@ -15,6 +15,7 @@ report 50072 "Export Posted Payroll Value"
             column(FunctionalTitle_; FunctionalTitleDesc) { }
             column(SalaryLevel_; SalaryLevelDesc) { }
             column(SalaryGrade_; "Salary Grade") { }
+            column(BranchName; BranchName) { }
             column(EmployeeType_; "Employee Type") { }
             column(PresentDays_; Format("Present Days")) { }
             column(AbsentDays_; Format("Absent Days")) { }
@@ -164,8 +165,14 @@ report 50072 "Export Posted Payroll Value"
                 end;
             }
             trigger OnAfterGetRecord()
+            var
+                GLSetup: Record "General Ledger Setup";
             begin
                 Clear(Counter);
+                clear(BranchName);
+                GLSetup.get();
+                if DimensionValue.Get(GLSetup."Global Dimension 1 Code", "Global Dimension 1 Code") then
+                    BranchName := DimensionValue.Name;
                 Clear(FunctionalTitleDesc);
                 if FunctionalTitleRec.Get("Functional Title") then
                     FunctionalTitleDesc := FunctionalTitleRec.Description
@@ -245,6 +252,8 @@ report 50072 "Export Posted Payroll Value"
         FunctionalTitleDesc: Text[100];
         SalaryLevelDesc: Text[50];
         ShowTaxDetails: Boolean;
+        BranchName: Text[100];
+        DimensionValue: Record "Dimension Value";
 
     local procedure ClearValue()
     begin
