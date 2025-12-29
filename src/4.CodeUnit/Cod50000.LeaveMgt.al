@@ -1157,6 +1157,7 @@ codeunit 50000 "Leave Mgt."
         TotalDaysInPeriod, EligibleDays : Integer;
         ContractRenewDate, ContractExpiryDate : Date;
         LeavesLapseOnRenew: Boolean;
+        IsHandled: Boolean;
     begin
         Clear(LastEntryNo);
         Clear(ProRataStartDate);
@@ -1468,10 +1469,13 @@ codeunit 50000 "Leave Mgt."
                                             LeaveLedgerEntry.CalcSums("Balancing Days");
                                             if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
                                                 LeaveDaysToCredit := ActualCreditLimit - LeaveLedgerEntry."Balancing Days";
-                                                if HRSetup."Leave Rounding Precision" <> 0 then
-                                                    LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
-                                                else
-                                                    LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
+                                                OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
+                                                if not IsHandled then begin
+                                                    if HRSetup."Leave Rounding Precision" <> 0 then
+                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
+                                                    else
+                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
+                                                end;
                                             end else
                                                 LeaveDaysToCredit := 0;
                                             if LeaveDaysToCredit > 0 then
@@ -1499,10 +1503,13 @@ codeunit 50000 "Leave Mgt."
                                             LeaveLedgerEntry.SetRange("Posted Date", CreditPeriodStartDate, CreditPeriodEndDate);
                                             LeaveLedgerEntry.CalcSums("Balancing Days");
                                             if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
-                                                if HRSetup."Leave Rounding Precision" <> 0 then
-                                                    LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", HRSetup."Leave Rounding Precision", '=')
-                                                else
-                                                    LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", 0.5, '<')
+                                                OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
+                                                if not IsHandled then begin
+                                                    if HRSetup."Leave Rounding Precision" <> 0 then
+                                                        LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", HRSetup."Leave Rounding Precision", '=')
+                                                    else
+                                                        LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", 0.5, '<')
+                                                end;
                                             end else
                                                 LeaveDaysToCredit := 0;
                                             if LeaveDaysToCredit > 0 then
@@ -2106,6 +2113,12 @@ codeunit 50000 "Leave Mgt."
     local procedure OnAfterCheckForMultipleLeaveRequest(LeaveTypeSetup: Record "Leave Type Setup"; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateLeaveDaysToCredit(var leavetypesetup: Record "Leave Type Setup"; var LeaveDaysToCredit: Decimal; var IsHandled: Boolean)
+    begin
+    end;
+
 
     var
         EngNep: Record "English-Nepali Date";
