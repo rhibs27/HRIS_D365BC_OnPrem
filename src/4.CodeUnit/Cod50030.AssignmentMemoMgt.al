@@ -789,7 +789,7 @@ codeunit 50030 "Assignment Memo Mgt"
                     AllowanceConfig.SetRange("Payroll Attribute", AllowanceType);
                     AllowanceConfig.FindFirst();
 
-                    if AllowanceConfig.IsValidAllowanceConfigurationForEmployee(AllowanceConfig, EmpCode, WorkDate()) then
+                    if not AllowanceConfig.IsValidAllowanceConfigurationForEmployee(AllowanceConfig, EmpCode, WorkDate()) then
                         Error('You are not eligible to claim %1 as per the policy.', PayrollAttributes.Description);
                 end;
         end;
