@@ -57,12 +57,12 @@ report 50153 "Employee Annual Payroll Report"
                 empQuery2: Query "Employee Ledger Query 2";
             begin
 
-                Clear(TotalNonTaxableBenefit);
+                TotalNonTaxableBenefit := 0;
 
-                DetailedEmployeeLedgerEntry[2].Reset();
-                DetailedEmployeeLedgerEntry[2].SetRange("Employee No.", Employee."No.");
-                if DetailedEmployeeLedgerEntry[2].IsEmpty() then
-                    CurrReport.Skip();
+                // DetailedEmployeeLedgerEntry[2].Reset();
+                // DetailedEmployeeLedgerEntry[2].SetRange("Employee No.", Employee."No.");
+                // if DetailedEmployeeLedgerEntry[2].IsEmpty() then
+                //     CurrReport.Skip();
 
                 empQuery2.SetEmpDetailFilter(Employee."No.", StartDate, EndDate);
                 empQuery2.Open();
