@@ -1,7 +1,5 @@
 page 50203 "Allowance Factbox"
 {
-
-
     PageType = ListPart;
     SourceTable = "Payroll Attributes";
     ApplicationArea = All;

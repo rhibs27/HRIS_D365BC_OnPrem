@@ -4,41 +4,24 @@ table 50158 "OverTime Ledger Entry"
     DataClassification = ToBeClassified;
     fields
     {
-        field(1; "No"; Code[20])
-        {
-        }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(1; "No"; Code[20]) { }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
             trigger OnValidate()
-            var
-                EmpVar: Record Employee;
             begin
             end;
         }
-        field(4; "Employee Name"; Text[50])
-        {
-        }
-        field(5; Posted; Boolean)
-        {
-        }
-        field(7; "Start Date"; Date)
-        {
-        }
-        field(8; "End Date"; Date)
-        {
-        }
+        field(4; "Employee Name"; Text[50]) { }
+        field(5; Posted; Boolean) { }
+        field(7; "Start Date"; Date) { }
+        field(8; "End Date"; Date) { }
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-
         }
-        field(10; "Requested Date"; Date)
-        {
-        }
+        field(10; "Requested Date"; Date) { }
         field(11; "Fiscal Year"; Text[10])
         {
             Editable = false;
@@ -51,12 +34,8 @@ table 50158 "OverTime Ledger Entry"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(14; Remarks; Text[100]) { }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(22; "Line No"; Integer)
         {
             Editable = false;
@@ -70,21 +49,14 @@ table 50158 "OverTime Ledger Entry"
         {
             Editable = false;
         }
-
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {
         }
 
-        // OverTime 
+        // OverTime
 
         field(82; Reversed; Boolean)
         {
@@ -98,9 +70,7 @@ table 50158 "OverTime Ledger Entry"
         {
             DataClassification = ToBeClassified;
         }
-        field(85; "Payroll No."; Code[20])
-        {
-        }
+        field(85; "Payroll No."; Code[20]) { }
         field(86; "CheckIn Time"; Time)
         {
             DataClassification = ToBeClassified;
@@ -117,12 +87,8 @@ table 50158 "OverTime Ledger Entry"
         {
             DataClassification = ToBeClassified;
         }
-        field(91; "Estimated Hours"; Decimal)
-        {
-        }
-        field(92; "Actual OT Hours"; Decimal)
-        {
-        }
+        field(91; "Estimated Hours"; Decimal) { }
+        field(92; "Actual OT Hours"; Decimal) { }
         field(93; "OT Amount"; Decimal)
         {
             Editable = false;
@@ -151,7 +117,6 @@ table 50158 "OverTime Ledger Entry"
         {
             DataClassification = ToBeClassified;
         }
-
     }
     keys
     {

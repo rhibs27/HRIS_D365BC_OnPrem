@@ -16,10 +16,8 @@ page 50228 "Employee Edit Picture"
             {
                 ToolTip = 'Specifies the value of the Notice field.';
             }
-
         }
     }
-
 
     actions
     {
@@ -29,7 +27,6 @@ page 50228 "Employee Edit Picture"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Import';
-
                 ToolTip = 'Import a picture file.';
                 trigger OnAction()
                 var
@@ -100,11 +97,7 @@ page 50228 "Employee Edit Picture"
     end;
 
     var
-        OverrideImageQst: Label 'The existing picture will be replaced. Do you want to continue?';
-        SelectPictureTxt: Label 'Select a picture to upload';
         DeleteExportEnabled: Boolean;
-        DeleteImageQst: Label 'Are you sure you want to delete the picture?';
-        EditableField: Boolean;
         PreviewAttachment: page "Preview Attachment";
 
     local procedure returnAttachmentBase64(): Text;

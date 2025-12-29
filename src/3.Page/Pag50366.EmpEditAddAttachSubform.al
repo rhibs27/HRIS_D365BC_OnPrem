@@ -35,7 +35,6 @@ page 50366 "Emp. Edit Add. Attach. Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Import';
-
                 ToolTip = 'Import a picture file.';
                 trigger OnAction()
                 var
@@ -67,7 +66,6 @@ page 50366 "Emp. Edit Add. Attach. Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Preview';
-
                 ToolTip = 'View the Attachment';
 
                 trigger OnAction()
@@ -85,10 +83,8 @@ page 50366 "Emp. Edit Add. Attach. Subform"
                 var
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
-                    ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
-                    fileInitial: Text;
                 begin
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
                         ToFile := Format(Rec."Employee No.") + '_' + format(Rec.Description) + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
@@ -102,7 +98,6 @@ page 50366 "Emp. Edit Add. Attach. Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Delete';
-
                 ToolTip = 'Delete the record.';
 
                 trigger OnAction()

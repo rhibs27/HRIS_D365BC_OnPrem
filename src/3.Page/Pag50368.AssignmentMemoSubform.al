@@ -8,7 +8,6 @@ page 50368 "Assignment Memo Subform"
     AutoSplitKey = true;
     DelayedInsert = true;
 
-
     layout
     {
         area(Content)
@@ -48,7 +47,6 @@ page 50368 "Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Editable = false;
@@ -59,7 +57,6 @@ page 50368 "Assignment Memo Subform"
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                     DrillDownPageId = "Assignment Memo Ledger Entries";
                 }
-
             }
         }
     }
@@ -76,12 +73,6 @@ page 50368 "Assignment Memo Subform"
 
                 trigger OnAction()
                 var
-                    AllowanceLineTemp: Record "Allowance Assignment Line" temporary;
-                    FilterPage: FilterPageBuilder;
-                    AllowanceLine: Record "Assignment Memo Line";
-                    FromDate, Todate : date;
-                    AllowanceType, EmpCode : code[20];
-                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                     SubstituteAssignmentreport: Report "Substitute Assignment Memo";
                 begin
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
@@ -105,7 +96,6 @@ page 50368 "Assignment Memo Subform"
                     CurrPage.Update();
                 end;
             }
-
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -134,5 +124,5 @@ page 50368 "Assignment Memo Subform"
     end;
 
     var
-        SubstituteActionVisible, RequestDoc : boolean;
+        SubstituteActionVisible : boolean;
 }

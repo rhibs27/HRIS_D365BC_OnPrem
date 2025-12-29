@@ -56,7 +56,6 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         field(50010; "Attribute Type"; Enum "Attribute Type")
         {
             DataClassification = ToBeClassified;
-
         }
         field(50011; "Attribute Sub Type"; Enum "Payroll SubType")
         {
@@ -170,7 +169,6 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
     var
         Employee: Record Employee;
         PayrollAttributes: Record "Payroll Attributes";
-        EngNepDate: Record "English-Nepali Date";
 
     procedure CopyFromPayrollJnlLine(var PayrollJournalLine: Record "Payroll Journal Line" temporary);
     begin
@@ -220,13 +218,9 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
     local procedure ValidateFincaleGL(PayCycleCode: Code[20]; PayCycleTerm: Code[20]; PayCyclePeriod: Integer);
     var
         PayCycle: Record "Pay Cycle Period";
-        PayrollPost: Codeunit "Payroll-Post";
         SolID: Code[20];
         OrgStruclist: Record "Organization Structure List";
-        DeputationType: Enum "Deputation Type";
-        DeputationCode: Code[20];
         IsHandled: Boolean;
-        FinacleGLNo: Text[30];
     begin
         OnBeforeValidateFinacleGL("Employee No.", "Payroll Attribute Code", "Finacle GL No", IsHandled);
         if IsHandled then

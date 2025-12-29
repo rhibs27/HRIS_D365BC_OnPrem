@@ -122,10 +122,8 @@ page 50165 "Emp. Edit Relative Subform"
                 var
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
-                    ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
-                    fileInitial: Text;
                 begin
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
                         ToFile := Format(Rec."Employee No.") + '_' + format(Rec."Relative Code") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);

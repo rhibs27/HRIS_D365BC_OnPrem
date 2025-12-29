@@ -1,6 +1,5 @@
 // page 50132 "FA Transfer Card"
 // {
-
 //     PageType = Card;
 //     PromotedActionCategories = 'New,Process,Report,Posting';
 //     SourceTable = "FA Transfer";

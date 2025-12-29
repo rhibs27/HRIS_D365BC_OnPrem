@@ -35,12 +35,8 @@ table 50041 "Attendance Setup"
         {
             Caption = 'Daily Food Allowance on Holiday if full day present';
         }
-        field(9; "Type of Integration"; Enum "Type of Integration")
-        {
-        }
-        field(10; "Calculation Method"; Enum "Attendance Calculation Method")
-        {
-        }
+        field(9; "Type of Integration"; Enum "Type of Integration") { }
+        field(10; "Calculation Method"; Enum "Attendance Calculation Method") { }
         field(11; "Working Hour per day"; Decimal) { }
         field(12; "Attendance Line No. Series"; Code[20])
         {
@@ -106,7 +102,6 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
-
         field(105; "Branch Code"; code[20])
         {
             DataClassification = ToBeClassified;

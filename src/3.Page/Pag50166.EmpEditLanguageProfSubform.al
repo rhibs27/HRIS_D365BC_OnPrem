@@ -38,8 +38,4 @@ page 50166 "Emp Edit Language Prof Subform"
     begin
         Rec."Change in Emp Type" := Rec."Change in Emp Type"::Language;
     end;
-
-    var
-        PreviewAttachment: Page "Preview Attachment";
-
 }

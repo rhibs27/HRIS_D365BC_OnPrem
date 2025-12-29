@@ -1,6 +1,5 @@
 pageextension 50009 "Document Attachment Details" extends "Document Attachment Details"
 {
-
     layout
     {
         addafter("Document Flow Sales")

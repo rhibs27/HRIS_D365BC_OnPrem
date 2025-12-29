@@ -62,12 +62,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'HR Transfer';
     }
-    value(15; "Insurance")
-    {
-    }
-    value(16; Loan)
-    {
-    }
+    value(15; "Insurance") { }
+    value(16; Loan) { }
     value(17; "Transfer Claim")
     {
         Caption = 'Transfer Claim';

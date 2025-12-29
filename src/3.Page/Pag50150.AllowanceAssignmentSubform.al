@@ -48,7 +48,6 @@ page 50150 "Allowance Assignment Subform"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                     Editable = not AllowanceClaim;
-
                 }
                 field("From Date"; Rec."From Date")
                 {
@@ -195,8 +194,6 @@ page 50150 "Allowance Assignment Subform"
                 ApplicationArea = All;
                 Visible = DocumentApproved and not AllowanceClaim;
                 trigger OnAction()
-                var
-                    AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
@@ -250,7 +247,6 @@ page 50150 "Allowance Assignment Subform"
         }
     }
 
-
     trigger OnAfterGetRecord()
     begin
         SetLayout();
@@ -287,7 +283,6 @@ page 50150 "Allowance Assignment Subform"
         DocumentOpen, DocumentApproved, DocumentPending : Boolean;
         Typefilter: Text;
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
-
 
     procedure _SetFilter(_AllowanceTypeFilter: Code[20])
     begin

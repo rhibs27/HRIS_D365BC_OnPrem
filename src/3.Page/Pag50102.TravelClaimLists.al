@@ -195,10 +195,5 @@ page 50102 "Travel Claim Lists"
     }
 
     var
-        HRMgt: Codeunit "HR Mgt.";
-        ResignationMgt: Codeunit "Resignation Mgt";
-        TravelMgt: Codeunit "Travel Mgt.";
-        IsPending: Boolean;
-        SalaryLevel: Record "Salary Level";
         TravelWith: Record Employee;
 }

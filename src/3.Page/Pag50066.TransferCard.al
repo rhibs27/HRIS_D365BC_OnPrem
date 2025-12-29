@@ -1,6 +1,5 @@
 page 50066 "Transfer Card"
 {
-
     SourceTable = "Employee Transfer";
     ApplicationArea = All;
     InsertAllowed = false;
@@ -39,7 +38,6 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Salary Level Name field.';
                     ApplicationArea = All;
                 }
-
                 field("Transfer Category"; Rec."Transfer Category")
                 {
                     ToolTip = 'Specifies the value of the Transfer Category field.';
@@ -195,7 +193,6 @@ page 50066 "Transfer Card"
                     Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Requested Branch Name 3 field.', Comment = '%';
                 }
-
                 field("Notify to"; Rec."Notify to")
                 {
                     Visible = false;
@@ -319,7 +316,6 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the UnitName field.';
                         ApplicationArea = All;
                     }
-
                     field("Extension Counter Code"; Rec."Extension Counter Code")
                     {
                         ToolTip = 'Specifies the value of the Extension Counter Code field.';
@@ -346,7 +342,6 @@ page 50066 "Transfer Card"
                             // GetTransferName;
                         end;
                     }
-
                     field("Functional Title (To)"; Rec."Functional Title (To)")
                     {
                         ToolTip = 'Specifies the value of the Functional Title (To) field.';
@@ -370,7 +365,6 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Approver Role (To) field.';
                         ApplicationArea = All;
                     }
-
                     field("Province Code (To)"; Rec."Province Code (To)")
                     {
                         Editable = ProvinceEdit;
@@ -441,7 +435,6 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the DepartmentNameTo field.';
                         ApplicationArea = All;
                     }
-
                     field("Unit (To)"; Rec."Unit (To)")
                     {
                         Editable = UnitEdit;
@@ -460,7 +453,6 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the UnitNameTo field.';
                         ApplicationArea = All;
                     }
-
                     field("Incoming Supervisior"; Rec."Incoming Supervisior")
                     {
                         ToolTip = 'Specifies the value of the Incoming Supervisior field.';
@@ -511,8 +503,6 @@ page 50066 "Transfer Card"
                     ApplicationArea = All;
                     Editable = IsPending;
                     trigger OnValidate()
-                    var
-                        myInt: Integer;
                     begin
                         CurrPage.Update();
                         RecRef.GetTable(Rec);
@@ -858,7 +848,6 @@ page 50066 "Transfer Card"
         GetTransferEditibility;
     end;
 
-
     trigger OnOpenPage()
     begin
         SetLayout;
@@ -883,7 +872,6 @@ page 50066 "Transfer Card"
     end;
 
     var
-        Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         Approval: Record "Approval HRMS";
@@ -892,14 +880,9 @@ page 50066 "Transfer Card"
         DepartEdit: Boolean;
         UnitEdit: Boolean;
         BranchEdit: Boolean;
-        FunctionalEdit: Boolean;
         ForAck: Boolean;
-        TypeFilter: Text;
-        UnitNameTo: Text;
         ExtensionCounterEdit: Boolean;
         TransferCategoryEditable: Boolean;
-        HRSetup: Record "Human Resources Setup";
-        FunctionalTitle: Record "Functional Title";
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
         IsPending: Boolean;
@@ -912,7 +895,6 @@ page 50066 "Transfer Card"
         OnHold: Boolean;
         ApproverMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
-
 
     local procedure SetLayout()
     begin

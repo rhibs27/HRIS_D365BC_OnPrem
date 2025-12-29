@@ -12,9 +12,7 @@ page 50179 "Allowance Assign Subform API"
         {
             repeater(Group)
             {
-                field(activityType; Rec."Emp Act Type")
-                {
-                }
+                field(activityType; Rec."Emp Act Type") { }
                 field(no; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the No. field.';
@@ -95,19 +93,13 @@ page 50179 "Allowance Assign Subform API"
                     ApplicationArea = All;
                     Editable = true;
                 }
-                field(substituteOfLineNo; Rec."Substitute of Line No.")
-                {
-                }
-                field(allowanceAmount; Rec."Allowance Amount")
-                {
-                }
-
+                field(substituteOfLineNo; Rec."Substitute of Line No.") { }
+                field(allowanceAmount; Rec."Allowance Amount") { }
                 field(approvalStatus; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-
             }
         }
     }

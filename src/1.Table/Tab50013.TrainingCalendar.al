@@ -56,14 +56,8 @@ table 50013 "Training Calendar"
                 Validate("Coverage Functional Title", HRMgt.LookupFunctionalTitile("Coverage Functional Title"));
             end;
         }
-        field(7; Valley; Enum "Outside/Inside Valley")
-        {
-
-        }
-        field(8; "Resouce person"; enum "Resouce person")
-        {
-
-        }
+        field(7; Valley; Enum "Outside/Inside Valley") { }
+        field(8; "Resouce person"; enum "Resouce person") { }
         field(9; "Assigned Person"; Code[20]) { }
         field(10; "Expected Venue"; Text[30])
         {
@@ -73,15 +67,9 @@ table 50013 "Training Calendar"
         {
             TableRelation = District;
         }
-        field(12; "Minimum Participant"; Integer)
-        {
-        }
-        field(13; "Maximum Participant"; Integer)
-        {
-        }
-        field(14; "Function"; Enum "Training Function Type")
-        {
-        }
+        field(12; "Minimum Participant"; Integer) { }
+        field(13; "Maximum Participant"; Integer) { }
+        field(14; "Function"; Enum "Training Function Type") { }
         field(15; "Training Cost"; Decimal)
         {
             trigger OnValidate()
@@ -100,17 +88,12 @@ table 50013 "Training Calendar"
         {
             Editable = false;
         }
-        field(18; "Training Type"; Enum "Training Type")
-        {
-
-        }
+        field(18; "Training Type"; Enum "Training Type") { }
         field(19; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(20; Quater; Enum Quater)
-        {
-        }
+        field(20; Quater; Enum Quater) { }
         field(21; Province; Code[100])
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Province), Blocked = filter(false));

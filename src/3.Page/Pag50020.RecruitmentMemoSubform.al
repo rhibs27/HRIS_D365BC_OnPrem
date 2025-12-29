@@ -1,7 +1,5 @@
 page 50020 "Recruitment Memo Subform"
 {
-
-
     AutoSplitKey = true;
     DeleteAllowed = true;
     PageType = ListPart;

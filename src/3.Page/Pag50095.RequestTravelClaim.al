@@ -276,8 +276,6 @@ page 50095 "Request Travel Claim"
         }
     }
     var
-        HRMgt: Codeunit "HR Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         IsApplied: Boolean;
-        Approval: Record "Approval HRMS";
 }

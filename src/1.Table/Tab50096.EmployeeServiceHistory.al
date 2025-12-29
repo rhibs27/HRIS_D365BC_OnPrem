@@ -58,13 +58,8 @@ table 50096 "Employee Service History"
                     "Employee Name" := '';
             end;
         }
-        field(3; "Employee Name"; Text[50])
-        {
-        }
-        field(4; "Deputation On (To)"; Enum "Deputation Type")
-        {
-
-        }
+        field(3; "Employee Name"; Text[50]) { }
+        field(4; "Deputation On (To)"; Enum "Deputation Type") { }
         field(5; "Deputation Code (To)"; Code[20])
         {
             trigger OnValidate()
@@ -73,16 +68,9 @@ table 50096 "Employee Service History"
                     Validate("Deputation Value (To)", OrgStructureList.Name);
             end;
         }
-        field(6; "Deputation Value (To)"; Text[100])
-        {
-        }
-        field(7; "Service Event"; Enum "Service Event")
-        {
-        }
-        field(8; "Deputation On(From)"; Enum "Deputation Type")
-        {
-
-        }
+        field(6; "Deputation Value (To)"; Text[100]) { }
+        field(7; "Service Event"; Enum "Service Event") { }
+        field(8; "Deputation On(From)"; Enum "Deputation Type") { }
         field(9; "Deputation Code (From)"; Code[20])
         {
             trigger OnValidate()
@@ -160,7 +148,6 @@ table 50096 "Employee Service History"
         field(31; "To Date"; Date) { }
         field(32; "From Employee Status"; Enum "Employee Status") { }
         field(33; "To Employee Status"; Enum "Employee Status") { }
-
         field(34; "Contract Code (From)"; Code[20]) { }
         field(35; "Contract Code (To)"; Code[20]) { }
         field(36; "Employment Type (From)"; Enum "Employee Type") { }
@@ -237,7 +224,6 @@ table 50096 "Employee Service History"
                     "Department Description (To)" := '';
             end;
         }
-
         field(59; "Unit Code (To)"; Code[20])
         {
             trigger OnValidate()
@@ -279,7 +265,6 @@ table 50096 "Employee Service History"
         key(Key1; "Service History Code") { }
         key(Key2; "Employee No.", "Effective Date") { }
     }
-
 
     trigger OnInsert()
     var

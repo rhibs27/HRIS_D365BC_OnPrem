@@ -55,11 +55,9 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-
             }
             group(Remarks)
             {
-
                 field(Remark; Rec.Remarks)
                 {
                     Editable = isOpenOrCreated;
@@ -93,7 +91,6 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Differently Able field.';
                     ApplicationArea = All;
                 }
-
                 field("Temporary Address"; Rec."Temporary Address")
                 {
                     ToolTip = 'Specifies the value of the Temporary Address field.';
@@ -104,7 +101,6 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Temporary Province field.';
                     ApplicationArea = All;
                 }
-
                 field("Temporary District"; Rec."Temporary District")
                 {
                     ToolTip = 'Specifies the value of the Temporary District field.';
@@ -126,7 +122,6 @@ page 50135 "Employee Edit Card"
                 {
                     ToolTip = 'Specifies the value of the Temporary House field.', Comment = '%';
                 }
-
                 field("Blood Group"; Rec."Blood Group")
                 {
                     ToolTip = 'Specifies the value of the Blood Group field.';
@@ -137,7 +132,6 @@ page 50135 "Employee Edit Card"
             group("Official Document")
             {
                 Editable = isOpenOrCreated and (Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details);
-
                 Visible = DetailsChanges;
                 field("passport No."; Rec."Passport No.")
                 {
@@ -168,7 +162,6 @@ page 50135 "Employee Edit Card"
             group(VehicleInformation)
             {
                 Editable = isOpenOrCreated and ((Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::Created));
-
                 Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Vehicle Info Update";
                 field("Vehicle Type"; Rec."Vehicle Type")
                 {
@@ -208,10 +201,7 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Claimed Type Effective Date field.', Comment = '%';
                     Editable = false;
                 }
-                field("Fuel Type"; Rec."Fuel Type")
-                {
-
-                }
+                field("Fuel Type"; Rec."Fuel Type") { }
             }
             group(MaritalStatusUpdate)
             {
@@ -238,7 +228,6 @@ page 50135 "Employee Edit Card"
                 {
                     ToolTip = 'Specifies the value of the Spouse Citiz. Issued Place field.', Comment = '%';
                 }
-
             }
 
             part("Qualification Details"; "Emp. Edit Qualifi Subform")
@@ -247,7 +236,6 @@ page 50135 "Employee Edit Card"
                 SubPageLink = "Document No." = field("No.");
                 SubPageView = where("Change in Emp Type" = filter(Qualification));
                 ApplicationArea = all;
-
             }
             part("Work Experience Details"; "Emp Edit Work Exp. Subform")
             {

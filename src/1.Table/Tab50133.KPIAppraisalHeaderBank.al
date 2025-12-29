@@ -164,10 +164,7 @@ table 50133 "KPI Appraisal Header Bank"
         {
             FieldClass = FlowFilter;
         }
-        field(26; Rating; Enum "Appraisal Rating")
-        {
-
-        }
+        field(26; Rating; Enum "Appraisal Rating") { }
         field(27; Reviewer; Code[20])
         {
             TableRelation = Employee;
@@ -176,9 +173,7 @@ table 50133 "KPI Appraisal Header Bank"
         {
             TableRelation = Employee;
         }
-        field(29; Status; Enum "Appraisal Status")
-        {
-        }
+        field(29; Status; Enum "Appraisal Status") { }
         field(30; "Is Modified"; Boolean) { }
         field(31; "Reviewed KPI Score"; Decimal) { }
     }

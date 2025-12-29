@@ -199,9 +199,7 @@ table 50120 "Employee Edit Line"
             Description = 'Employee Relative';
             DataClassification = CustomerContent;
         }
-        field(60; Running; Boolean)
-        {
-        }
+        field(60; Running; Boolean) { }
         field(61; "CitizenShip No."; Code[50])
         {
             Caption = 'CitizenShip No.';
@@ -271,14 +269,11 @@ table 50120 "Employee Edit Line"
         {
             Description = 'This field includes the name of fields that are updated from portal';
         }
-        field(1001; "Original Line No."; Integer)
-        {
-        }
+        field(1001; "Original Line No."; Integer) { }
         field(1002; "GPA Scale"; Decimal)
         {
             DataClassification = ToBeClassified;
         }
-
     }
     keys
     {
@@ -287,13 +282,8 @@ table 50120 "Employee Edit Line"
             Clustered = true;
         }
     }
-    var
-        HRMgt: Codeunit "HR Mgt.";
 
     procedure FullName(): Text[100]
-    var
-        NewFullName: Text[100];
-        Handled: Boolean;
     begin
         if "Middle Name" = '' then
             exit("First Name" + ' ' + "Last Name");
