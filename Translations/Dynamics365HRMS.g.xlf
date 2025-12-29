@@ -1334,9 +1334,14 @@
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Attribute Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 2074948367 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Applied Document No.</source>
+          <source>Payroll Document No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 1551607304 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Posted - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posting Date</source>
@@ -10317,61 +10322,6 @@
           <source>Weightage Percent</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup - Field Weightage Percent - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 4186441531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Actual Achievement</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Actual Achievement - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 1270436920 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Deputation on</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Deputation on - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Description - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 2174339555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Key Result Area</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Key Result Area - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 1862436764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KRA Category</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field KRA Category - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 193475481 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KRA No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field KRA No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Province Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Province Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 2194564895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sol Id</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Sol Id - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 1995710435 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Target Assigned</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Target Assigned - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 696366349 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Weightage</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Weightage - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3105669182 - Field 288122385 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Weightage(%)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master Setup1 - Field Weightage(%) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4024473276 - Field 2694167148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal Code</source>
@@ -51663,6 +51613,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control UnitCodeFilter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 1550927253 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee KYE Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee KYE Report - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 3276795145 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Leave Balance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53763,6 +53718,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 3835611871 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Service Duration Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Duration Report - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3835611871 - Control 1709377885 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether to show only the summary of the service duration in the report.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Duration Report - Control ShowSummaryOnly - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3835611871 - Control 1709377885 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Summary Only</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Duration Report - Control ShowSummaryOnly - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3835611871 - Control 499971296 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the criteria to calculate the duration since the employee has been in the selected branch, department, functional title, or job title.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Duration Report - Control Since In The - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3835611871 - Control 499971296 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Since In The..</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Duration Report - Control Since In The - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Method 3075606970 - NamedType 2128685181" size-unit="char" translate="yes" xml:space="preserve">
           <source>%1 cannot be blank.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55153,11 +55133,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Bulk Cash - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 2489186807 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Confirmation Employee action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Confirmation Employee - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2624977916 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the insurance action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55283,11 +55258,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Service History - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 2135339820 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Show Leave Earn action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Show Leave Earn - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 3089954741 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Training Given action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55357,16 +55327,6 @@
           <source>Executes the Appointment Job Function action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Update Service Event - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 2562123872 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Update Payroll Att Usage action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action UpdatePRAttributes - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 2562123872 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Update Payroll Att Usage</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action UpdatePRAttributes - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Change 2306852000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Temporary Address</source>
@@ -56472,11 +56432,6 @@
           <source>Full Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Relatives - Change First Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 3544378310 - Action 2845000977 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4098937927">
-          <source>Executes the Open Ceiling action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension GLBudgetNames - Action Open Ceiling - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2014642344 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Access Control No. field.</source>

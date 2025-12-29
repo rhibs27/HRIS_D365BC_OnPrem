@@ -291,6 +291,7 @@ table 50034 "Posted Payroll Header"
             repeat
                 AssignmentMemoLedgerEntry."Payroll Document No." := '';
                 AssignmentMemoLedgerEntry.Open := true;
+                AssignmentMemoLedgerEntry."Payroll Posted" := false;
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
 

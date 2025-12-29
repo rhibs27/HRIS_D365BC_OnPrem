@@ -71,7 +71,7 @@ table 50163 "Assignment Memo Ledger Entry"
         }
         field(9; "Payroll Document No."; Code[20])
         {
-            Caption = 'Applied Document No.';
+            Caption = 'Payroll Document No.';
         }
         field(10; "Employee Activity Type"; Enum "Employee Activity Type")
         {
@@ -105,7 +105,11 @@ table 50163 "Assignment Memo Ledger Entry"
             Caption = 'Employee Work Shift';
             TableRelation = "Employee Work Shift";
         }
-
+        field(19; "Payroll Posted"; Boolean)
+        {
+            Caption = 'Payroll Posted';
+            editable = false;
+        }
         //attendance related fields (for employee activity type = Assignment and shift)
         field(50; "Present Days"; Decimal)
         {

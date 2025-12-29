@@ -2887,13 +2887,12 @@ table 50027 "Payroll Line"
                                          PayrollAttr: Code[20];
                                          LeaveCode: Code[20];
                                          FromDate: Date;
-                                         ToDate: Date;
-                                         getLastAmount: Boolean): Decimal
+                                         ToDate: Date
+                                       ): Decimal
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
@@ -2902,39 +2901,23 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", '%1|%2', '', PayrollDocNo);
         AssignmentMemoLedgerEntry.SetRange("Blocked for Payroll", false);
         AssignmentMemoLedgerEntry.SetRange("Open", true);
-        if getLastAmount then begin
-            AssignmentMemoLedgerEntry.CalcSums(Amount);
-            exit(round(AssignmentMemoLedgerEntry."Amount", 0.01, '='));
-        end else begin
-            AssignmentMemoLedgerEntry.CalcSums(Amount);
-            Amt := AssignmentMemoLedgerEntry."Amount";
-            if AssignmentMemoLedgerEntry.FindSet() then
-                AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", PayrollDocNo);
-            exit(round(Amt, 0.01, '='));
-        end;
-
+        AssignmentMemoLedgerEntry.CalcSums(Amount);
+        Amt := AssignmentMemoLedgerEntry."Amount";
+        if AssignmentMemoLedgerEntry.FindSet() then
+            AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", PayrollDocNo);
+        exit(round(Amt, 0.01, '='));
     end;
 
     procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
     begin
         case AllowanceConfiguration.Source of
-            AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+            AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift, AllowanceConfiguration.Source::Leave:
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
                                             AllowanceConfiguration."Leave Code",
-                                            0D,
-                                            PayrollHeader."To Date",
-                                            true));
-
-            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift, AllowanceConfiguration.Source::Leave:  //monthly (assign and caim)
-                exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
-                                            EmployeeCode,
-                                            AllowanceConfiguration."Payroll Attribute",
-                                            AllowanceConfiguration."Leave Code",
-                                            0D,
-                                            PayrollHeader."To Date",
-                                            false));
+                                            PGSetup."Payroll Fiscal Year Start Date",  //added to claim remaining backdated allowance
+                                            PayrollHeader."To Date"));
 
             AllowanceConfiguration.Source::" ":
                 if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode, PayrollHeader."To Date") then

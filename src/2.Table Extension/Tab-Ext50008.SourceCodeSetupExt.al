@@ -31,7 +31,6 @@ tableextension 50008 "Source Code Setup Ext" extends "Source Code Setup"
         {
             TableRelation = "Source Code";
             DataClassification = ToBeClassified;
-            // Description = 'Pranisha';
         }
         field(50006; "Attendance Management"; Code[20])
         {
