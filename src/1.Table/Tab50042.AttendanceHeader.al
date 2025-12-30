@@ -413,6 +413,30 @@ table 50042 "Attendance Header"
             until AttendanceSummary.Next = 0;
     end;
 
+    procedure ReverseSalaryLedgerEntry(EmployeeNo: Code[20]; DeductionDate: Date)
+    var
+        DetailedSalaryDeductionEntry: Record "Det Salary Deduction Entries";
+        ReversedDetailedSalaryDeductionEntry: Record "Det Salary Deduction Entries";
+        PayrollEngine: Codeunit "Payroll Engine";
+    begin
+        DetailedSalaryDeductionEntry.SetRange("Employee No.", EmployeeNo);
+        DetailedSalaryDeductionEntry.SetRange("Deduction Date", DeductionDate);
+        DetailedSalaryDeductionEntry.SetRange(Reversed, false);
+        if DetailedSalaryDeductionEntry.FindFirst() then begin
+            ReversedDetailedSalaryDeductionEntry.Init();
+            ReversedDetailedSalaryDeductionEntry := DetailedSalaryDeductionEntry;
+            ReversedDetailedSalaryDeductionEntry.Amount := -DetailedSalaryDeductionEntry.Amount;
+            ReversedDetailedSalaryDeductionEntry."Entry No." := PayrollEngine.GetDetailedSalaryDeductionEntryNo();
+            ReversedDetailedSalaryDeductionEntry."Deduction Date" := Today();
+            ReversedDetailedSalaryDeductionEntry.Reversed := true;
+            ReversedDetailedSalaryDeductionEntry."Reversed By Entry No." := DetailedSalaryDeductionEntry."Entry No.";
+            ReversedDetailedSalaryDeductionEntry."Old Deducation Date" := DetailedSalaryDeductionEntry."Deduction Date";
+            ReversedDetailedSalaryDeductionEntry.Insert();
+
+            DetailedSalaryDeductionEntry.Reversed := true;
+            DetailedSalaryDeductionEntry.Modify();
+        end;
+    end;
 
     local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: enum "Approval Status")
     var
