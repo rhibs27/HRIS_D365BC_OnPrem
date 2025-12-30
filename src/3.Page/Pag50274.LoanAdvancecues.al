@@ -81,7 +81,6 @@ page 50274 "Loan & Advance cues"
             }
             grid("Home Loans")
             {
-
                 group("Home Loan")
                 {
                     Visible = SalaryAdvVisibility;
@@ -120,7 +119,6 @@ page 50274 "Loan & Advance cues"
                 Visible = SalaryAdvVisibility;
                 group("Vehicle Loan")
                 {
-
                     // field("To Screen Vehicle Loan"; Rec."To Screen Vehicle Loan")
                     // {
                     //     Caption = 'To Screen';

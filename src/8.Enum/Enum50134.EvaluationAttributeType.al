@@ -1,7 +1,7 @@
 enum 50134 "Evaluation Attribute Type"
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';

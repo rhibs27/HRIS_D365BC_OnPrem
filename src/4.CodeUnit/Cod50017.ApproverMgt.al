@@ -16,7 +16,6 @@ codeunit 50017 "Approver Mgt"
     var
         ApprovalSetup: Record "Approval Setup";
         ApprovalSetupLine: Record "Approval Setup line";
-        Approval: Record "Approval HRMS";
         Employee: Record Employee;
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
@@ -108,7 +107,6 @@ codeunit 50017 "Approver Mgt"
     var
         ApprovalSetup: Record "Approval Setup";
         ApprovalSetupLine: Record "Approval Setup line";
-        Approval: Record "Approval HRMS";
         Employee: Record Employee;
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
@@ -179,7 +177,6 @@ codeunit 50017 "Approver Mgt"
     var
         ApprovalSetup: Record "Approval Setup";
         ApprovalSetupLine: Record "Approval Setup line";
-        Approval: Record "Approval HRMS";
         Employee: Record Employee;
         EmpRequest: Record Employee;
         SequenceOneCount, ApprovalEntryCount : Integer;
@@ -279,7 +276,6 @@ codeunit 50017 "Approver Mgt"
             ApprovalLine.SetRange("Approver No", ApproverNo);
             if not ApprovalLine.FindFirst() then
                 Error(ApproveNotEligibleError);
-
         end;
     end;
 #if SaasFeature
@@ -328,7 +324,6 @@ codeunit 50017 "Approver Mgt"
     var
         ApprovalHRMS: Record "Approval HRMS";
         ApprovalHRMS2: Record "Approval HRMS";
-        ApproveNotEligibleError: Label 'You are not Eligible to Approve or reject this document ';
         ApprovalStatusField: text;
         ApprovalStatus: Enum "Approval Status";
         EmployeeActivityType: Enum "Employee Activity Type";
@@ -339,7 +334,6 @@ codeunit 50017 "Approver Mgt"
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
         LeaveEncahRequest: Record "Encashment Request";
-        PayrollEngine: Codeunit "Payroll Engine";
         AttendanceMgt: Codeunit "Attendance Mgt";
         AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
         Cancelled: Boolean;
@@ -465,7 +459,6 @@ codeunit 50017 "Approver Mgt"
                                     RecRef.Field(AttributeAdj.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
                                 end;
-
                         end;
                         OnAfterDocumentRejected(RecRef);
                         // Get the Rejected Status from Status Master
@@ -742,7 +735,6 @@ codeunit 50017 "Approver Mgt"
                                 begin
                                     AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false);
                                 end;
-
                         end;
                         OnAfterDocumentRejected(RecRef);
                         // Get the Rejected Status from Status Master
@@ -908,7 +900,6 @@ codeunit 50017 "Approver Mgt"
     procedure CheckRequesterBoolean(EmpActNo: Code[20]): Boolean
     var
         ApprovalLine: Record "Approval HRMS";
-        ApproveNotEligibleError: Label 'You are not eligible to withdraw this document ';
     begin
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
@@ -919,7 +910,6 @@ codeunit 50017 "Approver Mgt"
     procedure CheckRequesterSAAS(EmpActNo: Code[20]; ApproverNo: code[20])
     var
         ApprovalLine: Record "Approval HRMS";
-        Employee: Record Employee;
         ApproveNotEligibleError: Label 'You are not Eligible to WithDraw this document ';
     begin
         ApprovalLine.Reset();
@@ -1206,8 +1196,6 @@ codeunit 50017 "Approver Mgt"
         ApprovalStatusField: text;
         ApprovalStatusEnum: Enum "Approval Status";
         EmpActType: Enum "Employee Activity Type";
-        StatusMaster: Record "Status Master";
-        RetirementFund: Record "Retirement Fund";
         AttributeAdj: Record "Attribute Adjustment Header";
         DocNumber: code[20];
     begin
@@ -1298,11 +1286,8 @@ codeunit 50017 "Approver Mgt"
         EmployeeActivityJournal: Record "Employee Activity Journal";
         Approver: Record "Approval HRMS";
         Approver2: Record "Approval HRMS";
-        ApproveNotEligibleError: Label 'You are not Eligible to Approve or reject this document ';
         // ApprovalStatusField: text;
         ApprovalStatusEnum: Enum "Approval Status";
-        // EmpActType: Enum "Employee Activity Type";
-        StatusMaster: Record "Status Master";
     begin
         // Get the fields dynamically using FieldRef
         EmployeeActivityJournal.SetRange("Emp Act. No", EmpActNo);
@@ -1349,7 +1334,6 @@ codeunit 50017 "Approver Mgt"
         ApprovalStatusField: text;
         ApprovalStatusEnum: Enum "Approval Status";
         EmpActType: Enum "Employee Activity Type";
-        StatusMaster: Record "Status Master";
         OvertimeLine: Record "Overtime Line";
     begin
         // Get the fields dynamically using FieldRef
@@ -1454,12 +1438,11 @@ codeunit 50017 "Approver Mgt"
     var
         ApprovalSetup: Record "Approval Setup";
         ApprovalSetupLine: Record "Approval Setup line";
-        Approval: Record "Approval HRMS";
         Employee: Record Employee;
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         SequenceOneCount, ApprovalEntryCount : Integer;
-        isHandled, SkipError : Boolean;
+        isHandled : Boolean;
     begin
         EmpRequest.Get(EmployeeNo);
 
@@ -1533,7 +1516,6 @@ codeunit 50017 "Approver Mgt"
                     else
                         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
                             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
-
                 until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
@@ -1571,7 +1553,6 @@ codeunit 50017 "Approver Mgt"
                             else
                                 exit(false);
                         end;
-
                 end;
             else
                 exit(true)
@@ -1582,7 +1563,6 @@ codeunit 50017 "Approver Mgt"
     var
         PayrollAttrCode: Code[20];
         AssignmentmemoHdr: Record "Assignment Memo Header";
-        PayrollAttribute: Record "Payroll Attributes";
     begin
         if EmpActType = EmpActType::"Request Allowance" then begin
 
@@ -1592,8 +1572,6 @@ codeunit 50017 "Approver Mgt"
     end;
 
     procedure ApplyAllowanceFilterCode(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type"; var PayrollAttrCode: Code[20])
-    var
-        PayrollAttribute: Record "Payroll Attributes";
     begin
         if PayrollAttrCode = '' then
             exit;
@@ -1602,7 +1580,6 @@ codeunit 50017 "Approver Mgt"
             repeat
                 if CheckIfValueexistInPipedValue(ApprovalSetupLine."Payroll Filter", PayrollAttrCode) or (ApprovalSetupLine."Payroll Filter" = '') then
                     ApprovalSetupLine.Mark(true);
-
             until ApprovalSetupLine.Next() = 0;
         ApprovalSetupLine.MarkedOnly(true);
     end;

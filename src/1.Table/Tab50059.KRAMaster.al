@@ -24,7 +24,6 @@ table 50059 "KRA Master"
         }
         field(4; Type; Enum "KRA Master Type")
         {
-
             trigger OnValidate()
             begin
                 if Type = Rec.Type::"Functional Title" then

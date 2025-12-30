@@ -14,8 +14,5 @@ enum 50086 "Training Line Type"
     {
         Caption = 'Trainee';
     }
-    value(3; Vendor)
-    {
-
-    }
+    value(3; Vendor) { }
 }

@@ -42,7 +42,6 @@ table 50119 "Service Inactivity Ledger"
                         Error(DateValidataionError);
                 end;
             end;
-
         }
         field(5; "End Date"; Date)
         {
@@ -69,10 +68,7 @@ table 50119 "Service Inactivity Ledger"
         {
             Caption = 'Remarks';
         }
-        field(9; "Counted In Service Period"; Boolean)
-        {
-
-        }
+        field(9; "Counted In Service Period"; Boolean) { }
     }
     keys
     {

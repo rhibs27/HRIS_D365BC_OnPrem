@@ -10,7 +10,6 @@ page 50177 "Biometric Devices ListPart"
         {
             repeater(conrol1)
             {
-
                 field(Id; Rec.Id)
                 {
                     ToolTip = 'Specifies the value of the Id field.', Comment = '%';
@@ -38,5 +37,4 @@ page 50177 "Biometric Devices ListPart"
             }
         }
     }
-
 }

@@ -12,7 +12,6 @@ page 50171 "Import Attribute Usage"
         {
             repeater(General)
             {
-
                 field("Entry No."; Rec."Entry No.")
                 {
                     ToolTip = 'Specifies the value of the Entry No. field.', Comment = '%';

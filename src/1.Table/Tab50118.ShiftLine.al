@@ -117,9 +117,6 @@ table 50118 "Shift Line"
 
     var
         OrganizationStructureList: Record "Organization Structure List";
-        Employee: Record Employee;
-        ShiftMgn: Codeunit "Shift Assignment Mgt";
-
 
     local procedure ValidateShiftDate()
     var

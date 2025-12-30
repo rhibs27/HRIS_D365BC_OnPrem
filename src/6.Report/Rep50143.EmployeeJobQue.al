@@ -9,7 +9,6 @@ report 50143 EmployeeJobQue
             trigger OnPostDataItem()
             var
             begin
-
             end;
 
             trigger OnAfterGetRecord()
@@ -33,18 +32,12 @@ report 50143 EmployeeJobQue
         {
             area(Content)
             {
-                group(GroupName)
-                {
-                }
+                group(GroupName) { }
             }
         }
         actions
         {
-            area(Processing)
-            {
-
-            }
+            area(Processing) { }
         }
     }
 }
-

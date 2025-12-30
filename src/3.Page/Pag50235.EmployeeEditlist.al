@@ -93,7 +93,5 @@ page 50235 "Employee Edit list"
         }
     }
 
-    actions
-    {
-    }
+    actions { }
 }

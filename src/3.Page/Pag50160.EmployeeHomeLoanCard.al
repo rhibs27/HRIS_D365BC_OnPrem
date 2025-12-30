@@ -369,14 +369,12 @@ page 50160 "Employee Home Loan Card"
             }
             group("Group Remarks")
             {
-
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = IsPending;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
                     Editable = IsPending;
@@ -387,7 +385,6 @@ page 50160 "Employee Home Loan Card"
                         CurrPage.Update();
                         RecRef.GetTable(Rec);
                     end;
-
                 }
             }
             part("Approval Subform"; "HRMS Approval Entry")
@@ -398,7 +395,6 @@ page 50160 "Employee Home Loan Card"
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
-
         }
         area(FactBoxes)
         {

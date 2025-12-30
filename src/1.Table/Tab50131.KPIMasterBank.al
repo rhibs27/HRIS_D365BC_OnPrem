@@ -30,10 +30,7 @@ table 50131 "KPI Master Bank"
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
         }
-        field(7; Type; Enum "KPI Master Type")
-        {
-
-        }
+        field(7; Type; Enum "KPI Master Type") { }
         field(8; "Is Department"; Boolean) { }
         field(9; "Is Operating Profit"; Boolean) { }
         field(10; "Is Adjustment KPI"; Boolean) { }

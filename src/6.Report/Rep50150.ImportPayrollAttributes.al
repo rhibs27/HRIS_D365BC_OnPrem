@@ -69,9 +69,7 @@ report 50150 "Import Payroll Attributes"
         }
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
     }
     var

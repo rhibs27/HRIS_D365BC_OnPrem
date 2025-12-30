@@ -507,8 +507,6 @@ page 50078 "Appraisal Form Card"
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    HRMgt: Codeunit "HR Mgt.";
                 begin
                     AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Check Reviewer");
                     CurrPage.Close();
@@ -541,8 +539,6 @@ page 50078 "Appraisal Form Card"
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    HRMgt: Codeunit "HR Mgt.";
                 begin
                     KRASubFormRec.Reset;
                     KRASubFormRec.SetRange("Appraisal Code", Rec."Appraisal Code");
@@ -661,7 +657,6 @@ page 50078 "Appraisal Form Card"
     end;
 
     var
-        HRMgt: Codeunit "HR Mgt.";
         AppraisalMgt: Codeunit "AppraisalMgt.";
         KRASubFormRec: Record "KRA Subform List";
         Appraisal: Record Appraisal;

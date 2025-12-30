@@ -88,7 +88,6 @@ page 50254 "Shift Assignment Card"
                 UpdatePropagation = Both;
                 ApplicationArea = all;
                 Editable = IsOpen;
-
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -177,7 +176,6 @@ page 50254 "Shift Assignment Card"
                         AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
                 end;
             }
-
         }
     }
     trigger OnOpenPage()

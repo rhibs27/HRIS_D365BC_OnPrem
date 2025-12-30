@@ -14,16 +14,13 @@ codeunit 50029 "Process Daily Attendance"
         EmpWorkShiftDetail: Record "Employee Work Shift";
         AttSetup: Record "Attendance Setup";
         Employee: Record Employee;
-        CheckInThresholdDuration, CheckOutThresholdDuration : Duration;
         Date: Record Date;
         FromSyncProcess: Boolean;
         ShiftLine: Record "Shift Line";
-        AttendanceMgt: Codeunit "Attendance Mgt";
         CalendarDescription: Text;
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
         PGSetup: Record "Payroll General Setup";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure UpdateEmpAttendance()
     begin
@@ -66,7 +63,6 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance.Modify(true);
 
         //Update attendance for assignment memo if exists
-
     end;
 
     local procedure ResetDays()
@@ -148,7 +144,6 @@ codeunit 50029 "Process Daily Attendance"
                     EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Friday End Time";
 
             EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time";
-
         end;
     end;
 
@@ -216,8 +211,6 @@ codeunit 50029 "Process Daily Attendance"
                                     EmpAttendance."Leave Description" := LeaveTypeSetup.Description;
                                     EmpAttendance."Pay Type" := LeaveTypeSetup."Pay Type";
                                 end;
-
-
                             end;
                             EmpAttendance.Remarks := UpperCase(Format(EmpAttendance."Leave Description")) + ' LEAVE';
                         end;
@@ -273,7 +266,6 @@ codeunit 50029 "Process Daily Attendance"
                     if (EmpAttendance."Check In Time" <> 0T) and (EmpAttendance."Check Out Time" = 0T) then
                         EmpAttendance.Remarks := 'MISSED PUNCH';
 
-
             if EmpAttendance."Present Day" = 0.5 then
                 EmpAttendance.Remarks := 'HALF DAY PRESENT';
 
@@ -297,7 +289,6 @@ codeunit 50029 "Process Daily Attendance"
 
             if EmpAttendance."Training Day" > 0 then
                 EmpAttendance.Remarks := 'TRAINING';
-
         end;
     end;
 
@@ -322,10 +313,7 @@ codeunit 50029 "Process Daily Attendance"
         Date.Get(Date."Period Type"::Date, EmpAttendance."Attendance Date");
     end;
 
-
     procedure GetCheckInandOutFromAttendanceLog()
-    var
-        AttendanceLog: Record "Attendance Log";
     begin
         if (EmpWorkShiftDetail."Check In From" <> 0) or (EmpWorkShiftDetail."Check Out From" <> 0) then begin
             GetCheckInAndOutFromAttendanceLogInRange(

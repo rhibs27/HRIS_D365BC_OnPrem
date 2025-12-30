@@ -40,9 +40,7 @@ table 50106 "Employee Loan/Advance"
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -98,16 +96,12 @@ table 50106 "Employee Loan/Advance"
         }
         field(10; "Gross Salary"; Decimal) { }
         field(11; "Fiscal Year"; Code[20]) { }
-
         field(13; "Date of Birth"; Date)
         {
             Editable = false;
         }
         field(14; Age; Integer) { }
-
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -116,10 +110,7 @@ table 50106 "Employee Loan/Advance"
         {
             Editable = false;
         }
-        field(22; "Vehicle Purchase Type"; Enum "Vehicle Purchase Type")
-        {
-
-        }
+        field(22; "Vehicle Purchase Type"; Enum "Vehicle Purchase Type") { }
         field(23; "Citizenship No."; Code[30])
         {
             Editable = false;
@@ -128,14 +119,10 @@ table 50106 "Employee Loan/Advance"
         {
             Editable = false;
         }
-        field(25; Remarks; Text[250])
-        {
-        }
+        field(25; Remarks; Text[250]) { }
         field(26; "Eligible Loan/Advance"; Decimal) { }
         field(27; "Applied Loan/Advance"; Decimal) { }
-        field(28; "Payback Months"; Enum "Payback Months")
-        {
-        }
+        field(28; "Payback Months"; Enum "Payback Months") { }
         field(29; "DBR Ratio"; Decimal)
         {
             DecimalPlaces = 0 : 2;
@@ -156,7 +143,6 @@ table 50106 "Employee Loan/Advance"
         field(32; "Loan Type"; Enum "Loan Type")
         {
             Editable = false;
-
         }
         field(33; "Vehicle Loan Type"; Enum "Vehicle Type")
         {
@@ -441,6 +427,7 @@ table 50106 "Employee Loan/Advance"
                                                                               "Payroll Attribute Code" = const('SALARY ADVANCE'),
                                                                               Reversed = const(false)));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(98; "Equity Financing Declaration"; Boolean) { }
         field(99; "Returned Loan"; Boolean) { }
@@ -469,9 +456,7 @@ table 50106 "Employee Loan/Advance"
                     "Province Name" := '';
             end;
         }
-        field(191; "Province Name"; Text[50])
-        {
-        }
+        field(191; "Province Name"; Text[50]) { }
         field(192; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Branch));
@@ -483,9 +468,7 @@ table 50106 "Employee Loan/Advance"
                     "Branch Name" := '';
             end;
         }
-        field(193; "Branch Name"; Text[50])
-        {
-        }
+        field(193; "Branch Name"; Text[50]) { }
         field(194; "Department Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
@@ -497,9 +480,7 @@ table 50106 "Employee Loan/Advance"
                     "Department Name" := '';
             end;
         }
-        field(195; "Department Name"; Text[50])
-        {
-        }
+        field(195; "Department Name"; Text[50]) { }
         field(196; "Extension Counter Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
@@ -511,10 +492,7 @@ table 50106 "Employee Loan/Advance"
                     "Extension Counter Name" := '';
             end;
         }
-        field(197; "Extension Counter Name"; Text[50])
-        {
-
-        }
+        field(197; "Extension Counter Name"; Text[50]) { }
         field(198; "Unit Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Unit));
@@ -526,10 +504,7 @@ table 50106 "Employee Loan/Advance"
                     "Unit Name" := '';
             end;
         }
-        field(199; "Unit Name"; Text[50])
-        {
-
-        }
+        field(199; "Unit Name"; Text[50]) { }
         //flow loan journal
         field(201; "Loan Account No."; text[30])
         {
@@ -559,7 +534,6 @@ table 50106 "Employee Loan/Advance"
         {
             DataClassification = ToBeClassified;
         }
-
     }
 
     keys
@@ -580,7 +554,6 @@ table 50106 "Employee Loan/Advance"
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document No.", "No.");
         ApprovalEntry.DeleteAll();
-
     end;
 
     trigger OnInsert()

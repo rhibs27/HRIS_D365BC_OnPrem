@@ -144,7 +144,6 @@ report 50057 "Mail for Payroll"
 
     trigger OnPreReport()
     begin
-
     end;
 
     var
@@ -165,8 +164,6 @@ report 50057 "Mail for Payroll"
         BranchCode: Code[20];
         YearFilter: Integer;
         MonthFilter: Enum "Nepali Month";
-
-
 
     local procedure CheckValidEmailAddress(EmailAddress: Text): Boolean
     var

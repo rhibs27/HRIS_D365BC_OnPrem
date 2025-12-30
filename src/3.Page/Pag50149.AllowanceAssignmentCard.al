@@ -55,7 +55,6 @@ page 50149 "Allowance Assignment Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
-
                 field("Change Approver Remarks"; Rec."Change Approver Remarks")
                 {
                     Editable = false;
@@ -198,7 +197,6 @@ page 50149 "Allowance Assignment Card"
                 begin
                     Report.Run(Report::"Allowance Assignment Summary", true, false, Rec);
                 end;
-
             }
         }
     }
@@ -217,7 +215,6 @@ page 50149 "Allowance Assignment Card"
         AllowanceLine: Record "Allowance Assignment Line";
         FormEditable: Boolean;
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
-        Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove : Boolean;
         RecRef: RecordRef;

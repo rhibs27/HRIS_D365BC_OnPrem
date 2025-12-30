@@ -15,19 +15,14 @@ page 50359 "Preview Attachment"
                 ApplicationArea = All;
             }
         }
-
     }
-    actions
-    {
-    }
+    actions { }
     trigger OnOpenPage()
     begin
         CurrPage.MyChartControl.GetAttachment(LargeText);
     end;
 
     var
-        Base64Text: text;
-        loanMgt: Codeunit "Loan Mgt.";
         LargeText: text;
 
     procedure PreviewAttachment(Base64Text: text);

@@ -136,10 +136,8 @@ report 50148 "Late Employees Report"
             end;
         }
 
-
         dataitem(EmployeeSummary; Employee)
         {
-
             column(Summary_EmployeeNo; "No.") { }
             column(Summary_EmployeeName; "First Name" + ' ' + "Last Name") { }
             column(Summary_BranchCode; "Branch Code") { }
@@ -236,9 +234,7 @@ report 50148 "Late Employees Report"
         }
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
 
         trigger OnOpenPage()
@@ -307,7 +303,6 @@ report 50148 "Late Employees Report"
         AttendanceMissed: Record "Attendance Missed";
         LateDocNo: Code[20];
         CompanyInfo: Record "Company Information";
-
 
         SummaryLateCount: Integer;
         SummaryEligibleRequestCount: Integer;

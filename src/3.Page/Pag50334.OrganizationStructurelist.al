@@ -100,7 +100,6 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the No. of Off-Site ATM field.', Comment = '%';
                 }
-
             }
         }
     }

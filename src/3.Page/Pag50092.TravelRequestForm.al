@@ -267,7 +267,6 @@ page 50092 "Travel Request Form"
     end;
 
     var
-        HRMgt: Codeunit "HR Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         IsApplied: Boolean;
         FieldEditable: Boolean;

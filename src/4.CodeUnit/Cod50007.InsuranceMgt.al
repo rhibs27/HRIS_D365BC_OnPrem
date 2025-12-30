@@ -125,6 +125,5 @@ codeunit 50007 "Insurance Mgt"
     var
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
-        ResignationMgt: Codeunit "Resignation Mgt";
         ApproverMgt: Codeunit "Approver Mgt";
 }

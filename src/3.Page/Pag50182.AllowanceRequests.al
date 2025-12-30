@@ -66,7 +66,6 @@ page 50182 "Allowance Requests"
                 {
                     ToolTip = 'Specifies the value of the Department Code field.', Comment = '%';
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

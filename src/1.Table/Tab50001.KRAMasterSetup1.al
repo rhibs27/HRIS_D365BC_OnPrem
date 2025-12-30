@@ -23,10 +23,7 @@ table 50001 "KRA Master Setup1"
         {
             TableRelation = "Key Value Master".Code where(Type = filter("Key Result Area"));
         }
-        field(5; "Deputation on"; Enum "Deputation Type")
-        {
-
-        }
+        field(5; "Deputation on"; Enum "Deputation Type") { }
         field(6; Description; Text[250]) { }
         field(7; "Weightage(%)"; Decimal) { }
         field(8; "Target Assigned"; Decimal) { }

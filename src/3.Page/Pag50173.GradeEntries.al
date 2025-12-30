@@ -46,12 +46,10 @@ page 50173 "Grade Entries"
                 }
                 field("Posting Date"; Rec."Posting Date")
                 {
-
                     ToolTip = 'Specifies the value of the Last Grade Posting Date field.';
                     ApplicationArea = All;
                 }
             }
         }
     }
-
 }

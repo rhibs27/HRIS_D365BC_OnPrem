@@ -127,7 +127,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the End Time field.', Comment = '%';
                 }
-
                 field("Extension Counter (To)"; Rec."Extension Counter (To)")
                 {
                     ToolTip = 'Specifies the value of the Extension Counter (To) field.', Comment = '%';
@@ -136,7 +135,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Extension Counter Code field.', Comment = '%';
                 }
-
                 field("For Death Of"; Rec."For Death Of")
                 {
                     ToolTip = 'Specifies the value of the For Death Of field.', Comment = '%';
@@ -293,7 +291,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Travel Order No field.', Comment = '%';
                 }
-
                 field("Unit (To)"; Rec."Unit (To)")
                 {
                     ToolTip = 'Specifies the value of the Unit (To) field.', Comment = '%';

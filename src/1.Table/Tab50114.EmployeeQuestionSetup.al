@@ -19,18 +19,12 @@ table 50114 "Employee Question Setup"
         }
         field(2; "Line No."; Integer) { }
         field(3; Question; Text[250]) { }
-        field(4; Type; Enum "Employee Question Type")
-        {
-
-        }
+        field(4; Type; Enum "Employee Question Type") { }
         field(5; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(6; "Sub Type"; Enum "Employee Question SubType")
-        {
-
-        }
+        field(6; "Sub Type"; Enum "Employee Question SubType") { }
     }
 
     keys

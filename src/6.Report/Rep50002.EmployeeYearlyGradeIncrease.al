@@ -94,10 +94,7 @@ report 50002 "Employee Yearly Grade Increase"
         Employee: Record Employee;
         NextLevelWiseAttributes: Record "Level Wise Attributes";
         EmployeeServiceHistory: Record "Employee Service History";
-        EnglishNepaliDate1: Record "English-Nepali Date";
         EmployeeNo: Code[20];
-        EnglishNepaliDate2: Record "English-Nepali Date";
-        RunOnceInMonth: Boolean;
 
     local procedure UpdateServiceHistory(EffectiveDate: Date; RemarksTxt: Text; Newlevel: Code[20]; NewGrade: Code[20])
     begin
@@ -131,7 +128,6 @@ report 50002 "Employee Yearly Grade Increase"
         GradeEntry.Validate("Default Grade Percentage", DefaultPercentage);
         GradeEntry.Validate("Appraisal Grade Percentage", AppraisalPercentage);
         GradeEntry.Insert(true);
-
     end;
 
     [IntegrationEvent(false, false)]

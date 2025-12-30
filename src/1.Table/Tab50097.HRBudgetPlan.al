@@ -99,8 +99,6 @@ table 50097 "HR Budget Plan"
         }
         field(14; "Deputation On"; Enum "Deputation Type")
         {
-
-
             trigger OnValidate()
             begin
                 Validate(Code, '');
@@ -148,8 +146,6 @@ table 50097 "HR Budget Plan"
 
     procedure InsertHRBudgetCombination(FiscalYear: Text)
     var
-        // Branch: Record "Dimension Value";
-        Province: Record Province;
         OrganizationStructureList: Record "Organization Structure List";
     // SubProvince: Record "Sub Province";
     // EmployeeHierarchyMaster: Record "Employee Hierarchy Master";

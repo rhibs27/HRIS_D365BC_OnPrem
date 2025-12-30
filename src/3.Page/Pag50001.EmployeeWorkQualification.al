@@ -99,9 +99,7 @@ page 50001 "Employee Work Qualification"
 
     actions
     {
-        area(Processing)
-        {
-        }
+        area(Processing) { }
     }
 
     trigger OnClosePage()
@@ -130,6 +128,5 @@ page 50001 "Employee Work Qualification"
 
     var
         EmployeeQualification: Record "Employee Qualification";
-        DocuAttach: Record "Document Attachment";
         MasterFilter: Text;
 }

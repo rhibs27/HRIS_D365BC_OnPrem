@@ -16,7 +16,6 @@ table 50112 "Grade Entry"
             end;
         }
         field(3; "Employee Name"; Text[50]) { }
-
         field(5; Grade; Code[20])
         {
             TableRelation = "Salary Grade";

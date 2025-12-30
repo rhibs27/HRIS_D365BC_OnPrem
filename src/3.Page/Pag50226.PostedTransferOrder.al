@@ -18,9 +18,7 @@ page 50226 "Posted Transfer Order"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                 }
-                field("Deputation On (To)"; Rec."Deputation On (To)")
-                {
-                }
+                field("Deputation On (To)"; Rec."Deputation On (To)") { }
                 field("Province Code (To)"; Rec."Province Code (To)")
                 {
                     ToolTip = 'Specifies the value of the Province Code (To) field.', Comment = '%';
@@ -45,7 +43,6 @@ page 50226 "Posted Transfer Order"
                 {
                     ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
                 }
-
                 field("Transfer Type"; Rec."Transfer Type")
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
@@ -78,4 +75,3 @@ page 50226 "Posted Transfer Order"
         }
     }
 }
-
