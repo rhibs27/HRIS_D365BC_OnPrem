@@ -14,7 +14,7 @@ table 50166 "Det Salary Deduction Entries"
         field(2; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
-            DataClassification = CustomerContent;
+            TableRelation = Employee;
         }
         field(3; "Employee Name"; Text[100])
         {
@@ -35,11 +35,13 @@ table 50166 "Det Salary Deduction Entries"
         {
             Caption = 'Pay Cycle Term';
             DataClassification = CustomerContent;
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
         field(7; "Pay Cycle Period"; Integer)
         {
             Caption = 'Pay Cycle Period';
             DataClassification = CustomerContent;
+            TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"), "Pay Cycle Term" = field("Pay Cycle Term"));
         }
         field(8; "Attribute Type"; Enum "Payroll Type")
         {
@@ -50,6 +52,7 @@ table 50166 "Det Salary Deduction Entries"
         {
             Caption = 'Attribute Code';
             DataClassification = CustomerContent;
+            TableRelation = "Payroll Attributes".Code;
         }
         field(10; Amount; Decimal)
         {
@@ -60,6 +63,7 @@ table 50166 "Det Salary Deduction Entries"
         {
             Caption = 'Pay Cycle Code';
             DataClassification = CustomerContent;
+            TableRelation = "Pay Cycle".Code;
         }
     }
 

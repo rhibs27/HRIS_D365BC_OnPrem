@@ -12,6 +12,7 @@ table 50032 "Salary Deduction Entry"
         field(2; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
+            TableRelation = Employee;
         }
         field(3; "Employee Name"; Text[50])
         {
@@ -28,14 +29,17 @@ table 50032 "Salary Deduction Entry"
         field(6; "Pay Cycle Code"; Code[20])
         {
             Caption = 'Pay Cycle Code';
+            TableRelation = "Pay Cycle".Code;
         }
         field(7; "Pay Cycle Term"; Code[20])
         {
             Caption = 'Pay Cycle Term';
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
         field(8; "Pay Cycle Period"; Integer)
         {
             Caption = 'Pay Cycle Period';
+            TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"), "Pay Cycle Term" = field("Pay Cycle Term"));
         }
         field(9; "Amount"; Decimal)
         {
