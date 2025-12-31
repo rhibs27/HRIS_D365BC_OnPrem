@@ -244,7 +244,7 @@ codeunit 50017 "Approver Mgt"
         end;
     end;
     // >> Check  valid Login Approver for Approve >> Santosh 2025-03-04 >>
-    procedure CheckApprover(EmpActNo: Code[20]): Boolean // onprem
+    procedure CheckApprover(EmpActNo: Code[20])// onprem
     begin
         CheckApprover(EmpActNo, HRMgt.GetEmployeeNo());
     end;
@@ -259,15 +259,16 @@ codeunit 50017 "Approver Mgt"
     begin
         IsHRApprover := false;
         if HRSetup.Get() and Employee.Get(ApproverNo) then begin
-            if HRSetup."HR Head Functional Title" = '' then begin
-                if Employee."Department Code" = HRSetup."HR Department Code" then
-                    IsHRApprover := true;
-            end
-            else begin
-                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
-                   (Employee."Department Code" = HRSetup."HR Department Code") then
-                    IsHRApprover := true;
-            end;
+            if HRSetup."HR Department Code" <> '' then
+                if HRSetup."HR Head Functional Title" = '' then begin
+                    if Employee."Department Code" = HRSetup."HR Department Code" then
+                        IsHRApprover := true;
+                end
+                else begin
+                    if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                       (Employee."Department Code" = HRSetup."HR Department Code") then
+                        IsHRApprover := true;
+                end;
         end;
         if not IsHRApprover then begin
             ApprovalLine.Reset();
@@ -288,8 +289,8 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
-        if not ApprovalLine.Findfirst() then
-            Error(ApproveNotEligibleError);
+            if not ApprovalLine.Findfirst() then
+                Error(ApproveNotEligibleError);
     end;
 #endif
 
@@ -312,12 +313,24 @@ codeunit 50017 "Approver Mgt"
     procedure CheckApproverBoolean(EmpActNo: Code[20]; ApproverNo: code[20]): Boolean //saas
     var
         ApprovalLine: Record "Approval HRMS";
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
     begin
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
         if ApprovalLine.Findfirst() then
             exit(true);
+        if HRSetup.Get() and Employee.Get(ApproverNo) then begin
+            if HRSetup."HR Department Code" <> '' then
+                if HRSetup."HR Head Functional Title" = '' then begin
+                    if Employee."Department Code" = HRSetup."HR Department Code" then
+                        exit(true);
+                end else begin
+                    if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and (Employee."Department Code" = HRSetup."HR Department Code") then
+                        exit(true);
+                end;
+        end;
     end;
     // >> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean)
@@ -443,7 +456,7 @@ codeunit 50017 "Approver Mgt"
                                 end;
                             EmployeeActivityType::Retirement:
                                 begin
-                                    // brfore sending approval
+                                    // before sending approval
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
                                 end;

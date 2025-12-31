@@ -33,11 +33,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Branch Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2264809808 - Field 257067854 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Change Approver Remarks</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Change Approver Remarks - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -228,16 +223,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Last Modified Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 3726133055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Document No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Document No - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -268,25 +253,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Payroll Doc No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 922203080 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recurring Completed</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Recurring Completed - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Rejection Remarks - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 1532841482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screened By</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Screened By - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 1895218171 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screened Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Screened Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - Field 1713785062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Substitute of Line No.</source>
@@ -7322,6 +7292,26 @@
           <source>Employment Type (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Employment Type (To) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 490670982 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter (From)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Counter (From) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 3404248433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter (To)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Counter (To) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 2615882756 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Description (From)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Description (From) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 1095526767 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Description (To)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Extension Description (To) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 565250863 - Field 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>From Date</source>
@@ -21888,6 +21878,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Vacancy Line - Field Vacancy No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Codeunit 16707583 - Method 1807768225 - NamedType 377269713" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Allowance Assignment Mgt - Method CheckMaximumEmployeeInBranch - NamedType TEXT002</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1293262007 - NamedType 2958218723" size-unit="char" translate="yes" xml:space="preserve">
           <source> : </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21989,7 +21984,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Excel Import - NamedType UploadFileTxt</note>
         </trans-unit>
         <trans-unit id="Codeunit 3632478246 - Method 2206569670 - NamedType 2499179930" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attribute_%1_%2</source>
+          <source>%1_%2_%3</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Excel Import - Method CreateExcelBook - NamedType ExcelFileName</note>
         </trans-unit>
@@ -23037,11 +23032,6 @@
           <source>Specifies the value of the Approved Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Approved Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3157096233 - Control 257067854 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Change Approver Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Change Approver Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3157096233 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
@@ -24322,6 +24312,16 @@
           <source>Specifies the value of the Request Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Control Request Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2313503208 - Action 1081835701 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Setup in Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Action Export Setup - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2313503208 - Action 5983814 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import Setup action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Setup Card - Action Import Setup - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 804884198 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval setup Subform</source>
@@ -47967,6 +47967,16 @@
           <source>Executes the Approve Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Approve Substitute - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 939157021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Format for Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Export Format for Excel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 1731482064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import From Excel.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Import From Excel - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1561849558 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Substitute action.</source>
