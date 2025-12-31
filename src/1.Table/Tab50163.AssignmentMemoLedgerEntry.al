@@ -116,24 +116,28 @@ table 50163 "Assignment Memo Ledger Entry"
             Caption = 'Present Days';
             FieldClass = FlowField;
             CalcFormula = sum("Employee Attendance & Activity"."Present Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+            Editable = false;
         }
         field(51; "Week Off Days"; Decimal)
         {
             Caption = 'Week Off Days';
             FieldClass = FlowField;
             CalcFormula = sum("Employee Attendance & Activity"."Week Off Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+            Editable = false;
         }
         field(52; "Leave Days"; Decimal)
         {
             Caption = 'Leave Days';
             FieldClass = FlowField;
             CalcFormula = sum("Employee Attendance & Activity"."Leave Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+            Editable = false;
         }
         field(53; "Absent Days"; Decimal)
         {
             Caption = 'Absent Days';
             FieldClass = FlowField;
             CalcFormula = sum("Employee Attendance & Activity"."Absent Day" where("Employee No." = field("Employee No."), "Attendance Date" = field("Posting Date")));
+            Editable = false;
         }
         field(54; "Attendance Checked"; Boolean)
         {
@@ -151,24 +155,17 @@ table 50163 "Assignment Memo Ledger Entry"
         field(57; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
-
         }
         field(58; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
-
-
         }
         field(59; "Pay Cycle Period"; Integer)
         {
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
-
         }
-        field(60; "Nepali Month"; Enum "Nepali Month")
-        {
-        }
-
+        field(60; "Nepali Month"; Enum "Nepali Month") { }
     }
     keys
     {
@@ -176,12 +173,8 @@ table 50163 "Assignment Memo Ledger Entry"
         {
             Clustered = true;
         }
-        key(key2; "Employee No.", "Document No.", "Posting Date", "Employee Activity Type")
-        {
-        }
-        key(key3; "Payroll Document No.", "Substituted Employee No.", Open, "Blocked for Payroll")
-        {
-        }
+        key(key2; "Employee No.", "Document No.", "Posting Date", "Employee Activity Type") { }
+        key(key3; "Payroll Document No.", "Substituted Employee No.", Open, "Blocked for Payroll") { }
     }
 
     procedure GetNextEntryNo(): Integer

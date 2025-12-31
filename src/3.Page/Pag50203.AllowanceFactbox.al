@@ -1,19 +1,14 @@
 page 50203 "Allowance Factbox"
 {
-
-
     PageType = ListPart;
     SourceTable = "Payroll Attributes";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
         {
             repeater(Control5)
             {
-                //The GridLayout property is only supported on controls of type Grid
-                //GridLayout = Columns;
                 ShowCaption = false;
                 field("Code"; Rec.Code)
                 {

@@ -98,16 +98,9 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                     Error('CGPA cannot be greater than GPA Scale');
             end;
         }
-        field(50013; Attachment; Media)
-        {
-        }
-        field(50014; Running; Boolean)
-        {
-
-        }
-        field(50015; "GPA Scale"; Decimal)
-        {
-        }
+        field(50013; Attachment; Media) { }
+        field(50014; Running; Boolean) { }
+        field(50015; "GPA Scale"; Decimal) { }
     }
     keys { }
     trigger OnInsert()

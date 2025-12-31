@@ -123,7 +123,6 @@ report 50025 "Daily Update"
                     repeat
                         EmpServiceHistory.UpdateDuration(EmpServiceHistory);
                     until EmpServiceHistory.Next() = 0;
-
             until Employee.Next() = 0;
     end;
 

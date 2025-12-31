@@ -124,6 +124,5 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
 
     var
         EmployeeQualification: Record "Employee Qualification";
-        DocuAttach: Record "Document Attachment";
         MasterFilter: Text;
 }

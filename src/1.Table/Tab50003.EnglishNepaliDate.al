@@ -5,15 +5,9 @@ table 50003 "English-Nepali Date"
     DataClassification = CustomerContent;
     fields
     {
-        field(1; "English Year"; Integer)
-        {
-        }
-        field(2; "English Month"; Enum "English Month")
-        {
-        }
-        field(3; "English Day"; Integer)
-        {
-        }
+        field(1; "English Year"; Integer) { }
+        field(2; "English Month"; Enum "English Month") { }
+        field(3; "English Day"; Integer) { }
         field(4; Week; Enum Week) { }
         field(5; "English Date"; Date) { }
         field(6; "Week Integer"; Integer) { }

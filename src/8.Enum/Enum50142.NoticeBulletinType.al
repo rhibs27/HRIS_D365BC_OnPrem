@@ -1,7 +1,7 @@
 enum 50142 "Notice Bulletin Type"
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';

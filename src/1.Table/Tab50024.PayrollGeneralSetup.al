@@ -17,14 +17,9 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "No. Series";
         }
-        field(9; "Posting Method"; Enum "Payroll Posting Method")
-        {
-
-        }
+        field(9; "Posting Method"; Enum "Payroll Posting Method") { }
         field(10; "Net Payable Account Type"; enum "Payroll Net Payable Acc Type")
         {
-
-
             trigger OnValidate()
             begin
                 "Net Payable Account Code" := '';
@@ -37,9 +32,7 @@ table 50024 "Payroll General Setup"
             TableRelation = if ("Net Payable Account Type" = const("Bank Account")) "Bank Account"
             else if ("Net Payable Account Type" = const("G/L Account")) "G/L Account";
         }
-        field(12; "Tax Calculation Type"; Enum "Tax Calculation Type Time")
-        {
-        }
+        field(12; "Tax Calculation Type"; Enum "Tax Calculation Type Time") { }
         field(13; "Late Deduction Component"; Code[20])
         {
             TableRelation = "Payroll Attributes";
@@ -78,11 +71,8 @@ table 50024 "Payroll General Setup"
                 end;
             end;
         }
-        field(20; "Tax Ex. Amt Divsion"; Decimal)
-        {
-        }
-        field(22; "Make Payroll Slip Confidential"; Boolean)
-        { }
+        field(20; "Tax Ex. Amt Divsion"; Decimal) { }
+        field(22; "Make Payroll Slip Confidential"; Boolean) { }
         field(23; "Per Step Salary Percentage"; Decimal)
         {
             MaxValue = 100;
@@ -424,14 +414,11 @@ table 50024 "Payroll General Setup"
         field(132; "Teller Allowance (Regular)"; Decimal) { }
         field(133; "ATM Custodian contract (month)"; Decimal) { }
         field(134; "ATM Custodian regular (month)"; Decimal) { }
-
         field(135; "ATM Custodian"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }
-        field(136; "Total Days From"; Enum MonthYear)
-        {
-        }
+        field(136; "Total Days From"; Enum MonthYear) { }
         field(137; "Resigned Plan No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -447,7 +434,6 @@ table 50024 "Payroll General Setup"
         }
         field(140; "Allowance Claim Limit (days)"; Integer) { }
         field(141; "Night Shift Allowance"; Code[20]) { }
-
         field(142; "Dashain Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes" where(Subtype = filter("Payroll SubType"::"Dashain Allowance"));
@@ -465,18 +451,13 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "No. Series";
         }
-        field(153; "Allow Future Allowance Request"; Boolean)
-        {
-        }
+        field(153; "Allow Future Allowance Request"; Boolean) { }
         field(500; "Use Allowance Configuration"; Boolean) { }
         field(501; "Payroll Archive Nos."; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(502; "Backdated Payroll Reverse"; Boolean)
-        {
-        }
-
+        field(502; "Backdated Payroll Reverse"; Boolean) { }
         field(503; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
@@ -485,9 +466,7 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
-        field(505; "Pro Rate Female Rebate"; Boolean)
-        {
-        }
+        field(505; "Pro Rate Female Rebate"; Boolean) { }
     }
 
     keys
@@ -517,5 +496,4 @@ table 50024 "Payroll General Setup"
                     until UserPersonalization.Next() = 0;
             until Employee.Next() = 0;
     end;
-
 }

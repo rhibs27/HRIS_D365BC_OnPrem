@@ -44,9 +44,6 @@ table 50011 District
     }
     fieldgroups
     {
-        fieldgroup(DropDown; "District Code", "District Name")
-        {
-        }
+        fieldgroup(DropDown; "District Code", "District Name") { }
     }
-
 }

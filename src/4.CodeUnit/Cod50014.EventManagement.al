@@ -28,11 +28,9 @@ codeunit 50014 "Event Management"
     [EventSubscriber(ObjectType::Table, Database::"Document Attachment", 'OnBeforeSaveAttachment', '', false, false)]
     local procedure OnBeforeSaveAttachment(var DocumentAttachment: Record "Document Attachment"; var FileName: Text; var RecRef: RecordRef; var TempBlob: Codeunit "Temp Blob")
     var
-        AttachmentMgt: Codeunit "Attachment Mgt.";
         AttachmentSetup: Record "Attachment Setup";
         MaxFileSize: Integer;
         FileSize: Decimal;
-        FileMgt: Codeunit "File Management";
     begin
         // Define maximum allowed file size
         // AttachmentMgt.checkAttachmentExtension(FileMgt.GetExtension(FileName));
@@ -87,9 +85,7 @@ codeunit 50014 "Event Management"
         LoanType: Enum "Loan Type";
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         EmpActJournal: Record "Employee Activity Journal";
-        ShiftAssignment: Record "Shift Assignment Header";
         AttendanceMissed: Record "Attendance Missed";
-        AllowanceAssignment: Record "Allowance Assignment Header";
     begin
         case RecordRef.Number of
             Database::Leave:

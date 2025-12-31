@@ -2,7 +2,6 @@ table 50156 "Allowance Configuration"
 {
     Caption = 'Allowance Configuration';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "Entry No."; Integer)
@@ -68,41 +67,25 @@ table 50156 "Allowance Configuration"
         {
             Editable = false;
         }
-        field(12; "Min Service Yr. Eligibility"; Decimal)
-        {
-
-        }
+        field(12; "Min Service Yr. Eligibility"; Decimal) { }
         field(13; "Functional Title"; Code[20])
         {
             TableRelation = "Functional Title";
         }
-        field(14; "Earning Cycle"; Enum "Encashment Period")
-        {
-
-        }
-        field(15; "ATM Site"; Enum "ATM Site")
-        {
-
-        }
-        field(16; Source; Enum "Allowance Config. Source")
-        {
-
-        }
+        field(14; "Earning Cycle"; Enum "Encashment Period") { }
+        field(15; "ATM Site"; Enum "ATM Site") { }
+        field(16; Source; Enum "Allowance Config. Source") { }
         field(17; "Leave Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
         }
         field(18; Region; Enum Region) { }
-
         field(19; "Outside/Inside Valley"; enum "Outside/Inside Valley") { }
         field(20; "Remote Area Category"; Code[20])
         {
             TableRelation = "Remote Area Category";
         }
-        field(21; Formula; Text[20])
-        {
-
-        }
+        field(21; Formula; Text[20]) { }
         field(22; "Specific Payroll Attribute"; Enum "Specific Payroll Attributes")
         {
             Caption = 'Specific Payroll Attribute';
@@ -117,7 +100,6 @@ table 50156 "Allowance Configuration"
         {
             Clustered = true;
         }
-
     }
     trigger OnInsert()
     begin
@@ -130,7 +112,6 @@ table 50156 "Allowance Configuration"
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
-
 
     local procedure GetNextEntryNo(): Integer
     var
@@ -368,7 +349,6 @@ table 50156 "Allowance Configuration"
     var
         EmpVar: Record Employee;
         OrgStructureList: Record "Organization Structure List";
-        AllowanceConfiguration2: Record "Allowance Configuration";
         ServiceYear: Decimal;
         Month: Integer;
         Days: Integer;
@@ -422,7 +402,6 @@ table 50156 "Allowance Configuration"
                 ServiceYear := ServiceYear - 1;
             if ServiceYear < AllowanceConfiguration."Min Service Yr. Eligibility" then
                 exit(false);
-
         end;
         exit(true);
     end;

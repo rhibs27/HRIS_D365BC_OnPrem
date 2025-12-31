@@ -16,7 +16,6 @@ table 50139 Province
         {
             DataClassification = ToBeClassified;
         }
-
     }
     keys
     {

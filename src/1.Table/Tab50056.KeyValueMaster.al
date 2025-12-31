@@ -8,10 +8,7 @@ table 50056 "Key Value Master"
     {
         field(1; "Code"; Code[50]) { }
         field(2; Description; Text[250]) { }
-        field(3; Type; Enum "Key Value Master Type")
-        {
-
-        }
+        field(3; Type; Enum "Key Value Master Type") { }
     }
 
     keys

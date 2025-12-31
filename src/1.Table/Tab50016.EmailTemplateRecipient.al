@@ -17,17 +17,9 @@ table 50016 "Email Template Recipient"
         {
             TableRelation = Location;
         }
-        field(6; "Recipient Type"; Enum "Email Recipient Type")
-        {
-
-        }
-        field(7; Region; Enum "Region Direction")
-        {
-
-        }
-        field(8; Method; Enum "Email Recipient Type")
-        {
-        }
+        field(6; "Recipient Type"; Enum "Email Recipient Type") { }
+        field(7; Region; Enum "Region Direction") { }
+        field(8; Method; Enum "Email Recipient Type") { }
         field(9; "Province Code"; Code[20])
         {
             TableRelation = Province;

@@ -35,7 +35,6 @@ page 50032 "Payroll Attributes"
                 {
                     ToolTip = 'Specifies the value of the Activity Type  field.';
                     ApplicationArea = All;
-
                 }
                 field("Non-Taxable"; Rec."Non-Taxable")
                 {

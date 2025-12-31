@@ -79,7 +79,6 @@ codeunit 50000 "Leave Mgt."
         CalendarDate: Record Date;
         Counter: Integer;
         isNonWorkingDay, FilterMatched : Boolean;
-        BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
         Branch, District, MunicipalityFilter : Text;
@@ -961,12 +960,16 @@ codeunit 50000 "Leave Mgt."
         IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
-        NextEntryNo: Integer;
         EmpVar: Record Employee;
     begin
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
+
+            LeaveTypeSetup.get(leave."Leave Code");
+            if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::"On Approval" then
+                CreateLeaveLedger(leave."Employee No.", leave."Leave Code", leave."Start Date", leaveEarn.Type::Earned, leave."No. of Days", GetNextLeaveLedgerEntryNo(), leaveNo, leave.Remarks, '');
+
             CreateLeaveLedger(leave."Employee No.",
                      leave."Leave Code",
                      leave."Start Date",
@@ -976,6 +979,7 @@ codeunit 50000 "Leave Mgt."
                      leaveNo,
                      leave.Remarks,
                      '');
+
         end;
         //Complete record of substitutes in leave history
         LeaveEarn.Reset();
@@ -1043,7 +1047,6 @@ codeunit 50000 "Leave Mgt."
         CancelDocument: Record "Cancel Document";
         ServiceInactivity: Record "Service Inactivity Ledger";
         EmpVar: Record Employee;
-        NextEntryNo: Integer;
     begin
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
@@ -1145,8 +1148,6 @@ codeunit 50000 "Leave Mgt."
         ProRataStartDate, ProRataEndDate, CreditPeriodStartDate, CreditPeriodEndDate, LeaveYearStartDate, LeaveYearEndDate : Date;
         SkipLeaveEarn: Boolean;
         EmpConfDate: Date;
-        LeavePeriod2: Record "Accounting Period";
-        CurrentQuarter: Enum Quater;
         QuarterStartDate, QuarterEndDate : Date;
         TotalDaysInPeriod, EligibleDays : Integer;
         ContractRenewDate, ContractExpiryDate : Date;
@@ -1587,7 +1588,6 @@ codeunit 50000 "Leave Mgt."
                 if LeaveTypeSetup."Encashed Formula" <> '' then
                     leaveLedger."Encashment Amount" := AllowanceConfig.EvaluateAmountForEmployee(LeaveTypeSetup."Encashed Formula", empCode);
                 leaveLedger.Modify(true);
-
             end;
         end;
 
@@ -1609,7 +1609,6 @@ codeunit 50000 "Leave Mgt."
     var
         EmpVar: Record Employee;
         LeaveTypeSetup: Record "Leave Type Setup";
-        entryNo: Integer;
         ExtendedEncashLimit: Decimal;
     begin
         EmpVar.Reset();
@@ -1682,7 +1681,7 @@ codeunit 50000 "Leave Mgt."
 
     procedure CalculateProrataLeavePeriod(var LeaveCreditPeriods: Decimal; EmployementDate: Date)
     var
-        LeavePeriod, LeavePeriod2 : Record "Accounting Period";
+        LeavePeriod: Record "Accounting Period";
         LeaveYearStartDate, EmployementMonthStartDate, EmployementMonthEndDate : Date;
     begin
         LeaveYearStartDate := LeavePeriod.GetCurrentLeaveYearStartDate();
@@ -1761,9 +1760,7 @@ codeunit 50000 "Leave Mgt."
         OrganizationStructureList: Record "Organization Structure List";
         DistrictList: Record District;
         MunicipalityList: Record Municipality;
-        Counter: Integer;
         FilterMatched: Boolean;
-        BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
         Branch, District, MunicipalityFilter : Text;
@@ -2027,7 +2024,6 @@ codeunit 50000 "Leave Mgt."
         ApprovalHRMS.SetRange("Approval Sequence", 1);
         if ApprovalHRMS.FindSet() then
             ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
-
     end;
 
     [IntegrationEvent(false, false)]
@@ -2113,7 +2109,6 @@ codeunit 50000 "Leave Mgt."
     begin
     end;
 
-
     var
         EngNep: Record "English-Nepali Date";
         LeaveError: Label 'You cannot apply leave in Present day %1.';
@@ -2125,6 +2120,5 @@ codeunit 50000 "Leave Mgt."
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveTypeSetup: Record "Leave Type Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
-
 
 }

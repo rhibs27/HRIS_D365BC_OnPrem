@@ -1,6 +1,5 @@
 table 50030 "Pay Cycle Period"
 {
-
     DrillDownPageId = "Pay Cycle Period";
     LookupPageId = "Pay Cycle Period";
     DataClassification = CustomerContent;
@@ -85,10 +84,7 @@ table 50030 "Pay Cycle Period"
         {
             DecimalPlaces = 2 : 2;
         }
-        field(9; "Nepali Month"; Enum "Nepali Month")
-        {
-
-        }
+        field(9; "Nepali Month"; Enum "Nepali Month") { }
         field(10; "Allowance Start Date"; Date)
         {
             trigger OnValidate()

@@ -38,7 +38,6 @@ table 50103 "Overtime Line"
                 end else
                     "Employee Name" := '';
             end;
-
         }
         field(5; "Employee Name"; Text[100])
         {
@@ -166,7 +165,6 @@ table 50103 "Overtime Line"
         {
             Editable = false;
         }
-
     }
     keys
     {

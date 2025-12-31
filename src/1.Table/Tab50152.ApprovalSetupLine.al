@@ -40,8 +40,6 @@ table 50152 "Approval Setup Line"
                     Validate("Approver Role Name", ApprovalRole.Description);
             end;
         }
-
-
         field(6; "Approver Role Name"; Text[100])
         {
             Caption = 'Approver Role Name';
@@ -68,19 +66,13 @@ table 50152 "Approval Setup Line"
         {
             DataClassification = ToBeClassified;
             InitValue = true;
-
         }
         field(5; "Approval Sequence"; Integer)
         {
             Caption = 'Approval Sequence';
         }
-        field(10; "Line No."; Integer)
-        {
-
-        }
-        field(11; "Payroll Filter"; Code[200])
-        {
-        }
+        field(10; "Line No."; Integer) { }
+        field(11; "Payroll Filter"; Code[200]) { }
     }
     keys
     {

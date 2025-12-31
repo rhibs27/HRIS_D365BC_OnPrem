@@ -26,7 +26,6 @@ page 50372 "Shift Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the Employee Work Shift field.', Comment = '%';
                 }
-
                 field("Employee Name"; Rec."Employee Name")
                 {
                     Editable = false;
@@ -50,7 +49,6 @@ page 50372 "Shift Assignment Memo Subform"
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                     DrillDownPageId = "Assignment Memo Ledger Entries";
                 }
-
             }
         }
     }
@@ -67,11 +65,10 @@ page 50372 "Shift Assignment Memo Subform"
 
                 trigger OnAction()
                 var
-                    AllowanceLineTemp: Record "Allowance Assignment Line" temporary;
                     FilterPage: FilterPageBuilder;
                     AllowanceLine: Record "Assignment Memo Line";
                     FromDate, Todate : date;
-                    AllowanceType, EmpCode : code[20];
+                    EmpCode : code[20];
                     AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                 begin
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
@@ -92,7 +89,6 @@ page 50372 "Shift Assignment Memo Subform"
                     CurrPage.Update();
                 end;
             }
-
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -117,9 +113,8 @@ page 50372 "Shift Assignment Memo Subform"
         SubstituteActionVisible := Rec."Approval Status" = Rec."Approval Status"::Approved;
         if AssignmentMemoHdr.Get(Rec."Document No.") then
             SubstituteActionVisible := SubstituteActionVisible <> (AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending);
-
     end;
 
     var
-        SubstituteActionVisible, RequestDoc : boolean;
+        SubstituteActionVisible : boolean;
 }

@@ -204,7 +204,6 @@ page 50154 "Employee Personal Loan List"
                 ToolTip = 'Executes the Pending Approval action.';
                 ApplicationArea = All;
 
-
                 trigger OnAction()
                 begin
                     Rec.FilterGroup(2);

@@ -173,7 +173,6 @@ page 50320 "Employee Insurance Card"
                 ApplicationArea = all;
             }
         }
-
     }
     actions
     {
@@ -329,8 +328,6 @@ page 50320 "Employee Insurance Card"
         RecRef: RecordRef;
         ApprovalMgt: Codeunit "Approver Mgt";
         HrMgt: Codeunit "HR Mgt.";
-
-
 
     local procedure InsuranceEditControl();
     begin

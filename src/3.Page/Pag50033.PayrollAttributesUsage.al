@@ -35,13 +35,11 @@ page 50033 "Payroll Attributes Usage"
                     ToolTip = 'Specifies the value of the Subtype field.';
                     ApplicationArea = All;
                 }
-
                 field(Amount; Rec.Amount)
                 {
                     ToolTip = 'Specifies the value of the Amount field.';
                     ApplicationArea = All;
                 }
-
                 field(Formula; Rec.Formula)
                 {
                     ToolTip = 'Specifies the value of the Formula field.';
@@ -65,7 +63,6 @@ page 50033 "Payroll Attributes Usage"
                 {
                     ToolTip = 'Specifies the value of RF Contribution Type field.', Comment = '%';
                 }
-
             }
         }
     }

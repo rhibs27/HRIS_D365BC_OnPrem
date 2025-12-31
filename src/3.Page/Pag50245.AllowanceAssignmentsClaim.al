@@ -74,7 +74,4 @@ page 50245 "Allowance Assignments Claim"
             }
         }
     }
-    var
-        LoanMgt: Codeunit "Loan Mgt.";
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
 }
