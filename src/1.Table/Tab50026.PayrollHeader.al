@@ -318,10 +318,6 @@ table 50026 "Payroll Header"
         if "No." = '' then begin
             TestNoSeries;
             HrMgt.InitNoSeriesNew(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
-            // PayrollHdrs.ReadIsolation(IsolationLevel::ReadUncommitted);
-            // PayrollHdrs.SetLoadFields("No.");
-            // while PayrollHdrs.get("No.") do
-            //     "No." := NoSeriesCodeunit.GetNextNo("No. Series");
             "No." := NoSeriesCodeunit.GetNextNo("No. Series");
         end;
 

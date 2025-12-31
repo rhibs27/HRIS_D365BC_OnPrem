@@ -58,6 +58,11 @@ table 50027 "Payroll Line"
                 Validate(Gender, Employee.Gender);
                 Validate("Marital Status", Employee."Marital Status");
                 Validate("Employee Type", Employee."Employment Type");
+                Validate("Province Code", Employee."Province Code");
+                Validate("Branch Code", Employee."Branch Code");
+                Validate("Department Code", Employee."Department Code");
+                Validate("Unit Code", Employee."Unit Code");
+                Validate("Extenion Counter Code", Employee."Extension Counter Code");
 
                 HRSetup.Get;
                 Validate("Global Dimension 1 Code", Employee."Global Dimension 1 Code");
@@ -1524,7 +1529,31 @@ table 50027 "Payroll Line"
             DataClassification = ToBeClassified;
             Editable = false;
         }
-
+        field(1100; "Province Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+        }
+        field(1101; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+        }
+        field(1102; "Department Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
+        field(1103; "Unit Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
+        field(1104; "Extenion Counter Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
     }
 
     keys
@@ -1788,7 +1817,17 @@ table 50027 "Payroll Line"
                     AttributeAmount := 0;
                     if IsValidComponent then begin
                         if PayrollAttributesUsage.Amount <> 0 then begin
-                            AttributeAmount := PayrollAttributesUsage.Amount;
+                            if PayrollAttributesUsage."Static Amount" then
+                                AttributeAmount := PayrollAttributesUsage.Amount
+                            else begin
+                                if PayrollAttributesUsage.Formula <> '' then
+                                    AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
+                                else
+                                    if PayrollAttributes.Formula <> '' then
+                                        AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
+                                    else
+                                        AttributeAmount := PayrollAttributesUsage.Amount;
+                            end;
                         end else
                             if PayrollAttributesUsage.Formula <> '' then
                                 AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
@@ -1805,8 +1844,6 @@ table 50027 "Payroll Line"
 
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
-                        // if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
-                        //     CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
 
                         AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);

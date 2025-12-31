@@ -1063,6 +1063,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Document Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 761498003 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Effective Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Effective Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1097,6 +1102,11 @@
           <source>Fuel Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Fuel Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 2160977265 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Last Placement Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Last Placement Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3474915042 - Field 2906764345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Nepali Month</source>
@@ -14763,6 +14773,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Basic Salary - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Branch Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 1733875103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bulk Cash Transfer Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14812,6 +14827,11 @@
           <source>Dashain Allowance Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Dashain Allowance Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Department Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation On</source>
@@ -14867,6 +14887,11 @@
           <source>Evening Counter Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Evening Counter Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 4106330077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extenion Counter Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Extenion Counter Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 1041561170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Faciliating Hours</source>
@@ -15123,6 +15148,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Prorata Sick - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Province Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15277,6 +15307,11 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Unit Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 970141848 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Unpaid Hours</source>
@@ -17003,6 +17038,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Basic Salary - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Branch Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 1733875103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bulk Cash Transfer Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17058,6 +17098,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Current Non-Payments - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Department Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17112,6 +17157,11 @@
           <source>Evening Counter Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Evening Counter Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 4106330077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extenion Counter Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Extenion Counter Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 1041561170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Faciliating Hours</source>
@@ -17388,6 +17438,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Prorata Sick - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Province Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17542,6 +17597,11 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Unit Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 970141848 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Unpaid Hours</source>
@@ -45738,6 +45798,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Approval Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 761498003 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OutStation Effective Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Effective Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2985527303 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -45767,6 +45832,11 @@
           <source>Specifies the value of the Fuel Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Fuel Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 2160977265 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Last Placement Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Last Placement Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2985527303 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Nepali Month field.</source>
@@ -58463,10 +58533,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Saved - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 3767790842 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Seniarity</source>
+        <trans-unit id="TableExtension 1028528413 - Field 3218809236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Seniority</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Seniarity - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Seniority - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3299627436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Service Period</source>

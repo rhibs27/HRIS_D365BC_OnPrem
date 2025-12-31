@@ -195,6 +195,12 @@ codeunit 50030 "Assignment Memo Mgt"
         if AssignmentMemoLine2.Count = 0 then
             Error('Nothing to send for approval.');
 
+        AssignmentMemoLine2.CalcSums("Allowance Amount");
+        if AssignmentMemoLine2."Allowance Amount" = 0 then
+            if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+                Error('Total Allowance Amount cannot be zero.');
+
+        CheckAttachmentOnBeforeSendForApproval(AssignmentmemoHdr);  //check mandatory attachment exist
         AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);  //company specific and allowance specific controls
         CheckIfAllowanceIsSubstitutedForTheDate(AssignmentmemoHdr);  //do now allow to request if already substituted
 
@@ -624,6 +630,39 @@ codeunit 50030 "Assignment Memo Mgt"
         if IncomingDoc.Insert(true) then;
     end;
 
+    procedure CheckAttachmentOnBeforeSendForApproval(var AssignmentmemoHdr: Record "Assignment Memo Header")
+    var
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDoc: Record "Incoming Document";
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        //for now attachment check only for request allowance
+        if AssignmentmemoHdr."Activity Type" <> AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+            exit;
+        if not PayrollAttributes.Get(AssignmentmemoHdr."Payroll Attribute Code") then
+            exit;
+        AttachmentSetup.SetRange(Mandatory, true);
+        AttachmentSetup.SetFilter(Type, Format(AssignmentmemoHdr."Activity Type"));
+        case PayrollAttributes."Specific Attributes" of
+            PayrollAttributes."Specific Attributes"::"Education Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Education Allowance");
+            PayrollAttributes."Specific Attributes"::Reimbursement:
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::Reimbursement);
+            PayrollAttributes."Specific Attributes"::"Remote Area Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
+            PayrollAttributes."Specific Attributes"::"OutStation Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+        end;
+        if AttachmentSetup.FindSet() then
+            repeat
+                IncomingDoc.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                IncomingDoc.SetRange("Document No.", AssignmentmemoHdr."No.");
+                IncomingDoc.SetRange("Employee Activity Type", AssignmentmemoHdr."Activity Type");
+                if IncomingDoc.IsEmpty() then
+                    Error('Mandatory attachment %1 is missing. Please attach before sending for approval.', AttachmentSetup."Attachment Code");
+            until AttachmentSetup.Next() = 0;
+    end;
+
     procedure ClearAssignmentMemoLedgerDataOnLineReject(ledgerEntryNo: Integer)
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
@@ -806,6 +845,8 @@ codeunit 50030 "Assignment Memo Mgt"
         AmountLimit, TempAmountLimit, RemainingAmountLimit : Decimal;
         FuelClaimed, AmountClaimed : Decimal;
         PayrollAttributes: Record "Payroll Attributes";
+        AssignmentmemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        BlockedClaimedAllowance, BlockedFuelAllowance : decimal;
     begin
         //get limit
         if not PayrollAttributes.Get(AssignmentMemoHdr."Payroll Attribute Code") then
@@ -833,11 +874,24 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine2.SetFilter("Approval Status", '%1|%2', AssignmentMemoLine2."Approval Status"::Pending, AssignmentMemoLine2."Approval Status"::Approved);
         AssignmentMemoLine2.SetRange("From Date", AssignmentMemoHdr."To date");
         AssignmentMemoLine2.SetRange("To Date", AssignmentMemoHdr."To Date");
-        AssignmentMemoLine2.CalcSums("Fuel Claimed (ltr)");
-        AssignmentMemoLine2.CalcSums("Allowance Amount");
+        BlockedClaimedAllowance := 0;
+        BlockedFuelAllowance := 0;
+        if AssignmentMemoLine2.FindSet() then begin
+            repeat
+                AssignmentmemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine2."Document No.");
+                AssignmentmemoLedgerEntry.SetRange("Blocked for Payroll", true);
+                if not AssignmentmemoLedgerEntry.IsEmpty() then begin
+                    BlockedClaimedAllowance += AssignmentMemoLine2."Allowance Amount";
+                    BlockedFuelAllowance += AssignmentMemoLine2."Fuel Claimed (ltr)";
+                end;
+            until AssignmentMemoLine2.Next() = 0;
 
-        RemainingFuelLimit := FuelLimit - AssignmentMemoLine2."Fuel Claimed (ltr)";
-        RemainingAmountLimit := AmountLimit - AssignmentMemoLine2."Allowance Amount";
+            AssignmentMemoLine2.CalcSums("Fuel Claimed (ltr)");
+            AssignmentMemoLine2.CalcSums("Allowance Amount");
+        end;
+
+        RemainingFuelLimit := FuelLimit - AssignmentMemoLine2."Fuel Claimed (ltr)" + BlockedFuelAllowance;
+        RemainingAmountLimit := AmountLimit - AssignmentMemoLine2."Allowance Amount" + BlockedClaimedAllowance;
         if (RemainingFuelLimit <= 0) and (FuelLimit > 0) then
             Error('Fuel claimed exceeds the limit of allowable %1 liters.', FuelLimit);
 
@@ -949,7 +1003,7 @@ codeunit 50030 "Assignment Memo Mgt"
             AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
             if AssignmentMemoLine.FindSet() then
                 repeat
-                    if not CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
+                    if CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
                         Error('Allowance for %1 is already substituted on %2. Cannot proceed with your allowance request.', AssignmentMemoLine."Payroll Attribute Code", AssignmentMemoLine."From Date");
 
                     //check if pending substituted exist.

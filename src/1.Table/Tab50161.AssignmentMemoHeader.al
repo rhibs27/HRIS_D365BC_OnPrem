@@ -174,6 +174,10 @@ table 50161 "Assignment Memo Header"
                     "Permanent Address" := Employee.Address;
                     "Temporary Address" := Employee."Temporary Address";
                     "Salary Level" := Employee."Salary Level";
+                    if Employee."Last Placement Date" <> 0D then
+                        "Last Placement Date" := Employee."Last Placement Date"
+                    else
+                        "Last Placement Date" := Employee."Employment Date";
 
                     if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
                         "Province Code" := Employee."Province Code";
@@ -302,6 +306,15 @@ table 50161 "Assignment Memo Header"
         field(53; "Fuel Type"; Enum "Fuel Type")
         {
             DataClassification = CustomerContent;
+        }
+        field(60; "Effective Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'To be used for allowance claimed in prorata basis such as outstation allowance, remote allowance, etc.';
+        }
+        field(61; "Last Placement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
         }
         field(71; "Ownership Start/End Date"; Date)
         {

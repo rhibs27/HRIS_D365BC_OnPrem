@@ -5648,7 +5648,7 @@ codeunit 50001 "HR Mgt."
                 if Employee.FindSet() then
                     repeat
                         EmployeeCount += 1;
-                        Employee.Seniarity := SalaryLevel.Rank * 1000 + EmployeeCount;
+                        Employee.Seniority := SalaryLevel.Rank * 1000 + EmployeeCount;
                         Employee.Modify();
                     until Employee.Next() = 0;
 

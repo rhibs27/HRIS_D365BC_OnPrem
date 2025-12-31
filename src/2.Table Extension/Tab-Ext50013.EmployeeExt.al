@@ -1572,7 +1572,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50202; Seniarity; Decimal)
+        field(50202; Seniority; Decimal)
         {
             DataClassification = CustomerContent;
             Editable = false;
@@ -1581,9 +1581,9 @@ tableextension 50013 "Employee Ext" extends Employee
     }
     keys
     {
-        key(key6; "First Name") { }
-        key(key7; "Last Name") { }
-        key(key8; "Full Name") { }
+        key(key6; "First Name", "Last Name") { }
+        key(key7; "Full Name") { }
+        key(key8; Seniority) { }
     }
     fieldgroups
     {
