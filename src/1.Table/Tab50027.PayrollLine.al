@@ -2781,7 +2781,8 @@ table 50027 "Payroll Line"
         Amt := AssignmentMemoLedgerEntry."Amount";
         if AssignmentMemoLedgerEntry.FindSet() then
             AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", PayrollDocNo);
-        exit(round(Amt, 0.01, '='));
+        RoundAmount(Amt);
+        exit(Amt);
     end;
 
     procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal

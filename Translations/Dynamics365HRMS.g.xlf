@@ -45833,6 +45833,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Effective Months (Edu.) - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the From Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control From Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3106374893 - Control 3692456998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fuel Claimed (ltr) field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -45872,6 +45877,11 @@
           <source>Specifies the value of the School Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control School Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the To Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control To Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3739481242 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Request Allowance Subform Copy</source>

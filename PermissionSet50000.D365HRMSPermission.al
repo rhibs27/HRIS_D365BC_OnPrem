@@ -86,7 +86,7 @@ permissionset 50000 D365HRMSPermission
         tabledata "KPI Target Raw" = RIMD,
         tabledata "KRA Master" = RIMD,
         tabledata "KRA Master Setup" = RIMD,
-        // tabledata "KRA Master Setup1" = RIMD,
+    // tabledata "KRA Master Setup1" = RIMD,
         tabledata "KRA Subform List" = RIMD,
         tabledata "Leave Earn" = RIMD,
         tabledata "Leave Type Setup" = RIMD,
@@ -190,7 +190,7 @@ permissionset 50000 D365HRMSPermission
         table "KPI Target Raw" = X,
         table "KRA Master" = X,
         table "KRA Master Setup" = X,
-        // table "KRA Master Setup1" = X,
+    // table "KRA Master Setup1" = X,
         table "KRA Subform List" = X,
         table "Leave Earn" = X,
         table "Leave Type Setup" = X,
@@ -846,5 +846,9 @@ permissionset 50000 D365HRMSPermission
         page "Employee Team Profiles" = X,
         page "Promotion Journal" = X,
         page "Team Profile Card" = X,
-        page "Team Profile Subform" = X;
+        page "Team Profile Subform" = X,
+        tabledata "KRA Master Setup1" = RIMD,
+        table "KRA Master Setup1" = X,
+        report "Employee KYE Report" = X,
+        report "Service Duration Report" = X;
 }

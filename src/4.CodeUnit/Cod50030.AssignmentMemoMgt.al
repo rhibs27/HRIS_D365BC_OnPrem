@@ -367,7 +367,7 @@ codeunit 50030 "Assignment Memo Mgt"
     //request allowance section
     procedure OpenAllowance(EmpCode: Code[20]; AllowanceType: code[20])
     var
-        AssignmentmemoHdr : Record "Assignment Memo Header";
+        AssignmentmemoHdr: Record "Assignment Memo Header";
         Approval: Record "Approval HRMS";
         PGSetup: Record "Payroll General Setup";
         Employee: Record Employee;
@@ -637,6 +637,8 @@ codeunit 50030 "Assignment Memo Mgt"
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
             PayrollAttributes."Specific Attributes"::"OutStation Allowance":
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+            else
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
         end;
         if AttachmentSetup.FindSet() then
             repeat
@@ -977,8 +979,8 @@ codeunit 50030 "Assignment Memo Mgt"
             exit;
 
         AllowanceConfig.SetRange("Payroll Attribute", AssignmentMemoHdr."Payroll Attribute Code");
-        AllowanceConfig.FindFirst();
-        if AllowanceConfig.Source in [AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift] then begin
+        AllowanceConfig.SetFilter(Source, '%1|%2', AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift);
+        if AllowanceConfig.FindFirst() then begin
             AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
             if AssignmentMemoLine.FindSet() then
                 repeat
@@ -1001,8 +1003,8 @@ codeunit 50030 "Assignment Memo Mgt"
             if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then
                 Error('There is a pending substitute assignment. Cannot proceed with your allowance request.Please try again later.');
         end
-        else
-            Error('Linked allowance assignment not found!');
+        // else
+        //     Error('Linked allowance assignment not found!');
     end;
 
     procedure CheckIfPendingClaimedAllowanceExist(DocNo: Code[20]; LineNo: Integer)
