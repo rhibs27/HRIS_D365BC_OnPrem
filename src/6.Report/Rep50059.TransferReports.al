@@ -494,7 +494,6 @@ report 50059 "Transfer Reports"
         end;
     end;
 
-
     local procedure EmployeeActivityFilter()
     begin
         case DeputOn of

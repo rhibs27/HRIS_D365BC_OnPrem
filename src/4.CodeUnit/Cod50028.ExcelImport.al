@@ -1,6 +1,5 @@
 codeunit 50028 "Excel Import"
 {
-
     procedure ImportFromExcelSheet(TableID: Integer; DocNo: Code[20]; UseColumnName: Boolean)
     var
         FileMgt: Codeunit "File Management";
@@ -63,10 +62,8 @@ codeunit 50028 "Excel Import"
     var
         FileMgt: Codeunit "File Management";
         IStream: InStream;
-        FromFile, CellValue : Text;
-        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
-        FieldRef: FieldRef;
-        RecRef: RecordRef;
+        FromFile : Text;
+        RowNo, LastRow : Integer;
         EmployeeActJournal: Record "Employee Activity Journal";
         FirstLine: Boolean;
         EmpActNo: Code[20];
@@ -247,7 +244,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.OpenExcel();
     end;
 
-    //23 
+    //23
     procedure ExportLines(DocumentNo: Code[20])
     var
         AdjLine: Record "Attribute Adjustment Line";
@@ -290,9 +287,8 @@ codeunit 50028 "Excel Import"
     var
         FirstLine: Boolean;
         IStream: InStream;
-        FromFile, CellValue : Text;
-        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
-        TotalRows: Integer;
+        FromFile : Text;
+        RowNo, LastRow, LineNo : Integer;
         AdjLine: Record "Attribute Adjustment Line";
         FileMgt: Codeunit "File Management";
     begin
@@ -320,7 +316,6 @@ codeunit 50028 "Excel Import"
                 InsertLine(RowNo, DocumentNo, LineNo);
             end;
             // Message('%1 lines imported successfully.', TotalRows - 1);
-
         end;
         if not ExcelBuffer.IsEmpty() then
             ExcelBuffer.DeleteAll;
@@ -351,7 +346,6 @@ codeunit 50028 "Excel Import"
     var
         InStr: InStream;
         SheetName: Text;
-        FileUploaded: Boolean;
     begin
         UploadIntoStream(UploadFileTxt, ExlExt, '', Filename, InStr);
         ExcelBuffer.Reset;
@@ -410,11 +404,6 @@ codeunit 50028 "Excel Import"
         Filename: Text[250];
         SheetName: Text[250];
         ExcelImportSuccess: Label 'Data is successfully imported.';
-
-        tmpBlob: Codeunit "Temp Blob";
-        i: Integer;
         UploadFileTxt: Label 'Select the Excel File to Import';
         ExlExt: Label '.xlsx';
-
-
 }

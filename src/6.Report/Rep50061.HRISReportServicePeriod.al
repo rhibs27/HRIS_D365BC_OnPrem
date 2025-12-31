@@ -79,12 +79,6 @@ report 50061 "HRIS Report - Service Period"
     labels { }
 
     var
-        DimValue: Record "Dimension Value";
-        // Depart: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
-        Province: Record Province;
-        // SubProvince: Record "Sub Province";
-        GLSetup: Record "General Ledger Setup";
         DeputationCode: Text;
         DeputationValue: Text;
         HRMgt: Codeunit "HR Mgt.";

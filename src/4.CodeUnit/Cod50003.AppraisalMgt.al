@@ -1,7 +1,6 @@
 codeunit 50003 "AppraisalMgt."
 {
     var
-        HRMgt: Codeunit "HR Mgt.";
         CodeunitEmailMessage: Codeunit "Email Message";
         Employee: Record Employee;
         Colon: Label ' : ';
@@ -110,8 +109,6 @@ codeunit 50003 "AppraisalMgt."
     local procedure CheckAppraisalApproval(Appraisal: Record Appraisal)
     var
         ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
         ReviewNotEligibleError: Label 'You are not Eligible to review this document.';
         CheckReviewNotEligibleError: Label 'You are not Eligible to check review this document.';
     begin
@@ -393,8 +390,6 @@ codeunit 50003 "AppraisalMgt."
     var
         KPIMaster: Record "KPI Master";
         KPIEmpRec: Record "KPI Employee";
-        KRASubform: Record "KRA Subform List";
-        KPIWeightage: Decimal;
     begin
         AppraisalRec.TestField("KRA Category");
         KPIMaster.Reset;
@@ -445,5 +440,4 @@ codeunit 50003 "AppraisalMgt."
                     Error('Attachment filenot Uploaded for attachment %1', AttachmentSetup."Attachment Code");
             until AttachmentSetup.Next = 0;
     end;
-
 }

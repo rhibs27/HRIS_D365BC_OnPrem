@@ -203,7 +203,6 @@ report 50151 "Payroll Voucher summary 2"
         Text059: Label 'THOUSAND';
         HrMgt: Codeunit "HR Mgt.";
         TotaNetPay: Decimal;
-        GLAccount: Record "G/L Account";
         TotalDebitAmt: Decimal;
         PayrollAttributes: Record "Payroll Attributes";
         PGSetup: Record "Payroll General Setup";
@@ -372,7 +371,6 @@ report 50151 "Payroll Voucher summary 2"
         end;
         exit(OneLineAddress);
     end;
-
 
     procedure GetAttributeWiseDebitCredit(AttrCode: Code[20];
                                         var DebitAmt: Decimal;

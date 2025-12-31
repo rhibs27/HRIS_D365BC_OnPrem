@@ -36,7 +36,6 @@ page 50349 "Notice Card"
                     ToolTip = 'Specifies the value of the Date field.';
                     ApplicationArea = All;
                 }
-
                 field("Notice Title"; Rec."Notice Title")
                 {
                     Editable = EditableField;
@@ -56,7 +55,6 @@ page 50349 "Notice Card"
                         SetLargeText(LargeText);
                     end;
                 }
-
             }
         }
         area(factboxes)
@@ -82,7 +80,6 @@ page 50349 "Notice Card"
             EditableField := true
         else
             EditableField := false;
-
     end;
 
     var

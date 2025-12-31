@@ -45,12 +45,9 @@ table 50058 "KPI Master"
         {
             Description = 'Target always given as 100';
         }
-        field(6; Remarks; Text[150])
-        {
-        }
+        field(6; Remarks; Text[150]) { }
         field(7; "Appraisal Type"; Enum "Appraisal Type")
         {
-
             trigger OnValidate()
             begin
                 if "Appraisal Type" <> xRec."Appraisal Type" then begin
@@ -63,9 +60,7 @@ table 50058 "KPI Master"
         {
             Editable = false;
         }
-        field(9; Description; Text[250])
-        {
-        }
+        field(9; Description; Text[250]) { }
         field(10; "Appraisal Subtype Monthly"; Enum "Nepali Month")
         {
             Caption = 'Appraisal Subtype Monthly';

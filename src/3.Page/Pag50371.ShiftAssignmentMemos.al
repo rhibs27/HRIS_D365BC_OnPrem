@@ -77,8 +77,6 @@ page 50371 "Shift Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
-
-
             }
         }
     }

@@ -180,12 +180,4 @@ page 50103 "Allowance Assignments (Screen)"
             }
         }
     }
-
-
-    var
-        LoanMgt: Codeunit "Loan Mgt.";
-        FromDate: Date;
-        ToDate: Date;
-        HRMgt: Codeunit "HR Mgt.";
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
 }

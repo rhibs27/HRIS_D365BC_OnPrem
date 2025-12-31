@@ -109,7 +109,6 @@ report 50085 "Salary certificate (contract)"
         Gendervalue5: Text;
         deputation: Text;
         HRMgt: Codeunit "HR Mgt.";
-        MedicalInsuranceMgt: Codeunit "Insurance Mgt";
 
     local procedure getGenderValue(empCode: Code[20])
     var

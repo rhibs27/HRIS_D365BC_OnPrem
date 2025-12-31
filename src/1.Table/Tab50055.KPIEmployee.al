@@ -55,13 +55,8 @@ table 50055 "KPI Employee"
                 AppraisalMgt.CalculateKPIMarks(AppraisalRec);
             end;
         }
-        field(12; "Fiscal Year"; Code[20])
-        {
-        }
-        field(13; "Appraisal Type"; Enum "Appraisal Type")
-        {
-
-        }
+        field(12; "Fiscal Year"; Code[20]) { }
+        field(13; "Appraisal Type"; Enum "Appraisal Type") { }
         field(14; "Appraisal Subtype Monthly"; Enum "Nepali Month")
         {
             Caption = 'Appraisal Subtype Monthly';
@@ -69,18 +64,12 @@ table 50055 "KPI Employee"
         field(15; "Appraisal Subtype Quarterly"; Enum Quater)
         {
             Caption = 'Appraisal Subtype Quarterly';
-
         }
-        field(16; "From Setup"; Boolean)
-        {
-        }
-        field(17; "Line No."; Integer)
-        {
-        }
+        field(16; "From Setup"; Boolean) { }
+        field(17; "Line No."; Integer) { }
         field(18; "Deputation on"; Enum "Deputation Type")
         {
             Editable = false;
-
         }
         field(19; "Hide Delete Action"; Boolean) { }
     }

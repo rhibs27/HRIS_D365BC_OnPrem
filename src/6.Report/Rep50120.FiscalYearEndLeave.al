@@ -57,7 +57,6 @@ report 50120 FiscalYearEndLeave
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         EngNep: Record "English-Nepali Date";
-        DocNo: Code[20];
         HRSetup: Record "Human Resources Setup";
 
     local procedure ValidateForNonPermanentEmployee()

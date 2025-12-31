@@ -85,8 +85,6 @@ page 50370 "Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Payroll Attr. Description field.', Comment = '%';
                 }
-
-
             }
         }
     }
@@ -105,7 +103,6 @@ page 50370 "Assignment Memos"
                 trigger OnAction()
                 var
                     Filterpage: FilterPageBuilder;
-                    AssignmentMemoHeader, AssignmentMemoHeader2 : Record "Assignment Memo Header";
                     docNo: Code[20];
                     AssignmentmemoMgt: Codeunit "Assignment Memo Mgt";
                     FromDate, ToDate : Date;

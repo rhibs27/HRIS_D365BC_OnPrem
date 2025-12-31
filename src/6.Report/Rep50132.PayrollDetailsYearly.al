@@ -1,6 +1,5 @@
 report 50132 "Payroll Details Yearly"
 {
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019933.PayrollDetailsYearly.rdl';
     UsageCategory = ReportsAndAnalysis;

@@ -182,9 +182,7 @@ table 50092 "Allowance Assignment Header"
         {
             Editable = false;
         }
-        field(100; "Status"; Text[20])
-        {
-        }
+        field(100; "Status"; Text[20]) { }
     }
     keys
     {

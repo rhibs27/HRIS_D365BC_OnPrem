@@ -248,15 +248,11 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
     }
     keys
     {
-        key(key2; "Relative Code")
-        {
-        }
+        key(key2; "Relative Code") { }
     }
     fieldgroups
     {
-        addlast(DropDown; "Relative Code", "Full Name")
-        {
-        }
+        addlast(DropDown; "Relative Code", "Full Name") { }
     }
     var
         Hrmgt: Codeunit "HR Mgt.";

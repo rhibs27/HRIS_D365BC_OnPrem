@@ -2,7 +2,6 @@ codeunit 50032 "Attribute Adjustment Mgt"
 {
     trigger OnRun()
     begin
-
     end;
 
     procedure OnApprovalOfAttributeAdjustment(DocumentNo: Code[20])
@@ -56,7 +55,6 @@ codeunit 50032 "Attribute Adjustment Mgt"
 
     procedure UpdatePayrollAttributesInAttributeAdjustmentLine(AttributeAdjustmentHeader: Record "Attribute Adjustment Header")
     var
-        PayrollAttributes: Record "Payroll Attributes";
         AttributeAdjustmentLine, NewAttributeAdjustmentLine : Record "Attribute Adjustment Line";
         TempEmployee: Record Employee temporary;
         PayCyclePeriod: Record "Pay Cycle Period";
@@ -161,7 +159,6 @@ codeunit 50032 "Attribute Adjustment Mgt"
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
-        BasicSalaryAfterDeduction: Decimal;
     begin
         ResolveColumnOnAttributeAdjustment(Expression, AttributeAdjustmentHeader, EmpCode, IsNewAmount);
         Expression := DelChr(Expression, '=', ',');
@@ -256,7 +253,6 @@ codeunit 50032 "Attribute Adjustment Mgt"
         StrLength: Integer;
         PayrollAttributes: Record "Payroll Attributes";
         AttributeAdjustmentLine: Record "Attribute Adjustment Line";
-        PayrollAttributesUsage: Record "Payroll Attributes Usage";
         BasicAmount: Decimal;
         Substring1: Text;
         SubString2: Text;
@@ -330,5 +326,4 @@ codeunit 50032 "Attribute Adjustment Mgt"
             exit(1);
         exit(0);
     end;
-
 }

@@ -64,7 +64,7 @@ table 50093 "Allowance Assignment Line"
                     if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
                         AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
 
-                    //OverTimeMgt.CheckApprovedOvertimeExists(Rec); not needed in base 
+                    //OverTimeMgt.CheckApprovedOvertimeExists(Rec); not needed in base
                 end;
                 if Employee.Get("Employee Code") then
                     "Employee Name" := Employee."Full Name"
@@ -99,7 +99,6 @@ table 50093 "Allowance Assignment Line"
         }
         field(9; "Allowance Type"; Code[20])
         {
-
             TableRelation = if ("Emp Act Type" = const("Request Allowance")) "Allowance Configuration"."Payroll Attribute"
             else
             "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
@@ -141,10 +140,7 @@ table 50093 "Allowance Assignment Line"
         {
             Editable = false;
         }
-        field(12; Type; Enum "Branchwise/Extension Type")
-        {
-
-        }
+        field(12; Type; Enum "Branchwise/Extension Type") { }
         field(13; "Created Date"; Date) { }
         field(14; "Created By"; Code[50]) { }
         field(15; "Last Modified Date"; Date) { }
@@ -169,7 +165,6 @@ table 50093 "Allowance Assignment Line"
         }
         field(23; Panel; Enum Panel)
         {
-
             trigger OnValidate()
             begin
                 if Panel <> Panel::" " then begin
@@ -189,15 +184,9 @@ table 50093 "Allowance Assignment Line"
             Editable = false;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
-        field(26; Week; Enum WeekNumber)
-        {
-        }
-        field(27; "Emp Act Type"; Enum "Employee Activity Type")
-        {
-        }
-        field(28; "Allowance Claim From"; Code[20])
-        {
-        }
+        field(26; Week; Enum WeekNumber) { }
+        field(27; "Emp Act Type"; Enum "Employee Activity Type") { }
+        field(28; "Allowance Claim From"; Code[20]) { }
         field(50; "Leave Code"; Code[20]) { }
         field(51; "Leave Document No"; Code[20]) { }
         field(52; "Payroll Doc No."; Code[20]) { }
@@ -247,16 +236,12 @@ table 50093 "Allowance Assignment Line"
         AllowanceHeader: Record "Allowance Assignment Header";
         AllowanceLine: Record "Allowance Assignment Line";
         AllowanceLine1: Record "Allowance Assignment Line";
-        BaseCalenderChange: Record "Base Calendar Change";
         TEXT001: Label '%1 and %2 cannot be assigned on same date %3.';
         BranchWiseAllowance: Record "BranchWise/Extension Allowance";
         TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PayrollGeneralSetup: Record "Payroll General Setup";
         HrMgt: Codeunit "HR Mgt.";
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        OverTimeMgt: Codeunit "OverTime Mgt";
-        SalaryLevel: Record "Salary Level";
         OrganizationStructureList: Record "Organization Structure List";
         AllowanceConfiguration: Record "Allowance Configuration";
 
@@ -325,7 +310,6 @@ table 50093 "Allowance Assignment Line"
                     Error('Date is not within period.');
             CalculateNoOfDays(Rec);
         end;
-
     end;
 
     procedure ValidateAllowanceType()

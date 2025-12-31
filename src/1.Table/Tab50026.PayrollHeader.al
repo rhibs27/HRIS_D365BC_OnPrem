@@ -52,7 +52,6 @@ table 50026 "Payroll Header"
                 end;
             end;
         }
-
         field(3; "To Date"; Date)
         {
             Editable = false;
@@ -126,10 +125,7 @@ table 50026 "Payroll Header"
                     Error('Posting date must be less than today');
             end;
         }
-        field(12; Status; enum "Approval Status")
-        {
-
-        }
+        field(12; Status; enum "Approval Status") { }
         field(13; "Posting No."; Code[20]) { }
         field(14; "Posting No. Series"; Code[20])
         {
@@ -248,14 +244,8 @@ table 50026 "Payroll Header"
                     until PayrollLine.Next = 0;
             end;
         }
-        field(29; Type; Enum "Payroll Header Type")
-        {
-
-        }
-        field(30; "Employee Type"; enum "Employee Type")
-        {
-
-        }
+        field(29; Type; Enum "Payroll Header Type") { }
+        field(30; "Employee Type"; enum "Employee Type") { }
         field(31; "Gross Payment"; Boolean)
         {
             trigger OnValidate()
@@ -283,7 +273,6 @@ table 50026 "Payroll Header"
         }
         field(37; "Encashment Period"; Enum "Encashment Period")
         {
-
             trigger OnValidate()
             begin
                 "Encashment Code" := '';
@@ -296,10 +285,7 @@ table 50026 "Payroll Header"
             end;
         }
         field(38; "Encashment Description"; Text[100]) { }
-        field(501; "Optimal Deduction"; Boolean)
-        {
-
-        }
+        field(501; "Optimal Deduction"; Boolean) { }
     }
 
     keys
@@ -310,8 +296,6 @@ table 50026 "Payroll Header"
     fieldgroups { }
 
     trigger OnInsert()
-    var
-        PayrollHdrs: Record "Payroll Header";
     begin
         PRSetup.Get;
 
@@ -494,7 +478,6 @@ table 50026 "Payroll Header"
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         PayrollAttributes: Record "Payroll Attributes";
         RecRef: RecordRef;
-        FieldRef: FieldRef;
     begin
         if PayrollHeader.FindFirst then begin
             PayrollLine.Reset;

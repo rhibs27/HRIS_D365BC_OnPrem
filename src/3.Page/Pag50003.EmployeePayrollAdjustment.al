@@ -1,6 +1,5 @@
 page 50003 "Employee Payroll Adjustment"
 {
-
     //   -- Added field "Grade Adjustment Code" and "Officiat Basic Adjustment Code" in "Payroll General Setup" Table
     //   -- Purpose --> Filter add for 10% calculation in "Grade" and "Officiat-Basic" Payroll Attribute code in "Payroll Adjustment".
 
@@ -117,8 +116,6 @@ page 50003 "Employee Payroll Adjustment"
                 Promoted = true;
 
                 trigger OnAction()
-                var
-                    EmpType: Enum "Employee Type";
                 begin
                     if not Confirm('Do you want to generate overtime?', false) then
                         exit;
@@ -130,7 +127,6 @@ page 50003 "Employee Payroll Adjustment"
                     PayrollEngine.ImportOTEligibleEmployee(PayrollDocNo);
                     CurrPage.Update(true);
                 end;
-
             }
 
             action("Import From Excel")
@@ -236,8 +232,6 @@ page 50003 "Employee Payroll Adjustment"
         PayrollEngine: Codeunit "Payroll Engine";
         EmployeeType: enum "Employee Type";
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
-        DocNo: Code[20];
-
 
     local procedure ValidatePayrollLineAmt()
     begin

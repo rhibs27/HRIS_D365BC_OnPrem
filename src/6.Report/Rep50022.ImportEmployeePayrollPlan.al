@@ -63,16 +63,12 @@ report 50022 "Import Employee Payroll Plan"
         {
             area(Content)
             {
-                group(GroupName)
-                {
-                }
+                group(GroupName) { }
             }
         }
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
     }
     trigger OnPostReport()

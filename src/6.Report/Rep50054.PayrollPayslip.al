@@ -310,7 +310,6 @@ report 50054 "Payroll Payslip"
         EmployeeNo: Code[20];
         FisCalYr: Code[20];
         Months: Enum "Nepali Month";
-        PayrollHeader: Record "Payroll Header";
         NepaliYear: Integer;
         EngNepDate: Record "English-Nepali Date";
         PostedPayrollLine: Record "Posted Payroll Line";
@@ -478,8 +477,6 @@ report 50054 "Payroll Payslip"
     end;
 
     procedure PassParPortal(empCode: Code[20]; year: Integer; Month: Enum "Nepali Month")
-    var
-        PostedPayroll: Record "Posted Payroll Header";
     begin
         EmployeeNo := empCode;
         if year <> 0 then

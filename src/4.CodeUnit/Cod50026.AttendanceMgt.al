@@ -91,7 +91,6 @@ codeunit 50026 "Attendance Mgt"
         CalendarDate: Record Date;
         Counter: Integer;
         isNonWorkingDay, FilterMatched : Boolean;
-        BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
         Branch, District, MunicipalityFilter : Text;
@@ -208,9 +207,7 @@ codeunit 50026 "Attendance Mgt"
         OrganizationStructureList, EmployeeOrganizationStructureList : Record "Organization Structure List";
         DistrictList: Record District;
         MunicipalityList: Record Municipality;
-        Counter: Integer;
         FilterMatched: Boolean;
-        BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
         Branch, District, MunicipalityFilter : Text;
@@ -307,12 +304,9 @@ codeunit 50026 "Attendance Mgt"
     end;
 
     var
-        AttendanceLog: Record "Attendance Log";
-        EngNep: Record "English-Nepali Date";
         CalendarDescription: Text;
         Employee: Record Employee;
         PayrollSetup: Record "Payroll General Setup";
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
-
 }

@@ -171,7 +171,6 @@ pageextension 50011 "Employee List" extends "Employee List"
                 ApplicationArea = All;
                 Caption = 'Job Position';
             }
-
         }
     }
     actions
@@ -196,7 +195,6 @@ pageextension 50011 "Employee List" extends "Employee List"
         {
             Visible = false;
         }
-
         modify("E&mployee")
         {
             Visible = false;

@@ -1,6 +1,5 @@
 page 50247 "Resignation Plan List"
 {
-
     CardPageId = "Payroll Plan";
     Editable = false;
     PageType = List;

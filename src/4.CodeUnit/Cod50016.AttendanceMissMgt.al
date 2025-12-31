@@ -5,8 +5,6 @@ codeunit 50016 "AttendanceMiss Mgt"
         PayrollSetup: Record "Payroll General Setup";
         HRMgt: Codeunit "HR Mgt.";
         Employee: Record Employee;
-        LeaveMgt: Codeunit "Leave Mgt.";
-        AttendanceSetup: Record "Attendance Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
 
     procedure OpenAttendanceMissed(EmpCode: Code[20])
@@ -57,7 +55,7 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary): Code[20]
     var
-        AttendanceMissed1, AttendanceMissed2 : Record "Attendance Missed";
+        AttendanceMissed1 : Record "Attendance Missed";
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
@@ -217,7 +215,6 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     procedure CheckForLeaveDay(var AttendanceJRN: Record "Employee Activity Journal")
     var
-        AttendanceMissed: Record "Attendance Missed";
         leaveDay: Record Leave;
         Ishandled: Boolean;
     begin

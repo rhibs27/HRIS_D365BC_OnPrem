@@ -1,6 +1,5 @@
 page 50214 "Employee Leave Days-HR Cue"
 {
-
     PageType = ListPart;
     SourceTable = "Leave Type Setup";
     ApplicationArea = All;

@@ -28,7 +28,6 @@ table 50036 "Payroll Attributes Usage"
             Description = 'Benefits,Deduction,Non-Payment';
             Editable = false;
             FieldClass = FlowField;
-
         }
         field(4; Subtype; enum "Payroll SubType")
         {

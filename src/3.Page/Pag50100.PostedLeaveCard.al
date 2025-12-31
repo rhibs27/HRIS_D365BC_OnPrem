@@ -66,7 +66,6 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
-
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {

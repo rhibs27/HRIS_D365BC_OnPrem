@@ -14,7 +14,6 @@ page 50348 "HR Recruitment Officer"
             }
             group("HRMS")
             {
-
                 part("HR Overview"; "HR Overview")
                 {
                     Caption = 'HR Overview';

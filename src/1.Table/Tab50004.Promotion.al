@@ -35,7 +35,6 @@ table 50004 Promotion
         field(8; "Previous Salary Level"; Code[20]) { }
         field(9; "Previous Salary Grade"; Code[20]) { }
         field(10; "Previous Salary Description"; text[50]) { }
-
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
@@ -105,12 +104,8 @@ table 50004 Promotion
         {
             TableRelation = "No. Series";
         }
-        field(53; "Remarks"; Text[100])
-        {
-        }
-        field(54; "Rejection Remarks"; Text[100])
-        {
-        }
+        field(53; "Remarks"; Text[100]) { }
+        field(54; "Rejection Remarks"; Text[100]) { }
         field(55; "Approved Date"; Date)
         {
             Editable = false;
@@ -136,10 +131,7 @@ table 50004 Promotion
             end;
         }
         field(66; "Promotion Date (BS)"; Code[20]) { }
-
-        field(100; "Status"; Text[20])
-        {
-        }
+        field(100; "Status"; Text[20]) { }
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';

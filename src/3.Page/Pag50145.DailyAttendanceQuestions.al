@@ -90,7 +90,4 @@ page 50145 "Daily Attendance Questions"
             }
         }
     }
-
-    var
-        HRMgt: Codeunit "HR Mgt.";
 }

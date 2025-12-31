@@ -137,8 +137,6 @@ page 50375 "Attribute Adjustment Card"
                 Visible = OpenApprovalEntriesExistForCurrUser;
 
                 trigger OnAction()
-                var
-                    AttributeAdjLine: Record "Attribute Adjustment Line";
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
                         RecRef.GetTable(Rec);
@@ -195,8 +193,6 @@ page 50375 "Attribute Adjustment Card"
         OpenApprovalEntriesExistForCurrUser: Boolean;
 
     var
-        AttrAdjMgt: Codeunit "Excel Import";
-        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         ApproverMgt: Codeunit "Approver Mgt";
 
         HRMgt: Codeunit "HR Mgt.";

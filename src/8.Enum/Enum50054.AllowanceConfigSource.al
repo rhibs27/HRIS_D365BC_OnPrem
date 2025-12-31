@@ -1,7 +1,7 @@
 enum 50054 "Allowance Config. Source"
 {
     Extensible = true;
-    
+
     value(0; " ")
     {
         Caption = ' ';

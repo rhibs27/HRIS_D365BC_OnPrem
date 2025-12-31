@@ -175,7 +175,4 @@ page 50068 "Resignation List"
             }
         }
     }
-
-    var
-        HRMgt: Codeunit "HR Mgt.";
 }

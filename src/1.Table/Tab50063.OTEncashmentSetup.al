@@ -6,13 +6,8 @@ table 50063 "OT Encashment Setup"
 
     fields
     {
-        field(1; "Encashment Code"; Code[30])
-        {
-        }
-        field(2; Period; Enum "Encashment Period")
-        {
-
-        }
+        field(1; "Encashment Code"; Code[30]) { }
+        field(2; Period; Enum "Encashment Period") { }
         field(3; "Attribute Code"; Code[20])
         {
             TableRelation = "Payroll Attributes";

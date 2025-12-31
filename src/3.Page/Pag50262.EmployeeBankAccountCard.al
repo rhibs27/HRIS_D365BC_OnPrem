@@ -42,14 +42,10 @@ page 50262 "Employee Bank Account Card"
                 {
                     ToolTip = 'Specifies the Primary Payroll Account';
                 }
-
-
                 field("Is RF Account"; Rec."Is RF Account")
                 {
                     ToolTip = 'Specifies whether this bank account is marked as the RF Account.';
                 }
-
-
                 field(City; Rec.City)
                 {
                     ToolTip = 'Specifies the value of the City field.', Comment = '%';
@@ -74,7 +70,6 @@ page 50262 "Employee Bank Account Card"
                 {
                     ToolTip = 'Specifies the value of the Bank Account No. field.', Comment = '%';
                 }
-
                 field("Currency Code"; Rec."Currency Code")
                 {
                     ToolTip = 'Specifies the value of the Currency Code field.', Comment = '%';
