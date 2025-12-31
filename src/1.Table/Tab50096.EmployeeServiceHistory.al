@@ -152,6 +152,27 @@ table 50096 "Employee Service History"
         field(35; "Contract Code (To)"; Code[20]) { }
         field(36; "Employment Type (From)"; Enum "Employee Type") { }
         field(37; "Employment Type (To)"; Enum "Employee Type") { }
+        field(38; "Extension Counter (From)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter (From)") then
+                    "Extension Description (From)" := OrgStructureList.Name
+                else
+                    "Extension Description (From)" := '';
+            end;
+        }
+        field(39; "Extension Counter (To)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter (To)") then
+                    "Extension Description (To)" := OrgStructureList.Name
+                else
+                    "Extension Description (To)" := '';
+            end;
+        }
+
         field(50; Duration; text[50]) { }
         field(51; "Employment Type"; Enum "Employee Type") { }
         field(52; "Province Code (From)"; Code[20])
@@ -234,14 +255,14 @@ table 50096 "Employee Service History"
                     "Unit Description (To)" := '';
             end;
         }
-        field(60; "Province Description (From)"; text[50]) { }
-        field(61; "Branch Description (From)"; text[50]) { }
-        field(62; "Department Description (From)"; text[50]) { }
-        field(63; "Unit Description (From)"; text[50]) { }
-        field(64; "Province Description (To)"; text[50]) { }
-        field(65; "Branch Description (To)"; text[50]) { }
-        field(66; "Department Description (To)"; text[50]) { }
-        field(67; "Unit Description (To)"; text[50]) { }
+        field(60; "Province Description (From)"; text[100]) { }
+        field(61; "Branch Description (From)"; text[100]) { }
+        field(62; "Department Description (From)"; text[100]) { }
+        field(63; "Unit Description (From)"; text[100]) { }
+        field(64; "Province Description (To)"; text[100]) { }
+        field(65; "Branch Description (To)"; text[100]) { }
+        field(66; "Department Description (To)"; text[100]) { }
+        field(67; "Unit Description (To)"; text[100]) { }
         field(68; "Effective Date (B.S.)"; Code[10]) { }
         field(69; "Package Record"; Boolean) { }
         field(70; "Employee Attendance ID"; Text[20])
@@ -258,6 +279,9 @@ table 50096 "Employee Service History"
         }
         field(73; "Staff Level (From)"; Enum "Staff Type") { }
         field(74; "Staff Level (To)"; Enum "Staff Type") { }
+        field(75; "Extension Description (From)"; Text[100]) { }
+        field(76; "Extension Description (To)"; Text[100]) { }
+
     }
 
     keys

@@ -145,11 +145,11 @@ codeunit 50023 EmployeeActivityMgt
 
                 PostedEmployeeTransfer.Init();
                 PostedEmployeeTransfer.TransferFields(TransferEmployeeJournal);
-                TransferEmployeeJournal.Delete();
                 PostedEmployeeTransfer.Validate(Posted, true);
                 PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
                 PostedEmployeeTransfer.Insert(true);
                 OnAfterTransferJournalPost(PostedEmployeeTransfer, TransferRequest);
+                TransferEmployeeJournal.Delete();
             until TransferEmployeeJournal.next() = 0
         else
             Error('There is no Document to post');
@@ -235,6 +235,7 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
                 AttendanceMissed.Validate("Approved Date", Today);
                 AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
+                AttendanceMissed.Validate("Employee Work Shift", AttendanceMissedJournal."Employee Work Shift");
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
                 PostedAttendanceJournal.TransferFields(AttendanceMissedJournal);

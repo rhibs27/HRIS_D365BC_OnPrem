@@ -5,7 +5,6 @@ page 50151 "Allowance Assign. Substitute"
     SourceTable = "Allowance Assignment Line";
     SourceTableTemporary = true;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -71,25 +70,6 @@ page 50151 "Allowance Assign. Substitute"
             }
         }
     }
-
-    trigger OnAfterGetRecord()
-    begin
-        // Rec.CalcFields(Code);
-    end;
-
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        // AllowanceLine.Copy(Rec);
-        // if (AllowanceLine."Employee Code" <> '') and (AllowanceLine."From Date" <> 0D)
-        //   and (AllowanceLine."To Date" <> 0D) then begin
-        //     AllowanceLine."Line No." := 0;
-        //     AllowanceLine.Insert(true);
-        //     AllowanceLine.UpdateSubstitue();
-        // end;
-        // if rec."Employee Code" = '' then
-        //     Error('Please Select Substitute Employee');
-    end;
-
     var
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
 }

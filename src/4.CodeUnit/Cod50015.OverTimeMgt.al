@@ -363,7 +363,7 @@ codeunit 50015 "OverTime Mgt"
         Ishandled: Boolean;
     begin
         OnBeforeGetEmployeeFilter(OverTime, Ishandled);
-        If not Ishandled then begin
+        If not IsHandled then begin
             OvertimeLineCheck.Reset;
             OvertimeLineCheck.SetRange("No.", OverTime."No.");
             OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
@@ -385,7 +385,7 @@ codeunit 50015 "OverTime Mgt"
                         OvertimeLineCheck.Reset;
                         OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
                         OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
-                        OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
+                        OvertimeLineCheck.SetFilter("Approval Status", '<>%1|<>%2', OvertimeLine."Approval Status"::Canceled, OvertimeLine."Approval Status"::Rejected);
                         if not OvertimeLineCheck.FindFirst() then begin
                             // Check if employee attendance exists for this date
                             EmployeeAttendance.Reset;

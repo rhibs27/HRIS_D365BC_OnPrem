@@ -117,6 +117,21 @@ table 50118 "Shift Line"
 
     var
         OrganizationStructureList: Record "Organization Structure List";
+        Employee: Record Employee;
+        ShiftMgn: Codeunit "Shift Assignment Mgt";
+
+    procedure GetLineNo(DocNo: Code[20]): Integer
+    var
+        ShiftLine: Record "Shift Line";
+    begin
+        ShiftLine.Reset;
+        ShiftLine.SetCurrentKey("No.", "Line No");
+        ShiftLine.SetRange("No.", DocNo);
+        if ShiftLine.FindLast then
+            exit(ShiftLine."Line No" + 10000)
+        else
+            exit(10000);
+    end;
 
     local procedure ValidateShiftDate()
     var
