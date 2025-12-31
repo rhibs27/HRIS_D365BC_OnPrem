@@ -20,6 +20,15 @@ table 50043 "Team Profile Header"
             DataClassification = ToBeClassified;
             Caption = 'Employee Code';
             TableRelation = Employee where(Status = const(Active));
+            trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
+            begin
+                if EmployeeRec.Get("Employee Code") then
+                    "Employee Name" := EmployeeRec.FullName()
+                else
+                    "Employee Name" := '';
+            end;
         }
         field(5; "Employee Name"; Text[100])
         {
