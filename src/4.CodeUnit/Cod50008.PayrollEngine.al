@@ -408,7 +408,7 @@ codeunit 50008 "Payroll Engine"
                     end;
                     if TotalTaxWithoutSST > 0 then begin
                         if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
-                            MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
+                            MonthlyTax := Round((TotalTaxWithoutSST - TotalTaxRemunPaid - TotalSSTPaid + SocialSecurityTax) / (RemainingMonth + 1), 0.01, '<');
                     end else
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
