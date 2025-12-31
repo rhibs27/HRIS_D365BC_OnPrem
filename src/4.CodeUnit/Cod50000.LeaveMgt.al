@@ -965,6 +965,11 @@ codeunit 50000 "Leave Mgt."
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
+
+            LeaveTypeSetup.get(leave."Leave Code");
+            if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::"On Approval" then
+                CreateLeaveLedger(leave."Employee No.", leave."Leave Code", leave."Start Date", leaveEarn.Type::Earned, leave."No. of Days", GetNextLeaveLedgerEntryNo(), leaveNo, leave.Remarks, '');
+
             CreateLeaveLedger(leave."Employee No.",
                      leave."Leave Code",
                      leave."Start Date",
