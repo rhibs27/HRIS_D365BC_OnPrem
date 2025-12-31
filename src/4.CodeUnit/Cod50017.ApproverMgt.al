@@ -260,23 +260,18 @@ codeunit 50017 "Approver Mgt"
         Employee: Record Employee;
         IsHRApprover: Boolean;
     begin
-        ApprovalLine.Reset();
-        ApprovalLine.SetRange("Document No.", EmpActNo);
-        ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
-        ApprovalLine.SetRange("Approver No", ApproverNo);
-        if ApprovalLine.FindFirst() then
-            exit(true);
         IsHRApprover := false;
         if HRSetup.Get() and Employee.Get(ApproverNo) then begin
-            if HRSetup."HR Head Functional Title" = '' then begin
-                if Employee."Department Code" = HRSetup."HR Department Code" then
-                    IsHRApprover := true;
-            end
-            else begin
-                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
-                   (Employee."Department Code" = HRSetup."HR Department Code") then
-                    IsHRApprover := true;
-            end;
+            if HRSetup."HR Department Code" <> '' then
+                if HRSetup."HR Head Functional Title" = '' then begin
+                    if Employee."Department Code" = HRSetup."HR Department Code" then
+                        IsHRApprover := true;
+                end
+                else begin
+                    if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                       (Employee."Department Code" = HRSetup."HR Department Code") then
+                        IsHRApprover := true;
+                end;
         end;
         if not IsHRApprover then begin
             ApprovalLine.Reset();
@@ -285,7 +280,6 @@ codeunit 50017 "Approver Mgt"
             ApprovalLine.SetRange("Approver No", ApproverNo);
             if not ApprovalLine.FindFirst() then
                 Error(ApproveNotEligibleError);
-
         end;
     end;
 #if SaasFeature
@@ -298,23 +292,8 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
-        if ApprovalLine.FindFirst() then
-            e
-        IsHRApprover := false;
-        if HRSetup.Get() and Employee.Get(ApproverNo) then begin
-            if HRSetup."HR Head Functional Title" = '' then begin
-                if Employee."Department Code" = HRSetup."HR Department Code" then
-                    IsHRApprover := true;
-            end
-            else begin
-                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
-                   (Employee."Department Code" = HRSetup."HR Department Code") then
-                    IsHRApprover := true;
-            end;
-        end;
-        if not IsHRApprover then
-        if not ApprovalLine.Findfirst() then
-            Error(ApproveNotEligibleError);
+            if not ApprovalLine.Findfirst() then
+                Error(ApproveNotEligibleError);
     end;
 #endif
 
@@ -346,13 +325,14 @@ codeunit 50017 "Approver Mgt"
         if ApprovalLine.Findfirst() then
             exit(true);
         if HRSetup.Get() and Employee.Get(ApproverNo) then begin
-            if HRSetup."HR Head Functional Title" = '' then begin
-                if Employee."Department Code" = HRSetup."HR Department Code" then
-                    exit(true);
-            end else begin
-                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and (Employee."Department Code" = HRSetup."HR Department Code") then
-                    exit(true);
-            end;
+            if HRSetup."HR Department Code" <> '' then
+                if HRSetup."HR Head Functional Title" = '' then begin
+                    if Employee."Department Code" = HRSetup."HR Department Code" then
+                        exit(true);
+                end else begin
+                    if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and (Employee."Department Code" = HRSetup."HR Department Code") then
+                        exit(true);
+                end;
         end;
     end;
     // >> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
