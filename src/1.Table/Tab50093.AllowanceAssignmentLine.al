@@ -66,7 +66,7 @@ table 50093 "Allowance Assignment Line"
                     if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
                         AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
 
-                    //OverTimeMgt.CheckApprovedOvertimeExists(Rec); not needed in base 
+                    //OverTimeMgt.CheckApprovedOvertimeExists(Rec); not needed in base
                 end;
             end;
         }
@@ -96,7 +96,6 @@ table 50093 "Allowance Assignment Line"
         }
         field(9; "Allowance Type"; Code[20])
         {
-
             TableRelation = if ("Emp Act Type" = const("Request Allowance")) "Allowance Configuration"."Payroll Attribute"
             else
             "BranchWise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
@@ -120,9 +119,7 @@ table 50093 "Allowance Assignment Line"
         {
             Editable = false;
         }
-        field(12; Type; Enum "Branchwise/Extension Type")
-        {
-        }
+        field(12; Type; Enum "Branchwise/Extension Type") { }
         field(13; "Created Date"; Date) { }
         field(14; "Created By"; Code[50]) { }
         field(15; "Last Modified Date"; Date) { }
@@ -157,11 +154,11 @@ table 50093 "Allowance Assignment Line"
             Editable = false;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
-        field(26; Week; Enum WeekNumber)
-        {
-        }
+        field(26; Week; Enum WeekNumber) { }
         field(27; "Emp Act Type"; Enum "Employee Activity Type") { }
         field(28; "Allowance Claim From"; Code[20]) { }
+        field(50; "Leave Code"; Code[20]) { }
+        field(51; "Leave Document No"; Code[20]) { }
         field(52; "Payroll Doc No."; Code[20]) { }
         field(29; "Allowance Claimed"; Boolean) { }
         field(30; "Allowance Claim from Line No"; Integer) { }

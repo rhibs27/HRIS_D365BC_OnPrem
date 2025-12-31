@@ -77,13 +77,11 @@ page 50180 "Cancel Document"
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
                     ApplicationArea = All;
                 }
-
                 field("Substitute Person Code"; Rec."Substitute Person Code")
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
                     Editable = false;
-
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {
@@ -261,7 +259,6 @@ page 50180 "Cancel Document"
     begin
         SetLayout();
     end;
-
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin

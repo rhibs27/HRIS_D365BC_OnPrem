@@ -6,16 +6,11 @@ table 50162 "Assignment Memo Line"
     fields
     {
         field(1; "Document No."; Code[20]) { }
-        field(2; "Line No."; Integer)
-        {
-        }
-
+        field(2; "Line No."; Integer) { }
         field(5; "Employee No."; Code[20])
         {
             TableRelation = Employee where(Status = const(Active));
             trigger OnValidate()
-            var
-                AssignmentMemoHdr: Record "Assignment Memo Header";
             begin
                 if Employee.Get("Employee No.") then
                     "Employee Name" := Employee."Full Name"
@@ -34,9 +29,7 @@ table 50162 "Assignment Memo Line"
                       AssignmentMemoHdr."Unit Code", ''));
             end;
         }
-        field(6; "Employee Name"; Text[100])
-        {
-        }
+        field(6; "Employee Name"; Text[100]) { }
         field(7; "From Date"; Date)
         {
             trigger OnValidate()
@@ -75,7 +68,6 @@ table 50162 "Assignment Memo Line"
         }
         field(9; "Payroll Attribute Code"; Code[20])
         {
-
             TableRelation = "Allowance Configuration"."Payroll Attribute";
 
             trigger OnValidate()
@@ -122,10 +114,7 @@ table 50162 "Assignment Memo Line"
         {
             Editable = false;
         }
-        field(23; Panel; Enum Panel)
-        {
-
-        }
+        field(23; Panel; Enum Panel) { }
         field(24; "Allowance Amount"; Decimal)
         {
             trigger OnValidate()
@@ -135,11 +124,7 @@ table 50162 "Assignment Memo Line"
             end;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
-
-        field(27; "Emp Act Type"; Enum "Employee Activity Type")
-        {
-        }
-
+        field(27; "Emp Act Type"; Enum "Employee Activity Type") { }
         field(31; "No of Approved Days"; Integer)
         {
             Editable = false;
@@ -156,9 +141,7 @@ table 50162 "Assignment Memo Line"
         {
             FieldClass = FlowFilter;
         }
-
         field(39; "Fuel Limit (ltr)"; Decimal) { }
-
         field(40; "Fuel Limit (amt)"; Decimal) { }
         field(41; "Fuel Claimed (ltr)"; Decimal)
         {
@@ -172,12 +155,9 @@ table 50162 "Assignment Memo Line"
         {
             FieldClass = FlowField;
             CalcFormula = Lookup("Allowance Configuration"."Specific Payroll Attribute" where("Payroll Attribute" = field("Payroll Attribute Code")));
-
+            Editable = false;
         }
-        field(43; "Amount per Ltr."; Decimal)
-        {
-
-        }
+        field(43; "Amount per Ltr."; Decimal) { }
         field(54; "Assign Memo Ledger Entry No."; Integer)
         {
             Editable = false;
@@ -307,7 +287,6 @@ table 50162 "Assignment Memo Line"
         if "Line No." = 0 then
             GetLineNo();
 
-
         CheckDuplicateAssignmentMemoLine(Rec);
         AutoCalculateDatesAndEmployee(Rec);
     end;
@@ -321,16 +300,9 @@ table 50162 "Assignment Memo Line"
     var
         Employee: Record Employee;
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AssignmentMemoLine: Record "Assignment Memo Line";
-        AssignmentMemoLine2: Record "Assignment Memo Line";
-        BaseCalenderChange: Record "Base Calendar Change";
-        TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PGSetup: Record "Payroll General Setup";
         HrMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        OverTimeMgt: Codeunit "OverTime Mgt";
         SalaryLevel: Record "Salary Level";
-        OrganizationStructureList: Record "Organization Structure List";
         AllowanceConfiguration: Record "Allowance Configuration";
 
     local procedure GetLineNo()
@@ -424,7 +396,6 @@ table 50162 "Assignment Memo Line"
                         "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration);
                     if "Allowance Amount" <> 0 then
                         break;
-
                 until AllowanceConfiguration.Next() = 0;
             end;
         end;

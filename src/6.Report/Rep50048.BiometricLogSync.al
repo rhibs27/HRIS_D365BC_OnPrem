@@ -14,22 +14,16 @@ report 50048 "Biometric Log Sync"
                 BiometricMgt.SyncAttendance(FromDate, ToDate, id);
             end;
         }
-
     }
     requestpage
     {
         layout
         {
-            area(content)
-            {
-
-            }
+            area(content) { }
         }
         actions
         {
-            area(processing)
-            {
-            }
+            area(processing) { }
         }
     }
     trigger OnPreReport()
@@ -42,7 +36,6 @@ report 50048 "Biometric Log Sync"
         //     FromDate := WorkDate() - 3;
         //     ToDate := WorkDate() + 1;
         // end;
-
     end;
 
     var

@@ -114,7 +114,6 @@ page 50369 "Assignment Memo Ledger Entries"
                 {
                     ToolTip = 'Specifies the value of the Reversed field.', Comment = '%';
                 }
-
             }
         }
     }

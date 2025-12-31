@@ -171,10 +171,6 @@ report 50118 "Salary Sheet Doc Monthwise"
         EmpDes: Record "Functional Title";
         PayrollColumnConfig: Record "Payroll Column Configuration";
         SortinNo: Integer;
-        DepartmentCode: Code[20];
-        SalaryLevel: Code[20];
-        FunctionalTitle: Code[20];
-        PostedPayHeader: Record "Posted Payroll Header";
         NepaliMonth: Enum "Nepali Month";
         MultipleEmloyee: Boolean;
         FilterText: Text;

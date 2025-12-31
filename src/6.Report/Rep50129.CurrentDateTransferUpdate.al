@@ -118,7 +118,6 @@ report 50129 "Current Date Transfer Update"
 
     var
         InitialDate: Date;
-        HRMgt: Codeunit "HR Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         FromDate: Date;
         ToDate: Date;

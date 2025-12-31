@@ -149,7 +149,6 @@ codeunit 50021 "Employee Edit Mgt."
     procedure EmployeeQualificationAddFromLine(EmployeeEditLine: Record "Employee Edit Line")
     var
         EmployeeQualification: Record "Employee Qualification";
-        EmployeeNo: Code[20];
         QualificationMaster: Record Qualification;
     begin
         if EmployeeEditLine."Original Line No." = 0 then begin
@@ -195,7 +194,6 @@ codeunit 50021 "Employee Edit Mgt."
     local procedure EmployeeWorkAdd(var EmployeeEdit: Record "Employee Edit")
     var
         EmployeeQualification: Record "Employee Qualification";
-        EmployeeQualification1: Record "Employee Qualification";
         EmployeeEditLine: Record "Employee Edit Line";
     begin
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
@@ -224,9 +222,7 @@ codeunit 50021 "Employee Edit Mgt."
     local procedure EmployeeRelativeAdd(var EmployeeEdit: Record "Employee Edit")
     var
         EmployeeRelative: Record "Employee Relative";
-        EmployeeRelative1: Record "Employee Relative";
         EmployeeEditLine: Record "Employee Edit Line";
-        LineNo: Integer;
     begin
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
         if EmployeeEditLine.FindSet() then begin
@@ -371,10 +367,6 @@ codeunit 50021 "Employee Edit Mgt."
     procedure EmployeeEditOnBeforeApprove(EmployeeEdit: Record "Employee Edit")
     var
         EmployeeEditLine: Record "Employee Edit Line";
-        EmployeeEdit2: Record "Employee Edit";
-        AssignmentMemoHeader: Record "Assignment Memo Header";
-        PayrollAttributes: Record "Payroll Attributes";
-        IsHandled: Boolean;
     begin
         EmployeeEdit.TestField("Employee No.");
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
@@ -409,13 +401,11 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEdit: Record "Employee Edit";
         Employee: Record Employee;
         FromRecRef: RecordRef;
-        ToRecRef: RecordRef;
         TempBlob: Codeunit "Temp Blob";
         FileName: Text;
         FileExtension: Text;
         ToTableId: Integer;
         DocumentAttachment: Record "Document Attachment";
-        InStr: InStream;
         OutStr: OutStream;
     begin
         ToTableId := Database::Employee;
@@ -452,7 +442,6 @@ codeunit 50021 "Employee Edit Mgt."
     procedure GetMediaFileExtension(MediaId: Guid; var FileName: Text): Text
     var
         TenantMedia: Record "Tenant Media";
-        InStr: InStream;
     begin
         if not TenantMedia.Get(MediaId) then
             exit('');
@@ -542,13 +531,11 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEdit: Record "Employee Edit";
         Employee: Record Employee;
         FromRecRef: RecordRef;
-        ToRecRef: RecordRef;
         TempBlob: Codeunit "Temp Blob";
         FileName: Text;
         FileExtension: Text;
         ToTableId: Integer;
         DocumentAttachment: Record "Document Attachment";
-        InStr: InStream;
         OutStr: OutStream;
     begin
         ToTableId := Database::Employee;
@@ -601,7 +588,6 @@ codeunit 50021 "Employee Edit Mgt."
 
     procedure CheckAttachmentmandatoryForEmployeeEdit(var EmployeeEdit: Record "Employee Edit")
     var
-        IncomingDocument: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
     begin
         AttachmentSetup.SetRange(Mandatory, true);

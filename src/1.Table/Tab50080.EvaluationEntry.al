@@ -27,10 +27,7 @@ table 50080 "Evaluation Entry"
                 //end;
             end;
         }
-        field(3; Type; Enum "Evaluation Entry Type")
-        {
-
-        }
+        field(3; Type; Enum "Evaluation Entry Type") { }
         field(4; "Attribute Code"; Code[20])
         {
             Editable = false;

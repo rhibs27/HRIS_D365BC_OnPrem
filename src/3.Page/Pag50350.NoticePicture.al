@@ -16,10 +16,8 @@ page 50350 "Notice Picture"
             {
                 ToolTip = 'Specifies the value of the Notice field.';
             }
-
         }
     }
-
 
     actions
     {
@@ -48,7 +46,7 @@ page 50350 "Notice Picture"
                         if not Confirm(OverrideImageQst) then
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FileName, InStream) then begin
-                        // check file size 
+                        // check file size
                         AttachmentMgt.CheckAttachmentSizeLimit(InStream, Format(AttachmentType::Notice));
                         // Check File Extension
                         Extension := FileManagement.GetExtension(FileName);
@@ -97,8 +95,6 @@ page 50350 "Notice Picture"
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
                         DownloadFromStream(Instream, '', '', '', ToFile);
                     end;
-
-
                 end;
             }
             action(DeletePicture)
@@ -128,7 +124,6 @@ page 50350 "Notice Picture"
 
     var
         OverrideImageQst: Label 'The existing picture will be replaced. Do you want to continue?';
-        SelectPictureTxt: Label 'Select a picture to upload';
         DeleteExportEnabled: Boolean;
         DeleteImageQst: Label 'Are you sure you want to delete the picture?';
         EditableField: Boolean;

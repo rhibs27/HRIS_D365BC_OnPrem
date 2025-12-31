@@ -21,7 +21,6 @@ page 50373 "Assignment Memo Card"
                 {
                     ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
                 }
-
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
@@ -206,7 +205,6 @@ page 50373 "Assignment Memo Card"
                         AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
                 end;
             }
-
         }
     }
     trigger OnAfterGetRecord()
@@ -220,15 +218,10 @@ page 50373 "Assignment Memo Card"
     end;
 
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
         FormEditable: Boolean;
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
-        Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove, IsReject, IsSubstituteOpen, IsSubstitutepending : Boolean;
         RecRef: RecordRef;
-        AllowanceClaim: Boolean;
-
 
     local procedure SetLayout()
     begin

@@ -71,6 +71,5 @@ page 50151 "Allowance Assign. Substitute"
         }
     }
     var
-        AllowanceLine: Record "Allowance Assignment Line";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
 }

@@ -24,7 +24,6 @@ page 50178 "Request Allowance Card"
                 {
                     ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
                 }
-
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
@@ -41,7 +40,6 @@ page 50178 "Request Allowance Card"
                         CurrPage.Update;
                     end;
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Enabled = false;
@@ -52,7 +50,6 @@ page 50178 "Request Allowance Card"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-
                 field("Total Line Amount"; Rec."Total Line Amount")
                 {
                     ToolTip = 'Specifies the value of the Total Line Amount field.', Comment = '%';
@@ -123,7 +120,6 @@ page 50178 "Request Allowance Card"
                 ApplicationArea = all;
             }
         }
-
     }
     actions
     {
@@ -195,7 +191,6 @@ page 50178 "Request Allowance Card"
                         AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
                 end;
             }
-
         }
     }
 
@@ -210,10 +205,8 @@ page 50178 "Request Allowance Card"
     end;
 
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
         FormEditable: Boolean;
         AllowanceMgt: Codeunit "Assignment Memo Mgt";
-        Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove : Boolean;
         RecRef: RecordRef;

@@ -36,10 +36,7 @@ table 50057 "KRA Master Setup"
                     Validate("KRA Master Name", KeyValueMasterRec.Description);
             end;
         }
-        field(6; "Deputation on"; Enum "Deputation Type")
-        {
-
-        }
+        field(6; "Deputation on"; Enum "Deputation Type") { }
         field(7; Description; Text[250]) { }
         field(8; "Weightage Percent"; Decimal) { }
         field(9; "Target Assigned"; Decimal) { }
@@ -61,10 +58,7 @@ table 50057 "KRA Master Setup"
         {
             TableRelation = Employee."No.";
         }
-        field(16; "Transfer Deputation on"; Enum "Deputation Type")
-        {
-
-        }
+        field(16; "Transfer Deputation on"; Enum "Deputation Type") { }
         field(17; "Transfer Province Code"; Code[20])
         {
             TableRelation = Province;

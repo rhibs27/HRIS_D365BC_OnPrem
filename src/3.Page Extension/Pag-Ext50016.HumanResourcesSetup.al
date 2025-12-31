@@ -238,7 +238,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
         {
             group(Leave)
             {
-
                 field("Leave No. Series"; Rec."Leave No. Series")
                 {
                     ApplicationArea = All;
@@ -696,7 +695,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ToolTip = 'Specifies the value of the Retirement Fund Nos. field.';
                 }
             }
-
         }
     }
 }

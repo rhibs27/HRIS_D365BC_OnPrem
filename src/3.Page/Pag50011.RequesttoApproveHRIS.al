@@ -50,12 +50,9 @@ page 50011 "Request to Approve HRIS"
     {
         area(Promoted)
         {
-            actionref(OpenRecord; "Record")
-            { }
-            actionref(ApproveRequest; "Approve Request")
-            { }
-            actionref(RejectRequest; "Reject Request")
-            { }
+            actionref(OpenRecord; "Record") { }
+            actionref(ApproveRequest; "Approve Request") { }
+            actionref(RejectRequest; "Reject Request") { }
         }
         area(Navigation)
         {

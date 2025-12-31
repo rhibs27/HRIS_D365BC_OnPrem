@@ -64,9 +64,7 @@ table 50098 "Employee Declaration"
                     Validate("Functional Title Description", '');
             end;
         }
-        field(7; "Deputation On"; Enum "Deputation Type")
-        {
-        }
+        field(7; "Deputation On"; Enum "Deputation Type") { }
         field(8; "Deputation Code"; Code[20]) { }
         field(9; "Code of Ethics"; Boolean) { }
         field(10; "By Laws Policies"; Boolean) { }

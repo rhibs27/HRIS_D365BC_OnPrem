@@ -15,10 +15,8 @@ page 50364 "Qualification Attachment"
             {
                 ToolTip = 'Specifies the value of the Notice field.';
             }
-
         }
     }
-
 
     actions
     {
@@ -43,7 +41,7 @@ page 50364 "Qualification Attachment"
                         if not Confirm(OverrideImageQst) then
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-                        // check file size 
+                        // check file size
                         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Emp Qualification Type"::Education));
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
@@ -80,7 +78,6 @@ page 50364 "Qualification Attachment"
                 var
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
-                    ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
                 begin
@@ -123,10 +120,8 @@ page 50364 "Qualification Attachment"
 
     var
         OverrideImageQst: Label 'The existing picture will be replaced. Do you want to continue?';
-        SelectPictureTxt: Label 'Select a picture to upload';
         DeleteExportEnabled: Boolean;
         DeleteImageQst: Label 'Are you sure you want to delete the picture?';
-        EditableField: Boolean;
         PreviewAttachment: page "Preview Attachment";
 
     local procedure returnAttachmentBase64(): Text;

@@ -167,20 +167,10 @@ table 50076 Candidate
             FieldClass = FlowFilter;
             TableRelation = "G/L Account"."No.";
         }
-        field(26; "User Id"; Code[50])
-        {
-        }
-        field(27; "Third Party Payroll Emp Code"; Code[20])
-        {
-        }
-        field(28; "Job Position Type"; Enum "Job Position Type")
-        {
-
-        }
-        field(29; "Recruitement Status"; Enum "Recruitement Status")
-        {
-
-        }
+        field(26; "User Id"; Code[50]) { }
+        field(27; "Third Party Payroll Emp Code"; Code[20]) { }
+        field(28; "Job Position Type"; Enum "Job Position Type") { }
+        field(29; "Recruitement Status"; Enum "Recruitement Status") { }
         field(30; "Applied Salary Level"; Code[20])
         {
             TableRelation = "Vacancy Line"."Salary Level" where("Vacancy No." = field("Vacancy Code"));
@@ -219,22 +209,11 @@ table 50076 Candidate
         {
             TableRelation = Qualification where(Rank = filter(<> 0));
         }
-        field(38; "Shortlisted Process"; Boolean)
-        {
-        }
-        field(39; "Converted to Emp. Date"; Date)
-        {
-        }
-        field(40; "Converted to Employee"; Boolean)
-        {
-        }
-        field(41; "Avg. Inverview Score"; Decimal)
-        {
-        }
-        field(42; Type; Enum "Candidate Type")
-        {
-
-        }
+        field(38; "Shortlisted Process"; Boolean) { }
+        field(39; "Converted to Emp. Date"; Date) { }
+        field(40; "Converted to Employee"; Boolean) { }
+        field(41; "Avg. Inverview Score"; Decimal) { }
+        field(42; Type; Enum "Candidate Type") { }
         field(43; "Interview Date"; Date) { }
         field(44; "Interview Time"; Time) { }
         field(45; "Qualification Code"; Code[20])
@@ -304,28 +283,13 @@ table 50076 Candidate
         {
             TableRelation = "Vacancy Line"."Functional Title" where("Vacancy No." = field("Vacancy Code"));
         }
-        field(55; "Offer Date"; Date)
-        {
-        }
-        field(56; "Employment Type"; enum "Employee Type")
-        {
-        }
-        field(57; "Offer No."; Code[20])
-        {
-        }
-        field(58; "Fathers Name"; Text[100])
-        {
-        }
-        field(59; "Mothers Name"; Text[100])
-        {
-        }
-        field(60; "Citizenship Id"; Text[20])
-        {
-        }
-        field(61; "Marital Status"; Enum "Marital Status")
-        {
-
-        }
+        field(55; "Offer Date"; Date) { }
+        field(56; "Employment Type"; enum "Employee Type") { }
+        field(57; "Offer No."; Code[20]) { }
+        field(58; "Fathers Name"; Text[100]) { }
+        field(59; "Mothers Name"; Text[100]) { }
+        field(60; "Citizenship Id"; Text[20]) { }
+        field(61; "Marital Status"; Enum "Marital Status") { }
         field(62; "Masters Degree Received"; Boolean) { }
         field(63; "Possess Masters transcript"; Boolean) { }
         field(64; "Bachelors Degree Received"; Boolean) { }
@@ -333,27 +297,13 @@ table 50076 Candidate
         {
             Editable = false;
         }
-        field(66; "Job Grade in Present Company"; Text[30])
-        {
-        }
-        field(67; "Reference Full Name"; Text[100])
-        {
-        }
-        field(68; "Reference Full Address"; Text[50])
-        {
-        }
-        field(69; "Reference Relation"; Text[30])
-        {
-        }
-        field(70; "Tel/Mob. No."; Text[20])
-        {
-        }
-        field(71; "Refernce Name Of Organization"; Text[30])
-        {
-        }
-        field(72; "Candidate Type"; Enum InternalExternal)
-        {
-        }
+        field(66; "Job Grade in Present Company"; Text[30]) { }
+        field(67; "Reference Full Name"; Text[100]) { }
+        field(68; "Reference Full Address"; Text[50]) { }
+        field(69; "Reference Relation"; Text[30]) { }
+        field(70; "Tel/Mob. No."; Text[20]) { }
+        field(71; "Refernce Name Of Organization"; Text[30]) { }
+        field(72; "Candidate Type"; Enum InternalExternal) { }
         field(73; "Supervisor Code"; Code[20]) { }
         field(74; Salary; Decimal) { }
         field(75; "Employee No."; Code[20])
@@ -379,16 +329,12 @@ table 50076 Candidate
         field(78; "Vacancy Type"; Enum InternalExternal)
         {
             Editable = false;
-
         }
         field(79; "Vacancy Expiry Date"; Date)
         {
             Editable = false;
         }
-        field(80; "Deputation On"; Enum "Deputation Type")
-        {
-
-        }
+        field(80; "Deputation On"; Enum "Deputation Type") { }
         field(81; "Deputation code"; Code[20]) { }
         field(82; "Deputation Value"; Text[100]) { }
         field(83; "Recommender Remarks"; Text[250]) { }
@@ -557,7 +503,6 @@ table 50076 Candidate
     procedure ConvertToEmployee()
     var
         Employee: Record Employee;
-        NoEvaluationEntry: Label 'Interview evaluation entry not found. Do you want to continue?';
         EmployeeCreated: Label 'Employee - %1 has been created.';
         ConfirmConvert: Label 'Are you sure you want to convert to employee?';
         EmpQualification: Record "Employee Qualification";

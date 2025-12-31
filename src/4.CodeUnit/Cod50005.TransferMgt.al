@@ -3,10 +3,8 @@ codeunit 50005 "Transfer Mgt."
     procedure OpenTransferRequest(EmpCode: Code[20])
     var
         EmpTransfer: Record "Employee Transfer" temporary;
-        RequestError: Label 'You are not eligible to request for a transfer.';
         ApprovalEntry: Record "Approval HRMS";
         AttachmentSetup: Record "Attachment Setup";
-        AttachmentMgt: Codeunit "Attachment Mgt.";
         Incdocument, Incdocument2 : Record "Incoming Document";
     begin
         ApprovalEntry.Reset();
@@ -44,13 +42,8 @@ codeunit 50005 "Transfer Mgt."
     procedure SendTransferApproval(TempEmpHRtransfer: Record "Employee Transfer" temporary): Boolean
     var
         EmphrTransfer: Record "Employee Transfer";
-        ConfirmTransfer: Label 'Do you want to send transfer request ?';
-        ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         TransferSent: Label 'Transfer request approval has been sent.';
-        NoRecommender: Label 'No Recommender Code.';
-        NoApprover: Label 'No Approver Code.';
         IncomingDoc: Record "Incoming Document";
-        AttachSetup: Record "Attachment Setup";
     begin
         if not GuiAllowed then
             TempEmphrtransfer."Transfer Category" := TempEmphrtransfer."Transfer Category"::General;
@@ -146,12 +139,9 @@ codeunit 50005 "Transfer Mgt."
 
     procedure HoldTransfer(var EmpHrTransfer: Record "Employee Transfer")
     var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
         TransferPageBuilder: FilterPageBuilder;
         EmpTransfer: Record "Employee Transfer";
         GetHoldDate, TransferEffectiveDate : Date;
-        EmpServiceActivityRec: Record "Employee Service History";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpTransfer."Approval Status"::Approved);
         TransferPageBuilder.AddRecord('Transfer Document', EmpTransfer);
@@ -178,8 +168,6 @@ codeunit 50005 "Transfer Mgt."
 
     procedure RequestTransferAllowanceClaim(var EmpHrTransfer: Record "Employee Transfer")
     var
-        BMandOutStationError: Label 'You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.';
-        UnauthorizedApprover: Label 'You are not authorized to approve.';
         EmployeeTransfer: Record "Employee Transfer";
         EmployeeTransfer1: Record "Employee Transfer";
         ApprovalMgt: Codeunit "Approver Mgt";
@@ -203,7 +191,6 @@ codeunit 50005 "Transfer Mgt."
     var
         TransferClaim: Record "Employee Transfer";
         ServiceHistory: Record "Employee Service History";
-        IsHandled: Boolean;
     begin
         TransferClaim.Get(transferClaimNo);
         if TransferClaim."Outstation/Discomfort Allow." <> 0 then begin
@@ -229,14 +216,7 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateAllowance(var EmpTransfer: Record "Employee Transfer")
     var
-        Employee: Record Employee;
         TotalDays: Integer;
-        GrossSalary: Decimal;
-        SalaryLevel1: Record "Salary Level";
-        RemoteArea: Record "Remote Area Category";
-        DimensionValue: Record "Dimension Value";
-        SalaryLevel: Record "Salary Level";
-        SalaryGrade: Record "Salary Grade";
         IsHandled: Boolean;
     begin
         OnBeforeCalculateAllowance(EmpTransfer, IsHandled);
@@ -262,7 +242,6 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee Transfer"; relocationDistance: Decimal): Decimal
     var
-        DimensionValueCurrent: Record "Dimension Value";
         LevelWiseAttribute: Record "Level Wise Attributes";
     begin
         HRSetup.Get;
@@ -286,7 +265,6 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateOutstationAllowance(var EmpTransfer: Record "Employee Transfer"; outStationDistance: Decimal): Decimal
     var
-        DimensionValueCurrent: Record "Dimension Value";
         LevelWiseAttribute: Record "Level Wise Attributes";
     begin
         if outStationDistance = 0 then begin
@@ -348,7 +326,6 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee Transfer"): Decimal
     var
-        OrganizationStructureListCurrent: Record "Organization Structure List";
         SalaryLevel1: Record "Salary Level";
         GrossSalary: Decimal;
         SalaryLevel: Record "Salary Level";
@@ -374,7 +351,6 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee Transfer"): Decimal
     var
-        SalaryLevel1: Record "Salary Level";
         GrossSalary: Decimal;
         SalaryLevel: Record "Salary Level";
         SalaryGrade: Record "Salary Grade";
@@ -546,10 +522,8 @@ codeunit 50005 "Transfer Mgt."
             Message('Handover Submitted Successfully');
     end;
 
-
     procedure TakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
     var
-        IncomingDocument: Record "Incoming Document";
         UserSetup: Record "User Setup";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
@@ -655,11 +629,8 @@ codeunit 50005 "Transfer Mgt."
     var
         Employee: Record Employee;
         HRSetup: Record "Human Resources Setup";
-        Employee1: Record Employee;
-        PayrollSetup: Record "Payroll General Setup";
         HRMgt: Codeunit "HR Mgt.";
         EmployeeRec: Record Employee;
-        OverTimeMgt: Codeunit "OverTime Mgt";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         OrganizationStructureList: Record "Organization Structure List";
         TransferError: Label 'You cannot Approve HR Transfer of Effective Date %1 in %2.';

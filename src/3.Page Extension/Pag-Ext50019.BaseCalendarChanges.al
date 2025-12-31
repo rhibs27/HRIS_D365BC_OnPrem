@@ -127,6 +127,4 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
             }
         }
     }
-    var
-        HRMgt: Codeunit "HR Mgt.";
 }

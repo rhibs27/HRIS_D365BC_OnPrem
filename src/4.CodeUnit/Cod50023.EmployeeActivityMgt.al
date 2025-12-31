@@ -3,7 +3,6 @@ codeunit 50023 EmployeeActivityMgt
     procedure SendForApproval(DocumentNo: Code[20]; DocumentType: Enum "Employee Activity Type")
     var
         EmpActJnl1: Record "Employee Activity Journal";
-        ApprovalHRMS: Record "Approval HRMS";
     begin
         EmpActJnl1.Reset();
         EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
@@ -91,7 +90,7 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure PostTransferInBulk(EmpActNo: Code[20])
     var
-        TransferRequest, EmphrTransfer : Record "Employee Transfer";
+        TransferRequest : Record "Employee Transfer";
         PostedEmployeeTransfer: Record "Posted Employee Journal";
         TransferEmployeeJournal: Record "Employee Activity Journal";
         HrSetup: Record "Human Resources Setup";
@@ -254,7 +253,6 @@ codeunit 50023 EmployeeActivityMgt
     procedure RejectJournal(var EmployeeActJournal: Record "Employee Activity Journal"; Reject: Boolean)
     var
         StatusMaster: Record "Status Master";
-        EmployeeActJournal1: Record "Employee Activity Journal";
         PostedEmployeeJournal: Record "Posted Employee Journal";
         EmployeeActNo: Code[20];
     begin
@@ -297,7 +295,6 @@ codeunit 50023 EmployeeActivityMgt
                     ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
                     ApprovalHRMS.Modify();
                 until ApprovalHRMS.Next() = 0;
-
         end;
     end;
 
@@ -520,14 +517,14 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure PostLoanInBulk(EmpActNo: Code[20])
     var
-        EmployeeLoanRec, EmployeeLoanRec2 : Record "Employee Loan/Advance";
+        EmployeeLoanRec : Record "Employee Loan/Advance";
         PostedLoanJnl: Record "Posted Employee Journal";
         LoanJournal: Record "Employee Activity Journal";
         HrSetup: Record "Human Resources Setup";
         AttachmentSetup: Record "Attachment Setup";
         NoSeries: Codeunit "No. Series";
     begin
-        //note that this procedure assume you are just recording the loan record that is already processed. 
+        //note that this procedure assume you are just recording the loan record that is already processed.
         //Thus there wont be validation and what so ever
 
         HrSetup.Get();
@@ -614,7 +611,6 @@ codeunit 50023 EmployeeActivityMgt
             Error('There is no Document to post');
 
         Message('Loan Journal is posted')
-
     end;
 
     [IntegrationEvent(false, false)]
@@ -635,8 +631,6 @@ codeunit 50023 EmployeeActivityMgt
 
     var
         ApproverMgt: Codeunit "Approver Mgt";
-        LeaveMgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
         ServiceHistory: Codeunit "Service History Mgt";
-
 }

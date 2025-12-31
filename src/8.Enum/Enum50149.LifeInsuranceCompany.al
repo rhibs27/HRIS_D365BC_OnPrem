@@ -1,7 +1,7 @@
 enum 50149 "Life Insurance Company"
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';

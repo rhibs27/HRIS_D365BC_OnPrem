@@ -1292,8 +1292,6 @@ report 50070 "Tax Deduction Information"
     end;
 
     procedure PassParPortal(empCode: Code[20]; DocNo: Code[20]; yearpar: Integer; Monthpar: Enum "Nepali Month")
-    var
-        PostedPayroll: Record "Posted Payroll Header";
     begin
         EmployeeNoFilter := empCode;
         Month := Monthpar;

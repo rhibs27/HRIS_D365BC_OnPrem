@@ -18,9 +18,7 @@ page 50374 "Promotion Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name")
-                {
-                }
+                field("Employee Name"; Rec."Employee Name") { }
                 field("Promotion Date"; Rec."Promotion Date")
                 {
                     Editable = IsOpen;
@@ -45,7 +43,6 @@ page 50374 "Promotion Journal"
                 {
                     Editable = IsOpen;
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -56,7 +53,6 @@ page 50374 "Promotion Journal"
                 {
                     Visible = StatusView;
                 }
-
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ToolTip = 'Specifies the value of the Fiscal Year field.';

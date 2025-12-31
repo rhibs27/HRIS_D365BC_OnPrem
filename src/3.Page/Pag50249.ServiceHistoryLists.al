@@ -131,7 +131,6 @@ page 50249 "Service History Lists"
                     ToolTip = 'Specifies the value of the Outstation Eligible field.';
                     ApplicationArea = All;
                 }
-
                 field("Contract Code (From)"; Rec."Contract Code (From)")
                 {
                     ToolTip = 'Specifies the value of the Contract Code (From) field.', Comment = '%';
@@ -140,7 +139,6 @@ page 50249 "Service History Lists"
                 {
                     ToolTip = 'Specifies the value of the Contract Code (To) field.', Comment = '%';
                 }
-
                 field("Employment Type"; Rec."Employment Type")
                 {
                     ToolTip = 'Specifies the value of the Employment Type field.', Comment = '%';
@@ -173,7 +171,6 @@ page 50249 "Service History Lists"
                 {
                     ToolTip = 'Specifies the value of the Province Code (From) field.', Comment = '%';
                 }
-
                 field("Province Description (From)"; Rec."Province Description (From)")
                 {
                     ToolTip = 'Specifies the value of the Province Description (From) field.', Comment = '%';
@@ -198,12 +195,10 @@ page 50249 "Service History Lists"
                 {
                     ToolTip = 'Specifies the value of the Branch Code (To) field.', Comment = '%';
                 }
-
                 field("Branch Description (To)"; Rec."Branch Description (To)")
                 {
                     ToolTip = 'Specifies the value of the Branch Description (To) field.', Comment = '%';
                 }
-
                 field("Department Code (From)"; Rec."Department Code (From)")
                 {
                     ToolTip = 'Specifies the value of the Department Code (From) field.', Comment = '%';
@@ -216,7 +211,6 @@ page 50249 "Service History Lists"
                 {
                     ToolTip = 'Specifies the value of the Department Code (To) field.', Comment = '%';
                 }
-
                 field("Department Description (To)"; Rec."Department Description (To)")
                 {
                     ToolTip = 'Specifies the value of the Department Description (To) field.', Comment = '%';
@@ -233,7 +227,6 @@ page 50249 "Service History Lists"
                 {
                     ToolTip = 'Specifies the value of the Unit Code (To) field.', Comment = '%';
                 }
-
                 field("Unit Description (To)"; Rec."Unit Description (To)")
                 {
                     ToolTip = 'Specifies the value of the Unit Description (To) field.', Comment = '%';

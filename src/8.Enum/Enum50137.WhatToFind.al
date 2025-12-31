@@ -1,7 +1,7 @@
 enum 50137 "What To Find"
 {
     Extensible = true;
-    
+
     value(0; Object)
     {
         Caption = 'Object';
