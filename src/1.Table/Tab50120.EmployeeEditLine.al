@@ -69,7 +69,7 @@ table 50120 "Employee Edit Line"
                     Error('Date is in Future');
             end;
         }
-        field(29; Designation; Text[30])
+        field(29; Designation; Text[50])
         { DataClassification = CustomerContent; }
         field(30; "Time Period"; Decimal)
         { DataClassification = CustomerContent; }

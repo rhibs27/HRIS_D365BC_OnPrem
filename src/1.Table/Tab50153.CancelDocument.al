@@ -161,10 +161,12 @@ table 50153 "Cancel Document"
         field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
         field(19; "Branch Name"; Text[50])
@@ -207,7 +209,10 @@ table 50153 "Cancel Document"
                     Clear("Salary Level Description");
             end;
         }
-        field(28; "Extension Counter Code"; Code[20]) { }
+        field(28; "Extension Counter Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
         field(29; "Province Name"; Code[50])
         {
             Editable = false;
@@ -216,7 +221,10 @@ table 50153 "Cancel Document"
         {
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
         }
-        field(31; "Unit Code"; Code[20]) { }
+        field(31; "Unit Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
         field(34; Ecosystem; Code[20]) { }

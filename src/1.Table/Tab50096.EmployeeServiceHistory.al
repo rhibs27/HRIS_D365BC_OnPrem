@@ -93,6 +93,7 @@ table 50096 "Employee Service History"
         field(12; "Functional Title Desc. (From)"; Text[100]) { }
         field(13; "Salary Level (From)"; Code[20])
         {
+            TableRelation = "Salary Level";
             trigger OnValidate()
             begin
                 if SalaryLevel.Get("Salary Level (From)") then
@@ -102,6 +103,7 @@ table 50096 "Employee Service History"
         field(14; "Salary level Desc. (From)"; Text[100]) { }
         field(15; "Functional Title (To)"; Code[20])
         {
+            TableRelation = "Functional Title";
             trigger OnValidate()
             var
                 FunctionalTitle: Record "Functional Title";
@@ -113,6 +115,7 @@ table 50096 "Employee Service History"
         field(16; "Functional Title Desc. (To)"; Text[100]) { }
         field(17; "Salary Level (To)"; Code[20])
         {
+            TableRelation = "Salary Level";
             trigger OnValidate()
             begin
                 if SalaryLevel.Get("Salary Level (To)") then
@@ -154,6 +157,7 @@ table 50096 "Employee Service History"
         field(37; "Employment Type (To)"; Enum "Employee Type") { }
         field(38; "Extension Counter (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter (From)") then
@@ -164,6 +168,7 @@ table 50096 "Employee Service History"
         }
         field(39; "Extension Counter (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter (To)") then
@@ -177,6 +182,7 @@ table 50096 "Employee Service History"
         field(51; "Employment Type"; Enum "Employee Type") { }
         field(52; "Province Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code (From)") then
@@ -187,6 +193,7 @@ table 50096 "Employee Service History"
         }
         field(53; "Branch Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code (From)") then
@@ -197,6 +204,7 @@ table 50096 "Employee Service History"
         }
         field(54; "Department Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code (From)") then
@@ -207,6 +215,7 @@ table 50096 "Employee Service History"
         }
         field(55; "Unit Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code (From)") then
@@ -217,6 +226,7 @@ table 50096 "Employee Service History"
         }
         field(56; "Province Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code (To)") then
@@ -227,6 +237,7 @@ table 50096 "Employee Service History"
         }
         field(57; "Branch Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code (To)") then
@@ -237,6 +248,7 @@ table 50096 "Employee Service History"
         }
         field(58; "Department Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code (To)") then
@@ -247,6 +259,7 @@ table 50096 "Employee Service History"
         }
         field(59; "Unit Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code (To)") then

@@ -51,7 +51,10 @@ table 50070 "Training Line"
             end;
         }
         field(4; Name; Text[50]) { }
-        field(5; "Department Code"; Code[20]) { }
+        field(5; "Department Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
         field(6; "Department Name"; Text[50]) { }
         field(7; "Shortcut Dimension 1 Code"; Code[20])
         {

@@ -189,6 +189,7 @@ table 50124 Leave
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
         field(19; "Branch Name"; Text[50])
@@ -226,10 +227,12 @@ table 50124 Leave
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             Editable = false;
         }
         field(30; "Province Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             Editable = false;
         }
         field(29; "Province Name"; Code[50])
@@ -238,6 +241,7 @@ table 50124 Leave
         }
         field(31; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             Editable = false;
         }
         field(32; "Compensatory Days"; Decimal) { }

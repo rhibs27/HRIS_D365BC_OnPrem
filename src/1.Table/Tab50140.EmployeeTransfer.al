@@ -138,6 +138,7 @@ table 50140 "Employee Transfer"
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
         field(19; "Branch Name"; Text[50])
@@ -180,8 +181,14 @@ table 50140 "Employee Transfer"
             Editable = false;
         }
         field(28; "Extension Counter Code"; Code[20]) { }
-        field(30; "Province Code"; Code[20]) { }
-        field(31; "Unit Code"; Code[20]) { }
+        field(30; "Province Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+        }
+        field(31; "Unit Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
         field(34; "Extension Name To"; Text[50]) { }

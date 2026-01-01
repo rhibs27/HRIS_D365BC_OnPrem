@@ -32,7 +32,10 @@ table 50004 Promotion
             TableRelation = "Functional Title";
         }
         field(7; "Previous Functional Title Desc"; Text[100]) { }
-        field(8; "Previous Salary Level"; Code[20]) { }
+        field(8; "Previous Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
         field(9; "Previous Salary Grade"; Code[20]) { }
         field(10; "Previous Salary Description"; text[50]) { }
         field(16; "Approval Status"; Enum "Approval Status")
@@ -43,6 +46,7 @@ table 50004 Promotion
         field(18; "Deputation Code"; Code[20]) { }
         field(19; "Province Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             Editable = false;
         }
         field(20; "Province Name"; Text[50])
@@ -52,7 +56,7 @@ table 50004 Promotion
         field(21; "Department Code"; Code[20])
         {
             Editable = false;
-            TableRelation = "Organization Structure List".Code;
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
         }
         field(22; "Department Name"; Text[50])
         {
@@ -60,6 +64,7 @@ table 50004 Promotion
         }
         field(25; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
         field(26; "Branch Name"; Text[50])
@@ -68,6 +73,7 @@ table 50004 Promotion
         }
         field(27; "Extension Counter"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             Editable = false;
         }
         field(28; "Extension Counter Name"; Text[100])
@@ -76,6 +82,7 @@ table 50004 Promotion
         }
         field(29; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             Editable = false;
         }
         field(30; "Unit Name"; Text[50])
@@ -120,7 +127,10 @@ table 50004 Promotion
         // Promotion
         field(60; "Promoted Functional Title"; Code[20]) { }
         field(61; "Promoted Salary Grade"; Code[20]) { }
-        field(62; "Promoted Salary level"; Code[20]) { }
+        field(62; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
         field(63; "Promoted Approver Role"; Code[20]) { }
         field(64; "Promoted Staff Level"; Enum "Staff Type") { }
         field(65; "Promotion Date"; Date)

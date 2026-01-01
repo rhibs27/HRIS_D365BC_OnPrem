@@ -165,7 +165,7 @@ table 50074 "Employee Edit"
                     Error('Date is in Future');
             end;
         }
-        field(29; Designation; Text[30])
+        field(29; Designation; Text[50])
         {
             DataClassification = CustomerContent;
         }

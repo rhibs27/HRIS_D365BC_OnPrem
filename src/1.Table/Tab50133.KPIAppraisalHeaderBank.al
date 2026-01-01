@@ -73,6 +73,7 @@ table 50133 "KPI Appraisal Header Bank"
         }
         field(6; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
         field(7; "Branch Name"; Text[250])
