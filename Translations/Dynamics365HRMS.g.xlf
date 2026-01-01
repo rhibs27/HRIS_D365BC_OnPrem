@@ -309,7 +309,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Department Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3837508396 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Description</source>
+          <source>Attribute Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Description - Property Caption</note>
         </trans-unit>
