@@ -231,6 +231,13 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLine.Modify();
             until AssignmentMemoLine.Next() = 0;
 
+        //final check allowance amount 
+        AssignmentMemoLine.Reset();
+        AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
+        AssignmentMemoLine.SetRange("Allowance Amount", 0);
+        if not AssignmentMemoLine.IsEmpty() then
+            Error('allowance amount cannot be zero for any line.');
+
         //In case of substitute, open the approval for substitute
         if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Pending then begin
             ApprovalHrms.SetFilter("Approval Sequence", '>%1', 1);
@@ -295,12 +302,13 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure CheckConflictingSubstituteAssignment(docNo: Code[20]; LineNo: Integer; fromDate: Date; toDate: Date): Boolean
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLine: Record "Assignment Memo Line";  // to review
         Daterec: Record Date;
         DateList: List of [Date];
     begin
         AssignmentMemoLine.SetRange("Document No.", docNo);
         AssignmentMemoLine.SetRange("Substitute Type", AssignmentMemoLine."Substitute Type"::"Added as Substitute");
+        AssignmentMemoLine.Setfilter("Approval Status", '<>%1', AssignmentMemoLine."Approval Status"::Rejected);
         AssignmentMemoLine.SetRange("Substitute of Line No.", LineNo);
         if AssignmentMemoLine.FindSet() then
             repeat
@@ -739,7 +747,7 @@ codeunit 50030 "Assignment Memo Mgt"
             if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler (EV)", Employee."Vehicle Type"::"Two Wheeler (EV)", Employee."Vehicle Type"::" "] then
                 Error('You are not eligible to claim Transportation Reimbursement.');
 
-            if Salarylevel.Rank >= 16 then begin
+            if Salarylevel.Rank >= GetAMRank() then begin
                 if GetAssignmentLineLtr(AssignmentMemoLine."Document No.") > Salarylevel."Fuel Limit (ltr)" then
                     Error('Fuel claimed exceeds the limit of allowable %1 liters.', Salarylevel."Fuel Limit (ltr)");
             end
@@ -841,7 +849,7 @@ codeunit 50030 "Assignment Memo Mgt"
         SalaryLevel.Get(Employee."Salary Level");
 
         if (Employee."Vehicle Type" in [Employee."Vehicle Type"::"Two Wheeler", Employee."Vehicle Type"::"Four Wheeler"])
-            and (SalaryLevel.Rank >= 16) then begin
+            and (SalaryLevel.Rank >= GetAMRank()) then begin
             FuelLimit := SalaryLevel."Fuel Limit (ltr)";
             AmountLimit := 0;
         end else begin
@@ -960,8 +968,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open, Reversed);
-
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
+        AssignmentMemoLedgerEntry.Setfilter("Employee Activity Type", '%1|%2', AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AssignmentMemoLine."Payroll Attribute Code");
@@ -984,7 +991,7 @@ codeunit 50030 "Assignment Memo Mgt"
             AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
             if AssignmentMemoLine.FindSet() then
                 repeat
-                    if CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
+                    if not CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
                         Error('Allowance for %1 is already substituted on %2. Cannot proceed with your allowance request.', AssignmentMemoLine."Payroll Attribute Code", AssignmentMemoLine."From Date");
 
                     //check if pending substituted exist.
@@ -1081,6 +1088,15 @@ codeunit 50030 "Assignment Memo Mgt"
     var
     begin
         exit(StrPos('|' + PipedValues + '|', '|' + targetValue + '|') > 0);
+    end;
+
+    procedure GetAMRank(): Integer
+    var
+        SalaryLevel: Record "Salary Level";
+    begin
+        SalaryLevel.SetRange("Is AM", true);
+        SalaryLevel.FindFirst();
+        exit(SalaryLevel.Rank);
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]

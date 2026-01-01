@@ -1073,11 +1073,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Fuel Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3474915042 - Field 2160977265 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Last Placement Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field Last Placement Date - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 2906764345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Nepali Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1493,6 +1488,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Grade/Class - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 2160977265 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Date of joining current branch</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Last Placement Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1522,6 +1522,11 @@
           <source>Payroll Attribute Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Payroll Attribute Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 934027564 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Previous Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Previous Branch Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
@@ -45703,11 +45708,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Fuel Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2985527303 - Control 2160977265 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Last Placement Date field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Last Placement Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2985527303 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Nepali Month field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -45848,6 +45848,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Grade/Class - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 2160977265 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Date of joining current branch field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Last Placement Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3106374893 - Control 327994383 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Name of Children field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -45867,6 +45872,11 @@
           <source>Specifies the value of the Payroll Attribute Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Payroll Attribute Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3106374893 - Control 934027564 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Previous Branch Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Subform - Control Previous Branch Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3106374893 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Rejection Remarks field.</source>

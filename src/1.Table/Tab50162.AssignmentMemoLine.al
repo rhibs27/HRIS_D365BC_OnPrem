@@ -12,8 +12,13 @@ table 50162 "Assignment Memo Line"
             TableRelation = Employee where(Status = const(Active));
             trigger OnValidate()
             begin
-                if Employee.Get("Employee No.") then
-                    "Employee Name" := Employee."Full Name"
+                if Employee.Get("Employee No.") then begin
+                    "Employee Name" := Employee."Full Name";
+                    if Employee."Last Placement Date" <> 0D then
+                        "Last Placement Date" := Employee."Last Placement Date"
+                    else
+                        "Last Placement Date" := Employee."Employment Date";
+                end
                 else
                     "Employee Name" := '';
             end;
@@ -171,6 +176,16 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Reversed';
             Editable = false;
+        }
+        field(61; "Last Placement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Date of joining current branch';
+        }
+        field(62; "Previous Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            DataClassification = ToBeClassified;
         }
 
         //If there is education allowance then these fields will be used.
@@ -391,7 +406,6 @@ table 50162 "Assignment Memo Line"
             AllowanceConfiguration.Reset();
             AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
             AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
-            AllowanceConfiguration.SetFilter(Source, '%1|%2', AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::Leave);
             if AllowanceConfiguration.FindSet() then begin
                 repeat
                     if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, "Employee No.", "To Date") then
@@ -487,7 +501,7 @@ table 50162 "Assignment Memo Line"
             until AllowanceConfig.Next() = 0;
 
         if not IsEligibleForShiftAllowance then
-            Error('Shift assignment is not applicable for branch %1.', AssignmentMemoHdr."Branch Code");
+            Error('Not eligible for selected shift.');
 
     end;
 
