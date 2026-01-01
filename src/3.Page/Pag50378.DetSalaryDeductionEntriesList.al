@@ -2,7 +2,7 @@ page 50378 "Det Salary Deduction Entries"
 {
     PageType = List;
     SourceTable = "Det Salary Deduction Entries";
-    Caption = 'Det Salary Deduction Entries';
+    Caption = 'Detailed Salary Deduction Entries';
     ApplicationArea = All;
     //Editable = false;
     UsageCategory = Lists;

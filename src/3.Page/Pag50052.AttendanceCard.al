@@ -232,7 +232,7 @@ page 50052 "Attendance Card"
                         SalaryDeduction: Codeunit "Salary Deduction Mgt";
                     begin
                         SalaryDeduction.GenerateSalaryDeductionEntries(Rec);
-                        Message('Salary Deduction Posted Successfully for Attendance No %1', Rec."No.");
+                        Message('Salary Deduction Entries generated successfully for Monthly Attendance No. %1', Rec."No.");
                     end;
                 }
                 action("View Deductions")
