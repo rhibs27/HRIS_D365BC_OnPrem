@@ -1,13 +1,12 @@
 codeunit 50025 "Shift Assignment Mgt"
 {
-
     procedure OpenShiftRequest(EmpCode: Code[20])
     var
         ShiftAssignment, ShiftAssignment2 : Record "Shift Assignment Header";
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Shift Assignment");
@@ -152,7 +151,6 @@ codeunit 50025 "Shift Assignment Mgt"
             ApprovalLine.DeleteAll(true);
             ApproverMgt.InsertApproval(ShiftAssignmentHeader."Employee No.", DocumentNo, ShiftAssignmentHeader."Type"::"Shift Assignment", ShiftAssignmentHeader."Approval Status"::open);
         end;
-
     end;
 
     procedure ValidateEmployeeOnDate(var LineRec: Record "Shift Line")
@@ -212,5 +210,4 @@ codeunit 50025 "Shift Assignment Mgt"
     var
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
-
 }

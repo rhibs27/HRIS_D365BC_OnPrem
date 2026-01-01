@@ -6,7 +6,6 @@ page 50358 "Status Master"
     SourceTable = "Status Master";
     UsageCategory = Lists;
 
-
     layout
     {
         area(Content)

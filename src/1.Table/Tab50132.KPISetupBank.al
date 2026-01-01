@@ -5,10 +5,7 @@ table 50132 "KPI Setup Bank"
 
     fields
     {
-        field(1; Type; Enum "KPI Setup Type")
-        {
-
-        }
+        field(1; Type; Enum "KPI Setup Type") { }
         field(2; "Code"; Code[20])
         {
             TableRelation = if (Type = const(Functional)) "Functional Title"

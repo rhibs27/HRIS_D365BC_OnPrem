@@ -25,9 +25,7 @@ table 50143 "Medical Insurance Claim"
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -60,9 +58,7 @@ table 50143 "Medical Insurance Claim"
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -133,9 +129,7 @@ table 50143 "Medical Insurance Claim"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -202,24 +196,12 @@ table 50143 "Medical Insurance Claim"
         {
             // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
         }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
-        field(39; Cancelled; Boolean)
-        {
-        }
-        field(40; "Cancelled No."; Code[20])
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
+        field(39; Cancelled; Boolean) { }
+        field(40; "Cancelled No."; Code[20]) { }
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;
@@ -257,30 +239,14 @@ table 50143 "Medical Insurance Claim"
         {
             FieldClass = Normal;
         }
-        field(52; "Mother Name"; Text[50])
-        {
-        }
-        field(53; "Spouse Name"; Text[50])
-        {
-        }
-        field(54; "Child Name"; Text[50])
-        {
-        }
-        field(55; "Total Insurance Claim Amount"; Decimal)
-        {
-        }
-        field(56; "Medical Prescription Date"; Date)
-        {
-        }
-        field(57; "Discharge Date"; Date)
-        {
-        }
-        field(58; "Bank Account No."; Text[30])
-        {
-        }
-        field(59; "Contact No."; Text[30])
-        {
-        }
+        field(52; "Mother Name"; Text[50]) { }
+        field(53; "Spouse Name"; Text[50]) { }
+        field(54; "Child Name"; Text[50]) { }
+        field(55; "Total Insurance Claim Amount"; Decimal) { }
+        field(56; "Medical Prescription Date"; Date) { }
+        field(57; "Discharge Date"; Date) { }
+        field(58; "Bank Account No."; Text[30]) { }
+        field(59; "Contact No."; Text[30]) { }
         field(60; "Insurance Status"; Enum "Insurance Status")
         {
             Editable = false;
@@ -297,9 +263,7 @@ table 50143 "Medical Insurance Claim"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     trigger OnInsert()
     begin

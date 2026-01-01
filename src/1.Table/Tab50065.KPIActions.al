@@ -13,7 +13,6 @@ table 50065 "KPI Actions"
         field(3; "KPI Quater"; Enum Quater)
         {
             Editable = false;
-
         }
         field(4; "Line No."; Integer) { }
         field(5; "Action Line No."; Integer)

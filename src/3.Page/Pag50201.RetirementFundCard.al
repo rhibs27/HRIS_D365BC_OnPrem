@@ -44,7 +44,6 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Payroll Month field.';
                     ApplicationArea = All;
                 }
-
             }
             group("Annual Income Details")
             {
@@ -139,13 +138,10 @@ page 50201 "Retirement Fund Card"
                         ApplicationArea = All;
                         ToolTip = 'Specifies the value of the Type field.';
                         trigger OnValidate()
-                        var
-                            myInt: Integer;
                         begin
                             Rec.TestField("Attribute Code");
                         end;
                     }
-
                 }
                 group(Lumpsum)
                 {
@@ -206,7 +202,6 @@ page 50201 "Retirement Fund Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
-
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
@@ -225,7 +220,6 @@ page 50201 "Retirement Fund Card"
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
                 Editable = false;
-
             }
         }
     }
@@ -322,7 +316,6 @@ page 50201 "Retirement Fund Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-
                 ApplicationArea = All;
                 Visible = IsApproved;
                 // trigger OnAction()

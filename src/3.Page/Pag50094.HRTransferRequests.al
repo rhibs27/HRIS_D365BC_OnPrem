@@ -1,7 +1,5 @@
 page 50094 "HR Transfer Requests"
 {
-
-
     CardPageId = "Transfer Card";
     DeleteAllowed = false;
     Editable = false;
@@ -257,7 +255,6 @@ page 50094 "HR Transfer Requests"
     end;
 
     var
-        HRMgt: Codeunit "HR Mgt.";
         GLSetup: Record "General Ledger Setup";
         DeputationValue: Text;
 

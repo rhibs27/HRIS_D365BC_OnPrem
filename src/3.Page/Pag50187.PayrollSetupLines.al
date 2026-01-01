@@ -19,7 +19,6 @@ page 50187 "Payroll Setup Lines"
                 {
                     ToolTip = 'Specifies the value of the Tax Ex. Amt Divsion field.', Comment = '%';
                 }
-
                 field("Tax Ex. Amt. not Exceeding"; Rec."Tax Ex. Amt. not Exceeding")
                 {
                     ApplicationArea = All;

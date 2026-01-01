@@ -48,7 +48,5 @@ pageextension 50020 "Base Calendar Entries Subform" extends "Base Calendar Entri
                 ApplicationArea = all;
             }
         }
-
-
     }
 }

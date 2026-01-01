@@ -174,10 +174,6 @@ report 50140 "Salary Sheet Doc Portal"
         EmpDes: Record "Functional Title";
         PayrollColumnConfig: Record "Payroll Column Configuration";
         SortinNo: Integer;
-        DepartmentCode: Code[20];
-        SalaryLevel: Code[20];
-        FunctionalTitle: Code[20];
-        PostedPayHeader: Record "Posted Payroll Header";
         NepaliMonth: Enum "Nepali Month";
         MultipleEmloyee: Boolean;
         FilterText: Code[20];
@@ -194,9 +190,6 @@ report 50140 "Salary Sheet Doc Portal"
     end;
 
     procedure PassParHrmsPortal(empCode: Code[20]; payCycleTerm: Code[20]; month: Enum "Nepali Month")
-    var
-        PostedPayroll: Record "Posted Payroll Header";
-        PayCyclePeriod: Record "Pay Cycle Period";
     begin
         EmployeeFilter := empCode;
         Months := month;

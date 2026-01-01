@@ -48,10 +48,7 @@ table 50054 "Recruitement Memo Line"
         {
             Editable = false;
         }
-        field(5; Location; Enum "Outside/Inside Valley")
-        {
-
-        }
+        field(5; Location; Enum "Outside/Inside Valley") { }
         field(6; "Required No."; Integer) { }
         field(7; "Functional Title Description"; Text[250])
         {
@@ -61,13 +58,8 @@ table 50054 "Recruitement Memo Line"
         {
             TableRelation = "Vacancy Header";
         }
-        field(9; "Line No."; Integer)
-        {
-        }
-        field(10; Type; Enum InternalExternal)
-        {
-
-        }
+        field(9; "Line No."; Integer) { }
+        field(10; Type; Enum InternalExternal) { }
         field(11; "Province Code"; Code[20])
         {
             TableRelation = Province;

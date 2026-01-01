@@ -2,10 +2,7 @@ enum 50119 "Overtime Claim Type"
 {
     Extensible = true;
 
-    value(0; " ")
-    {
-
-    }
+    value(0; " ") { }
 
     value(1; Encashment)
     {

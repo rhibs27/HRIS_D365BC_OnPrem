@@ -202,7 +202,6 @@ page 50110 "Transfer Request Card"
         GetTransferEditibility;
     end;
 
-
     trigger OnOpenPage()
     begin
         case rec.Type of
@@ -238,7 +237,6 @@ page 50110 "Transfer Request Card"
         TransferMgt: Codeunit "Transfer Mgt.";
         Approval: Record "Approval HRMS";
         IsApplied: Boolean;
-        IsOpen: Boolean;
         TransferCategoryEditable: Boolean;
         ApproverMgt: Codeunit "Approver Mgt";
 

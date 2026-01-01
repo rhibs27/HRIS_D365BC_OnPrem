@@ -1,6 +1,6 @@
 table 50021 "Level Wise Attributes"
 {
-    //field 2 to 40 can be configured for payroll. so do not add any non-payroll field in that range 
+    //field 2 to 40 can be configured for payroll. so do not add any non-payroll field in that range
     DataClassification = CustomerContent;
 
     fields
@@ -33,18 +33,9 @@ table 50021 "Level Wise Attributes"
         {
             Description = 'Fixed Amount of Allowence given to each staff';
         }
-        field(7; "Employee Maintenence Allowance"; Decimal)
-        {
-
-        }
-        field(8; "Transportation Allowance"; Decimal)
-        {
-
-        }
-        field(9; "Vehicle Maintenence Allowance"; Decimal)
-        {
-
-        }
+        field(7; "Employee Maintenence Allowance"; Decimal) { }
+        field(8; "Transportation Allowance"; Decimal) { }
+        field(9; "Vehicle Maintenence Allowance"; Decimal) { }
         field(11; "Relocation Allowance"; Decimal)
         {
             Description = '1 month Basic Salary( Basic + Grade)';
@@ -101,7 +92,6 @@ table 50021 "Level Wise Attributes"
         {
             Description = 'Travel Allowence on Lodging per day';
         }
-
     }
 
     keys

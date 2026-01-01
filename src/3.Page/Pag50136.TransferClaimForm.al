@@ -179,15 +179,12 @@ page 50136 "Transfer Claim Form"
     end;
 
     var
-        Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
 
         IsOpen: Boolean;
-        ReasonCode: Record "Reason Code";
         ApproverMgt: Codeunit "Approver Mgt";
         IsApplied: Boolean;
-        Approval: Record "Approval HRMS";
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         RecRef: RecordRef;

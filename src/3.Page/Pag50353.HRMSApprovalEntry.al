@@ -53,7 +53,6 @@ page 50353 "HRMS Approval Entry"
                     Caption = 'Approved By';
                     ToolTip = 'Specifies the value of the Approved By field.', Comment = '%';
                 }
-
                 field(rejectedBy; Rec."Rejected By")
                 {
                     Caption = 'Rejected By';

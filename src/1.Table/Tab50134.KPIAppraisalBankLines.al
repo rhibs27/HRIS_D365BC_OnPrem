@@ -21,9 +21,7 @@ table 50134 "KPI Appraisal Bank Lines"
         field(3; "KPI Code"; Code[20]) { }
         field(4; "KPI Description"; Text[250]) { }
         field(5; "Weightage %"; Decimal) { }
-        field(6; Type; Enum "KPI Setup Type")
-        {
-        }
+        field(6; Type; Enum "KPI Setup Type") { }
         field(7; Target; Decimal)
         {
             CalcFormula = average("KPI Daily Score"."Target Per Day" where("Employee Code" = field("Employee Code"),
@@ -103,9 +101,7 @@ table 50134 "KPI Appraisal Bank Lines"
         {
             FieldClass = FlowFilter;
         }
-        field(20; "KPI Type"; Enum "KPI Master Type")
-        {
-        }
+        field(20; "KPI Type"; Enum "KPI Master Type") { }
         field(21; "Final Reviewer's Score"; Decimal) { }
         field(22; "KPI Category"; Code[20])
         {

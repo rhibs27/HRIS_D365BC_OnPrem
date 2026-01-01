@@ -50,9 +50,7 @@ table 50157 "Payroll Setup Lines"
         {
             Caption = 'Tax Ex. Amt. not Exceed Medical Reimbursement Limit';
         }
-        field(12; "Tax Ex. Amt Divsion"; Decimal)
-        {
-        }
+        field(12; "Tax Ex. Amt Divsion"; Decimal) { }
     }
     keys
     {

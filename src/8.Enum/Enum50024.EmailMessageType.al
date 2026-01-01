@@ -22,5 +22,4 @@ enum 50024 "Email Message Type"
     {
         Caption = 'Disclaimer';
     }
-
 }

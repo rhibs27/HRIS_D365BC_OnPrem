@@ -94,21 +94,13 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                if "GPA Scale" <> 0 then
-                    if CGPA > "GPA Scale" then
-                        Error('CGPA cannot be greater than GPA Scale');
+                if CGPA > "GPA Scale" then
+                    Error('CGPA cannot be greater than GPA Scale');
             end;
         }
-        field(50013; Attachment; Media)
-        {
-        }
-        field(50014; Running; Boolean)
-        {
-
-        }
-        field(50015; "GPA Scale"; Decimal)
-        {
-        }
+        field(50013; Attachment; Media) { }
+        field(50014; Running; Boolean) { }
+        field(50015; "GPA Scale"; Decimal) { }
     }
     keys { }
     trigger OnInsert()

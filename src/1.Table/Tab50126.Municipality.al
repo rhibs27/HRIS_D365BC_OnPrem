@@ -45,8 +45,6 @@ table 50126 Municipality
 
     fieldgroups
     {
-        fieldgroup(DropDown; "Code", "Municipality Name")
-        {
-        }
+        fieldgroup(DropDown; "Code", "Municipality Name") { }
     }
 }

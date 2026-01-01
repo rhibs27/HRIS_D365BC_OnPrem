@@ -168,17 +168,14 @@ table 50074 "Employee Edit"
         field(29; Designation; Text[30])
         {
             DataClassification = CustomerContent;
-
         }
         field(30; "Time Period"; Decimal)
         {
             DataClassification = CustomerContent;
-
         }
         field(31; Remuneration; Decimal)
         {
             DataClassification = CustomerContent;
-
         }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
@@ -187,7 +184,6 @@ table 50074 "Employee Edit"
         field(34; Rank; Integer)
         {
             DataClassification = CustomerContent;
-
         }
         field(35; "Qualification Type"; Enum "Qualification Type")
         {
@@ -417,7 +413,6 @@ table 50074 "Employee Edit"
         {
             Caption = 'Citizenship Issued Place';
             Description = 'Official Document';
-
         }
         field(78; "Passport Validity Date"; Date)
         {
@@ -477,7 +472,6 @@ table 50074 "Employee Edit"
                 PayCyclePeriod.FindFirst();
 
                 Validate("Claimed Type Effective Date", PayCyclePeriod."Start Date");
-
             end;
         }
         field(100; "Status"; Text[20])
@@ -488,9 +482,7 @@ table 50074 "Employee Edit"
         {
             TableRelation = "Functional Title";
         }
-        field(102; "Deputation on"; Enum "Deputation Type")
-        {
-        }
+        field(102; "Deputation on"; Enum "Deputation Type") { }
         field(103; "Province Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
@@ -520,18 +512,13 @@ table 50074 "Employee Edit"
         field(117; "Permanent Locality"; Text[100]) { }
         field(118; "Permanent Ward No"; Integer) { }
         field(119; "Permanent Address"; Text[60]) { }
-        field(120; "Temporary Province"; Text[30])
-        {
-        }
-        field(121; "Temporary District"; Text[30])
-        { }
+        field(120; "Temporary Province"; Text[30]) { }
+        field(121; "Temporary District"; Text[30]) { }
         field(122; "Temporary VDC"; Text[50]) { }
         field(123; "Temporary Ward No"; Integer) { }
         field(124; "Temporary Locality"; Text[100]) { }
         field(125; "Temporary House"; Text[30]) { }
-        field(126; "Temporary Address"; Text[60])
-        {
-        }
+        field(126; "Temporary Address"; Text[60]) { }
         field(1000; "Changed Field"; Text[1020])
         {
             Description = 'This field includes the name of fields that are updated from portal';
@@ -543,9 +530,7 @@ table 50074 "Employee Edit"
         {
             Clustered = true;
         }
-        key(PK2; "Employee No.")
-        {
-        }
+        key(PK2; "Employee No.") { }
     }
     Var
         HRSetup: Record "Human Resources Setup";
@@ -657,7 +642,6 @@ table 50074 "Employee Edit"
                     AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
                 end;
-
         end;
         if AttachmentSetup.FindFirst() then begin
             IncomingDocument.Init();
@@ -712,6 +696,5 @@ table 50074 "Employee Edit"
         AssignmentMemoHeader.SetRange("Approval Status", AssignmentMemoHeader."Approval Status"::Pending);
         if not AssignmentMemoHeader.IsEmpty() then
             Error('There is a pending reimbursement request for this employee under the selected Claim Type. Please resolve it before creating a new Vehicle Info Update request.');
-
     end;
 }

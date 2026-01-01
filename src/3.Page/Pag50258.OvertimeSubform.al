@@ -72,7 +72,6 @@ page 50258 "Overtime Subform"
                     Caption = 'OverNight Shift';
                     ApplicationArea = All;
                 }
-
                 field(remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';

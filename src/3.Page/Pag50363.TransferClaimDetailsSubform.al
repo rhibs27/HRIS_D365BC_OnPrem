@@ -29,7 +29,5 @@ page 50363 "Transfer Claim Details Subform"
                 }
             }
         }
-
     }
-
 }

@@ -25,7 +25,6 @@ page 50276 "HR Overview"
                         ToolTip = 'Specifies the value of the Probation Staff field.';
                         ApplicationArea = All;
                     }
-
                     field("Contract Staff"; Rec."Contract Staff")
                     {
                         Image = "None";
@@ -42,7 +41,6 @@ page 50276 "HR Overview"
                     {
                         ToolTip = 'Specifies the value of the Outsource Staff field.', Comment = '%';
                     }
-
                 }
                 group("To Review")
                 {
@@ -51,7 +49,6 @@ page 50276 "HR Overview"
                         ToolTip = 'Specifies the value of the Expiring field.';
                         ApplicationArea = All;
                     }
-
                     field("Contract Expired Staff"; Rec."Contract Expired Staff")
                     {
                         ToolTip = 'Specifies the value of the Expired field.';
@@ -66,7 +63,6 @@ page 50276 "HR Overview"
                     {
                         ToolTip = 'Specifies the value of the Probation Ended Staff field.', Comment = '%';
                     }
-
                     field("Temporary Ending Staff"; Rec."Temporary Ending Staff")
                     {
                         ToolTip = 'Specifies the value of the Temporary Ending field.';
@@ -167,7 +163,6 @@ page 50276 "HR Overview"
     end;
 
     var
-        usersetup: Record "User Setup";
         HrSetup: Record "Human Resources Setup";
         HrMgt: Codeunit "HR Mgt.";
 }

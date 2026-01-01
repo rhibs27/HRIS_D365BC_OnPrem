@@ -24,7 +24,6 @@ page 50378 "Request Allowance Subform Copy"
                         CurrPage.Update;
                     end;
                 }
-
                 field("Fuel Claimed (ltr)"; Rec."Fuel Claimed (ltr)")
                 {
                     ToolTip = 'Specifies the value of the Fuel Claimed (ltr) field.', Comment = '%';
@@ -34,7 +33,6 @@ page 50378 "Request Allowance Subform Copy"
                     ToolTip = 'Specifies the value of the Allowance Amount field.';
                     ApplicationArea = All;
                 }
-
                 field("Bill Date"; Rec."Bill Date")
                 {
                     ToolTip = 'Specifies the value of the Bill Date field.', Comment = '%';
@@ -73,13 +71,9 @@ page 50378 "Request Allowance Subform Copy"
         SetLayout;
     end;
 
-
     var
-        AllowanceTypeFilter: Code[20];
-        ToDateEditable, FormEditable, AllowanceClaim : Boolean;
+        ToDateEditable, FormEditable : Boolean;
         DocumentOpen, DocumentApproved, DocumentPending : Boolean;
-        Typefilter: Text;
-
 
     local procedure SetLayout()
     var

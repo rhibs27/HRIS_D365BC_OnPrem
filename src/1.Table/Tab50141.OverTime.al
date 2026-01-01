@@ -37,9 +37,7 @@ table 50141 OverTime
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -74,9 +72,7 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -170,9 +166,7 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -283,18 +277,10 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
-        field(39; Cancelled; Boolean)
-        {
-        }
-        field(40; "Cancelled No."; Code[20])
-        {
-        }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
+        field(39; Cancelled; Boolean) { }
+        field(40; "Cancelled No."; Code[20]) { }
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;
@@ -314,12 +300,8 @@ table 50141 OverTime
         // {
         // }
         field(106; "Time Duration"; Duration) { }
-        field(50; "Overnight Shift"; Boolean)
-        {
-        }
-        field(51; "Estimated Hours"; Decimal)
-        {
-        }
+        field(50; "Overnight Shift"; Boolean) { }
+        field(51; "Estimated Hours"; Decimal) { }
         field(52; "Actual OT Hours"; Decimal)
         {
             trigger OnValidate()
@@ -338,12 +320,8 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(56; "OT Disbursed"; Boolean)
-        {
-        }
-        field(57; "Updated Payroll Line"; Boolean)
-        {
-        }
+        field(56; "OT Disbursed"; Boolean) { }
+        field(57; "Updated Payroll Line"; Boolean) { }
         field(58; "OT Eligible Hours"; Decimal)
         {
             Editable = false;
@@ -418,10 +396,7 @@ table 50141 OverTime
         {
             DataClassification = ToBeClassified;
         }
-
-        field(100; Status; text[20])
-        {
-        }
+        field(100; Status; text[20]) { }
     }
     keys
     {
@@ -429,9 +404,7 @@ table 50141 OverTime
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     trigger OnInsert()
     begin

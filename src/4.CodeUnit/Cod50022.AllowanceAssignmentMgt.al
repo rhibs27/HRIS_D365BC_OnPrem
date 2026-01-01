@@ -70,8 +70,6 @@ codeunit 50022 "Allowance Assignment Mgt"
     procedure ApproveRejectAllowanceAssignment(Approved: Boolean; EntryNo: Code[20])
     var
         EmpAllowance: Record "Allowance Assignment Header";
-        PGSetup: Record "Payroll General Setup";
-        EmpRec: Record Employee;
         AllowanceLine: Record "Allowance Assignment Line";
         ApprovalLine: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
@@ -598,7 +596,6 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         AllowanceAssignment, AllowanceAssignment2 : Record "Allowance Assignment Header";
         Approval: Record "Approval HRMS";
-        BranchType: Enum "Branchwise/Extension Type";
     begin
         Clear(Employee);
         PGSetup.Get();
@@ -720,12 +717,8 @@ codeunit 50022 "Allowance Assignment Mgt"
         SalaryLevel: Record "Salary Level";
         PGSetup: Record "Payroll General Setup";
         LevelWiseAttribute: Record "Level Wise Attributes";
-        EngNep: Record "English-Nepali Date";
-        GLSetup: Record "General Ledger Setup";
         HrMgt: Codeunit "HR Mgt.";
-        PayCyclePeriod: Record "Pay Cycle Period";
         AttendanceMgt: Codeunit "Attendance Mgt";
-
 
     [IntegrationEvent(false, false)]
     procedure AllowanceAssignmentApprovalReject(Var Approved: Boolean; var EntryNo: Code[20]; var IsHandeled: Boolean)

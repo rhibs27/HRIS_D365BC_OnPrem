@@ -31,7 +31,6 @@ report 50029 "Substitute Assignment Memo"
                             EmployeeRec.SetRange("Branch Code", AssignmentmemoHdr."Branch Code");
                             if Page.RunModal(Page::"Employee List", EmployeeRec) = Action::LookupOK then
                                 EmployeeNo := EmployeeRec."No.";
-
                         end;
                     }
                 }
@@ -39,9 +38,7 @@ report 50029 "Substitute Assignment Memo"
         }
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
     }
     trigger OnPreReport()
