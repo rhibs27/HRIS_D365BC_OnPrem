@@ -98,33 +98,7 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
             Visible = false;
         }
     }
-    // actions
-    // {
-    //     addafter("Q&ualification Overview")
-    //     {
-    //         action("Preview Attachment")
-    //         {
-    //             ApplicationArea = All;
-    //             Promoted = true;
-    //             PromotedIsBig = true;
-    //             Image = PrintCover;
-    //             PromotedCategory = Category4;
-    //             PromotedOnly = true;
-    //             ToolTip = 'Executes the Preview Attachment action.';
-    //             trigger OnAction()
-    //             begin
-    //                 DocuAttach.Reset;
-    //                 DocuAttach.SetRange("Table ID", Database::Employee);
-    //                 DocuAttach.SetRange("No.", Rec."Employee No.");
-    //                 DocuAttach.SetRange("Qualification Doc. Type", Rec."Emp Qualification Type");
-    //                 DocuAttach.SetRange("Qualification Level", Rec."Qualification Type");
-    //                 // DocuAttach.SetRange("Qualification Doc. No.", Rec."Qualification Code");
-    //                 if DocuAttach.FindFirst then
-    //                     DocuAttach.Export(true);
-    //             end;
-    //         }
-    //     }
-    // }
+
     trigger OnClosePage()
     begin
         Clear(EmployeeQualification);

@@ -38,6 +38,7 @@ table 50156 "Allowance Configuration"
         field(6; "Province Code"; Code[1000])
         {
             Caption = 'Province Code';
+            Description = 'Filter by Province Code.';
             trigger OnLookup()
             begin
                 "Province Code" := HrMgt.LookupProvinceOrganization();
@@ -46,6 +47,7 @@ table 50156 "Allowance Configuration"
         field(7; "Branch Code"; Code[1000])
         {
             Caption = 'Branch Code';
+            Description = 'Filter by Branch Code.';
             trigger OnLookup()
             begin
                 "Branch Code" := HrMgt.LookupBranch('');
@@ -54,6 +56,7 @@ table 50156 "Allowance Configuration"
         field(8; "Department Code"; Code[1000])
         {
             Caption = 'Department Code';
+            Description = 'Filter by Department Code.';
             trigger OnLookup()
             begin
                 "Department Code" := HrMgt.LookupDepartment('', '');
@@ -65,6 +68,7 @@ table 50156 "Allowance Configuration"
         }
         field(10; Description; Text[50])
         {
+            Caption = 'Attribute Description';
             Editable = false;
         }
         field(12; "Min Service Yr. Eligibility"; Decimal) { }

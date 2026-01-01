@@ -50,16 +50,19 @@ table 50070 "Training Line"
                     HRMgt.InsertEmployeeWiseTrainingQuestion("Training No.", "Employee Code");
             end;
         }
-        field(4; Name; Text[50]) { }
-        field(5; "Department Code"; Code[20]) { }
-        field(6; "Department Name"; Text[50]) { }
+        field(4; Name; Text[100]) { }
+        field(5; "Department Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
+        field(6; "Department Name"; Text[100]) { }
         field(7; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1),
                                                           Blocked = const(false));
         }
-        field(8; "Branch Name"; Text[50]) { }
+        field(8; "Branch Name"; Text[100]) { }
         field(9; Type; Enum "Training Line Type") { }
         field(10; "Training Description"; Text[250]) { }
         field(11; Attended; Boolean) { }
