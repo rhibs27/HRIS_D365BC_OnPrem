@@ -2108,7 +2108,6 @@ table 50027 "Payroll Line"
             FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
             FieldRefs.Validate(FieldValue);
             RecRefs.Modify;
-
         end;
     end;
 
