@@ -406,14 +406,19 @@ table 50162 "Assignment Memo Line"
     procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
-        AtmPayrollAttr: Record "Payroll Attributes";
+        AtmPayrollAttr, DirectPayrollAttr : Record "Payroll Attributes";
+        AllowanceConfig: Record "Allowance Configuration";
     begin
-        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then
-            exit;
         if PAssignMemo."Employee No." = '' then
             exit;
         if PAssignMemo."Payroll Attribute Code" = '' then
             exit;
+
+        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
+            DirectPayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+            if DirectPayrollAttr."Specific Attributes" <> DirectPayrollAttr."Specific Attributes"::"Holiday Allowance" then
+                exit;
+        end;
 
         AtmPayrollAttr.SetRange("Specific Attributes", AtmPayrollAttr."Specific Attributes"::"ATM Allowance");
         if AtmPayrollAttr.FindFirst() then;
