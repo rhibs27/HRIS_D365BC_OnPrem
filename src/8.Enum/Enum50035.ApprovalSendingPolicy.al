@@ -10,4 +10,8 @@ enum 50035 "Approval Sending Policy"
     {
         Caption = 'At least One Approver Role Mandatory';
     }
+    value(2; "At Least One Role Per Sequence Mandatory")
+    {
+        Caption = 'At Least One Role Per Sequence Mandatory';
+    }
 }

@@ -24,6 +24,14 @@ page 50181 "Request Allowance Subform"
                         CurrPage.Update;
                     end;
                 }
+                field("From Date"; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
+                }
+                field("To Date"; Rec."To Date")
+                {
+                    ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
+                }
                 field("Allowance Amount"; Rec."Allowance Amount")
                 {
                     ToolTip = 'Specifies the value of the Allowance Amount field.';

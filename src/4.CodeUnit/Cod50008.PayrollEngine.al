@@ -3636,7 +3636,7 @@ codeunit 50008 "Payroll Engine"
             until PayrollLineRec.Next = 0;
     end;
 
-    procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[30]
+    procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[50]
     var
         LanguageCode: Code[20];
         LanguageRec: Record Language;

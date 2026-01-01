@@ -1240,6 +1240,32 @@ table 50035 "Posted Payroll Line"
         field(1081; "PF Posted 2"; Boolean) { }
         field(1082; "Posting Date"; Date) { }
         field(1083; Reversed; Boolean) { }
+        field(1100; "Province Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+        }
+        field(1101; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+        }
+        field(1102; "Department Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
+        field(1103; "Unit Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
+        field(1104; "Extenion Counter Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
+
     }
 
     keys
