@@ -90,7 +90,6 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies whether Employee ID and Machine Emp. Code are different in attendance log table. If true "Employee ID" in attendance log table gets updated before processing the attendance';
                     ApplicationArea = All;
                 }
-
             }
             group(Integration)
             {
@@ -153,5 +152,4 @@ page 50048 "Attendance Setup"
             Rec.Insert;
         end;
     end;
-
 }

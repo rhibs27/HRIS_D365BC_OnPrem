@@ -25,15 +25,10 @@ table 50061 Appraisal
                 OnValidateEmployeeNo;
             end;
         }
-        field(3; "Employee Name"; Text[100])
-        {
-        }
-        field(4; "Date of Employement"; Date)
-        {
-        }
+        field(3; "Employee Name"; Text[100]) { }
+        field(4; "Date of Employement"; Date) { }
         field(5; "Appraisal Type"; Enum "Appraisal Type")
         {
-
             trigger OnValidate()
             begin
                 if "Appraisal Type" <> xRec."Appraisal Type" then begin
@@ -120,13 +115,8 @@ table 50061 Appraisal
                     AppraisalMgt.OnValidateKRACategory(Rec);
             end;
         }
-        field(37; "Approved Date"; Date)
-        {
-        }
-        field(31; Rating; Enum "Appraisal Rating")
-        {
-
-        }
+        field(37; "Approved Date"; Date) { }
+        field(31; Rating; Enum "Appraisal Rating") { }
         field(32; Status; Enum "Appraisal Status")
         {
             trigger OnValidate()
@@ -209,10 +199,7 @@ table 50061 Appraisal
         {
             Caption = 'Appraisal Subtype Quarterly';
         }
-        field(61; "Deputation on"; Enum "Deputation Type")
-        {
-
-        }
+        field(61; "Deputation on"; Enum "Deputation Type") { }
         field(62; Province; Code[20])
         {
             Editable = false;
@@ -257,11 +244,13 @@ table 50061 Appraisal
         {
             CalcFormula = sum("KRA Subform List"."Reviewers Final Score" where("Appraisal Code" = field("Appraisal Code")));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(73; "Total Check Reviewers Score"; Decimal)
         {
             CalcFormula = sum("KRA Subform List"."Check Reviewers Final Score" where("Appraisal Code" = field("Appraisal Code")));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(74; "Confirmation Eligible"; Boolean) { }
         field(75; "Appraisal Attachment"; Text[145]) { }
@@ -275,11 +264,9 @@ table 50061 Appraisal
         {
             CalcFormula = sum("KRA Subform List"."Final Score" where("Appraisal Code" = field("Appraisal Code")));
             FieldClass = FlowField;
+            Editable = false;
         }
-        field(80; "Final Grading"; Enum "Appraisal Final Grading")
-        {
-
-        }
+        field(80; "Final Grading"; Enum "Appraisal Final Grading") { }
     }
 
     keys
@@ -344,7 +331,7 @@ table 50061 Appraisal
     begin
     end;
 
-    local procedure ValidateShortcutDimCode(FieldNumber: Integer; var ShortcutDimCode: Code[20])
+    local procedure ValidateShortcutDimCode()
     begin
         /*OldDimSetID := "Dimension Set ID";
         DimMgt.ValidateShortcutDimValues(FieldNumber,ShortcutDimCode,"Dimension Set ID");

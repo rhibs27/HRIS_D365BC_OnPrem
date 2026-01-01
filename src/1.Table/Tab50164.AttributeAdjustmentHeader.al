@@ -21,36 +21,30 @@ table 50164 "Attribute Adjustment Header"
             Caption = 'No. Series';
             TableRelation = "No. Series";
         }
-
         field(30; "Pay Cycle Code"; Code[20])
         {
             Caption = 'Pay Cycle Code';
             TableRelation = "Pay Cycle";
         }
-
         field(40; "Pay Cycle Term"; Code[20])
         {
             Caption = 'Pay Cycle Term';
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
-
         field(50; "Pay Cycle Period"; Integer)
         {
             Caption = 'Pay Cycle Period';
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
         }
-
         field(60; "Payroll Attribute Filter"; Text[100])
         {
             Caption = 'Payroll Attribute Filter';
         }
-
         field(70; "Employee Filter"; Text[100])
         {
             Caption = 'Employee Filter';
         }
-
         field(80; "Adjustment Type"; Enum "Employee Activity Type")
         {
             Caption = 'Adjustment Type';
@@ -65,7 +59,6 @@ table 50164 "Attribute Adjustment Header"
         {
             Caption = 'Rejection Remarks';
         }
-
     }
 
     keys
@@ -87,7 +80,6 @@ table 50164 "Attribute Adjustment Header"
             HRSetup.TestField("Attribute Adjustment Nos.");
             HrMgt.InitNoSeriesNew(HRSetup."Attribute Adjustment Nos.", xRec."No. Series", Today, "Document No.", "No. Series");
             "Document No." := NoSeriesMgt.GetNextNo(HRSetup."Attribute Adjustment Nos.");
-
 
             if "Approval Status" <> "Approval Status"::Approved then
                 ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Document No.", EmpActivityType::"Attribute Adjustment", "Approval Status");
@@ -133,8 +125,6 @@ table 50164 "Attribute Adjustment Header"
     end;
 
     procedure ApplyForAttributeAdj(AttrAdj: Record "Attribute Adjustment Header")
-    var
-        AttrAdjLines: Record "Attribute Adjustment Line";
     begin
         if not Confirm('Do you want to send Attribute Adjustment for approval?', false) then
             exit;

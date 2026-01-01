@@ -1,7 +1,7 @@
 enum 50141 "Correct Option"
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';

@@ -8,7 +8,6 @@ report 50067 "Process Daily Attendance"
     {
         dataitem(Employee; Employee)
         {
-
             RequestFilterFields = "No.", "Date Filter";
 
             dataitem(Date; Date)
@@ -53,7 +52,6 @@ report 50067 "Process Daily Attendance"
                     ProgressWindow.Open(Text000);
                     TotalCount := Employee.Count;
                 end;
-
             end;
 
             trigger OnAfterGetRecord()
@@ -151,11 +149,9 @@ report 50067 "Process Daily Attendance"
         ToDate: Date;
         ProgressWindow: Dialog;
         IntCount: Integer;
-        EmpWorkShift: Record "Employee Work Shift";
         AttSetup: Record "Attendance Setup";
         FromDateActual: Date;
         ToDateActual: Date;
-        SyncBiometricAtt: Boolean;
         TotalCount: Integer;
         LastError: Text;
         EmailIds: Text;

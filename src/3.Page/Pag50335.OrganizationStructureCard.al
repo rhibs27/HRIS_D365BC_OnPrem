@@ -30,6 +30,5 @@ page 50335 "Organization Structure Card"
                 SubPageLink = Type = field(Type), Code = field(Code);
             }
         }
-
     }
 }

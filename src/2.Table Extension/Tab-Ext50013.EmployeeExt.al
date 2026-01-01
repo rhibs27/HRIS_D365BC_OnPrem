@@ -2,7 +2,6 @@ tableextension 50013 "Employee Ext" extends Employee
 {
     fields
     {
-
         modify(Address)
         {
             Caption = 'Permanent Address';
@@ -26,20 +25,13 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             begin
                 Age := (Today - "Birth Date") div 365;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Birth Date");
-                if EngNepDate.FindFirst then
-                    "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
-                else
-                    "Date of Birth (B.S.)" := '';
+                "Date of Birth (B.S.)" := EngNepDate.getNepaliDate("Birth Date");
                 HrSetup.Get();
                 if HrSetup."Calculate Age using Nepali C." then
                     "Age Text" := HRMgt.GetAgeBS(EngNepDate.getNepaliDate("Birth Date"), EngNepDate.getNepaliDate(Today))
                 else
                     "Age Text" := HRMgt.GetAge("Birth Date", Today);
-
             end;
-
         }
         modify("Employment Date")
         {
@@ -68,7 +60,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Full Name" := FullName;
             end;
         }
-
         modify(Gender)
         {
             trigger OnAfterValidate()
@@ -102,7 +93,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Full Name" := FullName;
             end;
         }
-
         modify("Mobile Phone No.")
         {
             trigger OnAfterValidate()
@@ -157,7 +147,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             TableRelation = "Functional Title";
         }
-
         field(50001; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::Branch));
@@ -179,9 +168,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Branch Name", OrganizationStructureList.Name)
                     else
                         Clear("Branch Name");
-
                 end;
-
             end;
         }
         field(50002; "Department Code"; Code[20])
@@ -198,20 +185,18 @@ tableextension 50013 "Employee Ext" extends Employee
                     else
                         Clear("Department Name");
                 end;
-
             end;
         }
         field(50003; "Deputation On Code"; Code[20])
         {
             Editable = false;
-
         }
-
         field(50004; "Advance Amount"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("G/L Entry".Amount where("Posting Date" = field("Date Filter"), "G/L Account No." = field("G/L Account Filter"), "Shortcut Dimension 3 Code" = field("No.")));
             Caption = 'Advance Amount';
+            Editable = false;
         }
         field(50005; "G/L Account Filter"; Code[20])
         {
@@ -419,6 +404,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Payroll Attribute Code" = filter('VEHICLE ADVANCE')));
+            Editable = false;
         }
         field(50034; "Maintenance Advance"; Decimal)
         {
@@ -428,6 +414,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Payroll Attribute Code" = const('MAINTAINENCE ADV')));
+            Editable = false;
         }
         field(50035; "PF Contribution"; Decimal)
         {
@@ -438,6 +425,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
                                                                                                                    "Attribute Sub Type" = filter("Payroll SubType"::"Employee Contribution"),
                                                                                                                    "Document Type" = field("Document Type Filter")));
+            Editable = false;
         }
         field(50036; "CIT Deposit"; Decimal)
         {
@@ -447,6 +435,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
                                                                                                                    "Attribute Sub Type" = filter("Payroll SubType"::CIT)));
+            Editable = false;
         }
         field(50037; "PF Contribution (Office)"; Decimal)
         {
@@ -457,16 +446,16 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
                                                                                                                    "Attribute Sub Type" = filter("Payroll SubType"::"Employer Contribution"),
                                                                                                                    "Document Type" = field("Document Type Filter")));
+            Editable = false;
         }
-
         field(50039; "Advance for Expenses"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("G/L Entry".Amount where("Shortcut Dimension 4 Code" = field("No."),
                                                                                              "Posting Date" = field("Date Filter"),
                                                                                              "G/L Account No." = const('121082')));
+            Editable = false;
         }
-
         field(50041; "Document Type Filter"; Enum "Employee Document Type")
         {
             FieldClass = FlowFilter;
@@ -502,7 +491,6 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50046; "Blood Group"; Enum "Blood Group")
         {
             DataClassification = CustomerContent;
-
         }
         field(50047; "Employment Type"; enum "Employee Type")
         {
@@ -531,7 +519,6 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
-
         field(50049; "Non-Payment"; Decimal)
         {
             Caption = 'Monthly Salary (Serv. P. Contract)';
@@ -540,7 +527,6 @@ tableextension 50013 "Employee Ext" extends Employee
                             "Attribute Type" = const("Non-Payment"), "Posting Date" = field("Date Filter"), Reversed = const(false), "Non-Taxable" = const(false)));
             Editable = false;
         }
-
         field(50051; "Distance betwn Res and Office"; Decimal)
         {
             Caption = 'Distance between Residence and Office';
@@ -570,7 +556,6 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Birth Date");
                 end;
             end;
-
         }
         field(50055; "Citizenship Issue Place"; Text[30])
         {
@@ -586,8 +571,6 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error('Citizenship Issue Date Cannot be in Future Date');
                 "Citizenship Date (B.S.)" := EngNepDate.getNepaliDate("Citizenship Issue Date");
             end;
-
-
         }
         field(50057; Religion; Enum Religion)
         {
@@ -607,12 +590,8 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Unit Name", OrganizationStructureList.Name);
                 if "Unit Code" = '' then
                     Clear("Unit Code");
-
-
-
             end;
         }
-
         field(50059; "Branch Category"; Text[30])
         {
             DataClassification = CustomerContent;
@@ -679,7 +658,6 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
-
         field(50070; "Job Title Code"; Code[20])
         {
             TableRelation = "Job Title";
@@ -707,7 +685,6 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::"Sub-Unit", "Sub Unit Code") then
                     Validate("Sub Unit Name", OrganizationStructureList.Name);
-
             end;
         }
         field(50073; "Sub Unit Name"; Text[100])
@@ -823,7 +800,6 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50084; "KPI Deputation"; Enum "Deputation Type")
         {
             DataClassification = CustomerContent;
-
             Description = 'KPI1.00';
             trigger OnValidate()
             begin
@@ -909,6 +885,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
                                                                                                                    "Attribute Sub Type" = filter("Payroll SubType"::RF)));
+            Editable = false;
         }
         field(50091; "Citizenship Issue Place Code"; Code[20])
         {
@@ -940,10 +917,8 @@ tableextension 50013 "Employee Ext" extends Employee
                     else
                         Clear("Province Name");
                 end;
-
             end;
         }
-
         field(50093; "Permanent Ward No"; Integer)
         {
             DataClassification = CustomerContent;
@@ -984,8 +959,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Confirmation Date (B.S.)" := EngNepDate.getNepaliDate("Confirmation Date");
             end;
         }
-
-
         field(50097; "Extension Counter Code"; Code[20])
         {
             DataClassification = CustomerContent;
@@ -1002,12 +975,8 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Extension Counter Name", OrganizationStructureList.Name);
                 if "Extension Counter Code" = '' then
                     Clear("Extension Counter Name");
-
-
             end;
         }
-
-
         field(50102; "Lump Sum CIT"; Decimal)
         {
             FieldClass = FlowField;
@@ -1027,7 +996,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
             end;
         }
-
         field(50105; "Emergency Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
@@ -1177,7 +1145,6 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 "Citizenship Issue Date" := EngNepDate.getEngDate("Citizenship Date (B.S.)");
             end;
-
         }
         field(50125; "Portal Attendance"; Boolean)
         {
@@ -1244,7 +1211,6 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
-
         field(50136; "Facebook Url"; Text[100])
         {
             DataClassification = CustomerContent;
@@ -1309,7 +1275,6 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50149; "Relation With Emergency Cont"; Text[30])
         {
             DataClassification = CustomerContent;
-
         }
         field(50153; "KPI Functional Title"; Code[20])
         {
@@ -1343,8 +1308,6 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = ToBeClassified;
             CharAllowed = '09--';
         }
-
-
         field(50158; "Approver Role"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -1377,7 +1340,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-        field(50164; "Emergency Contact Email"; Text[50])
+        field(50164; "Emergency Contact Email"; Text[80])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()
@@ -1398,7 +1361,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-
         field(50167; "Permanent Locality"; Text[100])
         {
             DataClassification = CustomerContent;
@@ -1420,10 +1382,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-        field(50170; "Passport Validity Date"; Date)
-        {
-
-        }
+        field(50170; "Passport Validity Date"; Date) { }
         field(50171; "Promotion Date (B.S.)"; Code[20])
         {
             trigger OnValidate()
@@ -1445,10 +1404,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Termination Date" := EngNepDate.getEngDate("Termination Date (B.S.)");
             end;
         }
-        field(50174; "Gratuity Number"; Code[20])
-        {
-
-        }
+        field(50174; "Gratuity Number"; Code[20]) { }
         field(50175; "Resignation Date (B.S.)"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -1471,12 +1427,8 @@ tableextension 50013 "Employee Ext" extends Employee
                     "Service Period Text" := ''
                 end;
             end;
-
         }
-        field(50177; "Age Text"; Text[30])
-        {
-
-        }
+        field(50177; "Age Text"; Text[30]) { }
         field(50178; "Digital Signature"; Blob)
         {
             SubType = Bitmap;
@@ -1490,7 +1442,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Trainee/Probation End Date';
         }
-
         field(50181; "Appointment Letter Date"; Date)
         {
             DataClassification = CustomerContent;
@@ -1498,9 +1449,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 "Appointment Letter Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Letter Date");
             end;
-
         }
-
         field(50182; "Appointment Letter Date (B.S.)"; Code[20])
         {
             DataClassification = CustomerContent;
@@ -1509,10 +1458,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Appointment Letter Date" := EngNepDate.getEngDate("Appointment Letter Date (B.S.)");
             end;
         }
-        field(50183; "Automatic Attendance"; Boolean)
-        {
-
-        }
+        field(50183; "Automatic Attendance"; Boolean) { }
         field(50184; "Manual Approver User"; Boolean)
         {
             Caption = 'Manual Approver User';
@@ -1521,7 +1467,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-
         field(50186; "Nominee Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
@@ -1533,13 +1478,11 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error('Phone No Validation Error');
             end;
         }
-
         field(50187; "Nominee Name"; Text[50])
         {
             DataClassification = ToBeClassified;
         }
-
-        field(50188; "Nominee Email"; Text[50])
+        field(50188; "Nominee Email"; Text[80])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()
@@ -1557,14 +1500,23 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Last Placement Date" := EngNepDate.getEngDate("Last Placement Date (B.S.)");
             end;
         }
-
-
+        field(50190; "Vehicle Owner Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50191; "Vehicle No."; Text[50])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50192; "Ownership Start/End Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
         field(50200; "Do not Calculate Salary"; boolean)
         {
             DataClassification = CustomerContent;
         }
         field(50201; "Identity Mark"; text[250]) { }
-
     }
     keys
     {
@@ -1574,9 +1526,7 @@ tableextension 50013 "Employee Ext" extends Employee
     }
     fieldgroups
     {
-        addlast(DropDown; "No.", "Full Name")
-        {
-        }
+        addlast(DropDown; "No.", "Full Name") { }
     }
 
     trigger OnModify()
@@ -1587,9 +1537,11 @@ tableextension 50013 "Employee Ext" extends Employee
 
     trigger OnDelete()
     var
-
+        UserSetup: Record "User Setup";
     begin
-        Error('');
+        UserSetup.Get(UserId);
+        if Not UserSetup."Is Admin" then
+            Error('Not allowed');
     end;
 
     trigger OnRename()
@@ -1598,15 +1550,7 @@ tableextension 50013 "Employee Ext" extends Employee
     end;
 
     var
-        GLSetup: Record "General Ledger Setup";
-        DimensionValue: Record "Dimension Value";
-        DimName: Text;
-        DefaultDimension: Record "Default Dimension";
         Text002: Label 'New Employee Name %1 is created successfully.';
-        PayrollAttributeUsage: Record "Payroll Attributes Usage";
-        PayrollEngine: Codeunit "Payroll Engine";
-        PayrollGeneralSetup: Record "Payroll General Setup";
-        PayrollAttribute: Record "Payroll Attributes";
         Text003: Label 'ENU=%1 is not a contract Employee.';
         EngNepDate: Record "English-Nepali Date";
         HRMgt: Codeunit "HR Mgt.";
@@ -1614,7 +1558,6 @@ tableextension 50013 "Employee Ext" extends Employee
         TransferMgt: Codeunit "Transfer Mgt.";
         LoanMgt: Codeunit "Loan Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
-        ProvinceVar: Record "Province";
         Text004: Label '%1 is %2.';
         Text005: Label '%1 must be greater.';
         LeaveMgt: Codeunit "Leave Mgt.";
@@ -1624,13 +1567,9 @@ tableextension 50013 "Employee Ext" extends Employee
         Text006: Label 'Bank Account No. %1 already used in Employee  No. %2.';
         Text007: Label 'PAN No. must be 9 digits.';
         NumericError: Label '%1 must be Numeric';
-        Len: Integer;
-        SpecialCharsErr: Label 'You cannot enter the special characters.';
-        SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?|/|\';
         Text010: Label 'Mobile No. %1 already used in Employee No. %2.';
         Text009: Label 'Mobile No. must be 15 digits.';
         HrSetup: Record "Human Resources Setup";
-
 
     procedure GenerateNewEmployeeCard(CurrentEmployee: Record Employee);
     var
@@ -1684,7 +1623,6 @@ tableextension 50013 "Employee Ext" extends Employee
             Page.RunModal(Page::"Employee Card", NewEmployee);
         end;
     end;
-
 
     procedure LeaveRequest();
     begin

@@ -267,7 +267,6 @@ report 50124 "Employee Profile Details"
         // SubProvince: Record "Sub Province";
         DeputationCode: Text;
         DeputationValue: Text;
-        GLSetup: Record "General Ledger Setup";
         EmployeeRelative: Record "Employee Relative";
         ConfirmationPeriod: Decimal;
         EmployeeSerHistory: Record "Employee Service History";

@@ -1,22 +1,21 @@
 codeunit 50025 "Shift Assignment Mgt"
 {
-
     procedure OpenShiftRequest(EmpCode: Code[20])
     var
         ShiftAssignment, ShiftAssignment2 : Record "Shift Assignment Header";
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
-        Approval.setRange("Document Type", Approval."Document Type"::"Allowance Assignment");
+        Approval.setRange("Document Type", Approval."Document Type"::"Shift Assignment");
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
         Employee.Get(EmpCode);
         ShiftAssignment.Reset();
         ShiftAssignment.SetRange("Employee No.", EmpCode);
-        ShiftAssignment.SetRange("Type", ShiftAssignment."Type"::"Allowance Assignment");
+        ShiftAssignment.SetRange("Type", ShiftAssignment."Type"::"Shift Assignment");
         ShiftAssignment.SetRange("Approval Status", ShiftAssignment."Approval Status"::open);
         if ShiftAssignment.Findfirst() then begin
             Message('This Employee Already has open Shift Assignment Request.Click Ok to Open');
@@ -24,7 +23,7 @@ codeunit 50025 "Shift Assignment Mgt"
         end else begin
             ShiftAssignment2.Init;
             ShiftAssignment2.Validate("Employee No.", EmpCode);
-            ShiftAssignment2.Validate("Type", ShiftAssignment2."Type"::"Allowance Assignment");
+            ShiftAssignment2.Validate("Type", ShiftAssignment2."Type"::"Shift Assignment");
             ShiftAssignment2.Validate("Approval Status", ShiftAssignment2."Approval Status"::Open);
             ShiftAssignment2.Insert(true);
             if GuiAllowed then
@@ -152,7 +151,6 @@ codeunit 50025 "Shift Assignment Mgt"
             ApprovalLine.DeleteAll(true);
             ApproverMgt.InsertApproval(ShiftAssignmentHeader."Employee No.", DocumentNo, ShiftAssignmentHeader."Type"::"Shift Assignment", ShiftAssignmentHeader."Approval Status"::open);
         end;
-
     end;
 
     procedure ValidateEmployeeOnDate(var LineRec: Record "Shift Line")
@@ -212,5 +210,4 @@ codeunit 50025 "Shift Assignment Mgt"
     var
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
-
 }

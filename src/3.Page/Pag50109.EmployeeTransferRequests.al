@@ -144,7 +144,6 @@ page 50109 "Employee Transfer Requests"
     end;
 
     var
-        HRMgt: Codeunit "HR Mgt.";
         IsHistory: Boolean;
 
     procedure ForHistoryPage()

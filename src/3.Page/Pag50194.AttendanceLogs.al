@@ -46,5 +46,4 @@ page 50194 "Attendance Logs"
             }
         }
     }
-
 }

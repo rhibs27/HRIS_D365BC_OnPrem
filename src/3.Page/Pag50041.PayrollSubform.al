@@ -115,7 +115,6 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Prior Leave Days field.';
                     ApplicationArea = All;
                 }
-
                 field("Prior Absent Days"; Rec."Prior Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Prior Absent Days field.';
@@ -602,7 +601,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50541"));
                     end;
                 }
-
                 field("Variable Field 50542"; Rec."Variable Field 50542")
                 {
                     Visible = Field50542Visible;
@@ -614,7 +612,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50542"));
                     end;
                 }
-
                 field("Variable Field 50543"; Rec."Variable Field 50543")
                 {
                     Visible = Field50543Visible;
@@ -626,7 +623,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50543"));
                     end;
                 }
-
                 field("Variable Field 50544"; Rec."Variable Field 50544")
                 {
                     Visible = Field50544Visible;
@@ -638,7 +634,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50544"));
                     end;
                 }
-
                 field("Variable Field 50545"; Rec."Variable Field 50545")
                 {
                     Visible = Field50545Visible;
@@ -650,7 +645,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50545"));
                     end;
                 }
-
                 field("Variable Field 50546"; Rec."Variable Field 50546")
                 {
                     Visible = Field50546Visible;
@@ -662,7 +656,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50546"));
                     end;
                 }
-
                 field("Variable Field 50547"; Rec."Variable Field 50547")
                 {
                     Visible = Field50547Visible;
@@ -674,7 +667,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50547"));
                     end;
                 }
-
                 field("Variable Field 50548"; Rec."Variable Field 50548")
                 {
                     Visible = Field50548Visible;
@@ -686,7 +678,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50548"));
                     end;
                 }
-
                 field("Variable Field 50549"; Rec."Variable Field 50549")
                 {
                     Visible = Field50549Visible;
@@ -698,7 +689,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50549"));
                     end;
                 }
-
                 field("Variable Field 50550"; Rec."Variable Field 50550")
                 {
                     Visible = Field50550Visible;
@@ -710,7 +700,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50550"));
                     end;
                 }
-
                 field("Variable Field 50551"; Rec."Variable Field 50551")
                 {
                     Visible = Field50551Visible;
@@ -722,7 +711,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50551"));
                     end;
                 }
-
                 field("Variable Field 50552"; Rec."Variable Field 50552")
                 {
                     Visible = Field50552Visible;
@@ -734,7 +722,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50552"));
                     end;
                 }
-
                 field("Variable Field 50553"; Rec."Variable Field 50553")
                 {
                     Visible = Field50553Visible;
@@ -746,7 +733,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50553"));
                     end;
                 }
-
                 field("Variable Field 50554"; Rec."Variable Field 50554")
                 {
                     Visible = Field50554Visible;
@@ -758,7 +744,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50554"));
                     end;
                 }
-
                 field("Variable Field 50555"; Rec."Variable Field 50555")
                 {
                     Visible = Field50555Visible;
@@ -770,7 +755,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50555"));
                     end;
                 }
-
                 field("Variable Field 50556"; Rec."Variable Field 50556")
                 {
                     Visible = Field50556Visible;
@@ -782,7 +766,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50556"));
                     end;
                 }
-
                 field("Variable Field 50557"; Rec."Variable Field 50557")
                 {
                     Visible = Field50557Visible;
@@ -794,7 +777,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50557"));
                     end;
                 }
-
                 field("Variable Field 50558"; Rec."Variable Field 50558")
                 {
                     Visible = Field50558Visible;
@@ -806,7 +788,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50558"));
                     end;
                 }
-
                 field("Variable Field 50559"; Rec."Variable Field 50559")
                 {
                     Visible = Field50559Visible;
@@ -818,7 +799,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50559"));
                     end;
                 }
-
                 field("Variable Field 50560"; Rec."Variable Field 50560")
                 {
                     Visible = Field50560Visible;
@@ -830,7 +810,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50560"));
                     end;
                 }
-
                 field("Variable Field 50561"; Rec."Variable Field 50561")
                 {
                     Visible = Field50561Visible;
@@ -842,7 +821,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50561"));
                     end;
                 }
-
                 field("Variable Field 50562"; Rec."Variable Field 50562")
                 {
                     Visible = Field50562Visible;
@@ -854,7 +832,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50562"));
                     end;
                 }
-
                 field("Variable Field 50563"; Rec."Variable Field 50563")
                 {
                     Visible = Field50563Visible;
@@ -866,7 +843,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50563"));
                     end;
                 }
-
                 field("Variable Field 50564"; Rec."Variable Field 50564")
                 {
                     Visible = Field50564Visible;
@@ -878,7 +854,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50564"));
                     end;
                 }
-
                 field("Variable Field 50565"; Rec."Variable Field 50565")
                 {
                     Visible = Field50565Visible;
@@ -890,7 +865,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50565"));
                     end;
                 }
-
                 field("Variable Field 50566"; Rec."Variable Field 50566")
                 {
                     Visible = Field50566Visible;
@@ -902,7 +876,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50566"));
                     end;
                 }
-
                 field("Variable Field 50567"; Rec."Variable Field 50567")
                 {
                     Visible = Field50567Visible;
@@ -914,7 +887,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50567"));
                     end;
                 }
-
                 field("Variable Field 50568"; Rec."Variable Field 50568")
                 {
                     Visible = Field50568Visible;
@@ -926,7 +898,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50568"));
                     end;
                 }
-
                 field("Variable Field 50569"; Rec."Variable Field 50569")
                 {
                     Visible = Field50569Visible;
@@ -938,7 +909,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50569"));
                     end;
                 }
-
                 field("Variable Field 50570"; Rec."Variable Field 50570")
                 {
                     Visible = Field50570Visible;
@@ -950,7 +920,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50570"));
                     end;
                 }
-
                 field("Variable Field 50571"; Rec."Variable Field 50571")
                 {
                     Visible = Field50571Visible;
@@ -962,7 +931,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50571"));
                     end;
                 }
-
                 field("Variable Field 50572"; Rec."Variable Field 50572")
                 {
                     Visible = Field50572Visible;
@@ -974,7 +942,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50572"));
                     end;
                 }
-
                 field("Variable Field 50573"; Rec."Variable Field 50573")
                 {
                     Visible = Field50573Visible;
@@ -986,7 +953,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50573"));
                     end;
                 }
-
                 field("Variable Field 50574"; Rec."Variable Field 50574")
                 {
                     Visible = Field50574Visible;
@@ -998,7 +964,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50574"));
                     end;
                 }
-
                 field("Variable Field 50575"; Rec."Variable Field 50575")
                 {
                     Visible = Field50575Visible;
@@ -1010,7 +975,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50575"));
                     end;
                 }
-
                 field("Variable Field 50576"; Rec."Variable Field 50576")
                 {
                     Visible = Field50576Visible;
@@ -1022,7 +986,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50576"));
                     end;
                 }
-
                 field("Variable Field 50577"; Rec."Variable Field 50577")
                 {
                     Visible = Field50577Visible;
@@ -1034,7 +997,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50577"));
                     end;
                 }
-
                 field("Variable Field 50578"; Rec."Variable Field 50578")
                 {
                     Visible = Field50578Visible;
@@ -1046,7 +1008,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50578"));
                     end;
                 }
-
                 field("Variable Field 50579"; Rec."Variable Field 50579")
                 {
                     Visible = Field50579Visible;
@@ -1058,7 +1019,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50579"));
                     end;
                 }
-
                 field("Variable Field 50580"; Rec."Variable Field 50580")
                 {
                     Visible = Field50580Visible;
@@ -1070,7 +1030,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50580"));
                     end;
                 }
-
                 field("Variable Field 50581"; Rec."Variable Field 50581")
                 {
                     Visible = Field50581Visible;
@@ -1082,7 +1041,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50581"));
                     end;
                 }
-
                 field("Variable Field 50582"; Rec."Variable Field 50582")
                 {
                     Visible = Field50582Visible;
@@ -1094,7 +1052,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50582"));
                     end;
                 }
-
                 field("Variable Field 50583"; Rec."Variable Field 50583")
                 {
                     Visible = Field50583Visible;
@@ -1106,7 +1063,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50583"));
                     end;
                 }
-
                 field("Variable Field 50584"; Rec."Variable Field 50584")
                 {
                     Visible = Field50584Visible;
@@ -1118,7 +1074,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50584"));
                     end;
                 }
-
                 field("Variable Field 50585"; Rec."Variable Field 50585")
                 {
                     Visible = Field50585Visible;
@@ -1130,7 +1085,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50585"));
                     end;
                 }
-
                 field("Variable Field 50586"; Rec."Variable Field 50586")
                 {
                     Visible = Field50586Visible;
@@ -1142,7 +1096,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50586"));
                     end;
                 }
-
                 field("Variable Field 50587"; Rec."Variable Field 50587")
                 {
                     Visible = Field50587Visible;
@@ -1154,7 +1107,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50587"));
                     end;
                 }
-
                 field("Variable Field 50588"; Rec."Variable Field 50588")
                 {
                     Visible = Field50588Visible;
@@ -1166,7 +1118,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50588"));
                     end;
                 }
-
                 field("Variable Field 50589"; Rec."Variable Field 50589")
                 {
                     Visible = Field50589Visible;
@@ -1178,7 +1129,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50589"));
                     end;
                 }
-
                 field("Variable Field 50590"; Rec."Variable Field 50590")
                 {
                     Visible = Field50590Visible;
@@ -1190,7 +1140,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50590"));
                     end;
                 }
-
                 field("Variable Field 50591"; Rec."Variable Field 50591")
                 {
                     Visible = Field50591Visible;
@@ -1202,7 +1151,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50591"));
                     end;
                 }
-
                 field("Variable Field 50592"; Rec."Variable Field 50592")
                 {
                     Visible = Field50592Visible;
@@ -1214,7 +1162,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50592"));
                     end;
                 }
-
                 field("Variable Field 50593"; Rec."Variable Field 50593")
                 {
                     Visible = Field50593Visible;
@@ -1226,7 +1173,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50593"));
                     end;
                 }
-
                 field("Variable Field 50594"; Rec."Variable Field 50594")
                 {
                     Visible = Field50594Visible;
@@ -1238,7 +1184,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50594"));
                     end;
                 }
-
                 field("Variable Field 50595"; Rec."Variable Field 50595")
                 {
                     Visible = Field50595Visible;
@@ -1250,7 +1195,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50595"));
                     end;
                 }
-
                 field("Variable Field 50596"; Rec."Variable Field 50596")
                 {
                     Visible = Field50596Visible;
@@ -1262,7 +1206,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50596"));
                     end;
                 }
-
                 field("Variable Field 50597"; Rec."Variable Field 50597")
                 {
                     Visible = Field50597Visible;
@@ -1274,7 +1217,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50597"));
                     end;
                 }
-
                 field("Variable Field 50598"; Rec."Variable Field 50598")
                 {
                     Visible = Field50598Visible;
@@ -1286,7 +1228,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50598"));
                     end;
                 }
-
                 field("Variable Field 50599"; Rec."Variable Field 50599")
                 {
                     Visible = Field50599Visible;
@@ -1298,7 +1239,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50599"));
                     end;
                 }
-
                 field("Variable Field 50600"; Rec."Variable Field 50600")
                 {
                     Visible = Field50600Visible;
@@ -1310,7 +1250,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50600"));
                     end;
                 }
-
                 field("Variable Field 50601"; Rec."Variable Field 50601")
                 {
                     Visible = Field50601Visible;
@@ -1322,7 +1261,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50601"));
                     end;
                 }
-
                 field("Variable Field 50602"; Rec."Variable Field 50602")
                 {
                     Visible = Field50602Visible;
@@ -1334,7 +1272,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50602"));
                     end;
                 }
-
                 field("Variable Field 50603"; Rec."Variable Field 50603")
                 {
                     Visible = Field50603Visible;
@@ -1346,7 +1283,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50603"));
                     end;
                 }
-
                 field("Variable Field 50604"; Rec."Variable Field 50604")
                 {
                     Visible = Field50604Visible;
@@ -1358,7 +1294,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50604"));
                     end;
                 }
-
                 field("Variable Field 50605"; Rec."Variable Field 50605")
                 {
                     Visible = Field50605Visible;
@@ -1370,7 +1305,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50605"));
                     end;
                 }
-
                 field("Variable Field 50606"; Rec."Variable Field 50606")
                 {
                     Visible = Field50606Visible;
@@ -1382,7 +1316,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50606"));
                     end;
                 }
-
                 field("Variable Field 50607"; Rec."Variable Field 50607")
                 {
                     Visible = Field50607Visible;
@@ -1394,7 +1327,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50607"));
                     end;
                 }
-
                 field("Variable Field 50608"; Rec."Variable Field 50608")
                 {
                     Visible = Field50608Visible;
@@ -1406,7 +1338,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50608"));
                     end;
                 }
-
                 field("Variable Field 50609"; Rec."Variable Field 50609")
                 {
                     Visible = Field50609Visible;
@@ -1418,7 +1349,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50609"));
                     end;
                 }
-
                 field("Variable Field 50610"; Rec."Variable Field 50610")
                 {
                     Visible = Field50610Visible;
@@ -1430,7 +1360,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50610"));
                     end;
                 }
-
                 field("Variable Field 50611"; Rec."Variable Field 50611")
                 {
                     Visible = Field50611Visible;
@@ -1442,7 +1371,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50611"));
                     end;
                 }
-
                 field("Variable Field 50612"; Rec."Variable Field 50612")
                 {
                     Visible = Field50612Visible;
@@ -1454,7 +1382,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50612"));
                     end;
                 }
-
                 field("Variable Field 50613"; Rec."Variable Field 50613")
                 {
                     Visible = Field50613Visible;
@@ -1466,7 +1393,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50613"));
                     end;
                 }
-
                 field("Variable Field 50614"; Rec."Variable Field 50614")
                 {
                     Visible = Field50614Visible;
@@ -1478,7 +1404,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50614"));
                     end;
                 }
-
                 field("Variable Field 50615"; Rec."Variable Field 50615")
                 {
                     Visible = Field50615Visible;
@@ -1490,7 +1415,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50615"));
                     end;
                 }
-
                 field("Variable Field 50616"; Rec."Variable Field 50616")
                 {
                     Visible = Field50616Visible;
@@ -1502,7 +1426,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50616"));
                     end;
                 }
-
                 field("Variable Field 50617"; Rec."Variable Field 50617")
                 {
                     Visible = Field50617Visible;
@@ -1514,7 +1437,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50617"));
                     end;
                 }
-
                 field("Variable Field 50618"; Rec."Variable Field 50618")
                 {
                     Visible = Field50618Visible;
@@ -1526,7 +1448,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50618"));
                     end;
                 }
-
                 field("Variable Field 50619"; Rec."Variable Field 50619")
                 {
                     Visible = Field50619Visible;
@@ -1538,7 +1459,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50619"));
                     end;
                 }
-
                 field("Variable Field 50620"; Rec."Variable Field 50620")
                 {
                     Visible = Field50620Visible;
@@ -1550,7 +1470,6 @@ page 50041 "Payroll Subform"
                         Rec.CheckFlexibility(Rec.FieldNo("Variable Field 50620"));
                     end;
                 }
-
                 field("Projection Month"; Rec."Projection Month")
                 {
                     ToolTip = 'Specifies the value of the Projection Month field.';
@@ -1651,7 +1570,6 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Past Non-Payment field.';
                     ApplicationArea = All;
                 }
-
                 field("Assessable Income"; Rec."Assessable Income")
                 {
                     ToolTip = 'Specifies the value of the Assessable Income field.';
@@ -2045,11 +1963,6 @@ page 50041 "Payroll Subform"
         Field50619Visible: Boolean;
         Field50620Visible: Boolean;
 
-
-        Field50489Visible: Boolean;
-        Field50487Visible: Boolean;
-        Field50488Visible: Boolean;
-
         HourCalculationVisible: Boolean;
 
         TimeSheetVisible: Boolean;
@@ -2057,9 +1970,6 @@ page 50041 "Payroll Subform"
         SettlementVisible: Boolean;
         PayrollHeader: Record "Payroll Header";
         IsResignation: Boolean;
-
-        VariableFieldVisible: array[121] of Boolean;
-
 
     local procedure InitColumnVisibility()
     begin
@@ -2187,4 +2097,3 @@ page 50041 "Payroll Subform"
         TimeSheetVisible := PayrollEngine.IsTimeSheetEnabled;
     end;
 }
-

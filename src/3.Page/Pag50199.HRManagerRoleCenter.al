@@ -44,7 +44,6 @@ page 50199 "HR Manager Role Center"
             {
                 ApplicationArea = all;
             }
-
         }
     }
 
@@ -130,7 +129,6 @@ page 50199 "HR Manager Role Center"
                         }
                     }
                 }
-
             }
             group(Attendance)
             {
@@ -162,7 +160,6 @@ page 50199 "HR Manager Role Center"
                         RunObject = page "Attendance Setup";
                         ToolTip = 'Executes the action of Attendance Setup';
                     }
-
                     action("Employee Work Shift")
                     {
                         Caption = 'Employee Work Shifts';
@@ -180,7 +177,6 @@ page 50199 "HR Manager Role Center"
                         ToolTip = 'Executes the action of Employee Work Shift';
                     }
                 }
-
             }
             group("Employee Activities")
             {
@@ -232,7 +228,6 @@ page 50199 "HR Manager Role Center"
                         RunObject = page "Leave Requests";
                         ToolTip = 'Executes the All Leave Requests action.';
                     }
-
                 }
                 group("Travel Request")
                 {
@@ -734,8 +729,6 @@ page 50199 "HR Manager Role Center"
                         RunPageView = where("Type" = filter("Adjustment"));
                         ToolTip = 'Executes the Posted Adjustment Payroll Plan action.';
                     }
-
-
                 }
                 group("Resignation Payroll Plan")
                 {
@@ -771,10 +764,7 @@ page 50199 "HR Manager Role Center"
                     ToolTip = 'Executes the Request To Approve action.';
                 }
             }
-            group("HR Journals")
-            {
-
-            }
+            group("HR Journals") { }
         }
         area(embedding)
         {
@@ -1282,11 +1272,9 @@ page 50199 "HR Manager Role Center"
     }
 
     var
-        UserSetup: Record "User Setup";
         LeaveVisibility: Boolean;
         TravelVisibility: Boolean;
         TransferVisibility: Boolean;
-        BulkCashVisibility: Boolean;
         OvertimeVisibility: Boolean;
         Resignationvisibility: Boolean;
         SalaryAdvVisibility: Boolean;

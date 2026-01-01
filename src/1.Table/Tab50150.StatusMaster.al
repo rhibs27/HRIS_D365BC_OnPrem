@@ -6,7 +6,6 @@ table 50150 "Status Master"
     DrillDownPageId = "Status Master";
     fields
     {
-
         field(1; Status; Text[20])
         {
             Caption = 'Status';

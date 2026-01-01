@@ -3,16 +3,16 @@ page 50135 "Employee Edit Card"
     PageType = Card;
     ApplicationArea = All;
     SourceTable = "Employee Edit";
-    InsertAllowed = false;
-    DeleteAllowed = false;
-    Editable = false;
+    // InsertAllowed = false;
+    // DeleteAllowed = false;
+    // Editable = false;
     layout
     {
         area(Content)
         {
             group(General)
             {
-
+                Editable = isOpenOrCreated;
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
@@ -55,14 +55,12 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-
             }
             group(Remarks)
             {
-
                 field(Remark; Rec.Remarks)
                 {
-                    Editable = false;
+                    Editable = isOpenOrCreated;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
@@ -76,16 +74,11 @@ page 50135 "Employee Edit Card"
 
             group("Employee Information")
             {
-                Editable = false;
+                Editable = isOpenOrCreated and (Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details);
                 Visible = DetailsChanges;
                 field("Mobile No."; Rec."Mobile No.")
                 {
                     ToolTip = 'Specifies the value of the Mobile No. field.';
-                    ApplicationArea = All;
-                }
-                field("Marital Status"; Rec."Marital Status")
-                {
-                    ToolTip = 'Specifies the value of the Marital Status field.';
                     ApplicationArea = All;
                 }
                 field("Email (Personal)"; Rec."Email (Personal)")
@@ -98,11 +91,6 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Differently Able field.';
                     ApplicationArea = All;
                 }
-                field("Vehicle Type"; Rec."Vehicle Type")
-                {
-                    ToolTip = 'Specifies the value of the Vehicle Type field.';
-                    ApplicationArea = All;
-                }
                 field("Temporary Address"; Rec."Temporary Address")
                 {
                     ToolTip = 'Specifies the value of the Temporary Address field.';
@@ -113,7 +101,6 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Temporary Province field.';
                     ApplicationArea = All;
                 }
-
                 field("Temporary District"; Rec."Temporary District")
                 {
                     ToolTip = 'Specifies the value of the Temporary District field.';
@@ -135,7 +122,6 @@ page 50135 "Employee Edit Card"
                 {
                     ToolTip = 'Specifies the value of the Temporary House field.', Comment = '%';
                 }
-
                 field("Blood Group"; Rec."Blood Group")
                 {
                     ToolTip = 'Specifies the value of the Blood Group field.';
@@ -145,7 +131,7 @@ page 50135 "Employee Edit Card"
 
             group("Official Document")
             {
-                Editable = false;
+                Editable = isOpenOrCreated and (Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details);
                 Visible = DetailsChanges;
                 field("passport No."; Rec."Passport No.")
                 {
@@ -173,6 +159,76 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Driving License No field.';
                 }
             }
+            group(VehicleInformation)
+            {
+                Editable = isOpenOrCreated and ((Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::Created));
+                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Vehicle Info Update";
+                field("Vehicle Type"; Rec."Vehicle Type")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Type field.';
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
+                }
+                field("Vehicle No."; Rec."Vehicle No.")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle No. field.';
+                    ApplicationArea = All;
+                    Editable = (Rec."Vehicle Type" <> Rec."Vehicle Type"::"No Vehicle") or (Rec."Vehicle Type" = Rec."Vehicle Type"::" ");
+                }
+                field("Vehicle Owner Name"; Rec."Vehicle Owner Name")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Owner Name field.', Comment = '%';
+                    Editable = (Rec."Vehicle Type" <> Rec."Vehicle Type"::"No Vehicle") or (Rec."Vehicle Type" = Rec."Vehicle Type"::" ");
+                }
+                field("Ownership Start/End Date"; Rec."Ownership Start/End Date")
+                {
+                    ToolTip = 'Specifies the value of the Ownership Start/End Date field.', Comment = '%';
+                    Editable = (Rec."Vehicle Type" <> Rec."Vehicle Type"::"No Vehicle") or (Rec."Vehicle Type" = Rec."Vehicle Type"::" ");
+                }
+                field("Claim Type"; Rec."Claim Type")
+                {
+                    ToolTip = 'Specifies the value of the Claim Type field.', Comment = '%';
+                }
+                field("Claim Type Effective Month"; Rec."Claim Type Effective Month")
+                {
+                    ToolTip = 'Specifies the value of the Claim Type Effective Month field.', Comment = '%';
+                }
+                field("Claimed Type Effective Date"; Rec."Claimed Type Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Claimed Type Effective Date field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Fuel Type"; Rec."Fuel Type") { }
+            }
+            group(MaritalStatusUpdate)
+            {
+                Editable = isOpenOrCreated and ((Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::Created));
+                Visible = Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Marital Status Update";
+                field("Marital Status"; Rec."Marital Status")
+                {
+                    ToolTip = 'Specifies the value of the Marital Status field.';
+                    ApplicationArea = All;
+                }
+                field("Spouse Name"; Rec."Spouse Name")
+                {
+                    ToolTip = 'Specifies the value of the Spouse Name field.', Comment = '%';
+                }
+                field("Spouse DOB"; Rec."Spouse DOB")
+                {
+                    ToolTip = 'Specifies the value of the Spouse DOB field.', Comment = '%';
+                }
+                field("Spouse citizenship No."; Rec."Spouse citizenship No.")
+                {
+                    ToolTip = 'Specifies the value of the Spouse citizenship No. field.', Comment = '%';
+                }
+                field("Spouse Citiz. Issued Place"; Rec."Spouse Citiz. Issued Place")
+                {
+                    ToolTip = 'Specifies the value of the Spouse Citiz. Issued Place field.', Comment = '%';
+                }
+            }
 
             part("Qualification Details"; "Emp. Edit Qualifi Subform")
             {
@@ -180,7 +236,6 @@ page 50135 "Employee Edit Card"
                 SubPageLink = "Document No." = field("No.");
                 SubPageView = where("Change in Emp Type" = filter(Qualification));
                 ApplicationArea = all;
-
             }
             part("Work Experience Details"; "Emp Edit Work Exp. Subform")
             {
@@ -217,6 +272,7 @@ page 50135 "Employee Edit Card"
                 SubPageView = where("Change in Emp Type" = filter("Additional Documents"));
                 ApplicationArea = all;
             }
+
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -239,6 +295,25 @@ page 50135 "Employee Edit Card"
     {
         area(Processing)
         {
+            action("Send Approval Request")
+            {
+                Image = SendApprovalRequest;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = isOpenOrCreated;
+                ToolTip = 'Executes the Approve Request action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    EmployeeEditMgt: Codeunit "Employee Edit Mgt.";
+                begin
+                    if Confirm('Do you want to send for approval the request?', false) then begin
+                        EmployeeEditMgt.EmployeeEditSendForApproval(Rec."No.");
+                    end;
+                end;
+            }
             action("Approve Request")
             {
                 Image = Approve;
@@ -292,7 +367,7 @@ page 50135 "Employee Edit Card"
     end;
 
     var
-        IsPending, IsRejected, IsApproved : Boolean;
+        IsPending, IsRejected, IsApproved, isOpenOrCreated : Boolean;
         StatusView, ApprovalStatusView : Boolean;
         RecRef: RecordRef;
         DetailsChanges, Relative, LanguageChange, QualificationChanges, WorkExperienceChanges, AchievementChanges, AdditionalDocuments : Boolean;
@@ -312,6 +387,7 @@ page 50135 "Employee Edit Card"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        isOpenOrCreated := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::Created);
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else

@@ -10,6 +10,7 @@ tableextension 50026 "Dimension Value Ext" extends "Dimension Value"
         {
             FieldClass = FlowField;
             CalcFormula = lookup(Dimension."Deputation On Type" where(Code = field("Dimension Code")));
+            Editable = false;
         }
     }
 }

@@ -1,6 +1,5 @@
 report 50116 "Payroll Details"
 {
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019917.PayrollDetails.rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -152,7 +151,7 @@ report 50116 "Payroll Details"
 
             trigger OnAfterGetRecord()
             begin
-                /*IF Months = Months::" " THEN 
+                /*IF Months = Months::" " THEN
                   ERROR('Please select a month.');*/
                 if PayCycleTerm = '' then
                     Error('Please select a pay cycle term.');

@@ -1,8 +1,7 @@
 codeunit 50024 "Service History Mgt"
 {
     var
-        Employee, Employee1 : Record Employee;
-        HrMgt: Codeunit "HR Mgt.";
+        Employee : Record Employee;
         Promotion: Record "Promotion";
 
     procedure AddToServiceHistory(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date): Code[20]
@@ -146,7 +145,6 @@ codeunit 50024 "Service History Mgt"
                         EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
                     EmpServiceHis.Insert(true);
                 end;
-
         end;
         exit(EmpServiceHis."Service History Code");
     end;
@@ -206,7 +204,6 @@ codeunit 50024 "Service History Mgt"
                 begin
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Employee."Department Code") then
                         exit(OrganizationStructureList.Code);
-
                 end;
             DeputationOn::"Extension Counter":
                 begin
@@ -302,7 +299,6 @@ codeunit 50024 "Service History Mgt"
                         EmpVar.Validate("Branch Code", EmployeeEdit.GetFilter("Branch Code"));
                         EmpVar.Validate("Extension Counter Code", EmployeeEdit.GetFilter("Extension Counter Code"));
                     end;
-
             end;
 
             EmpVar.Validate("Functional Title", EmployeeEdit.GetFilter("Functional Title"));
@@ -322,11 +318,6 @@ codeunit 50024 "Service History Mgt"
     end;
 
     procedure PopUpForJobAddition(EmpVar: Record Employee)
-    var
-        JobAdditionPageBuilder: FilterPageBuilder;
-        ServiceHistory: Record "Employee Service History";
-        DateVar: Date;
-        ServiceCode: Code[20];
     begin
 
         // JobAdditionPageBuilder.AddRecord('Assignment in Job Addition', EmpActivity);
@@ -346,8 +337,6 @@ codeunit 50024 "Service History Mgt"
         //     if DateVar = 0D then
         //         Error('Date must have value.');
         //     ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::"Addition in Job Function", EmpActivity.GetFilter(Remarks), DateVar);
-
-
 
         //     EmpVar.Validate("Functional Title", EmpActivity.GetFilter("Functional Title"));
         //     EmpVar.Modify;
@@ -386,7 +375,6 @@ codeunit 50024 "Service History Mgt"
     //         // Evaluate(ContractRenewDate, Employee1.GetFilter("Contract Renew Date"));
     //         // if ContractRenewDate = 0D then
     //         //     Error('Contract Renew Date must have value.');
-
 
     //         // if EmpActivity.GetFilter(Remarks) = '' then
     //         //     Error('Remarks cannot be blank.');
@@ -504,8 +492,6 @@ codeunit 50024 "Service History Mgt"
     procedure ReinstateCancelTransfer(EmpHrTransfer: Record "Employee Transfer")
     var
         EmpVar: Record Employee;
-        ServiceCode: Code[20];
-        ServiceHistory: Record "Employee Service History";
     begin
         EmpVar.Get(EmpHrTransfer."Employee No.");
         //ServiceCode := AddToServiceHistory(EmpVar."No.",ServiceHistory."Service Event"::Transfer,'Reinstating Transfer',EmpAct."Transfer Effective Date");
@@ -534,13 +520,10 @@ codeunit 50024 "Service History Mgt"
           ServiceHistory.VALIDATE("Deputation Value (To)",ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)",ServiceHistory."Employee No."));
           ServiceHistory.MODIFY;
         end;*/
-
     end;
 
     procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee Transfer")
     var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
         ServiceHistoryCode: Code[20];
         ServiceHistory: Record "Employee Service History";
         PreviousServiceHistory: Record "Employee Service History";
@@ -578,13 +561,10 @@ codeunit 50024 "Service History Mgt"
         end;
         //SendMailFromTemplate(DATABASE::"Employee Activity",Type::"Employee Transfer","Approval Status"::Approved,Remarks,'',"No.",0);
         Message('Document has been updated.');
-
     end;
 
     procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee Transfer")
     var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
         ServiceHistoryCode: Code[20];
         ServiceHistory: Record "Employee Service History";
         PreviousServiceHistory: Record "Employee Service History";

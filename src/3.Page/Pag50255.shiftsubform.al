@@ -72,6 +72,34 @@ page 50255 "Shift subform"
     {
         area(Processing)
         {
+            action("Import From Excel")
+            {
+                Image = ImportExcel;
+                ToolTip = 'Executes the Import From Excel.';
+                ApplicationArea = All;
+                Visible = DocumentOpen;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want Import Shift line From Excel?', false) then
+                        exit;
+                    DocNo := Rec."No.";
+                    ExcelImportMgt.ImportShiftLineFromExcelSheet(DocNo);
+                end;
+            }
+            action("Export Format for Excel")
+            {
+                Image = ExportFile;
+                ToolTip = 'Executes the Export Format for Excel action.';
+                ApplicationArea = All;
+                Visible = DocumentOpen;
+                trigger OnAction()
+                var
+                begin
+                    if not Confirm('Do you want Export Excel format for Shift line?', false) then
+                        exit;
+                    ExcelImportMgt.ExportShiftAssignmentLineFormat(Rec);
+                end;
+            }
             action("Shift Assignment In Range")
             {
                 Image = Insert;
@@ -82,13 +110,8 @@ page 50255 "Shift subform"
                 var
                     FilterPage: FilterPageBuilder;
                     ShiftLine: Record "Shift Line";
-                    FromDate: Date;
-                    ToDate: Date;
                     EmployeeCode: Code[20];
                     ShiftAssignmentHeader: Record "Shift Assignment Header";
-                    FromDates: Date;
-                    ToDates: Date;
-                    EmployeeWorkShift: Code[20];
                 begin
                     IF ShiftAssignmentHeader.Get(Rec."No.") THEN
                         if ShiftAssignmentHeader."Approval Status" = ShiftAssignmentHeader."Approval Status"::Open then begin
@@ -154,8 +177,6 @@ page 50255 "Shift subform"
                 ApplicationArea = All;
                 Visible = DocumentApproved;
                 trigger OnAction()
-                var
-                    AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
@@ -216,6 +237,7 @@ page 50255 "Shift subform"
                 Rec.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Sub Type Code");
             end;
         end;
+        SetLayout();
     end;
 
     var
@@ -224,6 +246,8 @@ page 50255 "Shift subform"
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         ShiftAssignmentHeader: Record "Shift Assignment Header";
         HRMgt: Codeunit "HR Mgt.";
+        ExcelImportMgt: Codeunit "Excel Import";
+        DocNo: Code[20];
 
     local procedure SetLayout()
     var

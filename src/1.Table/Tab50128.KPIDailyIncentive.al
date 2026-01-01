@@ -41,13 +41,8 @@ table 50128 "KPI Daily Incentive"
                 end;
             end;
         }
-        field(8; Rating; Enum "Appraisal Rating")
-        {
-
-        }
-        field(9; Type; Enum EmployeeDepartment)
-        {
-        }
+        field(8; Rating; Enum "Appraisal Rating") { }
+        field(9; Type; Enum EmployeeDepartment) { }
         field(10; Department; Code[20]) { }
         field(11; "Department Name"; Text[50]) { }
         field(12; "Fiscal Year"; Text[10]) { }

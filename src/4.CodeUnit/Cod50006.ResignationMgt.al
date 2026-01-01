@@ -4,7 +4,6 @@ codeunit 50006 "Resignation Mgt"
     var
         //EmpAct4: Record "Employee Activity" temporary;
         Resignation2: Record Resignation temporary;
-        RequestError: Label 'You are not eligible to request for a transfer.';
         //EmpAct: Record "Employee Activity";
         Resignation: Record Resignation;
         Approval: Record "Approval HRMS";
@@ -39,10 +38,7 @@ codeunit 50006 "Resignation Mgt"
     var
         Resignation: Record "Resignation";
         ConfirmResign: Label 'Do you want to send resignation request?';
-        ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         ApprovalRequestSent: Label 'Resignation request approval has been sent.';
-        NoRecommender: Label 'No %1.';
-        ResignationDays: Integer;
         EmailTemplate: Record "Email Template";
     begin
         if GuiAllowed then
@@ -124,7 +120,6 @@ codeunit 50006 "Resignation Mgt"
     procedure ScreenResignation(var Resignation: Record Resignation)
     var
         ConfirmScreen: Label 'Do you want to screen this document?';
-        FunctionalTitle: Record "Functional Title";
     begin
         //check authorized user
         if not HrMgt.IsSaaS() then

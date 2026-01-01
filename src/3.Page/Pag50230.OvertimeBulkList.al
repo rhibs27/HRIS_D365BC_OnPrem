@@ -19,15 +19,9 @@ page 50230 "Overtime Bulk List"
                     ToolTip = 'Specifies the value of the Emp Act. No field.';
                     ApplicationArea = All;
                 }
-                field("Deputation Type"; Rec."Deputation Type")
-                {
-                }
-                field("Deputation Code"; Rec."Deputation Code")
-                {
-                }
-                field("Deputation Name"; Rec."Deputation Name")
-                {
-                }
+                field("Deputation Type"; Rec."Deputation Type") { }
+                field("Deputation Code"; Rec."Deputation Code") { }
+                field("Deputation Name"; Rec."Deputation Name") { }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
@@ -43,10 +37,7 @@ page 50230 "Overtime Bulk List"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field(Status; Rec.Status)
-                {
-                }
-
+                field(Status; Rec.Status) { }
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ToolTip = 'Specifies the value of the Fiscal Year field.';
@@ -60,7 +51,5 @@ page 50230 "Overtime Bulk List"
             }
         }
     }
-    actions
-    {
-    }
+    actions { }
 }
