@@ -213,7 +213,7 @@ table 50153 "Cancel Document"
         {
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
-        field(29; "Province Name"; Code[50])
+        field(29; "Province Name"; Text[100])
         {
             Editable = false;
         }

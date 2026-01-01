@@ -175,7 +175,7 @@ table 50154 "Attendance Missed"
             Editable = false;
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
-        field(29; "province Name"; Code[50]) { }
+        field(29; "province Name"; Text[100]) { }
         field(30; "Province Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Province));
