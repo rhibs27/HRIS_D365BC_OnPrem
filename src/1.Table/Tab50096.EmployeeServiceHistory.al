@@ -58,7 +58,7 @@ table 50096 "Employee Service History"
                     "Employee Name" := '';
             end;
         }
-        field(3; "Employee Name"; Text[50]) { }
+        field(3; "Employee Name"; Text[100]) { }
         field(4; "Deputation On (To)"; Enum "Deputation Type") { }
         field(5; "Deputation Code (To)"; Code[20])
         {

@@ -59,7 +59,7 @@ table 50124 Leave
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -192,11 +192,11 @@ table 50124 Leave
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -404,7 +404,7 @@ table 50124 Leave
                     Clear("Substitute Person Name");
             end;
         }
-        field(204; "Substitute Person Name"; text[50])
+        field(204; "Substitute Person Name"; Text[100])
         {
             Caption = 'Substitute Person Name';
             Editable = false;

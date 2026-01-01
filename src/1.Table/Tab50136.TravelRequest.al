@@ -64,7 +64,7 @@ table 50136 "Travel Request"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -226,11 +226,11 @@ table 50136 "Travel Request"
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }

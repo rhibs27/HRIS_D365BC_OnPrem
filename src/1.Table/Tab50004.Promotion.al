@@ -24,7 +24,7 @@ table 50004 Promotion
                 OnValidateEmployeeNo;
             end;
         }
-        field(4; "Employee Name"; Text[50]) { }
+        field(4; "Employee Name"; Text[100]) { }
         field(5; "Date of Employment"; Date) { }
         field(6; "Previous Functional Title"; Code[20])
         {
@@ -49,7 +49,7 @@ table 50004 Promotion
             TableRelation = "Organization Structure List".Code where(Type = const(Province));
             Editable = false;
         }
-        field(20; "Province Name"; Text[50])
+        field(20; "Province Name"; Text[100])
         {
             Editable = false;
         }
@@ -58,7 +58,7 @@ table 50004 Promotion
             Editable = false;
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
         }
-        field(22; "Department Name"; Text[50])
+        field(22; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -67,7 +67,7 @@ table 50004 Promotion
             TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
-        field(26; "Branch Name"; Text[50])
+        field(26; "Branch Name"; Text[100])
         {
             Editable = false;
         }
@@ -85,7 +85,7 @@ table 50004 Promotion
             TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             Editable = false;
         }
-        field(30; "Unit Name"; Text[50])
+        field(30; "Unit Name"; Text[100])
         {
             Editable = false;
         }

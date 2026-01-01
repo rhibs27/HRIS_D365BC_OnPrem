@@ -61,7 +61,7 @@ table 50140 "Employee Transfer"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -141,11 +141,11 @@ table 50140 "Employee Transfer"
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -154,11 +154,11 @@ table 50140 "Employee Transfer"
             Editable = false;
             TableRelation = "Functional Title";
         }
-        field(22; "Unit Name"; Text[50])
+        field(22; "Unit Name"; Text[100])
         {
             Editable = false;
         }
-        field(23; "Extension Counter Name"; Text[50])
+        field(23; "Extension Counter Name"; Text[100])
         {
             Editable = false;
         }
@@ -172,7 +172,7 @@ table 50140 "Employee Transfer"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(26; "Province Name"; Text[50])
+        field(26; "Province Name"; Text[100])
         {
             Editable = false;
         }
@@ -191,14 +191,14 @@ table 50140 "Employee Transfer"
         }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
-        field(34; "Extension Name To"; Text[50]) { }
+        field(34; "Extension Name To"; Text[100]) { }
         field(35; "Functional Desc To"; Text[100])
         {
             Editable = false;
         }
         field(36; "Rejection Remarks"; Text[100]) { }
         field(37; "Approved Date"; Date) { }
-        field(38; "Branch Name To"; Text[50])
+        field(38; "Branch Name To"; Text[100])
         {
             Editable = false;
         }
@@ -210,15 +210,15 @@ table 50140 "Employee Transfer"
         // {
         //     Editable = false;
         // }
-        field(42; "Department Name To"; text[50])
+        field(42; "Department Name To"; Text[100])
         {
             Editable = false;
         }
-        field(43; "Province Name To"; Text[50])
+        field(43; "Province Name To"; Text[100])
         {
             Editable = false;
         }
-        field(44; "Unit Name To"; Text[50])
+        field(44; "Unit Name To"; Text[100])
         {
             Editable = false;
         }
@@ -532,7 +532,7 @@ table 50140 "Employee Transfer"
                     Clear("Incoming Supervisior Name");
             end;
         }
-        field(85; "Incoming Supervisior Name"; Text[50])
+        field(85; "Incoming Supervisior Name"; Text[100])
         {
             Description = 'Transfer';
             Editable = false;
@@ -556,7 +556,7 @@ table 50140 "Employee Transfer"
             Description = 'Transfer';
         }
         field(90; "Temporary Address"; Text[150]) { }
-        field(91; "Temporary Province"; Text[50]) { }
+        field(91; "Temporary Province"; Text[100]) { }
         field(92; "Temporary District"; Text[50]) { }
         field(93; "Notify to"; Text[200])
         {
@@ -774,7 +774,7 @@ table 50140 "Employee Transfer"
                     Clear("Incoming Supervisior Name 2");
             end;
         }
-        field(301; "Incoming Supervisior Name 2"; Text[50])
+        field(301; "Incoming Supervisior Name 2"; Text[100])
         {
             Description = 'Transfer';
             Editable = false;

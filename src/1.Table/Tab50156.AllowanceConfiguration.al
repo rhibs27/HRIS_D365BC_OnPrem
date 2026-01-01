@@ -68,6 +68,7 @@ table 50156 "Allowance Configuration"
         }
         field(10; Description; Text[50])
         {
+            Caption = 'Attribute Description';
             Editable = false;
         }
         field(12; "Min Service Yr. Eligibility"; Decimal) { }

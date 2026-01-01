@@ -134,7 +134,7 @@ table 50133 "KPI Appraisal Header Bank"
         {
             Editable = true;
         }
-        field(16; "Department Name"; Text[50]) { }
+        field(16; "Department Name"; Text[100]) { }
         field(17; Quarter; Text[20]) { }
         field(18; "Created Date"; Date)
         {

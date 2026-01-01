@@ -60,7 +60,7 @@ table 50153 "Cancel Document"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -169,11 +169,11 @@ table 50153 "Cancel Document"
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -297,7 +297,7 @@ table 50153 "Cancel Document"
                     Clear("Substitute Person Name");
             end;
         }
-        field(103; "Substitute Person Name"; text[50])
+        field(103; "Substitute Person Name"; Text[100])
         {
             Caption = 'Substitute Person Name';
             Editable = false;
