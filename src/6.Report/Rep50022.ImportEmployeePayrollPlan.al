@@ -32,6 +32,8 @@ report 50022 "Import Employee Payroll Plan"
 
                 if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then
                     Employee.SetFilter("Employment Date", '<%1', PayCyclePeriod."Pay Date");
+                Employee.SetCurrentKey(Seniority);
+                Employee.Ascending(false);
             end;
 
             trigger OnAfterGetRecord()

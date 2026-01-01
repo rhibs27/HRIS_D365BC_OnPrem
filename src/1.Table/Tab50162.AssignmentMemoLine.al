@@ -233,6 +233,7 @@ table 50162 "Assignment Memo Line"
                     if EmployeeWorkShift."Payroll Attribute Code" = '' then
                         Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
                     Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
+                    CheckAndValidateShiftAssignment();
                 end;
             end;
         }
@@ -390,6 +391,7 @@ table 50162 "Assignment Memo Line"
             AllowanceConfiguration.Reset();
             AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
             AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
+            AllowanceConfiguration.SetFilter(Source, '%1|%2', AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::Leave);
             if AllowanceConfiguration.FindSet() then begin
                 repeat
                     if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, "Employee No.", "To Date") then
@@ -404,22 +406,33 @@ table 50162 "Assignment Memo Line"
     procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
+        AtmPayrollAttr, DirectPayrollAttr : Record "Payroll Attributes";
+        AllowanceConfig: Record "Allowance Configuration";
     begin
-        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then
-            exit;
         if PAssignMemo."Employee No." = '' then
             exit;
         if PAssignMemo."Payroll Attribute Code" = '' then
             exit;
-        if PAssignMemo."Payroll Attribute Code" in ['ATM ALLOWANCE'] then
+
+        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
+            DirectPayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+            if DirectPayrollAttr."Specific Attributes" <> DirectPayrollAttr."Specific Attributes"::"Holiday Allowance" then
+                exit;
+        end;
+
+        AtmPayrollAttr.SetRange("Specific Attributes", AtmPayrollAttr."Specific Attributes"::"ATM Allowance");
+        if AtmPayrollAttr.FindFirst() then;
+        if PAssignMemo."Payroll Attribute Code" = AtmPayrollAttr.Code then
             exit; // allow multiple entries for atm and vault key allowance
+
         if PAssignMemo."Line No." = 0 then
-            exit;
-        if PAssignMemo."ATM Site" <> PAssignMemo."ATM Site"::" " then   // for atm andvault key allow multiple entries
             exit;
 
         AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
-        AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code");
+        if PAssignMemo."Payroll Attribute Code" <> '' then
+            AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
+        else if PAssignMemo."Employee Work Shift" <> '' then
+            AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
         AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
         AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
@@ -446,6 +459,36 @@ table 50162 "Assignment Memo Line"
             if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
                 AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
         end;
+    end;
+
+    procedure CheckAndValidateShiftAssignment()
+    var
+        AllowanceConfig: Record "Allowance Configuration";
+        IsEligibleForShiftAllowance: Boolean;
+        AssignmentmemoMgt: Codeunit "Assignment Memo Mgt";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+    begin
+        if "Emp Act Type" <> "Emp Act Type"::"Shift Assignment Memo" then
+            exit;
+
+        if "Payroll Attribute Code" = '' then
+            exit;
+
+        AssignmentMemoHdr.Get("Document No.");
+
+        AllowanceConfig.SetRange(Source, AllowanceConfig.Source::Shift);
+        AllowanceConfig.SetRange("Payroll Attribute", "Payroll Attribute Code");
+        if AllowanceConfig.FindSet() then
+            repeat
+                if AllowanceConfig.IsValidAllowanceConfigurationForEmployee(AllowanceConfig, "Employee No.", "From Date") then begin
+                    IsEligibleForShiftAllowance := true;
+                    break;
+                end;
+            until AllowanceConfig.Next() = 0;
+
+        if not IsEligibleForShiftAllowance then
+            Error('Shift assignment is not applicable for branch %1.', AssignmentMemoHdr."Branch Code");
+
     end;
 
     [IntegrationEvent(false, false)]

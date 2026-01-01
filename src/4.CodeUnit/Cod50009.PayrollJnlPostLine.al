@@ -340,7 +340,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
                 EmpSalAdv.Validate("Remaining Amount", EmpSalAdv."Applied Loan/Advance" - EmpSalAdv."Salary Advance Paid");
                 if (EmpSalAdv."Applied Loan/Advance" - EmpSalAdv."Salary Advance Paid") = 0 then begin
                     EmpSalAdv.Validate(Settled, true);
-                    EmpSalAdv.Validate("Settlement Date", Today);
+                    EmpSalAdv.Validate("Settlement Date", Today);  //always today?
                     EmpSalAdv.Validate("Settler User ID", UserId);
                     EmpSalAdv.Modify(false);
                 end;
