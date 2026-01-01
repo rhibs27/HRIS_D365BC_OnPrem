@@ -450,48 +450,6 @@ codeunit 50010 "Payroll-Post"
         end;
     end;
 
-    // procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var DeputationType: Enum "Deputation Type"): Code[20]
-    // var
-    //     EmployeeServiceHistory: Record "Employee Service History";
-    //     OrganizationStructureList: Record "Organization Structure List";
-    // begin
-    //     EmployeeServiceHistory.Reset;
-    //     EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
-    //     EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-    //     EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
-    //     if EmployeeServiceHistory.FindFirst() then begin
-    //         DeputationType := EmployeeServiceHistory."Deputation On(From)";
-    //         If OrganizationStructureList.get(DeputationType, EmployeeServiceHistory."Deputation Code (From)") then
-    //             exit(OrganizationStructureList."Dimension Value Code")
-    //     end;
-    // end;
-
-    // procedure GetDeputationOnBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Enum "Deputation Type"
-    // var
-    //     EmployeeServiceHistory: Record "Employee Service History";
-    //     OrganizationStructureList: Record "Organization Structure List";
-    // begin
-    //     EmployeeServiceHistory.Reset;
-    //     EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
-    //     EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-    //     EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
-    //     if EmployeeServiceHistory.FindFirst() then
-    //         exit(EmployeeServiceHistory."Deputation On(From)");
-    // end;
-
-    // procedure GetDeputationValueBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
-    // var
-    //     EmployeeServiceHistory: Record "Employee Service History";
-    //     OrganizationStructureList: Record "Organization Structure List";
-    // begin
-    //     EmployeeServiceHistory.Reset;
-    //     EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
-    //     EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
-    //     EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
-    //     if EmployeeServiceHistory.FindFirst() then
-    //         exit(EmployeeServiceHistory."Deputation Code (From)");
-    // end;
-
     procedure UpdateSourceDocumentOnPayrollPost(PayrollAttributes: Record "Payroll Attributes"; PayrollLineRec: Record "Payroll Line")
     var
         LeaveEarn: Record "Leave Earn";
@@ -531,12 +489,14 @@ codeunit 50010 "Payroll-Post"
             AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
 
         //check and update Assignment memo lines if any
+        AssignmentMemoLedgerEntry.SetRange("Payroll Posted", false);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PayrollHeader."No.");
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
                 AssignmentMemoLedgerEntry."Payroll Document No." := PostedPayrollHeader."No.";
                 AssignmentMemoLedgerEntry.Open := false;
+                AssignmentMemoLedgerEntry."Payroll Posted" := true;
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;

@@ -58,6 +58,11 @@ table 50027 "Payroll Line"
                 Validate(Gender, Employee.Gender);
                 Validate("Marital Status", Employee."Marital Status");
                 Validate("Employee Type", Employee."Employment Type");
+                Validate("Province Code", Employee."Province Code");
+                Validate("Branch Code", Employee."Branch Code");
+                Validate("Department Code", Employee."Department Code");
+                Validate("Unit Code", Employee."Unit Code");
+                Validate("Extenion Counter Code", Employee."Extension Counter Code");
 
                 HRSetup.Get;
                 Validate("Global Dimension 1 Code", Employee."Global Dimension 1 Code");
@@ -1390,8 +1395,32 @@ table 50027 "Payroll Line"
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(1100; "Province Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+        }
+        field(1101; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+        }
+        field(1102; "Department Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
+        field(1103; "Unit Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
+        field(1104; "Extenion Counter Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
     }
-
     keys
     {
         key(Key1; "Document No.", "Line No.")
@@ -1646,7 +1675,17 @@ table 50027 "Payroll Line"
                     AttributeAmount := 0;
                     if IsValidComponent then begin
                         if PayrollAttributesUsage.Amount <> 0 then begin
-                            AttributeAmount := PayrollAttributesUsage.Amount;
+                            if PayrollAttributesUsage."Static Amount" then
+                                AttributeAmount := PayrollAttributesUsage.Amount
+                            else begin
+                                if PayrollAttributesUsage.Formula <> '' then
+                                    AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
+                                else
+                                    if PayrollAttributes.Formula <> '' then
+                                        AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
+                                    else
+                                        AttributeAmount := PayrollAttributesUsage.Amount;
+                            end;
                         end else
                             if PayrollAttributesUsage.Formula <> '' then
                                 AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
@@ -1662,8 +1701,6 @@ table 50027 "Payroll Line"
 
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
-                        // if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
-                        //     CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
 
                         AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
@@ -2726,13 +2763,12 @@ table 50027 "Payroll Line"
                                          PayrollAttr: Code[20];
                                          LeaveCode: Code[20];
                                          FromDate: Date;
-                                         ToDate: Date;
-                                         getLastAmount: Boolean): Decimal
+                                         ToDate: Date
+                                       ): Decimal
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
@@ -2741,38 +2777,24 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", '%1|%2', '', PayrollDocNo);
         AssignmentMemoLedgerEntry.SetRange("Blocked for Payroll", false);
         AssignmentMemoLedgerEntry.SetRange("Open", true);
-        if getLastAmount then begin
-            AssignmentMemoLedgerEntry.CalcSums(Amount);
-            exit(round(AssignmentMemoLedgerEntry."Amount", 0.01, '='));
-        end else begin
-            AssignmentMemoLedgerEntry.CalcSums(Amount);
-            Amt := AssignmentMemoLedgerEntry."Amount";
-            if AssignmentMemoLedgerEntry.FindSet() then
-                AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", PayrollDocNo);
-            exit(round(Amt, 0.01, '='));
-        end;
+        AssignmentMemoLedgerEntry.CalcSums(Amount);
+        Amt := AssignmentMemoLedgerEntry."Amount";
+        if AssignmentMemoLedgerEntry.FindSet() then
+            AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", PayrollDocNo);
+        RoundAmount(Amt);
+        exit(Amt);
     end;
 
     procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
     begin
         case AllowanceConfiguration.Source of
-            AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+            AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift, AllowanceConfiguration.Source::Leave:
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
                                             AllowanceConfiguration."Leave Code",
-                                            0D,
-                                            PayrollHeader."To Date",
-                                            true));
-
-            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift, AllowanceConfiguration.Source::Leave:  //monthly (assign and caim)
-                exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
-                                            EmployeeCode,
-                                            AllowanceConfiguration."Payroll Attribute",
-                                            AllowanceConfiguration."Leave Code",
-                                            0D,
-                                            PayrollHeader."To Date",
-                                            false));
+                                            PGSetup."Payroll Fiscal Year Start Date",  //added to claim remaining backdated allowance
+                                            PayrollHeader."To Date"));
 
             AllowanceConfiguration.Source::" ":
                 if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode, PayrollHeader."To Date") then

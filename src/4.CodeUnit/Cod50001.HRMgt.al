@@ -3027,23 +3027,25 @@ codeunit 50001 "HR Mgt."
     end;
 
     procedure ReturnFiscalYear(EngDate: Date): Text
+    var
+        EngNep: Record "English-Nepali Date";
     begin
-        EngNep.Reset;
+        EngNep.SetLoadFields("English Date", "Fiscal Year");
         EngNep.SetRange("English Date", EngDate);
         if EngNep.FindFirst then
             exit(EngNep."Fiscal Year");
     end;
 
-    procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
-    var
-        EngNep: Record "English-Nepali Date";
-    begin
-        EngNep.Reset;
-        EngNep.SetRange("Fiscal Year", FiscalYear);
-        EngNep.SetCurrentKey("English Date");
-        if EngNep.FindLast then
-            exit(EngNep."English Date");
-    end;
+    // procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
+    // var
+    //     EngNep: Record "English-Nepali Date";
+    // begin
+    //     EngNep.Reset;
+    //     EngNep.SetRange("Fiscal Year", FiscalYear);
+    //     EngNep.SetCurrentKey("English Date");
+    //     if EngNep.FindLast then
+    //         exit(EngNep."English Date");
+    // end;
 
     procedure ReturnEmpName(EmpCode: Code[20]): Text
     begin
@@ -5622,6 +5624,35 @@ codeunit 50001 "HR Mgt."
             EmployeeListPage.GetRecord(EmployeeRec);
             exit(EmployeeRec."No.");
         end;
+    end;
+
+    procedure AssignEmployeeSeniority()
+    var
+        SalaryLevel: Record "Salary Level";
+        Employee: Record Employee;
+        EmployeeCount: Integer;
+    begin
+        SalaryLevel.Reset();
+        SalaryLevel.SetFilter(Rank, '>%1', 0);
+        if SalaryLevel.FindSet() then
+            repeat
+
+                EmployeeCount := 0;
+                SalaryLevel.TestField(Rank);
+
+                Employee.Reset();
+                Employee.SetCurrentKey("Employment Date");
+                Employee.SetRange("Salary Level", SalaryLevel.Code);
+                Employee.SetRange(Status, Employee.Status::Active);
+                Employee.SetAscending("Employment Date", false);
+                if Employee.FindSet() then
+                    repeat
+                        EmployeeCount += 1;
+                        Employee.Seniority := SalaryLevel.Rank * 1000 + EmployeeCount;
+                        Employee.Modify();
+                    until Employee.Next() = 0;
+
+            until SalaryLevel.Next() = 0;
     end;
 
     [IntegrationEvent(false, false)]

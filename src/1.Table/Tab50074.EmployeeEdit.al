@@ -22,7 +22,7 @@ table 50074 "Employee Edit"
         {
             Editable = false;
         }
-        field(3; "Employee Name"; Text[50])
+        field(3; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';
             DataClassification = CustomerContent;
@@ -47,7 +47,7 @@ table 50074 "Employee Edit"
             Caption = 'Marital Status';
             DataClassification = CustomerContent;
         }
-        field(6; "Email (Personal)"; Text[50])
+        field(6; "Email (Personal)"; Text[80])
         {
             Caption = 'Email (Personal)';
             DataClassification = CustomerContent;
@@ -121,7 +121,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = ToBeClassified;
         }
-        field(22; "Rejection Remarks"; Text[50])
+        field(22; "Rejection Remarks"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
@@ -165,7 +165,7 @@ table 50074 "Employee Edit"
                     Error('Date is in Future');
             end;
         }
-        field(29; Designation; Text[30])
+        field(29; Designation; Text[50])
         {
             DataClassification = CustomerContent;
         }
@@ -179,7 +179,7 @@ table 50074 "Employee Edit"
         }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
-        field(33; Remarks; Text[50])
+        field(33; Remarks; Text[100])
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
         {
@@ -506,7 +506,7 @@ table 50074 "Employee Edit"
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
         }
         field(113; "Permanent House"; Text[30]) { }
-        field(114; "Permanent Province"; Text[50]) { }
+        field(114; "Permanent Province"; Text[100]) { }
         field(115; "Permanent District"; Text[50]) { }
         field(116; "Permanent VDC"; Text[50]) { }
         field(117; "Permanent Locality"; Text[100]) { }

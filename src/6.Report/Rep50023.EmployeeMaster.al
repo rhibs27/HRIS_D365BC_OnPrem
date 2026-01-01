@@ -132,6 +132,12 @@ report 50023 "Employee Master"
                     AdditionalBankAccountNo := EmployeeBankAccount."Bank Account No.";
                 end;
             end;
+
+            trigger OnPreDataItem()
+            begin
+                Employee.SetCurrentKey(Seniority);
+                Employee.Ascending(false);
+            end;
         }
     }
     requestpage

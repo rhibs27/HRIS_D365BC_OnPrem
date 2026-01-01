@@ -1090,7 +1090,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 image = ServiceLedger;
                 PromotedCategory = Process;
             }
-            action("Pay Employee")
+            action("Pay Employee")  //no trigger?
             {
                 ApplicationArea = All;
                 ToolTip = 'View employee ledger entries for the record with remaining amount that have not been paid yet.';
@@ -1125,7 +1125,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     end;
                 end;
             }
-            action("Generate New Employee Card")
+            action("Generate New Employee Card")  //do we need it?
             {
                 ApplicationArea = All;
                 Promoted = true;
@@ -1287,6 +1287,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceAssignmentMgt.OpenAllowanceClaimRequest(Rec."No.");
                     end;
                 }
+
+                //>only when "use allowance configuration" is set in payroll general setup
                 action("Request Allowance")
                 {
                     Image = ApplicationWorksheet;
@@ -1349,6 +1351,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceMemoMgt.OpenShiftRequest(Rec."No.");
                     end;
                 }
+                //only when "use allowance configuration" is set in payroll general setup<<
+
                 action("Shift Assignment")
                 {
                     Image = ApplicationWorksheet;
@@ -1553,24 +1557,25 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Report.RunModal(Report::"Generate Leave Balance", true, false, Employee);
                     end;
                 }
-                action("Confirmation Employee")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Confirm;
-                    PromotedCategory = Category4;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Confirmation Employee action.';
-                    trigger OnAction()
-                    begin
-                        Employee.Reset();
-                        Employee.SetRange("No.", Rec."No.");
-                        Employee.FindFirst();
-                        Employee.TestField("Employment Type", Rec."Employment Type"::Probation);
-                        REPORT.RUN(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
-                    end;
-                }
+
+                // action("Confirmation Employee")
+                // {
+                //     ApplicationArea = All;
+                //     Promoted = true;
+                //     PromotedIsBig = true;
+                //     Image = Confirm;
+                //     PromotedCategory = Category4;
+                //     PromotedOnly = true;
+                //     ToolTip = 'Executes the Confirmation Employee action.';
+                //     trigger OnAction()
+                //     begin
+                //         Employee.Reset();
+                //         Employee.SetRange("No.", Rec."No.");
+                //         Employee.FindFirst();
+                //         Employee.TestField("Employment Type", Rec."Employment Type"::Probation);
+                //         REPORT.RUN(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
+                //     end;
+                // }
                 action("Request Retirement Fund")
                 {
                     ApplicationArea = All;
@@ -1750,20 +1755,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory.RUN;
                     end;
                 }
-                action("Show Leave Earn")
-                {
-                    ApplicationArea = All;
-                    RunObject = Page "Leave Earn";
-                    RunPageLink = "Employee No." = FIELD("No.");
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = AbsenceCategory;
-                    PromotedCategory = Category6;
-                    ToolTip = 'Executes the Show Leave Earn action.';
-                    trigger OnAction()
-                    begin
-                    end;
-                }
+
+                // action("Show Leave Earn")  
+                // {
+                //     ApplicationArea = All;
+                //     RunObject = Page "Leave Earn";
+                //     RunPageLink = "Employee No." = FIELD("No.");
+                //     Promoted = true;
+                //     PromotedIsBig = true;
+                //     Image = AbsenceCategory;
+                //     PromotedCategory = Category6;
+                //     ToolTip = 'Executes the Show Leave Earn action.';
+                //     trigger OnAction()
+                //     begin
+
+                //     end;
+                // }
                 action("Promotion History")
                 {
                     ApplicationArea = All;
@@ -1879,23 +1886,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             ServiceHistoryMgt.PopUpForJobAddition(Rec);
                     end;
                 }
-                action("UpdatePRAttributes")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Update Payroll Att Usage';
-                    Promoted = true;
-                    Visible = FALSE;
-                    PromotedIsBig = true;
-                    Image = UpdateDescription;
-                    PromotedCategory = Category7;
-                    ToolTip = 'Executes the Update Payroll Att Usage action.';
 
-                    trigger OnAction()
-                    begin
-                        CurrPage.SETSELECTIONFILTER(Rec);
-                        REPORT.RUN(33019801, TRUE, FALSE, Rec);
-                    end;
-                }
                 action("Insert Payroll Attributes")
                 {
                     ApplicationArea = All;
@@ -1951,7 +1942,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Employee.SetRange("No.", Rec."No.");
                         IF Employee.FindFirst() THEN begin
                             Employee.TestField(Salutation);
-                            REPORT.RUN(70022, TRUE, TRUE, Employee);
+                            REPORT.RUN(70022, TRUE, TRUE, Employee);  //which report to run?
+
                         end;
                     end;
                 end;
@@ -1979,7 +1971,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Employee.SetRange("No.", Rec."No.");
                     IF Employee.FindFirst() THEN begin
                         Employee.TestField(Salutation);
-                        REPORT.RUN(70023, TRUE, TRUE, Employee);
+                        REPORT.RUN(70023, TRUE, TRUE, Employee); //which report to run?
                     end;
                 end;
             }
@@ -2006,7 +1998,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Resignation.SetRange("Employee No.", Employee."No.");
                         IF Resignation.FindLast() THEN
                             Resignation.TestField("Approval Status", Resignation."Approval Status"::Settled);
-                        REPORT.RUN(70024, TRUE, TRUE, Employee);
+                        REPORT.RUN(70024, TRUE, TRUE, Employee);  //which report to run?
                     end;
                 end;
             }
@@ -2026,11 +2018,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Employee.SetRange("No.", Rec."No.");
                     IF Employee.FindFirst() THEN begin
                         Employee.TestField(Salutation);
-                        REPORT.RUN(70026, TRUE, TRUE, Employee);
+                        REPORT.RUN(70026, TRUE, TRUE, Employee);  //what it is
                     end;
                 end;
             }
-            action("Insert Grade")
+            action("Insert Grade")  //no code?
             {
                 ApplicationArea = All;
                 RunObject = Report "Insert Grade";

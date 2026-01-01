@@ -156,8 +156,14 @@ table 50035 "Posted Payroll Line"
         field(36; "CIT No."; Code[20]) { }
         field(37; "PF No."; Code[20]) { }
         field(38; Division; Code[20]) { }
-        field(39; "Salary Level"; Code[20]) { }
-        field(40; "Salary Grade"; Code[20]) { }
+        field(39; "Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(40; "Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
         field(41; "Pan No."; Code[20]) { }
         field(42; "Functional Title"; Code[20]) { }
         field(43; Number; Integer)
@@ -1240,6 +1246,32 @@ table 50035 "Posted Payroll Line"
         field(1081; "PF Posted 2"; Boolean) { }
         field(1082; "Posting Date"; Date) { }
         field(1083; Reversed; Boolean) { }
+        field(1100; "Province Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+        }
+        field(1101; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+        }
+        field(1102; "Department Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
+        field(1103; "Unit Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
+        field(1104; "Extenion Counter Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
+
     }
 
     keys
