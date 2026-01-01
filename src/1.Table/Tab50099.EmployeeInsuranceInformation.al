@@ -59,9 +59,11 @@ table 50099 "Employee Insurance Information"
                 Len := StrLen(DelChr("Policy Number", '=', DelChr("Policy Number", '=', SpecialChars)));
                 if Len > 0 then
                     Error(SpecialCharsErr);
+
                 EmpInsurance.Reset;
                 EmpInsurance.SetRange("Employee No.", Rec."Employee No.");
                 EmpInsurance.SetRange("Policy Number", Rec."Policy Number");
+                EmpInsurance.SetFilter("Approval Status", '<>%1', EmpInsurance."Approval Status"::Rejected);
                 if EmpInsurance.FindFirst then
                     Error(Text019, Rec."Policy Number", EmpInsurance."Insurance No.");
             end;
