@@ -93,6 +93,10 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 SubPageLink = "Employee No." = field("Employee No."), "Line No." = field("Line No.");
             }
         }
+        modify(Control1905767507)
+        {
+            Visible = false;
+        }
     }
     // actions
     // {
@@ -146,6 +150,5 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
 
     var
         EmployeeQualification: Record "Employee Qualification";
-        DocuAttach: Record "Document Attachment";
         MasterFilter: Text;
 }

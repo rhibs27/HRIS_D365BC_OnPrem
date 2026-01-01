@@ -103,11 +103,7 @@ codeunit 50015 "OverTime Mgt"
     var
         EmpOvertime: Record "OverTime";
         ConfirmForm: Label 'Do you want to send request ?';
-        ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
-        EmpOvertime2: Record "Overtime";
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
-        SalaryLevel: Record "Salary Level";
-        IsHandled: Boolean;
     begin
         if GuiAllowed then
             if not Confirm(ConfirmForm, false) then
@@ -168,7 +164,6 @@ codeunit 50015 "OverTime Mgt"
         StandardWorkingHrs: Decimal;
         ActualOTHrs: Decimal;
         EmployeeWorkShift, RejectionRemarks : Text;
-        ShiftLine: Record "Shift Line";
     begin
         EmployeeWorkShift := ShiftMgt.ReturnEmployeeWorkShift(OverTime."Employee No.", OverTime."Start Date");
         WorkShift.Reset;
@@ -185,7 +180,6 @@ codeunit 50015 "OverTime Mgt"
             OverTime."Total OT Hours" := ActualOTHrs;
             OverTime."Actual OT Hours" := ActualOTHrs;
         end;
-
     end;
 
     procedure OTAmountCalculate(employeeNo: Code[20]; OverTimeDate: Date; EncashmentCode: Code[20]; ActualOTHours: Decimal): Decimal
@@ -259,7 +253,6 @@ codeunit 50015 "OverTime Mgt"
     procedure OpenOTBulk(EmpCode: Code[20])
     var
         OverTime, OverTime1 : Record OverTime;
-        OTEligibleError: Label 'Employee %1 is not eligible for OT.';
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
@@ -290,12 +283,11 @@ codeunit 50015 "OverTime Mgt"
     var
         WorkShift: Record "Employee Work Shift";
         StartTime, EndTime : Time;
-        ActualOTHrs, MorningOTHrs, EveningOTHrs, StandardWorkingHrs : Decimal;
+        MorningOTHrs, EveningOTHrs, StandardWorkingHrs : Decimal;
         CheckInDifference, TotalOTHrs : Decimal;
         OvertimeLine: Record "Overtime Line";
         IsHandled: Boolean;
         Overtime: Record OverTime;
-        ShiftLine: Record "Shift Line";
         EmployeeWorkShift: Text;
     begin
         Overtime.Reset;
@@ -371,11 +363,11 @@ codeunit 50015 "OverTime Mgt"
         Ishandled: Boolean;
     begin
         OnBeforeGetEmployeeFilter(OverTime, Ishandled);
-        If not Ishandled then begin
+        If not IsHandled then begin
             OvertimeLineCheck.Reset;
             OvertimeLineCheck.SetRange("No.", OverTime."No.");
             OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
-            OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record    
+            OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record
             Employee.Reset();
             if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
                 Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
@@ -393,7 +385,7 @@ codeunit 50015 "OverTime Mgt"
                         OvertimeLineCheck.Reset;
                         OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
                         OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
-                        OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
+                        OvertimeLineCheck.SetFilter("Approval Status", '<>%1|<>%2', OvertimeLine."Approval Status"::Canceled, OvertimeLine."Approval Status"::Rejected);
                         if not OvertimeLineCheck.FindFirst() then begin
                             // Check if employee attendance exists for this date
                             EmployeeAttendance.Reset;
@@ -492,7 +484,6 @@ codeunit 50015 "OverTime Mgt"
             ApprovalLine.DeleteAll(true);
             ApproverMgt.InsertApproval(overtime."Employee No.", DocumentNo, overtime."Type"::"Overtime Bulk", overtime."Approval Status"::open);
         end;
-
     end;
 
     procedure InsertOvertimeLineInAttendance(OvertimeLine: Record "Overtime Line")
@@ -592,6 +583,5 @@ codeunit 50015 "OverTime Mgt"
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         LeaveEarn: Record "Leave Earn";
-        EmployeeActMgt: Codeunit EmployeeActivityMgt;
         ShiftMgt: Codeunit "Shift Assignment Mgt";
 }

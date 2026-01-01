@@ -1,7 +1,7 @@
 enum 50118 "Language Rating"
 {
     Extensible = true;
-    
+
     value(0; "0")
     {
         Caption = '0';

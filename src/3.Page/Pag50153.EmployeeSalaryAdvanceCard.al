@@ -90,7 +90,6 @@ page 50153 "Employee Salary Advance Card"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                     Visible = ApprovalStatusView;
-
                 }
                 field("Status"; Rec."Status")
                 {
@@ -218,7 +217,6 @@ page 50153 "Employee Salary Advance Card"
             }
             // group(Approval)
             // {
-
             // field(Recommender; Rec.Recommender)
             // {
             //     Editable = false;
@@ -495,10 +493,6 @@ page 50153 "Employee Salary Advance Card"
         ForReject: Boolean;
         ForScreen: Boolean;
         ForSettle: Boolean;
-
-        AfterRecommendedVisible: Boolean;
-
-        ScreenerRemarksEditable: Boolean;
         HRSetup: Record "Human Resources Setup";
         IsOpen: Boolean;
         IsPending: Boolean;

@@ -1,6 +1,5 @@
 codeunit 50028 "Excel Import"
 {
-
     procedure ImportFromExcelSheet(TableID: Integer; DocNo: Code[20]; UseColumnName: Boolean)
     var
         FileMgt: Codeunit "File Management";
@@ -32,11 +31,21 @@ codeunit 50028 "Excel Import"
             for RowNo := 2 to LastRow do begin
                 RecRef.Init();
                 for ColNo := 1 to (NoOfField - 1) do begin
-                    if Database::"Employee Payroll Adjustment" = TableID then begin
-                        FieldRef := RecRef.Field(1);
-                        FieldRef.Validate(DocNo);
+                    case TableID of
+                        Database::"Employee Payroll Adjustment":
+                            begin
+                                FieldRef := RecRef.Field(1);
+                                FieldRef.Validate(DocNo);
+                                FieldRef := RecRef.Field(ColNo + 1);
+                            end;
+                        Database::"Import Attribute Usage":
+                            begin
+                                FieldRef := RecRef.Field(ColNo + 1);//Reduced by 1 to exclude 2 fields in the table referred i.e. Entry Number and Posted
+                            end;
+                        else
+                            FieldRef := RecRef.Field(ColNo)
                     end;
-                    FieldRef := RecRef.Field(ColNo + 1);//Reduced by 1 to exclude 2 fields in the table referred i.e. Entry Number and Posted
+
                     CellValue := GetValueAtCell(RowNo, ColNo);
                     if CellValue <> '' then begin
                         case FieldRef.Type of
@@ -48,8 +57,10 @@ codeunit 50028 "Excel Import"
                                 FieldRef.Validate(EvaluateDate(CellValue));
                             FieldRef.Type::Boolean:
                                 FieldRef.Validate(EvaluateBoolean(CellValue));
-                            else
-                                FieldRef.Validate(CellValue);
+                            else begin
+                                Evaluate(FieldRef, CellValue);
+                                FieldRef.Validate(FieldRef.Value);
+                            end;
                         end;
                     end;
                 end;
@@ -59,14 +70,34 @@ codeunit 50028 "Excel Import"
         end;
     end;
 
+    procedure ExportDataInExcel(var RecRef: RecordRef)
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+        RowNo, LastRow, NoOfField, ColNo : Integer;
+    begin
+        //Header
+        NoOfField := RecRef.FieldCount;
+        TempExcelBuffer.NewRow();
+        for ColNo := 1 to (NoOfField) do begin
+            TempExcelBuffer.AddColumn(RecRef.Field(ColNo).Caption(), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        end;
+        //Data
+        if RecRef.FindSet() then
+            repeat
+                TempExcelBuffer.NewRow();
+                for ColNo := 1 to (NoOfField) do begin
+                    TempExcelBuffer.AddColumn(RecRef.Field(ColNo), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                end;
+            until RecRef.Next() = 0;
+        CreateExcelBook(RecRef.Caption());
+    end;
+
     procedure ImportJournalFromExcelSheet(EmpActType: Enum "Employee Activity Type")
     var
         FileMgt: Codeunit "File Management";
         IStream: InStream;
-        FromFile, CellValue : Text;
-        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
-        FieldRef: FieldRef;
-        RecRef: RecordRef;
+        FromFile: Text;
+        RowNo, LastRow : Integer;
         EmployeeActJournal: Record "Employee Activity Journal";
         FirstLine: Boolean;
         EmpActNo: Code[20];
@@ -96,8 +127,8 @@ codeunit 50028 "Excel Import"
                         ImportPromotionLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
                 end;
             end;
+            Message(ExcelImportSuccess);
         end;
-        Message(ExcelImportSuccess);
     end;
 
     local procedure EvaluateInt(Value: Text): Integer
@@ -114,14 +145,6 @@ codeunit 50028 "Excel Import"
     begin
         Evaluate(DecValue, Value);
         exit(DecValue);
-    end;
-
-    local procedure EvaluateInteger(Value: Text): Integer
-    var
-        IntValue: Decimal;
-    begin
-        Evaluate(IntValue, Value);
-        exit(IntValue);
     end;
 
     local procedure EvaluateDate(Value: Text): Date
@@ -240,14 +263,10 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(EmployeeActJournal."End Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(EmployeeActJournal.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
         //
-        TempExcelBuffer.CreateNewBook('leaveJournal');
-        TempExcelBuffer.WriteSheet('leaveJournal', CompanyName, UserId);
-        TempExcelBuffer.CloseBook();
-        TempExcelBuffer.SetFriendlyFilename('leaveJournal');
-        TempExcelBuffer.OpenExcel();
+        CreateExcelBook('leaveJournal');
     end;
 
-    //23 
+    //23
     procedure ExportLines(DocumentNo: Code[20])
     var
         AdjLine: Record "Attribute Adjustment Line";
@@ -290,9 +309,8 @@ codeunit 50028 "Excel Import"
     var
         FirstLine: Boolean;
         IStream: InStream;
-        FromFile, CellValue : Text;
-        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
-        TotalRows: Integer;
+        FromFile: Text;
+        RowNo, LastRow, LineNo : Integer;
         AdjLine: Record "Attribute Adjustment Line";
         FileMgt: Codeunit "File Management";
     begin
@@ -320,7 +338,6 @@ codeunit 50028 "Excel Import"
                 InsertLine(RowNo, DocumentNo, LineNo);
             end;
             // Message('%1 lines imported successfully.', TotalRows - 1);
-
         end;
         if not ExcelBuffer.IsEmpty() then
             ExcelBuffer.DeleteAll;
@@ -338,12 +355,12 @@ codeunit 50028 "Excel Import"
 
     local procedure CreateExcelBook(SheetName: Text)
     var
-        ExcelFileName: Label 'Attribute_%1_%2';
+        ExcelFileName: Label '%1_%2_%3';
     begin
         ExcelBuffer.CreateNewBook(SheetName);
         ExcelBuffer.WriteSheet(SheetName, CompanyName, UserId);
         ExcelBuffer.CloseBook();
-        ExcelBuffer.SetFriendlyFilename(StrSubstNo(ExcelFileName, CurrentDateTime, UserId));
+        ExcelBuffer.SetFriendlyFilename(StrSubstNo(ExcelFileName, SheetName, CurrentDateTime, UserId));
         ExcelBuffer.OpenExcel();
     end;
 
@@ -351,7 +368,6 @@ codeunit 50028 "Excel Import"
     var
         InStr: InStream;
         SheetName: Text;
-        FileUploaded: Boolean;
     begin
         UploadIntoStream(UploadFileTxt, ExlExt, '', Filename, InStr);
         ExcelBuffer.Reset;
@@ -405,16 +421,86 @@ codeunit 50028 "Excel Import"
 
     //23
 
+    procedure ImportShiftLineFromExcelSheet(DocNo: Code[20])
+    var
+        FileMgt: Codeunit "File Management";
+        IStream: InStream;
+        FromFile, CellValue : Text;
+        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
+        FieldRef: FieldRef;
+        RecRef: RecordRef;
+        ShiftLine: Record "Shift Line";
+        ShiftAssignmentHeader: Record "Shift Assignment Header";
+    begin
+        if UploadIntoStream('Import From Excel', '', '', FromFile, IStream) then begin
+            if FromFile <> '' then begin
+                FileName := FileMgt.GetFileName(FromFile);
+                SheetName := ExcelBuffer.SelectSheetsNameStream(IStream);
+            end
+            else
+                Error('No file found.');
+            if ShiftAssignmentHeader.Get(DocNo) then;
+            ExcelBuffer.Reset();
+            ExcelBuffer.DeleteAll();
+            ExcelBuffer.OpenBookStream(IStream, SheetName);
+            ExcelBuffer.ReadSheet();
+            ExcelBuffer.SetRange("Column No.", 1);
+            ExcelBuffer.FindLast();
+            LastRow := ExcelBuffer."Row No.";
+            for RowNo := 2 to LastRow do begin
+                ShiftLine.Init();
+                ShiftLine.Validate(Type, ShiftLine.Type::"Shift Assignment");
+                ShiftLine.Validate("Approval Status", ShiftLine."Approval Status"::Open);
+                if ShiftAssignmentHeader."Deputation Sub Type" = ShiftAssignmentHeader."Deputation Sub Type"::" " then begin
+                    ShiftLine.Validate("Deputation Type", ShiftAssignmentHeader."Deputation Type");
+                    ShiftLine.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Code");
+                end else begin
+                    ShiftLine.Validate("Deputation Type", ShiftAssignmentHeader."Deputation Sub Type");
+                    ShiftLine.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Sub Type Code");
+                end;
+                ShiftLine.Validate("No.", DocNo);
+                ShiftLine."Line No" := ShiftLine.GetLineNo(DocNo);
+                Evaluate(ShiftLine."Employee No", GetValueAtCell(RowNo, 1));
+                ShiftLine.Validate("Employee No");
+                Evaluate(ShiftLine."Employee Work Shift", GetValueAtCell(RowNo, 3));
+                ShiftLine.Validate("Employee Work Shift");
+                Evaluate(ShiftLine."Roster Date", GetValueAtCell(RowNo, 4));
+                ShiftLine.Validate("Roster Date");
+                Evaluate(ShiftLine.Remarks, GetValueAtCell(RowNo, 5));
+                ShiftLine.Validate(Remarks);
+                ShiftLine.Insert(true);
+            end;
+            Message(ExcelImportSuccess);
+        end;
+    end;
+
+    procedure ExportShiftAssignmentLineFormat(ShiftLine: Record "Shift Line")
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+    begin
+        //Header
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Employee No"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Employee Name"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Employee Work Shift"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption("Roster Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine.FieldCaption(Remarks), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //Data
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(ShiftLine."Employee No", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine."Employee Name", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine."Employee Work Shift", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(ShiftLine."Roster Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
+        TempExcelBuffer.AddColumn(ShiftLine.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //
+        CreateExcelBook('ShiftLine');
+    end;
+
     var
         ExcelBuffer: Record "Excel Buffer" temporary;
         Filename: Text[250];
         SheetName: Text[250];
         ExcelImportSuccess: Label 'Data is successfully imported.';
-
-        tmpBlob: Codeunit "Temp Blob";
-        i: Integer;
         UploadFileTxt: Label 'Select the Excel File to Import';
         ExlExt: Label '.xlsx';
-
-
 }

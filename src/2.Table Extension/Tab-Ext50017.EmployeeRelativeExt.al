@@ -127,7 +127,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             CalcFormula = Lookup(Relative.Relation WHERE(Code = FIELD("Relative Code")));
             Editable = false;
         }
-        field(50015; "Full Name"; Text[50])
+        field(50015; "Full Name"; Text[100])
         {
             DataClassification = CustomerContent;
             CharAllowed = 'AZaz  ';
@@ -184,7 +184,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 end;
             end;
         }
-        field(50018; "E-mail"; text[30])
+        field(50018; "E-mail"; text[80])
         {
             DataClassification = CustomerContent;
         }
@@ -248,15 +248,11 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
     }
     keys
     {
-        key(key2; "Relative Code")
-        {
-        }
+        key(key2; "Relative Code") { }
     }
     fieldgroups
     {
-        addlast(DropDown; "Relative Code", "Full Name")
-        {
-        }
+        addlast(DropDown; "Relative Code", "Full Name") { }
     }
     var
         Hrmgt: Codeunit "HR Mgt.";

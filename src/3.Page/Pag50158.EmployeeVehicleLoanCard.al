@@ -668,7 +668,7 @@ page 50158 "Employee Vehicle Loan Card"
     trigger OnAfterGetRecord()
     begin
         SetLayout();
-        //LoanMgt.CalculateFields(Rec); 
+        //LoanMgt.CalculateFields(Rec);
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -715,8 +715,6 @@ page 50158 "Employee Vehicle Loan Card"
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         RecRef: RecordRef;
-
-        AfterRecommendedVisible: Boolean;
         ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
 

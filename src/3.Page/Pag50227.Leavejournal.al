@@ -18,9 +18,7 @@ page 50227 "Leave Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name")
-                {
-                }
+                field("Employee Name"; Rec."Employee Name") { }
                 field("Leave Code"; Rec."Leave Code")
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.';
@@ -71,7 +69,6 @@ page 50227 "Leave Journal"
                 {
                     Visible = StatusView;
                 }
-
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ToolTip = 'Specifies the value of the Fiscal Year field.';

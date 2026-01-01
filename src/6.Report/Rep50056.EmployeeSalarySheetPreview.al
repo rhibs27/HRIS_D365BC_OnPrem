@@ -90,7 +90,6 @@ report 50056 "Employee Salary Sheet Preview"
                 column(EmployeeDesignation_PayrollLine; "Functional Title") { }
                 column(CurrencyCode_PayrollLine; "Currency Code") { }
                 column(DimensionSetID_PayrollLine; "Dimension Set ID") { }
-
                 column(VariableField50501_PayrollLine; "Variable Field 50501")
                 {
                     IncludeCaption = true;
@@ -571,9 +570,6 @@ report 50056 "Employee Salary Sheet Preview"
                 {
                     IncludeCaption = true;
                 }
-
-
-
                 column(Field50490; Field50490Visible) { }
                 column(Field50491; Field50491Visible) { }
                 column(Field50492; Field50492Visible) { }
@@ -705,7 +701,6 @@ report 50056 "Employee Salary Sheet Preview"
                 column(Field50618; Field50618Visible) { }
                 column(Field50619; Field50619Visible) { }
                 column(Field50620; Field50620Visible) { }
-
 
                 trigger OnAfterGetRecord()
                 begin
@@ -871,7 +866,6 @@ report 50056 "Employee Salary Sheet Preview"
         Field50618Visible: Boolean;
         Field50619Visible: Boolean;
         Field50620Visible: Boolean;
-
 
         HourCalculationVisible: Boolean;
 

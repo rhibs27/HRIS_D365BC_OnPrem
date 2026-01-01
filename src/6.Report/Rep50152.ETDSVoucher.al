@@ -68,16 +68,12 @@ report 50152 "ETDS Voucher"
         {
             area(Content)
             {
-                group(GroupName)
-                {
-                }
+                group(GroupName) { }
             }
         }
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
     }
     local procedure GetRITColumn(): Integer

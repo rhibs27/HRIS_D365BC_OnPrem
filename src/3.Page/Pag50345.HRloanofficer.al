@@ -13,7 +13,6 @@ page 50345 "HR loan officer"
             }
             group("HRMS")
             {
-
                 part("HR Overview"; "HR Overview")
                 {
                     Caption = 'HR Overview';
@@ -30,7 +29,6 @@ page 50345 "HR loan officer"
                 Caption = 'HR Activities';
                 ApplicationArea = All;
             }
-
 
             part(Control15; "Employee Leave Days-HR Cue")
             {
@@ -95,18 +93,10 @@ page 50345 "HR loan officer"
                     ApplicationArea = All;
                 }
             }
-
         }
     }
 
     var
-        UserSetup: Record "User Setup";
-        LeaveVisibility: Boolean;
-        TravelVisibility: Boolean;
-        TransferVisibility: Boolean;
-        BulkCashVisibility: Boolean;
-        OvertimeVisibility: Boolean;
-        Resignationvisibility: Boolean;
         SalaryAdvVisibility: Boolean;
 
     // procedure Setvisibility()

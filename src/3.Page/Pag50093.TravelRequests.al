@@ -266,7 +266,6 @@ page 50093 "Travel Requests"
         HRMgt: Codeunit "HR Mgt.";
 
         IsPending: Boolean;
-        TravelMgt: CodeUnit "Travel Mgt.";
         ApprovalMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
 }

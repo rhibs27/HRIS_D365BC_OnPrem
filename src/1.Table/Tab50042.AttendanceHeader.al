@@ -88,7 +88,6 @@ table 50042 "Attendance Header"
         field(12; Status; enum "Approval Status")
         {
             Editable = false;
-
         }
         field(13; "Posting Description"; Text[50]) { }
         field(14; "Assigned User ID"; Code[50])
@@ -163,13 +162,8 @@ table 50042 "Attendance Header"
         {
             Editable = false;
         }
-        field(23; "Posted By"; Code[50])
-        {
-        }
-        field(24; Type; Enum "Employee Type")
-        {
-
-        }
+        field(23; "Posted By"; Code[50]) { }
+        field(24; Type; Enum "Employee Type") { }
     }
 
     keys

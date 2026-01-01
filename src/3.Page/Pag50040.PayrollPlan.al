@@ -1,6 +1,5 @@
 page 50040 "Payroll Plan"
 {
-
     PageType = Card;
     SourceTable = "Payroll Header";
     ApplicationArea = All;
@@ -241,7 +240,6 @@ page 50040 "Payroll Plan"
                         Rec.CalculatePayroll(PayrollHeader);
                     end;
                 }
-
                 action("Re-Open")
                 {
                     Image = ReOpen;
@@ -297,7 +295,6 @@ page 50040 "Payroll Plan"
                         ImportEmployeePayrollPlanReport.RunModal();
                     end;
                 }
-
                 action("Employee Adjustment")
                 {
                     Image = AddContacts;
@@ -437,16 +434,11 @@ page 50040 "Payroll Plan"
     end;
 
     var
-        PayrollHeaderRec: Record "Payroll Header";
         TypeFilter: Text;
         PayrollAdj: Record "Employee Payroll Adjustment";
         AjustmentVisible: Boolean;
         PayrollLine: Record "Payroll Line";
-        PayrollEngine: Codeunit "Payroll Engine";
         UserSetup: Record "User Setup";
         PrevYearPayroll: Boolean;
         VisiblePrevYearPayroll: Boolean;
-        Text001: Label 'Do you want to import employees in Employee Payroll Adjustment? Existing lines will be deleted.';
-        Text002: Label 'Either Encashment Code or Encashment Period must have a value.';
-        PageName: Text[50];
 }

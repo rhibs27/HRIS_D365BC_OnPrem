@@ -31,9 +31,7 @@ table 50018 "Email Template Message"
                     "Body Message" := '';
             end;
         }
-        field(7; Type; Enum "Email Message Type")
-        {
-        }
+        field(7; Type; Enum "Email Message Type") { }
     }
 
     keys

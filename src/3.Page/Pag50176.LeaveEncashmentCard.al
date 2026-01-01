@@ -53,7 +53,6 @@ page 50176 "Leave Encashment Card"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-
             }
             group("Approval Details")
             {
@@ -145,7 +144,6 @@ page 50176 "Leave Encashment Card"
                 begin
                     if Confirm('Do you want Cancel the request?', false) then begin
                         LeaveMgt.OpenCancelEncash(Rec);
-
                     end;
                 end;
             }

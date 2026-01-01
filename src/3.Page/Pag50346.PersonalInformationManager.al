@@ -13,7 +13,6 @@ page 50346 "Personal Information Manager"
             }
             group("HRMS")
             {
-
                 part("HR Overview"; "HR Overview")
                 {
                     Caption = 'HR Overview';
@@ -30,7 +29,6 @@ page 50346 "Personal Information Manager"
                 Caption = 'HR Activities';
                 ApplicationArea = All;
             }
-
 
             part(Control15; "Employee Leave Days-HR Cue")
             {
@@ -426,14 +424,9 @@ page 50346 "Personal Information Manager"
     }
 
     var
-        UserSetup: Record "User Setup";
         LeaveVisibility: Boolean;
         TravelVisibility: Boolean;
         TransferVisibility: Boolean;
-        BulkCashVisibility: Boolean;
         OvertimeVisibility: Boolean;
         Resignationvisibility: Boolean;
-        SalaryAdvVisibility: Boolean;
-
-
 }

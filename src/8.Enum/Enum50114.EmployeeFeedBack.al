@@ -1,7 +1,7 @@
 enum 50114 "Employee FeedBack"
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';

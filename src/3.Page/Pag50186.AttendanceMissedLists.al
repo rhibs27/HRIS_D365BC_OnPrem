@@ -69,7 +69,6 @@ page 50186 "Attendance Missed Lists"
                 //     ToolTip = 'Specifies the value of the Approver Type field.';
                 //     ApplicationArea = All;
                 // }
-
             }
         }
     }
@@ -111,8 +110,4 @@ page 50186 "Attendance Missed Lists"
             // }
         }
     }
-
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        DocCancelMgt: Codeunit "AttendanceMiss Mgt";
 }

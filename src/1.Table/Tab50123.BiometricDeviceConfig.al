@@ -20,7 +20,6 @@ table 50123 "Biometric Device Config."
             Caption = 'Name';
             DataClassification = ToBeClassified;
         }
-
         field(5; "Device Status"; Text[100])
         {
             Caption = 'Device Status';
@@ -35,7 +34,6 @@ table 50123 "Biometric Device Config."
             Caption = 'SN';
             DataClassification = ToBeClassified;
         }
-
         field(9; "User Count"; Integer)
         {
             Caption = 'User Count';
@@ -56,15 +54,8 @@ table 50123 "Biometric Device Config."
             Caption = 'Trans Count';
             DataClassification = ToBeClassified;
         }
-
-        field(22; "Connectivity Status"; text[250])
-        {
-
-        }
-        field(23; "Is Active"; Boolean)
-        {
-
-        }
+        field(22; "Connectivity Status"; text[250]) { }
+        field(23; "Is Active"; Boolean) { }
         field(100; "Date Filter"; Date)
         {
             FieldClass = FlowFilter;//used in report generation
@@ -78,4 +69,3 @@ table 50123 "Biometric Device Config."
         }
     }
 }
-

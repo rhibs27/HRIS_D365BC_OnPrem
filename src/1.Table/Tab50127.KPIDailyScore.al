@@ -91,19 +91,11 @@ table 50127 "KPI Daily Score"
                 end;
             end;
         }
-        field(9; "Weightage%"; Decimal)
-        {
-        }
-        field(10; "KPI Type"; Enum "KPI Master Type")
-        {
-
-        }
+        field(9; "Weightage%"; Decimal) { }
+        field(10; "KPI Type"; Enum "KPI Master Type") { }
         field(11; "KPI Score"; Decimal) { }
         field(12; Quarter; Text[10]) { }
-        field(13; Type; Enum EmployeeDepartment)
-        {
-
-        }
+        field(13; Type; Enum EmployeeDepartment) { }
         field(14; Department; Code[20])
         {
             TableRelation = "Organization Structure List".code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));

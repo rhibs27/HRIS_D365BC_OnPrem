@@ -5,8 +5,6 @@ codeunit 50027 "Payroll Report Mgt."
 {
     var
         EmployeeFilter: Code[20];
-        AttendanceSetupReady: Boolean;
-        AttendanceSetup: Record "Attendance Setup";
         PgSetup: record "Payroll General Setup";
 
     procedure SetEmployeeCode(empCode: Code[20])
@@ -20,7 +18,6 @@ codeunit 50027 "Payroll Report Mgt."
         PayAttr: Record "Payroll Attributes";
         BasicAmt: Decimal;
         PayrollAttributesUsage1: Record "Payroll Attributes Usage";
-        PayrollEngine: Codeunit "Payroll Engine";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
     begin
@@ -267,7 +264,6 @@ codeunit 50027 "Payroll Report Mgt."
         PayrollAttributes: Record "Payroll Attributes";
         PayrollAttributesUsage1: Record "Payroll Attributes Usage";
         basicAmt: Decimal;
-        PayrollEngine: Codeunit "Payroll Engine";
     begin
 
         PGSetup.Get;
@@ -329,7 +325,7 @@ codeunit 50027 "Payroll Report Mgt."
                         PayrollAttUsage.SetRange("Employee Code", Employee."No.");
                         PayrollAttUsage.SetRange(Code, PayrollAttributes.Code);
                         if PayrollAttUsage.FindFirst() then begin
-                            if (not PayrollAttUsage."Static Amount") or (PayrollAttUsage.Amount = 0) then
+                            if not PayrollAttUsage."Static Amount" then
                                 PayrollAttUsage.Amount := AttributeAmount;
                             PayrollAttUsage.Modify();
                         end;
@@ -425,7 +421,6 @@ codeunit 50027 "Payroll Report Mgt."
             Error('Pay period does not match');
     end;
 
-
     procedure GetPayPeriodForContractExp(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
     var
         PayPeriod: Record "Pay Cycle Period";
@@ -445,8 +440,6 @@ codeunit 50027 "Payroll Report Mgt."
     end;
 
     procedure GetPayPeriodForForceRetirement(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
-    var
-        PayPeriod: Record "Pay Cycle Period";
     begin
 
         // if Emp."Force Retirement Date" = 0D then
@@ -585,7 +578,6 @@ codeunit 50027 "Payroll Report Mgt."
     var
         LastEntryNo: Integer;
         TaxSetupHdr: Record "Tax Setup Header";
-        RemainingMonth: Integer;
         EmployeePayrollOpen: Record "Employee Payroll Opening";
         DetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry";
         TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry" temporary;
@@ -617,7 +609,6 @@ codeunit 50027 "Payroll Report Mgt."
         else begin
             CreateTempDetailedLedgerFromPAttrUsage(1, PayCycleTerm, EmpCode, LastEntryNo, TempDetailedEmpLedgerEntry);
         end;
-
 
         Clear(DetailedEmpLedgerEntry);
         DetailedEmpLedgerEntry.Reset;
@@ -814,7 +805,6 @@ codeunit 50027 "Payroll Report Mgt."
         exit(TempDetailedEmpLedgerEntry.Count);
     end;
 
-
     procedure GetLastPayCycleForEmployee(empCode: Code[20]; PayCycleTerm: Code[20]): Integer
     var
         PGSetup: Record "Payroll General Setup";
@@ -940,7 +930,6 @@ codeunit 50027 "Payroll Report Mgt."
                         if PayrollAttrUses2.Insert() then;
                     end;
                 end;
-
             until AllowanceConfiguration.Next() = 0;
     end;
 
@@ -971,7 +960,6 @@ codeunit 50027 "Payroll Report Mgt."
                         exit(AllowanceConfiguration.EvaluateAmountForEmployee(AllowanceConfiguration.Formula, EmployeeCode))
                     else
                         exit(AllowanceConfiguration.Amount);
-
         end;
     end;
 
@@ -997,8 +985,9 @@ codeunit 50027 "Payroll Report Mgt."
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Posting Date", "Payroll Attribute Code", Open, "Payroll Document No.", Amount);
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", FromDate, ToDate);
@@ -1013,6 +1002,5 @@ codeunit 50027 "Payroll Report Mgt."
             Amt := AssignmentMemoLedgerEntry."Amount";
             exit(round(Amt, 0.01, '='));
         end;
-
     end;
 }

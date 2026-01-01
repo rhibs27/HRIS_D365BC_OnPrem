@@ -15,7 +15,6 @@ page 50365 "Allowance Configurations"
                 field("Entry No."; Rec."Entry No.")
                 {
                     ToolTip = 'Specifies the value of the Entry No. field.', Comment = '%';
-
                 }
                 field("Payroll Attribute"; Rec."Payroll Attribute")
                 {
