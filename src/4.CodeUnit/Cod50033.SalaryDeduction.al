@@ -13,54 +13,60 @@ codeunit 50033 "Salary Deduction Mgt"
         PayrollEngine: Codeunit "Payroll Engine";
         DeductionType: Enum "Attribute Deduction Type";
         SalaryLedgerEntryNo: Integer;
+        AttendanceSetup: Record "Attendance Setup";
     begin
+        AttendanceSetup.Get();
         AttendanceSummary.Reset();
         AttendanceSummary.SetRange("Document No.", AttendanceHeader."No.");
         if AttendanceSummary.FindSet() then
             repeat
-                EmpAttenActivity[1].Reset();
-                EmpAttenActivity[1].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
-                EmpAttenActivity[1].SetRange("Employee No.", AttendanceSummary."Employee No.");
-                EmpAttenActivity[1].SetRange("Absent Day", 1);
-                if EmpAttenActivity[1].FindSet() then
-                    repeat
-                        Clear(SalaryLedgerEntryNo);
-                        InitSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
-                                                                EmpAttenActivity[1]."Attendance Date",
-                                                                DeductionType::Absent,
-                                                                AttendanceHeader."Pay Cycle Code",
-                                                                AttendanceHeader."Pay Cycle Term",
-                                                                AttendanceHeader."Pay Cycle Period",
-                                                                SalaryLedgerEntryNo);
-                        PayrollAttributeUsage.Reset();
-                        PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[1]."Employee No.");
-                        PayrollAttributeUsage.SetRange("Deduct on Absent", true);
-                        PayrollAttributeUsage.SetFilter(Amount, '<>%1', 0);
-                        if PayrollAttributeUsage.FindSet() then
-                            repeat
-                                InsertDetailedSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
-                                                                        EmpAttenActivity[1]."Attendance Date",
-                                                                        DeductionType::Absent,
-                                                                        AttendanceHeader."Pay Cycle Code",
-                                                                        AttendanceHeader."Pay Cycle Term",
-                                                                        AttendanceHeader."Pay Cycle Period",
-                                                                        PayrollAttributeUsage."Type",
-                                                                        PayrollAttributeUsage.Code,
-                                                                        PayrollAttributeUsage.Amount,
-                                                                        SalaryLedgerEntryNo,
-                                                                        AttendanceHeader."No.");
-                            until PayrollAttributeUsage.Next() = 0;
-                        // Formula      
-                        InsertAmountsWithFormula(
-                            EmpAttenActivity[1]."Employee No.",
-                            EmpAttenActivity[1]."Attendance Date",
-                            DeductionType::Absent,
-                            AttendanceHeader."Pay Cycle Code",
-                            AttendanceHeader."Pay Cycle Term",
-                            AttendanceHeader."Pay Cycle Period",
-                            SalaryLedgerEntryNo,
-                            AttendanceHeader."No.");
-                    until EmpAttenActivity[1].Next() = 0;
+                if AttendanceSetup."Absent Deductions" then begin
+                    EmpAttenActivity[1].Reset();
+                    EmpAttenActivity[1].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
+                    EmpAttenActivity[1].SetRange("Employee No.", AttendanceSummary."Employee No.");
+                    EmpAttenActivity[1].SetRange("Absent Day", 1);
+                    if EmpAttenActivity[1].FindSet() then
+                        repeat
+                            Clear(SalaryLedgerEntryNo);
+                            InitSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
+                                                                    EmpAttenActivity[1]."Attendance Date",
+                                                                    DeductionType::Absent,
+                                                                    AttendanceHeader."Pay Cycle Code",
+                                                                    AttendanceHeader."Pay Cycle Term",
+                                                                    AttendanceHeader."Pay Cycle Period",
+                                                                    SalaryLedgerEntryNo,
+                                                                    AttendanceHeader."No.");
+                            PayrollAttributeUsage.Reset();
+                            PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[1]."Employee No.");
+                            PayrollAttributeUsage.SetRange("Deduct on Absent", true);
+                            PayrollAttributeUsage.SetFilter(Amount, '<>%1', 0);
+                            if PayrollAttributeUsage.FindSet() then
+                                repeat
+                                    InsertDetailedSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
+                                                                            EmpAttenActivity[1]."Attendance Date",
+                                                                            DeductionType::Absent,
+                                                                            AttendanceHeader."Pay Cycle Code",
+                                                                            AttendanceHeader."Pay Cycle Term",
+                                                                            AttendanceHeader."Pay Cycle Period",
+                                                                            PayrollAttributeUsage."Type",
+                                                                            PayrollAttributeUsage.Code,
+                                                                            PayrollAttributeUsage.Amount,
+                                                                            SalaryLedgerEntryNo,
+                                                                            AttendanceHeader."No.",
+                                                                            false);
+                                until PayrollAttributeUsage.Next() = 0;
+                            // Formula      
+                            InsertAmountsWithFormula(
+                                EmpAttenActivity[1]."Employee No.",
+                                EmpAttenActivity[1]."Attendance Date",
+                                DeductionType::Absent,
+                                AttendanceHeader."Pay Cycle Code",
+                                AttendanceHeader."Pay Cycle Term",
+                                AttendanceHeader."Pay Cycle Period",
+                                SalaryLedgerEntryNo,
+                                AttendanceHeader."No.");
+                        until EmpAttenActivity[1].Next() = 0;
+                end;
 
                 EmpAttenActivity[2].Reset();
                 EmpAttenActivity[2].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
@@ -75,7 +81,8 @@ codeunit 50033 "Salary Deduction Mgt"
                                                                 AttendanceHeader."Pay Cycle Code",
                                                                 AttendanceHeader."Pay Cycle Term",
                                                                 AttendanceHeader."Pay Cycle Period",
-                                                                SalaryLedgerEntryNo);
+                                                                SalaryLedgerEntryNo,
+                                                                AttendanceHeader."No.");
                         PayrollAttributeUsage.Reset();
                         PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[2]."Employee No.");
                         PayrollAttributeUsage.SetRange("Deduct on Absent", true);
@@ -92,7 +99,8 @@ codeunit 50033 "Salary Deduction Mgt"
                                                                         PayrollAttributeUsage.Code,
                                                                         PayrollAttributeUsage.Amount,
                                                                         SalaryLedgerEntryNo,
-                                                                        AttendanceHeader."No.");
+                                                                        AttendanceHeader."No.",
+                                                                        false);
                             until PayrollAttributeUsage.Next() = 0;
                         // Formula
                         InsertAmountsWithFormula(
@@ -118,7 +126,8 @@ codeunit 50033 "Salary Deduction Mgt"
                                                                 AttendanceHeader."Pay Cycle Code",
                                                                 AttendanceHeader."Pay Cycle Term",
                                                                 AttendanceHeader."Pay Cycle Period",
-                                                                SalaryLedgerEntryNo);
+                                                                SalaryLedgerEntryNo,
+                                                                AttendanceHeader."No.");
 
                         PayrollAttributeUsage.Reset();
                         PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[3]."Employee No.");
@@ -136,7 +145,8 @@ codeunit 50033 "Salary Deduction Mgt"
                                                                         PayrollAttributeUsage.Code,
                                                                         PayrollAttributeUsage.Amount,
                                                                         SalaryLedgerEntryNo,
-                                                                        AttendanceHeader."No.");
+                                                                        AttendanceHeader."No.",
+                                                                        false);
                             until PayrollAttributeUsage.Next() = 0;
                         // Formula
                         InsertAmountsWithFormula(
@@ -186,12 +196,13 @@ codeunit 50033 "Salary Deduction Mgt"
                                             SalaryLedgerEntryNo: Integer;
                                             AttendanceNo: Code[20])
     var
-        PayrollAttributes: Record "Payroll Attributes";
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
         PayrollEngine: Codeunit "Payroll Engine";
     begin
-        PayrollAttributes.Reset();
-        PayrollAttributes.SetRange(Formula, '<>%1', '');
-        if PayrollAttributes.FindSet() then
+        PayrollAttributeUsage.Reset();
+        PayrollAttributeUsage.SetRange("Employee Code", EmployeeNo);
+        PayrollAttributeUsage.SetRange("Formula Exists", true);
+        if PayrollAttributeUsage.FindSet() then
             repeat
                 InsertDetailedSalaryDeductionEntries(
                     EmployeeNo,
@@ -200,15 +211,24 @@ codeunit 50033 "Salary Deduction Mgt"
                     PayCycleCode,
                     PayCycleTerm,
                     PayCyclePeriod,
-                    PayrollAttributes.Type,
-                    PayrollAttributes.Code,
+                    PayrollAttributeUsage.Type,
+                    PayrollAttributeUsage.Code,
                     EvaluateAmountOnDetailedSalaryEntry(
-                        PayrollAttributes.Formula,
+                        GetFormula(PayrollAttributeUsage.Code),
                         AttendanceNo,
                         EmployeeNo),
                     SalaryLedgerEntryNo,
-                    AttendanceNo);
-            until PayrollAttributes.Next() = 0;
+                    AttendanceNo,
+                    true);
+            until PayrollAttributeUsage.Next() = 0;
+    end;
+
+    local procedure GetFormula(AttributeCode: Code[20]): Code[100]
+    var
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        PayrollAttributes.Get(AttributeCode);
+        exit(PayrollAttributes.Formula);
     end;
 
     local procedure GetPayCycleCodeTermAndPeriod(DateParam: Date; var DetailedSalaryEntry: Record "Det Salary Deduction Entries")
@@ -234,7 +254,8 @@ codeunit 50033 "Salary Deduction Mgt"
                                       PayCycleCode: Code[20];
                                       PayCycleTerm: Code[20];
                                       PayCyclePeriod: Integer;
-                                      var SalaryDeductEntryNo: Integer)
+                                      var SalaryDeductEntryNo: Integer;
+                                      AttenDocNo: Code[20])
     var
         SalaryDeductEntry: Record "Salary Deduction Entry";
     begin
@@ -247,6 +268,7 @@ codeunit 50033 "Salary Deduction Mgt"
         SalaryDeductEntry."Pay Cycle Code" := PayCycleCode;
         SalaryDeductEntry."Pay Cycle Term" := PayCycleTerm;
         SalaryDeductEntry."Pay Cycle Period" := PayCyclePeriod;
+        SalaryDeductEntry."Attendance Document No" := AttenDocNo;
         SalaryDeductEntry.Insert(true);
     end;
 
@@ -271,7 +293,8 @@ codeunit 50033 "Salary Deduction Mgt"
                                                     AttributeCode: Code[20];
                                                     Amount: Decimal;
                                                     SalaryLedgerEntryNo: Integer;
-                                                    AttendanceNo: Code[20])
+                                                    AttendanceNo: Code[20];
+                                                    FromFormula: Boolean)
     var
         DetailedSalaryDeductEntry: Record "Det Salary Deduction Entries";
     begin
@@ -288,7 +311,10 @@ codeunit 50033 "Salary Deduction Mgt"
         DetailedSalaryDeductEntry."Attribute Code" := AttributeCode;
         DetailedSalaryDeductEntry."Attendance No." := AttendanceNo;
         DetailedSalaryDeductEntry."Salary Ledger Entry No." := SalaryLedgerEntryNo;
-        DetailedSalaryDeductEntry.Amount := CalculateDeductedAmount(Amount, DetailedSalaryDeductEntry);
+        if FromFormula then
+            DetailedSalaryDeductEntry.Amount := Amount
+        else
+            DetailedSalaryDeductEntry.Amount := CalculateDeductedAmount(Amount, DetailedSalaryDeductEntry);
         DetailedSalaryDeductEntry.Insert(true);
     end;
 

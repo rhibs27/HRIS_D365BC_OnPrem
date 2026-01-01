@@ -244,7 +244,7 @@ page 50052 "Attendance Card"
                     ToolTip = 'Executes the View Deductions action';
                     ApplicationArea = All;
                     RunObject = page "Salary Deduction Entries";
-                    RunPageLink = "Pay Cycle Code" = field("Pay Cycle Code"), "Pay Cycle Term" = field("Pay Cycle Term"), "Pay Cycle Period" = field("Pay Cycle Period");
+                    RunPageLink = "Attendance Document No" = field("No.");
                     RunPageMode = View;
                 }
             }

@@ -1,7 +1,7 @@
-enum 50058 "Attribute Deduction Type"
+enum 50164 "Attribute Deduction Type"
 {
     Extensible = true;
-    
+
     value(0; " ")
     {
         Caption = ' ';

@@ -1,4 +1,4 @@
-table 50166 "Det Salary Deduction Entries"
+table 50167 "Det Salary Deduction Entries"
 {
     Caption = 'Detailed Salary Deduction Entries';
     DataClassification = ToBeClassified;

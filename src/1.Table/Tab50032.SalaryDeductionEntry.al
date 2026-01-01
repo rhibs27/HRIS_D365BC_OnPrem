@@ -66,6 +66,10 @@ table 50032 "Salary Deduction Entry"
         {
             Caption = 'Reversal of Entry No.';
         }
+        field(14; "Attendance Document No"; Code[20])
+        {
+            Caption = 'Attendance Document No';
+        }
     }
     keys
     {
@@ -78,7 +82,7 @@ table 50032 "Salary Deduction Entry"
     var
         DetSalaryDeductionEntry: Record "Det Salary Deduction Entries";
     begin
-      
+
         DetSalaryDeductionEntry.SetRange("Employee No.", "Employee No.");
         DetSalaryDeductionEntry.SetRange("Deduction Date", "Deduction Date");
         DetSalaryDeductionEntry.DeleteAll();

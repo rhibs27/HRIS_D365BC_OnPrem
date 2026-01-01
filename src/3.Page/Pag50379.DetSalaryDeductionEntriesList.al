@@ -1,4 +1,4 @@
-page 50378 "Det Salary Deduction Entries"
+page 50379 "Det Salary Deduction Entries"
 {
     PageType = List;
     SourceTable = "Det Salary Deduction Entries";
