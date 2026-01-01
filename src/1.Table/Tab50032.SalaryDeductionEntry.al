@@ -78,7 +78,7 @@ table 50032 "Salary Deduction Entry"
     var
         DetSalaryDeductionEntry: Record "Det Salary Deduction Entries";
     begin
-        DetSalaryDeductionEntry.Reset();
+      
         DetSalaryDeductionEntry.SetRange("Employee No.", "Employee No.");
         DetSalaryDeductionEntry.SetRange("Deduction Date", "Deduction Date");
         DetSalaryDeductionEntry.DeleteAll();
