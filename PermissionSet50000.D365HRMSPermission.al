@@ -841,5 +841,9 @@ permissionset 50000 D365HRMSPermission
         page "Attribute Adjustment Lines" = X,
         page "Attribute Adjustment List" = X,
         page "Det Salary Deduction Entries" = X,
-        page "Salary Deduction Entries" = X;
+        page "Salary Deduction Entries" = X,
+        tabledata "Assignment Memo Line Copy" = RIMD,
+        table "Assignment Memo Line Copy" = X,
+        report "Substitute Assignment Memo" = X,
+        page "Request Allowance Subform Copy" = X;
 }
