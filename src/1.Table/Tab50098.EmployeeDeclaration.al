@@ -42,6 +42,7 @@ table 50098 "Employee Declaration"
         field(4; "Fiscal Year"; Code[20]) { }
         field(5; "Salary Level"; Code[20])
         {
+            TableRelation = "Salary Level";
             trigger OnValidate()
             var
                 SalaryLevel: Record "Salary Level";
@@ -83,7 +84,7 @@ table 50098 "Employee Declaration"
         }
         field(14; "Loan Booking Branch Name"; Text[50]) { }
         field(15; "Functional Title Description"; Text[100]) { }
-        field(16; "Salary Level Description"; Text[40]) { }
+        field(16; "Salary Level Description"; Text[50]) { }
         field(17; "Name of Borrower"; Text[100]) { }
         field(18; Limit; Decimal) { }
         field(19; "Relation To staff"; Text[30]) { }

@@ -156,8 +156,14 @@ table 50035 "Posted Payroll Line"
         field(36; "CIT No."; Code[20]) { }
         field(37; "PF No."; Code[20]) { }
         field(38; Division; Code[20]) { }
-        field(39; "Salary Level"; Code[20]) { }
-        field(40; "Salary Grade"; Code[20]) { }
+        field(39; "Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(40; "Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
         field(41; "Pan No."; Code[20]) { }
         field(42; "Functional Title"; Code[20]) { }
         field(43; Number; Integer)

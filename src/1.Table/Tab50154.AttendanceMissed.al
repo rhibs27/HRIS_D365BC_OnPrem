@@ -53,7 +53,7 @@ table 50154 "Attendance Missed"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -139,17 +139,19 @@ table 50154 "Attendance Missed"
         field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -168,10 +170,20 @@ table 50154 "Attendance Missed"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(28; "Extension Counter Code"; Code[20]) { }
-        field(29; "province Name"; Code[50]) { }
-        field(30; "Province Code"; Code[20]) { }
-        field(31; "Unit Code"; Code[20]) { }
+        field(28; "Extension Counter Code"; Code[20])
+        {
+            Editable = false;
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
+        field(29; "province Name"; Text[100]) { }
+        field(30; "Province Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+        }
+        field(31; "Unit Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
         field(34; Ecosystem; Code[20]) { }
