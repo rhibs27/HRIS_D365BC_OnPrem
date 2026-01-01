@@ -65,6 +65,28 @@ table 50166 "Det Salary Deduction Entries"
             DataClassification = CustomerContent;
             TableRelation = "Pay Cycle".Code;
         }
+        field(12; "Attendance No."; Code[20])
+        {
+            Caption = 'Attendance No.';
+            DataClassification = CustomerContent;
+        }
+        field(13; "Salary Ledger Entry No."; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(14; Reversed; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(15; "Reversed By Entry No."; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(16; "Old Deducation Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            ToolTip = 'Specifies the old deduction date in case of reversed.';
+        }
     }
 
     keys

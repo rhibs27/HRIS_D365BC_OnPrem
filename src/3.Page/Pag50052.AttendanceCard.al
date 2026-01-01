@@ -229,9 +229,10 @@ page 50052 "Attendance Card"
 
                     trigger OnAction()
                     var
-                        AttendanceHeader: Record "Attendance Header";
+                        SalaryDeduction: Codeunit "Salary Deduction Mgt";
                     begin
-                        Rec.GenerateSalaryDeductionEntries();
+                        SalaryDeduction.GenerateSalaryDeductionEntries(Rec);
+                        Message('Salary Deduction Posted Successfully for Attendance No %1', Rec."No.");
                     end;
                 }
                 action("View Deductions")
