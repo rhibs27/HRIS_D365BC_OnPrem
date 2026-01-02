@@ -288,11 +288,15 @@ codeunit 50010 "Payroll-Post"
                                         PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * ServiceDaysBeforeTransfer, 0.01, '=')
                                     else if PGSetup."Total Days From" = PGSetup."Total Days From"::Month then
                                         PriorTrfAttributeAmount := Round(FieldValue / PayrollLine."Total Days" * ServiceDaysBeforeTransfer, 0.01, '=');
-                                    PayrollJournalLine.Amount := PriorTrfAttributeAmount;
-                                    LineBalance += PriorTrfAttributeAmount;
+
                                     PayrollJournalLine."Shortcut Dimension 1 Code" := DimensionValueBeforeTransfer;
                                     PayrollJournalLine."Deputation On" := DeputationTypeBeforeTransfer;
                                     PayrollJournalLine."Deputation Value" := DeputationCodeBeforeTransfer;
+
+                                    PayrollPostOnafterTransferCheckOnBeforeUpdateAmount(PayrollJournalLine, PayrollAttributes, PayrollLine."Document No.", PriorTrfAttributeAmount);
+
+                                    PayrollJournalLine.Amount := PriorTrfAttributeAmount;
+                                    LineBalance += PriorTrfAttributeAmount;
                                     PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
                                     UpdatePayrollJnl(PayrollJournalLine);
                                     PostEmployee(PayrollJournalLine);
@@ -505,5 +509,14 @@ codeunit 50010 "Payroll-Post"
     procedure OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader: Record "Payroll Header")
     begin
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure PayrollPostOnafterTransferCheckOnBeforeUpdateAmount(var PayrollJournalLine: Record "Payroll Journal Line" temporary;
+                                                PayrollAttributes: Record "Payroll Attributes";
+                                                DocumentNo: Code[20];
+                                                var PriorTrfAttributeAmount: Decimal)
+    begin
+        //added this event as reimbursement 
     end;
 }

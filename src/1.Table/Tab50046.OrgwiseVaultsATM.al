@@ -26,7 +26,7 @@ table 50046 "Orgwise Vaults & ATM"
         {
             Caption = 'ATM Site';
         }
-        field(6; "Vault Name"; Text[100])
+        field(6; "Vault Name"; Code[100])
         {
             Caption = 'Vault Name';
         }
@@ -66,4 +66,28 @@ table 50046 "Orgwise Vaults & ATM"
     }
     var
         EngNepDate: Record "English-Nepali Date";
+
+    procedure GetATMVaultsCountForOrgStruct(OrgStructCode: Code[20];
+                                            Date: Date;
+                                            ATMSite: Enum "ATM Site";
+                                            VaultName: Code[100];
+                                            Panel: Enum Panel
+                                            ): Integer
+    var
+        VaultsATMsRec: Record "Orgwise Vaults & ATM";
+    begin
+        VaultsATMsRec.SetCurrentKey("Effective Date");
+        VaultsATMsRec.SetRange(Code, OrgStructCode);
+        if ATMSite <> ATMSite::" " then
+            VaultsATMsRec.SetRange("ATM Site", ATMSite);
+        if Panel <> Panel::" " then
+            VaultsATMsRec.SetRange(Panel, Panel);
+        VaultsATMsRec.SetFilter("Effective Date", '<=%1', Date);
+        if VaultName <> '' then
+            VaultsATMsRec.SetRange("Vault Name", VaultName);
+        if VaultsATMsRec.FindLast() then
+            exit(VaultsATMsRec."No. of ATM/Vaults")
+        else
+            exit(0);
+    end;
 }

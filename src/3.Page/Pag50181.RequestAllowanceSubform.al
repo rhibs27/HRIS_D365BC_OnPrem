@@ -111,6 +111,10 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Previous Branch Code field.', Comment = '%';
                 }
+                field("Vault Name"; Rec."Vault Name")
+                {
+                    ToolTip = 'Specifies the value of the Vault Name field.', Comment = '%';
+                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

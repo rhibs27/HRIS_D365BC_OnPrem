@@ -850,5 +850,13 @@ permissionset 50000 D365HRMSPermission
         tabledata "KRA Master Setup1" = RIMD,
         table "KRA Master Setup1" = X,
         report "Employee KYE Report" = X,
-        report "Service Duration Report" = X;
+        report "Service Duration Report" = X,
+        tabledata "Orgwise Vaults & ATM" = RIMD,
+        tabledata "Temp Assignment Memo Ledger" = RIMD,
+        table "Orgwise Vaults & ATM" = X,
+        table "Temp Assignment Memo Ledger" = X,
+        page "No of ATM/Vaults per OrgStruct" = X,
+        query "Employee Ledger Query" = X,
+        query "Employee Ledger Query 2" = X,
+        page "No of ATM and Vaults" = X;
 }

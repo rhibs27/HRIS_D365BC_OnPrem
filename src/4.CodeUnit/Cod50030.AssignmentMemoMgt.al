@@ -199,6 +199,8 @@ codeunit 50030 "Assignment Memo Mgt"
 
         CheckAttachmentOnBeforeSendForApproval(AssignmentmemoHdr);  //check mandatory attachment exist
         AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);  //company specific and allowance specific controls
+        if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Allowance Assignment Memo" then
+            AllowanceAssignmentmemoOnbeforeSendForApproval(AssignmentmemoHdr."No."); //only for assignment to check limit
         CheckIfAllowanceIsSubstitutedForTheDate(AssignmentmemoHdr);  //do now allow to request if already substituted
 
         ApproverMgt.UpdateFirstApproverStatus(AssignmentmemoHdr."No.");
@@ -378,6 +380,134 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLine.CalculateAmountForLine();
                 AssignmentMemoLine.Insert(true);
             until SourceAssignmentMemoLine.Next() = 0;
+    end;
+
+    procedure AllowanceAssignmentmemoOnbeforeSendForApproval(DocNo: Code[20])
+    var
+        AssignmentMemoHdr, AssignmentMemoHdr2 : Record "Assignment Memo Header";
+        OrgStructureList: Record "Organization Structure List";
+        OrgwiseATMVault: Record "Orgwise Vaults & ATM";
+        AssignmentMemoLine: Record "Assignment Memo Line";
+        DateRec: Record Date;
+        TempAssignmentMemoLedger: Record "Temp Assignment Memo Ledger" temporary;
+        entryno: Integer;
+        VaultNameList: List of [Code[100]];
+        VaultName: Code[100];
+        CountLimit: Integer;
+    begin
+        //this code execute for a single branch only.
+
+        entryno := 1;
+        AssignmentMemoHdr2.Get(DocNo);
+        if AssignmentMemoHdr2."Activity Type" <> AssignmentMemoHdr2."Activity Type"::"Allowance Assignment Memo" then
+            exit;
+
+        OrgStructureList.Get(OrgStructureList.Type::Branch, AssignmentMemoHdr2."Branch Code");
+        Clear(VaultNameList);
+        TempAssignmentMemoLedger.DeleteAll();
+
+        AssignmentMemoHdr.SetRange("Branch Code", AssignmentMemoHdr2."Branch Code");
+        AssignmentMemoHdr.SetRange("Activity Type", AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo");
+        AssignmentMemoHdr.SetFilter("Approval Status", '<>%1', AssignmentMemoHdr."Approval Status"::Rejected);
+        AssignmentMemoHdr.SetRange("From Date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
+        AssignmentMemoHdr.SetRange("To date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
+        if AssignmentMemoHdr.FindSet() then
+            repeat
+                AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
+                AssignmentMemoLine.SetRange("Substitute of Line No.", 0);  //to avoid counting substitute lines
+                if AssignmentMemoLine.FindSet() then
+                    repeat
+                        if not VaultNameList.Contains(AssignmentMemoLine."Vault Name") then
+                            VaultNameList.Add(AssignmentMemoLine."Vault Name");
+
+                        DateRec.Reset();
+                        DateRec.SetRange("Period Type", DateRec."Period Type"::Date);
+                        DateRec.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date");
+                        if DateRec.FindSet() then
+                            repeat
+                                TempAssignmentMemoLedger.Init();
+                                TempAssignmentMemoLedger."Entry No." := entryno;
+                                TempAssignmentMemoLedger."Document No." := AssignmentMemoLine."Document No.";
+                                TempAssignmentMemoLedger."Posting Date" := DateRec."Period Start";
+                                TempAssignmentMemoLedger."Employee No." := AssignmentMemoLine."Employee No.";
+                                TempAssignmentMemoLedger."Payroll Attribute Code" := AssignmentMemoLine."Payroll Attribute Code";
+                                TempAssignmentMemoLedger."Employee Activity Type" := AssignmentMemoLine."Emp Act Type";
+                                TempAssignmentMemoLedger.Panel := AssignmentMemoLine.Panel;
+                                TempAssignmentMemoLedger."ATM Site" := AssignmentMemoLine."ATM Site";
+                                TempAssignmentMemoLedger."Vault Name" := AssignmentMemoLine."Vault Name";
+                                TempAssignmentMemoLedger.Insert();
+                                entryno := entryno + 1;
+                            until DateRec.Next() = 0;
+                    until AssignmentMemoLine.Next() = 0;
+
+            until AssignmentMemoHdr.Next() = 0;
+
+
+        DateRec.Reset();
+        DateRec.SetRange("Period Type", DateRec."Period Type"::Date);
+        DateRec.SetRange("Period Start", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
+        if DateRec.FindSet() then
+            repeat
+
+                //check atm off site limit
+                CountLimit := 0;
+                TempAssignmentMemoLedger.Reset();
+                TempAssignmentMemoLedger.SetRange("Posting Date", DateRec."Period Start");
+                TempAssignmentMemoLedger.SetRange("ATM Site", TempAssignmentMemoLedger."ATM Site"::"Off-Site");
+                CountLimit := OrgwiseATMVault.GetATMVaultsCountForOrgStruct(OrgStructureList.Code,
+                                                  DateRec."Period Start",
+                                                  OrgwiseATMVault."ATM Site"::"Off-Site",
+                                                  '',
+                                                  OrgwiseATMVault.Panel::" ");
+                if TempAssignmentMemoLedger.Count() > CountLimit then
+                    Error('Number of Off-Site ATM assignment %1 exceeds the limit %2 for date %3', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+
+                //check atm on site limit
+                CountLimit := 0;
+                TempAssignmentMemoLedger.Reset();
+                TempAssignmentMemoLedger.SetRange("Posting Date", DateRec."Period Start");
+                TempAssignmentMemoLedger.SetRange("ATM Site", TempAssignmentMemoLedger."ATM Site"::"On-Site");
+                CountLimit := OrgwiseATMVault.GetATMVaultsCountForOrgStruct(OrgStructureList.Code,
+                                                  DateRec."Period Start",
+                                                  OrgwiseATMVault."ATM Site"::"On-Site",
+                                                  '',
+                                                  OrgwiseATMVault.Panel::" ");
+                if TempAssignmentMemoLedger.Count() > CountLimit then
+                    Error('Number of On-Site ATM assignment %1 exceeds the limit %2 for date %3', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+
+
+                foreach VaultName in VaultNameList do begin
+                    CountLimit := 0;
+                    TempAssignmentMemoLedger.Reset();
+                    TempAssignmentMemoLedger.SetRange("Posting Date", DateRec."Period Start");
+                    TempAssignmentMemoLedger.SetRange("Vault Name", VaultName);
+                    TempAssignmentMemoLedger.SetRange(Panel, TempAssignmentMemoLedger.Panel::"Panel A");
+                    CountLimit := OrgwiseATMVault.GetATMVaultsCountForOrgStruct(OrgStructureList.Code,
+                                                     DateRec."Period Start",
+                                                     OrgwiseATMVault."ATM Site"::" ",
+                                                     VaultName,
+                                                     OrgwiseATMVault.Panel::"Panel A");
+                    if TempAssignmentMemoLedger.Count() > CountLimit then
+                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for panel A', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+
+                    CountLimit := 0;
+                    TempAssignmentMemoLedger.Reset();
+                    TempAssignmentMemoLedger.SetRange("Posting Date", DateRec."Period Start");
+                    TempAssignmentMemoLedger.SetRange("Vault Name", VaultName);
+                    TempAssignmentMemoLedger.SetRange(Panel, TempAssignmentMemoLedger.Panel::"Panel B");
+                    CountLimit := OrgwiseATMVault.GetATMVaultsCountForOrgStruct(OrgStructureList.Code,
+                                                     DateRec."Period Start",
+                                                     OrgwiseATMVault."ATM Site"::" ",
+                                                     VaultName,
+                                                     OrgwiseATMVault.Panel::"Panel B");
+                    if TempAssignmentMemoLedger.Count() > CountLimit then
+                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for panel B', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+
+                end;
+
+            until DateRec.Next() = 0;
+
+        TempAssignmentMemoLedger.DeleteAll();
     end;
 
     //request allowance section

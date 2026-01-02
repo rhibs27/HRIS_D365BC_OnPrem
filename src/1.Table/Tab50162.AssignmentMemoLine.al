@@ -146,6 +146,11 @@ table 50162 "Assignment Memo Line"
         {
             FieldClass = FlowFilter;
         }
+        field(34; "Vault Name"; Code[100])
+        {
+
+
+        }
         field(39; "Fuel Limit (ltr)"; Decimal) { }
         field(40; "Fuel Limit (amt)"; Decimal) { }
         field(41; "Fuel Claimed (ltr)"; Decimal)
