@@ -261,7 +261,6 @@ table 50047 "Attendance Summary"
             CalcFormula = sum("Employee Attendance & Activity"."Teller Allowance Days" where("Employee No." = field("Employee No."),
                                                                                               "Attendance Date" = field("Allowance Date Filter"),
                                                                                               "Teller Allowance Days" = filter(<> 0)));
-
         }
         field(38; "Dashain Allowance Days"; Decimal)
         {

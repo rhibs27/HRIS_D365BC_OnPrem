@@ -11,10 +11,7 @@ table 50125 "KPI Rating Setup"
         }
         field(2; "Min Score"; Decimal) { }
         field(3; "Max Score"; Decimal) { }
-        field(4; Rating; Enum "Appraisal Rating")
-        {
-
-        }
+        field(4; Rating; Enum "Appraisal Rating") { }
         field(5; "User ID"; Code[50])
         {
             TableRelation = "User Setup";

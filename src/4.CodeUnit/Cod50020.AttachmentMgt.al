@@ -124,7 +124,7 @@ codeunit 50020 "Attachment Mgt."
             if StrPos(InvalidChars, FORMAT(CurrentChar)) = 0 then
                 CleanedFileName += CurrentChar
             else
-                CleanedFileName += '/'; // Replace invalid character 
+                CleanedFileName += '/'; // Replace invalid character
         end;
         exit(CleanedFileName);
     end;
@@ -222,7 +222,7 @@ codeunit 50020 "Attachment Mgt."
             if not Confirm('There is an existing attachment. Do you wish to replace it?') then
                 exit;
         if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-            // check file size 
+            // check file size
             AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(EmpActJnl."Employee Act Type"));
 
             // Check File Extension

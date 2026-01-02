@@ -31,10 +31,12 @@ codeunit 50008 "Payroll Engine"
         RetirementFundLimit2: Decimal;
         RetirementFundTaxBenefit: Decimal;
         CurrentDonation: Decimal;
+        CurrentNonPaymentGratuity: Decimal;
         TotalDonation: Decimal;
         DonationLimit1: Decimal;
         DonationLimit2: Decimal;
         DonationTaxBenefit: Decimal;
+        TotalGratuityContribution: Decimal;
         CurrentMedicalReimbursment: Decimal;
         TotalMedicalReimbursment: Decimal;
         MedicalReimbursmentLimit1: Decimal;
@@ -67,7 +69,8 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCurrentEarning: Decimal;
         TaxAtOnceCurrentDeduction: Decimal;
         TaxAtOnceCurrentDonation: Decimal;
-        TaxatOnceCurrentNonPayments: Decimal;
+        TaxAtOnceCurrentGratuity: Decimal;
+        TaxAtOnceCurrentNonPayments: Decimal;
         TaxAtOnceProjectedNonPayments: Decimal;
         TaxAtOnceProjectionEarning: Decimal;
         TaxAtOnceTotalAnnualEarning: Decimal;
@@ -218,8 +221,10 @@ codeunit 50008 "Payroll Engine"
         if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then begin
             CalcProjectionRetirementFund;
         end;
+        //GratuityNonPayment
+        OnFindGratuityNonPayment(Employee."No.", TotalGratuityContribution);
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
-                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
+                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum + TotalGratuityContribution + CurrentNonPaymentGratuity;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
         RetirementFundTaxBenefit := TotalContributionToRetirementFund;
@@ -245,6 +250,7 @@ codeunit 50008 "Payroll Engine"
             DonationTaxBenefit := DonationLimit1;
         if DonationLimit2 < DonationTaxBenefit then
             DonationTaxBenefit := DonationLimit2;
+
         //Life Insurance
         HomeLoanInsuranceTieUP.Reset;
         HomeLoanInsuranceTieUP.SetRange("Employee No.", Employee."No.");
@@ -402,7 +408,7 @@ codeunit 50008 "Payroll Engine"
                     end;
                     if TotalTaxWithoutSST > 0 then begin
                         if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
-                            MonthlyTax := TotalTaxWithoutSST - TotalTaxRemunPaid + SocialSecurityTaxAmount;
+                            MonthlyTax := Round((TotalTaxWithoutSST - TotalTaxRemunPaid - TotalSSTPaid + SocialSecurityTax) / (RemainingMonth + 1), 0.01, '<');
                     end else
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
@@ -479,7 +485,9 @@ codeunit 50008 "Payroll Engine"
                     else if (PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment") then begin
                         if FieldValue <> 0 then begin
                             if PayrollAttributes.Subtype = PayrollAttributes.Subtype::Donation then
-                                CurrentDonation += FieldValue;
+                                CurrentDonation += FieldValue
+                            else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::Gratuity then
+                                CurrentNonPaymentGratuity += FieldValue;
                             CurrentNonPaymentBenefits += FieldValue;
                         end;
                     end;
@@ -2187,7 +2195,9 @@ codeunit 50008 "Payroll Engine"
                 else if (PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment") then begin
                     if FieldValue <> 0 then begin
                         if PayrollAttributes.Subtype = PayrollAttributes.Subtype::Donation then
-                            TaxAtOnceCurrentDonation += FieldValue;
+                            TaxAtOnceCurrentDonation += FieldValue
+                        else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::Gratuity then
+                            TaxAtOnceCurrentGratuity += FieldValue;
                         TaxatOnceCurrentNonPayments += FieldValue;
                     end;
                 end;
@@ -3628,7 +3638,7 @@ codeunit 50008 "Payroll Engine"
             until PayrollLineRec.Next = 0;
     end;
 
-    procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[30]
+    procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[50]
     var
         LanguageCode: Code[20];
         LanguageRec: Record Language;
@@ -3726,6 +3736,13 @@ codeunit 50008 "Payroll Engine"
     procedure OnAfterReverseChangeGBBLRecord(PostedPayrollHeader: Record "Posted Payroll Header")
     begin
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnFindGratuityNonPayment(EmployeeNo: Code[20]; var Amount: Decimal)
+    begin
+        //This event can be used to Get Gratuity amount from employee card
+        //You can add custom logic here if needed.
     end;
 
 }

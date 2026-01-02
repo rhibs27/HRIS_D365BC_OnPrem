@@ -375,7 +375,6 @@ report 50144 "Yearly Payroll Projection"
         EmpVar: Record Employee;
         EmployeePayrollOpen: Record "Employee Payroll Opening";
         PayrollColumnConfig: Record "Payroll Column Configuration";
-        PayrollAttrUsage: Record "Payroll Attributes Usage";
         EmployeeInsuranceInfo: Record "Employee Insurance Information";
         PayCycleTerm: Code[10];
         EmployeeFilter: Code[20];
@@ -419,7 +418,6 @@ report 50144 "Yearly Payroll Projection"
         PayCycleTermMissingErr: Label 'Please specify a pay cycle term.';
         EmployeeNotFoundErr: Label 'Employee %1 not found.';
         FiscalYearMismatchErr: Label 'Yearly projection report is for current year only.';
-        InvalidParametersErr: Label 'Invalid parameters specified.';
         PayrollSetupLine: Record "Payroll Setup Lines";
     //External procedure to set parameters for portal integration
     procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
@@ -508,7 +506,6 @@ report 50144 "Yearly Payroll Projection"
     local procedure InsertColumn()
     var
         LastEntryNo: Integer;
-        Employee: Record Employee;
         TempTax: Decimal;
         AnnualTax: Decimal;
         SocialSecurityTax: Decimal;
@@ -801,7 +798,6 @@ report 50144 "Yearly Payroll Projection"
     local procedure CalculateTaxSlabs(var j: Integer; var TempTax: Decimal; var AnnualTax: Decimal; var SocialSecurityTax: Decimal)
     var
         TaxSetupLine: Record "Tax Setup Line";
-        TaxSetupHdr: Record "Tax Setup Header";
         SlabTaxableAmount: Decimal;
         PreviousSlabEndAmount: Decimal;
     begin
@@ -1262,7 +1258,6 @@ report 50144 "Yearly Payroll Projection"
     local procedure GetDisabilityDiscount(EmployeeNo: Code[20]; var DisabilityDiscount: Decimal)
     var
         Employee: Record Employee;
-        TaxSetupHeader: Record "Tax Setup Header";
         TaxSetupLine: Record "Tax Setup Line";
         TaxCode: Code[20];
     begin

@@ -23,10 +23,7 @@ table 50049 "Document Workflow"
         {
             Editable = false;
         }
-        field(5; "Heading Type"; Enum "Document Heading Type")
-        {
-
-        }
+        field(5; "Heading Type"; Enum "Document Heading Type") { }
     }
 
     keys

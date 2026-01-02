@@ -57,18 +57,14 @@ table 50153 "Cancel Document"
                     Validate("Salary Level Code", '');
                 end;
                 if Type = Type::"Attendance Missed" then begin
-
                 end;
-
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -98,8 +94,6 @@ table 50153 "Cancel Document"
             Editable = false;
             trigger OnValidate()
             var
-                LeaveMgt: Codeunit "Leave Mgt.";
-                leaveType: Enum "Leave Type";
                 DateError: Label 'Start Date (%1) must be less than End Date (%2).';
             begin
                 if "Start Date" > "End Date" then
@@ -125,7 +119,6 @@ table 50153 "Cancel Document"
 
             trigger OnValidate()
             begin
-
             end;
         }
         field(10; "Requested Date"; Date)
@@ -155,7 +148,6 @@ table 50153 "Cancel Document"
         }
         field(14; Remarks; Text[100])
         {
-
             trigger OnValidate()
             begin
                 Clear("Rejection Remarks");
@@ -166,22 +158,22 @@ table 50153 "Cancel Document"
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -198,7 +190,6 @@ table 50153 "Cancel Document"
         {
             Editable = false;
         }
-
         field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
@@ -220,8 +211,9 @@ table 50153 "Cancel Document"
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
-        field(29; "Province Name"; Code[50])
+        field(29; "Province Name"; Text[100])
         {
             Editable = false;
         }
@@ -231,37 +223,22 @@ table 50153 "Cancel Document"
         }
         field(31; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
         }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
+        field(34; Ecosystem; Code[20]) { }
+        field(35; "Office Code"; Code[20]) { }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
         field(38; "Approver Type"; Option)
         {
             Editable = false;
             OptionCaption = ' ,Direct,With Recommendation';
             OptionMembers = " ",Direct,"With Recommendation";
         }
-        field(39; Cancelled; Boolean)
-        {
-        }
-        field(40; "Cancelled No."; Code[20])
-        {
-        }
+        field(39; Cancelled; Boolean) { }
+        field(40; "Cancelled No."; Code[20]) { }
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;
@@ -278,9 +255,7 @@ table 50153 "Cancel Document"
                     Clear("Reason Description");
             end;
         }
-        field(49; "Reason Description"; Text[50])
-        {
-        }
+        field(49; "Reason Description"; Text[50]) { }
         field(51; "Leave Code"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -296,23 +271,17 @@ table 50153 "Cancel Document"
                     end;
                 end;
             end;
-
         }
         field(52; "Leave Description"; Text[50])
         {
             Editable = false;
         }
-        field(53; "Leave Type"; Enum "Leave Type")
-        {
-        }
-        field(100; Status; text[20])
-        {
-        }
+        field(53; "Leave Type"; Enum "Leave Type") { }
+        field(100; Status; text[20]) { }
         field(101; "Salary Level Description"; Text[50])
         {
             Caption = 'Salary Level Description';
             Editable = false;
-
         }
         field(102; "Substitute Person Code"; code[20])
         {
@@ -328,12 +297,11 @@ table 50153 "Cancel Document"
                     Clear("Substitute Person Name");
             end;
         }
-        field(103; "Substitute Person Name"; text[50])
+        field(103; "Substitute Person Name"; Text[100])
         {
             Caption = 'Substitute Person Name';
             Editable = false;
         }
-
     }
     keys
     {
@@ -341,14 +309,11 @@ table 50153 "Cancel Document"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     trigger OnInsert()
     var
         IsHandled: Boolean;
-        CancelledDocument: Record "Cancel Document";
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -419,7 +384,6 @@ table 50153 "Cancel Document"
         StandardText: Record "Standard Text";
         ApprovalEntry: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
-        OrganizationStructureList: Record "Organization Structure List";
         CancelDocumentRec: Record "Cancel Document";
 
     [IntegrationEvent(false, false)]

@@ -171,7 +171,6 @@ pageextension 50011 "Employee List" extends "Employee List"
                 ApplicationArea = All;
                 Caption = 'Job Position';
             }
-
         }
     }
     actions
@@ -196,12 +195,18 @@ pageextension 50011 "Employee List" extends "Employee List"
         {
             Visible = false;
         }
-
         modify("E&mployee")
         {
             Visible = false;
         }
     }
+
+    trigger OnOpenPage()
+    begin
+        Rec.SetCurrentKey(Seniority);
+        Rec.Ascending(false);
+    end;
+
     trigger OnAfterGetRecord()
     begin
         Rec."Contract Expiry Remaining Days" := 0;

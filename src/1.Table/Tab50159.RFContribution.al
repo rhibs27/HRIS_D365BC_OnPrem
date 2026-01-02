@@ -125,6 +125,3 @@ table 50159 "RF Contribution"
         SetEmployee();
     end;
 }
-
-
-

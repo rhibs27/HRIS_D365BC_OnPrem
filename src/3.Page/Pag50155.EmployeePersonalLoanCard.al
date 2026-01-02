@@ -150,7 +150,6 @@ page 50155 "Employee Personal Loan Card"
                     MultiLine = true;
                     ToolTip = 'Specifies the value of the Purpose of Loan field.';
                     ApplicationArea = All;
-
                 }
                 field("Applied Loan"; Rec."Applied Loan/Advance")
                 {
@@ -261,14 +260,12 @@ page 50155 "Employee Personal Loan Card"
             }
             group("Group Remarks")
             {
-
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = IsPending;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
                     Editable = IsPending;
@@ -279,7 +276,6 @@ page 50155 "Employee Personal Loan Card"
                         CurrPage.Update();
                         RecRef.GetTable(Rec);
                     end;
-
                 }
             }
             part("Approval Subform"; "HRMS Approval Entry")
@@ -290,8 +286,6 @@ page 50155 "Employee Personal Loan Card"
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
-
-
         }
     }
     actions
@@ -393,8 +387,6 @@ page 50155 "Employee Personal Loan Card"
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
                 begin
                     if Confirm('Do you want reject the request?', false) then begin
                         IF REC."Rejection Remark" = '' then
@@ -585,7 +577,7 @@ page 50155 "Employee Personal Loan Card"
     trigger OnAfterGetRecord()
     begin
         SetLayout();
-        //LoanMgt.CalculateFields(Rec); 
+        //LoanMgt.CalculateFields(Rec);
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -632,7 +624,6 @@ page 50155 "Employee Personal Loan Card"
         ForReject: Boolean;
         ForScreen: Boolean;
         ForSettle: Boolean;
-        AfterRecommendedVisible: Boolean;
         HRMgt: Codeunit "HR Mgt.";
 
     local procedure SetControlAppearance()
@@ -642,7 +633,6 @@ page 50155 "Employee Personal Loan Card"
 
     local procedure SetLayout()
     begin
-
 
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
@@ -676,6 +666,5 @@ page 50155 "Employee Personal Loan Card"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-
     end;
 }

@@ -34,9 +34,7 @@ table 50111 "Attachment Setup"
             Description = 'Home';
         }
         field(6; Mandatory; Boolean) { }
-        field(7; "Qualification Type"; Enum "Qualification Type")
-        {
-        }
+        field(7; "Qualification Type"; Enum "Qualification Type") { }
         field(8; Enhancement; Boolean) { }
         field(9; "Leave Type Code"; Code[20])
         {
@@ -56,17 +54,12 @@ table 50111 "Attachment Setup"
                     TestField(Type, Type::"Employee Transfer");
             end;
         }
-        field(12; "Max File Size"; Integer)
-        {
-        }
+        field(12; "Max File Size"; Integer) { }
         field(13; "Transfer Claim Attributes"; Code[20])
         {
             TableRelation = "Payroll Attributes".Code where("Activity Type" = filter("Employee Activity Type"::"Transfer Claim"));
         }
-        field(14; "Sub Type"; Enum "Attachment Setup Subtype")
-        {
-        }
-
+        field(14; "Sub Type"; Enum "Attachment Setup Subtype") { }
     }
 
     keys

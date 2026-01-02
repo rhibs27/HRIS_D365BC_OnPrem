@@ -42,7 +42,6 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Attendance Days field.', Comment = '%';
                     ApplicationArea = all;
                 }
-
                 field("Limit Max. Leave at Once"; Rec."Limit Max. Leave at Once")
                 {
                     ToolTip = 'Specifies the value of the Limit Max. Leave at Once field.';
@@ -52,7 +51,6 @@ page 50087 "Leave Type Setup"
                 {
                     ToolTip = 'Specifies the if half Leave Allowed';
                     ApplicationArea = All;
-
                 }
                 field("Friday Half Leave Allowed"; Rec."Friday Half Leave Allowed")
                 {
@@ -81,7 +79,6 @@ page 50087 "Leave Type Setup"
                     ApplicationArea = all;
                     ToolTip = 'Specifies the special nature of leave.', Comment = '%';
                 }
-
                 field("Services Period"; Rec."Services Period")
                 {
                     ToolTip = 'Specifies the value of the Services Period field.';
@@ -123,7 +120,6 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Encashable field.', Comment = '%';
                     ApplicationArea = all;
                 }
-
                 field("Encashable Limit"; Rec."Encashable Limit")
                 {
                     ToolTip = 'Specifies the value of the Encashable Limit field.';
@@ -202,7 +198,6 @@ page 50087 "Leave Type Setup"
                 {
                     ToolTip = 'Specifies how encashed amount is calculated. Operand in formula are the payroll attributes', Comment = '%';
                 }
-
             }
         }
     }
@@ -229,7 +224,6 @@ page 50087 "Leave Type Setup"
         IsLookuped: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveCodes: Text[100];
-
 
     procedure LookedUpped()
     begin

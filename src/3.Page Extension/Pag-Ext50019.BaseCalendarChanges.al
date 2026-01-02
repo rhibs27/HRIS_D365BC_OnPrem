@@ -113,7 +113,7 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
     {
         addlast(Processing)
         {
-            action("Update Holiday in Attendance Log")
+            action("Update Holiday in Attendance Log")  //no code?
             {
                 ApplicationArea = All;
                 Promoted = true;
@@ -127,6 +127,4 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
             }
         }
     }
-    var
-        HRMgt: Codeunit "HR Mgt.";
 }

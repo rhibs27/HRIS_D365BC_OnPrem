@@ -93,7 +93,6 @@ page 50038 "Loan Journal"
                         CurrPage.Update();
                     end;
                 }
-
             }
         }
     }
@@ -153,19 +152,10 @@ page 50038 "Loan Journal"
 
     var
         IsOpen, IsPending, IsApproved, IsRejected : Boolean;
-        UnitEdit: Boolean;
-        DepartmentEdit: Boolean;
-        ExtensionCounterEdit: Boolean;
-        BranchEdit: Boolean;
-        ProvinceEdit: Boolean;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
-
-        TransferMgt: Codeunit "Transfer Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
-        ApproverMgt: Codeunit "Approver Mgt";
         HrSetup: Record "Human Resources Setup";
-        SkipApproval: Boolean;
         AttachmentMgt: Codeunit "Attachment Mgt.";
         SelectFileTxt: Label 'Attach File(s)...';
 

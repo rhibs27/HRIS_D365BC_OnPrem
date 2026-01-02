@@ -24,7 +24,14 @@ page 50181 "Request Allowance Subform"
                         CurrPage.Update;
                     end;
                 }
-
+                field("From Date"; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
+                }
+                field("To Date"; Rec."To Date")
+                {
+                    ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
+                }
                 field("Allowance Amount"; Rec."Allowance Amount")
                 {
                     ToolTip = 'Specifies the value of the Allowance Amount field.';
@@ -44,7 +51,6 @@ page 50181 "Request Allowance Subform"
                     trigger OnLookup(var Text: Text): Boolean
                     var
                         EmployeeRelative: Record "Employee Relative";
-                        EmployeerelativePage: Page "Employee Relatives";
                     begin
                         EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
                         EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
@@ -97,7 +103,6 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Amount per Ltr. field.', Comment = '%';
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -113,7 +118,6 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                 }
-
             }
         }
     }
@@ -139,14 +143,9 @@ page 50181 "Request Allowance Subform"
         SetLayout;
     end;
 
-
     var
-        AllowanceTypeFilter: Code[20];
-        ToDateEditable, FormEditable, AllowanceClaim : Boolean;
+        ToDateEditable, FormEditable : Boolean;
         DocumentOpen, DocumentApproved, DocumentPending : Boolean;
-        Typefilter: Text;
-        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
-
 
     local procedure SetLayout()
     var

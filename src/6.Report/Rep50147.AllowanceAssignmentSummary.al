@@ -16,9 +16,6 @@ report 50147 "Allowance Assignment Summary"
             column(CompanyName; CompanyInfo.Name) { }
             column(CompanyPicture; CompanyInfo.Picture) { }
             column(BranchName; BranchName) { }
-
-
-
             dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
             {
                 DataItemLink = "No." = field("No.");
@@ -111,4 +108,3 @@ report 50147 "Allowance Assignment Summary"
         BranchName: Text;
         Docno: Code[20];
 }
-

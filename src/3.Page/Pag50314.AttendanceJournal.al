@@ -57,7 +57,6 @@ page 50314 "Attendance Journal"
                     ApplicationArea = All;
                     Editable = IsOpen;
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -189,7 +188,6 @@ page 50314 "Attendance Journal"
                     ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Attendance Missed");
                 end;
             }
-
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)

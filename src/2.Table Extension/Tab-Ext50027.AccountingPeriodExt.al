@@ -2,9 +2,7 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
 {
     fields
     {
-        field(50001; "Nepali Month"; Enum "Nepali Month")
-        {
-        }
+        field(50001; "Nepali Month"; Enum "Nepali Month") { }
         field(50002; "New Leave Year"; Boolean)
         {
             DataClassification = AccountData;
@@ -20,9 +18,7 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
             DataClassification = AccountData;
             Caption = 'Leave Year Closed';
         }
-        field(50004; "Quarterly"; Enum Quater)
-        {
-        }
+        field(50004; "Quarterly"; Enum Quater) { }
     }
     procedure GetLeaveYearStartDate(ForDate: Date): Date;
     var
@@ -76,10 +72,8 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
         Employee: Record Employee;
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveLedgerEntry: Record "Leave Earn";
-        NCFLeaveCode: Text;
         TotalLeaveDays: Decimal;
         leaveLedgerEntryNo: Integer;
-        HRMgt: Codeunit "HR Mgt.";
         LeaveText: Text;
         LeaveMgt: Codeunit "Leave Mgt.";
         EmploymentContract: Record "Employment Contract";
@@ -123,7 +117,6 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
                                     TotalLeaveDays := LeaveLedgerEntry."Balancing Days";
                                     if TotalLeaveDays > 0 then
                                         LeaveMgt.CreateLeaveLedger(Employee."No.", LeaveTypeSetup.Code, OpenPeriodEndDate, Enum::"Leave Earn Type"::Collapsed, -TotalLeaveDays, leaveLedgerEntryNo, '', LeaveText, '');
-
                                 end;
                             until Employee.Next() = 0;
                     until LeaveTypeSetup.Next() = 0;

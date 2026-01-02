@@ -33,7 +33,6 @@ codeunit 50019 "Biometric Mgt."
         JsonObj, AttendanceObject : JsonObject;
         JsonToken: JsonToken;
         JsonArray: JsonArray;
-        jsonValue: JsonValue;
     begin
         AttendanceSetup.Get();
 
@@ -77,13 +76,11 @@ codeunit 50019 "Biometric Mgt."
         Content := Response.Content();
         Content.ReadAs(JsonText);
 
-
         if not JsonToken.ReadFrom(JsonText) then
             Error('Invalid JSON document.');
 
         if not JsonToken.IsObject() then
             Error('Expected a JSON object.');
-
 
         JsonObj := JsonToken.AsObject();
 
@@ -101,7 +98,6 @@ codeunit 50019 "Biometric Mgt."
                 end
             end;
         end;
-
     end;
 
     procedure DownloadAttendanceData(AttendanceObject: JsonObject)
@@ -139,7 +135,7 @@ codeunit 50019 "Biometric Mgt."
         Headers: HttpHeaders;
         Username, Password, AuthHeader, APIUrl, JsonText : Text;
         Content: HttpContent;
-        JsonObj, DeviceObject : JsonObject;
+        DeviceObject : JsonObject;
         JsonToken: JsonToken;
         JsonArray: JsonArray;
     begin
@@ -204,7 +200,6 @@ codeunit 50019 "Biometric Mgt."
         end
         else
             DeviceConfigSetup.Insert();
-
     end;
 
     procedure DeletelogFromDevice(sn: text[100])
@@ -212,10 +207,7 @@ codeunit 50019 "Biometric Mgt."
         Client: HttpClient;
         ResponseMessage: HttpResponseMessage;
         ResponseString: Text;
-        header: HttpHeaders;
         Jtoken: JsonToken;
-        FromDateText: Text;
-        TodateText: Text;
 
     begin
         AttendanceSetup.Get();
@@ -233,7 +225,6 @@ codeunit 50019 "Biometric Mgt."
             Error('Invalid JSON document.');
 
         Message('Device Log cleared sucessfully!');
-
     end;
 
     procedure DeleteUserFromDevice(UserPin: Integer; BranchCode: code[20])
@@ -241,10 +232,7 @@ codeunit 50019 "Biometric Mgt."
         Client: HttpClient;
         ResponseMessage: HttpResponseMessage;
         ResponseString: Text;
-        header: HttpHeaders;
         Jtoken: JsonToken;
-        FromDateText: Text;
-        TodateText: Text;
 
     begin
         AttendanceSetup.Get();
@@ -262,7 +250,6 @@ codeunit 50019 "Biometric Mgt."
             Error('Invalid JSON document.');
 
         Message('user is deleted sucessfully from the device!');
-
     end;
 
     procedure DeleteUserFaceFromDevice(UserPin: Integer; BranchCode: code[20])
@@ -270,10 +257,7 @@ codeunit 50019 "Biometric Mgt."
         Client: HttpClient;
         ResponseMessage: HttpResponseMessage;
         ResponseString: Text;
-        header: HttpHeaders;
         Jtoken: JsonToken;
-        FromDateText: Text;
-        TodateText: Text;
 
     begin
         AttendanceSetup.Get();
@@ -291,7 +275,6 @@ codeunit 50019 "Biometric Mgt."
             Error('Invalid JSON document.');
 
         Message('user face is deleted sucessfully from the device!');
-
     end;
 
     procedure DeleteUserFingerprintFromDevice(UserPin: Integer; BranchCode: code[20])
@@ -299,10 +282,7 @@ codeunit 50019 "Biometric Mgt."
         Client: HttpClient;
         ResponseMessage: HttpResponseMessage;
         ResponseString: Text;
-        header: HttpHeaders;
         Jtoken: JsonToken;
-        FromDateText: Text;
-        TodateText: Text;
 
     begin
         AttendanceSetup.Get();
@@ -320,7 +300,6 @@ codeunit 50019 "Biometric Mgt."
             Error('Invalid JSON document.');
 
         Message('user finger print is deleted sucessfully from the device!');
-
     end;
 
     procedure DeleteUserPictureFromDevice(UserPin: Integer; BranchCode: code[20])
@@ -328,10 +307,7 @@ codeunit 50019 "Biometric Mgt."
         Client: HttpClient;
         ResponseMessage: HttpResponseMessage;
         ResponseString: Text;
-        header: HttpHeaders;
         Jtoken: JsonToken;
-        FromDateText: Text;
-        TodateText: Text;
 
     begin
         AttendanceSetup.Get();
@@ -347,7 +323,6 @@ codeunit 50019 "Biometric Mgt."
         ResponseMessage.Content().ReadAs(ResponseString);
         if not Jtoken.ReadFrom(ResponseString) then
             Error('Invalid JSON document.');
-
     end;
 
     procedure SendEmployeeDatatoNewDevice(UserPin: Integer; deviceSN: code[20])
@@ -355,10 +330,7 @@ codeunit 50019 "Biometric Mgt."
         Client: HttpClient;
         ResponseMessage: HttpResponseMessage;
         ResponseString: Text;
-        header: HttpHeaders;
         Jtoken: JsonToken;
-        FromDateText: Text;
-        TodateText: Text;
 
     begin
         AttendanceSetup.Get();
@@ -376,7 +348,6 @@ codeunit 50019 "Biometric Mgt."
             Error('Invalid JSON document.');
 
         Message('User %1 is sucessfully sent to the device!', UserPin);
-
     end;
 
     local procedure EncodeBase64(InputText: Text): Text
@@ -460,7 +431,6 @@ codeunit 50019 "Biometric Mgt."
     local procedure ProcessResponse(Response: HttpResponseMessage)
     var
         ResponseText: Text;
-        JsonResponse: JsonObject;
     begin
         Response.Content.ReadAs(ResponseText);
         if ResponseText <> '' then begin

@@ -83,7 +83,6 @@ page 50206 "Medical Insurance Claim"
                         RecRef.GetTable(Rec);
                     end;
                 }
-
                 field("Insurance Status"; Rec."Insurance Status")
                 {
                     ToolTip = 'Specifies the value of the Insurance Status field.';
@@ -239,7 +238,6 @@ page 50206 "Medical Insurance Claim"
                 ApplicationArea = All;
                 trigger OnAction()
                 var
-                    HRMgt: Codeunit "HR Mgt.";
                     ApprovalRequestSent: Label 'Insurance Claim to company has been sent.';
                 begin
                     if Rec."Approval Status" = Rec."Approval Status"::Approved then begin
@@ -301,7 +299,6 @@ page 50206 "Medical Insurance Claim"
         HRMgt: Codeunit "HR Mgt.";
         InsuranceMgt: Codeunit "Insurance Mgt";
         ApprovalMgt: Codeunit "Approver Mgt";
-        ApprovalSent: Boolean;
         ApproveReject: Boolean;
         IsOpen: Boolean;
         IsPending: Boolean;

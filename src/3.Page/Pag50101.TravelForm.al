@@ -420,7 +420,6 @@ page 50101 "Travel Form"
         }
     }
 
-
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec.Type := Rec.Type::"Travel Request";

@@ -31,13 +31,11 @@ table 50161 "Assignment Memo Header"
                             end;
                     end;
             end;
-
         }
         field(2; "Activity Type"; Enum "Employee Activity Type")
         {
             DataClassification = ToBeClassified;
         }
-
         field(3; "From Date"; Date)
         {
             trigger OnValidate()
@@ -72,7 +70,6 @@ table 50161 "Assignment Memo Header"
                 CheckIfAllowFutureAllowanceRequest();
             end;
         }
-
         field(5; "Province Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Province));
@@ -89,9 +86,7 @@ table 50161 "Assignment Memo Header"
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Unit));
         }
-        field(9; "Document Date"; Date)
-        {
-        }
+        field(9; "Document Date"; Date) { }
         field(10; Remarks; Text[100])
         {
             DataClassification = ToBeClassified;
@@ -104,7 +99,6 @@ table 50161 "Assignment Memo Header"
         {
             TableRelation = "No. Series";
         }
-
         field(15; "Payroll Attribute Code"; Code[20])
         {
             TableRelation = "Allowance Configuration"."Payroll Attribute";
@@ -131,31 +125,21 @@ table 50161 "Assignment Memo Header"
                 end;
             end;
         }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-
-        }
-        field(17; "Fiscal Year"; text[10])
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
+        field(17; "Fiscal Year"; text[10]) { }
         field(18; "Change Approver Remarks"; Text[250]) { }
-
         field(20; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
-
         }
         field(21; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
-
-
         }
         field(22; "Pay Cycle Period"; Integer)
         {
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
-
         }
         field(23; "Employee No."; Code[50])
         {
@@ -174,6 +158,10 @@ table 50161 "Assignment Memo Header"
                     "Permanent Address" := Employee.Address;
                     "Temporary Address" := Employee."Temporary Address";
                     "Salary Level" := Employee."Salary Level";
+                    if Employee."Last Placement Date" <> 0D then
+                        "Last Placement Date" := Employee."Last Placement Date"
+                    else
+                        "Last Placement Date" := Employee."Employment Date";
 
                     if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
                         "Province Code" := Employee."Province Code";
@@ -214,13 +202,10 @@ table 50161 "Assignment Memo Header"
                                     end;
                                 end;
                                 GetVehicleDetails();
-
                             end;
                         end;
                     end;
-
                 end;
-
             end;
         }
         field(24; "Employee Name"; Text[100])
@@ -244,15 +229,9 @@ table 50161 "Assignment Memo Header"
             TableRelation = "Salary Level".Code;
             Caption = 'Designation';
         }
-        field(37; "Approved Date"; Date)
-        {
-        }
-        field(38; "Substitute Approval Status"; Enum "Approval Status")
-        {
-
-        }
+        field(37; "Approved Date"; Date) { }
+        field(38; "Substitute Approval Status"; Enum "Approval Status") { }
         field(39; "Fuel Limit (ltr)"; Decimal) { }
-
         field(40; "Fuel Limit (amt)"; Decimal) { }
         field(41; "Attachment Exists"; Boolean)
         {
@@ -260,9 +239,7 @@ table 50161 "Assignment Memo Header"
             FieldClass = FlowField;
             CalcFormula = Exist("Incoming Document" where("Employee Activity Type" = const("Request Allowance"), "No." = field("No.")));
         }
-        field(42; "Payroll Attr. Description"; Text[100])
-        {
-        }
+        field(42; "Payroll Attr. Description"; Text[100]) { }
         field(43; "Nepali Month"; Enum "Nepali Month")
         {
             trigger OnValidate()
@@ -288,9 +265,7 @@ table 50161 "Assignment Memo Header"
                 end;
             end;
         }
-        field(50; "Vehicle Type"; Enum "Vehicle Type")
-        {
-        }
+        field(50; "Vehicle Type"; Enum "Vehicle Type") { }
         field(51; "Vehicle No."; Text[50])
         {
             DataClassification = CustomerContent;
@@ -303,14 +278,20 @@ table 50161 "Assignment Memo Header"
         {
             DataClassification = CustomerContent;
         }
+        field(60; "Effective Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'To be used for allowance claimed in prorata basis such as outstation allowance, remote allowance, etc.';
+        }
+        field(61; "Last Placement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(71; "Ownership Start/End Date"; Date)
         {
             DataClassification = CustomerContent;
         }
-        field(100; "Status"; Text[20])
-        {
-        }
-
+        field(100; "Status"; Text[20]) { }
         field(103; "Permanent Address"; Text[100])
         {
             DataClassification = ToBeClassified;
@@ -323,7 +304,6 @@ table 50161 "Assignment Memo Header"
         {
             DataClassification = ToBeClassified;
         }
-
     }
 
     keys
@@ -415,7 +395,6 @@ table 50161 "Assignment Memo Header"
         ApproverMgt: Codeunit "Approver Mgt";
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PGSetup: Record "Payroll General Setup";
-        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
         AssignmentmemoLineCopy: Record "Assignment Memo Line Copy";
 
     procedure AutoInsertDatesForRequestAllowance()

@@ -1,6 +1,5 @@
 codeunit 50030 "Assignment Memo Mgt"
 {
-
     procedure OpenAllowanceRequestMemo(EmpCode: Code[20])
     var
         AssignmentMemoHdr, AssignmentMemoHdr2 : Record "Assignment Memo Header";
@@ -84,7 +83,6 @@ codeunit 50030 "Assignment Memo Mgt"
                     CheckSkipAssignmentLedgerCreation(AssignmentMemoLine, SkipAssignmentLedgerCreation);
                     if not SkipAssignmentLedgerCreation then
                         CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
-
                 until AssignmentMemoLine.Next() = 0;
 
             CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
@@ -175,7 +173,6 @@ codeunit 50030 "Assignment Memo Mgt"
                     end;
 
                     AssignmentMemoLedgerEntry.Insert();
-
                 until DateVar.Next() = 0;
         end;
     end;
@@ -195,6 +192,12 @@ codeunit 50030 "Assignment Memo Mgt"
         if AssignmentMemoLine2.Count = 0 then
             Error('Nothing to send for approval.');
 
+        AssignmentMemoLine2.CalcSums("Allowance Amount");
+        if AssignmentMemoLine2."Allowance Amount" = 0 then
+            if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+                Error('Total Allowance Amount cannot be zero.');
+
+        CheckAttachmentOnBeforeSendForApproval(AssignmentmemoHdr);  //check mandatory attachment exist
         AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);  //company specific and allowance specific controls
         CheckIfAllowanceIsSubstitutedForTheDate(AssignmentmemoHdr);  //do now allow to request if already substituted
 
@@ -236,7 +239,6 @@ codeunit 50030 "Assignment Memo Mgt"
             if ApprovalHrms.FindSet() then
                 ApprovalHrms.ModifyAll("Approval Status", ApprovalHrms."Approval Status"::Created);
         end;
-
     end;
 
     procedure InsertSubstituteAssignmentMemo(docNo: Code[20]; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20])
@@ -244,7 +246,6 @@ codeunit 50030 "Assignment Memo Mgt"
         SubAssigmemoLine: Record "Assignment Memo Line";
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AssignmentMemoLine: Record "Assignment Memo Line";
-        ApprovalHrms: Record "Approval HRMS";
     begin
         // Implementation for inserting substitute assignment memo
         AssignmentMemoHdr.Get(docNo);
@@ -273,7 +274,6 @@ codeunit 50030 "Assignment Memo Mgt"
 
         AssignmentMemoHdr."Substitute Approval Status" := AssignmentMemoHdr."Substitute Approval Status"::Open;
         AssignmentMemoHdr.Modify();
-
     end;
 
     procedure UpdateSubstituteAssignmentMemoLedgerEntry(var SubAssigmemoLine: Record "Assignment Memo Line")
@@ -315,9 +315,7 @@ codeunit 50030 "Assignment Memo Mgt"
                         else
                             Error('Conflicting substitute assignment exists for the selected date range %1 to %2.', fromDate, toDate);
                     until Daterec.Next() = 0;
-
             until AssignmentMemoLine.Next() = 0;
-
     end;
 
     procedure CreateNewAssignmentMemoFromCopyDoc(SourceDocNo: Code[20]; FromDate: Date; ToDate: Date; empCode: Code[20])
@@ -369,7 +367,7 @@ codeunit 50030 "Assignment Memo Mgt"
     //request allowance section
     procedure OpenAllowance(EmpCode: Code[20]; AllowanceType: code[20])
     var
-        AssignmentmemoHdr, AssignmentMemoHdr2 : Record "Assignment Memo Header";
+        AssignmentmemoHdr: Record "Assignment Memo Header";
         Approval: Record "Approval HRMS";
         PGSetup: Record "Payroll General Setup";
         Employee: Record Employee;
@@ -401,8 +399,6 @@ codeunit 50030 "Assignment Memo Mgt"
     procedure CreateNewAllowanceRequest(EmpCode: Code[20]; AllowanceType: Code[20])
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        FilterPageBuilder: FilterPageBuilder;
-        Allowanceconfig: Record "Allowance Configuration";
         PGSetup: Record "Payroll General Setup";
     begin
         //check for allowance eligibility
@@ -426,7 +422,6 @@ codeunit 50030 "Assignment Memo Mgt"
     procedure CreateAllowanceAssignmentLineFromRequest(AllowanceAssignmentCode: Code[20])
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AssignmentMemoLine: Record "Assignment Memo Line";
         AllowanceConfig: Record "Allowance Configuration";
     begin
         if not AssignmentMemoHdr.Get(AllowanceAssignmentCode) then
@@ -444,11 +439,9 @@ codeunit 50030 "Assignment Memo Mgt"
             //     CreateAllowanceRequestLine(AssignmentMemoHdr);
             AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift:
                 CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
-
         end;
         CreateAllowanceRequestLineForEducation(AssignmentMemoHdr);
     end;
-
 
     procedure CreateAllowanceRequestLineForEducation(AllowanceAssignmentHdr: Record "Assignment Memo Header")
     var
@@ -545,7 +538,6 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLedgerEntry.Claimed := true;
                     AssignmentMemoLedgerEntry.Modify();
                 end;
-
             until AssignmentMemoLedgerEntry.Next() = 0;
 
         //
@@ -601,7 +593,6 @@ codeunit 50030 "Assignment Memo Mgt"
 
                     // no need to mark allowance
                 end;
-
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
@@ -624,6 +615,41 @@ codeunit 50030 "Assignment Memo Mgt"
         if IncomingDoc.Insert(true) then;
     end;
 
+    procedure CheckAttachmentOnBeforeSendForApproval(var AssignmentmemoHdr: Record "Assignment Memo Header")
+    var
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDoc: Record "Incoming Document";
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        //for now attachment check only for request allowance
+        if AssignmentmemoHdr."Activity Type" <> AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+            exit;
+        if not PayrollAttributes.Get(AssignmentmemoHdr."Payroll Attribute Code") then
+            exit;
+        AttachmentSetup.SetRange(Mandatory, true);
+        AttachmentSetup.SetFilter(Type, Format(AssignmentmemoHdr."Activity Type"));
+        case PayrollAttributes."Specific Attributes" of
+            PayrollAttributes."Specific Attributes"::"Education Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Education Allowance");
+            PayrollAttributes."Specific Attributes"::Reimbursement:
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::Reimbursement);
+            PayrollAttributes."Specific Attributes"::"Remote Area Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
+            PayrollAttributes."Specific Attributes"::"OutStation Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+            else
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+        end;
+        if AttachmentSetup.FindSet() then
+            repeat
+                IncomingDoc.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                IncomingDoc.SetRange("Document No.", AssignmentmemoHdr."No.");
+                IncomingDoc.SetRange("Employee Activity Type", AssignmentmemoHdr."Activity Type");
+                if IncomingDoc.IsEmpty() then
+                    Error('Mandatory attachment %1 is missing. Please attach before sending for approval.', AttachmentSetup."Attachment Code");
+            until AttachmentSetup.Next() = 0;
+    end;
+
     procedure ClearAssignmentMemoLedgerDataOnLineReject(ledgerEntryNo: Integer)
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
@@ -635,7 +661,6 @@ codeunit 50030 "Assignment Memo Mgt"
         end;
     end;
 
-
     //shift assignment section
     procedure OpenShiftRequest(EmpCode: Code[20])
     var
@@ -643,7 +668,7 @@ codeunit 50030 "Assignment Memo Mgt"
         Approval: Record "Approval HRMS";
         Employee: Record Employee;
     begin
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Shift Assignment Memo");
@@ -689,7 +714,6 @@ codeunit 50030 "Assignment Memo Mgt"
                             if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Request Allowance" then
                                 Error('Cannot approve/reject the allowance request as the allowance end date %1 has passed.', PayCyclePeriod."Allowance End Date");
 
-
                     if ApprovalStatusField = 'Approved' then begin
                         if (AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending) then begin
                             ApprovalStatusField := 'Pending';
@@ -704,7 +728,6 @@ codeunit 50030 "Assignment Memo Mgt"
         PayrollAttributes: Record "Payroll Attributes";
         Employee: Record Employee;
         Salarylevel: Record "Salary Level";
-        AssignmeoLine: Record "Assignment Memo Line";
     begin
         if not PayrollAttributes.Get(AssignmentMemoLine."Payroll Attribute Code") then
             exit;
@@ -719,7 +742,6 @@ codeunit 50030 "Assignment Memo Mgt"
             if Salarylevel.Rank >= 16 then begin
                 if GetAssignmentLineLtr(AssignmentMemoLine."Document No.") > Salarylevel."Fuel Limit (ltr)" then
                     Error('Fuel claimed exceeds the limit of allowable %1 liters.', Salarylevel."Fuel Limit (ltr)");
-
             end
             else begin
                 if GetAssignmentLineAmount(AssignmentMemoLine."Document No.") > Salarylevel."Transportation Allowance" then
@@ -728,7 +750,6 @@ codeunit 50030 "Assignment Memo Mgt"
 
             if AssignmentMemoLine."Allowance Amount" = 0 then
                 Error('Reimbursement amount or fuel claimed must have a value.');
-
         end;
     end;
 
@@ -756,6 +777,7 @@ codeunit 50030 "Assignment Memo Mgt"
         Salarylevel: Record "Salary Level";
         PayrollAttributes: Record "Payroll Attributes";
         EmployeeEdit: Record "Employee Edit";
+        AllowanceConfig: Record "Allowance Configuration";
     begin
         if EmpCode = '' then
             exit;
@@ -781,6 +803,16 @@ codeunit 50030 "Assignment Memo Mgt"
                             Error('You are not eligible to claim %1 as your claim type was updated to %2 on %3.', AllowanceType, EmployeeEdit."Claim Type", EmployeeEdit."Requested Date");
                     end;
                 end;
+
+            PayrollAttributes."Specific Attributes"::"Remote Area Allowance",
+            payrollAttributes."Specific Attributes"::"OutStation Allowance":
+                begin
+                    AllowanceConfig.SetRange("Payroll Attribute", AllowanceType);
+                    AllowanceConfig.FindFirst();
+
+                    if not AllowanceConfig.IsValidAllowanceConfigurationForEmployee(AllowanceConfig, EmpCode, WorkDate()) then
+                        Error('You are not eligible to claim %1 as per the policy.', PayrollAttributes.Description);
+                end;
         end;
     end;
 
@@ -795,6 +827,8 @@ codeunit 50030 "Assignment Memo Mgt"
         AmountLimit, TempAmountLimit, RemainingAmountLimit : Decimal;
         FuelClaimed, AmountClaimed : Decimal;
         PayrollAttributes: Record "Payroll Attributes";
+        AssignmentmemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        BlockedClaimedAllowance, BlockedFuelAllowance : decimal;
     begin
         //get limit
         if not PayrollAttributes.Get(AssignmentMemoHdr."Payroll Attribute Code") then
@@ -822,11 +856,24 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine2.SetFilter("Approval Status", '%1|%2', AssignmentMemoLine2."Approval Status"::Pending, AssignmentMemoLine2."Approval Status"::Approved);
         AssignmentMemoLine2.SetRange("From Date", AssignmentMemoHdr."To date");
         AssignmentMemoLine2.SetRange("To Date", AssignmentMemoHdr."To Date");
-        AssignmentMemoLine2.CalcSums("Fuel Claimed (ltr)");
-        AssignmentMemoLine2.CalcSums("Allowance Amount");
+        BlockedClaimedAllowance := 0;
+        BlockedFuelAllowance := 0;
+        if AssignmentMemoLine2.FindSet() then begin
+            repeat
+                AssignmentmemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine2."Document No.");
+                AssignmentmemoLedgerEntry.SetRange("Blocked for Payroll", true);
+                if not AssignmentmemoLedgerEntry.IsEmpty() then begin
+                    BlockedClaimedAllowance += AssignmentMemoLine2."Allowance Amount";
+                    BlockedFuelAllowance += AssignmentMemoLine2."Fuel Claimed (ltr)";
+                end;
+            until AssignmentMemoLine2.Next() = 0;
 
-        RemainingFuelLimit := FuelLimit - AssignmentMemoLine2."Fuel Claimed (ltr)";
-        RemainingAmountLimit := AmountLimit - AssignmentMemoLine2."Allowance Amount";
+            AssignmentMemoLine2.CalcSums("Fuel Claimed (ltr)");
+            AssignmentMemoLine2.CalcSums("Allowance Amount");
+        end;
+
+        RemainingFuelLimit := FuelLimit - AssignmentMemoLine2."Fuel Claimed (ltr)" + BlockedFuelAllowance;
+        RemainingAmountLimit := AmountLimit - AssignmentMemoLine2."Allowance Amount" + BlockedClaimedAllowance;
         if (RemainingFuelLimit <= 0) and (FuelLimit > 0) then
             Error('Fuel claimed exceeds the limit of allowable %1 liters.', FuelLimit);
 
@@ -875,7 +922,6 @@ codeunit 50030 "Assignment Memo Mgt"
                         FuelClaimed += Round((TempAmountLimit / AssignmentMemoLineCopy."Amount per Ltr."), 0.01, '=');
                         TempAmountLimit := 0;
                     end
-
                 until (AssignmentMemoLineCopy.Next() = 0) or (AmountClaimed >= RemainingAmountLimit);
         end;
 
@@ -933,17 +979,16 @@ codeunit 50030 "Assignment Memo Mgt"
             exit;
 
         AllowanceConfig.SetRange("Payroll Attribute", AssignmentMemoHdr."Payroll Attribute Code");
-        AllowanceConfig.FindFirst();
-        if AllowanceConfig.Source in [AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift] then begin
+        AllowanceConfig.SetFilter(Source, '%1|%2', AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift);
+        if AllowanceConfig.FindFirst() then begin
             AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
             if AssignmentMemoLine.FindSet() then
                 repeat
-                    if not CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
+                    if CheckIfOpenMemoLedgerEntriesExist(AssignmentMemoLine) then
                         Error('Allowance for %1 is already substituted on %2. Cannot proceed with your allowance request.', AssignmentMemoLine."Payroll Attribute Code", AssignmentMemoLine."From Date");
 
                     //check if pending substituted exist.
                     CheckIfSubstituteDocumentPendingExist(AssignmentMemoLine);
-
                 until AssignmentMemoLine.Next() = 0;
         end;
     end;
@@ -951,7 +996,6 @@ codeunit 50030 "Assignment Memo Mgt"
     procedure CheckIfSubstituteDocumentPendingExist(AssignmentMemoLine: Record "Assignment Memo Line")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AssignmentMemoLine2: Record "Assignment Memo Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
         if AssignmentMemoLedgerEntry.Get(AssignmentMemoLine."Assign Memo Ledger Entry No.") then begin
@@ -959,8 +1003,8 @@ codeunit 50030 "Assignment Memo Mgt"
             if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then
                 Error('There is a pending substitute assignment. Cannot proceed with your allowance request.Please try again later.');
         end
-        else
-            Error('Linked allowance assignment not found!');
+        // else
+        //     Error('Linked allowance assignment not found!');
     end;
 
     procedure CheckIfPendingClaimedAllowanceExist(DocNo: Code[20]; LineNo: Integer)
@@ -1020,7 +1064,6 @@ codeunit 50030 "Assignment Memo Mgt"
                 until AssignemntMemoLedgerEntry.Next() = 0;
         end;
 
-
         //mark lines as reversed
         AssignmentMemoLine.SetRange("Document No.", DocNo);
         if AssignmentMemoLine.FindSet() then
@@ -1032,17 +1075,27 @@ codeunit 50030 "Assignment Memo Mgt"
         //mark reversed in header
         AssignemntMemoHeader.Reversed := true;
         AssignemntMemoHeader.Modify();
+    end;
 
+    procedure CheckIfValueexistInPipedValue(PipedValues: Text; targetValue: text): Boolean
+    var
+    begin
+        exit(StrPos('|' + PipedValues + '|', '|' + targetValue + '|') > 0);
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]
     local procedure OnafterInsertAssignmentMemoHeader(var Rec: Record "Assignment Memo Header")
     var
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+        AllowanceConfig, AllowanceConfig2 : Record "Allowance Configuration";
+        IsEligibleForShiftAllowance: Boolean;
     begin
-        if Rec."Activity Type" = Rec."Activity Type"::"Request Allowance" then
-            if not GuiAllowed then
+        if Rec."Activity Type" = Rec."Activity Type"::"Request Allowance" then begin
+            if not GuiAllowed then begin
+                CheckAllowanceELIgibility(Rec."Employee No.", Rec."Payroll Attribute Code");
                 AssignmentMemoMgt.CreateAllowanceAssignmentLineFromRequest(Rec."No.");
+            end;
+        end;
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approver Mgt", OnRejectDocumentOnBeforeRecRefModify, '', false, false)]
@@ -1051,7 +1104,6 @@ codeunit 50030 "Assignment Memo Mgt"
         if not Approved and (RecRef.Number = Database::"Assignment Memo Header") then
             SkipRecRefModifyOnReject := true;
     end;
-
 
     [IntegrationEvent(false, false)]
     local procedure AssignmentMemoOnbeforeSendForApproval(var AssignmentMemoHdr: Record "Assignment Memo Header"; var IsHandled: Boolean)

@@ -167,7 +167,6 @@ report 50058 "Salary Sheet Monthwise"
 
         FilterText := 'Pay Cycle Term: ' + PayCycleTerm;
         InitializeEmployeeData();
-
     end;
 
     var
@@ -192,7 +191,6 @@ report 50058 "Salary Sheet Monthwise"
         PastSSTPaid: Decimal;
         PastTaxPaid: Decimal;
         GlSetup: Record "General Ledger Setup";
-        EmployeePayrollOpen: Record "Employee Payroll Opening";
         EmployeeNotFoundErr: Label 'Employee %1 not found.';
 
     local procedure ValidateEmployee()
@@ -237,7 +235,6 @@ report 50058 "Salary Sheet Monthwise"
             until EmpOpen.Next() = 0;
     end;
 
-
     // local procedure GetAllEmployeePayrollOpeningValues()
     // var
     //     EmpOpen: Record "Employee Payroll Opening";
@@ -258,7 +255,6 @@ report 50058 "Salary Sheet Monthwise"
     //             PastTaxPaid += EmpOpen."Total Tax Remuneration Opening";
     //         until EmpOpen.Next() = 0;
     // end;
-
 
     // local procedure GetEmployeePayrollOpeningValues(EmployeeNo: Code[20])
     // begin

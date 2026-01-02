@@ -8,10 +8,7 @@ table 50082 "Rating Scale"
 
     fields
     {
-        field(1; Type; Enum "Rating Scale Type")
-        {
-
-        }
+        field(1; Type; Enum "Rating Scale Type") { }
         field(2; "Code"; Decimal) { }
         field(3; Remarks; Text[30]) { }
         field(4; Description; Text[250]) { }

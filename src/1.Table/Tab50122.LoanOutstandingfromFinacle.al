@@ -20,9 +20,7 @@ table 50122 "Loan Outstanding from Finacle"
         field(5; "Outstanding Amount"; Decimal) { }
         field(6; "Loan Limit"; Decimal) { }
         field(7; EMI; Decimal) { }
-        field(8; "Loan Type"; Enum "Loan Type")
-        {
-        }
+        field(8; "Loan Type"; Enum "Loan Type") { }
         field(9; "Scheme Code"; Text[10])
         {
             trigger OnValidate()

@@ -312,7 +312,6 @@ report 50130 "Tax Deduction Info Mob App"
         EmpPayOpening: Record "Employee Payroll Opening";
         PayCyclePeriod: Record "Pay Cycle Period";
         PayCycleTermText: Text;
-        HRMgt: Codeunit "HR Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         DeputationValue: Text;
         SalaryLevel: Record "Salary Level";
@@ -603,7 +602,7 @@ report 50130 "Tax Deduction Info Mob App"
                     InsertTaxableColumn;
                     InsertTotalRFColumn;
                     InsertLeaveEncashGratuityColumn;
-                    //InsertOtherFacilityColumn; 
+                    //InsertOtherFacilityColumn;
                 end;
             until PreviousPayrollHdr.Next = 0;
     end;
@@ -1350,8 +1349,6 @@ report 50130 "Tax Deduction Info Mob App"
     end;
 
     procedure PassParPortal(DocNo: Code[20]; yearpar: Integer; Monthpar: Enum "Nepali Month")
-    var
-        PostedPayroll: Record "Posted Payroll Header";
     begin
         //EmployeeNo := empCode;
         Month := Monthpar;

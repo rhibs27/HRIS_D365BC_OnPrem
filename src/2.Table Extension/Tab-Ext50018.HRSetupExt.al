@@ -444,9 +444,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         field(50093; "HR Start From Month"; Enum "Nepali Month")
         {
             DataClassification = CustomerContent;
-
         }
-
         field(50095; "EmpActivity No."; Code[20])
         {
             TableRelation = "No. Series";
@@ -685,10 +683,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             Caption = 'Calculate Age using Nepali Calender';
         }
-        field(50149; "Leave Rounding Precision"; Decimal)
-        {
-
-        }
+        field(50149; "Leave Rounding Precision"; Decimal) { }
         field(50150; "Leave Encashment Nos."; Code[20])
         {
             TableRelation = "No. Series";
