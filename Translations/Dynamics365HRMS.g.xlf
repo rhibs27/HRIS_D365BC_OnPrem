@@ -11903,6 +11903,61 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 446688527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Orgwise Vaults &amp; ATM</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 4208656117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Site</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field ATM Site - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 761498003 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Effective Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Effective Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 228174211 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Effective Date (B.S.)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Effective Date (B.S.) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 1852891556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of ATM/Vaults</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field No. of ATM/Vaults - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 25557770 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Panel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Panel - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 340262899 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Attribute</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Payroll Attribute - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 446688527 - Field 749969055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Vault Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Orgwise Vaults &amp; ATM - Field Vault Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3644669616 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37672,6 +37727,46 @@
           <source>Specifies the value of the Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Mutually Exl. Payroll Group - Control Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No of ATM/Vaults per OrgStruct</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Control 4208656117 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM Site field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Control ATM Site - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Control 761498003 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Effective Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Control Effective Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Control 228174211 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Effective Date (B.S.) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Control Effective Date (B.S.) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Control 1852891556 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of ATM/Vaults field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Control No. of ATM/Vaults - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Control 25557770 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Panel field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Control Panel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Control 340262899 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Attribute field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Control Payroll Attribute - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2018836456 - Control 749969055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vault Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page No of ATM/Vaults per OrgStruct - Control Vault Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 483615804 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Entry No. field.</source>

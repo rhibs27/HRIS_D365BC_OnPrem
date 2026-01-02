@@ -317,13 +317,21 @@ codeunit 50030 "Assignment Memo Mgt"
                 Daterec.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date");
                 if Daterec.FindSet() then
                     repeat
-                        //check if date exist in date list. If exist then return true else add the new date in list
                         if not DateList.Contains(Daterec."Period Start") then
                             DateList.Add(Daterec."Period Start")
                         else
                             Error('Conflicting substitute assignment exists for the selected date range %1 to %2.', fromDate, toDate);
                     until Daterec.Next() = 0;
             until AssignmentMemoLine.Next() = 0;
+
+        Daterec.Reset();
+        Daterec.SetRange("Period Type", Daterec."Period Type"::Date);
+        Daterec.SetRange("Period Start", fromDate, toDate);
+        if Daterec.FindSet() then
+            repeat
+                if DateList.Contains(Daterec."Period Start") then
+                    Error('Conflicting substitute assignment exists for the selected date range %1 to %2.', fromDate, toDate);
+            until Daterec.Next() = 0;
     end;
 
     procedure CreateNewAssignmentMemoFromCopyDoc(SourceDocNo: Code[20]; FromDate: Date; ToDate: Date; empCode: Code[20])
