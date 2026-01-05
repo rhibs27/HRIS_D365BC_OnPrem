@@ -46,20 +46,20 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Employment Date (B.S.)" := EngNepDate.getNepaliDate("Employment Date");
             end;
         }
-        // modify("First Name")
-        // {
-        //     trigger OnAfterValidate()
-        //     var
-        //         Regex: Codeunit Regex;
-        //         Pattern: Label '^[A-Za-z]+$';
+        modify("First Name")
+        {
+            trigger OnAfterValidate()
+            var
+                Regex: Codeunit Regex;
+                Pattern: Label '^[A-Za-z]+$';
 
-        //     begin
-        //         if "Middle Name" <> '' then
-        //             if not Regex.IsMatch("First Name", Pattern) then
-        //                 Error('Only Alphabet Character Allowed');
-        //         "Full Name" := FullName;
-        //     end;
-        // }
+            begin
+                // if "Middle Name" <> '' then
+                //     if not Regex.IsMatch("First Name", Pattern) then
+                //         Error('Only Alphabet Character Allowed');
+                "Full Name" := FullName;
+            end;
+        }
 
         modify(Gender)
         {
@@ -68,32 +68,32 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Tax Code", HRMgt.ValidateTaxCode(Gender, "Marital Status"));
             end;
         }
-        // modify("Last Name")
-        // {
-        //     trigger OnAfterValidate()
-        //     var
-        //         Regex: Codeunit Regex;
-        //         Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
-        //     begin
-        //         if "Middle Name" <> '' then
-        //             if not Regex.IsMatch("Last Name", Pattern) then
-        //                 Error('Only Alphabet Character Allowed');
-        //         "Full Name" := FullName;
-        //     end;
-        // }
-        // modify("Middle Name")
-        // {
-        //     trigger OnAfterValidate()
-        //     var
-        //         Regex: Codeunit Regex;
-        //         Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
-        //     begin
-        //         if "Middle Name" <> '' then
-        //             if not Regex.IsMatch("Middle Name", Pattern) then
-        //                 Error('Only Alphabet Character Allowed');
-        //         "Full Name" := FullName;
-        //     end;
-        // }
+        modify("Last Name")
+        {
+            trigger OnAfterValidate()
+            var
+                Regex: Codeunit Regex;
+                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
+            begin
+                // if "Middle Name" <> '' then
+                //     if not Regex.IsMatch("Last Name", Pattern) then
+                //         Error('Only Alphabet Character Allowed');
+                "Full Name" := FullName;
+            end;
+        }
+        modify("Middle Name")
+        {
+            trigger OnAfterValidate()
+            var
+                Regex: Codeunit Regex;
+                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
+            begin
+                // if "Middle Name" <> '' then
+                //     if not Regex.IsMatch("Middle Name", Pattern) then
+                //         Error('Only Alphabet Character Allowed');
+                "Full Name" := FullName;
+            end;
+        }
 
         modify("Mobile Phone No.")
         {
