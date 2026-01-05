@@ -75,10 +75,7 @@ table 50140 "Employee Transfer"
             trigger OnValidate()
             begin
                 Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
+                HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");

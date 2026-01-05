@@ -89,7 +89,7 @@ codeunit 50028 "Excel Import"
                     TempExcelBuffer.AddColumn(RecRef.Field(ColNo), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 end;
             until RecRef.Next() = 0;
-        CreateExcelBook(RecRef.Caption());
+        CreateExcelBook(TempExcelBuffer, RecRef.Caption());
     end;
 
     procedure ImportJournalFromExcelSheet(EmpActType: Enum "Employee Activity Type")
@@ -125,6 +125,8 @@ codeunit 50028 "Excel Import"
                         ImportLeaveLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
                     EmpActType::Promotion:
                         ImportPromotionLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
+                    EmpActType::"Late Deduction":
+                        ImportLateDeductionLine(EmployeeActJournal, RowNo, EmpActNo, FirstLine);
                 end;
             end;
             Message(ExcelImportSuccess);
@@ -238,6 +240,44 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal.Insert(true);
     end;
 
+    procedure ImportLateDeductionLine(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; var DocNo: Code[20]; var FirstLine: Boolean)
+    begin
+        EmployeeActJournal.Init();
+        EmployeeActJournal.Validate(Type, EmployeeActJournal.Type::"Employee Journal");
+        EmployeeActJournal.Validate("Employee Act Type", EmployeeActJournal."Employee Act Type"::"Late Deduction");
+        EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Open);
+        Evaluate(EmployeeActJournal."Employee No.", GetValueAtCell(RowNo, 1));
+        EmployeeActJournal.Validate("Employee No.");
+        Evaluate(EmployeeActJournal."Start Date", GetValueAtCell(RowNo, 3));
+        EmployeeActJournal.Validate("Start Date");
+        Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 4));
+        EmployeeActJournal.Validate(Remarks);
+        EmployeeActJournal.InsertApproval(FirstLine, DocNo);
+        EmployeeActJournal."Emp Act. No" := DocNo;
+        EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
+        EmployeeActJournal.Insert(true);
+    end;
+
+    procedure ExportLateDeductionSheet(EmployeeActJournal: Record "Employee Activity Journal")
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+    begin
+        //Header
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Employee No."), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Employee Name"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Start Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption(Remarks), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //Data
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Employee No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Employee Name", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(EmployeeActJournal."Start Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
+        TempExcelBuffer.AddColumn(EmployeeActJournal.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        //
+        CreateExcelBook(TempExcelBuffer, 'LateDeductionJournal');
+    end;
+
     procedure ExportLeaveSheet(EmployeeActJournal: Record "Employee Activity Journal")
     var
         TempExcelBuffer: Record "Excel Buffer" temporary;
@@ -262,11 +302,9 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(EmployeeActJournal."Start Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(EmployeeActJournal."End Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(EmployeeActJournal.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-        //
-        CreateExcelBook('leaveJournal');
+        CreateExcelBook(TempExcelBuffer, 'leaveJournal');
     end;
 
-    //23
     procedure ExportLines(DocumentNo: Code[20])
     var
         AdjLine: Record "Attribute Adjustment Line";
@@ -361,6 +399,17 @@ codeunit 50028 "Excel Import"
         ExcelBuffer.WriteSheet(SheetName, CompanyName, UserId);
         ExcelBuffer.CloseBook();
         ExcelBuffer.SetFriendlyFilename(StrSubstNo(ExcelFileName, SheetName, CurrentDateTime, UserId));
+        ExcelBuffer.OpenExcel();
+    end;
+
+    local procedure CreateExcelBook(var ExcelBuffer: Record "Excel Buffer"; SheetName: Text)
+    var
+        ExcelFileName1: Label '%1_%2_%3';
+    begin
+        ExcelBuffer.CreateNewBook(SheetName);
+        ExcelBuffer.WriteSheet(SheetName, CompanyName, UserId);
+        ExcelBuffer.CloseBook();
+        ExcelBuffer.SetFriendlyFilename(StrSubstNo(ExcelFileName1, SheetName, CurrentDateTime, UserId));
         ExcelBuffer.OpenExcel();
     end;
 
@@ -493,7 +542,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(ShiftLine."Roster Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(ShiftLine.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
         //
-        CreateExcelBook('ShiftLine');
+        CreateExcelBook(TempExcelBuffer, 'ShiftLine');
     end;
 
     var

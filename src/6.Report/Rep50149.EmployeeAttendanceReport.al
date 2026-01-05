@@ -152,6 +152,10 @@ report 50149 "Employee Attendance Report"
                 TotalLateCheckIn += "Late Check In Day";
                 TotalEarlyCheckOut += "Early Check Out Day";
                 TotalOvertimeHours += "OT Hrs";
+                if Employee.Get("Employee No.") then
+                    if not IncludeResignEmployees then
+                        if Employee.Status = Employee.Status::Terminated then
+                            CurrReport.Skip();
             end;
         }
     }
@@ -176,12 +180,12 @@ report 50149 "Employee Attendance Report"
                         Caption = 'Show Absent Employees Only';
                         ToolTip = 'Select to show only absent employees.';
                     }
-                    // field(IncludeLeaveEmployees; IncludeLeaveEmployees)
-                    // {
-                    //     ApplicationArea = All;
-                    //     Caption = 'Include Leave Employees';
-                    //     ToolTip = 'Select to include employees on leave in the report.';
-                    // }
+                    field(IncludeResignEmployees; IncludeResignEmployees)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Include Resign Employees';
+                        ToolTip = 'Select to include employees on Resign in the report.';
+                    }
                     field(AttendanceDateFrom; AttendanceDateFrom)
                     {
                         ApplicationArea = All;
@@ -270,24 +274,13 @@ report 50149 "Employee Attendance Report"
         ShowAbsentOnly: Boolean;
         ShowPresentOnly: Boolean;
         IncludeLeaveEmployees: Boolean;
+        IncludeResignEmployees: Boolean;
         IncludeWeekOffEmployees: Boolean;
         AttendanceDateFrom: Date;
         AttendanceDateTo: Date;
         AttendanceDateFilter: Text;
         HRMgt: Codeunit "HR Mgt.";
-
-    local procedure GetAttendanceStatus(): Text[20]
-    begin
-        if "Employee Attendance"."Present Day" = 1 then
-            exit('Present');
-        if "Employee Attendance"."Absent Day" = 1 then
-            exit('Absent');
-        if "Employee Attendance"."Leave Day" = 1 then
-            exit('On Leave');
-        if "Employee Attendance"."Week Off Day" = 1 then
-            exit('Week Off');
-        exit('Unknown');
-    end;
+        Employee: Record Employee;
 
     local procedure GetCurrentEmployeeDeputation(): Code[20]
     var

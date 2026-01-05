@@ -257,12 +257,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             until AllowanceAssignmentLine.Next() = 0;
         // Update attendance with the highest amount allowance
         if HighestAmountAllowanceType <> '' then begin
-            EmployeeAttendanceActivity.Reset;
-            EmployeeAttendanceActivity.SetRange("Attendance Date", AttendanceDate);
-            EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
-            if EmployeeAttendanceActivity.FindFirst then begin
-                UpdateAttendanceWithAllowance(EmployeeAttendanceActivity, HighestAmountAllowanceType);
-            end;
+            UpdateAttendanceWithAllowance(EmployeeAttendanceActivity, HighestAmountAllowanceType);
         end;
     end;
     // Function to get allowance amount from Payroll General Setup
@@ -298,6 +293,7 @@ codeunit 50022 "Allowance Assignment Mgt"
     procedure UpdateAttendanceWithAllowance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; AllowanceType: Code[20])
     begin
         PGSetup.Get();
+        ClearAllowanceFromAttendance(EmployeeAttendanceActivity);
         case AllowanceType of
             PGSetup."Evening Counter":
                 EmployeeAttendanceActivity."Evening Counter Days" := 1;
@@ -322,6 +318,21 @@ codeunit 50022 "Allowance Assignment Mgt"
             PGSetup."Dashain Allowance":
                 EmployeeAttendanceActivity."Dashain Allowance Days" := 1;
         end;
+    end;
+
+    local procedure ClearAllowanceFromAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
+    begin
+        Clear(EmployeeAttendanceActivity."Evening Counter Days");
+        Clear(EmployeeAttendanceActivity."Morning Counter Days");
+        Clear(EmployeeAttendanceActivity."Festival Counter Days");
+        Clear(EmployeeAttendanceActivity."Holiday Counter Days");
+        Clear(EmployeeAttendanceActivity."Friday Counter Days");
+        Clear(EmployeeAttendanceActivity."Cash Risk Days");
+        Clear(EmployeeAttendanceActivity."Vault Key Days");
+        Clear(EmployeeAttendanceActivity."Head Teller Allowance Days");
+        Clear(EmployeeAttendanceActivity."Teller Allowance Days");
+        Clear(EmployeeAttendanceActivity."ATM Custodian Allowance days");
+        Clear(EmployeeAttendanceActivity."Dashain Allowance Days");
     end;
 
     procedure SetAllowanceAmount(EmpNo: Code[20]; AllowanceType: Code[20]; FromDate: Date): Decimal
@@ -492,6 +503,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         Approval: Record "Approval HRMS";
         BranchType: Enum "Branchwise/Extension Type";
     begin
+        OnBeforeOpenAllowanceAssignmentClaim(EmpCode);
         Clear(Employee);
         PGSetup.Get();
         // Clear Approval line
@@ -710,6 +722,21 @@ codeunit 50022 "Allowance Assignment Mgt"
             until AllowanceLine.Next = 0;
     end;
 
+    procedure CheckCutOffDate(FromDate: Date; ToDate: Date; Month: Enum "Nepali Month")
+    begin
+        PGSetup.Get();
+        PayCyclePeriod.Reset();
+        PayCyclePeriod.SetRange("Pay Cycle Code", PGSetup."Pay Cycle Code");
+        PayCyclePeriod.SetRange("Pay Cycle Term", PGSetup."Pay Cycle Term");
+        PayCyclePeriod.SetRange("Nepali Month", Month);
+        if PayCyclePeriod.FindFirst() then begin
+            PayCyclePeriod.TestField("Allowance Start Date");
+            PayCyclePeriod.TestField("Allowance End Date");
+            if (ToDate > PayCyclePeriod."Allowance End Date") then
+                Error('Allowance claim End Date cannot be After %1', PayCyclePeriod."Allowance End Date");
+        end;
+    end;
+
 
     var
         Employee: Record Employee;
@@ -719,9 +746,16 @@ codeunit 50022 "Allowance Assignment Mgt"
         LevelWiseAttribute: Record "Level Wise Attributes";
         HrMgt: Codeunit "HR Mgt.";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        PayCyclePeriod: Record "Pay Cycle Period";
 
     [IntegrationEvent(false, false)]
     procedure AllowanceAssignmentApprovalReject(Var Approved: Boolean; var EntryNo: Code[20]; var IsHandeled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeOpenAllowanceAssignmentClaim(EmployeeNo: Code[20])
+    begin
+    end;
+
 }

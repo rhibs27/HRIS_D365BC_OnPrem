@@ -83,6 +83,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Last Modified Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 3465500804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Month - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -212,6 +217,16 @@
           <source>Last Modified Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Last Modified Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 3726133055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Document No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Leave Document No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
@@ -1338,11 +1353,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 4002069225 - NamedType 377269713" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - NamedType TEXT002</note>
-        </trans-unit>
         <trans-unit id="Table 4002069225 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cannot delete document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1542,11 +1552,6 @@
           <source>Assignment Memo Line Copy</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line Copy - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3967234942 - NamedType 377269713" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line Copy - NamedType TEXT002</note>
         </trans-unit>
         <trans-unit id="Table 3967234942 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cannot delete document.</source>
@@ -3158,11 +3163,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Candidate - NamedType Text000</note>
         </trans-unit>
-        <trans-unit id="Table 3401129687 - Method 712538114 - NamedType 687471453" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Interview evaluation entry not found. Do you want to continue?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Candidate - Method ConvertToEmployee - NamedType NoEvaluationEntry</note>
-        </trans-unit>
         <trans-unit id="Table 3401129687 - Method 712538114 - NamedType 791008454" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee - %1 has been created.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4037,16 +4037,6 @@
           <source>Employee Activity Journal</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - NamedType 3548723355" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Cannot apply before your employment date.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - NamedType Error1</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot apply Transfer of Effective Date less than %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - NamedType Text001</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 3540177482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Actual OT Hours</source>
@@ -16718,16 +16708,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field User ID - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1294019709 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to reverse Posted Payroll document %1?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Header - NamedType Text001</note>
-        </trans-unit>
-        <trans-unit id="Table 1294019709 - NamedType 95063322" size-unit="char" translate="yes" xml:space="preserve">
-          <source>The entries were successfully reversed.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Header - NamedType Text003</note>
-        </trans-unit>
         <trans-unit id="Table 1294019709 - Field 3027137289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approved Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21903,16 +21883,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType ApproveNotEligibleError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to recommend or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType RecommendNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 2349949476" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to acknowledge this document.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType AcknowledgeError</note>
-        </trans-unit>
         <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 3444143894" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to review this document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21923,16 +21893,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType CheckReviewNotEligibleError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 1935850099 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to Approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveJournalDocument - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to Approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21942,11 +21902,6 @@
           <source>You are not Eligible to WithDraw this document </source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckRequester - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 3759036176 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not eligible to withdraw this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckRequesterBoolean - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3295680700 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -21982,6 +21937,11 @@
           <source>%1_%2_%3</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Excel Import - Method CreateExcelBook - NamedType ExcelFileName</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3632478246 - Method 2206569670 - NamedType 3028108985" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1_%2_%3</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Excel Import - Method CreateExcelBook - NamedType ExcelFileName1</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - NamedType 2838649434" size-unit="char" translate="yes" xml:space="preserve">
           <source>AND</source>
@@ -22483,16 +22443,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method ApplyForOverTimeApprovalForms - NamedType ConfirmForm</note>
         </trans-unit>
-        <trans-unit id="Codeunit 621810791 - Method 1432892794 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Travel days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method ApplyForOverTimeApprovalForms - NamedType ErrorNoOfDays</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 621810791 - Method 2602101337 - NamedType 3251816306" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee %1 is not eligible for OT.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method OpenOTBulk - NamedType OTEligibleError</note>
-        </trans-unit>
         <trans-unit id="Codeunit 621810791 - Method 3043778326 - NamedType 3251816306" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee %1 is not eligible for OT.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22603,11 +22553,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ForwardToHRForResignation - NamedType ConfirmScreen</note>
         </trans-unit>
-        <trans-unit id="Codeunit 391235505 - Method 2232642864 - NamedType 2236086507" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not eligible to request for a transfer.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method OpenResignationRequest - NamedType RequestError</note>
-        </trans-unit>
         <trans-unit id="Codeunit 391235505 - Method 1642313879 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to screen this document?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22618,40 +22563,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method SendResignationApproval - NamedType ConfirmResign</note>
         </trans-unit>
-        <trans-unit id="Codeunit 391235505 - Method 1196895094 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of leave days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method SendResignationApproval - NamedType ErrorNoOfDays</note>
-        </trans-unit>
         <trans-unit id="Codeunit 391235505 - Method 1196895094 - NamedType 19132630" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resignation request approval has been sent.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method SendResignationApproval - NamedType ApprovalRequestSent</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 391235505 - Method 1196895094 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method SendResignationApproval - NamedType NoRecommender</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1494781731 - Method 338880451 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method ApprovedTransferUpdate - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1494781731 - Method 338880451 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method ApprovedTransferUpdate - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1494781731 - Method 957893033 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method UpdateMissedTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1494781731 - Method 957893033 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method UpdateMissedTransfer - NamedType ConfirmReject</note>
         </trans-unit>
         <trans-unit id="Codeunit 1166164602 - NamedType 2464296654" size-unit="char" translate="yes" xml:space="preserve">
           <source>Either server or database information not found.</source>
@@ -22673,55 +22588,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method AcknowledgeTransfer - NamedType Acknowledged</note>
         </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 594311864 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method HoldTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 594311864 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method HoldTransfer - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 21689818 - NamedType 2236086507" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not eligible to request for a transfer.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method OpenTransferRequest - NamedType RequestError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 2340189372 - NamedType 358455804" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RequestTransferAllowanceClaim - NamedType BMandOutStationError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 2340189372 - NamedType 2644757195" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not authorized to approve.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RequestTransferAllowanceClaim - NamedType UnauthorizedApprover</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 3624107980 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send transfer request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method SendTransferApproval - NamedType ConfirmTransfer</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 3624107980 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of leave days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method SendTransferApproval - NamedType ErrorNoOfDays</note>
-        </trans-unit>
         <trans-unit id="Codeunit 1148580165 - Method 3624107980 - NamedType 2473777273" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer request approval has been sent.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method SendTransferApproval - NamedType TransferSent</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 3624107980 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Recommender Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method SendTransferApproval - NamedType NoRecommender</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 3624107980 - NamedType 2636930096" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Approver Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method SendTransferApproval - NamedType NoApprover</note>
         </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 2414718833 - NamedType 3646518990" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send travel request ?</source>
@@ -22883,11 +22753,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page All Reports - Method PrepareDealersReport - NamedType Training</note>
         </trans-unit>
-        <trans-unit id="Page 1168282208 - Method 1852133353 - NamedType 3933946380" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Travel</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page All Reports - Method PrepareDealersReport - NamedType Travel</note>
-        </trans-unit>
         <trans-unit id="Page 1168282208 - Method 1852133353 - NamedType 2359252340" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23047,6 +22912,11 @@
           <source>Specifies the value of the From Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3157096233 - Control 3465500804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Month field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Month - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3157096233 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Name field.</source>
@@ -28932,21 +28802,6 @@
           <source>Employee Attachment</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Picture - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 18544478 - NamedType 2865259996" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete the picture?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Picture - NamedType DeleteImageQst</note>
-        </trans-unit>
-        <trans-unit id="Page 18544478 - NamedType 1398852855" size-unit="char" translate="yes" xml:space="preserve">
-          <source>The existing picture will be replaced. Do you want to continue?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Picture - NamedType OverrideImageQst</note>
-        </trans-unit>
-        <trans-unit id="Page 18544478 - NamedType 464428880" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Select a picture to upload</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Picture - NamedType SelectPictureTxt</note>
         </trans-unit>
         <trans-unit id="Page 18544478 - Control 1159403147 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Notice field.</source>
@@ -36193,6 +36048,36 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Action Withdraw Leave - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2610111390 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Deduction Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Deduction Journal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2610111390 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Deduction Journal - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2610111390 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Deduction Journal - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2610111390 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fiscal Year field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Deduction Journal - Control Fiscal Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2610111390 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Deduction Journal - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2610111390 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Deduction Journal - Control Start Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2977078565 - Control 3538877424 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Balancing Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37712,11 +37597,6 @@
           <source>The existing picture will be replaced. Do you want to continue?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Notice Picture - NamedType OverrideImageQst</note>
-        </trans-unit>
-        <trans-unit id="Page 1079145570 - NamedType 464428880" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Select a picture to upload</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Notice Picture - NamedType SelectPictureTxt</note>
         </trans-unit>
         <trans-unit id="Page 1079145570 - Control 1159403147 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Notice field.</source>
@@ -40142,16 +40022,6 @@
           <source>Payroll Plan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3181578682 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to import employees in Employee Payroll Adjustment? Existing lines will be deleted.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - NamedType Text001</note>
-        </trans-unit>
-        <trans-unit id="Page 3181578682 - NamedType 3752334001" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Either Encashment Code or Encashment Period must have a value.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - NamedType Text002</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
@@ -45262,11 +45132,6 @@
           <source>The existing picture will be replaced. Do you want to continue?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Qualification Attachment - NamedType OverrideImageQst</note>
-        </trans-unit>
-        <trans-unit id="Page 534597236 - NamedType 464428880" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Select a picture to upload</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Qualification Attachment - NamedType SelectPictureTxt</note>
         </trans-unit>
         <trans-unit id="Page 534597236 - Control 1159403147 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Notice field.</source>
@@ -51353,11 +51218,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 818810397 - NamedType 3040577680" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Attendance Report</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - NamedType ReportTitleLbl</note>
-        </trans-unit>
         <trans-unit id="Report 818810397 - Control 2837086909 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Apply Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51382,6 +51242,16 @@
           <source>Attendance Date To</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control AttendanceDateTo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 2191340139 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select to include employees on Resign in the report.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control IncludeResignEmployees - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 2191340139 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include Resign Employees</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control IncludeResignEmployees - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 818810397 - Control 3787164932 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Select to show only absent employees.</source>
@@ -54578,11 +54448,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - NamedType FiscalYearMismatchErr</note>
         </trans-unit>
-        <trans-unit id="Report 3012955398 - NamedType 4179241738" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Invalid parameters specified.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - NamedType InvalidParametersErr</note>
-        </trans-unit>
         <trans-unit id="Report 3012955398 - NamedType 3024488025" size-unit="char" translate="yes" xml:space="preserve">
           <source>Please specify a pay cycle term.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57482,16 +57347,6 @@
           <source>%1 must be Numeric</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - NamedType NumericError</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - NamedType 960505862" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>!|@|#|$|%|&amp;|*|(|)|_|-|+|=| |?|/|\</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - NamedType SpecialChars</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - NamedType 3303194977" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>You cannot enter the special characters.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - NamedType SpecialCharsErr</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - NamedType 3752334001" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
           <source>New Employee Name %1 is created successfully.</source>
@@ -61292,6 +61147,11 @@
           <source>Late Attendance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Late Attendance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 125613877 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Late Deduction - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 195897093 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Encahment</source>
