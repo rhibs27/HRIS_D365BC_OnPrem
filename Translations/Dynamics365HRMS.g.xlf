@@ -3773,6 +3773,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Deduction Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3012161856 - Field 2027162664 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deduction Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Deduction Entry No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3012161856 - Field 3042341177 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3793,15 +3798,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Entry No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 2998301639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 3012161856 - Field 273406208 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the old deduction date in case of reversed.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Old Deducation Date - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Old Deduction Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 2998301639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Old Deducation Date</source>
+        <trans-unit id="Table 3012161856 - Field 273406208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Old Deduction Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Old Deducation Date - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Old Deduction Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3012161856 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Cycle Code</source>
@@ -3827,11 +3832,6 @@
           <source>Reversed By Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Reversed By Entry No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 1720765190 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Salary Ledger Entry No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Salary Ledger Entry No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 847710914 - Field 3662076853 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Code</source>

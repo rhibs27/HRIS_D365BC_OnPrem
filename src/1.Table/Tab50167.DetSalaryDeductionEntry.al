@@ -16,7 +16,7 @@ table 50167 "Det Salary Deduction Entries"
             Caption = 'Employee No.';
             TableRelation = Employee;
         }
-        field(3; "Employee Name"; Text[100])
+        field(3; "Employee Name"; Text[50])
         {
             Caption = 'Employee Name';
             DataClassification = CustomerContent;
@@ -70,7 +70,7 @@ table 50167 "Det Salary Deduction Entries"
             Caption = 'Attendance No.';
             DataClassification = CustomerContent;
         }
-        field(13; "Salary Ledger Entry No."; Integer)
+        field(13; "Deduction Entry No."; Integer)
         {
             DataClassification = ToBeClassified;
         }
@@ -82,7 +82,7 @@ table 50167 "Det Salary Deduction Entries"
         {
             DataClassification = ToBeClassified;
         }
-        field(16; "Old Deducation Date"; Date)
+        field(16; "Old Deduction Date"; Date)
         {
             DataClassification = ToBeClassified;
             ToolTip = 'Specifies the old deduction date in case of reversed.';

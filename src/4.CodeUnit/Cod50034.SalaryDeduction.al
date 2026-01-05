@@ -179,9 +179,8 @@ codeunit 50034 "Salary Deduction Mgt"
             GetPayCycleCodeTermAndPeriod(Today(), ReversedDetailedSalaryDeductionEntry);
             ReversedDetailedSalaryDeductionEntry.Reversed := true;
             ReversedDetailedSalaryDeductionEntry."Reversed By Entry No." := DetailedSalaryDeductionEntry."Entry No.";
-            ReversedDetailedSalaryDeductionEntry."Old Deducation Date" := DetailedSalaryDeductionEntry."Deduction Date";
+            ReversedDetailedSalaryDeductionEntry."Old Deduction Date" := DetailedSalaryDeductionEntry."Deduction Date";
             ReversedDetailedSalaryDeductionEntry.Insert();
-
             DetailedSalaryDeductionEntry.Reversed := true;
             DetailedSalaryDeductionEntry.Modify();
         end;
@@ -200,6 +199,7 @@ codeunit 50034 "Salary Deduction Mgt"
         PayrollEngine: Codeunit "Payroll Engine";
     begin
         PayrollAttributeUsage.Reset();
+        PayrollAttributeUsage.SetAutoCalcFields(Type, Subtype, "Formula Exists");
         PayrollAttributeUsage.SetRange("Employee Code", EmployeeNo);
         PayrollAttributeUsage.SetRange("Formula Exists", true);
         if PayrollAttributeUsage.FindSet() then
@@ -249,6 +249,7 @@ codeunit 50034 "Salary Deduction Mgt"
     end;
 
     procedure InitSalaryDeductionEntries(EmployeeNo: Code[20];
+
                                       DeductionDate: Date;
                                       Type: Enum "Attribute Deduction Type";
                                       PayCycleCode: Code[20];
@@ -263,6 +264,7 @@ codeunit 50034 "Salary Deduction Mgt"
         SalaryDeductEntry."Entry No." := GetSalaryDeductionEntryNo();
         SalaryDeductEntryNo := SalaryDeductEntry."Entry No.";
         SalaryDeductEntry."Employee No." := EmployeeNo;
+        SalaryDeductEntry."Employee Name" := HRMgt.GetEmployeeName(EmployeeNo);
         SalaryDeductEntry."Deduction Date" := DeductionDate;
         SalaryDeductEntry."Deduction Type" := Type;
         SalaryDeductEntry."Pay Cycle Code" := PayCycleCode;
@@ -310,11 +312,11 @@ codeunit 50034 "Salary Deduction Mgt"
         DetailedSalaryDeductEntry."Attribute Type" := AttributeType;
         DetailedSalaryDeductEntry."Attribute Code" := AttributeCode;
         DetailedSalaryDeductEntry."Attendance No." := AttendanceNo;
-        DetailedSalaryDeductEntry."Salary Ledger Entry No." := SalaryLedgerEntryNo;
+        DetailedSalaryDeductEntry."Deduction Entry No." := SalaryLedgerEntryNo;
         if FromFormula then
-            DetailedSalaryDeductEntry.Amount := Amount
+            DetailedSalaryDeductEntry.Amount := Amount * GetSignFactor(AttributeType)
         else
-            DetailedSalaryDeductEntry.Amount := CalculateDeductedAmount(Amount, DetailedSalaryDeductEntry);
+            DetailedSalaryDeductEntry.Amount := CalculateDeductedAmount(Amount, DetailedSalaryDeductEntry) * GetSignFactor(AttributeType);
         DetailedSalaryDeductEntry.Insert(true);
     end;
 
@@ -334,13 +336,21 @@ codeunit 50034 "Salary Deduction Mgt"
         CalculatedDays: Decimal;
         SignFactor: Integer;
     begin
-        SignFactor := 1;
-        if DetailedSalaryDeductEntry."Attribute Type" = DetailedSalaryDeductEntry."Attribute Type"::Deduction then
-            SignFactor := -1;
+        // SignFactor := 1;
+        // if DetailedSalaryDeductEntry."Attribute Type" = DetailedSalaryDeductEntry."Attribute Type"::Deduction then
+        //     SignFactor := -1;
 
         CalculatedDays := CalculateTotalDays(DetailedSalaryDeductEntry);
         if CalculatedDays <> 0 then
-            exit((TotalAmount / CalculatedDays) * SignFactor);
+            exit((TotalAmount / CalculatedDays));
+    end;
+
+    local procedure GetSignFactor(AttributeType: Enum "Payroll Type"): Integer
+    begin
+        if AttributeType = AttributeType::Deduction then
+            exit(-1)
+        else
+            exit(1);
     end;
 
     local procedure CalculateTotalDays(DetailedSalaryDeductEntry: Record "Det Salary Deduction Entries"): Decimal
