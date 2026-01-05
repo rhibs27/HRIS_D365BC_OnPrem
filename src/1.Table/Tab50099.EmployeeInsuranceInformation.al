@@ -63,6 +63,7 @@ table 50099 "Employee Insurance Information"
                 EmpInsurance.Reset;
                 EmpInsurance.SetRange("Employee No.", Rec."Employee No.");
                 EmpInsurance.SetRange("Policy Number", Rec."Policy Number");
+                EmpInsurance.SetFilter("Insurance No.", '<>%1', Rec."Insurance No.");
                 EmpInsurance.SetFilter("Approval Status", '<>%1', EmpInsurance."Approval Status"::Rejected);
                 if EmpInsurance.FindFirst then
                     Error(Text019, Rec."Policy Number", EmpInsurance."Insurance No.");
