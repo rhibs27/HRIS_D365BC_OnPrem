@@ -491,7 +491,7 @@ codeunit 50017 "Approver Mgt"
                                     RecRef.Modify();
                                 end;
                         end;
-                        OnAfterDocumentRejected(RecRef, EmployeeActivityType);
+                        OnAfterDocumentRejected(RecRef);
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
                         StatusMaster.SetRange(Rejected, true);
@@ -502,7 +502,7 @@ codeunit 50017 "Approver Mgt"
                             Error('Rejected Status not Found On Status Master Setup');
                     end;
 
-                    OnRejectDocumentOnBeforeRecRefModify(RecRef, Approved, SkipRecRefModifyOnReject, EmployeeActivityType, IsExit);
+                    OnRejectDocumentOnBeforeRecRefModify(RecRef, Approved, SkipRecRefModifyOnReject, IsExit);
                     if not SkipRecRefModifyOnReject then begin
                         RecRef.Modify();
                         ApprovalHRMS.Modify();
@@ -614,7 +614,7 @@ codeunit 50017 "Approver Mgt"
                                 AttributeAdjustmentMgt.OnApprovalOfAttributeAdjustment(RecRef.Field(AttributeAdj.FieldNo("Document No.")).Value);
                             end;
                     end;
-                    OnAfterDocumentFinalApproved(RecRef, EmployeeActivityType);
+                    OnAfterDocumentFinalApproved(RecRef);
                     HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
@@ -1732,12 +1732,12 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterDocumentFinalApproved(var RecRef: RecordRef; EmployeeActivityType: Enum "Employee Activity Type")
+    procedure OnAfterDocumentFinalApproved(var RecRef: RecordRef)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterDocumentRejected(var RecRef: RecordRef; EmployeeActivityType: Enum "Employee Activity Type")
+    procedure OnAfterDocumentRejected(var RecRef: RecordRef)
     begin
     end;
 
@@ -1752,7 +1752,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean; EmployeeActivityType: Enum "Employee Activity Type"; var IsExit: Boolean)
+    local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean; var IsExit: Boolean)
     begin
     end;
 
