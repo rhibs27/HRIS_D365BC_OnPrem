@@ -116,6 +116,10 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(108; "Absent Deductions"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
