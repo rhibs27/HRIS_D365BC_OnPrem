@@ -130,7 +130,7 @@ page 50150 "Allowance Assignment Subform"
                         AllowanceLineTemp.Type := rec.Type;
                         AllowanceLineTemp.Code := rec.code;
                         AllowanceLineTemp.Panel := rec.Panel;
-                        AllowanceLineTemp."From Date" := rec."From Date";
+                        AllowanceLineTemp.Validate("From Date", rec."From Date");
                         AllowanceLineTemp."To Date" := rec."To Date";
                         AllowanceLineTemp.Insert();
                     end;
