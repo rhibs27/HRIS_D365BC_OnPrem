@@ -1,6 +1,6 @@
 page 50147 "Branchwise/Extension Counter"
 {
-    // DelayedInsert = true;
+    DelayedInsert = true;
     PageType = List;
     SourceTable = "Branchwise/Extension Allowance";
     UsageCategory = Lists;
