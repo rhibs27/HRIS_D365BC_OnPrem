@@ -217,10 +217,6 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Bal. Account No. field.';
                     ApplicationArea = All;
                 }
-                field("Shift Assignment No."; Rec."Shift Assignment Memo Nos")
-                {
-                    ApplicationArea = All;
-                }
                 field("Payroll Journal Template"; Rec."Payroll Journal Template")
                 {
                     ToolTip = 'Specifies the value of the Payroll Journal Template field.';
