@@ -38203,6 +38203,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control employeeName - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 514871541 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control employeeNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2397156723 - Control 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control employeeNo - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2397156723 - Control 2188911869 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Work Shift field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
