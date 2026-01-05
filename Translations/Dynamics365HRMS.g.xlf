@@ -5598,6 +5598,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Functional Title - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1280777767 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>GPA Scales</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field GPA Scales - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 3647888328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Institution/Company</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21697,6 +21702,11 @@
           <source>Total No. of Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Total No. of Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 621202891 - Field 732346799 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Travel claim Doc No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Travel claim Doc No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 621202891 - Field 1941785437 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Travel Claimed</source>
