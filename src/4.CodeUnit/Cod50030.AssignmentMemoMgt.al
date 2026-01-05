@@ -160,6 +160,7 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLedgerEntry.Validate("Posting Date", DateVar."Period Start");
                     AssignmentMemoLedgerEntry.Validate("Open", true);
                     AssignmentMemoLedgerEntry.Validate(Amount, AssignmentMemoLine."Allowance Amount");
+                    AssignmentMemoLedgerEntry.Validate("Vault Name", AssignmentMemoLine."Vault Name");
                     AssignmentMemoLedgerEntry.Validate(Panel, AssignmentMemoLine."Panel");
                     AssignmentMemoLedgerEntry.Validate("ATM Site", AssignmentMemoLine."ATM Site");
                     AssignmentMemoLedgerEntry.Validate("Employee Work Shift", AssignmentMemoLine."Employee Work Shift");
@@ -170,6 +171,9 @@ codeunit 50030 "Assignment Memo Mgt"
                     if AllConfig2.Source in [AllConfig2.Source::Direct, AllConfig2.Source::" "] then begin
                         AssignmentMemoLedgerEntry.Validate("Valid From Date", AssignmentMemoHdr."From Date");  //allowance that is request once but valid for whole fiscal year
                         AssignmentMemoLedgerEntry.Validate("Valid To Date", AssignmentMemoHdr."To Date");
+
+                        //outstation and remote allowance prorata calculation
+                        ProrateAllowanceAmount(AssignmentMemoLine, AssignmentMemoLedgerEntry);
                     end;
 
                     AssignmentMemoLedgerEntry.Insert();
@@ -387,20 +391,36 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr, AssignmentMemoHdr2 : Record "Assignment Memo Header";
         OrgStructureList: Record "Organization Structure List";
         OrgwiseATMVault: Record "Orgwise Vaults & ATM";
-        AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLine, AssignmentMemoLine2 : Record "Assignment Memo Line";
         DateRec: Record Date;
         TempAssignmentMemoLedger: Record "Temp Assignment Memo Ledger" temporary;
         entryno: Integer;
         VaultNameList: List of [Code[100]];
         VaultName: Code[100];
         CountLimit: Integer;
+        AttributeTypeList: Code[100];
+        LastAttributes: Code[20];
     begin
         //this code execute for a single branch only.
 
         entryno := 1;
+        AttributeTypeList := '';
+        LastAttributes := '';
+
         AssignmentMemoHdr2.Get(DocNo);
         if AssignmentMemoHdr2."Activity Type" <> AssignmentMemoHdr2."Activity Type"::"Allowance Assignment Memo" then
             exit;
+
+        AssignmentMemoLine2.SetRange("Document No.", AssignmentMemoHdr2."No.");
+        if AssignmentMemoLine2.FindSet() then
+            repeat
+                if LastAttributes <> AssignmentMemoLine2."Payroll Attribute Code" then begin
+                    if AttributeTypeList <> '' then
+                        AttributeTypeList += '|';
+                    AttributeTypeList += AssignmentMemoLine2."Payroll Attribute Code";
+                    LastAttributes := AssignmentMemoLine2."Payroll Attribute Code";
+                end;
+            until AssignmentMemoLine2.Next() = 0;
 
         OrgStructureList.Get(OrgStructureList.Type::Branch, AssignmentMemoHdr2."Branch Code");
         Clear(VaultNameList);
@@ -408,12 +428,15 @@ codeunit 50030 "Assignment Memo Mgt"
 
         AssignmentMemoHdr.SetRange("Branch Code", AssignmentMemoHdr2."Branch Code");
         AssignmentMemoHdr.SetRange("Activity Type", AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo");
-        AssignmentMemoHdr.SetFilter("Approval Status", '<>%1', AssignmentMemoHdr."Approval Status"::Rejected);
+        // AssignmentMemoHdr.SetFilter("Approval Status", '<>%1', AssignmentMemoHdr."Approval Status"::Rejected);
+        AssignmentMemoHdr.SetFilter("Approval Status", '%1|%2', AssignmentMemoHdr."Approval Status"::Pending, AssignmentMemoHdr."Approval Status"::Approved);
         AssignmentMemoHdr.SetRange("From Date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
         AssignmentMemoHdr.SetRange("To date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
+        AssignmentMemoHdr.SetFilter("No.", '<>%1', AssignmentMemoHdr2."No.");
         if AssignmentMemoHdr.FindSet() then
             repeat
                 AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
+                AssignmentMemoLine.SetFilter("Payroll Attribute Code", AttributeTypeList);
                 AssignmentMemoLine.SetRange("Substitute of Line No.", 0);  //to avoid counting substitute lines
                 if AssignmentMemoLine.FindSet() then
                     repeat
@@ -441,6 +464,38 @@ codeunit 50030 "Assignment Memo Mgt"
                     until AssignmentMemoLine.Next() = 0;
 
             until AssignmentMemoHdr.Next() = 0;
+
+
+        //also check for the current assignment memo being sent for approval
+        //will enhance the length of code later
+        AssignmentMemoLine.Reset();
+        AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr2."No.");
+        AssignmentMemoLine.SetFilter("Payroll Attribute Code", AttributeTypeList);
+        AssignmentMemoLine.SetRange("Substitute of Line No.", 0);  //to avoid counting substitute lines
+        if AssignmentMemoLine.FindSet() then
+            repeat
+                if not VaultNameList.Contains(AssignmentMemoLine."Vault Name") then
+                    VaultNameList.Add(AssignmentMemoLine."Vault Name");
+
+                DateRec.Reset();
+                DateRec.SetRange("Period Type", DateRec."Period Type"::Date);
+                DateRec.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."To Date");
+                if DateRec.FindSet() then
+                    repeat
+                        TempAssignmentMemoLedger.Init();
+                        TempAssignmentMemoLedger."Entry No." := entryno;
+                        TempAssignmentMemoLedger."Document No." := AssignmentMemoLine."Document No.";
+                        TempAssignmentMemoLedger."Posting Date" := DateRec."Period Start";
+                        TempAssignmentMemoLedger."Employee No." := AssignmentMemoLine."Employee No.";
+                        TempAssignmentMemoLedger."Payroll Attribute Code" := AssignmentMemoLine."Payroll Attribute Code";
+                        TempAssignmentMemoLedger."Employee Activity Type" := AssignmentMemoLine."Emp Act Type";
+                        TempAssignmentMemoLedger.Panel := AssignmentMemoLine.Panel;
+                        TempAssignmentMemoLedger."ATM Site" := AssignmentMemoLine."ATM Site";
+                        TempAssignmentMemoLedger."Vault Name" := AssignmentMemoLine."Vault Name";
+                        TempAssignmentMemoLedger.Insert();
+                        entryno := entryno + 1;
+                    until DateRec.Next() = 0;
+            until AssignmentMemoLine.Next() = 0;
 
 
         DateRec.Reset();
@@ -673,8 +728,9 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine.Validate("To Date", AssignmentMemoLedgerEntry."Posting Date");
                     AssignmentMemoLine.Validate("Allowance Amount", AssignmentMemoLedgerEntry.Amount);
                     AssignmentMemoLine."Assign Memo Ledger Entry No." := AssignmentMemoLedgerEntry."Entry No.";
-                    AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
                     AssignmentMemoLine.Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
+                    AssignmentMemoLine.Validate("Vault Name", AssignmentMemoLedgerEntry."Vault Name");
+                    AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
                     AssignmentMemoLine.Insert(true);
                     AssignmentMemoLine.Validate("Payroll Attribute Code");
                     AssignmentMemoLine.Modify();
@@ -732,6 +788,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine."Assign Memo Ledger Entry No." := AssignmentMemoLedgerEntry."Entry No.";
                     AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
                     AssignmentMemoLine.Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
+                    AssignmentMemoLine.Validate("Vault Name", AssignmentMemoLedgerEntry."Vault Name");
+                    AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
                     AssignmentMemoLine."Allowance Amount" := -AssignmentMemoLedgerEntry.Amount;
                     AssignmentMemoLine.Insert(true);
                     AssignmentMemoLine.Validate("Payroll Attribute Code");
@@ -1235,6 +1293,33 @@ codeunit 50030 "Assignment Memo Mgt"
         SalaryLevel.SetRange("Is AM", true);
         SalaryLevel.FindFirst();
         exit(SalaryLevel.Rank);
+    end;
+
+    procedure ProrateAllowanceAmount(AssignmentMemoLine: Record "Assignment Memo Line"; var AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry")
+    var
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+        newamt: Decimal;
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        AssignmentMemoHdr.Get(AssignmentMemoLine."Document No.");
+        if AssignmentMemoHdr."Effective Date" = 0D then
+            exit;
+
+        PayrollAttributes.Get(AssignmentMemoHdr."Payroll Attribute Code");
+        if not (PayrollAttributes."Specific Attributes" in
+            [PayrollAttributes."Specific Attributes"::"Remote Area Allowance",
+             PayrollAttributes."Specific Attributes"::"OutStation Allowance"]) then
+            exit;
+
+        if (AssignmentMemoHdr."From Date" < AssignmentMemoHdr."Effective Date") and
+        (AssignmentMemoHdr."To date" > AssignmentMemoHdr."Effective Date") then begin
+
+            newamt := AssignmentMemoLine."Allowance Amount" *
+                      ((AssignmentMemoHdr."Effective Date" - AssignmentMemoHdr."From Date" + 1) /
+                      (AssignmentMemoHdr."To date" - AssignmentMemoHdr."From Date" + 1));
+
+            AssignmentMemoLedgerEntry.Amount := newamt;
+        end;
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]

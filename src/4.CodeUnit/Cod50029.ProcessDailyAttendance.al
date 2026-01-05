@@ -58,11 +58,7 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Week Off Day" = 1) then
             EmpAttendance."Present in Holiday" := 1;
 
-        // if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Absent Day" = 0) and (EmpAttendance."Week Off Day" = 0) and (EmpAttendance."Tour Day" = 0) and (EmpAttendance."Leave Day" = 0) and (EmpAttendance."Transfer Day" = 0) and (EmpAttendance."Training Day" = 0) then
-        // CheckAndInsertTimeDifference();
         EmpAttendance.Modify(true);
-
-        //Update attendance for assignment memo if exists
     end;
 
     local procedure ResetDays()

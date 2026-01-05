@@ -447,17 +447,22 @@ table 50162 "Assignment Memo Line"
         if PAssignMemo."Line No." = 0 then
             exit;
 
+        DirectPayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+
         AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
         if PAssignMemo."Payroll Attribute Code" <> '' then
             AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
         else if PAssignMemo."Employee Work Shift" <> '' then
             AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
+
+        if DirectPayrollAttr."Specific Attributes" = DirectPayrollAttr."Specific Attributes"::"Vault Key Allowance" then
+            AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
         AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
         AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
         AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
         if not AssignmentMemoLine.IsEmpty() then
-            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee No.", Format(PAssignMemo."From Date"));
+            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
 
         OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
     end;

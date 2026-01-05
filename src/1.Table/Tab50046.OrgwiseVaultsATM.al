@@ -21,6 +21,17 @@ table 50046 "Orgwise Vaults & ATM"
         {
             Caption = 'Payroll Attribute';
             TableRelation = "Payroll Attributes";
+            trigger OnValidate()
+            var
+                PayrollAttributesRec: Record "Payroll Attributes";
+            begin
+                if not PayrollAttributesRec.Get("Payroll Attribute") then
+                    exit;
+
+                if not (PayrollAttributesRec."Specific Attributes" in [PayrollAttributesRec."Specific Attributes"::"ATM Allowance",
+                                                                      PayrollAttributesRec."Specific Attributes"::"Vault Key Allowance"]) then
+                    Error('Invalid attribute type selected. Please select either ATM Allowance or Vault Key Allowance.');
+            end;
         }
         field(5; "ATM Site"; Enum "ATM Site")
         {
@@ -78,13 +89,13 @@ table 50046 "Orgwise Vaults & ATM"
     begin
         VaultsATMsRec.SetCurrentKey("Effective Date");
         VaultsATMsRec.SetRange(Code, OrgStructCode);
+        VaultsATMsRec.SetFilter("Effective Date", '<>%1&<=%2', 0D, Date);
         if ATMSite <> ATMSite::" " then
             VaultsATMsRec.SetRange("ATM Site", ATMSite);
-        if Panel <> Panel::" " then
-            VaultsATMsRec.SetRange(Panel, Panel);
-        VaultsATMsRec.SetFilter("Effective Date", '<=%1', Date);
         if VaultName <> '' then
             VaultsATMsRec.SetRange("Vault Name", VaultName);
+        if Panel <> Panel::" " then
+            VaultsATMsRec.SetRange(Panel, Panel);
         if VaultsATMsRec.FindLast() then
             exit(VaultsATMsRec."No. of ATM/Vaults")
         else

@@ -1348,6 +1348,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Valid To Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 749969055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Vault Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Vault Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 2051636496 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Week Off Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38152,21 +38157,6 @@
           <source>Specifies the value of the Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 198483192 - Control 1233109961 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of Off-Site ATM field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No. of Off-Site ATM - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 198483192 - Control 4188304243 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of On-Side ATM field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No. of On-Side ATM - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 198483192 - Control 2559484029 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of Vault Key field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control No. of Vault Key - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 198483192 - Control 3183363825 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the NRB No Field</source>

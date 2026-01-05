@@ -279,7 +279,6 @@ table 50161 "Assignment Memo Header"
             DataClassification = ToBeClassified;
             Description = 'To be used for allowance claimed in prorata basis such as outstation allowance, remote allowance, etc.';
         }
-
         field(71; "Ownership Start/End Date"; Date)
         {
             DataClassification = CustomerContent;

@@ -44,4 +44,14 @@ page 50062 "No of ATM/Vaults per OrgStruct"
             }
         }
     }
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        VaultATMperOrgStruct: Record "Orgwise Vaults & ATM";
+    begin
+        VaultATMperOrgStruct.SetRange("Code", Rec."Code");
+        if VaultATMperOrgStruct.FindSet() then
+            repeat
+                VaultATMperOrgStruct.TestField("Effective Date");
+            until VaultATMperOrgStruct.Next() = 0;
+    end;
 }
