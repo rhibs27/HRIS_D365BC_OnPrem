@@ -87,8 +87,7 @@ table 50032 "Salary Deduction Entry"
     begin
         if "Attendance Posted" then
             Error('Cannot delete posted entries.');
-        DetSalaryDeductionEntry.SetRange("Employee No.", "Employee No.");
-        DetSalaryDeductionEntry.SetRange("Deduction Date", "Deduction Date");
+        DetSalaryDeductionEntry.SetRange("Deduction Entry No.", "Entry No.");
         DetSalaryDeductionEntry.DeleteAll();
     end;
 }

@@ -329,18 +329,23 @@ codeunit 50034 "Salary Deduction Mgt"
     var
         SalaryDeductEntry: Record "Salary Deduction Entry";
     begin
-        SalaryDeductEntry.Init();
-        SalaryDeductEntry."Entry No." := GetSalaryDeductionEntryNo();
-        SalaryDeductEntryNo := SalaryDeductEntry."Entry No.";
-        SalaryDeductEntry."Employee No." := EmployeeNo;
-        SalaryDeductEntry."Employee Name" := HRMgt.GetEmployeeName(EmployeeNo);
-        SalaryDeductEntry."Deduction Date" := DeductionDate;
-        SalaryDeductEntry."Deduction Type" := Type;
-        SalaryDeductEntry."Pay Cycle Code" := PayCycleCode;
-        SalaryDeductEntry."Pay Cycle Term" := PayCycleTerm;
-        SalaryDeductEntry."Pay Cycle Period" := PayCyclePeriod;
-        SalaryDeductEntry."Attendance Document No" := AttenDocNo;
-        SalaryDeductEntry.Insert(true);
+        SalaryDeductEntry.Reset();
+        SalaryDeductEntry.SetRange("Deduction Date", DeductionDate);
+        SalaryDeductEntry.SetRange("Employee No.", EmployeeNo);
+        if not SalaryDeductEntry.FindFirst() then begin
+            SalaryDeductEntry.Init();
+            SalaryDeductEntry."Entry No." := GetSalaryDeductionEntryNo();
+            SalaryDeductEntryNo := SalaryDeductEntry."Entry No.";
+            SalaryDeductEntry."Employee No." := EmployeeNo;
+            SalaryDeductEntry."Employee Name" := HRMgt.GetEmployeeName(EmployeeNo);
+            SalaryDeductEntry."Deduction Date" := DeductionDate;
+            SalaryDeductEntry."Deduction Type" := Type;
+            SalaryDeductEntry."Pay Cycle Code" := PayCycleCode;
+            SalaryDeductEntry."Pay Cycle Term" := PayCycleTerm;
+            SalaryDeductEntry."Pay Cycle Period" := PayCyclePeriod;
+            SalaryDeductEntry."Attendance Document No" := AttenDocNo;
+            SalaryDeductEntry.Insert(true);
+        end;
     end;
 
     local procedure GetSalaryDeductionEntryNo(): Integer
@@ -369,24 +374,30 @@ codeunit 50034 "Salary Deduction Mgt"
     var
         DetailedSalaryDeductEntry: Record "Det Salary Deduction Entry";
     begin
-        DetailedSalaryDeductEntry.Init();
-        DetailedSalaryDeductEntry."Entry No." := GetDetailedSalaryDeductionEntryNo();
-        DetailedSalaryDeductEntry."Employee No." := EmployeeNo;
-        DetailedSalaryDeductEntry."Employee Name" := HRMgt.GetEmployeeName(EmployeeNo);
-        DetailedSalaryDeductEntry."Deduction Date" := DeductionDate;
-        DetailedSalaryDeductEntry."Deduction Type" := Type;
-        DetailedSalaryDeductEntry."Pay Cycle Code" := PayCycleCode;
-        DetailedSalaryDeductEntry."Pay Cycle Term" := PayCycleTerm;
-        DetailedSalaryDeductEntry."Pay Cycle Period" := PayCyclePeriod;
-        DetailedSalaryDeductEntry."Attribute Type" := AttributeType;
-        DetailedSalaryDeductEntry."Attribute Code" := AttributeCode;
-        DetailedSalaryDeductEntry."Attendance No." := AttendanceNo;
-        DetailedSalaryDeductEntry."Deduction Entry No." := SalaryLedgerEntryNo;
-        if FromFormula then
-            DetailedSalaryDeductEntry.Amount := Amount * GetSignFactor(AttributeType)
-        else
-            DetailedSalaryDeductEntry.Amount := CalculateDeductedAmount(Amount, DetailedSalaryDeductEntry) * GetSignFactor(AttributeType);
-        DetailedSalaryDeductEntry.Insert(true);
+        DetailedSalaryDeductEntry.Reset();
+        DetailedSalaryDeductEntry.SetRange("Employee No.", EmployeeNo);
+        DetailedSalaryDeductEntry.SetRange("Deduction Date", DeductionDate);
+        DetailedSalaryDeductEntry.SetRange("Attribute Code", AttributeCode);
+        if not DetailedSalaryDeductEntry.FindFirst() then begin
+            DetailedSalaryDeductEntry.Init();
+            DetailedSalaryDeductEntry."Entry No." := GetDetailedSalaryDeductionEntryNo();
+            DetailedSalaryDeductEntry."Employee No." := EmployeeNo;
+            DetailedSalaryDeductEntry."Employee Name" := HRMgt.GetEmployeeName(EmployeeNo);
+            DetailedSalaryDeductEntry."Deduction Date" := DeductionDate;
+            DetailedSalaryDeductEntry."Deduction Type" := Type;
+            DetailedSalaryDeductEntry."Pay Cycle Code" := PayCycleCode;
+            DetailedSalaryDeductEntry."Pay Cycle Term" := PayCycleTerm;
+            DetailedSalaryDeductEntry."Pay Cycle Period" := PayCyclePeriod;
+            DetailedSalaryDeductEntry."Attribute Type" := AttributeType;
+            DetailedSalaryDeductEntry."Attribute Code" := AttributeCode;
+            DetailedSalaryDeductEntry."Attendance No." := AttendanceNo;
+            DetailedSalaryDeductEntry."Deduction Entry No." := SalaryLedgerEntryNo;
+            if FromFormula then
+                DetailedSalaryDeductEntry.Amount := Amount * GetSignFactor(AttributeType)
+            else
+                DetailedSalaryDeductEntry.Amount := CalculateDeductedAmount(Amount, DetailedSalaryDeductEntry) * GetSignFactor(AttributeType);
+            DetailedSalaryDeductEntry.Insert(true);
+        end;
     end;
 
     procedure GetDetailedSalaryDeductionEntryNo(): Integer
