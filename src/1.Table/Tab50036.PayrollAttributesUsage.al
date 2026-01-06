@@ -136,6 +136,12 @@ table 50036 "Payroll Attributes Usage"
             Editable = false;
             FieldClass = FlowField;
         }
+        field(24; "Deduct on Absent"; Boolean)
+        {
+            CalcFormula = lookup("Payroll Attributes"."Deduct on Absent" where(Code = field(Code)));
+            FieldClass = FlowField;
+            Editable = false;
+        }
     }
 
     keys
