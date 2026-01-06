@@ -146,6 +146,10 @@ table 50025 "Payroll Attributes"
             Caption = 'Emplymt. Contract Code';
             TableRelation = "Employment Contract";
         }
+        field(43; "RF Contribution Type"; Enum "RF Contribution Type")
+        {
+            Caption = 'RF Contribution Type';
+        }
     }
 
     keys

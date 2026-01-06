@@ -147,6 +147,7 @@ codeunit 50008 "Payroll Engine"
             SocialSecurityTaxAttribute := PayrollAttributes.Code;
 
         PayrollAttributes.SetRange(Subtype, PayrollAttributes.Subtype::CIT);
+        PayrollAttributes.SetRange("RF Contribution Type", PayrollAttributes."RF Contribution Type"::Optimum);
         if PayrollAttributes.FindFirst() then
             CITAttribute := PayrollAttributes.Code;
 
