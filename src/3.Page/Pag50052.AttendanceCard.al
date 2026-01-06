@@ -217,6 +217,36 @@ page 50052 "Attendance Card"
                         Rec.ImportEmployee;
                     end;
                 }
+
+                action("Generate Deductions")
+                {
+                    Image = CreateLinesFromJob;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the Generate Deductions action.';
+                    ApplicationArea = All;
+
+                    trigger OnAction()
+                    var
+                        SalaryDeduction: Codeunit "Salary Deduction Mgt";
+                    begin
+                        SalaryDeduction.GenerateSalaryDeductionEntries(Rec);
+                        Message('Salary Deduction Entries generated successfully for Monthly Attendance No. %1', Rec."No.");
+                    end;
+                }
+                action("View Deductions")
+                {
+                    Image = AnalysisView;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the View Deductions action';
+                    ApplicationArea = All;
+                    RunObject = page "Salary Deduction Entries";
+                    RunPageLink = "Attendance Document No" = field("No.");
+                    RunPageMode = View;
+                }
             }
         }
     }
