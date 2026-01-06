@@ -517,6 +517,5 @@ codeunit 50010 "Payroll-Post"
                                                 DocumentNo: Code[20];
                                                 var PriorTrfAttributeAmount: Decimal)
     begin
-        //added this event as reimbursement 
     end;
 }

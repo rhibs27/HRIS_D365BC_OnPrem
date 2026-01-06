@@ -425,7 +425,7 @@ table 50162 "Assignment Memo Line"
     procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
-        AtmPayrollAttr, DirectPayrollAttr : Record "Payroll Attributes";
+        AtmPayrollAttr, PayrollAttr : Record "Payroll Attributes";
         AllowanceConfig: Record "Allowance Configuration";
     begin
         if PAssignMemo."Employee No." = '' then
@@ -434,8 +434,8 @@ table 50162 "Assignment Memo Line"
             exit;
 
         if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
-            DirectPayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
-            if DirectPayrollAttr."Specific Attributes" <> DirectPayrollAttr."Specific Attributes"::"Holiday Allowance" then
+            PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+            if PayrollAttr."Specific Attributes" <> PayrollAttr."Specific Attributes"::"Holiday Allowance" then
                 exit;
         end;
 
@@ -447,7 +447,7 @@ table 50162 "Assignment Memo Line"
         if PAssignMemo."Line No." = 0 then
             exit;
 
-        DirectPayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+        PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
 
         AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
         if PAssignMemo."Payroll Attribute Code" <> '' then
@@ -455,7 +455,7 @@ table 50162 "Assignment Memo Line"
         else if PAssignMemo."Employee Work Shift" <> '' then
             AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
 
-        if DirectPayrollAttr."Specific Attributes" = DirectPayrollAttr."Specific Attributes"::"Vault Key Allowance" then
+        if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
             AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
         AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
