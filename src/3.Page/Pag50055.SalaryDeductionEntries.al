@@ -1,4 +1,4 @@
-page 50053 "Salary Deduction Entries"
+page 50055 "Salary Deduction Entries"
 {
     ApplicationArea = All;
     Caption = 'Salary Deduction Entries';
