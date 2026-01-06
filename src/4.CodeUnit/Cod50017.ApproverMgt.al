@@ -1696,6 +1696,9 @@ codeunit 50017 "Approver Mgt"
         seqNo: Integer;
     begin
         for seqNo := 1 to ArrayLen(SequenceNoCount) do begin
+            if SequenceNoCount[seqNo] = 0 then
+                exit;
+
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", docNo);
             ApprovalEntry.SetRange("Approval Sequence", seqNo);
