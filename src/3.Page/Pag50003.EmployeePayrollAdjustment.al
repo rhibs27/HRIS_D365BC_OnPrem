@@ -41,7 +41,6 @@ page 50003 "Employee Payroll Adjustment"
             }
         }
     }
-
     actions
     {
         area(Processing)

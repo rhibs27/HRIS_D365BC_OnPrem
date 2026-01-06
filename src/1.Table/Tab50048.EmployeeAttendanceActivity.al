@@ -104,7 +104,7 @@ table 50048 "Employee Attendance & Activity"
         field(28; "Daily Food Allowance"; Decimal) { }
         field(29; "Employee Activity Found"; Boolean) { }
         field(30; "Attendance Date (B.S)"; Text[20]) { }
-        field(31; "Source No."; Code[20]) { }
+        field(31; "Source No."; Code[250]) { }
         field(32; "Created Datetime"; DateTime) { }
         field(33; "Holiday Remarks"; Text[250]) { }
         field(34; "Pay Type"; Enum "Leave Pay Type") { }

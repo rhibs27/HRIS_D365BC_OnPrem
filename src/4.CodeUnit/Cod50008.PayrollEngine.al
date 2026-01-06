@@ -56,6 +56,9 @@ codeunit 50008 "Payroll Engine"
         TaxAttribute: Code[20];
         SocialSecurityTaxAttribute: Code[20];
         SocialSecurityTaxAmount: Decimal;
+        CITAttribute: Code[20];
+        CITContributionDiff: Decimal;
+        OptimumMonthlyCIT: Decimal;
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
@@ -128,6 +131,8 @@ codeunit 50008 "Payroll Engine"
     procedure InitPayrollLine(var _PayrollLine: Record "Payroll Line")
     var
         TotalAnnualEarning: Decimal;
+        Math: Codeunit Math;
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
     begin
         PGSetup.Get;
         PGSetup.TestField("Payroll Fiscal Year End Date");
@@ -140,6 +145,12 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes.SetRange(Subtype, PayrollAttributes.Subtype::"Social Security Tax");
         if PayrollAttributes.FindFirst then
             SocialSecurityTaxAttribute := PayrollAttributes.Code;
+
+        PayrollAttributes.SetRange(Subtype, PayrollAttributes.Subtype::CIT);
+        PayrollAttributes.SetRange("RF Contribution Type", PayrollAttributes."RF Contribution Type"::Optimum);
+        if PayrollAttributes.FindFirst() then
+            CITAttribute := PayrollAttributes.Code;
+
         //Check Document
         PayrollLine := _PayrollLine;
         PayrollLine.GetPayrollHeader;
@@ -227,7 +238,16 @@ codeunit 50008 "Payroll Engine"
                                              EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum + TotalGratuityContribution + CurrentNonPaymentGratuity;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
-        RetirementFundTaxBenefit := TotalContributionToRetirementFund;
+
+        CITContributionDiff := 0;
+        if PayrollAttributeUsage.Get(CITAttribute, _PayrollLine."Employee No.") then;
+        if PayrollAttributeUsage."RF Contribution Type" = PayrollAttributeUsage."RF Contribution Type"::Optimum then
+            if Math.Min(RetirementFundLimit1, RetirementFundLimit2) > TotalContributionToRetirementFund then begin
+                CITContributionDiff := Math.Min(RetirementFundLimit1, RetirementFundLimit2) - TotalContributionToRetirementFund;
+                OptimumMonthlyCIT := CITContributionDiff / (RemainingMonth + 1);
+            end;
+
+        RetirementFundTaxBenefit := TotalContributionToRetirementFund + CITContributionDiff;
         if RetirementFundLimit1 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit1;
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
@@ -430,6 +450,9 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.SaveValues(MonthlyTax - SocialSecurityTaxAmount, TaxAttribute);
         end else
             PayrollLine.SaveValues(MonthlyTax, TaxAttribute);
+
+        if OptimumMonthlyCIT > 0 then
+            PayrollLine.SaveValues(OptimumMonthlyCIT, CITAttribute);
     end;
 
     local procedure CalcCurrentEarning()
@@ -440,7 +463,7 @@ codeunit 50008 "Payroll Engine"
         RecRef: RecordRef;
         FieldRef: FieldRef;
         FieldValue: Decimal;
-
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
     begin
         CurrentEarning := 0;
         CurrentNonPaymentBenefits := 0;
@@ -506,8 +529,11 @@ codeunit 50008 "Payroll Engine"
                                 EmployerContribution += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Employee Contribution" then
                                 EmployeeContribution += FieldValue
-                            else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
-                                CITContribution += FieldValue
+                            else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then begin
+                                if PayrollAttributeUsage.Get(CITAttribute, PayrollLine."Employee No.") then;
+                                if PayrollAttributeUsage."RF Contribution Type" <> PayrollAttributeUsage."RF Contribution Type"::Optimum then
+                                    CITContribution += FieldValue
+                            end
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
                                 RF += FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Lump Sum Contribution" then
@@ -629,7 +655,8 @@ codeunit 50008 "Payroll Engine"
 
                                     case PayrollAttributes.Subtype of
                                         PayrollAttributes.Subtype::CIT:
-                                            CITContribution += UsageAmount;
+                                            if PayrollAttributesUsage."RF Contribution Type" <> PayrollAttributesUsage."RF Contribution Type"::Optimum then
+                                                CITContribution += UsageAmount;
                                         PayrollAttributes.Subtype::"Lump Sum Contribution":
                                             LumpSumCIT += UsageAmount;
                                         PayrollAttributes.Subtype::"Employee Contribution":
@@ -861,6 +888,8 @@ codeunit 50008 "Payroll Engine"
         EmployeeLedgerEntry.SetFilter(Amount, '<>%1', 0);
         if EmployeeLedgerEntry.FindLast then
             LastPayCyclePeriod := EmployeeLedgerEntry."Pay Cycle Period";
+        // if PayrollType = PayrollType::Payroll then
+        //     exit(PayrollHeader."Pay Cycle Period");
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then
             exit(LastPayCyclePeriod)
         else
@@ -2317,7 +2346,7 @@ codeunit 50008 "Payroll Engine"
         //RetirementFundLimit1 := TaxAtOnceTotalAnnualEarning * PGSetup."Tax Ex. Amt. (%) on Retirement" / 100;
         RetirementFundLimit1 := TaxAtOnceTotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
-        RetirementFundTaxBenefit := TotalContributionToRetirementFund;
+        RetirementFundTaxBenefit := TotalContributionToRetirementFund + CITContributionDiff;
         if RetirementFundLimit1 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit1;
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
@@ -3019,7 +3048,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + Employee."Non-Payment" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
         PayrollLine."Past Retirement Fund" := Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
-        PayrollLine."Actual RF Contribution" := TotalContributionToRetirementFund;
+        PayrollLine."Actual RF Contribution" := TotalContributionToRetirementFund + CITContributionDiff;
         PayrollLine."1/3 of Assessable Income" := RetirementFundLimit1;
         PayrollLine."Eligible RF Deduction" := RetirementFundTaxBenefit;
         PayrollLine."Total Employer Contribution" := EmployerContribution;
@@ -3056,7 +3085,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."SST Base Amount" := Round(GetSSTBaseAmount(PayrollLine), 0.01, '=');
         PayrollLine."RIT Base Amount" := Round(PayrollLine."Current Benefit" + PayrollLine."Current Non-Payments" - PayrollLine."SST Base Amount", 0.01, '=');
 
-        PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
+        PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - OptimumMonthlyCIT - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
     end;
 
     local procedure GetSSTBaseAmount(PayrollLineRec: Record "Payroll Line"): Decimal

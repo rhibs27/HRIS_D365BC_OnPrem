@@ -67,18 +67,8 @@ table 50143 "Medical Insurance Claim"
         {
             trigger OnValidate()
             begin
-                if Type <> Type::Overtime then
-                    EmployeeRec.Get("Employee No.");
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
+                HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -90,12 +80,7 @@ table 50143 "Medical Insurance Claim"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"))
             end;
         }
         field(9; "No. of Days"; Decimal)
@@ -109,12 +94,7 @@ table 50143 "Medical Insurance Claim"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Requested Date"))
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -331,7 +311,7 @@ table 50143 "Medical Insurance Claim"
     end;
 
     var
-        EmpVar, EmployeeRec : Record Employee;
+        EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
         NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";

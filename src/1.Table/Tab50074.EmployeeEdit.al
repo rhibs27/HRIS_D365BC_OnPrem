@@ -523,6 +523,7 @@ table 50074 "Employee Edit"
         {
             Description = 'This field includes the name of fields that are updated from portal';
         }
+        field(127; "GPA Scales"; Decimal) { }
     }
     keys
     {

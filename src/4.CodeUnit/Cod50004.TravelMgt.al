@@ -639,6 +639,7 @@ codeunit 50004 "Travel Mgt."
             HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
             Message('Travel Claim has been sent for apporval.');
             TravelRequest2."Travel Claimed" := true;
+            TravelRequest2."Travel claim Doc No." := TravelRequest."No.";
             TravelRequest2.Modify;
             OnAfterApplyTravelClaim(TravelRequest."No.");
         end;

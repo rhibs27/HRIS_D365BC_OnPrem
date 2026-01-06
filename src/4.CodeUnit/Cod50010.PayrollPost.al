@@ -288,11 +288,15 @@ codeunit 50010 "Payroll-Post"
                                         PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * ServiceDaysBeforeTransfer, 0.01, '=')
                                     else if PGSetup."Total Days From" = PGSetup."Total Days From"::Month then
                                         PriorTrfAttributeAmount := Round(FieldValue / PayrollLine."Total Days" * ServiceDaysBeforeTransfer, 0.01, '=');
-                                    PayrollJournalLine.Amount := PriorTrfAttributeAmount;
-                                    LineBalance += PriorTrfAttributeAmount;
+
                                     PayrollJournalLine."Shortcut Dimension 1 Code" := DimensionValueBeforeTransfer;
                                     PayrollJournalLine."Deputation On" := DeputationTypeBeforeTransfer;
                                     PayrollJournalLine."Deputation Value" := DeputationCodeBeforeTransfer;
+
+                                    PayrollPostOnafterTransferCheckOnBeforeUpdateAmount(PayrollJournalLine, PayrollAttributes, PayrollLine."Document No.", PriorTrfAttributeAmount);
+
+                                    PayrollJournalLine.Amount := PriorTrfAttributeAmount;
+                                    LineBalance += PriorTrfAttributeAmount;
                                     PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
                                     UpdatePayrollJnl(PayrollJournalLine);
                                     PostEmployee(PayrollJournalLine);
@@ -389,37 +393,38 @@ codeunit 50010 "Payroll-Post"
                     PayrollAttributes.SetRange("Delete Amount After Posting", true);
                     if PayrollAttributes.FindSet then
                         repeat
-                            PayrollAttributesUsage.Reset;
-                            PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
-                            PayrollAttributesUsage.SetRange("Employee Code", PayrollLine."Employee No.");
-                            if PayrollAttributesUsage.FindFirst then begin
+                            if PayrollAttributesUsage.get(PayrollAttributes.Code, PayrollLine."Employee No.") then begin
                                 PayrollAttributesUsage.Amount := 0;
                                 PayrollAttributesUsage.Modify;
                             end;
                         until PayrollAttributes.Next = 0;
-
-                    //To Automate stop payment of payroll attribute with end date in history.
-                    PayrollAttrUsageHistory.Reset();
-                    PayrollAttrUsageHistory.SetRange("End Date", PayrollHeader."From Date", PayrollHeader."To Date");
-                    if PayrollAttrUsageHistory.FindSet() then
-                        repeat
-                            PayrollAttributesUsage.Reset();
-                            PayrollAttributesUsage.SetRange(Code, PayrollAttrUsageHistory."Attribute Code");
-                            PayrollAttributesUsage.SetRange("Employee Code", PayrollAttrUsageHistory."Employee No.");
-                            if PayrollAttrUsageHistory.FindFirst() then begin
-                                PayrollAttributesUsage.Amount := 0;
-                                PayrollAttributesUsage.Modify;
-                            end
-                        until PayrollAttrUsageHistory.Next() = 0;
                 end;
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                     Employee.Get(PayrollLine."Employee No.");
                     Employee.Settled := true;
                     Employee.Modify;
                 end;
-                PayrollLine.Delete;
             until PayrollLine.Next = 0;
+        ClearPayrollAttributeUsageFromAttributeHistory(PayrollHeader."From Date", PayrollHeader."To Date");
+        PayrollLine.DeleteAll();
         PayrollHeader.Delete;
+    end;
+
+    local procedure ClearPayrollAttributeUsageFromAttributeHistory(FromDate: Date; ToDate: Date)
+    var
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
+    begin
+        //To Automate stop payment of payroll attribute with end date in history.
+        PayrollAttrUsageHistory.Reset();
+        PayrollAttrUsageHistory.SetRange("End Date", FromDate, ToDate);
+        if PayrollAttrUsageHistory.FindSet() then
+            repeat
+                if PayrollAttributesUsage.get(PayrollAttrUsageHistory."Attribute Code", PayrollAttrUsageHistory."Employee No.") then begin
+                    PayrollAttributesUsage.Amount := 0;
+                    PayrollAttributesUsage.Modify;
+                end;
+            until PayrollAttrUsageHistory.Next() = 0;
     end;
 
     local procedure GetEmpDesignationAccount(FieldID: Integer): Code[20]
@@ -516,5 +521,13 @@ codeunit 50010 "Payroll-Post"
     procedure OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader: Record "Payroll Header")
     begin
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure PayrollPostOnafterTransferCheckOnBeforeUpdateAmount(var PayrollJournalLine: Record "Payroll Journal Line" temporary;
+                                                PayrollAttributes: Record "Payroll Attributes";
+                                                DocumentNo: Code[20];
+                                                var PriorTrfAttributeAmount: Decimal)
+    begin
     end;
 }

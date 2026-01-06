@@ -69,6 +69,8 @@ table 50092 "Allowance Assignment Header"
         {
             trigger OnValidate()
             begin
+                if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then
+                    TestField(Month);
                 Validate("Fiscal Year", HrMgt.ReturnFiscalYear("From Date"));
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
@@ -79,6 +81,8 @@ table 50092 "Allowance Assignment Header"
             trigger OnValidate()
             begin
                 TestField("From Date");
+                if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then
+                    AllowanceMgt.CheckCutOffDate("From Date", "To date", Month);
                 if "From Date" > "To date" then
                     Error('Invalid date.');
             end;
@@ -169,6 +173,16 @@ table 50092 "Allowance Assignment Header"
         {
             Editable = false;
         }
+        field(27; Month; Enum "Nepali Month")
+        {
+            trigger OnValidate()
+            begin
+                if xRec.Month <> Rec.Month then begin
+                    Clear("From Date");
+                    Clear("To date");
+                end;
+            end;
+        }
         field(100; "Status"; Text[20]) { }
     }
     keys
@@ -227,4 +241,5 @@ table 50092 "Allowance Assignment Header"
         ApproverMgt: Codeunit "Approver Mgt";
         GLsetup: Record "General Ledger Setup";
         AllowanceHeader: Record "Allowance Assignment Header";
+        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
 }

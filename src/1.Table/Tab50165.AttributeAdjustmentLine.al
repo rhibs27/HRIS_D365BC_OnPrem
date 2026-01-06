@@ -57,8 +57,8 @@ table 50165 "Attribute Adjustment Line"
             var
                 PayrollAttrUsage: Record "Payroll Attributes Usage";
             begin
-                PayrollAttrUsage.Get("Attribute Code", "Employee No.");
-                Validate("Old Amount", PayrollAttrUsage.Amount);
+                if PayrollAttrUsage.Get("Attribute Code", "Employee No.") then
+                    Validate("Old Amount", PayrollAttrUsage.Amount);
             end;
         }
         field(7; "Old Amount"; Decimal)
