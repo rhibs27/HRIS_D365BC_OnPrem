@@ -13203,6 +13203,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Posting Method - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 115701454 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>RF Contribution Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field RF Contribution Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2858165342 - Field 2564314137 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specific Attributes</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39362,6 +39367,11 @@
           <source>Specifies the value of the Posting Method field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Posting Method - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2858165342 - Control 115701454 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the RF Contribution Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control RF Contribution Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 2564314137 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specify the payroll nature in deep level. It is used to identify very specific payroll attributes such as leave encash, walefare etc</source>
