@@ -21,7 +21,7 @@ codeunit 50017 "Approver Mgt"
         Approval1: Record "Approval HRMS";
         SequenceOneCount, ApprovalEntryCount : Integer;
         isHandled, SkipError : Boolean;
-
+        PerSequenceCount: array[10] of Integer;
     begin
         EmpRequest.Get(EmployeeNo);
         //if employee is a manual approver
@@ -39,7 +39,8 @@ codeunit 50017 "Approver Mgt"
             OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
             OnSkipEmployeeError(SkipError);
             SequenceOneCount := 0;
-            if ApprovalSetupLine.Findset() then
+            GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
+            if ApprovalSetupLine.Findset() then begin
                 repeat
                     ApprovalSetup.Get(ApprovalSetupLine."Request Type", ApprovalSetupLine."Deputation On");
                     Employee.Reset();
@@ -84,11 +85,15 @@ codeunit 50017 "Approver Mgt"
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
                     end
-                    else begin
+                    else
                         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
                             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
-                    end;
-                until ApprovalSetupLine.Next() = 0
+
+                until ApprovalSetupLine.Next() = 0;
+
+                if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"At Least One Role Per Sequence Mandatory" then
+                    CheckAndValidatePerSequenceApproval(EmpActNo, PerSequenceCount);
+            end
             else
                 Error('Approval Setup not found');
             if SequenceOneCount = 0 then
@@ -111,6 +116,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         SequenceOneCount, ApprovalEntryCount : Integer;
+        PerSequenceCount: array[10] of Integer;
     begin
         EmpRequest.Reset();
         EmpRequest.Get(EmployeeNo);
@@ -119,7 +125,8 @@ codeunit 50017 "Approver Mgt"
         ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         SequenceOneCount := 0;
-        if ApprovalSetupLine.Findset() then
+        GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
+        if ApprovalSetupLine.Findset() then begin
             repeat
                 ApprovalSetup.Get(ApprovalSetupLine."Request Type", ApprovalSetupLine."Deputation On");
                 Employee.Reset();
@@ -162,7 +169,12 @@ codeunit 50017 "Approver Mgt"
                 else
                     if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
                         Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
-            until ApprovalSetupLine.Next() = 0
+
+            until ApprovalSetupLine.Next() = 0;
+
+            if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"At Least One Role Per Sequence Mandatory" then
+                CheckAndValidatePerSequenceApproval(EmpActNo, PerSequenceCount);
+        end
         else
             Error('Approval Setup not found');
         if SequenceOneCount = 0 then
@@ -181,6 +193,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         SequenceOneCount, ApprovalEntryCount : Integer;
         IsHandled: Boolean;
+        PerSequenceCount: array[10] of Integer;
     begin
         EmpRequest.Reset();
         EmpRequest.Get(EmployeeNo);
@@ -190,7 +203,8 @@ codeunit 50017 "Approver Mgt"
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         OnInsertApprovalCancelledOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
         SequenceOneCount := 0;
-        if ApprovalSetupLine.Findset() then
+        GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
+        if ApprovalSetupLine.Findset() then begin
             repeat
                 ApprovalSetup.Get(ApprovalSetupLine."Request Type", ApprovalSetupLine."Deputation On");
                 Employee.Reset();
@@ -236,7 +250,11 @@ codeunit 50017 "Approver Mgt"
                 else
                     if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
                         Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
-            until ApprovalSetupLine.Next() = 0
+            until ApprovalSetupLine.Next() = 0;
+
+            if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"At Least One Role Per Sequence Mandatory" then
+                CheckAndValidatePerSequenceApproval(EmpActNo, PerSequenceCount);
+        end
         else
             Error('Approval Setup not found');
         if SequenceOneCount = 0 then begin
@@ -1104,7 +1122,7 @@ codeunit 50017 "Approver Mgt"
     var
         EmpActTypeEnum: Enum "Employee Activity Type";
         Leave: Record Leave;
-        TravelRequest: Record "Travel Request";
+        TravelRequest, TravelRequest2 : Record "Travel Request";
         RecRef: RecordRef;
         RetirementFund: Record "Retirement Fund";
         AttendanceMissed: Record "Attendance Missed";
@@ -1126,6 +1144,9 @@ codeunit 50017 "Approver Mgt"
                     if TravelRequest.Get(documentNo) then begin
                         RecRef.GetTable(TravelRequest);
                         WithDrawRequest(RecRef);
+                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+                            TravelRequest2.Extended := false;
+                        TravelRequest2.Modify();
                     end;
                 end;
             EmpActTypeEnum::Retirement:
@@ -1148,6 +1169,7 @@ codeunit 50017 "Approver Mgt"
                     WithDrawRequest(RecRef);
                 end;
         end;
+        OnAfterOtherDocumentType(documentNo, EmpActTypeEnum);
     end;
 
 #if SaasFeature
@@ -1399,15 +1421,15 @@ codeunit 50017 "Approver Mgt"
 
     procedure GenerateApprovalEntry(
         EmpActType: Enum "Employee Activity Type";
-        EmpActNo: Code[20];
-        ApproverNo: Code[20];
-        ApprovalSequence: Integer;
-        StatusText: Text[20];
-        ApproverRole: Code[20];
-        ApprovalStatus: Enum "Approval Status";
-        EmployeeNo: Code[20];
-        LoanType: Enum "Loan Type";
-        Cancelled: Boolean
+                        EmpActNo: Code[20];
+                        ApproverNo: Code[20];
+                        ApprovalSequence: Integer;
+                        StatusText: Text[20];
+                        ApproverRole: Code[20];
+                        ApprovalStatus: Enum "Approval Status";
+                        EmployeeNo: Code[20];
+                        LoanType: Enum "Loan Type";
+                        Cancelled: Boolean
     ): Integer
     var
         Approval: Record "Approval HRMS";
@@ -1445,8 +1467,8 @@ codeunit 50017 "Approver Mgt"
     procedure InsertApprovalWithRecordref(EmployeeNo: Code[20];
                               EmpActNo: Code[20];
                               EmpActType: enum "Employee Activity Type";
-                              ApprovalStatus: Enum "Approval Status";
-                              RecordRef: RecordRef)
+                                              ApprovalStatus: Enum "Approval Status";
+                                              RecordRef: RecordRef)
 
     var
         ApprovalSetup: Record "Approval Setup";
@@ -1455,7 +1477,8 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         SequenceOneCount, ApprovalEntryCount : Integer;
-        isHandled : Boolean;
+        isHandled, SkipError : Boolean;
+        PerSequenceCount: array[10] of Integer;
     begin
         EmpRequest.Get(EmployeeNo);
 
@@ -1474,7 +1497,8 @@ codeunit 50017 "Approver Mgt"
             ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
             ApplyAllowanceFilter(ApprovalSetupLine, EmpActType, RecordRef);
             SequenceOneCount := 0;
-            if ApprovalSetupLine.Findset() then
+            GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
+            if ApprovalSetupLine.Findset() then begin
                 repeat
                     IsValidApprovalSetupLine(ApprovalSetupLine, EmpRequest, RecordRef);
                     ApprovalSetup.Get(ApprovalSetupLine."Request Type", ApprovalSetupLine."Deputation On");
@@ -1529,7 +1553,12 @@ codeunit 50017 "Approver Mgt"
                     else
                         if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
                             Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
-                until ApprovalSetupLine.Next() = 0
+
+                until ApprovalSetupLine.Next() = 0;
+
+                if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"At Least One Role Per Sequence Mandatory" then
+                    CheckAndValidatePerSequenceApproval(EmpActNo, PerSequenceCount);
+            end
             else
                 Error('Approval Setup not found');
 
@@ -1629,6 +1658,55 @@ codeunit 50017 "Approver Mgt"
         exit(not ApprovalEntry.IsEmpty);
     end;
 
+    procedure GetPerSequenceApproval(var ApprovalSetupLine: Record "Approval Setup Line"; var SequenceNoCount: array[10] of Integer): Integer
+    begin
+        ApprovalSetupLine.SetCurrentKey("Approval Sequence");
+        ApprovalSetupLine.SetAscending("Approval Sequence", true);
+        if ApprovalSetupLine.FindSet() then
+            repeat
+                case ApprovalSetupLine."Approval Sequence" of
+                    1:
+                        SequenceNoCount[1] += 1;
+                    2:
+                        SequenceNoCount[2] += 1;
+                    3:
+                        SequenceNoCount[3] += 1;
+                    4:
+                        SequenceNoCount[4] += 1;
+                    5:
+                        SequenceNoCount[5] += 1;
+                    6:
+                        SequenceNoCount[6] += 1;
+                    7:
+                        SequenceNoCount[7] += 1;
+                    8:
+                        SequenceNoCount[8] += 1;
+                    9:
+                        SequenceNoCount[9] += 1;
+                    10:
+                        SequenceNoCount[10] += 1;
+
+                end;
+            until ApprovalSetupLine.Next() = 0;
+    end;
+
+    procedure CheckAndValidatePerSequenceApproval(docNo: Code[20]; var SequenceNoCount: array[10] of Integer)
+    var
+        ApprovalEntry: Record "Approval HRMS";
+        seqNo: Integer;
+    begin
+        for seqNo := 1 to ArrayLen(SequenceNoCount) do begin
+            if SequenceNoCount[seqNo] = 0 then
+                exit;
+
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", docNo);
+            ApprovalEntry.SetRange("Approval Sequence", seqNo);
+            if ApprovalEntry.IsEmpty() then
+                Error('Approver not found for sequence %1', seqNo);
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnInsertApprovalOnBeforeSelectApprover(var ApprovalSetupLine: Record "Approval Setup Line";
                                                 var Employee: Record Employee; var EmpRequest: Record employee; var IsHandled: Boolean);
@@ -1678,6 +1756,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean; var IsExit: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterOtherDocumentType(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type")
     begin
     end;
 

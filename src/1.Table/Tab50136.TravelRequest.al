@@ -64,7 +64,7 @@ table 50136 "Travel Request"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -222,12 +222,15 @@ table 50136 "Travel Request"
             CaptionClass = '1,2,1';
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
         }
-        field(18; Department; Code[20]) { }
-        field(19; "Branch Name"; Text[50])
+        field(18; Department; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -236,7 +239,10 @@ table 50136 "Travel Request"
             Editable = false;
             TableRelation = "Functional Title";
         }
-        field(22; "Branch Code"; Code[20]) { }
+        field(22; "Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+        }
         field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
@@ -247,9 +253,18 @@ table 50136 "Travel Request"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(28; "Extension Counter Code"; Code[20]) { }
-        field(30; "Province Code"; Code[20]) { }
-        field(31; "Unit Code"; Code[20]) { }
+        field(28; "Extension Counter Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
+        field(30; "Province Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
+        }
+        field(31; "Unit Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
         field(34; Ecosystem; Code[20]) { }
@@ -627,6 +642,10 @@ table 50136 "Travel Request"
             DataClassification = ToBeClassified;
         }
         field(97; "Advance Disbursed"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(98; "Travel claim Doc No."; Code[20])
         {
             DataClassification = ToBeClassified;
         }

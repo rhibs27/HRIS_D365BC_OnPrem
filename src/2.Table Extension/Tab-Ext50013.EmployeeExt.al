@@ -54,12 +54,13 @@ tableextension 50013 "Employee Ext" extends Employee
                 Pattern: Label '^[A-Za-z]+$';
 
             begin
-                if "Middle Name" <> '' then
-                    if not Regex.IsMatch("First Name", Pattern) then
-                        Error('Only Alphabet Character Allowed');
+                // if "Middle Name" <> '' then
+                //     if not Regex.IsMatch("First Name", Pattern) then
+                //         Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
+
         modify(Gender)
         {
             trigger OnAfterValidate()
@@ -74,9 +75,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
-                if "Middle Name" <> '' then
-                    if not Regex.IsMatch("Last Name", Pattern) then
-                        Error('Only Alphabet Character Allowed');
+                // if "Middle Name" <> '' then
+                //     if not Regex.IsMatch("Last Name", Pattern) then
+                //         Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -87,12 +88,13 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
-                if "Middle Name" <> '' then
-                    if not Regex.IsMatch("Middle Name", Pattern) then
-                        Error('Only Alphabet Character Allowed');
+                // if "Middle Name" <> '' then
+                //     if not Regex.IsMatch("Middle Name", Pattern) then
+                //         Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
+
         modify("Mobile Phone No.")
         {
             trigger OnAfterValidate()
@@ -318,20 +320,20 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   Reversed = const(false)));
             Editable = false;
         }
-        field(50020; "Full Name (Nepali)"; Text[30])
+        field(50020; "Full Name (Nepali)"; Text[50])
         {
             Description = 'In Nepali';
         }
-        field(50021; "Father's Name (Nepali)"; Text[30])
+        field(50021; "Father's Name (Nepali)"; Text[50])
         {
             Description = 'In Nepali';
         }
-        field(50022; "Mother's Name (Nepali)"; Text[30])
+        field(50022; "Mother's Name (Nepali)"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali';
         }
-        field(50023; "GrandFather's Name (Nepali)"; Text[30])
+        field(50023; "GrandFather's Name (Nepali)"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali';
@@ -1516,13 +1518,22 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50201; "Identity Mark"; text[250]) { }
+        field(50201; "Identity Mark"; text[250])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50202; Seniority; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+            Description = 'Calculated based on salary level and employment date';
+        }
     }
     keys
     {
-        key(key6; "First Name") { }
-        key(key7; "Last Name") { }
-        key(key8; "Full Name") { }
+        key(key6; "First Name", "Last Name") { }
+        key(key7; "Full Name") { }
+        key(key8; Seniority) { }
     }
     fieldgroups
     {

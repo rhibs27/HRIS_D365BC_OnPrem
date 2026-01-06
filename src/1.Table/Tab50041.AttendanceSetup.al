@@ -104,13 +104,19 @@ table 50041 "Attendance Setup"
         }
         field(105; "Branch Code"; code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             DataClassification = ToBeClassified;
         }
         field(106; "Department Code"; code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             DataClassification = ToBeClassified;
         }
         field(107; "Store Procedure Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(108; "Absent Deductions"; Boolean)
         {
             DataClassification = ToBeClassified;
         }

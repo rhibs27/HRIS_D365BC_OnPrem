@@ -468,8 +468,6 @@ codeunit 50028 "Excel Import"
             AdjLine.Insert(true);
     end;
 
-    //23
-
     procedure ImportShiftLineFromExcelSheet(DocNo: Code[20])
     var
         FileMgt: Codeunit "File Management";

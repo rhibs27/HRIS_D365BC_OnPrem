@@ -351,6 +351,7 @@ table 50166 "Assignment Memo Line Copy"
     begin
         if "Payroll Attribute Code" <> '' then begin
 
+            OnBeforeCalculateAmountForLine(Rec, IsHandled);
             if IsHandled then
                 exit;
 
@@ -392,7 +393,7 @@ table 50166 "Assignment Memo Line Copy"
         AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
         AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
         if not AssignmentMemoLine.IsEmpty() then
-            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee No.", Format(PAssignMemo."From Date"));
+            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
     end;
 
     procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line Copy")
@@ -411,5 +412,10 @@ table 50166 "Assignment Memo Line Copy"
             if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
                 AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line Copy"; var IsHandled: Boolean)
+    begin
     end;
 }

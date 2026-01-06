@@ -60,7 +60,7 @@ table 50153 "Cancel Document"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -161,17 +161,19 @@ table 50153 "Cancel Document"
         field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -207,8 +209,11 @@ table 50153 "Cancel Document"
                     Clear("Salary Level Description");
             end;
         }
-        field(28; "Extension Counter Code"; Code[20]) { }
-        field(29; "Province Name"; Code[50])
+        field(28; "Extension Counter Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
+        field(29; "Province Name"; Text[100])
         {
             Editable = false;
         }
@@ -216,7 +221,10 @@ table 50153 "Cancel Document"
         {
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
         }
-        field(31; "Unit Code"; Code[20]) { }
+        field(31; "Unit Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+        }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
         field(34; Ecosystem; Code[20]) { }
@@ -289,7 +297,7 @@ table 50153 "Cancel Document"
                     Clear("Substitute Person Name");
             end;
         }
-        field(103; "Substitute Person Name"; text[50])
+        field(103; "Substitute Person Name"; Text[100])
         {
             Caption = 'Substitute Person Name';
             Editable = false;

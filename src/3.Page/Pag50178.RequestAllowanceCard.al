@@ -88,6 +88,10 @@ page 50178 "Request Allowance Card"
                 {
                     ToolTip = 'Specifies the value of the Fuel Type field.', Comment = '%';
                 }
+                field("Effective Date"; Rec."Effective Date")
+                {
+                    Caption = 'OutStation Effective Date';
+                }
             }
             part(line1; "Request Allowance Subform Copy")
             {

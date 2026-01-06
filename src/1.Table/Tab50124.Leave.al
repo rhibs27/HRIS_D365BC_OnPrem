@@ -59,7 +59,7 @@ table 50124 Leave
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -188,13 +188,14 @@ table 50124 Leave
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -225,10 +226,12 @@ table 50124 Leave
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             Editable = false;
         }
         field(30; "Province Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             Editable = false;
         }
         field(29; "Province Name"; Code[50])
@@ -237,6 +240,7 @@ table 50124 Leave
         }
         field(31; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             Editable = false;
         }
         field(32; "Compensatory Days"; Decimal) { }
@@ -399,7 +403,7 @@ table 50124 Leave
                     Clear("Substitute Person Name");
             end;
         }
-        field(204; "Substitute Person Name"; text[50])
+        field(204; "Substitute Person Name"; Text[100])
         {
             Caption = 'Substitute Person Name';
             Editable = false;

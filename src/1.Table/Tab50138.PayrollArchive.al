@@ -35,7 +35,6 @@ table 50138 "Payroll Archive"
             TableRelation = "Salary Level";
         }
         field(11; "Grade Code"; Code[20]) { }
-        //salary level
         field(100; Rank; Integer)
         {
             Caption = 'Rank';

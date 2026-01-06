@@ -24,6 +24,14 @@ page 50181 "Request Allowance Subform"
                         CurrPage.Update;
                     end;
                 }
+                field("From Date"; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
+                }
+                field("To Date"; Rec."To Date")
+                {
+                    ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
+                }
                 field("Allowance Amount"; Rec."Allowance Amount")
                 {
                     ToolTip = 'Specifies the value of the Allowance Amount field.';
@@ -94,6 +102,18 @@ page 50181 "Request Allowance Subform"
                 field("Amount per Ltr."; Rec."Amount per Ltr.")
                 {
                     ToolTip = 'Specifies the value of the Amount per Ltr. field.', Comment = '%';
+                }
+                field("Last Placement Date"; Rec."Last Placement Date")
+                {
+                    ToolTip = 'Specifies the value of the Date of joining current branch field.', Comment = '%';
+                }
+                field("Previous Branch Code"; Rec."Previous Branch Code")
+                {
+                    ToolTip = 'Specifies the value of the Previous Branch Code field.', Comment = '%';
+                }
+                field("Vault Name"; Rec."Vault Name")
+                {
+                    ToolTip = 'Specifies the value of the Vault Name field.', Comment = '%';
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {

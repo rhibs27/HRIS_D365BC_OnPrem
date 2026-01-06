@@ -269,6 +269,9 @@ table 50042 "Attendance Header"
     end;
 
     procedure ReOpenDocument(var AttendanceHeader: Record "Attendance Header")
+    var
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
+        DetailedSalaryDeductionEntry: Record "Det Salary Deduction Entry";
     begin
         if not Confirm(Text008, false, "No.") then
             exit;
@@ -277,6 +280,15 @@ table 50042 "Attendance Header"
             AttendanceHeader.Posted := false;
             AttendanceHeader."Posted By" := '';
             AttendanceHeader.Modify;
+
+            SalaryDeductionEntry.Reset();
+            SalaryDeductionEntry.SetRange("Attendance Document No", "No.");
+            SalaryDeductionEntry.ModifyAll("Attendance Posted", false);
+
+            DetailedSalaryDeductionEntry.Reset();
+            DetailedSalaryDeductionEntry.SetRange("Attendance No.", "No.");
+            DetailedSalaryDeductionEntry.ModifyAll("Attendance Posted", false);
+
             ChangeStatus(AttendanceHeader."No.", AttendanceHeader.Status);
         end;
     end;
@@ -303,6 +315,9 @@ table 50042 "Attendance Header"
     end;
 
     procedure PostDocument()
+    var
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
+        DetailedSalaryDeductionEntry: Record "Det Salary Deduction Entry";
     begin
         if not Confirm(Text007, false, "No.") then
             exit;
@@ -318,6 +333,15 @@ table 50042 "Attendance Header"
         "Posted By" := UserId;
         "Posting Date" := Today;
         Modify;
+
+        SalaryDeductionEntry.Reset();
+        SalaryDeductionEntry.SetRange("Attendance Document No", "No.");
+        SalaryDeductionEntry.ModifyAll("Attendance Posted", true);
+
+        DetailedSalaryDeductionEntry.Reset();
+        DetailedSalaryDeductionEntry.SetRange("Attendance No.", "No.");
+        DetailedSalaryDeductionEntry.ModifyAll("Attendance Posted", true);
+
         ChangeStatus("No.", Status);
     end;
 
