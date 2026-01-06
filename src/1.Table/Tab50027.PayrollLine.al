@@ -1619,11 +1619,11 @@ table 50027 "Payroll Line"
 
         RFContributionGetAttribute("Employee No.", PayrollHeader);
         GetGlobalAttributes();
-        CalculateAbsentasimBeforeAndAfterpromotion();
+        CalculateAbsenteeismBeforeAndAfterPromotion();
         UpdateSalaryAdvanceNo();
         CalculateLateDeduction();
-        CalculateOTBenifit();
-        GetTotalInsurranceClaim();
+        CalculateOTBenefit();
+        GetTotalInsuranceClaim();
 
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             GetSettlementRecovery();
@@ -1656,7 +1656,7 @@ table 50027 "Payroll Line"
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
                         if PayrollAttributes."Deduct on Absent" then
-                            AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
+                            AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
 
                         CalculateDifferentialInterestAmount(AttributeAmount);
 
@@ -1941,7 +1941,7 @@ table 50027 "Payroll Line"
                 "Basic Salary" := PayrollAttributesUsage.Amount;
         end;
 
-        exit(GetAmountAfterAbsentism(PayrollAttributesUsage.Amount));
+        exit(GetAmountAfterAbsenteeism(PayrollAttributesUsage.Amount));
     end;
 
     procedure SaveValues(FieldValue: Decimal; AttributeCode: Code[20])
@@ -1966,7 +1966,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure GetAmountAfterAbsentism(CalculatedAmount: Decimal): Decimal
+    local procedure GetAmountAfterAbsenteeism(CalculatedAmount: Decimal): Decimal
     var
         TotalDaysInMonth: Decimal;
         TotalAmount: Decimal;
@@ -2532,7 +2532,7 @@ table 50027 "Payroll Line"
         */
     end;
 
-    procedure CalculateAbsentasimBeforeAndAfterpromotion()
+    procedure CalculateAbsenteeismBeforeAndAfterPromotion()
     var
         EmployeeAttendActivity: Record "Employee Attendance & Activity";
     begin
@@ -2599,7 +2599,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure CalculateOTBenifit()
+    procedure CalculateOTBenefit()
     var
         AttributeAmount: Decimal;
         PayrollAttr: Record "Payroll Attributes";
@@ -2617,7 +2617,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure GetTotalInsurranceClaim()
+    procedure GetTotalInsuranceClaim()
     var
         AttributeAmount: Decimal;
         PayrollAttr: Record "Payroll Attributes";
@@ -2882,12 +2882,19 @@ table 50027 "Payroll Line"
             PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Start Date");
             if PayCyclePeriod.FindFirst() then
                 exit(PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount")
-            else
+            else begin
+                if PayrollAttrUsageHistory."End Date" <> 0D then
+                    exit((GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
+                                            PayrollAttrUsageHistory."Old Amount",
+                                            PayrollAttrUsageHistory."Start Date",
+                                            PayrollAttrUsageHistory."End Date",
+                                            true)));
                 exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
                                             PayrollAttrUsageHistory."Old Amount",
                                             PayrollAttrUsageHistory."Start Date",
                                             PayrollHeader."From Date",
-                                            false));
+                                            false))
+            end;
         end;
     end;
 
