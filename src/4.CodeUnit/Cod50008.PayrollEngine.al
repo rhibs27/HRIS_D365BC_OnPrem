@@ -861,6 +861,8 @@ codeunit 50008 "Payroll Engine"
         EmployeeLedgerEntry.SetFilter(Amount, '<>%1', 0);
         if EmployeeLedgerEntry.FindLast then
             LastPayCyclePeriod := EmployeeLedgerEntry."Pay Cycle Period";
+        // if PayrollType = PayrollType::Payroll then
+        //     exit(PayrollHeader."Pay Cycle Period");
         if LastPayCyclePeriod > PayrollHeader."Pay Cycle Period" then
             exit(LastPayCyclePeriod)
         else
