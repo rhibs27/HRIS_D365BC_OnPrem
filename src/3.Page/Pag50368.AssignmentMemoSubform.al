@@ -39,6 +39,21 @@ page 50368 "Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
                 }
+                field("Vault Name"; Rec."Vault Name")
+                {
+                    ToolTip = 'Specifies the value of the Vault Name field.', Comment = '%';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        OrgwiseATMVaults: Record "Orgwise Vaults & ATM";
+                        AssignmentMemoHdr: Record "Assignment Memo Header";
+                    begin
+                        AssignmentMemoHdr.Get(Rec."Document No.");
+                        OrgwiseATMVaults.SetRange(Code, AssignmentMemoHdr."Branch Code");
+                        OrgwiseATMVaults.SetFilter("Vault Name", '<>%1', '');
+                        if Page.RunModal(Page::"No of ATM and Vaults", OrgwiseATMVaults) = Action::LookupOK then
+                            Rec."Vault Name" := OrgwiseATMVaults."Vault Name";
+                    end;
+                }
                 field(Panel; Rec.Panel)
                 {
                     ToolTip = 'Specifies the value of the Panel field.', Comment = '%';
@@ -124,5 +139,5 @@ page 50368 "Assignment Memo Subform"
     end;
 
     var
-        SubstituteActionVisible : boolean;
+        SubstituteActionVisible: boolean;
 }

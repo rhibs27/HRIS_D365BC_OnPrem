@@ -58,11 +58,7 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Week Off Day" = 1) then
             EmpAttendance."Present in Holiday" := 1;
 
-        // if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Absent Day" = 0) and (EmpAttendance."Week Off Day" = 0) and (EmpAttendance."Tour Day" = 0) and (EmpAttendance."Leave Day" = 0) and (EmpAttendance."Transfer Day" = 0) and (EmpAttendance."Training Day" = 0) then
-        // CheckAndInsertTimeDifference();
         EmpAttendance.Modify(true);
-
-        //Update attendance for assignment memo if exists
     end;
 
     local procedure ResetDays()
@@ -79,6 +75,8 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Check Out Time" := 0T;
         EmpAttendance."Check In Difference" := 0;
         EmpAttendance."Check Out Difference" := 0;
+        EmpAttendance."Actual Work Time" := 0;
+        EmpAttendance."Work Time Difference" := 0;
         EmpAttendance."Late Check In Day" := 0;
         EmpAttendance."Early Check Out Day" := 0;
         EmpAttendance."Training Day" := 0;
@@ -238,6 +236,11 @@ codeunit 50029 "Process Daily Attendance"
                     EmpActLedgerEntry."Document Type"::"Allowance Assignment Claim":
                         begin
                             AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
+                        end;
+                    EmpActLedgerEntry."Document Type"::"Late Deduction":
+                        begin
+                            EmpAttendance."Late Deduction" := true;
+                            EmpAttendance.Remarks := 'Late Deduction';
                         end;
                     else begin
                         OnAfterProcessDayFromEmpActLedgerEntry(EmpAttendance, EmpActLedgerEntry, Ishandled);

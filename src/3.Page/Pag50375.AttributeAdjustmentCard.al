@@ -92,8 +92,6 @@ page 50375 "Attribute Adjustment Card"
                 var
                     AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
                 begin
-                    if not (Rec."Adjustment Type" in [Rec."Adjustment Type"::Promotion, Rec."Adjustment Type"::Confirmation]) then
-                        Error('Adjustment Type must be %1 and %2', Rec."Adjustment Type"::Promotion, Rec."Adjustment Type"::Confirmation);
                     AttributeAdjustmentMgt.UpdatePayrollAttributesInAttributeAdjustmentLine(Rec);
                     "Approval Status" := "Approval Status"::Released;
                     CurrPage.Update();

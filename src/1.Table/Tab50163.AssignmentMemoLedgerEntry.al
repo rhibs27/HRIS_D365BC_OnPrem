@@ -110,6 +110,10 @@ table 50163 "Assignment Memo Ledger Entry"
             Caption = 'Payroll Posted';
             editable = false;
         }
+        field(20; "Vault Name"; Code[100])
+        {
+            Caption = 'Vault Name';
+        }
         //attendance related fields (for employee activity type = Assignment and shift)
         field(50; "Present Days"; Decimal)
         {

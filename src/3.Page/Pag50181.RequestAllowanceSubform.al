@@ -103,6 +103,18 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Amount per Ltr. field.', Comment = '%';
                 }
+                field("Last Placement Date"; Rec."Last Placement Date")
+                {
+                    ToolTip = 'Specifies the value of the Date of joining current branch field.', Comment = '%';
+                }
+                field("Previous Branch Code"; Rec."Previous Branch Code")
+                {
+                    ToolTip = 'Specifies the value of the Previous Branch Code field.', Comment = '%';
+                }
+                field("Vault Name"; Rec."Vault Name")
+                {
+                    ToolTip = 'Specifies the value of the Vault Name field.', Comment = '%';
+                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

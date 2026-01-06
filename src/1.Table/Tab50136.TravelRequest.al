@@ -645,6 +645,10 @@ table 50136 "Travel Request"
         {
             DataClassification = ToBeClassified;
         }
+        field(98; "Travel claim Doc No."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(100; Status; Text[20])
         {
             DataClassification = ToBeClassified;

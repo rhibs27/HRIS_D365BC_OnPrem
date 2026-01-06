@@ -1122,7 +1122,7 @@ codeunit 50017 "Approver Mgt"
     var
         EmpActTypeEnum: Enum "Employee Activity Type";
         Leave: Record Leave;
-        TravelRequest: Record "Travel Request";
+        TravelRequest, TravelRequest2 : Record "Travel Request";
         RecRef: RecordRef;
         RetirementFund: Record "Retirement Fund";
         AttendanceMissed: Record "Attendance Missed";
@@ -1144,6 +1144,9 @@ codeunit 50017 "Approver Mgt"
                     if TravelRequest.Get(documentNo) then begin
                         RecRef.GetTable(TravelRequest);
                         WithDrawRequest(RecRef);
+                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+                            TravelRequest2.Extended := false;
+                        TravelRequest2.Modify();
                     end;
                 end;
             EmpActTypeEnum::Retirement:
@@ -1166,6 +1169,7 @@ codeunit 50017 "Approver Mgt"
                     WithDrawRequest(RecRef);
                 end;
         end;
+        OnAfterOtherDocumentType(documentNo, EmpActTypeEnum);
     end;
 
 #if SaasFeature
@@ -1692,6 +1696,9 @@ codeunit 50017 "Approver Mgt"
         seqNo: Integer;
     begin
         for seqNo := 1 to ArrayLen(SequenceNoCount) do begin
+            if SequenceNoCount[seqNo] = 0 then
+                exit;
+
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", docNo);
             ApprovalEntry.SetRange("Approval Sequence", seqNo);
@@ -1749,6 +1756,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnRejectDocumentOnBeforeRecRefModify(var RecRef: RecordRef; var Approved: Boolean; var SkipRecRefModifyOnReject: Boolean; var IsExit: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterOtherDocumentType(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type")
     begin
     end;
 

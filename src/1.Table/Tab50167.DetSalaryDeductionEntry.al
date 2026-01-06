@@ -1,6 +1,6 @@
-table 50167 "Det Salary Deduction Entries"
+table 50167 "Det Salary Deduction Entry"
 {
-    Caption = 'Detailed Salary Deduction Entries';
+    Caption = 'Detailed Salary Deduction Entry';
     DataClassification = ToBeClassified;
     DrillDownPageId = "Det Salary Deduction Entries";
     LookupPageId = "Det Salary Deduction Entries";
@@ -82,10 +82,9 @@ table 50167 "Det Salary Deduction Entries"
         {
             DataClassification = ToBeClassified;
         }
-        field(16; "Old Deduction Date"; Date)
+        field(16; "Attendance Posted"; Boolean)
         {
             DataClassification = ToBeClassified;
-            ToolTip = 'Specifies the old deduction date in case of reversed.';
         }
     }
 

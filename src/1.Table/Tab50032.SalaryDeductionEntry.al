@@ -44,7 +44,7 @@ table 50032 "Salary Deduction Entry"
         field(9; "Amount"; Decimal)
         {
             Caption = 'Amount';
-            CalcFormula = sum("Det Salary Deduction Entries".Amount where("Deduction Entry No." = field("Entry No.")));
+            CalcFormula = sum("Det Salary Deduction Entry".Amount where("Deduction Entry No." = field("Entry No.")));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -69,6 +69,10 @@ table 50032 "Salary Deduction Entry"
         {
             Caption = 'Attendance Document No';
         }
+        field(15; "Attendance Posted"; Boolean)
+        {
+            Caption = 'Attendance Posted';
+        }
     }
     keys
     {
@@ -79,11 +83,11 @@ table 50032 "Salary Deduction Entry"
     }
     trigger OnDelete()
     var
-        DetSalaryDeductionEntry: Record "Det Salary Deduction Entries";
+        DetSalaryDeductionEntry: Record "Det Salary Deduction Entry";
     begin
-
-        DetSalaryDeductionEntry.SetRange("Employee No.", "Employee No.");
-        DetSalaryDeductionEntry.SetRange("Deduction Date", "Deduction Date");
+        if "Attendance Posted" then
+            Error('Cannot delete posted entries.');
+        DetSalaryDeductionEntry.SetRange("Deduction Entry No.", "Entry No.");
         DetSalaryDeductionEntry.DeleteAll();
     end;
 }
