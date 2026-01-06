@@ -303,6 +303,8 @@ table 50042 "Attendance Header"
     end;
 
     procedure PostDocument()
+    var
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
     begin
         if not Confirm(Text007, false, "No.") then
             exit;
@@ -318,6 +320,11 @@ table 50042 "Attendance Header"
         "Posted By" := UserId;
         "Posting Date" := Today;
         Modify;
+
+        SalaryDeductionEntry.Reset();
+        SalaryDeductionEntry.SetRange("Attendance Document No", "No.");
+        SalaryDeductionEntry.ModifyAll("Attendance Posted", true);
+
         ChangeStatus("No.", Status);
     end;
 

@@ -3743,95 +3743,90 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Daily Attendance Question - Field Sync to Portal - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Detailed Salary Deduction Entries</source>
+        <trans-unit id="Table 2683117390 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Detailed Salary Deduction Entry</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Amount - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Amount - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 1635931900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 1635931900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Attendance No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Attendance No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 1271155810 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Attendance Posted - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2683117390 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Attribute Code - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Attribute Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 2709262848 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 2709262848 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Attribute Type - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Attribute Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 3252322165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 3252322165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Deduction Date - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Deduction Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 2027162664 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 2027162664 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Deduction Entry No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Deduction Entry No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 3042341177 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 3042341177 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Deduction Type - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Deduction Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Employee Name - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Employee Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Employee No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Employee No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Entry No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Entry No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 273406208 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the old deduction date in case of reversed.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Old Deduction Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 273406208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Old Deduction Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Old Deduction Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Cycle Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Pay Cycle Code - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Pay Cycle Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 3972573639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 3972573639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Cycle Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Pay Cycle Period - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Pay Cycle Period - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 4263720962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Cycle Term</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Pay Cycle Term - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Pay Cycle Term - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reversed</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Reversed - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3012161856 - Field 1956996216 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 2683117390 - Field 1956996216 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reversed By Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entries - Field Reversed By Entry No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed By Entry No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 847710914 - Field 3662076853 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Code</source>
@@ -19872,6 +19867,11 @@
           <source>Attendance Document No</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Deduction Entry - Field Attendance Document No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2632004129 - Field 1271155810 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Deduction Entry - Field Attendance Posted - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2632004129 - Field 3252322165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Date</source>
@@ -42998,6 +42998,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Attendance Card - Action Re-Open - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 618653926 - Action 515767299 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the View Deductions action</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Attendance Card - Action View Deductions - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 258923328 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the From Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47154,9 +47159,14 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 503905947 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Count field.</source>
+          <source>Specifies the value of the Amount field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 503905947 - Control 1271155810 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attendance Posted field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Deduction Entries - Control Attendance Posted - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 503905947 - Control 3252322165 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Deduction Date field.</source>
