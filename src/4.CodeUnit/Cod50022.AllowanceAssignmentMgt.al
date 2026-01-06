@@ -51,7 +51,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                     AllowanceLineCheck.TestField("From Date");
                     AllowanceLineCheck.TestField("Allowance Type");
                     // AllowanceLineCheck.TestField("To Date");
-                    CheckEmployeeAlreadyExistsForSameEmployee(AllowanceLineCheck."No.", AllowanceLineCheck."Line No.", AllowanceLineCheck."Employee Code", AllowanceLineCheck."Allowance Type", AllowanceLineCheck."From Date", AllowanceLineCheck."Emp Act Type");
+                    // CheckEmployeeAlreadyExistsForSameEmployee(AllowanceLineCheck."No.", AllowanceLineCheck."Line No.", AllowanceLineCheck."Employee Code", AllowanceLineCheck."Allowance Type", AllowanceLineCheck."From Date", AllowanceLineCheck."Emp Act Type");
                     CheckMutuallyExclusive(AllowanceLineCheck);
                     CheckDate(AllowanceLineCheck);
                     CheckMaximumEmployeeInBranch(AllowanceLineCheck);
@@ -196,8 +196,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
     begin
         AllowanceAssignmentLine.Reset;
-        AllowanceAssignmentLine.Setfilter("No.", '<>%1', No);
-        AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
         AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
         AllowanceAssignmentLine.SetRange("Emp Act Type", EmpActType);
         AllowanceAssignmentLine.SetRange("Allowance Type", AllowanceType);
@@ -537,11 +535,31 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignment2.Init;
             AllowanceAssignment2.Validate("Employee No.", EmpCode);
             AllowanceAssignment2.Validate("Activity Type", AllowanceAssignment2."Activity Type"::"Allowance Assignment Claim");
-            Evaluate(BranchType, Format(Employee."Deputation on"));
-            AllowanceAssignment2.Validate(Type, BranchType);
-            AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
-            // AllowanceAssignment2.Validate("From Date", PayCyclePeriod."Allowance Start Date");
-            // AllowanceAssignment2.Validate("To date", PayCyclePeriod."Allowance End Date");
+            if Employee."Deputation on" = Employee."Deputation on"::Department then begin
+                if Employee."Unit Code" = '' then begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
+                end else begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"::Unit));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Unit Code");
+                end;
+            end else if Employee."Deputation on" = Employee."Deputation on"::Branch then begin
+                if Employee."Extension Counter Code" = '' then begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
+                end else begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"::"Extension Counter"));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Extension Counter Code");
+                end;
+            end else if Employee."Deputation on" = Employee."Deputation on"::Province then begin
+                Evaluate(BranchType, Format(Employee."Deputation on"));
+                AllowanceAssignment2.Validate(Type, BranchType);
+                AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
+            end;
             AllowanceAssignment2.Validate("Approval Status", AllowanceAssignment2."Approval Status"::Open);
             AllowanceAssignment2.Insert(true);
             // GetAllowanceClaimLine(AllowanceAssignment2."No.");
