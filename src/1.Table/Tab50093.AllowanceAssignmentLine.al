@@ -78,13 +78,13 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
+                Validate("To Date", "From Date");
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date", "Emp Act Type");
                 AllowanceMgt.CheckMutuallyExclusive(Rec);
                 AllowanceMgt.CheckDate(Rec);
                 AllowanceMgt.CheckMaximumEmployeeInBranch(Rec);
                 AllowanceMgt.ValidateAllowanceType(Rec);
                 Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
-                Validate("To Date", "From Date");
             end;
         }
         field(8; "To Date"; Date)

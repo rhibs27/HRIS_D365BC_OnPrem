@@ -144,4 +144,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Confirmation';
     }
+    value(37; "Late Deduction")
+    {
+        Caption = 'Late Deduction';
+    }
 }

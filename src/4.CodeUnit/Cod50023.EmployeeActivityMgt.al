@@ -90,7 +90,7 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure PostTransferInBulk(EmpActNo: Code[20])
     var
-        TransferRequest : Record "Employee Transfer";
+        TransferRequest: Record "Employee Transfer";
         PostedEmployeeTransfer: Record "Posted Employee Journal";
         TransferEmployeeJournal: Record "Employee Activity Journal";
         HrSetup: Record "Human Resources Setup";
@@ -246,6 +246,29 @@ codeunit 50023 EmployeeActivityMgt
                 PostedAttendanceJournal.Insert(true);
                 AttendanceMissedJournal.Delete();
             until AttendanceMissedJournal.next() = 0
+        else
+            Error('There is no Document to post');
+    end;
+
+    procedure PostLateDeductionJournal(EmpActNo: Code[20])
+    var
+        LateDeductionJournal: Record "Employee Activity Journal";
+        PostedAttendanceJournal: Record "Posted Employee Journal";
+    begin
+        LateDeductionJournal.Reset();
+        LateDeductionJournal.SetRange("Emp Act. No", EmpActNo);
+        LateDeductionJournal.setrange("Approval Status", LateDeductionJournal."Approval Status"::Approved);
+        if LateDeductionJournal.FindSet() then
+            repeat
+                PostedAttendanceJournal.Init();
+                PostedAttendanceJournal.TransferFields(LateDeductionJournal);
+                PostedAttendanceJournal.Validate("Document No", LateDeductionJournal."Emp Act. No");
+                PostedAttendanceJournal.Validate(Posted, true);
+                PostedAttendanceJournal.Insert(true);
+                HRMgt.CreateEmpActLedger(PostedAttendanceJournal.Type::"Late Deduction", format(PostedAttendanceJournal."Entry No"), PostedAttendanceJournal."Employee No.", PostedAttendanceJournal."Start Date", false, 1);
+                LateDeductionJournal.Delete();
+                AttendanceMgt.DailyAttendanceUpdate(PostedAttendanceJournal."Start Date", PostedAttendanceJournal."Start Date", PostedAttendanceJournal."Employee No.");
+            until LateDeductionJournal.next() = 0
         else
             Error('There is no Document to post');
     end;
@@ -517,7 +540,7 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure PostLoanInBulk(EmpActNo: Code[20])
     var
-        EmployeeLoanRec : Record "Employee Loan/Advance";
+        EmployeeLoanRec: Record "Employee Loan/Advance";
         PostedLoanJnl: Record "Posted Employee Journal";
         LoanJournal: Record "Employee Activity Journal";
         HrSetup: Record "Human Resources Setup";
@@ -633,4 +656,5 @@ codeunit 50023 EmployeeActivityMgt
         ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
         ServiceHistory: Codeunit "Service History Mgt";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 }

@@ -12,6 +12,12 @@ page 50258 "Overtime Subform"
         {
             repeater(General)
             {
+                field(employeeNo; Rec."Employee Code")
+                {
+                    ToolTip = 'Specifies the value of the Employee No field.', Comment = '%';
+                    Caption = 'Employee No';
+                    ApplicationArea = All;
+                }
                 field(employeeName; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.', Comment = '%';

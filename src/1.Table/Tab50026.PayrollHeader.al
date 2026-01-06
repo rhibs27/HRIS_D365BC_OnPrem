@@ -505,6 +505,8 @@ table 50026 "Payroll Header"
                     PayrollLine."Taxable Income" := 0;
                     PayrollLine."Tax on Remuneration(Annual)" := 0;
                     PayrollLine."Total Employer Contribution" := 0;
+                    PayrollLine."1/3 of Assessable Income" := 0;
+                    PayrollLine."Taxable Income" := 0;
                     PayrollLine."Total Insurance Claim Amount" := 0;
                     PayrollLine."Total SST Paid" := 0;
                     PayrollLine."Total Tax Credit" := 0;
