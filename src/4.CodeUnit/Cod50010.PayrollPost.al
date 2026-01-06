@@ -368,7 +368,7 @@ codeunit 50010 "Payroll-Post"
     begin
         PayrollJournalLine."Fiscal Year" := HRMgt.ReturnFiscalYear(PayrollHeader."Posting Date");
         PayrollJournalLine.UpdateLineBalance;
-        PayrollJournalLine.GetShortcutDimensions;
+        //PayrollJournalLine.GetShortcutDimensions;   //Redundant assigning of dimensions
         PayrollJournalLine.Modify;
     end;
 
@@ -460,6 +460,7 @@ codeunit 50010 "Payroll-Post"
         LeaveEarn: Record "Leave Earn";
         AllowanceAssignLine: Record "Allowance Assignment Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
     begin
         if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
             LeaveType.Reset;
@@ -504,6 +505,16 @@ codeunit 50010 "Payroll-Post"
                 AssignmentMemoLedgerEntry."Payroll Posted" := true;
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
+
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            SalaryDeductionEntry.Reset();
+            SalaryDeductionEntry.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+            SalaryDeductionEntry.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+            SalaryDeductionEntry.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+            SalaryDeductionEntry.SetRange("Attendance Posted", true);
+            SalaryDeductionEntry.ModifyAll("Payroll Posted", true);
+            SalaryDeductionEntry.ModifyAll("Payroll Document No.", PostedPayrollHeader."No.");
+        end;
     end;
 
     [IntegrationEvent(false, false)]

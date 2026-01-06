@@ -226,7 +226,7 @@ page 50052 "Attendance Card"
                     PromotedIsBig = true;
                     ToolTip = 'Executes the Generate Deductions action.';
                     ApplicationArea = All;
-
+                    Visible = Rec.Status = Rec.Status::Open;
                     trigger OnAction()
                     var
                         SalaryDeduction: Codeunit "Salary Deduction Mgt";
