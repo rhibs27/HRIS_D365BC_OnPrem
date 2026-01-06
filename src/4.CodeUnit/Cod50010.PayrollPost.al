@@ -364,7 +364,7 @@ codeunit 50010 "Payroll-Post"
     begin
         PayrollJournalLine."Fiscal Year" := HRMgt.ReturnFiscalYear(PayrollHeader."Posting Date");
         PayrollJournalLine.UpdateLineBalance;
-        PayrollJournalLine.GetShortcutDimensions;
+        //PayrollJournalLine.GetShortcutDimensions;   //Redundant assigning of dimensions
         PayrollJournalLine.Modify;
     end;
 
