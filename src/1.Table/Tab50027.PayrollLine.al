@@ -2930,7 +2930,9 @@ table 50027 "Payroll Line"
         DetSalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         DetSalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
         if ForReversedEntries then
-            DetSalaryDeductionEntries.SetRange(Reversed, true);
+            DetSalaryDeductionEntries.SetRange(Reversed, true)
+        else
+            DetSalaryDeductionEntries.SetRange(Reversed, false);
         DetSalaryDeductionEntries.CalcSums(Amount);
         AttribAmount := DetSalaryDeductionEntries.Amount;
         if AttribAmount < 0 then
