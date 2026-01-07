@@ -2921,7 +2921,6 @@ table 50027 "Payroll Line"
     local procedure GetAmountFromDeductionEntries(EmployeeNo: Code[20]; AttributeCode: Code[20]; ForReversedEntries: Boolean): Decimal
     var
         DetSalaryDeductionEntries: Record "Det Salary Deduction Entry";
-        AttribAmount: Decimal;
     begin
         DetSalaryDeductionEntries.Reset();
         DetSalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
@@ -2929,15 +2928,9 @@ table 50027 "Payroll Line"
         DetSalaryDeductionEntries.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         DetSalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         DetSalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
-        if ForReversedEntries then
-            DetSalaryDeductionEntries.SetRange(Reversed, true)
-        else
-            DetSalaryDeductionEntries.SetRange(Reversed, false);
+        DetSalaryDeductionEntries.SetRange(Reversed, ForReversedEntries);
         DetSalaryDeductionEntries.CalcSums(Amount);
-        AttribAmount := DetSalaryDeductionEntries.Amount;
-        if AttribAmount < 0 then
-            exit(-AttribAmount);
-        exit(AttribAmount);
+        exit(Abs(DetSalaryDeductionEntries.Amount));
     end;
 
     local procedure GetDifferentialAmount(NewAmount: Decimal; OldAmount: Decimal; FromDate: Date; ToDate: Date; IsEndDateCalculation: Boolean): Decimal
