@@ -195,7 +195,7 @@ report 50067 "Process Daily Attendance"
         else
             InsertEmpAttendance(Employee."No.", Date."Period Start", Employee."Employee Work Shift");
 
-        UpdateEmpAttendanceAsTransfer();
+        UpdateEmpAttendanceAsTransferFromServiceHistory();
     end;
 
     local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text)
@@ -221,24 +221,24 @@ report 50067 "Process Daily Attendance"
         end;
     end;
 
-    local procedure UpdateEmpAttendanceAsTransfer()
+    local procedure UpdateEmpAttendanceAsTransferFromServiceHistory()
     var
-        EmployeeTransfer: Record "Employee Transfer";
+        ServiceHistory: Record "Employee Service History";
     begin
-        EmployeeTransfer.SetLoadFields("Employee No.", Type, "Approval Status", "End Date", "Province Code", "From Branch", Department, "Unit Code", "Extension Counter Code");
-        EmployeeTransfer.SetRange("Employee No.", Employee."No.");
-        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
-        // EmployeeTransfer.SetFilter(Type, '%1|%2', EmployeeTransfer.Type::"HR Transfer", EmployeeTransfer.Type::"Employee Transfer");
-        EmployeeTransfer.SetFilter("End Date", '>%1', Date."Period Start");
-        if EmployeeTransfer.FindFirst() then begin
-            EmpAttendance."Province Code" := EmployeeTransfer."Province Code";
-            EmpAttendance."Province Name" := EmployeeTransfer."Province Name";
-            EmpAttendance."Branch Code" := EmployeeTransfer."From Branch";
-            EmpAttendance."Branch Name" := EmployeeTransfer."Branch Name";
-            EmpAttendance."Department Code" := EmployeeTransfer.Department;
-            EmpAttendance."Department Name" := EmployeeTransfer."Department Name";
-            EmpAttendance."Unit Code" := EmployeeTransfer."Unit Code";
-            EmpAttendance."Extension Counter" := EmployeeTransfer."Extension Counter Code";
+        ServiceHistory.SetLoadFields("Province Code (From)", "Province Description (From)", "Branch Code (From)", "Branch Description (From)", "Department Code (From)", "Department Description (From)", "Unit Code (From)", "Extension Description (From)");
+        ServiceHistory.SetRange("Employee No.", Employee."No.");
+        ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
+        ServiceHistory.SetFilter("Effective Date", '<%1', EmpAttendance."Attendance Date");
+        if ServiceHistory.FindLast() then begin
+            EmpAttendance."Province Code" := ServiceHistory."Province Code (From)";
+            EmpAttendance."Province Name" := ServiceHistory."Province Description (From)";
+            EmpAttendance."Branch Code" := ServiceHistory."Branch Code (From)";
+            EmpAttendance."Branch Name" := ServiceHistory."Branch Description (From)";
+            EmpAttendance."Department Code" := ServiceHistory."Department Code (From)";
+            EmpAttendance."Department Name" := ServiceHistory."Department Description (From)";
+            EmpAttendance."Unit Code" := ServiceHistory."Unit Code (From)";
+            EmpAttendance."Extension Counter" := ServiceHistory."Extension Description (From)";
+
         end;
     end;
 

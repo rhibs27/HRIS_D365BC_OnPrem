@@ -12933,10 +12933,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Entry No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2214390665 - Field 523281117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>EV Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field EV Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2214390665 - Field 1534696657 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Expire Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Expire Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2214390665 - Field 386071449 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fuel Limit (Ltrs)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Archive - Field Fuel Limit (Ltrs) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2214390665 - Field 2817493743 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Grade</source>
