@@ -395,17 +395,18 @@ codeunit 50030 "Assignment Memo Mgt"
         DateRec: Record Date;
         TempAssignmentMemoLedger: Record "Temp Assignment Memo Ledger" temporary;
         entryno: Integer;
-        VaultNameList: List of [Code[100]];
+        VaultNameList, AttributeList : List of [Code[100]];
         VaultName: Code[100];
         CountLimit: Integer;
-        AttributeTypeList: Code[100];
-        LastAttributes: Code[20];
+        PipedAttributeCode: Code[1024];
+        AttributeCode: Code[20];
     begin
         //this code execute for a single branch only.
 
         entryno := 1;
-        AttributeTypeList := '';
-        LastAttributes := '';
+        PipedAttributeCode := '';
+        AttributeCode := '';
+        Clear(AttributeList);
 
         AssignmentMemoHdr2.Get(DocNo);
         if AssignmentMemoHdr2."Activity Type" <> AssignmentMemoHdr2."Activity Type"::"Allowance Assignment Memo" then
@@ -414,13 +415,17 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine2.SetRange("Document No.", AssignmentMemoHdr2."No.");
         if AssignmentMemoLine2.FindSet() then
             repeat
-                if LastAttributes <> AssignmentMemoLine2."Payroll Attribute Code" then begin
-                    if AttributeTypeList <> '' then
-                        AttributeTypeList += '|';
-                    AttributeTypeList += AssignmentMemoLine2."Payroll Attribute Code";
-                    LastAttributes := AssignmentMemoLine2."Payroll Attribute Code";
-                end;
+                if not AttributeList.Contains(AssignmentMemoLine2."Payroll Attribute Code") then
+                    AttributeList.Add(AssignmentMemoLine2."Payroll Attribute Code");
             until AssignmentMemoLine2.Next() = 0;
+
+        foreach attributeCode in AttributeList do begin
+            if AttributeCode <> '' then begin
+                if PipedAttributeCode <> '' then
+                    PipedAttributeCode += '|';
+                PipedAttributeCode += AttributeCode;
+            end;
+        end;
 
         OrgStructureList.Get(OrgStructureList.Type::Branch, AssignmentMemoHdr2."Branch Code");
         Clear(VaultNameList);
@@ -428,7 +433,6 @@ codeunit 50030 "Assignment Memo Mgt"
 
         AssignmentMemoHdr.SetRange("Branch Code", AssignmentMemoHdr2."Branch Code");
         AssignmentMemoHdr.SetRange("Activity Type", AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo");
-        // AssignmentMemoHdr.SetFilter("Approval Status", '<>%1', AssignmentMemoHdr."Approval Status"::Rejected);
         AssignmentMemoHdr.SetFilter("Approval Status", '%1|%2', AssignmentMemoHdr."Approval Status"::Pending, AssignmentMemoHdr."Approval Status"::Approved);
         AssignmentMemoHdr.SetRange("From Date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
         AssignmentMemoHdr.SetRange("To date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
@@ -436,7 +440,7 @@ codeunit 50030 "Assignment Memo Mgt"
         if AssignmentMemoHdr.FindSet() then
             repeat
                 AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
-                AssignmentMemoLine.SetFilter("Payroll Attribute Code", AttributeTypeList);
+                AssignmentMemoLine.SetFilter("Payroll Attribute Code", PipedAttributeCode);
                 AssignmentMemoLine.SetRange("Substitute of Line No.", 0);  //to avoid counting substitute lines
                 if AssignmentMemoLine.FindSet() then
                     repeat
@@ -470,7 +474,7 @@ codeunit 50030 "Assignment Memo Mgt"
         //will enhance the length of code later
         AssignmentMemoLine.Reset();
         AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr2."No.");
-        AssignmentMemoLine.SetFilter("Payroll Attribute Code", AttributeTypeList);
+        AssignmentMemoLine.SetFilter("Payroll Attribute Code", PipedAttributeCode);
         AssignmentMemoLine.SetRange("Substitute of Line No.", 0);  //to avoid counting substitute lines
         if AssignmentMemoLine.FindSet() then
             repeat
@@ -543,7 +547,7 @@ codeunit 50030 "Assignment Memo Mgt"
                                                      VaultName,
                                                      OrgwiseATMVault.Panel::"Panel A");
                     if TempAssignmentMemoLedger.Count() > CountLimit then
-                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for panel A', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for %4 panel A', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start", VaultName);
 
                     CountLimit := 0;
                     TempAssignmentMemoLedger.Reset();
@@ -556,7 +560,7 @@ codeunit 50030 "Assignment Memo Mgt"
                                                      VaultName,
                                                      OrgwiseATMVault.Panel::"Panel B");
                     if TempAssignmentMemoLedger.Count() > CountLimit then
-                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for panel B', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for %4 panel B', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start", VaultName);
 
                 end;
 

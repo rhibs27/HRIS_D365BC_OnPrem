@@ -145,4 +145,12 @@ page 50369 "Assignment Memo Ledger Entries"
             }
         }
     }
+    trigger OnModifyRecord(): Boolean
+    var
+        UserSetup: Record "User Setup";
+    begin
+        UserSetup.Get(UserId());
+        if not UserSetup."Is Admin" then
+            Error('You do not have permission to modify records in this page.');
+    end;
 }
