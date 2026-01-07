@@ -118,6 +118,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 3360864851 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Substitute Approval Status - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 3121655793 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10847,6 +10852,11 @@
           <source>Leave Request No</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Leave Request No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 4015839044 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Nepali year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Nepali year - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2977078565 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. Series</source>
@@ -36282,6 +36292,11 @@
           <source>Specifies the value of the Leave Request No field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Earn - Control Leave Request No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2977078565 - Control 4015839044 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali year field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Earn - Control Nepali year - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2977078565 - Control 322225615 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Posted Date field.</source>

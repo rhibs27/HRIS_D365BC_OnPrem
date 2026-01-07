@@ -30,7 +30,15 @@ table 50068 "Leave Earn"
         }
         field(5; "Employee Full Name"; Text[50]) { }
         field(6; "Fiscal year"; Text[10]) { }
-        field(7; "Posted Date"; Date) { }
+        field(7; "Posted Date"; Date)
+        {
+            trigger OnValidate()
+            var
+                EngNepaliDate: Record "English-Nepali Date";
+            begin
+                "Nepali year" := EngNepaliDate.getNepaliYear("Posted Date");
+            end;
+        }
         field(8; "Balancing Days"; Decimal) { }
         field(9; "No. Series"; Code[20]) { }
         field(10; Type; Enum "Leave Earn Type") { }
@@ -91,6 +99,12 @@ table 50068 "Leave Earn"
         field(21; "Substitute Person Name"; Text[50])
         {
             Caption = 'Substitute Person Name';
+            Editable = false;
+            DataClassification = CustomerContent;
+        }
+        field(22; "Nepali year"; Integer)
+        {
+            Caption = 'Nepali year';
             Editable = false;
             DataClassification = CustomerContent;
         }

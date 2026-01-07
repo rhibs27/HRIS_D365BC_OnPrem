@@ -153,7 +153,7 @@ page 50149 "Allowance Assignment Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-                Visible = IsPending;
+                Visible = (Rec."Approval Status" = rec."Approval Status"::Pending) or (rec."Substitute Approval Status" = Rec."Substitute Approval Status"::Pending);
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the document?', false) then
@@ -169,7 +169,7 @@ page 50149 "Allowance Assignment Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-                Visible = IsPending;
+                Visible = (Rec."Approval Status" = rec."Approval Status"::Pending) or (rec."Substitute Approval Status" = Rec."Substitute Approval Status"::Pending);
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject the document?', false) then

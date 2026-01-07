@@ -328,6 +328,8 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
         NoOfDays: Decimal;
+        Ishandled: Boolean;
+        Amount: Decimal;
     begin
         PGSetup.Get;
         if FromDate = 0D then
@@ -335,90 +337,95 @@ codeunit 50022 "Allowance Assignment Mgt"
         Clear(NoOfDays);
         if Employee.Get(EmpNo) then;
         NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
-        case AllowanceType of
-            PGSetup."Evening Counter":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        exit(PGSetup."Evening Counter (Contract)")
-                    else
-                        exit(PGSetup."Evening Counter (Regular)");
-                end;
-            PGSetup."Holiday Counter":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        exit(PGSetup."Holiday All. Amt (Contract)")
-                    else
-                        exit(PGSetup."Holiday All. Amt (Regular)");
-                end;
-            PGSetup."Festival Counter":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        exit(PGSetup."Festival Counter(Contract)")
-                    else
-                        exit(PGSetup."Festival Counter(Regular)");
-                end;
-            PGSetup."Vault Key":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        exit(Round(PGSetup."Vault Key Allowance (Contract)" / NoOfDays, 0.00001, '='))
-                    else
-                        exit(Round(PGSetup."Vault Key Allowance(Regular)" / NoOfDays, 0.00001, '='));
-                end;
-            PGSetup."Morning Counter":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        exit(PGSetup."Morning Counter (Contract)")
-                    else
-                        exit(PGSetup."Morning Counter (Regular)");
-                end;
-            PGSetup."Head Teller Allowance":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        exit(PGSetup."Head Teller Allow. (Contract)")
-                    else
-                        exit(PGSetup."Head Teller Allow. (Regular)");
-                end;
-            PGSetup."Teller Allowance":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::"Contract" then
-                        exit(PGSetup."Teller Allowance (Contract)")
-                    else
-                        exit(PGSetup."Teller Allowance (Regular)");
-                end;
-            PGSetup."ATM Custodian":
-                begin
-                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                        exit(PGSetup."ATM Custodian contract (month)")
-                    else
-                        exit(PGSetup."ATM Custodian regular (month)")
-                end;
-            PGSetup."Risk Allowance":
-                begin
-                    PayCyclePeriod.Reset;
-                    PayCyclePeriod.SetFilter("Allowance Start Date", '<=%1', FromDate);
-                    PayCyclePeriod.SetFilter("Allowance End Date", '>=%1', FromDate);
-                    if Employee."Employment Type" <> Employee."Employment Type"::Contract then begin
-                        LevelwiseAttribute.Reset;
-                        PGSetup.TestField("TA Salary Level");
-                        if LevelwiseAttribute.Get(Employee."Salary Grade", Employee."Salary Level") then;
-                        SalaryLevel.Get(Employee."Salary Level");
-                        if SalaryLevel.Code = PGSetup."TA Salary Level" then
-                            exit(Round(PGSetup."Cash Risk Percent" / 100 * SalaryLevel."TA OT Basic Salary" / NoOfDays, 0.00001, '='))
+        calculateAmountFromAllowanceConfiguration(AllowanceType, EmpNo, NoOfDays, Amount, Ishandled);
+        if Ishandled then
+            exit(Amount);
+        if not Ishandled then begin
+            case AllowanceType of
+                PGSetup."Evening Counter":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                            exit(PGSetup."Evening Counter (Contract)")
                         else
-                            exit(Round(PGSetup."Cash Risk Percent" / 100 * LevelwiseAttribute."Total Basic Salary" / NoOfDays, 0.00001, '='));
-                    end else begin
-                        exit(Round(PGSetup."Cash Risk Percent" / 100 * Employee."Contract Salary Amount" / NoOfDays, 0.00001, '='));
+                            exit(PGSetup."Evening Counter (Regular)");
                     end;
-                end;
-            PGSetup."Friday Counter":
-                begin
-                    SalaryLevel.Get(Employee."Salary Level");
-                    exit(SalaryLevel."Friday Allowance");
-                end;
-            PGSetup."Dashain Allowance":
-                begin
-                    exit(PGSetup."Dashain Allowance Amount");
-                end;
+                PGSetup."Holiday Counter":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                            exit(PGSetup."Holiday All. Amt (Contract)")
+                        else
+                            exit(PGSetup."Holiday All. Amt (Regular)");
+                    end;
+                PGSetup."Festival Counter":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                            exit(PGSetup."Festival Counter(Contract)")
+                        else
+                            exit(PGSetup."Festival Counter(Regular)");
+                    end;
+                PGSetup."Vault Key":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                            exit(Round(PGSetup."Vault Key Allowance (Contract)" / NoOfDays, 0.00001, '='))
+                        else
+                            exit(Round(PGSetup."Vault Key Allowance(Regular)" / NoOfDays, 0.00001, '='));
+                    end;
+                PGSetup."Morning Counter":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                            exit(PGSetup."Morning Counter (Contract)")
+                        else
+                            exit(PGSetup."Morning Counter (Regular)");
+                    end;
+                PGSetup."Head Teller Allowance":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                            exit(PGSetup."Head Teller Allow. (Contract)")
+                        else
+                            exit(PGSetup."Head Teller Allow. (Regular)");
+                    end;
+                PGSetup."Teller Allowance":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::"Contract" then
+                            exit(PGSetup."Teller Allowance (Contract)")
+                        else
+                            exit(PGSetup."Teller Allowance (Regular)");
+                    end;
+                PGSetup."ATM Custodian":
+                    begin
+                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                            exit(PGSetup."ATM Custodian contract (month)")
+                        else
+                            exit(PGSetup."ATM Custodian regular (month)")
+                    end;
+                PGSetup."Risk Allowance":
+                    begin
+                        PayCyclePeriod.Reset;
+                        PayCyclePeriod.SetFilter("Allowance Start Date", '<=%1', FromDate);
+                        PayCyclePeriod.SetFilter("Allowance End Date", '>=%1', FromDate);
+                        if Employee."Employment Type" <> Employee."Employment Type"::Contract then begin
+                            LevelwiseAttribute.Reset;
+                            PGSetup.TestField("TA Salary Level");
+                            if LevelwiseAttribute.Get(Employee."Salary Grade", Employee."Salary Level") then;
+                            SalaryLevel.Get(Employee."Salary Level");
+                            if SalaryLevel.Code = PGSetup."TA Salary Level" then
+                                exit(Round(PGSetup."Cash Risk Percent" / 100 * SalaryLevel."TA OT Basic Salary" / NoOfDays, 0.00001, '='))
+                            else
+                                exit(Round(PGSetup."Cash Risk Percent" / 100 * LevelwiseAttribute."Total Basic Salary" / NoOfDays, 0.00001, '='));
+                        end else begin
+                            exit(Round(PGSetup."Cash Risk Percent" / 100 * Employee."Contract Salary Amount" / NoOfDays, 0.00001, '='));
+                        end;
+                    end;
+                PGSetup."Friday Counter":
+                    begin
+                        SalaryLevel.Get(Employee."Salary Level");
+                        exit(SalaryLevel."Friday Allowance");
+                    end;
+                PGSetup."Dashain Allowance":
+                    begin
+                        exit(PGSetup."Dashain Allowance Amount");
+                    end;
+            end;
         end;
     end;
 
@@ -640,7 +647,8 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceLine.SetRange(Code, AllowanceLineRec.Code);
         AllowanceLine.SetRange("From Date", AllowanceLineRec."From Date");
         AllowanceLine.Setfilter("Substitute Type", '%1|%2', AllowanceLine."Substitute Type"::" ", AllowanceLine."Substitute Type"::"Added as Substitute");
-        AllowanceLine.SetFilter("Approval Status", '%1|%2', AllowanceLine."Approval Status"::Pending, AllowanceLine."Approval Status"::Approved);
+        // AllowanceLine.SetFilter("Approval Status", '%1|%2', AllowanceLine."Approval Status"::Pending, AllowanceLine."Approval Status"::Approved);
+        AllowanceLine.SetFilter("Approval Status", '<>%1', AllowanceLine."Approval Status"::Rejected);
         AllowanceCount := AllowanceLine.count();
         if BranchWiseAllowance.Get(AllowanceLineRec.Type, AllowanceLineRec.Code, AllowanceLineRec."Allowance Type") then
             if BranchWiseAllowance."Max. No. of Staffs" <> 0 then
@@ -722,6 +730,11 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     [IntegrationEvent(false, false)]
     procedure AllowanceAssignmentApprovalReject(Var Approved: Boolean; var EntryNo: Code[20]; var IsHandeled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure calculateAmountFromAllowanceConfiguration(AllowanceType: Code[20]; Employee: Code[20]; NoOfDays: Decimal; var Amount: Decimal; var IsHandeled: Boolean)
     begin
     end;
 }
