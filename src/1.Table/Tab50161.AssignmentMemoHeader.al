@@ -278,6 +278,12 @@ table 50161 "Assignment Memo Header"
         {
             DataClassification = ToBeClassified;
             Description = 'To be used for allowance claimed in prorata basis such as outstation allowance, remote allowance, etc.';
+            trigger OnValidate()
+            begin
+                if ("Effective Date" <> 0D) and ("To date" <> 0D) then
+                    if "Effective Date" > "To date" then
+                        Error('Effective Date cannot be greater than To Date.');
+            end;
         }
         field(71; "Ownership Start/End Date"; Date)
         {
