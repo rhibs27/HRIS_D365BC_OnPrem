@@ -78,16 +78,19 @@ page 50235 "Employee Edit list"
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
             }
         }

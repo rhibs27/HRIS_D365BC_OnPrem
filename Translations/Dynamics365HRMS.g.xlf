@@ -24893,6 +24893,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control ATM Site - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 1546690556 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attendance Checked field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Attendance Checked - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2241004978 - Control 2110140186 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Blocked for Payroll field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -25043,6 +25048,16 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Panel - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4134390525 - Control 1713785062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Substitute of Line No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Substitute of Line No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4134390525 - Control 1272631030 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Substitute Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Substitute Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4134390525 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the To Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -25067,6 +25082,11 @@
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1643821006 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approved Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memos - Control Approved Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1643821006 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Code field.</source>
@@ -48422,6 +48442,11 @@
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Memos - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3618796574 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approved Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Memos - Control Approved Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3618796574 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Code field.</source>

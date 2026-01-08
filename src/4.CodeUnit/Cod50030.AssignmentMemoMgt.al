@@ -297,6 +297,13 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Get(SubAssigmemoLine."Document No.", SubAssigmemoLine."Substitute of Line No.");
         AssignmentMemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine."Document No.");
         AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
+        AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", SubAssigmemoLine."Payroll Attribute Code");
+        if SubAssigmemoLine."ATM Site" <> SubAssigmemoLine."ATM Site"::" " then
+            AssignmentMemoLedgerEntry.SetRange("ATM Site", SubAssigmemoLine."ATM Site");
+        if SubAssigmemoLine."Vault Name" <> '' then
+            AssignmentMemoLedgerEntry.SetRange("Vault Name", SubAssigmemoLine."Vault Name");
+        if SubAssigmemoLine.Panel <> SubAssigmemoLine.Panel::" " then
+            AssignmentMemoLedgerEntry.SetRange(Panel, SubAssigmemoLine.Panel);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", SubAssigmemoLine."From Date", SubAssigmemoLine."To Date");
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
@@ -308,7 +315,7 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure CheckConflictingSubstituteAssignment(docNo: Code[20]; LineNo: Integer; fromDate: Date; toDate: Date): Boolean
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";  // to review
+        AssignmentMemoLine: Record "Assignment Memo Line";
         Daterec: Record Date;
         DateList: List of [Date];
     begin
@@ -570,7 +577,7 @@ codeunit 50030 "Assignment Memo Mgt"
     end;
 
     //request allowance section
-    procedure OpenAllowance(EmpCode: Code[20]; AllowanceType: code[20])
+    procedure OpenAllowance(EmpCode: Code[20]; AllowanceType: code[20]; NepaliMonth: Enum "Nepali Month")
     var
         AssignmentmemoHdr: Record "Assignment Memo Header";
         Approval: Record "Approval HRMS";
@@ -591,6 +598,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentmemoHdr.SetRange("Activity Type", AssignmentmemoHdr."Activity Type"::"Request Allowance");
         AssignmentmemoHdr.SetRange("Approval Status", AssignmentmemoHdr."Approval Status"::open);
         AssignmentmemoHdr.SetRange("Payroll Attribute Code", AllowanceType);
+        AssignmentmemoHdr.SetRange("Nepali Month", NepaliMonth);
         if AssignmentmemoHdr.Findfirst() then begin
             If GuiAllowed then begin
                 Message('This Employee Already has open Allowance Request .Click Ok to Open');
@@ -598,10 +606,10 @@ codeunit 50030 "Assignment Memo Mgt"
             end;
         end
         else
-            CreateNewAllowanceRequest(EmpCode, AllowanceType);
+            CreateNewAllowanceRequest(EmpCode, AllowanceType, NepaliMonth);
     end;
 
-    procedure CreateNewAllowanceRequest(EmpCode: Code[20]; AllowanceType: Code[20])
+    procedure CreateNewAllowanceRequest(EmpCode: Code[20]; AllowanceType: Code[20]; NepaliMonth: Enum "Nepali Month")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PGSetup: Record "Payroll General Setup";
@@ -615,6 +623,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr.Validate("Employee No.", EmpCode);
         AssignmentMemoHdr.Validate("Activity Type", AssignmentMemoHdr."Activity Type"::"Request Allowance");
         AssignmentMemoHdr.Validate("Payroll Attribute Code", AllowanceType);
+        AssignmentMemoHdr.Validate("Nepali Month", NepaliMonth);
         AssignmentMemoHdr.AutoInsertDatesForRequestAllowance();
         AssignmentMemoHdr.Validate("Approval Status", AssignmentMemoHdr."Approval Status"::Open);
         AssignmentMemoHdr.Insert(true);
@@ -638,10 +647,6 @@ codeunit 50030 "Assignment Memo Mgt"
         AllowanceConfig.FindFirst();
 
         case AllowanceConfig.Source of
-            // AllowanceConfig.Source::" ",
-            // AllowanceConfig.Source::Direct,
-            // AllowanceConfig.Source::Leave:
-            //     CreateAllowanceRequestLine(AssignmentMemoHdr);
             AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift:
                 CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
         end;
@@ -753,6 +758,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Attendance Checked", false);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
+        AssignmentMemoLedgerEntry.SetFilter("Posting Date", '<%1', WorkDate() - 1);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
                 //check is employee attendance is marked for the allowance request date
@@ -796,7 +802,6 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
                     AssignmentMemoLine."Allowance Amount" := -AssignmentMemoLedgerEntry.Amount;
                     AssignmentMemoLine.Insert(true);
-                    AssignmentMemoLine.Validate("Payroll Attribute Code");
                     AssignmentMemoLine.Modify();
 
                     // no need to mark allowance

@@ -406,6 +406,7 @@ table 50161 "Assignment Memo Header"
                 PaycyclePeriod.FindFirst();
                 "From Date" := PaycyclePeriod."Start Date";
                 "To date" := PaycyclePeriod."End Date";
+                "Nepali Month" := PaycyclePeriod."Nepali Month";
             end;
         end;
     end;
