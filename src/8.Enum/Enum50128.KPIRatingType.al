@@ -1,9 +1,9 @@
 enum 50128 "KPI Rating Type"
 {
     Extensible = true;
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; Scoring)
     {

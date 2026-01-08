@@ -22533,20 +22533,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckPendingAppraisal - NamedType AppraisalError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 940807328" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to Approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleErrors</note>
-        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 1613818109 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSaas - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -42759,7 +42749,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Appraisal List - Control Functional Title - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3651188298 - Control 1332765267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Reviewer field.</source>
+          <source>Specifies the value of the Immediate Supervisor field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Appraisal List - Control Immediate Supervisor - Property ToolTip</note>
         </trans-unit>
@@ -42804,7 +42794,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Appraisal List - Control Reviewed Score III - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3651188298 - Control 1519032111 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Check Reviewer field.</source>
+          <source>Specifies the value of the Reviewer field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Appraisal List - Control Reviewer - Property ToolTip</note>
         </trans-unit>
@@ -62688,10 +62678,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Master Type - EnumValue Quantitative - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 4190033199 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 4190033199 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Rating Type - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Rating Type - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4190033199 - EnumValue 443798026 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Group Based</source>
