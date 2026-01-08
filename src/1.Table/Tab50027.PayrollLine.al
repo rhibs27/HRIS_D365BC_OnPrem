@@ -2912,7 +2912,7 @@ table 50027 "Payroll Line"
                 exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
                                             PayrollAttrUsageHistory."Old Amount",
                                             PayrollAttrUsageHistory."Start Date",
-                                            PayrollHeader."From Date",
+                                            PayrollHeader."From Date" - 1,
                                             false))
             end;
         end;
