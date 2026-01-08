@@ -42,4 +42,13 @@ enum 50060 "Appraisal Status"
     {
         Caption = 'Cancelled';
     }
+    value(10; Pending)
+    {
+        Caption = 'Pending';
+    }
+    value(11; Open)
+    {
+        caption = 'Open';
+    }
+
 }

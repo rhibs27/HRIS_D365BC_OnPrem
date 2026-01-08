@@ -1502,6 +1502,31 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PAGE.RUN(PAGE::"Candidate Card", Candidate);
                     end;
                 }
+                // action("Request Appraisal")
+                // {
+                //     ApplicationArea = All;
+                //     Promoted = true;
+                //     PromotedIsBig = true;
+                //     Image = List;
+                //     PromotedCategory = Category4;
+                //     PromotedOnly = true;
+                //     ToolTip = 'Executes the Request Appraisal action.';
+                //     trigger OnAction()
+                //     begin
+                //         AppraisalRec.Reset();
+                //         AppraisalRec.SetRange("Employee Code", Rec."No.");
+                //         IF NOT AppraisalRec.FindFirst() THEN begin
+                //             AppraisalRec.INIT;
+                //             AppraisalRec.VALIDATE("Employee Code", Rec."No.");
+                //             AppraisalRec.INSERT(TRUE);
+                //             PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
+                //         END
+                //         ELSE
+                //             PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
+                //     end;
+                // }
+
+                //Appraisal Changes
                 action("Request Appraisal")
                 {
                     ApplicationArea = All;
@@ -1509,22 +1534,13 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedIsBig = true;
                     Image = List;
                     PromotedCategory = Category4;
-                    PromotedOnly = true;
                     ToolTip = 'Executes the Request Appraisal action.';
                     trigger OnAction()
                     begin
-                        AppraisalRec.Reset();
-                        AppraisalRec.SetRange("Employee Code", Rec."No.");
-                        IF NOT AppraisalRec.FindFirst() THEN begin
-                            AppraisalRec.INIT;
-                            AppraisalRec.VALIDATE("Employee Code", Rec."No.");
-                            AppraisalRec.INSERT(TRUE);
-                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
-                        END
-                        ELSE
-                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
+                        Rec.OpenAppraisalRequest();
                     end;
                 }
+
                 action("Promote Employee")
                 {
                     ApplicationArea = All;
@@ -1756,7 +1772,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     end;
                 }
 
-                // action("Show Leave Earn")  
+                // action("Show Leave Earn")
                 // {
                 //     ApplicationArea = All;
                 //     RunObject = Page "Leave Earn";

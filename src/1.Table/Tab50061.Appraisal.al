@@ -1,11 +1,11 @@
 table 50061 Appraisal
 {
     DataClassification = CustomerContent;
-    // version Remit1.00
 
+    // version Remit1.00
     fields
     {
-        field(1; "Appraisal Code"; Code[20])
+        field(1; "Appraisal Code"; Code[20])//this is similar as document no whose id is fixed to 1
         {
             trigger OnValidate()
             begin
@@ -16,18 +16,93 @@ table 50061 Appraisal
                 end;
             end;
         }
-        field(2; "Employee Code"; Code[20])
+        field(2; "Document Type"; Enum "Employee Activity Type") //document type id is fixed to 2
         {
-            TableRelation = Employee."No.";
+            Caption = 'Document Type';
+            DataClassification = CustomerContent;
+            InitValue = Appraisal;
+        }
+        field(16; "Approval Status"; Enum "Approval Status")//approval status fixed id to 16
+        {
+            Caption = 'Approval Status';
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
-                OnValidateEmployeeNo;
+                if "Approval Status" = "Approval Status"::Pending then
+                    AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
             end;
         }
-        field(3; "Employee Name"; Text[100]) { }
-        field(4; "Date of Employement"; Date) { }
-        field(5; "Appraisal Type"; Enum "Appraisal Type")
+        field(37; "Approved Date"; Date) { } // approved date field id is 37 which is fixed
+        field(39; Cancelled; Boolean)//cancelled field id is fixed to 39 which is fixed
+        {
+            Caption = 'Cancelled';
+            DataClassification = CustomerContent;
+        }
+        field(100; Status; Enum "Appraisal Status") // status field is 100 which is fixed
+        {
+            trigger OnValidate()
+            begin
+                If Rec.Status = Rec.Status::Submitted then
+                    AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
+            end;
+        }
+        field(3; "Employee Code"; Code[20])
+        {
+            TableRelation = Employee."No.";
+            trigger OnValidate()
+            begin
+                if "Fiscal Year" = '' then
+                    Error('Please select Fiscal Year first');
+                OnValidateEmployeeNo;
+                Approvalhrms(Rec);
+            end;
+        }
+        field(4; "Employee Name"; Text[100]) { }
+        field(5; "Date of Employement"; Date)
+        {
+            Editable = false;
+        }
+        field(6; Department; Code[20])
+        {
+            Editable = false;
+            TableRelation = "Organization Structure List".Code
+        where(Type = filter("Deputation Type"::Department));
+        }
+        field(7; Designation; Code[20])
+        {
+            Editable = false;
+            TableRelation = "Functional Title";
+        }
+        field(8; Branch; Code[20]) { Editable = false; }
+        field(9; "Branch Name"; Text[50]) { Editable = false; }
+        field(11; Province; Code[20]) { Editable = false; }
+        field(13; "Extension Counter"; Code[20]) { Editable = false; }
+        field(14; Unit; Code[20]) { Editable = false; }
+        field(15; "Department Name"; Text[50]) { Editable = false; }
+        field(17; "Province Name"; Text[50]) { Editable = false; }
+        field(19; "Extension Counter Name"; Text[100]) { Editable = false; }
+        field(20; "Unit Name"; Text[50]) { Editable = false; }
+        field(21; "Sub-unit"; Code[20]) { Editable = false; }
+        field(22; "Sub-Unit Name"; Text[100]) { Editable = false; }
+        field(23; "Functional Title Desc"; Text[100]) { }
+        field(26; "Fiscal Year"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term;
+            trigger OnValidate()
+            begin
+                if "Fiscal Year" <> xRec."Fiscal Year" then begin
+                    Clear("Employee Code");
+                    Clear("Employee Name");
+                end;
+            end;
+        }
+        field(27; Posted; Boolean) { }
+        field(28; "No. Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(29; "Appraisal Type"; Enum "Appraisal Type")
         {
             trigger OnValidate()
             begin
@@ -35,253 +110,115 @@ table 50061 Appraisal
                     Clear("Appraisal Subtype Monthly");
                     Clear("Appraisal Subtype Quarterly");
                 end;
-                // if "Appraisal Type" = "Appraisal Type"::Quarterly then
-                //      Error('Quarterly Appraisal has been disabled.');
             end;
         }
-        field(6; "Final Score"; Decimal)
+        field(30; "KRA Category"; Code[50])
         {
-            Editable = false;
-
-            trigger OnValidate()
-            begin
-                RatingSetup.Reset;
-                RatingSetup.SetRange(Type, RatingSetup.Type::Appraisal);
-                RatingSetup.SetFilter(From, '<=%1', "Final Score");
-                RatingSetup.SetFilter("To", '>=%1', "Final Score");
-                if RatingSetup.FindFirst then
-                    Validate(Rating, RatingSetup.Remarks);
-            end;
-        }
-        field(7; "Final Grade"; Code[20]) { }
-        field(8; Reviewer; Code[20])
-        {
-            TableRelation = Employee;
-        }
-        field(9; "Check Reviewer"; Code[20])
-        {
-            TableRelation = Employee;
-        }
-        field(10; "Reviewer III"; Code[20])
-        {
-            TableRelation = Employee;
-        }
-        field(11; "Posting Date"; Date) { }
-        field(12; "Reviewed Score I"; Decimal) { }
-        field(13; "Reviewed Score II"; Decimal) { }
-        field(14; "Reviewed Score III"; Decimal) { }
-        field(15; Department; Code[20])
-        {
-            Editable = false;
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
-        }
-        field(16; "Functional Title"; Code[20])
-        {
-            Editable = false;
-            TableRelation = "Functional Title";
-        }
-        field(17; "Code"; Code[20])
-        {
-            Editable = true;
-            Enabled = true;
-        }
-        field(18; "Job Grade"; Code[20]) { }
-        field(19; "Total Tenure in Bank"; Integer) { }
-        field(20; "Submission Date"; Date) { }
-        field(21; "Reviewed Date I"; Date) { }
-        field(22; "Reviewed Date II"; Date) { }
-        field(23; "Reviewed Date III"; Date) { }
-        field(24; "Total Tenure in Crc Position"; Date) { }
-        field(25; Branch; Code[20])
-        {
-            Editable = false;
-        }
-        field(26; "Branch Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(27; Posted; Boolean) { }
-        field(28; "No. Series"; Code[20])
-        {
-            TableRelation = "No. Series";
-        }
-        field(29; "KRA Category"; Code[50])
-        {
-            TableRelation = "Key Value Master".Code where(Type = filter("KRA Category"));
+            TableRelation = "Appraisal KRA Master".Code
+        where(Type = filter("KRA Master"));
 
             trigger OnValidate()
             begin
                 if GuiAllowed then
-                    AppraisalMgt.OnValidateKRACategory(Rec);
+                    AppraisalMgt.ValidateKRAInEmployeeQuestionnaire(Rec);
+
+                AppraisalMgt.OnValidateKRACategory(Rec);
             end;
         }
-        field(37; "Approved Date"; Date) { }
-        field(31; Rating; Enum "Appraisal Rating") { }
-        field(32; Status; Enum "Appraisal Status")
+        field(32; "KPI Rating Type"; Enum "KPI Rating Type") { }
+        field(35; "Immediate Supervisor"; Code[20]) { TableRelation = Employee; }
+        field(36; "Reviewer"; Code[20]) { TableRelation = Employee; }
+        field(38; "Reviewer III"; Code[20]) { TableRelation = Employee; }
+        field(40; "Posting Date"; Date) { }
+        field(41; "Reviewed Score I"; Decimal) { }
+        field(42; "Reviewed Score II"; Decimal) { }
+        field(43; "Reviewed Score III"; Decimal) { }
+        field(44; "Job Grade"; Code[20]) { }
+        field(45; "Total Tenure in Bank"; Integer) { }
+        field(46; "Submission Date"; Date) { }
+        field(47; "Reviewed Date I"; Date) { }
+        field(48; "Reviewed Date II"; Date) { }
+        field(49; "Reviewed Date III"; Date) { }
+        field(50; "Total Tenure in Crc Position"; Date) { }
+        field(61; "Reportees Comments"; Text[250]) { }
+        field(69; "Reviewer Comments"; Text[250]) { }
+        field(70; "Check Reviewers Comments"; Text[250]) { }
+        field(71; "Recommender Code"; Code[50])
         {
-            trigger OnValidate()
-            var
-            begin
-                If Rec.Status = Rec.Status::Submitted then
-                    AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
-            end;
-        }
-        field(33; "Academic Degree"; Text[250]) { }
-        field(34; "Written Verbal Warning Issued"; Text[150]) { }
-        field(35; "Completion of Training"; Text[250]) { }
-        field(36; "Disciplinary Actions Taken"; Text[200]) { }
-        field(30; "Commendations on File"; Text[250]) { }
-        field(38; "Frequent Untidy Uniform"; Text[150]) { }
-        field(39; "Uninformed Absence"; Text[200]) { }
-        field(40; "No of Sick Leaves Taken"; Decimal) { }
-        field(41; "Development Plan Remarks"; Text[250]) { }
-        field(42; "Improvement Time"; Decimal) { }
-        field(43; "Reportees Comments"; Text[250]) { }
-        field(44; "Sales and Marketing Corporate"; Boolean) { }
-        field(45; "Sales and Marketing Retail"; Boolean) { }
-        field(46; Operations; Boolean) { }
-        field(47; "Finance or Accounts"; Boolean) { }
-        field(48; Administration; Boolean) { }
-        field(49; "Back Office"; Boolean) { }
-        field(50; "Human Resource"; Boolean) { }
-        field(51; "Reviewer Comments"; Text[250]) { }
-        field(52; "Check Reviewers Comments"; Text[250]) { }
-        field(53; "User ID"; Text[50])
-        {
-            Editable = false;
-            TableRelation = "User Setup"."User ID";
-        }
-        field(54; "Recommender Code"; Code[50])
-        {
-            Description = 'Not Used';
             TableRelation = Employee;
             ValidateTableRelation = false;
-
             trigger OnValidate()
             begin
-
                 HRMgt.GetEmployeeName("Recommender Code", "Recommender Name");
             end;
         }
-        field(55; "Approver Code"; Code[20])
-        {
-            TableRelation = Employee;
-
-            trigger OnValidate()
-            begin
-                HRMgt.GetEmployeeName("Approver Code", "Approver Name");
-            end;
-        }
-        field(56; "Recommender Name"; Text[50])
-        {
-            Description = 'Not Used';
-            Editable = false;
-        }
-        field(57; "Approver Name"; Text[50])
+        field(72; "Recommender Name"; Text[50])
         {
             Editable = false;
         }
-        field(58; "Requested Date"; Date)
-        {
-            trigger OnValidate()
-            begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year");
-            end;
-        }
-        field(59; "Appraisal Subtype Monthly"; Enum "Nepali Month")
-        {
-            Caption = 'Appraisal Subtype Monthly';
-        }
-        field(60; "Appraisal Subtype Quarterly"; Enum Quater)
-        {
-            Caption = 'Appraisal Subtype Quarterly';
-        }
-        field(61; "Deputation on"; Enum "Deputation Type") { }
-        field(62; Province; Code[20])
+        field(73; "Requested Date"; Date)
         {
             Editable = false;
         }
-        field(63; "Sub-Province"; Code[20])
+        field(74; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
+        field(75; "Appraisal Subtype Quarterly"; Enum Quater) { }
+        field(76; "Total Immediate Supv Score"; Decimal)
         {
             Editable = false;
-        }
-        field(64; "Extension Counter"; Code[20])
-        {
-            Editable = false;
-        }
-        field(65; Unit; Code[20])
-        {
-            Editable = false;
-        }
-        field(66; "Department Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(67; "Province Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(68; "Sub-Province Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(69; "Extension Counter Name"; Text[100])
-        {
-            Editable = false;
-        }
-        field(70; "Unit Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(71; "Fiscal Year"; Code[20])
-        {
-            Editable = true;
-        }
-        field(72; "Total Reviewers Score"; Decimal)
-        {
-            CalcFormula = sum("KRA Subform List"."Reviewers Final Score" where("Appraisal Code" = field("Appraisal Code")));
+            CalcFormula = Sum("KPI Employee"."Immediate Supervisor Score"
+        where("Appraisal Code" = field("Appraisal Code")));
             FieldClass = FlowField;
-            Editable = false;
         }
-        field(73; "Total Check Reviewers Score"; Decimal)
+        field(77; "Total Reviewer Score"; Decimal)
         {
-            CalcFormula = sum("KRA Subform List"."Check Reviewers Final Score" where("Appraisal Code" = field("Appraisal Code")));
+            Editable = false;
+            CalcFormula = Sum("KPI Employee"."Reviewer Score"
+        where("Appraisal Code" = field("Appraisal Code")));
             FieldClass = FlowField;
+        }
+        field(80; "Total Final Score"; Decimal)
+        {
             Editable = false;
         }
-        field(74; "Confirmation Eligible"; Boolean) { }
-        field(75; "Appraisal Attachment"; Text[145]) { }
-        field(76; "Functional Title Desc"; Text[100]) { }
-        field(77; "Sol Id"; Code[20])
+        field(81; "Final Grading"; Enum "Appraisal Rating")
         {
-            Caption = 'Sol Id';
+            Editable = false;
         }
-        field(78; Hide; Boolean) { }
-        field(79; "Total Final Score"; Decimal)
+        field(82; "Cancelled Document No."; Code[20]) { }
+        field(83; "Total Group Performance Score"; Decimal)
         {
-            CalcFormula = sum("KRA Subform List"."Final Score" where("Appraisal Code" = field("Appraisal Code")));
+            Editable = false;
+            CalcFormula = Sum("KPI Employee"."Group Performance Based Score"
+        where("Appraisal Code" = field("Appraisal Code")));
             FieldClass = FlowField;
+        }
+        field(84; "Total HR Committee Score"; Decimal)
+        {
+            Editable = false;
+            CalcFormula = Sum("KPI Employee"."HR Committee Score"
+        where("Appraisal Code" = field("Appraisal Code")));
+            FieldClass = FlowField;
+        }
+        field(85; "Confirmation Date"; Date)
+        {
             Editable = false;
         }
-        field(80; "Final Grading"; Enum "Appraisal Final Grading") { }
+        field(86; "Total Self Score"; Decimal)
+        {
+            Editable = false;
+            CalcFormula = Sum("KPI Employee"."Self Score"
+        where("Appraisal Code" = field("Appraisal Code")));
+            FieldClass = FlowField;
+        }
     }
-
     keys
     {
         key(Key1; "Appraisal Code") { }
     }
-
-    fieldgroups { }
-
     trigger OnDelete()
     begin
-        //IF Posted THEN
-        //ERROR(ErrorText)
-        //ELSE
-        //HRMgt.DeleteApprisalFormLine(Rec);
+        if Status <> Status::Open then
+            Error('You can delete the Appraisal only when the Status is Open. Current Status: %1', Format(Status));
     end;
 
     trigger OnInsert()
@@ -291,14 +228,12 @@ table 50061 Appraisal
         if "Appraisal Code" = '' then begin
             HumanResSetup.TestField("Appraisal No.");
             HRMgt.InitNoSeriesNew(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
+            "Appraisal Code" := NoSeriesMgt.GetNextNo(HumanResSetup."Appraisal No.", Today, true);
         end;
-        HumanResSetup.TestField("HR Head Functional Title");
-        EmployeeVar.Reset;
-        EmployeeVar.SetRange("Functional Title", HumanResSetup."HR Head Functional Title");
-        EmployeeVar.SetRange(Status, EmployeeVar.Status::Active);
-        if EmployeeVar.FindFirst then
-            Validate("Approver Code", EmployeeVar."No.");
-
+        Rec.Status := Rec.Status::Open;
+        "Approval Status" := "Approval Status"::Open;
+        "Document Type" := "Document Type"::Appraisal;
+        Cancelled := false;
         if not GuiAllowed then begin
             if "Employee Code" = '' then
                 Validate("Employee Code", "Employee Code");
@@ -310,8 +245,6 @@ table 50061 Appraisal
 
     trigger OnModify()
     begin
-        //IF Posted THEN
-        //ERROR(ErrorModify);
         CheckForDuplicateEmployeeAppraisal;
     end;
 
@@ -319,112 +252,145 @@ table 50061 Appraisal
         EmployeeVar: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         Appraisal: Record Appraisal;
-        KRASubform: Record "KRA Subform List";
         HumanResSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
-        EngNepDate: Record "English-Nepali Date";
-        RatingSetup: Record "Rating Setup";
-        KRAMasterSetupRec: Record "KRA Master Setup";
         AppraisalMgt: Codeunit "AppraisalMgt.";
 
-    local procedure ClearDetails()
-    begin
-    end;
-
-    local procedure ValidateShortcutDimCode()
-    begin
-        /*OldDimSetID := "Dimension Set ID";
-        DimMgt.ValidateShortcutDimValues(FieldNumber,ShortcutDimCode,"Dimension Set ID");
-
-        IF OldDimSetID <> "Dimension Set ID" THEN
-         MODIFY;
-         */
-    end;
-
-    procedure ShowDocDim()
-    begin
-        /*OldDimSetID := "Dimension Set ID";
-        "Dimension Set ID" :=
-          DimMgt.EditDimensionSet2(
-            "Dimension Set ID",STRSUBSTNO('%1',"Fiscal Year"),
-            "Shortcut Dimension 1 Code","Shortcut Dimension 2 Code");
-
-        IF OldDimSetID <> "Dimension Set ID" THEN
-          MODIFY;
-
-          */
-    end;
-
-    procedure DeleteAllSubFormKRA("code": Code[20])
-    begin
-        KRASubform.Reset;
-        KRASubform.SetRange("Key Result Area", code);
-        if KRASubform.FindFirst then
-            repeat
-                KRASubform.Delete;
-            until KRASubform.Next = 0;
-    end;
-
-    procedure AssistEdit(OldAppraisal: Record Appraisal): Boolean
-    begin
-        Appraisal := Rec;
-        HumanResSetup.Get;
-        HumanResSetup.TestField("Appraisal No."); /* candidate nos not present in HRsetup table*/
-        if NoSeriesMgt.LookupRelatedNoSeries(HumanResSetup."Appraisal No.", OldAppraisal."No. Series", Appraisal."No. Series") then begin
-            HumanResSetup.Get;
-            HumanResSetup.TestField("Appraisal No.");
-            NoSeriesMgt.GetNextNo(Appraisal."Appraisal Code");
-            Rec := Appraisal;
-            exit(true);
-        end;
-    end;
-
     local procedure OnValidateEmployeeNo()
+    var
+        HRSetup: Record "Human Resources Setup";
+        HRMgt: Codeunit "HR Mgt.";
+        EngNepDate: Record "English-Nepali Date";
+        EmployeeTransfer: Record "Employee Transfer";
+        LatestEmployeeTransfer: Record "Employee Transfer";
+        FiscalYearStartDate: Date;
+        FiscalYearEndDate: Date;
+        BranchAppraisalCriteria: DateFormula;
+        TransferFound: Boolean;
+        LatestTransferDate: Date;
+        UseToValues: Boolean;
     begin
-        Clear(Branch);
-        Clear("Branch Name");
+        Clear(Designation);
         Clear(Department);
         Clear("Department Name");
-        Clear("Extension Counter");
-        Clear("Extension Counter Name");
+        Clear(Branch);
+        Clear("Branch Name");
         Clear(Province);
         Clear("Province Name");
-        Clear("Sub-Province");
-        Clear("Deputation on");
+        Clear("Extension Counter");
+        Clear("Extension Counter Name");
         Clear(Unit);
         Clear("Unit Name");
+        Clear("Sub-unit");
+        Clear("Sub-Unit Name");
         Clear("Functional Title Desc");
-        Clear("Sol Id");
+        if not EmployeeVar.Get("Employee Code") then
+            exit;
+        "Employee Name" := EmployeeVar."Full Name";
+        "Date of Employement" := EmployeeVar."Employment Date";
+        "Confirmation Date" := EmployeeVar."Confirmation Date";
+        "Job Grade" := EmployeeVar."Salary Grade";
+        HRSetup.Get();
+        BranchAppraisalCriteria := HRSetup."Branch Appraisal Criteria";
+        FiscalYearStartDate := 0D;
+        FiscalYearEndDate := 0D;
+        if "Fiscal Year" <> '' then begin
+            FiscalYearEndDate := HRMgt.ReturnEndDateFY("Fiscal Year");//Appraisal Changes
+            EngNepDate.Reset();
+            EngNepDate.SetRange("Fiscal Year", "Fiscal Year");
+            EngNepDate.SetCurrentKey("English Date");
+            if EngNepDate.FindFirst() then
+                FiscalYearStartDate := EngNepDate."English Date";
+        end;
+        EmployeeTransfer.Reset();
+        EmployeeTransfer.SetRange("Employee No.", "Employee Code");
+        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Acknowledged);
+        if (FiscalYearStartDate <> 0D) and (FiscalYearEndDate <> 0D) then
+            EmployeeTransfer.SetRange("Transfer Effective Date", FiscalYearStartDate, FiscalYearEndDate);
+        TransferFound := false;
+        LatestTransferDate := 0D;
+        if EmployeeTransfer.FindSet() then begin
+            repeat
+                if (not TransferFound) or
+                   (EmployeeTransfer."Transfer Effective Date" > LatestTransferDate) then begin
+                    LatestEmployeeTransfer := EmployeeTransfer;
+                    LatestTransferDate := EmployeeTransfer."Transfer Effective Date";
+                    TransferFound := true;
+                end;
+            until EmployeeTransfer.Next() = 0;
+        end;
+        if not TransferFound then begin
 
-        if EmployeeVar.Get("Employee Code") then begin
-            "Functional Title" := EmployeeVar."Functional Title";
-            Department := EmployeeVar."Department Code";
-            "Employee Name" := EmployeeVar."Full Name";
-            "Branch Name" := EmployeeVar."Branch Name";
-            "Job Grade" := EmployeeVar."Salary Grade";
-            KRAMasterSetupRec.Reset;
-            KRAMasterSetupRec.SetRange("Employee Code", "Employee Code");
-            KRAMasterSetupRec.SetRange("Key Result Area", '');
-            if KRAMasterSetupRec.FindFirst then begin
-                "Deputation on" := KRAMasterSetupRec."Transfer Deputation on";
-                Province := KRAMasterSetupRec."Transfer Province Code";
-                // "Sub-Province" := KRAMasterSetupRec."Transfer Sub Province Code";
-                "Sol Id" := KRAMasterSetupRec."Transfer Sol Id"
-            end else begin
-                Validate("Deputation on", EmployeeVar."Deputation on");
-                Validate(Province, EmployeeVar."Province Code");
-                // Validate("Sub-Province", EmployeeVar."Sub Province Code");
-                Validate("Sol Id", EmployeeVar."Sol Id");
-            end;
-            "Date of Employement" := EmployeeVar."Employment Date";
+            Validate(Designation, EmployeeVar."Functional Title");
+            Validate("Functional Title Desc", EmployeeVar."Functional Title Desc");
+
+            Validate(Department, EmployeeVar."Department Code");
+            Validate("Department Name", EmployeeVar."Department Name");
+
             Validate(Branch, EmployeeVar."Global Dimension 1 Code");
+            Validate("Branch Name", EmployeeVar."Branch Name");
+
+            Validate(Province, EmployeeVar."Province Code");
+            Validate("Province Name", EmployeeVar."Province Name");
+
             Validate("Extension Counter", EmployeeVar."Extension Counter Code");
             Validate("Extension Counter Name", EmployeeVar."Extension Counter Name");
+
             Validate(Unit, EmployeeVar."Unit Code");
-            Validate("Department Name", EmployeeVar."Department Name");
-            Validate("Province Name", EmployeeVar."Province Name");
             Validate("Unit Name", EmployeeVar."Unit Name");
-            Validate("Functional Title Desc", EmployeeVar."Functional Title Desc");
+
+            Validate("Sub-unit", EmployeeVar."Sub Unit Code");
+            Validate("Sub-Unit Name", EmployeeVar."Sub Unit Name");
+
+            exit;
+        end;
+
+        UseToValues := CalcDate(BranchAppraisalCriteria, LatestEmployeeTransfer."Date of Joining Of Transfer") <= FiscalYearEndDate;
+        if UseToValues then begin
+            Validate(Designation, LatestEmployeeTransfer."Functional Title (To)");
+            Validate("Functional Title Desc", LatestEmployeeTransfer."Functional Desc To");
+
+            Validate(Department, LatestEmployeeTransfer."Department Code (To)");
+            Validate("Department Name", LatestEmployeeTransfer."Department Name To");
+
+            Validate(Branch, LatestEmployeeTransfer."To Branch");
+            Validate("Branch Name", LatestEmployeeTransfer."Branch Name To");
+
+            Validate(Province, LatestEmployeeTransfer."Province Code (To)");
+            Validate("Province Name", LatestEmployeeTransfer."Province Name To");
+
+            Validate("Extension Counter", LatestEmployeeTransfer."Extension Counter (To)");
+            Validate("Extension Counter Name", LatestEmployeeTransfer."Extension Name To");
+
+            Validate(Unit, LatestEmployeeTransfer."Unit (To)");
+            Validate("Unit Name", LatestEmployeeTransfer."Unit Name To");
+
+            Validate("Sub-unit", '');
+            Validate("Sub-Unit Name", '');
+
+        end
+        else begin
+            Validate(Designation, LatestEmployeeTransfer."Functional Title");
+            Validate("Functional Title Desc", LatestEmployeeTransfer."Functional Title Desc");
+
+            Validate(Department, LatestEmployeeTransfer.Department);
+            Validate("Department Name", LatestEmployeeTransfer."Department Name");
+
+            Validate(Branch, LatestEmployeeTransfer."From Branch");
+            Validate("Branch Name", LatestEmployeeTransfer."Branch Name");
+
+            Validate(Province, LatestEmployeeTransfer."Province Code");
+            Validate("Province Name", LatestEmployeeTransfer."Province Name");
+
+            Validate("Extension Counter", LatestEmployeeTransfer."Extension Counter Code");
+            Validate("Extension Counter Name", LatestEmployeeTransfer."Extension Counter Name");
+
+            Validate(Unit, LatestEmployeeTransfer."Unit Code");
+            Validate("Unit Name", LatestEmployeeTransfer."Unit Name");
+
+            Validate("Sub-unit", '');
+            Validate("Sub-Unit Name", '');
+
         end;
     end;
 
@@ -434,6 +400,7 @@ table 50061 Appraisal
         Appraisal.SetRange("Employee Code", "Employee Code");
         Appraisal.SetFilter("Appraisal Code", '<>%1', "Appraisal Code");
         case "Appraisal Type" of
+
             "Appraisal Type"::Quarterly:
                 begin
                     Appraisal.SetRange("Appraisal Type", Appraisal."Appraisal Type"::Quarterly);
@@ -444,7 +411,6 @@ table 50061 Appraisal
             "Appraisal Type"::Monthly:
                 begin
                     Appraisal.SetRange("Appraisal Type", Appraisal."Appraisal Type"::Monthly);
-                    // Appraisal.SetRange("Appraisal Subtype Monthly", "Appraisal Subtype Quarterly");
                     Appraisal.SetRange("Fiscal Year", "Fiscal Year");
                 end;
 
@@ -457,7 +423,6 @@ table 50061 Appraisal
             "Appraisal Type"::Confirmation:
                 Appraisal.SetRange("Appraisal Type", Appraisal."Appraisal Type"::Confirmation);
         end;
-
         if Appraisal.FindFirst then
             Error('Appraisal of type %3 for employee %1 (%2) already exist', "Employee Name", "Employee Name", "Appraisal Type");
     end;
@@ -489,20 +454,20 @@ table 50061 Appraisal
             exit;
 
         EmpActFilterPageBuilder.AddRecord('Appraisal', Rec);
-        EmpActFilterPageBuilder.AddField('Appraisal', Reviewer);
-        EmpActFilterPageBuilder.AddField('Appraisal', "Check Reviewer");
+        EmpActFilterPageBuilder.AddField('Appraisal', "Immediate Supervisor");
+        EmpActFilterPageBuilder.AddField('Appraisal', "Reviewer");
         EmpActFilterPageBuilder.RunModal;
         Appraisal.SetView(EmpActFilterPageBuilder.GetView('Appraisal'));
-        ReviewerCode := Appraisal.GetFilter(Reviewer);
-        CheckReviewerCode := Appraisal.GetFilter("Check Reviewer");
+        ReviewerCode := Appraisal.GetFilter("Immediate Supervisor");
+        CheckReviewerCode := Appraisal.GetFilter("Reviewer");
 
         if (ReviewerCode <> '') then begin
-            Validate(Reviewer, ReviewerCode);
+            Validate("Immediate Supervisor", ReviewerCode);
             Modify;
             Message(Text002);
         end;
         if (CheckReviewerCode <> '') then begin
-            Validate("Check Reviewer", CheckReviewerCode);
+            Validate("Reviewer", CheckReviewerCode);
             Modify;
             Message(Text003);
         end;
@@ -535,4 +500,23 @@ table 50061 Appraisal
                 end;
             until AttachmentMandatory.Next = 0;
     end;
+
+    procedure Approvalhrms(AppraisalRec: Record Appraisal)
+    var
+        ApprovalHRMS: Record "Approval HRMS";
+        ApproverMgt: Codeunit "Approver Mgt";
+    begin
+        ApprovalHRMS.Reset();
+        ApprovalHRMS.SetRange("Document No.", AppraisalRec."Appraisal Code");
+        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::Appraisal);
+        if not ApprovalHRMS.IsEmpty then
+            ApprovalHRMS.DeleteAll();
+        ApproverMgt.InsertApproval(
+            AppraisalRec."Employee Code",
+            AppraisalRec."Appraisal Code",
+            Enum::"Employee Activity Type"::Appraisal,
+            Enum::"Approval Status"::Open
+        );
+    end;
 }
+

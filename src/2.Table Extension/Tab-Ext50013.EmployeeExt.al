@@ -1639,6 +1639,13 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         LeaveMgt.OpenLeaveRequest("No.");
     end;
+    //Appraisal Changes
+    procedure OpenAppraisalRequest()
+    var
+        AppraisalMgt: Codeunit "AppraisalMgt.";
+    begin
+        AppraisalMgt.OpenAppraisalRequest("No.");
+    end;
 
     procedure TravelRequest();
     var

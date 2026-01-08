@@ -307,8 +307,8 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
-            if not ApprovalLine.Findfirst() then
-                Error(ApproveNotEligibleError);
+        if not ApprovalLine.Findfirst() then
+            Error(ApproveNotEligibleError);
     end;
 #endif
 

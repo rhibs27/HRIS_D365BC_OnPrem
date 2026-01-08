@@ -1,13 +1,12 @@
 table 50001 "KRA Master Setup1"
 {
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "KRA No."; Code[20]) { }
         field(2; "KRA Category"; Code[50])
         {
-            TableRelation = "Key Value Master".Code where(Type = filter("KRA Category"));
+            TableRelation = "Appraisal KRA Master".Code where(Type = filter("KRA Master"));
 
             trigger OnValidate()
             begin
@@ -21,7 +20,7 @@ table 50001 "KRA Master Setup1"
         field(3; Weightage; Integer) { }
         field(4; "Key Result Area"; Code[20])
         {
-            TableRelation = "Key Value Master".Code where(Type = filter("Key Result Area"));
+            TableRelation = "Appraisal KRA Master".Code where(Type = filter("KRA Subtype"));
         }
         field(5; "Deputation on"; Enum "Deputation Type") { }
         field(6; Description; Text[250]) { }
@@ -32,10 +31,6 @@ table 50001 "KRA Master Setup1"
         field(11; "Province Code"; Code[20])
         {
             TableRelation = Province;
-
-            trigger OnValidate()
-            begin
-            end;
         }
     }
 

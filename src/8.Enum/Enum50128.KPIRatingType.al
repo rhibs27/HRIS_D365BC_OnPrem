@@ -1,4 +1,4 @@
-enum 50058 "Rating Type"
+enum 50128 "KPI Rating Type"
 {
     Extensible = true;
     value(0; "")
@@ -13,6 +13,8 @@ enum 50058 "Rating Type"
     {
         Caption = 'Rating';
     }
-
-
+    value(3; "Group Based")
+    {
+        Caption = 'Group Based';
+    }
 }

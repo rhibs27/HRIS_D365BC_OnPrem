@@ -1,8 +1,8 @@
-page 50073 "KPI Master"
+page 50073 "Appraisal KPI Master"
 {
-    Caption = 'KPI Master';
+    Caption = 'Appraisal KPI Master';
     PageType = List;
-    SourceTable = "KPI Master";
+    SourceTable = "Appraisal KPI Master";
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -22,12 +22,12 @@ page 50073 "KPI Master"
                     ToolTip = 'Specifies the value of the KPI No. field.';
                     ApplicationArea = All;
                 }
-                field("KRA Category"; Rec."KRA Category")
+                field("KRA Master"; Rec."KRA Master")
                 {
                     ToolTip = 'Specifies the value of the KRA Category field.';
                     ApplicationArea = All;
                 }
-                field("Key Result Area"; Rec."Key Result Area")
+                field("KRA Subtype"; Rec."KRA Subtype")
                 {
                     ToolTip = 'Specifies the value of the Key Result Area field.';
                     ApplicationArea = All;
@@ -36,7 +36,6 @@ page 50073 "KPI Master"
                 {
                     ToolTip = 'Specifies the value of the Appraisal Type field.';
                     ApplicationArea = All;
-
                     trigger OnValidate()
                     begin
                         SetEditable;
@@ -54,24 +53,69 @@ page 50073 "KPI Master"
                     ToolTip = 'Specifies the value of the Appraisal Subtype Quarterly field.';
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field("Employee No."; Rec."Employee No.")
+                {
+                    ApplicationArea = All;
+                }
+                Field(Designation; Rec.Designation)
+                {
+                    ApplicationArea = All;
+                }
+                Field("Province code"; Rec."Province code")
+                {
+                    ApplicationArea = All;
+                }
+                Field("Branch Code"; Rec."Branch Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Extension Counter Code"; Rec."Extension Counter Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Department Code"; Rec."Department Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Unit Code"; Rec."Unit Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Sub-Unit Code"; Rec."Sub-Unit Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Questionnaire/Description"; Rec."Questionnaire/Description")
                 {
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
-                field("Weightage (%)"; Rec."Weightage (%)")
+                Field("KPI Rating Type"; Rec."KPI Rating Type")
+                {
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        SetEditable;
+                    end;
+                }
+                field("Weightage"; Rec."Weightage")
                 {
                     ToolTip = 'Specifies the value of the Weightage (%) field.';
                     ApplicationArea = All;
+                    Editable = FieldEditable3;
                 }
-                field("Target Assigned"; Rec."Target Assigned")
+                field("Self Rating Applicable"; Rec."Self Rating Applicable")
                 {
-                    ToolTip = 'Specifies the value of the Target Assigned field.';
                     ApplicationArea = All;
+                    Editable = FieldEditableSelfRatingApplicable;
                 }
-                field(Remarks; Rec.Remarks)
+                field("Group Performance Based Score"; Rec."Group Performance Based Score")
                 {
-                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ApplicationArea = All;
+                    Editable = FieldEditableGroupScore;
+                }
+                field("KPI Master Remarks"; Rec."KPI Master Remarks")
+                {
                     ApplicationArea = All;
                 }
                 field("Created Date"; Rec."Created Date")
@@ -84,29 +128,13 @@ page 50073 "KPI Master"
                     ToolTip = 'Specifies the value of the Created By field.';
                     ApplicationArea = All;
                 }
+
             }
         }
     }
-
-    actions { }
-
     trigger OnAfterGetRecord()
     begin
         SetEditable;
-    end;
-
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        /*AppraisalSetup.GET;
-        KPIMaster.Reset();
-        KPIMaster.SetRange("KRA No.",KPIMaster."KRA No.");
-          IF KPIMaster.FindFirst() THEN
-            repeat
-              Weightage+=KPIMaster."Weightage (%)";
-              MESSAGE('%1',Weightage);
-            until KPIMaster.NEXT =0;
-          IF Weightage > AppraisalSetup.Weightage THEN
-            ERROR(Text001,AppraisalSetup.Weightage);*/
     end;
 
     trigger OnOpenPage()
@@ -117,10 +145,16 @@ page 50073 "KPI Master"
     var
         FieldEditable1: Boolean;
         FieldEditable2: Boolean;
+        FieldEditable3: Boolean;
+        FieldEditableGroupScore: Boolean;
+        FieldEditableSelfRatingApplicable: Boolean;
 
     local procedure SetEditable()
     begin
         FieldEditable1 := Rec."Appraisal Type" = Rec."Appraisal Type"::Monthly;
         FieldEditable2 := Rec."Appraisal Type" = Rec."Appraisal Type"::Quarterly;
+        FieldEditable3 := Rec."KPI Rating Type" in [Rec."KPI Rating Type"::Scoring, Rec."KPI Rating Type"::"Group Based"];
+        FieldEditableGroupScore := Rec."KPI Rating Type" = Rec."KPI Rating Type"::"Group Based";
+        FieldEditableSelfRatingApplicable := Rec."KPI Rating Type" <> Rec."KPI Rating Type"::"Group Based";
     end;
 }

@@ -6,6 +6,7 @@ page 50079 "Appraisal List"
     SourceTable = Appraisal;
     UsageCategory = Lists;
     ApplicationArea = All;
+    Editable = false;
 
     layout
     {
@@ -33,14 +34,9 @@ page 50079 "Appraisal List"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field(Hide; Rec.Hide)
+                field("Fiscal Year"; Rec."Fiscal Year")
                 {
-                    ToolTip = 'Specifies the value of the Hide field.';
-                    ApplicationArea = All;
-                }
-                field("Date of Employement"; Rec."Date of Employement")
-                {
-                    ToolTip = 'Specifies the value of the Date of Employement field.';
+                    ToolTip = 'Specifies the value of the Fiscal Year field.';
                     ApplicationArea = All;
                 }
                 field("Appraisal Type"; Rec."Appraisal Type")
@@ -48,9 +44,15 @@ page 50079 "Appraisal List"
                     ToolTip = 'Specifies the value of the Appraisal Type field.';
                     ApplicationArea = All;
                 }
-                field(Status; Rec.Status)
+                field("Appraisal Subtype Monthly"; Rec."Appraisal Subtype Monthly")
                 {
-                    ToolTip = 'Specifies the value of the Status field.';
+
+                    ToolTip = 'Specifies the value of the Appraisal Subtype Monthly field.';
+                    ApplicationArea = All;
+                }
+                field("Appraisal Subtype Quarterly"; Rec."Appraisal Subtype Quarterly")
+                {
+                    ToolTip = 'Specifies the value of the Appraisal Subtype Quarterly field.';
                     ApplicationArea = All;
                 }
                 field("KRA Category"; Rec."KRA Category")
@@ -58,14 +60,31 @@ page 50079 "Appraisal List"
                     ToolTip = 'Specifies the value of the KRA Category field.';
                     ApplicationArea = All;
                 }
-                field(Reviewer; Rec.Reviewer)
+                field("Functional Title Desc"; Rec."Functional Title Desc")
+                {
+                    Caption = 'Designation';
+                    ToolTip = 'Specifies the value of the Functional Title Desc field.';
+                    ApplicationArea = All;
+                }
+                field("Immediate Supervisor"; Rec."Immediate Supervisor")
                 {
                     ToolTip = 'Specifies the value of the Reviewer field.';
                     ApplicationArea = All;
                 }
-                field("Check Reviewer"; Rec."Check Reviewer")
+                field("Reviewer"; Rec."Reviewer")
                 {
                     ToolTip = 'Specifies the value of the Check Reviewer field.';
+                    ApplicationArea = All;
+                }
+                field("Total Immediate Supv Score"; Rec."Total Immediate Supv Score")
+                {
+                    caption = 'Total Immediate Supervisor Score';
+                    ToolTip = 'Specifies the value of the Total Reviewers Score field.';
+                    ApplicationArea = All;
+                }
+                field("Total Reviewer Score"; Rec."Total Reviewer Score")
+                {
+                    ToolTip = 'Specifies the value of the Total Check Reviewers Score field.';
                     ApplicationArea = All;
                 }
                 field("Total Final Score"; Rec."Total Final Score")
@@ -73,34 +92,13 @@ page 50079 "Appraisal List"
                     ToolTip = 'Specifies the value of the Total Final Score field.';
                     ApplicationArea = All;
                 }
-                field("Total Reviewers Score"; Rec."Total Reviewers Score")
+                field("Final Grading"; Rec."Final Grading")
                 {
-                    ToolTip = 'Specifies the value of the Total Reviewers Score field.';
-                    ApplicationArea = All;
+                    ApplicationArea = all;
                 }
-                field("Total Check Reviewers Score"; Rec."Total Check Reviewers Score")
+                field(Status; Rec.Status)
                 {
-                    ToolTip = 'Specifies the value of the Total Check Reviewers Score field.';
-                    ApplicationArea = All;
-                }
-                field("Functional Title"; Rec."Functional Title")
-                {
-                    ToolTip = 'Specifies the value of the Functional Title field.';
-                    ApplicationArea = All;
-                }
-                field("Functional Title Desc"; Rec."Functional Title Desc")
-                {
-                    ToolTip = 'Specifies the value of the Functional Title Desc field.';
-                    ApplicationArea = All;
-                }
-                field("Final Score"; Rec."Final Score")
-                {
-                    ToolTip = 'Specifies the value of the Final Score field.';
-                    ApplicationArea = All;
-                }
-                field("Final Grade"; Rec."Final Grade")
-                {
-                    ToolTip = 'Specifies the value of the Final Grade field.';
+                    ToolTip = 'Specifies the value of the Status field.';
                     ApplicationArea = All;
                 }
                 field("Posting Date"; Rec."Posting Date")
@@ -123,17 +121,7 @@ page 50079 "Appraisal List"
                     ToolTip = 'Specifies the value of the Reviewed Date III field.';
                     ApplicationArea = All;
                 }
-                field("Total Tenure in Crc Position"; Rec."Total Tenure in Crc Position")
-                {
-                    Caption = 'Total Tenure in Current Position';
-                    ToolTip = 'Specifies the value of the Total Tenure in Current Position field.';
-                    ApplicationArea = All;
-                }
-                field("Confirmation Eligible"; Rec."Confirmation Eligible")
-                {
-                    ToolTip = 'Specifies the value of the Confirmation Eligible field.';
-                    ApplicationArea = All;
-                }
+
             }
         }
     }
@@ -168,8 +156,7 @@ page 50079 "Appraisal List"
          */
         //end;
         Rec.SetRange(Posted, false);
-        Rec.SetRange(Hide, false);
-
+        //Rec.SetRange(Hide, false);
         UserSetup.Get(UserId);
         if not UserSetup."Can View Appraisal List" then
             Error(Err001);

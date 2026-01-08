@@ -4,17 +4,21 @@ page 50078 "Appraisal Form Card"
     RefreshOnActivate = true;
     SourceTable = Appraisal;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
         {
             group(General)
             {
-                Editable = Rec.Status = Rec.Status::" ";
+                Editable = (Rec.Status = Rec.Status::" ") or (Rec.Status = Rec.Status::open);
                 field("Appraisal Code"; Rec."Appraisal Code")
                 {
                     ToolTip = 'Specifies the value of the Appraisal Code field.';
+                    ApplicationArea = All;
+                }
+                field("Fiscal Year"; Rec."Fiscal Year")
+                {
+                    ToolTip = 'Specifies the value of the Fiscal Year field.';
                     ApplicationArea = All;
                 }
                 field("Employee Code"; Rec."Employee Code")
@@ -32,11 +36,14 @@ page 50078 "Appraisal Form Card"
                     ToolTip = 'Specifies the value of the Date of Employement field.';
                     ApplicationArea = All;
                 }
+                field("Confirmation Date"; Rec."Confirmation Date")
+                {
+                    ApplicationArea = All;
+                }
                 field("Appraisal Type"; Rec."Appraisal Type")
                 {
                     ToolTip = 'Specifies the value of the Appraisal Type field.';
                     ApplicationArea = All;
-
                     trigger OnValidate()
                     begin
                         SetLayout;
@@ -59,19 +66,9 @@ page 50078 "Appraisal Form Card"
                     ToolTip = 'Specifies the value of the KRA Category field.';
                     ApplicationArea = All;
                 }
-                field("Deputation on"; Rec."Deputation on")
+                field("Province Name"; Rec."Province Name")
                 {
-                    ToolTip = 'Specifies the value of the Deputation on field.';
-                    ApplicationArea = All;
-                }
-                field("Department Name"; Rec."Department Name")
-                {
-                    ToolTip = 'Specifies the value of the Department Name field.';
-                    ApplicationArea = All;
-                }
-                field("Functional Title"; Rec."Functional Title")
-                {
-                    ToolTip = 'Specifies the value of the Functional Title field.';
+                    ToolTip = 'Specifies the value of the Province Name field.';
                     ApplicationArea = All;
                 }
                 field("Branch Name"; Rec."Branch Name")
@@ -79,19 +76,9 @@ page 50078 "Appraisal Form Card"
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
                 }
-                field("Fiscal Year"; Rec."Fiscal Year")
+                field("Department Name"; Rec."Department Name")
                 {
-                    ToolTip = 'Specifies the value of the Fiscal Year field.';
-                    ApplicationArea = All;
-                }
-                field("Province Name"; Rec."Province Name")
-                {
-                    ToolTip = 'Specifies the value of the Province Name field.';
-                    ApplicationArea = All;
-                }
-                field("Sub-Province Name"; Rec."Sub-Province Name")
-                {
-                    ToolTip = 'Specifies the value of the Sub-Province Name field.';
+                    ToolTip = 'Specifies the value of the Department Name field.';
                     ApplicationArea = All;
                 }
                 field("Extension Counter Name"; Rec."Extension Counter Name")
@@ -104,21 +91,56 @@ page 50078 "Appraisal Form Card"
                     ToolTip = 'Specifies the value of the Unit Name field.';
                     ApplicationArea = All;
                 }
+                field("Sub-Unit Name"; Rec."Sub-Unit Name")
+                {
+                    ApplicationArea = All;
+                }
+                field("Designation"; Rec.Designation)
+                {
+                    ToolTip = 'Specifies the value of the Functional Title field.';
+                    ApplicationArea = All;
+                }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
-                field(Reviewer; Rec.Reviewer)
+                field("Immediate Supervisor"; Rec."Immediate Supervisor")
                 {
-                    Caption = 'Reviewer';
+                    Caption = 'Immediate Supervisor';
                     ToolTip = 'Specifies the value of the Reviewer field.';
                     ApplicationArea = All;
                 }
-                field("Check Reviewer"; Rec."Check Reviewer")
+                field("Reviewer"; Rec."Reviewer")
                 {
-                    Caption = 'Check Reviewer';
+                    Caption = 'Reviewer';
                     ToolTip = 'Specifies the value of the Check Reviewer field.';
+                    ApplicationArea = All;
+                }
+                field("Total Self Score"; Rec."Total Self Score")
+                {
+                    caption = 'Total Self Score';
+                    ToolTip = 'Specifies the value of the Total Self Score field.';
+                    ApplicationArea = All;
+                }
+                field("Total Immediate Supv Score"; Rec."Total Immediate Supv Score")
+                {
+                    caption = 'Total Immediate Supervisor Score';
+                    ToolTip = 'Specifies the value of the Total Reviewers Score field.';
+                    ApplicationArea = All;
+                }
+                field("Total Reviewer Score"; Rec."Total Reviewer Score")
+                {
+                    caption = 'Total Reviewer Score';
+                    ToolTip = 'Specifies the value of the Total Check Reviewers Score field.';
+                    ApplicationArea = All;
+                }
+                field("Total HR Committee Score"; Rec."Total HR Committee Score")
+                {
+                    ApplicationArea = all;
+                }
+                field("Total Group Performance Score"; Rec."Total Group Performance Score")
+                {
                     ApplicationArea = All;
                 }
                 field("Total Final Score"; Rec."Total Final Score")
@@ -126,55 +148,15 @@ page 50078 "Appraisal Form Card"
                     ToolTip = 'Specifies the value of the Total Final Score field.';
                     ApplicationArea = All;
                 }
-                field("Total Reviewers Score"; Rec."Total Reviewers Score")
-                {
-                    ToolTip = 'Specifies the value of the Total Reviewers Score field.';
-                    ApplicationArea = All;
-                }
-                field("Total Check Reviewers Score"; Rec."Total Check Reviewers Score")
-                {
-                    ToolTip = 'Specifies the value of the Total Check Reviewers Score field.';
-                    ApplicationArea = All;
-                }
                 field("Final Grading"; Rec."Final Grading")
                 {
                     ToolTip = 'Specifies the value of the Final Grading field.';
                     ApplicationArea = All;
                 }
-                field("Confirmation Eligible"; Rec."Confirmation Eligible")
-                {
-                    ToolTip = 'Specifies the value of the Confirmation Eligible field.';
-                    ApplicationArea = All;
-                }
-                field("Appraisal Attachment"; Rec."Appraisal Attachment")
-                {
-                    ToolTip = 'Specifies the value of the Appraisal Attachment field.';
-                    ApplicationArea = All;
-                }
-                field("Sol Id"; Rec."Sol Id")
-                {
-                    ToolTip = 'Specifies the value of the Sol Id field.';
-                    ApplicationArea = All;
-                }
-            }
-            group(Approval)
-            {
-                Caption = 'Approval';
-                Editable = ApprovalSent;
                 field(Status; Rec.Status)
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Status field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
                     ApplicationArea = All;
                 }
             }
@@ -198,98 +180,44 @@ page 50078 "Appraisal Form Card"
                     ApplicationArea = All;
                 }
             }
-            part(Control24; "KRA Subform")
+
+            part("KPI Employee Score"; "KPI Employee")
             {
-                SubPageLink = "Appraisal Code" = field("Appraisal Code"),
-                              "Employee Code" = field("Employee Code"),
-                              "KRA Category" = field("KRA Category");
-                Visible = FieldVisible;
+                Caption = 'KPI Employee Score';
                 ApplicationArea = All;
+                SubPageLink =
+        "Appraisal Code" = field("Appraisal Code"),
+        "Employee Code" = field("Employee Code"),
+         "KPI Rating Type" = filter("KPI Rating Type"::Scoring);
             }
-            group(Total)
+
+            part("KPI Employee Rating"; "KPI Employee")
             {
-                Caption = 'Total';
-                Visible = FieldVisible;
-                field("Final Score"; Rec."Final Score")
-                {
-                    ToolTip = 'Specifies the value of the Final Score field.';
-                    ApplicationArea = All;
-                }
-                field(Rating; Rec.Rating)
-                {
-                    ToolTip = 'Specifies the value of the Rating field.';
-                    ApplicationArea = All;
-                }
+                Caption = 'KPI Employee Rating';
+                ApplicationArea = All;
+                SubPageLink =
+        "Appraisal Code" = field("Appraisal Code"),
+        "Employee Code" = field("Employee Code"),
+         "KPI Rating Type" = filter("KPI Rating Type"::Rating);
             }
-            group("Other Information")
+
+            part("KPI Employee Group Based"; "KPI Employee")
             {
-                Caption = 'Other Information';
-                Visible = FieldVisible;
-                field("Academic Degree"; Rec."Academic Degree")
-                {
-                    Caption = 'Acquisition of an Acedemic Degree';
-                    ToolTip = 'Specifies the value of the Acquisition of an Acedemic Degree field.';
-                    ApplicationArea = All;
-                }
-                field("Written Verbal Warning Issued"; Rec."Written Verbal Warning Issued")
-                {
-                    Caption = 'Written/verbal warning issued';
-                    ToolTip = 'Specifies the value of the Written/verbal warning issued field.';
-                    ApplicationArea = All;
-                }
-                field("Completion of Training"; Rec."Completion of Training")
-                {
-                    Caption = 'Successful completion of job-related training';
-                    ToolTip = 'Specifies the value of the Successful completion of job-related training field.';
-                    ApplicationArea = All;
-                }
-                field("Disciplinary Actions Taken"; Rec."Disciplinary Actions Taken")
-                {
-                    Caption = 'Disciplinary Action(s) taken';
-                    ToolTip = 'Specifies the value of the Disciplinary Action(s) taken field.';
-                    ApplicationArea = All;
-                }
-                field("Commendations on File"; Rec."Commendations on File")
-                {
-                    Caption = 'Any commendations on file';
-                    ToolTip = 'Specifies the value of the Any commendations on file field.';
-                    ApplicationArea = All;
-                }
-                field("Frequent Untidy Uniform"; Rec."Frequent Untidy Uniform")
-                {
-                    Caption = 'Frequent untidy uniform';
-                    ToolTip = 'Specifies the value of the Frequent untidy uniform field.';
-                    ApplicationArea = All;
-                }
-                field("Uninformed Absence"; Rec."Uninformed Absence")
-                {
-                    Caption = 'Absence without information/ authorization and habitual tardiness';
-                    ToolTip = 'Specifies the value of the Absence without information/ authorization and habitual tardiness field.';
-                    ApplicationArea = All;
-                }
-                field("No of Sick Leaves Taken"; Rec."No of Sick Leaves Taken")
-                {
-                    Caption = 'No of day''s sick leave taken';
-                    ToolTip = 'Specifies the value of the No of day''s sick leave taken field.';
-                    ApplicationArea = All;
-                }
+                Caption = 'KPI Employee Group Based';
+                ApplicationArea = All;
+                SubPageLink =
+        "Appraisal Code" = field("Appraisal Code"),
+        "Employee Code" = field("Employee Code"),
+         "KPI Rating Type" = filter("KPI Rating Type"::"Group Based");
             }
-            group("Development Plan")
+
+            part("Employee Appraisal Questions"; "Employee Appraisal Questions")
             {
-                Caption = 'Development Plan';
-                Visible = FieldVisible;
-                field("Improvement Time"; Rec."Improvement Time")
-                {
-                    Caption = 'Time set for improvement to take place (in months)';
-                    ToolTip = 'Specifies the value of the Time set for improvement to take place (in months) field.';
-                    ApplicationArea = All;
-                }
-                field("Development Plan Remarks"; Rec."Development Plan Remarks")
-                {
-                    Caption = 'Remarks';
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
-                }
+                Caption = 'Employee Appraisal Questions';
+                ApplicationArea = All;
+                SubPageLink =
+                "Appraisal Code" = field("Appraisal Code"),
+                "Employee Code" = field("Employee Code");
             }
             group("Reportee's Comments")
             {
@@ -302,46 +230,7 @@ page 50078 "Appraisal Form Card"
                     ApplicationArea = All;
                 }
             }
-            group("Assessment of Potential")
-            {
-                Caption = 'Assessment of Potential';
-                Visible = FieldVisible;
-                field("Sales and Marketing Corporate"; Rec."Sales and Marketing Corporate")
-                {
-                    ToolTip = 'Specifies the value of the Sales and Marketing Corporate field.';
-                    ApplicationArea = All;
-                }
-                field("Sales and Marketing Retail"; Rec."Sales and Marketing Retail")
-                {
-                    ToolTip = 'Specifies the value of the Sales and Marketing Retail field.';
-                    ApplicationArea = All;
-                }
-                field(Operations; Rec.Operations)
-                {
-                    ToolTip = 'Specifies the value of the Operations field.';
-                    ApplicationArea = All;
-                }
-                field("Finance or Accounts"; Rec."Finance or Accounts")
-                {
-                    ToolTip = 'Specifies the value of the Finance or Accounts field.';
-                    ApplicationArea = All;
-                }
-                field(Administration; Rec.Administration)
-                {
-                    ToolTip = 'Specifies the value of the Administration field.';
-                    ApplicationArea = All;
-                }
-                field("Back Office"; Rec."Back Office")
-                {
-                    ToolTip = 'Specifies the value of the Back Office field.';
-                    ApplicationArea = All;
-                }
-                field("Human Resource"; Rec."Human Resource")
-                {
-                    ToolTip = 'Specifies the value of the Human Resource field.';
-                    ApplicationArea = All;
-                }
-            }
+
             group("Reviewer's Comments")
             {
                 Caption = 'Reviewer''s Comments';
@@ -364,12 +253,20 @@ page 50078 "Appraisal Form Card"
                     ApplicationArea = All;
                 }
             }
+
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                SubPageLink = "Document No." = field("Appraisal Code");
+                ApplicationArea = all;
+                Editable = false;
+            }
             part(Attachment; "Attachment Subform")
             {
                 SubPageLink = "No." = field("Appraisal Code"),
                               "Employee Code" = field("Employee Code");
                 ApplicationArea = All;
             }
+
         }
     }
 
@@ -377,40 +274,15 @@ page 50078 "Appraisal Form Card"
     {
         area(Navigation)
         {
-            action(Post)
-            {
-                Image = PostApplication;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Post action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    //HRMgt.CalcExtendDays(Rec,TRUE);
-                    Appraisal.Reset;
-                    Appraisal.SetRange("Appraisal Code", Rec."Appraisal Code");
-                    if Appraisal.FindFirst then
-                        repeat
-                            Appraisal.Posted := true;
-                            Appraisal."Posting Date" := Today;
-                        until Appraisal.Next = 0;
-
-                    CurrPage.Close;
-                end;
-            }
             action(ReOpen)
             {
                 Image = ReOpen;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = false;
                 ToolTip = 'Executes the ReOpen action.';
                 ApplicationArea = All;
-
+                Enabled = not Rec.Posted;
                 trigger OnAction()
                 begin
                     //HRMgt.CalcExtendDays(Rec,FALSE);
@@ -418,12 +290,19 @@ page 50078 "Appraisal Form Card"
                     Appraisal.SetRange("Appraisal Code", Rec."Appraisal Code");
                     if Appraisal.FindFirst then
                         repeat
+                            Appraisal.Status := Appraisal.Status::Open;
                             Appraisal.Posted := false;
                             Appraisal."Posting Date" := 0D;
+                            Appraisal.Validate("Total Final Score", 0);
+
+                            Clear(Rec."Final Grading");
+                            Appraisal.Modify(true);
                         until Appraisal.Next = 0;
                     CurrPage.Close;
                 end;
             }
+
+            //Appraisal Changes
             action("Request Appraisal")
             {
                 Image = Confirm;
@@ -431,26 +310,21 @@ page 50078 "Appraisal Form Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                visible = (Rec.Status = Rec.Status::Open) or (Rec.Status = Rec.Status::Rejected);
                 ToolTip = 'Executes the Request Appraisal action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
+                var
+                    AppraisalMgt: Codeunit "AppraisalMgt.";
                 begin
-                    if not Confirm('Do you want to send appraisal request?', false) then
-                        exit;
-                    Rec.TestField("Appraisal Type");
-                    Rec.TestField(Status, Rec.Status::" ");
-                    if Rec."Appraisal Type" = Rec."Appraisal Type"::Monthly then
-                        Rec.TestField("Appraisal Subtype Monthly")
-                    else if Rec."Appraisal Type" = Rec."Appraisal Type"::Quarterly then
-                        Rec.TestField("Appraisal Subtype Quarterly");
-                    Rec.TestField("KRA Category");
-                    Rec.TestField(Reviewer);
-                    Rec.TestField("Check Reviewer");
-                    Rec.Validate(Status, Rec.Status::Requested);
-                    Message('Appraisal Request submitted.');
+                    if AppraisalMgt.ApplyForAppraisal(Rec) <> '' then begin
+                        Message('Appraisal has been sent for approval.');
+                        CurrPage.Update(false);
+                    end;
                 end;
             }
+
+            //Appraisal Changes
             action("Cancel Appraisal Request")
             {
                 Image = CancelApprovalRequest;
@@ -459,10 +333,11 @@ page 50078 "Appraisal Form Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Cancel Appraisal Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
+                var
+                    AppraisalMgt: Codeunit "AppraisalMgt.";
                 begin
-                    AppraisalMgt.CancelAppraisalApproval(Rec);
+                    AppraisalMgt.OpenCancelAppraisal(Rec);
                 end;
             }
             action("Send Review Request")
@@ -474,7 +349,6 @@ page 50078 "Appraisal Form Card"
                 Visible = Submitted;
                 ToolTip = 'Executes the Send Review Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     CurrPage.Close();
@@ -490,7 +364,6 @@ page 50078 "Appraisal Form Card"
                 Visible = Rec.Status = Rec.Status::Requested;
                 ToolTip = 'Executes the Approve Review action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     AppraisalMgt.ApproveRejectAppraisal(true, Rec);
@@ -505,10 +378,11 @@ page 50078 "Appraisal Form Card"
                 Visible = ReviewSent;
                 ToolTip = 'Executes the Send Check Review Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
+                var
+                    HRMgt: Codeunit "HR Mgt.";
                 begin
-                    AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Check Reviewer");
+                    AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Reviewer");
                     CurrPage.Close();
                 end;
             }
@@ -522,7 +396,6 @@ page 50078 "Appraisal Form Card"
                 Visible = Rec.Status = Rec.Status::Reviewed;
                 ToolTip = 'Executes the Approve Check Review action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     AppraisalMgt.ApproveRejectAppraisal(true, Rec);
@@ -537,8 +410,9 @@ page 50078 "Appraisal Form Card"
                 Visible = ApprovalSent;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
+                var
+                    HRMgt: Codeunit "HR Mgt.";
                 begin
                     KRASubFormRec.Reset;
                     KRASubFormRec.SetRange("Appraisal Code", Rec."Appraisal Code");
@@ -547,7 +421,6 @@ page 50078 "Appraisal Form Card"
                         repeat
                             KRASubFormRec.TestField(Remarks);
                         until KRASubFormRec.Next = 0;
-                    AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Approver Code");
                     CurrPage.Close();
                 end;
             }
@@ -561,7 +434,6 @@ page 50078 "Appraisal Form Card"
                 Visible = CheckReviewSent;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 var
                     RatingSetup: Record "Rating Setup";
@@ -569,10 +441,10 @@ page 50078 "Appraisal Form Card"
                     AppraisalMgt.ApproveRejectAppraisal(true, Rec);
                     RatingSetup.Reset;
                     RatingSetup.SetRange(Type, RatingSetup.Type::Appraisal);
-                    RatingSetup.SetFilter(From, '<=%1', Rec."Final Score");
-                    RatingSetup.SetFilter("To", '>=%1', Rec."Final Score");
+                    RatingSetup.SetFilter(From, '<=%1', Rec."Total Final Score");
+                    RatingSetup.SetFilter("To", '>=%1', Rec."Total Final Score");
                     if RatingSetup.FindFirst then
-                        Rec.Validate(Rating, RatingSetup.Remarks);
+                        Rec.Validate("Final Grading", RatingSetup.Rating);
                 end;
             }
             action("Reject Request")
@@ -585,7 +457,6 @@ page 50078 "Appraisal Form Card"
                 Visible = CheckReviewSent;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     AppraisalMgt.ApproveRejectAppraisal(false, Rec);
@@ -600,28 +471,106 @@ page 50078 "Appraisal Form Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Calculate Final Marks action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to calculate marks?', false) then
                         AppraisalMgt.CalculateFinalScore(Rec);
                 end;
             }
-            action("Download Appraisal Attachment")
+            action("Approve")
             {
-                Image = Document;
+                Caption = 'Approve';
+                Image = Approve;
                 Promoted = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                ToolTip = 'Executes the Download Appraisal Attachment action.';
+                ToolTip = 'Approves the appraisal and posts it if conditions are met.';
                 ApplicationArea = All;
-
+                Enabled = not Rec.Posted;
                 trigger OnAction()
+                var
+                    AppraisalRec: Record Appraisal;
                 begin
-                    Rec.DownloadAttachment(Rec."Appraisal Attachment");
+                    AppraisalRec.Get(Rec."Appraisal Code");
+                    if AppraisalRec.Status <> AppraisalRec.Status::Pending then
+                        Error('Approval cannot proceed. Appraisal status must be Pending.');
+                    AppraisalRec.Validate(Status, AppraisalRec.Status::Approved);
+                    AppraisalRec.Posted := true;
+                    AppraisalRec."Posting Date" := WorkDate;
+                    AppraisalRec.Modify(true);
+                    CurrPage.Update();
+                    Message('Appraisal approved and posted successfully.');
                 end;
             }
+            action("View Key Performance Indices")
+            {
+                Image = View;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category4;
+                ToolTip = 'Executes the View Key Performance indices action.';
+                trigger OnAction()
+                var
+                    KPIEmpRec: Record "KPI Employee";
+                    HRMgt: Codeunit "HR Mgt.";
+                begin
+                    KPIEmpRec.Reset();
+                    KPIEmpRec.SetRange("Appraisal Code", Rec."Appraisal Code");
+                    KPIEmpRec.SetRange("Employee Code", Rec."Employee Code");
+                    if not KPIEmpRec.FindFirst() then
+                        Error('No KPI lines exist for this appraisal.');
+                    OpenKPIForKRARelated(Rec);
+
+                end;
+            }
+            action("KPI Assigned")
+            {
+                Image = Confirm;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category4;
+                trigger OnAction()
+                begin
+                    ChangeAppraisalStatus(Rec.Status::"KPI Assigned");
+                end;
+            }
+            action("KPI Submitted")
+            {
+                Image = Confirm;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category4;
+                trigger OnAction()
+                begin
+                    ChangeAppraisalStatus(Rec.Status::Submitted);
+                end;
+            }
+
+            action("KPI Reviewed")
+            {
+                Image = Confirm;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category4;
+                trigger OnAction()
+                begin
+                    ChangeAppraisalStatus(Rec.Status::Reviewed);
+                end;
+            }
+
+            action("Check Reviewed")
+            {
+                Image = Confirm;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category4;
+                trigger OnAction()
+                begin
+                    ChangeAppraisalStatus(Rec.Status::"Check Reviewed");
+                end;
+            }
+
             action("Change Reviewer / Check Reviewer")
             {
                 Image = ReOpen;
@@ -631,15 +580,24 @@ page 50078 "Appraisal Form Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Change Reviewer / Check Reviewer action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.ChangeReviewerCheckReviewerAppraisal;
                 end;
             }
+            action("HR Reviewed")
+            {
+                Image = Confirm;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category4;
+                trigger OnAction()
+                begin
+                    ChangeAppraisalStatus(Rec.Status::Pending);
+                end;
+            }
         }
     }
-
     trigger OnAfterGetRecord()
     begin
         SetLayout();
@@ -647,9 +605,7 @@ page 50078 "Appraisal Form Card"
 
     trigger OnOpenPage()
     begin
-        //IF Posted THEN
-        // CurrPage.EDITABLE(FALSE);
-        if not (Rec.Status = Rec.Status::" ") then
+        if not (Rec.Status = Rec.Status::Open) then
             FieldVisible := true
         else
             FieldVisible := false;
@@ -662,7 +618,6 @@ page 50078 "Appraisal Form Card"
         Appraisal: Record Appraisal;
         FieldVisible: Boolean;
         Submitted: Boolean;
-
         DocumentEditable: Boolean;
         CheckReviewSent: Boolean;
         ReviewSent: Boolean;
@@ -677,9 +632,48 @@ page 50078 "Appraisal Form Card"
         ReviewSent := Rec.Status in [Rec.Status::Reviewed];
         CheckReviewSent := Rec.Status in [Rec.Status::"Check Reviewed"];
         ApprovalSent := Rec.Status in [Rec.Status::Approved];
-        DocumentEditable := Rec.Status in [Rec.Status::Requested, Rec.Status::" "];
+        DocumentEditable := Rec.Status in [Rec.Status::Requested, Rec.Status::Open];
         RecommendationSent := Rec.Status in [Rec.Status::Recommended];
         FieldEditable1 := Rec."Appraisal Type" = Rec."Appraisal Type"::Monthly;
         FieldEditable2 := Rec."Appraisal Type" = Rec."Appraisal Type"::Quarterly;
+    end;
+
+    local procedure ChangeAppraisalStatus(NewStatus: Enum "Appraisal Status")
+    var
+        AppraisalRec: Record Appraisal;
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        AppraisalRec.Get(Rec."Appraisal Code");
+        if NewStatus = NewStatus::Pending then begin
+            AppraisalRec.Validate(Status, NewStatus);
+            AppraisalRec."Approval Status" := AppraisalRec."Approval Status"::Open;
+            AppraisalRec.Modify(true);
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", AppraisalRec."Appraisal Code");
+            ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::Appraisal);
+            if ApprovalHRMS.FindSet() then begin
+                repeat
+                    if ApprovalHRMS."Approval Status" = ApprovalHRMS."Approval Status"::Created then begin
+                        ApprovalHRMS."Approval Status" := ApprovalHRMS."Approval Status"::Open;
+                        ApprovalHRMS.Modify();
+                    end;
+                until ApprovalHRMS.Next() = 0;
+            end;
+        end else begin
+            AppraisalRec.Validate(Status, NewStatus);
+            AppraisalRec.Modify(true);
+        end;
+        CurrPage.Update();
+    end;
+
+    local procedure OpenKPIForKRARelated(AppraisalRec: Record Appraisal)
+    var
+        KPIEmpRec: Record "KPI Employee";
+    begin
+        KPIEmpRec.Reset();
+        KPIEmpRec.SetRange("KRA Master", AppraisalRec."KRA Category");
+        KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+        KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
+        Page.Run(Page::"KPI Employee", KPIEmpRec);
     end;
 }

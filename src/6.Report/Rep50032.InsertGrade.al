@@ -75,11 +75,11 @@ report 50032 "Insert Grade"
             AppraisalRec.Reset;
             AppraisalRec.SetRange("Employee Code", Employee."No.");
             if AppraisalRec.FindFirst then begin
-                if Format(AppraisalRec.Rating) = HRSetup."APR Grade 2 Increment" then begin
+                if Format(AppraisalRec."Final Grading") = HRSetup."APR Grade 2 Increment" then begin
                     Evaluate(TempGrade, SalaryGradeRec.Code);
                     GradeEntry.Grade := Format(TempGrade + 2);
                 end
-                else if Format(AppraisalRec.Rating) = HRSetup."APR Grade 1 Increment" then begin
+                else if Format(AppraisalRec."Final Grading") = HRSetup."APR Grade 1 Increment" then begin
                     Evaluate(TempGrade, SalaryGradeRec.Code);
                     GradeEntry.Grade := Format(TempGrade + 2);
                 end;

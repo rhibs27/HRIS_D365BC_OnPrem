@@ -2,16 +2,16 @@ enum 50093 "Key Value Master Type"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
-    value(1; "KRA Category")
+    value(1; "KRA Master")
     {
-        Caption = 'KRA Category';
+        Caption = 'KRA Master';
     }
-    value(2; "Key Result Area")
+    value(2; "KRA Subtype")
     {
-        Caption = 'Key Result Area';
+        Caption = 'KRA Subtype';
     }
 }

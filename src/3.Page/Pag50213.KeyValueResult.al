@@ -2,7 +2,7 @@ page 50213 "Key Value Result"
 {
     Caption = 'Key Value Result';
     PageType = List;
-    SourceTable = "Key Value Master";
+    SourceTable = "Appraisal KRA Master";
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -30,13 +30,13 @@ page 50213 "Key Value Result"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec.Validate(Type, Rec.Type::"Key Result Area");
+        Rec.Validate(Type, Rec.Type::"KRA Subtype");
     end;
 
     trigger OnOpenPage()
     begin
         Rec.FilterGroup(2);
-        Rec.SetRange(Type, Rec.Type::"Key Result Area");
+        Rec.SetRange(Type, Rec.Type::"KRA Subtype");
         Rec.FilterGroup(0);
     end;
 }

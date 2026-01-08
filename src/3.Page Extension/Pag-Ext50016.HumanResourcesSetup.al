@@ -29,16 +29,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Employee Insurance No. field.';
             }
-            field("KPI No. Series"; Rec."KPI No. Series")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the KPI No. Series field.';
-            }
-            field("Appraisal No."; Rec."Appraisal No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Appraisal No. field.';
-            }
 
             field("Recruitment No. Series"; Rec."Recruitment No. Series")
             {
@@ -284,6 +274,29 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ToolTip = 'Specifies the value of the Reschedule Vacancy Mai For Interviewer field.';
                 }
             }
+            group("Appraisal")
+            {
+                field("KPI No. Series"; Rec."KPI No. Series")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the KPI No. Series field.';
+                }
+                field("Appraisal No."; Rec."Appraisal No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Appraisal No. field.';
+                }
+                Field("Branch Appraisal Criteria"; Rec."Branch Appraisal Criteria")
+                {
+                    ApplicationArea = All;
+                }
+                field("Max Weightage"; Rec."Max Weightage")
+                {
+                    ApplicationArea = All;
+                }
+            }
+
+
             group("Out Of Pocket")
             {
                 field("Half Limit (out expense)"; Rec."Half Limit (out expense)")
