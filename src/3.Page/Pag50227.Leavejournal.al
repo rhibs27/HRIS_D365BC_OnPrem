@@ -18,9 +18,7 @@ page 50227 "Leave Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name")
-                {
-                }
+                field("Employee Name"; Rec."Employee Name") { }
                 field("Leave Code"; Rec."Leave Code")
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.';
@@ -71,7 +69,6 @@ page 50227 "Leave Journal"
                 {
                     Visible = StatusView;
                 }
-
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ToolTip = 'Specifies the value of the Fiscal Year field.';
@@ -86,6 +83,7 @@ page 50227 "Leave Journal"
                 field("Substitute Person Code"; Rec."Substitute Person Code")
                 {
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {
@@ -94,6 +92,7 @@ page 50227 "Leave Journal"
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
+
                 Editable = false;
                 SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }

@@ -125,7 +125,4 @@ page 50215 "Employee Transfer Claim"
         Rec.SetRange(Type, Rec.Type::"Transfer Claim");
         Rec.FilterGroup(0);
     end;
-
-    var
-        HRMgt: Codeunit "HR Mgt.";
 }

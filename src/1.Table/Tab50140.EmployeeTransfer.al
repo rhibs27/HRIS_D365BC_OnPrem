@@ -25,9 +25,7 @@ table 50140 "Employee Transfer"
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -63,13 +61,11 @@ table 50140 "Employee Transfer"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -79,10 +75,7 @@ table 50140 "Employee Transfer"
             trigger OnValidate()
             begin
                 Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
+                HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -128,17 +121,13 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
@@ -146,13 +135,14 @@ table 50140 "Employee Transfer"
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -161,11 +151,11 @@ table 50140 "Employee Transfer"
             Editable = false;
             TableRelation = "Functional Title";
         }
-        field(22; "Unit Name"; Text[50])
+        field(22; "Unit Name"; Text[100])
         {
             Editable = false;
         }
-        field(23; "Extension Counter Name"; Text[50])
+        field(23; "Extension Counter Name"; Text[100])
         {
             Editable = false;
         }
@@ -179,7 +169,7 @@ table 50140 "Employee Transfer"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(26; "Province Name"; Text[50])
+        field(26; "Province Name"; Text[100])
         {
             Editable = false;
         }
@@ -187,41 +177,29 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
-        field(28; "Extension Counter Code"; Code[20])
-        {
-        }
+        field(28; "Extension Counter Code"; Code[20]) { }
         field(30; "Province Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
         }
         field(31; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
         }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
-        field(34; "Extension Name To"; Text[50])
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
+        field(34; "Extension Name To"; Text[100]) { }
         field(35; "Functional Desc To"; Text[100])
         {
             Editable = false;
         }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
-        field(38; "Branch Name To"; Text[50])
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
+        field(38; "Branch Name To"; Text[100])
         {
             Editable = false;
         }
-        field(39; Cancelled; Boolean)
-        {
-        }
+        field(39; Cancelled; Boolean) { }
         // field(40; "Cancelled No."; Code[20])
         // {
         // }
@@ -229,15 +207,15 @@ table 50140 "Employee Transfer"
         // {
         //     Editable = false;
         // }
-        field(42; "Department Name To"; text[50])
+        field(42; "Department Name To"; Text[100])
         {
             Editable = false;
         }
-        field(43; "Province Name To"; Text[50])
+        field(43; "Province Name To"; Text[100])
         {
             Editable = false;
         }
-        field(44; "Unit Name To"; Text[50])
+        field(44; "Unit Name To"; Text[100])
         {
             Editable = false;
         }
@@ -265,15 +243,9 @@ table 50140 "Employee Transfer"
                     Clear("Reason Description");
             end;
         }
-        field(49; "Reason Description"; Text[50])
-        {
-        }
-        field(50; Description; Text[250])
-        {
-        }
-        field(51; "Screener Remarks"; Text[100])
-        {
-        }
+        field(49; "Reason Description"; Text[50]) { }
+        field(50; Description; Text[250]) { }
+        field(51; "Screener Remarks"; Text[100]) { }
         field(52; "Transfer Type"; Enum "Transfer Type")
         {
             trigger OnValidate()
@@ -353,8 +325,6 @@ table 50140 "Employee Transfer"
             Description = 'Transfer';
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
             trigger OnValidate()
-            var
-                OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Department Code (To)" <> xRec."Department Code (To)" then begin
                     "Unit (To)" := '';
@@ -425,9 +395,7 @@ table 50140 "Employee Transfer"
                     "Functional Desc To" := FunctionalTitle.Description;
             end;
         }
-        field(65; "Deputation On"; Enum "Deputation Type")
-        {
-        }
+        field(65; "Deputation On"; Enum "Deputation Type") { }
         field(66; "Deputation On (To)"; Enum "Deputation Type")
         {
             ValuesAllowed = Branch, Province, Department;
@@ -561,7 +529,7 @@ table 50140 "Employee Transfer"
                     Clear("Incoming Supervisior Name");
             end;
         }
-        field(85; "Incoming Supervisior Name"; Text[50])
+        field(85; "Incoming Supervisior Name"; Text[100])
         {
             Description = 'Transfer';
             Editable = false;
@@ -584,15 +552,9 @@ table 50140 "Employee Transfer"
         {
             Description = 'Transfer';
         }
-        field(90; "Temporary Address"; Text[150])
-        {
-        }
-        field(91; "Temporary Province"; Text[50])
-        {
-        }
-        field(92; "Temporary District"; Text[50])
-        {
-        }
+        field(90; "Temporary Address"; Text[150]) { }
+        field(91; "Temporary Province"; Text[100]) { }
+        field(92; "Temporary District"; Text[50]) { }
         field(93; "Notify to"; Text[200])
         {
             Description = 'Transfer';
@@ -721,7 +683,6 @@ table 50140 "Employee Transfer"
             DataClassification = ToBeClassified;
             Editable = false;
         }
-
         field(205; "Requested Province 2"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -760,7 +721,6 @@ table 50140 "Employee Transfer"
             DataClassification = ToBeClassified;
             Editable = false;
         }
-
         field(209; "Requested Province 3"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -799,7 +759,6 @@ table 50140 "Employee Transfer"
             DataClassification = ToBeClassified;
             Editable = false;
         }
-
         field(300; "Incoming Supervisior 2"; Code[20])
         {
             Description = 'Transfer';
@@ -812,7 +771,7 @@ table 50140 "Employee Transfer"
                     Clear("Incoming Supervisior Name 2");
             end;
         }
-        field(301; "Incoming Supervisior Name 2"; Text[50])
+        field(301; "Incoming Supervisior Name 2"; Text[100])
         {
             Description = 'Transfer';
             Editable = false;
@@ -837,6 +796,10 @@ table 50140 "Employee Transfer"
             Description = 'Transfer';
             Editable = false;
         }
+        field(304; "Departure Date"; Date)
+        {
+            Description = 'Transfer. It is checked while doing takeover process.';
+        }
     }
     keys
     {
@@ -844,9 +807,7 @@ table 50140 "Employee Transfer"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     trigger OnInsert()
     begin

@@ -15,7 +15,6 @@ page 50108 "Emp. Edit Achievement Subform"
                 {
                     ToolTip = 'Specifies the value of the Employee Document Type field.', Comment = '%';
                 }
-
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.', Comment = '%';
@@ -28,7 +27,6 @@ page 50108 "Emp. Edit Achievement Subform"
                 {
                     ToolTip = 'Specifies the value of the Institution/Company field.', Comment = '%';
                 }
-
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
@@ -48,7 +46,6 @@ page 50108 "Emp. Edit Achievement Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Import';
-
                 ToolTip = 'Import a picture file.';
                 trigger OnAction()
                 var
@@ -62,7 +59,7 @@ page 50108 "Emp. Edit Achievement Subform"
                         if not Confirm('There is an existing attachment. Do you wish to proceed') then
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-                        // check file size 
+                        // check file size
                         AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"));
 
                         // Check File Extension
@@ -80,7 +77,6 @@ page 50108 "Emp. Edit Achievement Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Preview';
-
                 ToolTip = 'View the Attachment';
 
                 trigger OnAction()
@@ -93,13 +89,11 @@ page 50108 "Emp. Edit Achievement Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Export';
-
                 ToolTip = 'Export the picture to a file.';
                 trigger OnAction()
                 var
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
-                    ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
                     fileInitial: Text;
@@ -121,7 +115,6 @@ page 50108 "Emp. Edit Achievement Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Delete';
-
                 ToolTip = 'Delete the record.';
 
                 trigger OnAction()

@@ -541,8 +541,16 @@ table 50039 "Payroll Journal Line"
         field(75; "LWP Days"; Decimal)
         {
         }
-        field(76; "Salary Level"; code[20]) { DataClassification = ToBeClassified; }
-        field(77; "Salary Grade"; code[20]) { DataClassification = ToBeClassified; }
+        field(76; "Salary Level"; code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Salary Level";
+        }
+        field(77; "Salary Grade"; code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Salary Grade";
+        }
     }
 
     keys

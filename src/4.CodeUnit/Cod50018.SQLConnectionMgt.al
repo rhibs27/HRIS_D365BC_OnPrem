@@ -1,4 +1,3 @@
-
 codeunit 50018 "SQL Connection Mgt"
 {
     trigger OnRun()
@@ -9,7 +8,6 @@ codeunit 50018 "SQL Connection Mgt"
         NoServerInfoError: Label 'Either server or database information not found.';
         SQLUserID: Text;
         SQLPassword: Text;
-        CompInfo: Record "Company Information";
 
     procedure GetConnectionString() ConnStr: Text[250]
     var

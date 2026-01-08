@@ -58,16 +58,16 @@ report 50151 "Payroll Voucher summary 2"
             var
                 UnitCost: Decimal;
                 BudgetedAmt: Decimal;
+                GLEntry: Record "G/L Entry";
             begin
                 if "Posted Payroll Header".Reversed then
                     CurrReport.Skip();
 
-                GLAccount.Reset;
-                GLAccount.SetRange("No.", PGSetup."Net Payable Account Code");
-                GLAccount.SetFilter("Document No. Filter", "Posted Payroll Header".GetFilter("No."));
-                GLAccount.FindFirst;
-                GLAccount.CalcFields("Net Change");
-                TotaNetPay := GLAccount."Net Change";
+                GLEntry.SetLoadFields("Document No.", "G/L Account No.", Amount);
+                GLEntry.SetRange("Document No.", "Posted Payroll Header"."No.");
+                GLEntry.SetRange("G/L Account No.", PGSetup."Net Payable Account Code");
+                GLEntry.CalcSums(Amount);
+                TotaNetPay := GLEntry.Amount;
 
                 PayrollAttributes.Reset;
                 PayrollAttributes.SetFilter(Subtype, '<>%1&<>%2', PayrollAttributes.Subtype::"Lump Sum Contribution", PayrollAttributes.Subtype::"Tax on Interest");
@@ -203,7 +203,6 @@ report 50151 "Payroll Voucher summary 2"
         Text059: Label 'THOUSAND';
         HrMgt: Codeunit "HR Mgt.";
         TotaNetPay: Decimal;
-        GLAccount: Record "G/L Account";
         TotalDebitAmt: Decimal;
         PayrollAttributes: Record "Payroll Attributes";
         PGSetup: Record "Payroll General Setup";
@@ -372,7 +371,6 @@ report 50151 "Payroll Voucher summary 2"
         end;
         exit(OneLineAddress);
     end;
-
 
     procedure GetAttributeWiseDebitCredit(AttrCode: Code[20];
                                         var DebitAmt: Decimal;

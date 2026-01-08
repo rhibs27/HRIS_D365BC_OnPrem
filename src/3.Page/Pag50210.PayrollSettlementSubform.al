@@ -782,7 +782,6 @@ page 50210 "Payroll Settlement Subform"
             action("Payroll Attributes Usage")
             {
                 Image = PaymentDays;
-
                 RunObject = page "Payroll Attributes Usage";
                 RunPageLink = "Employee Code" = field("Employee No.");
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
@@ -837,17 +836,6 @@ page 50210 "Payroll Settlement Subform"
 
     var
         PayrollEngine: Codeunit "Payroll Engine";
-        Field50490Visible: Boolean;
-        Field50491Visible: Boolean;
-        Field50492Visible: Boolean;
-        Field50493Visible: Boolean;
-        Field50494Visible: Boolean;
-        Field50495Visible: Boolean;
-        Field50496Visible: Boolean;
-        Field50497Visible: Boolean;
-        Field50498Visible: Boolean;
-        Field50499Visible: Boolean;
-        Field50500Visible: Boolean;
         Field50501Visible: Boolean;
         Field50502Visible: Boolean;
         Field50503Visible: Boolean;
@@ -888,9 +876,9 @@ page 50210 "Payroll Settlement Subform"
         Field50538Visible: Boolean;
         Field50539Visible: Boolean;
         Field50540Visible: Boolean;
-        // 
+        //
         HourCalculationVisible: Boolean;
-        // 
+        //
         TimeSheetVisible: Boolean;
 
     local procedure InitColumnVisibility()

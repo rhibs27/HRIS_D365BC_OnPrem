@@ -178,7 +178,6 @@ page 50023 "Level Wise Attributes"
                         PayrollArchive.RunArchive(RecRef.Number);
                     end;
                 }
-
             }
         }
     }

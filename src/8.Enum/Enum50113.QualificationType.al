@@ -34,5 +34,4 @@ enum 50113 "Qualification Type"
     {
         Caption = 'Diploma';
     }
-
 }

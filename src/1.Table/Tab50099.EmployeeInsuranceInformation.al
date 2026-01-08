@@ -18,9 +18,7 @@ table 50099 "Employee Insurance Information"
                 end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -61,9 +59,12 @@ table 50099 "Employee Insurance Information"
                 Len := StrLen(DelChr("Policy Number", '=', DelChr("Policy Number", '=', SpecialChars)));
                 if Len > 0 then
                     Error(SpecialCharsErr);
+
                 EmpInsurance.Reset;
                 EmpInsurance.SetRange("Employee No.", Rec."Employee No.");
                 EmpInsurance.SetRange("Policy Number", Rec."Policy Number");
+                EmpInsurance.SetFilter("Insurance No.", '<>%1', Rec."Insurance No.");
+                EmpInsurance.SetFilter("Approval Status", '<>%1', EmpInsurance."Approval Status"::Rejected);
                 if EmpInsurance.FindFirst then
                     Error(Text019, Rec."Policy Number", EmpInsurance."Insurance No.");
             end;
@@ -119,17 +120,13 @@ table 50099 "Employee Insurance Information"
         {
             TableRelation = "No. Series";
         }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(18; "Is Home Loan TieUp"; Boolean) { }
         field(19; "Requested Date"; Date)
         {
             Editable = false;
         }
-        field(20; "Insurance Type"; Enum "Employee Insurance Type")
-        {
-        }
+        field(20; "Insurance Type"; Enum "Employee Insurance Type") { }
         field(21; Remarks; Text[250]) { }
         field(22; "Premium Paid By"; enum "Premium Paid By")
         {
@@ -245,7 +242,6 @@ table 50099 "Employee Insurance Information"
         AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
         EmpInsurance: Record "Employee Insurance Information";
-        LoanMgt: Codeunit "Loan Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         Hrmgt: Codeunit "HR Mgt.";
         SpecialCharsErr: Label 'You cannot enter the special characters. ';

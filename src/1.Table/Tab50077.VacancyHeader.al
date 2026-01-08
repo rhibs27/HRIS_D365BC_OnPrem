@@ -62,10 +62,7 @@ table 50077 "Vacancy Header"
                 //HRMgt.ValidateJobTitle(Rec);
             end;
         }
-        field(9; Location; Enum "Outside/Inside Valley")
-        {
-
-        }
+        field(9; Location; Enum "Outside/Inside Valley") { }
         field(10; "New Position"; Boolean) { }
         field(11; "Salary Level Code"; Code[20])
         {
@@ -122,20 +119,10 @@ table 50077 "Vacancy Header"
         {
             Editable = false;
         }
-        field(22; "Experience Maximum Relevant"; Decimal)
-        {
-        }
-        field(23; "Minimum Age"; Integer)
-        {
-        }
-        field(24; "Requirement for two/four wheel"; Enum "Requirement for two/four wheel")
-        {
-
-        }
-        field(25; "Recruitment to be filled"; Enum BeforeAfter)
-        {
-
-        }
+        field(22; "Experience Maximum Relevant"; Decimal) { }
+        field(23; "Minimum Age"; Integer) { }
+        field(24; "Requirement for two/four wheel"; Enum "Requirement for two/four wheel") { }
+        field(25; "Recruitment to be filled"; Enum BeforeAfter) { }
         field(26; "Reporting to Employee ID"; Code[20])
         {
             TableRelation = Employee;
@@ -158,12 +145,8 @@ table 50077 "Vacancy Header"
             Editable = false;
             TableRelation = "No. Series";
         }
-        field(29; "Last Modified Date"; Date)
-        {
-        }
-        field(30; "Approval Status"; enum "Approval Status")
-        {
-        }
+        field(29; "Last Modified Date"; Date) { }
+        field(30; "Approval Status"; enum "Approval Status") { }
         field(31; Posted; Boolean)
         {
             Editable = false;
@@ -173,9 +156,7 @@ table 50077 "Vacancy Header"
         {
             Editable = false;
         }
-        field(33; "No of Vacancy"; Integer)
-        {
-        }
+        field(33; "No of Vacancy"; Integer) { }
         field(34; Type; Enum InternalExternal)
         {
             Editable = false;
@@ -185,9 +166,7 @@ table 50077 "Vacancy Header"
             Editable = false;
             TableRelation = "Recruitment Memo";
         }
-        field(36; Status; Enum "Vacancy Header Status")
-        {
-        }
+        field(36; Status; Enum "Vacancy Header Status") { }
         field(37; "Vacancy Published Date"; Date)
         {
             trigger OnValidate()

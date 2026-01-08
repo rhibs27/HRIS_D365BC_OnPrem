@@ -1,7 +1,7 @@
 enum 50092 BeforeAfter
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';

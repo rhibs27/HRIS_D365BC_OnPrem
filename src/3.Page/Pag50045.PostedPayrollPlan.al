@@ -295,7 +295,6 @@ page 50045 "Posted Payroll Plan"
                     PayrollSlipReport.PassParPortal('', Rec."Nepali Year", Rec."Nepali Month");
                     PayrollSlipReport.SetTableView(PostedPayrollHeaderRec);
                     PayrollSlipReport.Run();
-                    // Report.Run(Report::"Payroll Payslip", true, true, PostedPayrollHeaderRec);
                 end;
             }
             action("Bank Statement")

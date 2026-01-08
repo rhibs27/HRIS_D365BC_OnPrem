@@ -10,6 +10,7 @@ report 50152 "ETDS Voucher"
         dataitem("Posted Payroll Header"; "Posted Payroll Header")
         {
             RequestFilterFields = "No.", "Pay Cycle Term", "Pay Cycle Period";
+            DataItemTableView = where(Reversed = filter(false));
             column(NepaliMonth; "Nepali Month") { }
             column(NepaliYear; "Nepali Year") { }
             column(Posting_Date; "Posting Date") { }
@@ -68,16 +69,12 @@ report 50152 "ETDS Voucher"
         {
             area(Content)
             {
-                group(GroupName)
-                {
-                }
+                group(GroupName) { }
             }
         }
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
     }
     local procedure GetRITColumn(): Integer

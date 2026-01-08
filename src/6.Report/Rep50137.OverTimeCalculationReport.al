@@ -50,5 +50,4 @@ report 50137 "OverTime Calculation Report"
         SalaryLevelCode: Code[20];
         ApprovalStatus: Enum "Approval Status";
         OverTime: Record "Overtime";
-
 }

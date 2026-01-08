@@ -33,7 +33,6 @@ table 50053 "Recruitment Memo"
         }
         field(8; Type; Enum InternalExternal)
         {
-
             trigger OnValidate()
             begin
                 RecruitementLine.Reset;

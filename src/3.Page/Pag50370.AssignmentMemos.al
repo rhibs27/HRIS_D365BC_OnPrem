@@ -65,9 +65,71 @@ page 50370 "Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
-
-
+                field("Pay Cycle Term"; Rec."Pay Cycle Term")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
+                }
+                field("Pay Cycle Period"; Rec."Pay Cycle Period")
+                {
+                    ToolTip = 'Specifies the value of the Pay Cycle Period field.', Comment = '%';
+                }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
+                field("Payroll Attribute Code"; Rec."Payroll Attribute Code")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attribute Code field.', Comment = '%';
+                }
+                field("Payroll Attr. Description"; Rec."Payroll Attr. Description")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attr. Description field.', Comment = '%';
+                }
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("New Assignment Memo")
+            {
+                ApplicationArea = All;
+                Caption = 'New Assignment Memo';
+                Image = NewDocument;
+                Promoted = true;
+                PromotedCategory = New;
+                ShortCutKey = 'Ctrl+N';
+                trigger OnAction()
+                var
+                    Filterpage: FilterPageBuilder;
+                    docNo: Code[20];
+                    AssignmentmemoMgt: Codeunit "Assignment Memo Mgt";
+                    FromDate, ToDate : Date;
+                begin
+                    Clear(Filterpage);
+                    Filterpage.AddRecord('Copy From..', Rec);
+                    Filterpage.AddField('Copy From', Rec."From Date");
+                    Filterpage.AddField('Copy From', Rec."To Date");
+                    if Filterpage.RunModal() then begin
+                        Rec.setview(Filterpage.GetView('Copy From'));
+                        docNo := Rec.GetFilter("No.");
+                        Evaluate(FromDate, Rec.GetFilter("From Date"));
+                        Evaluate(ToDate, Rec.GetFilter("To Date"));
+                    end;
+                    if (docNo <> '') and (FromDate <> 0D) and (ToDate <> 0D) then begin
+                        AssignmentmemoMgt.CreateNewAssignmentMemoFromCopyDoc(docNo, FromDate, ToDate, Rec."Employee No.");
+                    end;
+                end;
+            }
+        }
+    }
+    trigger OnOpenPage()
+    var
+        PGSetup: Record "Payroll general Setup";
+    begin
+        PGSetup.Get();
+        if not PGSetup."Use Allowance Configuration" then
+            Error('Allowance Configuration is not enabled in Payroll General Setup. Please enable it to access assignment requests.');
+    end;
 }

@@ -35,7 +35,7 @@ table 50005 "Employee Payroll Adjustment"
                     Clear("Attributes Description");
             end;
         }
-        field(5; "Attributes Description"; Text[30])
+        field(5; "Attributes Description"; Text[50])
         {
             Editable = false;
         }

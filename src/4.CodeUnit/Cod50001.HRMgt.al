@@ -3027,23 +3027,25 @@ codeunit 50001 "HR Mgt."
     end;
 
     procedure ReturnFiscalYear(EngDate: Date): Text
+    var
+        EngNep: Record "English-Nepali Date";
     begin
-        EngNep.Reset;
+        EngNep.SetLoadFields("English Date", "Fiscal Year");
         EngNep.SetRange("English Date", EngDate);
         if EngNep.FindFirst then
             exit(EngNep."Fiscal Year");
     end;
 
-    procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
-    var
-        EngNep: Record "English-Nepali Date";
-    begin
-        EngNep.Reset;
-        EngNep.SetRange("Fiscal Year", FiscalYear);
-        EngNep.SetCurrentKey("English Date");
-        if EngNep.FindLast then
-            exit(EngNep."English Date");
-    end;
+    // procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
+    // var
+    //     EngNep: Record "English-Nepali Date";
+    // begin
+    //     EngNep.Reset;
+    //     EngNep.SetRange("Fiscal Year", FiscalYear);
+    //     EngNep.SetCurrentKey("English Date");
+    //     if EngNep.FindLast then
+    //         exit(EngNep."English Date");
+    // end;
 
     procedure ReturnEmpName(EmpCode: Code[20]): Text
     begin
@@ -4194,6 +4196,15 @@ codeunit 50001 "HR Mgt."
         exit(BaseCalenderchanges.FindFirst());
     end;
 
+    procedure CheckEligibilityBeforeEmploymentDate(ActivityDate: Date; EmployeeNo: Code[20])
+    begin
+        Employee.get(EmployeeNo);
+        if ActivityDate <> 0D then begin
+            if ActivityDate < Employee."Employment Date" then
+                Error('Cannot apply before your employment date');
+        end;
+    end;
+
     procedure UpdateInsuranceFromHomeLoan(EmployeeLoanAdvance: Record "Employee Loan/Advance")
     var
         EmployeeInsuranceInformation: Record "Employee Insurance Information";
@@ -5295,19 +5306,25 @@ codeunit 50001 "HR Mgt."
     procedure getServicePeriodText(var Employee: Record Employee)
     var
         NewEmploymentDate: Date;
+        LastDate: Date;
     begin
         if Employee."Employment Date" <> 0D then begin
             NewEmploymentDate := GetAdjustedEmploymentDate(Employee, Employee."Employment Date", Today);
+
+            LastDate := Employee."Termination Date";
+            if Employee."Resignation Date" <> 0D then
+                LastDate := Employee."Resignation Date";
+
             HRSetup.Get();
             if HRSetup."Calculate Age using Nepali C." then begin
-                if Employee."Termination Date" <> 0D then
-                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Employee."Termination Date"))
+                if LastDate <> 0D then
+                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(LastDate))
                 else
                     Employee."Service Period text" := GetAgeBS(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Today));
             end
             else begin
-                if Employee."Termination Date" <> 0D then
-                    Employee."Service Period text" := GetAge(NewEmploymentDate, Employee."Termination Date")
+                if LastDate <> 0D then
+                    Employee."Service Period text" := GetAge(NewEmploymentDate, LastDate)
                 else
                     Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
             end;
@@ -5507,7 +5524,7 @@ codeunit 50001 "HR Mgt."
                 EmpActLedgerEntry."Leave Type" := Leave."Leave Type";
                 EmpActLedgerEntry."Leave Code" := Leave."Leave Code";
             end;
-        OnBeforeInsertEmpActLedger(EmpActType, DocNo, EmpActLedgerEntry);
+        OnBeforeInsertEmpActLedger(EmpActType, DocNo, EmpNo, ActDate, EmpActLedgerEntry);
         EmpActLedgerEntry.insert();
     end;
 
@@ -5618,6 +5635,35 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
+    procedure AssignEmployeeSeniority()
+    var
+        SalaryLevel: Record "Salary Level";
+        Employee: Record Employee;
+        EmployeeCount: Integer;
+    begin
+        SalaryLevel.Reset();
+        SalaryLevel.SetFilter(Rank, '>%1', 0);
+        if SalaryLevel.FindSet() then
+            repeat
+
+                EmployeeCount := 0;
+                SalaryLevel.TestField(Rank);
+
+                Employee.Reset();
+                Employee.SetCurrentKey("Employment Date");
+                Employee.SetRange("Salary Level", SalaryLevel.Code);
+                Employee.SetRange(Status, Employee.Status::Active);
+                Employee.SetAscending("Employment Date", false);
+                if Employee.FindSet() then
+                    repeat
+                        EmployeeCount += 1;
+                        Employee.Seniority := SalaryLevel.Rank * 1000 + EmployeeCount;
+                        Employee.Modify();
+                    until Employee.Next() = 0;
+
+            until SalaryLevel.Next() = 0;
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
@@ -5625,7 +5671,7 @@ codeunit 50001 "HR Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20]; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
+    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20]; EmpNo: Code[20]; ActDate: Date; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
     begin
     end;
 

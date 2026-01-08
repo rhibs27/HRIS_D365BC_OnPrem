@@ -17,6 +17,10 @@ page 50373 "Assignment Memo Card"
                 {
                     ToolTip = 'Specifies the value of the No. field.', Comment = '%';
                 }
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
@@ -183,6 +187,24 @@ page 50373 "Assignment Memo Card"
                 end;
             }
 
+            action(Reverse)
+            {
+                Image = ReverseRegister;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reverse action.';
+                ApplicationArea = All;
+                Visible = IsApprove;
+                trigger OnAction()
+                var
+                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                begin
+                    if Confirm('Do you want to reverse the document?', false) then
+                        AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
+                end;
+            }
         }
     }
     trigger OnAfterGetRecord()
@@ -196,15 +218,10 @@ page 50373 "Assignment Memo Card"
     end;
 
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
         FormEditable: Boolean;
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
-        Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove, IsReject, IsSubstituteOpen, IsSubstitutepending : Boolean;
         RecRef: RecordRef;
-        AllowanceClaim: Boolean;
-
 
     local procedure SetLayout()
     begin

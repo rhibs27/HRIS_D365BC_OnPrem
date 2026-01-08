@@ -25,9 +25,6 @@ page 50377 "Attribute Adjustment List"
 
     actions
     {
-        area(processing)
-        {
-
-        }
+        area(processing) { }
     }
 }

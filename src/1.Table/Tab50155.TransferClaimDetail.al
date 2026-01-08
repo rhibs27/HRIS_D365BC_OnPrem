@@ -14,7 +14,6 @@ table 50155 "Transfer Claim Detail"
             Caption = 'Attribute code';
             TableRelation = "Payroll Attributes".Code WHERE("Activity Type" = CONST("Employee Activity Type"::"Transfer Claim"));
         }
-
         field(3; "Employee No"; Code[20])
         {
             Caption = 'Employee No';

@@ -9,12 +9,10 @@ table 50165 "Attribute Adjustment Line"
             Caption = 'Document No.';
             TableRelation = "Attribute Adjustment Header"."Document No.";
         }
-
         field(2; "Line No."; Integer)
         {
             Caption = 'Line No.';
         }
-
         field(3; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
@@ -34,12 +32,10 @@ table 50165 "Attribute Adjustment Line"
                 end;
             end;
         }
-
         field(4; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';
         }
-
         field(5; "Adjustment Type"; Enum "Employee Activity Type")
         {
             Caption = 'Adjustment Type';
@@ -52,9 +48,7 @@ table 50165 "Attribute Adjustment Line"
                 AttributeAdj.Get("Document No.");
                 TestField("Adjustment Type", AttributeAdj."Adjustment Type");
             end;
-
         }
-
         field(6; "Attribute Code"; Code[20])
         {
             Caption = 'Attribute Code';
@@ -63,26 +57,22 @@ table 50165 "Attribute Adjustment Line"
             var
                 PayrollAttrUsage: Record "Payroll Attributes Usage";
             begin
-                PayrollAttrUsage.Get("Attribute Code", "Employee No.");
-                Validate("Old Amount", PayrollAttrUsage.Amount);
+                if PayrollAttrUsage.Get("Attribute Code", "Employee No.") then
+                    Validate("Old Amount", PayrollAttrUsage.Amount);
             end;
         }
-
         field(7; "Old Amount"; Decimal)
         {
             Caption = 'Old Amount';
         }
-
         field(8; "New Amount"; Decimal)
         {
             Caption = 'New Amount';
         }
-
         field(9; "Effective Start Date"; Date)
         {
             Caption = 'Effective Start Date';
         }
-
         field(10; "Effective End Date"; Date)
         {
             Caption = 'Effective End Date';
@@ -99,7 +89,6 @@ table 50165 "Attribute Adjustment Line"
         {
             Clustered = true;
         }
-
         key(Document; "Document No.") { }
         key(Line; "Line No.") { }
     }

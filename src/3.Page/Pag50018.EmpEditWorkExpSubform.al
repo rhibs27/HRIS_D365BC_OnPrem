@@ -15,7 +15,6 @@ page 50018 "Emp Edit Work Exp. Subform"
                 {
                     ToolTip = 'Specifies the value of the Employee Document Type field.', Comment = '%';
                 }
-
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.', Comment = '%';
@@ -28,7 +27,6 @@ page 50018 "Emp Edit Work Exp. Subform"
                 {
                     ToolTip = 'Specifies the value of the Institution/Company field.', Comment = '%';
                 }
-
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
@@ -37,7 +35,6 @@ page 50018 "Emp Edit Work Exp. Subform"
                 {
                     ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
                 }
-
             }
         }
     }
@@ -49,7 +46,6 @@ page 50018 "Emp Edit Work Exp. Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Import';
-
                 ToolTip = 'Import a picture file.';
                 trigger OnAction()
                 var
@@ -64,7 +60,7 @@ page 50018 "Emp Edit Work Exp. Subform"
                         if not Confirm('There is an existing attachment. Do you wish to proceed') then
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-                        // check file size 
+                        // check file size
                         if Rec."Change in Emp Type" = Rec."Change in Emp Type"::Qualification then
                             AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Employee Document Type"::Education))
                         else if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
@@ -87,7 +83,6 @@ page 50018 "Emp Edit Work Exp. Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Preview';
-
                 ToolTip = 'View the Attachment';
 
                 trigger OnAction()
@@ -100,13 +95,11 @@ page 50018 "Emp Edit Work Exp. Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Export';
-
                 ToolTip = 'Export the picture to a file.';
                 trigger OnAction()
                 var
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
-                    ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
                     fileInitial: Text;
@@ -128,7 +121,6 @@ page 50018 "Emp Edit Work Exp. Subform"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Delete';
-
                 ToolTip = 'Delete the record.';
 
                 trigger OnAction()

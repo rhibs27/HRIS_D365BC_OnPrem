@@ -8,7 +8,6 @@ page 50368 "Assignment Memo Subform"
     AutoSplitKey = true;
     DelayedInsert = true;
 
-
     layout
     {
         area(Content)
@@ -40,6 +39,21 @@ page 50368 "Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
                 }
+                field("Vault Name"; Rec."Vault Name")
+                {
+                    ToolTip = 'Specifies the value of the Vault Name field.', Comment = '%';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        OrgwiseATMVaults: Record "Orgwise Vaults & ATM";
+                        AssignmentMemoHdr: Record "Assignment Memo Header";
+                    begin
+                        AssignmentMemoHdr.Get(Rec."Document No.");
+                        OrgwiseATMVaults.SetRange(Code, AssignmentMemoHdr."Branch Code");
+                        OrgwiseATMVaults.SetFilter("Vault Name", '<>%1', '');
+                        if Page.RunModal(Page::"No of ATM and Vaults", OrgwiseATMVaults) = Action::LookupOK then
+                            Rec."Vault Name" := OrgwiseATMVaults."Vault Name";
+                    end;
+                }
                 field(Panel; Rec.Panel)
                 {
                     ToolTip = 'Specifies the value of the Panel field.', Comment = '%';
@@ -48,7 +62,6 @@ page 50368 "Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Editable = false;
@@ -59,7 +72,6 @@ page 50368 "Assignment Memo Subform"
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                     DrillDownPageId = "Assignment Memo Ledger Entries";
                 }
-
             }
         }
     }
@@ -76,32 +88,29 @@ page 50368 "Assignment Memo Subform"
 
                 trigger OnAction()
                 var
-                    AllowanceLineTemp: Record "Allowance Assignment Line" temporary;
-                    FilterPage: FilterPageBuilder;
-                    AllowanceLine: Record "Assignment Memo Line";
-                    FromDate, Todate : date;
-                    AllowanceType, EmpCode : code[20];
-                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                    SubstituteAssignmentreport: Report "Substitute Assignment Memo";
                 begin
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
-                    FilterPage.AddRecord('Select Employee Details', AllowanceLine);
-                    FilterPage.AddField('Select Employee Details', AllowanceLine."From Date");
-                    FilterPage.AddField('Select Employee Details', AllowanceLine."To Date");
-                    FilterPage.AddField('Select Employee Details', AllowanceLine."Employee No.");
-                    if FilterPage.RunModal() then begin
-                        AllowanceLine.SetView(FilterPage.GetView('Select Employee Details'));
-                        Evaluate(FromDate, AllowanceLine.GetFilter("From Date"));
-                        Evaluate(ToDate, AllowanceLine.GetFilter("To Date"));
-                        Evaluate(EmpCode, AllowanceLine.GetFilter("Employee No."));
-                    end;
-                    if (FromDate <> 0D) and (ToDate <> 0D) and (EmpCode <> '') then begin
-                        AssignmentMemoMgt.InsertSubstituteAssignmentMemo(Rec."Document No.", Rec."Line No.", FromDate, ToDate, EmpCode);
-                        Message('Substitute Assignment Memo inserted successfully.');
-                    end;
+                    // FilterPage.AddRecord('Select Employee Details', AllowanceLine);
+                    // FilterPage.AddField('Select Employee Details', AllowanceLine."From Date");
+                    // FilterPage.AddField('Select Employee Details', AllowanceLine."To Date");
+                    // FilterPage.AddField('Select Employee Details', AllowanceLine."Employee No.");
+                    // if FilterPage.RunModal() then begin
+                    //     AllowanceLine.SetView(FilterPage.GetView('Select Employee Details'));
+                    //     Evaluate(FromDate, AllowanceLine.GetFilter("From Date"));
+                    //     Evaluate(ToDate, AllowanceLine.GetFilter("To Date"));
+                    //     Evaluate(EmpCode, AllowanceLine.GetFilter("Employee No."));
+                    // end;
+                    // if (FromDate <> 0D) and (ToDate <> 0D) and (EmpCode <> '') then begin
+                    //     AssignmentMemoMgt.InsertSubstituteAssignmentMemo(Rec."Document No.", Rec."Line No.", FromDate, ToDate, EmpCode);
+                    //     Message('Substitute Assignment Memo inserted successfully.');
+                    // end;
+                    Clear(SubstituteAssignmentreport);
+                    SubstituteAssignmentreport.SetAssignmentmemoLine(Rec);
+                    SubstituteAssignmentreport.Run();
                     CurrPage.Update();
                 end;
             }
-
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -130,5 +139,5 @@ page 50368 "Assignment Memo Subform"
     end;
 
     var
-        SubstituteActionVisible, RequestDoc : boolean;
+        SubstituteActionVisible: boolean;
 }

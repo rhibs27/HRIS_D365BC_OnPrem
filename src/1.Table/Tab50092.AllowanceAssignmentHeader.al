@@ -68,15 +68,10 @@ table 50092 "Allowance Assignment Header"
         field(4; "From Date"; Date)
         {
             trigger OnValidate()
-            var
-                EngNepDate: Record "English-Nepali Date";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "From Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then
+                    TestField(Month);
+                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("From Date"));
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
             end;
@@ -86,10 +81,10 @@ table 50092 "Allowance Assignment Header"
             trigger OnValidate()
             begin
                 TestField("From Date");
+                if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then
+                    AllowanceMgt.CheckCutOffDate("From Date", "To date", Month);
                 if "From Date" > "To date" then
                     Error('Invalid date.');
-                // if "Activity Type" = "Activity Type"::"Allowance Assignment" then
-                //     CheckForExistingDate();
             end;
         }
         field(6; "Type"; Enum "Branchwise/Extension Type")
@@ -133,11 +128,7 @@ table 50092 "Allowance Assignment Header"
         }
         field(19; "Fiscal Year"; text[10])
         {
-            trigger OnValidate()
-            begin
-            end;
         }
-        field(20; "Change Approver Remarks"; Text[250]) { }
         field(21; "Employee No."; Code[50])
         {
             DataClassification = ToBeClassified;
@@ -173,13 +164,26 @@ table 50092 "Allowance Assignment Header"
             Editable = false;
             DataClassification = ToBeClassified;
         }
+        field(26; "Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+            Caption = 'Designation';
+        }
         field(37; "Approved Date"; Date)
         {
             Editable = false;
         }
-        field(100; "Status"; Text[20])
+        field(27; Month; Enum "Nepali Month")
         {
+            trigger OnValidate()
+            begin
+                if xRec.Month <> Rec.Month then begin
+                    Clear("From Date");
+                    Clear("To date");
+                end;
+            end;
         }
+        field(100; "Status"; Text[20]) { }
     }
     keys
     {
@@ -237,23 +241,5 @@ table 50092 "Allowance Assignment Header"
         ApproverMgt: Codeunit "Approver Mgt";
         GLsetup: Record "General Ledger Setup";
         AllowanceHeader: Record "Allowance Assignment Header";
-    // procedure CheckForExistingDate()
-    // begin
-    //     AllowanceHeader.Reset;
-    //     AllowanceHeader.SetFilter("No.", '<>%1', "No.");
-    //     AllowanceHeader.SetRange("Fiscal Year", "Fiscal Year");
-    //     if "Activity Type" = "Activity Type"::"Allowance Assignment" then begin
-    //         AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment");
-    //         AllowanceHeader.SetRange(Code, Code);
-    //     end else if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then begin
-    //         AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment Claim");
-    //         AllowanceHeader.SetRange("Employee No.", "Employee No.")
-    //     end;
-    //     AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
-    //     if AllowanceHeader.Findset then
-    //         repeat
-    //             if ("From Date" <= AllowanceHeader."To date") and ("To date" >= AllowanceHeader."From Date") then
-    //                 Error('Allowance for this period month %1 and %2 is already been assigned in %3.', "From Date", "To date", AllowanceHeader."No.");
-    //         until AllowanceHeader.Next() = 0;
-    // end;
+        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
 }

@@ -25,9 +25,7 @@ table 50154 "Attendance Missed"
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -55,13 +53,11 @@ table 50154 "Attendance Missed"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -134,30 +130,28 @@ table 50154 "Attendance Missed"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             Editable = false;
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -178,50 +172,32 @@ table 50154 "Attendance Missed"
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            Editable = false;
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
-        field(29; "province Name"; Code[50])
-        {
-        }
+        field(29; "province Name"; Text[100]) { }
         field(30; "Province Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
         }
         field(31; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
         }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
-        field(39; Cancelled; Boolean)
-        {
-        }
-        field(40; "Cancelled No."; Code[20])
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
+        field(34; Ecosystem; Code[20]) { }
+        field(35; "Office Code"; Code[20]) { }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
+        field(39; Cancelled; Boolean) { }
+        field(40; "Cancelled No."; Code[20]) { }
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;
         }
-        field(42; "Check In Time"; Time)
-        {
-        }
-        field(43; "Check Out Time"; Time)
-        {
-        }
+        field(42; "Check In Time"; Time) { }
+        field(43; "Check Out Time"; Time) { }
         field(44; "Previous Check In Time"; Time)
         {
             Editable = false;
@@ -241,12 +217,8 @@ table 50154 "Attendance Missed"
                     Clear("Reason Description");
             end;
         }
-        field(49; "Reason Description"; Text[50])
-        {
-        }
-        field(61; "Deputation On"; Enum "Deputation Type")
-        {
-        }
+        field(49; "Reason Description"; Text[50]) { }
+        field(61; "Deputation On"; Enum "Deputation Type") { }
         field(79; "Deputation On Code"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -261,12 +233,8 @@ table 50154 "Attendance Missed"
                         Error('%1 do not have Overnight Shift on %2', "Employee Name", "Start Date")
             end;
         }
-        field(100; Status; text[20])
-        {
-        }
-        field(101; "From Journal"; Boolean)
-        {
-        }
+        field(100; Status; text[20]) { }
+        field(101; "From Journal"; Boolean) { }
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
@@ -279,9 +247,7 @@ table 50154 "Attendance Missed"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     trigger OnInsert()
     var
@@ -335,7 +301,6 @@ table 50154 "Attendance Missed"
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         StandardText: Record "Standard Text";
-        EmpAttendanceActivity: Record "Employee Attendance & Activity";
         ApprovalEntry: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";

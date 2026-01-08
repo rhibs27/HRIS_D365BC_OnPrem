@@ -80,7 +80,6 @@ page 50088 "Leave Request"
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
-
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {
@@ -237,7 +236,6 @@ page 50088 "Leave Request"
         IsApplied: Boolean;
         TempIncomingDoc: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
-        Approval: Record "Approval HRMS";
 
     local procedure GenerateAttachment()
     begin

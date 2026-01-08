@@ -6,20 +6,21 @@ table 50162 "Assignment Memo Line"
     fields
     {
         field(1; "Document No."; Code[20]) { }
-        field(2; "Line No."; Integer)
-        {
-        }
-
+        field(2; "Line No."; Integer) { }
         field(5; "Employee No."; Code[20])
         {
             TableRelation = Employee where(Status = const(Active));
             trigger OnValidate()
             begin
-                if Employee.Get("Employee No.") then
-                    "Employee Name" := Employee."Full Name"
+                if Employee.Get("Employee No.") then begin
+                    "Employee Name" := Employee."Full Name";
+                    if Employee."Last Placement Date" <> 0D then
+                        "Last Placement Date" := Employee."Last Placement Date"
+                    else
+                        "Last Placement Date" := Employee."Employment Date";
+                end
                 else
                     "Employee Name" := '';
-
             end;
 
             trigger OnLookup()
@@ -33,9 +34,7 @@ table 50162 "Assignment Memo Line"
                       AssignmentMemoHdr."Unit Code", ''));
             end;
         }
-        field(6; "Employee Name"; Text[100])
-        {
-        }
+        field(6; "Employee Name"; Text[100]) { }
         field(7; "From Date"; Date)
         {
             trigger OnValidate()
@@ -49,6 +48,7 @@ table 50162 "Assignment Memo Line"
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
 
+                CheckDuplicateAssignmentMemoLine(Rec);
             end;
         }
         field(8; "To Date"; Date)
@@ -61,11 +61,18 @@ table 50162 "Assignment Memo Line"
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
 
+                CheckDuplicateAssignmentMemoLine(Rec);
+
+                //calculate the amout for requested allowance line
+                if "To Date" <> 0D then
+                    if "Emp Act Type" = "Emp Act Type"::"Request Allowance" then begin
+                        if ("Payroll Attribute Code" <> '') and ("Employee No." <> '') then
+                            CalculateAmountForLine();
+                    end;
             end;
         }
         field(9; "Payroll Attribute Code"; Code[20])
         {
-
             TableRelation = "Allowance Configuration"."Payroll Attribute";
 
             trigger OnValidate()
@@ -87,7 +94,8 @@ table 50162 "Assignment Memo Line"
                         SalaryLevel.Get(Employee."Salary Level");
                         if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
                             "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
-                            "Fuel Limit (amt)" := SalaryLevel."Fuel Limit (amt)";
+                            if "Fuel Limit (ltr)" = 0 then
+                                "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                         end;
                     end;
                 end;
@@ -111,19 +119,17 @@ table 50162 "Assignment Memo Line"
         {
             Editable = false;
         }
-        field(23; Panel; Enum Panel)
-        {
-
-        }
+        field(23; Panel; Enum Panel) { }
         field(24; "Allowance Amount"; Decimal)
         {
+            trigger OnValidate()
+            begin
+                if ("Allowance Amount" <> 0) and ("Fuel Claimed (ltr)" <> 0) then
+                    "Amount per Ltr." := Round("Allowance Amount" / "Fuel Claimed (ltr)", 0.01, '=');
+            end;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
-
-        field(27; "Emp Act Type"; Enum "Employee Activity Type")
-        {
-        }
-
+        field(27; "Emp Act Type"; Enum "Employee Activity Type") { }
         field(31; "No of Approved Days"; Integer)
         {
             Editable = false;
@@ -132,26 +138,36 @@ table 50162 "Assignment Memo Line"
                                                  "Employee No." = field("Employee No."),
                                                  "Payroll Attribute Code" = field("Payroll Attribute Code"),
                                                  "Document No." = field("Document No."),
-                                                 Open = const(true)));
+                                                 Open = const(true),
+                                                 Reversed = const(false)));
         }
         field(32; "ATM Site"; Enum "ATM Site") { }
         field(33; "Date Filter"; Date)
         {
             FieldClass = FlowFilter;
         }
+        field(34; "Vault Name"; Code[100])
+        {
 
+
+        }
         field(39; "Fuel Limit (ltr)"; Decimal) { }
-
         field(40; "Fuel Limit (amt)"; Decimal) { }
         field(41; "Fuel Claimed (ltr)"; Decimal)
         {
+            trigger OnValidate()
+            begin
+                if ("Allowance Amount" <> 0) and ("Fuel Claimed (ltr)" <> 0) then
+                    "Amount per Ltr." := Round("Allowance Amount" / "Fuel Claimed (ltr)", 0.01, '=');
+            end;
         }
         field(42; "Specific Payroll Attribute"; Enum "Specific Payroll Attributes")
         {
             FieldClass = FlowField;
             CalcFormula = Lookup("Allowance Configuration"."Specific Payroll Attribute" where("Payroll Attribute" = field("Payroll Attribute Code")));
-
+            Editable = false;
         }
+        field(43; "Amount per Ltr."; Decimal) { }
         field(54; "Assign Memo Ledger Entry No."; Integer)
         {
             Editable = false;
@@ -160,6 +176,21 @@ table 50162 "Assignment Memo Line"
         field(55; "Attendance Checked"; Boolean)
         {
             Caption = 'Attendance Checked';
+        }
+        field(56; Reversed; Boolean)
+        {
+            Caption = 'Reversed';
+            Editable = false;
+        }
+        field(61; "Last Placement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Date of joining current branch';
+        }
+        field(62; "Previous Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            DataClassification = ToBeClassified;
         }
 
         //If there is education allowance then these fields will be used.
@@ -180,6 +211,34 @@ table 50162 "Assignment Memo Line"
             Caption = 'Distance (KM)';
             DecimalPlaces = 2 : 2;
         }
+        field(105; "Effective From (Edu.)"; Date)
+        {
+            Caption = 'Effective From';
+            Description = 'for education allowance only';
+        }
+        field(106; Discontinued; Boolean)
+        {
+            Caption = 'Discontinued';
+        }
+        field(107; "Effective Months (Edu.)"; Enum "Nepali Month")
+        {
+            Caption = 'Effective Months';
+            Description = 'for education allowance only';
+            trigger OnValidate()
+            var
+                PayCyclePeriod: Record "Pay Cycle Period";
+            begin
+                if "Effective Months (Edu.)" = "Effective Months (Edu.)"::" " then
+                    exit;
+                PGSetup.Get();
+                PGSetup.TestField("Payroll Fiscal Year Start Date");
+
+                PayCyclePeriod.SetRange("Nepali Month", "Effective Months (Edu.)");
+                PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
+                PayCyclePeriod.FindFirst();
+                Validate("Effective From (Edu.)", PayCyclePeriod."Start Date");
+            end;
+        }
 
         //field related to shift assignment
         field(201; "Employee Work Shift"; Code[20])
@@ -194,12 +253,30 @@ table 50162 "Assignment Memo Line"
                     if EmployeeWorkShift."Payroll Attribute Code" = '' then
                         Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
                     Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
+                    CheckAndValidateShiftAssignment();
                 end;
             end;
         }
         field(202; "Claimed as Leave"; Boolean)
         {
             Caption = 'Claimed as Leave';
+        }
+        //Reimbursement fields
+        field(300; "Bill Date"; Date)
+        {
+            Caption = 'Bill Date';
+            trigger OnValidate()
+            begin
+                if "Bill Date" <> 0D then begin
+                    if "Bill Date" > WorkDate() then
+                        Error('Bill Date cannot be a future date.');
+                    CheckandValidateTheDates("Bill Date");
+                end;
+            end;
+        }
+        field(301; "Bill No."; Text[50])
+        {
+            Caption = 'Bill No.';
         }
     }
 
@@ -230,22 +307,23 @@ table 50162 "Assignment Memo Line"
 
         if "Line No." = 0 then
             GetLineNo();
+
+        CheckDuplicateAssignmentMemoLine(Rec);
+        AutoCalculateDatesAndEmployee(Rec);
+    end;
+
+    trigger OnModify()
+    begin
+        CheckDuplicateAssignmentMemoLine(Rec);
+        AutoCalculateDatesAndEmployee(Rec);
     end;
 
     var
         Employee: Record Employee;
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AssignmentMemoLine: Record "Assignment Memo Line";
-        AssignmentMemoLine2: Record "Assignment Memo Line";
-        BaseCalenderChange: Record "Base Calendar Change";
-        TEXT001: Label '%1 and %2 cannot be assigned on same date %3.';
-        TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PGSetup: Record "Payroll General Setup";
         HrMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        OverTimeMgt: Codeunit "OverTime Mgt";
         SalaryLevel: Record "Salary Level";
-        OrganizationStructureList: Record "Organization Structure List";
         AllowanceConfiguration: Record "Allowance Configuration";
 
     local procedure GetLineNo()
@@ -295,15 +373,18 @@ table 50162 "Assignment Memo Line"
     procedure CheckandValidateTheDates(DateToCheck: Date)
     var
         AssignmentmemoHdr: Record "Assignment Memo Header";
+        Employee: Record Employee;
     begin
         AssignmentmemoHdr.Get("Document No.");
-        if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
-            exit;
 
         AssignmentmemoHdr.TestField("From Date");
         AssignmentmemoHdr.TestField("To Date");
         if (DateToCheck < AssignmentmemoHdr."From Date") or (DateToCheck > AssignmentmemoHdr."To Date") then
             Error('Date is not within the valid range.');
+
+        if Employee.Get("Employee No.") then
+            if DateToCheck < Employee."Employment Date" then
+                Error('Date cannot be before employment date %1.', Employee."Employment Date");
     end;
 
     procedure GetNoofDaysInMonth(DateToCheck: Date): Integer
@@ -336,15 +417,111 @@ table 50162 "Assignment Memo Line"
                         "Allowance Amount" := GetAllowanceConfigAmount(AllowanceConfiguration);
                     if "Allowance Amount" <> 0 then
                         break;
-
                 until AllowanceConfiguration.Next() = 0;
             end;
         end;
     end;
 
+    procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
+    var
+        AssignmentMemoLine: Record "Assignment Memo Line";
+        AtmPayrollAttr, PayrollAttr : Record "Payroll Attributes";
+        AllowanceConfig: Record "Allowance Configuration";
+    begin
+        if PAssignMemo."Employee No." = '' then
+            exit;
+        if PAssignMemo."Payroll Attribute Code" = '' then
+            exit;
+
+        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
+            PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+            if PayrollAttr."Specific Attributes" <> PayrollAttr."Specific Attributes"::"Holiday Allowance" then
+                exit;
+        end;
+
+        AtmPayrollAttr.SetRange("Specific Attributes", AtmPayrollAttr."Specific Attributes"::"ATM Allowance");
+        if AtmPayrollAttr.FindFirst() then;
+        if PAssignMemo."Payroll Attribute Code" = AtmPayrollAttr.Code then
+            exit; // allow multiple entries for atm and vault key allowance
+
+        if PAssignMemo."Line No." = 0 then
+            exit;
+
+        PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+
+        AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
+        if PAssignMemo."Payroll Attribute Code" <> '' then
+            AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
+        else if PAssignMemo."Employee Work Shift" <> '' then
+            AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
+
+        if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
+            AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
+        AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
+        AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
+        AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
+        AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
+        if not AssignmentMemoLine.IsEmpty() then
+            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
+
+        OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
+    end;
+
+    procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line")
+    var
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+    begin
+        if AssignmentMemoLine."Emp Act Type" <> AssignmentMemoLine."Emp Act Type"::"Request Allowance" then
+            exit;
+        if AssignmentMemoHdr.Get(AssignmentMemoLine."Document No.") then begin
+            if AssignmentMemoLine."Employee No." = '' then
+                AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
+            if AssignmentMemoLine."From Date" = 0D then
+                AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."From Date");
+            if AssignmentMemoLine."To Date" = 0D then
+                AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
+            if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
+                AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
+        end;
+    end;
+
+    procedure CheckAndValidateShiftAssignment()
+    var
+        AllowanceConfig: Record "Allowance Configuration";
+        IsEligibleForShiftAllowance: Boolean;
+        AssignmentmemoMgt: Codeunit "Assignment Memo Mgt";
+        AssignmentMemoHdr: Record "Assignment Memo Header";
+    begin
+        if "Emp Act Type" <> "Emp Act Type"::"Shift Assignment Memo" then
+            exit;
+
+        if "Payroll Attribute Code" = '' then
+            exit;
+
+        AssignmentMemoHdr.Get("Document No.");
+
+        AllowanceConfig.SetRange(Source, AllowanceConfig.Source::Shift);
+        AllowanceConfig.SetRange("Payroll Attribute", "Payroll Attribute Code");
+        if AllowanceConfig.FindSet() then
+            repeat
+                if AllowanceConfig.IsValidAllowanceConfigurationForEmployee(AllowanceConfig, "Employee No.", "From Date") then begin
+                    IsEligibleForShiftAllowance := true;
+                    break;
+                end;
+            until AllowanceConfig.Next() = 0;
+
+        if not IsEligibleForShiftAllowance then
+            Error('Not eligible for selected shift.');
+
+    end;
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCheckDuplicateAssignmentMemoLineOnAfterCheck(var AssignmentMemoLine: Record "Assignment Memo Line")
     begin
     end;
 }

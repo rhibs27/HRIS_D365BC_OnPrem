@@ -14,16 +14,13 @@ codeunit 50029 "Process Daily Attendance"
         EmpWorkShiftDetail: Record "Employee Work Shift";
         AttSetup: Record "Attendance Setup";
         Employee: Record Employee;
-        CheckInThresholdDuration, CheckOutThresholdDuration : Duration;
         Date: Record Date;
         FromSyncProcess: Boolean;
         ShiftLine: Record "Shift Line";
-        AttendanceMgt: Codeunit "Attendance Mgt";
         CalendarDescription: Text;
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
         PGSetup: Record "Payroll General Setup";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure UpdateEmpAttendance()
     begin
@@ -61,12 +58,7 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Week Off Day" = 1) then
             EmpAttendance."Present in Holiday" := 1;
 
-        // if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Absent Day" = 0) and (EmpAttendance."Week Off Day" = 0) and (EmpAttendance."Tour Day" = 0) and (EmpAttendance."Leave Day" = 0) and (EmpAttendance."Transfer Day" = 0) and (EmpAttendance."Training Day" = 0) then
-        // CheckAndInsertTimeDifference();
         EmpAttendance.Modify(true);
-
-        //Update attendance for assignment memo if exists
-
     end;
 
     local procedure ResetDays()
@@ -83,6 +75,8 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Check Out Time" := 0T;
         EmpAttendance."Check In Difference" := 0;
         EmpAttendance."Check Out Difference" := 0;
+        EmpAttendance."Actual Work Time" := 0;
+        EmpAttendance."Work Time Difference" := 0;
         EmpAttendance."Late Check In Day" := 0;
         EmpAttendance."Early Check Out Day" := 0;
         EmpAttendance."Training Day" := 0;
@@ -97,8 +91,9 @@ codeunit 50029 "Process Daily Attendance"
     local procedure GetShiftCodeformShiftAssignment(): Code[20]
     begin
         if PGSetup."Use Allowance Configuration" then begin
-            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
+            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
+            AssignmentMemoLedgerEntry.SetRange(Reversed, false);
             AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
             AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
             AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
@@ -146,6 +141,7 @@ codeunit 50029 "Process Daily Attendance"
                 if EmpWorkShiftDetail."Friday End Time" <> 0T then
                     EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Friday End Time";
 
+            EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time";
         end;
     end;
 
@@ -213,8 +209,6 @@ codeunit 50029 "Process Daily Attendance"
                                     EmpAttendance."Leave Description" := LeaveTypeSetup.Description;
                                     EmpAttendance."Pay Type" := LeaveTypeSetup."Pay Type";
                                 end;
-
-
                             end;
                             EmpAttendance.Remarks := UpperCase(Format(EmpAttendance."Leave Description")) + ' LEAVE';
                         end;
@@ -243,6 +237,11 @@ codeunit 50029 "Process Daily Attendance"
                         begin
                             AllowanceAssignment.InsertHighestPriorityAllowanceInAttendance(EmpActLedgerEntry."Employee No.", EmpActLedgerEntry."Event Date", EmpAttendance);
                         end;
+                    EmpActLedgerEntry."Document Type"::"Late Deduction":
+                        begin
+                            EmpAttendance."Late Deduction" := true;
+                            EmpAttendance.Remarks := 'Late Deduction';
+                        end;
                     else begin
                         OnAfterProcessDayFromEmpActLedgerEntry(EmpAttendance, EmpActLedgerEntry, Ishandled);
                         if not Ishandled then begin
@@ -270,7 +269,6 @@ codeunit 50029 "Process Daily Attendance"
                     if (EmpAttendance."Check In Time" <> 0T) and (EmpAttendance."Check Out Time" = 0T) then
                         EmpAttendance.Remarks := 'MISSED PUNCH';
 
-
             if EmpAttendance."Present Day" = 0.5 then
                 EmpAttendance.Remarks := 'HALF DAY PRESENT';
 
@@ -294,7 +292,6 @@ codeunit 50029 "Process Daily Attendance"
 
             if EmpAttendance."Training Day" > 0 then
                 EmpAttendance.Remarks := 'TRAINING';
-
         end;
     end;
 
@@ -319,10 +316,7 @@ codeunit 50029 "Process Daily Attendance"
         Date.Get(Date."Period Type"::Date, EmpAttendance."Attendance Date");
     end;
 
-
     procedure GetCheckInandOutFromAttendanceLog()
-    var
-        AttendanceLog: Record "Attendance Log";
     begin
         if (EmpWorkShiftDetail."Check In From" <> 0) or (EmpWorkShiftDetail."Check Out From" <> 0) then begin
             GetCheckInAndOutFromAttendanceLogInRange(

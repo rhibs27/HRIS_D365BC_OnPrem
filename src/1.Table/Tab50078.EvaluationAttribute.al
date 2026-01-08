@@ -4,10 +4,7 @@ table 50078 "Evaluation Attribute"
     // version HRM1.00
     fields
     {
-        field(1; "Attribute Type"; Enum "Evaluation Attribute Type")
-        {
-
-        }
+        field(1; "Attribute Type"; Enum "Evaluation Attribute Type") { }
         field(2; "Code"; Code[20]) { }
         field(3; Description; Text[250]) { }
         field(4; "Description 2"; Text[250]) { }

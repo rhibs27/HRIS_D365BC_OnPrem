@@ -207,7 +207,6 @@ table 50113 "Shift Assignment Header"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHRMS: Record "Approval HRMS";
         ShiftLine: Record "Shift Line";
-        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         Employee: Record Employee;
         ShiftAssignmentRec: Record "Shift Assignment Header";
 

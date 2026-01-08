@@ -2,7 +2,6 @@ pageextension 50023 DImensionValue extends "Dimension Values"
 {
     layout
     {
-
         addafter("Consolidation Code")
         {
             field("Head Office"; Rec."Head Office")
@@ -16,5 +15,4 @@ pageextension 50023 DImensionValue extends "Dimension Values"
             }
         }
     }
-
 }

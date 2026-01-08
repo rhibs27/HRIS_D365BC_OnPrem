@@ -87,7 +87,6 @@ table 50069 "Training Header"
         }
         field(7; "Resource Person"; Enum "Resouce person")
         {
-
             trigger OnValidate()
             begin
                 if "Resource Person" <> "Resource Person" then begin
@@ -111,12 +110,8 @@ table 50069 "Training Header"
                     Clear("Vendor Name");
             end;
         }
-        field(10; "Vendor Name"; Text[50])
-        {
-        }
-        field(11; "Training Type"; Enum "Training Type")
-        {
-        }
+        field(10; "Vendor Name"; Text[50]) { }
+        field(11; "Training Type"; Enum "Training Type") { }
         field(12; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -148,7 +143,6 @@ table 50069 "Training Header"
         }
         field(17; "Training Nature"; Enum "Training Nature")
         {
-
             trigger OnValidate()
             begin
                 Validate("Training Calendar No", '');
@@ -258,18 +252,15 @@ table 50069 "Training Header"
             //     Validate(Department, HRMgt.LookupDepartment(Department));
             // end;
         }
-        field(28; Valley; enum "Outside/Inside Valley")
-        {
-        }
+        field(28; Valley; enum "Outside/Inside Valley") { }
         field(29; "Total No. of Participant"; Integer)
         {
             CalcFormula = count("Training Line" where("Training No." = field("No."),
                                                        Type = const(Trainee)));
             FieldClass = FlowField;
+            Editable = false;
         }
-        field(30; "Function"; Enum "Training Function Type")
-        {
-        }
+        field(30; "Function"; Enum "Training Function Type") { }
         field(31; "Estimated Training Cost"; Decimal)
         {
             trigger OnValidate()
@@ -291,10 +282,7 @@ table 50069 "Training Header"
                 CalculateEstimatedTotalBudget;
             end;
         }
-        field(34; "Training Category"; Enum "Training Category")
-        {
-
-        }
+        field(34; "Training Category"; Enum "Training Category") { }
         field(35; "Total Trainer Marks"; Decimal)
         {
             Editable = false;
@@ -354,8 +342,6 @@ table 50069 "Training Header"
         }
         field(44; Month; Enum "Nepali Month")
         {
-
-
             trigger OnValidate()
             begin
                 TestField("Fiscal Year");
@@ -488,9 +474,7 @@ table 50069 "Training Header"
         field(62; "Reviewed By Name"; Text[50]) { }
         field(63; "Supported By Name"; Text[50]) { }
         field(64; Online; Boolean) { }
-        field(65; "Sponsorship Type"; Enum "Sponsorship Type")
-        {
-        }
+        field(65; "Sponsorship Type"; Enum "Sponsorship Type") { }
         field(66; Country; Code[20])
         {
             TableRelation = "Country/Region";

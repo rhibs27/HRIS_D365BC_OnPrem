@@ -28,7 +28,6 @@ table 50036 "Payroll Attributes Usage"
             Description = 'Benefits,Deduction,Non-Payment';
             Editable = false;
             FieldClass = FlowField;
-
         }
         field(4; Subtype; enum "Payroll SubType")
         {
@@ -136,6 +135,12 @@ table 50036 "Payroll Attributes Usage"
             CalcFormula = lookup("Payroll Attributes".Irregular where(Code = field(Code)));
             Editable = false;
             FieldClass = FlowField;
+        }
+        field(24; "Deduct on Absent"; Boolean)
+        {
+            CalcFormula = lookup("Payroll Attributes"."Deduct on Absent" where(Code = field(Code)));
+            FieldClass = FlowField;
+            Editable = false;
         }
     }
 

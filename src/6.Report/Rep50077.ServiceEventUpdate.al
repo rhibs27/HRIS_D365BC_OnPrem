@@ -207,15 +207,12 @@ report 50077 "Service Event Update"
     end;
 
     var
-        DeputationOnFrom, DeputationOnTo : Enum "Deputation Type";
+        DeputationOnTo : Enum "Deputation Type";
         ServiceEvent: Enum "Service Event";
         DeputationCodeTo: Code[20];
         ProvinceCode: Code[20];
-        PageProvince: Page "Provinces List";
-        GLSetup: Record "General Ledger Setup";
         Employee: Record Employee;
         EffectiveDate: Date;
-        HRMgt: Codeunit "HR Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         Remarks: Text;
         EmpNo: Code[20];
@@ -250,7 +247,6 @@ report 50077 "Service Event Update"
                     end;
                 end;
 
-
             Deputation::Branch:
                 begin
                     OrgStructureList.SetRange(Type, OrgStructureList.Type::Branch);
@@ -263,7 +259,6 @@ report 50077 "Service Event Update"
                         OrgStructureListPage.GetRecord(OrgStructureList);
                         exit(OrgStructureList.Code)
                     end;
-
                 end;
 
             Deputation::Department:
@@ -342,7 +337,6 @@ report 50077 "Service Event Update"
 
     local procedure ValidateRequiredFields(): Boolean
     var
-        MissingFields: Text;
         MissingFieldErr: Label '%1 cannot be blank.';
     begin
         if ServiceEvent = ServiceEvent::" " then
@@ -358,5 +352,13 @@ report 50077 "Service Event Update"
 
         if EffectiveDate = 0D then
             Error(MissingFieldErr, 'Effective Date');
+
+        if EmploymentType = EmploymentType::Contract then
+            if ContractExpiryDate = 0D then
+                if ContractExpiryMonth = ContractExpiryMonth::" " then
+                    Error('Contract Expiry Month must have value.');
+        if EmploymentType = EmploymentType::Probation then
+            if ProbationPeriod = ProbationPeriod::" " then
+                Error('Probation Period must have value.');
     end;
 }

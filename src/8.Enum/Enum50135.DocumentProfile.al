@@ -1,7 +1,7 @@
 enum 50135 "Document Profile"
 {
     Extensible = true;
-    
+
     value(0; " ")
     {
         Caption = ' ';

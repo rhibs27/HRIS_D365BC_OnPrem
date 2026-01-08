@@ -1,22 +1,21 @@
 codeunit 50025 "Shift Assignment Mgt"
 {
-
     procedure OpenShiftRequest(EmpCode: Code[20])
     var
         ShiftAssignment, ShiftAssignment2 : Record "Shift Assignment Header";
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
-        // Clear Approval line 
+        // Clear Approval line
         Approval.Reset();
         Approval.SetRange("Document No.", '');
-        Approval.setRange("Document Type", Approval."Document Type"::"Allowance Assignment");
+        Approval.setRange("Document Type", Approval."Document Type"::"Shift Assignment");
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
         Employee.Get(EmpCode);
         ShiftAssignment.Reset();
         ShiftAssignment.SetRange("Employee No.", EmpCode);
-        ShiftAssignment.SetRange("Type", ShiftAssignment."Type"::"Allowance Assignment");
+        ShiftAssignment.SetRange("Type", ShiftAssignment."Type"::"Shift Assignment");
         ShiftAssignment.SetRange("Approval Status", ShiftAssignment."Approval Status"::open);
         if ShiftAssignment.Findfirst() then begin
             Message('This Employee Already has open Shift Assignment Request.Click Ok to Open');
@@ -24,7 +23,7 @@ codeunit 50025 "Shift Assignment Mgt"
         end else begin
             ShiftAssignment2.Init;
             ShiftAssignment2.Validate("Employee No.", EmpCode);
-            ShiftAssignment2.Validate("Type", ShiftAssignment2."Type"::"Allowance Assignment");
+            ShiftAssignment2.Validate("Type", ShiftAssignment2."Type"::"Shift Assignment");
             ShiftAssignment2.Validate("Approval Status", ShiftAssignment2."Approval Status"::Open);
             ShiftAssignment2.Insert(true);
             if GuiAllowed then
@@ -152,7 +151,6 @@ codeunit 50025 "Shift Assignment Mgt"
             ApprovalLine.DeleteAll(true);
             ApproverMgt.InsertApproval(ShiftAssignmentHeader."Employee No.", DocumentNo, ShiftAssignmentHeader."Type"::"Shift Assignment", ShiftAssignmentHeader."Approval Status"::open);
         end;
-
     end;
 
     procedure ValidateEmployeeOnDate(var LineRec: Record "Shift Line")
@@ -171,17 +169,28 @@ codeunit 50025 "Shift Assignment Mgt"
     procedure ReturnEmployeeWorkShift(EmployeeNo: Code[20]; ShiftDate: Date): Code[20];
     var
         ShiftLine: Record "Shift Line";
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
     begin
-        ShiftLine.Reset();
-        ShiftLine.SetRange("Employee No", EmployeeNo);
-        ShiftLine.SetRange("Roster Date", ShiftDate);
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-        if ShiftLine.FindFirst() then
-            exit(ShiftLine."Employee Work Shift")
-        else begin
-            Employee.Get(EmployeeNo);
-            exit(Employee."Employee Work Shift");
+        PGSetup.Get();
+        if PGSetup."Use Allowance Configuration" then begin
+            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
+            AssignmentMemoLedgerEntry.SetRange(Reversed, false);
+            AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeNo);
+            AssignmentMemoLedgerEntry.SetRange("Posting Date", ShiftDate);
+            AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
+            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
+        end else begin
+            ShiftLine.Reset();
+            ShiftLine.SetRange("Employee No", EmployeeNo);
+            ShiftLine.SetRange("Roster Date", ShiftDate);
+            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+            ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
+            if ShiftLine.FindFirst() then
+                exit(ShiftLine."Employee Work Shift")
         end;
+        Employee.Get(EmployeeNo);
+        exit(Employee."Employee Work Shift");
     end;
 
     procedure CheckWorkShiftFields(EmployeeWorkShift: Record "Employee Work Shift");
@@ -212,5 +221,5 @@ codeunit 50025 "Shift Assignment Mgt"
     var
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
-
+        PGSetup: Record "Payroll General Setup";
 }

@@ -17,13 +17,8 @@ table 50115 "Employee Feedback"
         field(4; "Answers Text"; Text[250]) { }
         field(5; "Line No."; Integer) { }
         field(6; "Question Code"; Code[20]) { }
-        field(7; Type; Enum "Employee Question Type")
-        {
-        }
-        field(8; "Sub Type"; Enum "Employee Question SubType")
-        {
-
-        }
+        field(7; Type; Enum "Employee Question Type") { }
+        field(8; "Sub Type"; Enum "Employee Question SubType") { }
         field(9; Answer; Enum "Employee FeedBack")
         {
             trigger OnValidate()

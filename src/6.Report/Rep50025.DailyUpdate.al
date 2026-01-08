@@ -23,6 +23,24 @@ report 50025 "Daily Update"
                         ToolTip = 'Specifies the value of the Update Promotion Details field.';
                         ApplicationArea = All;
                     }
+                    field(UpdateLastPlacementDate; UpdateLastPlacementDate)
+                    {
+                        Caption = 'Update Last Placement Date of Employees';
+                        ToolTip = 'Specifies whether to update the last placement date of employees.';
+                        ApplicationArea = All;
+                    }
+                    field(UpdateServiceDurationForInactiveEmployees; UpdateServiceDurationForInactiveEmployees)
+                    {
+                        Caption = 'Update Service Duration for Inactive Employees';
+                        ToolTip = 'Specifies whether to update service duration for inactive employees.';
+                        ApplicationArea = All;
+                    }
+                    field(UpdateEmployeeSeniority; UpdateEmployeeSeniority)
+                    {
+                        Caption = 'Update Employee Seniority';
+                        ToolTip = 'Specifies whether to update employee seniority.';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }
@@ -40,20 +58,32 @@ report 50025 "Daily Update"
         end;
         if UpdatePromotionDetails then
             UpdatePromotion;
+        if UpdateLastPlacementDate then
+            UpdateLastPlacementDateOfEmployees();
+
+        if UpdateEmployeeSeniority then
+            HRMgt.AssignEmployeeSeniority();
     end;
 
     var
         UpdateAgeAndServicePeriod: Boolean;
         UpdatePromotionDetails: Boolean;
-        Employee: Record Employee;
+
         HRMgt: Codeunit "HR Mgt.";
         AgeDays: Integer;
         IsBirthDay: Boolean;
 
+        UpdateLastPlacementDate: Boolean;
+        UpdateServiceDurationForInactiveEmployees: Boolean;
+        UpdateEmployeeSeniority: Boolean;
+
     local procedure UpdateAgeServicePeriod()
+    var
+        Employee: Record Employee;
     begin
-        Employee.Reset;
-        Employee.SetRange(Status, Employee.Status::Active);
+        Employee.SetRange(Settled, false);
+        if not UpdateServiceDurationForInactiveEmployees then
+            Employee.SetRange(Status, Employee.Status::Active);
         if Employee.FindSet() then
             repeat
                 if Employee."Resignation Date" = Today - 1 then
@@ -80,6 +110,7 @@ report 50025 "Daily Update"
 
     procedure UpdateEmployeeServiceDuration()
     var
+        Employee: Record Employee;
         EmpServiceHistory: Record "Employee Service History";
     begin
         Employee.Reset();
@@ -92,9 +123,7 @@ report 50025 "Daily Update"
                     repeat
                         EmpServiceHistory.UpdateDuration(EmpServiceHistory);
                     until EmpServiceHistory.Next() = 0;
-
             until Employee.Next() = 0;
-        Message('service duration updated successfully');
     end;
 
     local procedure UpdatePromotion()
@@ -110,5 +139,27 @@ report 50025 "Daily Update"
             repeat
                 PromotionMgt.UpdateInEmployeeProfile(ServiceHistory."Service History Code");
             until ServiceHistory.Next() = 0;
+    end;
+
+    local procedure UpdateLastPlacementDateOfEmployees()
+    var
+        Employee: Record Employee;
+        ServiceHistory: Record "Employee Service History";
+    begin
+        if not UpdateLastPlacementDate then
+            exit;
+
+        Employee.SetRange(Settled, false);
+        if Employee.FindSet() then
+            repeat
+                ServiceHistory.SetLoadFields("Employee No.", "Service Event", "Effective Date");
+                ServiceHistory.SetCurrentKey("Effective Date");
+                ServiceHistory.SetRange("Employee No.", Employee."No.");
+                ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
+                if ServiceHistory.FindLast() then begin
+                    Employee.Validate("Last Placement Date", ServiceHistory."Effective Date");
+                    Employee.Modify(true);
+                end;
+            until Employee.Next() = 0;
     end;
 }

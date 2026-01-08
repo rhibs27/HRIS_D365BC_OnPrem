@@ -2,22 +2,16 @@ codeunit 50012 "KPI Mgt."
 {
     // version KPI1.00
 
-
     trigger OnRun()
     begin
     end;
 
     var
         OrganizationStructureList: Record "Organization Structure List";
-        LocationIncentivePer: Decimal;
         RemoteAreaCategory: Record "Remote Area Category";
         CategoryIncentive: Decimal;
         Province: Record Province;
-        AppriasalHeader: Record "KPI Appraisal Header Bank";
-        AccountingPeriod: Record "Accounting Period";
         EngNepDate: Record "English-Nepali Date";
-        DateRec: Record Date;
-        HrMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         KPIDailyScore: Record "KPI Daily Score";
         KPIDailyScore1: Record "KPI Daily Score";
@@ -25,8 +19,6 @@ codeunit 50012 "KPI Mgt."
         KPIMaster: Record "KPI Master Bank";
 
     procedure DailyKPIScoreCalculationIndv(EmpCode: Code[20])
-    var
-        AppriasalLine: Record "KPI Appraisal Bank Lines";
     begin
         KPIDailyScore.Reset;
         KPIDailyScore.SetRange(Type, KPIDailyScore.Type::Employee);
@@ -77,7 +69,6 @@ codeunit 50012 "KPI Mgt."
 
     procedure EligibleForIncentive(EmplCode: Code[20]): Boolean
     var
-        AppriasalHdr: Record "KPI Appraisal Header Bank";
         KPIratingSetup: Record "KPI Rating Setup";
         KPIDailyScore: Record "KPI Daily Score";
         KPIDailyScore1: Record "KPI Daily Score";
@@ -112,8 +103,6 @@ codeunit 50012 "KPI Mgt."
     procedure CalculateLocationIncentive(EmpCode: Code[20]): Decimal
     var
         LocationIncentive: Decimal;
-        AppriasalHdr: Record "KPI Appraisal Header Bank";
-        EmpRec: Record Employee;
         DailyScore: Decimal;
     begin
         LocationIncentive := CategoryAndDistrictIncentive(EmpCode);
@@ -140,12 +129,7 @@ codeunit 50012 "KPI Mgt."
 
     procedure InsertDeptScoreForEmployee(EmpCode: Code[20])
     var
-        KPIAppriasalHdr: Record "KPI Appraisal Header Bank";
-        AppriasalLine: Record "KPI Appraisal Bank Lines";
-        KPIAppriasalDept: Record "KPI Appraisal Header Bank";
-        DailyScore: Decimal;
         KPIDailyIncentive: Record "KPI Daily Incentive";
-        KPIDailyScore: Record "KPI Daily Score";
         EmpRec: Record Employee;
         KPIMaster: Record "KPI Master Bank";
     begin
@@ -183,7 +167,6 @@ codeunit 50012 "KPI Mgt."
     procedure CreateAppriasalAfterEmployeeTransfer(EmployeeCode: Code[20])
     var
         AppriasalHdr: Record "KPI Appraisal Header Bank";
-        AccountingPeriod: Record "Accounting Period";
     begin
         AppriasalHdr.Init;
         AppriasalHdr.Insert(true);
@@ -193,8 +176,6 @@ codeunit 50012 "KPI Mgt."
     end;
 
     procedure GetQuarter(CreatedDate: Date): Text
-    var
-        NepaliMonth: Enum "Nepali Month";
     begin
         EngNepDate.Reset;
         EngNepDate.SetRange("English Date", CreatedDate);
@@ -208,8 +189,6 @@ codeunit 50012 "KPI Mgt."
     end;
 
     procedure CalculateDailyKPIScoreSummary(EmpCode: Code[20]): Decimal
-    var
-        "Sum": Decimal;
     begin
         KPIDailyScore.Reset;
         KPIDailyScore.SetRange(Type, KPIDailyScore.Type::Employee);
@@ -253,7 +232,6 @@ codeunit 50012 "KPI Mgt."
 
     procedure ImportXMLFile()
     var
-        ImportXMLFile: File;
         XMLInstream: InStream;
         SelectCSVFile: Label 'Select the CSV Requisition File.';
         Filename: Text;
@@ -270,7 +248,6 @@ codeunit 50012 "KPI Mgt."
 
     procedure ImportXMLFileDept()
     var
-        ImportXMLFile: File;
         XMLInstream: InStream;
         SelectCSVFile: Label 'Select the CSV Requisition File.';
         Filename: Text;
@@ -417,7 +394,6 @@ codeunit 50012 "KPI Mgt."
 
     procedure ImportXMLFilEmpQuantitative()
     var
-        ImportXMLFile: File;
         XMLInstream: InStream;
         SelectCSVFile: Label 'Select the CSV Requisition File.';
         Filename: Text;
@@ -434,7 +410,6 @@ codeunit 50012 "KPI Mgt."
 
     procedure ImportXMLFileDeptQuantitative()
     var
-        ImportXMLFile: File;
         XMLInstream: InStream;
         SelectCSVFile: Label 'Select the CSV Requisition File.';
         Filename: Text;
@@ -462,7 +437,6 @@ codeunit 50012 "KPI Mgt."
 
     procedure ImportKPITargetEmployee()
     var
-        ImportXMLFile: File;
         XMLInstream: InStream;
         SelectCSVFile: Label 'Select the CSV Requisition File.';
         Filename: Text;
@@ -478,7 +452,6 @@ codeunit 50012 "KPI Mgt."
 
     procedure ImportKPITargetDepartment()
     var
-        ImportXMLFile: File;
         XMLInstream: InStream;
         SelectCSVFile: Label 'Select the CSV Requisition File.';
         Filename: Text;
@@ -563,4 +536,3 @@ codeunit 50012 "KPI Mgt."
         end;
     end;
 }
-

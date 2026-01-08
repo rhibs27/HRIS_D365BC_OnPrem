@@ -46,10 +46,7 @@ table 50051 "Required Emp In Branch"
         // {
         //     // TableRelation = "Reporting Category";
         // }
-        field(9; "Deputation On"; Enum "Deputation Type")
-        {
-
-        }
+        field(9; "Deputation On"; Enum "Deputation Type") { }
         field(10; "Fiscal Year"; Text[10]) { }
     }
 

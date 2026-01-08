@@ -37,7 +37,6 @@ report 50049 "Grant Permission Needed Leave"
 
     var
         LeaveCodeFilter: Text;
-        HRMgt: Codeunit "HR Mgt.";
 
     local procedure GrantLeave()
     var
@@ -76,8 +75,6 @@ report 50049 "Grant Permission Needed Leave"
                     LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
                     if LeaveEarn.Count >= LeaveTypeSetup."Times Per Service Period" then
                         Error('Employee has already taken leave for more than %1 times in his service period.', LeaveTypeSetup."Times Per Service Period");
-
-
                 end;
                 if LeaveTypeSetup."Min. Service Year Eligibility" <> 0 then begin
                     DateExpr := '<' + Format(LeaveTypeSetup."Min. Service Year Eligibility") + 'Y>';

@@ -29,7 +29,10 @@ page 50335 "Organization Structure Card"
             {
                 SubPageLink = Type = field(Type), Code = field(Code);
             }
+            part("No of ATM/Vaults per OrgStruct"; "No of ATM/Vaults per OrgStruct")
+            {
+                SubPageLink = Type = field(Type), Code = field(Code);
+            }
         }
-
     }
 }

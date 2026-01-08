@@ -2,27 +2,11 @@ pageextension 50011 "Employee List" extends "Employee List"
 {
     layout
     {
-        modify("First Name")
-        {
-            Visible = false;
-        }
-        modify("Last Name")
-        {
-            Visible = false;
-        }
-        modify("Search Name")
-        {
-            Visible = false;
-        }
         modify("Balance (LCY)")
         {
             Visible = false;
         }
         modify(Comment)
-        {
-            Visible = false;
-        }
-        modify("Job Title")
         {
             Visible = false;
         }
@@ -211,12 +195,18 @@ pageextension 50011 "Employee List" extends "Employee List"
         {
             Visible = false;
         }
-
         modify("E&mployee")
         {
             Visible = false;
         }
     }
+
+    trigger OnOpenPage()
+    begin
+        Rec.SetCurrentKey(Seniority);
+        Rec.Ascending(false);
+    end;
+
     trigger OnAfterGetRecord()
     begin
         Rec."Contract Expiry Remaining Days" := 0;

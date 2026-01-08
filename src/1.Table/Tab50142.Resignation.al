@@ -7,7 +7,6 @@ table 50142 Resignation
     {
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -28,9 +27,7 @@ table 50142 Resignation
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -72,38 +69,23 @@ table 50142 Resignation
                     // Validate("Auth. Account No.", '');
                     Validate("Salary Level Code", '');
                 end;
-
             end;
         }
         field(4; "Employee Name"; Text[50])
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
         field(7; "Start Date"; Date)
         {
-
             trigger OnValidate()
             begin
-                if Type <> Type::Overtime then
-                    EmployeeRec.Get("Employee No.");
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
-
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Start Date");
-                if EngNepDate.FindFirst then
-                    Validate("Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Start Date (BS)");
+                HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
+                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
@@ -113,15 +95,9 @@ table 50142 Resignation
         }
         field(8; "End Date"; Date)
         {
-
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "End Date");
-                if EngNepDate.FindFirst then
-                    Validate("End Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("End Date (BS)");
+                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"))
             end;
         }
         // field(9; "No. of Days"; Decimal)
@@ -135,15 +111,9 @@ table 50142 Resignation
         // }
         field(10; "Requested Date"; Date)
         {
-
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
+                Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Requested Date"))
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -160,7 +130,6 @@ table 50142 Resignation
         }
         field(14; Remarks; Text[100])
         {
-
             trigger OnLookup()
             begin
                 //PAGE.Run(PAGE::"Employee List");
@@ -173,7 +142,6 @@ table 50142 Resignation
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-
             trigger OnValidate()
             begin
                 // if "Approval Status" = "Approval Status"::Screened then begin
@@ -253,7 +221,7 @@ table 50142 Resignation
         //             Validate("Approver Type", "Approver Type"::"With Recommendation");
         //         //requirement not fixed
         //         if "Recommender Code" <> '' then begin
-        //             if Type <> Type::Overtime then 
+        //             if Type <> Type::Overtime then
         //                 if "Recommender Code" = "Approver Code" then
         //                     Error('Recommender and Approver cannot be same person.');
         //             EmployeeRec.Get("Recommender Code");
@@ -291,7 +259,7 @@ table 50142 Resignation
         //                     if "Recommender Code" = "Approver Code" then
         //                         Error('Recommender and Approver cannot be same person.');
         //             end else
-        //                 if Type <> Type::Overtime then 
+        //                 if Type <> Type::Overtime then
         //                     if "Recommender Code" = "Approver Code" then
         //                         Error('Recommender and Approver cannot be same person.');
 
@@ -340,31 +308,17 @@ table 50142 Resignation
         {
             // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
         }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
+        field(34; Ecosystem; Code[20]) { }
+        field(35; "Office Code"; Code[20]) { }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
         // field(38; "Approver Type"; Enum "Approver Type")
         // {
         //     Editable = false;
         // }
-        field(39; Cancelled; Boolean)
-        {
-        }
+        field(39; Cancelled; Boolean) { }
         // field(40; "Cancelled No."; Code[20])
         // {
         // }
@@ -426,15 +380,11 @@ table 50142 Resignation
                     Clear("Reason Description");
             end;
         }
-        field(49; "Reason Description"; Text[50])
-        {
-        }
+        field(49; "Reason Description"; Text[50]) { }
         // field(50; "Screener Remarks"; Text[100])
         // {
         // }
-        field(51; "Deputation On"; Enum "Deputation Type")
-        {
-        }
+        field(51; "Deputation On"; Enum "Deputation Type") { }
         field(52; "Proposed Date of Resignation"; Date)
         {
             Description = 'Resignation';
@@ -507,15 +457,9 @@ table 50142 Resignation
         {
             FieldClass = Normal;
         }
-        field(59; "Mother Name"; Text[50])
-        {
-        }
-        field(60; "Spouse Name"; Text[50])
-        {
-        }
-        field(61; "Child Name"; Text[50])
-        {
-        }
+        field(59; "Mother Name"; Text[50]) { }
+        field(60; "Spouse Name"; Text[50]) { }
+        field(61; "Child Name"; Text[50]) { }
         field(62; "Apply for Waiver"; Boolean)
         {
             Description = 'Resignation';
@@ -524,10 +468,7 @@ table 50142 Resignation
         {
             Description = 'Resignation';
         }
-        field(100; Status; text[50])
-        {
-        }
-
+        field(100; Status; text[50]) { }
     }
     keys
     {
@@ -535,9 +476,7 @@ table 50142 Resignation
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     var
         EmpVar: Record Employee;
@@ -615,7 +554,7 @@ table 50142 Resignation
                             ResignationRec.SetLoadFields("No.");
                             while ResignationRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
                 end;
             end;
@@ -699,5 +638,4 @@ table 50142 Resignation
 
     //         Message('The request has been update sucessfully.');
     //     end;
-
 }

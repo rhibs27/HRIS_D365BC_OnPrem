@@ -15,9 +15,22 @@ page 50165 "Emp. Edit Relative Subform"
                 {
                     ToolTip = 'Specifies the value of the Relative Code field.', Comment = '%';
                 }
+                field("First Name"; Rec."First Name")
+                {
+                    ToolTip = 'Specifies the value of the First Name field.', Comment = '%';
+                }
+                field("Middle Name"; Rec."Middle Name")
+                {
+                    ToolTip = 'Specifies the value of the Middle Name field.', Comment = '%';
+                }
+                field("Last Name"; Rec."Last Name")
+                {
+                    ToolTip = 'Specifies the value of the Last Name field.', Comment = '%';
+                }
                 field("Full Name"; Rec."Full Name")
                 {
                     ToolTip = 'Specifies the value of the Full Name field.', Comment = '%';
+                    Editable = false;
                 }
                 field("Relative Phone No."; Rec."Relative Phone No.")
                 {
@@ -109,10 +122,8 @@ page 50165 "Emp. Edit Relative Subform"
                 var
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
-                    ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
-                    fileInitial: Text;
                 begin
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
                         ToFile := Format(Rec."Employee No.") + '_' + format(Rec."Relative Code") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);

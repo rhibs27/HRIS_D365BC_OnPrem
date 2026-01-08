@@ -20,7 +20,10 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     Editable = false;
                 }
-
+                field("Nepali Month"; Rec."Nepali Month")
+                {
+                    ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
+                }
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
@@ -37,7 +40,6 @@ page 50178 "Request Allowance Card"
                         CurrPage.Update;
                     end;
                 }
-
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Enabled = false;
@@ -48,7 +50,6 @@ page 50178 "Request Allowance Card"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-
                 field("Total Line Amount"; Rec."Total Line Amount")
                 {
                     ToolTip = 'Specifies the value of the Total Line Amount field.', Comment = '%';
@@ -67,7 +68,40 @@ page 50178 "Request Allowance Card"
                     ToolTip = 'Specifies the value of the Fuel Limit (amt) field.', Comment = '%';
                     Editable = false;
                 }
+                field("Vehicle Type"; Rec."Vehicle Type")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Type field.', Comment = '%';
+                }
+                field("Vehicle No."; Rec."Vehicle No.")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle No. field.', Comment = '%';
+                }
+                field("Vehicle Owner Name"; Rec."Vehicle Owner Name")
+                {
+                    ToolTip = 'Specifies the value of the Vehicle Owner Name field.', Comment = '%';
+                }
+                field("Ownership Start/End Date"; Rec."Ownership Start/End Date")
+                {
+                    ToolTip = 'Specifies the value of the Ownership Start/End Date field.', Comment = '%';
+                }
+                field("Fuel Type"; Rec."Fuel Type")
+                {
+                    ToolTip = 'Specifies the value of the Fuel Type field.', Comment = '%';
+                }
+                field("Effective Date"; Rec."Effective Date")
+                {
+                    Caption = 'OutStation Effective Date';
+                }
             }
+            part(line1; "Request Allowance Subform Copy")
+            {
+                SubPageLink = "Document No." = field("No."), "Emp Act Type" = field("Activity Type");
+                UpdatePropagation = Both;
+                ApplicationArea = All;
+                Editable = IsOpen;
+                Visible = reimbursementView;
+            }
+
             part(line; "Request Allowance Subform")
             {
                 SubPageLink = "Document No." = field("No."), "Emp Act Type" = field("Activity Type");
@@ -90,7 +124,6 @@ page 50178 "Request Allowance Card"
                 ApplicationArea = all;
             }
         }
-
     }
     actions
     {
@@ -144,7 +177,24 @@ page 50178 "Request Allowance Card"
                         ApproverMgt.ApproveRejectDocument(RecRef, false)
                 end;
             }
-
+            action(Reverse)
+            {
+                Image = ReverseRegister;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reverse action.';
+                ApplicationArea = All;
+                Visible = IsApprove;
+                trigger OnAction()
+                var
+                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                begin
+                    if Confirm('Do you want to reverse the document?', false) then
+                        AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
+                end;
+            }
         }
     }
 
@@ -159,21 +209,26 @@ page 50178 "Request Allowance Card"
     end;
 
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
         FormEditable: Boolean;
         AllowanceMgt: Codeunit "Assignment Memo Mgt";
-        Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove : Boolean;
         RecRef: RecordRef;
         AllowanceClaim: Boolean;
+        reimbursementView: Boolean;
 
     local procedure SetLayout()
+    var
+        Payrollattributes: Record "Payroll Attributes";
     begin
         FormEditable := rec."Approval Status" = rec."Approval Status"::Open;
         IsPending := Rec."Approval Status" = rec."Approval Status"::"Pending";
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
         IsApprove := Rec."Approval Status" = rec."Approval Status"::Approved;
         RecRef.GetTable(Rec);
+
+        if Payrollattributes.Get(Rec."Payroll Attribute Code") then begin
+            reimbursementView := Payrollattributes."Specific Attributes" = Payrollattributes."Specific Attributes"::Reimbursement;
+        end
     end;
 }
