@@ -173,6 +173,10 @@ table 50092 "Allowance Assignment Header"
         {
             Editable = false;
         }
+        field(38; "Substitute Approval Status"; Enum "Approval Status")
+        {
+
+        }
         field(27; Month; Enum "Nepali Month")
         {
             trigger OnValidate()

@@ -123,11 +123,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2264809808 - Field 3360864851 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Substitute Approval Status</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Substitute Approval Status - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 3121655793 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To date</source>
           <note from="Developer" annotates="general" priority="2"></note>
