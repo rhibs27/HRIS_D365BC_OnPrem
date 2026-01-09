@@ -79,8 +79,7 @@ table 50124 Leave
                 OnBeforeCheckEmploymentAndConfirmationDate("Employee No.", "Start Date", "Leave Code", IsHandled);
                 if not IsHandled then
                     if "Start Date" <> 0D then begin
-                        if "Start Date" < EmployeeRec."Employment Date" then
-                            Error('Cannot apply before your employment date');
+                        HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                         if Type = Type::"Leave Request" then begin
                             if EmployeeRec."Confirmation Date" <> 0D then
                                 if "Start Date" < EmployeeRec."Confirmation Date" then

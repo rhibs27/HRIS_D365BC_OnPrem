@@ -1,10 +1,10 @@
-page 50227 "Leave Journal"
+page 50053 "Late Deduction Journal"
 {
     ApplicationArea = All;
-    Caption = 'Leave Journal';
+    Caption = 'Late Deduction Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
-    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Leave Request"));
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Late Deduction"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout
@@ -19,45 +19,11 @@ page 50227 "Leave Journal"
                     Editable = IsOpen;
                 }
                 field("Employee Name"; Rec."Employee Name") { }
-                field("Leave Code"; Rec."Leave Code")
-                {
-                    ToolTip = 'Specifies the value of the Leave Code field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field("Leave Description"; Rec."Leave Description")
-                {
-                    ToolTip = 'Specifies the value of the Leave Description field.';
-                    ApplicationArea = All;
-                }
-                field("Leave Type"; Rec."Leave Type")
-                {
-                    ToolTip = 'Specifies the value of the Leave Type field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field("Adjustment Type"; Rec."Adjustment Type")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Adjustment Type field';
-                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
-                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen;
-                }
-                field("End Date"; Rec."End Date")
-                {
-                    ToolTip = 'Specifies the value of the End Date field.';
-                    ApplicationArea = All;
-                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen;
-                }
-                field("No. of Days"; Rec."No. of Days")
-                {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
-                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
+                    Editable = IsOpen;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -80,19 +46,9 @@ page 50227 "Leave Journal"
                     ApplicationArea = All;
                     Editable = IsOpen or IsPending;
                 }
-                field("Substitute Person Code"; Rec."Substitute Person Code")
-                {
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field("Substitute Person Name"; Rec."Substitute Person Name")
-                {
-                    ApplicationArea = All;
-                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
-
                 Editable = false;
                 SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
@@ -120,9 +76,9 @@ page 50227 "Leave Journal"
                                     ListOfDocNo.Add(rec."Emp Act. No");
                             until rec.Next() = 0;
                         Rec.Reset();
-                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Leave Request");
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Late Deduction");
                         for i := 1 to ListOfDocNo.Count do begin
-                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), rec."Employee Act Type"::"Leave Request");
+                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), rec."Employee Act Type"::"Late Deduction");
                         end;
                     end;
                 end;
@@ -136,7 +92,7 @@ page 50227 "Leave Journal"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Approve Leave?', false) then begin
+                    if Confirm('Do you want to Approve Late Deduction?', false) then begin
                         Clear(ListOfDocNo);
                         CurrPage.SetSelectionFilter(Rec);
                         if Rec.FindSet() then
@@ -145,7 +101,7 @@ page 50227 "Leave Journal"
                                     ListOfDocNo.Add(rec."Emp Act. No");
                             until rec.Next() = 0;
                         Rec.Reset();
-                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Leave Request");
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Late Deduction");
                         for i := 1 to ListOfDocNo.Count do begin
                             ApproverMgt.ApproveJournalDocument(ListOfDocNo.Get(i), true);
                         end;
@@ -161,7 +117,7 @@ page 50227 "Leave Journal"
                 Visible = IsApproved;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Post Leave?', false) then begin
+                    if Confirm('Do you want to Post Late Deduction?', false) then begin
                         Clear(ListOfDocNo);
                         CurrPage.SetSelectionFilter(Rec);
                         if Rec.FindSet() then
@@ -170,9 +126,9 @@ page 50227 "Leave Journal"
                                     ListOfDocNo.Add(rec."Emp Act. No");
                             until rec.Next() = 0;
                         for i := 1 to ListOfDocNo.Count do begin
-                            EmpActMgt.PostLeaveJournal(ListOfDocNo.Get(i));
+                            EmpActMgt.PostLateDeductionJournal(ListOfDocNo.Get(i));
                         end;
-                        Message('Leave is posted');
+                        Message('Late Deduction is posted');
                         CurrPage.Close();
                     end;
                 end;
@@ -186,7 +142,7 @@ page 50227 "Leave Journal"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Reject Leave?', false) then
+                    if Confirm('Do you want to Reject Late Deduction?', false) then
                         EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
@@ -198,9 +154,9 @@ page 50227 "Leave Journal"
                 Image = ImportExcel;
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
+                    if not Confirm('Do you want Import Late Deduction Journal From Excel?', false) then
                         exit;
-                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Leave Request");
+                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Late Deduction");
                 end;
             }
             action("Export Format for Excel")
@@ -211,9 +167,9 @@ page 50227 "Leave Journal"
                 Image = Export;
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
+                    if not Confirm('Do you want Export Late Deduction From Excel?', false) then
                         exit;
-                    ExcelImportMgt.ExportLeaveSheet(Rec);
+                    ExcelImportMgt.ExportLateDeductionSheet(Rec);
                 end;
             }
         }
@@ -221,7 +177,7 @@ page 50227 "Leave Journal"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::Open;
-        Rec."Employee Act Type" := Rec."Employee Act Type"::"Leave Request";
+        Rec."Employee Act Type" := Rec."Employee Act Type"::"Late Deduction";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
         CurrPage.Update(false);
@@ -260,3 +216,4 @@ page 50227 "Leave Journal"
         ListOfDocNo: List of [code[20]];
         i: Integer;
 }
+

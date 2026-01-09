@@ -12,8 +12,13 @@ table 50162 "Assignment Memo Line"
             TableRelation = Employee where(Status = const(Active));
             trigger OnValidate()
             begin
-                if Employee.Get("Employee No.") then
-                    "Employee Name" := Employee."Full Name"
+                if Employee.Get("Employee No.") then begin
+                    "Employee Name" := Employee."Full Name";
+                    if Employee."Last Placement Date" <> 0D then
+                        "Last Placement Date" := Employee."Last Placement Date"
+                    else
+                        "Last Placement Date" := Employee."Employment Date";
+                end
                 else
                     "Employee Name" := '';
             end;
@@ -141,6 +146,11 @@ table 50162 "Assignment Memo Line"
         {
             FieldClass = FlowFilter;
         }
+        field(34; "Vault Name"; Code[100])
+        {
+
+
+        }
         field(39; "Fuel Limit (ltr)"; Decimal) { }
         field(40; "Fuel Limit (amt)"; Decimal) { }
         field(41; "Fuel Claimed (ltr)"; Decimal)
@@ -171,6 +181,16 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Reversed';
             Editable = false;
+        }
+        field(61; "Last Placement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Date of joining current branch';
+        }
+        field(62; "Previous Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            DataClassification = ToBeClassified;
         }
 
         //If there is education allowance then these fields will be used.
@@ -391,7 +411,6 @@ table 50162 "Assignment Memo Line"
             AllowanceConfiguration.Reset();
             AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
             AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
-            AllowanceConfiguration.SetFilter(Source, '%1|%2', AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::Leave);
             if AllowanceConfiguration.FindSet() then begin
                 repeat
                     if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, "Employee No.", "To Date") then
@@ -406,7 +425,7 @@ table 50162 "Assignment Memo Line"
     procedure CheckDuplicateAssignmentMemoLine(PAssignMemo: Record "Assignment Memo Line")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
-        AtmPayrollAttr, DirectPayrollAttr : Record "Payroll Attributes";
+        AtmPayrollAttr, PayrollAttr : Record "Payroll Attributes";
         AllowanceConfig: Record "Allowance Configuration";
     begin
         if PAssignMemo."Employee No." = '' then
@@ -415,8 +434,8 @@ table 50162 "Assignment Memo Line"
             exit;
 
         if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
-            DirectPayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
-            if DirectPayrollAttr."Specific Attributes" <> DirectPayrollAttr."Specific Attributes"::"Holiday Allowance" then
+            PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+            if PayrollAttr."Specific Attributes" <> PayrollAttr."Specific Attributes"::"Holiday Allowance" then
                 exit;
         end;
 
@@ -428,17 +447,22 @@ table 50162 "Assignment Memo Line"
         if PAssignMemo."Line No." = 0 then
             exit;
 
+        PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+
         AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
         if PAssignMemo."Payroll Attribute Code" <> '' then
             AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
         else if PAssignMemo."Employee Work Shift" <> '' then
             AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
+
+        if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
+            AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
         AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
         AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
         AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
         if not AssignmentMemoLine.IsEmpty() then
-            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee No.", Format(PAssignMemo."From Date"));
+            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
 
         OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
     end;
@@ -487,7 +511,7 @@ table 50162 "Assignment Memo Line"
             until AllowanceConfig.Next() = 0;
 
         if not IsEligibleForShiftAllowance then
-            Error('Shift assignment is not applicable for branch %1.', AssignmentMemoHdr."Branch Code");
+            Error('Not eligible for selected shift.');
 
     end;
 

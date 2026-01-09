@@ -4196,6 +4196,15 @@ codeunit 50001 "HR Mgt."
         exit(BaseCalenderchanges.FindFirst());
     end;
 
+    procedure CheckEligibilityBeforeEmploymentDate(ActivityDate: Date; EmployeeNo: Code[20])
+    begin
+        Employee.get(EmployeeNo);
+        if ActivityDate <> 0D then begin
+            if ActivityDate < Employee."Employment Date" then
+                Error('Cannot apply before your employment date');
+        end;
+    end;
+
     procedure UpdateInsuranceFromHomeLoan(EmployeeLoanAdvance: Record "Employee Loan/Advance")
     var
         EmployeeInsuranceInformation: Record "Employee Insurance Information";

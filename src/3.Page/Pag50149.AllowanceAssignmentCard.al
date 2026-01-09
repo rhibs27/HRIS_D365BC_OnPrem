@@ -33,6 +33,12 @@ page 50149 "Allowance Assignment Card"
                     ToolTip = 'Specifies the value of the English Year field.';
                     ApplicationArea = All;
                 }
+                field(Month; Rec.Month)
+                {
+                    ToolTip = 'Specifies the value of the Month field.';
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';

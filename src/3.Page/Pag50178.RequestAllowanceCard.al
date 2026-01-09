@@ -92,11 +92,6 @@ page 50178 "Request Allowance Card"
                 {
                     Caption = 'OutStation Effective Date';
                 }
-                field("Last Placement Date"; Rec."Last Placement Date")
-                {
-                    ToolTip = 'Specifies the value of the Last Placement Date field.', Comment = '%';
-                }
-
             }
             part(line1; "Request Allowance Subform Copy")
             {

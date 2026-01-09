@@ -393,7 +393,7 @@ table 50166 "Assignment Memo Line Copy"
         AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
         AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
         if not AssignmentMemoLine.IsEmpty() then
-            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee No.", Format(PAssignMemo."From Date"));
+            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
     end;
 
     procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line Copy")

@@ -1648,11 +1648,11 @@ table 50027 "Payroll Line"
 
         RFContributionGetAttribute("Employee No.", PayrollHeader);
         GetGlobalAttributes();
-        CalculateAbsentasimBeforeAndAfterpromotion();
+        CalculateAbsenteeismBeforeAndAfterPromotion();
         UpdateSalaryAdvanceNo();
         CalculateLateDeduction();
-        CalculateOTBenifit();
-        GetTotalInsurranceClaim();
+        CalculateOTBenefit();
+        GetTotalInsuranceClaim();
 
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             GetSettlementRecovery();
@@ -1695,14 +1695,14 @@ table 50027 "Payroll Line"
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
                         if PayrollAttributes."Deduct on Absent" then
-                            AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
+                            AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
 
                         CalculateDifferentialInterestAmount(AttributeAmount);
 
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
 
-                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code);
+                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true);
                         RoundAmount(AttributeAmount);
                         if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
@@ -1770,11 +1770,9 @@ table 50027 "Payroll Line"
                     PayrollAttrUses.Modify();
                 end
             until PayrollAttributes.Next() = 0;
-
-        // logic for optimum is needed. // Not given as of now.
     end;
 
-    local procedure GetAmountRFContribution(EmployeeCode: Code[20]): Decimal
+    procedure GetAmountRFContribution(EmployeeCode: Code[20]): Decimal
     var
         LevelWiseAttributes: Record "Level Wise Attributes";
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
@@ -1978,7 +1976,7 @@ table 50027 "Payroll Line"
                 "Basic Salary" := PayrollAttributesUsage.Amount;
         end;
 
-        exit(GetAmountAfterAbsentism(PayrollAttributesUsage.Amount));
+        exit(GetAmountAfterAbsenteeism(PayrollAttributesUsage.Amount));
     end;
 
     procedure SaveValues(FieldValue: Decimal; AttributeCode: Code[20])
@@ -2003,7 +2001,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure GetAmountAfterAbsentism(CalculatedAmount: Decimal): Decimal
+    local procedure GetAmountAfterAbsenteeism(CalculatedAmount: Decimal): Decimal
     var
         TotalDaysInMonth: Decimal;
         TotalAmount: Decimal;
@@ -2569,7 +2567,7 @@ table 50027 "Payroll Line"
         */
     end;
 
-    procedure CalculateAbsentasimBeforeAndAfterpromotion()
+    procedure CalculateAbsenteeismBeforeAndAfterPromotion()
     var
         EmployeeAttendActivity: Record "Employee Attendance & Activity";
     begin
@@ -2636,7 +2634,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure CalculateOTBenifit()
+    procedure CalculateOTBenefit()
     var
         AttributeAmount: Decimal;
         PayrollAttr: Record "Payroll Attributes";
@@ -2654,7 +2652,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    procedure GetTotalInsurranceClaim()
+    procedure GetTotalInsuranceClaim()
     var
         AttributeAmount: Decimal;
         PayrollAttr: Record "Payroll Attributes";
@@ -2904,13 +2902,42 @@ table 50027 "Payroll Line"
             PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Start Date");
             if PayCyclePeriod.FindFirst() then
                 exit(PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount")
-            else
+            else begin
+                if PayrollAttrUsageHistory."End Date" <> 0D then
+                    exit((GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
+                                            PayrollAttrUsageHistory."Old Amount",
+                                            PayrollAttrUsageHistory."Start Date",
+                                            PayrollAttrUsageHistory."End Date",
+                                            true)));
                 exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
                                             PayrollAttrUsageHistory."Old Amount",
                                             PayrollAttrUsageHistory."Start Date",
                                             PayrollHeader."From Date",
-                                            false));
+                                            false))
+            end;
         end;
+    end;
+
+    local procedure GetAmountFromDeductionEntries(EmployeeNo: Code[20]; AttributeCode: Code[20]; ForReversedEntries: Boolean): Decimal
+    var
+        DetSalaryDeductionEntries: Record "Det Salary Deduction Entry";
+        AttribAmount: Decimal;
+    begin
+        DetSalaryDeductionEntries.Reset();
+        DetSalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
+        DetSalaryDeductionEntries.SetRange("Attribute Code", AttributeCode);
+        DetSalaryDeductionEntries.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+        DetSalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+        DetSalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+        if ForReversedEntries then
+            DetSalaryDeductionEntries.SetRange(Reversed, true)
+        else
+            DetSalaryDeductionEntries.SetRange(Reversed, false);
+        DetSalaryDeductionEntries.CalcSums(Amount);
+        AttribAmount := DetSalaryDeductionEntries.Amount;
+        if AttribAmount < 0 then
+            exit(-AttribAmount);
+        exit(AttribAmount);
     end;
 
     local procedure GetDifferentialAmount(NewAmount: Decimal; OldAmount: Decimal; FromDate: Date; ToDate: Date; IsEndDateCalculation: Boolean): Decimal

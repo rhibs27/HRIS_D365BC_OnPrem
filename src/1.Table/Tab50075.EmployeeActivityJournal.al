@@ -67,17 +67,21 @@ table 50075 "Employee Activity Journal"
         {
             trigger OnValidate()
             var
-                ShiftLine: Record "Shift Line";
+                Employee: Record Employee;
             begin
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
+                HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                 case "Employee Act Type" of
                     "Employee Act Type"::"Attendance Missed":
                         begin
                             AttendanceMissedMgt.CheckAlreadyExists("Employee No.", "Employee Act Type", "Start Date");
                             EmployeeActMgt.CheckAttendanceMissedInJournal("Employee No.", "Start Date");
+                        end;
+                    "Employee Act Type"::"Leave Request":
+                        begin
+                            Employee.Get("Employee No.");
+                            if Employee."Contract Expiry Date" <> 0D then
+                                if "Start Date" > Employee."Contract Expiry Date" then
+                                    Error('Cannot apply leave after contract expiry date');
                         end;
                 end;
                 Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
@@ -86,13 +90,7 @@ table 50075 "Employee Activity Journal"
                     Clear("End Date (BS)");
                     Clear("No. of Days");
                 end;
-                ShiftLine.Reset(); //Check for Approved WorkShift
-                ShiftLine.SetRange("Roster Date", "Start Date");
-                ShiftLine.SetRange("Employee No", "Employee No.");
-                ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-                ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-                if ShiftLine.FindFirst() then
-                    Validate("Employee Work Shift", ShiftLine."Employee Work Shift")
+                Validate("Employee Work Shift", ShiftAssignmentMgt.ReturnEmployeeWorkShift("Employee No.", "Start Date"));
             end;
         }
         field(8; "End Date"; Date)
@@ -861,6 +859,7 @@ table 50075 "Employee Activity Journal"
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         EmployeeRec: Record Employee;
         ApprovalHRMS: Record "Approval HRMS";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
 
     [IntegrationEvent(false, false)]
     local procedure OnSetupNewLineOnBeforeInsertApproval(var EmpActJnl: Record "Employee Activity Journal"; var SkipApproval: Boolean)
