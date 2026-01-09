@@ -912,6 +912,7 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PayCyclePeriod: Record "Pay Cycle Period";
+        EmployeeEdit: Record "Employee Edit";
     begin
         case RecRef.Number of
             Database::"Assignment Memo Header":
@@ -932,6 +933,19 @@ codeunit 50030 "Assignment Memo Mgt"
                             ApprovalStatusField := 'Pending';
                         end;
                     end;
+                end;
+            Database::"Employee Edit":
+                begin
+                    EmployeeEdit.Get(DocumentNo);
+                    if EmployeeEdit."Changes In Employee Type" <> EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then
+                        exit;
+
+                    PayCyclePeriod.SetFilter("Start Date", '<=%1', EmployeeEdit."Requested Date");
+                    PayCyclePeriod.SetFilter("End Date", '>=%1', EmployeeEdit."Requested Date");
+                    PayCyclePeriod.FindFirst();
+                    if PayCyclePeriod."Allowance End Date" <> 0D then
+                        if WorkDate() >= PayCyclePeriod."Allowance End Date" then
+                            Error('Cannot approve/reject the vehicle update request as the end date %1 has passed.', PayCyclePeriod."Allowance End Date");
                 end;
         end;
     end;

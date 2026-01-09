@@ -590,7 +590,7 @@ table 50074 "Employee Edit"
                     end;
             end;
 
-        // CheckIfWithinAllowancePeriod();
+        CheckIfWithinAllowancePeriod();
         if not GuiAllowed then
             CheckForVehicleInfoUpdate(Rec);
     end;

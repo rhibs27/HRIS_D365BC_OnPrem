@@ -24833,6 +24833,16 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Control Unit Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2173113815 - Control 4090064393 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Control Rejection Remarks1 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2173113815 - Control 4090064393 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Card - Control Rejection Remarks1 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2173113815 - Control 4063816652 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Substitute Details</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46212,6 +46222,11 @@
           <source>Request Allowance Card</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2985527303 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Allowance Card - Control Rejection Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2985527303 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
