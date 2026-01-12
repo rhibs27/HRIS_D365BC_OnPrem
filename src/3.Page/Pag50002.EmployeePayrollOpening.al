@@ -56,6 +56,4 @@ page 50002 "Employee Payroll Opening"
             }
         }
     }
-
-    actions { }
 }
