@@ -7428,7 +7428,6 @@
         <PageHeader>
           <Height>1.53347in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
-          <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
             <Image Name="Image1">
               <Source>Database</Source>
@@ -7609,7 +7608,7 @@
             </Border>
           </Style>
         </PageHeader>
-        <PageHeight>10in</PageHeight>
+        <PageHeight>15in</PageHeight>
         <PageWidth>15in</PageWidth>
         <LeftMargin>0.25in</LeftMargin>
         <RightMargin>0.25in</RightMargin>

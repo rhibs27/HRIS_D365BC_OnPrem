@@ -77,6 +77,10 @@ page 50371 "Shift Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
+                field("Approved Date"; Rec."Approved Date")
+                {
+                    ToolTip = 'Specifies the value of the Approved Date field.';
+                }
             }
         }
     }
