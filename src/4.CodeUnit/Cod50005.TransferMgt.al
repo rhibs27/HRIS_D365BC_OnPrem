@@ -534,9 +534,9 @@ codeunit 50005 "Transfer Mgt."
             if not UserSetup."Is Admin" then
                 Error('You are not Eligible');
 
-        //check handover attachment exists before takeover. Maybe use integration event.
-        if not AttachmentMgt.CheckIfAttachmentExistsAsPerTheSetup(Enum::"Attachment Setup Type"::"Employee Transfer", Enum::"Attachment Setup SubType"::Handover, EmpHrTransfer."No.") then
-            Error('mandatory attachment is missing for takeover');
+        //check handover attachment exists before takeover. will once testing done
+        // if not AttachmentMgt.CheckIfAttachmentExistsAsPerTheSetup(Enum::"Attachment Setup Type"::"Employee Transfer", Enum::"Attachment Setup SubType"::Handover, EmpHrTransfer."No.") then
+        //     Error('mandatory attachment is missing for takeover');
 
         EmpHrTransfer.Validate(Takeover, true);
         EmpHrTransfer.Modify();

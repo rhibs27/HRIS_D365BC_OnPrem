@@ -253,29 +253,6 @@ codeunit 50020 "Attachment Mgt."
         end;
     end;
 
-    // procedure CheckIfAttachmentExistsAsPerTheSetup(AttachmentType: Text; AttachmentSubType: Text; DocNo: Text): Boolean
-    // var
-    //     AttachmentSetup: Record "Attachment Setup";
-    //     IncomintDocument: Record "Incoming Document";
-    // begin
-    //     AttachmentSetup.SetRange(Mandatory, true);
-    //     AttachmentSetup.SetFilter(Type, AttachmentType);
-    //     AttachmentSetup.SetFilter("Sub Type", AttachmentSubType);
-    //     if AttachmentSetup.FindFirst() then begin
-    //         IncomintDocument.SetRange("Document No.", DocNo);
-    //         IncomintDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
-    //         if IncomintDocument.IsEmpty() then
-    //             exit(false);
-
-    //         if IncomintDocument.FindFirst() then
-    //             if IncomintDocument.HasAttachment() then
-    //                 exit(true)
-    //             else
-    //                 exit(false);
-    //     end;
-    //     exit(true);  //if setup does not exist, then no need to check attachment
-    // end;
-
     procedure CheckIfAttachmentExistsAsPerTheSetup(AttachmentType: enum "Attachment Setup Type"; AttachmentSubType: Enum "Attachment Setup SubType"; DocNo: Text): Boolean
     var
         AttachmentSetup: Record "Attachment Setup";
