@@ -974,11 +974,65 @@ codeunit 50004 "Travel Mgt."
             until TravelRequest.Next = 0;
     end;
 
+    procedure ApproveCancelTravelRequest(docNo: Code[20]): Text
+    var
+        TravelRequest: Record "Travel Request";
+        CancelDocument: Record "Cancel Document";
+        EmpLedgerEntry: Record "Emp. Act. Ledger Entry";
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        CancelDocument.Get(docNo);
+        if TravelRequest.Get(CancelDocument."Cancelled Document No.") then begin
+            if (TravelRequest."Travel Claimed" = false) and (TravelRequest.Extended = false) then begin
+                TravelRequest."Approval Status" := TravelRequest."Approval Status"::Canceled;
+                TravelRequest.Modify();
+
+                EmpLedgerEntry.SetRange("Document No.", CancelDocument."Cancelled Document No.");
+                EmpLedgerEntry.SetRange("Document Type", EmpLedgerEntry."Document Type"::"Travel Request");
+                EmpLedgerEntry.SetRange("Cancellation Entry", false);
+                if EmpLedgerEntry.FindSet(true) then begin
+                    repeat
+                        EmpLedgerEntry.Rename(
+                            EmpLedgerEntry."Document Type",
+                            EmpLedgerEntry."Document No.",
+                            EmpLedgerEntry."Employee No.",
+                            EmpLedgerEntry."Event Date",
+                            true);
+                    until EmpLedgerEntry.Next() = 0;
+                end;
+                if CancelDocument."Start Date" <= Today then begin
+                    if CancelDocument."End Date" > Today then
+                        AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", Today, CancelDocument."Employee No.")
+                    else
+                        AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.")
+                end;
+                exit('Cancel Travel Request cancelled successfully.');
+            end;
+        end;
+    end;
+
+
+    procedure RejectTravelRequest(CancelDocNo: Code[20])
+    var
+        CancelledDocument: Record "Cancel Document";
+        TravelRequest: Record "Travel Request";
+    begin
+        CancelledDocument.Get(CancelDocNo);
+        if TravelRequest.Get(CancelledDocument."Cancelled Document No.") then begin
+            TravelRequest.Validate("Cancelled No.", '');
+            TravelRequest.Validate(Cancelled, false);
+            TravelRequest.Modify(true);
+        end else
+            Error('Travel request no. %1 not found.', CancelledDocument."Cancelled Document No.");
+    end;
+
+
     var
         Employee, Employee1 : Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         HRSetup: Record "Human Resources Setup";
         ApproverMgt: Codeunit "Approver Mgt";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 
     [IntegrationEvent(false, false)]
     procedure OnAfterApplyTravelClaim(TravelClaimNo: Code[20])
