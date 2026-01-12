@@ -82,15 +82,15 @@ report 50023 "Employee Master"
                 column(Amount_PayrollAttributesUsage; Amount) { }
                 trigger OnAfterGetRecord()
                 var
+                    PayrollAttributes: Record "Payroll Attributes";
                     PayrollReportMgt: Codeunit "Payroll Report Mgt.";
                     BasicAmt: Decimal;
                 begin
-                    //if formula exists then calculate amount based on formula
-                    CalcFields("Formula Exists");
-                    if "Formula Exists" then begin
+                    PayrollAttributes.Get(Code);
+                    if PayrollAttributes.Formula <> '' then begin
                         PayrollReportMgt.SetEmployeeCode(Employee."No.");
                         BasicAmt := PayrollReportMgt.GetBasicAmount(Employee."No.");
-                        Amount := PayrollReportMgt.EvaluateAmount("Formula", BasicAmt);
+                        Amount := PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, BasicAmt);
                     end;
                 end;
             }
