@@ -32,11 +32,7 @@ codeunit 50027 "Payroll Report Mgt."
         end
         else begin
             BasicAmt := 0;
-            PayrollAttributesUsage1.Reset;
-            PayrollAttributesUsage1.SetRange("Employee Code", EmpCode);
-            PayrollAttributesUsage1.SetRange(Subtype, PayrollAttributesUsage1.Subtype::Basic);
-            if PayrollAttributesUsage1.FindLast then
-                BasicAmt := PayrollAttributesUsage1.Amount;
+            BasicAmt := GetBasicAmount(EmpCode);
 
             if BasicAmt = 0 then begin
                 Employee.Get(EmpCode);
@@ -47,36 +43,7 @@ codeunit 50027 "Payroll Report Mgt."
         end;
     end;
 
-    local procedure getTotalTaxPaid(PPline: Record "Posted Payroll Line"): Decimal
-    var
-        PgSetup: Record "Payroll General Setup";
-        Employee: Record Employee;
-    begin
-        PgSetup.Get;
-        Employee.Reset;
-        Employee.SetRange("No.", PPline."Employee No.");
-        Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
-        Employee.FindFirst;
-        Employee.CalcFields("Social Security Tax", "Remuneration & Benefits Tax");
-
-        exit(Employee."Social Security Tax" + Employee."Remuneration & Benefits Tax");
-    end;
-
-    local procedure getTotalSSTPaid(PPline: Record "Posted Payroll Line"): Decimal
-    var
-        PgSetup: Record "Payroll General Setup";
-        Employee: Record Employee;
-    begin
-        PgSetup.Get;
-        Employee.Reset;
-        Employee.SetRange("No.", PPline."Employee No.");
-        Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
-        Employee.FindFirst;
-        Employee.CalcFields("Social Security Tax");
-        exit(Employee."Social Security Tax");
-    end;
-
-    local procedure EvaluateAmount(Expression: Code[100]; BasicAmt: Decimal): Decimal
+    procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Decimal): Decimal
     var
         OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
@@ -90,8 +57,9 @@ codeunit 50027 "Payroll Report Mgt."
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
+        operat: Code[20];
     begin
-        ResolveColumn(Expression, BasicAmt);
+        ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
         Counter := 0;
         ExNo := StrLen(Expression);
@@ -102,65 +70,64 @@ codeunit 50027 "Payroll Report Mgt."
             if Expression[Counter] = '(' then begin
                 OsNo += 1;
                 OperatorStack[OsNo] := Format(Expression[Counter]);
-            end else
-                if Expression[Counter] = ')' then begin
-                    if OsNo <> 0 then
-                        while (OperatorStack[OsNo] <> '(') and (OsNo <> 0) do begin
-                            Num2 := NumberStack[NsNo];
-                            NumberStack[NsNo] := 0;
-                            NsNo -= 1;
-                            Num1 := NumberStack[NsNo];
-                            NumberStack[NsNo] := 0;
-                            NsNo -= 1;
-                            operator := OperatorStack[OsNo];
-                            OperatorStack[OsNo] := '';
-                            OsNo -= 1;
-                            NsNo += 1;
-                            NumberStack[NsNo] := CalculateValue(Num1, Num2, operator);
-                            if OsNo = 0 then
-                                break;
-                        end;
-                    if (OsNo <> 0) then begin
+            end else if Expression[Counter] = ')' then begin
+                if OsNo <> 0 then
+                    while (OperatorStack[OsNo] <> '(') and (OsNo <> 0) do begin
+                        Num2 := NumberStack[NsNo];
+                        NumberStack[NsNo] := 0;
+                        NsNo -= 1;
+                        Num1 := NumberStack[NsNo];
+                        NumberStack[NsNo] := 0;
+                        NsNo -= 1;
+                        operat := OperatorStack[OsNo];
                         OperatorStack[OsNo] := '';
                         OsNo -= 1;
-                    end;
-                end
-                else
-                    if Expression[Counter] in ['+', '-', '*', '/'] then begin
-                        if OsNo <> 0 then
-                            while (OsNo <> 0) and (CheckPrecedence(OperatorStack[OsNo]) >= CheckPrecedence(Format(Expression[Counter]))) do begin
-                                Num2 := NumberStack[NsNo];
-                                NumberStack[NsNo] := 0;
-                                NsNo -= 1;
-                                Num1 := NumberStack[NsNo];
-                                NumberStack[NsNo] := 0;
-                                NsNo -= 1;
-                                operator := OperatorStack[OsNo];
-                                OperatorStack[OsNo] := '';
-                                OsNo -= 1;
-                                NsNo += 1;
-                                NumberStack[NsNo] := CalculateValue(Num1, Num2, operator);
-                                if OsNo = 0 then
-                                    break;
-                            end;
-                        OsNo += 1;
-                        OperatorStack[OsNo] := Format(Expression[Counter]);
-                    end else begin
-                        CurrExpr := '';
-                        repeat
-                            ContiguousNumber := false;
-                            if Expression[Counter] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'] then
-                                CurrExpr := CurrExpr + Format(Expression[Counter]);
-                            if Counter < ExNo then
-                                if Evaluate(DecNumber, Format(Expression[Counter + 1])) or (Expression[Counter + 1] = '.') then begin
-                                    ContiguousNumber := true;
-                                    Counter += 1;
-                                end;
-                        until not ContiguousNumber;
-                        Evaluate(DecNumber, CurrExpr);
                         NsNo += 1;
-                        NumberStack[NsNo] := DecNumber;
+                        NumberStack[NsNo] := CalculateValue(Num1, Num2, operat);
+                        if OsNo = 0 then
+                            break;
                     end;
+                if (OsNo <> 0) then begin
+                    OperatorStack[OsNo] := '';
+                    OsNo -= 1;
+                end;
+            end
+            else if Expression[Counter] in ['+', '-', '*', '/'] then begin
+                if OsNo <> 0 then
+                    while (OsNo <> 0) and (CheckPrecedence(OperatorStack[OsNo]) >= CheckPrecedence(Format(Expression[Counter]))) do begin
+                        Num2 := NumberStack[NsNo];
+                        NumberStack[NsNo] := 0;
+                        NsNo -= 1;
+                        Num1 := NumberStack[NsNo];
+                        NumberStack[NsNo] := 0;
+                        NsNo -= 1;
+                        operat := OperatorStack[OsNo];
+                        OperatorStack[OsNo] := '';
+                        OsNo -= 1;
+                        NsNo += 1;
+                        NumberStack[NsNo] := CalculateValue(Num1, Num2, operat);
+                        if OsNo = 0 then
+                            break;
+                    end;
+                OsNo += 1;
+                OperatorStack[OsNo] := Format(Expression[Counter]);
+            end else begin
+                CurrExpr := '';
+                repeat
+                    ContiguousNumber := false;
+                    if Expression[Counter] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'] then
+                        CurrExpr := CurrExpr + Format(Expression[Counter]);
+                    if Counter < ExNo then begin
+                        if Evaluate(DecNumber, Format(Expression[Counter + 1])) or (Expression[Counter + 1] = '.') then begin
+                            ContiguousNumber := true;
+                            Counter += 1;
+                        end;
+                    end;
+                until not ContiguousNumber;
+                Evaluate(DecNumber, CurrExpr);
+                NsNo += 1;
+                NumberStack[NsNo] := DecNumber;
+            end;
         until Counter = ExNo;
 
         while (OsNo <> 0) do begin
@@ -170,11 +137,11 @@ codeunit 50027 "Payroll Report Mgt."
             Num1 := NumberStack[NsNo];
             NumberStack[NsNo] := 0;
             NsNo -= 1;
-            operator := OperatorStack[OsNo];
+            operat := OperatorStack[OsNo];
             OperatorStack[OsNo] := '';
             OsNo -= 1;
             NsNo += 1;
-            NumberStack[NsNo] := CalculateValue(Num1, Num2, operator);
+            NumberStack[NsNo] := CalculateValue(Num1, Num2, operat);
         end;
         exit(NumberStack[NsNo]);
     end;
@@ -202,13 +169,17 @@ codeunit 50027 "Payroll Report Mgt."
         exit(0);
     end;
 
-    procedure ResolveColumn(var Expression: Code[100]; BasicAmt: Decimal)
+    procedure ResolveColumn(var Expression: Code[100]; BasicFromLine: Decimal)
     var
         StrPosition: Integer;
         StrLength: Integer;
         PayrollAttributes: Record "Payroll Attributes";
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
         BasicAmount: Decimal;
+        Substring1: Text;
+        SubString2: Text;
+        SubString3: Text;
+        Length: Integer;
     begin
         Expression := DelChr(Expression, '=');
         PayrollAttributes.Reset;
@@ -216,20 +187,17 @@ codeunit 50027 "Payroll Report Mgt."
         PayrollAttributes.SetRange(Subtype, PayrollAttributes.Subtype::Basic);
         PayrollAttributes.FindFirst;
 
-        BasicAmount := BasicAmt;
+        BasicAmount := BasicFromLine;
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
         PayrollAttributesUsage.SetRange("Employee Code", EmployeeFilter);
         if PayrollAttributesUsage.FindFirst then
-            //PayrollAttributesUsage.TestField(Amount);
             BasicAmount := PayrollAttributesUsage.Amount;
+
 
         StrPosition := StrPos(Expression, PayrollAttributes."Column Name");
         if StrPosition > 0 then begin
             Expression := DelStr(Expression, StrPosition, StrLen(PayrollAttributes."Column Name"));
-            // if BasicFromLine then
-            //     Expression := InsStr(Expression, Format(BasicSalaryAfterDeduction), StrPosition)
-            // else
             Expression := InsStr(Expression, Format(BasicAmount), StrPosition)
         end;
         StrLength := StrLen(Expression);
@@ -245,11 +213,20 @@ codeunit 50027 "Payroll Report Mgt."
                     PayrollAttributesUsage.Reset;
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", EmployeeFilter);
-                    if PayrollAttributesUsage.FindFirst then
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN
-                        Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition)
-                    else
-                        Expression := InsStr(Expression, '0', StrPosition);
+                    if PayrollAttributesUsage.FindFirst then begin
+                        if PayrollAttributesUsage.Amount < 0 then begin
+                            Length := StrLen(Expression);
+                            Substring1 := CopyStr(Expression, 1, StrPosition - 2);
+                            SubString2 := CopyStr(Expression, StrPosition);
+                            SubString3 := CopyStr(Expression, StrPosition - 1, 1);
+                            if SubString3 = '-' then
+                                Expression := InsStr(Substring1 + SubString2, '+' + Format(Abs(PayrollAttributesUsage.Amount)), StrPosition - 1)
+                            else if SubString3 = '+' then
+                                Expression := InsStr(Substring1 + SubString2, '-' + Format(Abs(PayrollAttributesUsage.Amount)), StrPosition - 1)
+                        end else
+                            Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition)
+                    end else
+                        Expression := InsStr(Expression, Format(0), StrPosition);
                 end;
             end;
             StrLength -= 1;
@@ -270,31 +247,6 @@ codeunit 50027 "Payroll Report Mgt."
         GetGlobalAttributes(Employee);
         GetAttributesFromAllowanceConfiguration(Employee."No.");
 
-        PayrollAttributesUsage1.Reset();
-        PayrollAttributesUsage1.SetRange(Subtype, PayrollAttributesUsage1.Subtype::Basic);
-        PayrollAttributesUsage1.SetRange("Employee Code", Employee."No.");
-        PayrollAttributesUsage1.CalcSums(Amount);
-        if PayrollAttributesUsage1.FindFirst() then
-            basicAmt := PayrollAttributesUsage1.Amount;
-
-        PayrollAttributesUsage.Reset;
-        PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-        PayrollAttributesUsage.SetRange("Formula Exists", true);
-        PayrollAttributesUsage.SetRange(Irregular, false);
-        if PayrollAttributesUsage.FindFirst then
-            repeat
-                PayrollAttributes.Reset;
-                PayrollAttributes.SetRange(Status, PayrollAttributes.Status::Active);
-                PayrollAttributes.SetRange(Code, PayrollAttributesUsage.Code);
-                if PayrollAttributes.FindFirst then begin
-                    AttributeAmount := 0;
-                    if PayrollAttributes.Formula <> '' then
-                        AttributeAmount := EvaluateAmount(SkipOneTimeAttr(PayrollAttributes.Formula), basicAmt);
-
-                    PayrollAttributesUsage.Amount := AttributeAmount;
-                    PayrollAttributesUsage.Modify();
-                end;
-            until PayrollAttributesUsage.Next = 0;
     end;
 
     procedure GetGlobalAttributes(Employee: Record Employee)
@@ -334,55 +286,6 @@ codeunit 50027 "Payroll Report Mgt."
             until PayrollColumnConfiguration.Next = 0;
         end;
     end;
-
-    // procedure GetMonthlyTaxableSlab(PostedPayrollLine: Record "Posted Payroll Line"; SST: Boolean): Decimal;
-    // var
-    //     PPLine: Record "Posted Payroll Line";
-    //     Employee: Record Employee;
-    //     PGSetup: Record "Payroll General Setup";
-    //     RemainingMonth: Integer;
-
-    // begin
-    //     Employee.Get(PostedPayrollLine."Employee No.");
-    //     PGSetup.Get();
-    //     RemainingMonth := 12;
-    //     PPLine.Reset();
-    //     PPLine.SetRange("Employee No.", PostedPayrollLine."Employee No.");
-    //     PPLine.SetRange("Pay Cycle term", PostedPayrollLine."Pay Cycle term");
-    //     PPLine.SetFilter("Pay Cycle Period", '<%1', PostedPayrollLine."Pay Cycle Period");
-    //     PPLine.CalcSums("Monthly Taxable RIT", "Monthly Taxable SST");
-
-    //     //terminated employee
-    //     if Employee.Status = Employee.Status::Terminated then
-    //         if Employee."Termination Date" <> 0D then
-    //             if (PGSetup."Payroll Fiscal Year Start Date" < Employee."Termination Date") and
-    //             (PGSetup."Payroll Fiscal Year End Date" > Employee."Termination Date") then
-    //                 RemainingMonth := GetPayPeriodForTermination(Employee, PostedPayrollLine."Pay Cycle Code", PostedPayrollLine."Pay Cycle term");
-
-    //     //contract expiry employee
-    //     if Employee."Employment Type" = Employee."Employment Type"::Contract then
-    //         if Employee."Contract Expiry Date" <> 0D then
-    //             if (PGSetup."Payroll Fiscal Year Start Date" < Employee."Contract Expiry Date") and
-    //                     (PGSetup."Payroll Fiscal Year End Date" > Employee."Contract Expiry Date") then
-    //                 RemainingMonth := GetPayPeriodForContractExp(Employee, PostedPayrollLine."Pay Cycle Code", PostedPayrollLine."Pay Cycle term");
-
-    //     //force retired employee
-    //     if Employee."Force Retirement Date" <> 0D then
-    //         if (Employee."Force Retirement Date" < PGSetup."Payroll Fiscal Year End Date") then
-    //             RemainingMonth := GetPayPeriodForForceRetirement(Employee, PostedPayrollLine."Pay Cycle Code", PostedPayrollLine."Pay Cycle term");
-
-    //     if not SST then begin
-    //         if RemainingMonth - PostedPayrollLine."Pay Cycle Period" + 1 > 0 then
-    //             exit(Round((PostedPayrollLine."Taxable Income" - PostedPayrollLine."1 Slab Amount" - PPLine."Monthly Taxable RIT") / (RemainingMonth - PostedPayrollLine."Pay Cycle Period" + 1), 0.01, '='))
-    //         else
-    //             exit(PostedPayrollLine."Taxable Income" - PostedPayrollLine."1 Slab Amount" - PPLine."Monthly Taxable RIT");
-    //     end
-    //     else
-    //         if RemainingMonth - PostedPayrollLine."Pay Cycle Period" + 1 > 0 then
-    //             exit(Round((PostedPayrollLine."1 Slab Amount" - PPLine."Monthly Taxable SST") / (RemainingMonth - PostedPayrollLine."Pay Cycle Period" + 1), 0.01, '='))
-    //         else
-    //             exit(PostedPayrollLine."1 Slab Amount" - PPLine."Monthly Taxable SST");
-    // end;
 
     procedure GetPayPeriod(RecordDate: Date; PayCode: Code[20]; PayTerm: Code[20]): Integer
     var
@@ -439,22 +342,6 @@ codeunit 50027 "Payroll Report Mgt."
             exit(12);
     end;
 
-    procedure GetPayPeriodForForceRetirement(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
-    begin
-
-        // if Emp."Force Retirement Date" = 0D then
-        //     Error('Invalid force retirement date');
-        // PayPeriod.Reset();
-        // PayPeriod.SetRange("Pay Cycle Code", PayCode);
-        // PayPeriod.SetRange("Pay Cycle Term", PayTerm);
-        // PayPeriod.SetFilter("Start Date", '<=%1', Emp."Force Retirement Date" - 1);
-        // PayPeriod.SetFilter("End Date", '>= %1', Emp."Force Retirement Date" - 1);
-        // if PayPeriod.FindFirst() then
-        //     exit(PayPeriod.Period)
-        // else
-        //     Error('Pay period doest match');
-    end;
-
     procedure ShowHidePayrollColumn(var VariableFieldVisible: array[120] of Boolean; FieldStartNo: Integer)
     var
         i: Integer;
@@ -477,45 +364,6 @@ codeunit 50027 "Payroll Report Mgt."
         else
             exit(true);
     end;
-
-    local procedure GetAttendanceSetup()
-    begin
-        // AttendanceSetup.Get;
-        // AttendanceSetupReady := true;
-    end;
-
-    // procedure IsHourCalculation(): Boolean
-    // begin
-    //     if not AttendanceSetupReady then
-    //         GetAttendanceSetup;
-    //     exit(AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Hours);
-    // end;
-
-    // procedure IsTimeSheetEnabled(): Boolean
-    // begin
-    //     if not AttendanceSetupReady then
-    //         GetAttendanceSetup;
-    //     exit(AttendanceSetup."Type of Integration" = AttendanceSetup."Type of Integration"::TimeSheet);
-    // end;
-
-    //test
-    // [EventSubscriber(ObjectType::Codeunit, Codeunit::ReportManagement, 'OnCustomDocumentMergerEx', '', false, false)]
-    // local procedure restrictReport(LayoutData: InStream;
-    //                                 ObjectID: Integer;
-    //                                 ObjectPayload: JsonObject;
-    //                                 ReportAction: Option;
-    //                                 var DocumentStream: OutStream;
-    //                                 var IsHandled: Boolean;
-    //                                 XmlData: InStream)
-    // begin
-    //     if
-    //         (ObjectID in [52183460, 52183451]) then begin
-    //         case ReportAction of
-    //             ReportAction::SaveAsExcel:
-    //                 Error('you not suppose to do it');
-    //         end;
-    //     end;
-    // end;
 
     procedure SkipOneTimeAttr(Expression: Code[100]): Code[100]
     var
@@ -567,8 +415,6 @@ codeunit 50027 "Payroll Report Mgt."
         exit(Exp1);
     end;
 
-    //this function is used to get the annual accessible income of an employee based on the payroll attributes usage
-    // it calculates the total annual earnings and total retirement contributions
     procedure GetAnnualAccessibleIncome(EmpCode: Code[20];
                                         PostedPayrollNo: Code[20];
                                         PayCycleTerm: Code[20];
@@ -685,33 +531,6 @@ codeunit 50027 "Payroll Report Mgt."
         exit(false);
     end;
 
-    procedure GetTax(StartAmount: Decimal; endAmount: Decimal; var RemainingTaxableAmount: Decimal): Decimal
-    var
-        RemainingAmountCopy: Decimal;
-    begin
-        if (endAmount - StartAmount) <= RemainingTaxableAmount then begin
-            RemainingTaxableAmount := RemainingTaxableAmount - (endAmount - StartAmount + 1);
-            exit(endAmount - StartAmount + 1)
-        end
-        else begin
-            RemainingAmountCopy := RemainingTaxableAmount;
-            RemainingTaxableAmount := 0;
-            exit(RemainingAmountCopy);
-        end;
-    end;
-
-    local procedure GetTax2(StartAmount: Decimal; endAmount: Decimal; RemainTaxable: Decimal; TempTax: Decimal; TaxSetupLine: Record "Tax Setup Line"): Decimal
-    begin
-
-        if RemainTaxable > 0 then
-            exit(endAmount - StartAmount + 1)
-        else
-            if TaxSetupLine."Tax Rate" > 1 then
-                exit(Round(TempTax * 100 / TaxSetupLine."Tax Rate", 0.01, '='))
-            else
-                exit(Round(TempTax * 100, 0.01, '='));
-    end;
-
     procedure CreateTempDetailedLedgerFromPAttrUsage(StartPeriod: Integer;
                                                     PayCycleTerm: Code[20];
                                                     EmpCode: Code[20];
@@ -758,11 +577,8 @@ codeunit 50027 "Payroll Report Mgt."
 
                         TempDetailedEmpLedgerEntry."Attribute Sub Type" := PayAttr.Subtype;
 
-                        // TempDetailedEmpLedgerEntry."Specific Component" := PayAttr."Specific Component";
-                        // TempDetailedEmpLedgerEntry."Pension Specific" := PayAttr."Pension Specific";
-                        // TempDetailedEmpLedgerEntry."Settlement Specific" := PayAttr."Settlement Specific";
                         TempDetailedEmpLedgerEntry."Non-Taxable" := PayAttr."Non-Taxable";
-                        TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY');
+                        TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY'); // get it from current pay period
                         TempDetailedEmpLedgerEntry."Pay Cycle Term" := PayCycleTerm;
                         TempDetailedEmpLedgerEntry."Pay Cycle Period" := i;
                         if PayrollAttrUsage."Formula Exists" then begin
@@ -774,21 +590,6 @@ codeunit 50027 "Payroll Report Mgt."
                         else
                             TempDetailedEmpLedgerEntry.Amount := PayrollAttrUsage.Amount;
 
-                        // if PayAttr.Subtype = PayAttr.Subtype::Grade then
-                        //     TempDetailedEmpLedgerEntry.Amount := GetGradeAmt(EmpVar, TempDetailedEmpLedgerEntry.Amount, TempDetailedEmpLedgerEntry."Pay Cycle Period");  //update according to grade plan
-
-                        //tempcode non payment as 12 month>>
-                        // if PayAttr.Type = PayAttr.Type::"Non-Payment" then
-                        //     if not FirstIteration then
-                        //         TempDetailedEmpLedgerEntry.Amount := 0;
-
-                        //get interest income amt
-                        // if PayAttr."Specific Component" = PayAttr."Specific Component"::"Interest Income" then
-                        //     TempDetailedEmpLedgerEntry.Amount := getInterestIncome(TempDetailedEmpLedgerEntry."Employee No.",
-                        //                                                         PayAttr.Code,
-                        //                                                         TempDetailedEmpLedgerEntry."Pay Cycle Term",
-                        //                                                         TempDetailedEmpLedgerEntry."Pay Cycle Period"
-                        //                                                         );
 
                         TempDetailedEmpLedgerEntry.Insert();
                         TempEntryNo += 1;
@@ -830,66 +631,8 @@ codeunit 50027 "Payroll Report Mgt."
                         (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Contract Expiry Date") then
                     RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(EmpRec, 'MONTHLY', PayCycleTerm);
 
-        //force retired EmpRec
-        // if EmpRec."Force Retirement Date" <> 0D then
-        //     if (EmpRec."Force Retirement Date" < PGSetup."Payroll Fiscal Year End Date") then
-        //         RemainingMonth := PayrollRepMgt.GetPayPeriodForForceRetirement(EmpRec, 'MONTHLY', PayCycleTerm);
 
         exit(RemainingMonth);
-    end;
-
-    // procedure GetGradeAmt(Emp: Record Employee; var GradeAmt: Decimal; payPeriod: Integer): Decimal
-    // var
-    //     GradePlan: Record "Grade Plan";
-    //     levelwiseAttr: Record "Level Wise Attributes";
-    // begin
-    //     GradePlan.Reset();
-    //     GradePlan.SetRange("Employee No.", Emp."No.");
-    //     GradePlan.SetRange("Salary Level", Emp."Salary Level");
-    //     GradePlan.SetRange(Verified, true);
-    //     GradePlan.SetRange(Applied, false);
-    //     GradePlan.SetFilter("Salary Grade", '<>%1', Emp."Salary Grade");
-    //     GradePlan.SetFilter("Pay Cycle Period", '<>%1&<=%2', 0, payPeriod);
-    //     if GradePlan.FindLast() then
-    //         //get the applied month
-    //         if levelwiseAttr.Get(GradePlan."Salary Grade", Emp."Salary Level") then
-    //             GradeAmt := levelwiseAttr."Level Rate";
-
-    //     exit(GradeAmt);
-    // end;
-
-    // procedure getInterestIncome(empCode: Code[20]; PattrCode: Code[20]; PayCycleTerm: Code[20]; payCycleperiod: Integer): Decimal
-    // var
-    //     InterestIncome: Record "Payroll Interest Income";
-    // begin
-    //     InterestIncome.Reset();
-    //     InterestIncome.SetRange("Employee Code", empCode);
-    //     InterestIncome.SetRange("Payroll Attribute", PattrCode);
-    //     InterestIncome.SetRange("Pay Cycle Term", PayCycleTerm);
-    //     InterestIncome.SetRange("Pay Cycle Period", payCycleperiod);
-    //     InterestIncome.CalcSums("Interest Perquisite");
-    //     exit(InterestIncome."Interest Perquisite")
-    // end;
-
-    // procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
-    // begin
-    //     EmployeeFilter := empCode;
-    //     PayCycleTerm := FiscalYear;
-    // end;
-
-    procedure GetPayrollprojectionMonthForEmployee(EmpCode: Code[20];
-                                                PayCycleTerm: Code[20];
-                                                var PayrollProjectionMonth: Integer)
-    var
-        DetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry";
-    begin
-        DetailedEmpLedgerEntry.SetRange("Employee No.", EmpCode);
-        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
-        DetailedEmpLedgerEntry.SetRange(Reversed, false);
-        if DetailedEmpLedgerEntry.FindLast() then
-            PayrollProjectionMonth := GetLastPayCycleForEmployee(EmpCode, PayCycleTerm) - DetailedEmpLedgerEntry."Pay Cycle Period"
-        else
-            PayrollProjectionMonth := GetLastPayCycleForEmployee(EmpCode, PayCycleTerm);
     end;
 
     procedure GetAttributesFromAllowanceConfiguration(EmpNo: Code[20])
@@ -936,23 +679,14 @@ codeunit 50027 "Payroll Report Mgt."
     procedure GetAllowanceConfigurationAmountforEmployee(AllowanceConfiguration: Record "Allowance Configuration"; PayrollDocNo: code[20]; EmployeeCode: Code[20]): Decimal
     begin
         case AllowanceConfiguration.Source of
-            AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct:  //fiscal year (request only)
+            AllowanceConfiguration.Source::Leave, AllowanceConfiguration.Source::Direct, AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:
                 exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
                                             EmployeeCode,
                                             AllowanceConfiguration."Payroll Attribute",
                                             AllowanceConfiguration."Leave Code",
                                             0D,
-                                            WorkDate(),
-                                            true));
+                                            WorkDate()));
 
-            AllowanceConfiguration.Source::Assignment, AllowanceConfiguration.Source::Shift:  //monthly (assign and caim)
-                exit(GetAllowanceAmountFromAssignmentMemoLedger(PayrollDocNo,
-                                            EmployeeCode,
-                                            AllowanceConfiguration."Payroll Attribute",
-                                            AllowanceConfiguration."Leave Code",
-                                            0D,
-                                            WorkDate(),
-                                            false));
 
             AllowanceConfiguration.Source::" ":
                 if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, EmployeeCode, WorkDate()) then
@@ -979,8 +713,7 @@ codeunit 50027 "Payroll Report Mgt."
                                         PayrollAttr: Code[20];
                                         LeaveCode: Code[20];
                                         FromDate: Date;
-                                        ToDate: Date;
-                                        getLastAmount: Boolean): Decimal
+                                        ToDate: Date): Decimal
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
@@ -994,13 +727,19 @@ codeunit 50027 "Payroll Report Mgt."
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", '%1|%2', '', PayrollDocNo);
         AssignmentMemoLedgerEntry.SetRange("Blocked for Payroll", false);
         AssignmentMemoLedgerEntry.SetRange("Open", true);
-        if getLastAmount then begin
-            AssignmentMemoLedgerEntry.CalcSums(Amount);
-            exit(round(AssignmentMemoLedgerEntry."Amount", 0.01, '='));
-        end else begin
-            AssignmentMemoLedgerEntry.CalcSums(Amount);
-            Amt := AssignmentMemoLedgerEntry."Amount";
-            exit(round(Amt, 0.01, '='));
-        end;
+        AssignmentMemoLedgerEntry.CalcSums(Amount);
+        Amt := AssignmentMemoLedgerEntry."Amount";
+        exit(round(Amt, 0.01, '='));
+    end;
+
+    procedure GetBasicAmount(EmpCode: Code[20]): Decimal
+    var
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+        BasicAmount: Decimal;
+    begin
+        PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic);
+        PayrollAttributesUsage.SetRange("Employee Code", EmpCode);
+        if PayrollAttributesUsage.FindFirst then
+            BasicAmount := PayrollAttributesUsage.Amount;
     end;
 }
