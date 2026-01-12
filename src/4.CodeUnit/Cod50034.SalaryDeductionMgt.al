@@ -26,6 +26,7 @@ codeunit 50034 "Salary Deduction Mgt"
                     EmpAttenActivity[1].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
                     EmpAttenActivity[1].SetRange("Employee No.", AttendanceSummary."Employee No.");
                     EmpAttenActivity[1].SetRange("Absent Day", 1);
+                    OnAfterFilterEmpAttendanceActivityOnAbsentDeduction(EmpAttenActivity[1], AttendanceHeader);
                     if EmpAttenActivity[1].FindSet() then
                         repeat
                             Clear(SalaryLedgerEntryNo);
@@ -153,6 +154,7 @@ codeunit 50034 "Salary Deduction Mgt"
                 EmpAttenActivity[3].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
                 EmpAttenActivity[3].SetRange("Employee No.", AttendanceSummary."Employee No.");
                 EmpAttenActivity[3].SetRange("Late Deduction", true);
+                OnAfterFilterEmpAttendanceActivityOnLateDeduction(EmpAttenActivity[3], AttendanceHeader);
                 if EmpAttenActivity[3].FindSet() then
                     repeat
                         InitSalaryDeductionEntries(EmpAttenActivity[3]."Employee No.",
@@ -629,4 +631,14 @@ codeunit 50034 "Salary Deduction Mgt"
 
     var
         HRMgt: Codeunit "HR Mgt.";
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterFilterEmpAttendanceActivityOnLateDeduction(var EmpAttendanceAct: Record "Employee Attendance & Activity"; AttendanceHeader: Record "Attendance Header")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterFilterEmpAttendanceActivityOnAbsentDeduction(var EmpAttendanceAct: Record "Employee Attendance & Activity"; AttendanceHeader: Record "Attendance Header")
+    begin
+    end;
 }
