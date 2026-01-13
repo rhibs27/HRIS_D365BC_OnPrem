@@ -339,6 +339,7 @@ codeunit 50004 "Travel Mgt."
         ApprovalEntry: Record "Approval HRMS";
         IsHandled, IsHandled1 : Boolean;
     begin
+        checkDocumentStatus(TravelOrderNo);
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Travel Claim");
         ApprovalEntry.SetRange("Document No.", '');
@@ -592,6 +593,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.TestField("Start Date");
             TravelRequest.TestField("End Date");
         end;
+        checkDocumentStatus(TravelRequest."No.");
         ApproverMgt.UpdateFirstApproverStatus(TravelRequest."No.");
         if TravelRequest2.Get(TravelRequest."Travel Order No.") then
             if (TravelRequest2."Travel Claimed") then
@@ -984,8 +986,8 @@ codeunit 50004 "Travel Mgt."
         CancelDocument.Get(docNo);
         if TravelRequest.Get(CancelDocument."Cancelled Document No.") then begin
             if (TravelRequest."Travel Claimed" = false) and (TravelRequest.Extended = false) then begin
-                TravelRequest."Approval Status" := TravelRequest."Approval Status"::Canceled;
-                TravelRequest.Modify();
+                // TravelRequest."Approval Status" := TravelRequest."Approval Status"::Canceled;
+                // TravelRequest.Modify();
 
                 EmpLedgerEntry.SetRange("Document No.", CancelDocument."Cancelled Document No.");
                 EmpLedgerEntry.SetRange("Document Type", EmpLedgerEntry."Document Type"::"Travel Request");
@@ -1024,6 +1026,15 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Modify(true);
         end else
             Error('Travel request no. %1 not found.', CancelledDocument."Cancelled Document No.");
+    end;
+
+    procedure checkDocumentStatus(docNo: Code[20])
+    var
+        TravelRequest: Record "Travel Request";
+    begin
+        TravelRequest.Get(docNo);
+        if TravelRequest.Cancelled then
+            Error('This document %1 is cancelled, It cannot be claimed', docNo);
     end;
 
 

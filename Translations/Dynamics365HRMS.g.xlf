@@ -50919,7 +50919,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim Lists - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - NamedType 4115184945" size-unit="char" translate="yes" xml:space="preserve">
-          <source>This Travel is order is Extended. Please try Travel order No %1.</source>
+          <source>This Travel is order is Cancelled. Please try Travel order No %1.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - NamedType ErrorExtended</note>
         </trans-unit>
