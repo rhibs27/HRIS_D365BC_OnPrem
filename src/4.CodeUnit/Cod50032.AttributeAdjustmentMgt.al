@@ -53,6 +53,21 @@ codeunit 50032 "Attribute Adjustment Mgt"
         end;
     end;
 
+    procedure ApplyForAttributeAdj(AttrAdj: Record "Attribute Adjustment Header")
+    var
+        ApproverMgt: Codeunit "Approver Mgt";
+    begin
+        if not Confirm('Do you want to send Attribute Adjustment for approval?', false) then
+            exit;
+        ApproverMgt.UpdateFirstApproverStatus(AttrAdj."Document No.");
+        AttrAdj.TestField("Approval Status", AttrAdj."Approval Status"::Released);
+        AttrAdj.TestField("Pay Cycle Period");
+        AttrAdj.Validate("Approval Status", AttrAdj."Approval Status"::Pending);
+        AttrAdj.Modify();
+        if GuiAllowed then
+            Message('Attribute Adjustment is sent for approval.');
+    end;
+
     procedure UpdatePayrollAttributesInAttributeAdjustmentLine(AttributeAdjustmentHeader: Record "Attribute Adjustment Header")
     var
         AttributeAdjustmentLine, NewAttributeAdjustmentLine : Record "Attribute Adjustment Line";

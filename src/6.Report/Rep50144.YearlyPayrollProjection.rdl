@@ -11,358 +11,6 @@
       <rd:DataSourceID>d5716c0d-b599-4004-b0d3-6907fa022b66</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="CompanyPicture">
-          <DataField>CompanyPicture</DataField>
-        </Field>
-        <Field Name="PANNo">
-          <DataField>PANNo</DataField>
-        </Field>
-        <Field Name="CompanyInfoName">
-          <DataField>CompanyInfoName</DataField>
-        </Field>
-        <Field Name="CompanyAddress">
-          <DataField>CompanyAddress</DataField>
-        </Field>
-        <Field Name="CompanyPhNo">
-          <DataField>CompanyPhNo</DataField>
-        </Field>
-        <Field Name="Code">
-          <DataField>Code</DataField>
-        </Field>
-        <Field Name="Description">
-          <DataField>Description</DataField>
-        </Field>
-        <Field Name="Type">
-          <DataField>Type</DataField>
-        </Field>
-        <Field Name="ReportName">
-          <DataField>ReportName</DataField>
-        </Field>
-        <Field Name="SortinNo">
-          <DataField>SortinNo</DataField>
-        </Field>
-        <Field Name="FiscalYear">
-          <DataField>FiscalYear</DataField>
-        </Field>
-        <Field Name="EmpFullName">
-          <DataField>EmpFullName</DataField>
-        </Field>
-        <Field Name="PANNo_Employee">
-          <DataField>PANNo_Employee</DataField>
-        </Field>
-        <Field Name="BankName">
-          <DataField>BankName</DataField>
-        </Field>
-        <Field Name="BankAccountNo">
-          <DataField>BankAccountNo</DataField>
-        </Field>
-        <Field Name="EmployeeSalaryLevel">
-          <DataField>EmployeeSalaryLevel</DataField>
-        </Field>
-        <Field Name="EmpDesignation">
-          <DataField>EmpDesignation</DataField>
-        </Field>
-        <Field Name="SSFNo">
-          <DataField>SSFNo</DataField>
-        </Field>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="TaxCode">
-          <DataField>TaxCode</DataField>
-        </Field>
-        <Field Name="Office">
-          <DataField>Office</DataField>
-        </Field>
-        <Field Name="Grade">
-          <DataField>Grade</DataField>
-        </Field>
-        <Field Name="RetirementAmount">
-          <DataField>RetirementAmount</DataField>
-        </Field>
-        <Field Name="RetirementAmountFormat">
-          <DataField>RetirementAmountFormat</DataField>
-        </Field>
-        <Field Name="TaxableIncome">
-          <DataField>TaxableIncome</DataField>
-        </Field>
-        <Field Name="TaxableIncomeFormat">
-          <DataField>TaxableIncomeFormat</DataField>
-        </Field>
-        <Field Name="ThisMonthTDS">
-          <DataField>ThisMonthTDS</DataField>
-        </Field>
-        <Field Name="ThisMonthTDSFormat">
-          <DataField>ThisMonthTDSFormat</DataField>
-        </Field>
-        <Field Name="RemainingTDS">
-          <DataField>RemainingTDS</DataField>
-        </Field>
-        <Field Name="RemainingTDSFormat">
-          <DataField>RemainingTDSFormat</DataField>
-        </Field>
-        <Field Name="TotalTaxPaid">
-          <DataField>TotalTaxPaid</DataField>
-        </Field>
-        <Field Name="TotalTaxPaidFormat">
-          <DataField>TotalTaxPaidFormat</DataField>
-        </Field>
-        <Field Name="TDSCalcMonth">
-          <DataField>TDSCalcMonth</DataField>
-        </Field>
-        <Field Name="TotalTax">
-          <DataField>TotalTax</DataField>
-        </Field>
-        <Field Name="TotalTaxFormat">
-          <DataField>TotalTaxFormat</DataField>
-        </Field>
-        <Field Name="InsurranceAmount">
-          <DataField>InsurranceAmount</DataField>
-        </Field>
-        <Field Name="InsurranceAmountFormat">
-          <DataField>InsurranceAmountFormat</DataField>
-        </Field>
-        <Field Name="MedicalInsuranceAmount">
-          <DataField>MedicalInsuranceAmount</DataField>
-        </Field>
-        <Field Name="MedicalInsuranceAmountFormat">
-          <DataField>MedicalInsuranceAmountFormat</DataField>
-        </Field>
-        <Field Name="HouseInsuranceAmount">
-          <DataField>HouseInsuranceAmount</DataField>
-        </Field>
-        <Field Name="HouseInsuranceAmountFormat">
-          <DataField>HouseInsuranceAmountFormat</DataField>
-        </Field>
-        <Field Name="Minvaluededuction">
-          <DataField>Minvaluededuction</DataField>
-        </Field>
-        <Field Name="MinvaluedeductionFormat">
-          <DataField>MinvaluedeductionFormat</DataField>
-        </Field>
-        <Field Name="TotalDonation">
-          <DataField>TotalDonation</DataField>
-        </Field>
-        <Field Name="TotalDonationFormat">
-          <DataField>TotalDonationFormat</DataField>
-        </Field>
-        <Field Name="DisabilityDiscount">
-          <DataField>DisabilityDiscount</DataField>
-        </Field>
-        <Field Name="DisabilityDiscountFormat">
-          <DataField>DisabilityDiscountFormat</DataField>
-        </Field>
-        <Field Name="RemoteAreaDeductionAmount">
-          <DataField>RemoteAreaDeductionAmount</DataField>
-        </Field>
-        <Field Name="RemoteAreaDeductionAmountFormat">
-          <DataField>RemoteAreaDeductionAmountFormat</DataField>
-        </Field>
-        <Field Name="FirstSlabRate">
-          <DataField>FirstSlabRate</DataField>
-        </Field>
-        <Field Name="FirstSlabRateFormat">
-          <DataField>FirstSlabRateFormat</DataField>
-        </Field>
-        <Field Name="SecondSlabRate">
-          <DataField>SecondSlabRate</DataField>
-        </Field>
-        <Field Name="SecondSlabRateFormat">
-          <DataField>SecondSlabRateFormat</DataField>
-        </Field>
-        <Field Name="ThirdSlabRate">
-          <DataField>ThirdSlabRate</DataField>
-        </Field>
-        <Field Name="ThirdSlabRateFormat">
-          <DataField>ThirdSlabRateFormat</DataField>
-        </Field>
-        <Field Name="FourthSlabeRate">
-          <DataField>FourthSlabeRate</DataField>
-        </Field>
-        <Field Name="FourthSlabeRateFormat">
-          <DataField>FourthSlabeRateFormat</DataField>
-        </Field>
-        <Field Name="FifthSlabRate">
-          <DataField>FifthSlabRate</DataField>
-        </Field>
-        <Field Name="FifthSlabRateFormat">
-          <DataField>FifthSlabRateFormat</DataField>
-        </Field>
-        <Field Name="SixthSlabRate">
-          <DataField>SixthSlabRate</DataField>
-        </Field>
-        <Field Name="SixthSlabRateFormat">
-          <DataField>SixthSlabRateFormat</DataField>
-        </Field>
-        <Field Name="FirstSlab">
-          <DataField>FirstSlab</DataField>
-        </Field>
-        <Field Name="FirstSlabFormat">
-          <DataField>FirstSlabFormat</DataField>
-        </Field>
-        <Field Name="SecondSlab">
-          <DataField>SecondSlab</DataField>
-        </Field>
-        <Field Name="SecondSlabFormat">
-          <DataField>SecondSlabFormat</DataField>
-        </Field>
-        <Field Name="ThirdSlab">
-          <DataField>ThirdSlab</DataField>
-        </Field>
-        <Field Name="ThirdSlabFormat">
-          <DataField>ThirdSlabFormat</DataField>
-        </Field>
-        <Field Name="FourthSlab">
-          <DataField>FourthSlab</DataField>
-        </Field>
-        <Field Name="FourthSlabFormat">
-          <DataField>FourthSlabFormat</DataField>
-        </Field>
-        <Field Name="FifthSlab">
-          <DataField>FifthSlab</DataField>
-        </Field>
-        <Field Name="FifthSlabFormat">
-          <DataField>FifthSlabFormat</DataField>
-        </Field>
-        <Field Name="SixthSlab">
-          <DataField>SixthSlab</DataField>
-        </Field>
-        <Field Name="SixthSlabFormat">
-          <DataField>SixthSlabFormat</DataField>
-        </Field>
-        <Field Name="TaxRate1_">
-          <DataField>TaxRate1_</DataField>
-        </Field>
-        <Field Name="TaxRate1_Format">
-          <DataField>TaxRate1_Format</DataField>
-        </Field>
-        <Field Name="TaxRate2_">
-          <DataField>TaxRate2_</DataField>
-        </Field>
-        <Field Name="TaxRate2_Format">
-          <DataField>TaxRate2_Format</DataField>
-        </Field>
-        <Field Name="TaxRate3_">
-          <DataField>TaxRate3_</DataField>
-        </Field>
-        <Field Name="TaxRate3_Format">
-          <DataField>TaxRate3_Format</DataField>
-        </Field>
-        <Field Name="TaxRate4_">
-          <DataField>TaxRate4_</DataField>
-        </Field>
-        <Field Name="TaxRate4_Format">
-          <DataField>TaxRate4_Format</DataField>
-        </Field>
-        <Field Name="TaxRate5_">
-          <DataField>TaxRate5_</DataField>
-        </Field>
-        <Field Name="TaxRate5_Format">
-          <DataField>TaxRate5_Format</DataField>
-        </Field>
-        <Field Name="TaxRate6_">
-          <DataField>TaxRate6_</DataField>
-        </Field>
-        <Field Name="TaxRate6_Format">
-          <DataField>TaxRate6_Format</DataField>
-        </Field>
-        <Field Name="TaxRebate">
-          <DataField>TaxRebate</DataField>
-        </Field>
-        <Field Name="TaxRebateFormat">
-          <DataField>TaxRebateFormat</DataField>
-        </Field>
-        <Field Name="NonTaxable">
-          <DataField>NonTaxable</DataField>
-        </Field>
-        <Field Name="NonTaxableFormat">
-          <DataField>NonTaxableFormat</DataField>
-        </Field>
-        <Field Name="TotalNonPayment">
-          <DataField>TotalNonPayment</DataField>
-        </Field>
-        <Field Name="TotalNonPaymentFormat">
-          <DataField>TotalNonPaymentFormat</DataField>
-        </Field>
-        <Field Name="TaxExemptionLimit">
-          <DataField>TaxExemptionLimit</DataField>
-        </Field>
-        <Field Name="TaxExemptionLimitFormat">
-          <DataField>TaxExemptionLimitFormat</DataField>
-        </Field>
-        <Field Name="OneThird">
-          <DataField>OneThird</DataField>
-        </Field>
-        <Field Name="OneThirdFormat">
-          <DataField>OneThirdFormat</DataField>
-        </Field>
-        <Field Name="TotalAnualEarning">
-          <DataField>TotalAnualEarning</DataField>
-        </Field>
-        <Field Name="TotalAnualEarningFormat">
-          <DataField>TotalAnualEarningFormat</DataField>
-        </Field>
-        <Field Name="PastBenefit">
-          <DataField>PastBenefit</DataField>
-        </Field>
-        <Field Name="PastBenefitFormat">
-          <DataField>PastBenefitFormat</DataField>
-        </Field>
-        <Field Name="PastRetirementFund">
-          <DataField>PastRetirementFund</DataField>
-        </Field>
-        <Field Name="PastRetirementFundFormat">
-          <DataField>PastRetirementFundFormat</DataField>
-        </Field>
-        <Field Name="PastSSTPaid">
-          <DataField>PastSSTPaid</DataField>
-        </Field>
-        <Field Name="PastSSTPaidFormat">
-          <DataField>PastSSTPaidFormat</DataField>
-        </Field>
-        <Field Name="PastTaxPaid">
-          <DataField>PastTaxPaid</DataField>
-        </Field>
-        <Field Name="PastTaxPaidFormat">
-          <DataField>PastTaxPaidFormat</DataField>
-        </Field>
-        <Field Name="PayCycleTerm_PayCyclePeriod">
-          <DataField>PayCycleTerm_PayCyclePeriod</DataField>
-        </Field>
-        <Field Name="Period">
-          <DataField>Period</DataField>
-        </Field>
-        <Field Name="NepaliMonth_PayCyclePeriod">
-          <DataField>NepaliMonth_PayCyclePeriod</DataField>
-        </Field>
-        <Field Name="Amount">
-          <DataField>Amount</DataField>
-        </Field>
-        <Field Name="AmountFormat">
-          <DataField>AmountFormat</DataField>
-        </Field>
-        <Field Name="BenefitAmount">
-          <DataField>BenefitAmount</DataField>
-        </Field>
-        <Field Name="BenefitAmountFormat">
-          <DataField>BenefitAmountFormat</DataField>
-        </Field>
-        <Field Name="DeductionAmount">
-          <DataField>DeductionAmount</DataField>
-        </Field>
-        <Field Name="DeductionAmountFormat">
-          <DataField>DeductionAmountFormat</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -2178,7 +1826,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Gross Income</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2283,7 +1931,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!TotalAnualEarning.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2532,7 +2180,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Non-Payments</Value>
+                                  <Value>Gross Income</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2637,11 +2285,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!TotalNonPayment.Value)</Value>
+                                  <Value>=Fields!TotalAnualEarning.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
-                                    <Format>#,0.00</Format>
+                                    <Format>#,0.00;- #,0.00</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3328,15 +2976,16 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!InsurranceAmount.Value)</Value>
+                                  <Value>="(" &amp; First(Fields!InsurranceAmount.Value) &amp;")"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
-                                    <Format>#,0.00;- #,0.00</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox27</rd:DefaultName>
@@ -3683,7 +3332,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!MedicalInsuranceAmount.Value)</Value>
+                                  <Value>="(" &amp; First(Fields!MedicalInsuranceAmount.Value) &amp; ")"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3691,7 +3340,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>MedicalInsuranceAmount</rd:DefaultName>
@@ -4038,7 +3689,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!HouseInsuranceAmount.Value)</Value>
+                                  <Value>="(" &amp; First(Fields!HouseInsuranceAmount.Value) &amp; ")"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4046,7 +3697,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>HouseInsuranceAmount</rd:DefaultName>
@@ -4393,14 +4046,16 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!TotalDonation.Value)</Value>
+                                  <Value>="(" &amp; First(Fields!TotalDonation.Value) &amp; ")"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox38</rd:DefaultName>
@@ -4747,14 +4402,16 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DisabilityDiscount.Value</Value>
+                                  <Value>="("&amp; Fields!DisabilityDiscount.Value &amp;")"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>DisabilityDiscount</rd:DefaultName>
@@ -5101,14 +4758,16 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!RemoteAreaDeductionAmount.Value</Value>
+                                  <Value>="(" &amp; Fields!RemoteAreaDeductionAmount.Value &amp; ")"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>RemoteAreaDeductionAmount</rd:DefaultName>
@@ -6521,7 +6180,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Minvaluededuction.Value</Value>
+                                  <Value>="(" &amp; Fields!Minvaluededuction.Value &amp; ")"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -6529,7 +6188,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Minvaluededuction</rd:DefaultName>
@@ -7970,12 +7631,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -8015,4 +7670,356 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyPicture">
+          <DataField>CompanyPicture</DataField>
+        </Field>
+        <Field Name="PANNo">
+          <DataField>PANNo</DataField>
+        </Field>
+        <Field Name="CompanyInfoName">
+          <DataField>CompanyInfoName</DataField>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+        </Field>
+        <Field Name="CompanyPhNo">
+          <DataField>CompanyPhNo</DataField>
+        </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+        </Field>
+        <Field Name="Type">
+          <DataField>Type</DataField>
+        </Field>
+        <Field Name="ReportName">
+          <DataField>ReportName</DataField>
+        </Field>
+        <Field Name="SortinNo">
+          <DataField>SortinNo</DataField>
+        </Field>
+        <Field Name="FiscalYear">
+          <DataField>FiscalYear</DataField>
+        </Field>
+        <Field Name="EmpFullName">
+          <DataField>EmpFullName</DataField>
+        </Field>
+        <Field Name="PANNo_Employee">
+          <DataField>PANNo_Employee</DataField>
+        </Field>
+        <Field Name="BankName">
+          <DataField>BankName</DataField>
+        </Field>
+        <Field Name="BankAccountNo">
+          <DataField>BankAccountNo</DataField>
+        </Field>
+        <Field Name="EmployeeSalaryLevel">
+          <DataField>EmployeeSalaryLevel</DataField>
+        </Field>
+        <Field Name="EmpDesignation">
+          <DataField>EmpDesignation</DataField>
+        </Field>
+        <Field Name="SSFNo">
+          <DataField>SSFNo</DataField>
+        </Field>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="TaxCode">
+          <DataField>TaxCode</DataField>
+        </Field>
+        <Field Name="Office">
+          <DataField>Office</DataField>
+        </Field>
+        <Field Name="Grade">
+          <DataField>Grade</DataField>
+        </Field>
+        <Field Name="RetirementAmount">
+          <DataField>RetirementAmount</DataField>
+        </Field>
+        <Field Name="RetirementAmountFormat">
+          <DataField>RetirementAmountFormat</DataField>
+        </Field>
+        <Field Name="TaxableIncome">
+          <DataField>TaxableIncome</DataField>
+        </Field>
+        <Field Name="TaxableIncomeFormat">
+          <DataField>TaxableIncomeFormat</DataField>
+        </Field>
+        <Field Name="ThisMonthTDS">
+          <DataField>ThisMonthTDS</DataField>
+        </Field>
+        <Field Name="ThisMonthTDSFormat">
+          <DataField>ThisMonthTDSFormat</DataField>
+        </Field>
+        <Field Name="RemainingTDS">
+          <DataField>RemainingTDS</DataField>
+        </Field>
+        <Field Name="RemainingTDSFormat">
+          <DataField>RemainingTDSFormat</DataField>
+        </Field>
+        <Field Name="TotalTaxPaid">
+          <DataField>TotalTaxPaid</DataField>
+        </Field>
+        <Field Name="TotalTaxPaidFormat">
+          <DataField>TotalTaxPaidFormat</DataField>
+        </Field>
+        <Field Name="TDSCalcMonth">
+          <DataField>TDSCalcMonth</DataField>
+        </Field>
+        <Field Name="TotalTax">
+          <DataField>TotalTax</DataField>
+        </Field>
+        <Field Name="TotalTaxFormat">
+          <DataField>TotalTaxFormat</DataField>
+        </Field>
+        <Field Name="InsurranceAmount">
+          <DataField>InsurranceAmount</DataField>
+        </Field>
+        <Field Name="InsurranceAmountFormat">
+          <DataField>InsurranceAmountFormat</DataField>
+        </Field>
+        <Field Name="MedicalInsuranceAmount">
+          <DataField>MedicalInsuranceAmount</DataField>
+        </Field>
+        <Field Name="MedicalInsuranceAmountFormat">
+          <DataField>MedicalInsuranceAmountFormat</DataField>
+        </Field>
+        <Field Name="HouseInsuranceAmount">
+          <DataField>HouseInsuranceAmount</DataField>
+        </Field>
+        <Field Name="HouseInsuranceAmountFormat">
+          <DataField>HouseInsuranceAmountFormat</DataField>
+        </Field>
+        <Field Name="Minvaluededuction">
+          <DataField>Minvaluededuction</DataField>
+        </Field>
+        <Field Name="MinvaluedeductionFormat">
+          <DataField>MinvaluedeductionFormat</DataField>
+        </Field>
+        <Field Name="TotalDonation">
+          <DataField>TotalDonation</DataField>
+        </Field>
+        <Field Name="TotalDonationFormat">
+          <DataField>TotalDonationFormat</DataField>
+        </Field>
+        <Field Name="DisabilityDiscount">
+          <DataField>DisabilityDiscount</DataField>
+        </Field>
+        <Field Name="DisabilityDiscountFormat">
+          <DataField>DisabilityDiscountFormat</DataField>
+        </Field>
+        <Field Name="RemoteAreaDeductionAmount">
+          <DataField>RemoteAreaDeductionAmount</DataField>
+        </Field>
+        <Field Name="RemoteAreaDeductionAmountFormat">
+          <DataField>RemoteAreaDeductionAmountFormat</DataField>
+        </Field>
+        <Field Name="FirstSlabRate">
+          <DataField>FirstSlabRate</DataField>
+        </Field>
+        <Field Name="FirstSlabRateFormat">
+          <DataField>FirstSlabRateFormat</DataField>
+        </Field>
+        <Field Name="SecondSlabRate">
+          <DataField>SecondSlabRate</DataField>
+        </Field>
+        <Field Name="SecondSlabRateFormat">
+          <DataField>SecondSlabRateFormat</DataField>
+        </Field>
+        <Field Name="ThirdSlabRate">
+          <DataField>ThirdSlabRate</DataField>
+        </Field>
+        <Field Name="ThirdSlabRateFormat">
+          <DataField>ThirdSlabRateFormat</DataField>
+        </Field>
+        <Field Name="FourthSlabeRate">
+          <DataField>FourthSlabeRate</DataField>
+        </Field>
+        <Field Name="FourthSlabeRateFormat">
+          <DataField>FourthSlabeRateFormat</DataField>
+        </Field>
+        <Field Name="FifthSlabRate">
+          <DataField>FifthSlabRate</DataField>
+        </Field>
+        <Field Name="FifthSlabRateFormat">
+          <DataField>FifthSlabRateFormat</DataField>
+        </Field>
+        <Field Name="SixthSlabRate">
+          <DataField>SixthSlabRate</DataField>
+        </Field>
+        <Field Name="SixthSlabRateFormat">
+          <DataField>SixthSlabRateFormat</DataField>
+        </Field>
+        <Field Name="FirstSlab">
+          <DataField>FirstSlab</DataField>
+        </Field>
+        <Field Name="FirstSlabFormat">
+          <DataField>FirstSlabFormat</DataField>
+        </Field>
+        <Field Name="SecondSlab">
+          <DataField>SecondSlab</DataField>
+        </Field>
+        <Field Name="SecondSlabFormat">
+          <DataField>SecondSlabFormat</DataField>
+        </Field>
+        <Field Name="ThirdSlab">
+          <DataField>ThirdSlab</DataField>
+        </Field>
+        <Field Name="ThirdSlabFormat">
+          <DataField>ThirdSlabFormat</DataField>
+        </Field>
+        <Field Name="FourthSlab">
+          <DataField>FourthSlab</DataField>
+        </Field>
+        <Field Name="FourthSlabFormat">
+          <DataField>FourthSlabFormat</DataField>
+        </Field>
+        <Field Name="FifthSlab">
+          <DataField>FifthSlab</DataField>
+        </Field>
+        <Field Name="FifthSlabFormat">
+          <DataField>FifthSlabFormat</DataField>
+        </Field>
+        <Field Name="SixthSlab">
+          <DataField>SixthSlab</DataField>
+        </Field>
+        <Field Name="SixthSlabFormat">
+          <DataField>SixthSlabFormat</DataField>
+        </Field>
+        <Field Name="TaxRate1_">
+          <DataField>TaxRate1_</DataField>
+        </Field>
+        <Field Name="TaxRate1_Format">
+          <DataField>TaxRate1_Format</DataField>
+        </Field>
+        <Field Name="TaxRate2_">
+          <DataField>TaxRate2_</DataField>
+        </Field>
+        <Field Name="TaxRate2_Format">
+          <DataField>TaxRate2_Format</DataField>
+        </Field>
+        <Field Name="TaxRate3_">
+          <DataField>TaxRate3_</DataField>
+        </Field>
+        <Field Name="TaxRate3_Format">
+          <DataField>TaxRate3_Format</DataField>
+        </Field>
+        <Field Name="TaxRate4_">
+          <DataField>TaxRate4_</DataField>
+        </Field>
+        <Field Name="TaxRate4_Format">
+          <DataField>TaxRate4_Format</DataField>
+        </Field>
+        <Field Name="TaxRate5_">
+          <DataField>TaxRate5_</DataField>
+        </Field>
+        <Field Name="TaxRate5_Format">
+          <DataField>TaxRate5_Format</DataField>
+        </Field>
+        <Field Name="TaxRate6_">
+          <DataField>TaxRate6_</DataField>
+        </Field>
+        <Field Name="TaxRate6_Format">
+          <DataField>TaxRate6_Format</DataField>
+        </Field>
+        <Field Name="TaxRebate">
+          <DataField>TaxRebate</DataField>
+        </Field>
+        <Field Name="TaxRebateFormat">
+          <DataField>TaxRebateFormat</DataField>
+        </Field>
+        <Field Name="NonTaxable">
+          <DataField>NonTaxable</DataField>
+        </Field>
+        <Field Name="NonTaxableFormat">
+          <DataField>NonTaxableFormat</DataField>
+        </Field>
+        <Field Name="TotalNonPayment">
+          <DataField>TotalNonPayment</DataField>
+        </Field>
+        <Field Name="TotalNonPaymentFormat">
+          <DataField>TotalNonPaymentFormat</DataField>
+        </Field>
+        <Field Name="TaxExemptionLimit">
+          <DataField>TaxExemptionLimit</DataField>
+        </Field>
+        <Field Name="TaxExemptionLimitFormat">
+          <DataField>TaxExemptionLimitFormat</DataField>
+        </Field>
+        <Field Name="OneThird">
+          <DataField>OneThird</DataField>
+        </Field>
+        <Field Name="OneThirdFormat">
+          <DataField>OneThirdFormat</DataField>
+        </Field>
+        <Field Name="TotalAnualEarning">
+          <DataField>TotalAnualEarning</DataField>
+        </Field>
+        <Field Name="TotalAnualEarningFormat">
+          <DataField>TotalAnualEarningFormat</DataField>
+        </Field>
+        <Field Name="PastBenefit">
+          <DataField>PastBenefit</DataField>
+        </Field>
+        <Field Name="PastBenefitFormat">
+          <DataField>PastBenefitFormat</DataField>
+        </Field>
+        <Field Name="PastRetirementFund">
+          <DataField>PastRetirementFund</DataField>
+        </Field>
+        <Field Name="PastRetirementFundFormat">
+          <DataField>PastRetirementFundFormat</DataField>
+        </Field>
+        <Field Name="PastSSTPaid">
+          <DataField>PastSSTPaid</DataField>
+        </Field>
+        <Field Name="PastSSTPaidFormat">
+          <DataField>PastSSTPaidFormat</DataField>
+        </Field>
+        <Field Name="PastTaxPaid">
+          <DataField>PastTaxPaid</DataField>
+        </Field>
+        <Field Name="PastTaxPaidFormat">
+          <DataField>PastTaxPaidFormat</DataField>
+        </Field>
+        <Field Name="PayCycleTerm_PayCyclePeriod">
+          <DataField>PayCycleTerm_PayCyclePeriod</DataField>
+        </Field>
+        <Field Name="Period">
+          <DataField>Period</DataField>
+        </Field>
+        <Field Name="NepaliMonth_PayCyclePeriod">
+          <DataField>NepaliMonth_PayCyclePeriod</DataField>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+        </Field>
+        <Field Name="AmountFormat">
+          <DataField>AmountFormat</DataField>
+        </Field>
+        <Field Name="BenefitAmount">
+          <DataField>BenefitAmount</DataField>
+        </Field>
+        <Field Name="BenefitAmountFormat">
+          <DataField>BenefitAmountFormat</DataField>
+        </Field>
+        <Field Name="DeductionAmount">
+          <DataField>DeductionAmount</DataField>
+        </Field>
+        <Field Name="DeductionAmountFormat">
+          <DataField>DeductionAmountFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>
