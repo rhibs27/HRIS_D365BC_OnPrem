@@ -1019,14 +1019,18 @@ codeunit 50004 "Travel Mgt."
         CancelledDocument: Record "Cancel Document";
         TravelRequest: Record "Travel Request";
     begin
-        CancelledDocument.Get(CancelDocNo);
-        if TravelRequest.Get(CancelledDocument."Cancelled Document No.") then begin
-            TravelRequest.Validate("Cancelled No.", '');
-            TravelRequest.Validate(Cancelled, false);
-            TravelRequest.Modify(true);
-        end else
+        if not CancelledDocument.Get(CancelDocNo) then
+            Error('Cancel document %1 not found.', CancelDocNo);
+        CancelledDocument.Validate(Cancelled, false);
+        CancelledDocument.Modify(true);
+        if not TravelRequest.Get(CancelledDocument."Cancelled Document No.") then
             Error('Travel request no. %1 not found.', CancelledDocument."Cancelled Document No.");
+
+        TravelRequest.Validate("Cancelled No.", '');
+        TravelRequest.Validate(Cancelled, false);
+        TravelRequest.Modify(true);
     end;
+
 
     procedure checkDocumentStatus(docNo: Code[20])
     var

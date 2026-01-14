@@ -1149,14 +1149,17 @@ codeunit 50017 "Approver Mgt"
             //Travel Request
             EmpActTypeEnum::"Travel Request":
                 begin
-                    if TravelRequest.Get(documentNo) then begin
-                        RecRef.GetTable(TravelRequest);
-                        WithDrawRequest(RecRef);
-                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+                    if not TravelRequest.Get(documentNo) then
+                        exit;
+                    RecRef.GetTable(TravelRequest);
+                    WithDrawRequest(RecRef);
+                    if TravelRequest."Travel Order No." <> '' then
+                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then begin
                             TravelRequest2.Extended := false;
-                        TravelRequest2.Modify();
-                    end;
+                            TravelRequest2.Modify();
+                        end;
                 end;
+
             EmpActTypeEnum::Retirement:
                 begin
                     if RetirementFund.Get(documentNo) then begin
