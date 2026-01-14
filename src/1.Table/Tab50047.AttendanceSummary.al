@@ -88,7 +88,6 @@ table 50047 "Attendance Summary"
         field(16; "Leave Day"; Decimal)
         {
             CalcFormula = sum("Employee Attendance & Activity"."Leave Day" where("Employee No." = field("Employee No."),
-                                                                                  "Day Type" = const("Working Day"),
                                                                                   "Attendance Date" = field("Date Filter"),
                                                                                   "Leave Day" = filter(<> 0),
                                                                                   "Absent Day" = filter(<> 1)));

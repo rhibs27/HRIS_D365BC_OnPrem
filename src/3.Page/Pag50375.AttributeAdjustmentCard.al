@@ -107,7 +107,7 @@ page 50375 "Attribute Adjustment Card"
                 ToolTip = 'Executes the Approve Request action.';
                 trigger OnAction()
                 begin
-                    Rec.ApplyForAttributeAdj(Rec);
+                    AttributeAdjustmentMgt.ApplyForAttributeAdj(Rec);
                     CurrPage.Update(true);
                 end;
             }
@@ -192,7 +192,7 @@ page 50375 "Attribute Adjustment Card"
 
     var
         ApproverMgt: Codeunit "Approver Mgt";
-
+        AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
         HRMgt: Codeunit "HR Mgt.";
         RecRef: RecordRef;
 }

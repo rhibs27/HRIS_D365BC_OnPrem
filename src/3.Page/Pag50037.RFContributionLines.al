@@ -12,47 +12,56 @@ page 50037 "RF Contribution Lines"
             repeater(General)
             {
                 Editable = IsCreated;
-                field("Document No."; Rec."Document No.")
+                field(documentNo; Rec."Document No.")
                 {
+                    Caption = 'Document No.';
                     ToolTip = 'Specifies the value of the Document No. field.', Comment = '%';
                     Editable = false;
                 }
-                field("Line No."; Rec."Line No.")
+                field(lineNo; Rec."Line No.")
                 {
+                    Caption = 'Line No.';
                     ToolTip = 'Specifies the value of the Line No. field.', Comment = '%';
                     Editable = false;
                 }
-                field("Employee No."; Rec."Employee No.")
+                field(employeeNo; Rec."Employee No.")
                 {
+                    Caption = 'Employee No.';
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                 }
-                field("Employee Name"; Rec."Employee Name")
+                field(employeeName; Rec."Employee Name")
                 {
+                    Caption = 'Employee Name';
                     ToolTip = 'Specifies the value of the Employee Name field.', Comment = '%';
                 }
-                field("Type"; Rec."Type")
+                field(type; Rec."Type")
                 {
+                    Caption = 'Type';
                     ToolTip = 'Specifies the value of the Type field.', Comment = '%';
                     trigger OnValidate()
                     begin
                         CurrPage.Update();
                     end;
                 }
-                field("Attribute Code"; Rec."Attribute Code")
+                field(attributeCode; Rec."Attribute Code")
                 {
+                    Caption = 'Attribute Code';
                     ToolTip = 'Specifies the value of the Attribute Code field.', Comment = '%';
                 }
-                field("Pay Cycle Period"; Rec."Pay Cycle Period")
+                field(payCyclePeriod; Rec."Pay Cycle Period")
                 {
+                    Caption = 'Pay Cycle Period';
                     Editable = SelectMonth;
                     ToolTip = 'Specifies the value of the Nepali Month field.', Comment = '%';
                 }
-                field(Amount; Rec.Amount)
+                field(amount; Rec.Amount)
                 {
+                    Caption = 'Amount';
                     ToolTip = 'Specifies the value of the Amount field.', Comment = '%';
                 }
-                field("Approval Status"; Rec."Approval Status")
+                field(approvalStatus; Rec."Approval Status")
                 {
+                    Caption = 'Approval Status';
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                     Editable = false;
                 }

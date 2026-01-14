@@ -201,6 +201,10 @@ table 50052 "Retirement Fund"
                     InsertRFcontribution(i, PayCyclePeriod);
             end;
         }
+        field(40; "One Time Contribution"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(100; Status; Text[100])
         {
             Caption = 'Status';
@@ -295,6 +299,7 @@ table 50052 "Retirement Fund"
     var
         CannotDelete: Label 'Cannot delete document.';
         ApprovalEntry: Record "Approval HRMS";
+        RFContributionLine: Record "RF Contribution";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created, "Approval Status"::Open]) then
             Error(CannotDelete)
@@ -303,6 +308,9 @@ table 50052 "Retirement Fund"
             ApprovalEntry.SetRange("Document No.", "No.");
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
+            RFContributionLine.Reset();
+            RFContributionLine.SetRange("Document No.", "No.");
+            RFContributionLine.DeleteAll();
         end;
     end;
 
