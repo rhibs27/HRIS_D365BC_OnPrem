@@ -569,8 +569,13 @@ codeunit 50008 "Payroll Engine"
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
                         (PayrollAttributes."Non-Taxable" = false) and (not PayrollAttributes."Tax at once")
                        then begin
-                        if PayrollAttributesUsage.Amount <> 0 then
-                            UsageAmount := PayrollAttributesUsage.Amount
+                        if PayrollAttributesUsage.Amount <> 0 then begin
+                            // UsageAmount := PayrollAttributesUsage.Amount;                            
+                            if (PayrollAttributes.Formula <> '') and (not PayrollAttributesUsage."Static Amount") then
+                                UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false)
+                            else
+                                UsageAmount := PayrollAttributesUsage.Amount;
+                        end
                         else if PayrollAttributesUsage."Formula Exists" then begin
                             UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false);
                         end;
