@@ -235,6 +235,11 @@ table 50154 "Attendance Missed"
         }
         field(100; Status; text[20]) { }
         field(101; "From Journal"; Boolean) { }
+        field(102; "Device IP"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            //this will store the device IP from which employee request is created
+        }
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
@@ -277,6 +282,8 @@ table 50154 "Attendance Missed"
                 end;
             end;
         end;
+        //get the device ip
+        GetClientIPAddress();
     end;
 
     trigger OnDelete()
@@ -305,4 +312,11 @@ table 50154 "Attendance Missed"
         ApproverMgt: Codeunit "Approver Mgt";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         AttendanceMgt: Codeunit "Attendance Mgt";
+
+    local procedure GetClientIPAddress()
+    begin
+        // Set to 'Pending' - actual IP will be captured by page control add-in
+        // This is cloud-compatible approach
+        "Device IP" := 'Pending';
+    end;
 }

@@ -707,5 +707,19 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50155; "Validate Permanent Address"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Validate Permanent Address as per the province and district master. The main reason to add this setup is to allow user to input as per citizenship address which may not be in the master.';
+        }
+        field(50156; "Validate Temporary Address"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
     }
+    trigger onAfterInsert()
+    begin
+        "Validate Permanent Address" := true;
+        "Validate Temporary Address" := true;
+    end;
 }

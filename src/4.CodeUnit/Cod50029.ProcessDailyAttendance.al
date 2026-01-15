@@ -86,6 +86,7 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Source No." := '';
         EmpAttendance.Remarks := '';
         EmpAttendance."Employee Activity Found" := false;
+        EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::" ";
     end;
 
     local procedure GetShiftCodeformShiftAssignment(): Code[20]

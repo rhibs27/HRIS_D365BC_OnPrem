@@ -55,7 +55,7 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary): Code[20]
     var
-        AttendanceMissed1 : Record "Attendance Missed";
+        AttendanceMissed1: Record "Attendance Missed";
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
@@ -251,6 +251,11 @@ codeunit 50016 "AttendanceMiss Mgt"
             exit(Employee."No.")
         else
             exit(Employee."Employee Attendance ID");
+    end;
+
+    procedure GetUserDeviceIp(AttendanceMissed: Record "Attendance Missed"): Text[30]
+    begin
+
     end;
 
     [IntegrationEvent(false, false)]

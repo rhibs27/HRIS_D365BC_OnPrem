@@ -17,9 +17,6 @@ codeunit 50027 "Payroll Report Mgt."
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
         PayAttr: Record "Payroll Attributes";
         BasicAmt: Decimal;
-        PayrollAttributesUsage1: Record "Payroll Attributes Usage";
-        SalaryLevel: Record "Salary Level";
-        Employee: Record Employee;
     begin
         PayrollAttributesUsage.Get(PayrollCode, EmpCode);
         PayAttr.Get(PayrollCode);
@@ -33,12 +30,6 @@ codeunit 50027 "Payroll Report Mgt."
         else begin
             BasicAmt := 0;
             BasicAmt := GetBasicAmount(EmpCode);
-
-            if BasicAmt = 0 then begin
-                Employee.Get(EmpCode);
-                SalaryLevel.Get(Employee."Salary Level");
-                BasicAmt := SalaryLevel."Basic Salary";
-            end;
             exit(EvaluateAmount(PayAttr.Formula, BasicAmt))
         end;
     end;
@@ -53,7 +44,6 @@ codeunit 50027 "Payroll Report Mgt."
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operator: Code[10];
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
@@ -235,12 +225,7 @@ codeunit 50027 "Payroll Report Mgt."
 
     procedure GetPayrollAttributes(Employee: Record Employee)
     var
-        AttributeAmount: Decimal;
         PGSetup: Record "Payroll General Setup";
-        PayrollAttributesUsage: Record "Payroll Attributes Usage";
-        PayrollAttributes: Record "Payroll Attributes";
-        PayrollAttributesUsage1: Record "Payroll Attributes Usage";
-        basicAmt: Decimal;
     begin
 
         PGSetup.Get;
@@ -305,25 +290,6 @@ codeunit 50027 "Payroll Report Mgt."
             Error('Pay period doest match');
     end;
 
-    procedure GetPayPeriodForResignation(PayCode: Code[20]; PayTerm: Code[20]): Integer
-    var
-        PayPeriod: Record "Pay Cycle Period";
-        Emp: Record Employee;
-    begin
-        if Emp."Resignation Date" = 0D then
-            Error('Invalid resignation date');
-
-        PayPeriod.Reset();
-        PayPeriod.SetRange("Pay Cycle Code", PayCode);
-        PayPeriod.SetRange("Pay Cycle Term", PayTerm);
-        PayPeriod.SetFilter("Start Date", '<=%1', Emp."Resignation Date" - 1);
-        PayPeriod.SetFilter("End Date", '>= %1', Emp."Resignation Date" - 1);
-        if PayPeriod.FindFirst() then
-            exit(PayPeriod.Period)
-        else
-            Error('Pay period does not match');
-    end;
-
     procedure GetPayPeriodForContractExp(Emp: Record Employee; PayCode: Code[20]; PayTerm: Code[20]): Integer
     var
         PayPeriod: Record "Pay Cycle Period";
@@ -340,79 +306,6 @@ codeunit 50027 "Payroll Report Mgt."
             exit(PayPeriod.Period)
         else
             exit(12);
-    end;
-
-    procedure ShowHidePayrollColumn(var VariableFieldVisible: array[120] of Boolean; FieldStartNo: Integer)
-    var
-        i: Integer;
-    begin
-        Clear(VariableFieldVisible);
-        for i := 1 to ArrayLen(VariableFieldVisible) do begin
-            VariableFieldVisible[i] := ShowColumn(Database::"Payroll Line", FieldStartNo + i - 1)
-        end;
-    end;
-
-    procedure ShowColumn(TableID: Integer; FieldID: Integer): Boolean
-    var
-        PayColumnConfig: Record "Payroll Column Configuration";
-    begin
-        PayColumnConfig.Reset;
-        PayColumnConfig.SetRange("Table No.", TableID);
-        PayColumnConfig.SetRange("Field No.", FieldID);
-        if PayColumnConfig.IsEmpty then
-            exit(false)
-        else
-            exit(true);
-    end;
-
-    procedure SkipOneTimeAttr(Expression: Code[100]): Code[100]
-    var
-
-        StrPosition: Integer;
-        StrLength: Integer;
-        PayrollAttributes: Record "Payroll Attributes";
-        NewAttrExp: Code[250];
-        DoubleChar: Boolean;
-        SkipPosition: Integer;
-        Exp1: Code[100];
-    begin
-
-        StrLength := StrLen(Expression);
-        repeat
-            if Expression[StrLength] in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                      'Y', 'Z'] then begin
-
-                if StrLength - 1 > 0 then
-                    if Expression[StrLength - 1] in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                                         'Y', 'Z'] then begin
-                        DoubleChar := true;
-                        SkipPosition := StrLength - 1;
-                    end;
-                if StrLength <> SkipPosition then begin
-
-                    if DoubleChar then
-                        NewAttrExp := Format(Expression[StrLength - 1]) + Format(Expression[StrLength])
-                    else
-                        NewAttrExp := Format(Expression[StrLength]);
-
-                    PayrollAttributes.Reset;
-                    PayrollAttributes.SetRange("Column Name", NewAttrExp);
-                    if PayrollAttributes.FindFirst then begin
-                        StrPosition := StrPos(Expression, NewAttrExp);
-                        if not PayrollAttributes."Apply Every Month" then begin
-                            Expression := DelStr(Expression, StrPosition, StrLen(Format(NewAttrExp)));
-                            Expression := InsStr(Expression, '0', StrPosition);
-                        end;
-                    end;
-                    DoubleChar := false;
-                end;
-            end;
-
-            StrLength -= 1;
-        until StrLength = 0;
-
-        Exp1 := Expression;
-        exit(Exp1);
     end;
 
     procedure GetAnnualAccessibleIncome(EmpCode: Code[20];
@@ -526,7 +419,7 @@ codeunit 50027 "Payroll Report Mgt."
 
                 exit(false);
             end;
-            exit(true);  //because its benefit
+            exit(true);
         end;
         exit(false);
     end;
@@ -735,11 +628,20 @@ codeunit 50027 "Payroll Report Mgt."
     procedure GetBasicAmount(EmpCode: Code[20]): Decimal
     var
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
-        BasicAmount: Decimal;
+        Employee: Record Employee;
+        Salarylevel: Record "Salary Level";
+        BasicAmt: Decimal;
     begin
         PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic);
         PayrollAttributesUsage.SetRange("Employee Code", EmpCode);
         if PayrollAttributesUsage.FindFirst then
-            BasicAmount := PayrollAttributesUsage.Amount;
+            BasicAmt := PayrollAttributesUsage.Amount;
+
+        if BasicAmt = 0 Then begin
+            Employee.Get(EmpCode);
+            Salarylevel.Get(Employee."Salary Level");
+            BasicAmt := Salarylevel."Basic Salary";
+        end;
+        exit(BasicAmt);
     end;
 }
