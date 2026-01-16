@@ -61,10 +61,7 @@ page 50370 "Assignment Memos"
                 {
                     ToolTip = 'Specifies the value of the Requester Employee Name field.', Comment = '%';
                 }
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
-                }
+
                 field("Pay Cycle Term"; Rec."Pay Cycle Term")
                 {
                     ToolTip = 'Specifies the value of the Pay Cycle Term field.', Comment = '%';
@@ -84,6 +81,14 @@ page 50370 "Assignment Memos"
                 field("Payroll Attr. Description"; Rec."Payroll Attr. Description")
                 {
                     ToolTip = 'Specifies the value of the Payroll Attr. Description field.', Comment = '%';
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
+                }
+                field("Approved Date"; Rec."Approved Date")
+                {
+                    ToolTip = 'Specifies the value of the Approved Date field.';
                 }
             }
         }

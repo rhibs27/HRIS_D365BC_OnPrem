@@ -93,6 +93,15 @@ page 50178 "Request Allowance Card"
                     Caption = 'OutStation Effective Date';
                 }
             }
+            group(Approvals)
+            {
+                Visible = IsPending or IsReject;
+                Editable = IsPending;
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.', Comment = '%';
+                }
+            }
             part(line1; "Request Allowance Subform Copy")
             {
                 SubPageLink = "Document No." = field("No."), "Emp Act Type" = field("Activity Type");
@@ -173,8 +182,11 @@ page 50178 "Request Allowance Card"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to reject the document?', false) then
-                        ApproverMgt.ApproveRejectDocument(RecRef, false)
+                    if Confirm('Do you want to reject the document?', false) then begin
+                        if Rec."Rejection Remarks" = '' then
+                            Error('Rejection Remarks must be filled before rejecting the document.');
+                        ApproverMgt.ApproveRejectDocument(RecRef, false);
+                    end;
                 end;
             }
             action(Reverse)
@@ -212,7 +224,7 @@ page 50178 "Request Allowance Card"
         FormEditable: Boolean;
         AllowanceMgt: Codeunit "Assignment Memo Mgt";
         ApproverMgt: Codeunit "Approver Mgt";
-        IsOpen, IsPending, IsApprove : Boolean;
+        IsOpen, IsPending, IsApprove, IsReject, IsSubstituteOpen, IsSubstitutepending : Boolean;
         RecRef: RecordRef;
         AllowanceClaim: Boolean;
         reimbursementView: Boolean;
@@ -225,6 +237,7 @@ page 50178 "Request Allowance Card"
         IsPending := Rec."Approval Status" = rec."Approval Status"::"Pending";
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
         IsApprove := Rec."Approval Status" = rec."Approval Status"::Approved;
+        IsReject := Rec."Approval Status" = rec."Approval Status"::Rejected;
         RecRef.GetTable(Rec);
 
         if Payrollattributes.Get(Rec."Payroll Attribute Code") then begin

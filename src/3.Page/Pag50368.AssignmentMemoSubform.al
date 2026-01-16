@@ -72,6 +72,16 @@ page 50368 "Assignment Memo Subform"
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                     DrillDownPageId = "Assignment Memo Ledger Entries";
                 }
+                field("Substitute of Line No."; Rec."Substitute of Line No.")
+                {
+                    ToolTip = 'Specifies the value of the Substitute of Line No. field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Substitute Type"; Rec."Substitute Type")
+                {
+                    ToolTip = 'Specifies the value of the Substitute Type field.', Comment = '%';
+                    Editable = false;
+                }
             }
         }
     }
