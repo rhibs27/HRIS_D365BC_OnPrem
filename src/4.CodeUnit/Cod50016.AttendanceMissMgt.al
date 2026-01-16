@@ -253,11 +253,6 @@ codeunit 50016 "AttendanceMiss Mgt"
             exit(Employee."Employee Attendance ID");
     end;
 
-    procedure GetUserDeviceIp(AttendanceMissed: Record "Attendance Missed"): Text[30]
-    begin
-
-    end;
-
     [IntegrationEvent(false, false)]
     local procedure OnSkipForCallBackApprovedLeave(StartDate: Date; EndDate: Date; EmployeeCode: Code[20]; var Ishandled: Boolean)
     begin

@@ -20718,6 +20718,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Team Profile Header - Field Block - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2465727075 - Field 1885343199 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Can run Employee Master Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Team Profile Header - Field Can run Employee Master Report - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2465727075 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48802,6 +48807,11 @@
           <source>Specifies if the team is blocked.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Team Profile Card - Control Block - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4022949102 - Control 1885343199 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>If set employee can run the Employee Master Report from self serve portal.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Team Profile Card - Control Can run Employee Master Report - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4022949102 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the team code.</source>

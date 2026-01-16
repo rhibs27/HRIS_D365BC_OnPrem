@@ -38,6 +38,10 @@ page 50196 "Team Profile Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the approval role.';
                 }
+                field("Can run Employee Master Report"; Rec."Can run Employee Master Report")
+                {
+                    ToolTip = 'If set employee can run the Employee Master Report from self serve portal.', Comment = '%';
+                }
                 field("Block"; Rec."Block")
                 {
                     ApplicationArea = All;
