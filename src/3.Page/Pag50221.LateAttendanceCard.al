@@ -47,7 +47,6 @@ page 50221 "Late Attendance Card"
                     ToolTip = 'Specifies the value of the Check Out Time field.';
                     ApplicationArea = All;
                 }
-
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = IsOpen;
@@ -243,7 +242,6 @@ page 50221 "Late Attendance Card"
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";
         IsOpen: Boolean;
-        TypeFilter: Text;
         ApproverMgt: Codeunit "Approver Mgt";
         IsPending: Boolean;
         Approval: Record "Approval HRMS";

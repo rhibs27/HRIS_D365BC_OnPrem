@@ -58,13 +58,8 @@ table 50096 "Employee Service History"
                     "Employee Name" := '';
             end;
         }
-        field(3; "Employee Name"; Text[50])
-        {
-        }
-        field(4; "Deputation On (To)"; Enum "Deputation Type")
-        {
-
-        }
+        field(3; "Employee Name"; Text[100]) { }
+        field(4; "Deputation On (To)"; Enum "Deputation Type") { }
         field(5; "Deputation Code (To)"; Code[20])
         {
             trigger OnValidate()
@@ -73,16 +68,9 @@ table 50096 "Employee Service History"
                     Validate("Deputation Value (To)", OrgStructureList.Name);
             end;
         }
-        field(6; "Deputation Value (To)"; Text[100])
-        {
-        }
-        field(7; "Service Event"; Enum "Service Event")
-        {
-        }
-        field(8; "Deputation On(From)"; Enum "Deputation Type")
-        {
-
-        }
+        field(6; "Deputation Value (To)"; Text[100]) { }
+        field(7; "Service Event"; Enum "Service Event") { }
+        field(8; "Deputation On(From)"; Enum "Deputation Type") { }
         field(9; "Deputation Code (From)"; Code[20])
         {
             trigger OnValidate()
@@ -105,6 +93,7 @@ table 50096 "Employee Service History"
         field(12; "Functional Title Desc. (From)"; Text[100]) { }
         field(13; "Salary Level (From)"; Code[20])
         {
+            TableRelation = "Salary Level";
             trigger OnValidate()
             begin
                 if SalaryLevel.Get("Salary Level (From)") then
@@ -114,6 +103,7 @@ table 50096 "Employee Service History"
         field(14; "Salary level Desc. (From)"; Text[100]) { }
         field(15; "Functional Title (To)"; Code[20])
         {
+            TableRelation = "Functional Title";
             trigger OnValidate()
             var
                 FunctionalTitle: Record "Functional Title";
@@ -125,6 +115,7 @@ table 50096 "Employee Service History"
         field(16; "Functional Title Desc. (To)"; Text[100]) { }
         field(17; "Salary Level (To)"; Code[20])
         {
+            TableRelation = "Salary Level";
             trigger OnValidate()
             begin
                 if SalaryLevel.Get("Salary Level (To)") then
@@ -160,13 +151,13 @@ table 50096 "Employee Service History"
         field(31; "To Date"; Date) { }
         field(32; "From Employee Status"; Enum "Employee Status") { }
         field(33; "To Employee Status"; Enum "Employee Status") { }
-
         field(34; "Contract Code (From)"; Code[20]) { }
         field(35; "Contract Code (To)"; Code[20]) { }
         field(36; "Employment Type (From)"; Enum "Employee Type") { }
         field(37; "Employment Type (To)"; Enum "Employee Type") { }
         field(38; "Extension Counter (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter (From)") then
@@ -177,6 +168,7 @@ table 50096 "Employee Service History"
         }
         field(39; "Extension Counter (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter (To)") then
@@ -190,6 +182,7 @@ table 50096 "Employee Service History"
         field(51; "Employment Type"; Enum "Employee Type") { }
         field(52; "Province Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code (From)") then
@@ -200,6 +193,7 @@ table 50096 "Employee Service History"
         }
         field(53; "Branch Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code (From)") then
@@ -210,6 +204,7 @@ table 50096 "Employee Service History"
         }
         field(54; "Department Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code (From)") then
@@ -220,6 +215,7 @@ table 50096 "Employee Service History"
         }
         field(55; "Unit Code (From)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code (From)") then
@@ -230,6 +226,7 @@ table 50096 "Employee Service History"
         }
         field(56; "Province Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code (To)") then
@@ -240,6 +237,7 @@ table 50096 "Employee Service History"
         }
         field(57; "Branch Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code (To)") then
@@ -250,6 +248,7 @@ table 50096 "Employee Service History"
         }
         field(58; "Department Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code (To)") then
@@ -258,9 +257,9 @@ table 50096 "Employee Service History"
                     "Department Description (To)" := '';
             end;
         }
-
         field(59; "Unit Code (To)"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             trigger OnValidate()
             begin
                 if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code (To)") then
@@ -304,7 +303,6 @@ table 50096 "Employee Service History"
         key(Key2; "Employee No.", "Effective Date") { }
     }
 
-
     trigger OnInsert()
     var
         EmpServiceHistory: Record "Employee Service History";
@@ -335,7 +333,14 @@ table 50096 "Employee Service History"
     procedure UpdateDuration(ServiceHistoryFrom: Record "Employee Service History")
     var
         EmpServiceHistory: Record "Employee Service History";
+        EmployeeRec: Record Employee;
+        LastServiceDate: Date;
     begin
+        EmployeeRec.Get(ServiceHistoryFrom."Employee No.");
+        LastServiceDate := EmployeeRec."Termination Date";
+        if EmployeeRec."Resignation Date" <> 0D then
+            LastServiceDate := EmployeeRec."Resignation Date";
+
         EmpServiceHistory.SetRange("Employee No.", ServiceHistoryFrom."Employee No.");
         EmpServiceHistory.SetCurrentKey("Effective Date");
         EmpServiceHistory.SetAscending("Effective Date", true);
@@ -350,8 +355,12 @@ table 50096 "Employee Service History"
         EmpServiceHistory.SetFilter("Effective Date", '>%1', ServiceHistoryFrom."Effective Date");
         if EmpServiceHistory.FindFirst() then
             ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", EmpServiceHistory."Effective Date" - 1)
-        else
-            ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", Today);
+        else begin
+            if LastServiceDate <> 0D then
+                ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", LastServiceDate)
+            else
+                ServiceHistoryFrom.Duration := GetServiceDuration(ServiceHistoryFrom."Employee No.", ServiceHistoryFrom."Effective Date", Today);
+        end;
         ServiceHistoryFrom.Modify();
     end;
 

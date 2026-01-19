@@ -57,17 +57,8 @@ page 50198 "HR Cue"
 
     var
         Employee: Record Employee;
-        UserSetup: Record "User Setup";
-        LeaveVisibility: Boolean;
-        TravelVisibility: Boolean;
-        TransferVisibility: Boolean;
-        BulkCashVisibility: Boolean;
-        OvertimeVisibility: Boolean;
         Resignationvisibility: Boolean;
-        SalaryAdvVisibility: Boolean;
-        AttendanceMissedVisibility: Boolean;
         HRSetup: Record "Human Resources Setup";
-        PageTransferList: Page "Employee Transfer Requests";
         HRMgt: Codeunit "HR Mgt.";
 
     procedure Setvisibility()

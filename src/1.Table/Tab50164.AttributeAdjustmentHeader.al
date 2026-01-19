@@ -21,36 +21,30 @@ table 50164 "Attribute Adjustment Header"
             Caption = 'No. Series';
             TableRelation = "No. Series";
         }
-
         field(30; "Pay Cycle Code"; Code[20])
         {
             Caption = 'Pay Cycle Code';
             TableRelation = "Pay Cycle";
         }
-
         field(40; "Pay Cycle Term"; Code[20])
         {
             Caption = 'Pay Cycle Term';
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
-
         field(50; "Pay Cycle Period"; Integer)
         {
             Caption = 'Pay Cycle Period';
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
         }
-
         field(60; "Payroll Attribute Filter"; Text[100])
         {
             Caption = 'Payroll Attribute Filter';
         }
-
         field(70; "Employee Filter"; Text[100])
         {
             Caption = 'Employee Filter';
         }
-
         field(80; "Adjustment Type"; Enum "Employee Activity Type")
         {
             Caption = 'Adjustment Type';
@@ -65,7 +59,6 @@ table 50164 "Attribute Adjustment Header"
         {
             Caption = 'Rejection Remarks';
         }
-
     }
 
     keys
@@ -87,7 +80,6 @@ table 50164 "Attribute Adjustment Header"
             HRSetup.TestField("Attribute Adjustment Nos.");
             HrMgt.InitNoSeriesNew(HRSetup."Attribute Adjustment Nos.", xRec."No. Series", Today, "Document No.", "No. Series");
             "Document No." := NoSeriesMgt.GetNextNo(HRSetup."Attribute Adjustment Nos.");
-
 
             if "Approval Status" <> "Approval Status"::Approved then
                 ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Document No.", EmpActivityType::"Attribute Adjustment", "Approval Status");
@@ -111,6 +103,7 @@ table 50164 "Attribute Adjustment Header"
     var
         CannotDelete: Label 'Cannot delete %1 document.';
         ApprovalEntry: Record "Approval HRMS";
+        AttributesAdjustmentLines: Record "Attribute Adjustment Line";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created, "Approval Status"::Open]) then
             Error(CannotDelete, Format("Approval Status").ToLower)
@@ -119,6 +112,9 @@ table 50164 "Attribute Adjustment Header"
             ApprovalEntry.SetRange("Document No.", "Document No.");
             ApprovalEntry.SetRange("Employee No", HrMgt.GetEmployeeNo());
             ApprovalEntry.DeleteAll();
+            AttributesAdjustmentLines.Reset();
+            AttributesAdjustmentLines.SetRange("Document No.", "Document No.");
+            AttributesAdjustmentLines.DeleteAll();
         end;
     end;
 
@@ -130,21 +126,6 @@ table 50164 "Attribute Adjustment Header"
             NoSeries.GetNextNo(Rec."Document No.");
             exit(true);
         end;
-    end;
-
-    procedure ApplyForAttributeAdj(AttrAdj: Record "Attribute Adjustment Header")
-    var
-        AttrAdjLines: Record "Attribute Adjustment Line";
-    begin
-        if not Confirm('Do you want to send Attribute Adjustment for approval?', false) then
-            exit;
-        ApproverMgt.UpdateFirstApproverStatus(AttrAdj."Document No.");
-        AttrAdj.TestField("Approval Status", AttrAdj."Approval Status"::Released);
-        AttrAdj.TestField("Pay Cycle Period");
-        AttrAdj.Validate("Approval Status", AttrAdj."Approval Status"::Pending);
-        AttrAdj.Modify();
-        if GuiAllowed then
-            Message('Attribute Adjustment is sent for approval.');
     end;
 
     var

@@ -33,6 +33,12 @@ page 50149 "Allowance Assignment Card"
                     ToolTip = 'Specifies the value of the English Year field.';
                     ApplicationArea = All;
                 }
+                field(Month; Rec.Month)
+                {
+                    ToolTip = 'Specifies the value of the Month field.';
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
@@ -190,7 +196,6 @@ page 50149 "Allowance Assignment Card"
                 begin
                     Report.Run(Report::"Allowance Assignment Summary", true, false, Rec);
                 end;
-
             }
         }
     }
@@ -209,7 +214,6 @@ page 50149 "Allowance Assignment Card"
         AllowanceLine: Record "Allowance Assignment Line";
         FormEditable: Boolean;
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
-        Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
         IsOpen, IsPending, IsApprove : Boolean;
         RecRef: RecordRef;

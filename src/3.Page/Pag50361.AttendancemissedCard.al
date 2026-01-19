@@ -250,7 +250,6 @@ page 50361 "Attendance missed Card"
                 end;
     end;
 
-
     var
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";
@@ -265,4 +264,3 @@ page 50361 "Attendance missed Card"
         IsApplied: Boolean;
         ApprovalMgt: Codeunit "Approver Mgt";
 }
-

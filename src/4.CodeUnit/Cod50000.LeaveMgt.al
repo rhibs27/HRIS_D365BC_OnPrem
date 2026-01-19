@@ -79,7 +79,6 @@ codeunit 50000 "Leave Mgt."
         CalendarDate: Record Date;
         Counter: Integer;
         isNonWorkingDay, FilterMatched : Boolean;
-        BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
         Branch, District, MunicipalityFilter : Text;
@@ -961,12 +960,16 @@ codeunit 50000 "Leave Mgt."
         IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
-        NextEntryNo: Integer;
         EmpVar: Record Employee;
     begin
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
+
+            LeaveTypeSetup.get(leave."Leave Code");
+            if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::"On Approval" then
+                CreateLeaveLedger(leave."Employee No.", leave."Leave Code", leave."Start Date", leaveEarn.Type::Earned, leave."No. of Days", GetNextLeaveLedgerEntryNo(), leaveNo, leave.Remarks, '');
+
             CreateLeaveLedger(leave."Employee No.",
                      leave."Leave Code",
                      leave."Start Date",
@@ -976,6 +979,7 @@ codeunit 50000 "Leave Mgt."
                      leaveNo,
                      leave.Remarks,
                      '');
+
         end;
         //Complete record of substitutes in leave history
         LeaveEarn.Reset();
@@ -1043,7 +1047,6 @@ codeunit 50000 "Leave Mgt."
         CancelDocument: Record "Cancel Document";
         ServiceInactivity: Record "Service Inactivity Ledger";
         EmpVar: Record Employee;
-        NextEntryNo: Integer;
     begin
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
@@ -1138,16 +1141,18 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         LeavePeriod, LeavePeriod1 : Record "Accounting Period";
         EmpVar, EmpVar2 : Record Employee;
+        EmploymentContract: Record "Employment Contract";
         AttendanceMgt: Codeunit "Attendance Mgt";
         LastEntryNo: Integer;
         AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays, NoOfCreditPeriods : Decimal;
         ProRataStartDate, ProRataEndDate, CreditPeriodStartDate, CreditPeriodEndDate, LeaveYearStartDate, LeaveYearEndDate : Date;
         SkipLeaveEarn: Boolean;
         EmpConfDate: Date;
-        LeavePeriod2: Record "Accounting Period";
-        CurrentQuarter: Enum Quater;
         QuarterStartDate, QuarterEndDate : Date;
         TotalDaysInPeriod, EligibleDays : Integer;
+        ContractRenewDate, ContractExpiryDate : Date;
+        LeavesLapseOnRenew: Boolean;
+        IsHandled: Boolean;
     begin
         Clear(LastEntryNo);
         Clear(ProRataStartDate);
@@ -1166,6 +1171,38 @@ codeunit 50000 "Leave Mgt."
         if EmpVar.FindSet() then begin
             repeat
                 Clear(SkipLeaveEarn);
+                Clear(LeavesLapseOnRenew);
+                Clear(ContractRenewDate);
+                Clear(ContractExpiryDate);
+
+                // NEW: Check for Contract Renew logic
+                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and
+                   (EmpVar."Emplymt. Contract Code" <> '') then begin
+                    if EmploymentContract.Get(EmpVar."Emplymt. Contract Code") then begin
+                        if EmploymentContract."Leaves Lapse On Contract Renew" then begin
+                            LeavesLapseOnRenew := true;
+                            if EmpVar."Contract Renew Date" <> 0D then
+                                ContractRenewDate := EmpVar."Contract Renew Date"
+                            else
+                                ContractRenewDate := EmpVar."Employment Date";
+                            ContractExpiryDate := EmpVar."Contract Expiry Date";
+                            // Validate contract dates exist
+                            if (ContractRenewDate = 0D) or (ContractExpiryDate = 0D) then
+                                SkipLeaveEarn := true;
+                            // Check if PostingDate is within valid range
+                            if not SkipLeaveEarn then begin
+                                if (PostingDate < ContractRenewDate) or (PostingDate > ContractExpiryDate) then
+                                    SkipLeaveEarn := true;
+                            end;
+                            // Override LeaveYearStartDate and LeaveYearEndDate ONLY when boolean is true
+                            if not SkipLeaveEarn and LeavesLapseOnRenew then begin
+                                LeaveYearStartDate := ContractRenewDate;
+                                LeaveYearEndDate := ContractExpiryDate;
+                            end;
+                        end;
+                    end;
+                end;
+
                 if not SkipLeaveEarn then begin
                     if EmpVar."Employment Date" < LeaveYearStartDate then
                         CreditPeriodStartDate := LeaveYearStartDate
@@ -1427,10 +1464,13 @@ codeunit 50000 "Leave Mgt."
                                             LeaveLedgerEntry.CalcSums("Balancing Days");
                                             if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
                                                 LeaveDaysToCredit := ActualCreditLimit - LeaveLedgerEntry."Balancing Days";
-                                                if HRSetup."Leave Rounding Precision" <> 0 then
-                                                    LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
-                                                else
-                                                    LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
+                                                OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
+                                                if not IsHandled then begin
+                                                    if HRSetup."Leave Rounding Precision" <> 0 then
+                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
+                                                    else
+                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
+                                                end;
                                             end else
                                                 LeaveDaysToCredit := 0;
                                             if LeaveDaysToCredit > 0 then
@@ -1458,10 +1498,13 @@ codeunit 50000 "Leave Mgt."
                                             LeaveLedgerEntry.SetRange("Posted Date", CreditPeriodStartDate, CreditPeriodEndDate);
                                             LeaveLedgerEntry.CalcSums("Balancing Days");
                                             if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
-                                                if HRSetup."Leave Rounding Precision" <> 0 then
-                                                    LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", HRSetup."Leave Rounding Precision", '=')
-                                                else
-                                                    LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", 0.5, '<')
+                                                OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
+                                                if not IsHandled then begin
+                                                    if HRSetup."Leave Rounding Precision" <> 0 then
+                                                        LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", HRSetup."Leave Rounding Precision", '=')
+                                                    else
+                                                        LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", 0.5, '<')
+                                                end;
                                             end else
                                                 LeaveDaysToCredit := 0;
                                             if LeaveDaysToCredit > 0 then
@@ -1545,7 +1588,6 @@ codeunit 50000 "Leave Mgt."
                 if LeaveTypeSetup."Encashed Formula" <> '' then
                     leaveLedger."Encashment Amount" := AllowanceConfig.EvaluateAmountForEmployee(LeaveTypeSetup."Encashed Formula", empCode);
                 leaveLedger.Modify(true);
-
             end;
         end;
 
@@ -1567,7 +1609,6 @@ codeunit 50000 "Leave Mgt."
     var
         EmpVar: Record Employee;
         LeaveTypeSetup: Record "Leave Type Setup";
-        entryNo: Integer;
         ExtendedEncashLimit: Decimal;
     begin
         EmpVar.Reset();
@@ -1640,7 +1681,7 @@ codeunit 50000 "Leave Mgt."
 
     procedure CalculateProrataLeavePeriod(var LeaveCreditPeriods: Decimal; EmployementDate: Date)
     var
-        LeavePeriod, LeavePeriod2 : Record "Accounting Period";
+        LeavePeriod: Record "Accounting Period";
         LeaveYearStartDate, EmployementMonthStartDate, EmployementMonthEndDate : Date;
     begin
         LeaveYearStartDate := LeavePeriod.GetCurrentLeaveYearStartDate();
@@ -1719,9 +1760,7 @@ codeunit 50000 "Leave Mgt."
         OrganizationStructureList: Record "Organization Structure List";
         DistrictList: Record District;
         MunicipalityList: Record Municipality;
-        Counter: Integer;
         FilterMatched: Boolean;
-        BaseCalendar: Record "Base Calendar";
         InOutValley: Enum "Outside/Inside Valley";
         PostingRegion: Enum Region;
         Branch, District, MunicipalityFilter : Text;
@@ -1985,7 +2024,6 @@ codeunit 50000 "Leave Mgt."
         ApprovalHRMS.SetRange("Approval Sequence", 1);
         if ApprovalHRMS.FindSet() then
             ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
-
     end;
 
     [IntegrationEvent(false, false)]
@@ -2066,6 +2104,10 @@ codeunit 50000 "Leave Mgt."
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateLeaveDaysToCredit(var leavetypesetup: Record "Leave Type Setup"; var LeaveDaysToCredit: Decimal; var IsHandled: Boolean)
+    begin
+    end;
 
     var
         EngNep: Record "English-Nepali Date";
@@ -2078,6 +2120,5 @@ codeunit 50000 "Leave Mgt."
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveTypeSetup: Record "Leave Type Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
-
 
 }

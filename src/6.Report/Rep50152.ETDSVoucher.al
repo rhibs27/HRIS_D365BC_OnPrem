@@ -10,6 +10,7 @@ report 50152 "ETDS Voucher"
         dataitem("Posted Payroll Header"; "Posted Payroll Header")
         {
             RequestFilterFields = "No.", "Pay Cycle Term", "Pay Cycle Period";
+            DataItemTableView = where(Reversed = filter(false));
             column(NepaliMonth; "Nepali Month") { }
             column(NepaliYear; "Nepali Year") { }
             column(Posting_Date; "Posting Date") { }
@@ -21,7 +22,7 @@ report 50152 "ETDS Voucher"
             {
                 DataItemLink = "Document No." = field("No.");
                 column(Document_No_; "Document No.") { }
-                column(SST; SSTField) { }
+                column(SST; ROUND(SSTField, GlSetup."Amount Rounding Precision")) { }
                 column(EmployeeNo; "Employee No.") { }
                 column(EmployeeName; "Employee Name") { }
                 column(PanNo; "Pan No.") { }
@@ -40,7 +41,7 @@ report 50152 "ETDS Voucher"
             {
                 DataItemLink = "Document No." = field("No.");
                 column(Document_No_2; "Document No.") { }
-                column(RIT; RITField) { }
+                column(RIT; ROUND(RITField, GlSetup."Amount Rounding Precision")) { }
                 column(EmployeeNo2; "Employee No.") { }
                 column(EmployeeName2; "Employee Name") { }
                 column(PanNo2; "Pan No.") { }
@@ -68,16 +69,12 @@ report 50152 "ETDS Voucher"
         {
             area(Content)
             {
-                group(GroupName)
-                {
-                }
+                group(GroupName) { }
             }
         }
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
     }
     local procedure GetRITColumn(): Integer
@@ -110,4 +107,5 @@ report 50152 "ETDS Voucher"
         RITField: Decimal;
         PayrollAttributes: Record "Payroll Attributes";
         PayrollColConfig: Record "Payroll Column Configuration";
+        GlSetup: Record "General Ledger Setup";
 }

@@ -10,9 +10,7 @@ table 50025 "Payroll Attributes"
         {
             NotBlank = true;
         }
-        field(2; Description; Text[30])
-        {
-        }
+        field(2; Description; Text[50]) { }
         field(3; Type; enum "Payroll Type")
         {
             Description = 'Benefits,Deduction,Non-Payment';
@@ -40,16 +38,9 @@ table 50025 "Payroll Attributes"
                 CheckFormula(Formula);
             end;
         }
-        field(9; "Usage Flexible"; Boolean)
-        {
-        }
-        field(10; "Plan Flexible"; Boolean)
-        {
-        }
-        field(11; Status; enum "Payroll Status")
-        {
-
-        }
+        field(9; "Usage Flexible"; Boolean) { }
+        field(10; "Plan Flexible"; Boolean) { }
+        field(11; Status; enum "Payroll Status") { }
         field(12; "Apply Every Month"; Boolean)
         {
             trigger OnValidate()
@@ -61,15 +52,9 @@ table 50025 "Payroll Attributes"
                 end;
             end;
         }
-        field(13; "Deduct on Absent"; Boolean)
-        {
-        }
-        field(14; "Non-Taxable"; Boolean)
-        {
-        }
-        field(15; "Posting Method"; enum "Payroll Posting Method")
-        {
-        }
+        field(13; "Deduct on Absent"; Boolean) { }
+        field(14; "Non-Taxable"; Boolean) { }
+        field(15; "Posting Method"; enum "Payroll Posting Method") { }
         field(16; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
@@ -92,12 +77,8 @@ table 50025 "Payroll Attributes"
         {
             Caption = 'Delete Amount on Employee Attribute Usage After Posting';
         }
-        field(22; Irregular; Boolean)
-        {
-        }
-        field(23; "Employee Type"; Enum "Employee Type")
-        {
-        }
+        field(22; Irregular; Boolean) { }
+        field(23; "Employee Type"; Enum "Employee Type") { }
         field(24; "Payroll Type"; Code[20])
         {
             TableRelation = "Mutually Excl. Payroll Group".Type;
@@ -112,6 +93,7 @@ table 50025 "Payroll Attributes"
                                                                    Code = field("Branch Filter"),
                                                                    "No." = field("Entry No. Filter"), "substitute Type" = Filter(<> "Allowance Substitute"::Substituted)));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(27; "No. of Days"; Decimal)
         {
@@ -119,29 +101,18 @@ table 50025 "Payroll Attributes"
                                                                                Code = field("Branch Filter"),
                                                                                "No." = field("Entry No. Filter")));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(28; "Entry No. Filter"; Code[20])
         {
             FieldClass = FlowFilter;
         }
-        field(29; "Mutually Exclusive"; Boolean)
-        {
-        }
-        field(30; "CBS GL Code"; Code[20])
-        {
-        }
-        field(31; "CBS Expense Code"; Code[20])
-        {
-        }
-        field(32; "Tax at once"; Boolean)
-        {
-        }
-        field(33; "Finacle GL Name"; Text[30])
-        {
-        }
-        field(34; "Tax Info Report Type"; Enum "Tax Info Report Type")
-        {
-        }
+        field(29; "Mutually Exclusive"; Boolean) { }
+        field(30; "CBS GL Code"; Code[20]) { }
+        field(31; "CBS Expense Code"; Code[20]) { }
+        field(32; "Tax at once"; Boolean) { }
+        field(33; "Finacle GL Name"; Text[100]) { }
+        field(34; "Tax Info Report Type"; Enum "Tax Info Report Type") { }
         field(35; "Differential Interest"; Boolean) { }
         field(36; "Column Id"; Integer)
         {
@@ -164,20 +135,20 @@ table 50025 "Payroll Attributes"
             end;
         }
         field(38; "Static GL Ledger Account"; Code[20]) { }
-
         field(39; "Activity Type"; enum "Employee Activity Type")
         {
             ValuesAllowed = " ", "Transfer Claim";  //include it in spefiific attribute
         }
         field(40; "Transfer Claim Flexible"; Boolean) { }
-        field(41; "Specific Attributes"; Enum "Specific Payroll Attributes")
-        {
-
-        }
+        field(41; "Specific Attributes"; Enum "Specific Payroll Attributes") { }
         field(42; "Emplymt. Contract Code"; Code[10])
         {
             Caption = 'Emplymt. Contract Code';
             TableRelation = "Employment Contract";
+        }
+        field(43; "RF Contribution Type"; Enum "RF Contribution Type")
+        {
+            Caption = 'RF Contribution Type';
         }
     }
 

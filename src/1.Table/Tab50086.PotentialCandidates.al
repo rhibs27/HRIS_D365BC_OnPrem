@@ -71,7 +71,6 @@ table 50086 "Potential Candidates"
         field(14; Gender; Enum "Employee Gender")
         {
             Caption = 'Gender';
-
         }
         field(15; Status; Enum "Employee Status")
         {
@@ -142,20 +141,10 @@ table 50086 "Potential Candidates"
             FieldClass = FlowFilter;
             TableRelation = "G/L Account"."No.";
         }
-        field(24; "User Id"; Code[50])
-        {
-        }
-        field(25; "Third Party Payroll Emp Code"; Code[20])
-        {
-        }
-        field(26; "Job Position Type"; Enum "Job Position Type")
-        {
-
-        }
-        field(27; "Recruitement Status"; Enum "Recruitement Status")
-        {
-
-        }
+        field(24; "User Id"; Code[50]) { }
+        field(25; "Third Party Payroll Emp Code"; Code[20]) { }
+        field(26; "Job Position Type"; Enum "Job Position Type") { }
+        field(27; "Recruitement Status"; Enum "Recruitement Status") { }
         field(28; "Job Title Code"; Code[20])
         {
             TableRelation = "Job Title";

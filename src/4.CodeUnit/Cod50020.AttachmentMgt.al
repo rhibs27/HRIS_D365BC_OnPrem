@@ -124,7 +124,7 @@ codeunit 50020 "Attachment Mgt."
             if StrPos(InvalidChars, FORMAT(CurrentChar)) = 0 then
                 CleanedFileName += CurrentChar
             else
-                CleanedFileName += '/'; // Replace invalid character 
+                CleanedFileName += '/'; // Replace invalid character
         end;
         exit(CleanedFileName);
     end;
@@ -222,7 +222,7 @@ codeunit 50020 "Attachment Mgt."
             if not Confirm('There is an existing attachment. Do you wish to replace it?') then
                 exit;
         if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
-            // check file size 
+            // check file size
             AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(EmpActJnl."Employee Act Type"));
 
             // Check File Extension
@@ -251,5 +251,30 @@ codeunit 50020 "Attachment Mgt."
             ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
             DownloadFromStream(Instream, '', '', '', ToFile);
         end;
+    end;
+
+    procedure CheckIfAttachmentExistsAsPerTheSetup(AttachmentType: enum "Attachment Setup Type"; AttachmentSubType: Enum "Attachment Setup SubType"; DocNo: Text): Boolean
+    var
+        AttachmentSetup: Record "Attachment Setup";
+        IncomintDocument: Record "Incoming Document";
+    begin
+        AttachmentSetup.SetRange(Mandatory, true);
+        AttachmentSetup.SetRange(Type, AttachmentType);
+        AttachmentSetup.SetRange("Sub Type", AttachmentSubType);
+        if AttachmentSetup.FindFirst() then begin
+            IncomintDocument.SetRange("Document No.", DocNo);
+            IncomintDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+            if IncomintDocument.IsEmpty() then
+                exit(false);
+
+            if IncomintDocument.findset() then
+                repeat
+                    if not IncomintDocument.HasAttachment() then
+                        exit(false);
+                until IncomintDocument.Next() = 0;
+
+            exit(true);
+        end;
+        exit(true);  //if setup does not exist, then no need to check attachment
     end;
 }

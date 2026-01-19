@@ -24,7 +24,14 @@ page 50181 "Request Allowance Subform"
                         CurrPage.Update;
                     end;
                 }
-
+                field("From Date"; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
+                }
+                field("To Date"; Rec."To Date")
+                {
+                    ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
+                }
                 field("Allowance Amount"; Rec."Allowance Amount")
                 {
                     ToolTip = 'Specifies the value of the Allowance Amount field.';
@@ -41,10 +48,32 @@ page 50181 "Request Allowance Subform"
                 field("Name of Children"; Rec."Name of Children")
                 {
                     ToolTip = 'Specifies the value of the Name of Children field.', Comment = '%';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        EmployeeRelative: Record "Employee Relative";
+                    begin
+                        EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
+                        EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
+                        if Page.RunModal(Page::"Employee Relatives", EmployeeRelative) = Action::LookupOK then
+                            Rec."Name of Children" := EmployeeRelative."Full Name";
+                    end;
                 }
                 field("Grade/Class"; Rec."Grade/Class")
                 {
                     ToolTip = 'Specifies the value of the Grade/Class field.', Comment = '%';
+                }
+                field("Effective Months (Edu.)"; Rec."Effective Months (Edu.)")
+                {
+                    ToolTip = 'Specifies the value of the Effective Months field.', Comment = '%';
+                }
+                field("Effective From/To Date"; Rec."Effective From (Edu.)")
+                {
+                    ToolTip = 'Specifies the value of the Effective From/To Date field.', Comment = '%';
+                    Editable = false;
+                }
+                field(Discontinued; Rec.Discontinued)
+                {
+                    ToolTip = 'Specifies the value of the Discontinued field.', Comment = '%';
                 }
                 field("Distance (KM)"; Rec."Distance (KM)")
                 {
@@ -62,7 +91,30 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the Claimed as Leave field.', Comment = '%';
                 }
-
+                field("Bill Date"; Rec."Bill Date")
+                {
+                    ToolTip = 'Specifies the value of the Bill Date field.', Comment = '%';
+                }
+                field("Bill No."; Rec."Bill No.")
+                {
+                    ToolTip = 'Specifies the value of the Bill No. field.', Comment = '%';
+                }
+                field("Amount per Ltr."; Rec."Amount per Ltr.")
+                {
+                    ToolTip = 'Specifies the value of the Amount per Ltr. field.', Comment = '%';
+                }
+                field("Last Placement Date"; Rec."Last Placement Date")
+                {
+                    ToolTip = 'Specifies the value of the Date of joining current branch field.', Comment = '%';
+                }
+                field("Previous Branch Code"; Rec."Previous Branch Code")
+                {
+                    ToolTip = 'Specifies the value of the Previous Branch Code field.', Comment = '%';
+                }
+                field("Vault Name"; Rec."Vault Name")
+                {
+                    ToolTip = 'Specifies the value of the Vault Name field.', Comment = '%';
+                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -78,7 +130,6 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                 }
-
             }
         }
     }
@@ -104,14 +155,9 @@ page 50181 "Request Allowance Subform"
         SetLayout;
     end;
 
-
     var
-        AllowanceTypeFilter: Code[20];
-        ToDateEditable, FormEditable, AllowanceClaim : Boolean;
+        ToDateEditable, FormEditable : Boolean;
         DocumentOpen, DocumentApproved, DocumentPending : Boolean;
-        Typefilter: Text;
-        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
-
 
     local procedure SetLayout()
     var

@@ -65,7 +65,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                     Error('Date is in Future');
             end;
         }
-        field(50004; Designation; Text[30])
+        field(50004; Designation; Text[50])
         { DataClassification = CustomerContent; }
         field(50005; "Time Period"; Decimal)
         { DataClassification = CustomerContent; }
@@ -76,7 +76,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             DataClassification = CustomerContent;
             CharAllowed = '09';
         }
-        field(50008; Remarks; Text[30])
+        field(50008; Remarks; Text[100])
         { DataClassification = CustomerContent; }
         field(50009; Rank; Integer)
         { DataClassification = CustomerContent; }
@@ -94,21 +94,13 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                if "GPA Scale" <> 0 then
-                    if CGPA > "GPA Scale" then
-                        Error('CGPA cannot be greater than GPA Scale');
+                if CGPA > "GPA Scale" then
+                    Error('CGPA cannot be greater than GPA Scale');
             end;
         }
-        field(50013; Attachment; Media)
-        {
-        }
-        field(50014; Running; Boolean)
-        {
-
-        }
-        field(50015; "GPA Scale"; Decimal)
-        {
-        }
+        field(50013; Attachment; Media) { }
+        field(50014; Running; Boolean) { }
+        field(50015; "GPA Scale"; Decimal) { }
     }
     keys { }
     trigger OnInsert()

@@ -26,9 +26,7 @@ table 50124 Leave
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -61,13 +59,11 @@ table 50124 Leave
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -83,8 +79,7 @@ table 50124 Leave
                 OnBeforeCheckEmploymentAndConfirmationDate("Employee No.", "Start Date", "Leave Code", IsHandled);
                 if not IsHandled then
                     if "Start Date" <> 0D then begin
-                        if "Start Date" < EmployeeRec."Employment Date" then
-                            Error('Cannot apply before your employment date');
+                        HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                         if Type = Type::"Leave Request" then begin
                             if EmployeeRec."Confirmation Date" <> 0D then
                                 if "Start Date" < EmployeeRec."Confirmation Date" then
@@ -167,9 +162,7 @@ table 50124 Leave
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -195,13 +188,14 @@ table 50124 Leave
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -232,10 +226,12 @@ table 50124 Leave
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
             Editable = false;
         }
         field(30; "Province Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
             Editable = false;
         }
         field(29; "Province Name"; Code[50])
@@ -244,23 +240,14 @@ table 50124 Leave
         }
         field(31; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
             Editable = false;
         }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
+        field(34; Ecosystem; Code[20]) { }
+        field(35; "Office Code"; Code[20]) { }
+        field(36; "Rejection Remarks"; Text[100]) { }
         field(37; "Approved Date"; Date)
         {
             Editable = false;
@@ -269,18 +256,10 @@ table 50124 Leave
         {
             Editable = false;
         }
-        field(39; Cancelled; Boolean)
-        {
-        }
-        field(40; "Cancelled No."; Code[20])
-        {
-        }
-        field(41; "Cancelled Document No."; Code[20])
-        {
-        }
-        field(50; "Contact No."; Text[50])
-        {
-        }
+        field(39; Cancelled; Boolean) { }
+        field(40; "Cancelled No."; Code[20]) { }
+        field(41; "Cancelled Document No."; Code[20]) { }
+        field(50; "Contact No."; Text[50]) { }
         field(51; "Leave Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
@@ -371,23 +350,15 @@ table 50124 Leave
                 leaveMgt.CheckForCompensatory("Leave Code", "Employee No.", "Compensatory Date", "No. of Days");
             end;
         }
-        field(58; "For Death Of"; Enum "For Death Of")
-        {
-        }
-        field(59; "Child's Gender"; Enum Gender)
-        {
-        }
-        field(60; "LFA Paid"; Boolean)
-        {
-        }
+        field(58; "For Death Of"; Enum "For Death Of") { }
+        field(59; "Child's Gender"; Enum Gender) { }
+        field(60; "LFA Paid"; Boolean) { }
         field(61; "Deputation On"; Enum "Deputation Type")
         {
             Editable = false;
             DataClassification = ToBeClassified;
         }
-        field(62; "Form Journal"; Boolean)
-        {
-        }
+        field(62; "Form Journal"; Boolean) { }
         field(63; "Deputation On Code"; Code[20])
         {
             Editable = false;
@@ -410,12 +381,9 @@ table 50124 Leave
                     Validate("Branch Name", '');
             end;
         }
-        field(100; "Status"; Text[20])
-        {
-        }
+        field(100; "Status"; Text[20]) { }
         field(200; Claimed; Boolean) { }
         field(201; "Claimed Doc No."; Code[20]) { }
-
         field(202; "Salary Level Description"; Text[50])
         {
             Caption = 'Salary Level Description';
@@ -424,7 +392,7 @@ table 50124 Leave
         field(203; "Substitute Person Code"; code[20])
         {
             Caption = 'Substitute Person Code';
-            TableRelation = Employee."No.";
+            TableRelation = Employee."No." WHERE(Status = CONST(Active));
             trigger OnValidate()
             var
                 EmployeeRec: Record Employee;
@@ -435,13 +403,11 @@ table 50124 Leave
                     Clear("Substitute Person Name");
             end;
         }
-        field(204; "Substitute Person Name"; text[50])
+        field(204; "Substitute Person Name"; Text[100])
         {
             Caption = 'Substitute Person Name';
             Editable = false;
-
         }
-
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
@@ -454,9 +420,7 @@ table 50124 Leave
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     var
         EmpVar: Record Employee;
@@ -466,7 +430,6 @@ table 50124 Leave
         HRMgt: Codeunit "HR Mgt.";
         LeaveTypeVar: Record "Leave Type Setup";
         WorkShift: Record "Employee Work Shift";
-        SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
         EmployeeRec: Record Employee;

@@ -21,8 +21,6 @@ table 50008 "Remote Area Category"
 
     fieldgroups
     {
-        fieldgroup(DropDown; Category, "Remote allowance Percentage", "Remote Allowance Amount", "BM Accomodation Amount", "Remote Area Deduction")
-        {
-        }
+        fieldgroup(DropDown; Category, "Remote allowance Percentage", "Remote Allowance Amount", "BM Accomodation Amount", "Remote Area Deduction") { }
     }
 }

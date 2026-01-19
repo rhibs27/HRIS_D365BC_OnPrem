@@ -92,8 +92,6 @@ page 50375 "Attribute Adjustment Card"
                 var
                     AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
                 begin
-                    if not (Rec."Adjustment Type" in [Rec."Adjustment Type"::Promotion, Rec."Adjustment Type"::Confirmation]) then
-                        Error('Adjustment Type must be %1 and %2', Rec."Adjustment Type"::Promotion, Rec."Adjustment Type"::Confirmation);
                     AttributeAdjustmentMgt.UpdatePayrollAttributesInAttributeAdjustmentLine(Rec);
                     "Approval Status" := "Approval Status"::Released;
                     CurrPage.Update();
@@ -109,7 +107,7 @@ page 50375 "Attribute Adjustment Card"
                 ToolTip = 'Executes the Approve Request action.';
                 trigger OnAction()
                 begin
-                    Rec.ApplyForAttributeAdj(Rec);
+                    AttributeAdjustmentMgt.ApplyForAttributeAdj(Rec);
                     CurrPage.Update(true);
                 end;
             }
@@ -137,8 +135,6 @@ page 50375 "Attribute Adjustment Card"
                 Visible = OpenApprovalEntriesExistForCurrUser;
 
                 trigger OnAction()
-                var
-                    AttributeAdjLine: Record "Attribute Adjustment Line";
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
                         RecRef.GetTable(Rec);
@@ -195,10 +191,8 @@ page 50375 "Attribute Adjustment Card"
         OpenApprovalEntriesExistForCurrUser: Boolean;
 
     var
-        AttrAdjMgt: Codeunit "Excel Import";
-        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         ApproverMgt: Codeunit "Approver Mgt";
-
+        AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
         HRMgt: Codeunit "HR Mgt.";
         RecRef: RecordRef;
 }

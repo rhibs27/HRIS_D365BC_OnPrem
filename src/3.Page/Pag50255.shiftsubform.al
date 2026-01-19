@@ -110,13 +110,8 @@ page 50255 "Shift subform"
                 var
                     FilterPage: FilterPageBuilder;
                     ShiftLine: Record "Shift Line";
-                    FromDate: Date;
-                    ToDate: Date;
                     EmployeeCode: Code[20];
                     ShiftAssignmentHeader: Record "Shift Assignment Header";
-                    FromDates: Date;
-                    ToDates: Date;
-                    EmployeeWorkShift: Code[20];
                 begin
                     IF ShiftAssignmentHeader.Get(Rec."No.") THEN
                         if ShiftAssignmentHeader."Approval Status" = ShiftAssignmentHeader."Approval Status"::Open then begin
@@ -182,8 +177,6 @@ page 50255 "Shift subform"
                 ApplicationArea = All;
                 Visible = DocumentApproved;
                 trigger OnAction()
-                var
-                    AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");

@@ -1,7 +1,7 @@
 page 50228 "Employee Edit Picture"
 {
     ApplicationArea = All;
-    Caption = 'Employee Picture';
+    Caption = 'Employee Attachment';
     PageType = CardPart;
     DeleteAllowed = false;
     InsertAllowed = false;
@@ -16,15 +16,41 @@ page 50228 "Employee Edit Picture"
             {
                 ToolTip = 'Specifies the value of the Notice field.';
             }
-
         }
     }
-
 
     actions
     {
         area(processing)
         {
+            action(ImportPicture)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Import';
+                ToolTip = 'Import a picture file.';
+                trigger OnAction()
+                var
+                    Extension: Text;
+                    FileMgt: Codeunit "File Management";
+                    InStreamPic: InStream;
+                    FromFileName: Text;
+                    AttachmentMgt: Codeunit "Attachment Mgt.";
+                begin
+                    if Rec.Attachment.HasValue() then
+                        if not Confirm('There is an existing attachment. Do you wish to proceed') then
+                            exit;
+                    if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
+                        // Check File Extension
+                        Extension := FileMgt.GetExtension(FromFileName);
+                        if Extension = '' then
+                            Error('Invalid file. Please upload jpg, png or pdf files.');
+                        AttachmentMgt.checkAttachmentExtensionImage(Extension);
+                        Clear(Rec.Attachment);
+                        Rec.Attachment.ImportStream(InStreamPic, FromFileName);
+                        Rec.Modify(true);
+                    end;
+                end;
+            }
             action(Preview)
             {
                 ApplicationArea = Basic, Suite;
@@ -71,11 +97,7 @@ page 50228 "Employee Edit Picture"
     end;
 
     var
-        OverrideImageQst: Label 'The existing picture will be replaced. Do you want to continue?';
-        SelectPictureTxt: Label 'Select a picture to upload';
         DeleteExportEnabled: Boolean;
-        DeleteImageQst: Label 'Are you sure you want to delete the picture?';
-        EditableField: Boolean;
         PreviewAttachment: page "Preview Attachment";
 
     local procedure returnAttachmentBase64(): Text;

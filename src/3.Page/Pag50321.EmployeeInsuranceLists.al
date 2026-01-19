@@ -105,7 +105,6 @@ page 50321 "Employee Insurance Lists"
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
                     ApplicationArea = All;
                 }
-
             }
         }
     }
@@ -204,11 +203,7 @@ page 50321 "Employee Insurance Lists"
                 Visible = false;
 
                 trigger OnAction()
-                var
-                    PageBuilder: FilterPageBuilder;
-                    Remarks: Text;
                 begin
-
                 end;
             }
         }

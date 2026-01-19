@@ -42,9 +42,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             DataClassification = ToBeClassified;
         }
-        field(50008; Disabled; Boolean)
-        {
-        }
+        field(50008; Disabled; Boolean) { }
         field(50009; "District"; Text[500])
         {
             DataClassification = ToBeClassified;
@@ -105,9 +103,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             DataClassification = ToBeClassified;
         }
-        field(50027; "Disabled -OR"; Boolean)
-        {
-        }
+        field(50027; "Disabled -OR"; Boolean) { }
         field(50028; "District -OR"; Text[500])
         {
             DataClassification = ToBeClassified;

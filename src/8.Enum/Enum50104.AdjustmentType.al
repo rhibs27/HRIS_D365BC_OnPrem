@@ -1,7 +1,7 @@
 enum 50104 "Adjustment Type"
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';

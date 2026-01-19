@@ -13,15 +13,12 @@ page 50222 "Transfer Journal"
         {
             repeater(General)
             {
-
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name")
-                {
-                }
+                field("Employee Name"; Rec."Employee Name") { }
                 field("Transfer Type"; Rec."Transfer Type")
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
@@ -110,7 +107,6 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the OOutgoing Reporting Person Name to field.', Comment = '%';
                     Editable = IsOpen;
                 }
-
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
@@ -134,7 +130,6 @@ page 50222 "Transfer Journal"
                         CurrPage.Update();
                     end;
                 }
-
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -284,8 +279,6 @@ page 50222 "Transfer Journal"
         ProvinceEdit: Boolean;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
-
-        TransferMgt: Codeunit "Transfer Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
         HrSetup: Record "Human Resources Setup";

@@ -51,10 +51,10 @@ codeunit 50022 "Allowance Assignment Mgt"
                     AllowanceLineCheck.TestField("From Date");
                     AllowanceLineCheck.TestField("Allowance Type");
                     // AllowanceLineCheck.TestField("To Date");
-                    CheckEmployeeAlreadyExistsForSameEmployee(AllowanceLineCheck."No.", AllowanceLineCheck."Line No.", AllowanceLineCheck."Employee Code", AllowanceLineCheck."Allowance Type", AllowanceLineCheck."From Date", AllowanceLineCheck."Emp Act Type");
+                    // CheckEmployeeAlreadyExistsForSameEmployee(AllowanceLineCheck."No.", AllowanceLineCheck."Line No.", AllowanceLineCheck."Employee Code", AllowanceLineCheck."Allowance Type", AllowanceLineCheck."From Date", AllowanceLineCheck."Emp Act Type");
                     CheckMutuallyExclusive(AllowanceLineCheck);
                     CheckDate(AllowanceLineCheck);
-                    CheckMaximumEmployeeInBranch(AllowanceLineCheck);
+                    // CheckMaximumEmployeeInBranch(AllowanceLineCheck);
                     ValidateAllowanceType(AllowanceLineCheck);
                     if AllowanceLineCheck."Allowance Type" in [PayrollGenSetup."Vault Key", PayrollGenSetup."ATM Custodian"] then begin
                         if AllowanceLineCheck.Panel = AllowanceLineCheck.Panel::" " then
@@ -70,8 +70,6 @@ codeunit 50022 "Allowance Assignment Mgt"
     procedure ApproveRejectAllowanceAssignment(Approved: Boolean; EntryNo: Code[20])
     var
         EmpAllowance: Record "Allowance Assignment Header";
-        PGSetup: Record "Payroll General Setup";
-        EmpRec: Record Employee;
         AllowanceLine: Record "Allowance Assignment Line";
         ApprovalLine: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
@@ -198,8 +196,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
     begin
         AllowanceAssignmentLine.Reset;
-        AllowanceAssignmentLine.Setfilter("No.", '<>%1', No);
-        AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
         AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
         AllowanceAssignmentLine.SetRange("Emp Act Type", EmpActType);
         AllowanceAssignmentLine.SetRange("Allowance Type", AllowanceType);
@@ -259,12 +255,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             until AllowanceAssignmentLine.Next() = 0;
         // Update attendance with the highest amount allowance
         if HighestAmountAllowanceType <> '' then begin
-            EmployeeAttendanceActivity.Reset;
-            EmployeeAttendanceActivity.SetRange("Attendance Date", AttendanceDate);
-            EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
-            if EmployeeAttendanceActivity.FindFirst then begin
-                UpdateAttendanceWithAllowance(EmployeeAttendanceActivity, HighestAmountAllowanceType);
-            end;
+            UpdateAttendanceWithAllowance(EmployeeAttendanceActivity, HighestAmountAllowanceType);
         end;
     end;
     // Function to get allowance amount from Payroll General Setup
@@ -300,6 +291,7 @@ codeunit 50022 "Allowance Assignment Mgt"
     procedure UpdateAttendanceWithAllowance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; AllowanceType: Code[20])
     begin
         PGSetup.Get();
+        ClearAllowanceFromAttendance(EmployeeAttendanceActivity);
         case AllowanceType of
             PGSetup."Evening Counter":
                 EmployeeAttendanceActivity."Evening Counter Days" := 1;
@@ -324,6 +316,21 @@ codeunit 50022 "Allowance Assignment Mgt"
             PGSetup."Dashain Allowance":
                 EmployeeAttendanceActivity."Dashain Allowance Days" := 1;
         end;
+    end;
+
+    local procedure ClearAllowanceFromAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
+    begin
+        Clear(EmployeeAttendanceActivity."Evening Counter Days");
+        Clear(EmployeeAttendanceActivity."Morning Counter Days");
+        Clear(EmployeeAttendanceActivity."Festival Counter Days");
+        Clear(EmployeeAttendanceActivity."Holiday Counter Days");
+        Clear(EmployeeAttendanceActivity."Friday Counter Days");
+        Clear(EmployeeAttendanceActivity."Cash Risk Days");
+        Clear(EmployeeAttendanceActivity."Vault Key Days");
+        Clear(EmployeeAttendanceActivity."Head Teller Allowance Days");
+        Clear(EmployeeAttendanceActivity."Teller Allowance Days");
+        Clear(EmployeeAttendanceActivity."ATM Custodian Allowance days");
+        Clear(EmployeeAttendanceActivity."Dashain Allowance Days");
     end;
 
     procedure SetAllowanceAmount(EmpNo: Code[20]; AllowanceType: Code[20]; FromDate: Date): Decimal
@@ -494,6 +501,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         Approval: Record "Approval HRMS";
         BranchType: Enum "Branchwise/Extension Type";
     begin
+        OnBeforeOpenAllowanceAssignmentClaim(EmpCode);
         Clear(Employee);
         PGSetup.Get();
         // Clear Approval line
@@ -527,11 +535,31 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignment2.Init;
             AllowanceAssignment2.Validate("Employee No.", EmpCode);
             AllowanceAssignment2.Validate("Activity Type", AllowanceAssignment2."Activity Type"::"Allowance Assignment Claim");
-            Evaluate(BranchType, Format(Employee."Deputation on"));
-            AllowanceAssignment2.Validate(Type, BranchType);
-            AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
-            // AllowanceAssignment2.Validate("From Date", PayCyclePeriod."Allowance Start Date");
-            // AllowanceAssignment2.Validate("To date", PayCyclePeriod."Allowance End Date");
+            if Employee."Deputation on" = Employee."Deputation on"::Department then begin
+                if Employee."Unit Code" = '' then begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
+                end else begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"::Unit));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Unit Code");
+                end;
+            end else if Employee."Deputation on" = Employee."Deputation on"::Branch then begin
+                if Employee."Extension Counter Code" = '' then begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
+                end else begin
+                    Evaluate(BranchType, Format(Employee."Deputation on"::"Extension Counter"));
+                    AllowanceAssignment2.Validate(Type, BranchType);
+                    AllowanceAssignment2.Validate(Code, Employee."Extension Counter Code");
+                end;
+            end else if Employee."Deputation on" = Employee."Deputation on"::Province then begin
+                Evaluate(BranchType, Format(Employee."Deputation on"));
+                AllowanceAssignment2.Validate(Type, BranchType);
+                AllowanceAssignment2.Validate(Code, Employee."Deputation On Code");
+            end;
             AllowanceAssignment2.Validate("Approval Status", AllowanceAssignment2."Approval Status"::Open);
             AllowanceAssignment2.Insert(true);
             // GetAllowanceClaimLine(AllowanceAssignment2."No.");
@@ -539,66 +567,68 @@ codeunit 50022 "Allowance Assignment Mgt"
                 PAGE.Run(PAGE::"Allowance Assignment Card", AllowanceAssignment2);
         end;
     end;
-    // procedure CheckAllowanceApproved(EmpCode: Code[20])
-    // var
-    //     ALlowanceAssignmentLineApproved: Record "Allowance Assignment Line";
-    // begin
-    //     ALlowanceAssignmentLineApproved.Reset();
-    //     ALlowanceAssignmentLineApproved.SetRange("Employee Code", EmpCode);
-    //     ALlowanceAssignmentLineApproved.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
-    //     ALlowanceAssignmentLineApproved.SetRange("Approval Status", ALlowanceAssignmentLineApproved."Approval Status"::Approved);
-    //     ALlowanceAssignmentLineApproved.SetRange("Emp Act Type", ALlowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment");
-    //     ALlowanceAssignmentLineApproved.SetRange("Allowance Claimed", false);
-    //     ALlowanceAssignmentLineApproved.SetFilter("Substitute Type", '%1|%2', ALlowanceAssignmentLineApproved."Substitute Type"::" ", ALlowanceAssignmentLineApproved."Substitute Type"::"Added as Substitute");
-    //     if ALlowanceAssignmentLineApproved.Count() < 1 then
-    //         Error('Approved Allowance not found from %1 to %2 Period', PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
-    // end;
-    // procedure GetAllowanceClaimLine(AllowanceAssignmentCode: Code[20])
-    // var
-    //     AllowanceAssignmentHeader: Record "Allowance Assignment Header";
-    //     ALlowanceAssignmentLineApproved, AllowanceAssignmentLineClaim, ALlowanceAssignmentLineCheck : Record "Allowance Assignment Line";
-    //     Approval: Record "Approval HRMS";
-    // begin
-    //     AllowanceAssignmentHeader.Get(AllowanceAssignmentCode);
-    //     Employee.get(AllowanceAssignmentHeader."Employee No.");
-    //     ALlowanceAssignmentLineCheck.Reset;
-    //     ALlowanceAssignmentLineCheck.SetRange("No.", AllowanceAssignmentCode);
-    //     ALlowanceAssignmentLineCheck.SetRange("Approval Status", ALlowanceAssignmentLineCheck."Approval Status"::Open);
-    //     ALlowanceAssignmentLineCheck.DeleteAll(); // Delete existing lines for the record
-    //     ALlowanceAssignmentLineApproved.Reset();
-    //     ALlowanceAssignmentLineApproved.SetRange("Employee Code", AllowanceAssignmentHeader."Employee No.");
-    //     ALlowanceAssignmentLineApproved.SetRange("From Date", AllowanceAssignmentHeader."From Date", AllowanceAssignmentHeader."To date");
-    //     ALlowanceAssignmentLineApproved.SetRange("Approval Status", ALlowanceAssignmentLineApproved."Approval Status"::Approved);
-    //     ALlowanceAssignmentLineApproved.SetRange("Allowance Claimed", false);
-    //     ALlowanceAssignmentLineApproved.SetRange("Emp Act Type", ALlowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment");
-    //     ALlowanceAssignmentLineApproved.SetFilter("Substitute Type", '%1|%2', ALlowanceAssignmentLineApproved."Substitute Type"::" ", ALlowanceAssignmentLineApproved."Substitute Type"::"Added as Substitute");
-    //     if ALlowanceAssignmentLineApproved.FindSet() then
-    //         repeat
-    //             AllowanceAssignmentLineClaim.Init();
-    //             AllowanceAssignmentLineClaim."No." := AllowanceAssignmentCode;
-    //             AllowanceAssignmentLineClaim."Line No." := 0;
-    //             AllowanceAssignmentLineClaim."Allowance Claim From" := ALlowanceAssignmentLineApproved."No.";
-    //             AllowanceAssignmentLineClaim."Allowance Claim from Line No" := ALlowanceAssignmentLineApproved."Line No.";
-    //             AllowanceAssignmentLineClaim."Employee Code" := ALlowanceAssignmentLineApproved."Employee Code";
-    //             AllowanceAssignmentLineClaim."Employee Name" := ALlowanceAssignmentLineApproved."Employee Name";
-    //             AllowanceAssignmentLineClaim.Type := AllowanceAssignmentHeader.Type;
-    //             AllowanceAssignmentLineClaim.Code := AllowanceAssignmentHeader.Code;
-    //             AllowanceAssignmentLineClaim.Name := AllowanceAssignmentHeader.Name;
-    //             AllowanceAssignmentLineClaim."Emp Act Type" := ALlowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment Claim";
-    //             AllowanceAssignmentLineClaim."Allowance Type" := ALlowanceAssignmentLineApproved."Allowance Type";
-    //             AllowanceAssignmentLineClaim.Panel := ALlowanceAssignmentLineApproved.Panel;
-    //             AllowanceAssignmentLineClaim."From Date" := ALlowanceAssignmentLineApproved."From Date";
-    //             AllowanceAssignmentLineClaim."Approval Status" := ALlowanceAssignmentLineApproved."Approval Status"::Open;
-    //             AllowanceAssignmentLineClaim."Substitute Type" := ALlowanceAssignmentLineApproved."Substitute Type";
-    //             AllowanceAssignmentLineClaim."Allowance Amount" := ALlowanceAssignmentLineApproved."Allowance Amount";
-    //             AllowanceAssignmentLineClaim.Insert(true);
-    //         until ALlowanceAssignmentLineApproved.Next() = 0;
-    // end;
+
+    procedure CheckAllowanceApproved(AllowanceHeader: Record "Allowance Assignment Header")
+    var
+        AllowanceAssignmentLineApproved: Record "Allowance Assignment Line";
+    begin
+        AllowanceAssignmentLineApproved.Reset();
+        AllowanceAssignmentLineApproved.SetRange("Employee Code", AllowanceHeader."Employee No.");
+        AllowanceAssignmentLineApproved.SetRange("From Date", AllowanceHeader."From Date", AllowanceHeader."To Date");
+        AllowanceAssignmentLineApproved.SetRange("Approval Status", AllowanceAssignmentLineApproved."Approval Status"::Approved);
+        AllowanceAssignmentLineApproved.SetRange("Emp Act Type", AllowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment");
+        AllowanceAssignmentLineApproved.SetRange("Allowance Claimed", false);
+        AllowanceAssignmentLineApproved.SetFilter("Substitute Type", '%1|%2', AllowanceAssignmentLineApproved."Substitute Type"::" ", ALlowanceAssignmentLineApproved."Substitute Type"::"Added as Substitute");
+        if AllowanceAssignmentLineApproved.Count() < 1 then
+            Error('Approved Allowance not found for Employee %1', AllowanceHeader."Employee Name");
+    end;
+
+    procedure GetAllowanceClaimLine(AllowanceAssignmentCode: Code[20])
+    var
+        AllowanceAssignmentHeader: Record "Allowance Assignment Header";
+        AllowanceAssignmentLineApproved, AllowanceAssignmentLineClaim, AllowanceAssignmentLineCheck : Record "Allowance Assignment Line";
+        Approval: Record "Approval HRMS";
+    begin
+        AllowanceAssignmentHeader.Get(AllowanceAssignmentCode);
+        Employee.get(AllowanceAssignmentHeader."Employee No.");
+        AllowanceAssignmentLineCheck.Reset;
+        AllowanceAssignmentLineCheck.SetRange("No.", AllowanceAssignmentCode);
+        AllowanceAssignmentLineCheck.SetRange("Approval Status", AllowanceAssignmentLineCheck."Approval Status"::Open);
+        AllowanceAssignmentLineCheck.DeleteAll(); // Delete existing lines for the record
+        AllowanceAssignmentLineApproved.Reset();
+        AllowanceAssignmentLineApproved.SetRange("Employee Code", AllowanceAssignmentHeader."Employee No.");
+        AllowanceAssignmentLineApproved.SetRange("From Date", AllowanceAssignmentHeader."From Date", AllowanceAssignmentHeader."To date");
+        AllowanceAssignmentLineApproved.SetRange("Approval Status", AllowanceAssignmentLineApproved."Approval Status"::Approved);
+        AllowanceAssignmentLineApproved.SetRange("Allowance Claimed", false);
+        AllowanceAssignmentLineApproved.SetRange("Emp Act Type", AllowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment");
+        AllowanceAssignmentLineApproved.SetFilter("Substitute Type", '%1|%2', AllowanceAssignmentLineApproved."Substitute Type"::" ", AllowanceAssignmentLineApproved."Substitute Type"::"Added as Substitute");
+        if ALlowanceAssignmentLineApproved.FindSet() then
+            repeat
+                AllowanceAssignmentLineClaim.Init();
+                AllowanceAssignmentLineClaim."No." := AllowanceAssignmentCode;
+                AllowanceAssignmentLineClaim."Line No." := 0;
+                AllowanceAssignmentLineClaim."Allowance Claim From" := AllowanceAssignmentLineApproved."No.";
+                AllowanceAssignmentLineClaim."Allowance Claim from Line No" := AllowanceAssignmentLineApproved."Line No.";
+                AllowanceAssignmentLineClaim."Employee Code" := AllowanceAssignmentLineApproved."Employee Code";
+                AllowanceAssignmentLineClaim."Employee Name" := AllowanceAssignmentLineApproved."Employee Name";
+                AllowanceAssignmentLineClaim.Type := AllowanceAssignmentHeader.Type;
+                AllowanceAssignmentLineClaim.Code := AllowanceAssignmentHeader.Code;
+                AllowanceAssignmentLineClaim.Name := AllowanceAssignmentHeader.Name;
+                AllowanceAssignmentLineClaim."Emp Act Type" := AllowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment Claim";
+                AllowanceAssignmentLineClaim."Allowance Type" := AllowanceAssignmentLineApproved."Allowance Type";
+                AllowanceAssignmentLineClaim.Panel := AllowanceAssignmentLineApproved.Panel;
+                AllowanceAssignmentLineClaim."From Date" := AllowanceAssignmentLineApproved."From Date";
+                AllowanceAssignmentLineClaim."Approval Status" := AllowanceAssignmentLineApproved."Approval Status"::Open;
+                AllowanceAssignmentLineClaim."Substitute Type" := AllowanceAssignmentLineApproved."Substitute Type";
+                AllowanceAssignmentLineClaim."Allowance Amount" := AllowanceAssignmentLineApproved."Allowance Amount";
+                AllowanceAssignmentLineClaim.Insert(true);
+            until ALlowanceAssignmentLineApproved.Next() = 0;
+    end;
+
     procedure OpenAllowance(EmpCode: Code[20])
     var
         AllowanceAssignment, AllowanceAssignment2 : Record "Allowance Assignment Header";
         Approval: Record "Approval HRMS";
-        BranchType: Enum "Branchwise/Extension Type";
     begin
         Clear(Employee);
         PGSetup.Get();
@@ -643,7 +673,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceLine.SetRange(Code, AllowanceLineRec.Code);
         AllowanceLine.SetRange("From Date", AllowanceLineRec."From Date");
         AllowanceLine.Setfilter("Substitute Type", '%1|%2', AllowanceLine."Substitute Type"::" ", AllowanceLine."Substitute Type"::"Added as Substitute");
-        AllowanceLine.SetFilter("Approval Status", '%1|%2', AllowanceLine."Approval Status"::Pending, AllowanceLine."Approval Status"::Approved);
+        AllowanceLine.SetFilter("Approval Status", '<>%1', AllowanceLine."Approval Status"::Rejected);
         AllowanceCount := AllowanceLine.count();
         if BranchWiseAllowance.Get(AllowanceLineRec.Type, AllowanceLineRec.Code, AllowanceLineRec."Allowance Type") then
             if BranchWiseAllowance."Max. No. of Staffs" <> 0 then
@@ -713,6 +743,21 @@ codeunit 50022 "Allowance Assignment Mgt"
             until AllowanceLine.Next = 0;
     end;
 
+    procedure CheckCutOffDate(FromDate: Date; ToDate: Date; Month: Enum "Nepali Month")
+    begin
+        PGSetup.Get();
+        PayCyclePeriod.Reset();
+        PayCyclePeriod.SetRange("Pay Cycle Code", PGSetup."Pay Cycle Code");
+        PayCyclePeriod.SetRange("Pay Cycle Term", PGSetup."Pay Cycle Term");
+        PayCyclePeriod.SetRange("Nepali Month", Month);
+        if PayCyclePeriod.FindFirst() then begin
+            PayCyclePeriod.TestField("Allowance Start Date");
+            PayCyclePeriod.TestField("Allowance End Date");
+            if (ToDate > PayCyclePeriod."Allowance End Date") then
+                Error('Allowance claim End Date cannot be After %1', PayCyclePeriod."Allowance End Date");
+        end;
+    end;
+
 
     var
         Employee: Record Employee;
@@ -720,15 +765,18 @@ codeunit 50022 "Allowance Assignment Mgt"
         SalaryLevel: Record "Salary Level";
         PGSetup: Record "Payroll General Setup";
         LevelWiseAttribute: Record "Level Wise Attributes";
-        EngNep: Record "English-Nepali Date";
-        GLSetup: Record "General Ledger Setup";
         HrMgt: Codeunit "HR Mgt.";
-        PayCyclePeriod: Record "Pay Cycle Period";
         AttendanceMgt: Codeunit "Attendance Mgt";
-
+        PayCyclePeriod: Record "Pay Cycle Period";
 
     [IntegrationEvent(false, false)]
     procedure AllowanceAssignmentApprovalReject(Var Approved: Boolean; var EntryNo: Code[20]; var IsHandeled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeOpenAllowanceAssignmentClaim(EmployeeNo: Code[20])
+    begin
+    end;
+
 }

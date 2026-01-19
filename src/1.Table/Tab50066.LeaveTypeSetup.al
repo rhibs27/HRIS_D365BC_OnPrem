@@ -29,32 +29,27 @@ table 50066 "Leave Type Setup"
                     Error(ErrorMaxDays);
             end;
         }
-        field(9; "Pay Type"; Enum "Leave Pay Type")
-        {
-        }
+        field(9; "Pay Type"; Enum "Leave Pay Type") { }
         field(10; "Remaining Days"; Decimal)
         {
             CalcFormula = sum("Leave Earn"."Balancing Days" where("Leave Code" = field(Code),
                                                                    "Employee No." = field("Employee No. Filter"),
                                                                    Closed = const(false)));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(11; "Exclude Non Working Days"; Boolean) { }
         field(12; "Disable Multiple Leave Request"; Boolean)
         {
             Description = 'Cannot send leave request unitl previous leave request is approved.';
         }
-        field(13; "Leave For Employee Type"; enum "Employee Type")
-        {
-        }
+        field(13; "Leave For Employee Type"; enum "Employee Type") { }
         field(14; "Encashable Limit"; Decimal) { }
         field(15; "Payroll Attribute"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }
-        field(16; Gender; Enum "Employee Gender")
-        {
-        }
+        field(16; Gender; Enum "Employee Gender") { }
         field(17; "Leave at Once"; Boolean) { }
         field(18; "Services Period"; Boolean)
         {
@@ -81,12 +76,8 @@ table 50066 "Leave Type Setup"
         {
             Caption = 'Min. Service Year for Eligibility';
         }
-        field(22; "Calculate Proratawise"; Boolean)
-        {
-        }
-        field(23; "Marital Status"; Enum "Marital Status")
-        {
-        }
+        field(22; "Calculate Proratawise"; Boolean) { }
+        field(23; "Marital Status"; Enum "Marital Status") { }
         field(25; "Needed HR Permission"; Boolean) { }
         field(29; "No. of Days for Attachment"; Integer) { }
         field(30; Approved; Integer)
@@ -96,6 +87,7 @@ table 50066 "Leave Type Setup"
                                                            "Approval Status" = filter(Approved),
                                                            "Start Date" = field("Date Filter")));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(31; Requested; Integer)
         {
@@ -104,6 +96,7 @@ table 50066 "Leave Type Setup"
                                                            "Approval Status" = filter(Pending),
                                                            "Start Date" = field("Date Filter")));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(32; Recommended; Integer)
         {
@@ -112,6 +105,7 @@ table 50066 "Leave Type Setup"
                                                            "Approval Status" = filter(Recommended),
                                                            "Start Date" = field("Date Filter")));
             FieldClass = FlowField;
+            Editable = false;
         }
         field(33; "Skip Balance Check"; Boolean) { }
         field(34; Email; Text[80]) { }
@@ -134,9 +128,7 @@ table 50066 "Leave Type Setup"
                 end;
             end;
         }
-        field(40; "Minimum Leave at once"; Decimal)
-        {
-        }
+        field(40; "Minimum Leave at once"; Decimal) { }
         field(41; "Exclude in Service Period"; Boolean)
         {
             DataClassification = ToBeClassified;
@@ -211,7 +203,6 @@ table 50066 "Leave Type Setup"
     end;
 
     var
-        HRMgt: Codeunit "HR Mgt.";
         ErrorMaxDays: Label 'Maximum leave at once cannot be greater than days earned per year.';
         leaveMgt: Codeunit "Leave Mgt.";
 }

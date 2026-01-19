@@ -44,5 +44,4 @@ enum 50017 "Community Type"
     {
         Caption = 'Jitiya';
     }
-
 }

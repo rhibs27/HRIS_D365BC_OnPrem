@@ -214,6 +214,18 @@ page 50060 "Posted Attendance Card"
                         //ImportEmployee;
                     end;
                 }
+                action("View Deductions")
+                {
+                    Image = AnalysisView;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the View Deductions action';
+                    ApplicationArea = All;
+                    RunObject = page "Salary Deduction Entries";
+                    RunPageLink = "Attendance Document No" = field("No.");
+                    RunPageMode = View;
+                }
             }
         }
     }

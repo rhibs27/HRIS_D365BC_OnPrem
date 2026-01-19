@@ -35,7 +35,6 @@ table 50138 "Payroll Archive"
             TableRelation = "Salary Level";
         }
         field(11; "Grade Code"; Code[20]) { }
-        //salary level
         field(100; Rank; Integer)
         {
             Caption = 'Rank';
@@ -44,25 +43,15 @@ table 50138 "Payroll Archive"
         {
             Caption = 'Basic Salary';
         }
-        field(102; Allowances; Decimal)
-        {
-        }
+        field(102; Allowances; Decimal) { }
         field(103; "Transportation Allowances"; Decimal) { }
         field(104; "Store /Acc Allowance"; Decimal) { }
-        field(105; "Employee Maintenence Allowance"; Decimal)
-        {
-
-        }
-        field(106; "Transportation Allowance"; Decimal)
-        {
-
-        }
-        field(107; "Vehicle Maintenence Allowance"; Decimal)
-        {
-
-        }
+        field(105; "Employee Maintenence Allowance"; Decimal) { }
+        field(106; "Transportation Allowance"; Decimal) { }
+        field(107; "Vehicle Maintenence Allowance"; Decimal) { }
         field(109; "No. of grade"; Integer) { }
-
+        field(110; "EV Allowance"; Decimal) { }
+        field(111; "Fuel Limit (Ltrs)"; Decimal) { }
 
         //Remote area category
         field(200; Category; Code[20]) { }
@@ -74,7 +63,8 @@ table 50138 "Payroll Archive"
         {
             Description = 'KPI1.00';
         }
-
+        //level wise attribute
+        field(206; Grade; Decimal) { }
         //Allowance configuration
     }
     keys
@@ -116,6 +106,7 @@ table 50138 "Payroll Archive"
     var
         PayrollArchive: Record "Payroll Archive";
         SalaryLevel: Record "Salary Level";
+        LevelwiseAttribute: Record "Level Wise Attributes";
         lastEntryNo: Integer;
         DocNo: Code[20];
         PGSetup: Record "Payroll General Setup";
@@ -154,8 +145,8 @@ table 50138 "Payroll Archive"
                     PayrollArchive.Modify(true);
                     lastEntryNo += 1;
                 until SalaryLevel.Next() = 0;
-        end
-        else if TableNo = Database::"Remote Area Category" then begin
+
+        end else if TableNo = Database::"Remote Area Category" then begin
             RACategory.Reset();
             if RACategory.FindSet() then
                 repeat
@@ -172,8 +163,25 @@ table 50138 "Payroll Archive"
                     PayrollArchive.Modify(true);
                     lastEntryNo += 1;
                 until RACategory.Next() = 0;
-        end;
 
+        end else if TableNo = Database::"Level Wise Attributes" then begin
+            LevelwiseAttribute.Reset();
+            if LevelwiseAttribute.FindSet() then
+                repeat
+                    Clear(PayrollArchive);
+                    PayrollArchive.Init();
+                    PayrollArchive."Entry No." := lastEntryNo;
+                    PayrollArchive."Table No." := TableNo;
+                    PayrollArchive."Table Name" := LevelwiseAttribute.TableCaption;
+                    PayrollArchive."Effective Date" := EffectiveDate;
+                    PayrollArchive."Expire Date" := ExpireDate;
+                    PayrollArchive."Document No." := DocNo;
+                    PayrollArchive.Insert(true);
+                    PayrollArchive.CopyFromLevelWiseAttribute(LevelwiseAttribute);
+                    PayrollArchive.Modify(true);
+                    lastEntryNo += 1;
+                until LevelwiseAttribute.Next() = 0;
+        end;
     end;
 
     procedure CopyFromSalaryLevel(SalaryLevel: Record "Salary Level")
@@ -186,6 +194,8 @@ table 50138 "Payroll Archive"
         "Vehicle Maintenence Allowance" := SalaryLevel."Vehicle Maintenence Allowance";
         "Transportation Allowances" := SalaryLevel."Transportation Allowance";
         "No. of grade" := SalaryLevel."Grades Limit";
+        "EV Allowance" := SalaryLevel."EV Allowance";
+        "Fuel Limit (Ltrs)" := SalaryLevel."Fuel Limit (ltr)";
     end;
 
     procedure CopyFromRemoteAreaCategory(RACategory: Record "Remote Area Category")
@@ -198,6 +208,12 @@ table 50138 "Payroll Archive"
         "KPI Incentive %" := RACategory."KPI Incentive %";
     end;
 
+    procedure CopyFromLevelWiseAttribute(LevelwiseAttribute: Record "Level Wise Attributes")
+    begin
+        Grade := LevelwiseAttribute.Grade;
+        "Salary Level" := LevelwiseAttribute."Level Code";
+        "Basic Salary" := LevelwiseAttribute."Standard Basic Salary";
+    end;
 
     procedure CheckForDuplicate(TableNo: Integer; EffectiveDate: Date; ExpireDate: Date)
     var

@@ -2,7 +2,6 @@ codeunit 50032 "Attribute Adjustment Mgt"
 {
     trigger OnRun()
     begin
-
     end;
 
     procedure OnApprovalOfAttributeAdjustment(DocumentNo: Code[20])
@@ -54,9 +53,23 @@ codeunit 50032 "Attribute Adjustment Mgt"
         end;
     end;
 
+    procedure ApplyForAttributeAdj(AttrAdj: Record "Attribute Adjustment Header")
+    var
+        ApproverMgt: Codeunit "Approver Mgt";
+    begin
+        if not Confirm('Do you want to send Attribute Adjustment for approval?', false) then
+            exit;
+        ApproverMgt.UpdateFirstApproverStatus(AttrAdj."Document No.");
+        AttrAdj.TestField("Approval Status", AttrAdj."Approval Status"::Released);
+        AttrAdj.TestField("Pay Cycle Period");
+        AttrAdj.Validate("Approval Status", AttrAdj."Approval Status"::Pending);
+        AttrAdj.Modify();
+        if GuiAllowed then
+            Message('Attribute Adjustment is sent for approval.');
+    end;
+
     procedure UpdatePayrollAttributesInAttributeAdjustmentLine(AttributeAdjustmentHeader: Record "Attribute Adjustment Header")
     var
-        PayrollAttributes: Record "Payroll Attributes";
         AttributeAdjustmentLine, NewAttributeAdjustmentLine : Record "Attribute Adjustment Line";
         TempEmployee: Record Employee temporary;
         PayCyclePeriod: Record "Pay Cycle Period";
@@ -161,7 +174,6 @@ codeunit 50032 "Attribute Adjustment Mgt"
         ExNo: Integer;
         OsNo: Integer;
         NsNo: Integer;
-        BasicSalaryAfterDeduction: Decimal;
     begin
         ResolveColumnOnAttributeAdjustment(Expression, AttributeAdjustmentHeader, EmpCode, IsNewAmount);
         Expression := DelChr(Expression, '=', ',');
@@ -256,7 +268,6 @@ codeunit 50032 "Attribute Adjustment Mgt"
         StrLength: Integer;
         PayrollAttributes: Record "Payroll Attributes";
         AttributeAdjustmentLine: Record "Attribute Adjustment Line";
-        PayrollAttributesUsage: Record "Payroll Attributes Usage";
         BasicAmount: Decimal;
         Substring1: Text;
         SubString2: Text;
@@ -330,5 +341,4 @@ codeunit 50032 "Attribute Adjustment Mgt"
             exit(1);
         exit(0);
     end;
-
 }

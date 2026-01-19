@@ -51,7 +51,6 @@ codeunit 50004 "Travel Mgt."
     procedure CalculateNoOfDaysTravel(StartDate: Date; EndDate: Date): Decimal
     var
         DateError: Label 'Start Date (%1) must be less than End Date (%2).';
-        Difference: Decimal;
     begin
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate)
@@ -74,7 +73,6 @@ codeunit 50004 "Travel Mgt."
         ConfirmTravel: Label 'Do you want to send travel request ?';
         ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
         TravelRequest2: Record "Travel Request";
-        Date: Record Date;
         SalaryLevel1: Record "Salary Level";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
@@ -641,6 +639,7 @@ codeunit 50004 "Travel Mgt."
             HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
             Message('Travel Claim has been sent for apporval.');
             TravelRequest2."Travel Claimed" := true;
+            TravelRequest2."Travel claim Doc No." := TravelRequest."No.";
             TravelRequest2.Modify;
             OnAfterApplyTravelClaim(TravelRequest."No.");
         end;
@@ -677,7 +676,6 @@ codeunit 50004 "Travel Mgt."
     procedure TravelClaimApproved(TravelCode: Code[20])
     var
         TravelRequest: Record "Travel Request";
-        TravelRequest2: Record "Travel Request";
     begin
         if TravelRequest.Get(TravelCode) then begin
             TravelRequest."Travel Claimed" := true;
@@ -980,8 +978,6 @@ codeunit 50004 "Travel Mgt."
         Employee, Employee1 : Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         HRSetup: Record "Human Resources Setup";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        AttendanceSetup: Record "Attendance Setup";
         ApproverMgt: Codeunit "Approver Mgt";
 
     [IntegrationEvent(false, false)]

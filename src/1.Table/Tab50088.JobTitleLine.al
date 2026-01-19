@@ -20,10 +20,7 @@ table 50088 "Job Title Line"
             end;
         }
         field(5; Description; Text[50]) { }
-        field(6; "Job Type"; Enum "Job Desc./Spec. Entry Type ")
-        {
-
-        }
+        field(6; "Job Type"; Enum "Job Desc./Spec. Entry Type ") { }
     }
 
     keys

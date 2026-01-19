@@ -410,9 +410,6 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = All;
                 }
-
-
-
             }
             group("Encashment Code Group")
             {
@@ -523,7 +520,6 @@ page 50031 "Payroll General Setup"
                         ToolTip = 'Specifies the value of the Tax Ex. Amt. not Exeed on Medical Reimbursment field.';
                         ApplicationArea = All;
                     }
-
                 }
             }
             group(Numbering)
@@ -691,7 +687,6 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the limit to create Allowance claim document from Allowance End date';
                     ApplicationArea = All;
                 }
-
             }
             group(Settlement)
             {
@@ -801,7 +796,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Shift Assignment Memo Nos field.', Comment = '%';
                 }
-
+                field("Allow Future Allowance Request"; Rec."Allow Future Allowance Request")
+                {
+                    ToolTip = 'Specifies the value of the Allow Future Allowance Request field.', Comment = '%';
+                }
             }
             part(PayrollSetupLines; "Payroll Setup Lines")
             {
@@ -815,10 +813,7 @@ page 50031 "Payroll General Setup"
     {
         area(Promoted)
         {
-            actionref("UpdateTimeZone"; "Update Time Zone To UTC")
-            {
-
-            }
+            actionref("UpdateTimeZone"; "Update Time Zone To UTC") { }
         }
         area(Processing)
         {

@@ -66,5 +66,4 @@ page 50367 "Attribute Usage History"
             }
         }
     }
-
 }

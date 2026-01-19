@@ -233,7 +233,4 @@ page 50200 "Retirement Funds"
             }
         }
     }
-
-    var
-        HRMgt: Codeunit "HR Mgt.";
 }

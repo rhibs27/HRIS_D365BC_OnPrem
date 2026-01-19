@@ -1,6 +1,5 @@
 page 50351 "Travel Claim"
 {
-
     PageType = Card;
     SourceTable = "Travel Request";
     ApplicationArea = All;
@@ -15,7 +14,6 @@ page 50351 "Travel Claim"
             {
                 field("Employee No."; Rec."Employee No.")
                 {
-
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
                     Editable = false;
@@ -196,7 +194,6 @@ page 50351 "Travel Claim"
                     ToolTip = 'Specifies the value of the Claim Type field.';
                     ApplicationArea = All;
                 }
-
                 field("Travel Countries"; Rec."Travel Countries")
                 {
                     ToolTip = 'Specifies the value of the Claimed Country field.';
@@ -212,10 +209,8 @@ page 50351 "Travel Claim"
                     ToolTip = 'Specifies the value of the Reimbursable field.';
                     ApplicationArea = All;
                 }
-
                 Group("Allowance Limit")
                 {
-
                     field("Fooding Per Day Limit"; Rec."Fooding Per Day Limit")
                     {
                         ToolTip = 'Specifies the value of the Fooding Per Day Limit field.';
@@ -245,7 +240,6 @@ page 50351 "Travel Claim"
                         ToolTip = 'Specifies the value of the Fooding Allowance field.';
                         ApplicationArea = All;
                     }
-
                     field("Actual Lodging Allowance"; Rec."Lodging Allowance")
                     {
                         Editable = true;
@@ -290,7 +284,6 @@ page 50351 "Travel Claim"
                         ToolTip = 'Specifies the value of the Net Receivable/Payable field.';
                         ApplicationArea = All;
                     }
-
                 }
             }
             part(Attachment; "Attachment Subform")
@@ -348,7 +341,6 @@ page 50351 "Travel Claim"
                         ApprovalMgt.ApproveRejectDocument(RecRef, true);
                         Message('Travel Claim is Approved by %1', HRMgt.GetEmpName());
                     end;
-
                 end;
             }
             action("Reject Travel Request")
@@ -409,4 +401,3 @@ page 50351 "Travel Claim"
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
 }
-

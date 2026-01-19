@@ -1,6 +1,5 @@
 page 50017 "List of Training by Employee"
 {
-
     Editable = false;
     PageType = List;
     SourceTable = "Training Line";

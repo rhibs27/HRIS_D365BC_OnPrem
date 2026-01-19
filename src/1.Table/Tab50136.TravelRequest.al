@@ -32,9 +32,7 @@ table 50136 "Travel Request"
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -66,13 +64,11 @@ table 50136 "Travel Request"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[50])
+        field(4; "Employee Name"; Text[100])
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -214,17 +210,13 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
@@ -232,12 +224,13 @@ table 50136 "Travel Request"
         }
         field(18; Department; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -248,6 +241,7 @@ table 50136 "Travel Request"
         }
         field(22; "Branch Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Branch));
         }
         field(24; "Employee Work Shift"; Code[20])
         {
@@ -261,51 +255,34 @@ table 50136 "Travel Request"
         }
         field(28; "Extension Counter Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
         field(30; "Province Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Province));
         }
         field(31; "Unit Code"; Code[20])
         {
+            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
         }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
+        field(34; Ecosystem; Code[20]) { }
+        field(35; "Office Code"; Code[20]) { }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
         field(38; "Approver Type"; Enum "Approver Type")
         {
             Editable = false;
         }
-        field(39; Cancelled; Boolean)
-        {
-        }
-        field(40; "Cancelled No."; Code[20])
-        {
-        }
+        field(39; Cancelled; Boolean) { }
+        field(40; "Cancelled No."; Code[20]) { }
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;
         }
-        field(50; "Type Of Visit"; Enum "Type Of Visit")
-        {
-        }
-        field(51; "Mode Of Travel"; Enum "Mode Of Travel")
-        {
-        }
+        field(50; "Type Of Visit"; Enum "Type Of Visit") { }
+        field(51; "Mode Of Travel"; Enum "Mode Of Travel") { }
         field(52; "Departure From"; Text[30])
         {
             trigger OnValidate()
@@ -340,12 +317,8 @@ table 50136 "Travel Request"
                     Validate("Destination", HRMgt.LookupCountry());
             end;
         }
-        field(54; Description; Text[250])
-        {
-        }
-        field(55; "Purpose of Travel"; Text[100])
-        {
-        }
+        field(54; Description; Text[250]) { }
+        field(55; "Purpose of Travel"; Text[100]) { }
         field(56; "Advance Cash Required"; Boolean)
         {
             trigger OnValidate()
@@ -426,9 +399,7 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
-        field(64; Extended; Boolean)
-        {
-        }
+        field(64; Extended; Boolean) { }
         field(65; "Travel Order No."; Code[20])
         {
             Editable = false;
@@ -480,9 +451,7 @@ table 50136 "Travel Request"
         {
             TableRelation = Currency;
         }
-        field(69; "Exchange Rate"; Decimal)
-        {
-        }
+        field(69; "Exchange Rate"; Decimal) { }
         field(70; "Departure Time"; Time)
         {
             trigger OnValidate()
@@ -527,12 +496,8 @@ table 50136 "Travel Request"
                     Validate("Estimated Transportation Cost", 0);
             end;
         }
-        field(75; "Actual Travel Start Date"; Date)
-        {
-        }
-        field(76; "Actual Travel End Date"; Date)
-        {
-        }
+        field(75; "Actual Travel Start Date"; Date) { }
+        field(76; "Actual Travel End Date"; Date) { }
         field(77; "Actual Travel Start Time"; Time)
         {
             trigger OnValidate()
@@ -565,9 +530,7 @@ table 50136 "Travel Request"
                 end;
             end;
         }
-        field(79; "Travel Claimed"; Boolean)
-        {
-        }
+        field(79; "Travel Claimed"; Boolean) { }
         field(80; "Travel With Name"; Text[100])
         {
             Editable = false;
@@ -579,9 +542,7 @@ table 50136 "Travel Request"
                 CalculateTotalClaim;
             end;
         }
-        field(82; "Claimed Country"; Text[30])
-        {
-        }
+        field(82; "Claimed Country"; Text[30]) { }
         field(83; "Fooding Allowance"; Decimal)
         {
             Editable = false;
@@ -684,6 +645,10 @@ table 50136 "Travel Request"
         {
             DataClassification = ToBeClassified;
         }
+        field(98; "Travel claim Doc No."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(100; Status; Text[20])
         {
             DataClassification = ToBeClassified;
@@ -695,12 +660,8 @@ table 50136 "Travel Request"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date", "End Date", "Approved Date")
-        {
-        }
-        key(Key3; "Employee No.", "Approval Status")
-        {
-        }
+        key(Key2; "Start Date", "End Date", "Approved Date") { }
+        key(Key3; "Employee No.", "Approval Status") { }
     }
     trigger OnInsert()
     begin

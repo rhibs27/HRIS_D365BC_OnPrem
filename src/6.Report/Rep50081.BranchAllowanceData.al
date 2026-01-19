@@ -140,8 +140,6 @@ report 50081 "Branch Allowance Data"
     var
         Title: Label 'Branch Allowance Data';
         Counter: Integer;
-        FunctionalTitle: Record "Functional Title";
-        Employee: Record Employee;
         EmailEMECM: Text;
         EmailBM: Text;
         EngNepDate: Record "English-Nepali Date";

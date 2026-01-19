@@ -8,15 +8,9 @@ table 50034 "Posted Payroll Header"
 
     fields
     {
-        field(1; "No."; Code[20])
-        {
-        }
-        field(2; "From Date"; Date)
-        {
-        }
-        field(3; "To Date"; Date)
-        {
-        }
+        field(1; "No."; Code[20]) { }
+        field(2; "From Date"; Date) { }
+        field(3; "To Date"; Date) { }
         field(4; Month; Enum "English Month")
         {
             Editable = false;
@@ -42,16 +36,11 @@ table 50034 "Posted Payroll Header"
         {
             TableRelation = "No. Series";
         }
-        field(10; "Document Date"; Date)
-        {
-        }
-        field(11; "Posting Date"; Date)
-        {
-        }
+        field(10; "Document Date"; Date) { }
+        field(11; "Posting Date"; Date) { }
         field(12; Status; enum "Approval Status")
         {
             Editable = false;
-
         }
         field(13; "Posting No."; Code[20]) { }
         field(14; "Posting No. Series"; Code[20])
@@ -63,16 +52,9 @@ table 50034 "Posted Payroll Header"
         {
             TableRelation = "User Setup";
         }
-        field(17; "From Date (B.S)"; Code[20])
-        {
-        }
-        field(18; "To Date (B.S)"; Code[20])
-        {
-        }
-        field(19; "Nepali Month"; Enum "Nepali Month")
-        {
-
-        }
+        field(17; "From Date (B.S)"; Code[20]) { }
+        field(18; "To Date (B.S)"; Code[20]) { }
+        field(19; "Nepali Month"; Enum "Nepali Month") { }
         field(20; "Nepali Year"; Integer) { }
         field(21; "Pay Cycle Code"; Code[20])
         {
@@ -100,23 +82,10 @@ table 50034 "Posted Payroll Header"
             Editable = false;
             FieldClass = FlowField;
         }
-
         field(28; Irregular; Boolean) { }
-        field(29; Type; Enum "Payroll Header Type")
-        {
-
-        }
-
-
-
-        field(30; "Employee Type"; enum "Employee Type")
-        {
-
-        }
-
+        field(29; Type; Enum "Payroll Header Type") { }
+        field(30; "Employee Type"; enum "Employee Type") { }
         field(31; "Gross Payment"; Boolean) { }
-
-
         field(32; Narration; Text[250])
         {
             Width = 100;
@@ -128,9 +97,7 @@ table 50034 "Posted Payroll Header"
         {
             TableRelation = "OT Encashment Setup";
         }
-        field(37; "Encashment Period"; Enum "Encashment Period")
-        {
-        }
+        field(37; "Encashment Period"; Enum "Encashment Period") { }
         field(39; "Posted Date"; DateTime) { }
         field(40; "Approver Code"; Code[20])
         {
@@ -157,10 +124,7 @@ table 50034 "Posted Payroll Header"
         }
         field(45; "Pre-Assigned No."; Code[20]) { }
         field(46; Reversed; Boolean) { }
-        field(501; "Optimal Deduction"; Boolean)
-        {
-
-        }
+        field(501; "Optimal Deduction"; Boolean) { }
     }
 
     keys
@@ -170,10 +134,6 @@ table 50034 "Posted Payroll Header"
     }
 
     fieldgroups { }
-
-    var
-        Text001: Label 'Do you want to reverse Posted Payroll document %1?';
-        Text003: Label 'The entries were successfully reversed.';
 
     procedure Navigate()
     var
@@ -186,10 +146,17 @@ table 50034 "Posted Payroll Header"
     procedure SendEmail(DocumentNo: Code[20])
     var
         PostedPayrollHeaderRec: Record "Posted Payroll Header";
+        MailForPayrollReport: Report "Mail for Payroll";
     begin
         PostedPayrollHeaderRec.Reset;
         PostedPayrollHeaderRec.SetRange("No.", DocumentNo);
-        Report.Run(Report::"Mail for Payroll", true, true, PostedPayrollHeaderRec);
+        //Report.Run(Report::"Mail for Payroll", true, true, PostedPayrollHeaderRec);
+        if PostedPayrollHeaderRec.FindFirst() then begin
+            Clear(MailForPayrollReport);
+            MailForPayrollReport.SetYearMonth(PostedPayrollHeaderRec."Nepali Year", PostedPayrollHeaderRec."Nepali Month");
+            MailForPayrollReport.SetTableView(PostedPayrollHeaderRec);
+            MailForPayrollReport.Run();
+        end;
     end;
 
     procedure ReverseDocument(var PostedPayrollHeader: Record "Posted Payroll Header")
@@ -263,6 +230,7 @@ table 50034 "Posted Payroll Header"
         LeaveEarn: Record "Leave Earn";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         OvertimeLedgerEntry: Record "OverTime Ledger Entry";
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
     begin
         LeaveEarn.SetRange("Payroll Posted", true);
         LeaveEarn.SetRange("Payroll Document No", PostedDocNo);
@@ -283,6 +251,7 @@ table 50034 "Posted Payroll Header"
             repeat
                 AssignmentMemoLedgerEntry."Payroll Document No." := '';
                 AssignmentMemoLedgerEntry.Open := true;
+                AssignmentMemoLedgerEntry."Payroll Posted" := false;
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
 
@@ -294,5 +263,10 @@ table 50034 "Posted Payroll Header"
                 OvertimeLedgerEntry."OT Disbursed" := false;
                 OvertimeLedgerEntry.Modify();
             until OvertimeLedgerEntry.Next() = 0;
+
+        SalaryDeductionEntry.Reset();
+        SalaryDeductionEntry.SetRange("Payroll Document No.", "No.");
+        SalaryDeductionEntry.ModifyAll("Payroll Posted", false);
+        SalaryDeductionEntry.ModifyAll("Payroll Document No.", '');
     end;
 }
