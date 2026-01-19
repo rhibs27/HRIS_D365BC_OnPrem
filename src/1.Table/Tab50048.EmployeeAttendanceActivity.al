@@ -256,6 +256,15 @@ table 50048 "Employee Attendance & Activity"
         }
         field(201; "Present in Holiday"; Decimal) { }
         field(202; Remarks; Text[150]) { }
+
+        field(203; "Pending Leave Request Doc No."; Code[20])
+        {
+            Description = 'To store Pending Leave Document.';
+        }
+        field(204; "Pending Update Atten. Doc No."; Code[20])
+        {
+            Description = 'To store Pending Update Attendance Document.';
+        }
     }
 
     keys

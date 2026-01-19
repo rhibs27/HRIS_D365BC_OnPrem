@@ -254,6 +254,81 @@ codeunit 50030 "Assignment Memo Mgt"
         end;
     end;
 
+#if SaasFeature
+    procedure SendApprovalAssignmentMemo(var AssignmentmemoHdr: Record "Assignment Memo Header"; AccessToken: text[60])
+    var
+        AssignmentMemoLine, AssignmentMemoLine2 : Record "Assignment Memo Line";
+        ApproverMgt: Codeunit "Approver Mgt";
+        ApprovalHrms: Record "Approval HRMS";
+        IsHandled: Boolean;
+    begin
+        ProcessAssignmentRequestFromCopyTable(AssignmentmemoHdr, IsHandled);
+        if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
+            AssignmentMemoHdr.TestField(Remarks);
+
+        AssignmentMemoLine2.SetRange("Document No.", AssignmentmemoHdr."No.");
+        if AssignmentMemoLine2.Count = 0 then
+            Error('Nothing to send for approval.');
+
+        AssignmentMemoLine2.CalcSums("Allowance Amount");
+        if AssignmentMemoLine2."Allowance Amount" = 0 then
+            if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
+                Error('Total Allowance Amount cannot be zero.');
+
+        CheckAttachmentOnBeforeSendForApproval(AssignmentmemoHdr);  //check mandatory attachment exist
+        AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);  //company specific and allowance specific controls
+        if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Allowance Assignment Memo" then
+            AllowanceAssignmentmemoOnbeforeSendForApproval(AssignmentmemoHdr."No."); //only for assignment to check limit
+        CheckIfAllowanceIsSubstitutedForTheDate(AssignmentmemoHdr);  //do now allow to request if already substituted
+
+        ApproverMgt.UpdateFirstApproverStatus(AssignmentmemoHdr."No.");
+
+        if AssignmentmemoHdr."Approval Status" in [AssignmentmemoHdr."Approval Status"::Open, AssignmentmemoHdr."Approval Status"::Created] then
+            AssignmentmemoHdr.Validate("Approval Status", AssignmentmemoHdr."Approval Status"::"Pending");
+        if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Open then
+            AssignmentmemoHdr.Validate("Substitute Approval Status", AssignmentmemoHdr."Substitute Approval Status"::"Pending");
+        AssignmentmemoHdr.Modify(true);
+
+        AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
+        AssignmentMemoLine.SetRange("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+        if AssignmentMemoLine.FindSet() then
+            repeat
+                AssignmentMemoLine.TestField("Employee No.");
+                AssignmentMemoLine.TestField("From Date");
+                AssignmentMemoLine.TestField("To Date");
+
+                if AssignmentMemoLine."Emp Act Type" in [AssignmentMemoLine."Emp Act Type"::"Allowance Assignment Memo", AssignmentMemoLine."Emp Act Type"::"Request Allowance"] then begin
+                    AssignmentMemoLine.TestField("Payroll Attribute Code");
+                end;
+                if AssignmentMemoLine."Emp Act Type" = AssignmentMemoLine."Emp Act Type"::"Shift Assignment Memo" then begin
+                    AssignmentMemoLine.TestField("Employee Work Shift");
+                end;
+
+                CheckAmountForReimbursement(AssignmentMemoLine);
+                if AssignmentMemoLine."Allowance Amount" = 0 then
+                    AssignmentMemoLine.CalculateAmountForLine();  //calculate the amount before sending for approval
+                AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::"Pending");
+                AssignmentMemoLine.Modify();
+            until AssignmentMemoLine.Next() = 0;
+
+        //final check allowance amount 
+        AssignmentMemoLine.Reset();
+        AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
+        AssignmentMemoLine.SetRange("Allowance Amount", 0);
+        if not AssignmentMemoLine.IsEmpty() then
+            Error('allowance amount cannot be zero for any line.');
+
+        //In case of substitute, open the approval for substitute
+        if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Pending then begin
+            ApprovalHrms.SetFilter("Approval Sequence", '>%1', 1);
+            ApprovalHrms.SetRange("Document No.", AssignmentmemoHdr."No.");
+            ApprovalHrms.SetFilter("Approval Sequence", '>%1', 1);
+            if ApprovalHrms.FindSet() then
+                ApprovalHrms.ModifyAll("Approval Status", ApprovalHrms."Approval Status"::Created);
+        end;
+    end;
+#endif
+
     procedure InsertSubstituteAssignmentMemo(docNo: Code[20]; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20])
     var
         SubAssigmemoLine: Record "Assignment Memo Line";

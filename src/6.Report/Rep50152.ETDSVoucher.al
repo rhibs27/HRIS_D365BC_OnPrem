@@ -40,6 +40,7 @@ report 50152 "ETDS Voucher"
             dataitem(PostedPayrollLine2; "Posted Payroll Line")
             {
                 DataItemLink = "Document No." = field("No.");
+                DataItemTableView = where(Reversed = const(false));
                 column(Document_No_2; "Document No.") { }
                 column(RIT; ROUND(RITField, GlSetup."Amount Rounding Precision")) { }
                 column(EmployeeNo2; "Employee No.") { }

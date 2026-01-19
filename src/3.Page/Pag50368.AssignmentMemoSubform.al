@@ -18,6 +18,10 @@ page 50368 "Assignment Memo Subform"
                 {
                     ToolTip = 'Specifies the value of the Allowance Type field.', Comment = '%';
                 }
+                field("Payroll Attribute Description"; Rec."Payroll Attribute Description")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Attribute Description field.';
+                }
                 field("Employee Code"; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.', Comment = '%';
@@ -72,6 +76,10 @@ page 50368 "Assignment Memo Subform"
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                     DrillDownPageId = "Assignment Memo Ledger Entries";
                 }
+                field("Emp Act Type"; Rec."Emp Act Type")
+                {
+                    ToolTip = 'Specifies the value of the Emp Act Type field.';
+                }
             }
         }
     }
@@ -104,8 +112,9 @@ page 50368 "Assignment Memo Subform"
                     // if (FromDate <> 0D) and (ToDate <> 0D) and (EmpCode <> '') then begin
                     //     AssignmentMemoMgt.InsertSubstituteAssignmentMemo(Rec."Document No.", Rec."Line No.", FromDate, ToDate, EmpCode);
                     //     Message('Substitute Assignment Memo inserted successfully.');
-                    // end;
+                    // end;        
                     Clear(SubstituteAssignmentreport);
+                    CurrPage.SetSelectionFilter(Rec);
                     SubstituteAssignmentreport.SetAssignmentmemoLine(Rec);
                     SubstituteAssignmentreport.Run();
                     CurrPage.Update();
