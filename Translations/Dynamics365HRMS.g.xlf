@@ -123,16 +123,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - NamedType 4034540392" size-unit="char" translate="yes" xml:space="preserve">
-          <source>%1 and %2 cannot be assigned on same date %3.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - NamedType TEXT001</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - NamedType 377269713" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - NamedType TEXT002</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cannot delete document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21452,6 +21442,11 @@
           <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Allowance Assignment Mgt - Method CheckMaximumEmployeeInBranch - NamedType TEXT002</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 16707583 - Method 1787603467 - NamedType 4034540392" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 and %2 cannot be assigned on same date %3.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Allowance Assignment Mgt - Method CheckMutuallyExclusive - NamedType TEXT001</note>
         </trans-unit>
         <trans-unit id="Codeunit 1293262007 - NamedType 2958218723" size-unit="char" translate="yes" xml:space="preserve">
           <source> : </source>
