@@ -167,6 +167,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
                         NewAttributeAdjustmentLine.Insert();
                 until PayrollAttribUsage.Next() = 0;
 
+            NewAttributeAdjustmentLine1.Reset();
             NewAttributeAdjustmentLine1.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
             NewAttributeAdjustmentLine1.SetRange("Employee No.", TempEmployee."No.");
             NewAttributeAdjustmentLine1.SetRange("Formula Column Id Exists", true);
