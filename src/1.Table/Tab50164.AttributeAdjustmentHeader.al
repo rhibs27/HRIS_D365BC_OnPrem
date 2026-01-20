@@ -103,6 +103,7 @@ table 50164 "Attribute Adjustment Header"
     var
         CannotDelete: Label 'Cannot delete %1 document.';
         ApprovalEntry: Record "Approval HRMS";
+        AttributesAdjustmentLines: Record "Attribute Adjustment Line";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created, "Approval Status"::Open]) then
             Error(CannotDelete, Format("Approval Status").ToLower)
@@ -111,6 +112,9 @@ table 50164 "Attribute Adjustment Header"
             ApprovalEntry.SetRange("Document No.", "Document No.");
             ApprovalEntry.SetRange("Employee No", HrMgt.GetEmployeeNo());
             ApprovalEntry.DeleteAll();
+            AttributesAdjustmentLines.Reset();
+            AttributesAdjustmentLines.SetRange("Document No.", "Document No.");
+            AttributesAdjustmentLines.DeleteAll();
         end;
     end;
 
@@ -122,19 +126,6 @@ table 50164 "Attribute Adjustment Header"
             NoSeries.GetNextNo(Rec."Document No.");
             exit(true);
         end;
-    end;
-
-    procedure ApplyForAttributeAdj(AttrAdj: Record "Attribute Adjustment Header")
-    begin
-        if not Confirm('Do you want to send Attribute Adjustment for approval?', false) then
-            exit;
-        ApproverMgt.UpdateFirstApproverStatus(AttrAdj."Document No.");
-        AttrAdj.TestField("Approval Status", AttrAdj."Approval Status"::Released);
-        AttrAdj.TestField("Pay Cycle Period");
-        AttrAdj.Validate("Approval Status", AttrAdj."Approval Status"::Pending);
-        AttrAdj.Modify();
-        if GuiAllowed then
-            Message('Attribute Adjustment is sent for approval.');
     end;
 
     var

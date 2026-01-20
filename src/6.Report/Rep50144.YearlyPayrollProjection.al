@@ -185,7 +185,7 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatType = 1;
             }
             column(OneThird; Round(OneThird, GlSetup."Amount Rounding Precision")) { }
-            column(TotalAnualEarning; Round(TotalAnnualEarning, GlSetup."Amount Rounding Precision")) { }
+            column(TotalAnualEarning; Round(TotalAnnualEarning + TotalNonPayment, GlSetup."Amount Rounding Precision")) { }
             column(PastBenefit; Round(PastBenefit, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
@@ -631,11 +631,11 @@ report 50144 "Yearly Payroll Projection"
         SetupEmployeeForCalculation(Employee);
         // Calculate Total Annual Earning (Basic + Other Earnings, Non-taxable excluded)
         CalculateTotalAnnualEarning();
-        CalculateTotalRetirement();
-        CalculateTaxExemptions();
+        CalculateNonPaymentAndNonTaxable();
         CalculateInsuranceAmounts();
         TotalDonation := GetDonationAmount(EmployeeFilter);
-        CalculateNonPaymentAndNonTaxable();
+        CalculateTotalRetirement();
+        CalculateTaxExemptions();
         CalculateFinalTaxableAmount();
     end;
 
@@ -692,6 +692,7 @@ report 50144 "Yearly Payroll Projection"
     var
         EmpPayrollOpening: Record "Employee Payroll Opening";
         PastRetirementAmount: Decimal;
+        RetirementAmount, GratuityAmount : Decimal;
     begin
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
@@ -702,13 +703,20 @@ report 50144 "Yearly Payroll Projection"
             TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
             TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution");
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        RetirementAmount := TempDetailedEmpLedgerEntry.Amount;
+        TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::"Non-Payment");
+        TempDetailedEmpLedgerEntry.SetRange("Attribute Sub Type", TempDetailedEmpLedgerEntry."Attribute Sub Type"::Gratuity);
+        TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        GratuityAmount := TempDetailedEmpLedgerEntry.Amount;
         PastRetirementAmount := 0;
         EmpPayrollOpening.Reset();
         EmpPayrollOpening.SetRange("Employee No.", EmployeeFilter);
         EmpPayrollOpening.SetRange("Fiscal Year", PayCycleTerm);
         if EmpPayrollOpening.FindFirst() then
             PastRetirementAmount := EmpPayrollOpening."Total RF Opening";
-        TotalRetirement := TempDetailedEmpLedgerEntry.Amount + PastRetirementAmount;
+        EmpVar.CalcFields("Lump Sum CIT");
+        TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT";
     end;
     // Calculate final taxable amount after all deductions
     local procedure CalculateFinalTaxableAmount()
@@ -722,7 +730,7 @@ report 50144 "Yearly Payroll Projection"
     begin
         // Calculate one third of gross income
         if PgSetup."Tax Ex. Amt Divsion" <> 0 then
-            OneThird := TotalAnnualEarning / PgSetup."Tax Ex. Amt Divsion";
+            OneThird := (TotalAnnualEarning + TotalNonPayment) / PgSetup."Tax Ex. Amt Divsion";
         // Get Tax Exemption Limit from Payroll Setup Line filtered by Pay Cycle Term
         TaxExemptionLimit := GetTaxExemptionLimitFromSetupLine();
         // Calculate minimum value among total retirement contribution, one third of gross income, and tax exemption limit
@@ -987,6 +995,8 @@ report 50144 "Yearly Payroll Projection"
     end;
     // Gets insurance amount for specific insurance type with validation
     local procedure GetInsuranceAmount(EmployeeNo: Code[20]; InsuranceType: Enum "Employee Insurance Type"): Decimal
+    Var
+        HomeLoanInsurance: Record "Employee Loan/Advance";
     begin
         EmployeeInsuranceInfo.Reset();
         EmployeeInsuranceInfo.SetRange("Employee No.", EmployeeNo);
@@ -996,9 +1006,19 @@ report 50144 "Yearly Payroll Projection"
         EmployeeInsuranceInfo.SetRange("Insurance Type", InsuranceType);
         if EmployeeInsuranceInfo.FindSet() then begin
             EmployeeInsuranceInfo.CalcSums("Annual Premium Amount");
+            if InsuranceType = InsuranceType::"Life Insurance" then begin
+                HomeLoanInsurance.Reset();
+                HomeLoanInsurance.SetRange("Employee No.", EmployeeNo);
+                HomeLoanInsurance.SetRange("Loan Type", HomeLoanInsurance."Loan Type"::"Home Loan Insurance Tieup");
+                HomeLoanInsurance.SetRange("Approval Status", HomeLoanInsurance."Approval Status"::Approved);
+                HomeLoanInsurance.SetRange(Settled, false);
+                HomeLoanInsurance.CalcSums("Yearly Premium Amount");
+                exit(EmployeeInsuranceInfo."Annual Premium Amount" + HomeLoanInsurance."Yearly Premium Amount");
+            end;
             exit(EmployeeInsuranceInfo."Annual Premium Amount");
         end;
         exit(0);
+
     end;
     // Gets total donation amount for the employee within the fiscal year
     local procedure GetDonationAmount(EmployeeNo: Code[20]): Decimal

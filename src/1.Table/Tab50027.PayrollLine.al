@@ -1703,12 +1703,31 @@ table 50027 "Payroll Line"
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
 
                         AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true);
+                        if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
+                            AttributeAmount := AttributeAmount + GetOneTimeRFContributionAmount(PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
                         if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;
+    end;
+
+    procedure GetOneTimeRFContributionAmount(PayrollAttributesCode: Code[20]): Decimal
+    var
+        RetirementFundHeader: Record "Retirement Fund";
+    begin
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            RetirementFundHeader.Reset();
+            RetirementFundHeader.SetRange("Employee No.", "Employee No.");
+            RetirementFundHeader.SetRange("Attribute Code", PayrollAttributesCode);
+            RetirementFundHeader.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+            RetirementFundHeader.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+            RetirementFundHeader.SetRange("Payroll Month", PayrollHeader."Nepali Month");
+            RetirementFundHeader.SetRange("Approval Status", RetirementFundHeader."Approval Status"::Approved);
+            if RetirementFundHeader.FindLast() then
+                exit(RetirementFundHeader."One Time Contribution");
+        end;
     end;
 
     local procedure IsValidComponent(): Boolean

@@ -3722,7 +3722,7 @@ codeunit 50008 "Payroll Engine"
         if PayrollAttributes.FindFirst() then
             exit(PayrollAttributes.Code)
         else
-            Error('Payroll Attribute for Overtime not found');
+            Error('Payroll Attribute not found For %1 Subtype', PayrollSubtype);
         OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
     end;
 
