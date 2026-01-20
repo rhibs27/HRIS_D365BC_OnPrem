@@ -594,7 +594,7 @@ codeunit 50000 "Leave Mgt."
         LeaveEarn.Reset;
         LeaveEarn.SetRange("Employee No.", EmpCode);
         LeaveEarn.SetRange("Leave Code", LeaveTypecode);
-        LeaveEarn.SetRange("Posted Date", 0D, PostDate);
+        // LeaveEarn.SetRange("Posted Date", 0D, PostDate);
         LeaveEarn.CalcSums("Balancing Days");
         exit(LeaveEarn."Balancing Days");
     end;
