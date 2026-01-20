@@ -25,7 +25,7 @@ table 50027 "Payroll Line"
                 Employee.TestField(Settled, false);
                 Employee.TestField("Tax Code");
                 Employee.TestField("Do not Calculate Salary", false);
-                if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+                if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
                     Employee.TestField(Status, Employee.Status::Active);
 
                 Validate(Type, PayrollHeader.Type);
@@ -1559,7 +1559,7 @@ table 50027 "Payroll Line"
         GetPayrollHeader;
         Employee.Get("Employee No.");
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         Employee.TestField("Bank Account No.");

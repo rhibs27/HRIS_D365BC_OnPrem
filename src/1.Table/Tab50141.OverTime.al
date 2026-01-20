@@ -87,8 +87,8 @@ table 50141 OverTime
                 if not IsHandled then begin
                     Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
                     Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
-                    HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                     if type = type::Overtime then begin
+                        HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                         EmployeeAttendance.Reset;
                         EmployeeAttendance.SetRange("Employee No.", "Employee No.");
                         EmployeeAttendance.SetRange("Attendance Date", "Start Date");
