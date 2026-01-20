@@ -252,4 +252,29 @@ codeunit 50020 "Attachment Mgt."
             DownloadFromStream(Instream, '', '', '', ToFile);
         end;
     end;
+
+    procedure CheckIfAttachmentExistsAsPerTheSetup(AttachmentType: enum "Attachment Setup Type"; AttachmentSubType: Enum "Attachment Setup SubType"; DocNo: Text): Boolean
+    var
+        AttachmentSetup: Record "Attachment Setup";
+        IncomintDocument: Record "Incoming Document";
+    begin
+        AttachmentSetup.SetRange(Mandatory, true);
+        AttachmentSetup.SetRange(Type, AttachmentType);
+        AttachmentSetup.SetRange("Sub Type", AttachmentSubType);
+        if AttachmentSetup.FindFirst() then begin
+            IncomintDocument.SetRange("Document No.", DocNo);
+            IncomintDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+            if IncomintDocument.IsEmpty() then
+                exit(false);
+
+            if IncomintDocument.findset() then
+                repeat
+                    if not IncomintDocument.HasAttachment() then
+                        exit(false);
+                until IncomintDocument.Next() = 0;
+
+            exit(true);
+        end;
+        exit(true);  //if setup does not exist, then no need to check attachment
+    end;
 }

@@ -59,6 +59,8 @@ table 50165 "Attribute Adjustment Line"
             begin
                 if PayrollAttrUsage.Get("Attribute Code", "Employee No.") then
                     Validate("Old Amount", PayrollAttrUsage.Amount);
+                if Rec."Attribute Code" <> xRec."Attribute Code" then
+                    Clear("New Amount");
             end;
         }
         field(7; "Old Amount"; Decimal)
@@ -68,6 +70,10 @@ table 50165 "Attribute Adjustment Line"
         field(8; "New Amount"; Decimal)
         {
             Caption = 'New Amount';
+            trigger OnValidate()
+            begin
+                Rec.TestField("Attribute Code");
+            end;
         }
         field(9; "Effective Start Date"; Date)
         {

@@ -114,6 +114,11 @@ page 50369 "Assignment Memo Ledger Entries"
                 {
                     ToolTip = 'Specifies the value of the Reversed field.', Comment = '%';
                 }
+                field("Attendance Checked"; Rec."Attendance Checked")
+                {
+                    ToolTip = 'Specifies the value of the Attendance Checked field.', Comment = '%';
+                    Editable = false;
+                }
             }
         }
     }
@@ -145,4 +150,12 @@ page 50369 "Assignment Memo Ledger Entries"
             }
         }
     }
+    trigger OnModifyRecord(): Boolean
+    var
+        UserSetup: Record "User Setup";
+    begin
+        UserSetup.Get(UserId());
+        if not UserSetup."Is Admin" then
+            Error('You do not have permission to modify records in this page.');
+    end;
 }
