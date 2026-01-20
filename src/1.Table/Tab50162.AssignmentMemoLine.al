@@ -458,6 +458,7 @@ table 50162 "Assignment Memo Line"
         if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
             AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
         AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
+        AssignmentMemoLine.SetFilter("Approval Status", '<>%1', PAssignMemo."Approval Status"::"Rejected");  //for same document check all status line except reject.
         AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
         AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
         AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
