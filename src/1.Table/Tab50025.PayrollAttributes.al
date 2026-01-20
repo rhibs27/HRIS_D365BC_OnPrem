@@ -150,6 +150,10 @@ table 50025 "Payroll Attributes"
         {
             Caption = 'RF Contribution Type';
         }
+        field(44; "Formula Column ID"; Code[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

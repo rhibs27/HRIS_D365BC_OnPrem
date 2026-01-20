@@ -87,6 +87,10 @@ table 50165 "Attribute Adjustment Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(12; "Formula Column Id Exists"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
