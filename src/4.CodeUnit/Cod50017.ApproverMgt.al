@@ -477,6 +477,7 @@ codeunit 50017 "Approver Mgt"
                                     // before sending approval
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
+                                    RFContribution.Reset();
                                     RFContribution.SetRange("Document No.", DocumentNo);
                                     RFContribution.ModifyAll("Approval Status", RFContribution."Approval Status"::Rejected);
                                 end;
@@ -760,6 +761,9 @@ codeunit 50017 "Approver Mgt"
                                     // brfore sending approval
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
+                                    RFContribution.Reset();
+                                    RFContribution.SetRange("Document No.", DocumentNo);
+                                    RFContribution.ModifyAll("Approval Status", RFContribution."Approval Status"::Rejected);
                                 end;
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);

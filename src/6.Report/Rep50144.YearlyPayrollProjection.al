@@ -549,19 +549,6 @@ report 50144 "Yearly Payroll Projection"
         // Get employee record for additional checks
         if not EmpRec.Get(EmployeeFilter) then
             exit(0);
-        // // Look for existing payroll entries for this employee
-        // DetailedEmpLedgerEntry.Reset();
-        // DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
-        // DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
-        // DetailedEmpLedgerEntry.SetRange(Reversed, false);
-        // if DetailedEmpLedgerEntry.FindSet() then begin
-        //     HasActualEntries := true;
-        //     // Find the latest period with actual data
-        //     repeat
-        //         if DetailedEmpLedgerEntry."Pay Cycle Period" > LastActualPeriod then
-        //             LastActualPeriod := DetailedEmpLedgerEntry."Pay Cycle Period";
-        //     until DetailedEmpLedgerEntry.Next() = 0;
-        // end;
         // Also check posted payroll headers to find the latest processed period
         PostedPayrollHeader.Reset();
         PostedPayrollHeader.SetCurrentKey("Pay Cycle Period");
@@ -571,7 +558,6 @@ report 50144 "Yearly Payroll Projection"
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.type::Payroll);
         PostedPayrollHeader.SetAscending("Pay Cycle Period", true);
         if PostedPayrollHeader.FindLast() then begin
-            // if PostedPayrollHeader."Pay Cycle Period" > LastActualPeriod then
             LastActualPeriod := PostedPayrollHeader."Pay Cycle Period";
             HasActualEntries := true;
         end;
