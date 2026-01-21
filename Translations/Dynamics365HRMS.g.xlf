@@ -25118,6 +25118,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Panel - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4134390525 - Control 3237224449 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Attribute Description field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Payroll Attribute Description - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4134390525 - Control 1713785062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Substitute of Line No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
