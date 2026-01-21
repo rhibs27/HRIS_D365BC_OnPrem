@@ -549,19 +549,19 @@ report 50144 "Yearly Payroll Projection"
         // Get employee record for additional checks
         if not EmpRec.Get(EmployeeFilter) then
             exit(0);
-        // Look for existing payroll entries for this employee
-        DetailedEmpLedgerEntry.Reset();
-        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
-        DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
-        DetailedEmpLedgerEntry.SetRange(Reversed, false);
-        if DetailedEmpLedgerEntry.FindSet() then begin
-            HasActualEntries := true;
-            // Find the latest period with actual data
-            repeat
-                if DetailedEmpLedgerEntry."Pay Cycle Period" > LastActualPeriod then
-                    LastActualPeriod := DetailedEmpLedgerEntry."Pay Cycle Period";
-            until DetailedEmpLedgerEntry.Next() = 0;
-        end;
+        // // Look for existing payroll entries for this employee
+        // DetailedEmpLedgerEntry.Reset();
+        // DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+        // DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
+        // DetailedEmpLedgerEntry.SetRange(Reversed, false);
+        // if DetailedEmpLedgerEntry.FindSet() then begin
+        //     HasActualEntries := true;
+        //     // Find the latest period with actual data
+        //     repeat
+        //         if DetailedEmpLedgerEntry."Pay Cycle Period" > LastActualPeriod then
+        //             LastActualPeriod := DetailedEmpLedgerEntry."Pay Cycle Period";
+        //     until DetailedEmpLedgerEntry.Next() = 0;
+        // end;
         // Also check posted payroll headers to find the latest processed period
         PostedPayrollHeader.Reset();
         PostedPayrollHeader.SetCurrentKey("Pay Cycle Period");
@@ -571,8 +571,8 @@ report 50144 "Yearly Payroll Projection"
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.type::Payroll);
         PostedPayrollHeader.SetAscending("Pay Cycle Period", true);
         if PostedPayrollHeader.FindLast() then begin
-            if PostedPayrollHeader."Pay Cycle Period" > LastActualPeriod then
-                LastActualPeriod := PostedPayrollHeader."Pay Cycle Period";
+            // if PostedPayrollHeader."Pay Cycle Period" > LastActualPeriod then
+            LastActualPeriod := PostedPayrollHeader."Pay Cycle Period";
             HasActualEntries := true;
         end;
         // DECISION LOGIC: When to start projection
@@ -716,7 +716,7 @@ report 50144 "Yearly Payroll Projection"
         if EmpPayrollOpening.FindFirst() then
             PastRetirementAmount := EmpPayrollOpening."Total RF Opening";
         EmpVar.CalcFields("Lump Sum CIT");
-        TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT";
+        TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT" + EmpVar."Lumpsum CIT (Not Actual)";
     end;
     // Calculate final taxable amount after all deductions
     local procedure CalculateFinalTaxableAmount()
@@ -1303,23 +1303,16 @@ report 50144 "Yearly Payroll Projection"
     local procedure GetRemoteAreaDeduction(EmployeeNo: Code[20]; var RemoteAreaDeduction: Decimal)
     var
         Employee: Record Employee;
-        OrganizationStructurelist: Record "Organization Structure list";
+        OrganizationStructureList: Record "Organization Structure list";
         RemoteAreaCategory: Record "Remote Area Category";
-        BranchCode: Code[20];
         RemoteAreaReductionCode: Code[20];
     begin
         RemoteAreaDeduction := 0;
         if Employee.Get(EmployeeNo) then begin
-            BranchCode := Employee."Branch Code";
-            OrganizationStructurelist.reset();
-            OrganizationStructurelist.SetRange(Code, BranchCode);
-            if OrganizationStructurelist.FindFirst() then begin
-                RemoteAreaReductionCode := OrganizationStructurelist."Remote Area Category";
-                RemoteAreaCategory.Reset();
-                RemoteAreaCategory.SetRange("Category", RemoteAreaReductionCode);
-                if RemoteAreaCategory.FindFirst() then begin
+            OrganizationStructureList.reset();
+            if OrganizationStructureList.Get(Employee."Deputation on", Employee."Deputation On Code") then begin
+                if RemoteAreaCategory.Get(OrganizationStructureList."Remote Area Reduction") then
                     RemoteAreaDeduction := RemoteAreaCategory."Remote Area Deduction";
-                end;
             end;
         end;
     end;

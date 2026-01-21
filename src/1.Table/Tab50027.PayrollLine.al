@@ -1767,6 +1767,7 @@ table 50027 "Payroll Line"
             repeat
                 RetirementFundHeader.Reset();
                 RetirementFundHeader.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RetirementFundHeader.SetRange("Attribute Code", PayrollAttrUses.Code);
                 RetirementFundHeader.SetRange("Approval Status", RetirementFundHeader."Approval Status"::Approved);
                 if not RetirementFundHeader.FindLast() then
                     exit;
