@@ -372,6 +372,13 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Get(SubAssigmemoLine."Document No.", SubAssigmemoLine."Substitute of Line No.");
         AssignmentMemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine."Document No.");
         AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
+        AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", SubAssigmemoLine."Payroll Attribute Code");
+        if SubAssigmemoLine."ATM Site" <> SubAssigmemoLine."ATM Site"::" " then
+            AssignmentMemoLedgerEntry.SetRange("ATM Site", SubAssigmemoLine."ATM Site");
+        if SubAssigmemoLine."Vault Name" <> '' then
+            AssignmentMemoLedgerEntry.SetRange("Vault Name", SubAssigmemoLine."Vault Name");
+        if SubAssigmemoLine.Panel <> SubAssigmemoLine.Panel::" " then
+            AssignmentMemoLedgerEntry.SetRange(Panel, SubAssigmemoLine.Panel);
         AssignmentMemoLedgerEntry.SetRange("Posting Date", SubAssigmemoLine."From Date", SubAssigmemoLine."To Date");
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
@@ -383,7 +390,7 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure CheckConflictingSubstituteAssignment(docNo: Code[20]; LineNo: Integer; fromDate: Date; toDate: Date): Boolean
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";  // to review
+        AssignmentMemoLine: Record "Assignment Memo Line";
         Daterec: Record Date;
         DateList: List of [Date];
     begin
@@ -470,17 +477,18 @@ codeunit 50030 "Assignment Memo Mgt"
         DateRec: Record Date;
         TempAssignmentMemoLedger: Record "Temp Assignment Memo Ledger" temporary;
         entryno: Integer;
-        VaultNameList: List of [Code[100]];
+        VaultNameList, AttributeList : List of [Code[100]];
         VaultName: Code[100];
         CountLimit: Integer;
-        AttributeTypeList: Code[100];
-        LastAttributes: Code[20];
+        PipedAttributeCode: Code[1024];
+        AttributeCode: Code[20];
     begin
         //this code execute for a single branch only.
 
         entryno := 1;
-        AttributeTypeList := '';
-        LastAttributes := '';
+        PipedAttributeCode := '';
+        AttributeCode := '';
+        Clear(AttributeList);
 
         AssignmentMemoHdr2.Get(DocNo);
         if AssignmentMemoHdr2."Activity Type" <> AssignmentMemoHdr2."Activity Type"::"Allowance Assignment Memo" then
@@ -489,13 +497,17 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine2.SetRange("Document No.", AssignmentMemoHdr2."No.");
         if AssignmentMemoLine2.FindSet() then
             repeat
-                if LastAttributes <> AssignmentMemoLine2."Payroll Attribute Code" then begin
-                    if AttributeTypeList <> '' then
-                        AttributeTypeList += '|';
-                    AttributeTypeList += AssignmentMemoLine2."Payroll Attribute Code";
-                    LastAttributes := AssignmentMemoLine2."Payroll Attribute Code";
-                end;
+                if not AttributeList.Contains(AssignmentMemoLine2."Payroll Attribute Code") then
+                    AttributeList.Add(AssignmentMemoLine2."Payroll Attribute Code");
             until AssignmentMemoLine2.Next() = 0;
+
+        foreach attributeCode in AttributeList do begin
+            if AttributeCode <> '' then begin
+                if PipedAttributeCode <> '' then
+                    PipedAttributeCode += '|';
+                PipedAttributeCode += AttributeCode;
+            end;
+        end;
 
         OrgStructureList.Get(OrgStructureList.Type::Branch, AssignmentMemoHdr2."Branch Code");
         Clear(VaultNameList);
@@ -503,7 +515,6 @@ codeunit 50030 "Assignment Memo Mgt"
 
         AssignmentMemoHdr.SetRange("Branch Code", AssignmentMemoHdr2."Branch Code");
         AssignmentMemoHdr.SetRange("Activity Type", AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo");
-        // AssignmentMemoHdr.SetFilter("Approval Status", '<>%1', AssignmentMemoHdr."Approval Status"::Rejected);
         AssignmentMemoHdr.SetFilter("Approval Status", '%1|%2', AssignmentMemoHdr."Approval Status"::Pending, AssignmentMemoHdr."Approval Status"::Approved);
         AssignmentMemoHdr.SetRange("From Date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
         AssignmentMemoHdr.SetRange("To date", AssignmentMemoHdr2."From Date", AssignmentMemoHdr2."To date");
@@ -511,7 +522,7 @@ codeunit 50030 "Assignment Memo Mgt"
         if AssignmentMemoHdr.FindSet() then
             repeat
                 AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr."No.");
-                AssignmentMemoLine.SetFilter("Payroll Attribute Code", AttributeTypeList);
+                AssignmentMemoLine.SetFilter("Payroll Attribute Code", PipedAttributeCode);
                 AssignmentMemoLine.SetRange("Substitute of Line No.", 0);  //to avoid counting substitute lines
                 if AssignmentMemoLine.FindSet() then
                     repeat
@@ -545,7 +556,7 @@ codeunit 50030 "Assignment Memo Mgt"
         //will enhance the length of code later
         AssignmentMemoLine.Reset();
         AssignmentMemoLine.SetRange("Document No.", AssignmentMemoHdr2."No.");
-        AssignmentMemoLine.SetFilter("Payroll Attribute Code", AttributeTypeList);
+        AssignmentMemoLine.SetFilter("Payroll Attribute Code", PipedAttributeCode);
         AssignmentMemoLine.SetRange("Substitute of Line No.", 0);  //to avoid counting substitute lines
         if AssignmentMemoLine.FindSet() then
             repeat
@@ -618,7 +629,7 @@ codeunit 50030 "Assignment Memo Mgt"
                                                      VaultName,
                                                      OrgwiseATMVault.Panel::"Panel A");
                     if TempAssignmentMemoLedger.Count() > CountLimit then
-                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for panel A', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for %4 panel A', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start", VaultName);
 
                     CountLimit := 0;
                     TempAssignmentMemoLedger.Reset();
@@ -631,7 +642,7 @@ codeunit 50030 "Assignment Memo Mgt"
                                                      VaultName,
                                                      OrgwiseATMVault.Panel::"Panel B");
                     if TempAssignmentMemoLedger.Count() > CountLimit then
-                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for panel B', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start");
+                        Error('Number of Vault Key assignment %1 exceeds the limit %2 for date %3 for %4 panel B', TempAssignmentMemoLedger.Count(), CountLimit, DateRec."Period Start", VaultName);
 
                 end;
 
@@ -641,7 +652,7 @@ codeunit 50030 "Assignment Memo Mgt"
     end;
 
     //request allowance section
-    procedure OpenAllowance(EmpCode: Code[20]; AllowanceType: code[20])
+    procedure OpenAllowance(EmpCode: Code[20]; AllowanceType: code[20]; NepaliMonth: Enum "Nepali Month")
     var
         AssignmentmemoHdr: Record "Assignment Memo Header";
         Approval: Record "Approval HRMS";
@@ -662,6 +673,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentmemoHdr.SetRange("Activity Type", AssignmentmemoHdr."Activity Type"::"Request Allowance");
         AssignmentmemoHdr.SetRange("Approval Status", AssignmentmemoHdr."Approval Status"::open);
         AssignmentmemoHdr.SetRange("Payroll Attribute Code", AllowanceType);
+        AssignmentmemoHdr.SetRange("Nepali Month", NepaliMonth);
         if AssignmentmemoHdr.Findfirst() then begin
             If GuiAllowed then begin
                 Message('This Employee Already has open Allowance Request .Click Ok to Open');
@@ -669,10 +681,10 @@ codeunit 50030 "Assignment Memo Mgt"
             end;
         end
         else
-            CreateNewAllowanceRequest(EmpCode, AllowanceType);
+            CreateNewAllowanceRequest(EmpCode, AllowanceType, NepaliMonth);
     end;
 
-    procedure CreateNewAllowanceRequest(EmpCode: Code[20]; AllowanceType: Code[20])
+    procedure CreateNewAllowanceRequest(EmpCode: Code[20]; AllowanceType: Code[20]; NepaliMonth: Enum "Nepali Month")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PGSetup: Record "Payroll General Setup";
@@ -686,6 +698,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr.Validate("Employee No.", EmpCode);
         AssignmentMemoHdr.Validate("Activity Type", AssignmentMemoHdr."Activity Type"::"Request Allowance");
         AssignmentMemoHdr.Validate("Payroll Attribute Code", AllowanceType);
+        AssignmentMemoHdr.Validate("Nepali Month", NepaliMonth);
         AssignmentMemoHdr.AutoInsertDatesForRequestAllowance();
         AssignmentMemoHdr.Validate("Approval Status", AssignmentMemoHdr."Approval Status"::Open);
         AssignmentMemoHdr.Insert(true);
@@ -709,10 +722,6 @@ codeunit 50030 "Assignment Memo Mgt"
         AllowanceConfig.FindFirst();
 
         case AllowanceConfig.Source of
-            // AllowanceConfig.Source::" ",
-            // AllowanceConfig.Source::Direct,
-            // AllowanceConfig.Source::Leave:
-            //     CreateAllowanceRequestLine(AssignmentMemoHdr);
             AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift:
                 CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
         end;
@@ -824,6 +833,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Attendance Checked", false);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", AllowanceAssignmentHdr."Payroll Attribute Code");
+        AssignmentMemoLedgerEntry.SetFilter("Posting Date", '<%1', WorkDate() - 1);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
                 //check is employee attendance is marked for the allowance request date
@@ -867,7 +877,6 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine.Validate(Panel, AssignmentMemoLedgerEntry.Panel);
                     AssignmentMemoLine."Allowance Amount" := -AssignmentMemoLedgerEntry.Amount;
                     AssignmentMemoLine.Insert(true);
-                    AssignmentMemoLine.Validate("Payroll Attribute Code");
                     AssignmentMemoLine.Modify();
 
                     // no need to mark allowance
@@ -978,6 +987,7 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PayCyclePeriod: Record "Pay Cycle Period";
+        EmployeeEdit: Record "Employee Edit";
     begin
         case RecRef.Number of
             Database::"Assignment Memo Header":
@@ -998,6 +1008,19 @@ codeunit 50030 "Assignment Memo Mgt"
                             ApprovalStatusField := 'Pending';
                         end;
                     end;
+                end;
+            Database::"Employee Edit":
+                begin
+                    EmployeeEdit.Get(DocumentNo);
+                    if EmployeeEdit."Changes In Employee Type" <> EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then
+                        exit;
+
+                    PayCyclePeriod.SetFilter("Start Date", '<=%1', EmployeeEdit."Requested Date");
+                    PayCyclePeriod.SetFilter("End Date", '>=%1', EmployeeEdit."Requested Date");
+                    PayCyclePeriod.FindFirst();
+                    if PayCyclePeriod."Allowance End Date" <> 0D then
+                        if WorkDate() >= PayCyclePeriod."Allowance End Date" then
+                            Error('Cannot approve/reject the vehicle update request as the end date %1 has passed.', PayCyclePeriod."Allowance End Date");
                 end;
         end;
     end;

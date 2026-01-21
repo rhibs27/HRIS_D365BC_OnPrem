@@ -3,8 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
-    //  InsertAllowed = false;
-
+    InsertAllowed = false;
     layout
     {
         area(Content)
@@ -158,6 +157,13 @@ page 50201 "Retirement Fund Card"
                         ToolTip = 'Specifies the value of the CIT field.';
                         ApplicationArea = All;
                     }
+                    field("One Time Contribution"; Rec."One Time Contribution")
+                    {
+                        Caption = 'One Time Contribution';
+                        ToolTip = 'Specifies the value of the One Time Contribution field.';
+                        ApplicationArea = All;
+                    }
+
                 }
             }
             group(Result)

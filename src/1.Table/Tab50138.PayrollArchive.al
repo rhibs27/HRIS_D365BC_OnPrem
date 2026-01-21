@@ -50,6 +50,8 @@ table 50138 "Payroll Archive"
         field(106; "Transportation Allowance"; Decimal) { }
         field(107; "Vehicle Maintenence Allowance"; Decimal) { }
         field(109; "No. of grade"; Integer) { }
+        field(110; "EV Allowance"; Decimal) { }
+        field(111; "Fuel Limit (Ltrs)"; Decimal) { }
 
         //Remote area category
         field(200; Category; Code[20]) { }
@@ -192,6 +194,8 @@ table 50138 "Payroll Archive"
         "Vehicle Maintenence Allowance" := SalaryLevel."Vehicle Maintenence Allowance";
         "Transportation Allowances" := SalaryLevel."Transportation Allowance";
         "No. of grade" := SalaryLevel."Grades Limit";
+        "EV Allowance" := SalaryLevel."EV Allowance";
+        "Fuel Limit (Ltrs)" := SalaryLevel."Fuel Limit (ltr)";
     end;
 
     procedure CopyFromRemoteAreaCategory(RACategory: Record "Remote Area Category")

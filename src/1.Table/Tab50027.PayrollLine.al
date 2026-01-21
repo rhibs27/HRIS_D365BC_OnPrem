@@ -25,7 +25,7 @@ table 50027 "Payroll Line"
                 Employee.TestField(Settled, false);
                 Employee.TestField("Tax Code");
                 Employee.TestField("Do not Calculate Salary", false);
-                if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+                if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
                     Employee.TestField(Status, Employee.Status::Active);
 
                 Validate(Type, PayrollHeader.Type);
@@ -1559,7 +1559,7 @@ table 50027 "Payroll Line"
         GetPayrollHeader;
         Employee.Get("Employee No.");
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         Employee.TestField("Bank Account No.");
@@ -1703,12 +1703,31 @@ table 50027 "Payroll Line"
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
 
                         AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true);
+                        if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
+                            AttributeAmount := AttributeAmount + GetOneTimeRFContributionAmount(PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
                         if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;
+    end;
+
+    procedure GetOneTimeRFContributionAmount(PayrollAttributesCode: Code[20]): Decimal
+    var
+        RetirementFundHeader: Record "Retirement Fund";
+    begin
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            RetirementFundHeader.Reset();
+            RetirementFundHeader.SetRange("Employee No.", "Employee No.");
+            RetirementFundHeader.SetRange("Attribute Code", PayrollAttributesCode);
+            RetirementFundHeader.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+            RetirementFundHeader.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+            RetirementFundHeader.SetRange("Payroll Month", PayrollHeader."Nepali Month");
+            RetirementFundHeader.SetRange("Approval Status", RetirementFundHeader."Approval Status"::Approved);
+            if RetirementFundHeader.FindLast() then
+                exit(RetirementFundHeader."One Time Contribution");
+        end;
     end;
 
     local procedure IsValidComponent(): Boolean
@@ -2901,7 +2920,7 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
-        PayrollAttrUsageHistory.SetFilter("Start Date", '<%1', PayrollHeader."From Date");
+        PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1|<%2', 0D, PayrollHeader."From Date");
         if PayrollAttrUsageHistory.FindFirst() then begin
             PayCyclePeriod.Reset();
             PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Start Date");
@@ -2917,7 +2936,7 @@ table 50027 "Payroll Line"
                 exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
                                             PayrollAttrUsageHistory."Old Amount",
                                             PayrollAttrUsageHistory."Start Date",
-                                            PayrollHeader."From Date",
+                                            PayrollHeader."From Date" - 1,
                                             false))
             end;
         end;
@@ -2926,7 +2945,6 @@ table 50027 "Payroll Line"
     local procedure GetAmountFromDeductionEntries(EmployeeNo: Code[20]; AttributeCode: Code[20]; ForReversedEntries: Boolean): Decimal
     var
         DetSalaryDeductionEntries: Record "Det Salary Deduction Entry";
-        AttribAmount: Decimal;
     begin
         DetSalaryDeductionEntries.Reset();
         DetSalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
@@ -2934,15 +2952,9 @@ table 50027 "Payroll Line"
         DetSalaryDeductionEntries.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         DetSalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         DetSalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
-        if ForReversedEntries then
-            DetSalaryDeductionEntries.SetRange(Reversed, true)
-        else
-            DetSalaryDeductionEntries.SetRange(Reversed, false);
+        DetSalaryDeductionEntries.SetRange(Reversed, ForReversedEntries);
         DetSalaryDeductionEntries.CalcSums(Amount);
-        AttribAmount := DetSalaryDeductionEntries.Amount;
-        if AttribAmount < 0 then
-            exit(-AttribAmount);
-        exit(AttribAmount);
+        exit(Abs(DetSalaryDeductionEntries.Amount));
     end;
 
     local procedure GetDifferentialAmount(NewAmount: Decimal; OldAmount: Decimal; FromDate: Date; ToDate: Date; IsEndDateCalculation: Boolean): Decimal
