@@ -45993,10 +45993,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3661098543 - Control 482077933 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attendance Entry Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Control Attendance Entry Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3661098543 - Control 306504114 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attendance Missed Access field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Control Attendance Missed Access - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3661098543 - Control 730409411 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check-in/Check-out Mandatory field. If set to true, check-in or check-out must be input while sending attendance missed</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Control Check-in/Check-out Mandatory - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3661098543 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
@@ -60733,10 +60743,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Source Code Setup Ext - Field Payroll Plan - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 3189627266 - Field 482077933 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
+          <source>Attendance Entry Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Attendance Entry Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 3189627266 - Field 306504114 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
           <source>Attendance Missed Access</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Attendance Missed Access - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 3189627266 - Field 730409411 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
+          <source>Check-in/Check-out Mandatory</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Check-in/Check-out Mandatory - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 3189627266 - Field 4154710913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
           <source>Employee Activity Type</source>

@@ -58,6 +58,7 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Week Off Day" = 1) then
             EmpAttendance."Present in Holiday" := 1;
 
+        OnUpdateEmpAttendanceOnbeforeModify(EmpAttendance);
         EmpAttendance.Modify(true);
     end;
 
@@ -394,6 +395,11 @@ codeunit 50029 "Process Daily Attendance"
 
     [IntegrationEvent(false, false)]
     procedure OnAfterProcessDayFromEmpActLedgerEntry(var EmpAttendance: Record "Employee Attendance & Activity"; Var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry"; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnUpdateEmpAttendanceOnbeforeModify(var EmpAttendance: Record "Employee Attendance & Activity")
     begin
     end;
 }
