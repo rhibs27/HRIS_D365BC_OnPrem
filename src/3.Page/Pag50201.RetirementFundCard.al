@@ -3,8 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
-    //  InsertAllowed = false;
-
+    InsertAllowed = false;
     layout
     {
         area(Content)

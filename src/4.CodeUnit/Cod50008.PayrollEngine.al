@@ -184,7 +184,7 @@ codeunit 50008 "Payroll Engine"
                          "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");
         //Check Employee Status
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         TaxSetupHeader.Get(Employee."Tax Code");
@@ -440,7 +440,7 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end;
-        //PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+        PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
@@ -832,7 +832,7 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         if PayrollAttributesUsage.FindFirst then begin
-            PayrollAttributesUsage.TestField(Amount);
+            // PayrollAttributesUsage.TestField(Amount);
             BasicAmount := PayrollAttributesUsage.Amount;
         end;
 
@@ -2169,6 +2169,8 @@ codeunit 50008 "Payroll Engine"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
     begin
+        if ExpiryDate < PGSetup."Payroll Fiscal Year Start Date" then//For Employee Resign in Previous FY
+            exit(0);
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         PayCyclePeriod.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
