@@ -702,7 +702,7 @@ report 50144 "Yearly Payroll Projection"
         if EmpPayrollOpening.FindFirst() then
             PastRetirementAmount := EmpPayrollOpening."Total RF Opening";
         EmpVar.CalcFields("Lump Sum CIT");
-        TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT" + EmpVar."Lumpsum CIT (Not Actual)";
+        TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT";
     end;
     // Calculate final taxable amount after all deductions
     local procedure CalculateFinalTaxableAmount()
