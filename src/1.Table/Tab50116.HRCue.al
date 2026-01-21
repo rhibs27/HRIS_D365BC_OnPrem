@@ -339,6 +339,7 @@ table 50116 "HR Cue"
             Description = 'Request To Approve';
             FieldClass = FlowField;
             CalcFormula = count("Approval HRMS" where("Document Type" = filter("Shift Assignment Memo"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Editable = false;
         }
         field(103; "Retirement Fund"; Integer)
         {
