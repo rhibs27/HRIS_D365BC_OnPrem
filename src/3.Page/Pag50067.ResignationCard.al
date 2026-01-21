@@ -38,7 +38,7 @@ page 50067 "Resignation Card"
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
@@ -60,24 +60,24 @@ page 50067 "Resignation Card"
                 group("Current Placement")
                 {
                     Editable = false;
-                    field("Extension Counter Code"; Rec."Extension Counter Code")
-                    {
-                        ToolTip = 'Specifies the value of the Extension Counter Code field.';
-                        ApplicationArea = All;
-                    }
-                    field("Functional Title"; Rec."Functional Title")
-                    {
-                        ToolTip = 'Specifies the value of the Functional Title field.';
-                        ApplicationArea = All;
-                    }
-                    field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
-                    {
-                        ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
-                        ApplicationArea = All;
-                    }
                     field("Province Code"; Rec."Province Code")
                     {
                         ToolTip = 'Specifies the value of the Province Code field.';
+                        ApplicationArea = All;
+                    }
+                    field(Department; Rec.Department)
+                    {
+                        ToolTip = 'Specifies the value of the Department field.';
+                        ApplicationArea = All;
+                    }
+                    field("Branch Code"; Rec."Branch Code")
+                    {
+                        ToolTip = 'Specifies the value of the Branch Code field.';
+                        ApplicationArea = All;
+                    }
+                    field("Extension Counter Code"; Rec."Extension Counter Code")
+                    {
+                        ToolTip = 'Specifies the value of the Extension Counter Code field.';
                         ApplicationArea = All;
                     }
                     field("Unit Code"; Rec."Unit Code")
@@ -85,9 +85,9 @@ page 50067 "Resignation Card"
                         ToolTip = 'Specifies the value of the Unit Code field.';
                         ApplicationArea = All;
                     }
-                    field(Department; Rec.Department)
+                    field("Functional Title"; Rec."Functional Title")
                     {
-                        ToolTip = 'Specifies the value of the Department field.';
+                        ToolTip = 'Specifies the value of the Functional Title field.';
                         ApplicationArea = All;
                     }
                     field("Payroll No."; Rec."Payroll No.")
@@ -107,14 +107,9 @@ page 50067 "Resignation Card"
                     }
                     field("Supervisor Proposed Date"; Rec."Supervisor Proposed Date")
                     {
+                        Editable = IsPending;
                         ToolTip = 'Specifies the value of the Supervisor Proposed Date field.';
                         ApplicationArea = All;
-                    }
-                    field("Reason Code"; Rec."Reason Code")
-                    {
-                        ToolTip = 'Specifies the value of the Reason Code field.';
-                        ApplicationArea = All;
-                        Editable = IsOpen;
                     }
                     field("HR Proposed Date"; Rec."HR Proposed Date")
                     {
@@ -122,21 +117,31 @@ page 50067 "Resignation Card"
                         ToolTip = 'Specifies the value of the HR Proposed Date field.';
                         ApplicationArea = All;
                     }
+                    field("Reason Code"; Rec."Reason Code")
+                    {
+                        ToolTip = 'Specifies the value of the Reason Code field.';
+                        ApplicationArea = All;
+                        Editable = IsOpen;
+                        Visible = false;
+                    }
                     field("Waiver Case"; Rec."Waiver Case")
                     {
                         Editable = IsOpen;
+                        Visible = false;
                         ToolTip = 'Specifies the value of the Waiver Case field.';
                         ApplicationArea = All;
                     }
                     field("Apply for Waiver"; Rec."Apply for Waiver")
                     {
                         Editable = Rec."Waiver Case" = Rec."Waiver Case"::Recovery;
+                        Visible = false;
                         ToolTip = 'Specifies the value of the Apply for Waiver field.';
                         ApplicationArea = All;
                     }
                     field("Reason for Waiver"; Rec."Reason for Waiver")
                     {
                         Editable = Rec."Waiver Case" = Rec."Waiver Case"::Recovery;
+                        Visible = false;
                         ToolTip = 'Specifies the value of the Reason for Waiver field.';
                         ApplicationArea = All;
                     }
@@ -148,6 +153,19 @@ page 50067 "Resignation Card"
                     }
                 }
             }
+            part("Resign Clearance Verifier"; "Document Approver Resignation")
+            {
+                Caption = 'Resign Clearance Verifier';
+                SubPageLink = "Document No." = field("No.");
+                Visible = IsApproved;
+                ApplicationArea = All;
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No."),
+                                "Employee Code" = field("Employee No.");
+                ApplicationArea = All;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -155,21 +173,6 @@ page 50067 "Resignation Card"
                                 "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
-            }
-            part(Attachment; "Attachment Subform")
-            {
-                Visible = IsApproved;
-                SubPageLink = "No." = field("No."),
-                                "Employee Code" = field("Employee No."),
-                                "Document Type" = field(Type);
-                ApplicationArea = All;
-            }
-            part("Resign Clearance Verifier"; "Document Approver Resignation")
-            {
-                Caption = 'Resign Clearance Verifier';
-                SubPageLink = "Document No." = field("No.");
-                Visible = IsApproved;
-                ApplicationArea = All;
             }
         }
     }
@@ -193,35 +196,7 @@ page 50067 "Resignation Card"
                     CurrPage.Close();
                 end;
             }
-            action("Cancel Resignation Request")
-            {
-                Image = CancelApprovalRequest;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Cancel Resignation Request action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    ResignationMgt.CancelResignationApproval(Rec);
-                end;
-            }
-            action(Screen)
-            {
-                Image = "Action";
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                // Visible = ApprovalSent;
-                Visible = false;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    ResignationMgt.ScreenResignation(Rec);
-                end;
-            }
+
             action("Approve Request")
             {
                 Image = Approve;
@@ -262,20 +237,6 @@ page 50067 "Resignation Card"
                     end;
                 end;
             }
-            action("Forward to HR")
-            {
-                Image = SendConfirmation;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Forward to HR action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    ResignationMgt.ForwardToHRForResignation(Rec);
-                end;
-            }
             action(Settlement)
             {
                 Image = "Report";
@@ -283,9 +244,9 @@ page 50067 "Resignation Card"
                 PromotedCategory = "Report";
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                // Visible = IsSettled;
                 ToolTip = 'Executes the Settlement action.';
                 ApplicationArea = All;
+                Visible = false;
                 // trigger OnAction()
                 // var
                 //     Resignation: Record Resignation;
@@ -295,52 +256,6 @@ page 50067 "Resignation Card"
                 //     if Resignation.FindFirst then
                 //         Report.Run(Report::Settlement, true, true, Resignation);
                 // end;
-            }
-            action("Settle Resignation")
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = IsApproved;
-                ToolTip = 'Executes the Settle Resignation action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    // Rec.Validate("Approval Status", Rec."Approval Status"::Settled);
-                end;
-            }
-            action("Document Approval")
-            {
-                Image = Approval;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                // Visible = Recommended;
-                Visible = IsApproved;
-                ToolTip = 'Executes the Document Approval action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                var
-                    DocumentApprover: Record "Document Approver";
-                begin
-                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
-                    if Confirm('Do you want to approve this resignation.', false) then begin
-                        DocumentApprover.Reset;
-                        DocumentApprover.SetRange("Document No.", Rec."No.");
-                        if not HrMgt.IsSaaS() then// garima
-                            DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo);
-                        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
-                        if DocumentApprover.FindFirst then begin
-                            DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);
-                            DocumentApprover.Modify;
-                            Message('Resignation Document is Approved by %1', HRMgt.GetEmpName());
-                        end else
-                            Error('You arenot Eligible To Approve');
-                    end;
-                end;
             }
             action("Return Resignation")
             {
@@ -383,34 +298,20 @@ page 50067 "Resignation Card"
     trigger OnOpenPage()
     begin
         SetLayout();
-        if IsOpen then
-            ApprovalMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::Resignation, Rec."Approval Status");
     end;
 
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        IF NOT IsApplied and IsOpen THEN
-            IF NOT CONFIRM('The data will be erased. Do you want to continue?', TRUE) THEN
-                ERROR('')
-            else begin
-                Approval.Reset();
-                Approval.SetRange("Document No.", '');
-                Approval.setRange("Document Type", Approval."Document Type"::Resignation);
-                Approval.SetRange("Employee No", Rec."Employee No.");
-                Approval.DeleteAll();
-            end;
-    end;
-
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        ResignationMgt: Codeunit "Resignation Mgt";
-        ApprovalSent: Boolean;
+    protected var
         IsRejected: Boolean;
         IsPending: Boolean;
         IsApproved: Boolean;
         IsOpen: Boolean;
+
+    var
+        HRMgt: Codeunit "HR Mgt.";
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
+        ResignationMgt: Codeunit "Resignation Mgt";
+        ApprovalSent: Boolean;
         RecRef: RecordRef;
         ApprovalMgt: Codeunit "Approver Mgt";
         Approval: Record "Approval HRMS";

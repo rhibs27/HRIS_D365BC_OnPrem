@@ -4,6 +4,8 @@ page 50070 "Document Approver Resignation"
     PageType = ListPart;
     SourceTable = "Document Approver";
     ApplicationArea = All;
+    InsertAllowed = false;
+    DeleteAllowed = false;
     layout
     {
         area(Content)
@@ -15,12 +17,14 @@ page 50070 "Document Approver Resignation"
                     ToolTip = 'Specifies the value of the Document No. field.';
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = false;
                 }
                 field("Line No."; Rec."Line No.")
                 {
                     ToolTip = 'Specifies the value of the Line No. field.';
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = false;
                 }
                 field("Employee No."; Rec."Employee No.")
                 {
@@ -37,6 +41,12 @@ page 50070 "Document Approver Resignation"
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Approver Sequence"; Rec."Approver Sequence")
+                {
+                    ToolTip = 'Specifies the value of the Approver Sequence field.';
                     ApplicationArea = All;
                     Editable = false;
                 }
@@ -81,6 +91,18 @@ page 50070 "Document Approver Resignation"
                     end;
                 end;
             }
+            action("Approve")
+            {
+                Image = Approval;
+                ToolTip = 'Executes the Return Rejected action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to Approve record?', false) then begin
+                        ApproverMgt.ApproveResignClerance(Rec."Document No.", true);
+                    end;
+                end;
+            }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -96,4 +118,5 @@ page 50070 "Document Approver Resignation"
     var
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
+        ApproverMgt: Codeunit "Approver Mgt";
 }

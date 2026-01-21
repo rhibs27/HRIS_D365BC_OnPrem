@@ -10,7 +10,6 @@ page 50068 "Resignation List"
     SourceTableView = WHERE(Type = filter("Employee Activity Type"::Resignation));
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -134,7 +133,7 @@ page 50068 "Resignation List"
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 Image = ClearFilter;
                 ToolTip = 'Executes the Clear filter action.';
                 trigger OnAction()

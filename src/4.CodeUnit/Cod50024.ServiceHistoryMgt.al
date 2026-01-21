@@ -82,6 +82,16 @@ codeunit 50024 "Service History Mgt"
 
                     EmpServiceHis.Insert(true);
                 end;
+            ServiceEvent::Resignation:
+                begin
+                    Employee.Get(DocNo);
+                    EmpServiceHis.Init;
+                    EmpServiceHis.Validate("Service Event", EmpServiceHis."Service Event"::Appointment);
+                    EmpServiceHis.Validate("Employee No.", Employee."No.");
+                    EmpServiceHis.Validate("Effective Date", EffectiveDate);
+                    EmpServiceHis.Validate(Remarks, RemarksVar);
+                    EmpServiceHis.Insert(true);
+                end;
         end;
         exit(EmpServiceHis."Service History Code");
     end;

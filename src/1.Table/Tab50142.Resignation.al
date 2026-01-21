@@ -2,12 +2,10 @@ table 50142 Resignation
 {
     Caption = 'Resignation';
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -26,28 +24,29 @@ table 50142 Resignation
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
-                if EmpVar.Get("Employee No.") then begin
-                    Validate("Employee Name", EmpVar."Full Name");
-                    Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
-                    Validate(Department, EmpVar."Department Code");
-                    Validate("Deputation On", EmpVar."Deputation on");
-                    Validate("Salary Level Code", EmpVar."Salary Level");
-                    Validate("Functional Title", EmpVar."Functional Title");
-                    Validate("Province Code", EmpVar."Province Code");
-                    Validate("Unit Code", EmpVar."Unit Code");
-                    Validate("Extension Counter Code", EmpVar."Extension Counter Code");
-                    Validate("Branch Name", EmpVar."Branch Name");
-                    Validate("Department Name", EmpVar."Department Name");
-                    Validate("Province Name", EmpVar."Province Name");
+                if Employee.Get("Employee No.") then begin
+                    Validate("Employee Name", Employee."Full Name");
+                    Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+                    Validate(Department, Employee."Department Code");
+                    Validate("Deputation On", Employee."Deputation on");
+                    Validate("Deputation On Code", Employee."Deputation On Code");
+                    Validate("Salary Level Code", Employee."Salary Level");
+                    Validate("Functional Title", Employee."Functional Title");
+                    Validate("Province Code", Employee."Province Code");
+                    Validate("Branch Code", Employee."Branch Code");
+                    Validate("Unit Code", Employee."Unit Code");
+                    Validate("Extension Counter Code", Employee."Extension Counter Code");
+                    Validate("Extension Counter Name", Employee."Extension Counter Name");
+                    Validate("Unit Name", Employee."Unit Name");
+                    Validate("Branch Name", Employee."Branch Name");
+                    Validate("Department Name", Employee."Department Name");
+                    Validate("Province Name", Employee."Province Name");
                 end;
             end;
         }
@@ -62,7 +61,16 @@ table 50142 Resignation
         {
             TableRelation = "No. Series";
         }
-
+        field(7; "Branch Code"; Code[20])
+        {
+        }
+        field(8; "Deputation On Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code;
+        }
+        field(9; "Unit Name"; Code[50])
+        {
+        }
         field(10; "Requested Date"; Date)
         {
             trigger OnValidate()
@@ -113,6 +121,9 @@ table 50142 Resignation
             Editable = false;
             TableRelation = "Salary Level";
         }
+        field(27; "Extension Counter Name"; Code[50])
+        {
+        }
         field(28; "Extension Counter Code"; Code[20])
         {
         }
@@ -122,7 +133,6 @@ table 50142 Resignation
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -152,8 +162,8 @@ table 50142 Resignation
 
             trigger OnValidate()
             begin
-                if Standardtext.Get("Reason Code") then
-                    Validate("Reason Description", Standardtext.Description)
+                if StandardText.Get("Reason Code") then
+                    Validate("Reason Description", StandardText.Description)
                 else
                     Clear("Reason Description");
             end;
@@ -264,18 +274,20 @@ table 50142 Resignation
             Clustered = true;
         }
     }
-    var
-        EmpVar: Record Employee;
+    protected var
+        Employee: Record Employee;
         EngNepDate: Record "English-Nepali Date";
+        HRMgt: Codeunit "HR Mgt.";
+        ResignationMgt: Codeunit "Resignation Mgt";
+        ResignationRec: Record Resignation;
+
+    var
         NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
-        HRMgt: Codeunit "HR Mgt.";
         INVALID: Label 'Invalid %1';
-        ResignationMgt: Codeunit "Resignation Mgt";
         EmpRelative: Record "Employee Relative";
-        Standardtext: Record "Standard Text";
+        StandardText: Record "Standard Text";
         ApproverMgt: Codeunit "Approver Mgt";
-        ResignationRec: Record Resignation;
 
     trigger OnInsert()
     begin
@@ -302,14 +314,13 @@ table 50142 Resignation
                         end;
                 end;
             end;
-
-        // InsertAttachmentLines;
     end;
 
     trigger OnDelete()
     var
         ApprovalEntry: Record "Approval HRMS";
         CannotDelete: Label 'Cannot delete document.';
+        IncomingDocument: Record "Incoming Document";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
@@ -318,34 +329,8 @@ table 50142 Resignation
             ApprovalEntry.SetRange("Document No.", "No.");
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
+            IncomingDocument.SetRange("Document No.", "No.");
+            IncomingDocument.DeleteAll();
         end;
     end;
-
-    // local procedure InsertAttendanceMissedAttachment()
-    // var
-    //     AttachmentMandatory: Record "Attachment Setup";
-    //     IncomingDocument: Record "Incoming Document";
-    // begin
-    //     AttachmentMandatory.Reset;
-    //     AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Attendance Missed");
-    //     if AttachmentMandatory.FindFirst then
-    //         repeat
-    //             Clear(IncomingDocument);
-    //             IncomingDocument.Reset;
-    //             IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-    //             IncomingDocument.SetRange("No.", "No.");
-    //             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-    //             if not IncomingDocument.FindFirst then begin
-    //                 IncomingDocument.Reset;
-    //                 IncomingDocument.Init;
-    //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-    //                 IncomingDocument.Description := Rec.TableName;
-    //                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-    //                 IncomingDocument."No." := "No.";
-    //                 IncomingDocument."Employee Code" := "Employee No.";
-    //                 IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-    //                 IncomingDocument.Insert(true);
-    //             end;
-    //         until AttachmentMandatory.Next = 0;
-    // end;
 }

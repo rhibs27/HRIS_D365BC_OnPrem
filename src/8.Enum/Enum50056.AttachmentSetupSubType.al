@@ -22,4 +22,8 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Employee Transfer Request';
     }
+    value(5; "Resign Letter")
+    {
+        Caption = 'Resign Letter';
+    }
 }

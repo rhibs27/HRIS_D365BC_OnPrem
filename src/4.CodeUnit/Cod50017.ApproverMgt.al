@@ -1542,6 +1542,39 @@ codeunit 50017 "Approver Mgt"
     begin
         exit(StrPos('|' + PipedValues + '|', '|' + targetValue + '|') > 0);
     end;
+    //>> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
+    procedure ApproveResignClerance(EmpActNo: Code[20]; Approved: Boolean)
+    var
+        DocumentApprover, DocumentApproverCheck : Record "Document Approver";
+        ApprovalStatusEnum: Enum "Approval Status";
+    begin
+        DocumentApprover.Reset();
+        DocumentApprover.SetRange("Document No.", EmpActNo);
+        DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo());
+        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
+        if DocumentApprover.FindSet() then begin
+            repeat
+                if Approved then begin
+                    DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);
+                    DocumentApprover.Validate("Approved By", HRMgt.GetEmployeeNo());
+                    DocumentApprover.Validate("Approved Date", Today);
+                end;
+                DocumentApprover.Modify();
+            until DocumentApprover.Next() = 0;
+        end else
+            Error('You arenot Eligible To Approve');
+        if Approved then begin
+            DocumentApproverCheck.Reset();
+            DocumentApproverCheck.SetRange("Document No.", EmpActNo);
+            DocumentApproverCheck.SetRange("Approver Sequence", DocumentApprover."Approver Sequence" + 1);
+            if DocumentApproverCheck.FindSet() then begin
+                repeat
+                    DocumentApproverCheck."Approval Status" := DocumentApproverCheck."Approval Status"::Open;
+                    DocumentApproverCheck.Modify;
+                until DocumentApproverCheck.Next() = 0;
+            end;
+        end;
+    end;
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertApprovalOnBeforeSelectApprover(var ApprovalSetupLine: Record "Approval Setup Line";
