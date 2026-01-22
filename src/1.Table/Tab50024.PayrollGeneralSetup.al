@@ -453,6 +453,11 @@ table 50024 "Payroll General Setup"
         }
         field(153; "Allow Future Allowance Request"; Boolean) { }
         field(500; "Use Allowance Configuration"; Boolean) { }
+        field(506; "Get Amount From Assignment"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'If enabled, allowance is taken for "Employee Activity Type" Allowance Assignment Memo from Assignment Memo Ledger Entries.';
+        }
         field(501; "Payroll Archive Nos."; Code[20])
         {
             TableRelation = "No. Series";

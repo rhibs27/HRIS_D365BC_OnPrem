@@ -422,11 +422,17 @@ page 50061 "Employee Attendance & Activity"
     trigger OnAfterGetRecord()
     begin
         Colors := 'standard';
-        if "Absent Day" = 1 then
+        if Rec."Absent Day" = 1 then
             Colors := 'Unfavorable'
-        else if (Rec."Day Type" = Rec."Day Type"::"Working Day") And ("Absent Day" <> 1) then
+        else if (Rec."Day Type" = Rec."Day Type"::"Working Day") And (Rec."Absent Day" <> 1) then
             Colors := 'favorable'
         else if Rec."Day Type" = Rec."Day Type"::Holiday then
             Colors := 'Ambiguous';
+
+        if Rec."Day Type" = Rec."Day Type"::"Working Day" then begin
+            if (Rec."Check In Time" = 0T) and (Rec."Check Out Time" = 0T) then
+                if (Rec."Pending Leave Request Doc No." <> '') or (rec."Pending Update Atten. Doc No." <> '') then
+                    Colors := 'AttentionAccent';
+        end;
     end;
 }
