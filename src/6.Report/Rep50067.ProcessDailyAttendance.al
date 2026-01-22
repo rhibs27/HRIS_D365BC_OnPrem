@@ -230,14 +230,14 @@ report 50067 "Process Daily Attendance"
         ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
         ServiceHistory.SetFilter("Effective Date", '<%1', Date."Period Start");
         if ServiceHistory.FindLast() then begin
-            EmpAttendance."Province Code" := ServiceHistory."Province Code (From)";
-            EmpAttendance."Province Name" := ServiceHistory."Province Description (From)";
-            EmpAttendance."Branch Code" := ServiceHistory."Branch Code (From)";
-            EmpAttendance."Branch Name" := ServiceHistory."Branch Description (From)";
-            EmpAttendance."Department Code" := ServiceHistory."Department Code (From)";
-            EmpAttendance."Department Name" := ServiceHistory."Department Description (From)";
-            EmpAttendance."Unit Code" := ServiceHistory."Unit Code (From)";
-            EmpAttendance."Extension Counter" := ServiceHistory."Extension Description (From)";
+            EmpAttendance."Province Code" := ServiceHistory."Province Code (To)";
+            EmpAttendance."Province Name" := ServiceHistory."Province Description (To)";
+            EmpAttendance."Branch Code" := ServiceHistory."Branch Code (To)";
+            EmpAttendance."Branch Name" := ServiceHistory."Branch Description (To)";
+            EmpAttendance."Department Code" := ServiceHistory."Department Code (To)";
+            EmpAttendance."Department Name" := ServiceHistory."Department Description (To)";
+            EmpAttendance."Unit Code" := ServiceHistory."Unit Code (To)";
+            EmpAttendance."Extension Counter" := ServiceHistory."Extension Description (To)";
             EmpAttendance.Modify();
         end;
     end;
