@@ -433,7 +433,7 @@ codeunit 50028 "Excel Import"
         TotalRows := ExcelBuffer.Count;
     end;
 
-    procedure GetValueAtCell(RowNo: Integer; ColNo: Integer): Text
+    local procedure GetValueAtCell(RowNo: Integer; ColNo: Integer): Text
     begin
         if ExcelBuffer.Get(RowNo, ColNo) then
             exit(ExcelBuffer."Cell Value as Text")
