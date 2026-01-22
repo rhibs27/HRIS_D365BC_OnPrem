@@ -98,6 +98,8 @@ table 50162 "Assignment Memo Line"
                                 "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                         end;
                     end;
+                    if PayrollAttributes.Get("Payroll Attribute Code") then
+                        "Payroll Attribute Description" := PayrollAttributes.Description;
                 end;
             end;
         }
@@ -190,6 +192,10 @@ table 50162 "Assignment Memo Line"
         field(62; "Previous Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Branch));
+            DataClassification = ToBeClassified;
+        }
+        field(63; "Payroll Attribute Description"; Text[50])
+        {
             DataClassification = ToBeClassified;
         }
 
@@ -325,6 +331,7 @@ table 50162 "Assignment Memo Line"
         HrMgt: Codeunit "HR Mgt.";
         SalaryLevel: Record "Salary Level";
         AllowanceConfiguration: Record "Allowance Configuration";
+        PayrollAttributes: Record "Payroll Attributes";
 
     local procedure GetLineNo()
     var

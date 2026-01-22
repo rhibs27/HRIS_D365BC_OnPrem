@@ -1533,6 +1533,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Payroll Attribute Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3237224449 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Attribute Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Payroll Attribute Description - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 934027564 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Previous Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4997,6 +5002,16 @@
           <source>Pay Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Pay Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 709862054 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending Leave Request Doc No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Pending Leave Request Doc No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 1260442743 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending Update Atten. Doc No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Pending Update Atten. Doc No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 2250269441 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Present Day</source>
@@ -9102,6 +9117,11 @@
           <source>Resignation By Service</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Resignation By Service - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1145153898 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Retirement Fund</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Retirement Fund - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 2780494557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shift Assignment</source>
@@ -13712,6 +13732,11 @@
           <source>Friday OT End Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Friday OT End Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1888518289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Get Amount From Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Get Amount From Assignment - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 721268777 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Grade Adjustment Code</source>
@@ -22453,10 +22478,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType CheckReviewNotEligibleError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 940807328" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to Approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleErrors</note>
+        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 1613818109 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSaas - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -25063,6 +25098,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control ATM Site - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4134390525 - Control 3884370130 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Emp Act Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Emp Act Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4134390525 - Control 387747209 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Code field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -25087,6 +25127,11 @@
           <source>Specifies the value of the Panel field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Panel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4134390525 - Control 3237224449 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Attribute Description field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Subform - Control Payroll Attribute Description - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4134390525 - Control 1713785062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Substitute of Line No. field.</source>
@@ -34373,6 +34418,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Overtime - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 1145153898 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Retirement Fund field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Retirement Fund - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1780339891 - Control 2780494557 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Shift Assignment field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39638,6 +39688,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Allowance Assignment Memo Nos - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1888518289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Get Amount From Assignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Get Amount From Assignment - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3172240621 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Request Allowance Nos field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -39728,6 +39783,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Approval Grace Period - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 2905507298 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Backdated Payroll Reverse field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Backdated Payroll Reverse - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 2382701905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Base Calendar field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39802,6 +39862,16 @@
           <source>Specifies the value of the Parking Account No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Parking Account No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 4117176191 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Pay Cycle Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 2401257181 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Payroll Archive Nos. field.</source>
@@ -39933,6 +40003,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Settlement Posting No. Series - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1773357528 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM Custodian field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control ATM Custodian - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1891586249 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Bal. Account No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39992,6 +40067,11 @@
           <source>Specifies the value of the COSPO Functioal Title field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control COSPO Functioal Title - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3880738988 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Dashain Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Dashain Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 503417789 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Dashain Renumeration field.</source>
@@ -40062,6 +40142,11 @@
           <source>Specifies the value of the Morning Counter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Morning Counter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 2855902768 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Night Shift Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Night Shift Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3158510099 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Officiating Allowance field.</source>
@@ -40457,6 +40542,11 @@
           <source>Specifies the value of the Tax Ex. Amt. not Exceeding field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Tax Ex. Amt. not Exceeding - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Action 2837191309 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Update Time Zone To UTC action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Action Update Time Zone To UTC - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4112058080 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
           <source>New,Process,Report,Payroll</source>
@@ -55472,6 +55562,41 @@
           <source>Travel Request Processing System</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Travel Request Processing - NamedType Title</note>
+        </trans-unit>
+        <trans-unit id="Report 3514994631 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Emp Att. and Act Doc.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Update Emp Att. and Act Doc. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3514994631 - Control 845401037 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EndDate field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Update Emp Att. and Act Doc. - Control EndDate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3514994631 - Control 845401037 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Update Emp Att. and Act Doc. - Control EndDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3514994631 - Control 3605153064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the StartDate field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Update Emp Att. and Act Doc. - Control StartDate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3514994631 - Control 3605153064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Update Emp Att. and Act Doc. - Control StartDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3514994631 - Control 3044886601 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the UpdatePendingDocNo field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Update Emp Att. and Act Doc. - Control UpdatePendingDocNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3514994631 - Control 3044886601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Pending Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Update Emp Att. and Act Doc. - Control UpdatePendingDocNo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 183809424 - Control 3267234342 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the BalanceLeaveDays field.</source>
