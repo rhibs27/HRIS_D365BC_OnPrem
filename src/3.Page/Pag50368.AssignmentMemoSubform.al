@@ -109,20 +109,6 @@ page 50368 "Assignment Memo Subform"
                     SubstituteAssignmentreport: Report "Substitute Assignment Memo";
                 begin
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
-                    // FilterPage.AddRecord('Select Employee Details', AllowanceLine);
-                    // FilterPage.AddField('Select Employee Details', AllowanceLine."From Date");
-                    // FilterPage.AddField('Select Employee Details', AllowanceLine."To Date");
-                    // FilterPage.AddField('Select Employee Details', AllowanceLine."Employee No.");
-                    // if FilterPage.RunModal() then begin
-                    //     AllowanceLine.SetView(FilterPage.GetView('Select Employee Details'));
-                    //     Evaluate(FromDate, AllowanceLine.GetFilter("From Date"));
-                    //     Evaluate(ToDate, AllowanceLine.GetFilter("To Date"));
-                    //     Evaluate(EmpCode, AllowanceLine.GetFilter("Employee No."));
-                    // end;
-                    // if (FromDate <> 0D) and (ToDate <> 0D) and (EmpCode <> '') then begin
-                    //     AssignmentMemoMgt.InsertSubstituteAssignmentMemo(Rec."Document No.", Rec."Line No.", FromDate, ToDate, EmpCode);
-                    //     Message('Substitute Assignment Memo inserted successfully.');
-                    // end;        
                     Clear(SubstituteAssignmentreport);
                     CurrPage.SetSelectionFilter(Rec);
                     SubstituteAssignmentreport.SetAssignmentmemoLine(Rec);
