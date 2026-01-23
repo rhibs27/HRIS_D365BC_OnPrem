@@ -180,6 +180,7 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal.Validate("CheckOut OverNight");
         Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 7));
         EmployeeActJournal.Validate(Remarks);
+        OnImportAttendanceLineBeforeInsertApproval(EmployeeActJournal, RowNo, DocNo, FirstLine, ExcelBuffer);
         EmployeeActJournal.InsertApproval(FirstLine, DocNo);
         EmployeeActJournal."Emp Act. No" := DocNo;
         EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
@@ -558,6 +559,11 @@ codeunit 50028 "Excel Import"
 
     [IntegrationEvent(false, false)]
     procedure OnExportLeaveSheetOnAfterData(var TempExcelBuffer: Record "Excel Buffer" temporary; EmployeeActJournal: Record "Employee Activity Journal")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnImportAttendanceLineBeforeInsertApproval(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; var FirstLine: Boolean; var ExcelBuffer: Record "Excel Buffer" temporary)
     begin
     end;
 
