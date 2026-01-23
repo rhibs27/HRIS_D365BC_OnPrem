@@ -169,14 +169,17 @@ page 50031 "Payroll General Setup"
                 field("Backdated Payroll Reverse"; Rec."Backdated Payroll Reverse")
                 {
                     ApplicationArea = all;
+                    ToolTip = 'Specifies the value of the Backdated Payroll Reverse field.';
                 }
                 field("Pay Cycle Code"; Rec."Pay Cycle Code")
                 {
                     ApplicationArea = all;
+                    ToolTip = 'Specifies the value of the Pay Cycle Code field.';
                 }
                 field("Pay Cycle Term"; Rec."Pay Cycle Term")
                 {
                     ApplicationArea = all;
+                    ToolTip = 'Specifies the value of the Pay Cycle Term field.';
                 }
                 field("Pro Rated Female Rebate"; Rec."Pro Rate Female Rebate")
                 {
@@ -401,14 +404,17 @@ page 50031 "Payroll General Setup"
                 field("ATM Custodian"; Rec."ATM Custodian")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the ATM Custodian field.';
                 }
                 field("Night Shift Allowance"; Rec."Night Shift Allowance")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Night Shift Allowance field.';
                 }
                 field("Dashain Allowance"; Rec."Dashain Allowance")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Dashain Allowance field.';
                 }
             }
             group("Encashment Code Group")
@@ -800,6 +806,11 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Allow Future Allowance Request field.', Comment = '%';
                 }
+                field("Get Amount From Assignment"; Rec."Get Amount From Assignment")
+                {
+                    ToolTip = 'Specifies the value of the Get Amount From Assignment field.';
+                }
+
             }
             part(PayrollSetupLines; "Payroll Setup Lines")
             {
@@ -819,6 +830,7 @@ page 50031 "Payroll General Setup"
         {
             action("Update Time Zone To UTC")
             {
+                ToolTip = 'Executes the Update Time Zone To UTC action.';
                 trigger OnAction()
                 begin
                     Rec.UpdateTimeZoneInUserSettings();

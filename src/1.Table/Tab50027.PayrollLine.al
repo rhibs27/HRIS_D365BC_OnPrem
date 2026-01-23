@@ -25,7 +25,7 @@ table 50027 "Payroll Line"
                 Employee.TestField(Settled, false);
                 Employee.TestField("Tax Code");
                 Employee.TestField("Do not Calculate Salary", false);
-                if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+                if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
                     Employee.TestField(Status, Employee.Status::Active);
 
                 Validate(Type, PayrollHeader.Type);
@@ -1559,7 +1559,7 @@ table 50027 "Payroll Line"
         GetPayrollHeader;
         Employee.Get("Employee No.");
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         Employee.TestField("Bank Account No.");
@@ -2786,8 +2786,13 @@ table 50027 "Payroll Line"
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
+        PayrollGeneralSetup: Record "Payroll General Setup";
     begin
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PayrollGeneralSetup.Get();
+        if not PayrollGeneralSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);

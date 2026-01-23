@@ -1247,6 +1247,8 @@ report 50144 "Yearly Payroll Projection"
                             TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings";
                         if PayAttr.Type = PayAttr.Type::Deduction then
                             TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::Deduction;
+                        if PayAttr.Type = PayAttr.Type::"Non-Payment" then
+                            TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Non-Payment";
                         TempDetailedEmpLedgerEntry."Attribute Sub Type" := PayAttr.Subtype;
                         TempDetailedEmpLedgerEntry."Non-Taxable" := PayAttr."Non-Taxable";
                         TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY');
