@@ -245,9 +245,18 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50012; "Tax Code"; Code[20])
         {
-            TableRelation = "Tax Setup Header";
+            // TableRelation = "Tax Setup Header";
+            TableRelation = "Tax Setup Header".Code where(Gender = field(Gender));
             DataClassification = CustomerContent;
             Editable = true;
+
+            trigger OnValidate()
+            var
+                myInt: Integer;
+            begin
+                if Rec.Gender = Rec.Gender::" " then
+                    Error('Please Select gender before selecting Tax Code');
+            end;
         }
         field(50013; "Total Medical Re-Imbursement"; Decimal)
         {

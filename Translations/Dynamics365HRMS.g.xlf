@@ -47233,16 +47233,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control CIT Amount( Lumpsum) - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 4003381569 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the One Time Contribution field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control One Time Contribution - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 4003381569 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>One Time Contribution</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control One Time Contribution - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 289641646 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the RTF field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47272,6 +47262,16 @@
           <source>CIT</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control CIT Amount (Month) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 4003381569 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the One Time Contribution field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control One Time Contribution - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 4003381569 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>One Time Contribution</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control One Time Contribution - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 1533587031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Optimal monthly retirement deposit to minimize TAX</source>
@@ -47524,7 +47524,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1145007401 - Control 1121446808 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Amount</source>
+          <source>Amount / %</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page RF Contribution Lines - Control amount - Property Caption</note>
         </trans-unit>

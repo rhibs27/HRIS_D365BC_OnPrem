@@ -1778,6 +1778,7 @@ table 50027 "Payroll Line"
                     RFContributionLine.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
                 end;
                 RFContributionLine.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RFContributionLine.SetRange("Attribute Code", PayrollAttrUses.Code);
                 RFContributionLine.SetRange(Type, PayrollAttrUses."RF Contribution Type");
                 RFContributionLine.SetRange("Document No.", RetirementFundHeader."No.");
                 RFContributionLine.SetRange("Approval Status", RFContributionLine."Approval Status"::Approved);
