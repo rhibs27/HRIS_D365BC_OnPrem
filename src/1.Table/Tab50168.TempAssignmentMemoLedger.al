@@ -105,4 +105,15 @@ table 50168 "Temp Assignment Memo Ledger"
         {
         }
     }
+
+    procedure CopyFromAssignmentMemoLine(var AssignmentMemoLine: Record "Assignment Memo Line")
+    begin
+        "Document No." := AssignmentMemoLine."Document No.";
+        "Employee No." := AssignmentMemoLine."Employee No.";
+        "Payroll Attribute Code" := AssignmentMemoLine."Payroll Attribute Code";
+        "Employee Activity Type" := AssignmentMemoLine."Emp Act Type";
+        Panel := AssignmentMemoLine.Panel;
+        "ATM Site" := AssignmentMemoLine."ATM Site";
+        "Vault Name" := AssignmentMemoLine."Vault Name";
+    end;
 }

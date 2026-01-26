@@ -156,11 +156,9 @@ table 50124 Leave
         }
         field(12; "Start Date (BS)"; Text[20])
         {
-            Editable = false;
         }
         field(13; "End Date (BS)"; Text[20])
         {
-            Editable = false;
         }
         field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])

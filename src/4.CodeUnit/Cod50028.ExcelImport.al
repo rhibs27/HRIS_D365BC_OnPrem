@@ -133,7 +133,7 @@ codeunit 50028 "Excel Import"
         end;
     end;
 
-    local procedure EvaluateInt(Value: Text): Integer
+    procedure EvaluateInt(Value: Text): Integer
     var
         IntValue: Integer;
     begin
@@ -141,7 +141,7 @@ codeunit 50028 "Excel Import"
         exit(IntValue);
     end;
 
-    local procedure EvaluateDecimal(Value: Text): Decimal
+    procedure EvaluateDecimal(Value: Text): Decimal
     var
         DecValue: Decimal;
     begin
@@ -149,7 +149,7 @@ codeunit 50028 "Excel Import"
         exit(DecValue);
     end;
 
-    local procedure EvaluateDate(Value: Text): Date
+    procedure EvaluateDate(Value: Text): Date
     var
         DateValue: Date;
     begin
@@ -157,7 +157,7 @@ codeunit 50028 "Excel Import"
         exit(DateValue);
     end;
 
-    local procedure EvaluateBoolean(Value: Text): Boolean
+    procedure EvaluateBoolean(Value: Text): Boolean
     begin
         exit(LowerCase(Value) in ['yes', 'true', '1']);
     end;
@@ -180,6 +180,7 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal.Validate("CheckOut OverNight");
         Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 7));
         EmployeeActJournal.Validate(Remarks);
+        OnImportAttendanceLineBeforeInsertApproval(EmployeeActJournal, RowNo, DocNo, FirstLine, ExcelBuffer);
         EmployeeActJournal.InsertApproval(FirstLine, DocNo);
         EmployeeActJournal."Emp Act. No" := DocNo;
         EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
@@ -206,6 +207,7 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal.Validate("End Date");
         Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 8));
         EmployeeActJournal.Validate(Remarks);
+        OnImportLeaveLineBeforeInsertApproval(EmployeeActJournal, RowNo, DocNo, FirstLine, ExcelBuffer);
         EmployeeActJournal.InsertApproval(FirstLine, DocNo);
         EmployeeActJournal."Emp Act. No" := DocNo;
         EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
@@ -292,6 +294,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Start Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("End Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption(Remarks), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        OnExportLeaveSheetOnAfterHeader(TempExcelBuffer, EmployeeActJournal);
         //Data
         TempExcelBuffer.NewRow();
         TempExcelBuffer.AddColumn(EmployeeActJournal."Employee No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -302,6 +305,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(EmployeeActJournal."Start Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(EmployeeActJournal."End Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
         TempExcelBuffer.AddColumn(EmployeeActJournal.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        OnExportLeaveSheetOnAfterData(TempExcelBuffer, EmployeeActJournal);
         CreateExcelBook(TempExcelBuffer, 'leaveJournal');
     end;
 
@@ -541,6 +545,26 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(ShiftLine.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
         //
         CreateExcelBook(TempExcelBuffer, 'ShiftLine');
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnImportLeaveLineBeforeInsertApproval(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; var FirstLine: Boolean; var ExcelBuffer: Record "Excel Buffer" temporary)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnExportLeaveSheetOnAfterHeader(var TempExcelBuffer: Record "Excel Buffer" temporary; EmployeeActJournal: Record "Employee Activity Journal")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnExportLeaveSheetOnAfterData(var TempExcelBuffer: Record "Excel Buffer" temporary; EmployeeActJournal: Record "Employee Activity Journal")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnImportAttendanceLineBeforeInsertApproval(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; var FirstLine: Boolean; var ExcelBuffer: Record "Excel Buffer" temporary)
+    begin
     end;
 
     var
