@@ -285,6 +285,8 @@ codeunit 50000 "Leave Mgt."
             if Leave.FindFirst then begin
                 if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
                     Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
+                else if LeaveTypeSetup."Exclude Non Working Days" then
+                    CheckForMultipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays)
                 else
                     CheckForMultipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays + Leave."No. of Days");
             end;

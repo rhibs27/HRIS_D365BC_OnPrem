@@ -235,6 +235,11 @@ table 50154 "Attendance Missed"
         }
         field(100; Status; text[20]) { }
         field(101; "From Journal"; Boolean) { }
+        field(102; "Device IP"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            //this will store the device IP from which employee request is created. data will come from companyspecific extension
+        }
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';

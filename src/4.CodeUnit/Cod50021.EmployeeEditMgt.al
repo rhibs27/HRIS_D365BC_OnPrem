@@ -98,6 +98,10 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("NID No", EmployeeEdit."NID No.");
                 if EmployeeEdit."Driving License No." <> '' then
                     Employee.Validate("Driving License No.", EmployeeEdit."Driving License No.");
+                if EmployeeEdit."Citizenship Issued Place" <> '' then
+                    Employee.Validate("Citizenship Issue Place", EmployeeEdit."Citizenship Issued Place");
+                if EmployeeEdit."Passport Validity Date" <> 0D then
+                    Employee.Validate("Passport Validity Date", EmployeeEdit."Passport Validity Date");
                 OnApproveEmployeeEditOnbeforeModifyEmployee(EmployeeEdit, Employee);
                 Employee.Modify();
             end;
