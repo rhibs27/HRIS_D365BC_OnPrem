@@ -26,13 +26,8 @@ table 50048 "Employee Attendance & Activity"
         field(5; Status; enum "Approval Status")
         {
             Editable = false;
-
         }
-
-        field(6; "Day Type"; Enum "Day Type")
-        {
-
-        }
+        field(6; "Day Type"; Enum "Day Type") { }
         field(7; "Employee Working Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
@@ -104,26 +99,15 @@ table 50048 "Employee Attendance & Activity"
             MinValue = 0;
         }
         field(25; "Outdoor Duty Day"; Decimal) { }
-        field(26; "Late Remarks"; Text[100])
-        {
-        }
+        field(26; "Late Remarks"; Text[100]) { }
         field(27; "Late Day"; Decimal) { }
         field(28; "Daily Food Allowance"; Decimal) { }
         field(29; "Employee Activity Found"; Boolean) { }
         field(30; "Attendance Date (B.S)"; Text[20]) { }
-        field(31; "Source No."; Code[20])
-        {
-        }
-        field(32; "Created Datetime"; DateTime)
-        {
-        }
-        field(33; "Holiday Remarks"; Text[250])
-        {
-        }
-        field(34; "Pay Type"; Enum "Leave Pay Type")
-        {
-
-        }
+        field(31; "Source No."; Code[250]) { }
+        field(32; "Created Datetime"; DateTime) { }
+        field(33; "Holiday Remarks"; Text[250]) { }
+        field(34; "Pay Type"; Enum "Leave Pay Type") { }
         field(35; "Friday Counter Days"; Decimal)
         {
             Description = 'allowance assignment';
@@ -168,8 +152,6 @@ table 50048 "Employee Attendance & Activity"
         field(46; "Overtime Disbursed"; Boolean) { }
         field(47; "Night Shift Punch Out Time"; Time) { }
         field(48; "Training Check In Time"; Time) { }
-
-
         field(49; "Employee Name"; Text[50])
         {
             Editable = false;
@@ -184,12 +166,8 @@ table 50048 "Employee Attendance & Activity"
             Editable = false;
             TableRelation = "Salary Grade";
         }
-        field(52; Week; Enum Week)
-        {
-
-        }
+        field(52; Week; Enum Week) { }
         field(53; "Training Day"; Decimal) { }
-
         field(54; "Training Check Out Time"; Time) { }
         field(55; "Province Code"; Code[20])
         {
@@ -218,9 +196,7 @@ table 50048 "Employee Attendance & Activity"
         {
             DataClassification = ToBeClassified;
         }
-
         field(61; "Transfer Day"; Decimal) { }
-
         field(101; "Head Teller Allowance Days"; Decimal)
         {
             Description = 'allowance assignment';
@@ -256,14 +232,8 @@ table 50048 "Employee Attendance & Activity"
         {
             Caption = 'OverNight Shift';
         }
-        field(110; "Check-In Device IP"; text[20])
-        {
-
-        }
-        field(111; "Check-Out Device IP"; text[20])
-        {
-
-        }
+        field(110; "Check-In Device IP"; text[20]) { }
+        field(111; "Check-Out Device IP"; text[20]) { }
         field(112; "Extension Counter"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"));
@@ -287,6 +257,14 @@ table 50048 "Employee Attendance & Activity"
         field(201; "Present in Holiday"; Decimal) { }
         field(202; Remarks; Text[150]) { }
 
+        field(203; "Pending Leave Request Doc No."; Code[20])
+        {
+            Description = 'To store Pending Leave Document.';
+        }
+        field(204; "Pending Update Atten. Doc No."; Code[20])
+        {
+            Description = 'To store Pending Update Attendance Document.';
+        }
     }
 
     keys
@@ -305,9 +283,6 @@ table 50048 "Employee Attendance & Activity"
     begin
         "Created Datetime" := CurrentDateTime;
     end;
-
-    var
-        Employee: Record Employee;
 
     procedure CopyFromEmployee(Employee: Record Employee)
     begin

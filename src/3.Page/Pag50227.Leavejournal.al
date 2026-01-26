@@ -18,9 +18,7 @@ page 50227 "Leave Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name")
-                {
-                }
+                field("Employee Name"; Rec."Employee Name") { }
                 field("Leave Code"; Rec."Leave Code")
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.';
@@ -71,7 +69,6 @@ page 50227 "Leave Journal"
                 {
                     Visible = StatusView;
                 }
-
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ToolTip = 'Specifies the value of the Fiscal Year field.';
@@ -83,9 +80,19 @@ page 50227 "Leave Journal"
                     ApplicationArea = All;
                     Editable = IsOpen or IsPending;
                 }
+                field("Substitute Person Code"; Rec."Substitute Person Code")
+                {
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+                field("Substitute Person Name"; Rec."Substitute Person Name")
+                {
+                    ApplicationArea = All;
+                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
+
                 Editable = false;
                 SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
@@ -104,8 +111,20 @@ page 50227 "Leave Journal"
                 Visible = IsOpen;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Send for Approval request?', false) then
-                        EmpActMgt.SendForApproval(Rec."Emp Act. No", rec."Employee Act Type"::"Leave Request");
+                    if Confirm('Do you want to Send for Approval request?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Leave Request");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), rec."Employee Act Type"::"Leave Request");
+                        end;
+                    end;
                 end;
             }
             action("Approve")
@@ -117,11 +136,22 @@ page 50227 "Leave Journal"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Approve request?', false) then
-                        ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
+                    if Confirm('Do you want to Approve Leave?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Leave Request");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            ApproverMgt.ApproveJournalDocument(ListOfDocNo.Get(i), true);
+                        end;
+                    end;
                 end;
             }
-
             action(Post)
             {
                 Promoted = true;
@@ -132,7 +162,17 @@ page 50227 "Leave Journal"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Post Leave?', false) then begin
-                        EmpActMgt.PostLeaveJournal(rec."Emp Act. No");
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.PostLeaveJournal(ListOfDocNo.Get(i));
+                        end;
+                        Message('Leave is posted');
                         CurrPage.Close();
                     end;
                 end;
@@ -161,6 +201,19 @@ page 50227 "Leave Journal"
                     if not Confirm('Do you want Import Leave Journal From Excel?', false) then
                         exit;
                     ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Leave Request");
+                end;
+            }
+            action("Export Format for Excel")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Export;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
+                        exit;
+                    ExcelImportMgt.ExportLeaveSheet(Rec);
                 end;
             }
         }
@@ -204,4 +257,6 @@ page 50227 "Leave Journal"
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
         ExcelImportMgt: Codeunit "Excel Import";
+        ListOfDocNo: List of [code[20]];
+        i: Integer;
 }

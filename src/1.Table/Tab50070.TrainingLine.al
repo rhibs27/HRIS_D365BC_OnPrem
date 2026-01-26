@@ -50,40 +50,27 @@ table 50070 "Training Line"
                     HRMgt.InsertEmployeeWiseTrainingQuestion("Training No.", "Employee Code");
             end;
         }
-        field(4; Name; Text[50]) { }
-        field(5; "Department Code"; Code[20]) { }
-        field(6; "Department Name"; Text[50]) { }
+        field(4; Name; Text[100]) { }
+        field(5; "Department Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where(Type = const(Department));
+        }
+        field(6; "Department Name"; Text[100]) { }
         field(7; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1),
                                                           Blocked = const(false));
         }
-        field(8; "Branch Name"; Text[50])
-        {
-        }
-        field(9; Type; Enum "Training Line Type")
-        {
-        }
-        field(10; "Training Description"; Text[250])
-        {
-        }
-        field(11; Attended; Boolean)
-        {
-        }
-        field(12; "Training Start Date"; Date)
-        {
-        }
-        field(13; "Training End Date"; Date)
-        {
-        }
-        field(14; "Fiscal Year"; Text[10])
-        {
-        }
+        field(8; "Branch Name"; Text[100]) { }
+        field(9; Type; Enum "Training Line Type") { }
+        field(10; "Training Description"; Text[250]) { }
+        field(11; Attended; Boolean) { }
+        field(12; "Training Start Date"; Date) { }
+        field(13; "Training End Date"; Date) { }
+        field(14; "Fiscal Year"; Text[10]) { }
         field(15; "Trainer Type"; Enum InternalExternal)
         {
-
-
             trigger OnValidate()
             begin
                 GetTrainHead;
@@ -159,9 +146,7 @@ table 50070 "Training Line"
                 CalculateTrainerCost;
             end;
         }
-        field(24; "Payment Mode"; Enum "Payment Mode")
-        {
-        }
+        field(24; "Payment Mode"; Enum "Payment Mode") { }
         field(25; Amount; Decimal)
         {
             trigger OnValidate()
@@ -181,16 +166,10 @@ table 50070 "Training Line"
                     Error(ErrorVendPay, TrainHead."Actual Other Cost" + TrainHead."Actual Training Cost");
             end;
         }
-        field(26; "Vendor Invoice No."; Text[30])
-        {
-        }
-        field(27; "Training Type"; enum "Training Type")
-        {
-        }
+        field(26; "Vendor Invoice No."; Text[30]) { }
+        field(27; "Training Type"; enum "Training Type") { }
         field(28; "Account No."; Code[20]) { }
-        field(29; "Sponsorship Type"; Enum "Sponsorship Type")
-        {
-        }
+        field(29; "Sponsorship Type"; Enum "Sponsorship Type") { }
         field(30; Country; Code[20])
         {
             TableRelation = "Country/Region";

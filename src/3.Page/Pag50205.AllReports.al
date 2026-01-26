@@ -93,7 +93,6 @@ page 50205 "All Reports"
     var
         ReportCount: Integer;
         Training: Label 'Training';
-        Travel: Label 'Travel';
         Allowance: Label 'Allowance';
         PaymentMemo: Report "Payment Memo";
         TrainerTraningHours: Report "Trainer Traning Hours";

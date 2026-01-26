@@ -4,6 +4,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
     {
         addafter("Employee Nos.")
         {
+            field("Attribute Adjustment Nos."; Rec."Attribute Adjustment Nos.")
+            {
+                ApplicationArea = All;
+                ToolTip = '';
+            }
             field("Service History No. Series"; Rec."Service History No. Series")
             {
                 ApplicationArea = All;
@@ -64,6 +69,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Shift Assignment Series field.';
+            }
+            field("Promotion No."; Rec."Promotion No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Promotion Series field.';
             }
             field("Employee Act. Journal Series"; Rec."Employee Act. Journal Series")
             {
@@ -223,12 +233,21 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Calculate Age using Nepali Calender field.', Comment = '%';
             }
+            field("Validate Permanent Address"; Rec."Validate Permanent Address")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Validate Permanent Address field. If set to true, the system will validate the permanent address as per the province, district and muncipality master.', Comment = '%';
+            }
+            field("Validate Temporary Address"; Rec."Validate Temporary Address")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Validate Temporary Address field. If set to true, the system will validate the temporary address as per the province, district and muncipality master.', Comment = '%';
+            }
         }
         addafter(Numbering)
         {
             group(Leave)
             {
-
                 field("Leave No. Series"; Rec."Leave No. Series")
                 {
                     ApplicationArea = All;
@@ -452,12 +471,19 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 field("Outstation Dist. Criteria (H)"; Rec."Outstation Dist. Criteria (H)")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (H) field.';
+                    Caption = 'Outstation Dist. Criteria (Hilly)';
+                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (Hilly) field.';
                 }
                 field("BMAF Dist. Criteria (H)"; Rec."BMAF Dist. Criteria (H)")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the BMAF Dist. Criteria (H) field.';
+                }
+                field("Outstation Dist. Crit. (Himal)"; Rec."Outstation Dist. Crit. (Himal)")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Outstation Dist. Criteria (Himal)';
+                    ToolTip = 'Specifies the value of the Outstation Dist. Criteria (Himal) field.';
                 }
             }
             group(Transfer)
@@ -679,7 +705,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ToolTip = 'Specifies the value of the Retirement Fund Nos. field.';
                 }
             }
-
         }
     }
 }

@@ -148,22 +148,6 @@ page 50200 "Retirement Funds"
                     Rec.FilterGroup(0);
                 end;
             }
-            // action(Screened)
-            // {
-            //     Promoted = true;
-            //     PromotedCategory = Category4;
-            //     PromotedIsBig = true;
-            //     ToolTip = 'Executes the Screened action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         Rec.FilterGroup(2);
-            //         ClearAll();
-            //         Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-            //         Rec.FilterGroup(0);
-            //     end;
-            // }
             action("Pending Approval")
             {
                 Image = PickLines;
@@ -198,26 +182,55 @@ page 50200 "Retirement Funds"
                     Rec.FilterGroup(0);
                 end;
             }
-            // action(ScreenAll)
-            // {
-            //     Caption = 'Screen All Valid Request';
-            //     Image = ServiceItem;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the Screen All Valid Request action.';
-            //     ApplicationArea = All;
+            action(Rejected)
+            {
+                Image = DeleteQtyToHandle;
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Rejected action.';
+                ApplicationArea = All;
 
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want to screeen all valid retirement funds?') then
-            //             HRMgt.ScreenAllRetirementFund();
-            //     end;
-            // }
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action(WithDrawn)
+            {
+                Image = Return;
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the withdrawn action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Withdrawn);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Category4;
+                Image = ClearFilter;
+                ToolTip = 'Executes the Clear filter action.';
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Approval Status");
+                    Rec.FilterGroup(0);
+                end;
+            }
         }
     }
-
-    var
-        HRMgt: Codeunit "HR Mgt.";
 }

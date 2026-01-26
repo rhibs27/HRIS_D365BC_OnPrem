@@ -6,14 +6,12 @@ page 50174 "Biometric Device Config."
     SourceTable = "Biometric Device Config.";
     UsageCategory = Lists;
 
-
     layout
     {
         area(content)
         {
             repeater(General)
             {
-
                 field(IP; Rec.IP)
                 {
                     ToolTip = 'Specifies the value of the IP field.';
@@ -67,7 +65,6 @@ page 50174 "Biometric Device Config."
                 Image = Transactions;
                 trigger OnAction()
                 var
-                    ADMSMgt: Codeunit "Biometric Mgt.";
                     DeviceCongig: Record "Biometric Device Config.";
                 begin
                     DeviceCongig.Reset();
@@ -78,6 +75,5 @@ page 50174 "Biometric Device Config."
                 end;
             }
         }
-
     }
 }

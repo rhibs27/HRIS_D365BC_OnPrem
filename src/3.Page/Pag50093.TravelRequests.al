@@ -1,15 +1,15 @@
 page 50093 "Travel Requests"
 {
-    CardPageId = "Travel Form";
     // Editable = false;
+    ApplicationArea = All;
     DeleteAllowed = false;
     PageType = List;
     SourceTable = "Travel Request";
     PromotedActionCategories = 'New,Process,Report,SetFilter';
+    UsageCategory = Lists;
     SourceTableView = SORTING("No.")
                       ORDER(Descending) WHERE(Type = CONST("Travel Request"));
-    UsageCategory = Lists;
-    ApplicationArea = All;
+    CardPageId = "Travel Form";
     Editable = false;
     InsertAllowed = false;
 
@@ -64,6 +64,11 @@ page 50093 "Travel Requests"
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
                     ApplicationArea = All;
                 }
+                field("Disbursed Advance"; Rec."Advance Disbursed")
+                {
+                    ToolTip = 'Specifies the value of the Advance Cash Required field.';
+                    ApplicationArea = All;
+                }
                 field("Purpose of Travel"; Rec."Purpose of Travel")
                 {
                     ToolTip = 'Specifies the value of the Purpose of Travel field.';
@@ -72,11 +77,42 @@ page 50093 "Travel Requests"
             }
         }
     }
-
     actions
     {
         area(Processing)
         {
+            action("&Advance Disbursed")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Open action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    SelectedRec: Record "Travel Request";
+                begin
+                    CurrPage.SetSelectionFilter(SelectedRec);
+
+                    if not SelectedRec.FindSet() then
+                        Error('No records selected.');
+                    repeat
+                        if SelectedRec."Approval Status" <> SelectedRec."Approval Status"::Approved then
+                            Error('All selected records must have Approval Status = Approved. Record %1 is not approved.', SelectedRec."No.");
+                    until SelectedRec.Next() = 0;
+
+                    if Confirm('Do you want to process the selected records?', false) then begin
+                        SelectedRec.FindSet();
+                        repeat
+                            SelectedRec.Validate("Advance Disbursed", not SelectedRec."Advance Disbursed");
+                            SelectedRec.Modify(true);
+                        until SelectedRec.Next() = 0;
+                        Message('Advance Disbursed field has been updated for selected records.');
+                    end else begin
+                        Message('No changes made to the Advance Disbursed field.');
+                    end;
+                end;
+            }
             action("Approve Travel Request")
             {
                 Image = Approve;
@@ -230,7 +266,6 @@ page 50093 "Travel Requests"
         HRMgt: Codeunit "HR Mgt.";
 
         IsPending: Boolean;
-        TravelMgt: CodeUnit "Travel Mgt.";
         ApprovalMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
 }

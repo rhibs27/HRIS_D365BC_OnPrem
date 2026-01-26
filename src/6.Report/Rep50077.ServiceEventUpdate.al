@@ -24,6 +24,7 @@ report 50077 "Service Event Update"
                         TableRelation = "Functional Title";
                         ToolTip = 'Specifies the value of the FunctionalTitle field.';
                         ApplicationArea = All;
+                        ShowMandatory = true;
                     }
                     field("Salary level"; SalaryLevel)
                     {
@@ -72,7 +73,7 @@ report 50077 "Service Event Update"
                         Caption = 'Remarks';
                         ToolTip = 'Specifies the value of the Remarks field.';
                         ApplicationArea = All;
-                        ShowMandatory = true;
+                        // ShowMandatory = true;
                     }
                     field("Employment Type"; EmploymentType)
                     {
@@ -128,8 +129,13 @@ report 50077 "Service Event Update"
                 }
             }
         }
-
         actions { }
+        trigger OnQueryClosePage(CloseAction: Action): Boolean
+        begin
+            if CloseAction in [Action::OK, Action::LookupOK] then
+                ValidateRequiredFields();
+            exit(true);
+        end;
     }
 
     labels { }
@@ -182,7 +188,7 @@ report 50077 "Service Event Update"
         Employee.Validate("Salary Level", SalaryLevel);
         Employee.Validate("Salary Grade", SalaryGrade);
         if EmploymentType = EmploymentType::Permanent then
-            Employee."Confirmation Date" := EffectiveDate;
+            Employee.Validate("Confirmation Date", EffectiveDate);
         Employee.Validate("Employment Type", EmploymentType);
         if ServiceEvent = ServiceEvent::Appointment then
             Employee.Validate("Employment Date", EffectiveDate)
@@ -201,15 +207,12 @@ report 50077 "Service Event Update"
     end;
 
     var
-        DeputationOnFrom, DeputationOnTo : Enum "Deputation Type";
+        DeputationOnTo : Enum "Deputation Type";
         ServiceEvent: Enum "Service Event";
         DeputationCodeTo: Code[20];
         ProvinceCode: Code[20];
-        PageProvince: Page "Provinces List";
-        GLSetup: Record "General Ledger Setup";
         Employee: Record Employee;
         EffectiveDate: Date;
-        HRMgt: Codeunit "HR Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         Remarks: Text;
         EmpNo: Code[20];
@@ -244,7 +247,6 @@ report 50077 "Service Event Update"
                     end;
                 end;
 
-
             Deputation::Branch:
                 begin
                     OrgStructureList.SetRange(Type, OrgStructureList.Type::Branch);
@@ -257,7 +259,6 @@ report 50077 "Service Event Update"
                         OrgStructureListPage.GetRecord(OrgStructureList);
                         exit(OrgStructureList.Code)
                     end;
-
                 end;
 
             Deputation::Department:
@@ -332,5 +333,32 @@ report 50077 "Service Event Update"
     begin
         // IsAppointment := true;
         EmpNo := EmpCode;
+    end;
+
+    local procedure ValidateRequiredFields(): Boolean
+    var
+        MissingFieldErr: Label '%1 cannot be blank.';
+    begin
+        if ServiceEvent = ServiceEvent::" " then
+            Error(MissingFieldErr, 'Service Event');
+        if FunctionalTitle = '' then
+            Error(MissingFieldErr, 'Functional Title');
+
+        if SalaryLevel = '' then
+            Error(MissingFieldErr, 'Salary Level');
+
+        if EmploymentType = EmploymentType::" " then
+            Error(MissingFieldErr, 'Employment Type');
+
+        if EffectiveDate = 0D then
+            Error(MissingFieldErr, 'Effective Date');
+
+        if EmploymentType = EmploymentType::Contract then
+            if ContractExpiryDate = 0D then
+                if ContractExpiryMonth = ContractExpiryMonth::" " then
+                    Error('Contract Expiry Month must have value.');
+        if EmploymentType = EmploymentType::Probation then
+            if ProbationPeriod = ProbationPeriod::" " then
+                Error('Probation Period must have value.');
     end;
 }

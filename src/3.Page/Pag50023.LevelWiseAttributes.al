@@ -159,6 +159,25 @@ page 50023 "Level Wise Attributes"
                         Rec.CreateAllCombinations;
                     end;
                 }
+                action("&Archive")
+                {
+                    Image = Archive;
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
+                    ToolTip = 'Executes the &Archive action.';
+                    trigger OnAction()
+                    var
+                        PayrollArchive: Record "Payroll Archive";
+                        RecRef: RecordRef;
+                    begin
+
+                        RecRef.Open(Database::"Level Wise Attributes");
+                        RecRef.Get(Rec.RecordId);
+                        PayrollArchive.RunArchive(RecRef.Number);
+                    end;
+                }
             }
         }
     }

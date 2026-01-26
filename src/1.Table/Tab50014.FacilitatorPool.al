@@ -37,36 +37,18 @@ table 50014 "Facilitator Pool"
         {
             Editable = false;
         }
-        field(3; Province; Code[20])
-        {
-        }
+        field(3; Province; Code[20]) { }
         // field(4; "Sub Province"; Code[20])
         // {
         // }
-        field(5; District; Code[20])
-        {
-        }
-        field(6; Branch; Code[20])
-        {
-        }
-        field(7; Department; Code[20])
-        {
-        }
-        field(8; Position; Code[20])
-        {
-        }
-        field(9; "Functional Title"; Code[20])
-        {
-        }
-        field(10; Skill; Text[30])
-        {
-        }
-        field(11; Qualification; Text[30])
-        {
-        }
-        field(12; "Appointed Date"; Date)
-        {
-        }
+        field(5; District; Code[20]) { }
+        field(6; Branch; Code[20]) { }
+        field(7; Department; Code[20]) { }
+        field(8; Position; Code[20]) { }
+        field(9; "Functional Title"; Code[20]) { }
+        field(10; Skill; Text[30]) { }
+        field(11; Qualification; Text[30]) { }
+        field(12; "Appointed Date"; Date) { }
         field(13; "Approval Status"; enum "Approval Status")
         {
             Editable = false;

@@ -46,7 +46,6 @@ table 50060 "Employee Bank Account"
             else
             if ("Country/Region Code" = filter(<> '')) "Post Code" where("Country/Region Code" = field("Country/Region Code"));
             ValidateTableRelation = false;
-
         }
         field(10; Contact; Text[100])
         {
@@ -83,7 +82,6 @@ table 50060 "Employee Bank Account"
             Caption = 'Country/Region Code';
             TableRelation = "Country/Region";
         }
-
         field(19; "Fax No."; Text[30])
         {
             Caption = 'Fax No.';
@@ -109,7 +107,6 @@ table 50060 "Employee Bank Account"
                 MailManagement.ValidateEmailAddressField("E-Mail");
             end;
         }
-
         field(24; IBAN; Code[50])
         {
             Caption = 'IBAN';
@@ -155,9 +152,7 @@ table 50060 "Employee Bank Account"
                             Rec."Is RF Account" := false;
                     end
                 end;
-
             end;
-
         }
         //new RF boolean added
         field(27; "Is RF Account"; Boolean)
@@ -200,8 +195,6 @@ table 50060 "Employee Bank Account"
                 end;
             end;
         }
-
-
         field(1211; "Bank Clearing Code"; Text[50])
         {
             Caption = 'Bank Clearing Code';

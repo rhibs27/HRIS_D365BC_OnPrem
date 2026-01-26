@@ -79,7 +79,6 @@ page 50121 "Vacancy Lines"
             action("Convert To Employee")
             {
                 Image = AddContacts;
-
                 ToolTip = 'Executes the Convert To Employee action.';
                 ApplicationArea = All;
 

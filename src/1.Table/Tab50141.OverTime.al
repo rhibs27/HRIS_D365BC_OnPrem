@@ -37,13 +37,11 @@ table 50141 OverTime
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-            Editable = false;
+            // Editable = false;
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -74,9 +72,7 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -87,39 +83,32 @@ table 50141 OverTime
             var
                 EmployeeAttendance: Record "Employee Attendance & Activity";
             begin
-                Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
-                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
-                if EmployeeRec.Get("Employee No.") then
-                    if "Start Date" <> 0D then begin
-                        if "Start Date" < EmployeeRec."Employment Date" then
-                            Error('Cannot apply before your employment date');
-                    end;
-                if Type <> Type::Overtime then
-                    if "Employee No." = '' then
-                        if not HrMgt.IsSaaS() then
-                            EmployeeRec.Get(HrMgt.GetEmployeeNo());
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
-                if type = type::Overtime then begin
-                    EmployeeAttendance.Reset;
-                    EmployeeAttendance.SetRange("Employee No.", "Employee No.");
-                    EmployeeAttendance.SetRange("Attendance Date", "Start Date");
-                    if EmployeeAttendance.FindFirst() then begin
-                        if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
-                            Error('No punch in or punch out found.');
-                        end
-                        else begin
-                            Validate("Check In Time", EmployeeAttendance."Check In Time");
-                            Validate("Check Out Time", EmployeeAttendance."Check Out Time");
-                            Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
+                OnBeforeOTDateValidation(rec, IsHandled);
+                if not IsHandled then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
+                    Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
+                    if type = type::Overtime then begin
+                        HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
+                        EmployeeAttendance.Reset;
+                        EmployeeAttendance.SetRange("Employee No.", "Employee No.");
+                        EmployeeAttendance.SetRange("Attendance Date", "Start Date");
+                        if EmployeeAttendance.FindFirst() then begin
+                            if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
+                                Error('No punch in or punch out found.');
+                            end
+                            else begin
+                                Validate("Check In Time", EmployeeAttendance."Check In Time");
+                                Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                                Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
+                                Validate("Day Type", EmployeeAttendance."Day Type");
+                                Validate("Overnight Shift", EmployeeAttendance."OverNight Shift");
+                            end;
+                        end else
+                            Error('No Attendance Found on %1', rec."Start Date");
+                        if "Start Date" <> xRec."Start Date" then begin
+                            Clear("Overtime Claim Type");
+                            Clear("End Date");
                         end;
-                    end else
-                        Error('No Attendance Found on %1', rec."Start Date");
-                    if "Start Date" <> xRec."Start Date" then begin
-                        Clear("Overtime Claim Type");
-                        Clear("End Date");
                     end;
                 end;
             end;
@@ -141,8 +130,8 @@ table 50141 OverTime
                     Error('Invalid date.');
                 if "End date" > "Start Date" + 32 then // 32 days is the maximum range for Nepali date conversion
                     Error('Date range exceed');
-                if Type = Type::"Overtime Bulk" then
-                    CheckForExistingDate();
+                // if Type = Type::"Overtime Bulk" then
+                // CheckForExistingDate();
                 Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
             end;
         }
@@ -173,9 +162,7 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -183,7 +170,7 @@ table 50141 OverTime
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            Editable = false;
+            // Editable = false;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
@@ -286,18 +273,10 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
-        field(39; Cancelled; Boolean)
-        {
-        }
-        field(40; "Cancelled No."; Code[20])
-        {
-        }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
+        field(39; Cancelled; Boolean) { }
+        field(40; "Cancelled No."; Code[20]) { }
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;
@@ -317,9 +296,8 @@ table 50141 OverTime
         // {
         // }
         field(106; "Time Duration"; Duration) { }
-        field(51; "Estimated Hours"; Decimal)
-        {
-        }
+        field(50; "Overnight Shift"; Boolean) { }
+        field(51; "Estimated Hours"; Decimal) { }
         field(52; "Actual OT Hours"; Decimal)
         {
             trigger OnValidate()
@@ -338,12 +316,8 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(56; "OT Disbursed"; Boolean)
-        {
-        }
-        field(57; "Updated Payroll Line"; Boolean)
-        {
-        }
+        field(56; "OT Disbursed"; Boolean) { }
+        field(57; "Updated Payroll Line"; Boolean) { }
         field(58; "OT Eligible Hours"; Decimal)
         {
             Editable = false;
@@ -414,9 +388,11 @@ table 50141 OverTime
         {
             DataClassification = ToBeClassified;
         }
-        field(100; Status; text[20])
+        field(68; "Day Type"; Enum "Day Type")
         {
+            DataClassification = ToBeClassified;
         }
+        field(100; Status; text[20]) { }
     }
     keys
     {
@@ -424,9 +400,7 @@ table 50141 OverTime
         {
             Clustered = true;
         }
-        key(Key2; "Start Date")
-        {
-        }
+        key(Key2; "Start Date") { }
     }
     trigger OnInsert()
     begin
@@ -507,6 +481,11 @@ table 50141 OverTime
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeOTDateValidation(Var Overtime: Record OverTime; var IsHandled: Boolean)
+    begin
+    end;
+
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
@@ -534,8 +513,7 @@ table 50141 OverTime
         overtime1.SetRange(Type, overtime1.Type::"Overtime Bulk");
         OverTime1.SetRange("Fiscal Year", "Fiscal Year");
         OverTime1.SetRange("Deputation Type", "Deputation Type");
-        if "Deputation Type" = "Deputation Type"::Branch then
-            OverTime1.SetRange("Deputation Code", "Deputation Code");
+        OverTime1.SetRange("Deputation Code", "Deputation Code");
         OverTime1.SetFilter("Approval Status", '<>%1&<>%2', OverTime1."Approval Status"::Rejected, overtime1."Approval Status"::Canceled);
         if OverTime1.Findset then
             repeat

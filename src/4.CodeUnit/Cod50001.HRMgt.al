@@ -126,6 +126,7 @@ codeunit 50001 "HR Mgt."
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: CodeUnit "Travel Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
+        ApprovalMgt: Codeunit "Approver Mgt";
 
     procedure MoveToMagicPath(SourceFileName: Text[1024]) DestinationFileName: Text[1024]
     var
@@ -191,8 +192,8 @@ codeunit 50001 "HR Mgt."
     procedure UpdatePromotion(EmpNo: Code[20])
     var
         PromotionPageBuilder: FilterPageBuilder;
-        PromotionHistory: Record "Promotion History";
-        PromoHis: Record "Promotion History";
+        PromotionHistory: Record "Promotion";
+        PromoHis: Record "Promotion";
         LineNo: Integer;
         PromotedDate: Date;
         ServiceHistory: Record "Employee Service History";
@@ -201,32 +202,25 @@ codeunit 50001 "HR Mgt."
     begin
         Employee.Get(EmpNo);
         PromotionPageBuilder.AddRecord('Promote Employee', PromotionHistory);
-        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Salary Level Code");
+        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Salary Level");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Salary Grade");
-        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Date");
+        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promotion Date");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Functional Title");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory.Remarks);
         if PromotionPageBuilder.RunModal then begin
             PromotionHistory.SetView(PromotionPageBuilder.GetView('Promote Employee'));
-            PromoHis.Reset;
-            PromoHis.SetRange("Employee No.", EmpNo);
-            if PromoHis.FindLast then
-                LineNo := PromoHis."Line No." + 10000
-            else
-                LineNo := 10000;
-            Evaluate(PromotedDate, PromotionHistory.GetFilter("Promoted Date"));
+            Evaluate(PromotedDate, PromotionHistory.GetFilter("Promotion Date"));
             Clear(PromoHis);
             PromoHis.Init;
             PromoHis.Validate("Employee No.", EmpNo);
-            PromoHis.Validate("Promoted Date", PromotedDate);
-            PromoHis.Validate("Promoted Salary Level Code", PromotionHistory.GetFilter("Promoted Salary Level Code"));
+            PromoHis.Validate("Promotion Date", PromotedDate);
+            PromoHis.Validate("Promoted Salary Level", PromotionHistory.GetFilter("Promoted Salary Level"));
             PromoHis.Validate("Promoted Salary Grade", PromotionHistory.GetFilter("Promoted Salary Grade"));
             PromoHis.Validate("Promoted Functional Title", PromotionHistory.GetFilter("Promoted Functional Title"));
             PromoHis.Validate(Remarks, PromotionHistory.GetFilter(Remarks));
-            PromoHis.Validate("Line No.", LineNo);
             PromoHis.Insert(true);
             ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpNo, ServiceHistory."Service Event"::"Internal Appointment", 'Promoted', PromotedDate);
-            Employee.Validate("Salary Level", PromotionHistory.GetFilter("Promoted Salary Level Code"));
+            Employee.Validate("Salary Level", PromotionHistory.GetFilter("Promoted Salary Level"));
             Employee.Validate("Salary Grade", PromotionHistory.GetFilter("Promoted Salary Grade"));
             Employee.Validate("Functional Title", PromotionHistory.GetFilter("Promoted Functional Title"));
             Employee.Validate("Promotion Date", PromotedDate);
@@ -2724,23 +2718,25 @@ codeunit 50001 "HR Mgt."
     end;
 
     procedure ReturnFiscalYear(EngDate: Date): Text
+    var
+        EngNep: Record "English-Nepali Date";
     begin
-        EngNep.Reset;
+        EngNep.SetLoadFields("English Date", "Fiscal Year");
         EngNep.SetRange("English Date", EngDate);
         if EngNep.FindFirst then
             exit(EngNep."Fiscal Year");
     end;
 
-    procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
-    var
-        EngNep: Record "English-Nepali Date";
-    begin
-        EngNep.Reset;
-        EngNep.SetRange("Fiscal Year", FiscalYear);
-        EngNep.SetCurrentKey("English Date");
-        if EngNep.FindLast then
-            exit(EngNep."English Date");
-    end;
+    // procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
+    // var
+    //     EngNep: Record "English-Nepali Date";
+    // begin
+    //     EngNep.Reset;
+    //     EngNep.SetRange("Fiscal Year", FiscalYear);
+    //     EngNep.SetCurrentKey("English Date");
+    //     if EngNep.FindLast then
+    //         exit(EngNep."English Date");
+    // end;
 
     procedure ReturnEmpName(EmpCode: Code[20]): Text
     begin
@@ -3338,6 +3334,15 @@ codeunit 50001 "HR Mgt."
         exit(BaseCalenderchanges.FindFirst());
     end;
 
+    procedure CheckEligibilityBeforeEmploymentDate(ActivityDate: Date; EmployeeNo: Code[20])
+    begin
+        Employee.get(EmployeeNo);
+        if ActivityDate <> 0D then begin
+            if ActivityDate < Employee."Employment Date" then
+                Error('Cannot apply before your employment date');
+        end;
+    end;
+
     procedure UpdateInsuranceFromHomeLoan(EmployeeLoanAdvance: Record "Employee Loan/Advance")
     var
         EmployeeInsuranceInformation: Record "Employee Insurance Information";
@@ -3479,8 +3484,6 @@ codeunit 50001 "HR Mgt."
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund"): Boolean
     var
         RFContibution: Record "RF Contribution";
-        ApprovalHRMS: REcord "Approval HRMS";
-        LoanMgt: Codeunit "Loan Mgt.";
     begin
         if GuiAllowed then
             if not Confirm('Do you want to send retirement fund for approval?', false) then
@@ -3490,12 +3493,7 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.TestField("Employee No.");
         TempRetirementFund.Validate("Approval Status", TempRetirementFund."Approval Status"::Pending);
         TempRetirementFund.Modify(true);
-        ApprovalHRMS.SetRange("Document No.", TempRetirementFund."No.");
-        ApprovalHRMS.SetRange("Approval Sequence", 1);
-        if ApprovalHRMS.FindFirst() then begin
-            ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Open);
-            ApprovalHRMS.Modify();
-        end;
+        ApprovalMgt.UpdateFirstApproverStatus(TempRetirementFund."No.");
         RFContibution.SetRange("Employee No.", TempRetirementFund."Employee No.");
         RFContibution.SetRange("Document No.", TempRetirementFund."No.");
         if RFContibution.FindSet() then
@@ -3504,7 +3502,9 @@ codeunit 50001 "HR Mgt."
                     Error('Type must be same in Header and line.');
                 RFContibution."Approval Status" := RFContibution."Approval Status"::Pending;
                 RFContibution.Modify();
-            until RFContibution.Next = 0;
+            until RFContibution.Next = 0
+        else
+            Error('Error Retirement Fund Line not Found in %1', TempRetirementFund."No.");
         //   RFContibution.DeleteAll();
         //SendMailFromTemplate(DATABASE::"Employee Activity",EmpAct.Type::"Travel Request",EmpAct."Approval Status"::Open,'',EmpAct."Employee No.",EmpAct."No.",0);   //For email
         if GuiAllowed then
@@ -4232,19 +4232,25 @@ codeunit 50001 "HR Mgt."
     procedure getServicePeriodText(var Employee: Record Employee)
     var
         NewEmploymentDate: Date;
+        LastDate: Date;
     begin
         if Employee."Employment Date" <> 0D then begin
             NewEmploymentDate := GetAdjustedEmploymentDate(Employee, Employee."Employment Date", Today);
+
+            LastDate := Employee."Termination Date";
+            if Employee."Resignation Date" <> 0D then
+                LastDate := Employee."Resignation Date";
+
             HRSetup.Get();
             if HRSetup."Calculate Age using Nepali C." then begin
-                if Employee."Termination Date" <> 0D then
-                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Employee."Termination Date"))
+                if LastDate <> 0D then
+                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(LastDate))
                 else
                     Employee."Service Period text" := GetAgeBS(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Today));
             end
             else begin
-                if Employee."Termination Date" <> 0D then
-                    Employee."Service Period text" := GetAge(NewEmploymentDate, Employee."Termination Date")
+                if LastDate <> 0D then
+                    Employee."Service Period text" := GetAge(NewEmploymentDate, LastDate)
                 else
                     Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
             end;
@@ -4418,11 +4424,11 @@ codeunit 50001 "HR Mgt."
     End;
 
     procedure CreateEmpActLedger(EmpActType: Enum "Employee Activity Type";
-                                    DocNo: Code[20];
-                                    EmpNo: Code[20];
-                                    ActDate: Date;
-                                    Cancelled: Boolean;
-                                    Days: Decimal)
+                                                 DocNo: Code[20];
+                                                 EmpNo: Code[20];
+                                                 ActDate: Date;
+                                                 Cancelled: Boolean;
+                                                 Days: Decimal)
     var
         EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
         Leave: Record Leave;
@@ -4444,6 +4450,7 @@ codeunit 50001 "HR Mgt."
                 EmpActLedgerEntry."Leave Type" := Leave."Leave Type";
                 EmpActLedgerEntry."Leave Code" := Leave."Leave Code";
             end;
+        OnBeforeInsertEmpActLedger(EmpActType, DocNo, EmpNo, ActDate, EmpActLedgerEntry);
         EmpActLedgerEntry.insert();
     end;
 
@@ -4552,5 +4559,56 @@ codeunit 50001 "HR Mgt."
             EmployeeListPage.GetRecord(EmployeeRec);
             exit(EmployeeRec."No.");
         end;
+    end;
+
+    procedure AssignEmployeeSeniority()
+    var
+        SalaryLevel: Record "Salary Level";
+        Employee: Record Employee;
+        EmployeeCount: Integer;
+    begin
+        SalaryLevel.Reset();
+        SalaryLevel.SetFilter(Rank, '>%1', 0);
+        if SalaryLevel.FindSet() then
+            repeat
+
+                EmployeeCount := 0;
+                SalaryLevel.TestField(Rank);
+
+                Employee.Reset();
+                Employee.SetCurrentKey("Employment Date");
+                Employee.SetRange("Salary Level", SalaryLevel.Code);
+                Employee.SetRange(Status, Employee.Status::Active);
+                Employee.SetAscending("Employment Date", false);
+                if Employee.FindSet() then
+                    repeat
+                        EmployeeCount += 1;
+                        Employee.Seniority := SalaryLevel.Rank * 1000 + EmployeeCount;
+                        Employee.Modify();
+                    until Employee.Next() = 0;
+
+            until SalaryLevel.Next() = 0;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
+    begin
+        //Can be Used to skp mail for paticular employee
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20]; EmpNo: Code[20]; ActDate: Date; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeCreateEmailFromTemplate(var TableNo: Integer; var DocumentType: enum "Employee Activity Type";
+                              var ApprovalStatus: Enum "approval status";
+                              var EmployeeNo: Text;
+                              var DocumentNo: Code[20];
+                              var Cancelled: Boolean;
+                              var IsHandled: Boolean);
+    begin
+        //Can be used to changes or modify any paramater before Create Email From Template
     end;
 }

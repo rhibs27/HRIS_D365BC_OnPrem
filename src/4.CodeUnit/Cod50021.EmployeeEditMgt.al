@@ -10,7 +10,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditType: Enum "Employee Edit Type";
     begin
         EmployeeEdit.get(EmployeeEditCode);
-        EmployeeEditOnBeforeSendForApproval(EmployeeEdit);
+        EmployeeEditOnBeforeApprove(EmployeeEdit);
         case EmployeeEdit."Changes In Employee Type" of
             EmployeeEditType::Details:
                 begin
@@ -34,7 +34,12 @@ codeunit 50021 "Employee Edit Mgt."
                 end;
             EmployeeEditType::"Additional Documents":
                 ImportEditLineAttachmentsToEmployee(EmployeeEdit."No.");
+            EmployeeEditType::"Vehicle Info Update":
+                EmployeevehicleInfoUpdate(EmployeeEdit."No.");
+            EmployeeEditType::"Marital Status Update":
+                EmployeeMaritalStatusUpdate(EmployeeEdit."No.");
         end;
+        CreatePayrollAttrUsesOnApprovedEmployeeEdit(EmployeeEdit);
     end;
 
     local procedure EmployeeDetails(Var EmployeeEdit: Record "Employee Edit")
@@ -93,6 +98,10 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate("NID No", EmployeeEdit."NID No.");
                 if EmployeeEdit."Driving License No." <> '' then
                     Employee.Validate("Driving License No.", EmployeeEdit."Driving License No.");
+                if EmployeeEdit."Citizenship Issued Place" <> '' then
+                    Employee.Validate("Citizenship Issue Place", EmployeeEdit."Citizenship Issued Place");
+                if EmployeeEdit."Passport Validity Date" <> 0D then
+                    Employee.Validate("Passport Validity Date", EmployeeEdit."Passport Validity Date");
                 OnApproveEmployeeEditOnbeforeModifyEmployee(EmployeeEdit, Employee);
                 Employee.Modify();
             end;
@@ -144,7 +153,6 @@ codeunit 50021 "Employee Edit Mgt."
     procedure EmployeeQualificationAddFromLine(EmployeeEditLine: Record "Employee Edit Line")
     var
         EmployeeQualification: Record "Employee Qualification";
-        EmployeeNo: Code[20];
         QualificationMaster: Record Qualification;
     begin
         if EmployeeEditLine."Original Line No." = 0 then begin
@@ -190,7 +198,6 @@ codeunit 50021 "Employee Edit Mgt."
     local procedure EmployeeWorkAdd(var EmployeeEdit: Record "Employee Edit")
     var
         EmployeeQualification: Record "Employee Qualification";
-        EmployeeQualification1: Record "Employee Qualification";
         EmployeeEditLine: Record "Employee Edit Line";
     begin
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
@@ -219,9 +226,7 @@ codeunit 50021 "Employee Edit Mgt."
     local procedure EmployeeRelativeAdd(var EmployeeEdit: Record "Employee Edit")
     var
         EmployeeRelative: Record "Employee Relative";
-        EmployeeRelative1: Record "Employee Relative";
         EmployeeEditLine: Record "Employee Edit Line";
-        LineNo: Integer;
     begin
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
         if EmployeeEditLine.FindSet() then begin
@@ -263,6 +268,9 @@ codeunit 50021 "Employee Edit Mgt."
         end;
         EmployeeRelative.Validate("Employee No.", EmployeeEditLine."Employee No.");
         EmployeeRelative.Validate("Relative Code", EmployeeEditLine."Relative Code");
+        EmployeeRelative.Validate("First Name", EmployeeEditLine."First Name");
+        EmployeeRelative.Validate("Middle Name", EmployeeEditLine."Middle Name");
+        EmployeeRelative.Validate("Last Name", EmployeeEditLine."Last Name");
         EmployeeRelative.Validate("Full Name", EmployeeEditLine."Full Name");
         EmployeeRelative.Validate("Relative's Employee No.", EmployeeEditLine."Relative's Employee No.");
         EmployeeRelative.Validate("Phone No.", EmployeeEditLine."Relative Phone No.");
@@ -360,7 +368,7 @@ codeunit 50021 "Employee Edit Mgt."
         end;
     end;
 
-    procedure EmployeeEditOnBeforeSendForApproval(EmployeeEdit: Record "Employee Edit")
+    procedure EmployeeEditOnBeforeApprove(EmployeeEdit: Record "Employee Edit")
     var
         EmployeeEditLine: Record "Employee Edit Line";
     begin
@@ -368,6 +376,27 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
         if EmployeeEditLine.FindSet() then
             EmployeeEditLine.ModifyAll("Employee No.", EmployeeEdit."Employee No.", false);
+
+        //This has link to transportation and transportation reimbursement. If not needed you can skip this via setup or integration event.
+        if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then begin
+            EmployeeEdit.TestField("Vehicle Type");
+            EmployeeEdit.TestField("Claim Type");
+            EmployeeEdit.TestField("Claimed Type Effective Date");
+
+            if EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"] then begin
+                EmployeeEdit.TestField("Vehicle No.", '');
+                EmployeeEdit.TestField("Vehicle Owner Name", '');
+            end else begin
+                EmployeeEdit.TestField("Vehicle No.");
+                EmployeeEdit.TestField("Vehicle Owner Name");
+                EmployeeEdit.TestField("Ownership Start/End Date");
+                if EmployeeEdit."Vehicle Type" = EmployeeEdit."Vehicle Type"::"Four Wheeler" then
+                    EmployeeEdit.TestField("Fuel Type");
+            end;
+        end;
+
+        //check for attachment mandatory
+        CheckAttachmentmandatoryForEmployeeEdit(EmployeeEdit)
     end;
 
     procedure ImportEditLineAttachmentsToEmployee(EmployeeEditNo: Code[20])
@@ -376,13 +405,11 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEdit: Record "Employee Edit";
         Employee: Record Employee;
         FromRecRef: RecordRef;
-        ToRecRef: RecordRef;
         TempBlob: Codeunit "Temp Blob";
         FileName: Text;
         FileExtension: Text;
         ToTableId: Integer;
         DocumentAttachment: Record "Document Attachment";
-        InStr: InStream;
         OutStr: OutStream;
     begin
         ToTableId := Database::Employee;
@@ -419,11 +446,11 @@ codeunit 50021 "Employee Edit Mgt."
     procedure GetMediaFileExtension(MediaId: Guid; var FileName: Text): Text
     var
         TenantMedia: Record "Tenant Media";
-        InStr: InStream;
     begin
         if not TenantMedia.Get(MediaId) then
             exit('');
-        FileName := TenantMedia.Description;
+        if TenantMedia.Description <> '' then
+            FileName := TenantMedia.Description;
         exit(LowerCase(GetFileExtension(FileName)));
     end;
 
@@ -438,8 +465,193 @@ codeunit 50021 "Employee Edit Mgt."
             exit('');
     end;
 
+    procedure EmployeeMaritalStatusUpdate(EmpEditNo: Code[20])
+    var
+        Employee: Record Employee;
+        EmployeeEdit: Record "Employee Edit";
+        EmployeeRelative: Record "Employee Relative";
+        Relative: Record Relative;
+    begin
+        EmployeeEdit.Get(EmpEditNo);
+        if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Marital Status Update" then begin
+            if Employee.Get(EmployeeEdit."Employee No.") then begin
+                Employee.Validate("Marital Status", EmployeeEdit."Marital Status");
+                Employee.Modify();
+            end;
+            //also update the employee relatives
+            EmployeeRelative.SetRange("Employee No.", EmployeeEdit."Employee No.");
+            EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Spouse);
+            if EmployeeRelative.FindFirst() then begin
+                EmployeeRelative.Validate("Full Name", EmployeeEdit."Spouse Name");
+                EmployeeRelative.Validate("Birth Date", EmployeeEdit."Spouse DOB");
+                EmployeeRelative.Validate("Citizenship No.", EmployeeEdit."Spouse citizenship No.");
+                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEdit."Spouse Citiz. Issued Place");
+                EmployeeRelative.Modify();
+            end
+            else begin
+                Relative.SetRange(Relation, Relative.Relation::Spouse);
+                Relative.FindFirst();
+
+                EmployeeRelative.Init();
+                EmployeeRelative.Validate("Line No.", GetNextLineNoRelative(EmployeeEdit."Employee No."));
+                EmployeeRelative.Validate("Employee No.", EmployeeEdit."Employee No.");
+                EmployeeRelative.Validate("Relative Code", Relative.Code);
+                EmployeeRelative.Validate("Full Name", EmployeeEdit."Spouse Name");
+                EmployeeRelative.Validate("Birth Date", EmployeeEdit."Spouse DOB");
+                EmployeeRelative.Validate("Citizenship No.", EmployeeEdit."Spouse citizenship No.");
+                EmployeeRelative.Validate("Citizenship Issued District", EmployeeEdit."Spouse Citiz. Issued Place");
+                EmployeeRelative.Insert();
+            end;
+            ImportEmployeeEditLineAttachmentsToEmployee(EmpEditNo);
+        end;
+    end;
+
+    procedure EmployeevehicleInfoUpdate(EmpEditNo: Code[20])
+    var
+        Employee: Record Employee;
+        EmployeeEdit: Record "Employee Edit";
+        isHandled: Boolean;
+    begin
+        EmployeeEdit.Get(EmpEditNo);
+        if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then begin
+            if Employee.Get(EmployeeEdit."Employee No.") then begin
+                if EmployeeEdit."Vehicle Type" <> EmployeeEdit."Vehicle Type"::" " then begin
+                    Employee.Validate("Vehicle Type", EmployeeEdit."Vehicle Type");
+                    Employee.Validate("Vehicle No.", EmployeeEdit."Vehicle No.");
+                    Employee.Validate("Vehicle Owner Name", EmployeeEdit."Vehicle Owner Name");
+                    Employee.Validate("Ownership Start/End Date", EmployeeEdit."Ownership Start/End Date");
+                    Employee.Modify();
+                end;
+                ImportEmployeeEditLineAttachmentsToEmployee(EmpEditNo);
+
+                OnAfterEmployeeVehicleInfoUpdate(EmployeeEdit, Employee, isHandled);  //auto insert transportation request if clain type is transportation
+            end;
+        end;
+    end;
+
+    procedure ImportEmployeeEditLineAttachmentsToEmployee(EmployeeEditNo: Code[20])
+    var
+
+        EmployeeEdit: Record "Employee Edit";
+        Employee: Record Employee;
+        FromRecRef: RecordRef;
+        TempBlob: Codeunit "Temp Blob";
+        FileName: Text;
+        FileExtension: Text;
+        ToTableId: Integer;
+        DocumentAttachment: Record "Document Attachment";
+        OutStr: OutStream;
+    begin
+        ToTableId := Database::Employee;
+        if not EmployeeEdit.Get(EmployeeEditNo) then
+            exit;
+        if not Employee.Get(EmployeeEdit."Employee No.") then
+            exit;
+
+        if EmployeeEdit.Attachment.HasValue() then begin
+            FileName := Format(EmployeeEdit."Changes In Employee Type") + '-Attachment-' + EmployeeEdit."Employee No.";
+            if FileName = '' then
+                FileName := 'Attachment';
+            // Get file extension from Attachment field
+            FileExtension := GetMediaFileExtension(EmployeeEdit.Attachment.MediaId(), FileName);
+            if FileName = '.' + FileExtension then
+                FileName := Format(EmployeeEdit."Changes In Employee Type") + '-Attachment-' + EmployeeEdit."Employee No." + '.' + FileExtension;
+            TempBlob.CreateOutStream(OutStr);
+            EmployeeEdit.Attachment.ExportStream(OutStr);
+            Employee.Get(EmployeeEdit."Employee No.");
+            FromRecRef.GetTable(Employee);
+            Clear(DocumentAttachment);
+            DocumentAttachment.Init();
+            DocumentAttachment."Table ID" := Database::Employee;
+            DocumentAttachment."No." := EmployeeEdit."Employee No.";
+            DocumentAttachment."File Name" := FileName;
+            DocumentAttachment."File Extension" := FileExtension;
+            DocumentAttachment."Attachment Document Type" := EmployeeEdit."Attachment Code";
+            DocumentAttachment.SaveAttachment(FromRecRef, FileName, TempBlob);
+        end;
+    end;
+
+    procedure EmployeeEditSendForApproval(EmployeeEditCode: Code[20])
+    var
+        EmployeeEdit: Record "Employee Edit";
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        EmployeeEdit.get(EmployeeEditCode);
+        EmployeeEditOnBeforeApprove(EmployeeEdit);
+        EmployeeEdit."Approval Status" := EmployeeEdit."Approval Status"::Pending;
+        EmployeeEdit.Modify();
+
+        ApprovalHRMS.SetRange("Document No.", EmployeeEdit."No.");
+        ApprovalHRMS.SetRange("Approval Sequence", 1);
+        ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Created);
+        if ApprovalHRMS.FindSet() then
+            ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
+
+        Message('Approval request has been sent.');
+    end;
+
+    procedure CheckAttachmentmandatoryForEmployeeEdit(var EmployeeEdit: Record "Employee Edit")
+    var
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.SetRange(Mandatory, true);
+        case EmployeeEdit."Changes In Employee Type" of
+            EmployeeEdit."Changes In Employee Type"::Qualification:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Education);
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+            EmployeeEdit."Changes In Employee Type"::"Work Experience",
+            EmployeeEdit."Changes In Employee Type"::Achievement:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Work Experience");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+            EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update":
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Vehicle Info Update");
+                    if AttachmentSetup.FindFirst() then begin
+                        if not EmployeeEdit.Attachment.HasValue() then
+                            if not (EmployeeEdit."Vehicle Type" in [EmployeeEdit."Vehicle Type"::" ", EmployeeEdit."Vehicle Type"::"No Vehicle"]) then
+                                Error('Attachment is mandatory for %1. Please attach the required document.', Format(EmployeeEdit."Changes In Employee Type"));
+                    end;
+                end;
+            EmployeeEdit."Changes In Employee Type"::Details:
+                begin
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Profile");
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+                end;
+        end;
+    end;
+
+    procedure CreatePayrollAttrUsesOnApprovedEmployeeEdit(var EmployeeEdit: Record "Employee Edit")
+    var
+        PayrollAtttrUses, PayrollAtttrUses2 : Record "Payroll Attributes Usage";
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        if EmployeeEdit."Claim Type" = '' then
+            exit;
+        if not PayrollAttributes.Get(EmployeeEdit."Claim Type") then
+            exit;
+
+        PayrollAtttrUses2.SetRange("Employee Code", EmployeeEdit."Employee No.");
+        PayrollAtttrUses2.SetRange(code, EmployeeEdit."Claim Type");
+        if not PayrollAtttrUses2.FindFirst() then begin
+            PayrollAtttrUses.Init();
+            PayrollAtttrUses.Validate("Employee Code", EmployeeEdit."Employee No.");
+            PayrollAtttrUses.Validate(code, EmployeeEdit."Claim Type");
+            if PayrollAtttrUses.Insert(true) then;
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnApproveEmployeeEditOnbeforeModifyEmployee(var EmployeeEdit: Record "Employee Edit"; var Employee: Record Employee);
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterEmployeeVehicleInfoUpdate(var EmployeeEdit: Record "Employee Edit"; var Employee: Record Employee; var IsHandled: Boolean)
     begin
     end;
 }

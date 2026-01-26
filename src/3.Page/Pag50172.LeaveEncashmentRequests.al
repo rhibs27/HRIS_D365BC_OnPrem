@@ -53,5 +53,4 @@ page 50172 "Leave Encashment Requests"
     begin
         Rec.Type := Rec.Type::"Leave Encashment";
     end;
-
 }

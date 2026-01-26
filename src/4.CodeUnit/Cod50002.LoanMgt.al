@@ -708,6 +708,19 @@ codeunit 50002 "Loan Mgt."
         Message('Settlement has been updated of %1.', EmpLoanAdv."Employee Name");
     end;
 
+    procedure SettleAdvance(EmpLoanAdv: Record "Employee Loan/Advance"; SettledDate: Date)
+    begin
+        EmpLoanAdv.TestField("Approval Status", EmpLoanAdv."Approval Status"::Approved);
+        if not HrMgt.IsSaaS() then
+            Employee.Get(HRMgt.GetEmployeeNo);
+        EmpLoanAdv.TestField(Settled, false);
+        EmpLoanAdv.Validate(Settled, true);
+        EmpLoanAdv.Validate("Settlement Date", SettledDate);
+        EmpLoanAdv.Validate("Settler User ID", UserId);
+        EmpLoanAdv.Modify;
+        Message('Settlement has been updated of %1.', EmpLoanAdv."Employee Name");
+    end;
+
     procedure NewSalaryAdvanceCheck(EmpCode: Code[20])
     var
         EmpSalAvd: Record "Employee Loan/Advance";

@@ -1,6 +1,5 @@
 report 50125 "Posted Payroll Summary"
 {
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019926.PostedPayrollSummary.rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -92,7 +91,7 @@ report 50125 "Posted Payroll Summary"
 
             trigger OnAfterGetRecord()
             begin
-                /*IF Months = Months::" " THEN 
+                /*IF Months = Months::" " THEN
                   ERROR('Please select a month.');*/
                 if PayCycleTerm = '' then
                     Error('Please select a pay cycle term.');
@@ -133,8 +132,6 @@ report 50125 "Posted Payroll Summary"
         // DepartmentVar: Record Department;
         PayCycleTerm: Text;
         Months: Enum "Nepali Month";
-        EmployeeFilter: Text;
-        Employee: Record Employee;
         NetPay: Decimal;
         CurrentDeduction: Decimal;
         FirstTime: Boolean;

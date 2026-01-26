@@ -60,6 +60,22 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Municipality field.', Comment = '%';
                 }
+                field("Telephone No"; Rec."Telephone No")
+                {
+                    ToolTip = 'Specifies the value of the Telephone No Field', Comment = '%';
+                }
+                field("Address"; Rec.Address)
+                {
+                    ToolTip = 'Specifies the value of the Address Field', Comment = '%';
+                }
+                field("Fax No"; Rec."Fax No")
+                {
+                    ToolTip = 'Specifies the value of the Fax No Field', Comment = '%';
+                }
+                field("NRB No"; Rec."NRB No")
+                {
+                    ToolTip = 'Specifies the value of the NRB No Field', Comment = '%';
+                }
                 field("Remote Area Category"; Rec."Remote Area Category")
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
@@ -72,19 +88,6 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
                 }
-                field("No. of Vault Key"; Rec."No. of Vault Key")
-                {
-                    ToolTip = 'Specifies the value of the No. of Vault Key field.', Comment = '%';
-                }
-                field("No. of On-Side ATM"; Rec."No. of On-Side ATM")
-                {
-                    ToolTip = 'Specifies the value of the No. of On-Side ATM field.', Comment = '%';
-                }
-                field("No. of Off-Site ATM"; Rec."No. of Off-Site ATM")
-                {
-                    ToolTip = 'Specifies the value of the No. of Off-Site ATM field.', Comment = '%';
-                }
-
             }
         }
     }

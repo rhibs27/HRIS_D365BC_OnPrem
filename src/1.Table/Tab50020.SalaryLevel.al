@@ -88,42 +88,19 @@ table 50020 "Salary Level"
         {
             Caption = 'Other Country Lodging Allowance';
         }
-        field(39; "Out of Pocket Expense(India)"; Decimal)
-        {
-
-        }
-        field(40; "Out of Pocket Expense(Other)"; Decimal)
-        {
-        }
-        field(41; "Leave Fare Allowance"; Decimal)
-        {
-        }
-        field(42; "Staff Level"; Enum "Staff Type")
-        {
-        }
+        field(39; "Out of Pocket Expense(India)"; Decimal) { }
+        field(40; "Out of Pocket Expense(Other)"; Decimal) { }
+        field(41; "Leave Fare Allowance"; Decimal) { }
+        field(42; "Staff Level"; Enum "Staff Type") { }
         field(50; "Grades Limit"; Integer)
         {
             //specify how many grade;
         }
-        field(51; "Employee Maintenence Allowance"; Decimal)
-        {
-
-        }
-        field(52; "Transportation Allowance"; Decimal)
-        {
-
-        }
-        field(53; "Vehicle Maintenence Allowance"; Decimal)
-        {
-
-        }
-        field(54; "EV Allowance"; Decimal)
-        {
-
-        }
+        field(51; "Employee Maintenence Allowance"; Decimal) { }
+        field(52; "Transportation Allowance"; Decimal) { }
+        field(53; "Vehicle Maintenence Allowance"; Decimal) { }
+        field(54; "EV Allowance"; Decimal) { }
         field(55; "Fuel Limit (ltr)"; Decimal) { }
-
-        field(56; "Fuel Limit (amt)"; Decimal) { }
     }
 
     keys

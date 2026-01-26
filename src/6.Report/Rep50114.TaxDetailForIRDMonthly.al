@@ -155,7 +155,6 @@ report 50114 "Tax Detail For IRD Monthly"
         DetailedEmpLedger: Record "Detailed Employee Ledger Entry";
         PayCycleTerm: Text;
         Month: Enum "Nepali Month";
-        EmployeeLedger: Record "Employee Ledger Entry";
         StartDate: Date;
         EndDate: Date;
         TotalAmt: Decimal;

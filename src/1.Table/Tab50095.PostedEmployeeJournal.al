@@ -4,12 +4,8 @@ table 50095 "Posted Employee Journal"
     DataClassification = ToBeClassified;
     fields
     {
-        field(1; "Emp Act. No"; Code[20])
-        {
-        }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(1; "Emp Act. No"; Code[20]) { }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -18,30 +14,19 @@ table 50095 "Posted Employee Journal"
             begin
             end;
         }
-        field(4; "Employee Name"; Text[50])
-        {
-        }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(4; "Employee Name"; Text[50]) { }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(7; "Start Date"; Date)
-        {
-        }
-        field(8; "End Date"; Date)
-        {
-        }
+        field(7; "Start Date"; Date) { }
+        field(8; "End Date"; Date) { }
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-
         }
-        field(10; "Requested Date"; Date)
-        {
-        }
+        field(10; "Requested Date"; Date) { }
         field(11; "Fiscal Year"; Text[10])
         {
             Editable = false;
@@ -54,17 +39,13 @@ table 50095 "Posted Employee Journal"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Enum "Approval Status")
-        {
-        }
+        field(16; "Approval Status"; Enum "Approval Status") { }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
@@ -119,36 +100,21 @@ table 50095 "Posted Employee Journal"
         {
             Editable = false;
         }
-
-        field(28; "Extension Counter Code"; Code[20])
-        {
-        }
-        field(30; "Province Code"; Code[20])
-        {
-        }
-        field(31; "Unit Code"; Code[20])
-        {
-        }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
+        field(28; "Extension Counter Code"; Code[20]) { }
+        field(30; "Province Code"; Code[20]) { }
+        field(31; "Unit Code"; Code[20]) { }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
         field(34; "Requester Employee"; Code[20])
         {
             TableRelation = Employee;
         }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {
         }
-        //Leave 
+        //Leave
         field(40; "Leave Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
@@ -157,9 +123,7 @@ table 50095 "Posted Employee Journal"
         {
             Editable = false;
         }
-        field(42; "Leave Type"; Enum "Leave Type")
-        {
-        }
+        field(42; "Leave Type"; Enum "Leave Type") { }
         field(43; "Pay Type"; Enum "Leave Pay Type")
         {
             Editable = false;
@@ -172,25 +136,13 @@ table 50095 "Posted Employee Journal"
         {
             Description = 'also used for OT';
         }
-        field(46; "Compensatory Date"; Date)
-        {
-        }
-        field(47; "For Death Of"; Enum "For Death Of")
-        {
-        }
-        field(48; "Child's Gender"; Enum Gender)
-        {
-        }
-        field(50; Description; Text[250])
-        {
-        }
-        field(51; "Screener Remarks"; Text[100])
-        {
-        }
-        //Transfer 
-        field(52; "Transfer Type"; Enum "Transfer Type")
-        {
-        }
+        field(46; "Compensatory Date"; Date) { }
+        field(47; "For Death Of"; Enum "For Death Of") { }
+        field(48; "Child's Gender"; Enum Gender) { }
+        field(50; Description; Text[250]) { }
+        field(51; "Screener Remarks"; Text[100]) { }
+        //Transfer
+        field(52; "Transfer Type"; Enum "Transfer Type") { }
         field(53; "Shortcut Dimension 1 Code (To)"; Code[20])
         {
             CaptionClass = '1,2,1';
@@ -215,9 +167,7 @@ table 50095 "Posted Employee Journal"
             Description = 'Transfer';
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
         }
-        field(57; "Travel Order No"; Code[20])
-        {
-        }
+        field(57; "Travel Order No"; Code[20]) { }
         field(58; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
@@ -232,14 +182,8 @@ table 50095 "Posted Employee Journal"
             Description = 'Transfer';
             TableRelation = "Functional Title";
         }
-        field(61; "Deputation On"; Enum "Deputation Type")
-        {
-
-        }
-        field(62; "Deputation On (To)"; Enum "Deputation Type")
-        {
-        }
-
+        field(61; "Deputation On"; Enum "Deputation Type") { }
+        field(62; "Deputation On (To)"; Enum "Deputation Type") { }
         field(63; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
@@ -252,9 +196,7 @@ table 50095 "Posted Employee Journal"
                     "Outgoing Reporting Person Name" := Employee."Full Name";
             end;
         }
-        field(64; "Outgoing Reporting Person Name"; Text[50])
-        {
-        }
+        field(64; "Outgoing Reporting Person Name"; Text[50]) { }
         field(65; "Incoming Supervisor"; Code[20])
         {
             Description = 'Transfer';
@@ -340,30 +282,20 @@ table 50095 "Posted Employee Journal"
             TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             Description = 'Transfer';
         }
-        field(82; "Incoming Supervisor Name 2"; Text[50])
-        {
-
-        }
+        field(82; "Incoming Supervisor Name 2"; Text[50]) { }
         field(83; "Outgoing Branch Rep. Person 2"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Employee."No." where(status = const("Employee Status"::Active));
-
         }
-        field(84; "Outgoing Rep. Person Name 2"; Text[50])
-        {
-        }
-        // OverTime 
+        field(84; "Outgoing Rep. Person Name 2"; Text[50]) { }
+        // OverTime
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
         }
-        field(91; "Estimated Hours"; Decimal)
-        {
-        }
-        field(92; "Actual OT Hours"; Decimal)
-        {
-        }
+        field(91; "Estimated Hours"; Decimal) { }
+        field(92; "Actual OT Hours"; Decimal) { }
         field(93; "OT Amount"; Decimal)
         {
             Editable = false;
@@ -401,9 +333,7 @@ table 50095 "Posted Employee Journal"
         {
             TableRelation = "Approval Role";
         }
-        field(103; "Approver Role"; code[20])
-        {
-        }
+        field(103; "Approver Role"; code[20]) { }
         field(108; "CheckIn Time"; Time)
         {
             DataClassification = ToBeClassified;
@@ -424,6 +354,18 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
         }
+
+        // Promotion
+        field(150; "Promoted Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
+        field(151; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(152; "Promoted Staff Level"; Enum "Staff Type") { }
+        field(153; "Promotion Date"; Date) { }
     }
     keys
     {

@@ -13,15 +13,12 @@ page 50222 "Transfer Journal"
         {
             repeater(General)
             {
-
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name")
-                {
-                }
+                field("Employee Name"; Rec."Employee Name") { }
                 field("Transfer Type"; Rec."Transfer Type")
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
@@ -110,7 +107,6 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the OOutgoing Reporting Person Name to field.', Comment = '%';
                     Editable = IsOpen;
                 }
-
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
@@ -134,7 +130,6 @@ page 50222 "Transfer Journal"
                         CurrPage.Update();
                     end;
                 }
-
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -157,8 +152,20 @@ page 50222 "Transfer Journal"
                 Image = SendApprovalRequest;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Send for Approval request?', false) then
-                        EmpActMgt.SendForApproval(Rec."Emp Act. No", Rec."Employee Act Type"::"HR Transfer");
+                    if Confirm('Do you want to Send for Approval request?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"HR Transfer");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), rec."Employee Act Type"::"HR Transfer");
+                        end;
+                    end;
                 end;
             }
             action("Approve")
@@ -170,8 +177,20 @@ page 50222 "Transfer Journal"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Approve request?', false) then
-                        ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
+                    if Confirm('Do you want to Approve request?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"HR Transfer");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            ApproverMgt.ApproveJournalDocument(ListOfDocNo.Get(i), true);
+                        end;
+                    end;
                 end;
             }
             action(Post)
@@ -183,8 +202,18 @@ page 50222 "Transfer Journal"
                 Visible = IsApproved or SkipApproval;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Post Transfer?', false) then begin
-                        EmpActMgt.PostTransferInBulk(rec."Emp Act. No");
+                    if Confirm('Do you want to Post Document?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.PostTransferInBulk(ListOfDocNo.Get(i));
+                        end;
+                        Message('Transfer Journal is posted');
                         CurrPage.Close();
                     end;
                 end;
@@ -250,14 +279,14 @@ page 50222 "Transfer Journal"
         ProvinceEdit: Boolean;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
-
-        TransferMgt: Codeunit "Transfer Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
         HrSetup: Record "Human Resources Setup";
         SkipApproval: Boolean;
         AttachmentMgt: Codeunit "Attachment Mgt.";
         SelectFileTxt: Label 'Attach File(s)...';
+        ListOfDocNo: List of [Code[20]];
+        i: Integer;
 
     local procedure SetFieldEnable();
     begin

@@ -299,7 +299,6 @@ page 50117 "Candidate List"
             }
             group("Send Letter")
             {
-
                 action("Send Email For Offer Letter")
                 {
                     Image = SendConfirmation;
@@ -398,7 +397,6 @@ page 50117 "Candidate List"
             }
             group("Letter Accepted")
             {
-
                 action("Offer Letter Accepted")
                 {
                     Image = Status;

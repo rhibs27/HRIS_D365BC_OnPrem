@@ -228,17 +228,28 @@ report 50054 "Payroll Payslip"
         CompanyInfo.CalcFields(Picture);
         FormatAddr.Company(CompanyAddr, CompanyInfo);
         GetCompanyOneLineAddress;
-        if NepaliYear = 0 then
-            Error('Please enter year');
-        if Months = Months::" " then
-            Error('Please enter months');
-        EngNepDate.Reset;
+    end;
+
+    trigger OnInitReport()
+    var
+        TempInteger: Integer;//hold the converted value from text to integer.
+    begin
+        // Auto-read Nepali Year/month from DataItem filter
+        if (NepaliYear = 0) then
+            if Evaluate(TempInteger, Header.GetFilter("Nepali Year")) then
+                NepaliYear := TempInteger;
+        if (Months = Months::" ") then
+            if Evaluate(TempInteger, Header.GetFilter("Nepali Month")) then
+                Months := "Nepali Month".FromInteger(TempInteger);
+        // Validate and fetch Fiscal Year
+        EngNepDate.Reset();
         EngNepDate.SetRange("Nepali Year", NepaliYear);
         EngNepDate.SetRange("Nepali Month", Months);
-        if EngNepDate.FindFirst then
+
+        if EngNepDate.FindFirst() then
             FisCalYr := EngNepDate."Fiscal Year"
-        else
-            Error('Could not find the Nepali year');
+        // else
+        //     Error('Could not find the Nepali year');
     end;
 
     var
@@ -258,7 +269,7 @@ report 50054 "Payroll Payslip"
         PayPeriod: Text[250];
         Dim1Code: Text[250];
         Dim2Code: Text[250];
-        AttributeDescription: Text[30];
+        AttributeDescription: Text[50];
         Text026: Label 'ZERO';
         Text027: Label 'HUNDRED';
         Text028: Label 'AND';
@@ -299,7 +310,6 @@ report 50054 "Payroll Payslip"
         EmployeeNo: Code[20];
         FisCalYr: Code[20];
         Months: Enum "Nepali Month";
-        PayrollHeader: Record "Payroll Header";
         NepaliYear: Integer;
         EngNepDate: Record "English-Nepali Date";
         PostedPayrollLine: Record "Posted Payroll Line";
@@ -467,12 +477,12 @@ report 50054 "Payroll Payslip"
     end;
 
     procedure PassParPortal(empCode: Code[20]; year: Integer; Month: Enum "Nepali Month")
-    var
-        PostedPayroll: Record "Posted Payroll Header";
     begin
         EmployeeNo := empCode;
-        Months := Month;
-        NepaliYear := year;
+        if year <> 0 then
+            NepaliYear := year;
+        if Month <> Month::" " then
+            Months := Month;
         //FisCalYr := FiscalYear;
     end;
 

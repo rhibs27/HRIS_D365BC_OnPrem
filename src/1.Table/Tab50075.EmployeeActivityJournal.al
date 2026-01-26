@@ -20,9 +20,7 @@ table 50075 "Employee Activity Journal"
                     end;
             end;
         }
-        field(2; Type; Enum "Employee Activity Type")
-        {
-        }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -60,9 +58,7 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -71,17 +67,21 @@ table 50075 "Employee Activity Journal"
         {
             trigger OnValidate()
             var
-                ShiftLine: Record "Shift Line";
+                Employee: Record Employee;
             begin
-                if "Start Date" <> 0D then begin
-                    if "Start Date" < EmployeeRec."Employment Date" then
-                        Error('Cannot apply before your employment date');
-                end;
+                HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                 case "Employee Act Type" of
                     "Employee Act Type"::"Attendance Missed":
                         begin
                             AttendanceMissedMgt.CheckAlreadyExists("Employee No.", "Employee Act Type", "Start Date");
                             EmployeeActMgt.CheckAttendanceMissedInJournal("Employee No.", "Start Date");
+                        end;
+                    "Employee Act Type"::"Leave Request":
+                        begin
+                            Employee.Get("Employee No.");
+                            if Employee."Contract Expiry Date" <> 0D then
+                                if "Start Date" > Employee."Contract Expiry Date" then
+                                    Error('Cannot apply leave after contract expiry date');
                         end;
                 end;
                 Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
@@ -90,20 +90,13 @@ table 50075 "Employee Activity Journal"
                     Clear("End Date (BS)");
                     Clear("No. of Days");
                 end;
-                ShiftLine.Reset(); //Check for Approved WorkShift
-                ShiftLine.SetRange("Roster Date", "Start Date");
-                ShiftLine.SetRange("Employee No", "Employee No.");
-                ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-                ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-                if ShiftLine.FindFirst() then
-                    Validate("Employee Work Shift", ShiftLine."Employee Work Shift")
+                Validate("Employee Work Shift", ShiftAssignmentMgt.ReturnEmployeeWorkShift("Employee No.", "Start Date"));
             end;
         }
         field(8; "End Date"; Date)
         {
             trigger OnValidate()
             var
-                TravelMgt: Codeunit "Travel Mgt.";
                 LeaveMgt: Codeunit "Leave Mgt.";
             begin
                 if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
@@ -158,9 +151,7 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
-        {
-        }
+        field(14; Remarks; Text[100]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -210,34 +201,18 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(26; "Posting Date"; Date)
-        {
-        }
-        field(28; "Extension Counter Code"; Code[20])
-        {
-        }
-        field(30; "Province Code"; Code[20])
-        {
-        }
-        field(31; "Unit Code"; Code[20])
-        {
-        }
-        field(32; "Compensatory Days"; Decimal)
-        {
-        }
-        field(33; "Payroll No."; Code[20])
-        {
-        }
+        field(26; "Posting Date"; Date) { }
+        field(28; "Extension Counter Code"; Code[20]) { }
+        field(30; "Province Code"; Code[20]) { }
+        field(31; "Unit Code"; Code[20]) { }
+        field(32; "Compensatory Days"; Decimal) { }
+        field(33; "Payroll No."; Code[20]) { }
         field(34; "Requester Employee"; Code[20])
         {
             TableRelation = Employee;
         }
-        field(36; "Rejection Remarks"; Text[100])
-        {
-        }
-        field(37; "Approved Date"; Date)
-        {
-        }
+        field(36; "Rejection Remarks"; Text[100]) { }
+        field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {
         }
@@ -328,18 +303,10 @@ table 50075 "Employee Activity Journal"
                 leaveMgt.CheckForCompensatory("Leave Code", "Employee No.", "Compensatory Date", "No. of Days");
             end;
         }
-        field(47; "For Death Of"; Enum "For Death Of")
-        {
-        }
-        field(48; "Child's Gender"; Enum Gender)
-        {
-        }
-        field(50; Description; Text[250])
-        {
-        }
-        field(51; "Screener Remarks"; Text[100])
-        {
-        }
+        field(47; "For Death Of"; Enum "For Death Of") { }
+        field(48; "Child's Gender"; Enum Gender) { }
+        field(50; Description; Text[250]) { }
+        field(51; "Screener Remarks"; Text[100]) { }
         //Transfer
         field(52; "Transfer Type"; Enum "Transfer Type")
         {
@@ -423,9 +390,7 @@ table 50075 "Employee Activity Journal"
                 ValidateDeputationOnTo
             end;
         }
-        field(57; "Travel Order No"; Code[20])
-        {
-        }
+        field(57; "Travel Order No"; Code[20]) { }
         field(58; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
@@ -451,12 +416,10 @@ table 50075 "Employee Activity Journal"
         }
         field(60; "Functional Title (To)"; Code[20])
         {
-            Description = 'Transfer';
+            Description = 'Transfer / Promotion';
             TableRelation = "Functional Title";
         }
-        field(61; "Deputation On"; Enum "Deputation Type")
-        {
-        }
+        field(61; "Deputation On"; Enum "Deputation Type") { }
         field(62; "Deputation On (To)"; Enum "Deputation Type")
         {
             trigger OnValidate()
@@ -485,9 +448,7 @@ table 50075 "Employee Activity Journal"
                     Error('Cannot Select Yourself as Outgoing Reporting person');
             end;
         }
-        field(64; "Outgoing Reporting Person Name"; Text[50])
-        {
-        }
+        field(64; "Outgoing Reporting Person Name"; Text[50]) { }
         field(65; "Incoming Supervisor"; Code[20])
         {
             TableRelation = Employee."No." where(status = const("Employee Status"::Active));
@@ -602,10 +563,7 @@ table 50075 "Employee Activity Journal"
                     Clear("Incoming Supervisor Name 2");
             end;
         }
-        field(82; "Incoming Supervisor Name 2"; Text[50])
-        {
-
-        }
+        field(82; "Incoming Supervisor Name 2"; Text[50]) { }
         field(83; "Outgoing Branch Rep. Person 2"; Code[20])
         {
             Description = 'Transfer';
@@ -620,20 +578,14 @@ table 50075 "Employee Activity Journal"
                     Error('Cannot Select Yourself as Outgoing Reporting person');
             end;
         }
-        field(84; "Outgoing Rep. Person Name 2"; Text[50])
-        {
-        }
+        field(84; "Outgoing Rep. Person Name 2"; Text[50]) { }
         // OverTime
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
         }
-        field(91; "Estimated Hours"; Decimal)
-        {
-        }
-        field(92; "Actual OT Hours"; Decimal)
-        {
-        }
+        field(91; "Estimated Hours"; Decimal) { }
+        field(92; "Actual OT Hours"; Decimal) { }
         field(93; "OT Amount"; Decimal)
         {
             Editable = false;
@@ -680,6 +632,7 @@ table 50075 "Employee Activity Journal"
         }
         field(103; "Approver Role (TO)"; Code[20])
         {
+            Description = 'Transfer / Promotion';
             TableRelation = "Approval Role";
         }
         field(108; "CheckIn Time"; Time)
@@ -708,6 +661,7 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+
         //loan
         //to import past loan details
         field(115; "Loan Type"; Enum "Loan Type")
@@ -755,6 +709,37 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(126; "Substitute Person Code"; code[20])
+        {
+            Caption = 'Substitute Person Code';
+            TableRelation = Employee."No." WHERE(Status = CONST(Active));
+            trigger OnValidate()
+            var
+                EmployeeRec: Record Employee;
+            begin
+                if EmployeeRec.Get("Substitute Person Code") then
+                    "Substitute Person Name" := EmployeeRec."Full Name"
+                else
+                    Clear("Substitute Person Name");
+            end;
+        }
+        field(127; "Substitute Person Name"; text[50])
+        {
+            Caption = 'Substitute Person Name';
+            Editable = false;
+        }
+
+        // Promotion
+        field(150; "Promoted Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+        }
+        field(151; "Promoted Salary level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+        }
+        field(152; "Promoted Staff Level"; Enum "Staff Type") { }
+        field(153; "Promotion Date"; Date) { }
     }
     keys
     {
@@ -779,8 +764,6 @@ table 50075 "Employee Activity Journal"
     procedure SetUpNewLine(LastActJnlLine: Record "Employee Activity Journal")
     var
         ActivityJournal: Record "Employee Activity Journal";
-        EmpVar: Record Employee;
-        EngNep: Record "English-Nepali Date";
         CurrDocumentNo: Boolean;
         SkipApproval: Boolean;
     begin
@@ -840,7 +823,6 @@ table 50075 "Employee Activity Journal"
 
     local procedure ValidateDeputationOnTo();
     var
-        OrganizationStructureLine: Record "Organization Structure line";
         OrganizationStructureList: Record "Organization Structure List";
     begin
         TestField("Deputation On (To)");
@@ -864,27 +846,20 @@ table 50075 "Employee Activity Journal"
         end;
     end;
 
-
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
         NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HrMgt: Codeunit "HR Mgt.";
-        TransferMgt: Codeunit "Transfer Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
-        OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeActMgt: Codeunit EmployeeActivityMgt;
         AttendanceMgt: Codeunit "Attendance Mgt";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
-        SalaryLevel: Record "Salary Level";
-        AttendanceSetup: Record "Attendance Setup";
-        SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         ApprovalHRMS: Record "Approval HRMS";
-        Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
-        Error1: Label 'Cannot apply before your employment date.';
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
 
     [IntegrationEvent(false, false)]
     local procedure OnSetupNewLineOnBeforeInsertApproval(var EmpActJnl: Record "Employee Activity Journal"; var SkipApproval: Boolean)

@@ -22,7 +22,39 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Employee Transfer Request';
     }
-    value(5; "Resign Letter")
+    value(5; "Vehicle Info Update")
+    {
+        Caption = 'Vehicle Info Update';
+    }
+    value(6; "Marital Status Update")
+    {
+        Caption = 'Marital Status Update';
+    }
+    value(7; "Reimbursement")
+    {
+        Caption = 'Reimbursement';
+    }
+    value(8; "Education Allowance")
+    {
+        Caption = 'Education Allowance';
+    }
+    value(9; "Remote Allowance")
+    {
+        Caption = 'Remote Allowance';
+    }
+    value(10; "Outstation Allowance")
+    {
+        Caption = 'Outstation Allowance';
+    }
+    value(11; "Maternity/Paternity Allowance")
+    {
+        Caption = 'Maternity/Paternity Allowance';
+    }
+    value(12; "Funeral Allowance")
+    {
+        Caption = 'Funeral Allowance';
+    }
+    value(13; "Resign Letter")
     {
         Caption = 'Resign Letter';
     }

@@ -33,7 +33,6 @@ table 50148 "Organization Structure line"
         {
             Caption = 'Reporting Name ';
             Editable = false;
-
         }
     }
     keys
@@ -45,8 +44,6 @@ table 50148 "Organization Structure line"
     }
     fieldgroups
     {
-        fieldgroup(DropDown; "Reporting Code", "Reporting Name")
-        {
-        }
+        fieldgroup(DropDown; "Reporting Code", "Reporting Name") { }
     }
 }

@@ -225,9 +225,11 @@ page 50045 "Posted Payroll Plan"
                 trigger OnAction()
                 var
                     PostedPayrollHeader: Record "Posted Payroll Header";
+                    PayrollEngine: Codeunit "Payroll Engine";
                 begin
                     CurrPage.SetSelectionFilter(PostedPayrollHeader);
                     Rec.ReverseDocument(PostedPayrollHeader);
+                    PayrollEngine.ModifyLeaveEarnEmployeeDetails(PostedPayrollHeader);
                 end;
             }
             action(OpenInExcel)
@@ -290,7 +292,9 @@ page 50045 "Posted Payroll Plan"
                 begin
                     PostedPayrollHeaderRec.Reset;
                     PostedPayrollHeaderRec.SetRange("No.", Rec."No.");
-                    Report.Run(Report::"Payroll Payslip", true, true, PostedPayrollHeaderRec);
+                    PayrollSlipReport.PassParPortal('', Rec."Nepali Year", Rec."Nepali Month");
+                    PayrollSlipReport.SetTableView(PostedPayrollHeaderRec);
+                    PayrollSlipReport.Run();
                 end;
             }
             action("Bank Statement")
@@ -412,4 +416,5 @@ page 50045 "Posted Payroll Plan"
         PostedPayrollHeaderRec: Record "Posted Payroll Header";
         PayrollEngine: Codeunit "Payroll Engine";
         PostedPayrollLine: Record "Posted Payroll Line";
+        PayrollSlipReport: Report "Payroll Payslip";
 }

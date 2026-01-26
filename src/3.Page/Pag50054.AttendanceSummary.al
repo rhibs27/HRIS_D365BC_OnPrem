@@ -140,10 +140,7 @@ page 50054 "Attendance Summary"
 
     actions
     {
-        area(Processing)
-        {
-
-        }
+        area(Processing) { }
     }
 
     trigger OnAfterGetRecord()

@@ -1,6 +1,5 @@
 page 50133 "Select Employee List"
 {
-
     DeleteAllowed = false;
     InsertAllowed = false;
     PageType = List;

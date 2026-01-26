@@ -43,10 +43,7 @@ table 50091 "Branchwise/Extension Allowance"
         {
             MinValue = 0;
         }
-        field(5; Type; Enum "Branchwise/Extension Type")
-        {
-
-        }
+        field(5; Type; Enum "Branchwise/Extension Type") { }
         field(6; Disabled; Boolean) { }
     }
 

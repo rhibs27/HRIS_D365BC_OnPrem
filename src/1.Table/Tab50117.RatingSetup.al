@@ -7,20 +7,10 @@ table 50117 "Rating Setup"
     fields
     {
         field(1; "Entry No."; Integer) { }
-        field(2; Type; Enum "Employee Question Type")
-        {
-
-        }
-        field(3; From; Decimal)
-        {
-        }
-        field(4; "To"; Decimal)
-        {
-        }
-        field(5; Remarks; Enum "Appraisal Rating")
-        {
-
-        }
+        field(2; Type; Enum "Employee Question Type") { }
+        field(3; From; Decimal) { }
+        field(4; "To"; Decimal) { }
+        field(5; Remarks; Enum "Appraisal Rating") { }
     }
 
     keys

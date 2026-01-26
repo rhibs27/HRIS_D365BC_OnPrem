@@ -1,6 +1,5 @@
 table 50028 "Pay Cycle"
 {
-
     DrillDownPageId = "Pay Cycle";
     LookupPageId = "Pay Cycle";
     DataClassification = CustomerContent;
@@ -11,9 +10,7 @@ table 50028 "Pay Cycle"
         {
             NotBlank = true;
         }
-        field(2; Description; Text[50])
-        {
-        }
+        field(2; Description; Text[50]) { }
         field(3; "Pay Frequency"; Enum "Pay Frequency")
         {
             trigger OnValidate()
@@ -58,9 +55,7 @@ table 50028 "Pay Cycle"
                 end;
             end;
         }
-        field(4; "Payment Delay"; Integer)
-        {
-        }
+        field(4; "Payment Delay"; Integer) { }
         field(5; "Annualizing Factor"; Enum "Annualizing Factor")
         {
             InitValue = "Generated Periods";

@@ -57,8 +57,6 @@ page 50220 "Late Attendance"
     }
     actions
     {
-        area(Processing)
-        {
-        }
+        area(Processing) { }
     }
 }

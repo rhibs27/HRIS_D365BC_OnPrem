@@ -1,18 +1,10 @@
 page 50007 "Functional Title List"
 {
-    // version KPI1.00
-
-    // Pradhan
-    //     //Inserting to temp table     12th Jan 2020
-    //     //Deleting from temp table    12th Jan 2020
-    //     //Checking if selected        12th Jan 2020
-
     CardPageId = "Functional Title Card";
     PageType = List;
     SourceTable = "Functional Title";
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)

@@ -51,7 +51,6 @@ codeunit 50004 "Travel Mgt."
     procedure CalculateNoOfDaysTravel(StartDate: Date; EndDate: Date): Decimal
     var
         DateError: Label 'Start Date (%1) must be less than End Date (%2).';
-        Difference: Decimal;
     begin
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate)
@@ -74,12 +73,12 @@ codeunit 50004 "Travel Mgt."
         ConfirmTravel: Label 'Do you want to send travel request ?';
         ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
         TravelRequest2: Record "Travel Request";
-        Date: Record Date;
         SalaryLevel1: Record "Salary Level";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
         TravelRequest1: Record "Travel Request";
         IsHandled: Boolean;
+        IsHandledUserID: Boolean;
     begin
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
@@ -161,7 +160,9 @@ codeunit 50004 "Travel Mgt."
             if TravelReq."Advance Cash" > 0 then
                 TravelReq."Advance Cash Required" := true;
         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
-        TravelReq.Validate("User ID", UserId);
+        OnBeforeValidatingUserID(TravelReq, IsHandledUserID);
+        if not IsHandledUserID then
+            TravelReq.Validate("User ID", UserId);
         if TravelReq."Advance Cash" > TravelReq."Total Estimated Cost" then
             Error('Advance cash amount cannot be greater than Total Estimated Cost');
         TravelReq.Modify();
@@ -641,6 +642,7 @@ codeunit 50004 "Travel Mgt."
             EmailMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
             Message('Travel Claim has been sent for apporval.');
             TravelRequest2."Travel Claimed" := true;
+            TravelRequest2."Travel claim Doc No." := TravelRequest."No.";
             TravelRequest2.Modify;
             OnAfterApplyTravelClaim(TravelRequest."No.");
         end;
@@ -677,7 +679,6 @@ codeunit 50004 "Travel Mgt."
     procedure TravelClaimApproved(TravelCode: Code[20])
     var
         TravelRequest: Record "Travel Request";
-        TravelRequest2: Record "Travel Request";
     begin
         if TravelRequest.Get(TravelCode) then begin
             TravelRequest."Travel Claimed" := true;
@@ -981,8 +982,6 @@ codeunit 50004 "Travel Mgt."
         HRMgt: Codeunit "HR Mgt.";
         EmailMgt: Codeunit "Email Mgt";
         HRSetup: Record "Human Resources Setup";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        AttendanceSetup: Record "Attendance Setup";
         ApproverMgt: Codeunit "Approver Mgt";
 
     [IntegrationEvent(false, false)]
@@ -1027,6 +1026,11 @@ codeunit 50004 "Travel Mgt."
 
     [IntegrationEvent(false, false)]
     procedure WithOutHigherSalaryLevel(Var TravelRequest: Record "Travel Request"; var SalaryLevel: Record "Salary Level"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidatingUserID(var TravelReq: Record "Travel Request"; var IsHandledUserID: Boolean)
     begin
     end;
 }

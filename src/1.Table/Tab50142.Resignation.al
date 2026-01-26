@@ -25,6 +25,7 @@ table 50142 Resignation
             end;
         }
         field(2; Type; Enum "Employee Activity Type") { }
+        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -54,9 +55,7 @@ table 50142 Resignation
         {
             Editable = false;
         }
-        field(5; Posted; Boolean)
-        {
-        }
+        field(5; Posted; Boolean) { }
         field(6; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -245,15 +244,9 @@ table 50142 Resignation
         {
             FieldClass = Normal;
         }
-        field(59; "Mother Name"; Text[50])
-        {
-        }
-        field(60; "Spouse Name"; Text[50])
-        {
-        }
-        field(61; "Child Name"; Text[50])
-        {
-        }
+        field(59; "Mother Name"; Text[50]) { }
+        field(60; "Spouse Name"; Text[50]) { }
+        field(61; "Child Name"; Text[50]) { }
         field(62; "Apply for Waiver"; Boolean)
         {
             Description = 'Resignation';
@@ -262,10 +255,7 @@ table 50142 Resignation
         {
             Description = 'Resignation';
         }
-        field(100; Status; text[50])
-        {
-        }
-
+        field(100; Status; text[50]) { }
     }
     keys
     {
@@ -310,7 +300,7 @@ table 50142 Resignation
                             ResignationRec.SetLoadFields("No.");
                             while ResignationRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
                 end;
             end;

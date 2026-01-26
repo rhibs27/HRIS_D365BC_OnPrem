@@ -15,10 +15,7 @@ table 50052 "Retirement Fund"
                 end;
             end;
         }
-        field(2; "Fiscal Year"; Code[20])
-        {
-
-        }
+        field(2; "Fiscal Year"; Code[20]) { }
         field(3; "Payroll Month"; Enum "Nepali Month")
         {
             Description = 'Month for next Payroll';
@@ -37,10 +34,7 @@ table 50052 "Retirement Fund"
         {
             Editable = false;
         }
-        field(7; "Annual Assessable Income"; Decimal)
-        {
-
-        }
+        field(7; "Annual Assessable Income"; Decimal) { }
         field(8; "RF Contribution Eligible Amt"; Decimal)
         {
             DataClassification = ToBeClassified;
@@ -65,7 +59,6 @@ table 50052 "Retirement Fund"
         field(13; "Additional Space for RF Cont."; Decimal)
         {
             DataClassification = ToBeClassified;
-
         }
         field(14; "RTF Amount (Month)"; Decimal)
         {
@@ -174,16 +167,12 @@ table 50052 "Retirement Fund"
         {
             DataClassification = ToBeClassified;
             Caption = 'Rejection Remarks';
-
         }
         field(34; "Recommended Monthly CIT/RF"; Decimal)
         {
             Description = 'Optimal monthly retirement deposit for minimise TAX';
         }
-        field(35; Cancelled; Boolean)
-        {
-
-        }
+        field(35; Cancelled; Boolean) { }
         field(36; "Type"; enum "RF Contribution Type")
         {
             Caption = 'Type';
@@ -211,6 +200,10 @@ table 50052 "Retirement Fund"
                 end else
                     InsertRFcontribution(i, PayCyclePeriod);
             end;
+        }
+        field(40; "One Time Contribution"; Decimal)
+        {
+            DataClassification = ToBeClassified;
         }
         field(100; Status; Text[100])
         {
@@ -254,19 +247,6 @@ table 50052 "Retirement Fund"
         RetirementFund: Record "Retirement Fund";
         PayrollGeneralSetup: Record "Payroll General Setup";
     begin
-        if not GuiAllowed then begin
-            TempRF := Rec;
-            HRMgt.OpenRFRequest(TempRF."Employee No.", TempRF2);
-            Rec := TempRF2;
-            "RTF Amount (Lumpsum)" := TempRF."RTF Amount (Lumpsum)";
-            "RTF Amount (Month)" := TempRF."RTF Amount (Month)";
-            "CIT Amount (Month)" := TempRF."CIT Amount (Month)";
-            "CIT Amount( Lumpsum)" := TempRF."CIT Amount( Lumpsum)";
-            "Approval Status" := "Approval Status"::Pending;
-            "Actual Lumpsump CIT" := TempRF."Actual Lumpsump CIT";
-            "Actual Lumpsump RTF" := TempRF."Actual Lumpsump RTF";
-            HRMgt.CalculateRetirementFund(Rec, "Projection Month")
-        end;
 
         if "No." = '' then begin
             HRSetup.Get;
@@ -287,25 +267,16 @@ table 50052 "Retirement Fund"
             if Employee."CIT No." = '' then
                 Error('Your CIT no. is blank. Please verify with HR department.');
         end;
-
         PayrollGeneralSetup.Get();
         "Pay Cycle Code" := PayrollGeneralSetup."Pay Cycle Code";
         "Pay Cycle Term" := PayrollGeneralSetup."Pay Cycle Term";
-    end;
-
-    trigger OnModify()
-    begin
-        if not GuiAllowed then begin
-            TestField("Approval Status", "Approval Status"::Open);
-            HRMgt.CalculateRetirementFund(Rec, "Projection Month");
-            "Approval Status" := "Approval Status"::Pending;
-        end;
     end;
 
     trigger OnDelete()
     var
         CannotDelete: Label 'Cannot delete document.';
         ApprovalEntry: Record "Approval HRMS";
+        RFContributionLine: Record "RF Contribution";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created, "Approval Status"::Open]) then
             Error(CannotDelete)
@@ -314,6 +285,9 @@ table 50052 "Retirement Fund"
             ApprovalEntry.SetRange("Document No.", "No.");
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
+            RFContributionLine.Reset();
+            RFContributionLine.SetRange("Document No.", "No.");
+            RFContributionLine.DeleteAll();
         end;
     end;
 
@@ -349,9 +323,7 @@ table 50052 "Retirement Fund"
         TempRF: Record "Retirement Fund" temporary;
         TempRF2: Record "Retirement Fund" temporary;
         Employee: Record Employee;
-        PayrollGeneralSetup: Record "Payroll General Setup";
         ApproverMgt: Codeunit "Approver Mgt";
-
 
     procedure AssistEdit(OldRF: Record "Retirement Fund"): Boolean
     var

@@ -1,7 +1,5 @@
 report 50018 "Payment Memo"
 {
-
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019819.PaymentMemo.rdl';
     ApplicationArea = All;

@@ -16,6 +16,7 @@ page 50106 "Overtime Card"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
@@ -49,6 +50,12 @@ page 50106 "Overtime Card"
                 {
                     Caption = 'Employee Work Shift';
                     ToolTip = 'Specifies the value of the Employee Work Shift field.';
+                    ApplicationArea = All;
+                }
+                field("Day Type"; Rec."Day Type")
+                {
+                    Caption = 'Day Type';
+                    ToolTip = 'Specifies the value of the Day Type field.';
                     ApplicationArea = All;
                 }
                 field("Requested Date"; Rec."Requested Date")

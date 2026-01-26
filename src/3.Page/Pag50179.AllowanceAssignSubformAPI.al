@@ -12,9 +12,7 @@ page 50179 "Allowance Assign Subform API"
         {
             repeater(Group)
             {
-                field(activityType; Rec."Emp Act Type")
-                {
-                }
+                field(activityType; Rec."Emp Act Type") { }
                 field(no; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the No. field.';
@@ -95,54 +93,18 @@ page 50179 "Allowance Assign Subform API"
                     ApplicationArea = All;
                     Editable = true;
                 }
-                field(substituteOfLineNo; Rec."Substitute of Line No.")
-                {
-                }
-                field(allowanceAmount; Rec."Allowance Amount")
-                {
-                }
-
+                field(substituteOfLineNo; Rec."Substitute of Line No.") { }
+                field(allowanceAmount; Rec."Allowance Amount") { }
                 field(approvalStatus; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-
             }
         }
     }
-
-    actions { }
-
-    // trigger OnInsertRecord(BelowxRec: Boolean): Boolean
-    // begin
-    //     GetEntryNo;
-    // end;
-
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::"open";
     end;
-
-    // local procedure GetEntryNo()
-    // var
-    //     AllowanceHeader: Record "Allowance Assignment Header";
-    //     AllowanceLine: Record "Allowance Assignment Line";
-    // begin
-    //     AllowanceHeader.Reset;
-    //     AllowanceHeader.SetCurrentKey("No.");
-    //     if Rec."No." <> '' then
-    //         AllowanceHeader.SetRange("No.", Rec."No.");
-    //     if AllowanceHeader.FindLast then begin
-    //         Rec."No." := AllowanceHeader."No.";
-    //         Rec.Code := AllowanceHeader.Code;
-    //     end;
-    //     AllowanceLine.Reset;
-    //     AllowanceLine.SetRange("No.", AllowanceHeader."No.");
-    //     AllowanceLine.SetCurrentKey("No.", "Line No.");
-    //     if AllowanceLine.FindLast then
-    //         Rec."Line No." := AllowanceLine."Line No." + 10000
-    //     else
-    //         Rec."Line No." := 10000;
-    // end;
 }

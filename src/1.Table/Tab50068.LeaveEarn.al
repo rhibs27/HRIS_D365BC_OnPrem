@@ -3,9 +3,7 @@ table 50068 "Leave Earn"
     DataClassification = CustomerContent;
     fields
     {
-        field(1; "Entry No."; Integer)
-        {
-        }
+        field(1; "Entry No."; Integer) { }
         field(2; "Leave Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
@@ -30,24 +28,12 @@ table 50068 "Leave Earn"
                     Clear("Employee Full Name");
             end;
         }
-        field(5; "Employee Full Name"; Text[50])
-        {
-        }
-        field(6; "Fiscal year"; Text[10])
-        {
-        }
-        field(7; "Posted Date"; Date)
-        {
-        }
-        field(8; "Balancing Days"; Decimal)
-        {
-        }
-        field(9; "No. Series"; Code[20])
-        {
-        }
-        field(10; Type; Enum "Leave Earn Type")
-        {
-        }
+        field(5; "Employee Full Name"; Text[50]) { }
+        field(6; "Fiscal year"; Text[10]) { }
+        field(7; "Posted Date"; Date) { }
+        field(8; "Balancing Days"; Decimal) { }
+        field(9; "No. Series"; Code[20]) { }
+        field(10; Type; Enum "Leave Earn Type") { }
         field(11; "Leave Request No"; Code[20])
         {
             Editable = false;
@@ -123,13 +109,11 @@ table 50068 "Leave Earn"
 
     trigger OnInsert()
     begin
-
     end;
 
     var
         EmpVar: Record Employee;
         LeaveTypeVar: Record "Leave Type Setup";
-        HRSetup: Record "Human Resources Setup";
         HrMgt: Codeunit "HR Mgt.";
 
     procedure PostLeaveEarn(TempLeaveEarn: Record "Leave Earn" temporary)
