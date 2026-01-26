@@ -25,7 +25,6 @@ table 50142 Resignation
             end;
         }
         field(2; Type; Enum "Employee Activity Type") { }
-        field(2; Type; Enum "Employee Activity Type") { }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;

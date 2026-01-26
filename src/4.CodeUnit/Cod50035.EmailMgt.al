@@ -1,4 +1,4 @@
-codeunit 50031 "Email Mgt"
+codeunit 50035 "Email Mgt"
 {
     var
         CodeunitEmailMessage: Codeunit "Email Message";

@@ -1,4 +1,4 @@
-page 50053 "Resign Document Approver Setup"
+page 50056 "Resign Document Approver Setup"
 {
     ApplicationArea = All;
     Caption = 'Resign Document Approver Setup';

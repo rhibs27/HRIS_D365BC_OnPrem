@@ -1,4 +1,4 @@
-table 50032 "Resign Doc Approver Setup"
+table 50169 "Resign Doc Approver Setup"
 {
     Caption = 'Resign Doc Approver Setup';
     DataClassification = ToBeClassified;
