@@ -703,6 +703,7 @@ report 50144 "Yearly Payroll Projection"
             PastRetirementAmount := EmpPayrollOpening."Total RF Opening";
         EmpVar.CalcFields("Lump Sum CIT");
         TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT";
+        OnAfterTotalRetirementFund(EmpVar, TotalRetirement);
     end;
     // Calculate final taxable amount after all deductions
     local procedure CalculateFinalTaxableAmount()
@@ -1301,5 +1302,10 @@ report 50144 "Yearly Payroll Projection"
                     RemoteAreaDeduction := RemoteAreaCategory."Remote Area Deduction";
             end;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterTotalRetirementFund(Employee: Record Employee; Var TotalRetirement: Decimal)
+    begin
     end;
 }
