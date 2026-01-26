@@ -32,6 +32,10 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Dimension Code field.', Comment = '%';
                 }
+                field("Dimension 2 Code"; Rec."Dimension 2 Code")
+                {
+                    ToolTip = 'Specifies the value of the Dimension Code field.', Comment = '%';
+                }
                 field(Province; Rec."Province Name")
                 {
                     ToolTip = 'Specifies the value of the Province field.', Comment = '%';

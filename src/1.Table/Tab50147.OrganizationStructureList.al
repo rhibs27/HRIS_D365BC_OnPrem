@@ -100,7 +100,13 @@ table 50147 "Organization Structure List"
         }
         field(17; "Dimension Value Code"; Code[20])
         {
-            TableRelation = "Dimension Value".Code;
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1), Blocked = const(false));
+            Caption = 'Dimension 1 Code';
+        }
+        field(18; "Dimension 2 Code"; Code[20])
+        {
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2), Blocked = const(false));
+            Caption = 'Dimension 2 Code';
         }
         field(30; "No. of Vault Key"; Integer) { }
         field(31; "No. of Off-Site ATM"; Integer) { }

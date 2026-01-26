@@ -64,8 +64,11 @@ table 50096 "Employee Service History"
         {
             trigger OnValidate()
             begin
-                if OrgStructureList.Get("Deputation On (To)", "Deputation Code (To)") then
+                if OrgStructureList.Get("Deputation On (To)", "Deputation Code (To)") then begin
                     Validate("Deputation Value (To)", OrgStructureList.Name);
+                    Validate("Shortcut Dimension 1 Code (To)", OrgStructureList."Dimension Value Code");
+                    Validate("Shortcut Dimension 2 Code (To)", OrgStructureList."Dimension 2 Code");
+                end;
             end;
         }
         field(6; "Deputation Value (To)"; Text[100]) { }
@@ -75,8 +78,11 @@ table 50096 "Employee Service History"
         {
             trigger OnValidate()
             begin
-                if OrgStructureList.Get("Deputation On(From)", "Deputation Code (From)") then
+                if OrgStructureList.Get("Deputation On(From)", "Deputation Code (From)") then begin
                     Validate("Deputation Value (From)", OrgStructureList.Name);
+                    Validate("Shortcut Dimension 1 Code", OrgStructureList."Dimension Value Code");
+                    Validate("Shortcut Dimension 2 Code", OrgStructureList."Dimension 2 Code");
+                end;
             end;
         }
         field(10; "Deputation Value (From)"; Text[100]) { }
@@ -294,6 +300,14 @@ table 50096 "Employee Service History"
         field(74; "Staff Level (To)"; Enum "Staff Type") { }
         field(75; "Extension Description (From)"; Text[100]) { }
         field(76; "Extension Description (To)"; Text[100]) { }
+
+        field(77; "Shortcut Dimension 1 Code"; Code[20]) { }
+
+        field(78; "Shortcut Dimension 2 Code"; Code[20]) { }
+
+        field(79; "Shortcut Dimension 1 Code (To)"; Code[20]) { }
+
+        field(80; "Shortcut Dimension 2 Code (To)"; Code[20]) { }
 
     }
 

@@ -119,7 +119,6 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
                 TransferRequest.Validate("Province Code (To)", TransferEmployeeJournal."Province Code (To)");
                 TransferRequest.Validate("To Branch", TransferEmployeeJournal."To Branch");
-                TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
                 TransferRequest.Validate("Extension Counter (To)", TransferEmployeeJournal."Extension Counter (To)");
                 TransferRequest.Validate("Unit (To)", TransferEmployeeJournal."Unit (To)");
                 TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
