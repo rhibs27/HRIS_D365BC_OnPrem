@@ -52313,15 +52313,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - NamedType Title</note>
         </trans-unit>
-        <trans-unit id="Report 3276795145 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the FiscalYear field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - Control Fiscal Year - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 3276795145 - Control 3492759059 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 3276795145 - Control 3492552477 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the TillDate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - Control Till Date - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - Control As of - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 2216759426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Master with payroll</source>
