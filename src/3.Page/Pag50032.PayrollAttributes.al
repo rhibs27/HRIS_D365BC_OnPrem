@@ -196,6 +196,11 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the RF Contribution Type field.';
                     ApplicationArea = All;
                 }
+                field("Formula Column ID"; Rec."Formula Column ID")
+                {
+                    ToolTip = 'Specifies the value of the Formula Column ID field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }

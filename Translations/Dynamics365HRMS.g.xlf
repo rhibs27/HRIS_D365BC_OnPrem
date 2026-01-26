@@ -2743,6 +2743,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Employee No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3281230887 - Field 379556775 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Formula Column Id Exists</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Formula Column Id Exists - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3281230887 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -13182,6 +13187,11 @@
           <source>Formula</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Formula - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 3648311607 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Formula Column ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Formula Column ID - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2858165342 - Field 3852983238 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>G/L Account No.</source>
@@ -39397,6 +39407,11 @@
           <source>Specifies how dependent attributes calculated.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Formula - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2858165342 - Control 3648311607 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Formula Column ID field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Formula Column ID - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3852983238 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the G/L Account No. field. Where amount will get posted</source>
