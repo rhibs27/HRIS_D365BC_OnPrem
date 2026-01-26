@@ -3,6 +3,7 @@ report 50154 "Update Emp Att. and Act Doc."
     ApplicationArea = All;
     Caption = 'Update Emp Att. and Act Doc.';
     UsageCategory = ReportsAndAnalysis;
+    ProcessingOnly = true;
     dataset
     {
         dataitem(Integer; Integer)
