@@ -34,7 +34,6 @@ table 50140 "Employee Transfer"
                 if EmpVar.Get("Employee No.") then begin
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
-                    Validate("Shortcut Dimension 2 Code", EmpVar."Global Dimension 2 Code");
                     Validate("From Branch", EmpVar."Branch Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate(Department, EmpVar."Department Code");
@@ -57,7 +56,6 @@ table 50140 "Employee Transfer"
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
-                    Validate("Shortcut Dimension 2 Code", '');
                     Validate(Department, '');
                     Validate("Salary Level Code", '');
                 end;
@@ -233,15 +231,6 @@ table 50140 "Employee Transfer"
         field(47; "Deputation on Code To"; Code[20])
         {
             DataClassification = ToBeClassified;
-            trigger OnValidate()
-            var
-                OrgStrucList: Record "Organization Structure List";
-            begin
-                if OrgStrucList.Get("Deputation On (To)", "Deputation on Code To") then begin
-                    Validate("Shortcut Dimension 1 Code (To)", OrgStrucList."Dimension Value Code");
-                    Validate("Shortcut Dimension 2 Code (To)", OrgStrucList."Dimension 2 Code");
-                end;
-            end;
         }
         field(48; "Reason Code"; Code[20])
         {
@@ -264,7 +253,6 @@ table 50140 "Employee Transfer"
                 if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
-                    "Shortcut Dimension 2 Code (To)" := "Shortcut Dimension 2 Code";
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
@@ -342,7 +330,6 @@ table 50140 "Employee Transfer"
                     "Unit (To)" := '';
                     "Unit Name To" := '';
                     "Shortcut Dimension 1 Code (To)" := '';
-                    "Shortcut Dimension 2 Code (To)" := '';
                     "Extension Counter (To)" := '';
                     Clear("Province Code (To)");
                     Clear("Province Name To");
@@ -416,7 +403,6 @@ table 50140 "Employee Transfer"
             begin
                 if "Deputation On (To)" <> xRec."Deputation On (To)" then begin
                     Clear("Shortcut Dimension 1 Code (To)");
-                    Clear("Shortcut Dimension 2 Code (To)");
                     Clear("Department Code (To)");
                     Clear("Department Name To");
                     Clear("Unit (To)");
@@ -634,16 +620,6 @@ table 50140 "Employee Transfer"
         }
         field(104; "Transfer Claim"; Boolean)
         {
-            Editable = false;
-        }
-        field(196; "Shortcut Dimension 2 Code"; Code[50])
-        {
-            CaptionClass = '1,2,1';
-            Editable = false;
-        }
-        field(197; "Shortcut Dimension 2 Code (To)"; Code[50])
-        {
-            CaptionClass = '1,2,1';
             Editable = false;
         }
         field(198; "From Branch"; Code[20])
