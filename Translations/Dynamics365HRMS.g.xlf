@@ -843,6 +843,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Approved By - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1520874541 - Field 3609163527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved By Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Approved By Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1520874541 - Field 1865071614 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approver Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -882,6 +887,11 @@
           <source>Rejected By</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Rejected By - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1520874541 - Field 1622712348 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected By Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Rejected By Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1520874541 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -2152,6 +2162,11 @@
           <source>Deputation On Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Deputation On Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3549385734 - Field 2550789235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Device IP</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Device IP - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3549385734 - Field 2619908208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Ecosystem</source>
@@ -20753,6 +20768,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Team Profile Header - Field Block - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2465727075 - Field 1885343199 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Can run Employee Master Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Team Profile Header - Field Can run Employee Master Report - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2465727075 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22468,20 +22488,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType CheckReviewNotEligibleError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 940807328" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to Approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleErrors</note>
-        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 1613818109 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSaas - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -46073,10 +46083,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3661098543 - Control 482077933 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attendance Entry Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Control Attendance Entry Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3661098543 - Control 306504114 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attendance Missed Access field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Control Attendance Missed Access - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3661098543 - Control 730409411 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check-in/Check-out Mandatory field. If set to true, check-in or check-out must be input while sending attendance missed</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Reason Code Master - Control Check-in/Check-out Mandatory - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3661098543 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
@@ -48962,6 +48982,11 @@
           <source>Specifies if the team is blocked.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Team Profile Card - Control Block - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4022949102 - Control 1885343199 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>If set employee can run the Employee Master Report from self serve portal.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Team Profile Card - Control Can run Employee Master Report - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4022949102 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the team code.</source>
@@ -57473,6 +57498,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Vacancy Nos. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1723387078 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Validate Permanent Address field. If set to true, the system will validate the permanent address as per the province, district and muncipality master.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Validate Permanent Address - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2947559045 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Validate Temporary Address field. If set to true, the system will validate the temporary address as per the province, district and muncipality master.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Validate Temporary Address - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 1898056405 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Vehicle Loan No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60663,6 +60698,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Vacancy Nos. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1723387078 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Validate Permanent Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Validate Permanent Address - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 2947559045 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Validate Temporary Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Validate Temporary Address - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 1504538363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Vehicle Loan Eligible Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60823,10 +60868,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Source Code Setup Ext - Field Payroll Plan - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 3189627266 - Field 482077933 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
+          <source>Attendance Entry Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Attendance Entry Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 3189627266 - Field 306504114 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
           <source>Attendance Missed Access</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Attendance Missed Access - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 3189627266 - Field 730409411 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
+          <source>Check-in/Check-out Mandatory</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Check-in/Check-out Mandatory - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 3189627266 - Field 4154710913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
           <source>Employee Activity Type</source>

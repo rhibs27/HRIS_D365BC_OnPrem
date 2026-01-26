@@ -316,6 +316,7 @@ codeunit 50023 EmployeeActivityMgt
                 repeat
                     ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                     ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                    ApprovalHRMS.Validate("Rejected By Code", HRMgt.GetEmployeeNo());
                     ApprovalHRMS.Modify();
                 until ApprovalHRMS.Next() = 0;
         end;

@@ -523,6 +523,20 @@ table 50162 "Assignment Memo Line"
 
     end;
 
+    procedure CopyFromAssignmentMemoLedgerEntry(AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry")
+    begin
+        Validate("Employee No.", AssignmentMemoLedgerEntry."Employee No.");
+        Validate("Employee No.", AssignmentMemoLedgerEntry."Employee No.");
+        Validate("Payroll Attribute Code", AssignmentMemoLedgerEntry."Payroll Attribute Code");
+        Validate("From Date", AssignmentMemoLedgerEntry."Posting Date");
+        Validate("To Date", AssignmentMemoLedgerEntry."Posting Date");
+        Validate("Allowance Amount", AssignmentMemoLedgerEntry.Amount);
+        "Assign Memo Ledger Entry No." := AssignmentMemoLedgerEntry."Entry No.";
+        Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
+        Validate("Vault Name", AssignmentMemoLedgerEntry."Vault Name");
+        Validate(Panel, AssignmentMemoLedgerEntry.Panel);
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
     begin
