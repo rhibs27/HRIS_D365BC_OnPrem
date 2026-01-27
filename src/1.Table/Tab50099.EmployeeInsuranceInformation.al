@@ -133,6 +133,8 @@ table 50099 "Employee Insurance Information"
             Caption = 'Premium Paid By';
         }
         field(23; "Rejection Remarks"; Text[250]) { }
+        field(25; "Last Premium Payment Date (AD)"; Date) { }
+        field(26; "Last Premium Payment Date (BS)"; Date) { TableRelation = "English-Nepali Date"."Nepali Date"; }
         field(37; "Approved Date"; Date) { }
         field(24; "Expired"; Boolean) { }
         field(100; Status; Text[20])
