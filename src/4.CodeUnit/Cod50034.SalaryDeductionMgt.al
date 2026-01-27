@@ -318,6 +318,8 @@ codeunit 50034 "Salary Deduction Mgt"
     begin
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateParam);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateParam);
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', DateParam);
+        PayCyclePeriod.SetFilter("End Date", '>=%1', DateParam);
         PayCyclePeriod.FindFirst();
 
         DetailedSalaryEntry."Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
@@ -637,6 +639,26 @@ codeunit 50034 "Salary Deduction Mgt"
         if (Opt = '+') or (Opt = '-') then
             exit(1);
         exit(0);
+    end;
+
+    procedure CheckAbsentEntriesBeforePosting(AttendanceHeader: Record "Attendance Header")
+    var
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
+        EmployeeAttendance: Record "Employee Attendance & Activity";
+    begin
+        SalaryDeductionEntry.Reset();
+        SalaryDeductionEntry.SetRange("Attendance Document No", AttendanceHeader."No.");
+        SalaryDeductionEntry.SetRange("Deduction Type", SalaryDeductionEntry."Deduction Type"::Absent);
+        SalaryDeductionEntry.SetRange(Reversed, false);
+        if SalaryDeductionEntry.FindSet() then
+            repeat
+                EmployeeAttendance.SetRange("Employee No.", SalaryDeductionEntry."Employee No.");
+                EmployeeAttendance.SetRange("Attendance Date", SalaryDeductionEntry."Deduction Date");
+                EmployeeAttendance.SetRange("Absent Day", 0);
+                if EmployeeAttendance.FindFirst() then
+                    Error('Cannot post absent deduction entry of %1. Employee is not absent on %2',
+                     SalaryDeductionEntry."Employee Name", SalaryDeductionEntry."Deduction Date");
+            until SalaryDeductionEntry.Next() = 0;
     end;
 
     procedure CheckAbsentEntriesBeforePosting(AttendanceHeader: Record "Attendance Header")
