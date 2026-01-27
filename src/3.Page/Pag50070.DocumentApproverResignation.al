@@ -12,10 +12,11 @@ page 50070 "Document Approver Resignation"
         {
             repeater(Group)
             {
-                field("Document No."; Rec."Document No.")
+                field(documentNo; Rec."Document No.")
                 {
                     ToolTip = 'Specifies the value of the Document No. field.';
                     ApplicationArea = All;
+                    Caption = 'Document No.';
                     Editable = false;
                     Visible = false;
                 }
@@ -23,50 +24,56 @@ page 50070 "Document Approver Resignation"
                 {
                     ToolTip = 'Specifies the value of the Line No. field.';
                     ApplicationArea = All;
+                    Caption = 'Line No.';
                     Editable = false;
                     Visible = false;
                 }
-                field("Employee No."; Rec."Employee No.")
+                field(employeeNo; Rec."Employee No.")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
+                    Caption = 'Employee No.';
                 }
-                field("Employee Name"; Rec."Employee Name")
+                field(employeeName; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
+                    Caption = 'Employee Name';
                     Editable = false;
                 }
-                field("Approved Date"; Rec."Approved Date")
+                field(approvedDate; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
+                    Caption = 'Approved Date';
                     Editable = false;
                 }
-                field("Approver Sequence"; Rec."Approver Sequence")
+                field(approverSequence; Rec."Approver Sequence")
                 {
                     ToolTip = 'Specifies the value of the Approver Sequence field.';
                     ApplicationArea = All;
+                    Caption = 'Approver Sequence';
                     Editable = false;
                 }
-                field(Remarks; Rec.Remarks)
+                field(remarks; Rec.Remarks)
                 {
                     Caption = 'Resign Clearance Remarks';
                     ToolTip = 'Specifies the value of the Resign Clearance Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Rejection Remarks"; Rec."Rejection Remarks")
+                field(rejectionRemarks; Rec."Rejection Remarks")
                 {
                     Caption = 'Resign Clearance Rejection Remarks';
                     ToolTip = 'Specifies the value of the Resign Clearance Rejection Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Approval Status"; Rec."Approval Status")
+                field(approvalStatus; Rec."Approval Status")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Caption = 'Approval Status';
                 }
             }
         }
@@ -84,7 +91,7 @@ page 50070 "Document Approver Resignation"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to return rejected record?', false) then begin
-                        if not HrMgt.IsSaaS() then //garima
+                        if not HrMgt.IsSaaS() then
                             Employee.Get(HRMgt.GetEmployeeNo);
                         Rec."Approval Status" := Rec."Approval Status"::Open;
                         Rec.Modify;

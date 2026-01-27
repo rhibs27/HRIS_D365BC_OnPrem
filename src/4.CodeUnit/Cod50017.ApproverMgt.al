@@ -1702,7 +1702,6 @@ codeunit 50017 "Approver Mgt"
         for seqNo := 1 to ArrayLen(SequenceNoCount) do begin
             if SequenceNoCount[seqNo] = 0 then
                 exit;
-
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", docNo);
             ApprovalEntry.SetRange("Approval Sequence", seqNo);
@@ -1710,28 +1709,25 @@ codeunit 50017 "Approver Mgt"
                 Error('Approver not found for sequence %1', seqNo);
         end;
     end;
-    //>> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
+
     procedure ApproveResignClerance(EmpActNo: Code[20]; Approved: Boolean)
     var
         DocumentApprover, DocumentApproverCheck : Record "Document Approver";
         ApprovalStatusEnum: Enum "Approval Status";
     begin
-        DocumentApprover.Reset();
-        DocumentApprover.SetRange("Document No.", EmpActNo);
-        DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo());
-        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
-        if DocumentApprover.FindSet() then begin
-            repeat
-                if Approved then begin
+        if not CheckDocumentApprover(EmpActNo) then
+            Error('You arenot Eligible To Approve');
+        if Approved then begin
+            DocumentApprover.Reset();
+            DocumentApprover.SetRange("Document No.", EmpActNo);
+            DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
+            if DocumentApprover.FindSet() then
+                repeat
                     DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);
                     DocumentApprover.Validate("Approved By", HRMgt.GetEmployeeNo());
                     DocumentApprover.Validate("Approved Date", Today);
-                end;
-                DocumentApprover.Modify();
-            until DocumentApprover.Next() = 0;
-        end else
-            Error('You arenot Eligible To Approve');
-        if Approved then begin
+                    DocumentApprover.Modify();
+                until DocumentApprover.Next() = 0;
             DocumentApproverCheck.Reset();
             DocumentApproverCheck.SetRange("Document No.", EmpActNo);
             DocumentApproverCheck.SetRange("Approver Sequence", DocumentApprover."Approver Sequence" + 1);
@@ -1741,7 +1737,19 @@ codeunit 50017 "Approver Mgt"
                     DocumentApproverCheck.Modify;
                 until DocumentApproverCheck.Next() = 0;
             end;
-        end;
+        end
+    end;
+
+    procedure CheckDocumentApprover(DocumentNO: Code[20]): Boolean
+    var
+        DocumentApprover: Record "Document Approver";
+    begin
+        DocumentApprover.Reset;
+        DocumentApprover.SetRange("Document No.", DocumentNO);
+        DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo());
+        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
+        exit(DocumentApprover.FindFirst());
+
     end;
 
     [IntegrationEvent(false, false)]

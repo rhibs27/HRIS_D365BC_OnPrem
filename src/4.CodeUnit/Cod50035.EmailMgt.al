@@ -182,8 +182,6 @@ codeunit 50035 "Email Mgt"
     var
         EmailTemplate: Record "Email Template";
         Header, Footer, Body, Disclaimer : text;
-        // Email: Codeunit Email;
-        // CodeunitEmailMessage: Codeunit "Email Message";
         JournalDocumentType: Label 'Document Type';
         EmailReceipientText: List of [Text];
         EmailCCReceipent: List of [Text];

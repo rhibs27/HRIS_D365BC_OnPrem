@@ -33,7 +33,7 @@ table 50142 Resignation
                 if Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
                     Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-                    Validate(Department, Employee."Department Code");
+                    Validate("Department Code", Employee."Department Code");
                     Validate("Deputation On", Employee."Deputation on");
                     Validate("Deputation On Code", Employee."Deputation On Code");
                     Validate("Salary Level Code", Employee."Salary Level");
@@ -97,15 +97,15 @@ table 50142 Resignation
             Editable = false;
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
         }
-        field(18; Department; Code[20])
+        field(18; "Department Code"; Code[20])
         {
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -119,13 +119,13 @@ table 50142 Resignation
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(27; "Extension Counter Name"; Code[50])
+        field(27; "Extension Counter Name"; Code[100])
         {
         }
         field(28; "Extension Counter Code"; Code[20])
         {
         }
-        field(29; "Province Name"; Code[50])
+        field(29; "Province Name"; Code[100])
         {
             Editable = false;
         }
@@ -166,7 +166,7 @@ table 50142 Resignation
                     Clear("Reason Description");
             end;
         }
-        field(49; "Reason Description"; Text[50])
+        field(49; "Reason Description"; Text[100])
         { }
         field(51; "Deputation On"; Enum "Deputation Type")
         {
@@ -180,7 +180,9 @@ table 50142 Resignation
                 if not GuiAllowed then
                     if "Proposed Date of Resignation" < Today then
                         Error(INVALID, FieldCaption("Proposed Date of Resignation"));
-                ResignationMgt.UpdateResignationWaiver(Rec);
+                if HRSetup.Get() then
+                    if HRSetup."Apply Resign Waiver" then
+                        ResignationMgt.UpdateResignationWaiver(Rec);
             end;
         }
         field(53; "Reason for Resignation"; Text[100])
@@ -239,13 +241,13 @@ table 50142 Resignation
                 end;
             end;
         }
-        field(58; "Father Name"; Text[50])
+        field(58; "Father Name"; Text[100])
         {
             FieldClass = Normal;
         }
-        field(59; "Mother Name"; Text[50]) { }
-        field(60; "Spouse Name"; Text[50]) { }
-        field(61; "Child Name"; Text[50]) { }
+        field(59; "Mother Name"; Text[100]) { }
+        field(60; "Spouse Name"; Text[100]) { }
+        field(61; "Child Name"; Text[100]) { }
         field(62; "Apply for Waiver"; Boolean)
         {
             Description = 'Resignation';
@@ -300,6 +302,9 @@ table 50142 Resignation
                             while ResignationRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
+                            if not GuiAllowed then begin
+                                ResignationMgt.SendResignationApproval(Rec);
+                            end;
                         end;
                 end;
             end;

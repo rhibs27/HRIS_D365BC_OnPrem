@@ -30,16 +30,6 @@ table 50110 "Document Approver"
             TableRelation = "Functional Title";
         }
         field(8; "Approved Date"; Date) { }
-        field(9; "Employee Type"; Enum "Document Approver Emp. Type")
-        {
-            trigger OnValidate()
-            begin
-                if "Employee Type" = "Employee Type"::"Initiated By" then
-                    if "Employee No." = '' then
-                        if not HrMgt.IsSaaS() then
-                            Validate("Employee No.", HRMgt.GetEmployeeNo());
-            end;
-        }
         field(10; "Document Type"; Enum "Employee Activity Type")
         {
             ValuesAllowed = " ", "Resignation", "Training";

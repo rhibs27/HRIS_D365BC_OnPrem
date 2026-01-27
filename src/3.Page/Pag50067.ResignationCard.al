@@ -65,7 +65,7 @@ page 50067 "Resignation Card"
                         ToolTip = 'Specifies the value of the Province Code field.';
                         ApplicationArea = All;
                     }
-                    field(Department; Rec.Department)
+                    field("Department Code"; Rec."Department Code")
                     {
                         ToolTip = 'Specifies the value of the Department field.';
                         ApplicationArea = All;
@@ -124,32 +124,34 @@ page 50067 "Resignation Card"
                         Editable = IsOpen;
                         Visible = false;
                     }
+
+                    field("Reason for Resignation"; Rec."Reason for Resignation")
+                    {
+                        ToolTip = 'Specifies the value of the Reason for Resignation field.';
+                        ApplicationArea = All;
+                        Editable = IsOpen;
+                    }
+                }
+                group("Resign Waiver")
+                {
+                    Visible = ApplyWaiverCase;
                     field("Waiver Case"; Rec."Waiver Case")
                     {
                         Editable = IsOpen;
-                        Visible = false;
                         ToolTip = 'Specifies the value of the Waiver Case field.';
                         ApplicationArea = All;
                     }
                     field("Apply for Waiver"; Rec."Apply for Waiver")
                     {
                         Editable = Rec."Waiver Case" = Rec."Waiver Case"::Recovery;
-                        Visible = false;
                         ToolTip = 'Specifies the value of the Apply for Waiver field.';
                         ApplicationArea = All;
                     }
                     field("Reason for Waiver"; Rec."Reason for Waiver")
                     {
                         Editable = Rec."Waiver Case" = Rec."Waiver Case"::Recovery;
-                        Visible = false;
                         ToolTip = 'Specifies the value of the Reason for Waiver field.';
                         ApplicationArea = All;
-                    }
-                    field("Reason for Resignation"; Rec."Reason for Resignation")
-                    {
-                        ToolTip = 'Specifies the value of the Reason for Resignation field.';
-                        ApplicationArea = All;
-                        Editable = IsOpen;
                     }
                 }
             }
@@ -305,6 +307,8 @@ page 50067 "Resignation Card"
         IsPending: Boolean;
         IsApproved: Boolean;
         IsOpen: Boolean;
+        HrSetup: Record "Human Resources Setup";
+        ApplyWaiverCase: Boolean;
 
     var
         HRMgt: Codeunit "HR Mgt.";
@@ -319,11 +323,13 @@ page 50067 "Resignation Card"
 
     local procedure SetLayout()
     begin
+        HrSetup.Get();
         ApprovalSent := not (Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "]);
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        ApplyWaiverCase := HrSetup."Apply Resign Waiver";
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else

@@ -14,7 +14,8 @@ codeunit 50006 "Resignation Mgt"
         Resignation.SetRange("Employee No.", EmpCode);
         Resignation.SetRange(Type, Resignation.Type::Resignation);
         Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected);
-        if Resignation.FindLast then begin
+        if Resignation.Findfirst then begin
+            Message('This Employee Already has open Leave Request.Click Ok to Open');
             PAGE.Run(PAGE::"Resignation Card", Resignation);
             exit;
         end;
@@ -33,19 +34,18 @@ codeunit 50006 "Resignation Mgt"
         ConfirmResign: Label 'Do you want to send resignation request?';
         ApprovalRequestSent: Label 'Resignation request approval has been sent.';
         EmailTemplate: Record "Email Template";
-        IncomingDocument, IncomingDocument1 : Record "Incoming Document";
     begin
         if GuiAllowed then
             if not Confirm(ConfirmResign, false) then
                 exit;
         Resignation.TestField("Proposed Date of Resignation");
         Resignation.TestField("Reason for Resignation");
-        // Resignation.TestField("Reason Code");
         Resignation.Validate("Approval Status", Resignation."Approval Status"::"Pending");
-        Resignation.Validate("User ID", UserId);
         if Resignation."Requested Date" = 0D then
             Resignation."Requested Date" := Today;
         Resignation.Modify();
+        if GuiAllowed then
+            AttachmentMgt.CheckMandatoryAttachment(Resignation."No.");
         ApproverMgt.UpdateFirstApproverStatus(Resignation."No.");
         EmailMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.", false);   //For email
         // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::Pending) then
@@ -65,16 +65,13 @@ codeunit 50006 "Resignation Mgt"
     begin
         EmpRequest.Get(EmployeeNo);
         Count := 0;
-        ResignDocApproverSetup.SetCurrentKey("Approver Sequence");
         ResignDocApproverSetup.Reset();
         ResignDocApproverSetup.SetRange("Emp Act Type", EmpActType);
         ResignDocApproverSetup.SetRange("Deputation Type", EmpRequest."Deputation on");
-        ResignDocApproverSetup.Ascending(true);
-        if ResignDocApproverSetup.Findset() then
+        ResignDocApproverSetup.SetCurrentKey("Approver Sequence");
+        ResignDocApproverSetup.SetAscending("Approver Sequence", true);
+        if ResignDocApproverSetup.FindFirst() then
             repeat
-                if Count = 0 then
-                    if ResignDocApproverSetup."Approver Sequence" <> 1 then
-                        Error('Approver Sequence 1 not found');
                 EmployeeApprover.Reset();
                 EmployeeApprover.SetRange(Status, EmployeeApprover.Status::Active);
                 if ResignDocApproverSetup."Same Deputation Approver" then begin
@@ -236,26 +233,13 @@ codeunit 50006 "Resignation Mgt"
             until Resignation.Next = 0;
     end;
 
-    procedure CheckDocumentApprover(DocumentNo: Code[20])
-    var
-        DocumentApproverRec: Record "Document Approver";
-    begin
-        DocumentApproverRec.Reset;
-        DocumentApproverRec.SetRange("Document No.", DocumentNo);
-        DocumentApproverRec.SetFilter("Employee Type", '<>%1', DocumentApproverRec."Employee Type"::"Initiated By");
-        DocumentApproverRec.SetFilter("Employee No.", '<>%1', '');
-        if DocumentApproverRec.FindFirst then
-            repeat
-                DocumentApproverRec.TestField("Approval Status", DocumentApproverRec."Approval Status"::Approved);
-            until DocumentApproverRec.Next = 0;
-    end;
-
     procedure InsertResignAttachmentLetter(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])
     var
         IncomingDocument: Record "Incoming Document";
         AttachmentMandatory: Record "Attachment Setup";
     begin
         AttachmentMandatory.Reset;
+        AttachmentMandatory.Setfilter("Type", Format(AttachmentMandatory.Type::Resignation));
         AttachmentMandatory.SetRange("Sub Type", AttachmentMandatory."Sub Type"::"Resign Letter");
         if AttachmentMandatory.FindFirst then
             repeat
@@ -282,4 +266,5 @@ codeunit 50006 "Resignation Mgt"
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         EmailMgt: Codeunit "Email Mgt";
         ApproverMgt: Codeunit "Approver Mgt";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 }
