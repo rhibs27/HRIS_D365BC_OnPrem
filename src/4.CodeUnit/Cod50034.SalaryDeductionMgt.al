@@ -661,26 +661,6 @@ codeunit 50034 "Salary Deduction Mgt"
             until SalaryDeductionEntry.Next() = 0;
     end;
 
-    procedure CheckAbsentEntriesBeforePosting(AttendanceHeader: Record "Attendance Header")
-    var
-        SalaryDeductionEntry: Record "Salary Deduction Entry";
-        EmployeeAttendance: Record "Employee Attendance & Activity";
-    begin
-        SalaryDeductionEntry.Reset();
-        SalaryDeductionEntry.SetRange("Attendance Document No", AttendanceHeader."No.");
-        SalaryDeductionEntry.SetRange("Deduction Type", SalaryDeductionEntry."Deduction Type"::Absent);
-        SalaryDeductionEntry.SetRange(Reversed, false);
-        if SalaryDeductionEntry.FindSet() then
-            repeat
-                EmployeeAttendance.SetRange("Employee No.", SalaryDeductionEntry."Employee No.");
-                EmployeeAttendance.SetRange("Attendance Date", SalaryDeductionEntry."Deduction Date");
-                EmployeeAttendance.SetRange("Absent Day", 0);
-                if EmployeeAttendance.FindFirst() then
-                    Error('Cannot post absent deduction entry of %1. Employee is not absent on %2',
-                     SalaryDeductionEntry."Employee Name", SalaryDeductionEntry."Deduction Date");
-            until SalaryDeductionEntry.Next() = 0;
-    end;
-
     var
         HRMgt: Codeunit "HR Mgt.";
 
