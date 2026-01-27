@@ -12,7 +12,8 @@ report 50052 "Employee Leave Balance"
             column(CompanyInfoName; CompanyInfo.Name) { }
             column(CompanyInfoPic; CompanyInfo.Picture) { }
             column(Title; Title) { }
-            column(ToDate; TillDate) { }
+            column(FromDate; Fromdate) { }
+            column(ToDate; ToDate) { }
 
         }
         dataitem(Employee; Employee)
@@ -41,7 +42,7 @@ report 50052 "Employee Leave Balance"
                     LeaveEarn[1].SetLoadFields("Balancing Days");
                     LeaveEarn[1].SetRange("Employee No.", Employee."No.");
                     LeaveEarn[1].SetRange("Leave Code", Code);
-                    LeaveEarn[1].SetFilter("Posted Date", '<%1', LeaveYearStartDate);
+                    LeaveEarn[1].SetFilter("Posted Date", '<%1', Fromdate);
                     LeaveEarn[1].CalcSums("Balancing Days");
                     OpeningLeave := LeaveEarn[1]."Balancing Days";
 
@@ -49,14 +50,14 @@ report 50052 "Employee Leave Balance"
                     LeaveEarn[2].SetRange("Employee No.", Employee."No.");
                     LeaveEarn[2].SetRange("Leave Code", Code);
                     LeaveEarn[2].Setfilter(Type, '%1|%2', LeaveEarn[2].Type::Earned, LeaveEarn[2].Type::Adjustment);
-                    LeaveEarn[2].SetRange("Posted Date", LeaveYearStartDate, LeaveYearEndDate);
+                    LeaveEarn[2].SetRange("Posted Date", Fromdate, ToDate);
                     LeaveEarn[2].CalcSums("Balancing Days");
                     EarnedLeave := LeaveEarn[2]."Balancing Days";
 
                     LeaveEarn[3].SetLoadFields("Balancing Days");
                     LeaveEarn[3].SetRange("Employee No.", Employee."No.");
                     LeaveEarn[3].SetRange("Leave Code", Code);
-                    LeaveEarn[3].SetRange("Posted Date", LeaveYearStartDate, LeaveYearEndDate);
+                    LeaveEarn[3].SetRange("Posted Date", Fromdate, ToDate);
                     LeaveEarn[3].Setfilter(Type, '%1|%2|%3|%4',
                       LeaveEarn[3].Type::Used,
                       LeaveEarn[3].Type::Cancelled,
@@ -77,7 +78,12 @@ report 50052 "Employee Leave Balance"
         {
             area(Content)
             {
-                field("As of"; TillDate)
+                field("From"; Fromdate)
+                {
+                    ToolTip = 'Specifies the value of the FromDate field.';
+                    ApplicationArea = All;
+                }
+                field("To"; ToDate)
                 {
                     ToolTip = 'Specifies the value of the TillDate field.';
                     ApplicationArea = All;
@@ -87,23 +93,23 @@ report 50052 "Employee Leave Balance"
     }
     trigger OnInitReport()
     begin
-        TillDate := WorkDate();
+        Fromdate := Leaveperiod.GetLeaveYearStartDate(WorkDate());
+        ToDate := Today;
     end;
 
     trigger OnPreReport()
     begin
         CompanyInfo.Get;
         CompanyInfo.CalcFields(Picture);
-        if TillDate = 0D then
-            TillDate := Today;
-
-        LeaveYearStartDate := Leaveperiod.GetLeaveYearStartDate(TillDate);
-        LeaveYearEndDate := Leaveperiod.GetLeaveYearEndDate(TillDate);
+        if (Fromdate = 0D) or (ToDate = 0D) then
+            Error('Please specify both From and To dates.');
+        if Fromdate > ToDate then
+            Error('From date cannot be later than To date.');
     end;
 
     var
         CompanyInfo: Record "Company Information";
-        TillDate: Date;
+        Fromdate, ToDate : Date;
         Title: Label 'Employee Leave Balance';
         UsedDays: Decimal;
         EarnedLeave: Decimal;
@@ -111,6 +117,5 @@ report 50052 "Employee Leave Balance"
         LeaveEarn: array[5] of Record "Leave Earn";
         ClosingLeave: Decimal;
         Leaveperiod: Record "Accounting Period";
-        LeaveYearStartDate, LeaveYearEndDate : Date;
 
 }

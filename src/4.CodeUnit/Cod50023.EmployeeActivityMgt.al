@@ -563,6 +563,7 @@ codeunit 50023 EmployeeActivityMgt
                 LoanJournal.TestField("Loan Type");
                 LoanJournal.TestField("Loan Account No.");
                 LoanJournal.TestField("Loan Disbursed Amount");
+                LoanJournal.TestField("Loan Disbursement Date");
                 if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then begin
                     LoanJournal.TestField("Loan Account Opening Date");
                     LoanJournal.TestField("Loan Expiry Date");
@@ -600,7 +601,7 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeLoanRec."Applied Loan/Advance" := LoanJournal."Loan Disbursed Amount";
                 EmployeeLoanRec."Disbursed Amount" := LoanJournal."Loan Disbursed Amount";
                 EmployeeLoanRec."Loan Expiry Date" := LoanJournal."Loan Expiry Date";
-                EmployeeLoanRec."Disbursement Date" := LoanJournal."Posting Date";
+                EmployeeLoanRec."Disbursement Date" := LoanJournal."Loan Disbursement Date";
                 EmployeeLoanRec."Settlement Date" := LoanJournal."Loan Settlement Date";
                 EmployeeLoanRec."Insurance Company" := LoanJournal."Insurance Company";
                 EmployeeLoanRec."Policy No" := LoanJournal."Policy No";

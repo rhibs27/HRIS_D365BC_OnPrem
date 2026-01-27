@@ -11,7 +11,7 @@
       <am:Name>MSRB</am:Name>
       <am:Version>15.1.30001.02</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-01-26T07:20:56.6855319Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-01-27T10:02:33.4679438Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -118,7 +118,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Date Filter: </Value>
+                                  <Value>="Date Filter: " + fields!FromDate.value +".." + fields!ToDate.value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -812,6 +812,9 @@ End Function
         </Field>
         <Field Name="Title">
           <DataField>Title</DataField>
+        </Field>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
         </Field>
         <Field Name="ToDate">
           <DataField>ToDate</DataField>

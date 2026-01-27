@@ -4473,6 +4473,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Disbursed Amount - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 88083929 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Disbursement Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Disbursement Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1676886993 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Loan Expiry Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10952,6 +10957,16 @@
           <source>Balancing Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Balancing Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 2541479021 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Claimed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Claimed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 1448093269 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Claimed Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Claimed Document No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2977078565 - Field 1778072510 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Closed</source>
@@ -37848,6 +37863,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Disbursed Amount - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 88083929 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Disbursement Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Disbursement Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1304637111 - Control 1676886993 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Loan Expiry Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -52428,10 +52448,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - NamedType Title</note>
         </trans-unit>
-        <trans-unit id="Report 3276795145 - Control 3492552477 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 3276795145 - Control 1958180954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the FromDate field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - Control From - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3276795145 - Control 3483619077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the TillDate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - Control As of - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Leave Balance - Control To - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 2216759426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Master with payroll</source>
