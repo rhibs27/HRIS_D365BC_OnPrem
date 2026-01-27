@@ -77,7 +77,7 @@ codeunit 50004 "Travel Mgt."
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
         TravelRequest1: Record "Travel Request";
-        IsHandled: Boolean;
+        IsHandled, IsHandled2 : Boolean;
         IsHandledUserID: Boolean;
     begin
         if GuiAllowed then
@@ -89,18 +89,21 @@ codeunit 50004 "Travel Mgt."
         TravelReq.TestField("Departure From");
         TravelReq.TestField(Destination);
         TravelReq.TestField("Purpose of Travel");
-        TravelRequest.Reset;
-        TravelRequest.SetRange("Employee No.", TravelReq."Employee No.");
-        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-        TravelRequest.SetFilter("Approval Status", '<>%1&<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
-        TravelRequest.SetRange("Cancelled No.", '');
-        TravelRequest.SetRange(Cancelled, false);
-        TravelRequest.FilterGroup(-1);
-        TravelRequest.SetRange("Start Date", TravelReq."Start Date", TravelReq."End Date");
-        TravelRequest.SetRange("End Date", TravelReq."Start Date", TravelReq."End Date");
-        TravelRequest.FilterGroup(0);
-        if TravelRequest.Count <> 0 then
-            Error('Travel request has already been requested between %1 to %2', TravelReq."Start Date", TravelReq."End Date");
+        OnBeforeTravelRequestDateCheck(TravelReq, IsHandled2);
+        if not IsHandled2 then begin
+            TravelRequest.Reset;
+            TravelRequest.SetRange("Employee No.", TravelReq."Employee No.");
+            TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
+            TravelRequest.SetFilter("Approval Status", '<>%1&<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
+            TravelRequest.SetRange("Cancelled No.", '');
+            TravelRequest.SetRange(Cancelled, false);
+            TravelRequest.FilterGroup(-1);
+            TravelRequest.SetRange("Start Date", TravelReq."Start Date", TravelReq."End Date");
+            TravelRequest.SetRange("End Date", TravelReq."Start Date", TravelReq."End Date");
+            TravelRequest.FilterGroup(0);
+            if TravelRequest.Count <> 0 then
+                Error('Travel request has already been requested between %1 to %2', TravelReq."Start Date", TravelReq."End Date");
+        end;
         if TravelReq."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
         Employee.Reset();
@@ -1099,6 +1102,11 @@ codeunit 50004 "Travel Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeValidatingUserID(var TravelReq: Record "Travel Request"; var IsHandledUserID: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeTravelRequestDateCheck(Var TravelRequest: Record "Travel Request"; var IsHandled: Boolean)
     begin
     end;
 }
