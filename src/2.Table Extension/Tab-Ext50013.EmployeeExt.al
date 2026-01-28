@@ -651,7 +651,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     end;
                 end;
                 //                                                 {"Functional Title Desc" := '';
-                // IF FunctionalTitle.GET("Functional Title") THEN
+                // IF FunctionalTitle.GET("Functional Title") then
                 //     "Functional Title Desc" := FunctionalTitle.Description;}
             end;
         }
@@ -736,7 +736,8 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'Permanent District';
             trigger OnValidate()
             begin
-                IF (Rec."Permanent District" <> xRec."Permanent District") AND ("Permanent District" <> '') THEN
+                HrSetup.Get();
+                IF HrSetup."Validate Permanent Address" and (Rec."Permanent District" <> xRec."Permanent District") and ("Permanent District" <> '') then
                     HRMgt.CheckDistrictName("Permanent District");
                 "Address" := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
@@ -752,7 +753,8 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'Temporary District';
             trigger OnValidate()
             begin
-                if (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
+                HrSetup.Get();
+                if HrSetup."Validate Temporary Address" and (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
                     HRMgt.CheckDistrictName("Temporary District");
                 "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
             end;
@@ -769,7 +771,9 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnValidate()
             begin
                 if (Rec."Permanent Province" <> xRec."Permanent Province") and ("Permanent Province" <> '') then begin
-                    HRMgt.CheckProvience("Permanent Province");
+                    HrSetup.Get();
+                    IF HrSetup."Validate Permanent Address" then
+                        HRMgt.CheckProvience("Permanent Province");
                     Clear("KPI Deputation");
                     Clear("Permanent District");
                 end;
@@ -792,7 +796,9 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnValidate()
             begin
                 if (Rec."Temporary Province" <> xRec."Temporary Province") and ("Temporary Province" <> '') then begin
-                    HRMgt.CheckProvience("Temporary Province");
+                    HrSetup.Get();
+                    IF HrSetup."Validate Temporary Address" then
+                        HRMgt.CheckProvience("Temporary Province");
                     Clear("Temporary Ward No");
                     Clear("Temporary District");
                 end;
@@ -814,11 +820,11 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'KPI1.00';
             trigger OnValidate()
             begin
-                //                                                 {IF (Rec."KPI Deputation Code" <> xRec."KPI Deputation Code") AND ("KPI Deputation Code" <> '') THEN begin
+                //                                                 {IF (Rec."KPI Deputation Code" <> xRec."KPI Deputation Code") AND ("KPI Deputation Code" <> '') then begin
                 //     HRMgt.CheckSubProvience("KPI Deputation Code");
                 //     CLEAR("Permanent District");
                 // end;
-                // IF "KPI Deputation Code" = '' THEN
+                // IF "KPI Deputation Code" = '' then
                 //     CLEAR("Permanent District");
                 // "Permanent Address" := ReturnAddress("Permanent Province", "KPI Deputation Code", "Permanent District", "Permanent VDC", "Ward No");}
             end;
@@ -840,12 +846,15 @@ tableextension 50013 "Employee Ext" extends Employee
                 if ("Temporary Ward No" > 0) then begin
                     if ("Temporary VDC" = '') then
                         Error('Please select Temporary VDC first');
-                    Municipalities.SetRange("Municipality Name", "Temporary VDC");
-                    if Municipalities.FindFirst() then begin
-                        if "Temporary Ward No" > Municipalities."No of ward" then
-                            Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
-                    end else
-                        Error('Temporary VDC Not Found in Municipality Table');
+                    HrSetup.Get();
+                    IF HrSetup."Validate Temporary Address" then begin
+                        Municipalities.SetRange("Municipality Name", "Temporary VDC");
+                        if Municipalities.FindFirst() then begin
+                            if "Temporary Ward No" > Municipalities."No of ward" then
+                                Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
+                        end else
+                            Error('Temporary VDC Not Found in Municipality Table');
+                    end;
                     "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
                 end;
             end;
@@ -855,7 +864,8 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                if (Rec."Permanent VDC" <> xRec."Permanent VDC") and ("Permanent VDC" <> '') then
+                HrSetup.Get();
+                if HrSetup."Validate Permanent Address" and (Rec."Permanent VDC" <> xRec."Permanent VDC") and ("Permanent VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Permanent VDC");
                 "Address" := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
@@ -870,7 +880,8 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                if (Rec."Temporary VDC" <> xRec."Temporary VDC") and ("Temporary VDC" <> '') then
+                HrSetup.Get();
+                if HrSetup."Validate Temporary Address" and (Rec."Temporary VDC" <> xRec."Temporary VDC") and ("Temporary VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Temporary VDC");
                 "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
             end;
@@ -941,12 +952,16 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "Permanent VDC" = '' then
                     Error('Please select Permanent VDC first');
-                Municipalities.SetRange("Municipality Name", "Permanent VDC");
-                if Municipalities.FindFirst() then begin
-                    if "Permanent Ward No" > Municipalities."No of ward" then
-                        Error('Ward No. should be less than %1', Municipalities."No of ward");
-                end else
-                    Error('Permanent VDC Not Found in Municipality Table');
+
+                HrSetup.Get();
+                IF HrSetup."Validate Permanent Address" then begin
+                    Municipalities.SetRange("Municipality Name", "Permanent VDC");
+                    if Municipalities.FindFirst() then begin
+                        if "Permanent Ward No" > Municipalities."No of ward" then
+                            Error('Ward No. should be less than %1', Municipalities."No of ward");
+                    end else
+                        Error('Permanent VDC Not Found in Municipality Table');
+                end;
                 Address := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
         }

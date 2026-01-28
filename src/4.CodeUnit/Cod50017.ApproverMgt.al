@@ -420,11 +420,13 @@ codeunit 50017 "Approver Mgt"
                     if Approved then begin
                         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
                         ApprovalHRMS.Validate("Approved By", HRMgt.GetEmpName());
+                        ApprovalHRMS.Validate("Approved By Code", HRMgt.GetEmployeeNo());
                         RecRef.Field(100).Validate(ApprovalHRMS.Status);
                     end
                     else begin
                         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                         ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                        ApprovalHRMS.Validate("Rejected By Code", HRMgt.GetEmployeeNo());
                         RecRef.Field(16).Validate(ApprovalStatus::Rejected);
                         case EmployeeActivityType of
                             EmployeeActivityType::"Leave Request":
@@ -637,6 +639,7 @@ codeunit 50017 "Approver Mgt"
                         if ApprovalHRMS."Approval Status" in [ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open, ApprovalHRMS."Approval Status"::Pending] then begin
                             ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                             ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                            ApprovalHRMS.Validate("Rejected By Code", HRMgt.GetEmployeeNo());
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
@@ -1348,6 +1351,7 @@ codeunit 50017 "Approver Mgt"
                     if Approved then begin
                         Approver.Validate("Approval Status", Approver."Approval Status"::Approved);
                         Approver.Validate("Approved By", HRMgt.GetEmpName());
+                        Approver.Validate("Approved By Code", HRMgt.GetEmployeeNo());
                         EmployeeActivityJournal.ModifyAll(Status, Approver.Status);
                     end;
                     Approver.Modify();

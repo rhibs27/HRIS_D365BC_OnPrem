@@ -453,11 +453,6 @@ table 50024 "Payroll General Setup"
         }
         field(153; "Allow Future Allowance Request"; Boolean) { }
         field(500; "Use Allowance Configuration"; Boolean) { }
-        field(506; "Get Amount From Assignment"; Boolean)
-        {
-            DataClassification = ToBeClassified;
-            Description = 'If enabled, allowance is taken for "Employee Activity Type" Allowance Assignment Memo from Assignment Memo Ledger Entries.';
-        }
         field(501; "Payroll Archive Nos."; Code[20])
         {
             TableRelation = "No. Series";
@@ -472,6 +467,11 @@ table 50024 "Payroll General Setup"
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
         field(505; "Pro Rate Female Rebate"; Boolean) { }
+        field(506; "Get Amount From Assignment"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'If enabled, allowance is taken for "Employee Activity Type" Allowance Assignment Memo from Assignment Memo Ledger Entries.';
+        }
     }
 
     keys
