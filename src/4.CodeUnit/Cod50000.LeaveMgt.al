@@ -1938,6 +1938,7 @@ codeunit 50000 "Leave Mgt."
         Date: record Date;
         LeaveTypeSetup: Record "Leave Type Setup";
         ExcludeDay, Days : Decimal;
+        SalaryDeductionMgt: Codeunit "Salary Deduction Mgt";
     begin
         Date.SetRange("Period Type", Date."Period Type"::Date);
         Date.SetRange("Period Start", LeaveReqRec."Start Date", LeaveReqRec."End Date");
@@ -1952,7 +1953,7 @@ codeunit 50000 "Leave Mgt."
                 if LeaveTypeSetup."Exclude Non Working Days" then
                     ExcludeDay := GetNonWorkingDays(Date."Period Start", Date."Period Start", LeaveReqRec."Employee No.");
                 OnGenerateEmpActLedgerOnAfterGetExcludeDay(LeaveReqRec, ExcludeDay);
-                if ExcludeDay = 0 then
+                if ExcludeDay = 0 then begin
                     HRMgt.CreateEmpActLedger(
                         LeaveReqRec.Type,
                         LeaveReqRec."No.",
@@ -1961,6 +1962,10 @@ codeunit 50000 "Leave Mgt."
                         false,
                         Days
                     );
+                    if LeaveTypeSetup."Pay Type" <> LeaveTypeSetup."Pay Type"::Unpaid then
+                        SalaryDeductionMgt.ReverseSalaryLedgerEntry(LeaveReqRec."Employee No.", Date."Period Start");
+                end;
+
             until Date.Next() = 0;
     end;
 

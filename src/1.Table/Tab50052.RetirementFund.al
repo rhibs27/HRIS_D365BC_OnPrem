@@ -118,17 +118,17 @@ table 50052 "Retirement Fund"
             DataClassification = ToBeClassified;
             Editable = true;
         }
-        field(23; "Created Date"; DateTime)
+        field(23; "Created Date"; date)
         {
             DataClassification = ToBeClassified;
             Editable = false;
         }
-        field(24; "Requested Date"; DateTime)
+        field(24; "Requested Date"; Date)
         {
             DataClassification = ToBeClassified;
             Editable = false;
         }
-        field(25; "Screened Date"; DateTime)
+        field(25; "Screened Date"; Date)
         {
             DataClassification = ToBeClassified;
             Editable = false;

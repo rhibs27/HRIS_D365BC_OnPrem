@@ -182,6 +182,15 @@ page 50255 "Shift subform"
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                     Rec.Modify();
+                    EmpAttendance.Reset();
+                    EmpAttendance.SetRange("Attendance Date", Rec."Roster Date");
+                    EmpAttendance.SetRange("Employee No.", Rec."Employee No");
+                    if EmpAttendance.FindSet() then
+                        repeat
+                            EmpAttendance.Delete();
+                        until EmpAttendance.Next() = 0;
+                    if Rec."Roster Date" <= Today then
+                        AttendanceMgt.DailyAttendanceUpdate(Rec."Roster Date", Rec."Roster Date", Rec."Employee No");
                     Message('Substitute Allowance is Approved');
                 end;
             }
@@ -248,6 +257,9 @@ page 50255 "Shift subform"
         HRMgt: Codeunit "HR Mgt.";
         ExcelImportMgt: Codeunit "Excel Import";
         DocNo: Code[20];
+        EmpAttendance: Record "Employee Attendance & Activity";
+        ShiftLine: Record "Shift Line";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 
     local procedure SetLayout()
     var
