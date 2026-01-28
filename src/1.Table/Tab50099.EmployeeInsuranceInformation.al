@@ -133,8 +133,18 @@ table 50099 "Employee Insurance Information"
             Caption = 'Premium Paid By';
         }
         field(23; "Rejection Remarks"; Text[250]) { }
-        field(25; "Last Premium Payment Date (AD)"; Date) { }
-        field(26; "Last Premium Payment Date (BS)"; Date) { TableRelation = "English-Nepali Date"."Nepali Date"; }
+        field(25; "Last Premium Payment Date (AD)"; Date)
+        {
+            trigger OnValidate()
+            begin
+                Validate("Last Premium Payment Date (BS)", EngNepDate.getNepaliDate("Last Premium Payment Date (AD)"));
+            end;
+        }
+        field(26; "Last Premium Payment Date (BS)"; Code[20])
+        {
+            TableRelation = "English-Nepali Date"."Nepali Date";
+            Editable = false;
+        }
         field(37; "Approved Date"; Date) { }
         field(24; "Expired"; Boolean) { }
         field(100; Status; Text[20])
@@ -146,12 +156,6 @@ table 50099 "Employee Insurance Information"
             caption = 'Access Token';
             DataClassification = CustomerContent;
         }
-        //     field(20; "Life Insurance Company"; Enum "Life Insurance Company")
-        //     {
-        //     }
-        //     field(21; "Medical/Property Ins Company"; Enum "Medical/Property Ins Company")
-        //     {
-        //     }
     }
     keys
     {
