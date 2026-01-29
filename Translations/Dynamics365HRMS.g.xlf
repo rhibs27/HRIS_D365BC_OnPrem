@@ -2693,11 +2693,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Field Document No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3120113408 - Field 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Filter</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Field Employee Filter - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3120113408 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2717,11 +2712,6 @@
           <source>Pay Cycle Term</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Field Pay Cycle Term - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3120113408 - Field 1297949899 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Payroll Attribute Filter</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Header - Field Payroll Attribute Filter - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3120113408 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
@@ -26253,6 +26243,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 627680985 - Control 2854000203 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attribute Code Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Control Attribute Code Filter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 627680985 - Control 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Control Employee Filter - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 627680985 - Control 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>General</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26267,6 +26267,11 @@
           <source>Approve</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Approve Document - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 627680985 - Action 3221530081 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Import Employee - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 627680985 - Action 3838155292 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reject the approval request.</source>
@@ -26297,11 +26302,6 @@
           <source>Submit for Approval</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Submit for Approval - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 627680985 - Action 3657829122 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Validate</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Validate - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1254391634 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Adjustment Lines</source>

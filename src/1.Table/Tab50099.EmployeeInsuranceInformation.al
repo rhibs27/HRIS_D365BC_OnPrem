@@ -142,7 +142,6 @@ table 50099 "Employee Insurance Information"
         }
         field(26; "Last Premium Payment Date (BS)"; Code[20])
         {
-            TableRelation = "English-Nepali Date"."Nepali Date";
             Editable = false;
         }
         field(37; "Approved Date"; Date) { }
