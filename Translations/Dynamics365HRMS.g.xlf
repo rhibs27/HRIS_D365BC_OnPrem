@@ -26148,6 +26148,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Approve Document - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 627680985 - Action 3221530081 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Import Employee - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 627680985 - Action 3838155292 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reject the approval request.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26177,11 +26182,6 @@
           <source>Submit for Approval</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Submit for Approval - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 627680985 - Action 3657829122 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Validate</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Card - Action Validate - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1254391634 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Adjustment Lines</source>

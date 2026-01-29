@@ -48,6 +48,33 @@ page 50375 "Attribute Adjustment Card"
                 }
                 field("Approval Status"; Rec."Approval Status") { ApplicationArea = All; }
             }
+            group(Filters)
+            {
+                field("Employee Filter"; Rec."Employee Filter")
+                {
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        if Rec."Employee Filter" <> '' then
+                            CurrPage.AdjustLines.Page.EmployeeFilter(Rec."Employee Filter")
+                        else
+                            CurrPage.AdjustLines.Page.ClearEmployeeFilter();
+                        CurrPage.Update();
+                    end;
+                }
+                field("Attribute Code Filter"; Rec."Payroll Attribute Filter")
+                {
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        if Rec."Payroll Attribute Filter" <> '' then
+                            CurrPage.AdjustLines.Page.AttributeFilter(Rec."Payroll Attribute Filter")
+                        else
+                            CurrPage.AdjustLines.Page.ClearAttributeCodeFilter();
+                        CurrPage.Update();
+                    end;
+                }
+            }
 
             part(AdjustLines; "Attribute Adjustment Lines")
             {
@@ -68,6 +95,7 @@ page 50375 "Attribute Adjustment Card"
     {
         area(Promoted)
         {
+            actionref(ImportEmployee; "Import Employee") { }
             actionref(Release; "Release Document") { }
             actionref(SubmitForApproval; "Submit for Approval") { }
             actionref(ReOpen; "ReOpen Document") { }
@@ -76,10 +104,25 @@ page 50375 "Attribute Adjustment Card"
         }
         area(processing)
         {
-            action(Validate)
+            action("Import Employee")
             {
-                Caption = 'Validate';
+                Caption = 'Import Employee';
                 ApplicationArea = All;
+                Image = ImportChartOfAccounts;
+                Visible = IsOpen;
+                trigger OnAction()
+                var
+                    PayCyclePeriod: Record "Pay Cycle Period";
+                begin
+                    Rec.TestField("Adjustment Type");
+                    Rec.TestField("Pay Cycle Code");
+                    Rec.TestField("Pay Cycle Term");
+                    Rec.TestField("Pay Cycle Period");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Open);
+                    if PayCyclePeriod.Get(Rec."Pay Cycle Code", Rec."Pay Cycle Term", Rec."Pay Cycle Period") then
+                        AttributeAdjustmentMgt.ImportEmployeeAsPerServiceEvent(Rec."Document No.", Rec."Adjustment Type", Rec."Payroll Attribute Filter", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+                    CurrPage.Update();
+                end;
             }
 
             action("Release Document")
@@ -89,11 +132,9 @@ page 50375 "Attribute Adjustment Card"
                 Image = GetLines;
                 Visible = IsOpen;
                 trigger OnAction()
-                var
-                    AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
                 begin
                     AttributeAdjustmentMgt.UpdatePayrollAttributesInAttributeAdjustmentLine(Rec);
-                    "Approval Status" := "Approval Status"::Released;
+                    Rec."Approval Status" := Rec."Approval Status"::Released;
                     CurrPage.Update();
                     Message('Additional Attributes have been fetched successfully.');
                 end;

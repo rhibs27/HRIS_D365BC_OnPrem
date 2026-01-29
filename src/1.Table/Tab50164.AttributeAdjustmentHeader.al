@@ -40,10 +40,12 @@ table 50164 "Attribute Adjustment Header"
         field(60; "Payroll Attribute Filter"; Text[100])
         {
             Caption = 'Payroll Attribute Filter';
+            TableRelation = "Payroll Attributes".Code;
         }
         field(70; "Employee Filter"; Text[100])
         {
             Caption = 'Employee Filter';
+            TableRelation = Employee."No.";
         }
         field(80; "Adjustment Type"; Enum "Employee Activity Type")
         {
