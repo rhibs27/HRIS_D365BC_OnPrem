@@ -50,25 +50,30 @@ page 50375 "Attribute Adjustment Card"
             }
             group(Filters)
             {
-                field("Employee Filter"; Rec."Employee Filter")
+                field("Employee Filter"; EmployeeFilter)
                 {
                     ApplicationArea = All;
+                    Caption = 'Employee Filter';
+                    TableRelation = Employee."No.";
                     trigger OnValidate()
                     begin
-                        if Rec."Employee Filter" <> '' then
-                            CurrPage.AdjustLines.Page.EmployeeFilter(Rec."Employee Filter")
+                        if EmployeeFilter <> '' then
+                            CurrPage.AdjustLines.Page.EmployeeFilter(EmployeeFilter)
                         else
                             CurrPage.AdjustLines.Page.ClearEmployeeFilter();
                         CurrPage.Update();
                     end;
                 }
-                field("Attribute Code Filter"; Rec."Payroll Attribute Filter")
+                field("Attribute Code Filter"; PayrollAttributeFilter)
                 {
                     ApplicationArea = All;
+                    Caption = 'Attribute Code Filter';
+                    TableRelation = "Payroll Attributes".Code;
+
                     trigger OnValidate()
                     begin
-                        if Rec."Payroll Attribute Filter" <> '' then
-                            CurrPage.AdjustLines.Page.AttributeFilter(Rec."Payroll Attribute Filter")
+                        if PayrollAttributeFilter <> '' then
+                            CurrPage.AdjustLines.Page.AttributeFilter(PayrollAttributeFilter)
                         else
                             CurrPage.AdjustLines.Page.ClearAttributeCodeFilter();
                         CurrPage.Update();
@@ -120,7 +125,7 @@ page 50375 "Attribute Adjustment Card"
                     Rec.TestField("Pay Cycle Period");
                     Rec.TestField("Approval Status", Rec."Approval Status"::Open);
                     if PayCyclePeriod.Get(Rec."Pay Cycle Code", Rec."Pay Cycle Term", Rec."Pay Cycle Period") then
-                        AttributeAdjustmentMgt.ImportEmployeeAsPerServiceEvent(Rec."Document No.", Rec."Adjustment Type", Rec."Payroll Attribute Filter", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+                        AttributeAdjustmentMgt.ImportEmployeeAsPerServiceEvent(Rec."Document No.", Rec."Adjustment Type", PayrollAttributeFilter, PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
                     CurrPage.Update();
                 end;
             }
@@ -232,6 +237,8 @@ page 50375 "Attribute Adjustment Card"
         OpenApprovalEntriesExistForCurrUser: Boolean;
 
     var
+        EmployeeFilter: Text[100];
+        PayrollAttributeFilter: Text[100];
         ApproverMgt: Codeunit "Approver Mgt";
         AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
         HRMgt: Codeunit "HR Mgt.";
