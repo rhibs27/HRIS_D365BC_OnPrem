@@ -230,6 +230,8 @@ report 50067 "Process Daily Attendance"
         ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
         ServiceHistory.SetFilter("Effective Date", '<%1', Date."Period Start");
         if ServiceHistory.FindLast() then begin
+            EmpAttendance."Deputation On" := ServiceHistory."Deputation On (To)";
+            EmpAttendance."Deputation On Code" := ServiceHistory."Deputation Code (To)";
             EmpAttendance."Province Code" := ServiceHistory."Province Code (To)";
             EmpAttendance."Province Name" := ServiceHistory."Province Description (To)";
             EmpAttendance."Branch Code" := ServiceHistory."Branch Code (To)";

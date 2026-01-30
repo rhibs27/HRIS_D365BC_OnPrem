@@ -252,6 +252,8 @@ table 50034 "Posted Payroll Header"
                 AssignmentMemoLedgerEntry."Payroll Document No." := '';
                 AssignmentMemoLedgerEntry.Open := true;
                 AssignmentMemoLedgerEntry."Payroll Posted" := false;
+                Clear(AssignmentMemoLedgerEntry."Payroll Posted Date");
+                AssignmentMemoLedgerEntry."Payroll Posted Month" := AssignmentMemoLedgerEntry."Payroll Posted Month"::" ";
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
 
