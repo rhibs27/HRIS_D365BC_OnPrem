@@ -1,4 +1,4 @@
-table 50067 "Appraisal KPI Master"
+table 50179 "Appraisal KPI Master"
 {
     DataClassification = CustomerContent;
     fields
@@ -18,16 +18,17 @@ table 50067 "Appraisal KPI Master"
                 end;
             end;
         }
-        field(3; "KRA Master"; Code[50])
+        field(3; "KRA"; Code[50])
         {
-            TableRelation = "Appraisal KRA Master".Code where(Type = filter("KRA Master"));
+            TableRelation = "Appraisal Setup".Code where(Type = filter("KRA"));
         }
-        field(4; "KRA Subtype"; Code[20])
+        field(4; "KPI"; Code[20])
         {
-            TableRelation = "Appraisal KRA Master".Code where(Type = filter("KRA Subtype"));
+            TableRelation = "Appraisal Setup".Code where(Type = filter("KPI"));
         }
         field(5; "Appraisal Type"; Enum "Appraisal Type")
         {
+            Editable = false;
             trigger OnValidate()
             begin
                 if "Appraisal Type" <> xRec."Appraisal Type" then begin
@@ -38,10 +39,12 @@ table 50067 "Appraisal KPI Master"
         }
         field(6; "Appraisal Subtype Monthly"; Enum "Nepali Month")
         {
+            Editable = false;
             Caption = 'Appraisal Subtype Monthly';
         }
         field(7; "Appraisal Subtype Quarterly"; Enum Quater)
         {
+            Editable = false;
             Caption = 'Appraisal Subtype Quarterly';
         }
         field(8; "Employee No."; Code[20])
@@ -106,44 +109,101 @@ table 50067 "Appraisal KPI Master"
             (Type = filter("Deputation Type"::Unit), Code = field("Unit Code"), "Reporting Type" = filter("Deputation Type"::"Sub-Unit"));
         }
         field(16; "Questionnaire/Description"; Text[500]) { }
-        field(17; "Rating Type"; Enum "Appraisal Rating") { }
-        field(27; "KPI Rating Type"; Enum "KPI Rating Type")
+        field(17; "KPI Rating Type"; Enum "KPI Rating Type")
         {
             trigger OnValidate()
             begin
-                if "KPI Rating Type" <> "KPI Rating Type"::"Group Based" then
+                Clear("Max Score");
+                if "KPI Rating Type" = "KPI Rating Type"::Rating then
+                    "Max Score" := 5;
+                if "KPI Rating Type" <> "KPI Rating Type"::Scoring then begin
+                    "Group Based" := false;
                     Clear("Group Performance Based Score");
-                if "KPI Rating Type" = "KPI Rating Type"::"Group Based" then begin
+                end;
+                if "Group Based" then begin
                     Clear("Self Rating Applicable");
                     "Self Rating Applicable" := false;
+
                 end;
             end;
         }
-        field(18; "Weightage"; Integer)
+        field(18; "Weightage"; Decimal)
         {
             Description = 'Weightage';
+            MinValue = 0;
         }
-        field(20; "Self Rating Applicable"; Boolean) { }
-        field(22; "Group Performance Based Score"; Integer) { }
-        field(23; "KPI Master Remarks"; Text[150]) { }
-        field(24; "Created Date"; Date)
+        field(19; "Self Rating Applicable"; Boolean) { }
+        field(20; "Group Performance Based Score"; Decimal)
         {
-            Editable = false;
+            MinValue = 0;
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Created Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year");
+                if "Group Based" and ("Group Performance Based Score" > "Max Score") then
+                    Error('Group Performance Based Score %1 cannot exceed Max Score %2.',
+                          "Group Performance Based Score", "Max Score");
             end;
         }
-        field(25; "Created By"; Text[50])
+        field(21; "KPI Master Remarks"; Text[150]) { }
+        field(22; "Created Date"; Date)
         {
             Editable = false;
         }
-        field(26; "No. Series"; Code[20])
+        field(23; "Created By"; Text[50])
+        {
+            Editable = false;
+        }
+        field(24; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
+        }
+        field(25; "Appraisal Template"; Code[50])
+        {
+            TableRelation = "Appraisal Template"."Template Master No.";
+            trigger OnValidate()
+            var
+                AppraisalTemplate: Record "Appraisal Template";
+            begin
+                if "Appraisal Template" <> xRec."Appraisal Template" then begin
+                    if AppraisalTemplate.Get("Appraisal Template") then begin
+                        "Fiscal Year" := AppraisalTemplate."Fiscal Year";
+                        "Appraisal Type" := AppraisalTemplate."Appraisal Type";
+                        "Appraisal Subtype Monthly" := AppraisalTemplate."Appraisal Subtype Monthly";
+                        "Appraisal Subtype Quarterly" := AppraisalTemplate."Appraisal Subtype Quarterly";
+                        Validate("KPI Rating Type", AppraisalTemplate."KPI Rating Type");
+
+                    end else begin
+                        Clear("Fiscal Year");
+                        Clear("Appraisal Type");
+                        Clear("Appraisal Subtype Monthly");
+                        Clear("Appraisal Subtype Quarterly");
+                        Clear("KPI Rating Type");
+                    end;
+                end;
+            end;
+        }
+        field(26; "Group Based"; Boolean)
+        {
+            trigger OnValidate()
+            begin
+                if "Group Based" then begin
+                    Clear("Self Rating Applicable");
+                    "Self Rating Applicable" := false;
+                    Clear("Group Performance Based Score");
+                end else begin
+                    Clear("Group Performance Based Score");
+                    "Self Rating Applicable" := true;
+                end;
+            end;
+        }
+        field(27; "Max Score"; Decimal)
+        {
+            MinValue = 0;
+            trigger OnValidate()
+            begin
+                if "Group Based" and ("Group Performance Based Score" > "Max Score") then
+                    Error('Group Performance Based Score %1 cannot exceed Max Score %2.',
+                 "Group Performance Based Score", "Max Score");
+            end;
         }
     }
     keys

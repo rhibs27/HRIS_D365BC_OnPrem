@@ -709,23 +709,11 @@ End Function
         <Field Name="RequestedDate_Appraisal">
           <DataField>RequestedDate_Appraisal</DataField>
         </Field>
-        <Field Name="TotalCheckReviewScore_Appraisal">
-          <DataField>TotalCheckReviewScore_Appraisal</DataField>
-        </Field>
-        <Field Name="TotalCheckReviewScore_AppraisalFormat">
-          <DataField>TotalCheckReviewScore_AppraisalFormat</DataField>
-        </Field>
         <Field Name="AppraisalType_Appraisal">
           <DataField>AppraisalType_Appraisal</DataField>
         </Field>
         <Field Name="CheckReviewersComments_Appraisal">
           <DataField>CheckReviewersComments_Appraisal</DataField>
-        </Field>
-        <Field Name="TotalReviewersFinalScore_Appraisal">
-          <DataField>TotalReviewersFinalScore_Appraisal</DataField>
-        </Field>
-        <Field Name="TotalReviewersFinalScore_AppraisalFormat">
-          <DataField>TotalReviewersFinalScore_AppraisalFormat</DataField>
         </Field>
         <Field Name="FiscalYear_Appraisal">
           <DataField>FiscalYear_Appraisal</DataField>

@@ -60,7 +60,8 @@ codeunit 50003 "AppraisalMgt."
                     CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Appraisal Code") + Colon + Format(AppraisalRec."Appraisal Code"));
                     CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Employee Name") + Colon + Format(AppraisalRec."Employee Name"));
                     CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Appraisal Type") + Colon + Format(AppraisalRec."Appraisal Type"));
-                    CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("KRA Category") + Colon + Format(AppraisalRec."KRA Category"));
+                    // CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("KRA Category") + Colon + Format(AppraisalRec."KRA Category"));
+                    CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Appraisal Template") + Colon + Format(AppraisalRec."Appraisal Template"));
                     CodeunitEmailMessage.AppendToBody('<br><br>');
                     CodeunitEmailMessage.AppendToBody(Footer);
                     if Email.Send(CodeunitEmailMessage) then
@@ -118,7 +119,7 @@ codeunit 50003 "AppraisalMgt."
         if not EmployeeAppraisalQuestion.IsEmpty then
             EmployeeAppraisalQuestion.DeleteAll();
         AppraisalQuestionnaireMaster.Reset();
-        AppraisalQuestionnaireMaster.SetRange("KRA Master", AppraisalRec."KRA Category");
+        AppraisalQuestionnaireMaster.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
         if AppraisalQuestionnaireMaster.FindSet() then begin
             LineNo := 10000;
             repeat
@@ -144,12 +145,13 @@ codeunit 50003 "AppraisalMgt."
         KPIEmployee.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
         KPIEmployee.SetRange("Employee Code", AppraisalRec."Employee Code");
         KPIEmployee.DeleteAll;
-        ValidateKRAInEmployeeKPIAnnually(AppraisalRec);
+        InsertKPIReviewerType(AppraisalRec);
+        InsertScoreDetail(AppraisalRec);
     end;
 
     procedure ValidateKRACategoryRules(AppraisalRec: Record Appraisal)
     var
-        ApprisalKRAMaster: Record "Appraisal KRA Master";
+        AppraisalTemplate: Record "Appraisal Template";
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         FiscalYearEndDate: Date;
@@ -157,20 +159,19 @@ codeunit 50003 "AppraisalMgt."
         ServiceEndDate: Date;
     begin
         Employee.get(AppraisalRec."Employee Code");
-        ApprisalKRAMaster.Reset;
-        ApprisalKRAMaster.SetRange(Code, AppraisalRec."KRA Category");
-        ApprisalKRAMaster.SetRange(Type, ApprisalKRAMaster.Type::"KRA Master");
-        ApprisalKRAMaster.SetRange("Employment Type", Employee."Employment Type");
-        if not ApprisalKRAMaster.FindFirst then
-            Error('Selected KRA Category is not applicable for this employee.');
-        case ApprisalKRAMaster."Check Date From" of
-            ApprisalKRAMaster."Check Date From"::"Date of Employment":
+        AppraisalTemplate.Reset;
+        AppraisalTemplate.SetRange("Template Master No.", AppraisalRec."Appraisal Template");
+        AppraisalTemplate.SetRange("Employment Type", Employee."Employment Type");
+        if not AppraisalTemplate.FindFirst then
+            Error('Selected Appraisal Template is not applicable for this employee.');
+        case AppraisalTemplate."Check Date From" of
+            AppraisalTemplate."Check Date From"::"Date of Employment":
                 begin
                     if AppraisalRec."Date of Employement" = 0D then
                         Error('Date of Employment is not set.');
                     ServiceStartDate := AppraisalRec."Date of Employement";
                 end;
-            ApprisalKRAMaster."Check Date From"::"Confirmation Date":
+            AppraisalTemplate."Check Date From"::"Confirmation Date":
                 begin
                     if AppraisalRec."Confirmation Date" = 0D then
                         Error('Confirmation Date is not set.');
@@ -179,9 +180,9 @@ codeunit 50003 "AppraisalMgt."
             else
                 exit;
         end;
-        if Format(ApprisalKRAMaster."Minimum Service Period") = '' then
+        if Format(AppraisalTemplate."Minimum Service Period") = '' then
             exit;
-        ServiceEndDate := CalcDate(ApprisalKRAMaster."Minimum Service Period", ServiceStartDate);
+        ServiceEndDate := CalcDate(AppraisalTemplate."Minimum Service Period", ServiceStartDate);
         FiscalYearEndDate := HRMgt.ReturnEndDateFY(AppraisalRec."Fiscal Year");
         if FiscalYearEndDate = 0D then
             Error('Fiscal Year End Date not found.');
@@ -189,244 +190,6 @@ codeunit 50003 "AppraisalMgt."
             Error('Employee does not meet the minimum service period for this fiscal year.');
     end;
 
-    procedure CalculateFinalScore(AppraisalRec: Record Appraisal)
-    var
-        WeightageSetup: Record "Appraisal Weightage Setup";
-        RatingSetup: Record "Rating Setup";
-        TotalWeightedScore: Decimal;
-    begin
-        WeightageSetup.Reset();
-        WeightageSetup.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
-        WeightageSetup.SetRange("Appraisal Type", AppraisalRec."Appraisal Type");
-        WeightageSetup.SetRange("KRA Master", AppraisalRec."KRA Category");
-        if not WeightageSetup.FindFirst() then
-            Error('Weightage setup not found for Fiscal Year: %1, Appraisal Type: %2, KRA Category: %3',
-      AppraisalRec."Fiscal Year", Format(AppraisalRec."Appraisal Type"), AppraisalRec."KRA Category");
-        if WeightageSetup."Total Weightage" <> 100 then
-            Error('Total weightage must be exactly 100%. Current total: %1%',
-                  WeightageSetup."Total Weightage");
-        TotalWeightedScore :=
-            (AppraisalRec."Total Self Score" * WeightageSetup."Self Score" / 100) +
-            (AppraisalRec."Total Immediate Supv Score" * WeightageSetup."Immediate Supervisor" / 100) +
-            (AppraisalRec."Total Reviewer Score" * WeightageSetup."Reviewer" / 100) +
-            (AppraisalRec."Total Group Performance Score" * WeightageSetup."Group Performance" / 100) +
-            (AppraisalRec."Total HR Committee Score" * WeightageSetup."HR Committee" / 100);
-        AppraisalRec."Total Final Score" := Round(TotalWeightedScore, 0.01, '=');
-        //For rating
-        RatingSetup.Reset();
-        RatingSetup.SetRange(Type, RatingSetup.Type::Appraisal);
-        RatingSetup.SetFilter(From, '<=%1', AppraisalRec."Total Final Score");
-        RatingSetup.SetFilter("To", '>=%1', AppraisalRec."Total Final Score");
-        if RatingSetup.FindFirst() then
-            AppraisalRec."Final Grading" := RatingSetup.Rating;
-        AppraisalRec.Modify(true);
-    end;
-
-    local procedure ValidateKRAInEmployeeKPIAnnually(AppraisalRec: Record Appraisal)
-    var
-        KPIMaster: Record "Appraisal KPI Master";
-        EmployeeKPI: Record "KPI Employee";
-        HRSetup: Record "Human Resources Setup";
-        LineNo: Integer;
-        TotalWeightageScoring: Decimal;
-        TotalWeightageGroupBased: Decimal;
-        MaxWeightage: Decimal;
-        HasScoringKPIs: Boolean;
-        HasGroupBasedKPIs: Boolean;
-        ErrorMessage: Text;
-    begin
-        HRSetup.Get();
-        MaxWeightage := HRSetup."Max Weightage";
-        if MaxWeightage = 0 then
-            Error('Max Weightage is not configured in Human Resources Setup. Please configure it before proceeding.');
-        LineNo := 10000;
-        KPIMaster.Reset;
-        KPIMaster.SetRange("KRA Master", AppraisalRec."KRA Category");
-        KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
-
-        case AppraisalRec."Appraisal Type" of
-            AppraisalRec."Appraisal Type"::Annually:
-                KPIMaster.SetRange("Appraisal Type", KPIMaster."Appraisal Type"::Annually);
-            AppraisalRec."Appraisal Type"::Monthly:
-                begin
-                    KPIMaster.SetRange("Appraisal Type", KPIMaster."Appraisal Type"::Monthly);
-                    KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly");
-                end;
-            AppraisalRec."Appraisal Type"::Quarterly:
-                begin
-                    KPIMaster.SetRange("Appraisal Type", KPIMaster."Appraisal Type"::Quarterly);
-                    KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
-                end;
-        end;
-        TotalWeightageScoring := 0;
-        TotalWeightageGroupBased := 0;
-        HasScoringKPIs := false;
-        HasGroupBasedKPIs := false;
-
-        if KPIMaster.FindSet() then
-            repeat
-                if ShouldIncludeKPI(KPIMaster, AppraisalRec) then begin
-                    case KPIMaster."KPI Rating Type" of
-                        KPIMaster."KPI Rating Type"::Scoring:
-                            begin
-                                TotalWeightageScoring += KPIMaster."Weightage";
-                                HasScoringKPIs := true;
-                            end;
-                        KPIMaster."KPI Rating Type"::"Group Based":
-                            begin
-                                TotalWeightageGroupBased += KPIMaster."Weightage";
-                                HasGroupBasedKPIs := true;
-                            end;
-                    end;
-                end;
-            until KPIMaster.Next() = 0;
-        ErrorMessage := '';
-        if HasScoringKPIs and (TotalWeightageScoring <> MaxWeightage) then begin
-            if ErrorMessage <> '' then
-                ErrorMessage += '\\';
-            ErrorMessage += StrSubstNo('Scoring Weightage = %1', TotalWeightageScoring);
-        end;
-        if HasGroupBasedKPIs and (TotalWeightageGroupBased <> MaxWeightage) then begin
-            if ErrorMessage <> '' then
-                ErrorMessage += ' and ';
-            ErrorMessage += StrSubstNo('Group Based Weightage = %1', TotalWeightageGroupBased);
-        end;
-        if ErrorMessage <> '' then
-            Error('Max Weightage = %1 is not equal to %2', MaxWeightage, ErrorMessage);
-        KPIMaster.Reset;
-        KPIMaster.SetRange("KRA Master", AppraisalRec."KRA Category");
-        KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
-
-        case AppraisalRec."Appraisal Type" of
-            AppraisalRec."Appraisal Type"::Annually:
-                KPIMaster.SetRange("Appraisal Type", KPIMaster."Appraisal Type"::Annually);
-            AppraisalRec."Appraisal Type"::Monthly:
-                begin
-                    KPIMaster.SetRange("Appraisal Type", KPIMaster."Appraisal Type"::Monthly);
-                    KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly");
-                end;
-            AppraisalRec."Appraisal Type"::Quarterly:
-                begin
-                    KPIMaster.SetRange("Appraisal Type", KPIMaster."Appraisal Type"::Quarterly);
-                    KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
-                end;
-        end;
-        if KPIMaster.FindFirst() then
-            repeat
-                if ShouldIncludeKPI(KPIMaster, AppraisalRec) then begin
-                    EmployeeKPI.Init;
-                    EmployeeKPI."Appraisal Code" := AppraisalRec."Appraisal Code";
-                    EmployeeKPI."KPI No." := KPIMaster."KPI No.";
-                    EmployeeKPI."Fiscal Year" := AppraisalRec."Fiscal Year";
-                    EmployeeKPI."Line No." := LineNo;
-                    EmployeeKPI."Employee Code" := AppraisalRec."Employee Code";
-                    EmployeeKPI."Employee Name" := AppraisalRec."Employee Name";
-                    EmployeeKPI."KRA Master" := KPIMaster."KRA Master";
-                    EmployeeKPI."KRA Subtype" := KPIMaster."KRA Subtype";
-                    EmployeeKPI."Appraisal Type" := KPIMaster."Appraisal Type";
-                    EmployeeKPI."Appraisal Subtype Monthly" := KPIMaster."Appraisal Subtype Monthly";
-                    EmployeeKPI."Appraisal Subtype Quarterly" := KPIMaster."Appraisal Subtype Quarterly";
-                    EmployeeKPI."Questionnaire/Description" := KPIMaster."Questionnaire/Description";
-                    EmployeeKPI."KPI Rating Type" := KPIMaster."KPI Rating Type";
-                    EmployeeKPI."Weightage" := KPIMaster."Weightage";
-                    EmployeeKPI."Self Rating Applicable" := KPIMaster."Self Rating Applicable";
-                    EmployeeKPI."Group Performance Based Score" := KPIMaster."Group Performance Based Score";
-                    EmployeeKPI."KPI Master Remarks" := KPIMaster."KPI Master Remarks";
-                    EmployeeKPI."From Setup" := true;
-                    EmployeeKPI.Insert();
-                    LineNo := LineNo + 10000;
-                end;
-            until KPIMaster.Next() = 0;
-    end;
-
-    local procedure ValidateKRAInEmployeeKRAAnnually(AppraisalRec: Record Appraisal)
-    var
-        KPIMaster: Record "Appraisal KPI Master";
-        KpiEmployee: Record "KPI Employee";
-        TotalWeightage: Decimal;
-        Counter: Integer;
-    begin
-        KpiEmployee.Reset;
-        KpiEmployee.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        KpiEmployee.DeleteAll();
-        KPIMaster.Reset;
-        KPIMaster.SetRange("KRA Master", AppraisalRec."KRA Category");
-        KPIMaster.SetRange("Appraisal Type", KPIMaster."Appraisal Type"::Annually);
-        if not KPIMaster.FindFirst() then
-            Error('No Appraisal KPI Master records found for KRA Category: %1 with Appraisal Type = Annually. Please create KPI Master records.',
-                  AppraisalRec."KRA Category");
-        Counter := 0;
-        TotalWeightage := 0;
-        if KPIMaster.FindSet() then
-            repeat
-                Counter += 1;
-                TotalWeightage += KPIMaster."Weightage";
-                // Insert into KPI Employee
-                KpiEmployee.Init;
-                KpiEmployee."Appraisal Code" := AppraisalRec."Appraisal Code";
-                KpiEmployee."Fiscal Year" := AppraisalRec."Fiscal Year";
-                KpiEmployee."Employee Code" := AppraisalRec."Employee Code";
-                KpiEmployee."Employee Name" := AppraisalRec."Employee Name";
-                KpiEmployee."KRA Master" := KPIMaster."KRA Master";
-                KpiEmployee."KRA Subtype" := KPIMaster."KRA Subtype";
-                KpiEmployee."Appraisal Type" := KPIMaster."Appraisal Type";
-                KpiEmployee."Appraisal Subtype Monthly" := KPIMaster."Appraisal Subtype Monthly";
-                KpiEmployee."Appraisal Subtype Quarterly" := KPIMaster."Appraisal Subtype Quarterly";
-                KpiEmployee."Questionnaire/Description" := KPIMaster."Questionnaire/Description";
-                KpiEmployee."KPI Rating Type" := KPIMaster."KPI Rating Type";
-                KpiEmployee."Weightage" := KPIMaster."Weightage";
-                KpiEmployee."Self Rating Applicable" := KPIMaster."Self Rating Applicable";
-                KpiEmployee."Group Performance Based Score" := KPIMaster."Group Performance Based Score";
-                KpiEmployee."KPI Master Remarks" := KPIMaster."KPI Master Remarks";
-                KpiEmployee."From Setup" := true;
-                KpiEmployee.Insert();
-
-            until KPIMaster.Next() = 0;
-
-        Message('Total records found: %1, Total weightage: %2', Counter, TotalWeightage);
-
-        // Optional: Check if total weightage = 100
-        if TotalWeightage <> 100 then
-            Message('Note: Sum of KRA (%1) weightage is %2 (should be 100).',
-                    AppraisalRec."KRA Category", TotalWeightage);
-    end;
-    // procedure InsertEmployeeKPIAnnually(AppraisalRec: Record Appraisal)
-    // var
-    //     KPIMaster: Record "Appraisal KPI Master";
-    //     KPIEmpRec: Record "KPI Employee";
-    //     KRASubform: Record "KRA Subform List";
-    //     KPIWeightage: Decimal;
-    // begin
-    //     AppraisalRec.TestField("KRA Category");
-    //     KPIMaster.Reset;
-    //     KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
-    //     KPIMaster.SetRange("KRA Master", AppraisalRec."KRA Category");
-    //     KPIMaster.SetRange("Appraisal Type", AppraisalRec."Appraisal Type");
-    //     //Commented by Santosh
-    //     // if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Monthly then
-    //     //     KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly")
-    //     // else if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Quarterly then
-    //     //     KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
-
-    //     KPIEmpRec.Reset;
-    //     KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-    //     KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
-    //     if KPIEmpRec.Find('-') then
-    //         repeat
-    //         begin
-    //             KPIEmpRec.Validate("Employee Code", AppraisalRec."Employee Code");
-    //             KPIEmpRec.Validate("Fiscal Year", AppraisalRec."Fiscal Year");
-    //             KPIEmpRec.Validate("Appraisal Type", KPIMaster."Appraisal Type");
-    //             //Commented by Santosh
-    //             // KPIEmpRec.Validate("Appraisal Subtype Monthly", KPIMaster."Appraisal Subtype Monthly");
-    //             // KPIEmpRec.Validate("Appraisal Subtype Quarterly", KPIMaster."Appraisal Subtype Quarterly");
-    //             KPIEmpRec.Validate("KPI No.", KPIMaster."KPI No.");
-    //             // KPIEmpRec.Validate("Target Assigned", KPIMaster."Target Assigned");
-    //             KPIEmpRec.Validate("From Setup", true);
-    //             KPIEmpRec.Modify;
-    //         end;
-    //         until KPIEmpRec.Next = 0;
-    // end;
     procedure CheckAppraisalAttachmentMandatory(Var Appraisal: Record Appraisal)
     var
         AttachmentSetup: Record "Attachment Setup";
@@ -449,7 +212,14 @@ codeunit 50003 "AppraisalMgt."
     local procedure ShouldIncludeKPI(KPIMaster: Record "Appraisal KPI Master"; AppraisalRec: Record Appraisal): Boolean
     var
         ShouldInclude: Boolean;
+        AppraisalTemplate: Record "Appraisal Template";
+        TemplateKpiRatingType: Enum "KPI Rating Type";
     begin
+        if not AppraisalTemplate.Get(AppraisalRec."Appraisal Template") then
+            exit(false);
+        TemplateKpiRatingType := AppraisalTemplate."KPI Rating Type";
+        if KPIMaster."KPI Rating Type" <> TemplateKpiRatingType then
+            exit(false);
         if (KPIMaster."Employee No." = '') and
            (KPIMaster.Designation = '') and
            (KPIMaster."Province Code" = '') and
@@ -477,15 +247,12 @@ codeunit 50003 "AppraisalMgt."
             if (KPIMaster."Extension Counter Code" <> '') and
    (KPIMaster."Extension Counter Code" <> AppraisalRec."Extension Counter") then
                 ShouldInclude := false;
-
             if (KPIMaster."Department Code" <> '') and
                (KPIMaster."Department Code" <> AppraisalRec."Department") then
                 ShouldInclude := false;
-
             if (KPIMaster."Unit Code" <> '') and
                (KPIMaster."Unit Code" <> AppraisalRec."Unit") then
                 ShouldInclude := false;
-
             if (KPIMaster."Sub-Unit Code" <> '') and
                (KPIMaster."Sub-Unit Code" <> AppraisalRec."Sub-unit") then
                 ShouldInclude := false;
@@ -537,9 +304,9 @@ codeunit 50003 "AppraisalMgt."
             Appraisal.TestField("Appraisal Subtype Monthly")
         else if Appraisal."Appraisal Type" = Appraisal."Appraisal Type"::Quarterly then
             Appraisal.TestField("Appraisal Subtype Quarterly");
-        Appraisal.TestField("KRA Category");
-        Appraisal.TestField("Immediate Supervisor");
-        Appraisal.TestField("Reviewer");
+        Appraisal.TestField("Appraisal Template");
+        //Appraisal.TestField("Immediate Supervisor");
+        //Appraisal.TestField("Reviewer");
         // Check for existing open appraisal
         CheckPendingAppraisal(Appraisal."Appraisal Code", Appraisal."Employee Code");
         if GuiAllowed then
@@ -567,33 +334,16 @@ codeunit 50003 "AppraisalMgt."
         Appraisal.Modify(true);
 
         // Send email notification
-        if GuiAllowed then
-            HRMgt.SendMailFromTemplate(
-                DATABASE::Appraisal,
-                Enum::"Employee Activity Type"::Appraisal,
-                Enum::"Approval Status"::Pending,
-                Appraisal."Immediate Supervisor",
-                Appraisal."Appraisal Code",
-                false
-            );
-        exit(Appraisal."Appraisal Code");
-    end;
-
-    procedure CheckPendingAppraisal(AppraisalCode: Code[20]; EmployeeNo: Code[20])
-    var
-        AppraisalTable: Record Appraisal;
-        AppraisalError: Label 'Your appraisal request no. %1 has not been approved. Please make sure it is approved';
-        IsHandled: Boolean;
-    begin
-        if IsHandled then
-            exit;
-        AppraisalTable.Reset;
-        AppraisalTable.SetFilter("Appraisal Code", '<>%1', AppraisalCode);
-        AppraisalTable.SetRange("Employee Code", EmployeeNo);
-        AppraisalTable.SetRange("Approval Status", AppraisalTable."Approval Status"::Pending);
-        AppraisalTable.SetRange(Cancelled, false);
-        if AppraisalTable.FindFirst then
-            Error(AppraisalError, AppraisalTable."Appraisal Code");
+        // if GuiAllowed then
+        //     HRMgt.SendMailFromTemplate(
+        //         DATABASE::Appraisal,
+        //         Enum::"Employee Activity Type"::Appraisal,
+        //         Enum::"Approval Status"::Pending,
+        //         Appraisal."Immediate Supervisor",
+        //         Appraisal."Appraisal Code",
+        //         false
+        //     );
+        // exit(Appraisal."Appraisal Code");
     end;
 
     procedure OpenCancelAppraisal(AppraisalRec: Record Appraisal)
@@ -631,4 +381,241 @@ codeunit 50003 "AppraisalMgt."
             PAGE.Run(PAGE::"Cancel Document", TempCancelDocument);
         end;
     end;
+
+    procedure CheckPendingAppraisal(AppraisalCode: Code[20]; EmployeeNo: Code[20])
+    var
+        AppraisalTable: Record Appraisal;
+        AppraisalError: Label 'Your appraisal request no. %1 has not been approved. Please make sure it is approved';
+        IsHandled: Boolean;
+    begin
+        if IsHandled then
+            exit;
+        AppraisalTable.Reset;
+        AppraisalTable.SetFilter("Appraisal Code", '<>%1', AppraisalCode);
+        AppraisalTable.SetRange("Employee Code", EmployeeNo);
+        AppraisalTable.SetRange("Approval Status", AppraisalTable."Approval Status"::Pending);
+        AppraisalTable.SetRange(Cancelled, false);
+        if AppraisalTable.FindFirst then
+            Error(AppraisalError, AppraisalTable."Appraisal Code");
+    end;
+
+    local procedure ShouldIncludeKPIForReviewerType(KPIMaster: Record "Appraisal KPI Master"; AppraisalRec: Record Appraisal; ReviewerSetup: Record "Reviewer Setup"; TemplateKpiRatingType: Enum "KPI Rating Type"): Boolean
+    var
+        ShouldInclude: Boolean;
+        Employee: Record Employee;
+    begin
+        ShouldInclude := false;
+        if not ShouldIncludeKPI(KPIMaster, AppraisalRec) then
+            exit(false);
+        if KPIMaster."KPI Rating Type" <> TemplateKpiRatingType then
+            exit(false);
+        if ReviewerSetup."Is Self Review" then begin
+            ShouldInclude := KPIMaster."Self Rating Applicable";
+        end
+        else if ReviewerSetup."Is Group Based" then begin
+            ShouldInclude := KPIMaster."Group Based";
+            if ShouldInclude and (KPIMaster."Branch Code" <> '') then begin
+                Employee.Get(AppraisalRec."Employee Code");
+                ShouldInclude := (KPIMaster."Branch Code" = Employee."Branch Code");
+            end;
+        end
+        else begin
+            // other than Rating type/Group Based Rating type and Group Based FALSE
+            ShouldInclude := (not KPIMaster."Group Based");
+        end;
+        exit(ShouldInclude);
+    end;
+
+    local procedure InsertKPIReviewerType(AppraisalRec: Record Appraisal)
+    var
+        KPIMaster: Record "Appraisal KPI Master";
+        EmployeeKPI: Record "KPI Employee";
+        ReviewerWeightageSetup: Record "Reviewer Weightage Setup";
+        ReviewerSetup: Record "Reviewer Setup";
+        AppraisalTemplate: Record "Appraisal Template";
+        LineNo: Integer;
+        MaxWeightage: Decimal;
+        TotalWeightageScoring: Decimal;
+        TotalWeightageRating: Decimal;
+        TotalWeightageGroupBased: Decimal;
+        HasScoringKPIs: Boolean;
+        HasRatingKPIs: Boolean;
+        HasGroupBasedKPIs: Boolean;
+    begin
+        MaxWeightage := 100;
+        if not AppraisalTemplate.Get(AppraisalRec."Appraisal Template") then
+            exit;
+        EmployeeKPI.Reset();
+        EmployeeKPI.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+        if EmployeeKPI.FindLast() then
+            LineNo := EmployeeKPI."Line No." + 10000
+        else
+            LineNo := 10000;
+        ReviewerWeightageSetup.Reset();
+        ReviewerWeightageSetup.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
+        ReviewerWeightageSetup.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
+        if ReviewerWeightageSetup.FindSet() then
+            repeat
+                if ReviewerSetup.Get(ReviewerWeightageSetup."Reviewer Type") then begin
+                    TotalWeightageScoring := 0;
+                    TotalWeightageRating := 0;
+                    TotalWeightageGroupBased := 0;
+                    HasScoringKPIs := false;
+                    HasRatingKPIs := false;
+                    HasGroupBasedKPIs := false;
+                    KPIMaster.Reset();
+                    KPIMaster.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
+                    KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
+                    if KPIMaster.FindSet() then
+                        repeat
+                            if ShouldIncludeKPIForReviewerType(KPIMaster, AppraisalRec, ReviewerSetup, AppraisalTemplate."KPI Rating Type")
+                            then begin
+                                case KPIMaster."KPI Rating Type" of
+                                    KPIMaster."KPI Rating Type"::Scoring:
+                                        if KPIMaster."Group Based" then begin
+                                            TotalWeightageGroupBased += KPIMaster."Weightage";
+                                            HasGroupBasedKPIs := true;
+                                        end else begin
+                                            TotalWeightageScoring += KPIMaster."Weightage";
+                                            HasScoringKPIs := true;
+                                        end;
+                                    KPIMaster."KPI Rating Type"::Rating:
+                                        if not KPIMaster."Group Based" then begin
+                                            TotalWeightageRating += KPIMaster."Weightage";
+                                            HasRatingKPIs := true;
+                                        end;
+                                end;
+
+                            end;
+                        until KPIMaster.Next() = 0;
+                    if HasScoringKPIs and (TotalWeightageScoring <> MaxWeightage) then
+                        Error('Reviewer Type %1: Individual Scoring Weightage must be %2.', ReviewerWeightageSetup."Reviewer Type", MaxWeightage);
+                    if HasRatingKPIs and (TotalWeightageRating <> MaxWeightage) then
+                        Error('Reviewer Type %1: Individual Rating Weightage must be %2.', ReviewerWeightageSetup."Reviewer Type", MaxWeightage);
+                    if HasGroupBasedKPIs and (TotalWeightageGroupBased <> MaxWeightage) then
+                        Error('Reviewer Type %1: Group Based Scoring Weightage must be %2.', ReviewerWeightageSetup."Reviewer Type", MaxWeightage);
+                    // Insert KPIs
+                    KPIMaster.Reset();
+                    KPIMaster.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
+                    KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
+                    if KPIMaster.FindSet() then
+                        repeat
+                            if ShouldIncludeKPIForReviewerType(KPIMaster, AppraisalRec, ReviewerSetup, AppraisalTemplate."KPI Rating Type")
+                            then begin
+                                EmployeeKPI.Init();
+                                EmployeeKPI."Appraisal Template" := KPIMaster."Appraisal Template";
+                                EmployeeKPI."Appraisal Code" := AppraisalRec."Appraisal Code";
+                                EmployeeKPI."KPI No." := KPIMaster."KPI No.";
+                                EmployeeKPI."Fiscal Year" := AppraisalRec."Fiscal Year";
+                                EmployeeKPI."Line No." := LineNo;
+                                EmployeeKPI."Employee Code" := AppraisalRec."Employee Code";
+                                EmployeeKPI."Employee Name" := AppraisalRec."Employee Name";
+                                EmployeeKPI."KRA" := KPIMaster."KRA";
+                                EmployeeKPI."KPI" := KPIMaster."KPI";
+                                EmployeeKPI."Appraisal Type" := KPIMaster."Appraisal Type";
+                                EmployeeKPI."Appraisal Subtype Monthly" := KPIMaster."Appraisal Subtype Monthly";
+                                EmployeeKPI."Appraisal Subtype Quarterly" := KPIMaster."Appraisal Subtype Quarterly";
+                                EmployeeKPI."Questionnaire/Description" := KPIMaster."Questionnaire/Description";
+                                EmployeeKPI."KPI Rating Type" := KPIMaster."KPI Rating Type";
+                                EmployeeKPI."Weightage" := KPIMaster."Weightage";
+                                EmployeeKPI."Max Score" := KPIMaster."Max Score";
+                                EmployeeKPI."Self Rating Applicable" := KPIMaster."Self Rating Applicable";
+                                EmployeeKPI."Group Based" := KPIMaster."Group Based";
+                                EmployeeKPI."KPI Master Remarks" := KPIMaster."KPI Master Remarks";
+                                EmployeeKPI."Reviewer Type" := ReviewerWeightageSetup."Reviewer Type";
+                                if ReviewerSetup."Is Group Based" and KPIMaster."Group Based" then begin
+                                    EmployeeKPI.Score := KPIMaster."Group Performance Based Score";
+                                    EmployeeKPI."Score Total" := ((EmployeeKPI.Score / EmployeeKPI."Max Score") * 100) * (EmployeeKPI.Weightage / 100);
+                                end else begin
+                                    EmployeeKPI.Score := 0;
+                                    EmployeeKPI."Score Total" := 0;
+                                end;
+                                EmployeeKPI.Insert();
+                                LineNo += 10000;
+                            end;
+                        until KPIMaster.Next() = 0;
+                end;
+            until ReviewerWeightageSetup.Next() = 0;
+    end;
+
+    procedure InsertScoreDetail(AppraisalRec: Record Appraisal)
+    var
+        ScoreDetail: Record "Score Detail";
+        ReviewerWeightageSetup: Record "Reviewer Weightage Setup";
+        EmployeeKPI: Record "KPI Employee";
+        ReviewerSetup: Record "Reviewer Setup";
+        Employee: Record Employee;
+    begin
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+        if not ScoreDetail.IsEmpty then
+            ScoreDetail.DeleteAll();
+        ReviewerWeightageSetup.Reset();
+        ReviewerWeightageSetup.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
+        ReviewerWeightageSetup.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
+        if not ReviewerWeightageSetup.FindSet() then
+            Error('Reviewer Weightage Setup not found.');
+        repeat
+            EmployeeKPI.Reset();
+            EmployeeKPI.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+            EmployeeKPI.SetRange("Reviewer Type", ReviewerWeightageSetup."Reviewer Type");
+            if not EmployeeKPI.IsEmpty() then begin
+                ScoreDetail.Init();
+                ScoreDetail.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
+                ScoreDetail.Validate("Appraisal Template", AppraisalRec."Appraisal Template");
+                ScoreDetail.Validate("Fiscal Year", AppraisalRec."Fiscal Year");
+                ScoreDetail.Validate("Reviewer Type", ReviewerWeightageSetup."Reviewer Type");
+                ScoreDetail.Sequence := ReviewerWeightageSetup.Sequence;
+                ScoreDetail.Weightage := ReviewerWeightageSetup.Weightage;
+                ScoreDetail.Submitted := false;
+                if ReviewerSetup.Get(ReviewerWeightageSetup."Reviewer Type") then begin
+                    if ReviewerSetup."Is Self Review" then begin
+                        if AppraisalRec."Employee Code" <> '' then
+                            ScoreDetail.Validate("Score/Rating By", AppraisalRec."Employee Code");
+                    end
+                    else if ReviewerSetup."Is Group Based" then begin
+                        ScoreDetail."Score/Rating By" := '';
+                    end
+                    else begin
+                        Employee.Reset();
+                        case ReviewerWeightageSetup."Deputation Type" of
+                            ReviewerWeightageSetup."Deputation Type"::Province:
+                                Employee.SetRange("Province Code", AppraisalRec.Province);
+                            ReviewerWeightageSetup."Deputation Type"::Branch:
+                                begin
+                                    Employee.SetRange("Province Code", AppraisalRec.Province);
+                                    Employee.SetRange("Branch Code", AppraisalRec.Branch);
+                                end;
+                            ReviewerWeightageSetup."Deputation Type"::Department:
+                                begin
+                                    Employee.SetRange("Province Code", AppraisalRec.Province);
+                                    Employee.SetRange("Branch Code", AppraisalRec.Branch);
+                                    Employee.SetRange("Department Code", AppraisalRec.Department);
+                                end;
+                            ReviewerWeightageSetup."Deputation Type"::"Extension Counter":
+                                begin
+                                    Employee.SetRange("Province Code", AppraisalRec.Province);
+                                    Employee.SetRange("Branch Code", AppraisalRec.Branch);
+                                    Employee.SetRange("Extension Counter Code", AppraisalRec."Extension Counter");
+                                end;
+                            ReviewerWeightageSetup."Deputation Type"::Unit:
+                                begin
+                                    Employee.SetRange("Province Code", AppraisalRec.Province);
+                                    Employee.SetRange("Branch Code", AppraisalRec.Branch);
+                                    Employee.SetRange("Department Code", AppraisalRec.Department);
+                                    Employee.SetRange("Unit Code", AppraisalRec.Unit);
+                                end;
+                        end;
+                        Employee.SetRange("Approver Role", ReviewerWeightageSetup."Approver Role");
+                        if Employee.FindFirst() then
+                            ScoreDetail.validate(ScoreDetail."Score/Rating By", Employee."No.")
+                        else
+                            Error('Approver Not found');
+                    end;
+                end;
+                ScoreDetail.Insert(true);
+            end;
+        until ReviewerWeightageSetup.Next() = 0;
+    end;
+
 }

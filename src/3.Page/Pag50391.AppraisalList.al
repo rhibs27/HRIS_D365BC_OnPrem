@@ -1,4 +1,4 @@
-page 50079 "Appraisal List"
+page 50391 "Appraisal List"
 {
     Caption = 'Appraisal List';
     CardPageId = "Appraisal Form Card";
@@ -55,9 +55,9 @@ page 50079 "Appraisal List"
                     ToolTip = 'Specifies the value of the Appraisal Subtype Quarterly field.';
                     ApplicationArea = All;
                 }
-                field("KRA Category"; Rec."KRA Category")
+                field("Appraisal Template"; Rec."Appraisal Template")
                 {
-                    ToolTip = 'Specifies the value of the KRA Category field.';
+                    ToolTip = 'Specifies the value of the Appraisal Template field.';
                     ApplicationArea = All;
                 }
                 field("Functional Title Desc"; Rec."Functional Title Desc")
@@ -66,27 +66,7 @@ page 50079 "Appraisal List"
                     ToolTip = 'Specifies the value of the Functional Title Desc field.';
                     ApplicationArea = All;
                 }
-                field("Immediate Supervisor"; Rec."Immediate Supervisor")
-                {
-                    ToolTip = 'Specifies the value of the Reviewer field.';
-                    ApplicationArea = All;
-                }
-                field("Reviewer"; Rec."Reviewer")
-                {
-                    ToolTip = 'Specifies the value of the Check Reviewer field.';
-                    ApplicationArea = All;
-                }
-                field("Total Immediate Supv Score"; Rec."Total Immediate Supv Score")
-                {
-                    caption = 'Total Immediate Supervisor Score';
-                    ToolTip = 'Specifies the value of the Total Reviewers Score field.';
-                    ApplicationArea = All;
-                }
-                field("Total Reviewer Score"; Rec."Total Reviewer Score")
-                {
-                    ToolTip = 'Specifies the value of the Total Check Reviewers Score field.';
-                    ApplicationArea = All;
-                }
+
                 field("Total Final Score"; Rec."Total Final Score")
                 {
                     ToolTip = 'Specifies the value of the Total Final Score field.';

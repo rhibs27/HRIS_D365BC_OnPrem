@@ -1,11 +1,10 @@
-page 50213 "Key Value Result"
+page 50394 "Appraisal Setup"
 {
-    Caption = 'Key Value Result';
+    ApplicationArea = BasicHR;
     PageType = List;
     SourceTable = "Appraisal Setup";
     UsageCategory = Lists;
-    ApplicationArea = All;
-
+    Caption = 'Appraisal Setup';
     layout
     {
         area(Content)
@@ -22,21 +21,13 @@ page 50213 "Key Value Result"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field(Type; Rec.Type)
+                {
+                    ToolTip = 'Specifies the value of the Type field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
 
-    actions { }
-
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        Rec.Validate(Type, Rec.Type::"KPI");
-    end;
-
-    trigger OnOpenPage()
-    begin
-        Rec.FilterGroup(2);
-        Rec.SetRange(Type, Rec.Type::"KPI");
-        Rec.FilterGroup(0);
-    end;
 }

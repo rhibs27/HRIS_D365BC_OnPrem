@@ -6,12 +6,12 @@ table 50062 "KRA Subform List"
     {
         field(1; "KRA Category"; Code[50])
         {
-            TableRelation = "Appraisal KRA Master".Code where(Type = const("KRA Master"));
+            TableRelation = "Appraisal Setup".Code where(Type = const("KRA"));
         }
         field(2; Description; Text[250]) { }
         field(3; "Key Result Area"; Code[20])
         {
-            TableRelation = "Appraisal KRA Master".Code where(Type = const("KRA Subtype"));
+            TableRelation = "Appraisal Setup".Code where(Type = const("KPI"));
         }
         field(4; "Weightage (%)"; Integer) { }
         field(5; "Appraisal Code"; Code[20]) { }

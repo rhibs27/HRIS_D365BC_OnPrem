@@ -711,9 +711,5 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50156; "Max Weightage"; Decimal)
-        {
-            DataClassification = CustomerContent;
-        }
     }
 }

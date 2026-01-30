@@ -6,12 +6,16 @@ enum 50093 "Key Value Master Type"
     {
         Caption = ' ';
     }
-    value(1; "KRA Master")
+    value(1; "Appraisal Template")
     {
-        Caption = 'KRA Master';
+        Caption = 'Appraisal Template';
     }
-    value(2; "KRA Subtype")
+    value(2; "KRA")
     {
-        Caption = 'KRA Subtype';
+        Caption = 'KRA';
+    }
+    value(3; "KPI")
+    {
+        Caption = 'KPI';
     }
 }

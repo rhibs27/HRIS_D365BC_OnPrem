@@ -2,7 +2,7 @@ page 50083 "KRA Category"
 {
     Caption = 'KRA Category';
     PageType = List;
-    SourceTable = "Appraisal KRA Master";
+    SourceTable = "Appraisal Setup";
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -30,13 +30,13 @@ page 50083 "KRA Category"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec.Validate(Type, Rec.Type::"KRA Master");
+        Rec.Validate(Type, Rec.Type::"KRA");
     end;
 
     trigger OnOpenPage()
     begin
         Rec.FilterGroup(2);
-        Rec.SetRange(Type, Rec.Type::"KRA Master");
+        Rec.SetRange(Type, Rec.Type::"KRA");
         Rec.FilterGroup(0);
     end;
 }

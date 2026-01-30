@@ -290,10 +290,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 {
                     ApplicationArea = All;
                 }
-                field("Max Weightage"; Rec."Max Weightage")
-                {
-                    ApplicationArea = All;
-                }
             }
 
 

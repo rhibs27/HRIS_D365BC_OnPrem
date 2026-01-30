@@ -148,8 +148,8 @@ table 50116 "HR Cue"
         field(75; "To Reviews Appraisal"; Integer)
         {
             CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 Status = const(Submitted),
-                                                 "Immediate Supervisor" = field("Employee Filter")
+                                                 Status = const(Submitted)
+                                                 //"Immediate Supervisor" = field("Employee Filter")
                                                  ));
             Editable = false;
             FieldClass = FlowField;
@@ -157,8 +157,8 @@ table 50116 "HR Cue"
         field(76; "To Check Reviews Appraisal"; Integer)
         {
             CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 Status = const(Reviewed),
-                                                 "Reviewer" = field("Employee Filter")
+                                                 Status = const(Reviewed)
+                                                 //"Reviewer" = field("Employee Filter")
                                                  ));
             Editable = false;
             FieldClass = FlowField;

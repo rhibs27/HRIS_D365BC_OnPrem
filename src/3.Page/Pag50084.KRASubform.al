@@ -14,11 +14,15 @@ page 50084 "KRA Subform"
                 {
                     ApplicationArea = All;
                 }
-                field("KRA Master"; Rec."KRA Master")
+                field("KRA"; Rec."KRA")
                 {
                     ApplicationArea = All;
                 }
-                field("KRA Subtype"; Rec."KRA Subtype")
+                field("KPI"; Rec."KPI")
+                {
+                    ApplicationArea = All;
+                }
+                field("Appraisal Template"; Rec."Appraisal Template")
                 {
                     ApplicationArea = All;
                 }
@@ -38,30 +42,22 @@ page 50084 "KRA Subform"
                 {
                     ApplicationArea = All;
                 }
-                field("Group Performance Based Score"; Rec."Group Performance Based Score")
-                {
-                    ApplicationArea = All;
-                }
-                field("Target Assigned"; Rec."Target Assigned")
-                {
-                    ApplicationArea = All;
-                }
-                field("Actual Achievement"; Rec."Actual Achievement")
-                {
-                    ApplicationArea = All;
-                }
-                field("Self Rating"; Rec."Self Score")
-                {
-                    ApplicationArea = All;
-                }
-                field("Self Remarks"; Rec."Self Remarks")
-                {
-                    ApplicationArea = All;
-                }
-                field("Deputation on"; Rec."Deputation on")
-                {
-                    ApplicationArea = All;
-                }
+                // field("Target Assigned"; Rec."Target Assigned")
+                // {
+                //     ApplicationArea = All;
+                // }
+                // field("Actual Achievement"; Rec."Actual Achievement")
+                // {
+                //     ApplicationArea = All;
+                // }
+                // field("Self Rating"; Rec."Self Score")
+                // {
+                //     ApplicationArea = All;
+                // }
+                // field("Self Remarks"; Rec."Self Remarks")
+                // {
+                //     ApplicationArea = All;
+                // }
             }
         }
     }
@@ -80,7 +76,7 @@ page 50084 "KRA Subform"
                     HRMgt: Codeunit "HR Mgt.";
                 begin
                     Appraisal.Get(Rec."Appraisal Code");
-                    OpenKPIForKRARelated(Appraisal, HRMgt.ReturnFiscalYear(Appraisal."Requested Date"), Rec."KRA Subtype");
+                    OpenKPIForKRARelated(Appraisal, HRMgt.ReturnFiscalYear(Appraisal."Requested Date"), Rec."KPI");
                 end;
             }
             action(KPIAssigned)
@@ -143,8 +139,8 @@ page 50084 "KRA Subform"
         KPIEmpRec: Record "KPI Employee";
     begin
         KPIEmpRec.Reset;
-        KPIEmpRec.SetRange("KRA Master", Rec."KRA Master");
-        KPIEmpRec.SetRange("KRA Subtype", Rec."KRA Subtype");
+        KPIEmpRec.SetRange("KRA", Rec."KRA");
+        KPIEmpRec.SetRange("KPI", Rec."KPI");
         KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
         KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
         Page.Run(Page::"KPI Employee", KPIEmpRec);

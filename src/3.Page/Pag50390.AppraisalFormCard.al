@@ -1,4 +1,4 @@
-page 50078 "Appraisal Form Card"
+page 50390 "Appraisal Form Card"
 {
     PageType = Card;
     RefreshOnActivate = true;
@@ -16,20 +16,32 @@ page 50078 "Appraisal Form Card"
                     ToolTip = 'Specifies the value of the Appraisal Code field.';
                     ApplicationArea = All;
                 }
+                field("Appraisal Template"; Rec."Appraisal Template")
+                {
+                    ToolTip = 'Specifies the value of the Appraisal Template field.';
+                    ApplicationArea = All;
+                }
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ToolTip = 'Specifies the value of the Fiscal Year field.';
                     ApplicationArea = All;
+                    Editable = DocumentEditable;
+                    trigger OnValidate()
+                    begin
+                        SetLayout;
+                    end;
                 }
                 field("Employee Code"; Rec."Employee Code")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
                 }
+
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
+
                 }
                 field("Date of Employement"; Rec."Date of Employement")
                 {
@@ -40,10 +52,16 @@ page 50078 "Appraisal Form Card"
                 {
                     ApplicationArea = All;
                 }
+                Field("KPI Rating Type"; Rec."KPI Rating Type")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field("Appraisal Type"; Rec."Appraisal Type")
                 {
                     ToolTip = 'Specifies the value of the Appraisal Type field.';
                     ApplicationArea = All;
+                    Editable = false;
                     trigger OnValidate()
                     begin
                         SetLayout;
@@ -54,16 +72,12 @@ page 50078 "Appraisal Form Card"
                     Editable = FieldEditable1;
                     ToolTip = 'Specifies the value of the Appraisal Subtype Monthly field.';
                     ApplicationArea = All;
+
                 }
                 field("Appraisal Subtype Quarterly"; Rec."Appraisal Subtype Quarterly")
                 {
                     Editable = FieldEditable2;
                     ToolTip = 'Specifies the value of the Appraisal Subtype Quarterly field.';
-                    ApplicationArea = All;
-                }
-                field("KRA Category"; Rec."KRA Category")
-                {
-                    ToolTip = 'Specifies the value of the KRA Category field.';
                     ApplicationArea = All;
                 }
                 field("Province Name"; Rec."Province Name")
@@ -103,44 +117,6 @@ page 50078 "Appraisal Form Card"
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
-                    ApplicationArea = All;
-                }
-                field("Immediate Supervisor"; Rec."Immediate Supervisor")
-                {
-                    Caption = 'Immediate Supervisor';
-                    ToolTip = 'Specifies the value of the Reviewer field.';
-                    ApplicationArea = All;
-                }
-                field("Reviewer"; Rec."Reviewer")
-                {
-                    Caption = 'Reviewer';
-                    ToolTip = 'Specifies the value of the Check Reviewer field.';
-                    ApplicationArea = All;
-                }
-                field("Total Self Score"; Rec."Total Self Score")
-                {
-                    caption = 'Total Self Score';
-                    ToolTip = 'Specifies the value of the Total Self Score field.';
-                    ApplicationArea = All;
-                }
-                field("Total Immediate Supv Score"; Rec."Total Immediate Supv Score")
-                {
-                    caption = 'Total Immediate Supervisor Score';
-                    ToolTip = 'Specifies the value of the Total Reviewers Score field.';
-                    ApplicationArea = All;
-                }
-                field("Total Reviewer Score"; Rec."Total Reviewer Score")
-                {
-                    caption = 'Total Reviewer Score';
-                    ToolTip = 'Specifies the value of the Total Check Reviewers Score field.';
-                    ApplicationArea = All;
-                }
-                field("Total HR Committee Score"; Rec."Total HR Committee Score")
-                {
-                    ApplicationArea = all;
-                }
-                field("Total Group Performance Score"; Rec."Total Group Performance Score")
-                {
                     ApplicationArea = All;
                 }
                 field("Total Final Score"; Rec."Total Final Score")
@@ -185,40 +161,22 @@ page 50078 "Appraisal Form Card"
             {
                 Caption = 'KPI Employee Score';
                 ApplicationArea = All;
-                SubPageLink =
-        "Appraisal Code" = field("Appraisal Code"),
-        "Employee Code" = field("Employee Code"),
-         "KPI Rating Type" = filter("KPI Rating Type"::Scoring);
+                SubPageLink = "Appraisal Code" = field("Appraisal Code"), "Employee Code" = field("Employee Code");
             }
-
-            part("KPI Employee Rating"; "KPI Employee")
-            {
-                Caption = 'KPI Employee Rating';
-                ApplicationArea = All;
-                SubPageLink =
-        "Appraisal Code" = field("Appraisal Code"),
-        "Employee Code" = field("Employee Code"),
-         "KPI Rating Type" = filter("KPI Rating Type"::Rating);
-            }
-
-            part("KPI Employee Group Based"; "KPI Employee")
-            {
-                Caption = 'KPI Employee Group Based';
-                ApplicationArea = All;
-                SubPageLink =
-        "Appraisal Code" = field("Appraisal Code"),
-        "Employee Code" = field("Employee Code"),
-         "KPI Rating Type" = filter("KPI Rating Type"::"Group Based");
-            }
-
             part("Employee Appraisal Questions"; "Employee Appraisal Questions")
             {
                 Caption = 'Employee Appraisal Questions';
                 ApplicationArea = All;
-                SubPageLink =
-                "Appraisal Code" = field("Appraisal Code"),
-                "Employee Code" = field("Employee Code");
+                SubPageLink = "Appraisal Code" = field("Appraisal Code"), "Employee Code" = field("Employee Code");
             }
+            part("Score Detail Subform"; "Score Detail Subform")
+            {
+                Caption = 'Score Details';
+                ApplicationArea = All;
+                SubPageLink = "Appraisal Code" = field("Appraisal Code"), "Appraisal Template" = field("Appraisal Template"), "Fiscal Year" = field("Fiscal Year");
+
+            }
+
             group("Reportee's Comments")
             {
                 Caption = 'Reportee''s Comments';
@@ -230,7 +188,6 @@ page 50078 "Appraisal Form Card"
                     ApplicationArea = All;
                 }
             }
-
             group("Reviewer's Comments")
             {
                 Caption = 'Reviewer''s Comments';
@@ -253,20 +210,17 @@ page 50078 "Appraisal Form Card"
                     ApplicationArea = All;
                 }
             }
-
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 SubPageLink = "Document No." = field("Appraisal Code");
                 ApplicationArea = all;
                 Editable = false;
             }
-            part(Attachment; "Attachment Subform")
-            {
-                SubPageLink = "No." = field("Appraisal Code"),
-                              "Employee Code" = field("Employee Code");
-                ApplicationArea = All;
-            }
-
+            // part(Attachment; "Attachment Subform")
+            // {
+            //     SubPageLink = "No." = field("Appraisal Code"), "Employee Code" = field("Employee Code");
+            //     ApplicationArea = All;
+            // }
         }
     }
 
@@ -294,15 +248,12 @@ page 50078 "Appraisal Form Card"
                             Appraisal.Posted := false;
                             Appraisal."Posting Date" := 0D;
                             Appraisal.Validate("Total Final Score", 0);
-
                             Clear(Rec."Final Grading");
                             Appraisal.Modify(true);
                         until Appraisal.Next = 0;
                     CurrPage.Close;
                 end;
             }
-
-            //Appraisal Changes
             action("Request Appraisal")
             {
                 Image = Confirm;
@@ -323,8 +274,6 @@ page 50078 "Appraisal Form Card"
                     end;
                 end;
             }
-
-            //Appraisal Changes
             action("Cancel Appraisal Request")
             {
                 Image = CancelApprovalRequest;
@@ -382,7 +331,7 @@ page 50078 "Appraisal Form Card"
                 var
                     HRMgt: Codeunit "HR Mgt.";
                 begin
-                    AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Reviewer");
+                    //AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Reviewer");
                     CurrPage.Close();
                 end;
             }
@@ -472,9 +421,31 @@ page 50078 "Appraisal Form Card"
                 ToolTip = 'Executes the Calculate Final Marks action.';
                 ApplicationArea = All;
                 trigger OnAction()
+                var
+                    ScoreDetail: Record "Score Detail";
+                    TotalFinalScore: Decimal;
                 begin
-                    if Confirm('Do you want to calculate marks?', false) then
-                        AppraisalMgt.CalculateFinalScore(Rec);
+                    if Confirm('Do you want to calculate marks?', false) then begin
+                        Rec.Validate("Total Final Score", 0);
+                        //TotalFinalScore := 0;
+                        ScoreDetail.Reset();
+                        ScoreDetail.SetRange("Appraisal Code", Rec."Appraisal Code");
+                        ScoreDetail.SetRange("Appraisal Template", Rec."Appraisal Template");
+                        ScoreDetail.SetRange("Fiscal Year", Rec."Fiscal Year");
+                        if ScoreDetail.FindSet() then begin
+                            repeat
+                                ScoreDetail.CalcFields(Total);
+                                if ScoreDetail.Total <> 0 then
+                                    TotalFinalScore += Round((ScoreDetail.Weightage * ScoreDetail.Total) / 100, 0.01);
+                            until ScoreDetail.Next() = 0;
+                            Rec.Validate("Total Final Score", TotalFinalScore);
+
+                            Rec.Modify(true);
+                            Message('Total Final Score calculated successfully');
+                        end else begin
+                            Message('No score details found for this appraisal');
+                        end;
+                    end;
                 end;
             }
             action("Approve")
@@ -546,7 +517,6 @@ page 50078 "Appraisal Form Card"
                     ChangeAppraisalStatus(Rec.Status::Submitted);
                 end;
             }
-
             action("KPI Reviewed")
             {
                 Image = Confirm;
@@ -558,7 +528,6 @@ page 50078 "Appraisal Form Card"
                     ChangeAppraisalStatus(Rec.Status::Reviewed);
                 end;
             }
-
             action("Check Reviewed")
             {
                 Image = Confirm;
@@ -570,21 +539,20 @@ page 50078 "Appraisal Form Card"
                     ChangeAppraisalStatus(Rec.Status::"Check Reviewed");
                 end;
             }
-
-            action("Change Reviewer / Check Reviewer")
-            {
-                Image = ReOpen;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Change Reviewer / Check Reviewer action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    Rec.ChangeReviewerCheckReviewerAppraisal;
-                end;
-            }
+            // action("Change Reviewer / Check Reviewer")
+            // {
+            //     Image = ReOpen;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Change Reviewer / Check Reviewer action.';
+            //     ApplicationArea = All;
+            //     trigger OnAction()
+            //     begin
+            //         Rec.ChangeReviewerCheckReviewerAppraisal;
+            //     end;
+            // }
             action("HR Reviewed")
             {
                 Image = Confirm;
@@ -671,7 +639,7 @@ page 50078 "Appraisal Form Card"
         KPIEmpRec: Record "KPI Employee";
     begin
         KPIEmpRec.Reset();
-        KPIEmpRec.SetRange("KRA Master", AppraisalRec."KRA Category");
+        KPIEmpRec.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
         KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
         KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
         Page.Run(Page::"KPI Employee", KPIEmpRec);

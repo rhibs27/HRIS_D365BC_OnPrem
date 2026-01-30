@@ -1,4 +1,4 @@
-page 50081 "Posted Appraisal List"
+page 50392 "Posted Appraisal List"
 {
     Editable = false;
     PageType = List;
@@ -34,17 +34,6 @@ page 50081 "Posted Appraisal List"
                 field("Appraisal Type"; Rec."Appraisal Type")
                 {
                     ToolTip = 'Specifies the value of the Appraisal Type field.';
-                    ApplicationArea = All;
-                }
-
-                field("Immediate Supervisor"; Rec."Immediate Supervisor")
-                {
-                    ToolTip = 'Specifies the value of the Immediate Supervisor field.';
-                    ApplicationArea = All;
-                }
-                field("Reviewer"; Rec."Reviewer")
-                {
-                    ToolTip = 'Specifies the value of the Reviewer field.';
                     ApplicationArea = All;
                 }
                 field("Reviewer III"; Rec."Reviewer III")

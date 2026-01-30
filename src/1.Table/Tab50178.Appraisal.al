@@ -1,4 +1,4 @@
-table 50061 Appraisal
+table 50178 Appraisal
 {
     DataClassification = CustomerContent;
 
@@ -58,7 +58,7 @@ table 50061 Appraisal
                 Approvalhrms(Rec);
             end;
         }
-        field(4; "Employee Name"; Text[100]) { }
+        field(4; "Employee Name"; Text[100]) { Editable = false; }
         field(5; "Date of Employement"; Date)
         {
             Editable = false;
@@ -81,12 +81,12 @@ table 50061 Appraisal
         field(14; Unit; Code[20]) { Editable = false; }
         field(15; "Department Name"; Text[50]) { Editable = false; }
         field(17; "Province Name"; Text[50]) { Editable = false; }
-        field(19; "Extension Counter Name"; Text[100]) { Editable = false; }
-        field(20; "Unit Name"; Text[50]) { Editable = false; }
-        field(21; "Sub-unit"; Code[20]) { Editable = false; }
-        field(22; "Sub-Unit Name"; Text[100]) { Editable = false; }
-        field(23; "Functional Title Desc"; Text[100]) { }
-        field(26; "Fiscal Year"; Code[20])
+        field(18; "Extension Counter Name"; Text[100]) { Editable = false; }
+        field(19; "Unit Name"; Text[50]) { Editable = false; }
+        field(20; "Sub-unit"; Code[20]) { Editable = false; }
+        field(21; "Sub-Unit Name"; Text[100]) { Editable = false; }
+        field(22; "Functional Title Desc"; Text[100]) { }
+        field(23; "Fiscal Year"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term;
             trigger OnValidate()
@@ -97,12 +97,12 @@ table 50061 Appraisal
                 end;
             end;
         }
-        field(27; Posted; Boolean) { }
-        field(28; "No. Series"; Code[20])
+        field(24; Posted; Boolean) { }
+        field(25; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(29; "Appraisal Type"; Enum "Appraisal Type")
+        field(26; "Appraisal Type"; Enum "Appraisal Type")
         {
             trigger OnValidate()
             begin
@@ -112,38 +112,38 @@ table 50061 Appraisal
                 end;
             end;
         }
-        field(30; "KRA Category"; Code[50])
+        field(27; "Appraisal Template"; Code[50])
         {
-            TableRelation = "Appraisal KRA Master".Code
-        where(Type = filter("KRA Master"));
-
+            TableRelation = "Appraisal Template"."Template Master No.";
             trigger OnValidate()
+            var
+                ApprisalTemplate: Record "Appraisal Template";
             begin
                 if GuiAllowed then
                     AppraisalMgt.ValidateKRAInEmployeeQuestionnaire(Rec);
-
                 AppraisalMgt.OnValidateKRACategory(Rec);
             end;
         }
-        field(32; "KPI Rating Type"; Enum "KPI Rating Type") { }
-        field(35; "Immediate Supervisor"; Code[20]) { TableRelation = Employee; }
-        field(36; "Reviewer"; Code[20]) { TableRelation = Employee; }
-        field(38; "Reviewer III"; Code[20]) { TableRelation = Employee; }
-        field(40; "Posting Date"; Date) { }
-        field(41; "Reviewed Score I"; Decimal) { }
-        field(42; "Reviewed Score II"; Decimal) { }
-        field(43; "Reviewed Score III"; Decimal) { }
-        field(44; "Job Grade"; Code[20]) { }
-        field(45; "Total Tenure in Bank"; Integer) { }
-        field(46; "Submission Date"; Date) { }
-        field(47; "Reviewed Date I"; Date) { }
-        field(48; "Reviewed Date II"; Date) { }
-        field(49; "Reviewed Date III"; Date) { }
-        field(50; "Total Tenure in Crc Position"; Date) { }
-        field(61; "Reportees Comments"; Text[250]) { }
-        field(69; "Reviewer Comments"; Text[250]) { }
-        field(70; "Check Reviewers Comments"; Text[250]) { }
-        field(71; "Recommender Code"; Code[50])
+        field(28; "KPI Rating Type"; Enum "KPI Rating Type")
+        {
+
+        }
+        field(29; "Reviewer III"; Code[20]) { TableRelation = Employee; }
+        field(30; "Posting Date"; Date) { }
+        field(31; "Reviewed Score I"; Decimal) { }
+        field(32; "Reviewed Score II"; Decimal) { }
+        field(33; "Reviewed Score III"; Decimal) { }
+        field(34; "Job Grade"; Code[20]) { }
+        field(35; "Total Tenure in Bank"; Integer) { }
+        field(36; "Submission Date"; Date) { }
+        field(38; "Reviewed Date I"; Date) { }
+        field(40; "Reviewed Date II"; Date) { }
+        field(41; "Reviewed Date III"; Date) { }
+        field(42; "Total Tenure in Crc Position"; Date) { }
+        field(43; "Reportees Comments"; Text[250]) { }
+        field(44; "Reviewer Comments"; Text[250]) { }
+        field(45; "Check Reviewers Comments"; Text[250]) { }
+        field(46; "Recommender Code"; Code[50])
         {
             TableRelation = Employee;
             ValidateTableRelation = false;
@@ -152,64 +152,41 @@ table 50061 Appraisal
                 HRMgt.GetEmployeeName("Recommender Code", "Recommender Name");
             end;
         }
-        field(72; "Recommender Name"; Text[50])
+        field(47; "Recommender Name"; Text[50])
         {
             Editable = false;
         }
-        field(73; "Requested Date"; Date)
+        field(48; "Requested Date"; Date)
         {
             Editable = false;
         }
-        field(74; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
-        field(75; "Appraisal Subtype Quarterly"; Enum Quater) { }
-        field(76; "Total Immediate Supv Score"; Decimal)
+        field(49; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
+        field(50; "Appraisal Subtype Quarterly"; Enum Quater) { }
+
+        field(51; "Total Final Score"; Decimal)
         {
             Editable = false;
-            CalcFormula = Sum("KPI Employee"."Immediate Supervisor Score"
-        where("Appraisal Code" = field("Appraisal Code")));
-            FieldClass = FlowField;
+            trigger OnValidate()
+            begin
+                SetFinalGrading;
+            end;
         }
-        field(77; "Total Reviewer Score"; Decimal)
-        {
-            Editable = false;
-            CalcFormula = Sum("KPI Employee"."Reviewer Score"
-        where("Appraisal Code" = field("Appraisal Code")));
-            FieldClass = FlowField;
-        }
-        field(80; "Total Final Score"; Decimal)
+        field(52; "Final Grading"; Enum "Appraisal Rating")
         {
             Editable = false;
         }
-        field(81; "Final Grading"; Enum "Appraisal Rating")
+        field(53; "Cancelled Document No."; Code[20]) { }
+        field(54; "Confirmation Date"; Date)
         {
             Editable = false;
         }
-        field(82; "Cancelled Document No."; Code[20]) { }
-        field(83; "Total Group Performance Score"; Decimal)
+        field(55; "Reviewer Type"; Code[20])
         {
-            Editable = false;
-            CalcFormula = Sum("KPI Employee"."Group Performance Based Score"
-        where("Appraisal Code" = field("Appraisal Code")));
-            FieldClass = FlowField;
+            Caption = 'Reviewer Type';
+            TableRelation = "Reviewer Setup".Code;
         }
-        field(84; "Total HR Committee Score"; Decimal)
-        {
-            Editable = false;
-            CalcFormula = Sum("KPI Employee"."HR Committee Score"
-        where("Appraisal Code" = field("Appraisal Code")));
-            FieldClass = FlowField;
-        }
-        field(85; "Confirmation Date"; Date)
-        {
-            Editable = false;
-        }
-        field(86; "Total Self Score"; Decimal)
-        {
-            Editable = false;
-            CalcFormula = Sum("KPI Employee"."Self Score"
-        where("Appraisal Code" = field("Appraisal Code")));
-            FieldClass = FlowField;
-        }
+
+
     }
     keys
     {
@@ -454,20 +431,13 @@ table 50061 Appraisal
             exit;
 
         EmpActFilterPageBuilder.AddRecord('Appraisal', Rec);
-        EmpActFilterPageBuilder.AddField('Appraisal', "Immediate Supervisor");
-        EmpActFilterPageBuilder.AddField('Appraisal', "Reviewer");
         EmpActFilterPageBuilder.RunModal;
         Appraisal.SetView(EmpActFilterPageBuilder.GetView('Appraisal'));
-        ReviewerCode := Appraisal.GetFilter("Immediate Supervisor");
-        CheckReviewerCode := Appraisal.GetFilter("Reviewer");
-
         if (ReviewerCode <> '') then begin
-            Validate("Immediate Supervisor", ReviewerCode);
             Modify;
             Message(Text002);
         end;
         if (CheckReviewerCode <> '') then begin
-            Validate("Reviewer", CheckReviewerCode);
             Modify;
             Message(Text003);
         end;
@@ -511,12 +481,21 @@ table 50061 Appraisal
         ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::Appraisal);
         if not ApprovalHRMS.IsEmpty then
             ApprovalHRMS.DeleteAll();
-        ApproverMgt.InsertApproval(
-            AppraisalRec."Employee Code",
-            AppraisalRec."Appraisal Code",
-            Enum::"Employee Activity Type"::Appraisal,
-            Enum::"Approval Status"::Open
-        );
+        ApproverMgt.InsertApproval(AppraisalRec."Employee Code", AppraisalRec."Appraisal Code", Enum::"Employee Activity Type"::Appraisal, Enum::"Approval Status"::Open);
+    end;
+
+    local procedure SetFinalGrading()
+    var
+        RatingSetup: Record "Rating Setup";
+    begin
+        Clear("Final Grading");
+
+        RatingSetup.Reset();
+        RatingSetup.SetRange(Type, RatingSetup.Type::Appraisal);
+        RatingSetup.SetFilter(From, '<=%1', "Total Final Score");
+        RatingSetup.SetFilter("To", '>=%1', "Total Final Score");
+        if RatingSetup.FindFirst() then
+            "Final Grading" := RatingSetup.Rating;
     end;
 }
 

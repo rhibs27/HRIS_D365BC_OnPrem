@@ -13,8 +13,4 @@ enum 50128 "KPI Rating Type"
     {
         Caption = 'Rating';
     }
-    value(3; "Group Based")
-    {
-        Caption = 'Group Based';
-    }
 }

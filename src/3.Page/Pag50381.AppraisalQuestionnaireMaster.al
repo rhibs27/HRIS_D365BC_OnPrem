@@ -18,9 +18,8 @@ page 50381 "Appraisal Questionnaire Master"
                     ApplicationArea = All;
                     Visible = false;
                 }
-                field("KRA Master"; Rec."KRA Master")
+                field("Appraisal Template"; Rec."Appraisal Template")
                 {
-                    ToolTip = 'Specifies the value of the KRA Category field.';
                     ApplicationArea = All;
                 }
                 field("Question"; Rec."Question")
