@@ -152,7 +152,7 @@ table 50048 "Employee Attendance & Activity"
         field(46; "Overtime Disbursed"; Boolean) { }
         field(47; "Night Shift Punch Out Time"; Time) { }
         field(48; "Training Check In Time"; Time) { }
-        field(49; "Employee Name"; Text[50])
+        field(49; "Employee Name"; Text[100])
         {
             Editable = false;
         }
@@ -174,7 +174,7 @@ table 50048 "Employee Attendance & Activity"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Province));
         }
-        field(56; "Province Name"; Text[50])
+        field(56; "Province Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
@@ -183,7 +183,7 @@ table 50048 "Employee Attendance & Activity"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Branch));
         }
-        field(58; "Branch Name"; Text[50])
+        field(58; "Branch Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
@@ -192,7 +192,7 @@ table 50048 "Employee Attendance & Activity"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
         }
-        field(60; "Department Name"; Text[50])
+        field(60; "Department Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
@@ -250,6 +250,14 @@ table 50048 "Employee Attendance & Activity"
         {
             DataClassification = ToBeClassified;
         }
+        field(116; "Extension Counter Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(117; "Unit Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(200; "Entry Type"; Enum "Attendance Entry Type")
         {
             Caption = 'Entry Type';
@@ -293,7 +301,9 @@ table 50048 "Employee Attendance & Activity"
         "Department Code" := Employee."Department Code";
         "Department Name" := Employee."Department Name";
         "Unit Code" := Employee."Unit Code";
+        "Unit Name" := Employee."Unit Name";
         "Extension Counter" := Employee."Extension Counter Code";
+        "Extension Counter Name" := Employee."Extension Counter Name";
         "Deputation On" := Employee."Deputation on";
         "Deputation On Code" := Employee."Deputation On Code";
     end;

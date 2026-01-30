@@ -728,6 +728,10 @@ table 50075 "Employee Activity Journal"
             Caption = 'Substitute Person Name';
             Editable = false;
         }
+        field(128; "Loan Disbursement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
 
         // Promotion
         field(150; "Promoted Salary Grade"; Code[20])

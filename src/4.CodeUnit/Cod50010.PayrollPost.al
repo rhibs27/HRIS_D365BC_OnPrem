@@ -504,6 +504,8 @@ codeunit 50010 "Payroll-Post"
                 AssignmentMemoLedgerEntry."Payroll Document No." := PostedPayrollHeader."No.";
                 AssignmentMemoLedgerEntry.Open := false;
                 AssignmentMemoLedgerEntry."Payroll Posted" := true;
+                AssignmentMemoLedgerEntry."Payroll Posted Date" := PostedPayrollHeader."Posting Date";
+                AssignmentMemoLedgerEntry."Payroll Posted Month" := PostedPayrollHeader."Nepali Month";
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
 
