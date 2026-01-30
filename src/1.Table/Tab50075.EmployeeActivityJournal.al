@@ -740,6 +740,10 @@ table 50075 "Employee Activity Journal"
         }
         field(152; "Promoted Staff Level"; Enum "Staff Type") { }
         field(153; "Promotion Date"; Date) { }
+        field(154; "Decision Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
