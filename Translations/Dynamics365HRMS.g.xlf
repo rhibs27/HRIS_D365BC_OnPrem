@@ -1333,6 +1333,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Posted - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 4032020692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Posted Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Posted Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1450550140 - Field 2560100752 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Posting Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Payroll Posted Month - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posting Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4908,6 +4918,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Extension Counter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 1055780678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Extension Counter Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 3346125319 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Festival Counter Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5137,6 +5152,11 @@
           <source>Unit Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Unit Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 655095483 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Unit Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 3208628662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Key Days</source>
@@ -8968,6 +8988,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 470349803 - Field 231498208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Active Biometric Device</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Active Biometric Device - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 470349803 - Field 1214640677 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Assignment</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9047,6 +9072,11 @@
           <source>Field Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Field Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 4184184413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inactive Biometric Device</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Inactive Biometric Device - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 1538464910 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance</source>
@@ -9177,6 +9207,11 @@
           <source>To Reviews Appraisal</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field To Reviews Appraisal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 745314974 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Biometric Device</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Total Biometric Device - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 4224198349 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer</source>
@@ -24973,11 +25008,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Amount - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2241004978 - Control 2828287359 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Applied Document No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Applied Document No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2241004978 - Control 4208656117 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ATM Site field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -25058,6 +25088,26 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Payroll Attribute Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 2074948367 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Document No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Payroll Document No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 1551607304 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Posted field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Payroll Posted - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 4032020692 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Posted Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Payroll Posted Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Control 2560100752 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Posted Month field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Payroll Posted Month - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2241004978 - Control 3710982960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Posting Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -25092,6 +25142,16 @@
           <source>Update Nepali Months</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Action Update Nepali Months - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Action 1659432889 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Updates the Payroll Posted Month field for the selected ledger entries.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Action Update Payroll Months - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2241004978 - Action 1659432889 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Payroll Posted Months</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Action Update Payroll Months - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4134390525 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assignment Memo Subform</source>
@@ -27557,6 +27617,46 @@
           <source>Detailed Salary Deduction Entries</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Det Salary Deduction Entries - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Device Overview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Control 2838143429 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Biometric Devices</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Control BiometricDevices - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Control 231498208 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Active Biometric Device field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Control Active Biometric Device - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Control 231498208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Active</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Control Active Biometric Device - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Control 4184184413 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Inactive Biometric Device field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Control Inactive Biometric Device - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Control 4184184413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inactive</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Control Inactive Biometric Device - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Control 745314974 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Total Biometric Device field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Control Total Biometric Device - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2154531597 - Control 745314974 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Device Overview - Control Total Biometric Device - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 847710914 - Control 3662076853 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the District Code field.</source>
@@ -33112,6 +33212,11 @@
           <source>Executes the Vehicle Loans action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR loan officer - Action Vehicle Loans - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Control 2645470821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Device Overview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Control DeviceOverview - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 900836314 - Control 1780339891 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Overview</source>

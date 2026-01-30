@@ -3,6 +3,7 @@ table 50123 "Biometric Device Config."
     Caption = 'Biometric Device Config.';
     DataClassification = ToBeClassified;
     LookupPageId = "Biometric Device Config.";
+    DrillDownPageId = "Biometric Device Config.";
     fields
     {
         field(1; Id; Integer)
