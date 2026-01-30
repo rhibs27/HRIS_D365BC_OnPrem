@@ -91,6 +91,10 @@ table 50149 "Approval HRMS"
         {
             DataClassification = ToBeClassified;
         }
+        field(16; "Alternative Approval Workflow"; Enum "Alternative Approval Workflow")
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

@@ -346,7 +346,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         Clear(NoOfDays);
         if Employee.Get(EmpNo) then;
         NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
-        calculateAmountFromAllowanceConfiguration(AllowanceType, EmpNo, NoOfDays, Amount, Ishandled);
+        calculateAmountFromAllowanceConfiguration(AllowanceType, EmpNo, FromDate, Amount, Ishandled);
         if Ishandled then
             exit(Amount);
         if not Ishandled then begin
@@ -782,9 +782,10 @@ codeunit 50022 "Allowance Assignment Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure calculateAmountFromAllowanceConfiguration(AllowanceType: Code[20]; Employee: Code[20]; NoOfDays: Decimal; var Amount: Decimal; var IsHandeled: Boolean)
+    procedure calculateAmountFromAllowanceConfiguration(AllowanceType: Code[20]; Employee: Code[20]; FromDate: Date; var Amount: Decimal; var IsHandeled: Boolean)
     begin
     end;
+
     procedure OnBeforeOpenAllowanceAssignmentClaim(EmployeeNo: Code[20])
     begin
     end;

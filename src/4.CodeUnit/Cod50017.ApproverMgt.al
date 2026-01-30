@@ -80,7 +80,8 @@ codeunit 50017 "Approver Mgt"
                                  ApprovalStatus,
                                  EmployeeNo,
                                  Enum::"Loan Type"::" ",
-                                 false
+                                 false,
+                                 ApprovalSetupLine
                              );
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -161,7 +162,8 @@ codeunit 50017 "Approver Mgt"
                              Enum::"Approval Status"::" ",
                              EmployeeNo,
                              LoanType,
-                             false
+                             false,
+                             ApprovalSetupLine
                          );
                         ApprovalEntryCount -= 1;
                     until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -242,7 +244,8 @@ codeunit 50017 "Approver Mgt"
                              Enum::"Approval Status"::" ",
                              EmployeeNo,
                              Enum::"Loan Type"::" ",
-                             Cancelled
+                             Cancelled,
+                             ApprovalSetUpLine
                          );
                         ApprovalEntryCount -= 1;
                     until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -1444,7 +1447,8 @@ codeunit 50017 "Approver Mgt"
                         ApprovalStatus: Enum "Approval Status";
                         EmployeeNo: Code[20];
                         LoanType: Enum "Loan Type";
-                        Cancelled: Boolean
+                        Cancelled: Boolean;
+                        ApprovalSetUpLine: Record "Approval Setup Line"
     ): Integer
     var
         Approval: Record "Approval HRMS";
@@ -1471,6 +1475,7 @@ codeunit 50017 "Approver Mgt"
         end else
             Approval.Validate("Approval Status", "Approval Status"::Created);  //if sequence > 1
         Approval.Validate("Employee No", EmployeeNo);
+        Approval.Validate("Alternative Approval Workflow", ApprovalSetUpLine."Alternative Approval Workflow");
         Approval.Insert(true);
         //to identify sequence 1 approver exist.
         if ApprovalSequence = 1 then
@@ -1560,7 +1565,8 @@ codeunit 50017 "Approver Mgt"
                                  ApprovalStatus,
                                  EmployeeNo,
                                  Enum::"Loan Type"::" ",
-                                 false
+                                 false,
+                                 ApprovalSetupLine
                              );
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);

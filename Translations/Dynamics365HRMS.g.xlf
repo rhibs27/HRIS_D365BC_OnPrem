@@ -828,6 +828,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1520874541 - Field 2314880485 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternative Approval Workflow</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Alternative Approval Workflow - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1520874541 - Field 1946267045 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Role</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -947,6 +952,11 @@
           <source>Approval Setup Line</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup Line - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4218880442 - Field 2314880485 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternative Approval Workflow</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup Line - Field Alternative Approval Workflow - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4218880442 - Field 1946267045 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Role</source>
@@ -61107,6 +61117,16 @@
           <source>OutofExpense</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Type - EnumValue OutofExpense - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2314880485 - EnumValue 3358722206 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternative Approver</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Alternative Approval Workflow - EnumValue Alternative Approver - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2314880485 - EnumValue 1197819547 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Primary Approver</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Alternative Approval Workflow - EnumValue Primary Approver - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 657465377 - EnumValue 1526709447 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Default Periods</source>
