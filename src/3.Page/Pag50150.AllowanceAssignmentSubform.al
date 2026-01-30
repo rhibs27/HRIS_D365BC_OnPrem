@@ -35,12 +35,12 @@ page 50150 "Allowance Assignment Subform"
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
+                    Editable = not AllowanceClaim;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
-                    Editable = not AllowanceClaim;
                 }
                 field("From Date"; Rec."From Date")
                 {
@@ -216,6 +216,21 @@ page 50150 "Allowance Assignment Subform"
                     end;
                     rec.Modify();
                     Message('Substitute Allowance is Rejected');
+                end;
+            }
+            action("Get AllowanceClaim Line")
+            {
+                Image = Insert;
+                ToolTip = 'Executes the Substitute action.';
+                ApplicationArea = All;
+                Visible = DocumentOpen and AllowanceClaim;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want to Get AllowanceClaim from Allowance Assignment request?', false) then
+                        exit;
+                    AllowanceHeader.Get(Rec."No.");
+                    AllowanceAssignmentMgt.CheckAllowanceApproved(AllowanceHeader);
+                    AllowanceAssignmentMgt.GetAllowanceClaimLine(Rec."No.");
                 end;
             }
             // action("Reject ALlowance Claim")

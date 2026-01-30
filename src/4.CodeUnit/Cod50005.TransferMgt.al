@@ -525,6 +525,7 @@ codeunit 50005 "Transfer Mgt."
     procedure TakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
     var
         UserSetup: Record "User Setup";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField(Handover, true);
@@ -532,6 +533,10 @@ codeunit 50005 "Transfer Mgt."
         if (EmpHrTransfer."Outgoing Branch Rep. Person" <> HRMgt.GetEmployeeNo) and (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> HRMgt.GetEmployeeNo) then
             if not UserSetup."Is Admin" then
                 Error('You are not Eligible');
+
+        //check handover attachment exists before takeover. will once testing done
+        // if not AttachmentMgt.CheckIfAttachmentExistsAsPerTheSetup(Enum::"Attachment Setup Type"::"Employee Transfer", Enum::"Attachment Setup SubType"::Handover, EmpHrTransfer."No.") then
+        //     Error('mandatory attachment is missing for takeover');
 
         EmpHrTransfer.Validate(Takeover, true);
         EmpHrTransfer.Modify();

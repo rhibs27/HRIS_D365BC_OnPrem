@@ -184,7 +184,7 @@ codeunit 50008 "Payroll Engine"
                          "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");
         //Check Employee Status
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
+        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         TaxSetupHeader.Get(Employee."Tax Code");
@@ -311,9 +311,6 @@ codeunit 50008 "Payroll Engine"
         else
             MedicalReimbursmentTaxBenefit := MedicalReimbursmentLimit2;
 
-        //Calculation for TaxAtOnce attribute payroll
-        CalculateTaxAtOnce;
-
         if PayrollHeader."Gross Payment" then begin
             PopulateGlobalAmounts;
             PayrollLine."Net Pay" := TaxAtOnceCurrentEarning - AddTaxOnInterestAllowance(Employee."No.", PayrollHeader."No.") - TaxAtOnceCurrentDeduction;
@@ -325,6 +322,9 @@ codeunit 50008 "Payroll Engine"
             TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit
         else
             TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit - FLRecovery - InsuranceRecovery;
+
+        //Calculation for TaxAtOnce attribute payroll
+        CalculateTaxAtOnce;
 
         if Employee.Disabled then begin
             TaxSetupLine.Reset;
@@ -440,7 +440,7 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end;
-        //PayrollLine.RoundAmount(SocialSecurityTaxAmount);
+        PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
@@ -569,8 +569,12 @@ codeunit 50008 "Payroll Engine"
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
                         (PayrollAttributes."Non-Taxable" = false) and (not PayrollAttributes."Tax at once")
                        then begin
-                        if PayrollAttributesUsage.Amount <> 0 then
-                            UsageAmount := PayrollAttributesUsage.Amount
+                        if PayrollAttributesUsage.Amount <> 0 then begin
+                            if (PayrollAttributes.Formula <> '') and (not PayrollAttributesUsage."Static Amount") then
+                                UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false)
+                            else
+                                UsageAmount := PayrollAttributesUsage.Amount;
+                        end
                         else if PayrollAttributesUsage."Formula Exists" then begin
                             UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false);
                         end;
@@ -828,7 +832,7 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         if PayrollAttributesUsage.FindFirst then begin
-            PayrollAttributesUsage.TestField(Amount);
+            // PayrollAttributesUsage.TestField(Amount);
             BasicAmount := PayrollAttributesUsage.Amount;
         end;
 
@@ -2165,6 +2169,8 @@ codeunit 50008 "Payroll Engine"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
     begin
+        if ExpiryDate < PGSetup."Payroll Fiscal Year Start Date" then//For Employee Resign in Previous FY
+            exit(0);
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         PayCyclePeriod.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
@@ -3718,7 +3724,7 @@ codeunit 50008 "Payroll Engine"
         if PayrollAttributes.FindFirst() then
             exit(PayrollAttributes.Code)
         else
-            Error('Payroll Attribute for Overtime not found');
+            Error('Payroll Attribute not found For %1 Subtype', PayrollSubtype);
         OnAfterReverseChangeGBBLRecord(PostedPayrollHeader);
     end;
 

@@ -78,6 +78,7 @@ codeunit 50004 "Travel Mgt."
         Employee: Record Employee;
         TravelRequest1: Record "Travel Request";
         IsHandled: Boolean;
+        IsHandledUserID: Boolean;
     begin
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
@@ -159,7 +160,9 @@ codeunit 50004 "Travel Mgt."
             if TravelReq."Advance Cash" > 0 then
                 TravelReq."Advance Cash Required" := true;
         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
-        TravelReq.Validate("User ID", UserId);
+        OnBeforeValidatingUserID(TravelReq, IsHandledUserID);
+        if not IsHandledUserID then
+            TravelReq.Validate("User ID", UserId);
         if TravelReq."Advance Cash" > TravelReq."Total Estimated Cost" then
             Error('Advance cash amount cannot be greater than Total Estimated Cost');
         TravelReq.Modify();
@@ -1022,6 +1025,11 @@ codeunit 50004 "Travel Mgt."
 
     [IntegrationEvent(false, false)]
     procedure WithOutHigherSalaryLevel(Var TravelRequest: Record "Travel Request"; var SalaryLevel: Record "Salary Level"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidatingUserID(var TravelReq: Record "Travel Request"; var IsHandledUserID: Boolean)
     begin
     end;
 }

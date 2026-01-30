@@ -80,6 +80,19 @@ report 50023 "Employee Master"
                 column(Code_PayrollAttributesUsage; Code) { }
                 column(Description_PayrollAttributesUsage; Description) { }
                 column(Amount_PayrollAttributesUsage; Amount) { }
+                trigger OnAfterGetRecord()
+                var
+                    PayrollAttributes: Record "Payroll Attributes";
+                    PayrollReportMgt: Codeunit "Payroll Report Mgt.";
+                    BasicAmt: Decimal;
+                begin
+                    PayrollAttributes.Get(Code);
+                    if PayrollAttributes.Formula <> '' then begin
+                        PayrollReportMgt.SetEmployeeCode(Employee."No.");
+                        BasicAmt := PayrollReportMgt.GetBasicAmount(Employee."No.");
+                        Amount := PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, BasicAmt);
+                    end;
+                end;
             }
             trigger OnAfterGetRecord()
             var
@@ -135,6 +148,13 @@ report 50023 "Employee Master"
 
             trigger OnPreDataItem()
             begin
+                if EmploymentTypeFilter <> EmploymentTypeFilter::" " then
+                    Employee.SetRange("Employment Type", EmploymentTypeFilter);
+                Employee.SetRange("Status", EmployeeStatusFilter); // Default to Active if not passed
+                if BranchCodeFilter <> '' then
+                    Employee.SetRange("Branch Code", BranchCodeFilter);
+                if EmployeeFulter <> '' then
+                    Employee.SetRange("No.", EmployeeFulter);
                 Employee.SetCurrentKey(Seniority);
                 Employee.Ascending(false);
             end;
@@ -156,7 +176,8 @@ report 50023 "Employee Master"
     }
     trigger OnPreReport()
     begin
-        FilterApplied := Employee.GetFilters();
+        if GuiAllowed then
+            FilterApplied := Employee.GetFilters();
     end;
 
     var
@@ -167,4 +188,17 @@ report 50023 "Employee Master"
         LastGPA: Decimal;
         AdditionalBankAccountNo: Text[50];
         FilterApplied: Text[100];
+
+        EmploymentTypeFilter: Enum "Employee Type";
+        BranchCodeFilter, EmployeeFulter : code[20];
+        EmployeeStatusFilter: Enum "Employee Status";
+
+
+    procedure PassParPortal(EmploymentType: Enum "Employee Type"; EmployeeStatus: Enum "Employee Status"; BranchCode: Code[20]; EmployeeNo: Code[20])
+    begin
+        EmploymentTypeFilter := EmploymentType;
+        EmployeeStatusFilter := EmployeeStatus;
+        BranchCodeFilter := BranchCode;
+        EmployeeFulter := EmployeeNo;
+    end;
 }

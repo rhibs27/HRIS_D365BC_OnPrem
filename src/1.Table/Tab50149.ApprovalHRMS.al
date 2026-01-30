@@ -83,6 +83,14 @@ table 50149 "Approval HRMS"
         {
             DataClassification = ToBeClassified;
         }
+        field(14; "Approved By Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;  //for filter application
+        }
+        field(15; "Rejected By Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -101,7 +109,7 @@ table 50149 "Approval HRMS"
         EmployeeEdit: Record "Employee Edit";
         MissedAttendance: Record "Attendance Missed";
         Travel: Record "Travel Request";
-        Transfer : Record "Employee Transfer";
+        Transfer: Record "Employee Transfer";
         OT: Record OverTime;
         RetirementFund: Record "Retirement Fund";
         AllowanceAssignment: Record "Allowance Assignment Header";

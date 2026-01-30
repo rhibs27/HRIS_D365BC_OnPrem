@@ -145,6 +145,13 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            trigger OnValidate()
+            begin
+                if Percentage < 0 then
+                    Error('Percentage cannot be negative');
+                if Percentage > 100 then
+                    Error('Percentage cannot be greater than 100');
+            end;
         }
         field(27; Stream; Text[30])
         {
@@ -453,6 +460,10 @@ table 50074 "Employee Edit"
         field(82; "Claimed Type Effective Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                CheckIfAllowFutureClaimRequest("Claimed Type Effective Date");
+            end;
         }
         field(83; "Claim Type Effective Month"; Enum "Nepali Month")
         {
@@ -586,7 +597,7 @@ table 50074 "Employee Edit"
                     end;
             end;
 
-        // CheckIfWithinAllowancePeriod();
+        CheckIfWithinAllowancePeriod();
         if not GuiAllowed then
             CheckForVehicleInfoUpdate(Rec);
     end;
@@ -697,5 +708,29 @@ table 50074 "Employee Edit"
         AssignmentMemoHeader.SetRange("Approval Status", AssignmentMemoHeader."Approval Status"::Pending);
         if not AssignmentMemoHeader.IsEmpty() then
             Error('There is a pending reimbursement request for this employee under the selected Claim Type. Please resolve it before creating a new Vehicle Info Update request.');
+    end;
+
+    procedure CheckIfAllowFutureClaimRequest(Pdate: Date)
+    var
+        PGSetup: Record "Payroll General Setup";
+        PayCyclePeriod: Record "Pay Cycle Period";
+    begin
+        if Pdate = 0D then
+            exit;
+
+        if "Changes In Employee Type" <> "Changes In Employee Type"::"Vehicle Info Update" then
+            exit;
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', WorkDate());
+        PayCyclePeriod.SetFilter("End Date", '>=%1', WorkDate());
+        PayCyclePeriod.FindFirst();
+
+        PGSetup.Get();
+        if ((not PGSetup."Allow Future Allowance Request") and
+            (Pdate > PayCyclePeriod."End Date")) then begin
+            if "Claim Type Effective Month" <> "Claim Type Effective Month"::" " then
+                Error('Claim Type Effective Month cannot be future month')
+            else
+                Error('Claimed Type Effective Date cannot be a future date');
+        end;
     end;
 }

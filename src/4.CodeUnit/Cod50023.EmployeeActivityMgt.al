@@ -316,6 +316,7 @@ codeunit 50023 EmployeeActivityMgt
                 repeat
                     ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                     ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                    ApprovalHRMS.Validate("Rejected By Code", HRMgt.GetEmployeeNo());
                     ApprovalHRMS.Modify();
                 until ApprovalHRMS.Next() = 0;
         end;
@@ -517,7 +518,7 @@ codeunit 50023 EmployeeActivityMgt
                 Promotion.Validate("Promoted Salary level", PromotionEmployeeJournal."Promoted Salary level");
                 Promotion.Validate("Promoted Salary Grade", PromotionEmployeeJournal."Promoted Salary Grade");
                 Promotion.Validate("Promoted Staff Level", PromotionEmployeeJournal."Promoted Staff Level");
-                Promotion.Validate("Promotion Date", PostedPromotionJournal."Promotion Date");
+                Promotion.Validate("Promotion Date", PromotionEmployeeJournal."Promotion Date");
                 Promotion.Validate("Approval Status", PromotionEmployeeJournal."Approval Status"::Approved);
                 Promotion.Validate("Approved Date", Today);
                 Promotion.Validate(Type, PromotionEmployeeJournal.Type::Promotion);

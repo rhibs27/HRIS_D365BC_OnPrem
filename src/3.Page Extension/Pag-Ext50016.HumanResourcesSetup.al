@@ -223,6 +223,16 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Calculate Age using Nepali Calender field.', Comment = '%';
             }
+            field("Validate Permanent Address"; Rec."Validate Permanent Address")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Validate Permanent Address field. If set to true, the system will validate the permanent address as per the province, district and muncipality master.', Comment = '%';
+            }
+            field("Validate Temporary Address"; Rec."Validate Temporary Address")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Validate Temporary Address field. If set to true, the system will validate the temporary address as per the province, district and muncipality master.', Comment = '%';
+            }
         }
         addafter(Numbering)
         {

@@ -1304,19 +1304,25 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Allowanceconfig: Record "Assignment Memo Header";
                         AllowanceType: Code[20];
                         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                        NepaliMonth: Enum "Nepali Month";
                     begin
                         FilterPageBuilder.AddRecord('Select Allowance Type', Allowanceconfig);
                         FilterPageBuilder.ADdField('Select Allowance Type', Allowanceconfig."Payroll Attribute Code");
+                        FilterPageBuilder.AddField('Select Allowance Type', Allowanceconfig."Nepali Month");
                         if FilterPageBuilder.RunModal then begin
                             Allowanceconfig.SetView(FilterPageBuilder.GetView('Select Allowance Type'));
-                            if Allowanceconfig.GetFilter("Payroll Attribute Code") = '' then
-                                Error('Allowance Type must have value');
                             AllowanceType := Allowanceconfig.GetFilter("Payroll Attribute Code");
+                            Evaluate(NepaliMonth, Allowanceconfig.GetFilter("Nepali Month"));
+
+                            if AllowanceType = '' then
+                                Error('Allowance Type must have value');
+                            if NepaliMonth = NepaliMonth::" " then
+                                Error('Nepali Month must have value');
                         end else
                             if AllowanceType = '' then
                                 Error('Allowance Type must have value');
 
-                        AssignmentMemoMgt.OpenAllowance(Rec."No.", AllowanceType);
+                        AssignmentMemoMgt.OpenAllowance(Rec."No.", AllowanceType, NepaliMonth);
                     end;
                 }
                 action("Allowance Assignment Memo")

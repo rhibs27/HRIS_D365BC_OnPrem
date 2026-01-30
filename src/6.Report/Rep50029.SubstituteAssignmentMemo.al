@@ -13,14 +13,17 @@ report 50029 "Substitute Assignment Memo"
                     Caption = 'Filter Criteria';
                     field("From Date"; FromDate)
                     {
+                        ApplicationArea = All;
                         Caption = 'From Date';
                     }
                     field("To Date"; ToDate)
                     {
+                        ApplicationArea = All;
                         Caption = 'To Date';
                     }
                     field(EmployeeNo; EmployeeNo)
                     {
+                        ApplicationArea = All;
                         Caption = 'Employee No.';
                         trigger OnLookup(var Text: Text): Boolean
                         var
@@ -67,5 +70,14 @@ report 50029 "Substitute Assignment Memo"
     begin
         AssignmentMemoLine := AMemoLine;
         AssignmentmemoHdr.Get(AMemoLine."Document No.");
+    end;
+
+    procedure SetParamenterFromPortal(AMemoLine: Record "Assignment Memo Line"; FromDatePara: Date; ToDatePara: Date; EmpNo: Code[20])
+    begin
+        AssignmentMemoLine := AMemoLine;
+        AssignmentmemoHdr.Get(AMemoLine."Document No.");
+        FromDate := FromDatePara;
+        ToDate := ToDatePara;
+        EmployeeNo := EmpNo;
     end;
 }

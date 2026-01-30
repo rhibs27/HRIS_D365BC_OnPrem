@@ -55,7 +55,7 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary): Code[20]
     var
-        AttendanceMissed1 : Record "Attendance Missed";
+        AttendanceMissed1: Record "Attendance Missed";
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then

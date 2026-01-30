@@ -22,7 +22,7 @@ report 50152 "ETDS Voucher"
             {
                 DataItemLink = "Document No." = field("No.");
                 column(Document_No_; "Document No.") { }
-                column(SST; SSTField) { }
+                column(SST; ROUND(SSTField, GlSetup."Amount Rounding Precision")) { }
                 column(EmployeeNo; "Employee No.") { }
                 column(EmployeeName; "Employee Name") { }
                 column(PanNo; "Pan No.") { }
@@ -40,6 +40,7 @@ report 50152 "ETDS Voucher"
             dataitem(PostedPayrollLine2; "Posted Payroll Line")
             {
                 DataItemLink = "Document No." = field("No.");
+                DataItemTableView = where(Reversed = const(false));
                 column(Document_No_2; "Document No.") { }
                 column(RIT; ROUND(RITField, GlSetup."Amount Rounding Precision")) { }
                 column(EmployeeNo2; "Employee No.") { }
