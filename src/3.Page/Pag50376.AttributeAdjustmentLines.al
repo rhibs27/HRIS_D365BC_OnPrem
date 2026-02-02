@@ -87,6 +87,30 @@ page 50376 "Attribute Adjustment Lines"
             // }
         }
     }
+    procedure AttributeFilter(AttributeCode: Code[20])
+    begin
+        Rec.SetRange("Attribute Code", AttributeCode);
+        CurrPage.Update();
+    end;
+
+    procedure EmployeeFilter(Employee: Code[20])
+    begin
+        Rec.SetRange("Employee No.", Employee);
+        CurrPage.Update();
+    end;
+
+    procedure ClearEmployeeFilter()
+    begin
+        Rec.SetRange("Employee No.");
+        CurrPage.Update();
+    end;
+
+    procedure ClearAttributeCodeFilter()
+    begin
+        Rec.SetRange("Attribute Code");
+        CurrPage.Update();
+    end;
+
     var
         AttrAdjMgt: Codeunit "Excel Import";
 }

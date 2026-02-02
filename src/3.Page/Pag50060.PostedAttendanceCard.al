@@ -214,6 +214,23 @@ page 50060 "Posted Attendance Card"
                         //ImportEmployee;
                     end;
                 }
+                action("Generate Deductions")
+                {
+                    Image = CreateLinesFromJob;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the Generate Deductions action.';
+                    ApplicationArea = All;
+                    Visible = Rec.Status = Rec.Status::Released;
+                    trigger OnAction()
+                    var
+                        SalaryDeduction: Codeunit "Salary Deduction Mgt";
+                    begin
+                        SalaryDeduction.GenerateSalaryDeductionEntries(Rec);
+                        Message('Salary Deduction Entries generated successfully for Monthly Attendance No. %1', Rec."No.");
+                    end;
+                }
                 action("View Deductions")
                 {
                     Image = AnalysisView;

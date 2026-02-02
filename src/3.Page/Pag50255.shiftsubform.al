@@ -177,11 +177,17 @@ page 50255 "Shift subform"
                 ApplicationArea = All;
                 Visible = DocumentApproved;
                 trigger OnAction()
+                var
+                    ShiftAssignmentLine: Record "Shift Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                     Rec.Modify();
+                    ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(Rec."Roster Date", Rec."Employee No");
+                    if ShiftAssignmentLine.Get(Rec."No.", Rec."Substitute of Line No.") then begin
+                        ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(ShiftAssignmentLine."Roster Date", ShiftAssignmentLine."Employee No")
+                    end;
                     Message('Substitute Allowance is Approved');
                 end;
             }
@@ -193,17 +199,17 @@ page 50255 "Shift subform"
                 Visible = DocumentApproved;
                 trigger OnAction()
                 var
-                    Shiftline1: Record "Shift Line";
+                    ShiftLine: Record "Shift Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
-                    if Shiftline1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
-                        Shiftline1."Substitute Type" := Rec."Substitute Type"::" ";
-                        Shiftline1."Approved Date" := Today;
-                        Shiftline1.Modify();
+                    if ShiftLine.Get(Rec."No.", Rec."Substitute of Line No.") then begin
+                        ShiftLine."Substitute Type" := Rec."Substitute Type"::" ";
+                        ShiftLine."Approved Date" := Today;
+                        ShiftLine.Modify();
                     end;
-                    rec.Modify();
+                    Rec.Modify();
                     Message('Substituted shift is Rejected');
                 end;
             }

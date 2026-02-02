@@ -211,6 +211,7 @@ table 50042 "Attendance Header"
     var
         NoSeriesCodeunit: Codeunit "No. Series";
         HrMgt: Codeunit "HR Mgt.";
+        SalaryDeductionMgt: Codeunit "Salary Deduction Mgt";
         AttendanceSetup: Record "Attendance Setup";
         AttendanceSummary: Record "Attendance Summary";
         UserMgt: Codeunit "User Setup Management";
@@ -334,6 +335,7 @@ table 50042 "Attendance Header"
         "Posting Date" := Today;
         Modify;
 
+        SalaryDeductionMgt.CheckAbsentEntriesBeforePosting(Rec);
         SalaryDeductionEntry.Reset();
         SalaryDeductionEntry.SetRange("Attendance Document No", "No.");
         SalaryDeductionEntry.ModifyAll("Attendance Posted", true);

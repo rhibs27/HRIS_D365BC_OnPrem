@@ -70,11 +70,15 @@ codeunit 50032 "Attribute Adjustment Mgt"
 
     procedure UpdatePayrollAttributesInAttributeAdjustmentLine(AttributeAdjustmentHeader: Record "Attribute Adjustment Header")
     var
-        AttributeAdjustmentLine, NewAttributeAdjustmentLine : Record "Attribute Adjustment Line";
+        AttributeAdjustmentLine, NewAttributeAdjustmentLine, NewAttributeAdjustmentLine1 : Record "Attribute Adjustment Line";
         TempEmployee: Record Employee temporary;
         PayCyclePeriod: Record "Pay Cycle Period";
         PayrollAttribUsage: Record "Payroll Attributes Usage";
+        PayrollAttributes: Record "Payroll Attributes";
+        TempPayrollAttributes: Record "Payroll Attributes" temporary;
         Formula: Code[100];
+        EffectiveStartDate: Date;
+        EffectiveEndDate: Date;
     begin
         AttributeAdjustmentLine.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
         if AttributeAdjustmentLine.FindSet() then
@@ -101,6 +105,47 @@ codeunit 50032 "Attribute Adjustment Mgt"
         TempEmployee.Reset();
         TempEmployee.FindSet();
         repeat
+            Clear(EffectiveEndDate);
+            Clear(EffectiveStartDate);
+            NewAttributeAdjustmentLine1.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
+            NewAttributeAdjustmentLine1.SetRange("Employee No.", TempEmployee."No.");
+            if NewAttributeAdjustmentLine1.FindSet() then
+                repeat
+                    TempPayrollAttributes.Code := NewAttributeAdjustmentLine1."Attribute Code";
+                    TempPayrollAttributes."Formula Column ID" := GetColumnID(NewAttributeAdjustmentLine1."Attribute Code");
+                    EffectiveStartDate := NewAttributeAdjustmentLine1."Effective Start Date";
+                    EffectiveEndDate := NewAttributeAdjustmentLine1."Effective End Date";
+                    if TempPayrollAttributes."Formula Column ID" <> '' then
+                        TempPayrollAttributes.Insert();
+                until NewAttributeAdjustmentLine1.Next() = 0;
+
+            if TempPayrollAttributes.FindSet() then
+                repeat
+                    PayrollAttributes.SetRange("Formula Column ID", TempPayrollAttributes."Formula Column ID");
+                    if PayrollAttributes.FindSet() then
+                        repeat
+                            NewAttributeAdjustmentLine1.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
+                            NewAttributeAdjustmentLine1.SetRange("Employee No.", TempEmployee."No.");
+                            NewAttributeAdjustmentLine1.SetRange("Attribute Code", PayrollAttributes.Code);
+                            if not NewAttributeAdjustmentLine1.FindFirst() then begin
+                                NewAttributeAdjustmentLine1.Init();
+                                NewAttributeAdjustmentLine1."Document No." := AttributeAdjustmentHeader."Document No.";
+                                NewAttributeAdjustmentLine1."Line No." := GetLineNo(AttributeAdjustmentHeader."Document No.");
+                                NewAttributeAdjustmentLine1.Validate("Employee No.", TempEmployee."No.");
+                                NewAttributeAdjustmentLine1."Adjustment Type" := AttributeAdjustmentHeader."Adjustment Type";
+                                NewAttributeAdjustmentLine1."Attribute Code" := PayrollAttributes.Code;
+                                NewAttributeAdjustmentLine1."New Amount" := GetPayrollAttributeUsageAmount(PayrollAttributes.Code, TempEmployee."No.");
+                                NewAttributeAdjustmentLine1."Old Amount" := NewAttributeAdjustmentLine1."New Amount";
+                                NewAttributeAdjustmentLine1."Formula Column Id Exists" := true;
+                                NewAttributeAdjustmentLine1."Effective Start Date" := EffectiveStartDate;
+                                NewAttributeAdjustmentLine1."Effective End Date" := EffectiveEndDate;
+                                NewAttributeAdjustmentLine1.Insert();
+                            end;
+                        until PayrollAttributes.Next() = 0;
+                until TempPayrollAttributes.Next() = 0;
+
+            TempPayrollAttributes.DeleteAll();
+
             PayrollAttribUsage.SetRange("Formula Exists", true);
             PayrollAttribUsage.SetRange("Employee Code", TempEmployee."No.");
             if PayrollAttribUsage.FindSet() then
@@ -121,9 +166,24 @@ codeunit 50032 "Attribute Adjustment Mgt"
                     if NewAttributeAdjustmentLine."Old Amount" <> 0 then
                         NewAttributeAdjustmentLine.Insert();
                 until PayrollAttribUsage.Next() = 0;
+
+            NewAttributeAdjustmentLine1.Reset();
+            NewAttributeAdjustmentLine1.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
+            NewAttributeAdjustmentLine1.SetRange("Employee No.", TempEmployee."No.");
+            NewAttributeAdjustmentLine1.SetRange("Formula Column Id Exists", true);
+            NewAttributeAdjustmentLine1.DeleteAll();
         until TempEmployee.Next() = 0;
 
         TempEmployee.DeleteAll();
+    end;
+
+    local procedure GetColumnID(AttributeCode: Code[20]): Code[100]
+    var
+        PayrollAttributes: Record "Payroll Attributes";
+    begin
+        PayrollAttributes.SetLoadFields("Formula Column ID");
+        if PayrollAttributes.Get(AttributeCode) then
+            exit(PayrollAttributes."Formula Column ID");
     end;
 
     procedure GetPayrollAttributeFormula(AttributeCode: Code[20]): Code[100]
@@ -133,6 +193,15 @@ codeunit 50032 "Attribute Adjustment Mgt"
         PayrollAttributes.SetLoadFields(Code, Formula);
         PayrollAttributes.Get(AttributeCode);
         exit(PayrollAttributes.Formula);
+    end;
+
+    procedure GetPayrollAttributeUsageAmount(AttributeCode: Code[20]; EmpCode: Code[20]): Decimal
+    var
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+    begin
+        PayrollAttributesUsage.SetLoadFields("Code", "Amount");
+        if PayrollAttributesUsage.Get(AttributeCode, EmpCode) then
+            exit(PayrollAttributesUsage."Amount");
     end;
 
     local procedure GetLineNo(DocumentNo: Code[20]): Integer
@@ -340,5 +409,40 @@ codeunit 50032 "Attribute Adjustment Mgt"
         if (Opt = '+') or (Opt = '-') then
             exit(1);
         exit(0);
+    end;
+
+    procedure ImportEmployeeAsPerServiceEvent(DocumentNo: Code[20]; AdjustmentType: Enum "Employee Activity Type"; AttributeCode: Code[20]; FromDate: Date; ToDate: Date)
+    var
+        ServiceHistory: Record "Employee Service History";
+        AttributeAdjLine: Record "Attribute Adjustment Line";
+    begin
+        ServiceHistory.Reset();
+        ServiceHistory.SetLoadFields();
+        ServiceHistory.SetFilter("Service Event", Format(AdjustmentType));
+        ServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+        if ServiceHistory.FindSet() then
+            repeat
+                AttributeAdjLine.Reset();
+                AttributeAdjLine.SetRange("Document No.", DocumentNo);
+                AttributeAdjLine.SetRange("Employee No.", ServiceHistory."Employee No.");
+                AttributeAdjLine.SetRange("Attribute Code", AttributeCode);
+                if not AttributeAdjLine.FindFirst() then begin
+                    AttributeAdjLine.Init();
+                    AttributeAdjLine."Document No." := DocumentNo;
+                    AttributeAdjLine."Line No." := GetLineNo(DocumentNo);
+                    AttributeAdjLine.Validate("Employee No.", ServiceHistory."Employee No.");
+                    AttributeAdjLine.Validate("Employee Name", ServiceHistory."Employee Name");
+                    AttributeAdjLine.Validate("Adjustment Type", AdjustmentType);
+                    AttributeAdjLine.Validate("Attribute Code", AttributeCode);
+                    AttributeAdjLine.Validate("Effective Start Date", ServiceHistory."Effective Date");
+                    AttributeAdjLine.Insert();
+                end;
+            until ServiceHistory.Next() = 0;
+        if AdjustmentType = AdjustmentType::Promotion then
+            Message('Promoted Employees added for selected month.')
+        else if AdjustmentType = AdjustmentType::Confirmation then
+            Message('Confirmed Employees added for selected month.')
+        else if AdjustmentType = AdjustmentType::"Employee Transfer" then
+            Message('Transferred Employees added for selected month.');
     end;
 }
