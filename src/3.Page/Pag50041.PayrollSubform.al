@@ -1770,6 +1770,17 @@ page 50041 "Payroll Subform"
                         until payrollLine.Next() = 0;
                 end;
             }
+            action("Calculate Line Tax")
+            {
+                Image = TaxDetail;
+                ApplicationArea = All;
+                ToolTip = 'Executes the Get Calculate Line Tax action.';
+                trigger OnAction()
+                begin
+                    PayrollHeader.TestField(Status, PayrollHeader.Status::Pending);
+                    Rec.CalculatePayrollLine(PayrollHeader, Rec);
+                end;
+            }
 
             action(Dimensions)
             {
