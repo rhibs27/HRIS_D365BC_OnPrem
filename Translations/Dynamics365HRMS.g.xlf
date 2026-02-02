@@ -55973,6 +55973,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension ChangeLogEntries - NamedType Err001</note>
         </trans-unit>
+        <trans-unit id="PageExtension 591338493 - Action 2891906376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 3469146285">
+          <source>Executes the Delete Employee Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension CompanyInformation - Action Delete Employee Attendance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 591338493 - Action 942594389 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 3469146285">
           <source>Executes the Update KPI action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
