@@ -10,7 +10,7 @@ table 50004 Promotion
             begin
                 if "No." <> xRec."No." then begin
                     HumanResSetup.Get;
-                    NoSeriesMgt.TestManual(HumanResSetup."Appraisal No.");
+                    NoSeriesMgt.TestManual(HumanResSetup."Promotion No.");
                     "No. Series" := '';
                 end;
             end;

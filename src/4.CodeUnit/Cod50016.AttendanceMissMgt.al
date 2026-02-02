@@ -153,6 +153,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         LogDateTime: DateTime;
         MachineEmpNo: Text;
         CheckOutDate: Date;
+        SalaryDeductionMgt: Codeunit "Salary Deduction Mgt";
     begin
         AttendanceMissed.Get(AttendanceMissCode);
         Employee.Get(AttendanceMissed."Employee No.");
@@ -196,6 +197,10 @@ codeunit 50016 "AttendanceMiss Mgt"
                     AttendanceLog.Insert();
                 end;
             end;
+
+            //Reverse Deduction if found when approved.
+            SalaryDeductionMgt.ReverseSalaryLedgerEntry(AttendanceMissed."Employee No.", AttendanceMissed."Start Date");
+
             // Update Daily Attendance
             if AttendanceMgt.DailyAttendanceUpdate(AttendanceMissed."Start Date", AttendanceMissed."Start Date", AttendanceMissed."Employee No.") then begin
                 EmpAttendActivity.SetRange("Attendance Date", AttendanceMissed."Start Date");
