@@ -32,17 +32,22 @@ page 50199 "HR Manager Role Center"
                 Visible = false;
                 ApplicationArea = All;
             }
-            // part(Control32; "Report Inbox Part")
-            // {
-            //     ApplicationArea = All;
-            // }
-            // part(Control32; "bir")
-            // // {
-            //     ApplicationArea = All;
-            // }
-            part(control101; "Biometric Devices ListPart")
+            part(Control32; "Report Inbox Part")
             {
-                ApplicationArea = all;
+                ApplicationArea = All;
+            }
+            part(Control33; "Power BI Embedded Report Part")
+            {
+                ApplicationArea = All;
+            }
+            // part(control101; "Biometric Devices ListPart")
+            // {
+            //     ApplicationArea = all;
+            // }
+            part(DeviceOverview; "Device Overview")
+            {
+                Caption = 'Device Overview';
+                ApplicationArea = All;
             }
         }
     }

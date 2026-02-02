@@ -30,6 +30,9 @@ report 50132 "Payroll Details Yearly"
                     column(PayCycleTerm; PayCycleTerm) { }
                     column(Months; Months) { }
                     column(EmployeeSalaryLevel; EmployeeSalaryLevel) { }
+                    column(Seniority; Seniority) { }
+                    column(EmployeeFunctionalTitle; EmployeeFunctionalTitle) { }
+                    column(EmployeeCurrentBranch; EmployeeCurrentBranch) { }
                     dataitem("Payroll Attributes"; "Payroll Attributes")
                     {
                         column(Amount; Amt) { }
@@ -37,6 +40,9 @@ report 50132 "Payroll Details Yearly"
                         column(PayrollCode; Code) { }
                         column(SortingOrder; "Column Id") { }
                         column(Type_PayrollAttributes; "Payroll Attributes".Type) { }
+                        column(SortingNo; SortingNo) { }
+                        column(AttributeGroupCode; AttributeGroupCode) { }
+                        column(AttributeGroupSortingNo; AttributeGroupSortingNo) { }
 
                         trigger OnAfterGetRecord()
                         begin
@@ -49,6 +55,7 @@ report 50132 "Payroll Details Yearly"
                                 CurrentDeduction := 0;
                             end;
                             FirstTime := false;
+                            SortingNo := 0;
                             RecRefs.Open(Database::"Posted Payroll Line");
                             PayrollColumnConfig.Reset;
                             PayrollColumnConfig.SetRange("Table No.", Database::"Payroll Line");
@@ -62,8 +69,34 @@ report 50132 "Payroll Details Yearly"
                                 FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
                                 Evaluate(Amt, Format(FieldRefs.Value));
                                 Amt := Round(Amt, 0.01, '=');
+                                SortingNo := PayrollColumnConfig."Field No.";
                             end;
                             RecRefs.Close;
+
+                            case Type of
+                                Type::Benefits:
+                                    begin
+                                        AttributeGroupSortingNo := 1;
+                                        AttributeGroupCode := 'Benefits';
+                                    end;
+                                Type::Deduction:
+                                    begin
+                                        AttributeGroupSortingNo := 2;
+                                        AttributeGroupCode := 'Deductions';
+                                        case Subtype of
+                                            Subtype::"Social Security Tax", subtype::"Tax on Remuneration & Benefits":
+                                                begin
+                                                    AttributeGroupSortingNo := 3;
+                                                    AttributeGroupCode := 'TAX';
+                                                end;
+                                        end;
+                                    end;
+                                Type::"Non-Payment":
+                                    begin
+                                        AttributeGroupSortingNo := 4;
+                                        AttributeGroupCode := 'Non-Payment';
+                                    end;
+                            end;
                         end;
 
                         trigger OnPreDataItem()
@@ -73,21 +106,16 @@ report 50132 "Payroll Details Yearly"
                     }
 
                     trigger OnAfterGetRecord()
+                    var
+                        Employee: Record Employee;
                     begin
                         Clear(SalaryLevel);
-                        /*CLEAR(FunctionalTitleVar);
-                        CLEAR(DepartmentVar);*/
-
                         if DepartmentFilter <> '' then begin
                             if not ("Deputation On" in ["Deputation On"::Department, "Deputation On"::Unit]) then
                                 CurrReport.Skip;
                             if "Deputation On" = "Deputation On"::Unit then begin
                                 OrganizationStructureList.Reset;
-                                // EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                                // EmpHie.SetRange(Code, "Deputation Code");
                                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Deputation Code") then
-                                    // if EmpHie.FindFirst then
-                                    // if DepartmentVar.Get(EmpHie."Department Code") then;
                                     if OrganizationStructureList.Code <> DepartmentFilter then
                                         CurrReport.Skip;
                             end;
@@ -96,27 +124,20 @@ report 50132 "Payroll Details Yearly"
                                     CurrReport.Skip;
                             end;
                         end;
-                        // Clear(DepartmentVar);
-
-                        /*IF SalaryLevel.GET("Posted Payroll Line"."Salary Level") THEN;
-                        IF FunctionalTitleVar.GET("Posted Payroll Line"."Functional Title") THEN;
-
-                        IF "Deputation On" = "Deputation On"::Department THEN
-                          IF DepartmentVar.GET("Deputation Code") THEN;
-
-                        IF "Deputation On" = "Deputation On"::Unit THEN begin
-                          EmpHie.Reset();
-                          EmpHie.SetRange(Type,EmpHie.Type::Unit);
-                          EmpHie.SetRange(Code,"Deputation Code");
-                          IF EmpHie.FindFirst() THEN
-                            IF DepartmentVar.GET(EmpHie."Department Code") THEN;
-                        end;*/
                         Clear(NetPay);
                         Clear(CurrentDeduction);
                         FirstTime := true;
                         if Employee.Get("Posted Payroll Line"."Employee No.") then begin
                             EmployeeSalaryLevel := Employee."Salary Level";
+                            EmployeeFunctionalTitle := Employee."Functional Title Desc";
+                            EmployeeCurrentBranch := Employee."Branch Name";
                         end;
+
+                        Seniority := 0;
+                        Clear(Employee);
+                        Employee.Get("Posted Payroll Line"."Employee No.");
+                        Seniority := Employee.Seniority;
+
                     end;
 
                     trigger OnPreDataItem()
@@ -137,8 +158,6 @@ report 50132 "Payroll Details Yearly"
 
             trigger OnAfterGetRecord()
             begin
-                /*IF Months = Months::" " THEN
-                  ERROR('Please select a month.');*/
                 if PayCycleTerm = '' then
                     Error('Please select a pay cycle term.');
             end;
@@ -195,10 +214,7 @@ report 50132 "Payroll Details Yearly"
             }
         }
 
-        actions { }
     }
-
-    labels { }
 
     var
         SalaryLevel: Record "Salary Level";
@@ -206,8 +222,6 @@ report 50132 "Payroll Details Yearly"
         FieldRefs: FieldRef;
         PayrollColumnConfig: Record "Payroll Column Configuration";
         Amt: Decimal;
-        // DepartmentVar: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
         OrganizationStructureList: Record "Organization Structure List";
         DepartmentFilter: Text;
         SalaryLevelFilter: Text;
@@ -221,4 +235,8 @@ report 50132 "Payroll Details Yearly"
         FirstTime: Boolean;
         EmployeeSalaryLevel: Code[20];
         PayrollAttributeFilter: Code[20];
+        SortingNo: Integer;
+        Seniority: Integer;
+        AttributeGroupCode, EmployeeFunctionalTitle, EmployeeCurrentBranch : Text;
+        AttributeGroupSortingNo: Integer;
 }

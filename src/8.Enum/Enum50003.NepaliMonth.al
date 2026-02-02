@@ -44,7 +44,7 @@ enum 50003 "Nepali Month"
     }
     value(10; Margh)
     {
-        Caption = 'Margh';
+        Caption = 'Magh';
     }
     value(11; Falgun)
     {

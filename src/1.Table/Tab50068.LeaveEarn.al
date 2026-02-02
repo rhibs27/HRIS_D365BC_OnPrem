@@ -102,7 +102,21 @@ table 50068 "Leave Earn"
             Editable = false;
             DataClassification = CustomerContent;
         }
-        field(22; "Nepali year"; Integer)
+        field(22; Claimed; Boolean)
+        {
+            Caption = 'Claimed';
+            DataClassification = ToBeClassified;
+            Description = 'Indicates whether the leave has been claimed or not through request allowance.';
+            //request allownance
+        }
+        field(23; "Claimed Document No."; Code[20])
+        {
+            Caption = 'Claimed Document No.';
+            DataClassification = ToBeClassified;
+            Description = 'Specifies the document number through which the leave has been claimed.';
+            //request allownance
+        }
+        field(24; "Nepali year"; Integer)
         {
             Caption = 'Nepali year';
             Editable = false;
