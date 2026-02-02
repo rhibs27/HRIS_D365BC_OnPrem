@@ -43,6 +43,8 @@ report 50067 "Process Daily Attendance"
                 begin
                     if Employee."Employment Date" > Date."Period Start" then
                         CurrReport.Skip();
+                    if Date."Period Start" > Today then
+                        CurrReport.Skip();
                     InitEmpAttendance();
                 end;
             }
