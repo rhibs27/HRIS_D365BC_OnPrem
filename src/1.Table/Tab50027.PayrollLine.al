@@ -2849,15 +2849,16 @@ table 50027 "Payroll Line"
     var
         AttrUsageHistory: Record "Attributes Usage History";
     begin
-        PayCyclePeriod.Reset();
-        PayCyclePeriod.SetRange("Start Date", AttrUsageHistory."Start Date");
-        if PayCyclePeriod.FindFirst() then
-            exit;
+        AttrUsageHistory.Reset();
         AttrUsageHistory.SetRange("Employee No.", EmpCode);
         AttrUsageHistory.SetRange("Attribute Code", AttrCode);
         AttrUsageHistory.SetRange(Reversed, false);
         AttrUsageHistory.SetFilter("Start Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         if AttrUsageHistory.FindFirst() then begin
+            PayCyclePeriod.Reset();
+            PayCyclePeriod.SetRange("Start Date", AttrUsageHistory."Start Date");
+            if PayCyclePeriod.FindFirst() then
+                exit;
             ProRatedAmount := AttrUsageHistory."Old Amount" + GetDifferentialAmount(AttrUsageHistory."New Amount",
                                                                                     AttrUsageHistory."Old Amount",
                                                                                     AttrUsageHistory."Start Date",
