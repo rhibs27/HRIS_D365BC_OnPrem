@@ -2923,7 +2923,7 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetRange(Reversed, false);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
-        PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1|<%2', 0D, PayrollHeader."From Date");
+        PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1&<%2', 0D, PayrollHeader."From Date");
         PayrollAttrUsageHistory.SetRange(Reversed, false);
         if PayrollAttrUsageHistory.FindFirst() then begin
             PayCyclePeriod.Reset();
