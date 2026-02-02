@@ -2922,7 +2922,6 @@ table 50027 "Payroll Line"
     begin
         PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
-        PayrollAttrUsageHistory.SetRange(Reversed, false);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1&<%2', 0D, PayrollHeader."From Date");
         PayrollAttrUsageHistory.SetRange(Reversed, false);
