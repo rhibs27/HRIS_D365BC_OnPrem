@@ -64,7 +64,10 @@ table 50110 "Document Approver"
             Caption = 'Approved By';
             TableRelation = Employee;
         }
-
+        field(17; "Attachment"; Media)
+        {
+            Caption = 'Attachment';
+        }
     }
     keys
     {

@@ -303,6 +303,7 @@ table 50142 Resignation
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                             if not GuiAllowed then begin
+                                Validate("Approval Status", "Approval Status"::Pending);
                                 ResignationMgt.SendResignationApproval(Rec);
                             end;
                         end;

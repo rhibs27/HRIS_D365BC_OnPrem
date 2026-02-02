@@ -434,6 +434,7 @@ table 50124 Leave
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
+        EmailMgt: Codeunit "Email Mgt";
 
     trigger OnInsert()
     var
@@ -470,7 +471,7 @@ table 50124 Leave
                             if not GuiAllowed then begin
                                 Type := type::"Leave Request";
                                 leaveMgt.ApplyForLeave(Rec);
-                                OnAfterApplyForLeave(Rec);
+                                EmailMgt.SendLeaveFromTemplate(Type, "Approval Status"::Pending, "Employee No.", "No.", Rec)
                             end;
                         end;
                 end;

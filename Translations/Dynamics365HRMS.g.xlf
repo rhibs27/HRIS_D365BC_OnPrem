@@ -3923,6 +3923,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Document Approver - Field Approver Sequence - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3298545406 - Field 1159403147 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Document Approver - Field Attachment - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3298545406 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22588,6 +22593,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Email Mgt - NamedType Colon</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2009663414 - Method 1189318003 - NamedType 2958218723" size-unit="char" translate="yes" xml:space="preserve">
+          <source> : </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Email Mgt - Method SendLeaveFromTemplate - NamedType Colon</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2009663414 - Method 1898609077 - NamedType 2742202986" size-unit="char" translate="yes" xml:space="preserve">
           <source>Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22597,6 +22607,11 @@
           <source>&lt;br&gt;The allowance assignment from %1 Branch/Extension Counter for the week %2 of month %3 has not been recorded till date.&lt;br&gt;Request you to assign it till EOD.&lt;br&gt;</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Email Mgt - Method SendMailFromTemplate - NamedType AllowanceBodyText</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2009663414 - Method 217845510 - NamedType 2958218723" size-unit="char" translate="yes" xml:space="preserve">
+          <source> : </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Email Mgt - Method SendResignEmailFromTemplate - NamedType Colon</note>
         </trans-unit>
         <trans-unit id="Codeunit 4102621001 - Method 741337154 - NamedType 128634895" size-unit="char" translate="yes" xml:space="preserve">
           <source>The incoming document has already been assigned to %1 %2 (%3).</source>
@@ -27673,6 +27688,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3573698613 - NamedType 2865259996" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to delete the picture?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - NamedType DeleteImageQst</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - NamedType 1398852855" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The existing picture will be replaced. Do you want to continue?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - NamedType OverrideImageQst</note>
+        </trans-unit>
         <trans-unit id="Page 3573698613 - Control 509812749 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -27733,15 +27758,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Control employeeNo - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 3573698613 - Control 3320823955 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 3573698613 - Control 1294919425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Control Line No. - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Control lineNo - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3573698613 - Control 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 3573698613 - Control 1294919425 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Control Line No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Control lineNo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3573698613 - Control 3267555162 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Resign Clearance Rejection Remarks field.</source>
@@ -27768,10 +27793,45 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action Approve - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3573698613 - Action 1756074744 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Return Rejected action.</source>
+        <trans-unit id="Page 3573698613 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete the record.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action Return Rejected - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action DeletePicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action DeletePicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export the picture to a file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action ExportFile - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action ExportFile - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import a picture file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action ImportPicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action ImportPicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action Preview - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3573698613 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Document Approver Resignation - Action Preview - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2516097176 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
@@ -58008,6 +58068,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Clearance Statement II - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1736549223 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>If this value is set true clearance Approver will not be generated from setup.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Hide Clearance Approver - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2351783494 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Max. Service Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60397,6 +60462,11 @@
           <source>Half Limit Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Half Limit Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1736549223 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Hide Clearance Approver</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Hide Clearance Approver - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 3083575731 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Home Loan Confirmation Period</source>

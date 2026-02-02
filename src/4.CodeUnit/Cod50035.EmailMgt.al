@@ -423,6 +423,95 @@ codeunit 50035 "Email Mgt"
         exit(ReceipentText);
     end;
 
+    procedure SendLeaveFromTemplate(DocumentType: enum "Employee Activity Type"; ApprovalStatus: Enum "approval status"; EmployeeNo: Text; DocumentNo: Code[20]; Leave: Record leave)
+    var
+        Colon: Label ' : ';
+        EmailTemplate: Record "Email Template";
+        Header, Footer, Body, Disclaimer : text;
+        Email: Codeunit Email;
+        CodeunitEmailMessage: Codeunit "Email Message";
+        EmailReceipientText: List of [Text];
+        EmailCCReceipent: List of [Text];
+        EmailBCCReceipent: List of [Text];
+    begin
+        Clear(EmailReceipientText);
+        Clear(CodeunitEmailMessage);
+        EmailTemplate.Reset;
+        EmailTemplate.SetRange("Document Type", DocumentType);
+        EmailTemplate.SetRange("Approval Status", ApprovalStatus);
+        if EmailTemplate.FindFirst then begin
+            Clear(Footer);
+            Clear(Header);
+            Clear(Body);
+            GetEmailTemplate(Header, Body, Footer, Disclaimer, EmailTemplate.Code);
+            GetEmailReceipent(DocumentNo, DocumentType, ApprovalStatus, EmailReceipientText, EmailCCReceipent, EmailBCCReceipent, EmailTemplate.Code);
+            CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, CodeunitEmailMessage.GetBody(), true, EmailCCReceipent, EmailBCCReceipent);
+            CodeunitEmailMessage.AppendToBody(Header);
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(body);
+            CodeunitEmailMessage.AppendToBody('<br>');
+            if DocumentType = DocumentType::"Leave Request" then begin
+                CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Employee No.") + Colon + Format(Leave."Employee No.") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Employee Name") + Colon + Format(Leave."Employee Name") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Leave Type") + Colon + Format(Leave."Leave Description") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Start Date") + Colon + Format(Leave."Start Date") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("End Date") + Colon + Format(Leave."End Date") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("No. of Days") + Colon + Format(Leave."No. of Days") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Leave.FieldCaption(Remarks) + Colon + Format(Leave.Remarks) + '<br>');
+            end;
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(Footer);
+            if ApprovalStatus = ApprovalStatus::Pending then
+                CodeunitEmailMessage.AppendToBody(Format(Employee."Full Name"));
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(Disclaimer);
+            Email.Send(CodeunitEmailMessage);
+        end;
+    end;
+
+    procedure SendResignEmailFromTemplate(DocumentType: enum "Employee Activity Type"; ApprovalStatus: Enum "approval status"; EmployeeNo: Text; DocumentNo: Code[20]; Resignation: Record Resignation)
+    var
+        Colon: Label ' : ';
+        EmailTemplate: Record "Email Template";
+        Header, Footer, Body, Disclaimer : text;
+        Email: Codeunit Email;
+        CodeunitEmailMessage: Codeunit "Email Message";
+        EmailReceipientText: List of [Text];
+        EmailCCReceipent: List of [Text];
+        EmailBCCReceipent: List of [Text];
+    begin
+        Clear(EmailReceipientText);
+        Clear(CodeunitEmailMessage);
+        EmailTemplate.Reset;
+        EmailTemplate.SetRange("Document Type", DocumentType);
+        EmailTemplate.SetRange("Approval Status", ApprovalStatus);
+        if EmailTemplate.FindFirst then begin
+            Clear(Footer);
+            Clear(Header);
+            Clear(Body);
+            GetEmailTemplate(Header, Body, Footer, Disclaimer, EmailTemplate.Code);
+            GetEmailReceipent(DocumentNo, DocumentType, ApprovalStatus, EmailReceipientText, EmailCCReceipent, EmailBCCReceipent, EmailTemplate.Code);
+            CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, CodeunitEmailMessage.GetBody(), true, EmailCCReceipent, EmailBCCReceipent);
+            CodeunitEmailMessage.AppendToBody(Header);
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(body);
+            CodeunitEmailMessage.AppendToBody('<br>');
+            if DocumentType = DocumentType::Resignation then begin
+                CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Employee No.") + Colon + Format(Resignation."Employee No.") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Employee Name") + Colon + Format(Resignation."Employee Name") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Proposed Date of Resignation") + Colon + Format(Resignation."Employee Name") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Reason for Resignation") + Colon + Format(Resignation."Employee Name") + '<br>');
+            end;
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(Footer);
+            if ApprovalStatus = ApprovalStatus::Pending then
+                CodeunitEmailMessage.AppendToBody(Format(Employee."Full Name"));
+            CodeunitEmailMessage.AppendToBody('<br>');
+            CodeunitEmailMessage.AppendToBody(Disclaimer);
+            Email.Send(CodeunitEmailMessage);
+        end;
+    end;
+
     local procedure GetTrainingBody(var TrainHeader: Record "Training Header")
     var
         BodyText1: Text;

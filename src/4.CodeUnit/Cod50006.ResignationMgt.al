@@ -40,16 +40,12 @@ codeunit 50006 "Resignation Mgt"
                 exit;
         Resignation.TestField("Proposed Date of Resignation");
         Resignation.TestField("Reason for Resignation");
-        Resignation.Validate("Approval Status", Resignation."Approval Status"::"Pending");
-        if Resignation."Requested Date" = 0D then
-            Resignation."Requested Date" := Today;
-        Resignation.Modify();
-        if GuiAllowed then
+        if GuiAllowed then begin
             AttachmentMgt.CheckMandatoryAttachment(Resignation."No.");
+            Resignation.Validate("Approval Status", "Approval Status"::Pending);
+        end;
         ApproverMgt.UpdateFirstApproverStatus(Resignation."No.");
-        EmailMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.", false);   //For email
-        // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::Pending) then
-        //     EmailMgt.ResignationEmailSend(Resignation."Employee No.");
+        EmailMgt.SendResignEmailFromTemplate(Resignation.Type, Resignation."Approval Status", Resignation."Employee No.", Resignation."No.", Resignation);
         Message(ApprovalRequestSent);
         exit(true);
     end;
@@ -103,6 +99,27 @@ codeunit 50006 "Resignation Mgt"
             until ResignDocApproverSetup.Next() = 0
         else
             Error('Approval Setup not found');
+    end;
+
+    procedure resignClearanceAttachmentImport(var DocumentApprover: Record "Document Approver"; textBase64: text; extension: text)
+    var
+        InStr: InStream;
+        outStream: OutStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+        CleanedFileName: text;
+
+    begin
+        CleanedFileName := DocumentApprover."Document No." + '_' + Format(DocumentApprover."Line No.") + '.' + extension;
+        TempBlob.CreateOutStream(outStream);
+        base64.FromBase64(textBase64, Outstream);
+        TempBlob.CreateInStream(InStr);
+        AttachmentMgt.CheckAttachmentSizeLimit(InStr, Format(DocumentApprover."Document Type"::Resignation));
+        AttachmentMgt.checkAttachmentExtensionImage(Extension);
+        Clear(DocumentApprover.Attachment);
+        DocumentApprover.Attachment.ImportStream(InStr, CleanedFileName);
+        DocumentApprover.Modify(true);
     end;
 
     // procedure ForwardToHRForResignation(var Resignation: Record "Resignation")
@@ -189,7 +206,9 @@ codeunit 50006 "Resignation Mgt"
         ServiceEvent: Enum "Service Event";
     begin
         Resignation.Get(resignationCode);
-        InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
+        HRSetup.Get();
+        if not HRSetup."Hide Clearance Approver" then
+            InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
         ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
     end;

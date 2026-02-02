@@ -720,6 +720,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50158; "Hide Clearance Approver"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
     }
     trigger onAfterInsert()
     begin
