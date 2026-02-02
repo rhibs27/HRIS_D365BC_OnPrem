@@ -44,10 +44,21 @@ codeunit 50006 "Resignation Mgt"
             AttachmentMgt.CheckMandatoryAttachment(Resignation."No.");
             Resignation.Validate("Approval Status", "Approval Status"::Pending);
         end;
+        CheckAlreadyExitRetirementRequest(Resignation);
         ApproverMgt.UpdateFirstApproverStatus(Resignation."No.");
         EmailMgt.SendResignEmailFromTemplate(Resignation.Type, Resignation."Approval Status", Resignation."Employee No.", Resignation."No.", Resignation);
         Message(ApprovalRequestSent);
         exit(true);
+    end;
+
+    procedure CheckAlreadyExitRetirementRequest(Resignation: Record Resignation)
+    begin
+        Resignation.Reset;
+        Resignation.SetRange("Employee No.", Resignation."Employee No.");
+        Resignation.SetRange(Type, Resignation.Type::Resignation);
+        Resignation.SetFilter("Approval Status", '<>%1&<>%2&<>%3', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected, Resignation."Approval Status"::Open);
+        if Resignation.Findfirst then
+            Error('%1 Already has %2 Resignation Request No %3', Resignation."Employee Name", Resignation."Approval Status", Resignation."No.");
     end;
 
     procedure InsertResignationApprover(EmployeeNo: Code[20];
