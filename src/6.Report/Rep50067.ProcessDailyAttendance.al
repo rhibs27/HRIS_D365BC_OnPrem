@@ -225,7 +225,7 @@ report 50067 "Process Daily Attendance"
     var
         ServiceHistory: Record "Employee Service History";
     begin
-        ServiceHistory.SetLoadFields("Province Code (From)", "Province Description (From)", "Branch Code (From)", "Branch Description (From)", "Department Code (From)", "Department Description (From)", "Unit Code (From)", "Extension Description (From)");
+        ServiceHistory.SetLoadFields("Province Code (To)", "Province Description (To)", "Branch Code (To)", "Branch Description (To)", "Department Code (To)", "Department Description (To)", "Unit Code (To)", "Extension Description (To)");
         ServiceHistory.SetRange("Employee No.", Employee."No.");
         ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
         ServiceHistory.SetFilter("Effective Date", '<%1', Date."Period Start");
