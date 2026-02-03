@@ -348,8 +348,9 @@ codeunit 50029 "Process Daily Attendance"
     var
         AttendanceLog: Record "Attendance Log";
     begin
-        AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time", "Device IP");
+        AttendanceLog.SetCurrentKey("Date Time Log");
+        AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         if AttendanceLog.FindFirst() then begin
@@ -372,10 +373,16 @@ codeunit 50029 "Process Daily Attendance"
     var
         AttendanceLog: Record "Attendance Log";
     begin
-        AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time");
+        AttendanceLog.SetCurrentKey("Date Time Log");
+        AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
-        AttendanceLog.SetRange("Date Time Log", StartTime, EndTime);
+        if GuiAllowed then
+            AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
+        else begin
+            AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
+            AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
+        end;
         if FirstRecord then
             if AttendanceLog.FindFirst() then;
         if not FirstRecord then
