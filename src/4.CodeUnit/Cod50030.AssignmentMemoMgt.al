@@ -100,8 +100,9 @@ codeunit 50030 "Assignment Memo Mgt"
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
         DateVar: Record Date;
-
+        payrollgeneralSetup: Record "Payroll General Setup";
     begin
+        payrollgeneralSetup.Get();
         AssignmentMemoHdr.Get(DocumentNo);
         if AssignmentMemoLine.Get(DocumentNo, lineNo) then begin
 
@@ -139,6 +140,17 @@ codeunit 50030 "Assignment Memo Mgt"
                         break;
                     end;
                 until AllowanceConfiguration.Next() = 0;
+
+            if payrollgeneralSetup."NMB specific Shift" then begin
+                AllowanceConfiguration.Reset();
+                AllConfig2.Reset();
+                AllowanceConfiguration.SetRange("Employee Work Shift", AssignmentMemoLine."Employee Work Shift");
+                if AllowanceConfiguration.FindSet() then
+                    repeat
+                        AllConfig2 := AllowanceConfiguration;
+                    until AllowanceConfiguration.Next() = 0;
+            end;
+            
 
             DateVar.Reset();
             DateVar.SetRange("Period Type", DateVar."Period Type"::Date);
@@ -238,11 +250,11 @@ codeunit 50030 "Assignment Memo Mgt"
             until AssignmentMemoLine.Next() = 0;
 
         //final check allowance amount 
-        AssignmentMemoLine.Reset();
-        AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
-        AssignmentMemoLine.SetRange("Allowance Amount", 0);
-        if not AssignmentMemoLine.IsEmpty() then
-            Error('allowance amount cannot be zero for any line.');
+        // AssignmentMemoLine.Reset();
+        // AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
+        // AssignmentMemoLine.SetRange("Allowance Amount", 0);
+        // if not AssignmentMemoLine.IsEmpty() then
+        //     Error('allowance amount cannot be zero for any line.');
 
         //In case of substitute, open the approval for substitute
         if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Pending then begin

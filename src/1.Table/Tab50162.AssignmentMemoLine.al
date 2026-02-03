@@ -115,7 +115,7 @@ table 50162 "Assignment Memo Line"
         field(13; "Document Date"; Date) { }
         field(19; "Approval Status"; Enum "Approval Status")
         {
-            Editable = false;
+            // Editable = false;
         }
         field(20; "No. of Days"; Decimal)
         {
@@ -254,12 +254,17 @@ table 50162 "Assignment Memo Line"
             trigger OnValidate()
             var
                 EmployeeWorkShift: Record "Employee Work Shift";
+                IsHandled1: Boolean;
             begin
                 if EmployeeWorkShift.Get("Employee Work Shift") and ("Emp Act Type" = "Emp Act Type"::"Shift Assignment Memo") then begin
-                    if EmployeeWorkShift."Payroll Attribute Code" = '' then
-                        Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
-                    Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
-                    CheckAndValidateShiftAssignment();
+                    // if EmployeeWorkShift."Payroll Attribute Code" = '' then
+                    OnBeforeValidatePayrollattribute(Rec, IsHandled1);
+                    if not IsHandled1 then begin
+                        if EmployeeWorkShift."Payroll Attribute Code" = '' then
+                            Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
+                        Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
+                        CheckAndValidateShiftAssignment();
+                    end;
                 end;
             end;
         }
@@ -551,6 +556,11 @@ table 50162 "Assignment Memo Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnCheckDuplicateAssignmentMemoLineOnAfterCheck(var AssignmentMemoLine: Record "Assignment Memo Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidatePayrollattribute(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled1: Boolean)
     begin
     end;
 }

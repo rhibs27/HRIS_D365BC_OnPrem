@@ -810,6 +810,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Get Amount From Assignment field.';
                 }
+                field("NMB specific Shift"; rec."NMB specific Shift")
+                {
+
+                }
 
             }
             part(PayrollSetupLines; "Payroll Setup Lines")

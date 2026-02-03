@@ -41,7 +41,7 @@ page 50372 "Shift Assignment Memo Subform"
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
-                    Editable = false;
+                    // Editable = false;
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
                 field("No of Approved Days"; Rec."No of Approved Days")

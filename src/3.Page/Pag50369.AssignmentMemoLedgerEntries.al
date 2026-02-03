@@ -6,7 +6,7 @@ page 50369 "Assignment Memo Ledger Entries"
     SourceTable = "Assignment Memo Ledger Entry";
     UsageCategory = Lists;
     InsertAllowed = false;
-    DeleteAllowed = false;
+    // DeleteAllowed = false;
 
     layout
     {
