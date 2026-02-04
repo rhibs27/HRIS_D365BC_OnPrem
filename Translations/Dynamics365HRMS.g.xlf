@@ -25498,6 +25498,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action View Deductions - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4257513725 - Action 2685893138 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the View Reversal action</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Card - Action View Reversals - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2653894362 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Journal</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -42758,6 +42763,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Attendance - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3884601073 - Action 1581821057 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Get Calculate Line Tax action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Calculate Line Tax - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3884601073 - Action 2173385693 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Dimensions action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55672,11 +55682,6 @@
           <source>You do not have permission to view Change Log List Page.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension ChangeLogEntries - NamedType Err001</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 591338493 - Action 2891906376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 3469146285">
-          <source>Executes the Delete Employee Attendance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension CompanyInformation - Action Delete Employee Attendance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 591338493 - Action 942594389 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 3469146285">
           <source>Executes the Update KPI action.</source>
