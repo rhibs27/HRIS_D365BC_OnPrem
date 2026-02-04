@@ -290,7 +290,7 @@ codeunit 50001 "HR Mgt."
                     Appraisal.Reset;
                     Appraisal.SetRange("Employee Code", Employee."No.");
                     Appraisal.SetRange("Appraisal Type", Appraisal."Appraisal Type"::Annually);
-                    Appraisal.SetRange(Status, Appraisal.Status::Approved);
+                    Appraisal.SetRange("Approval Status", Appraisal."Approval Status"::Approved);
                     Appraisal.SetRange("Fiscal Year", ReturnFiscalYear(CalcDate('<-1Y>')));
                     if Appraisal.FindLast then begin
                         ServiceHistory.Reset;

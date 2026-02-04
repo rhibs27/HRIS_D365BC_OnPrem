@@ -86,7 +86,7 @@ table 50062 "KRA Subform List"
         AppraisalForm: Record Appraisal;
     begin
         if AppraisalForm.Get("Appraisal Code") then begin
-            if AppraisalForm.Status = AppraisalForm.Status::Reviewed then
+            if AppraisalForm."Approval Status" = AppraisalForm."Approval Status"::Reviewed then
                 "Check Reviewers Final Score" := "Check Reviewers Score" * ("Weightage (%)" / 100);
         end;
     end;
@@ -96,7 +96,7 @@ table 50062 "KRA Subform List"
         AppraisalRec: Record Appraisal;
     begin
         if AppraisalRec.Get("Appraisal Code") then begin
-            if AppraisalRec.Status = AppraisalRec.Status::Submitted then
+            if AppraisalRec."Approval Status" = AppraisalRec."Approval Status"::Pending then
                 "Reviewers Final Score" := "Reviewers Score" * ("Weightage (%)" / 100);
         end;
     end;

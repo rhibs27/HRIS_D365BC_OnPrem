@@ -367,6 +367,7 @@ codeunit 50017 "Approver Mgt"
         LeaveEncahRequest: Record "Encashment Request";
         AttendanceMgt: Codeunit "Attendance Mgt";
         AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
+        AppraisalMgt: Codeunit "AppraisalMgt.";
         Cancelled: Boolean;
         RFContribution: Record "RF Contribution";
         AttributeAdj: Record "Attribute Adjustment Header";

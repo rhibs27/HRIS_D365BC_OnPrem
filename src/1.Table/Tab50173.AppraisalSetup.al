@@ -13,11 +13,8 @@ table 50173 "Appraisal Setup"
 
         }
     }
-
     keys
     {
         key(Key1; "Code", Type) { }
     }
-
-    fieldgroups { }
 }

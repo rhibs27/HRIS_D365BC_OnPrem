@@ -87,7 +87,7 @@ page 50084 "KRA Subform"
                 trigger OnAction()
                 begin
                     Appraisal.Get(Rec."Appraisal Code");
-                    Appraisal.Validate(Status, Appraisal.Status::"KPI Assigned");
+                    Appraisal.Validate("Approval Status", Appraisal."Approval Status"::Pending);
                     Appraisal.Modify;
                 end;
             }
@@ -99,7 +99,7 @@ page 50084 "KRA Subform"
                 trigger OnAction()
                 begin
                     Appraisal.Get(Rec."Appraisal Code");
-                    Appraisal.Validate(Status, Appraisal.Status::Submitted);
+                    Appraisal.Validate("Approval Status", Appraisal."Approval Status"::Pending);
                     Appraisal.Modify;
                 end;
             }
@@ -111,7 +111,7 @@ page 50084 "KRA Subform"
                 trigger OnAction()
                 begin
                     Appraisal.Get(Rec."Appraisal Code");
-                    Appraisal.Validate(Status, Appraisal.Status::Reviewed);
+                    Appraisal.Validate("Approval Status", Appraisal."Approval Status"::Pending);
                     Appraisal.Modify;
                 end;
             }
@@ -123,7 +123,7 @@ page 50084 "KRA Subform"
                 trigger OnAction()
                 begin
                     Appraisal.Get(Rec."Appraisal Code");
-                    Appraisal.Validate(Status, Appraisal.Status::"Check Reviewed");
+                    Appraisal.Validate("Approval Status", Appraisal."Approval Status"::Pending);
                     Appraisal.Modify;
                 end;
             }

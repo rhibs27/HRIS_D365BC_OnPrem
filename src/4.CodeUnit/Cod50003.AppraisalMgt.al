@@ -76,35 +76,11 @@ codeunit 50003 "AppraisalMgt."
     var
         ConfirmCancel: Label 'Do you want to confirm cancel appraisal request?';
     begin
-        Appraisal.TestField(Status, Appraisal.Status::Submitted);
+        Appraisal.TestField("Approval Status", Appraisal."Approval Status"::Pending);
         if not Confirm(ConfirmCancel, false) then
             exit;
-        Appraisal.Validate(Status, Appraisal.Status::Cancelled);
+        Appraisal.Validate("Approval Status", Appraisal."Approval Status"::Canceled);
         Appraisal.Modify(true);
-    end;
-
-    procedure ApproveRejectAppraisal(Approve: Boolean; var Appraisal: Record Appraisal)
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-    begin
-        if Approve then begin
-            if not Confirm(ConfirmApprove, false) then
-                exit;
-            if Appraisal.Status = Appraisal.Status::Requested then
-                Appraisal.Validate(Status, Appraisal.Status::Reviewed)
-            else if Appraisal.Status = Appraisal.Status::Reviewed then
-                Appraisal.Validate(Status, Appraisal.Status::"Check Reviewed")
-            else if Appraisal.Status = Appraisal.Status::"Check Reviewed" then
-                Appraisal.Validate(Status, Appraisal.Status::Approved);
-        end
-        else begin
-            if not Confirm(ConfirmReject, false) then
-                exit;
-            Appraisal.Validate(Status, Appraisal.Status::Requested);
-        end;
-
-        Appraisal.Modify;
     end;
 
     procedure ValidateKRAInEmployeeQuestionnaire(AppraisalRec: Record Appraisal)
@@ -330,7 +306,6 @@ codeunit 50003 "AppraisalMgt."
 
         // Update appraisal status to Pending
         Appraisal.Validate("Approval Status", Appraisal."Approval Status"::Pending);
-        Appraisal.Validate(Status, Appraisal.Status::Submitted);
         Appraisal.Modify(true);
 
         // Send email notification
@@ -618,4 +593,40 @@ codeunit 50003 "AppraisalMgt."
         until ReviewerWeightageSetup.Next() = 0;
     end;
 
+    procedure CalculateFinalMarks(Appraisal: Record Appraisal)
+    var
+        ScoreDetail: Record "Score Detail";
+        TotalFinalScore: Decimal;
+    begin
+        // Appraisal.Validate("Total Final Score", 0);
+        if appraisal."Total Final Score" = 0 then begin
+            Clear(TotalFinalScore);
+            ScoreDetail.Reset();
+            ScoreDetail.SetRange("Appraisal Code", Appraisal."Appraisal Code");
+            ScoreDetail.SetRange("Appraisal Template", Appraisal."Appraisal Template");
+            ScoreDetail.SetRange("Fiscal Year", Appraisal."Fiscal Year");
+            if ScoreDetail.FindSet() then begin
+                repeat
+                    ScoreDetail.CalcFields(Total);
+                    if ScoreDetail.Total <> 0 then
+                        TotalFinalScore += Round((ScoreDetail.Weightage * ScoreDetail.Total) / 100, 0.01);
+                until ScoreDetail.Next() = 0;
+                Appraisal.Validate("Total Final Score", TotalFinalScore);
+                Appraisal.Modify(true);
+                Message('Total Final Score calculated successfully');
+            end else
+                Message('No score details found for this appraisal');
+        end;
+    end;
+
+    procedure CheckScoreDetailsSubmitted(AppraisalCode: Code[20])
+    var
+        ScoreDetail: Record "Score Detail";
+    begin
+        scoredetail.Reset;
+        ScoreDetail.SetRange("Appraisal Code", AppraisalCode);
+        ScoreDetail.SetRange(Submitted, false);
+        if not ScoreDetail.IsEmpty() then
+            Error('Cannot proceed. first Submit Score Detail');
+    end;
 }

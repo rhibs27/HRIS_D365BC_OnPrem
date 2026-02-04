@@ -31,6 +31,16 @@ table 50178 Appraisal
             begin
                 if "Approval Status" = "Approval Status"::Pending then
                     AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
+                if "Approval Status" = "Approval Status"::Approved then begin
+                    Posted := true;
+                    "Posting Date" := Today;
+                    "Approved Date" := Today;
+                end else begin
+                    Posted := false;
+                    Clear("Posting Date");
+                    Clear("Approved Date");
+                end;
+
             end;
         }
         field(37; "Approved Date"; Date) { } // approved date field id is 37 which is fixed
@@ -39,13 +49,8 @@ table 50178 Appraisal
             Caption = 'Cancelled';
             DataClassification = CustomerContent;
         }
-        field(100; Status; Enum "Appraisal Status") // status field is 100 which is fixed
+        field(100; Status; Text[20]) // status field is 100 which is fixed
         {
-            trigger OnValidate()
-            begin
-                If Rec.Status = Rec.Status::Submitted then
-                    AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
-            end;
         }
         field(3; "Employee Code"; Code[20])
         {
@@ -55,7 +60,7 @@ table 50178 Appraisal
                 if "Fiscal Year" = '' then
                     Error('Please select Fiscal Year first');
                 OnValidateEmployeeNo;
-                Approvalhrms(Rec);
+
             end;
         }
         field(4; "Employee Name"; Text[100]) { Editable = false; }
@@ -97,7 +102,7 @@ table 50178 Appraisal
                 end;
             end;
         }
-        field(24; Posted; Boolean) { }
+        field(24; Posted; Boolean) { Editable = false; }
         field(25; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -129,7 +134,7 @@ table 50178 Appraisal
 
         }
         field(29; "Reviewer III"; Code[20]) { TableRelation = Employee; }
-        field(30; "Posting Date"; Date) { }
+        field(30; "Posting Date"; Date) { Editable = false; }
         field(31; "Reviewed Score I"; Decimal) { }
         field(32; "Reviewed Score II"; Decimal) { }
         field(33; "Reviewed Score III"; Decimal) { }
@@ -194,11 +199,13 @@ table 50178 Appraisal
     }
     trigger OnDelete()
     begin
-        if Status <> Status::Open then
+        if "Approval Status" <> "Approval Status"::Open then
             Error('You can delete the Appraisal only when the Status is Open. Current Status: %1', Format(Status));
     end;
 
     trigger OnInsert()
+    var
+        ApproverMgt: Codeunit "Approver Mgt";
     begin
         HumanResSetup.Get;
         Validate("Requested Date", Today);
@@ -207,16 +214,17 @@ table 50178 Appraisal
             HRMgt.InitNoSeriesNew(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
             "Appraisal Code" := NoSeriesMgt.GetNextNo(HumanResSetup."Appraisal No.", Today, true);
         end;
-        Rec.Status := Rec.Status::Open;
         "Approval Status" := "Approval Status"::Open;
         "Document Type" := "Document Type"::Appraisal;
         Cancelled := false;
         if not GuiAllowed then begin
             if "Employee Code" = '' then
                 Validate("Employee Code", "Employee Code");
+
             AppraisalMgt.OnValidateKRACategory(Rec);
             CheckForDuplicateEmployeeAppraisal;
         end;
+        ApproverMgt.InsertApproval("Employee Code", "Appraisal Code", "Document Type", "Approval Status");
         InsertAttachmentAppraisal;
     end;
 
@@ -415,34 +423,6 @@ table 50178 Appraisal
             Error('No attachment found.');
     end;
 
-    procedure ChangeReviewerCheckReviewerAppraisal()
-    var
-        EmpActFilterPageBuilder: FilterPageBuilder;
-        ReviewerCode: Code[20];
-        CheckReviewerCode: Code[20];
-        Text001: Label 'You cannot change, Status = %1, Appraisal Document.';
-        Text002: Label 'The Reviewer has been updated Successfully.';
-        Text003: Label 'The Check Reviewer has been updated Successfully.';
-        Text004: Label 'Do you want to update Reviewer of this request ?';
-    begin
-        if Status in [Status::Reviewed, Status::"Check Reviewed"] then
-            Error(Text001, Status);
-        if not Confirm(Text004, false) then
-            exit;
-
-        EmpActFilterPageBuilder.AddRecord('Appraisal', Rec);
-        EmpActFilterPageBuilder.RunModal;
-        Appraisal.SetView(EmpActFilterPageBuilder.GetView('Appraisal'));
-        if (ReviewerCode <> '') then begin
-            Modify;
-            Message(Text002);
-        end;
-        if (CheckReviewerCode <> '') then begin
-            Modify;
-            Message(Text003);
-        end;
-    end;
-
     local procedure InsertAttachmentAppraisal()
     var
         AttachmentMandatory: Record "Attachment Setup";
@@ -469,19 +449,6 @@ table 50178 Appraisal
                     IncomingDocument.Insert(true);
                 end;
             until AttachmentMandatory.Next = 0;
-    end;
-
-    procedure Approvalhrms(AppraisalRec: Record Appraisal)
-    var
-        ApprovalHRMS: Record "Approval HRMS";
-        ApproverMgt: Codeunit "Approver Mgt";
-    begin
-        ApprovalHRMS.Reset();
-        ApprovalHRMS.SetRange("Document No.", AppraisalRec."Appraisal Code");
-        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::Appraisal);
-        if not ApprovalHRMS.IsEmpty then
-            ApprovalHRMS.DeleteAll();
-        ApproverMgt.InsertApproval(AppraisalRec."Employee Code", AppraisalRec."Appraisal Code", Enum::"Employee Activity Type"::Appraisal, Enum::"Approval Status"::Open);
     end;
 
     local procedure SetFinalGrading()

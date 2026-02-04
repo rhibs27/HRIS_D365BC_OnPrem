@@ -6,6 +6,7 @@ page 50383 "Appraisal Template List"
     SourceTable = "Appraisal Template";
     Caption = 'Appraisal Template List';
     CardPageId = "Appraisal Template Card";
+    ModifyAllowed=false;
 
     layout
     {

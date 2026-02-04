@@ -8,6 +8,7 @@ page 50380 "Employee Appraisal Questions"
     DelayedInsert = true;
     InsertAllowed = false;
     ModifyAllowed = true;
+    DeleteAllowed = false;
     layout
     {
         area(Content)
@@ -61,11 +62,32 @@ page 50380 "Employee Appraisal Questions"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies Yes/No answer';
-                    Editable = Rec."Question Type" = Rec."Question Type"::"Yes/No";
-                    Enabled = Rec."Question Type" = Rec."Question Type"::"Yes/No";
+                    Editable = Editable1 and (Rec."Question Type" = Rec."Question Type"::"Yes/No");
+                    Enabled = Editable1 and (Rec."Question Type" = Rec."Question Type"::"Yes/No");
                 }
             }
         }
+
     }
+    trigger OnAfterGetRecord()
+    begin
+        UpdateEditability();
+    end;
+
+    local procedure UpdateEditability()
+    begin
+        Editable1 := true;
+
+        if not Appraisal.Get(Rec."Appraisal Code") then
+            exit;
+
+        if Appraisal."Approval Status" = Appraisal."Approval Status"::Approved then
+            Editable1 := false;
+    end;
+
+
+    var
+        Editable1: Boolean;
+        Appraisal: Record Appraisal;
 
 }

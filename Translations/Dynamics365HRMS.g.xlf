@@ -398,26 +398,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Specific Payroll Attribute - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1691263759 - Method 1039615615 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot change, Status = %1, Appraisal Document.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Method ChangeReviewerCheckReviewerAppraisal - NamedType Text001</note>
-        </trans-unit>
-        <trans-unit id="Table 1691263759 - Method 1039615615 - NamedType 3752334001" size-unit="char" translate="yes" xml:space="preserve">
-          <source>The Reviewer has been updated Successfully.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Method ChangeReviewerCheckReviewerAppraisal - NamedType Text002</note>
-        </trans-unit>
-        <trans-unit id="Table 1691263759 - Method 1039615615 - NamedType 95063322" size-unit="char" translate="yes" xml:space="preserve">
-          <source>The Check Reviewer has been updated Successfully.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Method ChangeReviewerCheckReviewerAppraisal - NamedType Text003</note>
-        </trans-unit>
-        <trans-unit id="Table 1691263759 - Method 1039615615 - NamedType 732759939" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to update Reviewer of this request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Method ChangeReviewerCheckReviewerAppraisal - NamedType Text004</note>
-        </trans-unit>
         <trans-unit id="Table 1691263759 - Field 2694167148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9392,11 +9372,6 @@
           <source>To Check Reviews Appraisal</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field To Check Reviews Appraisal - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 470349803 - Field 548021778 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>To Check Reviews KPI</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field To Check Reviews KPI - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 2116154769 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Reviews Appraisal</source>
@@ -20508,10 +20483,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Score Detail - Field Submitted - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2587107539 - Field 111371452 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Submitted Date Time</source>
+        <trans-unit id="Table 2587107539 - Field 972916807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Submitted Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Score Detail - Field Submitted Date Time - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Score Detail - Field Submitted Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2587107539 - Field 245426702 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total</source>
@@ -22643,16 +22618,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method ApplyForAppraisal - NamedType ConfirmAppraisal</note>
         </trans-unit>
-        <trans-unit id="Codeunit 1293262007 - Method 1119822271 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method ApproveRejectAppraisal - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1293262007 - Method 1119822271 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method ApproveRejectAppraisal - NamedType ConfirmReject</note>
-        </trans-unit>
         <trans-unit id="Codeunit 1293262007 - Method 634034736 - NamedType 4236608720" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to confirm cancel appraisal request?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23447,11 +23412,6 @@
           <source>Specifies the value of the Probation Staff field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Active Employee - Control Probation Staff - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3526745218 - Control 548021778 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the To Check Reviews KPI field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Active Employee - Control To Check Reviews KPI - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1057261834 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
@@ -24313,21 +24273,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Submission Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 3882815065 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Check Reviewer's Comments</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Check Reviewer's Comments - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 443119876 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Comments of Report Officers Check Review field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Check Reviewers Comments - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 443119876 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comments of Report Officers Check Review</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Check Reviewers Comments - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 2859016585 - Control 927236414 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Appraisal Questions</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24357,6 +24302,11 @@
           <source>Specifies the value of the Appraisal Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Appraisal Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2859016585 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Approval Status - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2859016585 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Name field.</source>
@@ -24413,11 +24363,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Requested Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Status field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Status - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2859016585 - Control 3150905298 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Final Score field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24428,80 +24373,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Unit Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 3447117788 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2859016585 - Control 4178697644 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>KPI Employee Score</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control KPI Employee Score - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 1788597886 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reportee's Comments</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Reportee's Comments - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 3923785511 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Whether the reportee considers this report a fair performance assessment. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Reportees Comments - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 3923785511 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Whether the reportee considers this report a fair performance assessment.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Reportees Comments - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 3692303075 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reviewer's Comments</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Reviewer's Comments - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 3833680951 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Comments of Report Officers Reviewer field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Reviewer Comments - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 3833680951 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comments of Report Officers Reviewer</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Reviewer Comments - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control KPI Employee - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2859016585 - Control 2767038253 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Score Details</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Score Detail Subform - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 803889193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approves the appraisal and posts it if conditions are met.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Approve - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 803889193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approve</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Approve - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 1520178469 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Approve Check Review action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Approve Check Review - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2859016585 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Approve Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 876423399 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Approve Review action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Approve Review - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2859016585 - Action 56365826 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Calculate Final Marks action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Calculate Final Marks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 530405902 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Cancel Appraisal Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Cancel Appraisal Request - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2859016585 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Request action.</source>
@@ -24517,26 +24407,6 @@
           <source>Executes the Request Appraisal action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Request Appraisal - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 2493986398 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Send Approval Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Send Approval Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 2980457843 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Send Check Review Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Send Check Review Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 1801127113 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Send Review Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action Send Review Request - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2859016585 - Action 3765815399 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the View Key Performance indices action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Action View Key Performance Indices - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3187129717 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal KPI Master</source>
@@ -47748,6 +47618,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Score Detail Subform - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2767038253 - Action 1829548432 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Submit all scores for this appraisal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Score Detail Subform - Action Submit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2767038253 - Action 1829548432 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Submit Scores</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Score Detail Subform - Action Submit - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3107704268 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60802,66 +60682,6 @@
           <source>Very Good</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Rating - EnumValue Very Good - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 2913119229 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approved</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Approved - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 4069904181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Cancelled</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Cancelled - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 1323837847 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Check Reviewed</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Check Reviewed - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 1743610486 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KPI Assigned</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue KPI Assigned - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 4259830144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Open - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 3481143665 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Pending</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Pending - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 3380760239 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recommended</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Recommended - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 496445946 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Rejected</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Rejected - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 3741122412 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Requested</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Requested - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 3732000533 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reviewed</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Reviewed - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 148741643 - EnumValue 72070539 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Submitted</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Appraisal Status - EnumValue Submitted - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 434861079 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

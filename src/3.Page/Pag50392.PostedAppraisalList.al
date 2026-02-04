@@ -1,10 +1,15 @@
 page 50392 "Posted Appraisal List"
 {
     Editable = false;
+    DeleteAllowed = false;
+    ModifyAllowed=false;
     PageType = List;
     SourceTable = Appraisal;
     SourceTableView = where(Posted = const(true));
     ApplicationArea = All;
+    CardPageId = "Appraisal form Card";
+
+
     layout
     {
         area(Content)
@@ -116,5 +121,4 @@ page 50392 "Posted Appraisal List"
         }
     }
 
-    actions { }
 }

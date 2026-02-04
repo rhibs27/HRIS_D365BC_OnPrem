@@ -50,6 +50,8 @@ table 50177 "Score Detail"
         {
             Caption = 'Score/Rating By';
             TableRelation = Employee."No.";
+
+
         }
         field(5; Sequence; Integer)
         {
@@ -70,10 +72,18 @@ table 50177 "Score Detail"
         field(8; Submitted; Boolean)
         {
             Caption = 'Submitted';
+            Editable = false;
+            // trigger OnValidate()
+            // begin
+            //     if Submitted then
+            //         "Submitted Date" := Today
+            //     else
+            //         Clear("Submitted Date");
+            // end;
         }
-        field(9; "Submitted Date Time"; DateTime)
+        field(9; "Submitted Date"; Date)
         {
-            Caption = 'Submitted Date Time';
+            Caption = 'Submitted Date';
         }
         field(10; "Appraisal Code"; Code[20])
         {
@@ -96,6 +106,7 @@ table 50177 "Score Detail"
             "Line No." := GetNextLineNo("Appraisal Code");
     end;
 
+
     local procedure GetNextLineNo(AppraisalCode: Code[20]): Integer
     var
         ScoreDetail: Record "Score Detail";
@@ -106,4 +117,5 @@ table 50177 "Score Detail"
             exit(ScoreDetail."Line No." + 1);
         exit(1);
     end;
+
 }

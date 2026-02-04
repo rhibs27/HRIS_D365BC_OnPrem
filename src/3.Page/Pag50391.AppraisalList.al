@@ -7,6 +7,7 @@ page 50391 "Appraisal List"
     UsageCategory = Lists;
     ApplicationArea = All;
     Editable = false;
+    InsertAllowed=false;
 
     layout
     {
@@ -18,11 +19,13 @@ page 50391 "Appraisal List"
                 {
                     ToolTip = 'Specifies the value of the Appraisal Code field.';
                     ApplicationArea = All;
+                    
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
+
                 }
                 field("Employee Code"; Rec."Employee Code")
                 {

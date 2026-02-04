@@ -68,6 +68,7 @@ table 50180 "KPI Employee"
         { }
         field(19; "Max Score"; Integer)
         {
+            Editable = false;
             trigger OnValidate()
             begin
                 CalculateScoreTotal();

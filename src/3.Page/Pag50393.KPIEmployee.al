@@ -95,14 +95,15 @@ page 50393 "KPI Employee"
                         end;
                         GetAppraisalStatus();
                         SetGeneralEditable();
-                        SetScoreEditable();
+                        //SetScoreEditable();
                         CurrPage.Update();
                     end;
                 }
                 field(Score; Rec.Score)
                 {
                     ApplicationArea = All;
-                    Editable = (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) and not (Rec."Group Based");
+                    Editable = ScoreEditable and
+                    not IsApproved and (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) and not Rec."Group Based";
                     trigger OnValidate()
                     begin
                         CurrPage.SaveRecord();
@@ -116,11 +117,13 @@ page 50393 "KPI Employee"
                 field(Rating; Rec.Rating)
                 {
                     ApplicationArea = All;
-                    Editable = (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
+                    Editable = RatingEditable and
+                    not IsApproved and (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
                 }
                 field(Remarks; Rec.Remarks)
                 {
                     ApplicationArea = All;
+                    Editable = RemarksEditable and not IsApproved;
                 }
                 field("Reviewer Type"; Rec."Reviewer Type")
                 {
@@ -134,6 +137,7 @@ page 50393 "KPI Employee"
                 field("Max Score"; Rec."Max Score")
                 {
                     ApplicationArea = All;
+                    Editable = not IsApproved;
                     trigger OnValidate()
                     begin
                         if Rec.Score > Rec."Max Score" then
@@ -188,14 +192,20 @@ page 50393 "KPI Employee"
     begin
         GetAppraisalStatus();
         SetGeneralEditable();
-        SetScoreEditable();
+        CheckReviewerSubmissionStatus();
+        //SetScoreEditable();
+    end;
+    trigger OnAfterGetCurrRecord()
+    begin
+         CheckReviewerSubmissionStatus();
     end;
 
     trigger OnOpenPage()
     begin
         GetAppraisalStatus();
         SetGeneralEditable();
-        SetScoreEditable();
+        CheckReviewerSubmissionStatus();
+        //SetScoreEditable();
     end;
 
     var
@@ -217,17 +227,38 @@ page 50393 "KPI Employee"
         FieldHRRating: Boolean;
         FieldHRRemarks: Boolean;
         Appraisal: Record Appraisal;
-        AppraisalStatus: Enum "Appraisal Status";
+        AppraisalStatus: Enum "Approval Status";
+        IsApproved: Boolean;
+        IsReviewerSubmitted: Boolean;
+        ScoreEditable: Boolean;
+        RatingEditable: Boolean;
+        RemarksEditable: Boolean;
+        MaxScoreEditable: Boolean;
 
+
+    // local procedure GetAppraisalStatus()
+    // begin
+    //     Appraisal.Reset();
+    //     Appraisal.SetRange("Appraisal Code", Rec."Appraisal Code");
+    //     Appraisal.SetRange("Fiscal Year", Rec."Fiscal Year");
+    //     if Appraisal.FindFirst() then
+    //         AppraisalStatus := Appraisal."Approval Status"
+    //     else
+    //         AppraisalStatus := Enum::"Approval Status"::" ";
+    // end;
     local procedure GetAppraisalStatus()
     begin
         Appraisal.Reset();
         Appraisal.SetRange("Appraisal Code", Rec."Appraisal Code");
         Appraisal.SetRange("Fiscal Year", Rec."Fiscal Year");
-        if Appraisal.FindFirst() then
-            AppraisalStatus := Appraisal.Status
-        else
-            AppraisalStatus := Enum::"Appraisal Status"::" ";
+
+        if Appraisal.FindFirst() then begin
+            AppraisalStatus := Appraisal."Approval Status";
+            IsApproved := Appraisal."Approval Status" = Appraisal."Approval Status"::Approved;
+        end else begin
+            AppraisalStatus := Enum::"Approval Status"::" ";
+            IsApproved := false;
+        end;
     end;
 
     local procedure SetGeneralEditable()
@@ -240,46 +271,35 @@ page 50393 "KPI Employee"
         FieldEditableGroupBased := (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) and Rec."Group Based";
     end;
 
-    local procedure SetScoreEditable()
+    local procedure CheckReviewerSubmissionStatus()
+    var
+        ScoreDetail: Record "Score Detail";
     begin
-        FieldSelfScoring := false;
-        FieldSelfRating := false;
-        FieldSelfRemarks := false;
-        FieldSupervisorScoring := false;
-        FieldSupervisorRating := false;
-        FieldSupervisorRemarks := false;
-        FieldReviewerScoring := false;
-        FieldReviewerRating := false;
-        FieldReviewerRemarks := false;
-        FieldHRScoring := false;
-        FieldHRRating := false;
-        FieldHRRemarks := false;
+        IsReviewerSubmitted := false;
+        ScoreEditable := true;
+        RatingEditable := true;
+        RemarksEditable := true;
+        MaxScoreEditable := true;
+        if IsApproved then begin
+            ScoreEditable := false;
+            RatingEditable := false;
+            RemarksEditable := false;
+            MaxScoreEditable := false;
+            exit;
+        end;
+        if Rec."Reviewer Type" = '' then
+            exit;
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", Rec."Appraisal Code");
+        ScoreDetail.SetRange("Reviewer Type", Rec."Reviewer Type");
+        ScoreDetail.SetRange(Submitted, true);
 
-        case AppraisalStatus of
-            AppraisalStatus::Open:
-                begin
-                    FieldSelfScoring := (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) AND Rec."Self Rating Applicable";
-                    FieldSelfRating := (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating) AND Rec."Self Rating Applicable";
-                    FieldSelfRemarks := ((Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) OR (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating)) AND Rec."Self Rating Applicable";
-                end;
-            AppraisalStatus::Submitted:
-                begin
-                    FieldSupervisorScoring := Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring;
-                    FieldSupervisorRating := Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating;
-                    FieldSupervisorRemarks := (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) OR (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
-                end;
-            AppraisalStatus::Reviewed:
-                begin
-                    FieldReviewerScoring := Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring;
-                    FieldReviewerRating := Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating;
-                    FieldReviewerRemarks := (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) OR (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
-                end;
-            AppraisalStatus::"Check Reviewed":
-                begin
-                    FieldHRScoring := Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring;
-                    FieldHRRating := Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating;
-                    FieldHRRemarks := (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) OR (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
-                end;
+        if not ScoreDetail.IsEmpty then begin
+            IsReviewerSubmitted := true;
+            ScoreEditable := false;
+            RatingEditable := false;
+            RemarksEditable := false;
+            MaxScoreEditable := false;
         end;
     end;
 }

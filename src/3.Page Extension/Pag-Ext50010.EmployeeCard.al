@@ -1542,8 +1542,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category4;
                     ToolTip = 'Executes the Request Appraisal action.';
                     trigger OnAction()
+                    var
+                        AppraisalMgt: Codeunit "AppraisalMgt.";
                     begin
-                        Rec.OpenAppraisalRequest();
+                        AppraisalMgt.OpenAppraisalRequest(Rec."No.");
                     end;
                 }
 

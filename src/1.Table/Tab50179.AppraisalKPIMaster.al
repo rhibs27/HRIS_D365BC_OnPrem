@@ -223,7 +223,6 @@ table 50179 "Appraisal KPI Master"
     end;
 
     var
-        EngNepDate: Record "English-Nepali Date";
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
         HrMgt: Codeunit "HR Mgt.";
