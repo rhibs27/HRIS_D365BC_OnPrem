@@ -100,9 +100,8 @@ codeunit 50030 "Assignment Memo Mgt"
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
         DateVar: Record Date;
-        payrollgeneralSetup: Record "Payroll General Setup";
+        IsHandled: Boolean;
     begin
-        payrollgeneralSetup.Get();
         AssignmentMemoHdr.Get(DocumentNo);
         if AssignmentMemoLine.Get(DocumentNo, lineNo) then begin
 
@@ -130,28 +129,25 @@ codeunit 50030 "Assignment Memo Mgt"
             end;
 
             //check allowance configuration source and create ledger entries accordingly
-            AllowanceConfiguration.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
-            AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', AssignmentMemoLine."ATM Site"::" ", AssignmentMemoLine."ATM Site");
-            if AllowanceConfiguration.FindSet() then
-                repeat
-                    // check if allowance is eligible for employee.
-                    if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, AssignmentMemoLine."Employee No.", AssignmentMemoLine."To Date") then begin
-                        AllConfig2 := AllowanceConfiguration;
-                        break;
-                    end;
-                until AllowanceConfiguration.Next() = 0;
+            Clear(AllConfig2);
+            Clear(AllowanceConfiguration);
 
-            if payrollgeneralSetup."NMB specific Shift" then begin
-                AllowanceConfiguration.Reset();
-                AllConfig2.Reset();
-                AllowanceConfiguration.SetRange("Employee Work Shift", AssignmentMemoLine."Employee Work Shift");
+            IsHandled := false;
+            OnOtherAllowanceConfigurationCheck(AssignmentMemoLine, AllowanceConfiguration, IsHandled);
+            if IsHandled then begin
+                AllConfig2 := AllowanceConfiguration;
+            end else begin
+                AllowanceConfiguration.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
+                AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', AssignmentMemoLine."ATM Site"::" ", AssignmentMemoLine."ATM Site");
                 if AllowanceConfiguration.FindSet() then
                     repeat
-                        AllConfig2 := AllowanceConfiguration;
+                        // check if allowance is eligible for employee.
+                        if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, AssignmentMemoLine."Employee No.", AssignmentMemoLine."To Date") then begin
+                            AllConfig2 := AllowanceConfiguration;
+                            break;
+                        end;
                     until AllowanceConfiguration.Next() = 0;
             end;
-            
-
             DateVar.Reset();
             DateVar.SetRange("Period Type", DateVar."Period Type"::Date);
             if AllConfig2.Source in [AllConfig2.Source::Assignment, AllConfig2.Source::Shift] then
@@ -160,7 +156,6 @@ codeunit 50030 "Assignment Memo Mgt"
                 DateVar.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."From Date"); //insert only one ledger
             if DateVar.FindSet() then
                 repeat
-
                     //insert ledger entry for each date in range
                     Clear(AssignmentMemoLedgerEntry);
                     AssignmentMemoLedgerEntry.Init();
@@ -199,7 +194,9 @@ codeunit 50030 "Assignment Memo Mgt"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
         IsHandled: Boolean;
+        PayrollGSUP: Record "Payroll General Setup";
     begin
+        PayrollGSUP.Get();
         ProcessAssignmentRequestFromCopyTable(AssignmentmemoHdr, IsHandled);
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
             AssignmentMemoHdr.TestField(Remarks);
@@ -249,12 +246,14 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLine.Modify();
             until AssignmentMemoLine.Next() = 0;
 
-        //final check allowance amount 
-        // AssignmentMemoLine.Reset();
-        // AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
-        // AssignmentMemoLine.SetRange("Allowance Amount", 0);
-        // if not AssignmentMemoLine.IsEmpty() then
-        //     Error('allowance amount cannot be zero for any line.');
+        // final check allowance amount 
+        if not PayrollGSUP."NMB specific Shift" then begin
+            AssignmentMemoLine.Reset();
+            AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
+            AssignmentMemoLine.SetRange("Allowance Amount", 0);
+            if not AssignmentMemoLine.IsEmpty() then
+                Error('allowance amount cannot be zero for any line.');
+        end;
 
         //In case of substitute, open the approval for substitute
         if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Pending then begin
@@ -1479,6 +1478,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure CheckSkipAssignmentLedgerCreation(var AssignmentMemoLine: Record "Assignment Memo Line"; var SkipAssignmentLedgerCreation: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnOtherAllowanceConfigurationCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var AllConfig2: Record "Allowance Configuration"; var IsHandled: Boolean)
     begin
     end;
 }

@@ -182,6 +182,7 @@ report 50067 "Process Daily Attendance"
     procedure InitEmpAttendance()
     var
         ShiftLine: Record "Shift Line";
+        shiftmgt: Codeunit "Shift Assignment Mgt";
     begin
         ShiftLine.SetLoadFields("Employee No", "Roster Date", "Approval Status", "Substitute Type", "Employee Work Shift");
         ShiftLine.SetRange("Roster Date", Date."Period Start");
@@ -193,7 +194,7 @@ report 50067 "Process Daily Attendance"
                 InsertEmpAttendance(ShiftLine."Employee No", ShiftLine."Roster Date", ShiftLine."Employee Work Shift");
             until ShiftLine.Next() = 0
         else
-            InsertEmpAttendance(Employee."No.", Date."Period Start", Employee."Employee Work Shift");
+            InsertEmpAttendance(Employee."No.", Date."Period Start", shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start"));
 
         UpdateEmpAttendanceAsTransferFromServiceHistory();
     end;

@@ -257,7 +257,6 @@ table 50162 "Assignment Memo Line"
                 IsHandled1: Boolean;
             begin
                 if EmployeeWorkShift.Get("Employee Work Shift") and ("Emp Act Type" = "Emp Act Type"::"Shift Assignment Memo") then begin
-                    // if EmployeeWorkShift."Payroll Attribute Code" = '' then
                     OnBeforeValidatePayrollattribute(Rec, IsHandled1);
                     if not IsHandled1 then begin
                         if EmployeeWorkShift."Payroll Attribute Code" = '' then

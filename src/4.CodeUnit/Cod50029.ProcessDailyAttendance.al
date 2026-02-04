@@ -99,7 +99,8 @@ codeunit 50029 "Process Daily Attendance"
             AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
             AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
             AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
-            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
+            if AssignmentMemoLedgerEntry.FindFirst() then
+                exit(AssignmentMemoLedgerEntry."Employee Work Shift");
         end
         else begin
             ShiftLine.Reset();
@@ -107,7 +108,8 @@ codeunit 50029 "Process Daily Attendance"
             ShiftLine.SetRange("Employee No", EmpAttendance."Employee No.");
             ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
             ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-            exit(ShiftLine."Employee Work Shift");
+            if ShiftLine.FindFirst() then
+                exit(ShiftLine."Employee Work Shift");
         end;
     end;
 
@@ -130,6 +132,8 @@ codeunit 50029 "Process Daily Attendance"
             WorkShiftCode := EmpAttendance."Employee Working Shift";
 
         if EmpWorkShiftDetail.Get(WorkShiftCode) then begin
+            EmpAttendance.Rename(EmpAttendance."Employee No.", EmpAttendance."Attendance Date", WorkShiftCode);
+            EmpAttendance."Employee Working Shift" := WorkShiftCode;
             EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
             EmpAttendance."Shift End Time" := EmpWorkShiftDetail."End Time";
             EmpAttendance."Standard Work Time" := EmpWorkShiftDetail."Work Time";

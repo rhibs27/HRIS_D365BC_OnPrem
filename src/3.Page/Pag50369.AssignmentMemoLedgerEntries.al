@@ -69,6 +69,10 @@ page 50369 "Assignment Memo Ledger Entries"
                     ToolTip = 'Specifies the value of the Payroll Attribute Code field.', Comment = '%';
                     Editable = false;
                 }
+                field("Employee Work Shift"; rec."Employee Work Shift")
+                {
+                    Editable = false;
+                }
                 field("Substituted Employee No."; Rec."Substituted Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Substituted Employee No. field.', Comment = '%';

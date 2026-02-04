@@ -179,7 +179,8 @@ codeunit 50025 "Shift Assignment Mgt"
             AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeNo);
             AssignmentMemoLedgerEntry.SetRange("Posting Date", ShiftDate);
             AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
-            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
+            if AssignmentMemoLedgerEntry.FindSet() then
+                exit(AssignmentMemoLedgerEntry."Employee Work Shift");
         end else begin
             ShiftLine.Reset();
             ShiftLine.SetRange("Employee No", EmployeeNo);
