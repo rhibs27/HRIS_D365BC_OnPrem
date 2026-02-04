@@ -1706,8 +1706,7 @@ table 50027 "Payroll Line"
                         if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
                             AttributeAmount := AttributeAmount + GetOneTimeRFContributionAmount(PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
-                        if AttributeAmount <> 0 then
-                            SaveValues(AttributeAmount, PayrollAttributes.Code);
+                        SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;

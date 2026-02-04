@@ -316,8 +316,7 @@ codeunit 50034 "Salary Deduction Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
     begin
-        PayCyclePeriod.SetFilter("Start Date", '<=%1', DateParam);
-        PayCyclePeriod.SetFilter("End Date", '>=%1', DateParam);
+        PayCyclePeriod.Reset();
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateParam);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateParam);
         PayCyclePeriod.FindFirst();
