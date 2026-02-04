@@ -12,7 +12,7 @@ page 50373 "Assignment Memo Card"
             group(General)
             {
                 Caption = 'General';
-                // Editable = IsOpen;
+                Editable = IsOpen;
                 field("No."; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the No. field.', Comment = '%';
@@ -59,7 +59,7 @@ page 50373 "Assignment Memo Card"
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
-                    // Editable = false;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
             }

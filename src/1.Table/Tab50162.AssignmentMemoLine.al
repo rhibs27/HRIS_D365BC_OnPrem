@@ -115,7 +115,7 @@ table 50162 "Assignment Memo Line"
         field(13; "Document Date"; Date) { }
         field(19; "Approval Status"; Enum "Approval Status")
         {
-            // Editable = false;
+            Editable = false;
         }
         field(20; "No. of Days"; Decimal)
         {
