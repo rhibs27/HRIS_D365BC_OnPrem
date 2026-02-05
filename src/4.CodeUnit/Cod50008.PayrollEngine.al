@@ -3284,8 +3284,6 @@ codeunit 50008 "Payroll Engine"
             exit((DashainDays + 1) / 183 * TotalGrossSalary);
     end;
 
-
-
     procedure LoadLeaveFareAllowance(EmpType: Enum "Employee Type"; PayrollDocumentNo: Code[20])
     var
         Employee: Record Employee;
@@ -3319,7 +3317,8 @@ codeunit 50008 "Payroll Engine"
             until LeaveEarn.Next() = 0;
         foreach EmployeeNo in TotalAnnualLeaveByEmployee.Keys do begin
             LeaveTypeSetup.get(TempLeaveCode);
-            if LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
+            TotalAnnualLeaveByEmployee.Get(EmployeeNo, LeaveDays);
+            if -LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
                 EmployeePayrollAdjustment.Init();
                 EmployeePayrollAdjustment."Payroll Document No." := PayrollDocumentNo;
                 EmployeePayrollAdjustment.Validate("Employee No.", EmployeeNo);
