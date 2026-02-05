@@ -1768,6 +1768,7 @@ page 50041 "Payroll Subform"
                         repeat
                             payrollLine.ValidateEmployee();
                         until payrollLine.Next() = 0;
+                    Message('Line Attributes Updated.');
                 end;
             }
             action("Calculate Line Tax")
@@ -1776,9 +1777,20 @@ page 50041 "Payroll Subform"
                 ApplicationArea = All;
                 ToolTip = 'Executes the Get Calculate Line Tax action.';
                 trigger OnAction()
+                var
+                    PayrollLine: Record "Payroll Line";
+                    PayrollEngine: Codeunit "Payroll Engine";
                 begin
                     PayrollHeader.TestField(Status, PayrollHeader.Status::Pending);
-                    Rec.CalculatePayrollLine(PayrollHeader, Rec);
+                    CurrPage.SetSelectionFilter(PayrollLine);
+                    PayrollLine.MarkedOnly(true);
+                    if PayrollLine.FindSet() then
+                        repeat
+                            Clear(PayrollEngine);
+                            PayrollEngine.InitPayrollLine(PayrollLine);
+                        until PayrollLine.Next() = 0;
+                    PayrollHeader.CalcFields("Total Net Payable");
+                    Message('Line Tax Calculated');
                 end;
             }
 
