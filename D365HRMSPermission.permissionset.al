@@ -849,5 +849,7 @@ permissionset 50000 D365HRMSPermission
         page "Reviewer Setups"=X,
         page "Reviewer Weightage Setups"=X,
         page "Salary Deduction Entries"=X,
-        page "Score Detail Subform"=X;
+        page "Score Detail Subform"=X,
+        report "Update Emp Att. and Act Doc."=X,
+        page "Device Overview"=X;
 }

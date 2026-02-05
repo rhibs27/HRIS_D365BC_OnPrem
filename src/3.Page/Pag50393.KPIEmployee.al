@@ -16,74 +16,74 @@ page 50393 "KPI Employee"
                 field("Appraisal Code"; Rec."Appraisal Code")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                     Visible = false;
                 }
                 field("KPI No."; Rec."KPI No.")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Employee Code"; Rec."Employee Code")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("KRA"; Rec."KRA")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("KPI"; Rec."KPI")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Appraisal Template"; Rec."Appraisal Template")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Appraisal Type"; Rec."Appraisal Type")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
 
                 }
                 field("Appraisal Subtype Monthly"; Rec."Appraisal Subtype Monthly")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Appraisal Subtype Quarterly"; Rec."Appraisal Subtype Quarterly")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Questionnaire/Description"; Rec."Questionnaire/Description")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("KPI Rating Type"; Rec."KPI Rating Type")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
 
                     trigger OnValidate()
                     begin
@@ -93,17 +93,13 @@ page 50393 "KPI Employee"
                                     Clear(Rec.Weightage);
                                 end;
                         end;
-                        GetAppraisalStatus();
-                        SetGeneralEditable();
-                        //SetScoreEditable();
                         CurrPage.Update();
                     end;
                 }
                 field(Score; Rec.Score)
                 {
                     ApplicationArea = All;
-                    Editable = ScoreEditable and
-                    not IsApproved and (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) and not Rec."Group Based";
+                    Editable = (not IsReviewerSubmitted) and (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) and not Rec."Group Based";
                     trigger OnValidate()
                     begin
                         CurrPage.SaveRecord();
@@ -117,27 +113,27 @@ page 50393 "KPI Employee"
                 field(Rating; Rec.Rating)
                 {
                     ApplicationArea = All;
-                    Editable = RatingEditable and
-                    not IsApproved and (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
+                    Editable = (not IsReviewerSubmitted) and (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
                 }
                 field(Remarks; Rec.Remarks)
                 {
                     ApplicationArea = All;
-                    Editable = RemarksEditable and not IsApproved;
+                    Editable = not IsReviewerSubmitted;
                 }
                 field("Reviewer Type"; Rec."Reviewer Type")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Weightage"; Rec."Weightage")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Max Score"; Rec."Max Score")
                 {
                     ApplicationArea = All;
-                    Editable = not IsApproved;
+                    Editable = false;
                     trigger OnValidate()
                     begin
                         if Rec.Score > Rec."Max Score" then
@@ -147,51 +143,23 @@ page 50393 "KPI Employee"
                 field("Group Based"; Rec."Group Based")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("Self Rating Applicable"; Rec."Self Rating Applicable")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
                 field("KPI Master Remarks"; Rec."KPI Master Remarks")
                 {
                     ApplicationArea = All;
-                    Editable = FieldGeneralEditable;
+                    Editable = False;
                 }
-
-                // field("Target Assigned"; Rec."Target Assigned")
-                // {
-                //     ApplicationArea = All;
-                //     Editable = FieldGeneralEditable;
-                // }
-                // field("Actual Achievement"; Rec."Actual Achievement")
-                // {
-                //     ApplicationArea = All;
-                //     Editable = FieldGeneralEditable;
-                // }
-                // field("Action"; Rec.Action)
-                // {
-                //     ApplicationArea = All;
-                //     Editable = FieldGeneralEditable;
-                // }
-                // field("From Setup"; Rec."From Setup")
-                // {
-                //     ApplicationArea = All;
-                //     Editable = FieldGeneralEditable;
-                // }
-                // field("Hide Delete Action"; Rec."Hide Delete Action")
-                // {
-                //     ApplicationArea = All;
-                //     Editable = FieldGeneralEditable;
-                // }
             }
         }
     }
     trigger OnAfterGetRecord()
     begin
-        GetAppraisalStatus();
-        SetGeneralEditable();
         CheckReviewerSubmissionStatus();
     end;
 
@@ -202,80 +170,21 @@ page 50393 "KPI Employee"
 
     trigger OnOpenPage()
     begin
-        GetAppraisalStatus();
-        SetGeneralEditable();
         CheckReviewerSubmissionStatus();
     end;
 
     var
-        FieldGeneralEditable: Boolean;
-        FieldEditable1: Boolean;
-        FieldEditable2: Boolean;
-        FieldEditablescoring: Boolean;
-        FieldEditableGroupBased: Boolean;
-        Appraisal: Record Appraisal;
-        AppraisalStatus: Enum "Approval Status";
-        IsApproved: Boolean;
         IsReviewerSubmitted: Boolean;
-        ScoreEditable: Boolean;
-        RatingEditable: Boolean;
-        RemarksEditable: Boolean;
-        MaxScoreEditable: Boolean;
-
-    local procedure GetAppraisalStatus()
-    begin
-        Appraisal.Reset();
-        Appraisal.SetRange("Appraisal Code", Rec."Appraisal Code");
-        Appraisal.SetRange("Fiscal Year", Rec."Fiscal Year");
-
-        if Appraisal.FindFirst() then begin
-            AppraisalStatus := Appraisal."Approval Status";
-            IsApproved := Appraisal."Approval Status" = Appraisal."Approval Status"::Approved;
-        end else begin
-            AppraisalStatus := Enum::"Approval Status"::" ";
-            IsApproved := false;
-        end;
-    end;
-
-    local procedure SetGeneralEditable()
-    begin
-
-        FieldGeneralEditable := false;
-        FieldEditable1 := Rec."Appraisal Type" = Rec."Appraisal Type"::Monthly;
-        FieldEditable2 := Rec."Appraisal Type" = Rec."Appraisal Type"::Quarterly;
-        FieldEditablescoring := Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring;
-        FieldEditableGroupBased := (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Scoring) and Rec."Group Based";
-    end;
 
     local procedure CheckReviewerSubmissionStatus()
     var
         ScoreDetail: Record "Score Detail";
     begin
         IsReviewerSubmitted := false;
-        ScoreEditable := true;
-        RatingEditable := true;
-        RemarksEditable := true;
-        MaxScoreEditable := true;
-        if IsApproved then begin
-            ScoreEditable := false;
-            RatingEditable := false;
-            RemarksEditable := false;
-            MaxScoreEditable := false;
-            exit;
-        end;
-        if Rec."Reviewer Type" = '' then
-            exit;
         ScoreDetail.Reset();
         ScoreDetail.SetRange("Appraisal Code", Rec."Appraisal Code");
         ScoreDetail.SetRange("Reviewer Type", Rec."Reviewer Type");
         ScoreDetail.SetRange(Submitted, true);
-
-        if not ScoreDetail.IsEmpty then begin
-            IsReviewerSubmitted := true;
-            ScoreEditable := false;
-            RatingEditable := false;
-            RemarksEditable := false;
-            MaxScoreEditable := false;
-        end;
+        IsReviewerSubmitted := not ScoreDetail.IsEmpty; // if submitted is true  then  this field gets true value
     end;
 }

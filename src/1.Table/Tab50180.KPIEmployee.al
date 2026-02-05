@@ -49,20 +49,6 @@ table 50180 "KPI Employee"
         }
         field(15; "Self Rating Applicable"; Boolean) { }
         field(16; "KPI Master Remarks"; Text[150]) { }
-
-        // field(28; "Target Assigned"; Decimal) { }
-        // field(29; "Actual Achievement"; Decimal)
-        // {
-        //     trigger OnValidate()
-        //     begin
-        //         //Validate("Self Score", Round(("Weightage" * "Actual Achievement") / 100, 0.01, '='));
-        //     end;
-        // }
-        // field(30; "Action"; Boolean) { }
-        // field(31; "From Setup"; Boolean) { }
-
-        // field(33; "Hide Delete Action"; Boolean) { }
-
         field(17; "Appraisal Template"; Code[50]) { }
         field(18; "Group Based"; Boolean)
         { }

@@ -358,9 +358,6 @@ page 50390 "Appraisal Form Card"
 
     local procedure SetLayout()
     begin
-
-        // ApprovalSent := Rec."Approval Status" in [Rec."Approval Status"::Approved];
-        // DocumentEditable := Rec."Approval Status" in [Rec."Approval Status"::Open];
         IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true

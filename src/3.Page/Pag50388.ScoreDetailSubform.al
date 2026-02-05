@@ -142,7 +142,6 @@ page 50388 "Score Detail Subform"
         ErrorMessages: Text;
         AppraisalCode: Code[20];
         ReviewerType: Code[20];
-    //AppraisalPage: Page "Appraisal Form Card";
     begin
         AppraisalCode := Rec."Appraisal Code";
         ReviewerType := Rec."Reviewer Type";
@@ -195,8 +194,6 @@ page 50388 "Score Detail Subform"
 
             Message('%1 score detail(s) submitted successfully.', LinesSubmitted);
             CurrPage.Update(false);
-            // if CurrPage.IsVisible then
-            //     CurrPage.Update(true);
         end;
     end;
 
@@ -224,5 +221,4 @@ page 50388 "Score Detail Subform"
 
         exit(false);
     end;
-
 }
