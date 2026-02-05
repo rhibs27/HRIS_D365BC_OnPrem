@@ -1,7 +1,7 @@
 codeunit 50024 "Service History Mgt"
 {
     var
-        Employee : Record Employee;
+        Employee: Record Employee;
         Promotion: Record "Promotion";
 
     procedure AddToServiceHistory(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date): Code[20]
@@ -66,6 +66,7 @@ codeunit 50024 "Service History Mgt"
                     // EmpServiceHis.Validate("Deputation Value (to)", ExitTransferDeputationWiseValue(EmpServiceHis."Deputation Code (To)", EmpServiceHis."Employee No."));
                     EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
                     EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
+                    EmpServiceHis.Validate("Decision Date", EmployeeTransfer."Decision Date");
                     if ServiceEvent <> ServiceEvent::"Internal Appointment" then
                         EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
 
@@ -97,6 +98,7 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate("Approver Role (To)", Promotion."Promoted Approver Role");
                     EmpServiceHis.Validate("Staff Level (To)", Promotion."Promoted Staff Level");
                     EmpServiceHis.Validate("Effective Date", Promotion."Promotion Date");
+                    EmpServiceHis.Validate("Decision Date", Promotion."Decision Date");
                     EmpServiceHis.Insert(true);
                 end;
             else

@@ -67,6 +67,12 @@ page 50169 "Promotion List"
                     ToolTip = 'Specifies the value of the Promoted Functional Title field.';
                     ApplicationArea = All;
                 }
+                field("Decision Date"; Rec."Decision Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Decision Date field.', Comment = '%';
+                }
+
             }
         }
     }
