@@ -73,13 +73,6 @@ table 50177 "Score Detail"
         {
             Caption = 'Submitted';
             Editable = false;
-            // trigger OnValidate()
-            // begin
-            //     if Submitted then
-            //         "Submitted Date" := Today
-            //     else
-            //         Clear("Submitted Date");
-            // end;
         }
         field(9; "Submitted Date"; Date)
         {
@@ -92,7 +85,6 @@ table 50177 "Score Detail"
         }
         field(11; "Line No."; Integer) { }
     }
-
     keys
     {
         key(PK; "Appraisal Template", "Fiscal Year", "Reviewer Type", "Appraisal Code")
@@ -105,8 +97,6 @@ table 50177 "Score Detail"
         if "Line No." = 0 then
             "Line No." := GetNextLineNo("Appraisal Code");
     end;
-
-
     local procedure GetNextLineNo(AppraisalCode: Code[20]): Integer
     var
         ScoreDetail: Record "Score Detail";

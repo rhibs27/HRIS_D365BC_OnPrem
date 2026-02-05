@@ -185,13 +185,6 @@ table 50178 Appraisal
         {
             Editable = false;
         }
-        // field(55; "Reviewer Type"; Code[20])
-        // {
-        //     Caption = 'Reviewer Type';
-        //     TableRelation = "Reviewer Setup".Code;
-        // }
-
-
     }
     keys
     {
