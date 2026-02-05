@@ -193,11 +193,11 @@ page 50393 "KPI Employee"
         GetAppraisalStatus();
         SetGeneralEditable();
         CheckReviewerSubmissionStatus();
-        //SetScoreEditable();
     end;
+
     trigger OnAfterGetCurrRecord()
     begin
-         CheckReviewerSubmissionStatus();
+        CheckReviewerSubmissionStatus();
     end;
 
     trigger OnOpenPage()
@@ -205,7 +205,6 @@ page 50393 "KPI Employee"
         GetAppraisalStatus();
         SetGeneralEditable();
         CheckReviewerSubmissionStatus();
-        //SetScoreEditable();
     end;
 
     var
@@ -214,18 +213,6 @@ page 50393 "KPI Employee"
         FieldEditable2: Boolean;
         FieldEditablescoring: Boolean;
         FieldEditableGroupBased: Boolean;
-        FieldSelfScoring: Boolean;
-        FieldSelfRating: Boolean;
-        FieldSelfRemarks: Boolean;
-        FieldSupervisorScoring: Boolean;
-        FieldSupervisorRating: Boolean;
-        FieldSupervisorRemarks: Boolean;
-        FieldReviewerScoring: Boolean;
-        FieldReviewerRating: Boolean;
-        FieldReviewerRemarks: Boolean;
-        FieldHRScoring: Boolean;
-        FieldHRRating: Boolean;
-        FieldHRRemarks: Boolean;
         Appraisal: Record Appraisal;
         AppraisalStatus: Enum "Approval Status";
         IsApproved: Boolean;
@@ -235,17 +222,6 @@ page 50393 "KPI Employee"
         RemarksEditable: Boolean;
         MaxScoreEditable: Boolean;
 
-
-    // local procedure GetAppraisalStatus()
-    // begin
-    //     Appraisal.Reset();
-    //     Appraisal.SetRange("Appraisal Code", Rec."Appraisal Code");
-    //     Appraisal.SetRange("Fiscal Year", Rec."Fiscal Year");
-    //     if Appraisal.FindFirst() then
-    //         AppraisalStatus := Appraisal."Approval Status"
-    //     else
-    //         AppraisalStatus := Enum::"Approval Status"::" ";
-    // end;
     local procedure GetAppraisalStatus()
     begin
         Appraisal.Reset();
