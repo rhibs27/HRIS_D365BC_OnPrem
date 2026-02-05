@@ -3341,7 +3341,8 @@ codeunit 50008 "Payroll Engine"
         if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Basic Salary" then begin
             PayrollAttributesUsage.Reset();
             PayrollAttributesUsage.SetRange("Employee Code", EmpNo);
-            PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic);
+            PayrollAttributesUsage.SetAutoCalcFields(Type, Subtype);
+            PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic, PayrollAttributesUsage.Subtype::Grade);
             if PayrollAttributesUsage.FindFirst() then
                 exit(Round(PayrollAttributesUsage.Amount, 0.01, '='))
         end
