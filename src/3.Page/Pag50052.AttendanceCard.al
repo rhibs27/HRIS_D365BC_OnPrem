@@ -247,7 +247,7 @@ page 50052 "Attendance Card"
                     RunPageLink = "Attendance Document No" = field("No.");
                     RunPageMode = View;
                 }
-                action("View Reversals")
+                action("View Deduction Reversals")
                 {
                     Image = AnalysisView;
                     Promoted = true;

@@ -1,13 +1,10 @@
 page 50033 "Payroll Attributes Usage"
 {
-    // version PRM19.01.01
-
     DataCaptionFields = "Employee Code";
     PageType = List;
     SourceTable = "Payroll Attributes Usage";
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -17,6 +14,11 @@ page 50033 "Payroll Attributes Usage"
                 field("Employee Code"; Rec."Employee Code")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
+                    ApplicationArea = All;
+                }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                    ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
                 field("Code"; Rec.Code)
