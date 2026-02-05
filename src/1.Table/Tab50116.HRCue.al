@@ -339,6 +339,27 @@ table 50116 "HR Cue"
             FieldClass = FlowField;
             Editable = false;
         }
+        field(104; "Active Biometric Device"; Integer)
+        {
+            Description = 'Active Biometric Device';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = count("Biometric Device Config." where("Is Active" = const(true)));
+        }
+        field(105; "Inactive Biometric Device"; Integer)
+        {
+            Description = 'Inactive Biometric Device';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = count("Biometric Device Config." where("Is Active" = const(false)));
+        }
+        field(106; "Total Biometric Device"; Integer)
+        {
+            Description = 'Total Biometric Device';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = count("Biometric Device Config.");
+        }
     }
 
     keys

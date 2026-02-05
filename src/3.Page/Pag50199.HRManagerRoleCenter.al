@@ -40,9 +40,14 @@ page 50199 "HR Manager Role Center"
             {
                 ApplicationArea = All;
             }
-            part(control101; "Biometric Devices ListPart")
+            // part(control101; "Biometric Devices ListPart")
+            // {
+            //     ApplicationArea = all;
+            // }
+            part(DeviceOverview; "Device Overview")
             {
-                ApplicationArea = all;
+                Caption = 'Device Overview';
+                ApplicationArea = All;
             }
         }
     }

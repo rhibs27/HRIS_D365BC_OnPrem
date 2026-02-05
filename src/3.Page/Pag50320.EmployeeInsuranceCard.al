@@ -82,6 +82,20 @@ page 50320 "Employee Insurance Card"
                     ApplicationArea = All;
                     Editable = InsEndDateEdit;
                 }
+
+                field("Last Premium Payment Date (AD)"; Rec."Last Premium Payment Date (AD)")
+                {
+                    ToolTip = 'Specifies the value of the Insurance Last Premium Pay Date (AD) field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = InsStartDateEdit;
+                }
+
+                field("Last Premium Payment Date (BS)"; Rec."Last Premium Payment Date (BS)")
+                {
+                    ToolTip = 'Specifies the value of the Insurance Last Premium Pay Date (BS) field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = InsStartDateEdit;
+                }
                 field("Premium Paid By"; Rec."Premium Paid By")
                 {
                     ToolTip = 'Specifies the value of the Premium Paid By field.', Comment = '%';
