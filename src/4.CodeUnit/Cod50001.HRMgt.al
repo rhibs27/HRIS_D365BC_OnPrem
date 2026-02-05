@@ -5490,6 +5490,20 @@ codeunit 50001 "HR Mgt."
             exit(EngNep2."Nepali Day");
     end;
 
+    procedure GetLastPayDate(DateParam: Date): Date
+    var
+        PayCyclePeriod: Record "Pay Cycle Period";
+        PGSetUp: Record "Payroll General Setup";
+    begin
+        PGSetUp.Get();
+        PayCyclePeriod.Reset();
+        PayCyclePeriod.SetFilter("Pay Cycle Code", PGSetUp."Pay Cycle Code");
+        PayCyclePeriod.SetFilter("Pay Cycle Term", PGSetUp."Pay Cycle Term");
+        PayCyclePeriod.SetRange(Posted, true);
+        PayCyclePeriod.Findlast();
+        exit(PayCyclePeriod."Pay Date");
+    end;
+
     procedure IsSaaS(): Boolean
     var
         EnvInfo: Codeunit "Environment Information";

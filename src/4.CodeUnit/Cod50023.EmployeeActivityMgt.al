@@ -521,6 +521,7 @@ codeunit 50023 EmployeeActivityMgt
                 Promotion.Validate("Promotion Date", PromotionEmployeeJournal."Promotion Date");
                 Promotion.Validate("Approval Status", PromotionEmployeeJournal."Approval Status"::Approved);
                 Promotion.Validate("Approved Date", Today);
+                Promotion.Validate("Decision Date", PromotionEmployeeJournal."Decision Date");
                 Promotion.Validate(Type, PromotionEmployeeJournal.Type::Promotion);
                 Promotion.Insert(true);
                 PostedPromotionJournal.Init();

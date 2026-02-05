@@ -622,6 +622,10 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
+        field(154; "Decision Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(198; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;

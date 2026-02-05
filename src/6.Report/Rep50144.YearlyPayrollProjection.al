@@ -27,7 +27,7 @@ report 50144 "Yearly Payroll Projection"
             column(BankName; EmpVar."Bank Name") { }
             column(BankAccountNo; EmpVar."Bank Account No.") { }
             column(EmployeeSalaryLevel; EmpVar."Salary Level") { }
-            column(EmpDesignation; EmpVar."Functional Title Desc") { }
+            column(EmpDesignation; EmpVar."Salary Level Description") { }
             column(SSFNo; EmpVar."Social Security No.") { }
             column(EmployeeNo; EmpVar."No.") { }
             column(TaxCode; EmpVar."Tax Code") { }
@@ -288,17 +288,7 @@ report 50144 "Yearly Payroll Projection"
             end;
 
             trigger OnAfterGetRecord()
-            var
-                LocalDisabilityDiscount: Decimal;
-                RemoteAreaDeduction: Decimal;
             begin
-                // Get employee information
-                if not EmpVar.Get(EmployeeFilter) then
-                    Error('Employee %1 not found.', EmployeeFilter);
-                GetRemoteAreaDeduction("Employeefilter", RemoteAreaDeduction);
-                RemoteAreaDeductionAmount := RemoteAreaDeduction;
-                GetDisabilityDiscount(EmployeeFilter, LocalDisabilityDiscount);
-                DisabilityDiscount := LocalDisabilityDiscount;
                 // Initialize sorting number
                 SortingNo := GetAttributeSortingNumber(PayrollAttributes.Code);
                 if SortingNo = 0 then
@@ -622,6 +612,8 @@ report 50144 "Yearly Payroll Projection"
         TotalDonation := GetDonationAmount(EmployeeFilter);
         CalculateTotalRetirement();
         CalculateTaxExemptions();
+        GetDisabilityDiscount(EmployeeFilter, DisabilityDiscount);
+        GetRemoteAreaDeduction("EmployeeFilter", RemoteAreaDeductionAmount);
         CalculateFinalTaxableAmount();
     end;
 
