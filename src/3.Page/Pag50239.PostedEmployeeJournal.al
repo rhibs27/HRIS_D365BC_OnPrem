@@ -303,6 +303,11 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the User ID field.', Comment = '%';
                 }
+                field("Decision Date"; Rec."Decision Date")
+                {
+                    ToolTip = 'Specifies the value of the Decision Date field.', Comment = '%';
+                }
+
             }
         }
     }

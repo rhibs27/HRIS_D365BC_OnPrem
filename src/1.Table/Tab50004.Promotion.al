@@ -142,6 +142,10 @@ table 50004 Promotion
         }
         field(66; "Promotion Date (BS)"; Code[20]) { }
         field(100; "Status"; Text[20]) { }
+        field(154; "Decision Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
