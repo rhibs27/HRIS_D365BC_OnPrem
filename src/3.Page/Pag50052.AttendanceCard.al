@@ -247,6 +247,18 @@ page 50052 "Attendance Card"
                     RunPageLink = "Attendance Document No" = field("No.");
                     RunPageMode = View;
                 }
+                action("View Reversals")
+                {
+                    Image = AnalysisView;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the View Reversal action';
+                    ApplicationArea = All;
+                    RunObject = page "Det Salary Deduction Entries";
+                    RunPageLink = "Attendance No." = field("No.");
+                    RunPageMode = View;
+                }
             }
         }
     }
