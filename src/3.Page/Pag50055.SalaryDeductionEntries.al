@@ -106,7 +106,7 @@ page 50055 "Salary Deduction Entries"
                 var
                     SalaryDeductionEntry, SalaryDeductionEntry1 : Record "Salary Deduction Entry";
                     EmployeeAttendance: Record "Employee Attendance & Activity";
-                    EntryNumberFilter: Text[500];
+                    EntryNumberFilter: Text;
                 begin
                     SalaryDeductionEntry.SetRange("Attendance Document No", Rec."Attendance Document No");
                     SalaryDeductionEntry.SetRange("Deduction Type", Rec."Deduction Type"::Absent);
