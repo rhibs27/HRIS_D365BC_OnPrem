@@ -5490,7 +5490,7 @@ codeunit 50001 "HR Mgt."
             exit(EngNep2."Nepali Day");
     end;
 
-    procedure GetLastPayDate(DateParam: Date): Date
+    procedure GetLastPayDate(): Date
     var
         PayCyclePeriod: Record "Pay Cycle Period";
         PGSetUp: Record "Payroll General Setup";
@@ -5503,6 +5503,21 @@ codeunit 50001 "HR Mgt."
         PayCyclePeriod.Findlast();
         exit(PayCyclePeriod."Pay Date");
     end;
+
+    procedure GetPayCyclePeriod(StartDate: Date; Var PayCyclePeriod: Record "Pay Cycle Period"): Integer
+    var
+        PGSetUp: Record "Payroll General Setup";
+    begin
+        PGSetUp.Get();
+        PayCyclePeriod.Reset;
+        PayCyclePeriod.SetRange("Pay Cycle Term", PGSetUp."Pay Cycle Term");
+        PayCyclePeriod.SetRange("Pay Cycle Code", PGSetUp."Pay Cycle Code");
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', StartDate);
+        PayCyclePeriod.SetFilter("End Date", '>=%1', StartDate);
+        PayCyclePeriod.FindFirst;
+        exit(PayCyclePeriod.Period);
+    end;
+
 
     procedure IsSaaS(): Boolean
     var
