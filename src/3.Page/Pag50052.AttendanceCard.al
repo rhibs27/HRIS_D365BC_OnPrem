@@ -231,8 +231,10 @@ page 50052 "Attendance Card"
                     var
                         SalaryDeduction: Codeunit "Salary Deduction Mgt";
                     begin
-                        SalaryDeduction.GenerateSalaryDeductionEntries(Rec);
-                        Message('Salary Deduction Entries generated successfully for Monthly Attendance No. %1', Rec."No.");
+                        if Confirm('Do you want to Generate Salary Deduction Entry?', false) then begin
+                            SalaryDeduction.GenerateSalaryDeductionEntries(Rec);
+                            Message('Salary Deduction Entries generated successfully for Monthly Attendance No. %1', Rec."No.");
+                        end;
                     end;
                 }
                 action("View Deductions")
@@ -256,7 +258,7 @@ page 50052 "Attendance Card"
                     ToolTip = 'Executes the View Reversal action';
                     ApplicationArea = All;
                     RunObject = page "Det Salary Deduction Entries";
-                    RunPageLink = "Attendance No." = field("No.");
+                    RunPageLink = "Attendance No." = field("No."), Reversed = filter(true);
                     RunPageMode = View;
                 }
             }
