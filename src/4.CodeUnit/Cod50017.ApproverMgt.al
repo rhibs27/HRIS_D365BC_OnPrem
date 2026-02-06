@@ -22,7 +22,6 @@ codeunit 50017 "Approver Mgt"
         SequenceOneCount, ApprovalEntryCount : Integer;
         isHandled, SkipError : Boolean;
         PerSequenceCount: array[10] of Integer;
-        TravelRequest: Record "Travel Request";
     begin
         EmpRequest.Get(EmployeeNo);
         //if employee is a manual approver
