@@ -448,41 +448,39 @@ table 50162 "Assignment Memo Line"
     begin
         if PAssignMemo."Employee No." = '' then
             exit;
-        if PAssignMemo."Payroll Attribute Code" = '' then
-            exit;
+        if PAssignMemo."Payroll Attribute Code" <> '' then begin
+            if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
+                PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+                if PayrollAttr."Specific Attributes" <> PayrollAttr."Specific Attributes"::"Holiday Allowance" then
+                    exit;
+            end;
 
-        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
-            PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
-            if PayrollAttr."Specific Attributes" <> PayrollAttr."Specific Attributes"::"Holiday Allowance" then
+            AtmPayrollAttr.SetRange("Specific Attributes", AtmPayrollAttr."Specific Attributes"::"ATM Allowance");
+            if AtmPayrollAttr.FindFirst() then;
+            if PAssignMemo."Payroll Attribute Code" = AtmPayrollAttr.Code then
+                exit; // allow multiple entries for atm and vault key allowance
+
+            if PAssignMemo."Line No." = 0 then
                 exit;
+
+            PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+
+            AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
+            if PAssignMemo."Payroll Attribute Code" <> '' then
+                AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
+            else if PAssignMemo."Employee Work Shift" <> '' then
+                AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
+
+            if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
+                AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
+            AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
+            AssignmentMemoLine.SetFilter("Approval Status", '<>%1', PAssignMemo."Approval Status"::"Rejected");  //for same document check all status line except reject.
+            AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
+            AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
+            AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
+            if not AssignmentMemoLine.IsEmpty() then
+                Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
         end;
-
-        AtmPayrollAttr.SetRange("Specific Attributes", AtmPayrollAttr."Specific Attributes"::"ATM Allowance");
-        if AtmPayrollAttr.FindFirst() then;
-        if PAssignMemo."Payroll Attribute Code" = AtmPayrollAttr.Code then
-            exit; // allow multiple entries for atm and vault key allowance
-
-        if PAssignMemo."Line No." = 0 then
-            exit;
-
-        PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
-
-        AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
-        if PAssignMemo."Payroll Attribute Code" <> '' then
-            AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
-        else if PAssignMemo."Employee Work Shift" <> '' then
-            AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
-
-        if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
-            AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
-        AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
-        AssignmentMemoLine.SetFilter("Approval Status", '<>%1', PAssignMemo."Approval Status"::"Rejected");  //for same document check all status line except reject.
-        AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
-        AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
-        AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
-        if not AssignmentMemoLine.IsEmpty() then
-            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
-
         OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
     end;
 
