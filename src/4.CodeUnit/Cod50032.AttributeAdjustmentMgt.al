@@ -107,6 +107,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
         repeat
             Clear(EffectiveEndDate);
             Clear(EffectiveStartDate);
+            NewAttributeAdjustmentLine1.Reset();
             NewAttributeAdjustmentLine1.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
             NewAttributeAdjustmentLine1.SetRange("Employee No.", TempEmployee."No.");
             if NewAttributeAdjustmentLine1.FindSet() then
@@ -409,5 +410,40 @@ codeunit 50032 "Attribute Adjustment Mgt"
         if (Opt = '+') or (Opt = '-') then
             exit(1);
         exit(0);
+    end;
+
+    procedure ImportEmployeeAsPerServiceEvent(DocumentNo: Code[20]; AdjustmentType: Enum "Employee Activity Type"; AttributeCode: Code[20]; FromDate: Date; ToDate: Date)
+    var
+        ServiceHistory: Record "Employee Service History";
+        AttributeAdjLine: Record "Attribute Adjustment Line";
+    begin
+        ServiceHistory.Reset();
+        ServiceHistory.SetLoadFields();
+        ServiceHistory.SetFilter("Service Event", Format(AdjustmentType));
+        ServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+        if ServiceHistory.FindSet() then
+            repeat
+                AttributeAdjLine.Reset();
+                AttributeAdjLine.SetRange("Document No.", DocumentNo);
+                AttributeAdjLine.SetRange("Employee No.", ServiceHistory."Employee No.");
+                AttributeAdjLine.SetRange("Attribute Code", AttributeCode);
+                if not AttributeAdjLine.FindFirst() then begin
+                    AttributeAdjLine.Init();
+                    AttributeAdjLine."Document No." := DocumentNo;
+                    AttributeAdjLine."Line No." := GetLineNo(DocumentNo);
+                    AttributeAdjLine.Validate("Employee No.", ServiceHistory."Employee No.");
+                    AttributeAdjLine.Validate("Employee Name", ServiceHistory."Employee Name");
+                    AttributeAdjLine.Validate("Adjustment Type", AdjustmentType);
+                    AttributeAdjLine.Validate("Attribute Code", AttributeCode);
+                    AttributeAdjLine.Validate("Effective Start Date", ServiceHistory."Effective Date");
+                    AttributeAdjLine.Insert();
+                end;
+            until ServiceHistory.Next() = 0;
+        if AdjustmentType = AdjustmentType::Promotion then
+            Message('Promoted Employees added for selected month.')
+        else if AdjustmentType = AdjustmentType::Confirmation then
+            Message('Confirmed Employees added for selected month.')
+        else if AdjustmentType = AdjustmentType::"Employee Transfer" then
+            Message('Transferred Employees added for selected month.');
     end;
 }

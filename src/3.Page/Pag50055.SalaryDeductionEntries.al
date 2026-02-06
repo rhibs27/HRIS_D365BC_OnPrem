@@ -5,6 +5,7 @@ page 50055 "Salary Deduction Entries"
     PageType = List;
     SourceTable = "Salary Deduction Entry";
     UsageCategory = Lists;
+    InsertAllowed = false;
 
     layout
     {
@@ -72,6 +73,72 @@ page 50055 "Salary Deduction Entries"
                     ApplicationArea = All;
                     Editable = not Rec."Attendance Posted";
                 }
+            }
+        }
+    }
+    actions
+    {
+        area(Promoted)
+        {
+            actionref(ViewAttendance; "View Attendance") { }
+            actionref(FilterAttendanceUpdated; "Filter Attendance Updated") { }
+            actionref(ClearFilter; "Clear Filter") { }
+
+        }
+        area(Navigation)
+        {
+            action("View Attendance")
+            {
+                ApplicationArea = All;
+                Scope = Repeater;
+                Image = ViewCheck;
+                RunObject = page "Employee Attendance & Activity";
+                RunPageLink = "Employee No." = field("Employee No."), "Attendance Date" = field("Deduction Date");
+                RunPageMode = View;
+                RunPageView = sorting("Employee No.") order(ascending);
+            }
+            action("Filter Attendance Updated")
+            {
+                ApplicationArea = All;
+                Scope = Repeater;
+                Image = UseFilters;
+                trigger OnAction()
+                var
+                    SalaryDeductionEntry, SalaryDeductionEntry1 : Record "Salary Deduction Entry";
+                    EmployeeAttendance: Record "Employee Attendance & Activity";
+                    EntryNumberFilter: Text;
+                begin
+                    SalaryDeductionEntry.SetRange("Attendance Document No", Rec."Attendance Document No");
+                    SalaryDeductionEntry.SetRange("Deduction Type", Rec."Deduction Type"::Absent);
+                    SalaryDeductionEntry.SetRange("Attendance Posted", false);
+                    if SalaryDeductionEntry.FindSet() then
+                        repeat
+                            EmployeeAttendance.SetRange("Employee No.", SalaryDeductionEntry."Employee No.");
+                            EmployeeAttendance.SetRange("Attendance Date", SalaryDeductionEntry."Deduction Date");
+                            EmployeeAttendance.SetRange("Absent Day", 0);
+                            if EmployeeAttendance.FindFirst() then
+                                EntryNumberFilter += Format(SalaryDeductionEntry."Entry No.") + '|';
+                        until SalaryDeductionEntry.Next() = 0;
+
+                    if EntryNumberFilter.EndsWith('|') then
+                        EntryNumberFilter := CopyStr(EntryNumberFilter, 1, StrLen(EntryNumberFilter) - 1);
+                    Rec.FilterGroup(2);
+                    Rec.SetFilter("Entry No.", EntryNumberFilter);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+
+                Image = ClearFilter;
+                ToolTip = 'Executes the Clear filter action.';
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Entry No.");
+                    Rec.FilterGroup(0);
+                end;
             }
         }
     }

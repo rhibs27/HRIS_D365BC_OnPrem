@@ -4250,8 +4250,8 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.Validate("Employee No.", EmpCode);
         TempRetirementFund.Validate("Fiscal Year", ReturnFiscalYear(Today));
         TempRetirementFund.Validate("Approval Status", TempRetirementFund."Approval Status"::Open);
-        TempRetirementFund.Validate("Created Date", CurrentDateTime);
-        TempRetirementFund.Validate("Requested Date", CurrentDateTime);
+        TempRetirementFund.Validate("Created Date", Today);
+        TempRetirementFund.Validate("Requested Date", Today);
         TempRetirementFund.Insert(true);
         if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then
             PayCyclePeriod.SetRange("Start Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
@@ -4317,7 +4317,7 @@ codeunit 50001 "HR Mgt."
         PRSetup.Get;
         RetirementFund.TestField("Approval Status", RetirementFund."Approval Status"::Pending);
         RetirementFund."Approval Status" := RetirementFund."Approval Status"::Screened;
-        RetirementFund."Screened Date" := CurrentDateTime;
+        RetirementFund."Screened Date" := Today;
         RetirementFund."Screened By" := UserId;
         Employee.Get(RetirementFund."Employee No.");
         PayrollAttributesUsage.Reset;
@@ -5488,6 +5488,20 @@ codeunit 50001 "HR Mgt."
         EngNep2.SetRange("Nepali Month", NepaliMonth);
         if EngNep2.findlast() then
             exit(EngNep2."Nepali Day");
+    end;
+
+    procedure GetLastPayDate(DateParam: Date): Date
+    var
+        PayCyclePeriod: Record "Pay Cycle Period";
+        PGSetUp: Record "Payroll General Setup";
+    begin
+        PGSetUp.Get();
+        PayCyclePeriod.Reset();
+        PayCyclePeriod.SetFilter("Pay Cycle Code", PGSetUp."Pay Cycle Code");
+        PayCyclePeriod.SetFilter("Pay Cycle Term", PGSetUp."Pay Cycle Term");
+        PayCyclePeriod.SetRange(Posted, true);
+        PayCyclePeriod.Findlast();
+        exit(PayCyclePeriod."Pay Date");
     end;
 
     procedure IsSaaS(): Boolean

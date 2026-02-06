@@ -12,5 +12,15 @@ tableextension 50025 "Standard Text" extends "Standard Text"
             DataClassification = ToBeClassified;
             Caption = 'Attendance Missed Access';
         }
+        field(50002; "Check-in/Check-out Mandatory"; Boolean)
+        {
+            Caption = 'Check-in/Check-out Mandatory';
+            DataClassification = ToBeClassified;
+        }
+        field(50003; "Attendance Entry Type"; Enum "Attendance Entry Type")
+        {
+            Caption = 'Attendance Entry Type';
+            DataClassification = ToBeClassified;
+        }
     }
 }

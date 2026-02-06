@@ -55,7 +55,7 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary): Code[20]
     var
-        AttendanceMissed1 : Record "Attendance Missed";
+        AttendanceMissed1: Record "Attendance Missed";
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
@@ -153,6 +153,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         LogDateTime: DateTime;
         MachineEmpNo: Text;
         CheckOutDate: Date;
+        SalaryDeductionMgt: Codeunit "Salary Deduction Mgt";
     begin
         AttendanceMissed.Get(AttendanceMissCode);
         Employee.Get(AttendanceMissed."Employee No.");
@@ -161,7 +162,10 @@ codeunit 50016 "AttendanceMiss Mgt"
             if AttendanceMissed."Check In Time" <> 0T then
                 if not CheckAttendanceLogs(MachineEmpNo, AttendanceMissed."Start Date", AttendanceMissed."Check In Time") then begin//Check Already exits logs
                     AttendanceLog.Init();
-                    Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time"));
+                    if (not GuiAllowed) and HRMgt.IsSaaS() then
+                        Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time" - (5 * 3600000 + 45 * 60000)))
+                    else
+                        Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time"));
                     AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(AttendanceMissed."Start Date", 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceMissed."Check In Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>'));
                     AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                     AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
@@ -180,7 +184,10 @@ codeunit 50016 "AttendanceMiss Mgt"
                 if not CheckAttendanceLogs(MachineEmpNo, CheckOutDate, AttendanceMissed."Check Out Time") then begin
                     AttendanceLog.Init();
                     AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(CheckOutDate, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceMissed."Check Out Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>'));
-                    Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time"));
+                    if (not GuiAllowed) and HRMgt.IsSaaS() then
+                        Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time" - (5 * 3600000 + 45 * 60000)))
+                    else
+                        Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time"));
                     AttendanceLog.Validate(Date, CheckOutDate);
                     AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                     AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
@@ -190,6 +197,10 @@ codeunit 50016 "AttendanceMiss Mgt"
                     AttendanceLog.Insert();
                 end;
             end;
+
+            //Reverse Deduction if found when approved.
+            SalaryDeductionMgt.ReverseSalaryLedgerEntry(AttendanceMissed."Employee No.", AttendanceMissed."Start Date");
+
             // Update Daily Attendance
             if AttendanceMgt.DailyAttendanceUpdate(AttendanceMissed."Start Date", AttendanceMissed."Start Date", AttendanceMissed."Employee No.") then begin
                 EmpAttendActivity.SetRange("Attendance Date", AttendanceMissed."Start Date");

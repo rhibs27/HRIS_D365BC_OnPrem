@@ -421,11 +421,13 @@ codeunit 50017 "Approver Mgt"
                     if Approved then begin
                         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
                         ApprovalHRMS.Validate("Approved By", HRMgt.GetEmpName());
+                        ApprovalHRMS.Validate("Approved By Code", HRMgt.GetEmployeeNo());
                         RecRef.Field(100).Validate(ApprovalHRMS.Status);
                     end
                     else begin
                         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                         ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                        ApprovalHRMS.Validate("Rejected By Code", HRMgt.GetEmployeeNo());
                         RecRef.Field(16).Validate(ApprovalStatus::Rejected);
                         case EmployeeActivityType of
                             EmployeeActivityType::"Leave Request":
@@ -478,6 +480,9 @@ codeunit 50017 "Approver Mgt"
                                     // before sending approval
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
+                                    RFContribution.Reset();
+                                    RFContribution.SetRange("Document No.", DocumentNo);
+                                    RFContribution.ModifyAll("Approval Status", RFContribution."Approval Status"::Rejected);
                                 end;
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
@@ -630,6 +635,7 @@ codeunit 50017 "Approver Mgt"
                         if ApprovalHRMS."Approval Status" in [ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open, ApprovalHRMS."Approval Status"::Pending] then begin
                             ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                             ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                            ApprovalHRMS.Validate("Rejected By Code", HRMgt.GetEmployeeNo());
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
@@ -759,6 +765,9 @@ codeunit 50017 "Approver Mgt"
                                     // brfore sending approval
                                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
+                                    RFContribution.Reset();
+                                    RFContribution.SetRange("Document No.", DocumentNo);
+                                    RFContribution.ModifyAll("Approval Status", RFContribution."Approval Status"::Rejected);
                                 end;
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
@@ -953,36 +962,54 @@ codeunit 50017 "Approver Mgt"
 
     local procedure GetRetirementFund(RetirementFund: Record "Retirement Fund")
     var
-        RFContribution: Record "RF Contribution";
+        RFContributionLine: Record "RF Contribution";
         PayrollAttributeUsgae: Record "Payroll Attributes Usage";
+        PayrollLine: Record "Payroll Line";
     begin
-        RFContribution.SetRange("Document No.", RetirementFund."No.");
-        RFContribution.SetRange("Employee No.", RetirementFund."Employee No.");
-        if RFContribution.FindFirst() then
-            case RFContribution.Type of
-                RFContribution.Type::Manual, RFContribution.Type::Optimum, RFContribution.Type::Percent:
+        RFContributionLine.SetRange("Document No.", RetirementFund."No.");
+        RFContributionLine.SetRange("Employee No.", RetirementFund."Employee No.");
+        if RFContributionLine.FindFirst() then
+            case RFContributionLine.Type of
+                RFContributionLine.Type::Manual, RFContributionLine.Type::Optimum:
                     begin
                         PayrollAttributeUsgae.SetRange("Employee Code", RetirementFund."Employee No.");
-                        PayrollAttributeUsgae.SetRange(Code, RFContribution."Attribute Code");
+                        PayrollAttributeUsgae.SetRange(Code, RFContributionLine."Attribute Code");
                         if PayrollAttributeUsgae.FindFirst() then begin
-                            PayrollAttributeUsgae."RF Contribution Type" := RFContribution.Type;
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContributionLine.Type;
                             PayrollAttributeUsgae.Modify();
                         end;
                     end;
-                RFContribution.Type::Fixed:
+                RFContributionLine.Type::Fixed:
                     begin
                         PayrollAttributeUsgae.SetRange("Employee Code", RetirementFund."Employee No.");
-                        PayrollAttributeUsgae.SetRange(Code, RFContribution."Attribute Code");
+                        PayrollAttributeUsgae.SetRange(Code, RFContributionLine."Attribute Code");
                         if PayrollAttributeUsgae.FindFirst() then begin
-                            PayrollAttributeUsgae.Amount := RFContribution.Amount;
-                            PayrollAttributeUsgae."RF Contribution Type" := RFContribution.Type;
+                            PayrollAttributeUsgae.Amount := RFContributionLine.Amount;
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContributionLine.Type;
                             PayrollAttributeUsgae.Modify();
                         end else begin
                             PayrollAttributeUsgae.Init();
                             PayrollAttributeUsgae.Validate("Employee Code", RetirementFund."Employee No.");
-                            PayrollAttributeUsgae.Validate(Code, RFContribution."Attribute Code");
-                            PayrollAttributeUsgae.Validate(Amount, RFContribution.Amount);
-                            PayrollAttributeUsgae."RF Contribution Type" := RFContribution.Type;
+                            PayrollAttributeUsgae.Validate(Code, RFContributionLine."Attribute Code");
+                            PayrollAttributeUsgae.Validate(Amount, RFContributionLine.Amount);
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContributionLine.Type;
+                            if PayrollAttributeUsgae.Insert() then;
+                        end;
+                    end;
+                RFContributionLine.Type::Percent:
+                    begin
+                        PayrollAttributeUsgae.SetRange("Employee Code", RetirementFund."Employee No.");
+                        PayrollAttributeUsgae.SetRange(Code, RFContributionLine."Attribute Code");
+                        if PayrollAttributeUsgae.FindFirst() then begin
+                            PayrollAttributeUsgae.Amount := PayrollLine.GetAmountRFContribution(RetirementFund."Employee No.") * RFContributionLine.Amount / 100;
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContributionLine.Type;
+                            PayrollAttributeUsgae.Modify();
+                        end else begin
+                            PayrollAttributeUsgae.Init();
+                            PayrollAttributeUsgae.Validate("Employee Code", RetirementFund."Employee No.");
+                            PayrollAttributeUsgae.Validate(Code, RFContributionLine."Attribute Code");
+                            PayrollAttributeUsgae.Validate(Amount, PayrollLine.GetAmountRFContribution(RetirementFund."Employee No.") * RFContributionLine.Amount / 100);
+                            PayrollAttributeUsgae."RF Contribution Type" := RFContributionLine.Type;
                             if PayrollAttributeUsgae.Insert() then;
                         end;
                     end;
@@ -1338,6 +1365,7 @@ codeunit 50017 "Approver Mgt"
                     if Approved then begin
                         Approver.Validate("Approval Status", Approver."Approval Status"::Approved);
                         Approver.Validate("Approved By", HRMgt.GetEmpName());
+                        Approver.Validate("Approved By Code", HRMgt.GetEmployeeNo());
                         EmployeeActivityJournal.ModifyAll(Status, Approver.Status);
                     end;
                     Approver.Modify();

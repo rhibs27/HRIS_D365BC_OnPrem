@@ -37,14 +37,6 @@ table 50164 "Attribute Adjustment Header"
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
         }
-        field(60; "Payroll Attribute Filter"; Text[100])
-        {
-            Caption = 'Payroll Attribute Filter';
-        }
-        field(70; "Employee Filter"; Text[100])
-        {
-            Caption = 'Employee Filter';
-        }
         field(80; "Adjustment Type"; Enum "Employee Activity Type")
         {
             Caption = 'Adjustment Type';

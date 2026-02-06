@@ -145,6 +145,13 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            trigger OnValidate()
+            begin
+                if Percentage < 0 then
+                    Error('Percentage cannot be negative');
+                if Percentage > 100 then
+                    Error('Percentage cannot be greater than 100');
+            end;
         }
         field(27; Stream; Text[30])
         {

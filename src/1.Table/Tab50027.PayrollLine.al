@@ -1767,6 +1767,7 @@ table 50027 "Payroll Line"
             repeat
                 RetirementFundHeader.Reset();
                 RetirementFundHeader.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RetirementFundHeader.SetRange("Attribute Code", PayrollAttrUses.Code);
                 RetirementFundHeader.SetRange("Approval Status", RetirementFundHeader."Approval Status"::Approved);
                 if not RetirementFundHeader.FindLast() then
                     exit;
@@ -2785,8 +2786,13 @@ table 50027 "Payroll Line"
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
+        PayrollGeneralSetup: Record "Payroll General Setup";
     begin
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PayrollGeneralSetup.Get();
+        if not PayrollGeneralSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo");
         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttr);
@@ -2848,15 +2854,16 @@ table 50027 "Payroll Line"
     var
         AttrUsageHistory: Record "Attributes Usage History";
     begin
-        PayCyclePeriod.Reset();
-        PayCyclePeriod.SetRange("Start Date", AttrUsageHistory."Start Date");
-        if PayCyclePeriod.FindFirst() then
-            exit;
+        AttrUsageHistory.Reset();
         AttrUsageHistory.SetRange("Employee No.", EmpCode);
         AttrUsageHistory.SetRange("Attribute Code", AttrCode);
         AttrUsageHistory.SetRange(Reversed, false);
         AttrUsageHistory.SetFilter("Start Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         if AttrUsageHistory.FindFirst() then begin
+            PayCyclePeriod.Reset();
+            PayCyclePeriod.SetRange("Start Date", AttrUsageHistory."Start Date");
+            if PayCyclePeriod.FindFirst() then
+                exit;
             ProRatedAmount := AttrUsageHistory."Old Amount" + GetDifferentialAmount(AttrUsageHistory."New Amount",
                                                                                     AttrUsageHistory."Old Amount",
                                                                                     AttrUsageHistory."Start Date",
@@ -2915,7 +2922,8 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
-        PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1|<%2', 0D, PayrollHeader."From Date");
+        PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1&<%2', 0D, PayrollHeader."From Date");
+        PayrollAttrUsageHistory.SetRange(Reversed, false);
         if PayrollAttrUsageHistory.FindFirst() then begin
             PayCyclePeriod.Reset();
             PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Start Date");

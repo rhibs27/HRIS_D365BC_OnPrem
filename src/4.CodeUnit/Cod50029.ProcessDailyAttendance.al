@@ -58,6 +58,7 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Week Off Day" = 1) then
             EmpAttendance."Present in Holiday" := 1;
 
+        OnUpdateEmpAttendanceOnbeforeModify(EmpAttendance);
         EmpAttendance.Modify(true);
     end;
 
@@ -86,6 +87,7 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Source No." := '';
         EmpAttendance.Remarks := '';
         EmpAttendance."Employee Activity Found" := false;
+        EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::" ";
     end;
 
     local procedure GetShiftCodeformShiftAssignment(): Code[20]
@@ -346,8 +348,9 @@ codeunit 50029 "Process Daily Attendance"
     var
         AttendanceLog: Record "Attendance Log";
     begin
-        AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time", "Device IP");
+        AttendanceLog.SetCurrentKey("Date Time Log");
+        AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         if AttendanceLog.FindFirst() then begin
@@ -370,10 +373,16 @@ codeunit 50029 "Process Daily Attendance"
     var
         AttendanceLog: Record "Attendance Log";
     begin
-        AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time");
+        AttendanceLog.SetCurrentKey("Date Time Log");
+        AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
-        AttendanceLog.SetRange("Date Time Log", StartTime, EndTime);
+        if GuiAllowed then
+            AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
+        else begin
+            AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
+            AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
+        end;
         if FirstRecord then
             if AttendanceLog.FindFirst() then;
         if not FirstRecord then
@@ -393,6 +402,11 @@ codeunit 50029 "Process Daily Attendance"
 
     [IntegrationEvent(false, false)]
     procedure OnAfterProcessDayFromEmpActLedgerEntry(var EmpAttendance: Record "Employee Attendance & Activity"; Var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry"; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnUpdateEmpAttendanceOnbeforeModify(var EmpAttendance: Record "Employee Attendance & Activity")
     begin
     end;
 }

@@ -10,7 +10,7 @@ table 50004 Promotion
             begin
                 if "No." <> xRec."No." then begin
                     HumanResSetup.Get;
-                    NoSeriesMgt.TestManual(HumanResSetup."Appraisal No.");
+                    NoSeriesMgt.TestManual(HumanResSetup."Promotion No.");
                     "No. Series" := '';
                 end;
             end;
@@ -142,6 +142,10 @@ table 50004 Promotion
         }
         field(66; "Promotion Date (BS)"; Code[20]) { }
         field(100; "Status"; Text[20]) { }
+        field(154; "Decision Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';
