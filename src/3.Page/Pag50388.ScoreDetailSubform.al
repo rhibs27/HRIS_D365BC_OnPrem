@@ -6,8 +6,6 @@ page 50388 "Score Detail Subform"
     SourceTable = "Score Detail";
     InsertAllowed = false;
     DeleteAllowed = false;
-
-
     layout
     {
         area(Content)
@@ -87,7 +85,6 @@ page 50388 "Score Detail Subform"
                 trigger OnAction()
                 begin
                     SubmitAllScores();
-
                 end;
             }
         }
@@ -114,7 +111,6 @@ page 50388 "Score Detail Subform"
     begin
         ScoreRatingEditable := true;
         SubmittedEditable := true;
-
         if not AppraisalHdr.Get(Rec."Appraisal Code") then
             exit;
         if AppraisalHdr."Approval Status" = AppraisalHdr."Approval Status"::Approved then begin
@@ -122,10 +118,8 @@ page 50388 "Score Detail Subform"
             SubmittedEditable := false;
             exit;
         end;
-
         if Rec."Reviewer Type" = '' then
             exit;
-
         if ReviewerSetup.Get(Rec."Reviewer Type") then
             ScoreRatingEditable :=
                 not (ReviewerSetup."Is Self Review" or ReviewerSetup."Is Group Based");
@@ -183,7 +177,6 @@ page 50388 "Score Detail Subform"
         ScoreDetail.SetRange("Reviewer Type", ReviewerType);
         ScoreDetail.SetRange(Submitted, false);
         LinesSubmitted := 0;
-
         if ScoreDetail.FindSet() then begin
             repeat
                 ScoreDetail.Submitted := true;
@@ -191,12 +184,10 @@ page 50388 "Score Detail Subform"
                 ScoreDetail.Modify();
                 LinesSubmitted += 1;
             until ScoreDetail.Next() = 0;
-
             Message('%1 score detail(s) submitted successfully.', LinesSubmitted);
             CurrPage.Update(false);
         end;
     end;
-
     local procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
     var
         HRSetup: Record "Human Resources Setup";

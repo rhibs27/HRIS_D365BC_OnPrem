@@ -169,6 +169,8 @@ page 50390 "Appraisal Form Card"
                 Caption = 'KPI Employee Score';
                 ApplicationArea = All;
                 SubPageLink = "Appraisal Code" = field("Appraisal Code"), "Employee Code" = field("Employee Code");
+                UpdatePropagation = Both;
+
             }
             part("Employee Appraisal Questions"; "Employee Appraisal Questions")
             {
@@ -181,6 +183,7 @@ page 50390 "Appraisal Form Card"
                 Caption = 'Score Details';
                 ApplicationArea = All;
                 SubPageLink = "Appraisal Code" = field("Appraisal Code"), "Appraisal Template" = field("Appraisal Template"), "Fiscal Year" = field("Fiscal Year");
+                UpdatePropagation = Both;
 
             }
             part("HRMS Approval Entry"; "HRMS Approval Entry")
