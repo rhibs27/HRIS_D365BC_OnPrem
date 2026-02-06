@@ -294,6 +294,10 @@ table 50096 "Employee Service History"
         field(74; "Staff Level (To)"; Enum "Staff Type") { }
         field(75; "Extension Description (From)"; Text[100]) { }
         field(76; "Extension Description (To)"; Text[100]) { }
+        field(77; "Decision Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
 

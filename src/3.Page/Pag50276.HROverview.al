@@ -149,6 +149,11 @@ page 50276 "HR Overview"
                         ToolTip = 'Specifies the value of the Insurance field.';
                         ApplicationArea = All;
                     }
+                    field("Retirement Fund"; Rec."Retirement Fund")
+                    {
+                        ToolTip = 'Specifies the value of the Retirement Fund field.';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }

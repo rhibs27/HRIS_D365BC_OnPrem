@@ -27,7 +27,7 @@ report 50144 "Yearly Payroll Projection"
             column(BankName; EmpVar."Bank Name") { }
             column(BankAccountNo; EmpVar."Bank Account No.") { }
             column(EmployeeSalaryLevel; EmpVar."Salary Level") { }
-            column(EmpDesignation; EmpVar."Functional Title Desc") { }
+            column(EmpDesignation; EmpVar."Salary Level Description") { }
             column(SSFNo; EmpVar."Social Security No.") { }
             column(EmployeeNo; EmpVar."No.") { }
             column(TaxCode; EmpVar."Tax Code") { }

@@ -316,6 +316,7 @@ codeunit 50023 EmployeeActivityMgt
                 repeat
                     ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                     ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                    ApprovalHRMS.Validate("Rejected By Code", HRMgt.GetEmployeeNo());
                     ApprovalHRMS.Modify();
                 until ApprovalHRMS.Next() = 0;
         end;
@@ -520,6 +521,7 @@ codeunit 50023 EmployeeActivityMgt
                 Promotion.Validate("Promotion Date", PromotionEmployeeJournal."Promotion Date");
                 Promotion.Validate("Approval Status", PromotionEmployeeJournal."Approval Status"::Approved);
                 Promotion.Validate("Approved Date", Today);
+                Promotion.Validate("Decision Date", PromotionEmployeeJournal."Decision Date");
                 Promotion.Validate(Type, PromotionEmployeeJournal.Type::Promotion);
                 Promotion.Insert(true);
                 PostedPromotionJournal.Init();
@@ -562,6 +564,7 @@ codeunit 50023 EmployeeActivityMgt
                 LoanJournal.TestField("Loan Type");
                 LoanJournal.TestField("Loan Account No.");
                 LoanJournal.TestField("Loan Disbursed Amount");
+                LoanJournal.TestField("Loan Disbursement Date");
                 if LoanJournal."Loan Type" = LoanJournal."Loan Type"::"Vehicle Loan" then begin
                     LoanJournal.TestField("Loan Account Opening Date");
                     LoanJournal.TestField("Loan Expiry Date");
@@ -599,7 +602,7 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeLoanRec."Applied Loan/Advance" := LoanJournal."Loan Disbursed Amount";
                 EmployeeLoanRec."Disbursed Amount" := LoanJournal."Loan Disbursed Amount";
                 EmployeeLoanRec."Loan Expiry Date" := LoanJournal."Loan Expiry Date";
-                EmployeeLoanRec."Disbursement Date" := LoanJournal."Posting Date";
+                EmployeeLoanRec."Disbursement Date" := LoanJournal."Loan Disbursement Date";
                 EmployeeLoanRec."Settlement Date" := LoanJournal."Loan Settlement Date";
                 EmployeeLoanRec."Insurance Company" := LoanJournal."Insurance Company";
                 EmployeeLoanRec."Policy No" := LoanJournal."Policy No";

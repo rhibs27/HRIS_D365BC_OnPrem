@@ -6,7 +6,6 @@ page 50369 "Assignment Memo Ledger Entries"
     SourceTable = "Assignment Memo Ledger Entry";
     UsageCategory = Lists;
     InsertAllowed = false;
-    // ModifyAllowed = false;
     DeleteAllowed = false;
 
     layout
@@ -65,11 +64,6 @@ page 50369 "Assignment Memo Ledger Entries"
                     ToolTip = 'Specifies the value of the Employee Activity Type field.', Comment = '%';
                     Editable = false;
                 }
-                field("Applied Document No."; Rec."Payroll Document No.")
-                {
-                    ToolTip = 'Specifies the value of the Applied Document No. field.', Comment = '%';
-                    Editable = false;
-                }
                 field("Payroll Attribute Code"; Rec."Payroll Attribute Code")
                 {
                     ToolTip = 'Specifies the value of the Payroll Attribute Code field.', Comment = '%';
@@ -119,6 +113,27 @@ page 50369 "Assignment Memo Ledger Entries"
                     ToolTip = 'Specifies the value of the Attendance Checked field.', Comment = '%';
                     Editable = false;
                 }
+                field("Payroll Document No."; Rec."Payroll Document No.")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Document No. field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Payroll Posted"; Rec."Payroll Posted")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Posted field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Payroll Posted Date"; Rec."Payroll Posted Date")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Posted Date field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Payroll Posted Month"; Rec."Payroll Posted Month")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Posted Month field.', Comment = '%';
+                    Editable = false;
+                }
+
             }
         }
     }
@@ -148,6 +163,33 @@ page 50369 "Assignment Memo Ledger Entries"
                     Message('Updated Nepali Months for all entries with blank Nepali Month.');
                 end;
             }
+            action("Update Payroll Months")
+            {
+                Caption = 'Update Payroll Posted Months';
+                ToolTip = 'Updates the Payroll Posted Month field for the selected ledger entries.';
+                Image = Update;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                trigger OnAction()
+                var
+                    AssignMemoLedgEntry: Record "Assignment Memo Ledger Entry";
+                    PostedPayrollHdr: Record "Posted Payroll Header";
+                begin
+                    AssignMemoLedgEntry.SetRange("Payroll Posted", true);
+                    AssignMemoLedgEntry.SetRange("Payroll Posted Month", AssignMemoLedgEntry."Payroll Posted Month"::" ");
+                    if AssignMemoLedgEntry.FindSet() then
+                        repeat
+                            PostedPayrollHdr.Get(AssignMemoLedgEntry."Payroll Document No.");
+                            AssignMemoLedgEntry."Payroll Posted Month" := PostedPayrollHdr."Nepali Month";
+                            AssignMemoLedgEntry."Payroll Posted Date" := PostedPayrollHdr."Posting Date";
+                            AssignMemoLedgEntry.Modify();
+                        until AssignMemoLedgEntry.Next() = 0;
+                    Message('Complete.');
+                end;
+            }
+
         }
     }
     trigger OnModifyRecord(): Boolean

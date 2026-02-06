@@ -47,6 +47,11 @@ table 50043 "Team Profile Header"
             DataClassification = ToBeClassified;
             Caption = 'Block';
         }
+        field(8; "Can run Employee Master Report"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Can run Employee Master Report';
+        }
     }
 
     keys

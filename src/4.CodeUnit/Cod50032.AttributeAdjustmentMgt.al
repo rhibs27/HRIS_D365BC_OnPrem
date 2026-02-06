@@ -107,6 +107,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
         repeat
             Clear(EffectiveEndDate);
             Clear(EffectiveStartDate);
+            NewAttributeAdjustmentLine1.Reset();
             NewAttributeAdjustmentLine1.SetRange("Document No.", AttributeAdjustmentHeader."Document No.");
             NewAttributeAdjustmentLine1.SetRange("Employee No.", TempEmployee."No.");
             if NewAttributeAdjustmentLine1.FindSet() then

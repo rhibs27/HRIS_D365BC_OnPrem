@@ -27,6 +27,14 @@ page 50315 "Reason Code Master"
                     ToolTip = 'Specifies the value of the Employee Activity Type field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field("Check-in/Check-out Mandatory"; Rec."Check-in/Check-out Mandatory")
+                {
+                    ToolTip = 'Specifies the value of the Check-in/Check-out Mandatory field. If set to true, check-in or check-out must be input while sending attendance missed', Comment = '%';
+                }
+                field("Attendance Entry Type"; Rec."Attendance Entry Type")
+                {
+                    ToolTip = 'Specifies the value of the Attendance Entry Type field.', Comment = '%';
+                }
                 field("Attendance Missed Access"; Rec."Attendance Missed Access")
                 {
                     ToolTip = 'Specifies the value of the Attendance Missed Access field.', Comment = '%';

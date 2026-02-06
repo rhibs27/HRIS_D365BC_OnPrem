@@ -287,7 +287,8 @@ codeunit 50010 "Payroll-Post"
                                     if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
                                         PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * ServiceDaysBeforeTransfer, 0.01, '=')
                                     else if PGSetup."Total Days From" = PGSetup."Total Days From"::Month then
-                                        PriorTrfAttributeAmount := Round(FieldValue / PayrollLine."Total Days" * ServiceDaysBeforeTransfer, 0.01, '=');
+                                        //Payline: Adjustment plan  doesnot contain Total days 
+                                        PriorTrfAttributeAmount := Round(FieldValue / PayrollHeader."Total Days" * ServiceDaysBeforeTransfer, 0.01, '=');
 
                                     PayrollJournalLine."Shortcut Dimension 1 Code" := DimensionValueBeforeTransfer;
                                     PayrollJournalLine."Deputation On" := DeputationTypeBeforeTransfer;
@@ -503,6 +504,8 @@ codeunit 50010 "Payroll-Post"
                 AssignmentMemoLedgerEntry."Payroll Document No." := PostedPayrollHeader."No.";
                 AssignmentMemoLedgerEntry.Open := false;
                 AssignmentMemoLedgerEntry."Payroll Posted" := true;
+                AssignmentMemoLedgerEntry."Payroll Posted Date" := PostedPayrollHeader."Posting Date";
+                AssignmentMemoLedgerEntry."Payroll Posted Month" := PostedPayrollHeader."Nepali Month";
                 AssignmentMemoLedgerEntry.Modify();
             until AssignmentMemoLedgerEntry.Next() = 0;
 
