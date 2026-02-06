@@ -19,7 +19,6 @@ page 50391 "Appraisal List"
                 {
                     ToolTip = 'Specifies the value of the Appraisal Code field.';
                     ApplicationArea = All;
-                    
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
@@ -65,7 +64,7 @@ page 50391 "Appraisal List"
                 }
                 field("Functional Title Desc"; Rec."Functional Title Desc")
                 {
-                    Caption = 'Designation';
+                    Caption = 'Functional Title Description';
                     ToolTip = 'Specifies the value of the Functional Title Desc field.';
                     ApplicationArea = All;
                 }
@@ -113,33 +112,7 @@ page 50391 "Appraisal List"
 
     trigger OnOpenPage()
     begin
-        //HRpermission.GET(USERID);
-        //IF (NOT HREmployeeLookup) AND (NOT SubsEmpLookup) THEN begin
-        //  IF (NOT HRpermission."Super Permission")  THEN begin
-        //Employee.Reset();
-        //Employee.SetRange("Assigned User ID",USERID);
-        // IF Employee.FindFirst() THEN  begin
-        // Employee.TestField("Branch Code");
-        //  Employee.TestField("Department Code");
-        //FILTERGROUP(2);
-        //SetRange("Branch Code",Employee."Branch Code");
-        // IF NOT HRpermission.CRE THEN
-        //SetRange("Department Code",Employee."Department Code");
-        /*
-           FILTERGROUP(-1);
-           SETFILTER("Employee Code",'%1',Employee."No.");
-           SETFILTER("Appraiser I Code",Employee."No.");
-           SETFILTER("Appraiser II Code" ,Employee."No.");
-           IF FINDFIRST THEN repeat
-             MARK(TRUE);
-           until NEXT=0;
-           FILTERGROUP(0);
-           MARKEDONLY(TRUE);
-         end;
-         */
-        //end;
         Rec.SetRange(Posted, false);
-        //Rec.SetRange(Hide, false);
         UserSetup.Get(UserId);
         if not UserSetup."Can View Appraisal List" then
             Error(Err001);

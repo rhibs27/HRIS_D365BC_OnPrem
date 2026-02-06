@@ -62,7 +62,7 @@ page 50389 "Appraisal KPI Master"
                 {
                     ApplicationArea = All;
                 }
-                Field(Designation; Rec.Designation)
+                Field("Functional Title"; Rec."Functional Title")
                 {
                     ApplicationArea = All;
                 }

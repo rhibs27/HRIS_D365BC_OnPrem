@@ -51,7 +51,7 @@ table 50179 "Appraisal KPI Master"
         {
             TableRelation = Employee."No." WHERE(Status = CONST(Active));
         }
-        field(9; Designation; Text[30])
+        field(9; "Functional Title"; Text[30])
         {
             TableRelation = "Salary Level".code;
         }

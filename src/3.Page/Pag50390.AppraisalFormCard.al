@@ -115,7 +115,7 @@ page 50390 "Appraisal Form Card"
                 {
                     ApplicationArea = All;
                 }
-                field("Designation"; Rec.Designation)
+                field("Functional Title"; Rec."Functional Title")
                 {
                     ToolTip = 'Specifies the value of the Functional Title field.';
                     ApplicationArea = All;

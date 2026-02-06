@@ -2,7 +2,7 @@ page 50392 "Posted Appraisal List"
 {
     Editable = false;
     DeleteAllowed = false;
-    ModifyAllowed=false;
+    ModifyAllowed = false;
     PageType = List;
     SourceTable = Appraisal;
     SourceTableView = where(Posted = const(true));
@@ -71,7 +71,7 @@ page 50392 "Posted Appraisal List"
                     ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;
                 }
-                field("Functional Title"; Rec.Designation)
+                field("Functional Title"; Rec."Functional Title")
                 {
                     ToolTip = 'Specifies the value of the Functional Title field.';
                     ApplicationArea = All;

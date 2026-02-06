@@ -16,15 +16,15 @@ table 50174 "Appraisal Template"
             Caption = 'Fiscal Year';
             TableRelation = "Pay Cycle Term".Term;
         }
-        field(3; "Designation"; Text[250])
+        field(3; "Functional Title"; Text[250])
         {
-            Caption = 'Designation';
+            Caption = 'Functional Title';
             TableRelation = "Functional Title";
             ValidateTableRelation = false;
 
             trigger OnLookup()
             begin
-                ApplyDesignationFilterLookup("Designation");
+                ApplyFunctionalTitleFilterLookup("Functional Title");
             end;
         }
         field(4; "Employment Type"; Enum "Employee Type")
@@ -85,7 +85,7 @@ table 50174 "Appraisal Template"
     end;
 
 
-    procedure ApplyDesignationFilterLookup(var DesignationFilter: Text)
+    procedure ApplyFunctionalTitleFilterLookup(var FunctionalTitleFilter: Text)
     var
         FunctionalTitle: Record "Functional Title";
         FunctionalTitles: Page "Functional Title List";
@@ -101,12 +101,12 @@ table 50174 "Appraisal Template"
             FunctionalTitles.SetSelectionFilter(FunctionalTitle);
             if FunctionalTitle.FindSet() then
                 repeat
-                    AppendDesignationData(FunctionalTitle.Code, DesignationFilter, '|');
+                    AppendFunctionalTitleData(FunctionalTitle.Code, FunctionalTitleFilter, '|');
                 until FunctionalTitle.Next() = 0;
         end;
     end;
 
-    procedure AppendDesignationData(FieldText: Text; var MainText: Text; AppendText: Text)
+    procedure AppendFunctionalTitleData(FieldText: Text; var MainText: Text; AppendText: Text)
     var
         SplitText: List of [Text];
     begin

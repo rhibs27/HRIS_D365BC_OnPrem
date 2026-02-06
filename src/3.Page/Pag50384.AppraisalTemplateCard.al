@@ -21,7 +21,7 @@ page 50384 "Appraisal Template Card"
                 {
                     ApplicationArea = All;
                 }
-                field("Designation"; Rec."Designation")
+                field("Functional Title"; Rec."Functional Title")
                 {
                     ApplicationArea = All;
                 }
@@ -109,8 +109,8 @@ page 50384 "Appraisal Template Card"
                     Employee.SetRange(Status, Employee.Status::Active);
                     Employee.SetRange("Employment Type", Rec."Employment Type");
 
-                    if Rec.Designation <> '' then
-                        Employee.SetFilter("Functional Title", Rec.Designation);
+                    if Rec."Functional Title" <> '' then
+                        Employee.SetFilter("Functional Title", Rec."Functional Title");
 
                     if Employee.FindSet() then
                         repeat

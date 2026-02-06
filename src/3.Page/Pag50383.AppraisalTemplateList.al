@@ -6,7 +6,6 @@ page 50383 "Appraisal Template List"
     SourceTable = "Appraisal Template";
     Caption = 'Appraisal Template List';
     CardPageId = "Appraisal Template Card";
-    ModifyAllowed=false;
 
     layout
     {
@@ -22,7 +21,7 @@ page 50383 "Appraisal Template List"
                 {
                     ApplicationArea = All;
                 }
-                field("Designation"; Rec."Designation")
+                field("Functional Title"; Rec."Functional Title")
                 {
                     ApplicationArea = All;
                 }

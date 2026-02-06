@@ -74,7 +74,7 @@ table 50178 Appraisal
             TableRelation = "Organization Structure List".Code
         where(Type = filter("Deputation Type"::Department));
         }
-        field(7; Designation; Code[20])
+        field(7; "Functional Title"; Code[20])
         {
             Editable = false;
             TableRelation = "Functional Title";
@@ -148,27 +148,14 @@ table 50178 Appraisal
         field(43; "Reportees Comments"; Text[250]) { }
         field(44; "Reviewer Comments"; Text[250]) { }
         field(45; "Check Reviewers Comments"; Text[250]) { }
-        field(46; "Recommender Code"; Code[50])
-        {
-            TableRelation = Employee;
-            ValidateTableRelation = false;
-            trigger OnValidate()
-            begin
-                HRMgt.GetEmployeeName("Recommender Code", "Recommender Name");
-            end;
-        }
-        field(47; "Recommender Name"; Text[50])
+        field(46; "Requested Date"; Date)
         {
             Editable = false;
         }
-        field(48; "Requested Date"; Date)
-        {
-            Editable = false;
-        }
-        field(49; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
-        field(50; "Appraisal Subtype Quarterly"; Enum Quater) { }
+        field(47; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
+        field(48; "Appraisal Subtype Quarterly"; Enum Quater) { }
 
-        field(51; "Total Final Score"; Decimal)
+        field(49; "Total Final Score"; Decimal)
         {
             Editable = false;
             trigger OnValidate()
@@ -176,12 +163,12 @@ table 50178 Appraisal
                 SetFinalGrading;
             end;
         }
-        field(52; "Final Grading"; Enum "Appraisal Rating")
+        field(50; "Final Grading"; Enum "Appraisal Rating")
         {
             Editable = false;
         }
-        field(53; "Cancelled Document No."; Code[20]) { }
-        field(54; "Confirmation Date"; Date)
+        field(51; "Cancelled Document No."; Code[20]) { }
+        field(52; "Confirmation Date"; Date)
         {
             Editable = false;
         }
@@ -209,7 +196,6 @@ table 50178 Appraisal
         end;
         "Approval Status" := "Approval Status"::Open;
         "Document Type" := "Document Type"::Appraisal;
-        Cancelled := false;
         if not GuiAllowed then begin
             if "Employee Code" = '' then
                 Validate("Employee Code", "Employee Code");
@@ -248,7 +234,7 @@ table 50178 Appraisal
         LatestTransferDate: Date;
         UseToValues: Boolean;
     begin
-        Clear(Designation);
+        Clear("Functional Title");
         Clear(Department);
         Clear("Department Name");
         Clear(Branch);
@@ -299,7 +285,7 @@ table 50178 Appraisal
         end;
         if not TransferFound then begin
 
-            Validate(Designation, EmployeeVar."Functional Title");
+            Validate("Functional Title", EmployeeVar."Functional Title");
             Validate("Functional Title Desc", EmployeeVar."Functional Title Desc");
 
             Validate(Department, EmployeeVar."Department Code");
@@ -325,7 +311,7 @@ table 50178 Appraisal
 
         UseToValues := CalcDate(BranchAppraisalCriteria, LatestEmployeeTransfer."Date of Joining Of Transfer") <= FiscalYearEndDate;
         if UseToValues then begin
-            Validate(Designation, LatestEmployeeTransfer."Functional Title (To)");
+            Validate("Functional Title", LatestEmployeeTransfer."Functional Title (To)");
             Validate("Functional Title Desc", LatestEmployeeTransfer."Functional Desc To");
 
             Validate(Department, LatestEmployeeTransfer."Department Code (To)");
@@ -348,7 +334,7 @@ table 50178 Appraisal
 
         end
         else begin
-            Validate(Designation, LatestEmployeeTransfer."Functional Title");
+            Validate("Functional Title", LatestEmployeeTransfer."Functional Title");
             Validate("Functional Title Desc", LatestEmployeeTransfer."Functional Title Desc");
 
             Validate(Department, LatestEmployeeTransfer.Department);

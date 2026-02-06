@@ -208,11 +208,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Attachment Storage Location field.';
             }
-            field("KPI Appriasal No."; Rec."KPI Appriasal No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the KPI Appriasal No. field.';
-            }
             field("Cancelled Allowed Days"; Rec."Cancel Document Upto (Days)")
             {
                 ApplicationArea = All;
@@ -300,8 +295,12 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 {
                     ApplicationArea = All;
                 }
+                field("KPI Appriasal No."; Rec."KPI Appriasal No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the KPI Appriasal No. field.';
+                }
             }
-
 
             group("Out Of Pocket")
             {

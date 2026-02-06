@@ -1,7 +1,6 @@
 codeunit 50003 "AppraisalMgt."
 {
     var
-        HRMgt: Codeunit "HR Mgt.";
         CodeunitEmailMessage: Codeunit "Email Message";
         Employee: Record Employee;
         Colon: Label ' : ';
@@ -197,7 +196,7 @@ codeunit 50003 "AppraisalMgt."
         if KPIMaster."KPI Rating Type" <> TemplateKpiRatingType then
             exit(false);
         if (KPIMaster."Employee No." = '') and
-           (KPIMaster.Designation = '') and
+           (KPIMaster."Functional Title" = '') and
            (KPIMaster."Province Code" = '') and
            (KPIMaster."Branch Code" = '') and
            (KPIMaster."Extension Counter Code" = '') and
@@ -211,8 +210,8 @@ codeunit 50003 "AppraisalMgt."
             if (KPIMaster."Employee No." <> '') and
                (KPIMaster."Employee No." <> AppraisalRec."Employee Code") then
                 ShouldInclude := false;
-            if (KPIMaster.Designation <> '') and
-               (KPIMaster.Designation <> AppraisalRec.Designation) then
+            if (KPIMaster."Functional Title" <> '') and
+               (KPIMaster."Functional Title" <> AppraisalRec."Functional Title") then
                 ShouldInclude := false;
             if (KPIMaster."Province Code" <> '') and
                (KPIMaster."Province Code" <> AppraisalRec.Province) then
@@ -236,7 +235,6 @@ codeunit 50003 "AppraisalMgt."
         exit(ShouldInclude);
     end;
 
-    //Appraisal Changes
     procedure OpenAppraisalRequest(EmpCode: Code[20])
     var
         AppraisalRec: Record Appraisal;
@@ -273,6 +271,7 @@ codeunit 50003 "AppraisalMgt."
     var
         ConfirmAppraisal: Label 'Do you want to send appraisal request?';
         ApprovalHRMS: Record "Approval HRMS";
+        ApproverMgt: Codeunit "Approver Mgt";
     begin
         Appraisal.TestField("Approval Status", Appraisal."Approval Status"::Open);
         Appraisal.TestField("Appraisal Type");
@@ -281,33 +280,17 @@ codeunit 50003 "AppraisalMgt."
         else if Appraisal."Appraisal Type" = Appraisal."Appraisal Type"::Quarterly then
             Appraisal.TestField("Appraisal Subtype Quarterly");
         Appraisal.TestField("Appraisal Template");
-        //Appraisal.TestField("Immediate Supervisor");
-        //Appraisal.TestField("Reviewer");
         // Check for existing open appraisal
         CheckPendingAppraisal(Appraisal."Appraisal Code", Appraisal."Employee Code");
         if GuiAllowed then
             if not Confirm(ConfirmAppraisal, false) then
                 exit('');
         CheckAppraisalAttachmentMandatory(Appraisal);
-        //check Approval entries should already exist from KRA Category validation
-        ApprovalHRMS.Reset();
-        ApprovalHRMS.SetRange("Document No.", Appraisal."Appraisal Code");
-        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::Appraisal);
-        if ApprovalHRMS.IsEmpty then
-            Error('Approval entries not found. Please reselect KRA Category.');
         //Change status of sequence 1 approvers from "Created" to "Open"
-        ApprovalHRMS.SetRange("Approval Sequence", 1);
-        ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Created);
-        if ApprovalHRMS.FindSet() then
-            repeat
-                ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Open);
-                ApprovalHRMS.Modify(true);
-            until ApprovalHRMS.Next() = 0;
-
+        ApproverMgt.UpdateFirstApproverStatus(Appraisal."Appraisal Code");
         // Update appraisal status to Pending
         Appraisal.Validate("Approval Status", Appraisal."Approval Status"::Pending);
         Appraisal.Modify(true);
-
         // Send email notification
         // if GuiAllowed then
         //     HRMgt.SendMailFromTemplate(
@@ -321,50 +304,12 @@ codeunit 50003 "AppraisalMgt."
         // exit(Appraisal."Appraisal Code");
     end;
 
-    procedure OpenCancelAppraisal(AppraisalRec: Record Appraisal)
-    var
-        TempCancelDocument: Record "Cancel Document" temporary;
-        Approval: Record "Approval HRMS";
-        HRSetup: Record "Human Resources Setup";
-        IsHandled: Boolean;
-    begin
-        HRSetup.Get();
-        if not IsHandled then begin
-            if AppraisalRec.Cancelled then
-                Error('Appraisal request no. %1 is already cancelled.', AppraisalRec."Appraisal Code");
-
-            if AppraisalRec."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
-                Error('Appraisal request no. %1 cannot be cancelled after %2',
-                      AppraisalRec."Appraisal Code",
-                      AppraisalRec."Approved Date" + HRSetup."Cancel Document Upto (Days)");
-            AppraisalRec.TestField("Approval Status", AppraisalRec."Approval Status"::Approved);
-            AppraisalRec.TestField("Cancelled Document No.", '');
-            Approval.Reset();
-            Approval.SetRange("Document No.", '');
-            Approval.setRange("Document Type", Approval."Document Type"::Appraisal);
-            Approval.SetRange("Employee No", AppraisalRec."Employee Code");
-            Approval.DeleteAll();
-            TempCancelDocument.Init;
-            TempCancelDocument.Validate(Cancelled, true);
-            TempCancelDocument.Validate("Employee No.", AppraisalRec."Employee Code");
-            TempCancelDocument.Validate("Employee Name", AppraisalRec."Employee Name");
-            TempCancelDocument.Validate("Approval Status", TempCancelDocument."Approval Status"::Open);
-            TempCancelDocument.Validate(Type, Enum::"Employee Activity Type"::Appraisal);
-            TempCancelDocument."Cancelled Document No." := AppraisalRec."Appraisal Code";
-            TempCancelDocument."No." := '';
-            TempCancelDocument.Insert;
-            PAGE.Run(PAGE::"Cancel Document", TempCancelDocument);
-        end;
-    end;
-
     procedure CheckPendingAppraisal(AppraisalCode: Code[20]; EmployeeNo: Code[20])
     var
         AppraisalTable: Record Appraisal;
         AppraisalError: Label 'Your appraisal request no. %1 has not been approved. Please make sure it is approved';
         IsHandled: Boolean;
     begin
-        if IsHandled then
-            exit;
         AppraisalTable.Reset;
         AppraisalTable.SetFilter("Appraisal Code", '<>%1', AppraisalCode);
         AppraisalTable.SetRange("Employee Code", EmployeeNo);
