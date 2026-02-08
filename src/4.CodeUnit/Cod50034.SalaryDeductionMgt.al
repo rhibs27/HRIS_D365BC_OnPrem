@@ -213,6 +213,7 @@ codeunit 50034 "Salary Deduction Mgt"
                             AttendanceHeader."No.");
                     until EmpAttenActivity[3].Next() = 0;
             until AttendanceSummary.Next = 0;
+        UpdateDocumentNoOnReversedEntries(AttendanceHeader);
     end;
 
     local procedure GetPercentRFContributionAmount(EmployeeNo: Code[20]; AttributeCode: Code[20]): Decimal
@@ -258,6 +259,8 @@ codeunit 50034 "Salary Deduction Mgt"
                     GetPayCycleCodeTermAndPeriod(Today(), ReversedDetailedSalaryDeductionEntry);
                     ReversedDetailedSalaryDeductionEntry.Reversed := true;
                     ReversedDetailedSalaryDeductionEntry."Reversed By Entry No." := DetailedSalaryDeductionEntry."Entry No.";
+                    ReversedDetailedSalaryDeductionEntry."Attendance Posted" := false;
+                    ReversedDetailedSalaryDeductionEntry."Attendance No." := '';
                     ReversedDetailedSalaryDeductionEntry.Insert();
                     DetailedSalaryDeductionEntry.Reversed := true;
                     DetailedSalaryDeductionEntry.Modify();
@@ -265,6 +268,20 @@ codeunit 50034 "Salary Deduction Mgt"
             SalaryDeductionEntry.Reversed := true;
             SalaryDeductionEntry.Modify();
         end;
+    end;
+
+    local procedure UpdateDocumentNoOnReversedEntries(AttenHeader: Record "Attendance Header")
+    var
+        DetSalaryDeductionEntries: Record "Det Salary Deduction Entry";
+    begin
+        DetSalaryDeductionEntries.Reset();
+        DetSalaryDeductionEntries.SetRange("Pay Cycle Code", AttenHeader."Pay Cycle Code");
+        DetSalaryDeductionEntries.SetRange("Pay Cycle Term", AttenHeader."Pay Cycle Term");
+        DetSalaryDeductionEntries.SetRange("Pay Cycle Period", AttenHeader."Pay Cycle Period");
+        DetSalaryDeductionEntries.SetRange(Reversed, true);
+        DetSalaryDeductionEntries.SetRange("Attendance Posted", false);
+        DetSalaryDeductionEntries.SetFilter("Attendance No.", '');
+        DetSalaryDeductionEntries.ModifyAll("Attendance No.", AttenHeader."No.");
     end;
 
     local procedure InsertAmountsWithFormula(EmployeeNo: Code[20];
@@ -316,8 +333,7 @@ codeunit 50034 "Salary Deduction Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
     begin
-        PayCyclePeriod.SetFilter("Start Date", '<=%1', DateParam);
-        PayCyclePeriod.SetFilter("End Date", '>=%1', DateParam);
+        PayCyclePeriod.Reset();
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateParam);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateParam);
         PayCyclePeriod.FindFirst();

@@ -182,8 +182,7 @@ codeunit 50030 "Assignment Memo Mgt"
                         //outstation and remote allowance prorata calculation
                         ProrateAllowanceAmount(AssignmentMemoLine, AssignmentMemoLedgerEntry);
                     end;
-
-                    AssignmentMemoLedgerEntry.Insert();
+                    AssignmentMemoLedgerEntry.Insert(true);
                 until DateVar.Next() = 0;
         end;
     end;
@@ -395,7 +394,7 @@ codeunit 50030 "Assignment Memo Mgt"
             repeat
                 AssignmentMemoLedgerEntry.Validate("Open", false);
                 AssignmentMemoLedgerEntry.Validate("Substituted Employee No.", SubAssigmemoLine."Employee No.");
-                AssignmentMemoLedgerEntry.Modify();
+                AssignmentMemoLedgerEntry.Modify(true);
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 

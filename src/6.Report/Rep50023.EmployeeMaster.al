@@ -61,9 +61,9 @@ report 50023 "Employee Master"
             column(ExtensionCounterCode; "Extension Counter Code") { }
             column(ExtensionCounterName; "Extension Counter Name") { }
             column(ServicePeriodText; "Service Period Text") { }
-            column(LastPlacementDate; "Last Placement Date") { }
+            column(LastPlacementDate; Format("Last Placement Date", 0, '<Day,2>/<Month,2>/<Year4>')) { }
             column(LastPlacementDateBS; "Last Placement Date (B.S.)") { }
-            column(PromotionDate_Employee; "Promotion Date") { }
+            column(PromotionDate_Employee; Format("Promotion Date", 0, '<Day,2>/<Month,2>/<Year4>')) { }
             column(PromotionDateBS_Employee; "Promotion Date (B.S.)") { }
             column(ResignationDate; "Resignation Date") { }
             column(ResignationDateBS; "Resignation Date (B.S.)") { }
@@ -89,7 +89,7 @@ report 50023 "Employee Master"
                     PayrollAttributes.Get(Code);
                     if PayrollAttributes.Formula <> '' then begin
                         PayrollReportMgt.SetEmployeeCode(Employee."No.");
-                        BasicAmt := PayrollReportMgt.GetBasicAmount(Employee."No.");
+                        //  BasicAmt := PayrollReportMgt.GetBasicAmount(Employee."No.");
                         Amount := PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, BasicAmt);
                     end;
                 end;
