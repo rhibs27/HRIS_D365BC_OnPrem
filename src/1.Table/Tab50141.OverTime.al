@@ -102,6 +102,7 @@ table 50141 OverTime
                                 Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
                                 Validate("Day Type", EmployeeAttendance."Day Type");
                                 Validate("Overnight Shift", EmployeeAttendance."OverNight Shift");
+                                Validate("Week day", EmployeeAttendance.Week);
                             end;
                         end else
                             Error('No Attendance Found on %1', rec."Start Date");
@@ -391,6 +392,9 @@ table 50141 OverTime
         field(68; "Day Type"; Enum "Day Type")
         {
             DataClassification = ToBeClassified;
+        }
+        field(69; "Week day"; Enum Week)
+        {
         }
         field(100; Status; text[20]) { }
     }

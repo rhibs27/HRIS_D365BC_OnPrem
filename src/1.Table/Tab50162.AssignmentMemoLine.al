@@ -408,11 +408,27 @@ table 50162 "Assignment Memo Line"
     procedure GetNoofDaysInMonth(DateToCheck: Date): Integer
     var
         PayCyclePeriod: Record "Pay Cycle Period";
+        PGSetUP: Record "Payroll General Setup";
+        TotalDays: Integer;
+        NonWorkingDays: Integer;
+        leaveMgt: Codeunit "Leave Mgt.";
     begin
+        PGSetUP.Get();
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateToCheck);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateToCheck);
         PayCyclePeriod.FindFirst();
-        exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1);
+        case PGSetUP."No. Of Days based On" of
+            PGSetUp."No. Of Days based On"::"Total days", PGSetUP."No. Of Days based On"::" ":
+                begin
+                    exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1)
+                end;
+            PGSetUP."No. Of Days based On"::"Working days":
+                begin
+                    TotalDays := PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1;
+                    NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Start Date", PayCyclePeriod."End Date", HrMgt.GetEmployeeNo());
+                    exit(TotalDays - NonWorkingDays);
+                end;
+        end;
     end;
 
     //calculate allowance amount for the line before send for approval

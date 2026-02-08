@@ -349,7 +349,7 @@ codeunit 50030 "Assignment Memo Mgt"
         // Implementation for inserting substitute assignment memo
         AssignmentMemoHdr.Get(docNo);
         AssignmentMemoLine.Get(docNo, lineNo);
-
+        OnAfterCheckDuplicateShiftLine(docNo, LineNo, fromDate, toDate, empCode);
         //check if there is pending request allowance exist for the document
         CheckIfPendingClaimedAllowanceExist(docNo, lineNo);
 
@@ -1320,6 +1320,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine: Record "Assignment Memo Line";
         PostedPayrollHeader: Record "Posted Payroll Header";
     begin
+        OnBeforeReverseAssignmentMemo(DocNo);
         //get assignment memo header
         if not AssignemntMemoHeader.Get(DocNo) then
             Error('Document %1 not found.', DocNo);
@@ -1483,6 +1484,16 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnOtherAllowanceConfigurationCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var AllConfig2: Record "Allowance Configuration"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckDuplicateShiftLine(docNo: Code[20]; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeReverseAssignmentMemo(docNo: Code[20])
     begin
     end;
 }
