@@ -6,12 +6,12 @@ table 50062 "KRA Subform List"
     {
         field(1; "KRA Category"; Code[50])
         {
-            TableRelation = "Key Value Master".Code where(Type = const("KRA Category"));
+            TableRelation = "Appraisal Setup".Code where(Type = const("KRA"));
         }
         field(2; Description; Text[250]) { }
         field(3; "Key Result Area"; Code[20])
         {
-            TableRelation = "Key Value Master".Code where(Type = const("Key Result Area"));
+            TableRelation = "Appraisal Setup".Code where(Type = const("KPI"));
         }
         field(4; "Weightage (%)"; Integer) { }
         field(5; "Appraisal Code"; Code[20]) { }
@@ -86,7 +86,7 @@ table 50062 "KRA Subform List"
         AppraisalForm: Record Appraisal;
     begin
         if AppraisalForm.Get("Appraisal Code") then begin
-            if AppraisalForm.Status = AppraisalForm.Status::Reviewed then
+            if AppraisalForm."Approval Status" = AppraisalForm."Approval Status"::Reviewed then
                 "Check Reviewers Final Score" := "Check Reviewers Score" * ("Weightage (%)" / 100);
         end;
     end;
@@ -96,7 +96,7 @@ table 50062 "KRA Subform List"
         AppraisalRec: Record Appraisal;
     begin
         if AppraisalRec.Get("Appraisal Code") then begin
-            if AppraisalRec.Status = AppraisalRec.Status::Submitted then
+            if AppraisalRec."Approval Status" = AppraisalRec."Approval Status"::Pending then
                 "Reviewers Final Score" := "Reviewers Score" * ("Weightage (%)" / 100);
         end;
     end;

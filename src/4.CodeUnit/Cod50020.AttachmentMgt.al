@@ -167,7 +167,7 @@ codeunit 50020 "Attachment Mgt."
             if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
                 Error('Cannot delete attachment.');
         end else if AppraisalEmp.Get(IncomingDocument."No.") then begin
-            if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
+            if AppraisalEmp."Approval Status" = AppraisalEmp."Approval Status"::Pending then
                 Error('Cannot delete attachment.');
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" = leave."Approval Status"::Approved then
@@ -196,7 +196,7 @@ codeunit 50020 "Attachment Mgt."
             if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Open then
                 ERROR('Approval status must be Open.');
         end else if AppraisalEmp.Get(IncomingDocument."No.") then begin
-            if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
+            if AppraisalEmp."Approval Status" = AppraisalEmp."Approval Status"::Open then
                 Error('Attachment already exist.');
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" <> leave."Approval Status"::Open then

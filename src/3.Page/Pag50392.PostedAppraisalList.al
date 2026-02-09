@@ -1,10 +1,14 @@
-page 50081 "Posted Appraisal List"
+page 50392 "Posted Appraisal List"
 {
     Editable = false;
+    DeleteAllowed = false;
+    ModifyAllowed = false;
     PageType = List;
     SourceTable = Appraisal;
     SourceTableView = where(Posted = const(true));
     ApplicationArea = All;
+    CardPageId = "Appraisal form Card";
+
 
     layout
     {
@@ -35,26 +39,6 @@ page 50081 "Posted Appraisal List"
                 field("Appraisal Type"; Rec."Appraisal Type")
                 {
                     ToolTip = 'Specifies the value of the Appraisal Type field.';
-                    ApplicationArea = All;
-                }
-                field("Final Score"; Rec."Final Score")
-                {
-                    ToolTip = 'Specifies the value of the Final Score field.';
-                    ApplicationArea = All;
-                }
-                field("Final Grade"; Rec."Final Grade")
-                {
-                    ToolTip = 'Specifies the value of the Final Grade field.';
-                    ApplicationArea = All;
-                }
-                field(Reviewer; Rec.Reviewer)
-                {
-                    ToolTip = 'Specifies the value of the Reviewer field.';
-                    ApplicationArea = All;
-                }
-                field("Check Reviewer"; Rec."Check Reviewer")
-                {
-                    ToolTip = 'Specifies the value of the Check Reviewer field.';
                     ApplicationArea = All;
                 }
                 field("Reviewer III"; Rec."Reviewer III")
@@ -92,11 +76,7 @@ page 50081 "Posted Appraisal List"
                     ToolTip = 'Specifies the value of the Functional Title field.';
                     ApplicationArea = All;
                 }
-                field("Code"; Rec.Code)
-                {
-                    ToolTip = 'Specifies the value of the Code field.';
-                    ApplicationArea = All;
-                }
+
                 field("Job Grade"; Rec."Job Grade")
                 {
                     ToolTip = 'Specifies the value of the Job Grade field.';
@@ -127,11 +107,6 @@ page 50081 "Posted Appraisal List"
                     ToolTip = 'Specifies the value of the Reviewed Date III field.';
                     ApplicationArea = All;
                 }
-                field("Total Tenure in Crc Position"; Rec."Total Tenure in Crc Position")
-                {
-                    ToolTip = 'Specifies the value of the Total Tenure in Crc Position field.';
-                    ApplicationArea = All;
-                }
                 field(Branch; Rec.Branch)
                 {
                     ToolTip = 'Specifies the value of the Branch field.';
@@ -146,5 +121,4 @@ page 50081 "Posted Appraisal List"
         }
     }
 
-    actions { }
 }
