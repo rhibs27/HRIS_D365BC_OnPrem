@@ -865,5 +865,11 @@ permissionset 50000 D365HRMSPermission
         report "Substitute Assignment Memo" = X,
         page "Det Salary Deduction Entries" = X,
         page "Request Allowance Subform Copy" = X,
-        page "Salary Deduction Entries" = X;
+        page "Salary Deduction Entries" = X,
+        tabledata "Resign Doc Approver Setup" = RIMD,
+        table "Resign Doc Approver Setup" = X,
+        report "Update Emp Att. and Act Doc." = X,
+        codeunit "Email Mgt" = X,
+        page "Late Deduction Journal" = X,
+        page "Resign Document Approver Setup" = X;
 }

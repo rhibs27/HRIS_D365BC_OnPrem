@@ -3,7 +3,7 @@ codeunit 50016 "AttendanceMiss Mgt"
     var
 
         PayrollSetup: Record "Payroll General Setup";
-        HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         Employee: Record Employee;
         AttendanceMgt: Codeunit "Attendance Mgt";
 
@@ -77,7 +77,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             AttendanceMissed1.Validate("Approval Status", AttendanceMissed1."Approval Status"::Pending);
             AttendanceMissed1.Insert(true);
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::"Attendance Missed", AttendanceMissed1.Type, "Approval Status"::Pending, AttendanceMissed1."Employee No.", AttendanceMissed1."No.", false);   //For email
+        EmailMgt.SendMailFromTemplate(DATABASE::"Attendance Missed", AttendanceMissed1.Type, "Approval Status"::Pending, AttendanceMissed1."Employee No.", AttendanceMissed1."No.", false);   //For email
         exit(AttendanceMissed1."No.");
     end;
 

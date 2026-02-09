@@ -10,6 +10,7 @@ codeunit 50002 "Loan Mgt."
         SalaryGrade: Record "Salary Grade";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         EmpSalaryAdv: Record "Employee Loan/Advance";
         LoanInterest: Record "Employee Loan Interest";
         InsurancePolicy: Record "Insurance Premium Setup";
@@ -769,7 +770,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoan.Modify();
             Message(APPROVALCANCELLED);
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee No.", Format(EmpLoan."No."), false);
+        EmailMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee No.", Format(EmpLoan."No."), false);
     end;
 
     procedure VerifyLoan(var EmpLoan: Record "Employee Loan/Advance")
