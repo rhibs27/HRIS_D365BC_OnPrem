@@ -25,7 +25,7 @@ table 50027 "Payroll Line"
                 Employee.TestField(Settled, false);
                 Employee.TestField("Tax Code");
                 Employee.TestField("Do not Calculate Salary", false);
-                if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
+                if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment, PayrollHeader.Type::Resignation]) then
                     Employee.TestField(Status, Employee.Status::Active);
 
                 Validate(Type, PayrollHeader.Type);
@@ -2889,7 +2889,7 @@ table 50027 "Payroll Line"
         AttrUsageHistory.SetFilter("End Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         if AttrUsageHistory.FindFirst() then begin
             ProRatedAmount := GetDifferentialAmount(AttrUsageHistory."New Amount",
-                                                    0,
+                                                    AttrUsageHistory."Old Amount",
                                                     PayrollHeader."From Date",
                                                     AttrUsageHistory."End Date",
                                                     true);
@@ -2973,7 +2973,7 @@ table 50027 "Payroll Line"
     begin
         IsHandled := false;
         if IsEndDateCalculation then
-            OnBeforeExitOfDifferentialAmount(PayrollHeader, ToDate, NewAmount, DifferentialAmount, IsHandled);
+            OnBeforeExitOfDifferentialAmount(PayrollHeader, ToDate, OldAmount, DifferentialAmount, IsHandled);
         if not IsHandled then begin
             NoOfDays := ToDate - FromDate + 1;
             OneDayAmount := (NewAmount - OldAmount) / FindTotalDays();
