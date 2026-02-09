@@ -2917,7 +2917,9 @@ table 50027 "Payroll Line"
     local procedure GetBackdatedAmountEmployeeWiseDateWise(EmpCode: Code[20]; AttrCode: Code[20]): Decimal
     var
         PayrollAttrUsageHistory: Record "Attributes Usage History";
-        PayCyclePeriod: Record "Pay Cycle Period";
+        PayCyclePeriod, PayCyclePeriodBackdated : Record "Pay Cycle Period";
+        GetPayCyclePeriodStart, NoOfMonths : Integer;
+        HrMgt: Codeunit "HR Mgt.";
     begin
         PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
@@ -2925,10 +2927,12 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1&<%2', 0D, PayrollHeader."From Date");
         PayrollAttrUsageHistory.SetRange(Reversed, false);
         if PayrollAttrUsageHistory.FindFirst() then begin
+            GetPayCyclePeriodStart := HrMgt.GetPayCyclePeriod(PayrollAttrUsageHistory."Start Date", PayCyclePeriodBackdated);
+            NoOfMonths := PayrollHeader."Pay Cycle Period" - GetPayCyclePeriodStart;
             PayCyclePeriod.Reset();
             PayCyclePeriod.SetRange("Start Date", PayrollAttrUsageHistory."Start Date");
             if PayCyclePeriod.FindFirst() then
-                exit(PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount")
+                exit((PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") * NoOfMonths)
             else begin
                 if PayrollAttrUsageHistory."End Date" <> 0D then
                     exit((GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
@@ -2939,8 +2943,8 @@ table 50027 "Payroll Line"
                 exit(GetDifferentialAmount(PayrollAttrUsageHistory."New Amount",
                                             PayrollAttrUsageHistory."Old Amount",
                                             PayrollAttrUsageHistory."Start Date",
-                                            PayrollHeader."From Date" - 1,
-                                            false))
+                                            PayCyclePeriodBackdated."End Date",
+                                            false) + ((PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") * (NoOfMonths - 1)))
             end;
         end;
     end;
