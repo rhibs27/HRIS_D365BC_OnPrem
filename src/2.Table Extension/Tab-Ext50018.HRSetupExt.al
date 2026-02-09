@@ -716,6 +716,11 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50157; "No of Salary Advance"; Integer)
+        {
+            DataClassification = CustomerContent;
+            Description = 'No of Salary Advance Allowed in single Fiscal year.';
+        }
     }
     trigger onAfterInsert()
     begin

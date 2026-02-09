@@ -90,7 +90,6 @@ codeunit 50002 "Loan Mgt."
 
         Evaluate(EmpLoan."Confirmation Service Period", Format((Today - Employee."Confirmation Date") / 365));
         EmpLoan.Validate("Confirmation Service Period", Round(EmpLoan."Confirmation Service Period", 0.01, '='));
-        HRMgt.CheckAgeAndBirthday(EmpLoan."Date of Birth", Today, EmpLoan.Age, AgeDays, IsBirthDay);  //really needed?
 
         EmpLoan."Remaining Service Period" := HRSetup."Retirement Age" - EmpLoan.Age;
         Evaluate(RemServicePeriodAsPerBankTenure, Format(30 - (Today - Employee."Employment Date") / 365));
@@ -588,8 +587,6 @@ codeunit 50002 "Loan Mgt."
             Error('Purpose of housing loan must have value.');
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::" " then
             Error('Repayment mode must have value.');
-        //TestField("Purpose of Housing Loan");
-        //TestField("Repayment Mode");
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"Insurance Tieup" then begin
             EmpLoan.TestField("Insurance Tieup");
             EmpLoan.TestField(Age);
@@ -609,8 +606,6 @@ codeunit 50002 "Loan Mgt."
         EmpLoan.TestField("Area Format");
         EmpLoan.TestField("Area of Plot");
         CheckAttachmentMandatory(EmpLoan);
-        //IF "Confirmation Service Period"< 1 THEN
-        //      ERROR('Total service period is not sufficient.');
         HRSetup.Get;
         //check board approval
         if EmpLoan."Approved By Board" then begin
@@ -641,16 +636,6 @@ codeunit 50002 "Loan Mgt."
         end;
         if EmpLoan."Repayment Period" > HRSetup."Home/Persona Loan Repay Period" then
             Error('Invalid Repayment Period.');
-    end;
-
-    local procedure GetEmployeeCode(): Code[20]
-    var
-        Employee: Record Employee;
-    begin
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        if Employee.FindFirst then
-            exit(Employee."No.");
     end;
 
     local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; "No.": Code[20]): Decimal
@@ -730,9 +715,6 @@ codeunit 50002 "Loan Mgt."
         EmpSalAvd.SetFilter("Approval Status", '%1|%2', EmpSalAvd."Approval Status"::Approved, EmpSalAvd."Approval Status"::Pending);
         EmpSalAvd.SetRange(Settled, false);
         if EmpSalAvd.FindFirst then begin
-            // if (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Rejected)
-            //   or (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Canceled) then
-            //     if not EmpSalAvd.Settled then
             Error('Please settle the existing salary advance. %1', EmpSalAvd."No.");
         end;
     end;
@@ -756,21 +738,11 @@ codeunit 50002 "Loan Mgt."
         EmpLoan1: Record "Employee Loan/Advance";
         APPROVALSENT: Label 'Approval request has been sent.';
         APPROVALCANCELLED: Label 'Approval request has been cancelled.';
-        APPROVED: Label 'Document is approved.';
-        APPROVALERROR: Label 'Approval status must be open.';
     begin
         if GuiAllowed then
             if not Confirm(CONFIRMATION, false) then
                 exit;
         HRSetup.Get;
-        // Employee.Reset;
-        // Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        // Employee.SetRange(Status, Employee.Status::Active);
-        // if Employee.FindFirst then;
-        // EmpLoan.Validate(Approver, Employee."No.");
-        // if not GuiAllowed then begin
-        //     EmpLoan.Validate(Recommender);
-        // end;
         Clear(Employee);
         Employee.Get(EmpLoan."Employee No.");
         EmpLoan."Requested Loan Date" := Today;
@@ -780,27 +752,15 @@ codeunit 50002 "Loan Mgt."
         if EmpLoan1.FindFirst then
             Error(LoanError, EmpLoan1."No.");
         SalaryLevel.Get(EmpLoan."Job Title");
-        //control
-        if SendCancelBool then
-            ValidateDocument(EmpLoan);
+        ValidateDocument(EmpLoan);
         CalculateEligibleLoanAmount(EmpLoan);
         CalculateEMI(EmpLoan);
         CalculateDBR(EmpLoan, SalaryLevel);
-        // if EmpLoan.Recommender = '' then
-        //     Error('Recommender must not be blank.');
-        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
-            Error(APPROVED);
         //action
         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
             EmpLoan.TestField("Purpose of Advance Salary");
         if SendCancelBool then begin
-            if not (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::" ", EmpLoan."Approval Status"::Open]) then
-                Error(APPROVALERROR);
             EmpLoan."Approval Status" := EmpLoan."Approval Status"::Pending;
-            // if EmpLoan.Recommender = '' then
-            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
-            // else
-            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Pending);
             EmpLoan.Modify();
             Message(APPROVALSENT);
         end else begin
@@ -1152,12 +1112,9 @@ codeunit 50002 "Loan Mgt."
         if IncomingDocument.FindFirst then
             repeat
                 AttachmentSetup.Reset;
-                //AttachmentSetup.SetRange("Table ID", DATABASE::"Employee Loan/Advance");
-                AttachmentSetup.SetRange(Mandatory, true);
-                //AttachmentSetup.SetRange(Type, EmpLoan."Loan Type");
-                //IF EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" THEN
-                // AttachmentSetup.SETFILTER("Purpose of Housing Loan",'%1|%2',AttachmentSetup."Purpose of Housing Loan",AttachmentSetup."Purpose of Housing Loan"::" ");
+                AttachmentSetup.Setfilter("Sub Type", Format(EmpLoan."Loan Type"));
                 AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
+                AttachmentSetup.SetRange(Mandatory, true);
                 if AttachmentSetup.FindFirst then begin
                     Error('Upload attachment for %1', IncomingDocument."Attachment Code");
                 end;
