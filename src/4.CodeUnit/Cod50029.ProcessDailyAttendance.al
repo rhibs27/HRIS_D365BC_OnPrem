@@ -183,7 +183,6 @@ codeunit 50029 "Process Daily Attendance"
         LeaveRequest: Record Leave;
         SourceNoText: Text;
         Ishandled: Boolean;
-        IsSkip: Boolean;
     begin
         Clear(SourceNoText);
         EmpActLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");

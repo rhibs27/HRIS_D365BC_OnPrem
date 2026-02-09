@@ -83,7 +83,7 @@ codeunit 50004 "Travel Mgt."
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
                 exit;
-        OnBeforeTravelReqTestfield(TravelReq);
+        OnBeforeApplyTravelRequest(TravelReq);
         TravelReq.TestField("Start Date");
         TravelReq.TestField("End Date");
         TravelReq.TestField("Type Of Visit");
@@ -1038,7 +1038,7 @@ codeunit 50004 "Travel Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeTravelReqTestfield(var TravelReq: Record "Travel Request")
+    local procedure OnBeforeApplyTravelRequest(var TravelReq: Record "Travel Request")
     begin
     end;
 
