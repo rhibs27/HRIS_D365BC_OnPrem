@@ -814,6 +814,10 @@ page 50031 "Payroll General Setup"
                 {
 
                 }
+                field("No. Of Days based On"; Rec."No. Of Days based On")
+                {
+                    Caption = 'No. of Days Based on(Assignment Memo)';
+                }
 
             }
             part(PayrollSetupLines; "Payroll Setup Lines")

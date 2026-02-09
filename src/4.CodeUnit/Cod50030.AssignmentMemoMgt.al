@@ -131,12 +131,9 @@ codeunit 50030 "Assignment Memo Mgt"
             //check allowance configuration source and create ledger entries accordingly
             Clear(AllConfig2);
             Clear(AllowanceConfiguration);
-
-            IsHandled := false;
-            OnOtherAllowanceConfigurationCheck(AssignmentMemoLine, AllowanceConfiguration, IsHandled);
-            if IsHandled then begin
-                AllConfig2 := AllowanceConfiguration;
-            end else begin
+            OnOtherAllowanceConfigurationCheck(AssignmentMemoLine, AllConfig2, IsHandled);
+            if not IsHandled then begin
+                AllowanceConfiguration.Reset();
                 AllowanceConfiguration.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
                 AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', AssignmentMemoLine."ATM Site"::" ", AssignmentMemoLine."ATM Site");
                 if AllowanceConfiguration.FindSet() then
@@ -192,7 +189,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine, AssignmentMemoLine2 : Record "Assignment Memo Line";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
-        IsHandled: Boolean;
+        IsHandled, SkipCheck : Boolean;
         PayrollGSUP: Record "Payroll General Setup";
     begin
         PayrollGSUP.Get();
@@ -246,7 +243,8 @@ codeunit 50030 "Assignment Memo Mgt"
             until AssignmentMemoLine.Next() = 0;
 
         // final check allowance amount 
-        if not PayrollGSUP."NMB specific Shift" then begin
+        OnBeforeAmountCheck(AssignmentMemoLine, SkipCheck);
+        if not SkipCheck then begin
             AssignmentMemoLine.Reset();
             AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
             AssignmentMemoLine.SetRange("Allowance Amount", 0);
@@ -1493,6 +1491,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeReverseAssignmentMemo(docNo: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeAmountCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var SkipCheck: Boolean)
     begin
     end;
 }

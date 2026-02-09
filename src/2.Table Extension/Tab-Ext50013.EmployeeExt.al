@@ -516,7 +516,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(50048; "Province Name"; Text[50])
+        field(50048; "Province Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
@@ -1213,12 +1213,12 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50133; "Department Name"; Text[50])
+        field(50133; "Department Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50134; "Branch Name"; Text[50])
+        field(50134; "Branch Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
