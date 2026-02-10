@@ -810,10 +810,6 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Get Amount From Assignment field.';
                 }
-                field("NMB specific Shift"; rec."NMB specific Shift")
-                {
-
-                }
                 field("No. Of Days based On"; Rec."No. Of Days based On")
                 {
                     Caption = 'No. of Days Based on(Assignment Memo)';

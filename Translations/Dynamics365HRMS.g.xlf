@@ -13963,11 +13963,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Night Shift Allowance - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3915598104 - Field 1193908827 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>NMB specific Shift</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field NMB specific Shift - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 1786004763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. Of Days based On</source>
           <note from="Developer" annotates="general" priority="2"></note>

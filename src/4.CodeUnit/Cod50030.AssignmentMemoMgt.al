@@ -376,6 +376,8 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AttendanceMgt: Codeunit "Attendance Mgt";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
     begin
         AssignmentMemoLine.Get(SubAssigmemoLine."Document No.", SubAssigmemoLine."Substitute of Line No.");
         AssignmentMemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine."Document No.");
@@ -393,6 +395,8 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLedgerEntry.Validate("Open", false);
                 AssignmentMemoLedgerEntry.Validate("Substituted Employee No.", SubAssigmemoLine."Employee No.");
                 AssignmentMemoLedgerEntry.Modify(true);
+                ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Employee No.");
+                ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Substituted Employee No.");
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 

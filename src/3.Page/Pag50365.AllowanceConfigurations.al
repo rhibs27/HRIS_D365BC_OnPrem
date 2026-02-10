@@ -64,6 +64,10 @@ page 50365 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Earning Cycle field.', Comment = '%';
                 }
+                field("Day Type";Rec."Day Type")
+                {
+                    ToolTip = 'Specifies the value of the Day Type field.', Comment = '%';
+                }
                 field("ATM Site"; Rec."ATM Site")
                 {
                     ToolTip = 'Specifies the value of the ATM Site field.', Comment = '%';
