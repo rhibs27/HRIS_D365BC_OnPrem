@@ -716,7 +716,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50157; "Apply Resign Waiver"; Boolean)
+        field(50157; "Branch Appraisal Criteria"; DateFormula)
         {
             DataClassification = CustomerContent;
         }
@@ -728,6 +728,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
             Description = 'No of Salary Advance Allowed in single Fiscal year.';
+        }
+        field(50160; "Apply Resign Waiver"; Boolean)
+        {
+            DataClassification = CustomerContent;
         }
     }
     trigger onAfterInsert()

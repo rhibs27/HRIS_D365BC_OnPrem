@@ -290,7 +290,7 @@ codeunit 50001 "HR Mgt."
                     Appraisal.Reset;
                     Appraisal.SetRange("Employee Code", Employee."No.");
                     Appraisal.SetRange("Appraisal Type", Appraisal."Appraisal Type"::Annually);
-                    Appraisal.SetRange(Status, Appraisal.Status::Approved);
+                    Appraisal.SetRange("Approval Status", Appraisal."Approval Status"::Approved);
                     Appraisal.SetRange("Fiscal Year", ReturnFiscalYear(CalcDate('<-1Y>')));
                     if Appraisal.FindLast then begin
                         ServiceHistory.Reset;
@@ -298,13 +298,13 @@ codeunit 50001 "HR Mgt."
                         ServiceHistory.SetFilter("Service Event", '%1|%2', ServiceHistory."Service Event"::"Internal Appointment", ServiceHistory."Service Event"::Appointment);
                         ServiceHistory.SetRange("Salary Level (To)", Employee."Salary Level");
                         if ServiceHistory.FindFirst then begin
-                            case Appraisal.Rating of
-                                Appraisal.Rating::Excellent:
+                            case Appraisal."Final Grading" of
+                                Appraisal."Final Grading"::Excellent:
                                     begin
                                         if CalcDate(StrSubstNo('<%1Y>', HRSetup."Excellent Serivce Period"), ServiceHistory."Effective Date") <= VacancyHeader."Date of Request" then
                                             InsertPromotionCandidate(VacancyHeader);
                                     end;
-                                Appraisal.Rating::"Very Good":
+                                Appraisal."Final Grading"::"Very Good":
                                     begin
                                         if CalcDate(StrSubstNo('<%1Y>', HRSetup."Very Good Service Period"), ServiceHistory."Effective Date") <= VacancyHeader."Date of Request" then
                                             InsertPromotionCandidate(VacancyHeader);
@@ -1240,7 +1240,7 @@ codeunit 50001 "HR Mgt."
                     if Appraisal.FindFirst then begin
                         AppraisalRating.Reset;
                         AppraisalRating.SetRange(Type, AppraisalRating.Type::Appraisal);
-                        AppraisalRating.SetRange(Remarks, Appraisal.Rating);
+                        AppraisalRating.SetRange(Rating, Appraisal."Final Grading");
                         if AppraisalRating.FindFirst then;
                         if AppraisalRating.From > 4 then begin
                             Candidate.Init;
@@ -4617,6 +4617,17 @@ codeunit 50001 "HR Mgt."
                     until Employee.Next() = 0;
 
             until SalaryLevel.Next() = 0;
+    end;
+    //Appraisal Changes
+    procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
+    var
+        PayCyclePeriod: Record "Pay Cycle Period";
+    begin
+        PayCyclePeriod.Reset;
+        PayCyclePeriod.SetRange("Pay Cycle Term", FiscalYear);
+        PayCyclePeriod.SetCurrentKey("End Date");
+        if PayCyclePeriod.FindLast then
+            exit(PayCyclePeriod."End Date");
     end;
 
     [IntegrationEvent(false, false)]
