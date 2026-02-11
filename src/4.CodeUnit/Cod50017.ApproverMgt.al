@@ -36,7 +36,7 @@ codeunit 50017 "Approver Mgt"
             ApprovalSetupLine.SetRange("Request Type", EmpActType);
             ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
             ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
-            OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
+            OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType, EmpActNo, EmployeeNo);
             OnSkipEmployeeError(SkipError);
             SequenceOneCount := 0;
             GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
@@ -310,8 +310,8 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine.SetRange("Document No.", EmpActNo);
         ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
         ApprovalLine.SetRange("Approver No", ApproverNo);
-            if not ApprovalLine.Findfirst() then
-                Error(ApproveNotEligibleError);
+        if not ApprovalLine.Findfirst() then
+            Error(ApproveNotEligibleError);
     end;
 #endif
 
@@ -1765,7 +1765,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnInsertApprovalOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type");
+    local procedure OnInsertApprovalOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type"; var EmpActNo: Code[20]; var EmployeeNo: Code[20])
     begin
     end;
 

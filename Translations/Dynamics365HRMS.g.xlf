@@ -61998,6 +61998,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Branchwise/Extension Type - EnumValue Extension Counter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3328927806 - EnumValue 1237689382 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Branchwise/Extension Type - EnumValue Province - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 3328927806 - EnumValue 1354222690 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Unit</source>
           <note from="Developer" annotates="general" priority="2"></note>

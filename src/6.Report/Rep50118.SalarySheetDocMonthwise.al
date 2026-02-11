@@ -15,15 +15,15 @@ report 50118 "Salary Sheet Doc Monthwise"
             column(CompanyName; CompanyInfo.Name) { }
             column(CompanyAddress; CompanyInfo.Address) { }
             column(CompanyPhNo; CompanyInfo."Phone No.") { }
-            column(EmployeeDesignation; EmpDes.Description) { }
+            column(EmployeeDesignation; EmpVar."Salary Level Description") { }
             column(CITNo; EmpVar."CIT No.") { }
             column(PFNo; EmpVar."PF No.") { }
             column(EmpFullName; EmpVar."Full Name") { }
             column(PANNo_Employee; EmpVar."PAN No.") { }
             column(BankName; EmpVar."Bank Name") { }
             column(BankAccountNo; EmpVar."Bank Account No.") { }
-            column(EmployeeBranch; EmpVar."Insurance Name") { }
-            column(EmployeeSalaryLevel; EmpVar."Salary Level Description") { }
+            column(EmployeeBranch; EmpVar."Branch Name") { }
+            column(EmployeeSalaryLevel; EmpVar."Staff level") { }
             column(TodayFormatted; TypeHelper.GetFormattedCurrentDateTimeInUserTimeZone('d')) { }
             column(EmployeeCode; EmpVar."No.") { }
             column(FilterText; FilterText) { }
@@ -46,6 +46,7 @@ report 50118 "Salary Sheet Doc Monthwise"
                     column(BenefitAmount; BenefitAmount) { }
                     column(DeductionAmount; DeductionAmount) { }
                     column(DocNo; "No.") { }
+                    column(Irregular; Irregular) { }
 
                     trigger OnAfterGetRecord()
                     begin
@@ -77,6 +78,16 @@ report 50118 "Salary Sheet Doc Monthwise"
                         SetRange("Pay Cycle Term", PayCycleTerm);
                         if NepaliMonth <> NepaliMonth::" " then
                             SetFilter("Nepali Month", '%1', NepaliMonth);
+
+                        Clear(IsIrregularBooleanForBCText);
+                        IsIrregularBooleanForBCText := "Posted Payroll Header".GetFilter(Irregular);
+                        if IsIrregularBooleanForBCText <> '' then begin
+                            Evaluate(IsIrregularBooleanForBC, IsIrregularBooleanForBCText);
+                            if IsIrregularBooleanForBC then
+                                SetRange(Irregular, IsIrregularBooleanForBC) else
+                                if not IsIrregularBooleanForBC then
+                                    SetRange(Irregular, IsIrregularBooleanForBC)
+                        end;
                     end;
                 }
 
@@ -95,18 +106,15 @@ report 50118 "Salary Sheet Doc Monthwise"
 
             trigger OnAfterGetRecord()
             begin
-                // EmpVar.Reset;
-                // EmpVar.SetFilter("No.", EmployeeFilter);
-                // if EmpVar.FindFirst() then;
-                // if EmpDes.Get(EmpVar.Office) then;
+                EmpVar.Reset;
+                EmpVar.SetFilter("No.", EmployeeFilter);
+                if EmpVar.FindSet() then;
             end;
         }
     }
 
     requestpage
     {
-        SaveValues = true;
-
         layout
         {
             area(Content)
@@ -154,6 +162,7 @@ report 50118 "Salary Sheet Doc Monthwise"
         FilterText := 'Pay Cycle Term: ' + PayCycleTerm;
         if NepaliMonth <> NepaliMonth::" " then
             FilterText += '   Month: ' + Format(NepaliMonth);
+
     end;
 
     var
@@ -168,17 +177,19 @@ report 50118 "Salary Sheet Doc Monthwise"
         DeductionAmount: Decimal;
         ReportCaption: Label 'Yearly Payroll Report - %1';
         ReportName: Text;
-        EmpDes: Record "Functional Title";
         PayrollColumnConfig: Record "Payroll Column Configuration";
         SortinNo: Integer;
         NepaliMonth: Enum "Nepali Month";
         MultipleEmloyee: Boolean;
         FilterText: Text;
         PostedPayrollLine: Record "Posted Payroll Line";
+        IsIrregularBooleanForBCText: Text;
+        IsIrregularBooleanForBC: Boolean;
 
-    procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
+    procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20]; NepaliMonthPass: Enum "Nepali Month")
     begin
         EmployeeFilter := empCode;
         PayCycleTerm := FiscalYear;
+        NepaliMonth := NepaliMonthPass;
     end;
 }

@@ -18,7 +18,10 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name") { }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                    ToolTip = 'Specifies the value of the Employee Name field.';
+                }
                 field("Transfer Type"; Rec."Transfer Type")
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
@@ -76,6 +79,7 @@ page 50222 "Transfer Journal"
                 field(Status; Rec.Status)
                 {
                     Visible = StatusView;
+                    ToolTip = 'Specifies the value of the Status field.';
                 }
                 field("Functional Title (To)"; Rec."Functional Title (To)")
                 {
@@ -130,6 +134,12 @@ page 50222 "Transfer Journal"
                         CurrPage.Update();
                     end;
                 }
+                field("Decision Date"; Rec."Decision Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Decision Date field.';
+
+                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -150,6 +160,7 @@ page 50222 "Transfer Journal"
                 PromotedIsBig = true;
                 Visible = IsOpen and not SkipApproval;
                 Image = SendApprovalRequest;
+                ToolTip = 'Executes the Send For Approval action.';
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Send for Approval request?', false) then begin
@@ -175,6 +186,7 @@ page 50222 "Transfer Journal"
                 PromotedIsBig = true;
                 Image = Approve;
                 Visible = IsPending;
+                ToolTip = 'Executes the Approve action.';
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Approve request?', false) then begin
@@ -200,6 +212,7 @@ page 50222 "Transfer Journal"
                 PromotedIsBig = true;
                 Image = Post;
                 Visible = IsApproved or SkipApproval;
+                ToolTip = 'Executes the Post action.';
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Post Document?', false) then begin
@@ -225,6 +238,7 @@ page 50222 "Transfer Journal"
                 PromotedIsBig = true;
                 Image = Reject;
                 Visible = IsPending;
+                ToolTip = 'Executes the Reject action.';
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Reject Transfer?', false) then
@@ -238,6 +252,7 @@ page 50222 "Transfer Journal"
                 PromotedIsBig = true;
                 Image = Import;
                 Visible = IsOpen;
+                ToolTip = 'Executes the Import Attachment action.';
                 trigger OnAction()
                 begin
                     AttachmentMgt.ImportAttachmentToEmpActJnl(Rec);

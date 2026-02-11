@@ -250,6 +250,12 @@ page 50249 "Service History Lists"
                     ToolTip = 'Specifies the value of the Created DateTime field.';
                     ApplicationArea = All;
                 }
+                field("Decision Date"; Rec."Decision Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Decision Date field.', Comment = '%';
+                }
+
             }
         }
     }

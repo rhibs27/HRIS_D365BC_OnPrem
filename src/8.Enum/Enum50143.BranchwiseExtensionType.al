@@ -22,4 +22,8 @@ enum 50143 "Branchwise/Extension Type"
     {
         Caption = 'Unit';
     }
+    value(5; Province)
+    {
+        Caption = 'Province';
+    }
 }

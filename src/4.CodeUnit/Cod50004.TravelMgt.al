@@ -83,6 +83,7 @@ codeunit 50004 "Travel Mgt."
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
                 exit;
+        OnBeforeApplyTravelRequest(TravelReq);
         TravelReq.TestField("Start Date");
         TravelReq.TestField("End Date");
         TravelReq.TestField("Type Of Visit");
@@ -657,10 +658,13 @@ codeunit 50004 "Travel Mgt."
     var
         TravelRequest: Record "Travel Request";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        IsHandled: Boolean;
     begin
         TravelRequest.Get(TravelCode);
         if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
-            HRMgt.CreateEmpActLedgerForDateRange(TravelRequest.Type, TravelRequest."No.", TravelRequest."Employee No.", TravelRequest."Start Date", TravelRequest."End Date");
+            OnBeforeTravelApproved(TravelRequest."No.", IsHandled);
+            if not IsHandled then
+                HRMgt.CreateEmpActLedgerForDateRange(TravelRequest.Type, TravelRequest."No.", TravelRequest."Employee No.", TravelRequest."Start Date", TravelRequest."End Date");
             AttendanceMgt.DailyAttendanceUpdate(travelRequest."Start Date", travelRequest."End Date", travelRequest."Employee No.");
             // Employee.Get(TravelRequest."Employee No.");
             // Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
@@ -1107,6 +1111,12 @@ codeunit 50004 "Travel Mgt."
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeTravelRequestDateCheck(Var TravelRequest: Record "Travel Request"; var IsHandled: Boolean)
+    local procedure OnBeforeApplyTravelRequest(var TravelReq: Record "Travel Request")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeTravelApproved(var TravelCode: Code[20]; var IsHandled: Boolean)
     begin
     end;
 }
