@@ -1111,6 +1111,9 @@ codeunit 50004 "Travel Mgt."
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeTravelRequestDateCheck(Var TravelRequest: Record "Travel Request"; var IsHandled: Boolean)
+    begin
+    end;
+
     local procedure OnBeforeApplyTravelRequest(var TravelReq: Record "Travel Request")
     begin
     end;
