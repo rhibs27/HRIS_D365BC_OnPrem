@@ -97,8 +97,8 @@ page 50093 "Travel Requests"
                     if not SelectedRec.FindSet() then
                         Error('No records selected.');
                     repeat
-                        if SelectedRec."Approval Status" <> SelectedRec."Approval Status"::Approved then
-                            Error('All selected records must have Approval Status = Approved. Record %1 is not approved.', SelectedRec."No.");
+                        if (SelectedRec."Approval Status" <> SelectedRec."Approval Status"::Approved) OR (not SelectedRec."Advance Cash Required") then
+                            Error('All selected records must have Approval Status = Approved And "Advance Cash Required" must be True. Record %1 is not approved.', SelectedRec."No.");
                     until SelectedRec.Next() = 0;
 
                     if Confirm('Do you want to process the selected records?', false) then begin
