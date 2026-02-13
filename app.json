@@ -2,7 +2,7 @@
   "id": "07c9063f-5a1c-45fa-860f-30d83851f306",
   "name": "Dynamics365HRMS",
   "publisher": "Agile Solutions Pvt. Ltd.",
-  "version": "1.0.0.0",
+  "version": "1.0.0.27",
   "brief": "Human Resource Management System",
   "description": "Dynamics 365 HRMS is an end-to-end human resource management system solution running on Microsoft Dynamics 365 Business Central.",
   "privacyStatement": "https://agile.com.np/privacy-policy/",
@@ -11,11 +11,17 @@
   "url": "https://go.microsoft.com/fwlink/?linkid=724013",
   "contextSensitiveHelpUrl": "https://go.microsoft.com/fwlink/?linkid=724013",
   "logo": "./D365 HRMS Logo.png",
-  "dependencies": [],
+  "dependencies": [ {
+      "id": "fc4891de-80fd-4f1d-a70f-549eb0d9a61e",
+      "name": "SaaS_PortalEmployeeTracking",
+      "publisher": "D365Sum_anExTend",
+      "version": "1.0.0.4"
+    }],
   "screenshots": [],
   "platform": "1.0.0.0",
   "application": "23.0.0.0",
   "target": "Cloud",
+  "preprocessorSymbols":["SaasFeature"],
   "idRanges": [
     {
       "from": 50000,
