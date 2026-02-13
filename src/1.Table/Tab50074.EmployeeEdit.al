@@ -485,6 +485,10 @@ table 50074 "Employee Edit"
                 Validate("Claimed Type Effective Date", PayCyclePeriod."Start Date");
             end;
         }
+        field(84; "Company Email"; Text[80])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(100; "Status"; Text[20])
         {
             Editable = false;
