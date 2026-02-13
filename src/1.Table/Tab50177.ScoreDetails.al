@@ -107,5 +107,4 @@ table 50177 "Score Detail"
             exit(ScoreDetail."Line No." + 1);
         exit(1);
     end;
-
 }
