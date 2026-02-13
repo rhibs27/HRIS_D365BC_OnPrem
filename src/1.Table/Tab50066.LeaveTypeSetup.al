@@ -183,7 +183,7 @@ table 50066 "Leave Type Setup"
             Editable = false;
         }
         field(504; "Encash Date"; Date) { }
-        field(505; "Encash Remarks"; Text[100]) { }
+        field(505; "Encash Remarks"; Text[250]) { }
         field(506; "Encashed Formula"; Code[20])
         {
             trigger OnLookup()

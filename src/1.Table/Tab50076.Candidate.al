@@ -355,13 +355,13 @@ table 50076 Candidate
         field(92; "Interviewer 5"; Text[50]) { }
         field(93; "Current Job Position"; Text[150]) { }
         field(94; "Current Functional Title"; Text[150]) { }
-        field(95; "Interviewer 1 Remarks"; Text[50]) { }
-        field(96; "Interviewer 2 Remarks"; Text[50]) { }
-        field(97; "Interviewer 3 Remarks"; Text[50]) { }
+        field(95; "Interviewer 1 Remarks"; Text[250]) { }
+        field(96; "Interviewer 2 Remarks"; Text[250]) { }
+        field(97; "Interviewer 3 Remarks"; Text[250]) { }
         field(98; "Non-Banking Experience"; Integer) { }
         field(99; "Total Banking Experience"; Integer) { }
-        field(100; "Interviewer 4 Remarks"; Text[50]) { }
-        field(101; "Interviewer 5 Remarks"; Text[50]) { }
+        field(100; "Interviewer 4 Remarks"; Text[250]) { }
+        field(101; "Interviewer 5 Remarks"; Text[250]) { }
     }
 
     keys

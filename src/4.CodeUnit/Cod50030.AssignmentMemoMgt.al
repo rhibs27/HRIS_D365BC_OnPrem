@@ -84,8 +84,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     if not SkipAssignmentLedgerCreation then
                         CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
                 until AssignmentMemoLine.Next() = 0;
-
-            CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
+            if not ((AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo") or (AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo")) then
+                CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
             OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
         end;
     end;
@@ -872,6 +872,7 @@ codeunit 50030 "Assignment Memo Mgt"
         IncomingDoc.Init;
         IncomingDoc.Validate(Type, IncomingDoc.Type::" ");
         IncomingDoc.Validate("No.", No);
+
         IncomingDoc.Validate("Employee Activity Type", EmpActType);
         IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
         IncomingDoc.Validate(Description, Format(EmpActType) + ': ' + Format(AttachmentSetup."Attachment Code") + '-' + Format(No));
@@ -909,8 +910,11 @@ codeunit 50030 "Assignment Memo Mgt"
                 IncomingDoc.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
                 IncomingDoc.SetRange("Document No.", AssignmentmemoHdr."No.");
                 IncomingDoc.SetRange("Employee Activity Type", AssignmentmemoHdr."Activity Type");
-                if IncomingDoc.IsEmpty() then
-                    Error('Mandatory attachment %1 is missing. Please attach before sending for approval.', AttachmentSetup."Attachment Code");
+                if IncomingDoc.FindSet() then
+                    repeat
+                        IF (IncomingDoc."File Name" = '') OR (IncomingDoc."Attachment Code" = '') then
+                            Error('Mandatory attachment %1 is missing. Please attach before sending for approval.', AttachmentSetup."Attachment Code");
+                    until IncomingDoc.Next() = 0;
             until AttachmentSetup.Next() = 0;
     end;
 

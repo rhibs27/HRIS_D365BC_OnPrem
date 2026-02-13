@@ -1020,26 +1020,44 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure InsertLeaveEarnfromJournal(
-        LeaveCode: Code[20];
-        EmpNo: Code[20];
-        EarnType: Enum "Leave Earn Type";
-        Days: Decimal;
-        DocumentNo: Code[20];
-        RequestedDate: Date)
+    // procedure InsertLeaveEarnfromJournal(
+    //     LeaveCode: Code[20];
+    //     EmpNo: Code[20];
+    //     EarnType: Enum "Leave Earn Type";
+    //     Days: Decimal;
+    //     DocumentNo: Code[20];
+    //     RequestedDate: Date)
+    // var
+    //     LeaveEarn: Record "Leave Earn";
+    //     HRMgt: Codeunit "HR Mgt.";
+    // begin
+    //     LeaveEarn.Init;
+    //     LeaveEarn.Validate("Leave Code", LeaveCode);
+    //     LeaveEarn.Validate("Employee No.", EmpNo);
+    //     LeaveEarn.Validate(Type, EarnType);
+    //     LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(RequestedDate));
+    //     LeaveEarn.Validate("Posted Date", Today);
+    //     LeaveEarn.Validate("Balancing Days", Days);
+    //     LeaveEarn.Validate("Leave Request No", DocumentNo);
+    //     LeaveEarn.Validate("Entry No.", GetNextLeaveLedgerEntryNo());
+    //     LeaveEarn.Insert(true);
+    // end;
+
+    procedure InsertLeaveEarnfromJournal(LeaveJournal: Record "Employee Activity Journal")
     var
         LeaveEarn: Record "Leave Earn";
         HRMgt: Codeunit "HR Mgt.";
     begin
         LeaveEarn.Init;
-        LeaveEarn.Validate("Leave Code", LeaveCode);
-        LeaveEarn.Validate("Employee No.", EmpNo);
-        LeaveEarn.Validate(Type, EarnType);
-        LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(RequestedDate));
+        LeaveEarn.Validate("Leave Code", LeaveJournal."Leave Code");
+        LeaveEarn.Validate("Employee No.", LeaveJournal."Employee No.");
+        LeaveEarn.Validate(Type, LeaveJournal."Adjustment Type");
+        LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(LeaveJournal."Requested Date"));
         LeaveEarn.Validate("Posted Date", Today);
-        LeaveEarn.Validate("Balancing Days", Days);
-        LeaveEarn.Validate("Leave Request No", DocumentNo);
+        LeaveEarn.Validate("Balancing Days", LeaveJournal."No. of Days");
+        LeaveEarn.Validate("Leave Request No", LeaveJournal."Emp Act. No");
         LeaveEarn.Validate("Entry No.", GetNextLeaveLedgerEntryNo());
+        OnBeforeInsertLeaveEarnfromJournal(LeaveEarn, LeaveJournal);
         LeaveEarn.Insert(true);
     end;
 
@@ -1301,7 +1319,7 @@ codeunit 50000 "Leave Mgt."
                                             if LeaveTypeSetup."Calculate Proratawise" then begin
                                                 Clear(EmpConfDate);
                                                 //Use confirmation date for permanent, employment date for others
-                                                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Permanent) and
+                                                if (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent) and
                                                    (EmpVar."Confirmation Date" <> 0D) then
                                                     EmpConfDate := EmpVar."Confirmation Date"
                                                 else
@@ -2113,6 +2131,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateLeaveDaysToCredit(var leavetypesetup: Record "Leave Type Setup"; var LeaveDaysToCredit: Decimal; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertLeaveEarnfromJournal(var LeaveEarn: Record "Leave Earn"; LeaveJournal: Record "Employee Activity Journal")
     begin
     end;
 

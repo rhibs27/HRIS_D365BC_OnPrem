@@ -121,7 +121,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = ToBeClassified;
         }
-        field(22; "Rejection Remarks"; Text[100])
+        field(22; "Rejection Remarks"; Text[250])
         {
             DataClassification = ToBeClassified;
         }
@@ -186,7 +186,7 @@ table 50074 "Employee Edit"
         }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
-        field(33; Remarks; Text[100])
+        field(33; Remarks; Text[250])
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
         {

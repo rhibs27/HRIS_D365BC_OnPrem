@@ -45,7 +45,7 @@ table 50058 "KPI Master"
         {
             Description = 'Target always given as 100';
         }
-        field(6; Remarks; Text[150]) { }
+        field(6; Remarks; Text[250]) { }
         field(7; "Appraisal Type"; Enum "Appraisal Type")
         {
             trigger OnValidate()
