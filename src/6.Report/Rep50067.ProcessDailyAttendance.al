@@ -43,6 +43,8 @@ report 50067 "Process Daily Attendance"
                 begin
                     if Employee."Employment Date" > Date."Period Start" then
                         CurrReport.Skip();
+                    if Date."Period Start" > Today then
+                        CurrReport.Skip();
                     InitEmpAttendance();
                 end;
             }
@@ -225,11 +227,13 @@ report 50067 "Process Daily Attendance"
     var
         ServiceHistory: Record "Employee Service History";
     begin
-        ServiceHistory.SetLoadFields("Province Code (From)", "Province Description (From)", "Branch Code (From)", "Branch Description (From)", "Department Code (From)", "Department Description (From)", "Unit Code (From)", "Extension Description (From)");
+        ServiceHistory.SetLoadFields("Province Code (To)", "Province Description (To)", "Branch Code (To)", "Branch Description (To)", "Department Code (To)", "Department Description (To)", "Unit Code (To)", "Extension Description (To)");
         ServiceHistory.SetRange("Employee No.", Employee."No.");
         ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
         ServiceHistory.SetFilter("Effective Date", '<%1', Date."Period Start");
         if ServiceHistory.FindLast() then begin
+            EmpAttendance."Deputation On" := ServiceHistory."Deputation On (To)";
+            EmpAttendance."Deputation On Code" := ServiceHistory."Deputation Code (To)";
             EmpAttendance."Province Code" := ServiceHistory."Province Code (To)";
             EmpAttendance."Province Name" := ServiceHistory."Province Description (To)";
             EmpAttendance."Branch Code" := ServiceHistory."Branch Code (To)";

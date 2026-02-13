@@ -1,7 +1,7 @@
 report 50052 "Employee Leave Balance"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './src/6.Report/Rep33019853.EmployeeLeaveBalance.rdl';
+    RDLCLayout = './src/6.Report/Rep50052.EmployeeLeaveBalance.rdl';
     ApplicationArea = All;
 
     dataset
@@ -12,10 +12,9 @@ report 50052 "Employee Leave Balance"
             column(CompanyInfoName; CompanyInfo.Name) { }
             column(CompanyInfoPic; CompanyInfo.Picture) { }
             column(Title; Title) { }
-            column(FromDate; Today) { }
-            column(ToDate; TillDate) { }
-            column(FiscalYear; FiscalYear) { }
-            column(xFiscalYear; xFiscalYear) { }
+            column(FromDate; Fromdate) { }
+            column(ToDate; ToDate) { }
+
         }
         dataitem(Employee; Employee)
         {
@@ -35,46 +34,39 @@ report 50052 "Employee Leave Balance"
 
                 trigger OnAfterGetRecord()
                 begin
-                    CalcFields("Remaining Days");
-                    Clear(OpeningLeave);
-                    Clear(EarnedLeave);
-                    Clear(UsedDays);
-                    Clear(ClosingLeave);
-                    LeaveEarn.Reset;
-                    LeaveEarn.SetRange("Employee No.", Employee."No.");
-                    LeaveEarn.SetRange("Leave Code", Code);
-                    if Employee."Employment Type" = Employee."Employment Type"::Permanent then begin
-                        LeaveEarn.SetRange("Fiscal year", FiscalYear);//LeaveEarn.SETFILTER("Posted Date",'%1..%2',0D,EngNepDate."English Date"-1);
-                        LeaveEarn.SetRange(Type, LeaveEarn.Type::CarryForward);
-                    end else
-                        LeaveEarn.SetFilter("Posted Date", '<%1', PGSetup."Payroll Fiscal Year Start Date");
+                    OpeningLeave := 0;
+                    EarnedLeave := 0;
+                    UsedDays := 0;
+                    ClosingLeave := 0;
 
-                    LeaveEarn.CalcSums("Balancing Days");
-                    OpeningLeave := LeaveEarn."Balancing Days";
+                    LeaveEarn[1].SetLoadFields("Balancing Days");
+                    LeaveEarn[1].SetRange("Employee No.", Employee."No.");
+                    LeaveEarn[1].SetRange("Leave Code", Code);
+                    LeaveEarn[1].SetFilter("Posted Date", '<%1', Fromdate);
+                    LeaveEarn[1].CalcSums("Balancing Days");
+                    OpeningLeave := LeaveEarn[1]."Balancing Days";
 
-                    LeaveEarn.Reset;
-                    LeaveEarn.SetRange("Employee No.", Employee."No.");
-                    LeaveEarn.SetRange("Leave Code", Code);
-                    LeaveEarn.SetRange("Fiscal year", FiscalYear);
-                    LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
-                    LeaveEarn.CalcSums("Balancing Days");
-                    EarnedLeave := LeaveEarn."Balancing Days";
+                    LeaveEarn[2].SetLoadFields("Balancing Days");
+                    LeaveEarn[2].SetRange("Employee No.", Employee."No.");
+                    LeaveEarn[2].SetRange("Leave Code", Code);
+                    LeaveEarn[2].Setfilter(Type, '%1|%2', LeaveEarn[2].Type::Earned, LeaveEarn[2].Type::Adjustment);
+                    LeaveEarn[2].SetRange("Posted Date", Fromdate, ToDate);
+                    LeaveEarn[2].CalcSums("Balancing Days");
+                    EarnedLeave := LeaveEarn[2]."Balancing Days";
 
-                    LeaveEarn.Reset;
-                    LeaveEarn.SetRange("Employee No.", Employee."No.");
-                    LeaveEarn.SetRange("Leave Code", Code);
-                    LeaveEarn.SetRange("Fiscal year", FiscalYear);
-                    //LeaveEarn.SetRange(Type,LeaveEarn.Type::Used);
-                    LeaveEarn.SetFilter(Type, '%1|%2', LeaveEarn.Type::Used, LeaveEarn.Type::Cancelled);
-                    LeaveEarn.CalcSums("Balancing Days");
-                    UsedDays := Abs(LeaveEarn."Balancing Days");
+                    LeaveEarn[3].SetLoadFields("Balancing Days");
+                    LeaveEarn[3].SetRange("Employee No.", Employee."No.");
+                    LeaveEarn[3].SetRange("Leave Code", Code);
+                    LeaveEarn[3].SetRange("Posted Date", Fromdate, ToDate);
+                    LeaveEarn[3].Setfilter(Type, '%1|%2|%3|%4',
+                      LeaveEarn[3].Type::Used,
+                      LeaveEarn[3].Type::Cancelled,
+                      LeaveEarn[3].Type::Encashed,
+                      LeaveEarn[3].Type::Collapsed);
+                    LeaveEarn[3].CalcSums("Balancing Days");
+                    UsedDays := Abs(LeaveEarn[3]."Balancing Days");
 
                     ClosingLeave := OpeningLeave + EarnedLeave - UsedDays;
-                end;
-
-                trigger OnPreDataItem()
-                begin
-                    SetFilter("Date Filter", '%1..%2', 0D, TillDate);
                 end;
             }
         }
@@ -86,66 +78,44 @@ report 50052 "Employee Leave Balance"
         {
             area(Content)
             {
-                field("Till Date"; TillDate)
+                field("From"; Fromdate)
+                {
+                    ToolTip = 'Specifies the value of the FromDate field.';
+                    ApplicationArea = All;
+                }
+                field("To"; ToDate)
                 {
                     ToolTip = 'Specifies the value of the TillDate field.';
-                    ApplicationArea = All;
-
-                    trigger OnValidate()
-                    begin
-                        if TillDate <> 0D then
-                            FiscalYear := HRMgt.ReturnFiscalYear(TillDate);
-                    end;
-                }
-                field("Fiscal Year"; FiscalYear)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the FiscalYear field.';
                     ApplicationArea = All;
                 }
             }
         }
-
-        actions { }
     }
-
-    labels { }
-
     trigger OnInitReport()
     begin
-        TillDate := Today;
-        FiscalYear := HRMgt.ReturnFiscalYear(TillDate);
+        Fromdate := Leaveperiod.GetLeaveYearStartDate(WorkDate());
+        ToDate := Today;
     end;
 
     trigger OnPreReport()
     begin
         CompanyInfo.Get;
         CompanyInfo.CalcFields(Picture);
-        if TillDate = 0D then
-            TillDate := Today;
-        FiscalYear := HRMgt.ReturnFiscalYear(TillDate);
-        if FiscalYear <> '' then begin
-            EngNepDate.Reset;
-            EngNepDate.SetRange("Fiscal Year", FiscalYear);
-            EngNepDate.SetCurrentKey("English Date");
-            if EngNepDate.FindFirst then;
-            xFiscalYear := HRMgt.ReturnFiscalYear(CalcDate('<-1Y>', TillDate));
-        end;
-        PGSetup.Get;
+        if (Fromdate = 0D) or (ToDate = 0D) then
+            Error('Please specify both From and To dates.');
+        if Fromdate > ToDate then
+            Error('From date cannot be later than To date.');
     end;
 
     var
         CompanyInfo: Record "Company Information";
-        TillDate: Date;
+        Fromdate, ToDate : Date;
         Title: Label 'Employee Leave Balance';
-        FiscalYear: Text[10];
         UsedDays: Decimal;
         EarnedLeave: Decimal;
         OpeningLeave: Decimal;
-        HRMgt: Codeunit "HR Mgt.";
-        LeaveEarn: Record "Leave Earn";
-        EngNepDate: Record "English-Nepali Date";
+        LeaveEarn: array[5] of Record "Leave Earn";
         ClosingLeave: Decimal;
-        xFiscalYear: Text[10];
-        PGSetup: Record "Payroll General Setup";
+        Leaveperiod: Record "Accounting Period";
+
 }

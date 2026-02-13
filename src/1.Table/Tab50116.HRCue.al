@@ -148,18 +148,16 @@ table 50116 "HR Cue"
         field(75; "To Reviews Appraisal"; Integer)
         {
             CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 Status = const(Submitted),
-                                                 Reviewer = field("Employee Filter"),
-                                                 Hide = filter(false)));
+                                                 "Approval Status" = const(Pending)
+                                                 ));
             Editable = false;
             FieldClass = FlowField;
         }
         field(76; "To Check Reviews Appraisal"; Integer)
         {
             CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 Status = const(Reviewed),
-                                                 "Check Reviewer" = field("Employee Filter"),
-                                                 Hide = filter(false)));
+                                                 "Approval Status" = const(Reviewed)
+                                                 ));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -169,13 +167,6 @@ table 50116 "HR Cue"
                                                 Status = const(Active)));
             FieldClass = FlowField;
             Editable = false;
-        }
-        field(79; "To Check Reviews KPI"; Integer)
-        {
-            CalcFormula = count("KPI Appraisal Header Bank" where(Status = const("Check Reviewed")));
-            Description = 'KPI1.00';
-            Editable = false;
-            FieldClass = FlowField;
         }
         field(80; "Leave Request"; Integer)
         {
@@ -347,6 +338,27 @@ table 50116 "HR Cue"
             Description = 'Request To Approve';
             FieldClass = FlowField;
             Editable = false;
+        }
+        field(104; "Active Biometric Device"; Integer)
+        {
+            Description = 'Active Biometric Device';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = count("Biometric Device Config." where("Is Active" = const(true)));
+        }
+        field(105; "Inactive Biometric Device"; Integer)
+        {
+            Description = 'Inactive Biometric Device';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = count("Biometric Device Config." where("Is Active" = const(false)));
+        }
+        field(106; "Total Biometric Device"; Integer)
+        {
+            Description = 'Total Biometric Device';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = count("Biometric Device Config.");
         }
     }
 

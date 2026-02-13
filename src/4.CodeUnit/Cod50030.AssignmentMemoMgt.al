@@ -175,8 +175,7 @@ codeunit 50030 "Assignment Memo Mgt"
                         //outstation and remote allowance prorata calculation
                         ProrateAllowanceAmount(AssignmentMemoLine, AssignmentMemoLedgerEntry);
                     end;
-
-                    AssignmentMemoLedgerEntry.Insert();
+                    AssignmentMemoLedgerEntry.Insert(true);
                 until DateVar.Next() = 0;
         end;
     end;
@@ -384,7 +383,7 @@ codeunit 50030 "Assignment Memo Mgt"
             repeat
                 AssignmentMemoLedgerEntry.Validate("Open", false);
                 AssignmentMemoLedgerEntry.Validate("Substituted Employee No.", SubAssigmemoLine."Employee No.");
-                AssignmentMemoLedgerEntry.Modify();
+                AssignmentMemoLedgerEntry.Modify(true);
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
@@ -715,6 +714,8 @@ codeunit 50030 "Assignment Memo Mgt"
         case AllowanceConfig.Source of
             AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift:
                 CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
+            AllowanceConfig.Source::Leave:
+                CreateAllowanceRequestLineFromApprovedLeave(AssignmentMemoHdr);
         end;
         CreateAllowanceRequestLineForEducation(AssignmentMemoHdr);
     end;
@@ -1393,6 +1394,42 @@ codeunit 50030 "Assignment Memo Mgt"
 
             AssignmentMemoLedgerEntry.Amount := newamt;
         end;
+    end;
+
+    procedure CreateAllowanceRequestLineFromApprovedLeave(var AssignmentMemoHdr: Record "Assignment Memo Header")
+    var
+        LeaveEarn: Record "Leave Earn";
+    begin
+        LeaveEarn.SetRange("Payroll Attribute", AssignmentMemoHdr."Payroll Attribute Code");
+        LeaveEarn.SetRange("Employee No.", AssignmentMemoHdr."Employee No.");
+        LeaveEarn.SetRange(Claimed, false);
+        LeaveEarn.SetRange("Claimed Document No.", '');
+        if LeaveEarn.FindSet() then
+            repeat
+                //create assignment memo line
+                CreateAllowanceRequestLineFromLeaveEarn(AssignmentMemoHdr, LeaveEarn);
+            until LeaveEarn.Next() = 0;
+
+    end;
+
+    procedure CreateAllowanceRequestLineFromLeaveEarn(var AssignmentMemoHdr: Record "Assignment Memo Header"; var LeaveEarn: Record "Leave Earn")
+    var
+        AssignmentMemoLine: Record "Assignment Memo Line";
+    begin
+        AssignmentMemoLine.Init();
+        AssignmentMemoLine.Validate("Document No.", AssignmentMemoHdr."No.");
+        AssignmentMemoLine.Validate("Emp Act Type", AssignmentMemoHdr."Activity Type");
+        AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
+        AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+        AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."To date");
+        AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
+        AssignmentMemoLine.Validate("Payroll Attribute Code", AssignmentMemoHdr."Payroll Attribute Code");
+        AssignmentMemoLine.Validate("Allowance Amount", LeaveEarn."Encashment Amount");
+        AssignmentMemoLine.Insert();
+
+        LeaveEarn."Claimed Document No." := AssignmentMemoHdr."No.";
+        LeaveEarn.Claimed := true;
+        LeaveEarn.Modify();
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]

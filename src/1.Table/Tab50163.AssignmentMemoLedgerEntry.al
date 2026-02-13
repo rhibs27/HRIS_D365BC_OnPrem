@@ -170,6 +170,16 @@ table 50163 "Assignment Memo Ledger Entry"
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
         }
         field(60; "Nepali Month"; Enum "Nepali Month") { }
+        field(61; "Payroll Posted Month"; Enum "Nepali Month")
+        {
+            Caption = 'Payroll Posting Month';
+            Editable = false;
+        }
+        field(62; "Payroll Posted Date"; Date)
+        {
+            Caption = 'Payroll Posted Date';
+            Editable = false;
+        }
     }
     keys
     {

@@ -7,6 +7,7 @@ page 50235 "Employee Edit list"
     SourceTable = "Employee Edit";
     UsageCategory = Lists;
     CardPageId = "Employee Edit Card";
+    ApplicationArea = All;
 
     layout
     {

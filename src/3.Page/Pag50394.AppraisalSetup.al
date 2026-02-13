@@ -1,10 +1,10 @@
-page 50265 "Key Value Master List"
+page 50394 "Appraisal Setup"
 {
     ApplicationArea = BasicHR;
     PageType = List;
-    SourceTable = "Key Value Master";
+    SourceTable = "Appraisal Setup";
     UsageCategory = Lists;
-
+    Caption = 'Appraisal Setup';
     layout
     {
         area(Content)
@@ -30,5 +30,4 @@ page 50265 "Key Value Master List"
         }
     }
 
-    actions { }
 }

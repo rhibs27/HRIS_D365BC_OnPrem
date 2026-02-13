@@ -46,6 +46,10 @@ page 50038 "Loan Journal"
                 {
                     ToolTip = 'Specifies the value of the Loan Disbursed Amount field.', Comment = '%';
                 }
+                field("Loan Disbursement Date"; Rec."Loan Disbursement Date")
+                {
+                    ToolTip = 'Specifies the value of the Loan Disbursement Date field.', Comment = '%';
+                }
                 field("Loan Expiry Date"; Rec."Loan Expiry Date")
                 {
                     ToolTip = 'Specifies the value of the Loan Expiry Date field.', Comment = '%';

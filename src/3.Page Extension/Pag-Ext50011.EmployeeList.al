@@ -199,8 +199,8 @@ pageextension 50011 "Employee List" extends "Employee List"
         {
             Visible = false;
         }
-    }
 
+    }
     trigger OnOpenPage()
     begin
         Rec.SetCurrentKey(Seniority);
@@ -213,4 +213,7 @@ pageextension 50011 "Employee List" extends "Employee List"
         if Rec."Contract Expiry Date" > Today then
             Rec."Contract Expiry Remaining Days" := Rec."Contract Expiry Date" - Today;
     end;
+
 }
+
+

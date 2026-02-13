@@ -728,6 +728,10 @@ table 50075 "Employee Activity Journal"
             Caption = 'Substitute Person Name';
             Editable = false;
         }
+        field(128; "Loan Disbursement Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
 
         // Promotion
         field(150; "Promoted Salary Grade"; Code[20])
@@ -740,6 +744,10 @@ table 50075 "Employee Activity Journal"
         }
         field(152; "Promoted Staff Level"; Enum "Staff Type") { }
         field(153; "Promotion Date"; Date) { }
+        field(154; "Decision Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

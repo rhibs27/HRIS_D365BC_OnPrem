@@ -295,6 +295,7 @@ table 50162 "Assignment Memo Line"
     var
         CannotDelete: Label 'Cannot delete document.';
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        LeaveEarn: Record "Leave Earn";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete);
@@ -303,6 +304,12 @@ table 50162 "Assignment Memo Line"
             AssignmentMemoLedgerEntry."Claimed Doc No." := '';
             AssignmentMemoLedgerEntry."Claimed" := false;
             AssignmentMemoLedgerEntry.Modify();
+        end;
+
+        LeaveEarn.SetRange("Claimed Document No.", "Document No.");
+        if LeaveEarn.FindSet() then begin
+            LeaveEarn.ModifyAll("Claimed Document No.", '');
+            LeaveEarn.ModifyAll(Claimed, false);
         end;
     end;
 

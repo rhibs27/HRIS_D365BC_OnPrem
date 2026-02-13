@@ -2,7 +2,6 @@ table 50133 "KPI Appraisal Header Bank"
 {
     DataClassification = CustomerContent;
     // version KPI1.00
-
     fields
     {
         field(1; "Appraisal Code"; Code[20])
@@ -19,7 +18,6 @@ table 50133 "KPI Appraisal Header Bank"
         field(2; "Employee Code"; Code[20])
         {
             TableRelation = Employee;
-
             trigger OnValidate()
             begin
                 if Employee.Get("Employee Code") then begin//KP1.00
@@ -39,7 +37,6 @@ table 50133 "KPI Appraisal Header Bank"
         {
             Editable = false;
             TableRelation = "Functional Title";
-
             trigger OnValidate()
             begin
                 if Employee."KPI Deputation" in [Employee."KPI Deputation"::Department, Employee."KPI Deputation"::Unit] then //KPI1.00
@@ -60,7 +57,6 @@ table 50133 "KPI Appraisal Header Bank"
         {
             Editable = true;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
-
             trigger OnValidate()
             begin
                 if Type = Type::Department then begin
@@ -174,31 +170,30 @@ table 50133 "KPI Appraisal Header Bank"
         {
             TableRelation = Employee;
         }
-        field(29; Status; Enum "Appraisal Status") { }
+        field(29; Status; Enum "Approval Status") { }
         field(30; "Is Modified"; Boolean) { }
         field(31; "Reviewed KPI Score"; Decimal) { }
     }
-
     keys
     {
         key(Key1; "Appraisal Code") { }
     }
 
     fieldgroups { }
-
     trigger OnInsert()
     begin
-        "User ID" := UserId;//KP1.00
+        "User ID" := UserId; // KP1.00
         "Date and Time" := CurrentDateTime;
         Validate("Created Date", Today);
         HumanResSetup.Get;
         if "Appraisal Code" = '' then begin
             HumanResSetup.TestField("Appraisal No.");
-            HRMgt.InitNoSeriesNew(HumanResSetup."KPI Appriasal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
+            HRMgt.InitNoSeriesNew(HumanResSetup."KPI Appriasal No.", '', 0D, "Appraisal Code", "No. Series");
+            "Appraisal Code" := NoSeriesMgt.GetNextNo("No. Series");
             KPIAppraisalHeaderBankRec.ReadIsolation(IsolationLevel::ReadCommitted);
             KPIAppraisalHeaderBankRec.SetLoadFields("Appraisal Code");
-            while KPIAppraisalHeaderBankRec.Get("Appraisal Code") do
-                "Appraisal Code" := NoSeriesMgt.GetNextNo("No. Series");
+            if KPIAppraisalHeaderBankRec.Get("Appraisal Code") then
+                Error('Appraisal Code %1 already exists.', "Appraisal Code");
         end;
     end;
 

@@ -64,6 +64,12 @@ page 50374 "Promotion Journal"
                     ApplicationArea = All;
                     Editable = IsOpen or IsPending;
                 }
+                field("Decision Date"; Rec."Decision Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Decision Date field.';
+
+                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {

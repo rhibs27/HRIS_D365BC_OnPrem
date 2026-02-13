@@ -162,7 +162,10 @@ codeunit 50016 "AttendanceMiss Mgt"
             if AttendanceMissed."Check In Time" <> 0T then
                 if not CheckAttendanceLogs(MachineEmpNo, AttendanceMissed."Start Date", AttendanceMissed."Check In Time") then begin//Check Already exits logs
                     AttendanceLog.Init();
-                    Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time"));
+                    if (not GuiAllowed) and HRMgt.IsSaaS() then
+                        Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time" - (5 * 3600000 + 45 * 60000)))
+                    else
+                        Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time"));
                     AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(AttendanceMissed."Start Date", 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceMissed."Check In Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>'));
                     AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                     AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
@@ -181,7 +184,10 @@ codeunit 50016 "AttendanceMiss Mgt"
                 if not CheckAttendanceLogs(MachineEmpNo, CheckOutDate, AttendanceMissed."Check Out Time") then begin
                     AttendanceLog.Init();
                     AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(CheckOutDate, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceMissed."Check Out Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>'));
-                    Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time"));
+                    if (not GuiAllowed) and HRMgt.IsSaaS() then
+                        Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time" - (5 * 3600000 + 45 * 60000)))
+                    else
+                        Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time"));
                     AttendanceLog.Validate(Date, CheckOutDate);
                     AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                     AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
