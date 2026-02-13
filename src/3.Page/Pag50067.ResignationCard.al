@@ -266,13 +266,15 @@ page 50067 "Resignation Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                // Visible = ApprovalSent;
                 Visible = false;
                 ToolTip = 'Executes the Return Resignation action.';
                 ApplicationArea = All;
                 trigger OnAction()
                 begin
-                    ResignationMgt.ReturnResignation(Rec);
+                    if Confirm('Do you want Withdraw the request?', false) then begin
+                        ApprovalMgt.WithDrawRequest(RecRef);
+                        Message('Resignation isWithdrawn');
+                    end;
                 end;
             }
             action(Print)

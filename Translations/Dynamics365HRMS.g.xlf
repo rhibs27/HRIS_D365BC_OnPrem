@@ -56773,11 +56773,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Portal Attendance - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 3295648008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Resignation Approver field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Resignation Approver - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 310497131 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Bank No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -59217,11 +59212,6 @@
           <source>Reporting Person</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Reporting Person - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 3295648008 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Resignation Approver</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Resignation Approver - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3801720079 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Resignation Date</source>

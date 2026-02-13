@@ -1005,14 +1005,6 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Disabled" = CONST(false)));
             Editable = false;
         }
-        field(50103; "Resignation Approver"; Boolean)
-        {
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                ResignMgt.AddRemoveDocApprover("No.", "Resignation Approver");
-            end;
-        }
         field(50105; "Emergency Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
@@ -1655,6 +1647,7 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         LeaveMgt.OpenLeaveRequest("No.");
     end;
+
     procedure TravelRequest();
     var
         EmployeeAct: enum "Employee Activity Type";

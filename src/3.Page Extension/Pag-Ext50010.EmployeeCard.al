@@ -727,11 +727,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Portal Attendance field.';
                 }
-                field("Resignation Approver"; Rec."Resignation Approver")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Resignation Approver field.';
-                }
                 field("Attendance Device ID"; Rec."Attendance Device ID")
                 {
                     ApplicationArea = All;

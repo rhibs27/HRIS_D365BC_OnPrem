@@ -201,16 +201,6 @@ codeunit 50006 "Resignation Mgt"
             until IncomingDocument.Next = 0;
     end;
 
-    procedure ReturnResignation(Resignation: Record "Resignation")
-    begin
-        // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
-        if Confirm('Do you want to return resignation?', false) then begin
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Open);
-            Resignation.Modify;
-            Message('Resignation Returned.');
-        end;
-    end;
-
     procedure ApproveResignation(resignationCode: Code[100])
     var
         Resignation: Record Resignation;
@@ -222,45 +212,6 @@ codeunit 50006 "Resignation Mgt"
             InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
         ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
-    end;
-
-    procedure AddRemoveDocApprover(EmpCode: Code[20]; IsDocApprover: Boolean)
-    var
-        DocApporver: Record "Document Approver";
-        LineNo: Integer;
-        Resignation: Record Resignation;
-    begin
-        Resignation.SetRange("Employee No.", EmpCode);
-        Resignation.SetRange(Type, Resignation.Type::Resignation);
-        Resignation.SetFilter("Approval Status", '<>%1&<>%2&<>%3', Resignation."Approval Status"::Approved, Resignation."Approval Status"::Rejected, Resignation."Approval Status"::Canceled);
-        if Resignation.Find('-') then
-            repeat
-                if not IsDocApprover then begin
-                    DocApporver.Reset;
-                    DocApporver.SetRange("Document No.", Resignation."No.");
-                    DocApporver.SetRange("Employee No.", EmpCode);
-                    //DocApporver.SETFILTER("Approval Status",'<>%1',DocApporver."Approval Status"::Approved);
-                    if DocApporver.FindFirst then
-                        DocApporver.Delete;
-                end else begin
-                    DocApporver.Reset;
-                    DocApporver.SetRange("Document Type", DocApporver."Document Type"::Resignation);
-                    DocApporver.SetRange("Document No.", Resignation."No.");
-                    DocApporver.SetCurrentKey("Line No.");
-                    if LineNo = 0 then
-                        if DocApporver.FindLast then
-                            LineNo := DocApporver."Line No.";
-                    Clear(DocApporver);
-                    DocApporver.Init;
-                    DocApporver.Validate("Document No.", Resignation."No.");
-                    DocApporver.Validate("Employee No.", EmpCode);
-                    DocApporver.Validate("Document Type", DocApporver."Document Type"::Resignation);
-                    DocApporver."Approval Status" := DocApporver."Approval Status"::Open;
-                    DocApporver.Validate("Line No.", LineNo + 10000);
-                    LineNo += 10000;
-                    DocApporver.Insert;
-                end;
-            until Resignation.Next = 0;
     end;
 
     procedure InsertResignAttachmentLetter(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])
