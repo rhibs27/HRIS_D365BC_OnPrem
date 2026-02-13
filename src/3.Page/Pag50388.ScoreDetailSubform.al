@@ -12,61 +12,78 @@ page 50388 "Score Detail Subform"
         {
             repeater(General)
             {
-                field("Line No."; Rec."Line No.")
+                field(lineNo; Rec."Line No.")
                 {
+                    Caption = 'Line No';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                Field("Appraisal Code"; Rec."Appraisal Code")
+                Field(appraisalNo; Rec."Appraisal Code")
                 {
+                    Caption = 'Appraisal No';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Appraisal Template"; Rec."Appraisal Template")
+                field(appraisalTemplate; Rec."Appraisal Template")
                 {
+                    Caption = 'Appraisal Template';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Fiscal Year"; Rec."Fiscal Year")
+                field(fiscalYear; Rec."Fiscal Year")
                 {
+                    Caption = 'Fiscal Year';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Reviewer Type"; Rec."Reviewer Type")
+                field(reviewerType; Rec."Reviewer Type")
                 {
+                    Caption = 'Reviewer Type';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Score/Rating By"; Rec."Score/Rating By")
+                field(ScoreRatingBy; Rec."Score/Rating By")
                 {
+                    Caption = 'Score/Rating By';
                     ApplicationArea = All;
                     Editable = ScoreRatingEditable;
                 }
-                field(Sequence; Rec.Sequence)
+                field(sequence; Rec.Sequence)
                 {
+                    Caption = 'Sequence';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field(Weightage; Rec.Weightage)
+                field(weightage; Rec.Weightage)
                 {
+                    Caption = 'Weightage';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field(Total; Rec.Total)
+                field(total; Rec.Total)
                 {
+                    Caption = 'Total';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field(Submitted; Rec.Submitted)
+                field(submitted; Rec.Submitted)
                 {
+                    Caption = 'Submitted';
                     ApplicationArea = All;
                     Editable = false;
 
                 }
-                field("Submitted Date"; Rec."Submitted Date")
+                field(submittedDate; Rec."Submitted Date")
                 {
+                    Caption = 'Submitted Date';
                     ApplicationArea = All;
                     Editable = false;
+                }
+                field(isSelfReview; IsSelfReview)
+                {
+                    //Visible = false;
+                    Editable = false;
+                    Caption = 'Is Self Review';
                 }
             }
         }
@@ -95,10 +112,16 @@ page 50388 "Score Detail Subform"
         ReviewerSetup: Record "Reviewer Setup";
         AppraisalHdr: Record Appraisal;
         HRMgt: Codeunit "HR Mgt.";
+        IsSelfReview: Boolean;
 
     trigger OnAfterGetRecord()
     begin
         UpdateEditability();
+        IsSelfReview := false;
+
+        if Rec."Reviewer Type" <> '' then
+            if ReviewerSetup.Get(Rec."Reviewer Type") then
+                IsSelfReview := ReviewerSetup."Is Self Review";
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -188,6 +211,7 @@ page 50388 "Score Detail Subform"
             CurrPage.Update(false);
         end;
     end;
+
     local procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
     var
         HRSetup: Record "Human Resources Setup";

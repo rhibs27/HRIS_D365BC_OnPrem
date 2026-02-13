@@ -1,5 +1,3 @@
-namespace D365HRMSPermission;
-
 permissionset 50000 D365HRMSPermission
 {
     Assignable = true;

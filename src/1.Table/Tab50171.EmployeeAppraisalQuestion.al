@@ -20,7 +20,6 @@ table 50171 "Employee Appraisal Question"
             Caption = 'Employee Code';
             DataClassification = CustomerContent;
         }
-
         field(4; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';

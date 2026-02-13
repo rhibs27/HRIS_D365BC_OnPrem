@@ -32,6 +32,8 @@ table 50178 Appraisal
                 if "Approval Status" = "Approval Status"::Pending then
                     AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
                 if "Approval Status" = "Approval Status"::Approved then begin
+                    AppraisalMgt.CheckScoreDetailsSubmitted("Appraisal Code");
+                    AppraisalMgt.CalculateFinalMarks(Rec);
                     Posted := true;
                     "Posting Date" := Today;
                     "Approved Date" := Today;
@@ -171,6 +173,11 @@ table 50178 Appraisal
         field(52; "Confirmation Date"; Date)
         {
             Editable = false;
+        }
+        field(301; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
         }
     }
     keys

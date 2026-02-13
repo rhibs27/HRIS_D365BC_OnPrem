@@ -71,7 +71,18 @@ table 50180 "KPI Employee"
         field(21; Rating; Enum "Rating Enum")
         {
             trigger OnValidate()
+            var
+                RatingValue: Integer;
             begin
+                if Rating = Rating::" " then
+                    Error('Rating must be between 1 and 5.');
+
+                if not Evaluate(RatingValue, Format(Rating)) then
+                    Error('Invalid rating value.');
+
+                if (RatingValue < 1) or (RatingValue > 5) then
+                    Error('Rating must be between 1 and 5.');
+
                 CalculateScoreTotal();
             end;
         }
@@ -109,7 +120,7 @@ table 50180 "KPI Employee"
     }
     keys
     {
-        key(Key1; "Appraisal Code", "KPI", "Line No.") { }
+        key(Key1; "Appraisal Code", "KPI No.", "Line No.") { }
     }
     trigger OnInsert()
     begin

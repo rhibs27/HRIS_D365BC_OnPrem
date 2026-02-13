@@ -305,8 +305,10 @@ page 50390 "Appraisal Form Card"
                 var
                     AppraisalMgt: Codeunit "AppraisalMgt.";
                 begin
-                    if Confirm('Do you want to calculate marks?', false) then
-                        AppraisalMgt.CalculateFinalMarks(Rec);
+                    if not Confirm('Do you want to calculate marks?', false) then
+                        exit;
+                    AppraisalMgt.CheckScoreDetailsSubmitted(Rec."Appraisal Code");
+                    AppraisalMgt.CalculateFinalMarks(Rec);
                 end;
             }
 

@@ -15,51 +15,59 @@ page 50380 "Employee Appraisal Questions"
         {
             repeater(General)
             {
-                field("Line No."; Rec."Line No.")
+                field(lineNo; Rec."Line No.")
                 {
+                    Caption = 'Line No';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the line number';
                     Editable = false;
                 }
-                field("Appraisal Code"; Rec."Appraisal Code")
+                field(appraisalNo; Rec."Appraisal Code")
                 {
+                    Caption = 'Appraisal No';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the appraisal code';
                     Editable = false;
                 }
-                field("Employee Code"; Rec."Employee Code")
+                field(EmployeeNo; Rec."Employee Code")
                 {
+                    Caption = 'Employee No';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the employee code';
                     Editable = false;
                 }
-                field("Employee Name"; Rec."Employee Name")
+                field(employeeName; Rec."Employee Name")
                 {
+                    Caption = 'Employee Name';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the employee name';
                     Editable = false;
                 }
-                field("Question"; Rec."Question")
+                field(question; Rec."Question")
                 {
+                    Caption = 'Question';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the question';
                     Editable = false;
                 }
-                field("Question Type"; Rec."Question Type")
+                field(questionType; Rec."Question Type")
                 {
+                    Caption = 'Question Type';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the type of question';
                     Editable = false;
                 }
-                field("Comment"; Rec."Comment")
+                field(comment; Rec."Comment")
                 {
+                    Caption = 'Comment';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the response of Question';
                     Editable = Rec."Question Type" = Rec."Question Type"::Text;
                     Enabled = Rec."Question Type" = Rec."Question Type"::Text;
                 }
-                field("Yes/No"; Rec."Yes/No")
+                field(yesNo; Rec."Yes/No")
                 {
+                    Caption = 'Yes/No';
                     ApplicationArea = All;
                     ToolTip = 'Specifies Yes/No answer';
                     Editable = Editable1 and (Rec."Question Type" = Rec."Question Type"::"Yes/No");
