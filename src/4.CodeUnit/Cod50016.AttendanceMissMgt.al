@@ -6,6 +6,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         EmailMgt: Codeunit "Email Mgt";
         Employee: Record Employee;
         AttendanceMgt: Codeunit "Attendance Mgt";
+        HRMgt: Codeunit "HR Mgt.";
 
     procedure OpenAttendanceMissed(EmpCode: Code[20])
     var
