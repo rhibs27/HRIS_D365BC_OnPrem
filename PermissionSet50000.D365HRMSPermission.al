@@ -865,5 +865,8 @@ permissionset 50000 D365HRMSPermission
         report "Substitute Assignment Memo" = X,
         page "Det Salary Deduction Entries" = X,
         page "Request Allowance Subform Copy" = X,
-        page "Salary Deduction Entries" = X;
+        page "Salary Deduction Entries" = X,
+        report "Update Emp Att. and Act Doc." = X,
+        page "Device Overview" = X,
+        page "Late Deduction Journal" = X;
 }
