@@ -478,11 +478,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Department Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1691263759 - Field 1750076273 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Designation</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Designation - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1691263759 - Field 2363328873 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -517,6 +512,11 @@
           <source>Fiscal Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1691263759 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Functional Title - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1691263759 - Field 2696944170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title Desc</source>
@@ -557,16 +557,6 @@
           <source>Province Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Province Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1691263759 - Field 1709631354 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recommender Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Recommender Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1691263759 - Field 2717344192 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recommender Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Recommender Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1691263759 - Field 3923785511 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reportees Comments</source>
@@ -617,11 +607,6 @@
           <source>Reviewer III</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Reviewer III - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1691263759 - Field 3937800759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reviewer Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Reviewer Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1691263759 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -788,11 +773,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal KPI Master - Field Department Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3187129717 - Field 1750076273 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Designation</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal KPI Master - Field Designation - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3187129717 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -807,6 +787,11 @@
           <source>Fiscal Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal KPI Master - Field Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3187129717 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal KPI Master - Field Functional Title - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3187129717 - Field 443798026 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Group Based</source>
@@ -948,11 +933,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal Template - Field Check Date From - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3963152023 - Field 1750076273 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Designation</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal Template - Field Designation - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3963152023 - Field 4003090428 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employment Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -962,6 +942,11 @@
           <source>Fiscal Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal Template - Field Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3963152023 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal Template - Field Functional Title - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3963152023 - Field 4190033199 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>KPI Rating Type</source>
@@ -6854,12 +6839,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - NamedType CannotDelete</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - NamedType 1946724137" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot apply Salary Advance more than 2 times in a Fiscal Year %1.</source>
+          <source>You cannot apply Salary Advance more than %1 times in a Fiscal Year %2.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - NamedType ErrorFY</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - NamedType 2248041455" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot apply before 4 month of previous salary advance approved date %1</source>
+          <source>You cannot apply before %1 days of previous salary advance approved date %2</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - NamedType ErrorSalAdv</note>
         </trans-unit>
@@ -22788,20 +22773,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckPendingAppraisal - NamedType AppraisalError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 940807328" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to Approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleErrors</note>
-        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 340372173 - Method 1613818109 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSaas - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -23347,16 +23322,6 @@
           <source>Approval request has been cancelled.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method SendApprovaLoan - NamedType APPROVALCANCELLED</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 852765344 - Method 444149213 - NamedType 1080510301" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Document is approved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method SendApprovaLoan - NamedType APPROVED</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 852765344 - Method 444149213 - NamedType 1744833217" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval status must be open.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method SendApprovaLoan - NamedType APPROVALERROR</note>
         </trans-unit>
         <trans-unit id="Codeunit 621810791 - Method 1432892794 - NamedType 3099596048" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send request ?</source>
@@ -24483,11 +24448,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Department Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2859016585 - Control 1750076273 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Functional Title field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Designation - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2859016585 - Control 387747209 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24512,6 +24472,11 @@
           <source>Specifies the value of the Fiscal Year field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Fiscal Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2859016585 - Control 3975378601 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Functional Title field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Functional Title - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2859016585 - Control 237720087 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Name field.</source>
@@ -24684,7 +24649,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Control Functional Title Desc - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1067656217 - Control 2696944170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Designation</source>
+          <source>Functional Title Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Control Functional Title Desc - Property Caption</note>
         </trans-unit>
@@ -29834,7 +29799,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Disbursement Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Control 2549210083 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the AppliedLoan field.</source>
+          <source>Specifies the value of the Applied Loan field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Loan Applied - Property ToolTip</note>
         </trans-unit>
@@ -30063,16 +30028,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Action Validate Document - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 796663653 - Control 3558390861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Age field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Age - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 1358683131 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Applied Loan/Advance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Applied Loan - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 796663653 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30082,31 +30037,6 @@
           <source>Specifies the value of the Approved Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Approved Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 2255723595 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Commercial Value of Property field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Commercial Value of Property - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 2772607737 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Confirmation Service Period field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Confirmation Service Period - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 1302820932 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Date of Birth field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Date of Birth - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 2354549727 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the DBR Ratio field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control DBR Ratio - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 1651921640 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Department field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Department - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 796663653 - Control 1579668187 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Disbursed field.</source>
@@ -30118,11 +30048,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Disbursement Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 796663653 - Control 2756353211 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the EMI field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control EMI - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 796663653 - Control 387747209 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30133,45 +30058,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Employee Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 796663653 - Control 2303302321 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Gender field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Gender - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 796663653 - Control 3046439657 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Insurance Tieup field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Insurance Tieup - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 602795601 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Job Title field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Job Title - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 796663653 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 796663653 - Control 258625110 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Purpose of Housing Loan field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Purpose of Housing Loan - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 1877960242 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Repayment Mode field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Repayment Mode - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 796663653 - Control 1953805996 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Loan Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Requested Loan Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Control 1895218171 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Screened Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Control Screened Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 796663653 - Control 902249373 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Settled field.</source>
@@ -30188,6 +30088,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action Approved - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 796663653 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Clear filter action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action Clear Filter - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 796663653 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30198,25 +30103,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action Pending Approval - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 796663653 - Action 3380760239 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Recommended action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action Recommended - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 796663653 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Rejected action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action Rejected - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 796663653 - Action 3223440110 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Return action.</source>
+        <trans-unit id="Page 796663653 - Action 2929972384 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the withdrawn action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action Return - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 796663653 - Action 269919882 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Verified action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action Verified - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan List - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1469501960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Insurance Card</source>
@@ -55778,11 +55673,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension ChangeLogEntries - NamedType Err001</note>
         </trans-unit>
-        <trans-unit id="PageExtension 591338493 - Action 3470156472 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 3469146285">
-          <source>Executes the Update Employee Name in Attributes Usuage.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension CompanyInformation - Action Update Employee Name - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 591338493 - Action 942594389 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 3469146285">
           <source>Executes the Update KPI action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56082,6 +55972,11 @@
           <source>Executes the Update Loan Details action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Update Loan Details - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 3210976715 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Executes the Show Leave Earn action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Leave History - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 3922427771 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Promotion History action.</source>
@@ -57368,11 +57263,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Home Loan No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 4221602140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the KPI Appriasal No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control KPI Appriasal No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 1558514228 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the KRA Setup No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57507,6 +57397,11 @@
           <source>Specifies the value of the Appraisal No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Appraisal No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 4221602140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the KPI Appriasal No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control KPI Appriasal No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2503667154 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the KPI No. Series field.</source>
@@ -60437,6 +60332,11 @@
           <source>No of risk employee in Evening</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field No of risk employee in Evening - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1177775578 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>No of Salary Advance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field No of Salary Advance - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2574273536 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>No. of days to hire</source>

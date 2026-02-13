@@ -1675,51 +1675,7 @@ codeunit 50002 "Loan Mgt."
             EmployeeLoan.Validate("Transportation Management off.", EmpLoan.GetFilter("Transportation Management off."));
         EmployeeLoan.Modify;
     end;
-    // procedure PopUpChangingApprover(EmployeeLoan: Record "Employee Loan/Advance")
-    // var
-    //     LoanPageBuilder: FilterPageBuilder;
-    //     EmpLoan: Record "Employee Loan/Advance";
-    //     DisbursementDate: Date;
-    //     DisbursedAmt: Decimal;
-    // begin
-    //     LoanPageBuilder.AddRecord('Change Approver', EmpLoan);
-    //     LoanPageBuilder.ADdField('Change Approver', EmpLoan.Approver);
-    //     if LoanPageBuilder.RunModal then begin
-    //         EmpLoan.SetView(LoanPageBuilder.GetView('Change Approver'));
-    //         if EmpLoan.GetFilter(Approver) = '' then
-    //             Error('Approver Code cannot be blank.');
-    //         EmployeeLoan.Validate(Approver, EmpLoan.GetFilter(Approver));
-    //         EmployeeLoan.Modify;
-    //         Message('Approver updated.');
-    //     end;
-    // end;
-    // procedure PopUpChangingApproverAllowance(AllowanceHeader: Record "Allowance Assignment Header")
-    // var
-    //     AllowancePageBuilder: FilterPageBuilder;
-    //     AllowanceHead: Record "Allowance Assignment Header";
-    // begin
-    //     AllowancePageBuilder.AddRecord('Change Approver', AllowanceHead);
-    //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Approver ID");
-    //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Change Approver Remarks");
-    //     if AllowancePageBuilder.RunModal then begin
-    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin /
-    //             AllowanceHead.SetView(AllowancePageBuilder.GetView('Change Approver'));
-    //             Employee.Get(HRMgt.GetEmployeeNo);
-    //             // if not Employee.Screener then
-    //             //     Error('You are not eligible to change approver.');
-    //             if AllowanceHead.GetFilter("Approver ID") = '' then
-    //                 Error('Approver Id cannot be blank.');
-    //             if AllowanceHead.GetFilter("Change Approver Remarks") = '' then
-    //                 Error('Change approver Remarks must have value');
-    //             AllowanceHeader.Validate("Change Approver Remarks", AllowanceHead.GetFilter("Change Approver Remarks"));
-    //             AllowanceHeader.Validate("Approver ID", AllowanceHead.GetFilter("Approver ID"));
-    //             AllowanceHeader.Modify;
-    //             Message('Approver updated.');
-    //         end else begin
-    //             Error('You cannot change the approver of Approval Status : %1', AllowanceHeader."Approval Status");
-    //         end;
-    //     end;
-    // end;
+
     procedure CheckInsuranceAttachment(InsuranceNo: Code[20]; EmpNo: Code[20])
     var
         IncomingDoc: Record "Incoming Document";
@@ -1737,6 +1693,19 @@ codeunit 50002 "Loan Mgt."
                 if IncomingDoc.FindFirst then
                     Error('Please upload mandatory attachments.');
             until AttachmentSetup.Next = 0;
+    end;
+
+    procedure CheckLoanEligibility(Employee: Record Employee): Boolean
+    var
+        Eligible: Boolean;
+    begin
+        Eligible := true;
+        if not (Employee."Employment Type" in [Employee."Employment Type"::"Permanent"]) then
+            exit(false);
+        if Employee.Status <> employee.Status::Active then
+            exit(false);
+        OnAfterCheckLoanEligibility(Employee, Eligible);
+        exit(Eligible);
     end;
 
     local procedure "----Json API----"()
@@ -2017,4 +1986,8 @@ codeunit 50002 "Loan Mgt."
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckLoanEligibility(Employee: Record Employee; var Eligible: Boolean)
+    begin
+    end;
 }

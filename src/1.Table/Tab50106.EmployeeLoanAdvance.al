@@ -48,10 +48,8 @@ table 50106 "Employee Loan/Advance"
             trigger OnValidate()
             begin
                 if Employee.Get("Employee No.") then begin
-                    if Employee."Employment Type" <> employee."Employment Type"::"Permanent" then
-                        Error('Employee is not Permanent. Cannot apply for loan/advance.');
-                    if Employee.Status <> employee.Status::Active then
-                        Error('Employee is not active. Cannot apply for loan/advance.');
+                    if not LoanMgt.CheckLoanEligibility(Employee) then
+                        Error('You are not Eligible for loan apply.');
                     "Employee Name" := Employee.FullName();
                     Validate("Employee Type", "Employee Type");
                     Validate("Job Title", Employee."Job Title");
