@@ -1,5 +1,6 @@
 page 50235 "Employee Edit list"
 {
+    ApplicationArea = All;
     Editable = false;
     // InsertAllowed = false;
     // DeleteAllowed = false;
