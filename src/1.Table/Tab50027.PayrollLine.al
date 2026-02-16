@@ -179,6 +179,7 @@ table 50027 "Payroll Line"
             trigger OnValidate()
             begin
                 GetTotalDays;
+                ValidateUnpaidDays();
             end;
         }
         field(17; "Paid Days"; Decimal)
@@ -189,6 +190,10 @@ table 50027 "Payroll Line"
         field(18; "Late Days"; Decimal)
         {
             Description = 'Late Day';
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
         }
         field(19; "Week off Days"; Decimal)
         {
@@ -1305,7 +1310,13 @@ table 50027 "Payroll Line"
         field(1015; "Total Insurance Claim Amount"; Decimal) { }
         field(1016; LFA; Decimal) { }
         field(1017; "Morning Counter Days"; Decimal) { Description = 'allowance assignment'; }
-        field(1018; "Prior Absent Days"; Decimal) { }
+        field(1018; "Prior Absent Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
+        }
         field(1019; "Prior Present Days"; Decimal) { }
         field(1020; "Salary Advance No."; Code[20]) { }
         field(1021; "Projected Benefit"; Decimal) { Editable = false; }
@@ -1360,7 +1371,13 @@ table 50027 "Payroll Line"
         field(1059; "Marital Status"; enum "Marital Status") { Editable = false; }
         field(1060; "Total SST Paid"; Decimal) { }
         field(1061; "Total Tax Remuneration Paid"; Decimal) { }
-        field(1062; "LWP Days"; Decimal) { }
+        field(1062; "LWP Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
+        }
         field(1063; "Prior Leave Days"; Decimal) { }
         field(1064; "Property Insurance Premium"; Decimal) { }
         field(1065; Selected; Boolean) { }
@@ -1420,6 +1437,7 @@ table 50027 "Payroll Line"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
+        field(1105; "Total Unpaid Days"; Decimal) { }
     }
     keys
     {
@@ -1515,7 +1533,16 @@ table 50027 "Payroll Line"
     procedure GetTotalDays()
     begin
         "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days";
-        //"OT Hrs (30MIN)" := "OT Days" * 30/60;
+    end;
+
+    procedure ValidateUnpaidDays()
+    var
+        AttenSetup: Record "Attendance Setup";
+    begin
+        AttenSetup.Get();
+        if not AttenSetup."Absent Deductions" then
+            "Absent Days" := 0;
+        "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days";
     end;
 
     procedure GetPayrollHeader()
@@ -2045,10 +2072,10 @@ table 50027 "Payroll Line"
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                 //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
-                    OnBeforeCalculateTotalAmount("Total Days", "LWP Days", TotalAmount, IsHandled);
+                    OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", TotalAmount, IsHandled);
                     if IsHandled then
                         exit(TotalAmount);
-                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * ("LWP Days" + "Late Days")) / TotalDaysInMonth);
+                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * "Total Unpaid Days") / TotalDaysInMonth);
                     if TotalAmount > 0 then
                         exit(TotalAmount)
                     else

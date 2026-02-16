@@ -98,26 +98,31 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Late Days field.';
                     ApplicationArea = All;
                 }
-                field("Prior Present Days"; Rec."Prior Present Days")
-                {
-                    ToolTip = 'Specifies the value of the Prior Present Days field.';
-                    ApplicationArea = All;
-                }
                 field("LWP Days"; Rec."LWP Days")
                 {
                     // Editable = false;
                     ToolTip = 'Specifies the value of the LWP Days field.';
                     ApplicationArea = All;
-                    Caption = 'Unpaid Days';
-                }
-                field("Prior Leave Days"; Rec."Prior Leave Days")
-                {
-                    ToolTip = 'Specifies the value of the Prior Leave Days field.';
-                    ApplicationArea = All;
                 }
                 field("Prior Absent Days"; Rec."Prior Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Prior Absent Days field.';
+                    ApplicationArea = All;
+                }
+                field("Total Unpaid Days"; Rec."Total Unpaid Days")
+                {
+                    ToolTip = 'Specifies the value of the Prior Absent Days field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Prior Present Days"; Rec."Prior Present Days")
+                {
+                    ToolTip = 'Specifies the value of the Prior Present Days field.';
+                    ApplicationArea = All;
+                }
+                field("Prior Leave Days"; Rec."Prior Leave Days")
+                {
+                    ToolTip = 'Specifies the value of the Prior Leave Days field.';
                     ApplicationArea = All;
                 }
                 field("ATM Custodian Days"; Rec."ATM Custodian Days")
