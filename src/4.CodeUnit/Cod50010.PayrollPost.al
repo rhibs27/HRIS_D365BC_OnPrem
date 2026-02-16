@@ -202,9 +202,6 @@ codeunit 50010 "Payroll-Post"
         PriorTrfAttributeAmount: Decimal;
         UsePayrollAttributeUsageAllocation: Boolean;
         LeaveEarn: Record "Leave Earn";
-        DeputationTypeBeforeTransfer: Enum "Deputation Type";
-        DeputationCodeBeforeTransfer: Code[20];
-        DimensionValueBeforeTransfer: Code[20];
         ServiceDaysBeforeTransfer: Decimal;
     begin
         RecRef.Open(Database::"Payroll Line");
@@ -289,10 +286,6 @@ codeunit 50010 "Payroll-Post"
                                     else if PGSetup."Total Days From" = PGSetup."Total Days From"::Month then
                                         //Payline: Adjustment plan  doesnot contain Total days 
                                         PriorTrfAttributeAmount := Round(FieldValue / PayrollHeader."Total Days" * ServiceDaysBeforeTransfer, 0.01, '=');
-
-                                    // PayrollJournalLine."Shortcut Dimension 1 Code" := DimensionValueBeforeTransfer;
-                                    // PayrollJournalLine."Deputation On" := DeputationTypeBeforeTransfer;
-                                    // PayrollJournalLine."Deputation Value" := DeputationCodeBeforeTransfer;
 
                                     PayrollPostOnafterTransferCheckOnBeforeUpdateAmount(PayrollJournalLine, PayrollAttributes, PayrollLine."Document No.", PriorTrfAttributeAmount);
 
