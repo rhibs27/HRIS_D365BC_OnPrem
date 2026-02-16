@@ -148,18 +148,16 @@ table 50116 "HR Cue"
         field(75; "To Reviews Appraisal"; Integer)
         {
             CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 Status = const(Submitted),
-                                                 Reviewer = field("Employee Filter"),
-                                                 Hide = filter(false)));
+                                                 "Approval Status" = const(Pending)
+                                                 ));
             Editable = false;
             FieldClass = FlowField;
         }
         field(76; "To Check Reviews Appraisal"; Integer)
         {
             CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 Status = const(Reviewed),
-                                                 "Check Reviewer" = field("Employee Filter"),
-                                                 Hide = filter(false)));
+                                                 "Approval Status" = const(Reviewed)
+                                                 ));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -169,13 +167,6 @@ table 50116 "HR Cue"
                                                 Status = const(Active)));
             FieldClass = FlowField;
             Editable = false;
-        }
-        field(79; "To Check Reviews KPI"; Integer)
-        {
-            CalcFormula = count("KPI Appraisal Header Bank" where(Status = const("Check Reviewed")));
-            Description = 'KPI1.00';
-            Editable = false;
-            FieldClass = FlowField;
         }
         field(80; "Leave Request"; Integer)
         {

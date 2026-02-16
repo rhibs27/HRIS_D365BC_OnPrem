@@ -1761,22 +1761,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory.RUN;
                     end;
                 }
-
-                // action("Show Leave Earn")  
-                // {
-                //     ApplicationArea = All;
-                //     RunObject = Page "Leave Earn";
-                //     RunPageLink = "Employee No." = FIELD("No.");
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = AbsenceCategory;
-                //     PromotedCategory = Category6;
-                //     ToolTip = 'Executes the Show Leave Earn action.';
-                //     trigger OnAction()
-                //     begin
-
-                //     end;
-                // }
+                action("Leave History")
+                {
+                    ApplicationArea = All;
+                    RunObject = Page "Leave Earn";
+                    RunPageLink = "Employee No." = FIELD("No.");
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    RunPageMode = View;
+                    Image = AbsenceCategory;
+                    PromotedCategory = Category6;
+                    ToolTip = 'Executes the Show Leave Earn action.';
+                }
                 action("Promotion History")
                 {
                     ApplicationArea = All;

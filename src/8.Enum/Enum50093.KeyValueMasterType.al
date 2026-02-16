@@ -2,16 +2,20 @@ enum 50093 "Key Value Master Type"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
-    value(1; "KRA Category")
+    value(1; "Appraisal Template")
     {
-        Caption = 'KRA Category';
+        Caption = 'Appraisal Template';
     }
-    value(2; "Key Result Area")
+    value(2; "KRA")
     {
-        Caption = 'Key Result Area';
+        Caption = 'KRA';
+    }
+    value(3; "KPI")
+    {
+        Caption = 'KPI';
     }
 }
