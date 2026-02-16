@@ -132,7 +132,7 @@ codeunit 50029 "Process Daily Attendance"
         if EmpWorkShiftDetail.Get(WorkShiftCode) then begin
             EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
             EmpAttendance."Shift End Time" := EmpWorkShiftDetail."End Time";
-            EmpAttendance."Standard Work Time" := EmpWorkShiftDetail."Work Time";
+            // EmpAttendance."Standard Work Time" := EmpWorkShiftDetail."Work Time";
             EmpAttendance."OverNight Shift" := EmpWorkShiftDetail.OverNight;
             if EmpWorkShiftDetail."Winter Start Date" <> 0D then
                 if (EmpAttendance."Attendance Date" >= EmpWorkShiftDetail."Winter Start Date") and
@@ -142,8 +142,10 @@ codeunit 50029 "Process Daily Attendance"
             if EmpAttendance.Week = EmpAttendance.Week::Friday then
                 if EmpWorkShiftDetail."Friday End Time" <> 0T then
                     EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Friday End Time";
-
-            EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time";
+            if not EmpAttendance."OverNight Shift" then
+                EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time"
+            else
+                EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time" + 24 * 60 * 60 * 1000;
         end;
     end;
 
@@ -155,7 +157,10 @@ codeunit 50029 "Process Daily Attendance"
         if (EmpAttendance."Shift End Time" <> 0T) and (EmpAttendance."Check Out Time" <> 0T) then
             EmpAttendance."Check Out Difference" := EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time";
         if (EmpAttendance."Check Out Time" <> 0T) and (EmpAttendance."Check In Time" <> 0T) then
-            EmpAttendance."Actual Work Time" := EmpAttendance."Check Out Time" - EmpAttendance."Check In Time";
+            if not EmpAttendance."OverNight Shift" then
+                EmpAttendance."Actual Work Time" := EmpAttendance."Check Out Time" - EmpAttendance."Check In Time"
+            else
+                EmpAttendance."Actual Work Time" := EmpAttendance."Check Out Time" - EmpAttendance."Check In Time" + 24 * 60 * 60 * 1000;
         if (EmpAttendance."Check In Difference" <> 0) and (EmpAttendance."Check Out Difference" <> 0) then
             EmpAttendance."Work Time Difference" := EmpAttendance."Check In Difference" + EmpAttendance."Check Out Difference";
     end;
