@@ -447,7 +447,7 @@ codeunit 50010 "Payroll-Post"
         EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
         EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
         if EmployeeServiceHistory.FindFirst() then begin
-            ServiceDays := EmployeeServiceHistory."Effective Date" - FromDate + 1;
+            ServiceDays := EmployeeServiceHistory."Effective Date" - FromDate;
             DeputationType := EmployeeServiceHistory."Deputation On(From)";
             DeputationCode := EmployeeServiceHistory."Deputation Code (From)";
             OrgStructList.Get(DeputationType, DeputationCode);
