@@ -282,17 +282,17 @@ codeunit 50010 "Payroll-Post"
                                     PayrollJournalLine."External Document No." := PayrollLine."Salary Advance No.";
                                 if CheckTransferInServiceHistory(PayrollLine."Employee No.", PayrollHeader."From Date",
                                                                 PayrollHeader."To Date", ServiceDaysBeforeTransfer,
-                                                                DeputationTypeBeforeTransfer, DeputationCodeBeforeTransfer,
-                                                                DimensionValueBeforeTransfer) then begin
+                                                                PayrollJournalLine."Deputation On", PayrollJournalLine."Deputation Value",
+                                                                PayrollJournalLine."Shortcut Dimension 1 Code", PayrollJournalLine."Sol ID") then begin
                                     if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
                                         PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * ServiceDaysBeforeTransfer, 0.01, '=')
                                     else if PGSetup."Total Days From" = PGSetup."Total Days From"::Month then
                                         //Payline: Adjustment plan  doesnot contain Total days 
                                         PriorTrfAttributeAmount := Round(FieldValue / PayrollHeader."Total Days" * ServiceDaysBeforeTransfer, 0.01, '=');
 
-                                    PayrollJournalLine."Shortcut Dimension 1 Code" := DimensionValueBeforeTransfer;
-                                    PayrollJournalLine."Deputation On" := DeputationTypeBeforeTransfer;
-                                    PayrollJournalLine."Deputation Value" := DeputationCodeBeforeTransfer;
+                                    // PayrollJournalLine."Shortcut Dimension 1 Code" := DimensionValueBeforeTransfer;
+                                    // PayrollJournalLine."Deputation On" := DeputationTypeBeforeTransfer;
+                                    // PayrollJournalLine."Deputation Value" := DeputationCodeBeforeTransfer;
 
                                     PayrollPostOnafterTransferCheckOnBeforeUpdateAmount(PayrollJournalLine, PayrollAttributes, PayrollLine."Document No.", PriorTrfAttributeAmount);
 
@@ -437,7 +437,14 @@ codeunit 50010 "Payroll-Post"
         exit(FieldValue);
     end;
 
-    procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var ServiceDays: Decimal; var DeputationType: Enum "Deputation Type"; var DeputationCode: Code[20]; var DimensionValue: Code[20]): Boolean
+    procedure CheckTransferInServiceHistory(EmpNo: Code[20];
+                                            FromDate: Date;
+                                            ToDate: Date;
+                                            var ServiceDays: Decimal;
+                                            var DeputationType: Enum "Deputation Type";
+                                            var DeputationCode: Code[20];
+                                            var DimensionValue: Code[20];
+                                            var SolID: Code[20]): Boolean
     var
         EmployeeServiceHistory: Record "Employee Service History";
         OrgStructList: Record "Organization Structure List";
@@ -452,6 +459,7 @@ codeunit 50010 "Payroll-Post"
             DeputationCode := EmployeeServiceHistory."Deputation Code (From)";
             OrgStructList.Get(DeputationType, DeputationCode);
             DimensionValue := OrgStructList."Dimension Value Code";
+            SolID := OrgStructList."Sol ID";
             exit(true)
         end;
     end;
