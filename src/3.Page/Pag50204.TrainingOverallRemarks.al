@@ -27,7 +27,7 @@ page 50204 "Training Overall Remarks"
                     ToolTip = 'Specifies the value of the To field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Rec.Remarks)
+                field(Remarks; Rec.Rating)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
