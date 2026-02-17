@@ -21,6 +21,7 @@ codeunit 50029 "Process Daily Attendance"
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
         PGSetup: Record "Payroll General Setup";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        ShiftMgt: Codeunit "Shift Assignment Mgt";
 
     procedure UpdateEmpAttendance()
     begin
@@ -130,18 +131,9 @@ codeunit 50029 "Process Daily Attendance"
             WorkShiftCode := EmpAttendance."Employee Working Shift";
 
         if EmpWorkShiftDetail.Get(WorkShiftCode) then begin
-            EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
-            EmpAttendance."Shift End Time" := EmpWorkShiftDetail."End Time";
-            // EmpAttendance."Standard Work Time" := EmpWorkShiftDetail."Work Time";
             EmpAttendance."OverNight Shift" := EmpWorkShiftDetail.OverNight;
-            if EmpWorkShiftDetail."Winter Start Date" <> 0D then
-                if (EmpAttendance."Attendance Date" >= EmpWorkShiftDetail."Winter Start Date") and
-                    (EmpAttendance."Attendance Date" <= EmpWorkShiftDetail."Winter End Date") and (EmpWorkShiftDetail."Winter End Time" <> 0T) then
-                    EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Winter End Time";
-
-            if EmpAttendance.Week = EmpAttendance.Week::Friday then
-                if EmpWorkShiftDetail."Friday End Time" <> 0T then
-                    EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Friday End Time";
+            EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
+            EmpAttendance."Shift End Time" := ShiftMgt.ReturnShiftEndTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail);
             if not EmpAttendance."OverNight Shift" then
                 EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time"
             else
