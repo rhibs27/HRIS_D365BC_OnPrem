@@ -54288,10 +54288,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Release Letter - NamedType Text004</note>
         </trans-unit>
-        <trans-unit id="Report 551051882 - NamedType 4054947388" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Strictly Private &amp; Confidential</source>
+        <trans-unit id="Report 551051882 - NamedType 1234124704" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Subject: Acceptance of Resignation</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Declaration</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Subject</note>
         </trans-unit>
         <trans-unit id="Report 551051882 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
           <source>Dear %1 %2,</source>
@@ -54319,7 +54319,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Text005</note>
         </trans-unit>
         <trans-unit id="Report 551051882 - NamedType 2008153173" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Please contact DNA &amp; Talent Management Department to complete the necessary formalities. %1 %1Your release letter shall be provided to you upon completion of all the necessary formalities.</source>
+          <source>We take this opportunity to thank you for your services to this Bank and wish you all success in your future endeavors.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Text006</note>
         </trans-unit>
@@ -54329,7 +54329,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Text007</note>
         </trans-unit>
         <trans-unit id="Report 551051882 - NamedType 3283546407" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Authorized Signature %1DNA &amp; Talent Management Department</source>
+          <source>Authorized Signature %1 Human Resource Management Department</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Text008</note>
         </trans-unit>
@@ -56087,16 +56087,6 @@
           <source>Executes the Employee Experience Letter action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Employee Experience Letter - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 730498918 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Insert Grade action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Insert Grade - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 943189646 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Memo action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Memo - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 551051882 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Resignation Acceptance Letter action.</source>
