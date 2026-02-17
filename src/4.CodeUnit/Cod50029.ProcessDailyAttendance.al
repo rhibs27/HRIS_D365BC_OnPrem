@@ -90,32 +90,35 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::" ";
     end;
 
-    local procedure GetShiftCodeformShiftAssignment(): Code[20]
-    begin
-        if PGSetup."Use Allowance Configuration" then begin
-            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
-            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
-            AssignmentMemoLedgerEntry.SetRange(Reversed, false);
-            AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
-            AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
-            AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
-            if AssignmentMemoLedgerEntry.FindFirst() then
-                exit(AssignmentMemoLedgerEntry."Employee Work Shift");
-        end
-        else begin
-            ShiftLine.Reset();
-            ShiftLine.SetRange("Roster Date", EmpAttendance."Attendance Date");
-            ShiftLine.SetRange("Employee No", EmpAttendance."Employee No.");
-            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-            ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-            if ShiftLine.FindFirst() then
-                exit(ShiftLine."Employee Work Shift");
-        end;
-    end;
+    // local procedure GetShiftCodeformShiftAssignment(): Code[20]
+    // var
+    //     ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+    // begin
+    //     if PGSetup."Use Allowance Configuration" then begin
+    //         AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
+    //         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
+    //         AssignmentMemoLedgerEntry.SetRange(Reversed, false);
+    //         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
+    //         AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
+    //         AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
+    //         if AssignmentMemoLedgerEntry.FindFirst() then
+    //             exit(AssignmentMemoLedgerEntry."Employee Work Shift");
+    //     end
+    //     else begin
+    //         ShiftLine.Reset();
+    //         ShiftLine.SetRange("Roster Date", EmpAttendance."Attendance Date");
+    //         ShiftLine.SetRange("Employee No", EmpAttendance."Employee No.");
+    //         ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+    //         ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
+    //         if ShiftLine.FindFirst() then
+    //             exit(ShiftLine."Employee Work Shift");
+    //     end;
+    // end;
 
     procedure ProcessHolidayAndShiftNormal()
     var
         WorkShiftCode: Code[20];
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
     begin
         if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
             EmpAttendance."Day Type" := EmpAttendance."Day Type"::Holiday;
@@ -127,25 +130,26 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Holiday Remarks" := '';
         end;
 
-        WorkShiftCode := GetShiftCodeformShiftAssignment();
-        if WorkShiftCode = '' then
-            WorkShiftCode := EmpAttendance."Employee Working Shift";
+        WorkShiftCode := ShiftAssignmentMgt.ReturnEmployeeWorkShift(EmpAttendance."Employee No.", EmpAttendance."Attendance Date");
+        // if WorkShiftCode = '' then
+        // /WorkShiftCode := EmpAttendance."Employee Working Shift";
 
-        if EmpWorkShiftDetail.Get(WorkShiftCode) then begin
-            EmpAttendance.Rename(EmpAttendance."Employee No.", EmpAttendance."Attendance Date", WorkShiftCode);
+        if EmpWorkShiftDetail.Get(EmpAttendance."Employee Working Shift") then begin
+            // EmpAttendance.Rename(EmpAttendance."Employee No.", EmpAttendance."Attendance Date", WorkShiftCode);
             EmpAttendance."Employee Working Shift" := WorkShiftCode;
             EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
-            EmpAttendance."Shift End Time" := EmpWorkShiftDetail."End Time";
+            EmpAttendance."Shift End Time" := ShiftAssignmentMgt.ReturnShiftEndTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail);
+            // EmpAttendance."Shift End Time" := EmpWorkShiftDetail."End Time";
             EmpAttendance."Standard Work Time" := EmpWorkShiftDetail."Work Time";
             EmpAttendance."OverNight Shift" := EmpWorkShiftDetail.OverNight;
-            if EmpWorkShiftDetail."Winter Start Date" <> 0D then
-                if (EmpAttendance."Attendance Date" >= EmpWorkShiftDetail."Winter Start Date") and
-                    (EmpAttendance."Attendance Date" <= EmpWorkShiftDetail."Winter End Date") and (EmpWorkShiftDetail."Winter End Time" <> 0T) then
-                    EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Winter End Time";
+            // if EmpWorkShiftDetail."Winter Start Date" <> 0D then
+            //     if (EmpAttendance."Attendance Date" >= EmpWorkShiftDetail."Winter Start Date") and
+            //         (EmpAttendance."Attendance Date" <= EmpWorkShiftDetail."Winter End Date") and (EmpWorkShiftDetail."Winter End Time" <> 0T) then
+            //         EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Winter End Time";
 
-            if EmpAttendance.Week = EmpAttendance.Week::Friday then
-                if EmpWorkShiftDetail."Friday End Time" <> 0T then
-                    EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Friday End Time";
+            // if EmpAttendance.Week = EmpAttendance.Week::Friday then
+            //     if EmpWorkShiftDetail."Friday End Time" <> 0T then
+            //         EmpAttendance."Shift End Time" := EmpWorkShiftDetail."Friday End Time";
             if not EmpWorkShiftDetail.OverNight then
                 EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time";
         end;

@@ -395,6 +395,7 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLedgerEntry.Validate("Open", false);
                 AssignmentMemoLedgerEntry.Validate("Substituted Employee No.", SubAssigmemoLine."Employee No.");
                 AssignmentMemoLedgerEntry.Modify(true);
+                Commit();
                 ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Employee No.");
                 ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Substituted Employee No.");
             until AssignmentMemoLedgerEntry.Next() = 0;
@@ -1320,6 +1321,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignemntMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         AssignmentMemoLine: Record "Assignment Memo Line";
         PostedPayrollHeader: Record "Posted Payroll Header";
+        AttendanceMgt: Codeunit "Attendance Mgt";
     begin
         OnBeforeReverseAssignmentMemo(DocNo);
         //get assignment memo header
@@ -1342,6 +1344,7 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignemntMemoLedgerEntry.Open := false;
                     AssignemntMemoLedgerEntry."Blocked for Payroll" := true;
                     AssignemntMemoLedgerEntry.Modify();
+                    AttendanceMgt.DailyAttendanceUpdate(AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Employee No.");
                 until AssignemntMemoLedgerEntry.Next() = 0;
 
         end else if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Request Allowance" then begin

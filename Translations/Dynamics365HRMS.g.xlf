@@ -308,6 +308,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Branch Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 651111352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Day Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Day Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3837508396 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24007,6 +24012,11 @@
           <source>Specifies the value of the Branch Code field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Branch Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 651111352 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Day Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Day Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3003557261 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Department Code field.</source>
