@@ -871,5 +871,13 @@ permissionset 50000 D365HRMSPermission
         report "Update Emp Att. and Act Doc." = X,
         codeunit "Email Mgt" = X,
         page "Late Deduction Journal" = X,
-        page "Resign Document Approver Setup" = X;
+        page "Resign Document Approver Setup" = X,
+        tabledata "Grievance Header" = RIMD,
+        tabledata "Grievance Comment" = RIMD,
+        table "Grievance Header" = X,
+        table "Grievance Comment" = X,
+        codeunit "Grievance Mgt" = X,
+        page "Grievance List" = X,
+        page "Grievance Card" = X,
+        page "Grievance Comment Subform" = X;
 }

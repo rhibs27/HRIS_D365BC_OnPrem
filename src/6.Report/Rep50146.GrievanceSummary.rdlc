@@ -1,0 +1,1079 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <!-- ═══════════════════════════════════════════════════ -->
+          <!-- REPORT HEADER RECTANGLE                            -->
+          <!-- ═══════════════════════════════════════════════════ -->
+          <Rectangle Name="RectHeader">
+            <ReportItems>
+              <!-- Company Name -->
+              <Textbox Name="txtCompanyName">
+                <CanGrow>true</CanGrow>
+                <Value>=First(Fields!CompanyName.Value, "DataSet_Result")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextAlign>Center</TextAlign>
+                  <Color>#1A3A5C</Color>
+                  <VerticalAlign>Middle</VerticalAlign>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+                <Top>0in</Top>
+                <Left>0in</Left>
+                <Height>0.32in</Height>
+                <Width>10.5in</Width>
+              </Textbox>
+              <!-- Company Address -->
+              <Textbox Name="txtCompanyAddress">
+                <CanGrow>true</CanGrow>
+                <Value>=First(Fields!CompanyAddress.Value, "DataSet_Result")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>8.5pt</FontSize>
+                  <TextAlign>Center</TextAlign>
+                  <Color>#444444</Color>
+                </Style>
+                <Top>0.33in</Top>
+                <Left>0in</Left>
+                <Height>0.2in</Height>
+                <Width>10.5in</Width>
+              </Textbox>
+              <!-- Top border line -->
+              <Rectangle Name="RectTopBorder">
+                <Style>
+                  <BorderStyle>
+                    <Bottom>Solid</Bottom>
+                  </BorderStyle>
+                  <BorderWidth>
+                    <Bottom>2pt</Bottom>
+                  </BorderWidth>
+                  <BorderColor>
+                    <Bottom>#1A3A5C</Bottom>
+                  </BorderColor>
+                </Style>
+                <Top>0.56in</Top>
+                <Left>0in</Left>
+                <Height>0.01in</Height>
+                <Width>10.5in</Width>
+              </Rectangle>
+              <!-- Report Title -->
+              <Textbox Name="txtReportTitle">
+                <Value>GRIEVANCE SUMMARY REPORT</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextAlign>Center</TextAlign>
+                  <Color>#1A3A5C</Color>
+                  <VerticalAlign>Middle</VerticalAlign>
+                </Style>
+                <Top>0.6in</Top>
+                <Left>0in</Left>
+                <Height>0.28in</Height>
+                <Width>10.5in</Width>
+              </Textbox>
+              <!-- Bottom border line -->
+              <Rectangle Name="RectBottomBorder">
+                <Style>
+                  <BorderStyle>
+                    <Bottom>Solid</Bottom>
+                  </BorderStyle>
+                  <BorderWidth>
+                    <Bottom>1pt</Bottom>
+                  </BorderWidth>
+                  <BorderColor>
+                    <Bottom>#1A3A5C</Bottom>
+                  </BorderColor>
+                </Style>
+                <Top>0.9in</Top>
+                <Left>0in</Left>
+                <Height>0.01in</Height>
+                <Width>10.5in</Width>
+              </Rectangle>
+              <!-- Printed By (left) -->
+              <Textbox Name="txtPrintedBy">
+                <Value>="Printed By: " &amp; First(Fields!PrintedBy.Value, "DataSet_Result")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>7.5pt</FontSize>
+                  <TextAlign>Left</TextAlign>
+                  <Color>#555555</Color>
+                </Style>
+                <Top>0.94in</Top>
+                <Left>0in</Left>
+                <Height>0.17in</Height>
+                <Width>5.25in</Width>
+              </Textbox>
+              <!-- Printed On (right) -->
+              <Textbox Name="txtPrintedOn">
+                <Value>="Printed On: " &amp; Format(First(Fields!PrintedOn.Value, "DataSet_Result"), "dd-MMM-yyyy HH:mm")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>7.5pt</FontSize>
+                  <TextAlign>Right</TextAlign>
+                  <Color>#555555</Color>
+                </Style>
+                <Top>0.94in</Top>
+                <Left>5.25in</Left>
+                <Height>0.17in</Height>
+                <Width>5.25in</Width>
+              </Textbox>
+              <!-- Filter Caption -->
+              <Textbox Name="txtFilterCaption">
+                <CanGrow>true</CanGrow>
+                <Value>=IIf(First(Fields!FilterCaption.Value, "DataSet_Result") = "", "Filters: None", "Filters: " &amp; First(Fields!FilterCaption.Value, "DataSet_Result"))</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>7.5pt</FontSize>
+                  <FontStyle>Italic</FontStyle>
+                  <TextAlign>Left</TextAlign>
+                  <Color>#555555</Color>
+                </Style>
+                <Top>1.13in</Top>
+                <Left>0in</Left>
+                <Height>0.17in</Height>
+                <Width>10.5in</Width>
+              </Textbox>
+            </ReportItems>
+            <Top>0in</Top>
+            <Left>0in</Left>
+            <Height>1.33in</Height>
+            <Width>10.5in</Width>
+            <Style />
+          </Rectangle>
+          <!-- ═══════════════════════════════════════════════════ -->
+          <!-- MAIN DATA TABLE                                     -->
+          <!-- ═══════════════════════════════════════════════════ -->
+          <Tablix Name="GrievanceTable">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>0.6in</Width>
+                </TablixColumn>
+                <!-- No.           -->
+                <TablixColumn>
+                  <Width>0.65in</Width>
+                </TablixColumn>
+                <!-- Emp No.       -->
+                <TablixColumn>
+                  <Width>1.45in</Width>
+                </TablixColumn>
+                <!-- Employee Name -->
+                <TablixColumn>
+                  <Width>0.75in</Width>
+                </TablixColumn>
+                <!-- Date          -->
+                <TablixColumn>
+                  <Width>0.85in</Width>
+                </TablixColumn>
+                <!-- Category      -->
+                <TablixColumn>
+                  <Width>0.7in</Width>
+                </TablixColumn>
+                <!-- Priority      -->
+                <TablixColumn>
+                  <Width>0.65in</Width>
+                </TablixColumn>
+                <!-- Severity      -->
+                <TablixColumn>
+                  <Width>1.5in</Width>
+                </TablixColumn>
+                <!-- Subject       -->
+                <TablixColumn>
+                  <Width>0.75in</Width>
+                </TablixColumn>
+                <!-- Department    -->
+                <TablixColumn>
+                  <Width>0.75in</Width>
+                </TablixColumn>
+                <!-- Status        -->
+                <TablixColumn>
+                  <Width>0.9in</Width>
+                </TablixColumn>
+                <!-- SLA Due       -->
+                <TablixColumn>
+                  <Width>0.9in</Width>
+                </TablixColumn>
+                <!-- Resolved Date -->
+              </TablixColumns>
+              <TablixRows>
+                <!-- ─── COLUMN HEADER ROW ─── -->
+                <TablixRow>
+                  <Height>0.3in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrNo">
+                          <Value>No.</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrEmpNo">
+                          <Value>Emp. No.</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrEmpName">
+                          <Value>Employee Name</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrDate">
+                          <Value>Date</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrCategory">
+                          <Value>Category</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrPriority">
+                          <Value>Priority</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrSeverity">
+                          <Value>Severity</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrSubject">
+                          <Value>Subject</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrDept">
+                          <Value>Department</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrStatus">
+                          <Value>Status</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrSLADue">
+                          <Value>SLA Resolution Due</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="hdrResDate">
+                          <Value>Resolution Date</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <BackgroundColor>#1A3A5C</BackgroundColor>
+                            <Color>White</Color>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#FFFFFF</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <!-- ─── DATA ROW ─── -->
+                <TablixRow>
+                  <Height>0.22in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataNo">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!GrievanceNo.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataEmpNo">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!EmployeeNo.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataEmpName">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!EmployeeName.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataDate">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!GrievanceDate.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <Format>dd-MMM-yyyy</Format>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataCategory">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!Category.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataPriority">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!Priority.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataSeverity">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!Severity.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataSubject">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!Subject.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataDept">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!DepartmentCode.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataStatus">
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!ApprovalStatus.Value</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataSLADue">
+                          <CanGrow>true</CanGrow>
+                          <Value>=IIf(IsNothing(Fields!SLAResolutionDue.Value) Or Fields!SLAResolutionDue.Value = CDate("0001-01-01"), "", Format(Fields!SLAResolutionDue.Value, "dd-MMM-yyyy HH:mm"))</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="dataResDate">
+                          <CanGrow>true</CanGrow>
+                          <Value>=IIf(IsNothing(Fields!ResolutionDate.Value) Or Fields!ResolutionDate.Value = CDate("0001-01-01"), "", Format(Fields!ResolutionDate.Value, "dd-MMM-yyyy"))</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <BackgroundColor>=IIf(RowNumber("GrievanceTable") Mod 2 = 0, "White", "#EEF2F8")</BackgroundColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderColor>
+                              <Default>#CCCCCC</Default>
+                            </BorderColor>
+                            <BorderWidth>
+                              <Default>0.5pt</Default>
+                            </BorderWidth>
+                            <PaddingLeft>3pt</PaddingLeft>
+                            <PaddingRight>3pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <!-- Header row member -->
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <!-- Detail row member -->
+                <TablixMember>
+                  <Group Name="GrievanceDetail">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Result</DataSetName>
+            <Top>1.38in</Top>
+            <Left>0in</Left>
+            <Height>0.52in</Height>
+            <Width>10.5in</Width>
+            <Style>
+              <BorderStyle>
+                <Default>None</Default>
+              </BorderStyle>
+            </Style>
+          </Tablix>
+          <!-- ═══════════════════════════════════════════════════ -->
+          <!-- TOTALS ROW                                          -->
+          <!-- ═══════════════════════════════════════════════════ -->
+          <Textbox Name="txtTotalLabel">
+            <Value>="Total Grievances: " &amp; CountRows("DataSet_Result")</Value>
+            <Style>
+              <FontFamily>Calibri</FontFamily>
+              <FontSize>8.5pt</FontSize>
+              <FontWeight>Bold</FontWeight>
+              <TextAlign>Right</TextAlign>
+              <Color>#1A3A5C</Color>
+              <PaddingRight>4pt</PaddingRight>
+            </Style>
+            <Top>1.96in</Top>
+            <Left>0in</Left>
+            <Height>0.22in</Height>
+            <Width>10.5in</Width>
+          </Textbox>
+        </ReportItems>
+        <Height>2.25in</Height>
+        <Style />
+      </Body>
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!-- PAGE SETUP                                          -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <Width>10.5in</Width>
+      <Page>
+        <PageHeader>
+          <Height>0in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems />
+          <Style />
+        </PageHeader>
+        <PageFooter>
+          <Height>0.28in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="txtFooterLeft">
+              <Value>Grievance Summary Report — Confidential</Value>
+              <Style>
+                <FontFamily>Calibri</FontFamily>
+                <FontSize>7pt</FontSize>
+                <TextAlign>Left</TextAlign>
+                <Color>#888888</Color>
+                <FontStyle>Italic</FontStyle>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>4pt</PaddingTop>
+              </Style>
+              <Top>0in</Top>
+              <Left>0in</Left>
+              <Height>0.28in</Height>
+              <Width>5.25in</Width>
+            </Textbox>
+            <Textbox Name="txtPageNo">
+              <Value>="Page " &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value>
+              <Style>
+                <FontFamily>Calibri</FontFamily>
+                <FontSize>7pt</FontSize>
+                <TextAlign>Right</TextAlign>
+                <Color>#888888</Color>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>4pt</PaddingTop>
+              </Style>
+              <Top>0in</Top>
+              <Left>5.25in</Left>
+              <Height>0.28in</Height>
+              <Width>5.25in</Width>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <BorderStyle>
+              <Top>Solid</Top>
+            </BorderStyle>
+            <BorderColor>
+              <Top>#1A3A5C</Top>
+            </BorderColor>
+            <BorderWidth>
+              <Top>1pt</Top>
+            </BorderWidth>
+          </Style>
+        </PageFooter>
+        <LeftMargin>0.5in</LeftMargin>
+        <RightMargin>0.5in</RightMargin>
+        <TopMargin>0.3in</TopMargin>
+        <BottomMargin>0.3in</BottomMargin>
+        <!-- A4 Landscape -->
+        <PageWidth>11.69in</PageWidth>
+        <PageHeight>8.27in</PageHeight>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>
+    Public Function BlankZero(ByVal Value As Decimal)
+      If Value = 0 Then Return ""
+      Return Value
+    End Function
+  </Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>b3c4d5e6-f7a8-9012-bcde-f34567890abc</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+        </Field>
+        <Field Name="PrintedBy">
+          <DataField>PrintedBy</DataField>
+        </Field>
+        <Field Name="PrintedOn">
+          <DataField>PrintedOn</DataField>
+        </Field>
+        <Field Name="FilterCaption">
+          <DataField>FilterCaption</DataField>
+        </Field>
+        <Field Name="GrievanceNo">
+          <DataField>GrievanceNo</DataField>
+        </Field>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+        </Field>
+        <Field Name="GrievanceDate">
+          <DataField>GrievanceDate</DataField>
+        </Field>
+        <Field Name="Category">
+          <DataField>Category</DataField>
+        </Field>
+        <Field Name="Priority">
+          <DataField>Priority</DataField>
+        </Field>
+        <Field Name="Severity">
+          <DataField>Severity</DataField>
+        </Field>
+        <Field Name="Subject">
+          <DataField>Subject</DataField>
+        </Field>
+        <Field Name="DepartmentCode">
+          <DataField>DepartmentCode</DataField>
+        </Field>
+        <Field Name="ApprovalStatus">
+          <DataField>ApprovalStatus</DataField>
+        </Field>
+        <Field Name="SLAResolutionDue">
+          <DataField>SLAResolutionDue</DataField>
+        </Field>
+        <Field Name="ResolutionDate">
+          <DataField>ResolutionDate</DataField>
+        </Field>
+        <Field Name="FiscalYear">
+          <DataField>FiscalYear</DataField>
+        </Field>
+        <Field Name="Anonymous">
+          <DataField>Anonymous</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

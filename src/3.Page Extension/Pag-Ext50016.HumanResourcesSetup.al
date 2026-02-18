@@ -243,6 +243,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Leave Encashment Nos. field.', Comment = '%';
                 }
+                field("Grievance No."; Rec."Grievance No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Grievance No. Nos. field.', Comment = '%';
+                }
             }
             group("Mail For Recruitement")
             {

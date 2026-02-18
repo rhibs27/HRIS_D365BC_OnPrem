@@ -726,6 +726,12 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50160; "Grievance No."; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+            Description = 'Grievance No. Series';
+        }
     }
     trigger onAfterInsert()
     begin
