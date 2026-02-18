@@ -4288,17 +4288,15 @@ codeunit 50001 "HR Mgt."
         end;
         Employee.Reset();
         Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
-        Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution");
+        Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution", "PF Contribution (Office)", "PF Contribution");
         PayrollReportMgt.GetAnnualAccessibleIncome(EmpCode, '', PayCyclePeriod."Pay Cycle Term",
                                                    TempRetirementFund."Projection Month",
-                                        TempRetirementFund."Annual Assessable Income",
-                                        TempRetirementFund."RF Contribution Eligible Amt",
-                                        TempRetirementFund."Provident Fund Projected");
+                                        TempRetirementFund."Annual Assessable Income");
         if TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
             TempRetirementFund."RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
         else
             TempRetirementFund."RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
-        TempRetirementFund."Provident Fund Deposited" := CalculateProvidentFundDeposited(EmpCode, PayCyclePeriod."Pay Cycle Term");
+        TempRetirementFund."Provident Fund Deposited" := Employee."PF Contribution (Office)" + Employee."PF Contribution";
         TempRetirementFund."RF Contribution Deposited" := CalculateRFContributionDeposited(EmpCode, PayCyclePeriod."Pay Cycle Term");
         TempRetirementFund."CIT Contribution Deposited" := Employee."Total Retirement Contribution";
         TempRetirementFund."Provident Fund Projected" := CalculateProvidentFundProjected(EmpCode, TempRetirementFund."Projection Month");
@@ -4310,18 +4308,6 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.Modify;
         if GuiAllowed then
             PAGE.Run(PAGE::"Retirement Fund Card", TempRetirementFund)
-    end;
-
-    procedure CalculateProvidentFundDeposited(EmployeeNo: Code[20]; PayCycleTerm: Code[20]): Decimal
-    var
-        DetailEmployeeLedgerEntries: Record "Detailed Employee Ledger Entry";
-    begin
-        DetailEmployeeLedgerEntries.SetRange("Employee No.", EmployeeNo);
-        DetailEmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCycleTerm);
-        DetailEmployeeLedgerEntries.SetRange("Attribute Type", DetailEmployeeLedgerEntries."Attribute Type"::Deduction);
-        DetailEmployeeLedgerEntries.SetFilter("Attribute Sub Type", '%1|%2', DetailEmployeeLedgerEntries."Attribute Sub Type"::"Employer Contribution", DetailEmployeeLedgerEntries."Attribute Sub Type"::"Employee Contribution");
-        DetailEmployeeLedgerEntries.CalcSums(Amount);
-        exit(Abs(DetailEmployeeLedgerEntries.Amount));
     end;
 
     procedure CalculateRFContributionDeposited(EmployeeNo: Code[20]; PayCycleTerm: Code[20]): Decimal

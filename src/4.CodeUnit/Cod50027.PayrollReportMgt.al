@@ -312,9 +312,7 @@ codeunit 50027 "Payroll Report Mgt."
                                         PostedPayrollNo: Code[20];
                                         PayCycleTerm: Code[20];
                                         ProjectedMonth: Integer;
-                                        var TotalAnnualEarning: Decimal;
-                                        var TotalRetirement: Decimal;
-                                        var TotalPF: decimal)
+                                        var TotalAnnualEarning: Decimal)
     var
         LastEntryNo: Integer;
         TaxSetupHdr: Record "Tax Setup Header";
@@ -380,29 +378,31 @@ codeunit 50027 "Payroll Report Mgt."
             until TempDetailedEmpLedgerEntry1.Next() = 0;
         TotalAnnualEarning += EmployeePayrollOpen."Total Benefit Opening" + (ProjectedMonth * MonthlySalaryAmount);
 
-        TempDetailedEmpLedgerEntry.Reset();
-        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
-        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::CIT,
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::RF,
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Lump Sum Contribution"
-                                        );
+        //This values are calculate in next steps- This function shall delete in future.
+        // TempDetailedEmpLedgerEntry.Reset();
+        // TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        // TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::CIT,
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::RF,
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Lump Sum Contribution"
+        //                                 );
 
-        TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
+        // TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        // TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
 
-        TempDetailedEmpLedgerEntry.Reset();
-        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
-        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution"
-                                        );
-        TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalPF := TempDetailedEmpLedgerEntry.Amount;
+        // TempDetailedEmpLedgerEntry.Reset();
+        // TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        // TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution"
+        //                                 );
+        // TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        // TotalPF := TempDetailedEmpLedgerEntry.Amount;
 
-        TempDetailedEmpLedgerEntry.DeleteAll();
+        // TempDetailedEmpLedgerEntry.DeleteAll();
+        //This values are calculate in next steps- This function shall delete in future.
     end;
 
     procedure CalculateMonthlySalary(EmployeeNo: code[20]; var Amount: Decimal): Decimal
