@@ -158,6 +158,8 @@ table 50181 "Grievance Header"
     }
 
     trigger OnInsert()
+    var
+        GrievanceRec: Record "Grievance Header";
     begin
         if "Grievance Date" = 0D then
             "Grievance Date" := Today;
@@ -166,6 +168,10 @@ table 50181 "Grievance Header"
         if "No." = '' then begin
             HRSetup.TestField("Grievance No.");
             HRMgt.InitNoSeriesNew(HRSetup."Grievance No.", xRec."No. Series", "Grievance Date", "No.", "No. Series");
+            GrievanceRec.ReadIsolation(IsolationLevel::ReadUncommitted);
+            GrievanceRec.SetLoadFields("No.");
+            while GrievanceRec.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
         Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Grievance Date"));
     end;
