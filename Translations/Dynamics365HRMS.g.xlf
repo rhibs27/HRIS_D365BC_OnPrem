@@ -1078,6 +1078,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3290702926 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field From Date(BS) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fuel Limit (amt)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1192,6 +1197,11 @@
           <source>To date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field To date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 617846953 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field To date(BS) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3474915042 - Field 2238596476 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Line Amount</source>
@@ -1503,6 +1513,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3290702926 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field From Date(BS) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 3692456998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fuel Claimed (ltr)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1602,6 +1617,11 @@
           <source>To Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field To Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 617846953 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field To date(BS) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 749969055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Name</source>
@@ -62357,6 +62377,11 @@
           <source>Option4</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Correct Option - EnumValue Option4 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 651111352 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Day Type - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 651111352 - EnumValue 532545754 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Holiday</source>

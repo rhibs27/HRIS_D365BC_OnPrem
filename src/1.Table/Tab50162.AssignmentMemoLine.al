@@ -38,12 +38,21 @@ table 50162 "Assignment Memo Line"
         field(7; "From Date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
                 if Rec."From Date" <> xRec."From Date" then begin
                     Clear("To Date");
                 end;
                 if "From Date" <> 0D then
                     CheckandValidateTheDates("From Date");
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "From Date");
+                if EngNepDate.FindFirst then begin
+                    Validate("From date(BS)", EngNepDate."Nepali Date");
+                end else begin
+                    Clear("From Date(BS)");
+                end;
 
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
@@ -54,7 +63,16 @@ table 50162 "Assignment Memo Line"
         field(8; "To Date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "To Date");
+                if EngNepDate.FindFirst then begin
+                    Validate("To date(BS)", EngNepDate."Nepali Date");
+                end else begin
+                    Clear("From Date(BS)");
+                end;
                 if "To Date" <> 0D then
                     CheckandValidateTheDates("To Date");
 
@@ -245,6 +263,12 @@ table 50162 "Assignment Memo Line"
                 Validate("Effective From (Edu.)", PayCyclePeriod."Start Date");
             end;
         }
+        field(108; "From Date(BS)"; Code[20])
+        {
+        }
+        field(109; "To date(BS)"; Code[20])
+        {
+        }
 
         //field related to shift assignment
         field(201; "Employee Work Shift"; Code[20])
@@ -403,6 +427,11 @@ table 50162 "Assignment Memo Line"
         if Employee.Get("Employee No.") then
             if DateToCheck < Employee."Employment Date" then
                 Error('Date cannot be before employment date %1.', Employee."Employment Date");
+
+        if ("From Date" <> 0D) and ("To Date" <> 0D) then
+            if "From Date" > "To Date" then
+                Error('From Date cannot be greater than To Date');
+
     end;
 
     procedure GetNoofDaysInMonth(DateToCheck: Date): Integer
@@ -503,18 +532,22 @@ table 50162 "Assignment Memo Line"
     procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
+        Ishandled: Boolean;
     begin
         if AssignmentMemoLine."Emp Act Type" <> AssignmentMemoLine."Emp Act Type"::"Request Allowance" then
             exit;
-        if AssignmentMemoHdr.Get(AssignmentMemoLine."Document No.") then begin
-            if AssignmentMemoLine."Employee No." = '' then
-                AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
-            if AssignmentMemoLine."From Date" = 0D then
-                AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."From Date");
-            if AssignmentMemoLine."To Date" = 0D then
-                AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
-            if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
-                AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
+        OnBeforeCalculateDateAndEmployee(AssignmentMemoLine, Ishandled);
+        if not Ishandled then begin
+            if AssignmentMemoHdr.Get(AssignmentMemoLine."Document No.") then begin
+                if AssignmentMemoLine."Employee No." = '' then
+                    AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
+                if AssignmentMemoLine."From Date" = 0D then
+                    AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."From Date");
+                if AssignmentMemoLine."To Date" = 0D then
+                    AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
+                if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
+                    AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
+            end;
         end;
     end;
 
@@ -574,6 +607,11 @@ table 50162 "Assignment Memo Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeValidatePayrollattribute(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled1: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateDateAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled1: Boolean)
     begin
     end;
 }

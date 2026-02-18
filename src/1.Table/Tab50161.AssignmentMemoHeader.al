@@ -44,11 +44,13 @@ table 50161 "Assignment Memo Header"
             begin
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "From Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
+                if EngNepDate.FindFirst then begin
+                    Validate("Fiscal Year", EngNepDate."Fiscal Year");
+                    Validate("From Date(BS)", EngNepDate."Nepali Date");
+                end else begin
                     Clear("Fiscal Year");
-
+                    Clear("From Date(BS)");
+                end;
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
 
@@ -59,11 +61,22 @@ table 50161 "Assignment Memo Header"
         field(4; "To date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
                 if "Activity Type" <> "Activity Type"::"Request Allowance" then begin
                     TestField("From Date");
                     if "From Date" > "To date" then
                         Error('Invalid date.');
+                end;
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "To Date");
+                if EngNepDate.FindFirst then begin
+                    Validate("Fiscal Year", EngNepDate."Fiscal Year");
+                    Validate("To date(BS)", EngNepDate."Nepali Date");
+                end else begin
+                    Clear("Fiscal Year");
+                    Clear("From Date(BS)");
                 end;
                 //check if dates are within the months
                 ValidateDatesAreWithinMonth("From Date", "To date");
@@ -302,6 +315,13 @@ table 50161 "Assignment Memo Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(106; "From Date(BS)"; Code[20])
+        {
+        }
+        field(107; "To date(BS)"; Code[20])
+        {
+        }
+
     }
 
     keys
