@@ -4270,7 +4270,11 @@ codeunit 50001 "HR Mgt."
         PayCyclePeriod.SetRange(Posted, false);
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
-
+        Clear(ImportPayrollAttrReport);
+        ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
+        ImportPayrollAttrReport.UseRequestPage(false);
+        ImportPayrollAttrReport.Run();
+        PayrollReportMgt.GetPayrollAttributes(Employee);
         EmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
         EmployeeLedgerEntries.SetRange("Employee No.", EmpCode);
         EmployeeLedgerEntries.SetRange(Type, EmployeeLedgerEntries.Type::Payroll);
@@ -4283,11 +4287,6 @@ codeunit 50001 "HR Mgt."
                 TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
         end
         else begin
-            Clear(ImportPayrollAttrReport);
-            ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
-            ImportPayrollAttrReport.UseRequestPage(false);
-            ImportPayrollAttrReport.Run();
-            PayrollReportMgt.GetPayrollAttributes(Employee);
             if (PRSetup."Payroll Fiscal Year Start Date" < Employee."Employment Date") and
                             (PRSetup."Payroll Fiscal Year End Date" > Employee."Employment Date") then
                 TempRetirementFund."Projection Month" := PayrollReportMgt.GetFirstPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
@@ -4307,7 +4306,7 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund."CIT Contribution Deposited" := Employee."CIT Deposit" + Employee."Lump Sum CIT" + Employee."Lumpsum CIT (Not Actual)";
         TempRetirementFund."Provident Fund Projected" := CalculateProvidentFundProjected(EmpCode, TempRetirementFund."Projection Month");
         TempRetirementFund."Actual/Projected Contribution" := TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."CIT Contribution Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected";
-        TempRetirementFund."Additional Space for RF Cont." := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Actual/Projected Contribution", 0.01, '=');
+        TempRetirementFund."Additional Space for RF Cont." := CalculateValueNegtiveOrPostive(Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Actual/Projected Contribution", 0.01, '='));
         TempRetirementFund."Recommended Monthly CIT/RF" := CalculateValueNegtiveOrPostive(Round(TempRetirementFund."Additional Space for RF Cont." / TempRetirementFund."Projection Month", 0.01));
         CalculateRetirementFund(TempRetirementFund, TempRetirementFund."Projection Month");
         TempRetirementFund.Difference := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Total Deduction", 0.01, '=');
