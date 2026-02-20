@@ -2020,16 +2020,14 @@ codeunit 50000 "Leave Mgt."
         EncashmentRequestRec: Record "Encashment Request";
     begin
         EncashmentRequest.OnbeforeSendForApproval();
-        if EncashmentRequestRec.Get(EncashmentRequest."No.") then begin
-            EncashmentRequestRec.Validate("Approval Status", EncashmentRequestRec."Approval Status"::Pending);
-            EncashmentRequestRec.Modify();
+        EncashmentRequestRec.Validate("Approval Status", EncashmentRequestRec."Approval Status"::Pending);
+        EncashmentRequestRec.Modify();
 
-            ApprovalHRMS.SetRange("Document No.", EncashmentRequest."No.");
-            ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Leave Encashment");
-            ApprovalHRMS.SetRange("Approval Sequence", 1);
-            if ApprovalHRMS.FindSet() then
-                ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
-        end;
+        ApprovalHRMS.SetRange("Document No.", EncashmentRequest."No.");
+        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Leave Encashment");
+        ApprovalHRMS.SetRange("Approval Sequence", 1);
+        if ApprovalHRMS.FindSet() then
+            ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
     end;
 
     [IntegrationEvent(false, false)]
