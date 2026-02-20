@@ -4334,7 +4334,7 @@ codeunit 50001 "HR Mgt."
         if EmployeePayrollOpening.FindFirst() then;
 
         Employee.Get(EmployeeNo);
-
+        Employee.CalcFields("Lump Sum CIT");
         exit(Abs(DetailEmployeeLedgerEntries.Amount) + EmployeePayrollOpening."Total RF Opening" + Employee."Lump Sum CIT" + Employee."Lumpsum CIT (Not Actual)" + Employee."Lumpsum RF (Not Actual)");
     end;
 
@@ -4358,14 +4358,8 @@ codeunit 50001 "HR Mgt."
                     PayrollReportMgt.SetEmployeeCode(Employee."No.");
                     AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
                 end;
-
-                PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
-                PayrollAttributesUsage.SetRange("Employee Code", EmployeeNo);
-                if PayrollAttributesUsage.FindSet() then
-                    repeat
-                        Amount += PayrollAttributesUsage.Amount;
-                    until PayrollAttributesUsage.Next() = 0;
-
+                if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
+                    Amount += PayrollAttributesUsage.Amount;
             until PayrollAttributes.Next() = 0;
 
         TotalProvidentFundProjected := (Amount + AttributeAmount) * ProjectionMonth;
