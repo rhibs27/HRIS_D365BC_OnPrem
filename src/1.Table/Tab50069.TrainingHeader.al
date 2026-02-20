@@ -431,7 +431,7 @@ table 50069 "Training Header"
                     Validate("Training Remarks", Format(RatingSetup.Rating));
             end;
         }
-        field(53; "Trainer Remarks"; Text[50])
+        field(53; "Trainer Remarks"; Text[250])
         {
             Editable = false;
         }

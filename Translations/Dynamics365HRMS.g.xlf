@@ -4648,6 +4648,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Loan Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 2071569382 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Monthly Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Monthly Deduction - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1207451066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Morning OT Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7142,6 +7147,11 @@
           <source>Max. Loan Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Max. Loan Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 2071569382 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Monthly Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Monthly Deduction - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 1545636625 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Name of Owner</source>
@@ -32678,6 +32688,101 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Grade Entries - Control Total Grade Percentage - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2718731950 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Home Ins Tieup Card</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>General</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control General - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 455293407 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Disbursed Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Disbursed Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 3961695999 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the First Premium Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control First Premium Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 4290892503 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Company field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Insurance Company - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 2693197405 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Acc. Open Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Loan Acc. Open Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 3672140454 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Account No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Loan Account No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 1676886993 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Expiry Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Loan Expiry Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 2228618656 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Loan Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Loan Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 2071569382 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Monthly Deduction field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Monthly Deduction - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 582562091 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Policy No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Policy No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 902249373 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Settled field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Settled - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 317985459 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Settlement Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Settlement Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2718731950 - Control 3549911343 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Yearly Premium Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Home Ins Tieup Card - Control Yearly Premium Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2782846604 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Home Loan Ins Tieup List</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37537,6 +37642,11 @@
           <source>Specifies the value of the Loan Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1304637111 - Control 2071569382 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Monthly Deduction field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Monthly Deduction - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1304637111 - Control 582562091 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Policy No field.</source>

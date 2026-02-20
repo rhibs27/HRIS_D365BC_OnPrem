@@ -121,7 +121,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = ToBeClassified;
         }
-        field(22; "Rejection Remarks"; Text[100])
+        field(22; "Rejection Remarks"; Text[250])
         {
             DataClassification = ToBeClassified;
         }
@@ -186,7 +186,7 @@ table 50074 "Employee Edit"
         }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
-        field(33; Remarks; Text[100])
+        field(33; Remarks; Text[250])
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
         {
@@ -228,6 +228,11 @@ table 50074 "Employee Edit"
             Caption = 'CitizenShip Issue Date';
             Description = 'Official Document';
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                If "CitizenShip Issue Date" > Today then
+                    Error('CitizenShip Issue Date(AD) should not be a future.');
+            end;
         }
         field(43; "NID No."; Code[20])
         {
@@ -426,6 +431,12 @@ table 50074 "Employee Edit"
             Caption = 'Passport Validity Date';
             Description = 'Official Document';
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                If "Passport Validity Date" > Today then
+                    Error('Passport Validity Date(AD) should not be a future.');
+            end;
+
         }
         field(79; "Claim Type"; Code[20])
         {

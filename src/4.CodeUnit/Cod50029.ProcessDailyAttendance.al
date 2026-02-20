@@ -374,12 +374,12 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
-        if GuiAllowed then
-            AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
-        else begin
-            AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
-            AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
-        end;
+        //if GuiAllowed then
+        AttendanceLog.SetRange("Date Time Log", StartTime, EndTime);
+        // else begin
+        //     AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
+        //     AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
+        // end;
         if FirstRecord then
             if AttendanceLog.FindFirst() then;
         if not FirstRecord then

@@ -160,7 +160,7 @@ table 50124 Leave
         field(13; "End Date (BS)"; Text[20])
         {
         }
-        field(14; Remarks; Text[100]) { }
+        field(14; Remarks; Text[250]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -245,7 +245,7 @@ table 50124 Leave
         field(33; "Payroll No."; Code[20]) { }
         field(34; Ecosystem; Code[20]) { }
         field(35; "Office Code"; Code[20]) { }
-        field(36; "Rejection Remarks"; Text[100]) { }
+        field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date)
         {
             Editable = false;

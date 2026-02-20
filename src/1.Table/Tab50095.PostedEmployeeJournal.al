@@ -39,7 +39,7 @@ table 50095 "Posted Employee Journal"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100]) { }
+        field(14; Remarks; Text[250]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -109,7 +109,7 @@ table 50095 "Posted Employee Journal"
         {
             TableRelation = Employee;
         }
-        field(36; "Rejection Remarks"; Text[100]) { }
+        field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {
@@ -140,7 +140,7 @@ table 50095 "Posted Employee Journal"
         field(47; "For Death Of"; Enum "For Death Of") { }
         field(48; "Child's Gender"; Enum Gender) { }
         field(50; Description; Text[250]) { }
-        field(51; "Screener Remarks"; Text[100]) { }
+        field(51; "Screener Remarks"; Text[250]) { }
         //Transfer
         field(52; "Transfer Type"; Enum "Transfer Type") { }
         field(53; "Shortcut Dimension 1 Code (To)"; Code[20])
@@ -222,7 +222,7 @@ table 50095 "Posted Employee Journal"
                     Error('Date of joining of transfer %1 cannot be less than HR Proposed date %2', "Date of Joining Of Transfer", "Transfer Effective Date");
             end;
         }
-        field(69; "Transfer Remarks"; Text[50])
+        field(69; "Transfer Remarks"; Text[250])
         {
             Description = 'Transfer';
         }

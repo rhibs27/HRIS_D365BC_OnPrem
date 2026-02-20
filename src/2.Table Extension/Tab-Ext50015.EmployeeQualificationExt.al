@@ -76,7 +76,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             DataClassification = CustomerContent;
             CharAllowed = '09';
         }
-        field(50008; Remarks; Text[100])
+        field(50008; Remarks; Text[250])
         { DataClassification = CustomerContent; }
         field(50009; Rank; Integer)
         { DataClassification = CustomerContent; }

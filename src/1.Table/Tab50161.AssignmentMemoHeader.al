@@ -87,11 +87,11 @@ table 50161 "Assignment Memo Header"
             TableRelation = "Organization Structure List".Code where(Type = const(Unit));
         }
         field(9; "Document Date"; Date) { }
-        field(10; Remarks; Text[100])
+        field(10; Remarks; Text[250])
         {
             DataClassification = ToBeClassified;
         }
-        field(11; "Rejection Remarks"; Text[100])
+        field(11; "Rejection Remarks"; Text[250])
         {
             DataClassification = ToBeClassified;
         }
@@ -242,6 +242,7 @@ table 50161 "Assignment Memo Header"
             var
                 PayCyclePeriod: Record "Pay Cycle Period";
                 PGSetup: Record "Payroll General Setup";
+                Employee: Record Employee;
             begin
                 //based on nepali month selected update the from date to date and other field
                 PGSetup.Get();
@@ -250,7 +251,14 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
                 PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
                 if PayCyclePeriod.FindFirst() then begin
-                    "From Date" := PayCyclePeriod."Start Date";
+                    if not GuiAllowed then
+                        Employee.Get(HrMgt.GetEmployeeNo())
+                    else
+                        Employee.Get("Employee No.");
+                    IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
+                        "From Date" := Employee."Employment Date"
+                    else
+                        "From Date" := PayCyclePeriod."Start Date";
                     "To date" := PayCyclePeriod."End Date";
                     "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
                     "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
@@ -367,6 +375,7 @@ table 50161 "Assignment Memo Header"
                         TempAssignmentmemoHdr.Insert();
                         Recordref.GetTable(TempAssignmentmemoHdr);
                         ApproverMgt.InsertApprovalWithRecordref("Employee No.", "No.", "Activity Type", "Approval Status", Recordref);
+
                     end;
                 "Activity Type"::"Shift Assignment Memo":
                     begin
@@ -380,7 +389,7 @@ table 50161 "Assignment Memo Header"
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type", "Approval Status");
                     end;
             end;
-
+        InsertDocumentAttachment("Activity Type", "No.", "Employee No.");
         AutoInsertDatesForRequestAllowance();
         CheckIfWithinAllowancePeriod();
     end;
@@ -411,18 +420,65 @@ table 50161 "Assignment Memo Header"
         end;
     end;
 
-    procedure InsertDocumentAttachment(EmpActType: Enum "Employee Activity Type"; DocumentNo: Code[20]; EmployeeNo: Code[50])
+    procedure InsertDocumentAttachment(EmpActType: Enum "Employee Activity Type"; DocumentNo: Code[20];
+                                                       EmployeeNo: Code[50])
     var
         IncDocAttachment: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDoc: Record "Incoming Document";
+        PayrollAttributes: Record "Payroll Attributes";
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
     begin
-        IncDocAttachment.Init();
-        IncDocAttachment."No." := DocumentNo;
-        IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
-        IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
-        if EmpActType = EmpActType::"Request Allowance" then
-            IncDocAttachment.Validate("Employee Code", EmployeeNo);
-        IncDocAttachment.Validate("Employee Activity Type", EmpActType);
-        IncDocAttachment.Insert(true);
+        if not PayrollAttributes.Get("Payroll Attribute Code") then
+            exit;
+
+        if EmpActType = EmpActType::"Request Allowance" then begin
+            AttachmentSetup.SetFilter(Type, Format(EmpActType));
+            case PayrollAttributes."Specific Attributes" of
+                PayrollAttributes."Specific Attributes"::"Education Allowance":
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Education Allowance");
+                PayrollAttributes."Specific Attributes"::Reimbursement:
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::Reimbursement);
+                PayrollAttributes."Specific Attributes"::"Remote Area Allowance":
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
+                PayrollAttributes."Specific Attributes"::"OutStation Allowance":
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+                else
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
+            end;
+        end
+        else
+            if EmpActType = EmpActType::"Shift Assignment Memo" then
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Shift Assignment Memo")
+            else
+                if EmpActType = EmpActType::"Allowance Assignment Memo" then
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Allowance Assignment Memo");
+
+        if AttachmentSetup.FindSet() then
+            repeat
+                IncDocAttachment.Init();
+                IncDocAttachment."Entry No." := GetNextEntrNo;
+                IncDocAttachment."No." := DocumentNo;
+                IncDocAttachment."Document No." := DocumentNo;
+                IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
+                IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
+                if EmpActType = EmpActType::"Request Allowance" then
+                    IncDocAttachment.Validate("Employee Code", EmployeeNo);
+                IncDocAttachment.Validate("Employee Activity Type", EmpActType);
+                IncDocAttachment.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                IncDocAttachment.Insert(true);
+            until AttachmentSetup.Next() = 0;
+    end;
+
+    local procedure GetNextEntrNo(): Integer
+    var
+        IncDocAttachmentForIncrement: Record "Incoming Document";
+    begin
+        if IncDocAttachmentForIncrement.FindLast() then
+            IncDocAttachmentForIncrement."Entry No." += 1
+        else
+            IncDocAttachmentForIncrement."Entry No." := 1;
+        exit(IncDocAttachmentForIncrement."Entry No.");
     end;
 
     procedure ValidateDatesAreWithinMonth(fromDate: Date; toDate: Date)

@@ -99,7 +99,7 @@ table 50048 "Employee Attendance & Activity"
             MinValue = 0;
         }
         field(25; "Outdoor Duty Day"; Decimal) { }
-        field(26; "Late Remarks"; Text[100]) { }
+        field(26; "Late Remarks"; Text[250]) { }
         field(27; "Late Day"; Decimal) { }
         field(28; "Daily Food Allowance"; Decimal) { }
         field(29; "Employee Activity Found"; Boolean) { }
@@ -263,7 +263,7 @@ table 50048 "Employee Attendance & Activity"
             Caption = 'Entry Type';
         }
         field(201; "Present in Holiday"; Decimal) { }
-        field(202; Remarks; Text[150]) { }
+        field(202; Remarks; Text[250]) { }
 
         field(203; "Pending Leave Request Doc No."; Code[20])
         {

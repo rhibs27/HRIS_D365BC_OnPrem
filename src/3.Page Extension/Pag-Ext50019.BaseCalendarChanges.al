@@ -122,7 +122,13 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
                 PromotedCategory = Process;
                 ToolTip = 'Executes the Update Holiday in Attendance Log action.';
                 trigger OnAction()
+                var
+                    ProcessDailyAttendance: Report "Process Daily Attendance";
+                    Employee: Record Employee;
                 begin
+                    SetSelectionFilter(Rec);
+                    Employee.SetRange("Date Filter", Rec.Date);
+                    Report.RunModal(Report::"Process Daily Attendance", false, false, Employee);
                 end;
             }
         }
