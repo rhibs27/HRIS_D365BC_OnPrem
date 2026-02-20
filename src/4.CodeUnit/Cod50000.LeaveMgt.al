@@ -2017,11 +2017,10 @@ codeunit 50000 "Leave Mgt."
     procedure SendApprovalleaveEncashment(var EncashmentRequest: Record "Encashment Request")
     var
         ApprovalHRMS: Record "Approval HRMS";
-        EncashmentRequestRec: Record "Encashment Request";
     begin
         EncashmentRequest.OnbeforeSendForApproval();
-        EncashmentRequestRec.Validate("Approval Status", EncashmentRequestRec."Approval Status"::Pending);
-        EncashmentRequestRec.Modify();
+        EncashmentRequest.Validate("Approval Status", EncashmentRequest."Approval Status"::Pending);
+        EncashmentRequest.Modify();
 
         ApprovalHRMS.SetRange("Document No.", EncashmentRequest."No.");
         ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Leave Encashment");
