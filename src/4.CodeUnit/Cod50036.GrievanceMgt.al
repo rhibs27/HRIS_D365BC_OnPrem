@@ -92,9 +92,9 @@ codeunit 50036 "Grievance Mgt"
     begin
         if CommentText = '' then
             Error('Add Comment text First.');
-        if GrievanceHeader.Get(GrievanceNo) then;
-        if GrievanceHeader."Approval Status" <> GrievanceHeader."Approval Status"::Settled then
-            Error('Grievance is already settled');
+        if GrievanceHeader.Get(GrievanceNo) then
+            if GrievanceHeader."Approval Status" = GrievanceHeader."Approval Status"::Settled then
+                Error('Grievance is already settled');
         EmpNo := HRMgt.GetEmployeeNo();
         GrievanceComment.Init();
         GrievanceComment.Validate("Grievance No.", GrievanceNo);
