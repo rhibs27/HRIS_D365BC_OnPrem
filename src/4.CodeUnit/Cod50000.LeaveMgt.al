@@ -2,7 +2,7 @@ codeunit 50000 "Leave Mgt."
 {
     procedure OpenLeaveRequest(EmpCode: Code[20])
     var
-        leaveRequest, LeaveRequest2 : record leave;
+        LeaveRequest, LeaveRequest2 : record leave;
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
@@ -13,13 +13,13 @@ codeunit 50000 "Leave Mgt."
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
         Employee.Get(EmpCode);
-        leaveRequest.Reset();
-        leaveRequest.SetRange("Employee No.", EmpCode);
-        leaveRequest.SetRange("Approval Status", leaveRequest."Approval Status"::open);
-        leaveRequest.SetRange(Type, leaveRequest.Type::"Leave Request");
-        if leaveRequest.Findfirst() then begin
+        LeaveRequest.Reset();
+        LeaveRequest.SetRange("Employee No.", EmpCode);
+        LeaveRequest.SetRange("Approval Status", LeaveRequest."Approval Status"::open);
+        LeaveRequest.SetRange(Type, LeaveRequest.Type::"Leave Request");
+        if LeaveRequest.Findfirst() then begin
             Message('This Employee Already has open Leave Request.Click Ok to Open');
-            PAGE.Run(PAGE::"Leave Request", leaveRequest)
+            Page.Run(Page::"Leave Request", LeaveRequest)
         end else begin
             LeaveRequest2.Init;
             LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
@@ -34,7 +34,7 @@ codeunit 50000 "Leave Mgt."
             LeaveRequest2.Validate(Department, Employee."Department Code");
             LeaveRequest2.Insert(true);
             if GuiAllowed then
-                PAGE.Run(PAGE::"Leave Request", LeaveRequest2);
+                Page.Run(Page::"Leave Request", LeaveRequest2)
         end;
     end;
 
@@ -1572,7 +1572,7 @@ codeunit 50000 "Leave Mgt."
     end;
 
     procedure CreateLeaveLedger(empCode: Code[20]; leaveCode: Code[20];
-                                       PostingDate: Date;
+                                       ApproveDate: Date;
                                        LeaveEarnType: Enum "Leave Earn Type";
                                                           BalanceDays: Decimal;
                                         entryNo: Integer;
@@ -1591,12 +1591,13 @@ codeunit 50000 "Leave Mgt."
         leaveLedger."Entry No." := entryNo;
         leaveLedger.Validate("Employee No.", empCode);
         leaveLedger.Validate("Leave Code", leaveCode);
-        leaveLedger.Validate("Posted Date", PostingDate);
+        leaveLedger.Validate("Posted Date", ApproveDate);
         leaveLedger.Validate(Type, LeaveEarnType);
         leaveLedger.Validate("Balancing Days", BalanceDays);
         leaveLedger.Validate("Leave Request No", ExtDocumentNo);
-        leaveLedger."Fiscal Year" := HRMgt.ReturnFiscalYear(PostingDate);
+        leaveLedger."Fiscal Year" := HRMgt.ReturnFiscalYear(ApproveDate);
         leaveLedger.Remarks := Remarks;
+        OnBeforeInsertLeaveLeaderOnApprove(leaveLedger);
         leaveLedger.Insert(true);
 
         if LeaveEarnType = LeaveEarnType::Encashed then begin
@@ -1730,7 +1731,7 @@ codeunit 50000 "Leave Mgt."
             NoofDays := EncashRequest."No. of Days";
         CreateLeaveLedger(EncashRequest."Employee No.",
                             EncashRequest."Leave Code",
-                            EncashRequest."Posting Date",
+                            EncashRequest."Approved Date",
                             "Leave Earn Type"::Encashed,
                             NoofDays,
                             GetNextLeaveLedgerEntryNo,
@@ -2039,16 +2040,19 @@ codeunit 50000 "Leave Mgt."
     procedure SendApprovalleaveEncashment(EncashmentRequest: Record "Encashment Request")
     var
         ApprovalHRMS: Record "Approval HRMS";
+        EncashmentRequestRec: Record "Encashment Request";
     begin
         EncashmentRequest.OnbeforeSendForApproval();
-        EncashmentRequest.Validate("Approval Status", EncashmentRequest."Approval Status"::Pending);
-        EncashmentRequest.Modify();
+        if EncashmentRequestRec.Get(EncashmentRequest."No.") then begin
+            EncashmentRequestRec.Validate("Approval Status", EncashmentRequestRec."Approval Status"::Pending);
+            EncashmentRequestRec.Modify();
 
-        ApprovalHRMS.SetRange("Document No.", EncashmentRequest."No.");
-        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Leave Encashment");
-        ApprovalHRMS.SetRange("Approval Sequence", 1);
-        if ApprovalHRMS.FindSet() then
-            ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
+            ApprovalHRMS.SetRange("Document No.", EncashmentRequest."No.");
+            ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Leave Encashment");
+            ApprovalHRMS.SetRange("Approval Sequence", 1);
+            if ApprovalHRMS.FindSet() then
+                ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
+        end;
     end;
 
     [IntegrationEvent(false, false)]
@@ -2136,6 +2140,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsertLeaveEarnfromJournal(var LeaveEarn: Record "Leave Earn"; LeaveJournal: Record "Employee Activity Journal")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertLeaveLeaderOnApprove(var LeaveEarn: Record "Leave Earn")
     begin
     end;
 
