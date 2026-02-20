@@ -371,12 +371,9 @@ codeunit 50027 "Payroll Report Mgt."
         TempDetailedEmpLedgerEntry1.SetRange("Pay Cycle Term", PayCycleTerm);
         TempDetailedEmpLedgerEntry1.SetRange("Employee No.", EmpCode);
         TempDetailedEmpLedgerEntry1.SetRange(Reversed, false);
-        TempDetailedEmpLedgerEntry1.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry1."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
-        if TempDetailedEmpLedgerEntry1.FindSet() then
-            repeat
-                TotalAnnualEarning += TempDetailedEmpLedgerEntry1.Amount
-            until TempDetailedEmpLedgerEntry1.Next() = 0;
-        TotalAnnualEarning += EmployeePayrollOpen."Total Benefit Opening" + (ProjectedMonth * MonthlySalaryAmount);
+        TempDetailedEmpLedgerEntry1.SetFilter("Attribute Type", '%1|%2|%3', TempDetailedEmpLedgerEntry1."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings", TempDetailedEmpLedgerEntry1."Attribute Type"::"Non-Payment");
+        TempDetailedEmpLedgerEntry1.CalcSums(Amount);
+        TotalAnnualEarning := TempDetailedEmpLedgerEntry1.Amount + EmployeePayrollOpen."Total Benefit Opening" + (ProjectedMonth * MonthlySalaryAmount);
 
         //This values are calculate in next steps- This function shall delete in future.
         // TempDetailedEmpLedgerEntry.Reset();
@@ -405,7 +402,7 @@ codeunit 50027 "Payroll Report Mgt."
         //This values are calculate in next steps- This function shall delete in future.
     end;
 
-    procedure CalculateMonthlySalary(EmployeeNo: code[20]; var Amount: Decimal): Decimal
+    procedure CalculateMonthlySalary(EmployeeNo: code[20]; var Amount: Decimal)
     var
         PayrollAttributes: Record "Payroll Attributes";
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
@@ -417,7 +414,7 @@ codeunit 50027 "Payroll Report Mgt."
         Clear(Amount);
         Employee.Get(EmployeeNo);
         PayrollAttributes.Reset();
-        PayrollAttributes.SetRange(Type, PayrollAttributes.Type::Benefits);
+        PayrollAttributes.SetRange(Type, PayrollAttributes.Type::Benefits, PayrollAttributes.Type::"Non-Payment");
         PayrollAttributes.SetRange("Apply Every Month", true);
         if PayrollAttributes.FindSet() then
             repeat
@@ -435,7 +432,6 @@ codeunit 50027 "Payroll Report Mgt."
             Until PayrollAttributes.Next() = 0;
 
         Amount += AttributeAmount;
-        exit(Amount);
     end;
 
     local procedure CheckIfProjectable(AttrCode: Code[20]): Boolean
