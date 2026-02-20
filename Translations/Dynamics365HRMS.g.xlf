@@ -33343,30 +33343,55 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 2790486453 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1709206145 - Control 2998405077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the comment text.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control Comment - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control comment - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 813097569 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1709206145 - Control 2998405077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Comment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control comment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1709206145 - Control 3714958417 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the date and time the comment was added.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control Comment Date - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentDate - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 2213433435 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1709206145 - Control 3714958417 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Comment Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1709206145 - Control 3411871027 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the employee who added the comment.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control Commented By - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedBy - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 737181658 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1709206145 - Control 3411871027 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Commented By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedBy - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1709206145 - Control 1835654482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the name of the employee who added the comment.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control Commented By Name - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedByName - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 2339353424 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1709206145 - Control 1835654482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CommentedBy Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedByName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1709206145 - Control 3595021104 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the role of the person who commented.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control Role - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control role - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1709206145 - Control 3595021104 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Role</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control role - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1824240720 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Grievances</source>
