@@ -4320,6 +4320,7 @@ codeunit 50001 "HR Mgt."
         DetailEmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCycleTerm);
         DetailEmployeeLedgerEntries.SetRange("Attribute Type", DetailEmployeeLedgerEntries."Attribute Type"::Deduction);
         DetailEmployeeLedgerEntries.SetFilter("Attribute Sub Type", '%1|%2|%3', DetailEmployeeLedgerEntries."Attribute Sub Type"::CIT, DetailEmployeeLedgerEntries."Attribute Sub Type"::RF, DetailEmployeeLedgerEntries."Attribute Sub Type"::"Lump Sum Contribution");
+        DetailEmployeeLedgerEntries.SetRange(Reversed, false);
         DetailEmployeeLedgerEntries.CalcSums(Amount);
 
         EmployeePayrollOpening.SetRange("Employee No.", EmployeeNo);
