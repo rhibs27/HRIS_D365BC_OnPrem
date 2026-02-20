@@ -33248,6 +33248,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Resolution - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 362894294 - Control 812271570 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the employee who resolved the grievance.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control CommentText - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 362894294 - Control 265201069 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies remarks from HR regarding this grievance.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56748,16 +56753,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Grievance - Property Caption</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 745325036 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Creates a new grievance for this employee, or opens the existing open grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action File Grievance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 745325036 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>File Grievance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action File Grievance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2162031724 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Shows all grievances filed by this employee.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -63788,50 +63783,50 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue   - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 536401205 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Critical</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 1508888334 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>S1 - Critical</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue Critical - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue S1 - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 3116416530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>High</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 3890765779 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>S2 - High</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue High - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue S2 - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 3592530208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Low</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 233495100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>S3 - Medium</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue Low - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue S3 - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 432767615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medium</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 2615372545 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>S4 - Low</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue Medium - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue S4 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3273735063 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue   - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 1508888334 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>S1 - Critical</source>
+        <trans-unit id="Enum 3273735063 - EnumValue 536401205 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Critical</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue S1 - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue Critical - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 3890765779 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>S2 - High</source>
+        <trans-unit id="Enum 3273735063 - EnumValue 3116416530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>High</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue S2 - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue High - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 233495100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>S3 - Medium</source>
+        <trans-unit id="Enum 3273735063 - EnumValue 3592530208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Low</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue S3 - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue Low - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 2615372545 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>S4 - Low</source>
+        <trans-unit id="Enum 3273735063 - EnumValue 432767615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Medium</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue S4 - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue Medium - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 166358986 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
@@ -66557,6 +66552,11 @@
           <source>Settled</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Settled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="EnumExtension 1878856189 - EnumValue 72070539 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
+          <source>Submitted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Submitted - Property Caption</note>
         </trans-unit>
         <trans-unit id="EnumExtension 1878856189 - EnumValue 1052239488 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
           <source>Withdrawn</source>

@@ -52,7 +52,7 @@ page 50395 "Grievance Card"
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    Editable = IsPending;
+                    Editable = IsSubmitted;
                     ToolTip = 'Specifies the reason for rejection.';
                     ApplicationArea = All;
                 }
@@ -161,19 +161,25 @@ page 50395 "Grievance Card"
                 Visible = not IsOpen;
                 field("HR Remarks"; Rec."HR Remarks")
                 {
-                    Editable = IsPending;
+                    Editable = IsSubmitted;
                     ToolTip = 'Specifies remarks from HR regarding this grievance.';
                     ApplicationArea = All;
                 }
                 field("Resolution Date"; Rec."Resolution Date")
                 {
-                    Editable = IsPending;
+                    Editable = IsSubmitted;
                     ToolTip = 'Specifies the date the grievance was resolved.';
                     ApplicationArea = All;
                 }
                 field("Resolved By"; Rec."Resolved By")
                 {
-                    Editable = IsPending;
+                    Editable = IsSubmitted;
+                    ToolTip = 'Specifies the employee who resolved the grievance.';
+                    ApplicationArea = All;
+                }
+                field(CommentText; CommentText)
+                {
+                    Editable = IsSubmitted;
                     ToolTip = 'Specifies the employee who resolved the grievance.';
                     ApplicationArea = All;
                 }
@@ -216,11 +222,10 @@ page 50395 "Grievance Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                Visible = IsSubmitted;
                 ToolTip = 'Adds a comment to this grievance.';
                 ApplicationArea = All;
                 trigger OnAction()
-                var
-                    CommentText: Text[2000];
                 begin
                     if not Confirm('Add a comment to this grievance?', false) then
                         exit;
@@ -236,7 +241,7 @@ page 50395 "Grievance Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsPending;
+                Visible = IsSubmitted;
                 ToolTip = 'Approves and resolves the grievance.';
                 ApplicationArea = All;
                 trigger OnAction()
@@ -255,7 +260,7 @@ page 50395 "Grievance Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsPending;
+                Visible = IsSubmitted;
                 ToolTip = 'Rejects the grievance.';
                 ApplicationArea = All;
                 trigger OnAction()
@@ -303,17 +308,18 @@ page 50395 "Grievance Card"
     var
         GrievanceMgt: Codeunit "Grievance Mgt";
         IsOpen: Boolean;
-        IsPending: Boolean;
+        IsSubmitted: Boolean;
         IsApproved: Boolean;
         IsRejected: Boolean;
         HasSLA: Boolean;
         IsSLAResponseBreached: Boolean;
         IsSLAResolutionBreached: Boolean;
+        CommentText: Text[2000];
 
     local procedure SetLayout()
     begin
         IsOpen := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Open];
-        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsSubmitted := Rec."Approval Status" = Rec."Approval Status"::Submitted;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = Rec."Approval Status"::Rejected;
         if IsRejected then

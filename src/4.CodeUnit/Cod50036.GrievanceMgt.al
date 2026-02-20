@@ -38,7 +38,7 @@ codeunit 50036 "Grievance Mgt"
         Grievance.TestField("Employee No.");
         Grievance.TestField(Subject);
         Grievance.TestField(Category);
-        Grievance.Validate("Approval Status", "Approval Status"::Pending);
+        Grievance.Validate("Approval Status", "Approval Status"::Submitted);
         Grievance.Modify(true);
         AddComment(Grievance."No.", 'Grievance submitted for review.');
         if GuiAllowed then
@@ -50,15 +50,15 @@ codeunit 50036 "Grievance Mgt"
     var
         AlreadyResolved: Label 'This grievance has already been resolved.';
     begin
-        if Grievance."Approval Status" = Grievance."Approval Status"::Approved then
+        if Grievance."Approval Status" = Grievance."Approval Status"::Settled then
             Error(AlreadyResolved);
         Grievance.TestField("HR Remarks");
-        Grievance.Validate("Approval Status", "Approval Status"::Approved);
+        Grievance.Validate("Approval Status", "Approval Status"::Settled);
         if Grievance."Resolution Date" = 0D then
             Grievance.Validate("Resolution Date", Today);
         Grievance.Validate("Resolved By", HRMgt.GetEmployeeNo());
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance approved and resolved by HR.');
+        AddComment(Grievance."No.", 'Grievance approved and resolved.');
     end;
 
     procedure RejectGrievance(var Grievance: Record "Grievance Header")
@@ -87,14 +87,18 @@ codeunit 50036 "Grievance Mgt"
     procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000])
     var
         GrievanceComment: Record "Grievance Comment";
+        GrievanceHeader: Record "Grievance Header";
         EmpNo: Code[20];
     begin
         if CommentText = '' then
-            exit;
+            Error('Add Comment text First.');
+        if GrievanceHeader.Get(GrievanceNo) then;
+        if GrievanceHeader."Approval Status" <> GrievanceHeader."Approval Status"::Settled then
+            Error('Grievance is already settled');
         EmpNo := HRMgt.GetEmployeeNo();
         GrievanceComment.Init();
         GrievanceComment.Validate("Grievance No.", GrievanceNo);
-        GrievanceComment.Validate("Commented By", EmpNo);
+        GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo());
         GrievanceComment.Validate("Comment Date", CurrentDateTime);
         GrievanceComment.Comment := CommentText;
         GrievanceComment.Insert(true);
