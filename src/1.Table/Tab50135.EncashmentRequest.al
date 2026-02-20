@@ -90,7 +90,8 @@ table 50135 "Encashment Request"
         if "Employee No." = '' then
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
-        Validate("Approval Status", "Approval Status"::Pending);
+        if not GuiAllowed then
+            Validate("Approval Status", "Approval Status"::Pending);
         TestField(Type);
         HRSetup.Get;
         if "No." = '' then begin
