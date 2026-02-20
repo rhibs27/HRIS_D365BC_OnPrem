@@ -425,8 +425,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::"Employee Contribution"),
-                                                                                                                   "Document Type" = field("Document Type Filter")));
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::"Employee Contribution")));
             Editable = false;
         }
         field(50036; "CIT Deposit"; Decimal)
@@ -446,8 +445,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::"Employer Contribution"),
-                                                                                                                   "Document Type" = field("Document Type Filter")));
+                                                                                                                 "Attribute Sub Type" = filter("Payroll SubType"::"Employer Contribution")));
             Editable = false;
         }
         field(50039; "Advance for Expenses"; Decimal)

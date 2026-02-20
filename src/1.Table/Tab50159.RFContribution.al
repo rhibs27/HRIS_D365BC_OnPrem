@@ -100,12 +100,20 @@ table 50159 "RF Contribution"
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                              "Pay Cycle Term" = field("Pay Cycle Term"), Posted = const(false));
         }
+        field(301; "Access Token"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
         key(PK; "Document No.", "Line No.")
         {
             Clustered = true;
+        }
+        key(Key1; "Access Token")
+        {
+
         }
     }
 

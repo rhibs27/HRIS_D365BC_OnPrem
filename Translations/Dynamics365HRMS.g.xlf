@@ -19813,6 +19813,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Method OnDelete - NamedType CannotDelete</note>
         </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Access Token - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1145153898 - Field 2022197337 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Actual Lumpsump CIT</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20102,6 +20107,11 @@
           <source>RF Contribution</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1795737662 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table RF Contribution - Field Access Token - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1795737662 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Amount</source>
