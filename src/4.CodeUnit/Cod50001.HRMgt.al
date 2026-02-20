@@ -4241,6 +4241,9 @@ codeunit 50001 "HR Mgt."
         PayrollReportMgt: Codeunit "Payroll Report Mgt.";
         PayCyclePeriod: Record "Pay Cycle Period";
         DetailedEmpledger: Record "Detailed Employee Ledger Entry";
+        EmployeeLedgerEntries: Record "Employee Ledger Entry";
+        PGSetup: Record "Payroll General Setup";
+        ImportPayrollAttrReport: Report "Import Payroll Attributes";
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
@@ -4254,46 +4257,121 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.Validate("Requested Date", Today);
         TempRetirementFund.Insert(true);
         if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then
-            PayCyclePeriod.SetRange("Start Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
+            PayCyclePeriod.SetRange("Pay Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
         else
             PayCyclePeriod.SetRange("Start Date", PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
         PayCyclePeriod.SetAutoCalcFields();
         PayCyclePeriod.SetRange(Posted, false);
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
-        DetailedEmpledger.SetLoadFields("Employee No.", "Posting Date", "Pay Cycle Term", "Pay Cycle Period");
-        DetailedEmpledger.SetRange("Employee No.", EmpCode);
-        DetailedEmpledger.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
-        DetailedEmpledger.SetRange(Reversed, false);
-        if DetailedEmpledger.FindFirst() then begin
-            TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term") - DetailedEmpledger."Pay Cycle Period";
-            //TempRetirementFund."Payroll Month" := Enum::"Nepali Month".FromInteger(DetailedEmpledger."Pay Cycle Period");
+
+        EmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
+        EmployeeLedgerEntries.SetRange("Employee No.", EmpCode);
+        EmployeeLedgerEntries.SetRange(Type, EmployeeLedgerEntries.Type::Payroll);
+        EmployeeLedgerEntries.SetFilter(Amount, '<>%1', 0);
+        if EmployeeLedgerEntries.FindLast() then begin
+            DetailedEmpledger.SetRange("Employee Ledger Entry No.", EmployeeLedgerEntries."Entry No.");
+            if DetailedEmpledger.FindFirst() then
+                TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term") - DetailedEmpledger."Pay Cycle Period"
+            else
+                TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
         end
-        else
-            TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
+        else begin
+            Clear(ImportPayrollAttrReport);
+            ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
+            ImportPayrollAttrReport.UseRequestPage(false);
+            ImportPayrollAttrReport.Run();
+            PayrollReportMgt.GetPayrollAttributes(Employee);
+            if (PRSetup."Payroll Fiscal Year Start Date" < Employee."Employment Date") and
+                            (PRSetup."Payroll Fiscal Year End Date" > Employee."Employment Date") then
+                TempRetirementFund."Projection Month" := PayrollReportMgt.GetFirstPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
+        end;
         Employee.Reset();
         Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
-        Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution");
+        Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution", "PF Contribution (Office)", "PF Contribution");
         PayrollReportMgt.GetAnnualAccessibleIncome(EmpCode, '', PayCyclePeriod."Pay Cycle Term",
-                                        TempRetirementFund."Annual Assessable Income",
-                                        TempRetirementFund."RF Contribution Eligible Amt",
-                                        TempRetirementFund."Provident Fund Projected");
+                                                   TempRetirementFund."Projection Month",
+                                        TempRetirementFund."Annual Assessable Income");
         if TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
             TempRetirementFund."RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
         else
             TempRetirementFund."RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
-        TempRetirementFund."Provident Fund Deposited" := Employee."PF Contribution" * 2;
-        TempRetirementFund."RF Contribution Deposited" := Employee."RF Deposit";
+        TempRetirementFund."Provident Fund Deposited" := Employee."PF Contribution (Office)" + Employee."PF Contribution";
+        TempRetirementFund."RF Contribution Deposited" := CalculateRFContributionDeposited(EmpCode, PayCyclePeriod."Pay Cycle Term");
         TempRetirementFund."CIT Contribution Deposited" := Employee."Total Retirement Contribution";
-        TempRetirementFund."Provident Fund Projected" := TempRetirementFund."Provident Fund Projected" - Employee."PF Contribution";
-        TempRetirementFund."Actual/Projected Contribution" := TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected" + TempRetirementFund."CIT Contribution Deposited";
+        TempRetirementFund."Provident Fund Projected" := CalculateProvidentFundProjected(EmpCode, TempRetirementFund."Projection Month");
+        TempRetirementFund."Actual/Projected Contribution" := TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected";
         TempRetirementFund."Additional Space for RF Cont." := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Actual/Projected Contribution", 0.01, '=');
-        TempRetirementFund."Recommended Monthly CIT/RF" := Round(TempRetirementFund."Additional Space for RF Cont." / TempRetirementFund."Projection Month", 0.01);
+        TempRetirementFund."Recommended Monthly CIT/RF" := CalculateValueNegtiveOrPostive(Round(TempRetirementFund."Additional Space for RF Cont." / TempRetirementFund."Projection Month", 0.01));
         CalculateRetirementFund(TempRetirementFund, TempRetirementFund."Projection Month");
         TempRetirementFund.Difference := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Total Deduction", 0.01, '=');
         TempRetirementFund.Modify;
         if GuiAllowed then
             PAGE.Run(PAGE::"Retirement Fund Card", TempRetirementFund)
+    end;
+
+    procedure CalculateRFContributionDeposited(EmployeeNo: Code[20]; PayCycleTerm: Code[20]): Decimal
+    var
+        DetailEmployeeLedgerEntries: Record "Detailed Employee Ledger Entry";
+        EmployeePayrollOpening: Record "Employee Payroll Opening";
+        Employee: Record Employee;
+    begin
+        DetailEmployeeLedgerEntries.SetRange("Employee No.", EmployeeNo);
+        DetailEmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCycleTerm);
+        DetailEmployeeLedgerEntries.SetRange("Attribute Type", DetailEmployeeLedgerEntries."Attribute Type"::Deduction);
+        DetailEmployeeLedgerEntries.SetFilter("Attribute Sub Type", '%1|%2|%3', DetailEmployeeLedgerEntries."Attribute Sub Type"::CIT, DetailEmployeeLedgerEntries."Attribute Sub Type"::RF, DetailEmployeeLedgerEntries."Attribute Sub Type"::"Lump Sum Contribution");
+        DetailEmployeeLedgerEntries.SetRange(Reversed, false);
+        DetailEmployeeLedgerEntries.CalcSums(Amount);
+
+        EmployeePayrollOpening.SetRange("Employee No.", EmployeeNo);
+        EmployeePayrollOpening.SetRange("Fiscal Year", PayCycleTerm);
+        if EmployeePayrollOpening.FindFirst() then;
+
+        Employee.Get(EmployeeNo);
+
+        exit(Abs(DetailEmployeeLedgerEntries.Amount) + EmployeePayrollOpening."Total RF Opening" + Employee."Lump Sum CIT" + Employee."Lumpsum CIT (Not Actual)" + Employee."Lumpsum RF (Not Actual)");
+    end;
+
+    procedure CalculateProvidentFundProjected(EmployeeNo: Code[20]; ProjectionMonth: Integer): Decimal
+    var
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+        TotalProvidentFundProjected: Decimal;
+        PayrollAttributes: Record "Payroll Attributes";
+        PayrollReportMgt: Codeunit "Payroll Report Mgt.";
+        Amount: Decimal;
+        AttributeAmount: Decimal;
+    begin
+        Clear(TotalProvidentFundProjected);
+        Clear(Amount);
+        Clear(AttributeAmount);
+        PayrollAttributes.SetRange(Type, PayrollAttributes.Type::Deduction);
+        PayrollAttributes.SetFilter(Subtype, '%1|%2', PayrollAttributes.Subtype::"Employee Contribution", PayrollAttributes.Subtype::"Employer Contribution");
+        if PayrollAttributes.FindSet() then
+            repeat
+                if PayrollAttributes.Formula <> '' then begin
+                    PayrollReportMgt.SetEmployeeCode(Employee."No.");
+                    AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
+                end;
+
+                PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
+                PayrollAttributesUsage.SetRange("Employee Code", EmployeeNo);
+                if PayrollAttributesUsage.FindSet() then
+                    repeat
+                        Amount += PayrollAttributesUsage.Amount;
+                    until PayrollAttributesUsage.Next() = 0;
+
+            until PayrollAttributes.Next() = 0;
+
+        TotalProvidentFundProjected := (Amount + AttributeAmount) * ProjectionMonth;
+        exit(TotalProvidentFundProjected)
+    end;
+
+    procedure CalculateValueNegtiveOrPostive(Amount: Decimal): Decimal
+    begin
+        if Amount >= 0 then
+            exit(Amount)
+        else
+            exit(0);
     end;
 
     procedure CalculateRetirementFund(var RF: Record "Retirement Fund"; ProjectionMonth: Integer)
@@ -5711,7 +5789,9 @@ codeunit 50001 "HR Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20]; EmpNo: Code[20]; ActDate: Date; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
+    local procedure OnBeforeInsertEmpActLedger(EmpActType: Enum "Employee Activity Type"; DocNo: Code[20];
+                                                               EmpNo: Code[20];
+                                                               ActDate: Date; var EmpActLedgerEntry: Record "Emp. Act. Ledger Entry")
     begin
     end;
 

@@ -235,11 +235,19 @@ table 50052 "Retirement Fund"
                     Error('RF Contribution record already exists for Employee %1 and Attribute %2', "Employee No.", "Attribute Code");
             end;
         }
+        field(301; "Access Token"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
         key(Key1; "No.") { }
+        key(Key2; "Access Token")
+        {
+
+        }
     }
     trigger OnInsert()
     var
