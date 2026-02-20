@@ -93,7 +93,12 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
+                OnBeforeValidateCGPA(Rec, IsHandled);
+                if IsHandled then
+                    exit;
                 if CGPA > "GPA Scale" then
                     Error('CGPA cannot be greater than GPA Scale');
             end;
@@ -111,5 +116,10 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             Employee.Get("Employee No.");
             "Employee Status" := Employee.Status;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidateCGPA(var EmployeeQualification: Record "Employee Qualification"; var IsHandled: Boolean)
+    begin
     end;
 }
