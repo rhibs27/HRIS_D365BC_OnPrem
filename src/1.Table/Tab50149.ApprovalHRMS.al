@@ -124,11 +124,16 @@ table 50149 "Approval HRMS"
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
+        AppraisalRec: Record Appraisal;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
                 if LeaveRequest.Get("Document No.") then
                     RecRef.GetTable(LeaveRequest);
+            //appraisal
+            "Document Type"::Appraisal:
+                if AppraisalRec.Get("Document No.") then
+                    RecRef.GetTable(AppraisalRec);
             "Document Type"::"Employee Edit":
                 if EmployeeEdit.Get("Document No.") then
                     RecRef.GetTable(EmployeeEdit);
@@ -200,11 +205,16 @@ table 50149 "Approval HRMS"
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
+        AppraisalRec: Record Appraisal;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
                 if LeaveRequest.Get("Document No.") then
                     RecRef.GetTable(LeaveRequest);
+            //appraisal
+            "Document Type"::Appraisal:
+                if AppraisalRec.Get("Document No.") then
+                    RecRef.GetTable(AppraisalRec);
             "Document Type"::"Employee Edit":
                 if EmployeeEdit.Get("Document No.") then
                     RecRef.GetTable(EmployeeEdit);
@@ -274,11 +284,16 @@ table 50149 "Approval HRMS"
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
+        AppraisalRec: Record Appraisal;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
                 if LeaveRequest.Get("Document No.") then
                     RecRef.GetTable(LeaveRequest);
+            //appraisal
+            "Document Type"::Appraisal:
+                if AppraisalRec.Get("Document No.") then
+                    RecRef.GetTable(AppraisalRec);
             "Document Type"::"Employee Edit":
                 if EmployeeEdit.Get("Document No.") then
                     RecRef.GetTable(EmployeeEdit);
