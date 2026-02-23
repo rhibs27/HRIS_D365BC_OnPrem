@@ -52,13 +52,13 @@ codeunit 50036 "Grievance Mgt"
     begin
         if Grievance."Approval Status" = Grievance."Approval Status"::Settled then
             Error(AlreadyResolved);
+        AddComment(Grievance."No.", 'Grievance approved and resolved.');
         Grievance.TestField("HR Remarks");
         Grievance.Validate("Approval Status", "Approval Status"::Settled);
         if Grievance."Resolution Date" = 0D then
             Grievance.Validate("Resolution Date", Today);
         Grievance.Validate("Resolved By", HRMgt.GetEmployeeNo());
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance approved and resolved.');
     end;
 
     procedure RejectGrievance(var Grievance: Record "Grievance Header")
