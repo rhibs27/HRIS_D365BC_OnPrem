@@ -101,14 +101,16 @@ page 50093 "Travel Requests"
                     if not SelectedRec.FindSet() then
                         Error('No records selected.');
                     repeat
-                        if SelectedRec."Approval Status" <> SelectedRec."Approval Status"::Approved then
-                            Error('All selected records must have Approval Status = Approved. Record %1 is not approved.', SelectedRec."No.");
+                        if (SelectedRec."Approval Status" <> SelectedRec."Approval Status"::Approved) OR (not SelectedRec."Advance Cash Required") then
+                            Error('All selected records must have Approval Status = Approved And "Advance Cash Required" must be True. Record %1', SelectedRec."No.");
                     until SelectedRec.Next() = 0;
 
                     if Confirm('Do you want to process the selected records?', false) then begin
                         SelectedRec.FindSet();
                         repeat
-                            SelectedRec.Validate("Advance Disbursed", not SelectedRec."Advance Disbursed");
+                            // Once disbursed, it should not be set advance Disbursed to false again
+                            // SelectedRec.Validate("Advance Disbursed", not SelectedRec."Advance Disbursed");
+                            SelectedRec.Validate("Advance Disbursed", true);
                             SelectedRec.Modify(true);
                         until SelectedRec.Next() = 0;
                         Message('Advance Disbursed field has been updated for selected records.');

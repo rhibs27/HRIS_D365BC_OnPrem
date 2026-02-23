@@ -431,12 +431,6 @@ table 50074 "Employee Edit"
             Caption = 'Passport Validity Date';
             Description = 'Official Document';
             DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                If "Passport Validity Date" > Today then
-                    Error('Passport Validity Date(AD) should not be a future.');
-            end;
-
         }
         field(79; "Claim Type"; Code[20])
         {
