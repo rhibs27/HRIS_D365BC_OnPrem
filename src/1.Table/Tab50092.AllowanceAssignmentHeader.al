@@ -151,7 +151,7 @@ table 50092 "Allowance Assignment Header"
             Editable = false;
             DataClassification = ToBeClassified;
         }
-        field(23; "Rejection Remarks"; Text[100])
+        field(23; "Rejection Remarks"; Text[250])
         {
             DataClassification = ToBeClassified;
         }

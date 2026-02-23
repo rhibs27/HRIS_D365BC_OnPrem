@@ -153,7 +153,7 @@ table 50093 "Allowance Assignment Line"
         {
             Editable = false;
         }
-        field(25; "Rejection Remarks"; Text[100]) { }
+        field(25; "Rejection Remarks"; Text[250]) { }
         field(26; Week; Enum WeekNumber) { }
         field(27; "Emp Act Type"; Enum "Employee Activity Type") { }
         field(28; "Allowance Claim From"; Code[20]) { }

@@ -88,6 +88,11 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Remote Area Category field.', Comment = '%';
                 }
+                field(Email; Rec.Email)
+                {
+                    ToolTip = 'Specifies the value of the Email field.', Comment = '%';
+                }
+
             }
         }
     }

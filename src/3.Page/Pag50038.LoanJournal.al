@@ -66,6 +66,10 @@ page 50038 "Loan Journal"
                 {
                     ToolTip = 'Specifies the value of the Yearly Premium Amount field.', Comment = '%';
                 }
+                field("Monthly Deduction"; Rec."Monthly Deduction")
+                {
+                    ToolTip = 'Specifies the value of the Monthly Deduction field.', Comment = '%';
+                }
                 field("Insurance Company"; Rec."Insurance Company")
                 {
                     ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';

@@ -2,7 +2,7 @@ codeunit 50000 "Leave Mgt."
 {
     procedure OpenLeaveRequest(EmpCode: Code[20])
     var
-        leaveRequest, LeaveRequest2 : record leave;
+        LeaveRequest, LeaveRequest2 : record leave;
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
@@ -13,13 +13,13 @@ codeunit 50000 "Leave Mgt."
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
         Employee.Get(EmpCode);
-        leaveRequest.Reset();
-        leaveRequest.SetRange("Employee No.", EmpCode);
-        leaveRequest.SetRange("Approval Status", leaveRequest."Approval Status"::open);
-        leaveRequest.SetRange(Type, leaveRequest.Type::"Leave Request");
-        if leaveRequest.Findfirst() then begin
+        LeaveRequest.Reset();
+        LeaveRequest.SetRange("Employee No.", EmpCode);
+        LeaveRequest.SetRange("Approval Status", LeaveRequest."Approval Status"::open);
+        LeaveRequest.SetRange(Type, LeaveRequest.Type::"Leave Request");
+        if LeaveRequest.Findfirst() then begin
             Message('This Employee Already has open Leave Request.Click Ok to Open');
-            PAGE.Run(PAGE::"Leave Request", leaveRequest)
+            Page.Run(Page::"Leave Request", LeaveRequest)
         end else begin
             LeaveRequest2.Init;
             LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
@@ -34,7 +34,7 @@ codeunit 50000 "Leave Mgt."
             LeaveRequest2.Validate(Department, Employee."Department Code");
             LeaveRequest2.Insert(true);
             if GuiAllowed then
-                PAGE.Run(PAGE::"Leave Request", LeaveRequest2);
+                Page.Run(Page::"Leave Request", LeaveRequest2)
         end;
     end;
 
@@ -1024,26 +1024,21 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure InsertLeaveEarnfromJournal(
-        LeaveCode: Code[20];
-        EmpNo: Code[20];
-        EarnType: Enum "Leave Earn Type";
-        Days: Decimal;
-        DocumentNo: Code[20];
-        RequestedDate: Date)
+    procedure InsertLeaveEarnfromJournal(LeaveJournal: Record "Employee Activity Journal")
     var
         LeaveEarn: Record "Leave Earn";
         HRMgt: Codeunit "HR Mgt.";
     begin
         LeaveEarn.Init;
-        LeaveEarn.Validate("Leave Code", LeaveCode);
-        LeaveEarn.Validate("Employee No.", EmpNo);
-        LeaveEarn.Validate(Type, EarnType);
-        LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(RequestedDate));
+        LeaveEarn.Validate("Leave Code", LeaveJournal."Leave Code");
+        LeaveEarn.Validate("Employee No.", LeaveJournal."Employee No.");
+        LeaveEarn.Validate(Type, LeaveJournal."Adjustment Type");
+        LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(LeaveJournal."Requested Date"));
         LeaveEarn.Validate("Posted Date", Today);
-        LeaveEarn.Validate("Balancing Days", Days);
-        LeaveEarn.Validate("Leave Request No", DocumentNo);
+        LeaveEarn.Validate("Balancing Days", LeaveJournal."No. of Days");
+        LeaveEarn.Validate("Leave Request No", LeaveJournal."Emp Act. No");
         LeaveEarn.Validate("Entry No.", GetNextLeaveLedgerEntryNo());
+        OnBeforeInsertLeaveEarnfromJournal(LeaveEarn, LeaveJournal);
         LeaveEarn.Insert(true);
     end;
 
@@ -1305,7 +1300,7 @@ codeunit 50000 "Leave Mgt."
                                             if LeaveTypeSetup."Calculate Proratawise" then begin
                                                 Clear(EmpConfDate);
                                                 //Use confirmation date for permanent, employment date for others
-                                                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Permanent) and
+                                                if (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent) and
                                                    (EmpVar."Confirmation Date" <> 0D) then
                                                     EmpConfDate := EmpVar."Confirmation Date"
                                                 else
@@ -1558,7 +1553,7 @@ codeunit 50000 "Leave Mgt."
     end;
 
     procedure CreateLeaveLedger(empCode: Code[20]; leaveCode: Code[20];
-                                       PostingDate: Date;
+                                       ApproveDate: Date;
                                        LeaveEarnType: Enum "Leave Earn Type";
                                                           BalanceDays: Decimal;
                                         entryNo: Integer;
@@ -1577,12 +1572,13 @@ codeunit 50000 "Leave Mgt."
         leaveLedger."Entry No." := entryNo;
         leaveLedger.Validate("Employee No.", empCode);
         leaveLedger.Validate("Leave Code", leaveCode);
-        leaveLedger.Validate("Posted Date", PostingDate);
+        leaveLedger.Validate("Posted Date", ApproveDate);
         leaveLedger.Validate(Type, LeaveEarnType);
         leaveLedger.Validate("Balancing Days", BalanceDays);
         leaveLedger.Validate("Leave Request No", ExtDocumentNo);
-        leaveLedger."Fiscal Year" := HRMgt.ReturnFiscalYear(PostingDate);
+        leaveLedger."Fiscal Year" := HRMgt.ReturnFiscalYear(ApproveDate);
         leaveLedger.Remarks := Remarks;
+        OnBeforeInsertLeaveLeaderOnApprove(leaveLedger);
         leaveLedger.Insert(true);
 
         if LeaveEarnType = LeaveEarnType::Encashed then begin
@@ -1716,7 +1712,7 @@ codeunit 50000 "Leave Mgt."
             NoofDays := EncashRequest."No. of Days";
         CreateLeaveLedger(EncashRequest."Employee No.",
                             EncashRequest."Leave Code",
-                            EncashRequest."Posting Date",
+                            EncashRequest."Approved Date",
                             "Leave Earn Type"::Encashed,
                             NoofDays,
                             GetNextLeaveLedgerEntryNo,
@@ -2022,7 +2018,7 @@ codeunit 50000 "Leave Mgt."
         PAGE.Run(PAGE::"Leave Encashment Card", EncashmentRequest);
     end;
 
-    procedure SendApprovalleaveEncashment(EncashmentRequest: Record "Encashment Request")
+    procedure SendApprovalleaveEncashment(var EncashmentRequest: Record "Encashment Request")
     var
         ApprovalHRMS: Record "Approval HRMS";
     begin
@@ -2122,6 +2118,17 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure CheckForConfirmationDate(LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled: Boolean)
+    begin
+
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertLeaveEarnfromJournal(var LeaveEarn: Record "Leave Earn"; LeaveJournal: Record "Employee Activity Journal")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertLeaveLeaderOnApprove(var LeaveEarn: Record "Leave Earn")
     begin
     end;
 
