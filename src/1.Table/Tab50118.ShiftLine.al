@@ -69,7 +69,7 @@ table 50118 "Shift Line"
                 TestField("Employee Work Shift");
             end;
         }
-        field(10; Remarks; Text[100])
+        field(10; Remarks; Text[250])
         {
             Caption = 'Remarks';
         }

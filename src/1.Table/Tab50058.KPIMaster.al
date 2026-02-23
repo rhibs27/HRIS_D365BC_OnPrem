@@ -15,37 +15,15 @@ table 50058 "KPI Master"
                 end;
             end;
         }
-        field(2; "KRA Category"; Code[50])
-        {
-            TableRelation = "Key Value Master".Code where(Type = filter("KRA Category"));
-        }
-        field(3; "Key Result Area"; Code[20])
-        {
-            TableRelation = "Key Value Master".Code where(Type = filter("Key Result Area"));
-        }
         field(4; "Weightage (%)"; Integer)
         {
             Description = 'Weightage given in percentage';
-
-            trigger OnValidate()
-            begin
-                /*Weightage := 0;
-                KPIMaster.Reset();
-                KPIMaster.SetRange("KRA No.","KRA No.");
-                IF KPIMaster.FindFirst() THEN
-                  repeat
-                    Weightage+=KPIMaster."Weightage (%)"- xRec."Weightage (%)" + "Weightage (%)";
-                  until KPIMaster.NEXT = 0;
-
-                IF Weightage>=AppraisalSetup.Weightage THEN
-                  ERROR(Text001, AppraisalSetup.Weightage);*/
-            end;
         }
         field(5; "Target Assigned"; Integer)
         {
             Description = 'Target always given as 100';
         }
-        field(6; Remarks; Text[150]) { }
+        field(6; Remarks; Text[250]) { }
         field(7; "Appraisal Type"; Enum "Appraisal Type")
         {
             trigger OnValidate()
@@ -76,7 +54,6 @@ table 50058 "KPI Master"
         field(13; "Created Date"; Date)
         {
             Editable = false;
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -95,9 +72,6 @@ table 50058 "KPI Master"
     {
         key(Key1; "KPI No.") { }
     }
-
-    fieldgroups { }
-
     trigger OnInsert()
     begin
         if "KPI No." = '' then begin
@@ -112,21 +86,8 @@ table 50058 "KPI Master"
     end;
 
     var
-        KPIMaster: Record "KPI Master";
         EngNepDate: Record "English-Nepali Date";
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
         HrMgt: Codeunit "HR Mgt.";
-
-    procedure AssistEdit(OldKPI: Record "KPI Master"): Boolean
-    begin
-        KPIMaster := Rec;
-        HRSetup.Get;
-        HRSetup.TestField("KPI No. Series"); /* candidate nos not present in HRsetup table*/
-        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."KPI No. Series", OldKPI."No. Series", KPIMaster."No. Series") then begin
-            NoSeriesMgt.GetNextNo(KPIMaster."KPI No.");
-            Rec := KPIMaster;
-            exit(true);
-        end;
-    end;
 }

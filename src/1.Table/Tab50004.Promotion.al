@@ -111,8 +111,8 @@ table 50004 Promotion
         {
             TableRelation = "No. Series";
         }
-        field(53; "Remarks"; Text[100]) { }
-        field(54; "Rejection Remarks"; Text[100]) { }
+        field(53; "Remarks"; Text[250]) { }
+        field(54; "Rejection Remarks"; Text[250]) { }
         field(55; "Approved Date"; Date)
         {
             Editable = false;

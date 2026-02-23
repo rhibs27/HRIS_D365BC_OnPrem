@@ -362,7 +362,7 @@ page 50097 "Training Card"
                         RatingSetup.SetFilter(From, '<=%1', Rec."Trainer Percent");
                         RatingSetup.SetFilter("To", '>=%1', Rec."Trainer Percent");
                         if RatingSetup.FindFirst then
-                            Rec.Validate("Trainer Remarks", Format(RatingSetup.Remarks));
+                            Rec.Validate("Trainer Remarks", Format(RatingSetup.Rating));
                     end;
                 }
                 field("Trainer Remarks"; Rec."Trainer Remarks")

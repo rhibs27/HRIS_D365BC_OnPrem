@@ -146,7 +146,7 @@ table 50153 "Cancel Document"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
+        field(14; Remarks; Text[250])
         {
             trigger OnValidate()
             begin
@@ -229,7 +229,7 @@ table 50153 "Cancel Document"
         field(33; "Payroll No."; Code[20]) { }
         field(34; Ecosystem; Code[20]) { }
         field(35; "Office Code"; Code[20]) { }
-        field(36; "Rejection Remarks"; Text[100]) { }
+        field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
         field(38; "Approver Type"; Option)
         {

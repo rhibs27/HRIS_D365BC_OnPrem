@@ -109,6 +109,10 @@ table 50147 "Organization Structure List"
         field(34; "Address"; Text[100]) { }
         field(35; "Fax No"; Text[100]) { }
         field(36; "NRB No"; Text[20]) { }
+        field(37; Email; Text[80])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

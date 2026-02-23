@@ -20,8 +20,8 @@ table 50065 "KPI Actions"
             Editable = false;
         }
         field(6; "Action Comment"; Text[100]) { }
-        field(7; "Appraisal I's Remarks"; Text[100]) { }
-        field(8; "Appraisal II's Remarks"; Text[100]) { }
+        field(7; "Appraisal I's Remarks"; Text[250]) { }
+        field(8; "Appraisal II's Remarks"; Text[250]) { }
     }
 
     keys

@@ -10,7 +10,7 @@ table 50105 "Promotion Eligibilty Criteria"
         }
         field(2; "Appraisal Remarks"; Text[30])
         {
-            TableRelation = "Rating Setup".Remarks where(Type = const(Appraisal));
+            TableRelation = "Rating Setup".Rating where(Type = const(Appraisal));
         }
         field(3; "Services Experience"; Decimal)
         {
