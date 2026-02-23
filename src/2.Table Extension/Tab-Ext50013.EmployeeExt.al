@@ -1240,8 +1240,9 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50137; "Functional Title Desc"; Text[100])
         {
-            DataClassification = CustomerContent;
             Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = lookup("Functional Title".Description where(Code = field("Functional Title")));
         }
         field(50138; "Salary Level Description"; Text[50])
         {
@@ -1660,6 +1661,7 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         LeaveMgt.OpenLeaveRequest("No.");
     end;
+
     procedure TravelRequest();
     var
         EmployeeAct: enum "Employee Activity Type";
