@@ -1710,7 +1710,7 @@ table 50027 "Payroll Line"
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
-            until PayrollAttributesUsage.Next = 0;
+            until PayrollAttributesUsage.Next = 0;  
     end;
 
     procedure GetOneTimeRFContributionAmount(PayrollAttributesCode: Code[20]): Decimal
@@ -3006,12 +3006,12 @@ table 50027 "Payroll Line"
         exit(DetailedEmployeeLedgerEntry.Amount);
     end;
 
-    // procedure CalculatePayrollLine(var PayrollHeader: Record "Payroll Header"; Var PayrollLine: Record "Payroll Line")
-    // var
-    //     PayrollEngine: Codeunit "Payroll Engine";
-    // begin
-    //     PayrollEngine.InitPayrollLine(PayrollLine);
-    // end;
+    procedure CalculatePayrollLine(var PayrollHeader: Record "Payroll Header"; Var PayrollLine: Record "Payroll Line")
+    var
+        PayrollEngine: Codeunit "Payroll Engine";
+    begin
+        PayrollEngine.InitPayrollLine(PayrollLine);
+    end;
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")

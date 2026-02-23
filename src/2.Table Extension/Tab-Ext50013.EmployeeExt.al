@@ -245,7 +245,6 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50012; "Tax Code"; Code[20])
         {
-            // TableRelation = "Tax Setup Header";
             TableRelation = "Tax Setup Header".Code where(Gender = field(Gender));
             DataClassification = CustomerContent;
             Editable = true;
