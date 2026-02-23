@@ -82,17 +82,18 @@ codeunit 50030 "Assignment Memo Mgt"
                         AssignmentMemoLine."Approval Status" := AssignmentMemoLine."Approval Status"::Approved;
                         AssignmentMemoLine.Modify();
 
-                    //create assignment memo ledger entry
-                    CheckSkipAssignmentLedgerCreation(AssignmentMemoLine, SkipAssignmentLedgerCreation);
-                    if not SkipAssignmentLedgerCreation then
-                        CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
-                until AssignmentMemoLine.Next() = 0;
-            if not ((AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo") or (AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo")) then
-                CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
-            OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
+                        //create assignment memo ledger entry
+                        CheckSkipAssignmentLedgerCreation(AssignmentMemoLine, SkipAssignmentLedgerCreation);
+                        if not SkipAssignmentLedgerCreation then
+                            CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
+                    until AssignmentMemoLine.Next() = 0;
+                if not ((AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo") or (AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo")) then
+                    CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
+                OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
+            end;
         end;
     end;
-
+    
     procedure CreateAssignmentMemoLedgerEntry(DocumentNo: Code[20]; lineNo: Integer)
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";

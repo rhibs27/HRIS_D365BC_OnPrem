@@ -1,4 +1,4 @@
-enum 50128 "Alternative Approval Workflow"
+enum 50060 "Alternative Approval Workflow"
 {
     Extensible = true;
     value(0; "Primary Approver")
