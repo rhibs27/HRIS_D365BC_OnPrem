@@ -80,7 +80,7 @@ table 50142 Resignation
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
+        field(14; Remarks; Text[250])
         {
         }
         field(15; "User ID"; Text[50])

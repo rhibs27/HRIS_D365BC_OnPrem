@@ -84,8 +84,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     if not SkipAssignmentLedgerCreation then
                         CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
                 until AssignmentMemoLine.Next() = 0;
-
-            CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
+            if not ((AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo") or (AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo")) then
+                CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
             OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
         end;
     end;
@@ -186,6 +186,7 @@ codeunit 50030 "Assignment Memo Mgt"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
         IsHandled: Boolean;
+        OrganizationalStructureList: Record "Organization Structure List";
     begin
         ProcessAssignmentRequestFromCopyTable(AssignmentmemoHdr, IsHandled);
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
@@ -237,11 +238,13 @@ codeunit 50030 "Assignment Memo Mgt"
             until AssignmentMemoLine.Next() = 0;
 
         //final check allowance amount 
+        OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, AssignmentmemoHdr."Branch Code");
         AssignmentMemoLine.Reset();
         AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
         AssignmentMemoLine.SetRange("Allowance Amount", 0);
         if not AssignmentMemoLine.IsEmpty() then
-            Error('allowance amount cannot be zero for any line.');
+            //Error('allowance amount cannot be zero for any line.');
+            Error('%1 is not eligible for %2.', OrganizationalStructureList.Name, AssignmentMemoLine."Payroll Attribute Description");
 
         //In case of substitute, open the approval for substitute
         if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Pending then begin
@@ -260,6 +263,7 @@ codeunit 50030 "Assignment Memo Mgt"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
         IsHandled: Boolean;
+        OrganizationalStructureList: Record "Organization Structure List";
     begin
         ProcessAssignmentRequestFromCopyTable(AssignmentmemoHdr, IsHandled);
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
@@ -311,11 +315,14 @@ codeunit 50030 "Assignment Memo Mgt"
             until AssignmentMemoLine.Next() = 0;
 
         //final check allowance amount 
+        OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, AssignmentmemoHdr."Branch Code");
         AssignmentMemoLine.Reset();
         AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
         AssignmentMemoLine.SetRange("Allowance Amount", 0);
         if not AssignmentMemoLine.IsEmpty() then
-            Error('allowance amount cannot be zero for any line.');
+            //Error('allowance amount cannot be zero for any line.');
+             Error('%1 is not eligible for %2.', OrganizationalStructureList.Name, AssignmentMemoLine."Payroll Attribute Description");
+
 
         //In case of substitute, open the approval for substitute
         if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Pending then begin
@@ -872,6 +879,7 @@ codeunit 50030 "Assignment Memo Mgt"
         IncomingDoc.Init;
         IncomingDoc.Validate(Type, IncomingDoc.Type::" ");
         IncomingDoc.Validate("No.", No);
+
         IncomingDoc.Validate("Employee Activity Type", EmpActType);
         IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
         IncomingDoc.Validate(Description, Format(EmpActType) + ': ' + Format(AttachmentSetup."Attachment Code") + '-' + Format(No));
@@ -909,8 +917,11 @@ codeunit 50030 "Assignment Memo Mgt"
                 IncomingDoc.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
                 IncomingDoc.SetRange("Document No.", AssignmentmemoHdr."No.");
                 IncomingDoc.SetRange("Employee Activity Type", AssignmentmemoHdr."Activity Type");
-                if IncomingDoc.IsEmpty() then
-                    Error('Mandatory attachment %1 is missing. Please attach before sending for approval.', AttachmentSetup."Attachment Code");
+                if IncomingDoc.FindSet() then
+                    repeat
+                        IF (IncomingDoc."File Name" = '') OR (IncomingDoc."Attachment Code" = '') then
+                            Error('Mandatory attachment %1 is missing. Please attach before sending for approval.', AttachmentSetup."Attachment Code");
+                    until IncomingDoc.Next() = 0;
             until AttachmentSetup.Next() = 0;
     end;
 
