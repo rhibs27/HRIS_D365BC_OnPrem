@@ -1,4 +1,4 @@
-enum 50128 "Allowance days basedOn"
+enum 50060 "Allowance days basedOn"
 {
     Extensible = true;
 
