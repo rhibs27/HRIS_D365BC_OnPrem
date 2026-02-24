@@ -1,8 +1,6 @@
 table 50036 "Payroll Attributes Usage"
 {
     DataClassification = CustomerContent;
-    // version PRM19.01.01
-
     fields
     {
         field(1; "Code"; Code[20])
@@ -20,7 +18,15 @@ table 50036 "Payroll Attributes Usage"
         }
         field(2; "Employee Code"; Code[20])
         {
-            TableRelation = Employee;
+            TableRelation = Employee."No.";
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                if Employee.Get("Employee Code") then
+                    Validate("Employee Name", Employee."Full Name");
+            end;
+
         }
         field(3; Type; Enum "Payroll Type")
         {
@@ -109,11 +115,9 @@ table 50036 "Payroll Attributes Usage"
         field(15; "Last EMI Date"; Date) { }
         field(16; "Start Date"; Date)
         {
-            //Editable = false;
         }
         field(17; "End Date"; Date)
         {
-            //Editable = false;
         }
         field(20; "Static Amount"; Boolean)
         {
@@ -140,6 +144,10 @@ table 50036 "Payroll Attributes Usage"
         {
             CalcFormula = lookup("Payroll Attributes"."Deduct on Absent" where(Code = field(Code)));
             FieldClass = FlowField;
+            Editable = false;
+        }
+        field(25; "Employee Name"; Text[100])
+        {
             Editable = false;
         }
     }

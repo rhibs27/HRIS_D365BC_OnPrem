@@ -1508,31 +1508,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PAGE.RUN(PAGE::"Candidate Card", Candidate);
                     end;
                 }
-                // action("Request Appraisal")
-                // {
-                //     ApplicationArea = All;
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = List;
-                //     PromotedCategory = Category4;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Request Appraisal action.';
-                //     trigger OnAction()
-                //     begin
-                //         AppraisalRec.Reset();
-                //         AppraisalRec.SetRange("Employee Code", Rec."No.");
-                //         IF NOT AppraisalRec.FindFirst() THEN begin
-                //             AppraisalRec.INIT;
-                //             AppraisalRec.VALIDATE("Employee Code", Rec."No.");
-                //             AppraisalRec.INSERT(TRUE);
-                //             PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
-                //         END
-                //         ELSE
-                //             PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
-                //     end;
-                // }
-
-                //Appraisal Changes
                 action("Request Appraisal")
                 {
                     ApplicationArea = All;
@@ -1540,15 +1515,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedIsBig = true;
                     Image = List;
                     PromotedCategory = Category4;
+                    PromotedOnly = true;
                     ToolTip = 'Executes the Request Appraisal action.';
                     trigger OnAction()
-                    var
-                        AppraisalMgt: Codeunit "AppraisalMgt.";
                     begin
-                        AppraisalMgt.OpenAppraisalRequest(Rec."No.");
+                        AppraisalRec.Reset();
+                        AppraisalRec.SetRange("Employee Code", Rec."No.");
+                        IF NOT AppraisalRec.FindFirst() THEN begin
+                            AppraisalRec.INIT;
+                            AppraisalRec.VALIDATE("Employee Code", Rec."No.");
+                            AppraisalRec.INSERT(TRUE);
+                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
+                        END
+                        ELSE
+                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
                     end;
                 }
-
                 action("Promote Employee")
                 {
                     ApplicationArea = All;
@@ -1779,22 +1761,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory.RUN;
                     end;
                 }
-
-                // action("Show Leave Earn")
-                // {
-                //     ApplicationArea = All;
-                //     RunObject = Page "Leave Earn";
-                //     RunPageLink = "Employee No." = FIELD("No.");
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = AbsenceCategory;
-                //     PromotedCategory = Category6;
-                //     ToolTip = 'Executes the Show Leave Earn action.';
-                //     trigger OnAction()
-                //     begin
-
-                //     end;
-                // }
+                action("Leave History")
+                {
+                    ApplicationArea = All;
+                    RunObject = Page "Leave Earn";
+                    RunPageLink = "Employee No." = FIELD("No.");
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    RunPageMode = View;
+                    Image = AbsenceCategory;
+                    PromotedCategory = Category6;
+                    ToolTip = 'Executes the Show Leave Earn action.';
+                }
                 action("Promotion History")
                 {
                     ApplicationArea = All;

@@ -121,7 +121,7 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100]) { }
+        field(14; Remarks; Text[250]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -193,7 +193,7 @@ table 50140 "Employee Transfer"
         {
             Editable = false;
         }
-        field(36; "Rejection Remarks"; Text[100]) { }
+        field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
         field(38; "Branch Name To"; Text[100])
         {
@@ -245,7 +245,7 @@ table 50140 "Employee Transfer"
         }
         field(49; "Reason Description"; Text[50]) { }
         field(50; Description; Text[250]) { }
-        field(51; "Screener Remarks"; Text[100]) { }
+        field(51; "Screener Remarks"; Text[250]) { }
         field(52; "Transfer Type"; Enum "Transfer Type")
         {
             trigger OnValidate()
