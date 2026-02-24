@@ -563,14 +563,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Province Name - Property Caption</note>
         </trans-unit>
-<<<<<<< HEAD
         <trans-unit id="Table 1691263759 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Rejection Remarks - Property Caption</note>
         </trans-unit>
-=======
->>>>>>> eccab9ffaeb5242a9eab011cc4a8dc40fd900cbc
         <trans-unit id="Table 1691263759 - Field 3923785511 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reportees Comments</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12086,6 +12083,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field District Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 1285973296 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Email - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 2202210442 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fax No</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22751,10 +22753,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckPendingAppraisal - NamedType AppraisalError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 940807328" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to Approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleErrors</note>
+        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 1613818109 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSaas - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -36221,135 +36233,135 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1222651328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Appraisal Subtype Monthly</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control appraisalSubtypeMonthly - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3198034764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Appraisal Subtype Quarterly</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control appraisalSubtypeQuarterly - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 965214487 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Appraisal Template</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control appraisalTemplate - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1292615319 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Appraisal Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control appraisalType - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control employeeName - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control employeeNo - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 683193535 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Fiscal Year</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control fiscalYear - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 231297818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Group Based</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control groupBased - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3559246864 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Self Review</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control isSelfReview - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 2165425934 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KPI</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control kpi - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1686474705 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KPI Master Remarks</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control kpiMasterRemarks - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3484096565 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KPI No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control kpiNo - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1172592135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KPI Rating Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control kpiRatingType - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 302665908 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>KRA</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control kra - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1294919425 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Line No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control lineNo - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1984415064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Max Score</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control maxScore - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3179096107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 453662376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal No</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control no - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Appraisal No - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3961666699 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 1182255424 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal Subtype Monthly</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Appraisal Subtype Monthly - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 2666788556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal Subtype Quarterly</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Appraisal Subtype Quarterly - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 3963152023 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal Template</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Appraisal Template - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 434861079 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Appraisal Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 387747209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Employee Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 443798026 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Group Based</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Group Based - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 2747021872 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is Self Review</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control IsSelfReview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 1205360046 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KPI</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control KPI - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 2372355857 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KPI Master Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control KPI Master Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 1163977215 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KPI No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control KPI No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 4190033199 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KPI Rating Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control KPI Rating Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 3595990612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KRA</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control KRA - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 2369021616 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Max Score</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Max Score - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 3269646418 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Questionnaire/Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control questionnaireDescription - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Questionnaire/Description - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1156968153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 2689469945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rating</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control rating - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Rating - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control remarks - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Remarks - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3265757708 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 4045207948 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reviewer Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control reviewerCode - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Reviewer Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3158350519 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 3937800759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reviewer Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control reviewerType - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Reviewer Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3354889836 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 2219487564 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Score</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control score - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Score - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 3080690038 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 967450814 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Score Total</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control scoreTotal - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Score Total - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 1885468722 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 3738083610 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Self Rating Applicable</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control selfRatingApplicable - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Self Rating Applicable - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 745501741 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4178697644 - Control 696366349 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Weightage</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control weightage - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control Weightage - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3089246053 - Control 3543129988 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Blocked field.</source>
@@ -38540,6 +38552,11 @@
           <source>Specifies the value of the District Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control District Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 198483192 - Control 1285973296 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Email field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Email - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 198483192 - Control 2202210442 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fax No Field</source>

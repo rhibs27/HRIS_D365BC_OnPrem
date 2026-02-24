@@ -13,86 +13,86 @@ page 50393 "KPI Employee"
         {
             repeater(Group)
             {
-                field(no; Rec."Appraisal Code")
+                field("Appraisal No"; Rec."Appraisal Code")
                 {
                     caption = 'Appraisal No';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(fiscalYear; Rec."Fiscal Year")
+                field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     Caption = 'Fiscal Year';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(lineNo; Rec."Line No.")
+                field("Line No."; Rec."Line No.")
                 {
                     Caption = 'Line No';
                     ApplicationArea = All;
                     Editable = False;
                     Visible = false;
                 }
-                field(kpiNo; Rec."KPI No.")
+                field("KPI No."; Rec."KPI No.")
                 {
                     Caption = 'KPI No';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(employeeNo; Rec."Employee Code")
+                field("Employee Code"; Rec."Employee Code")
                 {
                     Caption = 'Employee No';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(employeeName; Rec."Employee Name")
+                field("Employee Name"; Rec."Employee Name")
                 {
                     Caption = 'Employee Name';
                     Editable = False;
                 }
-                field(kra; Rec."KRA")
+                field("KRA"; Rec."KRA")
                 {
                     Caption = 'KRA';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(kpi; Rec."KPI")
+                field("KPI"; Rec."KPI")
                 {
                     Caption = 'KPI';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(appraisalTemplate; Rec."Appraisal Template")
+                field("Appraisal Template"; Rec."Appraisal Template")
                 {
                     Caption = 'Appraisal Template';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(appraisalType; Rec."Appraisal Type")
+                field("Appraisal Type"; Rec."Appraisal Type")
                 {
                     Caption = 'Appraisal Type';
                     ApplicationArea = All;
                     Editable = False;
 
                 }
-                field(appraisalSubtypeMonthly; Rec."Appraisal Subtype Monthly")
+                field("Appraisal Subtype Monthly"; Rec."Appraisal Subtype Monthly")
                 {
                     Caption = 'Appraisal Subtype Monthly';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(appraisalSubtypeQuarterly; Rec."Appraisal Subtype Quarterly")
+                field("Appraisal Subtype Quarterly"; Rec."Appraisal Subtype Quarterly")
                 {
                     Caption = 'Appraisal Subtype Quarterly';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field("questionnaireDescription"; Rec."Questionnaire/Description")
+                field("Questionnaire/Description"; Rec."Questionnaire/Description")
                 {
                     Caption = 'Questionnaire/Description';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(kpiRatingType; Rec."KPI Rating Type")
+                field("KPI Rating Type"; Rec."KPI Rating Type")
                 {
                     Caption = 'KPI Rating Type';
                     ApplicationArea = All;
@@ -109,7 +109,7 @@ page 50393 "KPI Employee"
                         CurrPage.Update();
                     end;
                 }
-                field(score; Rec.Score)
+                field(Score; Rec.Score)
                 {
                     Caption = 'Score';
                     ApplicationArea = All;
@@ -119,43 +119,43 @@ page 50393 "KPI Employee"
                         CurrPage.SaveRecord();
                     end;
                 }
-                field(scoreTotal; Rec."Score Total")
+                field("Score Total"; Rec."Score Total")
                 {
                     Caption = 'Score Total';
                     ApplicationArea = All;
                     Visible = false;
                 }
-                field(rating; Rec.Rating)
+                field(Rating; Rec.Rating)
                 {
                     Caption = 'Rating';
                     ApplicationArea = All;
                     Editable = (not IsReviewerSubmitted) and (Rec."KPI Rating Type" = Rec."KPI Rating Type"::Rating);
                 }
-                field(remarks; Rec.Remarks)
+                field(Remarks; Rec.Remarks)
                 {
                     Caption = 'Remarks';
                     ApplicationArea = All;
                     Editable = not IsReviewerSubmitted;
                 }
-                field(reviewerType; Rec."Reviewer Type")
+                field("Reviewer Type"; Rec."Reviewer Type")
                 {
                     Caption = 'Reviewer Type';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field(reviewerCode; Rec."Reviewer Code")
+                field("Reviewer Code"; Rec."Reviewer Code")
                 {
                     Caption = 'Reviewer Code';
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field(weightage; Rec."Weightage")
+                field("Weightage"; Rec."Weightage")
                 {
                     Caption = 'Weightage';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(maxScore; Rec."Max Score")
+                field("Max Score"; Rec."Max Score")
                 {
                     Caption = 'Max Score';
                     ApplicationArea = All;
@@ -166,25 +166,25 @@ page 50393 "KPI Employee"
                             Error('Max score should be equal to or greater than Score Value');
                     end;
                 }
-                field(groupBased; Rec."Group Based")
+                field("Group Based"; Rec."Group Based")
                 {
                     Caption = 'Group Based';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(selfRatingApplicable; Rec."Self Rating Applicable")
+                field("Self Rating Applicable"; Rec."Self Rating Applicable")
                 {
                     Caption = 'Self Rating Applicable';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(kpiMasterRemarks; Rec."KPI Master Remarks")
+                field("KPI Master Remarks"; Rec."KPI Master Remarks")
                 {
                     Caption = 'KPI Master Remarks';
                     ApplicationArea = All;
                     Editable = False;
                 }
-                field(isSelfReview; IsSelfReview)
+                field(IsSelfReview; IsSelfReview)
                 {
                     //Visible=false;
                     Editable = false;
