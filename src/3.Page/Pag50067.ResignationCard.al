@@ -198,7 +198,6 @@ page 50067 "Resignation Card"
                     CurrPage.Close();
                 end;
             }
-
             action("Approve Request")
             {
                 Image = Approve;
@@ -277,20 +276,25 @@ page 50067 "Resignation Card"
                     end;
                 end;
             }
-            action(Print)
+            action("Resignation Acceptance Letter")
             {
-                Image = Print;
-                Promoted = true;
-                PromotedCategory = "Report";
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Print action.';
                 ApplicationArea = All;
-                // trigger OnAction()
-                // begin
-                //     CurrPage.SetSelectionFilter(Rec);
-                //     Report.Run(Report::"Resignation Memo", true, false, Rec);
-                // end;
+                Promoted = true;
+                PromotedIsBig = true;
+                Visible = IsApproved;
+                Image = Report;
+                PromotedCategory = Report;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Resignation Acceptance Letter action.';
+                trigger OnAction()
+                var
+                    Resignation: Record Resignation;
+                begin
+                    Resignation.SetRange("No.", Rec."No.");
+                    IF Resignation.FindFirst() THEN begin
+                        REPORT.RunModal(Report::"Resignation Acceptance Letter", true, true, Resignation);
+                    end;
+                end;
             }
         }
     }
