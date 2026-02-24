@@ -1944,33 +1944,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     end;
                 end;
             }
-            action("Resignation Acceptance Letter")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Visible = Rec.Status = Rec.Status::Terminated;
-                Image = Report;
-                PromotedCategory = Report;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Resignation Acceptance Letter action.';
-
-                trigger OnAction()
-                var
-                    Resignation: Record Resignation;
-                begin
-                    Resignation.SetRange("Employee No.", Rec."No.");
-                    IF Resignation.FindLast() THEN
-                        Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
-
-                    Employee.Reset();
-                    Employee.SetRange("No.", Rec."No.");
-                    IF Employee.FindFirst() THEN begin
-                        Employee.TestField(Salutation);
-                        REPORT.RUN(Report::"Resignation Acceptance Letter", TRUE, TRUE, Employee);
-                    end;
-                end;
-            }
             action("Resignation Release Letter")
             {
                 ApplicationArea = All;

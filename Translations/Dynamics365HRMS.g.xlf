@@ -46928,15 +46928,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Action Approve Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2288209159 - Action 1002420131 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Print action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Action Print - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2288209159 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2288209159 - Action 551051882 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Resignation Acceptance Letter action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Action Resignation Acceptance Letter - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2288209159 - Action 1521866117 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Return Resignation action.</source>
@@ -54304,12 +54304,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Text002</note>
         </trans-unit>
         <trans-unit id="Report 551051882 - NamedType 95063322" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Hand-over the Bank's Identity Card to the DNA &amp; Talent Management Department.</source>
+          <source>Hand-over the Bank's Identity Card.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Text003</note>
         </trans-unit>
         <trans-unit id="Report 551051882 - NamedType 732759939" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Submit Handover Note as per Handover and Takeover Guideline 2019.</source>
+          <source>Submit Handover Note as per Handover and Takeover Guideline.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Resignation Acceptance Letter - NamedType Text004</note>
         </trans-unit>
@@ -56087,11 +56087,6 @@
           <source>Executes the Employee Experience Letter action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Employee Experience Letter - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 551051882 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Resignation Acceptance Letter action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Resignation Acceptance Letter - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2757392290 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Resignation Release Letter action.</source>

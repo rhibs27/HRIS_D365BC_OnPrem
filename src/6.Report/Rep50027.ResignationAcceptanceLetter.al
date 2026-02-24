@@ -8,7 +8,7 @@ report 50027 "Resignation Acceptance Letter"
 
     dataset
     {
-        dataitem(Employee; Employee)
+        dataitem(Resignation; Resignation)
         {
             column(FullName_Employee; Header) { }
             column(Declaration; Subject) { }
@@ -35,7 +35,7 @@ report 50027 "Resignation Acceptance Letter"
                 RequestedResignDate := 0D;
                 AcceptedResignDate := 0D;
                 BodyText := '';
-
+                Employee.Get(Resignation."Employee No.");
                 EmploymentType := Format(Employee."Salary Level Description") + ' Staff,';
                 WorkStationText := HRMgt.WorkStationFunction(Employee);
 
@@ -56,7 +56,7 @@ report 50027 "Resignation Acceptance Letter"
                               StrSubstNo(Text002, RequestedResignDate, NL, AcceptedResignDate, NL, NL);
                 ClosureText := StrSubstNo(Text006, NL);
                 SignOffText := StrSubstNo(Text008, NL);
-                Header := StrSubstNo(Text001, Salutation, Employee."Full Name");
+                Header := StrSubstNo(Text001, Employee.Salutation, Employee."Full Name");
             end;
         }
     }
@@ -88,7 +88,7 @@ report 50027 "Resignation Acceptance Letter"
         Text008: Label 'Authorized Signature %1 Human Resource Management Department';
         NL: Text;
         BodyText: Text;
-        Resignation: Record Resignation;
+        Employee: Record Employee;
         RequestedResignDate: Date;
         AcceptedResignDate: Date;
         ClosureText: Text;
