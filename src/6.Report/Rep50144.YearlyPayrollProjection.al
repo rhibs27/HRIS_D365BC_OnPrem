@@ -1245,12 +1245,11 @@ report 50144 "Yearly Payroll Projection"
 
                         if PayrollAttrUsage."RF Contribution Type" = PayrollAttrUsage."RF Contribution Type"::Manual then begin
                             RetirementFundHdr.SetRange("Employee No.", PayrollAttrUsage."Employee Code");
+                            RetirementFundHdr.SetRange("Attribute Code", PayrollAttrUsage.Code);
                             RetirementFundHdr.SetRange("Approval Status", RetirementFundHdr."Approval Status"::Approved);
                             if RetirementFundHdr.FindLast() then;
 
                             RFContributionLines.SetRange("Document No.", RetirementFundHdr."No.");
-                            RFContributionLines.SetRange("Employee No.", PayrollAttrUsage."Employee Code");
-                            RFContributionLines.SetRange("Attribute Code", PayrollAttrUsage.Code);
                             RFContributionLines.SetRange("Pay Cycle Period", i);
                             if RFContributionLines.FindFirst() then
                                 CalculatedAmount := RFContributionLines.Amount;
