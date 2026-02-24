@@ -208,6 +208,7 @@ codeunit 50006 "Resignation Mgt"
     begin
         Resignation.Get(resignationCode);
         HRSetup.Get();
+        Resignation.TestField("HR Proposed Date");
         if not HRSetup."Hide Clearance Approver" then
             InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
