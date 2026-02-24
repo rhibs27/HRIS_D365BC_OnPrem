@@ -637,22 +637,4 @@ codeunit 50003 "AppraisalMgt."
         end;
         exit(false);
     end;
-
-    procedure SubmitScoreDetails(appraisalCode: Code[20]; accessToken: Code[60])
-    var
-        ScoreDetail: Record "Score Detail";
-        ReviewerNo: Code[20];
-        SaasMgt: Codeunit SaaSLoginMgmt;
-    begin
-        ReviewerNo := SaasMgt.DecryptCode(accessToken);
-        ScoreDetail.Reset();
-        ScoreDetail.SetRange("Appraisal Code", appraisalCode);
-        ScoreDetail.SetRange("Score/Rating By", ReviewerNo);
-        if ScoreDetail.FindSet() then
-            repeat
-                ScoreDetail.Submitted := true;
-                ScoreDetail."Submitted Date" := Today;
-                ScoreDetail.Modify();
-            until ScoreDetail.Next() = 0;
-    end;
 }
