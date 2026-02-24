@@ -64,7 +64,7 @@ table 50119 "Service Inactivity Ledger"
         {
             Caption = 'Source Doc No';
         }
-        field(8; Remarks; Text[100])
+        field(8; Remarks; Text[250])
         {
             Caption = 'Remarks';
         }

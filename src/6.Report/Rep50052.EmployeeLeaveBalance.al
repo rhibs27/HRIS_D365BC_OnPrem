@@ -3,6 +3,7 @@ report 50052 "Employee Leave Balance"
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep50052.EmployeeLeaveBalance.rdl';
     ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
 
     dataset
     {
@@ -33,6 +34,12 @@ report 50052 "Employee Leave Balance"
                 column(EarnedLeave; Format(EarnedLeave)) { }
 
                 trigger OnAfterGetRecord()
+                var
+                    VarDateText: Text;
+                    VarDate: Date;
+                    DaysDiff: Integer;
+                    BalanceDays: Integer;
+                    FinalUsedDays: Integer;
                 begin
                     OpeningLeave := 0;
                     EarnedLeave := 0;
@@ -66,7 +73,22 @@ report 50052 "Employee Leave Balance"
                     LeaveEarn[3].CalcSums("Balancing Days");
                     UsedDays := Abs(LeaveEarn[3]."Balancing Days");
 
-                    ClosingLeave := OpeningLeave + EarnedLeave - UsedDays;
+
+                    LeaveEarn[4].SetLoadFields("Balancing Days");
+                    LeaveEarn[4].SetRange("Employee No.", Employee."No.");
+                    LeaveEarn[4].SetRange(type, LeaveEarn[4].Type::Used);
+                    LeaveEarn[4].SetRange("Posted Date", Fromdate, ToDate);
+                    if LeaveEarn[4].FindSet() then;
+                    repeat
+                        Clear(VarDate);
+                        Clear(FinalUsedDays);
+                        LeaveEarn[4].CalcSums("Balancing Days");
+                        VarDate := LeaveEarn[4]."Posted Date" + Abs(LeaveEarn[4]."Balancing Days");
+                        if VarDate > ToDate then
+                            FinalUsedDays := VarDate - ToDate;
+                    until LeaveEarn[4].Next() = 0;
+
+                    ClosingLeave := OpeningLeave + EarnedLeave - UsedDays - FinalUsedDays;
                 end;
             }
         }
@@ -112,6 +134,7 @@ report 50052 "Employee Leave Balance"
         Fromdate, ToDate : Date;
         Title: Label 'Employee Leave Balance';
         UsedDays: Decimal;
+        UsedDaysOnly: Decimal;
         EarnedLeave: Decimal;
         OpeningLeave: Decimal;
         LeaveEarn: array[5] of Record "Leave Earn";

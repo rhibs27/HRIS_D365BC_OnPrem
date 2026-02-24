@@ -18,7 +18,7 @@ table 50110 "Document Approver"
         {
             Editable = false;
         }
-        field(5; Remarks; Text[100])
+        field(5; Remarks; Text[250])
         {
         }
         field(6; "Approval Status"; enum "Approval Status")
@@ -34,7 +34,7 @@ table 50110 "Document Approver"
         {
             ValuesAllowed = " ", "Resignation", "Training";
         }
-        field(11; "Rejection Remarks"; Text[100]) { }
+        field(11; "Rejection Remarks"; Text[250]) { }
         field(12; "Approver Sequence"; Integer)
         {
             trigger OnValidate()
@@ -58,15 +58,6 @@ table 50110 "Document Approver"
         {
             Caption = 'Approver Code';
             TableRelation = "Approval Role".Code;
-        }
-        field(16; "Approved By"; Code[20])
-        {
-            Caption = 'Approved By';
-            TableRelation = Employee;
-        }
-        field(17; "Attachment"; Media)
-        {
-            Caption = 'Attachment';
         }
     }
     keys
