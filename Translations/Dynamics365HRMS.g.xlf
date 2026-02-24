@@ -308,6 +308,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Branch Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3837508396 - Field 651111352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Day Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Configuration - Field Day Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3837508396 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1218,6 +1223,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 3290702926 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field From Date(BS) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3474915042 - Field 2546113746 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fuel Limit (amt)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1332,6 +1342,11 @@
           <source>To date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field To date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3474915042 - Field 617846953 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Header - Field To date(BS) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3474915042 - Field 2238596476 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Line Amount</source>
@@ -1643,6 +1658,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field From Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3290702926 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field From Date(BS) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 3692456998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fuel Claimed (ltr)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1742,6 +1762,11 @@
           <source>To Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field To Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 617846953 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To date(BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field To date(BS) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 749969055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Name</source>
@@ -12508,6 +12533,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field User ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 3881348556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Week day</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Week day - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3185859766 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OverTime Ledger Entry</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -13987,6 +14017,11 @@
           <source>Night Shift Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Night Shift Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1786004763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. Of Days based On</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field No. Of Days based On - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3327777979 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Officiat Basic Adjustment Code</source>
@@ -22718,10 +22753,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckPendingAppraisal - NamedType AppraisalError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 940807328" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to Approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleErrors</note>
+        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 1613818109 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSaas - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -24137,6 +24182,11 @@
           <source>Specifies the value of the Branch Code field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Branch Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3003557261 - Control 651111352 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Day Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Configurations - Control Day Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3003557261 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Department Code field.</source>
@@ -39487,6 +39537,11 @@
           <source>Specifies the value of the Get Amount From Assignment field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Get Amount From Assignment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1786004763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Days Based on(Assignment Memo)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control No. Of Days based On - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3172240621 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Request Allowance Nos field.</source>
@@ -60973,6 +61028,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Config. Source - EnumValue Shift - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3785709113 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance days basedOn - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3785709113 - EnumValue 3106374359 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total days In month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance days basedOn - EnumValue Total days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3785709113 - EnumValue 2978437914 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Working Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance days basedOn - EnumValue Working days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 84525694 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -61912,6 +61982,11 @@
           <source>Option4</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Correct Option - EnumValue Option4 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 651111352 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Day Type - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 651111352 - EnumValue 532545754 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Holiday</source>

@@ -184,20 +184,24 @@ report 50067 "Process Daily Attendance"
     procedure InitEmpAttendance()
     var
         ShiftLine: Record "Shift Line";
+        shiftmgt: Codeunit "Shift Assignment Mgt";
+        RegularShiftCode: Code[20];
     begin
-        ShiftLine.SetLoadFields("Employee No", "Roster Date", "Approval Status", "Substitute Type", "Employee Work Shift");
-        ShiftLine.SetRange("Roster Date", Date."Period Start");
-        ShiftLine.SetRange("Employee No", Employee."No.");
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-        ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-        if ShiftLine.FindSet() then
-            repeat
-                InsertEmpAttendance(ShiftLine."Employee No", ShiftLine."Roster Date", ShiftLine."Employee Work Shift");
-            until ShiftLine.Next() = 0
-        else
-            InsertEmpAttendance(Employee."No.", Date."Period Start", Employee."Employee Work Shift");
-
+        RegularShiftCode := shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start");
+        DeleteStaleAttendanceLines(Employee."No.", Date."Period Start", RegularShiftCode);
+        InsertEmpAttendance(Employee."No.", Date."Period Start", shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start"));
         UpdateEmpAttendanceAsTransferFromServiceHistory();
+    end;
+
+    local procedure DeleteStaleAttendanceLines(EmpNo: Code[20]; AttDate: Date; NewShiftCode: Code[20])
+    var
+        AttendanceDel: Record "Employee Attendance & Activity";
+    begin
+        AttendanceDel.SetRange("Employee No.", EmpNo);
+        AttendanceDel.SetRange("Attendance Date", AttDate);
+        AttendanceDel.SetFilter("Employee Working Shift", '<>%1', NewShiftCode);
+        if AttendanceDel.FindSet() then
+            AttendanceDel.DeleteAll(true);
     end;
 
     local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text)

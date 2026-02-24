@@ -142,10 +142,12 @@ codeunit 50015 "OverTime Mgt"
                 end;
         end;
         if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::Encashment then begin
-            TempOvertime.TestField("OT Amount");
+            if GuiAllowed then
+                TempOvertime.TestField("OT Amount");
         end;
         if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::"Substitute Leave" then begin
-            TempOvertime.TestField("Compensatory Days");
+            if GuiAllowed then
+                TempOvertime.TestField("Compensatory Days");
         end;
         EmpOvertime.Init;
         EmpOvertime.TransferFields(TempOvertime);

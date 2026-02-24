@@ -100,7 +100,7 @@ codeunit 50030 "Assignment Memo Mgt"
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
         DateVar: Record Date;
-
+        IsHandled: Boolean;
     begin
         AssignmentMemoHdr.Get(DocumentNo);
         if AssignmentMemoLine.Get(DocumentNo, lineNo) then begin
@@ -129,17 +129,22 @@ codeunit 50030 "Assignment Memo Mgt"
             end;
 
             //check allowance configuration source and create ledger entries accordingly
-            AllowanceConfiguration.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
-            AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', AssignmentMemoLine."ATM Site"::" ", AssignmentMemoLine."ATM Site");
-            if AllowanceConfiguration.FindSet() then
-                repeat
-                    // check if allowance is eligible for employee.
-                    if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, AssignmentMemoLine."Employee No.", AssignmentMemoLine."To Date") then begin
-                        AllConfig2 := AllowanceConfiguration;
-                        break;
-                    end;
-                until AllowanceConfiguration.Next() = 0;
-
+            Clear(AllConfig2);
+            Clear(AllowanceConfiguration);
+            OnOtherAllowanceConfigurationCheck(AssignmentMemoLine, AllConfig2, IsHandled);
+            if not IsHandled then begin
+                AllowanceConfiguration.Reset();
+                AllowanceConfiguration.SetRange("Payroll Attribute", AssignmentMemoLine."Payroll Attribute Code");
+                AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', AssignmentMemoLine."ATM Site"::" ", AssignmentMemoLine."ATM Site");
+                if AllowanceConfiguration.FindSet() then
+                    repeat
+                        // check if allowance is eligible for employee.
+                        if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, AssignmentMemoLine."Employee No.", AssignmentMemoLine."To Date") then begin
+                            AllConfig2 := AllowanceConfiguration;
+                            break;
+                        end;
+                    until AllowanceConfiguration.Next() = 0;
+            end;
             DateVar.Reset();
             DateVar.SetRange("Period Type", DateVar."Period Type"::Date);
             if AllConfig2.Source in [AllConfig2.Source::Assignment, AllConfig2.Source::Shift] then
@@ -148,7 +153,6 @@ codeunit 50030 "Assignment Memo Mgt"
                 DateVar.SetRange("Period Start", AssignmentMemoLine."From Date", AssignmentMemoLine."From Date"); //insert only one ledger
             if DateVar.FindSet() then
                 repeat
-
                     //insert ledger entry for each date in range
                     Clear(AssignmentMemoLedgerEntry);
                     AssignmentMemoLedgerEntry.Init();
@@ -185,9 +189,11 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine, AssignmentMemoLine2 : Record "Assignment Memo Line";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHrms: Record "Approval HRMS";
-        IsHandled: Boolean;
+        IsHandled, SkipCheck : Boolean;
+        PayrollGSUP: Record "Payroll General Setup";
         OrganizationalStructureList: Record "Organization Structure List";
     begin
+        PayrollGSUP.Get();
         ProcessAssignmentRequestFromCopyTable(AssignmentmemoHdr, IsHandled);
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
             AssignmentMemoHdr.TestField(Remarks);
@@ -237,6 +243,15 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLine.Modify();
             until AssignmentMemoLine.Next() = 0;
 
+        // final check allowance amount 
+        OnBeforeAmountCheck(AssignmentMemoLine, SkipCheck);
+        if not SkipCheck then begin
+            AssignmentMemoLine.Reset();
+            AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
+            AssignmentMemoLine.SetRange("Allowance Amount", 0);
+            if not AssignmentMemoLine.IsEmpty() then
+                Error('allowance amount cannot be zero for any line.');
+        end;
         //final check allowance amount 
         OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, AssignmentmemoHdr."Branch Code");
         AssignmentMemoLine.Reset();
@@ -344,7 +359,7 @@ codeunit 50030 "Assignment Memo Mgt"
         // Implementation for inserting substitute assignment memo
         AssignmentMemoHdr.Get(docNo);
         AssignmentMemoLine.Get(docNo, lineNo);
-
+        OnAfterCheckDuplicateShiftLine(docNo, LineNo, fromDate, toDate, empCode);
         //check if there is pending request allowance exist for the document
         CheckIfPendingClaimedAllowanceExist(docNo, lineNo);
 
@@ -374,6 +389,8 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AttendanceMgt: Codeunit "Attendance Mgt";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
     begin
         AssignmentMemoLine.Get(SubAssigmemoLine."Document No.", SubAssigmemoLine."Substitute of Line No.");
         AssignmentMemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine."Document No.");
@@ -391,6 +408,9 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLedgerEntry.Validate("Open", false);
                 AssignmentMemoLedgerEntry.Validate("Substituted Employee No.", SubAssigmemoLine."Employee No.");
                 AssignmentMemoLedgerEntry.Modify(true);
+                Commit();
+                ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Employee No.");
+                ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Substituted Employee No.");
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
@@ -1318,7 +1338,9 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignemntMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         AssignmentMemoLine: Record "Assignment Memo Line";
         PostedPayrollHeader: Record "Posted Payroll Header";
+        AttendanceMgt: Codeunit "Attendance Mgt";
     begin
+        OnBeforeReverseAssignmentMemo(DocNo);
         //get assignment memo header
         if not AssignemntMemoHeader.Get(DocNo) then
             Error('Document %1 not found.', DocNo);
@@ -1339,6 +1361,7 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignemntMemoLedgerEntry.Open := false;
                     AssignemntMemoLedgerEntry."Blocked for Payroll" := true;
                     AssignemntMemoLedgerEntry.Modify();
+                    AttendanceMgt.DailyAttendanceUpdate(AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Employee No.");
                 until AssignemntMemoLedgerEntry.Next() = 0;
 
         end else if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Request Allowance" then begin
@@ -1477,6 +1500,26 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure CheckSkipAssignmentLedgerCreation(var AssignmentMemoLine: Record "Assignment Memo Line"; var SkipAssignmentLedgerCreation: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnOtherAllowanceConfigurationCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var AllConfig2: Record "Allowance Configuration"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckDuplicateShiftLine(docNo: Code[20]; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeReverseAssignmentMemo(docNo: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeAmountCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var SkipCheck: Boolean)
     begin
     end;
 }

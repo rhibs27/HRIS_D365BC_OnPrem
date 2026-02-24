@@ -38,12 +38,21 @@ table 50162 "Assignment Memo Line"
         field(7; "From Date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
                 if Rec."From Date" <> xRec."From Date" then begin
                     Clear("To Date");
                 end;
                 if "From Date" <> 0D then
                     CheckandValidateTheDates("From Date");
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "From Date");
+                if EngNepDate.FindFirst then begin
+                    Validate("From date(BS)", EngNepDate."Nepali Date");
+                end else begin
+                    Clear("From Date(BS)");
+                end;
 
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
@@ -54,7 +63,16 @@ table 50162 "Assignment Memo Line"
         field(8; "To Date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "To Date");
+                if EngNepDate.FindFirst then begin
+                    Validate("To date(BS)", EngNepDate."Nepali Date");
+                end else begin
+                    Clear("From Date(BS)");
+                end;
                 if "To Date" <> 0D then
                     CheckandValidateTheDates("To Date");
 
@@ -245,6 +263,12 @@ table 50162 "Assignment Memo Line"
                 Validate("Effective From (Edu.)", PayCyclePeriod."Start Date");
             end;
         }
+        field(108; "From Date(BS)"; Code[20])
+        {
+        }
+        field(109; "To date(BS)"; Code[20])
+        {
+        }
 
         //field related to shift assignment
         field(201; "Employee Work Shift"; Code[20])
@@ -254,12 +278,16 @@ table 50162 "Assignment Memo Line"
             trigger OnValidate()
             var
                 EmployeeWorkShift: Record "Employee Work Shift";
+                IsHandled1: Boolean;
             begin
                 if EmployeeWorkShift.Get("Employee Work Shift") and ("Emp Act Type" = "Emp Act Type"::"Shift Assignment Memo") then begin
-                    if EmployeeWorkShift."Payroll Attribute Code" = '' then
-                        Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
-                    Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
-                    CheckAndValidateShiftAssignment();
+                    OnBeforeValidatePayrollattribute(Rec, IsHandled1);
+                    if not IsHandled1 then begin
+                        if EmployeeWorkShift."Payroll Attribute Code" = '' then
+                            Error('Employee work shift %1 is not valid for shift assignment', "Employee Work Shift");
+                        Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
+                        CheckAndValidateShiftAssignment();
+                    end;
                 end;
             end;
         }
@@ -399,16 +427,37 @@ table 50162 "Assignment Memo Line"
         if Employee.Get("Employee No.") then
             if DateToCheck < Employee."Employment Date" then
                 Error('Date cannot be before employment date %1.', Employee."Employment Date");
+
+        if ("From Date" <> 0D) and ("To Date" <> 0D) then
+            if "From Date" > "To Date" then
+                Error('From Date cannot be greater than To Date');
+
     end;
 
     procedure GetNoofDaysInMonth(DateToCheck: Date): Integer
     var
         PayCyclePeriod: Record "Pay Cycle Period";
+        PGSetUP: Record "Payroll General Setup";
+        TotalDays: Integer;
+        NonWorkingDays: Integer;
+        leaveMgt: Codeunit "Leave Mgt.";
     begin
+        PGSetUP.Get();
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateToCheck);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateToCheck);
         PayCyclePeriod.FindFirst();
-        exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1);
+        case PGSetUP."No. Of Days based On" of
+            PGSetUp."No. Of Days based On"::"Total days", PGSetUP."No. Of Days based On"::" ":
+                begin
+                    exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1)
+                end;
+            PGSetUP."No. Of Days based On"::"Working days":
+                begin
+                    TotalDays := PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1;
+                    NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Start Date", PayCyclePeriod."End Date", HrMgt.GetEmployeeNo());
+                    exit(TotalDays - NonWorkingDays);
+                end;
+        end;
     end;
 
     //calculate allowance amount for the line before send for approval
@@ -444,59 +493,61 @@ table 50162 "Assignment Memo Line"
     begin
         if PAssignMemo."Employee No." = '' then
             exit;
-        if PAssignMemo."Payroll Attribute Code" = '' then
-            exit;
+        if PAssignMemo."Payroll Attribute Code" <> '' then begin
+            if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
+                PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+                if PayrollAttr."Specific Attributes" <> PayrollAttr."Specific Attributes"::"Holiday Allowance" then
+                    exit;
+            end;
 
-        if PAssignMemo."Emp Act Type" = PAssignMemo."Emp Act Type"::"Request Allowance" then begin
-            PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
-            if PayrollAttr."Specific Attributes" <> PayrollAttr."Specific Attributes"::"Holiday Allowance" then
+            AtmPayrollAttr.SetRange("Specific Attributes", AtmPayrollAttr."Specific Attributes"::"ATM Allowance");
+            if AtmPayrollAttr.FindFirst() then;
+            if PAssignMemo."Payroll Attribute Code" = AtmPayrollAttr.Code then
+                exit; // allow multiple entries for atm and vault key allowance
+
+            if PAssignMemo."Line No." = 0 then
                 exit;
+
+            PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
+
+            AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
+            if PAssignMemo."Payroll Attribute Code" <> '' then
+                AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
+            else if PAssignMemo."Employee Work Shift" <> '' then
+                AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
+
+            if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
+                AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
+            AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
+            AssignmentMemoLine.SetFilter("Approval Status", '<>%1', PAssignMemo."Approval Status"::"Rejected");  //for same document check all status line except reject.
+            AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
+            AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
+            AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
+            if not AssignmentMemoLine.IsEmpty() then
+                Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
         end;
-
-        AtmPayrollAttr.SetRange("Specific Attributes", AtmPayrollAttr."Specific Attributes"::"ATM Allowance");
-        if AtmPayrollAttr.FindFirst() then;
-        if PAssignMemo."Payroll Attribute Code" = AtmPayrollAttr.Code then
-            exit; // allow multiple entries for atm and vault key allowance
-
-        if PAssignMemo."Line No." = 0 then
-            exit;
-
-        PayrollAttr.Get(PAssignMemo."Payroll Attribute Code");
-
-        AssignmentMemoLine.SetRange("Employee No.", PAssignMemo."Employee No.");
-        if PAssignMemo."Payroll Attribute Code" <> '' then
-            AssignmentMemoLine.SetRange("Payroll Attribute Code", PAssignMemo."Payroll Attribute Code")
-        else if PAssignMemo."Employee Work Shift" <> '' then
-            AssignmentMemoLine.SetRange("Employee Work Shift", PAssignMemo."Employee Work Shift");
-
-        if PayrollAttr."Specific Attributes" = PayrollAttr."Specific Attributes"::"Vault Key Allowance" then
-            AssignmentMemoLine.SetRange("Vault Name", PAssignMemo."Vault Name");
-        AssignmentMemoLine.SetRange("Document No.", PAssignMemo."Document No.");
-        AssignmentMemoLine.SetFilter("Approval Status", '<>%1', PAssignMemo."Approval Status"::"Rejected");  //for same document check all status line except reject.
-        AssignmentMemoLine.SetFilter("From Date", '<=%1', PAssignMemo."To Date");
-        AssignmentMemoLine.SetFilter("To Date", '>=%1', PAssignMemo."From Date");
-        AssignmentMemoLine.SetFilter("Line No.", '<>%1', PAssignMemo."Line No.");
-        if not AssignmentMemoLine.IsEmpty() then
-            Error('Duplicate assignment of %1 for %2 at date %3', PAssignMemo."Payroll Attribute Code", PAssignMemo."Employee Name", Format(PAssignMemo."From Date"));
-
         OnCheckDuplicateAssignmentMemoLineOnAfterCheck(PAssignMemo);
     end;
 
     procedure AutoCalculateDatesAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
+        Ishandled: Boolean;
     begin
         if AssignmentMemoLine."Emp Act Type" <> AssignmentMemoLine."Emp Act Type"::"Request Allowance" then
             exit;
-        if AssignmentMemoHdr.Get(AssignmentMemoLine."Document No.") then begin
-            if AssignmentMemoLine."Employee No." = '' then
-                AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
-            if AssignmentMemoLine."From Date" = 0D then
-                AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."From Date");
-            if AssignmentMemoLine."To Date" = 0D then
-                AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
-            if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
-                AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
+        OnBeforeCalculateDateAndEmployee(AssignmentMemoLine, Ishandled);
+        if not Ishandled then begin
+            if AssignmentMemoHdr.Get(AssignmentMemoLine."Document No.") then begin
+                if AssignmentMemoLine."Employee No." = '' then
+                    AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
+                if AssignmentMemoLine."From Date" = 0D then
+                    AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."From Date");
+                if AssignmentMemoLine."To Date" = 0D then
+                    AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
+                if (AssignmentMemoLine."From Date" <> 0D) and (AssignmentMemoLine."To Date" <> 0D) then
+                    AssignmentMemoLine."No. of Days" := AssignmentMemoLine."To Date" - AssignmentMemoLine."From Date" + 1;
+            end;
         end;
     end;
 
@@ -551,6 +602,16 @@ table 50162 "Assignment Memo Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnCheckDuplicateAssignmentMemoLineOnAfterCheck(var AssignmentMemoLine: Record "Assignment Memo Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidatePayrollattribute(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled1: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateDateAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled1: Boolean)
     begin
     end;
 }

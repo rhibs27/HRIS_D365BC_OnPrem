@@ -170,27 +170,19 @@ codeunit 50025 "Shift Assignment Mgt"
     var
         ShiftLine: Record "Shift Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        EmployeeWorkShift: Code[20];
     begin
-        PGSetup.Get();
-        if PGSetup."Use Allowance Configuration" then begin
-            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
-            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
-            AssignmentMemoLedgerEntry.SetRange(Reversed, false);
-            AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeNo);
-            AssignmentMemoLedgerEntry.SetRange("Posting Date", ShiftDate);
-            AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
-            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
-        end else begin
-            ShiftLine.Reset();
-            ShiftLine.SetRange("Employee No", EmployeeNo);
-            ShiftLine.SetRange("Roster Date", ShiftDate);
-            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-            ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-            if ShiftLine.FindFirst() then
-                exit(ShiftLine."Employee Work Shift")
-        end;
+        ShiftLine.Reset();
+        ShiftLine.SetRange("Employee No", EmployeeNo);
+        ShiftLine.SetRange("Roster Date", ShiftDate);
+        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+        ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
+        if ShiftLine.FindFirst() then
+            exit(ShiftLine."Employee Work Shift");
         Employee.Get(EmployeeNo);
-        exit(Employee."Employee Work Shift");
+        EmployeeWorkShift := Employee."Employee Work Shift";
+        OnAfterGetEmployeeWorkShift(EmployeeNo, ShiftDate, EmployeeWorkShift);
+        exit(EmployeeWorkShift);
     end;
 
     procedure CheckWorkShiftFields(EmployeeWorkShift: Record "Employee Work Shift");
@@ -230,6 +222,11 @@ codeunit 50025 "Shift Assignment Mgt"
                 until EmpAttendance.Next() = 0;
             AttendanceMgt.DailyAttendanceUpdate(RosterDate, RosterDate, EmployeeNo);
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterGetEmployeeWorkShift(EmployeeNo: Code[20]; ShiftDate: Date; var EmployeeWorkShift: Code[20])
+    begin
     end;
 
     var
