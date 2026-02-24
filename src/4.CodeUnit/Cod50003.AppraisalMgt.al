@@ -657,4 +657,19 @@ codeunit 50003 "AppraisalMgt."
             until ScoreDetail.Next() = 0;
     end;
 #endif
+ procedure SubmitScoreDetail(appraisalCode: Code[20])
+    var
+        ScoreDetail: Record "Score Detail";
+        ReviewerNo: Code[20];
+    begin
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", appraisalCode);
+        ScoreDetail.SetRange("Score/Rating By", ReviewerNo);
+        if ScoreDetail.FindSet() then
+            repeat
+                ScoreDetail.Submitted := true;
+                ScoreDetail."Submitted Date" := Today;
+                ScoreDetail.Modify();
+            until ScoreDetail.Next() = 0;
+    end;
 }
