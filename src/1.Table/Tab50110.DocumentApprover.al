@@ -18,7 +18,7 @@ table 50110 "Document Approver"
         {
             Editable = false;
         }
-        field(5; Remarks; Text[100])
+        field(5; Remarks; Text[250])
         {
             trigger OnValidate()
             begin
@@ -50,7 +50,7 @@ table 50110 "Document Approver"
         field(10; "Document Type"; Enum "Document Approver Doc. Type")
         {
         }
-        field(11; "Rejection Remarks"; Text[100]) { }
+        field(11; "Rejection Remarks"; Text[250]) { }
     }
     keys
     {

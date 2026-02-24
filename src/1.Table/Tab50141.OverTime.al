@@ -163,7 +163,7 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100]) { }
+        field(14; Remarks; Text[250]) { }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
@@ -274,7 +274,7 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(36; "Rejection Remarks"; Text[100]) { }
+        field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) { }
         field(40; "Cancelled No."; Code[20]) { }

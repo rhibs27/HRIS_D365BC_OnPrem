@@ -34,7 +34,7 @@ table 50158 "OverTime Ledger Entry"
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100]) { }
+        field(14; Remarks; Text[250]) { }
         field(16; "Approval Status"; Enum "Approval Status") { }
         field(22; "Line No"; Integer)
         {
@@ -50,7 +50,7 @@ table 50158 "OverTime Ledger Entry"
             Editable = false;
         }
         field(32; "Compensatory Days"; Decimal) { }
-        field(36; "Rejection Remarks"; Text[100]) { }
+        field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {

@@ -148,7 +148,7 @@ table 50162 "Assignment Memo Line"
                     "Amount per Ltr." := Round("Allowance Amount" / "Fuel Claimed (ltr)", 0.01, '=');
             end;
         }
-        field(25; "Rejection Remarks"; Text[100]) { }
+        field(25; "Rejection Remarks"; Text[250]) { }
         field(27; "Emp Act Type"; Enum "Employee Activity Type") { }
         field(31; "No of Approved Days"; Integer)
         {

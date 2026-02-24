@@ -10,12 +10,13 @@ table 50117 "Rating Setup"
         field(2; Type; Enum "Employee Question Type") { }
         field(3; From; Decimal) { }
         field(4; "To"; Decimal) { }
-        field(5; Remarks; Enum "Appraisal Rating") { }
+        field(5; Rating; Enum "Appraisal Rating") { }
+        field(6; Description; Text[200]) { }
     }
 
     keys
     {
-        key(Key1; "Entry No.", Type, Remarks) { }
+        key(Key1; "Entry No.", Type, Rating) { }
     }
 
     fieldgroups { }

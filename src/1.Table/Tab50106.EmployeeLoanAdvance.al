@@ -534,6 +534,11 @@ table 50106 "Employee Loan/Advance"
         {
             DataClassification = ToBeClassified;
         }
+        field(209; "Monthly Deduction"; Decimal)
+        {
+            Caption = 'Monthly Deduction';
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

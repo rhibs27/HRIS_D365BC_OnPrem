@@ -175,9 +175,9 @@ codeunit 50004 "Travel Mgt."
             TravelRequest2.Validate(Extended, true);
             TravelRequest2.Modify;
         end;
+        OnAfterApplyTravelRequest(TravelReq."No.");
         HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, TravelReq."Employee No.", TravelReq."No.", false);   //For email
         Message('Travel Request has been sent for apporval.');
-        OnAfterApplyTravelRequest(TravelReq."No.");
         exit(true);
     end;
 
@@ -388,8 +388,6 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelOrderNo));
             TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelOrderNo));
             TravelRequest.Validate("Advance Cash", CalculateTotalAdvance(TravelOrderNo));
-            GetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel);
-            GetLodgingLimit(TravelRequest, SalaryLevel1, SalaryLevel);
             TravelRequest."Arrival Time" := GetArrivalTime(TravelOrderNo);
             TravelRequest."Departure Time" := GetDepatureTime(TravelOrderNo);
             TravelRequest."Actual Travel Start Date" := GetTravelStartDate(TravelOrderNo);

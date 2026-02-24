@@ -7,7 +7,6 @@ page 50129 "Rating Scale"
     SourceTable = "Rating Setup";
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -34,9 +33,9 @@ page 50129 "Rating Scale"
                     ToolTip = 'Specifies the value of the To field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Rec.Remarks)
+                field(Rating; Rec.Rating)
                 {
-                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ToolTip = 'Specifies the value of the Raing field.';
                     ApplicationArea = All;
                 }
             }

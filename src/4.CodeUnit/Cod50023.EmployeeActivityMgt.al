@@ -189,13 +189,7 @@ codeunit 50023 EmployeeActivityMgt
                     OnBeforeLeaveRequestInsert(LeaveRequest, leaveJournal);
                     LeaveRequest.Insert(true);
                 end else if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Adjustment then
-                        LeaveMgt.InsertLeaveEarnfromJournal(
-                            leaveJournal."Leave Code",
-                            leaveJournal."Employee No.",
-                            leaveJournal."Adjustment Type",
-                            leaveJournal."No. of Days",
-                            leaveJournal."Emp Act. No",
-                            leaveJournal."Requested Date");
+                        LeaveMgt.InsertLeaveEarnfromJournal(leaveJournal);
                 PostedLeaveJournal.Init();
                 PostedLeaveJournal.TransferFields(leaveJournal);
                 PostedLeaveJournal.Validate(Posted, true);
@@ -608,6 +602,7 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeLoanRec."Policy No" := LoanJournal."Policy No";
                 EmployeeLoanRec."Yearly Premium Amount" := LoanJournal."Yearly Premium Amount";
                 EmployeeLoanRec."First Premium Date" := LoanJournal."First Premium Date";
+                EmployeeLoanRec."Monthly Deduction" := LoanJournal."Monthly Deduction";
 
                 EmployeeLoanRec.Validate(Remarks, LoanJournal.Remarks);
                 EmployeeLoanRec.Validate("Approval Status", EmployeeLoanRec."Approval Status"::Approved);
