@@ -79,10 +79,11 @@ page 50388 "Score Detail Subform"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field(isSelfReview; IsSelfReview)
+                field(isSelfReview; Rec."Is Self Review")
                 {
                     //Visible = false;
                     Editable = false;
+                    ApplicationArea = all;
                     Caption = 'Is Self Review';
                 }
             }
@@ -112,16 +113,16 @@ page 50388 "Score Detail Subform"
         ReviewerSetup: Record "Reviewer Setup";
         AppraisalHdr: Record Appraisal;
         HRMgt: Codeunit "HR Mgt.";
-        IsSelfReview: Boolean;
+        AppraisalMgt: Codeunit "AppraisalMgt.";
 
     trigger OnAfterGetRecord()
     begin
         UpdateEditability();
-        IsSelfReview := false;
+        // IsSelfReview := false;
 
-        if Rec."Reviewer Type" <> '' then
-            if ReviewerSetup.Get(Rec."Reviewer Type") then
-                IsSelfReview := ReviewerSetup."Is Self Review";
+        // if Rec."Reviewer Type" <> '' then
+        //     if ReviewerSetup.Get(Rec."Reviewer Type") then
+        //         IsSelfReview := ReviewerSetup."Is Self Review";
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -159,11 +160,12 @@ page 50388 "Score Detail Subform"
         ErrorMessages: Text;
         AppraisalCode: Code[20];
         ReviewerType: Code[20];
+        KPIEmployee: Record "KPI Employee";
     begin
         AppraisalCode := Rec."Appraisal Code";
         ReviewerType := Rec."Reviewer Type";
         CurrentEmployeeNo := HRMgt.GetEmployeeNo();
-        IsHRUser := IsHRApprover(CurrentEmployeeNo);
+        IsHRUser := Appraisalmgt.IsHRApprover(CurrentEmployeeNo);
         CanSubmit := false;
         ScoreDetailCheck.Reset();
         ScoreDetailCheck.SetRange("Appraisal Code", AppraisalCode);
@@ -210,30 +212,13 @@ page 50388 "Score Detail Subform"
             Message('%1 score detail(s) submitted successfully.', LinesSubmitted);
             CurrPage.Update(false);
         end;
-    end;
-
-    local procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
-    var
-        HRSetup: Record "Human Resources Setup";
-        Employee: Record Employee;
-    begin
-        if not HRSetup.Get() then
-            exit(false);
-
-        if not Employee.Get(EmployeeNo) then
-            exit(false);
-
-        if HRSetup."HR Department Code" <> '' then begin
-            if HRSetup."HR Head Functional Title" = '' then begin
-                if Employee."Department Code" = HRSetup."HR Department Code" then
-                    exit(true);
-            end else begin
-                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
-                   (Employee."Department Code" = HRSetup."HR Department Code") then
-                    exit(true);
-            end;
-        end;
-
-        exit(false);
+        KPIEmployee.Reset();
+        KPIEmployee.SetRange("Appraisal Code", AppraisalCode);
+        KPIEmployee.SetRange("Reviewer Type", ReviewerType);
+        if KPIEmployee.FindSet() then
+            repeat
+                KPIEmployee."Reviewer Code" := CurrentEmployeeNo;
+                KPIEmployee.Modify();
+            until KPIEmployee.Next() = 0;
     end;
 }

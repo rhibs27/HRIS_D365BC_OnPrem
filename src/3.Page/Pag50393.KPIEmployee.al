@@ -13,7 +13,7 @@ page 50393 "KPI Employee"
         {
             repeater(Group)
             {
-                field(appraisalNo; Rec."Appraisal Code")
+                field(no; Rec."Appraisal Code")
                 {
                     caption = 'Appraisal No';
                     ApplicationArea = All;
@@ -143,6 +143,12 @@ page 50393 "KPI Employee"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field(reviewerCode; Rec."Reviewer Code")
+                {
+                    Caption = 'Reviewer Code';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field(weightage; Rec."Weightage")
                 {
                     Caption = 'Weightage';
@@ -181,7 +187,7 @@ page 50393 "KPI Employee"
                 field(isSelfReview; IsSelfReview)
                 {
                     //Visible=false;
-                    Editable=false;
+                    Editable = false;
                     Caption = 'Is Self Review';
                 }
             }
@@ -189,7 +195,7 @@ page 50393 "KPI Employee"
     }
     trigger OnAfterGetRecord()
     begin
-        CheckReviewerSubmissionStatus();
+        // CheckReviewerSubmissionStatus();
         IsSelfReview := false;
 
         if Rec."Reviewer Type" <> '' then

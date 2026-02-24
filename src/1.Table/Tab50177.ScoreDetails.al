@@ -25,22 +25,20 @@ table 50177 "Score Detail"
                 AppraisalHeader: Record "Appraisal";
             begin
                 Clear("Score/Rating By");
-
-                if not ReviewerSetup.Get("Reviewer Type") then
+                if not ReviewerSetup.Get("Reviewer Type") then begin
+                    "Is Self Review" := false;
                     exit;
-
+                end;
+                "Is Self Review" := ReviewerSetup."Is Self Review";
                 if ReviewerSetup."Is Self Review" or ReviewerSetup."Is Group Based" then begin
-
                     if ("Appraisal Code" = '') or
                        ("Appraisal Template" = '') or
                        ("Fiscal Year" = '') then
                         exit;
-
                     AppraisalHeader.Reset();
                     AppraisalHeader.SetRange("Appraisal Code", "Appraisal Code");
                     AppraisalHeader.SetRange("Appraisal Template", "Appraisal Template");
                     AppraisalHeader.SetRange("Fiscal Year", "Fiscal Year");
-
                     if AppraisalHeader.FindFirst() then
                         Validate("Score/Rating By", AppraisalHeader."Employee Code");
                 end;
@@ -84,6 +82,7 @@ table 50177 "Score Detail"
             TableRelation = Appraisal."Appraisal Code";
         }
         field(11; "Line No."; Integer) { }
+        field(12; "Is Self Review"; Boolean) { }
     }
     keys
     {
@@ -97,6 +96,7 @@ table 50177 "Score Detail"
         if "Line No." = 0 then
             "Line No." := GetNextLineNo("Appraisal Code");
     end;
+
     local procedure GetNextLineNo(AppraisalCode: Code[20]): Integer
     var
         ScoreDetail: Record "Score Detail";

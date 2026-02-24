@@ -26,24 +26,6 @@ table 50178 Appraisal
         {
             Caption = 'Approval Status';
             DataClassification = CustomerContent;
-
-            trigger OnValidate()
-            begin
-                if "Approval Status" = "Approval Status"::Pending then
-                    AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
-                if "Approval Status" = "Approval Status"::Approved then begin
-                    AppraisalMgt.CheckScoreDetailsSubmitted("Appraisal Code");
-                    AppraisalMgt.CalculateFinalMarks(Rec);
-                    Posted := true;
-                    "Posting Date" := Today;
-                    "Approved Date" := Today;
-                end else begin
-                    Posted := false;
-                    Clear("Posting Date");
-                    Clear("Approved Date");
-                end;
-
-            end;
         }
         field(37; "Approved Date"; Date) { } // approved date field id is 37 which is fixed
         field(39; Cancelled; Boolean)//cancelled field id is fixed to 39 which is fixed
@@ -126,10 +108,13 @@ table 50178 Appraisal
             var
                 ApprisalTemplate: Record "Appraisal Template";
             begin
+                AppraisalMgt.OnValidateKRACategory(Rec);
+
                 if GuiAllowed then
                     AppraisalMgt.ValidateKRAInEmployeeQuestionnaire(Rec);
-                AppraisalMgt.OnValidateKRACategory(Rec);
             end;
+
+
         }
         field(28; "KPI Rating Type"; Enum "KPI Rating Type")
         {
@@ -174,6 +159,7 @@ table 50178 Appraisal
         {
             Editable = false;
         }
+        field(53; "Rejection Remarks"; Text[100]) { }
         field(301; "Access Token"; code[60])
         {
             caption = 'Access Token';

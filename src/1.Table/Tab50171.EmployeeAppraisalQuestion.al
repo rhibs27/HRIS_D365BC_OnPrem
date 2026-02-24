@@ -47,6 +47,18 @@ table 50171 "Employee Appraisal Question"
             OptionMembers = " ",Yes,No;
             OptionCaption = ' ,Yes,No';
         }
+        field(9; "Reviewer Type"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(10; "Reviewer Code"; Code[20])
+        {
+            Caption = 'Reviewer Code';
+            Editable = false;
+            DataClassification = CustomerContent;
+        }
+
     }
     keys
     {

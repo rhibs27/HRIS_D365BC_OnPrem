@@ -5,7 +5,7 @@ page 50392 "Posted Appraisal List"
     ModifyAllowed = false;
     PageType = List;
     SourceTable = Appraisal;
-    SourceTableView = where(Posted = const(true));
+    SourceTableView = where("Approval Status" = const(Approved));
     ApplicationArea = All;
     CardPageId = "Appraisal form Card";
 
@@ -116,6 +116,10 @@ page 50392 "Posted Appraisal List"
                 {
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
+                }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    ApplicationArea = all;
                 }
             }
         }

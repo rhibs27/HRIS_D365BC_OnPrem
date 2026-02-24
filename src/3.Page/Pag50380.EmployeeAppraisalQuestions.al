@@ -73,6 +73,16 @@ page 50380 "Employee Appraisal Questions"
                     Editable = Editable1 and (Rec."Question Type" = Rec."Question Type"::"Yes/No");
                     Enabled = Editable1 and (Rec."Question Type" = Rec."Question Type"::"Yes/No");
                 }
+                field(reviewerType; Rec."Reviewer Type")
+                {
+                    Caption = 'Reviewer Type';
+                    ApplicationArea = All;
+                }
+                field(reviewerCode; Rec."Reviewer Code")
+                {
+                    Caption = 'Reviewer Code';
+                    ApplicationArea = All;
+                }
             }
         }
 

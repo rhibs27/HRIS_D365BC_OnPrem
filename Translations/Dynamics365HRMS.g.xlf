@@ -563,6 +563,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Province Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1691263759 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1691263759 - Field 3923785511 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reportees Comments</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4947,6 +4952,16 @@
           <source>Question Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Appraisal Question - Field Question Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 128522515 - Field 4045207948 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reviewer Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Appraisal Question - Field Reviewer Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 128522515 - Field 3937800759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reviewer Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Appraisal Question - Field Reviewer Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 128522515 - Field 442179771 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Yes/No</source>
@@ -10198,6 +10213,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Daily Score - Field Weightage% - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4178697644 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Employee - Field Access Token - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4178697644 - Field 2694167148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10292,6 +10312,11 @@
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Employee - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4178697644 - Field 4045207948 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reviewer Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Employee - Field Reviewer Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4178697644 - Field 3937800759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reviewer Type</source>
@@ -20523,6 +20548,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Score Detail - Field Fiscal Year - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2587107539 - Field 3478438640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is Self Review</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Score Detail - Field Is Self Review - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2587107539 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24423,6 +24453,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Province Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2859016585 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal Form Card - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2859016585 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24533,6 +24568,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal KPI Master - Control Weightage - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1067656217 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
+          <source>New,Process,Report,SetFilter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Property PromotedActionCategories</note>
+        </trans-unit>
         <trans-unit id="Page 1067656217 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal List</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24627,6 +24667,31 @@
           <source>Specifies the value of the Total Final Score field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Control Total Final Score - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1067656217 - Action 2913119229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Action Approved - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1067656217 - Action 2824008699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Clear filter action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Action Clear Filter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1067656217 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Action Open - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1067656217 - Action 1487485508 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Approval action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Action Pending Approval - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1067656217 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal List - Action Rejected - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 722201066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal Questionnaire Master</source>
@@ -28292,6 +28357,16 @@
           <source>Question Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Appraisal Questions - Control questionType - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 927236414 - Control 3265757708 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reviewer Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Appraisal Questions - Control reviewerCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 927236414 - Control 3158350519 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reviewer Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Appraisal Questions - Control reviewerType - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 927236414 - Control 4072576858 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies Yes/No answer</source>
@@ -36033,11 +36108,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4178697644 - Control 379779368 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Appraisal No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control appraisalNo - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 4178697644 - Control 1222651328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Appraisal Subtype Monthly</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36118,6 +36188,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control maxScore - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 3179096107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control no - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 4178697644 - Control 3961666699 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Questionnaire/Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36132,6 +36207,11 @@
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4178697644 - Control 3265757708 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reviewer Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page KPI Employee - Control reviewerCode - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4178697644 - Control 3158350519 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reviewer Type</source>
