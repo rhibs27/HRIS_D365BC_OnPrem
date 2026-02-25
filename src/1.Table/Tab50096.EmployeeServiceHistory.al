@@ -96,8 +96,10 @@ table 50096 "Employee Service History"
             TableRelation = "Salary Level";
             trigger OnValidate()
             begin
-                if SalaryLevel.Get("Salary Level (From)") then
+                if SalaryLevel.Get("Salary Level (From)") then begin
                     Validate("Salary level Desc. (From)", SalaryLevel.Description);
+                    Validate("Staff Level (From)", SalaryLevel."Staff Level");
+                end;
             end;
         }
         field(14; "Salary level Desc. (From)"; Text[100]) { }
@@ -118,8 +120,10 @@ table 50096 "Employee Service History"
             TableRelation = "Salary Level";
             trigger OnValidate()
             begin
-                if SalaryLevel.Get("Salary Level (To)") then
+                if SalaryLevel.Get("Salary Level (To)") then begin
                     Validate("Salary Level Desc. (To)", SalaryLevel.Description);
+                    Validate("Staff Level (To)", SalaryLevel."Staff Level");
+                end;
             end;
         }
         field(18; "Salary Level Desc. (To)"; Text[100]) { }
