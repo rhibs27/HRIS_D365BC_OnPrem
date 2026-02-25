@@ -176,7 +176,7 @@ report 50077 "Service Event Update"
         ServiceHistory.Validate(Remarks, Remarks);
         ServiceHistory.Validate("Functional Title (From)", Employee."Functional Title");
         ServiceHistory.Validate("Salary Level (From)", Employee."Salary Level");
-        ServiceHistory.Validate("Salary Grade (From)", Employee."Salary Level");
+        ServiceHistory.Validate("Salary Grade (From)", Employee."Salary Grade");
         ServiceHistory.Validate("Deputation On(From)", Employee."Deputation on");
         ServiceHistory.Validate("Deputation Code (From)", Employee."Deputation On Code");
         ServiceHistory.Validate("Province Code (From)", Employee."Province Code");

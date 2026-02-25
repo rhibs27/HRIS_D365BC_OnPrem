@@ -64863,6 +64863,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Back From Deputation - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3349968947 - EnumValue 38739032 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Merge</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Branch Merge - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 3349968947 - EnumValue 2493869896 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Change Details</source>
           <note from="Developer" annotates="general" priority="2"></note>
