@@ -18,27 +18,14 @@ report 50077 "Service Event Update"
                         ToolTip = 'Specifies the value of the Service Event field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
+                        trigger OnValidate()
+                        begin
+                            UpdateFieldVisibility;
+                        end;
                     }
-                    field("Functional Title"; FunctionalTitle)
-                    {
-                        TableRelation = "Functional Title";
-                        ToolTip = 'Specifies the value of the FunctionalTitle field.';
-                        ApplicationArea = All;
-                        ShowMandatory = true;
-                    }
-                    field("Salary level"; SalaryLevel)
-                    {
-                        TableRelation = "Salary Level";
-                        ToolTip = 'Specifies the value of the SalaryLevel field.';
-                        ApplicationArea = All;
-                        ShowMandatory = true;
-                    }
-                    field(SalaryGrade; SalaryGrade)
-                    {
-                        TableRelation = "Salary Grade";
-                        ToolTip = 'Specifies the value of the SalaryGrade field.';
-                        ApplicationArea = All;
-                    }
+                }
+                group("Employee Service Deputation")
+                {
                     field("Deputation On"; DeputationOnTo)
                     {
                         ToolTip = 'Specifies the value of the DeputationOnTo field.';
@@ -49,7 +36,7 @@ report 50077 "Service Event Update"
                                 Clear(ProvinceCode);
                         end;
                     }
-                    field(ProvinceCode; ProvinceCode)
+                    field("Province Code"; ProvinceCode)
                     {
                         Editable = DeputationOnTo = DeputationOnTo::Branch;
                         ApplicationArea = All;
@@ -75,18 +62,44 @@ report 50077 "Service Event Update"
                         ApplicationArea = All;
                         // ShowMandatory = true;
                     }
-                    field("Employment Type"; EmploymentType)
-                    {
-                        ToolTip = 'Specifies the value of the EmploymentType field.';
-                        ApplicationArea = All;
-                        ShowMandatory = true;
-                    }
                     field("Effective Date"; EffectiveDate)
                     {
                         ToolTip = 'Specifies the value of the EffectiveDate field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
                     }
+                }
+                group("Employee Service Details")
+                {
+                    Visible = BranchMergeVisible;
+                    field("Functional Title"; FunctionalTitle)
+                    {
+                        TableRelation = "Functional Title";
+                        ToolTip = 'Specifies the value of the FunctionalTitle field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("Salary level"; SalaryLevel)
+                    {
+                        TableRelation = "Salary Level";
+                        ToolTip = 'Specifies the value of the SalaryLevel field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field(SalaryGrade; SalaryGrade)
+                    {
+                        TableRelation = "Salary Grade";
+                        ToolTip = 'Specifies the value of the SalaryGrade field.';
+                        ApplicationArea = All;
+                    }
+
+                    field("Employment Type"; EmploymentType)
+                    {
+                        ToolTip = 'Specifies the value of the EmploymentType field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+
                     field("ContractExpiry Month"; ContractExpiryMonth)
                     {
                         ToolTip = 'Specifies the value of the ContractExpiryMonth field.';
@@ -136,6 +149,11 @@ report 50077 "Service Event Update"
                 ValidateRequiredFields();
             exit(true);
         end;
+
+        trigger OnOpenPage()
+        begin
+            UpdateFieldVisibility();
+        end;
     }
 
     labels { }
@@ -152,8 +170,6 @@ report 50077 "Service Event Update"
             Error('Please fill Service Event field');
         if EffectiveDate = 0D then
             Error('Please fill Effective Date field');
-        if (EmploymentType = EmploymentType::" ") then
-            Error('Please fill Employment Type values');
         if ServiceEvent = ServiceEvent::"Re Appointment" then
             if ContractCode = '' then
                 Error('Please fill Contract Code field')
@@ -236,6 +252,7 @@ report 50077 "Service Event Update"
         PayrollEngine: Codeunit "Payroll Engine";
         ProbationPeriod: Enum "Probation Period";
         ContractCode: Code[10];
+        BranchMergeVisible: Boolean;
 
     local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
     var
@@ -351,18 +368,22 @@ report 50077 "Service Event Update"
     begin
         if ServiceEvent = ServiceEvent::" " then
             Error(MissingFieldErr, 'Service Event');
-        if FunctionalTitle = '' then
-            Error(MissingFieldErr, 'Functional Title');
-
-        if SalaryLevel = '' then
-            Error(MissingFieldErr, 'Salary Level');
-
-        if EmploymentType = EmploymentType::" " then
-            Error(MissingFieldErr, 'Employment Type');
-
         if EffectiveDate = 0D then
             Error(MissingFieldErr, 'Effective Date');
+        if not (ServiceEvent in [ServiceEvent::"Branch Merge"]) then begin
+            if FunctionalTitle = '' then
+                Error(MissingFieldErr, 'Functional Title');
 
+            if SalaryLevel = '' then
+                Error(MissingFieldErr, 'Salary Level');
+
+            if EmploymentType = EmploymentType::" " then
+                Error(MissingFieldErr, 'Employment Type');
+        end;
+        if ServiceEvent in [ServiceEvent::"Branch Merge"] then begin
+            if (DeputationOnTo = DeputationOnTo::" ") or (DeputationCodeTo = '') then
+                Error(MissingFieldErr, 'Deputation On and Deputation On Code');
+        end;
         if EmploymentType = EmploymentType::Contract then
             if ContractExpiryDate = 0D then
                 if ContractExpiryMonth = ContractExpiryMonth::" " then
@@ -371,4 +392,18 @@ report 50077 "Service Event Update"
             if ProbationPeriod = ProbationPeriod::" " then
                 Error('Probation Period must have value.');
     end;
+
+    local procedure UpdateFieldVisibility()
+    begin
+        case ServiceEvent of
+            ServiceEvent::"Branch Merge":
+                begin
+                    BranchMergeVisible := false;
+                end;
+            else begin
+                BranchMergeVisible := true;
+            end;
+        end;
+    end;
+
 }
