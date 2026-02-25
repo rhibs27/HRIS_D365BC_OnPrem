@@ -373,7 +373,7 @@ codeunit 50027 "Payroll Report Mgt."
         TempDetailedEmpLedgerEntry1.SetRange(Reversed, false);
         TempDetailedEmpLedgerEntry1.SetFilter("Attribute Type", '%1|%2|%3', TempDetailedEmpLedgerEntry1."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings", TempDetailedEmpLedgerEntry1."Attribute Type"::"Non-Payment");
         TempDetailedEmpLedgerEntry1.CalcSums(Amount);
-        TotalAnnualEarning := TempDetailedEmpLedgerEntry1.Amount + EmployeePayrollOpen."Total Benefit Opening" + (ProjectedMonth * MonthlySalaryAmount);
+        TotalAnnualEarning := Round(TempDetailedEmpLedgerEntry1.Amount + EmployeePayrollOpen."Total Benefit Opening" + (ProjectedMonth * MonthlySalaryAmount), 0.01, '=');
 
         //This values are calculate in next steps- This function shall delete in future.
         // TempDetailedEmpLedgerEntry.Reset();
