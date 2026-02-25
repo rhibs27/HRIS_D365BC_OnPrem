@@ -14,7 +14,7 @@ report 50077 "Service Event Update"
                 {
                     field("Service Event"; ServiceEvent)
                     {
-                        ValuesAllowed = Appointment, Confirmation, "First Deputation", "On The Job Training", "Contract Renew", "Expired Contract";
+                        ValuesAllowed = Appointment, Confirmation, "First Deputation", "On The Job Training", "Contract Renew", "Expired Contract", "Branch Merge";
                         ToolTip = 'Specifies the value of the Service Event field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
@@ -174,6 +174,16 @@ report 50077 "Service Event Update"
         ServiceHistory.Validate("Effective Date", EffectiveDate);
         ServiceHistory.Validate("Service Event", ServiceEvent);
         ServiceHistory.Validate(Remarks, Remarks);
+        ServiceHistory.Validate("Functional Title (From)", Employee."Functional Title");
+        ServiceHistory.Validate("Salary Level (From)", Employee."Salary Level");
+        ServiceHistory.Validate("Salary Grade (From)", Employee."Salary Level");
+        ServiceHistory.Validate("Deputation On(From)", Employee."Deputation on");
+        ServiceHistory.Validate("Deputation Code (From)", Employee."Deputation On Code");
+        ServiceHistory.Validate("Province Code (From)", Employee."Province Code");
+        ServiceHistory.Validate("Branch Code (From)", Employee."Branch Code");
+        ServiceHistory.Validate("Department Code (From)", Employee."Department Code");
+        ServiceHistory.Validate("Unit Code (From)", Employee."Unit Code");
+        ServiceHistory.Validate("Extension Counter (From)", Employee."Extension Counter Code");
         ServiceHistory.Validate("Functional Title (To)", FunctionalTitle);
         ServiceHistory.Validate("Contract Code (To)", ContractCode);
         ServiceHistory.Validate("Employment Type (To)", EmploymentType);
@@ -207,7 +217,7 @@ report 50077 "Service Event Update"
     end;
 
     var
-        DeputationOnTo : Enum "Deputation Type";
+        DeputationOnTo: Enum "Deputation Type";
         ServiceEvent: Enum "Service Event";
         DeputationCodeTo: Code[20];
         ProvinceCode: Code[20];
