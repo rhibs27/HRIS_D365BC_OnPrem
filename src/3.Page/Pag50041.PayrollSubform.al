@@ -1771,28 +1771,31 @@ page 50041 "Payroll Subform"
                     Message('Line Attributes Updated.');
                 end;
             }
-            action("Calculate Line Tax")
-            {
-                Image = TaxDetail;
-                ApplicationArea = All;
-                ToolTip = 'Executes the Get Calculate Line Tax action.';
-                trigger OnAction()
-                var
-                    PayrollLine: Record "Payroll Line";
-                    PayrollEngine: Codeunit "Payroll Engine";
-                begin
-                    PayrollHeader.TestField(Status, PayrollHeader.Status::Pending);
-                    CurrPage.SetSelectionFilter(PayrollLine);
-                    PayrollLine.MarkedOnly(true);
-                    if PayrollLine.FindSet() then
-                        repeat
-                            Clear(PayrollEngine);
-                            PayrollEngine.InitPayrollLine(PayrollLine);
-                        until PayrollLine.Next() = 0;
-                    PayrollHeader.CalcFields("Total Net Payable");
-                    Message('Line Tax Calculated');
-                end;
-            }
+
+            // Testing is required from functional side so for now it is commented
+
+            // action("Calculate Line Tax")
+            // {
+            //     Image = TaxDetail;
+            //     ApplicationArea = All;
+            //     ToolTip = 'Executes the Get Calculate Line Tax action.';
+            //     trigger OnAction()
+            //     var
+            //         PayrollLine: Record "Payroll Line";
+            //         PayrollEngine: Codeunit "Payroll Engine";
+            //     begin
+            //         PayrollHeader.TestField(Status, PayrollHeader.Status::Pending);
+            //         CurrPage.SetSelectionFilter(PayrollLine);
+            //         PayrollLine.MarkedOnly(true);
+            //         if PayrollLine.FindSet() then
+            //             repeat
+            //                 Clear(PayrollEngine);
+            //                 PayrollEngine.InitPayrollLine(PayrollLine);
+            //             until PayrollLine.Next() = 0;
+            //         PayrollHeader.CalcFields("Total Net Payable");
+            //         Message('Line Tax Calculated');
+            //     end;
+            // }
 
             action(Dimensions)
             {
