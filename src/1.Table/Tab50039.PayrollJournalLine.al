@@ -526,7 +526,7 @@ table 50039 "Payroll Journal Line"
         {
 
         }
-        field(71; "Deputation Value"; Text[50])
+        field(71; "Deputation Value"; Code[20])
         {
         }
         field(72; "Sol ID"; Code[20])

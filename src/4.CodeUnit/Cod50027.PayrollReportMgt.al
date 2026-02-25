@@ -311,16 +311,17 @@ codeunit 50027 "Payroll Report Mgt."
     procedure GetAnnualAccessibleIncome(EmpCode: Code[20];
                                         PostedPayrollNo: Code[20];
                                         PayCycleTerm: Code[20];
-                                        var TotalAnnualEarning: Decimal;
-                                        var TotalRetirement: Decimal;
-                                        var TotalPF: decimal)
+                                        ProjectedMonth: Integer;
+                                        var TotalAnnualEarning: Decimal)
     var
         LastEntryNo: Integer;
         TaxSetupHdr: Record "Tax Setup Header";
         EmployeePayrollOpen: Record "Employee Payroll Opening";
         DetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry";
         TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry" temporary;
+        TempDetailedEmpLedgerEntry1: Record "Detailed Employee Ledger Entry";
         Employee: Record Employee;
+        MonthlySalaryAmount: Decimal;
     begin
         //1. finds if payroll has posted for employee
         //if found, then it will get the last posted month and project the earning for remaining months
@@ -363,34 +364,74 @@ codeunit 50027 "Payroll Report Mgt."
                 TempDetailedEmpLedgerEntry.Insert;
             until DetailedEmpLedgerEntry.Next = 0;
 
-        TempDetailedEmpLedgerEntry.Reset();
-        TempDetailedEmpLedgerEntry.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
-        TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
+        CalculateMonthlySalary(Employee."No.", MonthlySalaryAmount);
 
-        TempDetailedEmpLedgerEntry.Reset();
-        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
-        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::CIT,
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::RF,
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Lump Sum Contribution"
-                                        );
+        Clear(TotalAnnualEarning);
+        TempDetailedEmpLedgerEntry1.Reset();
+        TempDetailedEmpLedgerEntry1.SetRange("Pay Cycle Term", PayCycleTerm);
+        TempDetailedEmpLedgerEntry1.SetRange("Employee No.", EmpCode);
+        TempDetailedEmpLedgerEntry1.SetRange(Reversed, false);
+        TempDetailedEmpLedgerEntry1.SetFilter("Attribute Type", '%1|%2|%3', TempDetailedEmpLedgerEntry1."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings", TempDetailedEmpLedgerEntry1."Attribute Type"::"Non-Payment");
+        TempDetailedEmpLedgerEntry1.CalcSums(Amount);
+        TotalAnnualEarning := Round(TempDetailedEmpLedgerEntry1.Amount + EmployeePayrollOpen."Total Benefit Opening" + (ProjectedMonth * MonthlySalaryAmount), 0.01, '=');
 
-        TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
+        //This values are calculate in next steps- This function shall delete in future.
+        // TempDetailedEmpLedgerEntry.Reset();
+        // TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        // TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::CIT,
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::RF,
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Lump Sum Contribution"
+        //                                 );
 
-        TempDetailedEmpLedgerEntry.Reset();
-        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
-        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution"
-                                        );
-        TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalPF := TempDetailedEmpLedgerEntry.Amount;
+        // TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        // TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
 
-        TempDetailedEmpLedgerEntry.DeleteAll();
+        // TempDetailedEmpLedgerEntry.Reset();
+        // TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        // TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
+        //                                 TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution"
+        //                                 );
+        // TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        // TotalPF := TempDetailedEmpLedgerEntry.Amount;
+
+        // TempDetailedEmpLedgerEntry.DeleteAll();
+        //This values are calculate in next steps- This function shall delete in future.
+    end;
+
+    procedure CalculateMonthlySalary(EmployeeNo: code[20]; var Amount: Decimal)
+    var
+        PayrollAttributes: Record "Payroll Attributes";
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+        PayrollReportMgt: Codeunit "Payroll Report Mgt.";
+        Employee: Record Employee;
+        AttributeAmount: Decimal;
+    begin
+        Clear(AttributeAmount);
+        Clear(Amount);
+        Employee.Get(EmployeeNo);
+        PayrollAttributes.Reset();
+        PayrollAttributes.SetRange(Type, PayrollAttributes.Type::Benefits, PayrollAttributes.Type::"Non-Payment");
+        PayrollAttributes.SetRange("Apply Every Month", true);
+        if PayrollAttributes.FindSet() then
+            repeat
+                if PayrollAttributes.Formula <> '' then begin
+                    PayrollReportMgt.SetEmployeeCode(Employee."No.");
+                    AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
+                end;
+
+                PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
+                PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
+                if PayrollAttributesUsage.FindSet() then
+                    repeat
+                        Amount += PayrollAttributesUsage.Amount;
+                    until PayrollAttributesUsage.Next() = 0;
+            Until PayrollAttributes.Next() = 0;
+
+        Amount += AttributeAmount;
     end;
 
     local procedure CheckIfProjectable(AttrCode: Code[20]): Boolean
@@ -502,31 +543,62 @@ codeunit 50027 "Payroll Report Mgt."
     procedure GetLastPayCycleForEmployee(empCode: Code[20]; PayCycleTerm: Code[20]): Integer
     var
         PGSetup: Record "Payroll General Setup";
-        EmpRec: Record Employee;
+        Employee: Record Employee;
         PayrollRepMgt: Codeunit "Payroll Report Mgt.";
         RemainingMonth: Integer;
+        CheckWorkStartMonth: Integer;
     begin
         RemainingMonth := 12;
-        EmpRec.Get(empCode);
+        Employee.Get(empCode);
         PGSetup.Get();
 
         //terminated employee
-        if EmpRec.Status = EmpRec.Status::Terminated then
-            if EmpRec."Termination Date" <> 0D then
-                if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Termination Date") and
-                (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Termination Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriod(EmpRec."Termination Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+        if Employee.Status = Employee.Status::Active then
+            if Employee."Resignation Date" <> 0D then
+                if (PGSetup."Payroll Fiscal Year Start Date" < Employee."Resignation Date") and
+                (PGSetup."Payroll Fiscal Year End Date" > Employee."Resignation Date") then
+                    RemainingMonth := PayrollRepMgt.GetPayPeriod(Employee."Resignation Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
 
         //contract expiry EmpRec
-        if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then
-            if EmpRec."Contract Expiry Date" <> 0D then
-                if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Contract Expiry Date") and
-                        (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Contract Expiry Date") then
-                    RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(EmpRec, 'MONTHLY', PayCycleTerm);
-
+        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+            if Employee."Contract Expiry Date" <> 0D then
+                if (PGSetup."Payroll Fiscal Year Start Date" < Employee."Contract Expiry Date") and
+                        (PGSetup."Payroll Fiscal Year End Date" > Employee."Contract Expiry Date") then
+                    RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(Employee, 'MONTHLY', PayCycleTerm);
 
         exit(RemainingMonth);
     end;
+
+    procedure GetFirstPayCycleForEmployee(empCode: Code[20]; PayCycleTerm: Code[20]): Integer
+    var
+        PGSetup: Record "Payroll General Setup";
+        Employee: Record Employee;
+        PayrollRepMgt: Codeunit "Payroll Report Mgt.";
+        RemainingMonth: Integer;
+        CheckWorkStartMonth: Integer;
+    begin
+        RemainingMonth := 12;
+        Employee.Get(empCode);
+        PGSetup.Get();
+
+        //terminated employee
+        if Employee.Status = Employee.Status::Active then
+            if Employee."Employment Date" <> 0D then
+                if (PGSetup."Payroll Fiscal Year Start Date" < Employee."Employment Date") and
+                (PGSetup."Payroll Fiscal Year End Date" > Employee."Employment Date") then
+                    CheckWorkStartMonth := PayrollRepMgt.GetPayPeriod(Employee."Employment Date", PGSetup."Pay Cycle Code", PGSetup."Pay Cycle Term");
+        RemainingMonth := RemainingMonth - CheckWorkStartMonth + 1;
+
+        //contract expiry EmpRec
+        if Employee."Employment Type" = Employee."Employment Type"::Contract then
+            if Employee."Contract Expiry Date" <> 0D then
+                if (PGSetup."Payroll Fiscal Year Start Date" < Employee."Contract Expiry Date") and
+                        (PGSetup."Payroll Fiscal Year End Date" > Employee."Contract Expiry Date") then
+                    RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(Employee, 'MONTHLY', PayCycleTerm);
+
+        exit(RemainingMonth);
+    end;
+
 
     procedure GetAttributesFromAllowanceConfiguration(EmpNo: Code[20])
     var

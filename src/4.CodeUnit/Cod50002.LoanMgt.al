@@ -1763,24 +1763,6 @@ codeunit 50002 "Loan Mgt."
     //         end;
     //     end;
     // end;
-    procedure CheckInsuranceAttachment(InsuranceNo: Code[20]; EmpNo: Code[20])
-    var
-        IncomingDoc: Record "Incoming Document";
-        AttachmentSetup: Record "Attachment Setup";
-    begin
-        AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
-        AttachmentSetup.SetRange(Mandatory, true);
-        if AttachmentSetup.Find('-') then
-            repeat
-                IncomingDoc.Reset;
-                IncomingDoc.SetRange("No.", InsuranceNo);
-                IncomingDoc.SetRange("Employee Code", EmpNo);
-                IncomingDoc.SetRange("File Name", '');
-                if IncomingDoc.FindFirst then
-                    Error('Please upload mandatory attachments.');
-            until AttachmentSetup.Next = 0;
-    end;
 
     local procedure "----Json API----"()
     begin

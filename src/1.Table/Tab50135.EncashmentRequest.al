@@ -62,8 +62,8 @@ table 50135 "Encashment Request"
         {
             TableRelation = "No. Series";
         }
-        field(11; Remarks; text[100]) { }
-        field(12; "Rejection Remarks"; Text[50]) { }
+        field(11; Remarks; text[250]) { }
+        field(12; "Rejection Remarks"; Text[250]) { }
         field(14; "Cancelled Document No."; Code[20]) { }
         field(16; "Approval Status"; Enum "Approval Status")
         {
@@ -72,7 +72,7 @@ table 50135 "Encashment Request"
         field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) { }
         field(100; "Status"; Text[20]) { }
-        field(101; "Cancellation Remarks"; Text[50]) { }
+        field(101; "Cancellation Remarks"; Text[250]) { }
     }
     keys
     {
@@ -90,7 +90,8 @@ table 50135 "Encashment Request"
         if "Employee No." = '' then
             if not HrMgt.IsSaaS() then
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
-        Validate("Approval Status", "Approval Status"::Open);
+        if not GuiAllowed then
+            Validate("Approval Status", "Approval Status"::Pending);
         TestField(Type);
         HRSetup.Get;
         if "No." = '' then begin

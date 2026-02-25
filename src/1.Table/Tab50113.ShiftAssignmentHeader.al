@@ -89,7 +89,7 @@ table 50113 "Shift Assignment Header"
             Caption = 'Employee Name';
             Editable = false;
         }
-        field(13; "Rejection Remarks"; Text[100])
+        field(13; "Rejection Remarks"; Text[250])
         {
             Caption = 'Rejection Remarks';
         }
