@@ -246,21 +246,13 @@ codeunit 50030 "Assignment Memo Mgt"
         // final check allowance amount 
         OnBeforeAmountCheck(AssignmentMemoLine, SkipCheck);
         if not SkipCheck then begin
+            OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, AssignmentmemoHdr."Branch Code");
             AssignmentMemoLine.Reset();
             AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
             AssignmentMemoLine.SetRange("Allowance Amount", 0);
             if not AssignmentMemoLine.IsEmpty() then
-                Error('allowance amount cannot be zero for any line.');
+                Error('%1 is not eligible for %2.', OrganizationalStructureList.Name, AssignmentMemoLine."Payroll Attribute Description");
         end;
-        //final check allowance amount 
-        OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, AssignmentmemoHdr."Branch Code");
-        AssignmentMemoLine.Reset();
-        AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
-        AssignmentMemoLine.SetRange("Allowance Amount", 0);
-        if not AssignmentMemoLine.IsEmpty() then
-            //Error('allowance amount cannot be zero for any line.');
-            Error('%1 is not eligible for %2.', OrganizationalStructureList.Name, AssignmentMemoLine."Payroll Attribute Description");
-
         //In case of substitute, open the approval for substitute
         if AssignmentmemoHdr."Substitute Approval Status" = AssignmentmemoHdr."Substitute Approval Status"::Pending then begin
             ApprovalHrms.SetFilter("Approval Sequence", '>%1', 1);
