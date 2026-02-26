@@ -20,7 +20,8 @@ table 50178 Appraisal
         {
             Caption = 'Document Type';
             DataClassification = CustomerContent;
-            InitValue = Appraisal;
+            Editable=false;
+            //InitValue = Appraisal;
         }
         field(16; "Approval Status"; Enum "Approval Status")//approval status fixed id to 16
         {
@@ -187,8 +188,10 @@ table 50178 Appraisal
             HRMgt.InitNoSeriesNew(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
             "Appraisal Code" := NoSeriesMgt.GetNextNo(HumanResSetup."Appraisal No.", Today, true);
         end;
-        "Approval Status" := "Approval Status"::Open;
-        "Document Type" := "Document Type"::Appraisal;
+         Validate("Document Type", "Document Type"::Appraisal);
+         Validate("Approval Status","Approval Status"::Open);
+       // "Approval Status" := "Approval Status"::Open;
+        //"Document Type" := "Document Type"::Appraisal;
         if not GuiAllowed then begin
             if "Employee Code" = '' then
                 Validate("Employee Code", "Employee Code");
