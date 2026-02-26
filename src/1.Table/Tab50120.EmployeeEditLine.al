@@ -84,7 +84,7 @@ table 50120 "Employee Edit Line"
         { DataClassification = CustomerContent; }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
-        field(33; Remarks; Text[100])
+        field(33; Remarks; Text[250])
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
         { DataClassification = CustomerContent; }

@@ -1,14 +1,11 @@
 page 50235 "Employee Edit list"
 {
+    ApplicationArea = All;
     Editable = false;
-    // InsertAllowed = false;
-    // DeleteAllowed = false;
     PageType = List;
     SourceTable = "Employee Edit";
     UsageCategory = Lists;
     CardPageId = "Employee Edit Card";
-    ApplicationArea = All;
-
     layout
     {
         area(Content)

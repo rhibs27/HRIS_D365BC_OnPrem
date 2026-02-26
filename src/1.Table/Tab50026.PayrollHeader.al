@@ -72,7 +72,7 @@ table 50026 "Payroll Header"
         {
             Editable = false;
         }
-        field(5; Remarks; Text[50]) { }
+        field(5; Remarks; Text[250]) { }
         field(6; "Global Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,1,1';

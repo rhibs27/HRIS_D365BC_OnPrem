@@ -47,7 +47,7 @@ table 50164 "Attribute Adjustment Header"
             Caption = 'Approval Status';
             Editable = false;
         }
-        field(100; "Rejection Remarks"; Text[100])
+        field(100; "Rejection Remarks"; Text[250])
         {
             Caption = 'Rejection Remarks';
         }

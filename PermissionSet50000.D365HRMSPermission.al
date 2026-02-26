@@ -498,12 +498,15 @@ permissionset 50000 D365HRMSPermission
         page "KPI Daily Score Dept" = X,
         page "KPI Employee" = X,
         // page "KPI Master" = X,
-        page "KPI Target Raw" = X,
-        page "KPI Target Raw Department" = X,
+        // page "KPI Target Raw" = X,
+        // page "KPI Target Raw Department" = X,
         // page "KRA Card" = X,
-        page "KRA Category" = X,
+        // page "KRA Category" = X,
         // page "KRA List" = X,
         // page "KRA Master Setup" = X,
+        page "KPI Target Raw" = X,
+        page "KPI Target Raw Department" = X,
+        page "KRA Category" = X,
         page "KRA Subform" = X,
         page "Leave Earn" = X,
         page "Leave Earn Card" = X,
@@ -880,4 +883,7 @@ permissionset 50000 D365HRMSPermission
         page "Grievance List" = X,
         page "Grievance Card" = X,
         page "Grievance Comment Subform" = X;
+    // report "Update Emp Att. and Act Doc." = X,
+    // page "Device Overview" = X,
+    // page "Late Deduction Journal" = X;
 }

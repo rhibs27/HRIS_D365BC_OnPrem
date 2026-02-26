@@ -64,8 +64,8 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate("Deputation On (To)", EmployeeTransfer."Deputation On (To)");
                     EmpServiceHis.Validate("Deputation Code (To)", EmployeeTransfer."Deputation on Code To");
                     // EmpServiceHis.Validate("Deputation Value (to)", ExitTransferDeputationWiseValue(EmpServiceHis."Deputation Code (To)", EmpServiceHis."Employee No."));
-                    EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
-                    EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
+                    EmpServiceHis.Validate("Salary Level (To)", Employee."Salary Level");
+                    EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
                     EmpServiceHis.Validate("Decision Date", EmployeeTransfer."Decision Date");
                     if ServiceEvent <> ServiceEvent::"Internal Appointment" then
                         EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
@@ -102,9 +102,13 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate("Employee No.", Employee."No.");
                     EmpServiceHis.Validate("Effective Date", EffectiveDate);
                     EmpServiceHis.Validate(Remarks, Promotion.Remarks);
+                    EmpServiceHis.Validate("Functional Title (From)", Employee."Functional Title");
                     EmpServiceHis.Validate("Functional Title (To)", Promotion."Promoted Functional Title");
+                    EmpServiceHis.Validate("Salary Level (From)", Employee."Salary Level");
                     EmpServiceHis.Validate("Salary Level (To)", Promotion."Promoted Salary level");
+                    EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
                     EmpServiceHis.Validate("Salary Grade (To)", Promotion."Promoted Salary Grade");
+                    EmpServiceHis.Validate("Approver Role (From)", Employee."Approver Role");
                     EmpServiceHis.Validate("Approver Role (To)", Promotion."Promoted Approver Role");
                     EmpServiceHis.Validate("Staff Level (To)", Promotion."Promoted Staff Level");
                     EmpServiceHis.Validate("Effective Date", Promotion."Promotion Date");

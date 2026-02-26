@@ -127,7 +127,7 @@ table 50103 "Overtime Line"
             Caption = 'OT Amount';
             Editable = false;
         }
-        field(22; Remarks; Text[100])
+        field(22; Remarks; Text[250])
         {
             Caption = 'Remarks';
         }
