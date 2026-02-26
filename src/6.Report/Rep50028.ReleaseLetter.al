@@ -40,7 +40,7 @@ report 50028 "Release Letter"
                 Resignation.SetRange("Approval Status", Resignation."Approval Status"::Approved);
                 if Resignation.FindFirst then begin
                     RefNo := 'Ref No: ' + Resignation."No.";
-                    RequestedResignDate := Resignation."Proposed Date of Resignation";
+                    RequestedResignDate := Resignation."Requested Last Working Day";
                     // if Resignation."Supervisor Proposed Date" <> 0D then
                     //     AcceptedResignDate := Resignation."Supervisor Proposed Date"
                     // else if Resignation."HR Proposed Date" <> 0D then

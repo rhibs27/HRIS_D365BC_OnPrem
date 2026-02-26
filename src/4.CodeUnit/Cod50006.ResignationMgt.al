@@ -38,7 +38,7 @@ codeunit 50006 "Resignation Mgt"
         if GuiAllowed then
             if not Confirm(ConfirmResign, false) then
                 exit;
-        Resignation.TestField("Proposed Date of Resignation");
+        Resignation.TestField("Requested Last Working Day");
         Resignation.TestField("Reason for Resignation");
         if GuiAllowed then begin
             AttachmentMgt.CheckMandatoryAttachment(Resignation."No.");
@@ -176,7 +176,7 @@ codeunit 50006 "Resignation Mgt"
         end;
         if Resignation."Requested Date" = 0D then
             Resignation."Requested Date" := Today;
-        if (Resignation."Proposed Date of Resignation" - Resignation."Requested Date" + 1) >= ResignationDays then
+        if (Resignation."Requested Last Working Day" - Resignation."Requested Date" + 1) >= ResignationDays then
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Normal)
         else
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Recovery);
@@ -208,11 +208,11 @@ codeunit 50006 "Resignation Mgt"
     begin
         Resignation.Get(resignationCode);
         HRSetup.Get();
-        Resignation.TestField("HR Proposed Date");
+        Resignation.TestField("Approved Last Working Day");
         if not HRSetup."Hide Clearance Approver" then
             InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
-        ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
+        ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."Approved Last Working Day");
     end;
 
     procedure InsertResignAttachmentLetter(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])

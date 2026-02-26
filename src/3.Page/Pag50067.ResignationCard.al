@@ -99,19 +99,19 @@ page 50067 "Resignation Card"
                 group("Resignation Details")
                 {
                     Caption = 'Resignation Details';
-                    field("Proposed Date of Resignation"; Rec."Proposed Date of Resignation")
+                    field("Proposed Date of Resignation"; Rec."Requested Last Working Day")
                     {
                         ToolTip = 'Specifies the value of the Proposed Date of Closed of Business Hour field.';
                         ApplicationArea = All;
                         Editable = IsOpen;
                     }
-                    field("Supervisor Proposed Date"; Rec."Supervisor Proposed Date")
+                    field("Supervisor Proposed Date"; Rec."Recommended Last Working Day")
                     {
                         Editable = IsPending;
                         ToolTip = 'Specifies the value of the Supervisor Proposed Date field.';
                         ApplicationArea = All;
                     }
-                    field("HR Proposed Date"; Rec."HR Proposed Date")
+                    field("HR Proposed Date"; Rec."Approved Last Working Day")
                     {
                         Editable = IsPending;
                         ToolTip = 'Specifies the value of the HR Proposed Date field.';
@@ -276,12 +276,12 @@ page 50067 "Resignation Card"
                     end;
                 end;
             }
-            action("Resignation Acceptance Letter")
+            action("Acceptance Letter")
             {
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                Visible = IsApproved;
+                Visible = IsApproved or IsPending;
                 Image = Report;
                 PromotedCategory = Report;
                 PromotedOnly = true;
@@ -292,6 +292,8 @@ page 50067 "Resignation Card"
                 begin
                     Resignation.SetRange("No.", Rec."No.");
                     IF Resignation.FindFirst() THEN begin
+                        Rec.TestField("Requested Date");
+                        Rec.TestField("Approved Last Working Day");
                         REPORT.RunModal(Report::"Resignation Acceptance Letter", true, true, Resignation);
                     end;
                 end;
