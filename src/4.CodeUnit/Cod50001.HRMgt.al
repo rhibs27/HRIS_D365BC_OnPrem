@@ -3429,7 +3429,7 @@ codeunit 50001 "HR Mgt."
         Employee.CalcFields("CIT Deposit", "RF Deposit", "Total Retirement Contribution", "PF Contribution (Office)", "PF Contribution", "Lump Sum CIT");
         PayrollReportMgt.GetAnnualAccessibleIncome(EmpCode, '', PayCyclePeriod."Pay Cycle Term",
                                                    TempRetirementFund."Projection Month",
-                                        TempRetirementFund."Annual Assessable Income");
+                                                   TempRetirementFund."Annual Assessable Income");
         if TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
             TempRetirementFund."RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
         else

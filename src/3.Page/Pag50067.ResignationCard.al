@@ -99,19 +99,19 @@ page 50067 "Resignation Card"
                 group("Resignation Details")
                 {
                     Caption = 'Resignation Details';
-                    field("Proposed Date of Resignation"; Rec."Requested Last Working Day")
+                    field("Requested Last Working Day"; Rec."Requested Last Working Day")
                     {
                         ToolTip = 'Specifies the value of the Proposed Date of Closed of Business Hour field.';
                         ApplicationArea = All;
                         Editable = IsOpen;
                     }
-                    field("Supervisor Proposed Date"; Rec."Recommended Last Working Day")
+                    field("Recommended Last Working Day"; Rec."Recommended Last Working Day")
                     {
                         Editable = IsPending;
                         ToolTip = 'Specifies the value of the Supervisor Proposed Date field.';
                         ApplicationArea = All;
                     }
-                    field("HR Proposed Date"; Rec."Approved Last Working Day")
+                    field("Approved Last Working Day"; Rec."Approved Last Working Day")
                     {
                         Editable = IsPending;
                         ToolTip = 'Specifies the value of the HR Proposed Date field.';
