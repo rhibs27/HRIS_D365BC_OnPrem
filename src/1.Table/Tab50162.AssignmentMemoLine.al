@@ -312,11 +312,20 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Bill No.';
         }
+        field(302; "Access Token"; Code[60])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(303; "Assigned By"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
         key(Key1; "Document No.", "Line No.") { }
+        key(key2; "Access Token") { }
     }
 
     trigger OnDelete()
