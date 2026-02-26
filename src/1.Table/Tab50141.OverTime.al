@@ -88,6 +88,7 @@ table 50141 OverTime
                     Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
                     Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                     if type = type::Overtime then begin
+                        OnCheckOvertimeBackdateLimit(Rec."Start Date");
                         HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                         EmployeeAttendance.Reset;
                         EmployeeAttendance.SetRange("Employee No.", "Employee No.");
@@ -487,6 +488,11 @@ table 50141 OverTime
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeOTDateValidation(Var Overtime: Record OverTime; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCheckOvertimeBackdateLimit(var startDate: Date)
     begin
     end;
 

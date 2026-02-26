@@ -264,14 +264,14 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
                 PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
                 if PayCyclePeriod.FindFirst() then begin
-                    if not GuiAllowed then
-                        Employee.Get(HrMgt.GetEmployeeNo())
-                    else
-                        Employee.Get("Employee No.");
-                    IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
-                        "From Date" := Employee."Employment Date"
-                    else
-                        "From Date" := PayCyclePeriod."Start Date";
+                    // if not GuiAllowed then
+                    //     Employee.Get(HrMgt.GetEmployeeNo())
+                    // else
+                    //     Employee.Get("Employee No.");
+                    // IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
+                    //     "From Date" := Employee."Employment Date"
+                    // else
+                    "From Date" := PayCyclePeriod."Start Date";
                     "To date" := PayCyclePeriod."End Date";
                     "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
                     "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
