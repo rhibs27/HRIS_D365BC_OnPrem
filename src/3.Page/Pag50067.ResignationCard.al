@@ -281,7 +281,7 @@ page 50067 "Resignation Card"
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                Visible = IsApproved;
+                Visible = IsApproved or IsPending;
                 Image = Report;
                 PromotedCategory = Report;
                 PromotedOnly = true;
