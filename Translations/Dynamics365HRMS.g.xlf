@@ -47705,15 +47705,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Resignation Details - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2288209159 - Control 1322843954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2288209159 - Control 3688227808 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the HR Proposed Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control HR Proposed Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2288209159 - Control 17825032 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Proposed Date of Closed of Business Hour field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Proposed Date of Resignation - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Approved Last Working Day - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2288209159 - Control 1908046867 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Reason Code field.</source>
@@ -47725,10 +47720,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Reason for Resignation - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2288209159 - Control 1953987344 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2288209159 - Control 2852353230 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Supervisor Proposed Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Supervisor Proposed Date - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Recommended Last Working Day - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2288209159 - Control 1340301945 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Proposed Date of Closed of Business Hour field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Requested Last Working Day - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2288209159 - Control 2468337368 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resign Clearance Verifier</source>
@@ -47770,6 +47770,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation List - Control Approval Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3682751549 - Control 3688227808 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the HR Proposed Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation List - Control Approved Last Working Day - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3682751549 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Shortcut Dimension 1 Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47789,11 +47794,6 @@
           <source>Specifies the value of the Functional Title field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation List - Control Functional Title - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3682751549 - Control 1322843954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the HR Proposed Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation List - Control HR Proposed Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3682751549 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
