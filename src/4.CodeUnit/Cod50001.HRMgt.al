@@ -4356,9 +4356,11 @@ codeunit 50001 "HR Mgt."
                 if PayrollAttributes.Formula <> '' then begin
                     PayrollReportMgt.SetEmployeeCode(Employee."No.");
                     AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
-                end;
-                if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
-                    Amount += PayrollAttributesUsage.Amount;
+                end else if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
+                        if PayrollAttributesUsage."Static Amount" then
+                            Amount += PayrollAttributesUsage.Amount - AttributeAmount
+                        else
+                            Amount += PayrollAttributesUsage.Amount;
             until PayrollAttributes.Next() = 0;
 
         TotalProvidentFundProjected := (Amount + AttributeAmount) * ProjectionMonth;
