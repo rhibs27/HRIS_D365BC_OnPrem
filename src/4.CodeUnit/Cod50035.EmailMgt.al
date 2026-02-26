@@ -499,7 +499,7 @@ codeunit 50035 "Email Mgt"
             if DocumentType = DocumentType::Resignation then begin
                 CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Employee No.") + Colon + Format(Resignation."Employee No.") + '<br>');
                 CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Employee Name") + Colon + Format(Resignation."Employee Name") + '<br>');
-                CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Proposed Date of Resignation") + Colon + Format(Resignation."Employee Name") + '<br>');
+                CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Requested Last Working Day") + Colon + Format(Resignation."Employee Name") + '<br>');
                 CodeunitEmailMessage.AppendToBody(Resignation.FieldCaption("Reason for Resignation") + Colon + Format(Resignation."Employee Name") + '<br>');
             end;
             CodeunitEmailMessage.AppendToBody('<br>');
