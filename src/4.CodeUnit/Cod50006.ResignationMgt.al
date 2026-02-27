@@ -234,6 +234,7 @@ codeunit 50006 "Resignation Mgt"
                     IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
                     IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                     IncomingDocument."No." := DocumentNo;
+                    IncomingDocument."Sub Type" := AttachmentMandatory."Sub Type";
                     IncomingDocument."Employee Activity Type" := employeeAct;
                     IncomingDocument."Employee Code" := employeeNo;
                     IncomingDocument.Insert(true);
