@@ -129,7 +129,6 @@ table 50180 "KPI Employee"
     keys
     {
         key(Key1; "Appraisal Code", "KPI No.", "Line No.") { }
-        key(PK; "Access Token") { }
     }
     trigger OnInsert()
     begin

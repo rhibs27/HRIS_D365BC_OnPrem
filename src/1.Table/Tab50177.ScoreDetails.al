@@ -26,7 +26,6 @@ table 50177 "Score Detail"
             begin
                 Clear("Score/Rating By");
                 if not ReviewerSetup.Get("Reviewer Type") then begin
-                    "Is Self Review" := false;
                     exit;
                 end;
                 "Is Self Review" := ReviewerSetup."Is Self Review";

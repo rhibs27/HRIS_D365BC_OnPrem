@@ -227,6 +227,9 @@ page 50390 "Appraisal Form Card"
                 Enabled = IsPending;
                 Visible = IsPending;
                 trigger OnAction()
+                var
+                    ApprovalHRMS: Record "Approval HRMS";
+                    AppraisalMgt: Codeunit "AppraisalMgt.";
                 begin
                     if Confirm('Do you want to Reopen the Document?', false) then begin
                         Rec."Approval Status" := Appraisal."Approval Status"::Open;
@@ -235,7 +238,18 @@ page 50390 "Appraisal Form Card"
                         Rec.Validate("Total Final Score", 0);
                         Clear(Rec."Final Grading");
                         Rec.Modify(true);
+                        ApprovalHRMS.Reset();
+                        ApprovalHRMS.SetRange("Document No.", Rec."Appraisal Code");
+                        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::Appraisal);
+                        if ApprovalHRMS.FindSet() then
+                            repeat
+                                ApprovalHRMS."Approval Status" := ApprovalHRMS."Approval Status"::Created;
+                                ApprovalHRMS."Approved By" := '';
+                                ApprovalHRMS."Rejected By" := '';
+                                ApprovalHRMS.Modify(true);
+                            until ApprovalHRMS.Next() = 0;
                         CurrPage.Update();
+                        Message('Document has been reopened');
                     end;
                 end;
             }

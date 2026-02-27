@@ -5,6 +5,7 @@ codeunit 50003 "AppraisalMgt."
         Employee: Record Employee;
         Colon: Label ' : ';
         Email: Codeunit Email;
+        HrMgt: Codeunit "HR Mgt.";
 
     local procedure "------Appraisal---------"()
     begin
@@ -165,7 +166,6 @@ codeunit 50003 "AppraisalMgt."
     var
         AppraisalTemplate: Record "Appraisal Template";
         Employee: Record Employee;
-        HRMgt: Codeunit "HR Mgt.";
         FiscalYearEndDate: Date;
         ServiceStartDate: Date;
         ServiceEndDate: Date;
@@ -398,7 +398,6 @@ codeunit 50003 "AppraisalMgt."
         HasScoringKPIs: Boolean;
         HasRatingKPIs: Boolean;
         HasGroupBasedKPIs: Boolean;
-        ScoreDetail: Record "Score Detail";
     begin
         MaxWeightage := 100;
         if not AppraisalTemplate.Get(AppraisalRec."Appraisal Template") then
@@ -615,29 +614,6 @@ codeunit 50003 "AppraisalMgt."
         if not ScoreDetail.IsEmpty() then
             Error('Cannot proceed. first Submit Score Detail');
     end;
-
-    procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
-    var
-        HRSetup: Record "Human Resources Setup";
-        Employee: Record Employee;
-    begin
-        if not HRSetup.Get() then
-            exit(false);
-        if not Employee.Get(EmployeeNo) then
-            exit(false);
-        if HRSetup."HR Department Code" <> '' then begin
-            if HRSetup."HR Head Functional Title" = '' then begin
-                if Employee."Department Code" = HRSetup."HR Department Code" then
-                    exit(true);
-            end else begin
-                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
-                   (Employee."Department Code" = HRSetup."HR Department Code") then
-                    exit(true);
-            end;
-        end;
-        exit(false);
-    end;
-
 #if SaasFeature
     procedure SubmitScoreDetails(appraisalCode: Code[20]; accessToken: Code[60])//used in Portal function submitAppraisalScoreAPI
     var
@@ -657,19 +633,91 @@ codeunit 50003 "AppraisalMgt."
             until ScoreDetail.Next() = 0;
     end;
 #endif
- procedure SubmitScoreDetail(appraisalCode: Code[20])
+    procedure SubmitScoreDetail(appraisalCode: Code[20])
     var
         ScoreDetail: Record "Score Detail";
         ReviewerNo: Code[20];
     begin
         ScoreDetail.Reset();
         ScoreDetail.SetRange("Appraisal Code", appraisalCode);
-        ScoreDetail.SetRange("Score/Rating By", ReviewerNo);
+        ScoreDetail.SetRange("Score/Rating By", HrMgt.GetEmployeeNo());
         if ScoreDetail.FindSet() then
             repeat
                 ScoreDetail.Submitted := true;
                 ScoreDetail."Submitted Date" := Today;
                 ScoreDetail.Modify();
             until ScoreDetail.Next() = 0;
+    end;
+
+    procedure SubmitAllScores(ScoreDetail: Record "Score Detail")
+    var
+        ScoreDetailCheck: Record "Score Detail";
+        CurrentEmployeeNo: Code[20];
+        IsHRUser: Boolean;
+        CanSubmit: Boolean;
+        LinesSubmitted: Integer;
+        ErrorMessages: Text;
+        AppraisalCode: Code[20];
+        ReviewerType: Code[20];
+        KPIEmployee: Record "KPI Employee";
+    begin
+        AppraisalCode := ScoreDetail."Appraisal Code";
+        ReviewerType := ScoreDetail."Reviewer Type";
+        CurrentEmployeeNo := HRMgt.GetEmployeeNo();
+        IsHRUser := HRMgt.IsHRApprover(CurrentEmployeeNo);
+        CanSubmit := false;
+        ScoreDetailCheck.Reset();
+        ScoreDetailCheck.SetRange("Appraisal Code", AppraisalCode);
+        ScoreDetailCheck.SetRange("Reviewer Type", ReviewerType);
+        ScoreDetailCheck.SetRange(Submitted, false);
+        if not ScoreDetailCheck.FindSet() then begin
+            Message('All score details are already submitted.');
+            exit;
+        end;
+        if IsHRUser then begin
+            CanSubmit := true;
+        end else begin
+            CanSubmit := true;
+            ErrorMessages := '';
+            repeat
+                if ScoreDetailCheck."Score/Rating By" <> CurrentEmployeeNo then begin
+                    CanSubmit := false;
+                    if ErrorMessages <> '' then
+                        ErrorMessages += '\';
+                    ErrorMessages += StrSubstNo('Line %1: Score/Rating By (%2) does not match current user (%3)',
+                        ScoreDetailCheck."Line No.", ScoreDetailCheck."Score/Rating By", CurrentEmployeeNo);
+                end;
+            until ScoreDetailCheck.Next() = 0;
+        end;
+        if not CanSubmit then begin
+            if ErrorMessages <> '' then
+                Error(ErrorMessages)
+            else
+                Error('Cannot submit scores. You are not authorized to submit these records.');
+            exit;
+        end;
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", AppraisalCode);
+        ScoreDetail.SetRange("Reviewer Type", ReviewerType);
+        ScoreDetail.SetRange(Submitted, false);
+        LinesSubmitted := 0;
+        if ScoreDetail.FindSet() then begin
+            repeat
+                ScoreDetail.Submitted := true;
+                ScoreDetail."Submitted Date" := Today;
+                ScoreDetail.Modify();
+                LinesSubmitted += 1;
+            until ScoreDetail.Next() = 0;
+            Message('%1 score detail(s) submitted successfully.', LinesSubmitted);
+
+        end;
+        KPIEmployee.Reset();
+        KPIEmployee.SetRange("Appraisal Code", AppraisalCode);
+        KPIEmployee.SetRange("Reviewer Type", ReviewerType);
+        if KPIEmployee.FindSet() then
+            repeat
+                KPIEmployee."Reviewer Code" := CurrentEmployeeNo;
+                KPIEmployee.Modify();
+            until KPIEmployee.Next() = 0;
     end;
 }

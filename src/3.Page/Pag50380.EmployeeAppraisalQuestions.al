@@ -29,7 +29,7 @@ page 50380 "Employee Appraisal Questions"
                     ToolTip = 'Specifies the appraisal code';
                     Editable = false;
                 }
-                field(EmployeeNo; Rec."Employee Code")
+                field(employeeNo; Rec."Employee Code")
                 {
                     Caption = 'Employee No';
                     ApplicationArea = All;
