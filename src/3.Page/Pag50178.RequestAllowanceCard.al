@@ -220,20 +220,6 @@ page 50178 "Request Allowance Card"
         SetLayout();
     end;
 
-    // trigger OnDeleteRecord(): Boolean
-    // var
-    //     LeaveEarn: Record "Leave Earn";
-    // begin
-    //     LeaveEarn.SetRange("Claimed Document No.", Rec."No.");
-    //     if LeaveEarn.FindSet() then begin
-    //         repeat
-    //             LeaveEarn."Claimed Document No." := '';
-    //             LeaveEarn.Claimed := false;
-    //             LeaveEarn.Modify();
-    //         until LeaveEarn.Next() = 0;
-    //     end;
-    // end;
-
     var
         FormEditable: Boolean;
         AllowanceMgt: Codeunit "Assignment Memo Mgt";

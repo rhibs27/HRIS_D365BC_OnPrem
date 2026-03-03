@@ -164,7 +164,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                 if not CheckAttendanceLogs(MachineEmpNo, AttendanceMissed."Start Date", AttendanceMissed."Check In Time") then begin//Check Already exits logs
                     AttendanceLog.Init();
                     OnBeforeInsertAttendanceLog(AttendanceLog, IsHandled);
-                    if (not GuiAllowed) and HRMgt.IsSaaS() or IsHandled then
+                    if (not GuiAllowed) and (HRMgt.IsSaaS() or IsHandled) then
                         Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time" - (5 * 3600000 + 45 * 60000)))
                     else
                         Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time"));
@@ -187,7 +187,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                     AttendanceLog.Init();
                     AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(CheckOutDate, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceMissed."Check Out Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>'));
                     OnBeforeInsertAttendanceLog(AttendanceLog, IsHandled);
-                    if (not GuiAllowed) and (HRMgt.IsSaaS() or IsHandled) then  //Check wheather the environment is SaaS or not. 
+                    if (not GuiAllowed) and (HRMgt.IsSaaS() or IsHandled) then  //Check wheather the environment is SaaS or not.
                         Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time" - (5 * 3600000 + 45 * 60000)))
                     else
                         Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time"));
