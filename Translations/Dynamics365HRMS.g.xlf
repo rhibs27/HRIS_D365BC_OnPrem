@@ -36758,6 +36758,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2992605534 - NamedType 494866634" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attach File(s)...</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - NamedType SelectFileTxt</note>
+        </trans-unit>
         <trans-unit id="Page 2992605534 - Control 1765229233 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Adjustment Type field</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36767,6 +36772,11 @@
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2992605534 - Control 347119804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attachment File Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Control Attachment File Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2992605534 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee No. field.</source>
@@ -65003,6 +65013,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Education Allowance - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 3704857825 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Funeral Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Funeral Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 2615421126 - EnumValue 3747420402 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Holiday Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -65027,6 +65042,11 @@
           <source>Leave Encash</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Leave Encash - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1469700542 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Maternity/Paternity Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Maternity/Paternity Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2615421126 - EnumValue 13108360 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OutStation Allowance</source>
