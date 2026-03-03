@@ -271,6 +271,7 @@ codeunit 50030 "Assignment Memo Mgt"
         ApprovalHrms: Record "Approval HRMS";
         IsHandled: Boolean;
         OrganizationalStructureList: Record "Organization Structure List";
+        SkipCheck: Boolean;
     begin
         ProcessAssignmentRequestFromCopyTable(AssignmentmemoHdr, IsHandled);
         if AssignmentmemoHdr."Approval Status" = AssignmentmemoHdr."Approval Status"::Open then
@@ -322,13 +323,17 @@ codeunit 50030 "Assignment Memo Mgt"
             until AssignmentMemoLine.Next() = 0;
 
         //final check allowance amount 
-        OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, AssignmentmemoHdr."Branch Code");
-        AssignmentMemoLine.Reset();
-        AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
-        AssignmentMemoLine.SetRange("Allowance Amount", 0);
-        if not AssignmentMemoLine.IsEmpty() then
-            //Error('allowance amount cannot be zero for any line.');
-             Error('%1 is not eligible for %2.', OrganizationalStructureList.Name, AssignmentMemoLine."Payroll Attribute Description");
+        // final check allowance amount 
+        OnBeforeAmountCheck(AssignmentMemoLine, SkipCheck);
+        if not SkipCheck then begin
+            OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, AssignmentmemoHdr."Branch Code");
+            AssignmentMemoLine.Reset();
+            AssignmentMemoLine.SetRange("Document No.", AssignmentmemoHdr."No.");
+            AssignmentMemoLine.SetRange("Allowance Amount", 0);
+            if not AssignmentMemoLine.IsEmpty() then
+                //Error('allowance amount cannot be zero for any line.');
+                Error('%1 is not eligible for %2.', OrganizationalStructureList.Name, AssignmentMemoLine."Payroll Attribute Description");
+        end;
 
 
         //In case of substitute, open the approval for substitute
