@@ -301,7 +301,7 @@ codeunit 50029 "Process Daily Attendance"
     begin
         ReturnBool := false;
         Clear(CalendarDescription);
-        ReturnBool := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
+        ReturnBool := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
         CalendarDescription := AttendanceMgt.ReturnCalendarDescription;
         exit(ReturnBool);
     end;

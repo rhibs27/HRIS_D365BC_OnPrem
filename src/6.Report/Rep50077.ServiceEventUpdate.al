@@ -200,22 +200,27 @@ report 50077 "Service Event Update"
         ServiceHistory.Validate("Department Code (From)", Employee."Department Code");
         ServiceHistory.Validate("Unit Code (From)", Employee."Unit Code");
         ServiceHistory.Validate("Extension Counter (From)", Employee."Extension Counter Code");
-        ServiceHistory.Validate("Functional Title (To)", FunctionalTitle);
-        ServiceHistory.Validate("Contract Code (To)", ContractCode);
-        ServiceHistory.Validate("Employment Type (To)", EmploymentType);
-        ServiceHistory.Validate("Salary Level (To)", SalaryLevel);
-        ServiceHistory.Validate("Salary Grade (To)", SalaryGrade);
         ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
         ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
-        ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));
+        ServiceHistory.Validate("Province Code (To)", ProvinceCode);
+        case ServiceEvent of
+            ServiceEvent::"Branch Merge":
+                if DeputationOnTo = DeputationOnTo::Branch then begin
+                    ServiceHistory.Validate("Branch Code (To)", DeputationCodeTo);
+                end else if DeputationOnTo = DeputationOnTo::Department then begin
+                    ServiceHistory.Validate("Department Code (To)", DeputationCodeTo);
+                end;
+        end;
         ServiceHistory.Insert(true);
         if FunctionalTitle <> '' then
             Employee.Validate("Functional Title", FunctionalTitle);
-        Employee.Validate("Salary Level", SalaryLevel);
-        Employee.Validate("Salary Grade", SalaryGrade);
-        if EmploymentType = EmploymentType::Permanent then
-            Employee.Validate("Confirmation Date", EffectiveDate);
-        Employee.Validate("Employment Type", EmploymentType);
+        if not (ServiceEvent in [ServiceEvent::"Branch Merge"]) then begin
+            if EmploymentType = EmploymentType::Permanent then
+                Employee.Validate("Confirmation Date", EffectiveDate);
+            Employee.Validate("Employment Type", EmploymentType);
+            Employee.Validate("Salary Level", SalaryLevel);
+            Employee.Validate("Salary Grade", SalaryGrade);
+        end;
         if ServiceEvent = ServiceEvent::Appointment then
             Employee.Validate("Employment Date", EffectiveDate)
         else if ServiceEvent = ServiceEvent::"Contract Renew" then
