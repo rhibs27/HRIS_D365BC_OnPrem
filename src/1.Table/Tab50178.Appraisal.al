@@ -20,8 +20,7 @@ table 50178 Appraisal
         {
             Caption = 'Document Type';
             DataClassification = CustomerContent;
-            Editable=false;
-            //InitValue = Appraisal;
+            Editable = false;
         }
         field(16; "Approval Status"; Enum "Approval Status")//approval status fixed id to 16
         {
@@ -114,13 +113,8 @@ table 50178 Appraisal
                 if GuiAllowed then
                     AppraisalMgt.ValidateKRAInEmployeeQuestionnaire(Rec);
             end;
-
-
         }
-        field(28; "KPI Rating Type"; Enum "KPI Rating Type")
-        {
-
-        }
+        field(28; "KPI Rating Type"; Enum "KPI Rating Type") { }
         field(29; "Reviewer III"; Code[20]) { TableRelation = Employee; }
         field(30; "Posting Date"; Date) { Editable = false; }
         field(31; "Reviewed Score I"; Decimal) { }
@@ -142,7 +136,6 @@ table 50178 Appraisal
         }
         field(47; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
         field(48; "Appraisal Subtype Quarterly"; Enum Quater) { }
-
         field(49; "Total Final Score"; Decimal)
         {
             Editable = false;
@@ -188,10 +181,8 @@ table 50178 Appraisal
             HRMgt.InitNoSeriesNew(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
             "Appraisal Code" := NoSeriesMgt.GetNextNo(HumanResSetup."Appraisal No.", Today, true);
         end;
-         Validate("Document Type", "Document Type"::Appraisal);
-         Validate("Approval Status","Approval Status"::Open);
-       // "Approval Status" := "Approval Status"::Open;
-        //"Document Type" := "Document Type"::Appraisal;
+        Validate("Document Type", "Document Type"::Appraisal);
+        Validate("Approval Status", "Approval Status"::Open);
         if not GuiAllowed then begin
             if "Employee Code" = '' then
                 Validate("Employee Code", "Employee Code");

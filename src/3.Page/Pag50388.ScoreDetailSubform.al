@@ -81,7 +81,6 @@ page 50388 "Score Detail Subform"
                 }
                 field(isSelfReview; Rec."Is Self Review")
                 {
-                    //Visible = false;
                     Editable = false;
                     ApplicationArea = all;
                     Caption = 'Is Self Review';
@@ -102,8 +101,10 @@ page 50388 "Score Detail Subform"
 
                 trigger OnAction()
                 begin
-                    AppraisalMgt.SubmitAllScores(Rec);
-                    CurrPage.Update(false);
+                    if Confirm('Do you want to submit the score', false) then begin
+                        AppraisalMgt.SubmitAllScores(Rec);
+                        CurrPage.Update(false);
+                    end;
                 end;
             }
         }
@@ -119,11 +120,6 @@ page 50388 "Score Detail Subform"
     trigger OnAfterGetRecord()
     begin
         UpdateEditability();
-        // IsSelfReview := false;
-
-        // if Rec."Reviewer Type" <> '' then
-        //     if ReviewerSetup.Get(Rec."Reviewer Type") then
-        //         IsSelfReview := ReviewerSetup."Is Self Review";
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -149,6 +145,4 @@ page 50388 "Score Detail Subform"
             ScoreRatingEditable :=
                 not (ReviewerSetup."Is Self Review" or ReviewerSetup."Is Group Based");
     end;
-
-
 }
