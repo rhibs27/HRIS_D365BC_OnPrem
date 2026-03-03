@@ -97,7 +97,7 @@ table 50161 "Assignment Memo Header"
         }
         field(8; "Unit Code"; Code[20])
         {
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = const(Department), Code = field("Department Code"));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
         }
         field(9; "Document Date"; Date) { }
         field(10; Remarks; Text[250])
