@@ -1060,18 +1060,9 @@ report 50144 "Yearly Payroll Projection"
     begin
         if not PayrollAtr.Get(AttrCode) then
             exit(false);
-        // Skip irregular attributes except non-payments
-        if PayrollAtr.Irregular then
-            if PayrollAtr.Type = PayrollAtr.Type::"Non-Payment" then
-                exit(true)
-            else
-                exit(false);
         // Skip non-taxable attributes
         if PayrollAtr."Non-Taxable" then
             exit(false);
-        // Include non-payments
-        if PayrollAtr.Type = PayrollAtr.Type::"Non-Payment" then
-            exit(true);
         // Include monthly recurring attributes
         if PayrollAtr."Apply Every Month" then
             exit(true);
