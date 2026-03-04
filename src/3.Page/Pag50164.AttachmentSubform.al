@@ -44,7 +44,7 @@ page 50164 "Attachment Subform"
                         PreviewAttachment.Run();
                     end;
                 }
-                field(type; Rec.Type)
+                field(type; Rec."Sub Type")
                 {
                     Editable = not isGUIAllowed;
                     Visible = not isGUIAllowed;

@@ -760,7 +760,7 @@ permissionset 50000 D365HRMSPermission
         page "Transfer Claim Details Subform" = X,
         page "Transfer Journal" = X,
         tabledata "Employee Activity Journal" = RIMD,
-        page "Sample Attachments" = X,
+        // page "Sample Attachments" = X,
         report "OverTime Calculation Report" = X,
         tabledata "Biometric Device Config." = RIMD,
         table "Biometric Device Config." = X,

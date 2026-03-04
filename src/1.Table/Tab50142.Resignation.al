@@ -74,6 +74,7 @@ table 50142 Resignation
             trigger OnValidate()
             begin
                 Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Requested Date"));
+                Validate("Recommended Last Working Day", "Requested Date");
             end;
         }
         field(11; "Fiscal Year"; Text[10])

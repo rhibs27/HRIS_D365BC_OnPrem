@@ -158,6 +158,7 @@ codeunit 50020 "Attachment Mgt."
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalEmp: Record Appraisal;
         leave: Record leave;
+        Resign: Record Resignation;
     begin
         if EmpLoan.Get(IncomingDocument."No.") then begin
             if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Approved])
@@ -172,6 +173,10 @@ codeunit 50020 "Attachment Mgt."
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" = leave."Approval Status"::Approved then
                 Error('Cannot delete attachment.');
+        end else if Resign.Get(IncomingDocument."No.") then begin
+            if IncomingDocument."Sub Type" = incomingDocument."Sub Type"::"Resign Letter" then
+                if Resign."Approval Status" <> Resign."Approval Status"::open then
+                    Error('Cannot delete attachment.');
         end else if EmployeeTransfer.get(IncomingDocument."No.") then begin
             if EmployeeTransfer.Type in [EmployeeTransfer.Type::"Employee Transfer", EmployeeTransfer.Type::"HR Transfer"] then begin
                 if EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Acknowledged then
@@ -188,6 +193,7 @@ codeunit 50020 "Attachment Mgt."
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalEmp: Record Appraisal;
         leave: Record leave;
+        Resign: Record Resignation;
     begin
         if EmpLoan.Get(IncomingDocument."No.") then begin
             if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) then
@@ -201,6 +207,10 @@ codeunit 50020 "Attachment Mgt."
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" <> leave."Approval Status"::Open then
                 ERROR('Approval status must be Open.')
+        end else if Resign.Get(IncomingDocument."No.") then begin
+            if IncomingDocument."Sub Type" = incomingDocument."Sub Type"::"Resign Letter" then
+                if Resign."Approval Status" <> Resign."Approval Status"::open then
+                    Error('Attachment already exist.')
         end else if EmployeeTransfer.get(IncomingDocument."No.") then begin
             if EmployeeTransfer.Type in [EmployeeTransfer.Type::"Employee Transfer", EmployeeTransfer.Type::"HR Transfer"] then begin
                 if not ((EmployeeTransfer."Is Transfer Details Added") and (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved)) then
