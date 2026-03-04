@@ -12053,6 +12053,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field District Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 1285973296 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Email - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 2202210442 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fax No</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14397,6 +14402,16 @@
           <source>Cannot modify the document as it is not in Open status.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - NamedType Text009</note>
+        </trans-unit>
+        <trans-unit id="Table 3621654542 - Method 4006142227 - NamedType 2724499124" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Calculation in Progress\Payroll No.: #1##########\Current Employee: #2##########\Progress: #3#### \Processed: #4##########################################</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Method CalculatePayroll - NamedType ProgressText</note>
+        </trans-unit>
+        <trans-unit id="Table 3621654542 - Method 1120034792 - NamedType 2724499124" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Calculation in Progress\Payroll No.: #1##########\Current Employee: #2##########\Progress: #3#### \Processed: #4##########################################</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Method GetDetails - NamedType ProgressText</note>
         </trans-unit>
         <trans-unit id="Table 3621654542 - Field 3294270728 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assigned User ID</source>
@@ -23387,6 +23402,11 @@
           <source>Resignation request approval has been sent.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method SendResignationApproval - NamedType ApprovalRequestSent</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3734507103 - Method 193180206 - NamedType 2724499124" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Generating Deduction Entries\Attendance Document No.: #1##########\Current Employee: #2##########\Progress: #3#### \Processed: #4##########################################</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Salary Deduction Mgt - Method GenerateSalaryDeductionEntries - NamedType ProgressText</note>
         </trans-unit>
         <trans-unit id="Codeunit 1166164602 - NamedType 2464296654" size-unit="char" translate="yes" xml:space="preserve">
           <source>Either server or database information not found.</source>
@@ -38288,6 +38308,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control District Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 1285973296 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Email field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Email - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 2202210442 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fax No Field</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -40834,7 +40859,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Import Employee - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Action 2282416948 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the P&amp;ost action.</source>
+          <source>Executes the Post action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Post - Property ToolTip</note>
         </trans-unit>
