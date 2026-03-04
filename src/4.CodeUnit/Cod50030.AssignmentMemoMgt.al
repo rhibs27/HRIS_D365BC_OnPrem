@@ -1317,14 +1317,14 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         AssignmentMemoHdr: Record "Assignment Memo Header";
     begin
-        AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open, Reversed);
+        AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open, Reversed, "Claimed Doc No.", Claimed);
         AssignmentMemoLedgerEntry.SetRange("Document No.", DocNo);
         AssignmentMemoLedgerEntry.SetRange(Claimed, true);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
-                AssignmentMemoHdr.Get(AssignmentMemoLedgerEntry."Claimed Doc No.");
-                if AssignmentMemoHdr."Approval Status" = AssignmentMemoHdr."Approval Status"::Pending then
-                    Error('There is a pending claimed allowance for %1 on %2. Cannot proceed with substitution.', AssignmentMemoLedgerEntry."Payroll Attribute Code", AssignmentMemoLedgerEntry."Posting Date");
+                if AssignmentMemoHdr.Get(AssignmentMemoLedgerEntry."Claimed Doc No.") then
+                    if AssignmentMemoHdr."Approval Status" = AssignmentMemoHdr."Approval Status"::Pending then
+                        Error('There is a pending claimed allowance for %1 on %2. Cannot proceed with substitution.', AssignmentMemoLedgerEntry."Payroll Attribute Code", AssignmentMemoLedgerEntry."Posting Date");
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
@@ -1376,13 +1376,75 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.SetRange("Document No.", DocNo);
         if AssignmentMemoLine.FindSet() then
             repeat
+                OneBeforeReverseAssignmentMemoLine(AssignmentMemoLine);
                 AssignmentMemoLine.Reversed := true;
+                Assignmentmemoline."Approval Status" := Assignmentmemoline."Approval Status"::Canceled;
                 AssignmentMemoLine.Modify();
             until AssignmentMemoLine.Next() = 0;
 
         //mark reversed in header
         AssignemntMemoHeader.Reversed := true;
         AssignemntMemoHeader.Modify();
+    end;
+    // Individual Reverse Assignment Memo Line
+    procedure ReverseAssignmentMemosLine(var AllownaceAssignmentMemoLine: Record "Assignment Memo Line")
+    var
+        AssignemntMemoHeader: Record "Assignment Memo Header";
+        AssignemntMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AttendanceMgt: Codeunit "Attendance Mgt";
+        DocNo: Code[20];
+        AssignmentMemoLine: Record "Assignment Memo Line";
+    begin
+        DocNo := AllownaceAssignmentMemoLine."Document No.";
+        OnBeforeReverseAssignmentMemo(DocNo);
+        //get assignment memo header
+        if not AssignemntMemoHeader.Get(DocNo) then
+            Error('Document %1 not found.', DocNo);
+        if AssignemntMemoHeader.Reversed then
+            Error('Document %1 is already reversed.', DocNo);
+        if AssignemntMemoHeader."Approval Status" <> AssignemntMemoHeader."Approval Status"::Approved then
+            Error('Only approved document can be reversed. Document %1 is in %2 status.', DocNo, AssignemntMemoHeader."Approval Status");
+
+        //reverse ledger entries
+        ReverseAssignmentMemoLegderEntries(AllownaceAssignmentMemoLine, AssignemntMemoHeader);
+        //mark lines as reversed
+        AllownaceAssignmentMemoLine.Reversed := true;
+        AllownaceAssignmentMemoLine."Approval Status" := AllownaceAssignmentMemoLine."Approval Status"::Canceled;
+        AllownaceAssignmentMemoLine.Modify();
+
+        //check if all lines are reversed and update header approval status
+        AssignmentMemoLine.Reset();
+        AssignmentMemoLine.SetRange("Document No.", DocNo);
+        AssignmentMemoLine.SetRange(Reversed, false);
+        if not AssignmentMemoLine.IsEmpty then begin
+            AssignemntMemoHeader.Reversed := true;
+            AssignemntMemoHeader."Approval Status" := AssignemntMemoHeader."Approval Status"::Canceled;
+            AssignemntMemoHeader.Modify();
+        end;
+    end;
+
+    procedure ReverseAssignmentMemoLegderEntries(var AllownaceAssignmentMemoLine: Record "Assignment Memo Line"; AssignemntMemoHeader: Record "Assignment Memo Header")
+    var
+        AssignemntMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AttendanceMgt: Codeunit "Attendance Mgt";
+    begin
+        if AssignemntMemoHeader."Activity Type" in [AssignemntMemoHeader."Activity Type"::"Shift Assignment Memo"] then begin
+            //check if claimed
+            AssignemntMemoLedgerEntry.SetRange("Document No.", AllownaceAssignmentMemoLine."Document No.");
+            AssignemntMemoLedgerEntry.SetRange("Employee No.", AllownaceAssignmentMemoLine."Employee No.");
+            AssignemntMemoLedgerEntry.SetRange("Posting Date", AllownaceAssignmentMemoLine."From Date", AllownaceAssignmentMemoLine."To Date");
+            AssignemntMemoLedgerEntry.SetRange("Employee Work Shift", AllownaceAssignmentMemoLine."Employee Work Shift");
+            if AssignemntMemoLedgerEntry.FindSet() then
+                repeat
+                    if AssignemntMemoLedgerEntry.Claimed then
+                        Error('Cannot reverse the assignment %1 as it has been claimed by employee. Reverse the claim first.', AllownaceAssignmentMemoLine."Document No.");
+                    AssignemntMemoLedgerEntry.Reversed := true;
+                    AssignemntMemoLedgerEntry.Open := false;
+                    AssignemntMemoLedgerEntry."Blocked for Payroll" := true;
+                    AssignemntMemoLedgerEntry.Modify();
+                    AttendanceMgt.DailyAttendanceUpdate(AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Employee No.");
+                until AssignemntMemoLedgerEntry.Next() = 0;
+        end;
     end;
 
     procedure CheckIfValueexistInPipedValue(PipedValues: Text; targetValue: text): Boolean
@@ -1517,6 +1579,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeAmountCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var SkipCheck: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OneBeforeReverseAssignmentMemoLine(var AssignmentMemoLine: Record "Assignment Memo Line")
     begin
     end;
 }
