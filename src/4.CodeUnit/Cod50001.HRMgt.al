@@ -5783,6 +5783,18 @@ codeunit 50001 "HR Mgt."
             exit(PayCyclePeriod."End Date");
     end;
 
+    procedure CheckforFiscalYearcontrol(IncomingDate: Date)
+    var
+        IsHandled: Boolean;
+    begin
+        OnBeforeCheckFiscalYearControl(IncomingDate, IsHandled);
+        if IsHandled then
+            exit;
+        PayrollSetup.Get();
+        if IncomingDate < PayrollSetup."Payroll Fiscal Year Start Date" then
+            Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
@@ -5805,5 +5817,11 @@ codeunit 50001 "HR Mgt."
                               var IsHandled: Boolean);
     begin
         //Can be used to changes or modify any paramater before Create Email From Template
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckFiscalYearControl(IncomingDate: Date; var IsHandled: Boolean);
+    begin
+        //Can be Used to skp Fiscal year control on request
     end;
 }

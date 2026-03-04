@@ -61,15 +61,13 @@ codeunit 50016 "AttendanceMiss Mgt"
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
         CheckAlreadyExists(AttendanceMissed."Employee No.", AttendanceMissed.Type, AttendanceMissed."Start Date");
-        PayrollSetup.Get;
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(AttendanceMissed."Start Date", AttendanceMissed."End Date", AttendanceMissed."Employee No.");
         if AttendanceMissed."No." = '' then begin
             AttendanceMissed.TestField("Start Date");
             if (AttendanceMissed."Start Date" > Today) or (AttendanceMissed."End Date" > Today) then
                 Error('Cannot apply for future date.Please check the date.');
-            if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-                Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+            HRMgt.CheckForFiscalYearControl(AttendanceMissed."Start Date");
             AttendanceMissed.TestField("End Date");
             AttendanceMissed.TestField(Remarks);
             AttendanceMissed1.Init;
@@ -97,13 +95,11 @@ codeunit 50016 "AttendanceMiss Mgt"
             if leave.FindFirst then
                 Error(LeaveCancelError, leave."No.", leave."Leave Code");
         end;
-        PayrollSetup.Get;
         if CancelDocument.Type = CancelDocument.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.");
         if CancelDocument."No." = '' then begin
             CancelDocument.TestField("Start Date");
-            if CancelDocument."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-                Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+            HRMgt.CheckForFiscalYearControl(CancelDocument."Start Date");
             CancelDocument.TestField("End Date");
             CancelDocument.TestField(Remarks);
             CancelDocument1.Init;
