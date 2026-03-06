@@ -558,7 +558,7 @@
                                                     <Value>TOTAL</Value>
                                                     <Style>
                                                       <FontFamily>Segoe UI</FontFamily>
-                                                      <FontSize>8pt</FontSize>
+                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -594,7 +594,7 @@
                                                     <Value>=ABS(Sum(Fields!Deductions_Amount.Value))</Value>
                                                     <Style>
                                                       <FontFamily>Segoe UI</FontFamily>
-                                                      <FontSize>8pt</FontSize>
+                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Format>=Fields!Deductions_AmountFormat.Value</Format>
                                                     </Style>
@@ -2008,7 +2008,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
                                                     <Value>NON TAXABLE :</Value>
                                                     <Style>
                                                       <FontFamily>Segoe UI</FontFamily>
-                                                      <FontSize>9pt</FontSize>
+                                                      <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <TextDecoration>None</TextDecoration>
                                                     </Style>
@@ -2228,7 +2228,7 @@ OR Fields!NonTaxable_Description.Value = "", 0, 1)) = 0</Hidden>
                                                     <Value>TOTAL</Value>
                                                     <Style>
                                                       <FontFamily>Segoe UI</FontFamily>
-                                                      <FontSize>8pt</FontSize>
+                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
@@ -2264,7 +2264,7 @@ OR Fields!NonTaxable_Description.Value = "", 0, 1)) = 0</Hidden>
                                                     <Value>=Sum(Fields!NonTaxable_Amount.Value)</Value>
                                                     <Style>
                                                       <FontFamily>Segoe UI</FontFamily>
-                                                      <FontSize>8pt</FontSize>
+                                                      <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                       <Format>=Fields!NonTaxable_AmountFormat.Value</Format>
                                                     </Style>
