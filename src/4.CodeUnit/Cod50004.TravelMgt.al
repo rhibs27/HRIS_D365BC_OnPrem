@@ -177,7 +177,7 @@ codeunit 50004 "Travel Mgt."
         end;
         OnAfterApplyTravelRequest(TravelReq."No.");
         HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, TravelReq."Employee No.", TravelReq."No.", false);   //For email
-        Message('Travel Request has been sent for apporval.');
+        Message('Travel Request has been sent for approval.');
         exit(true);
     end;
 
