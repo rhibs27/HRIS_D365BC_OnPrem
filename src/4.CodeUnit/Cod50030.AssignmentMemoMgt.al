@@ -1430,10 +1430,13 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Reset();
         AssignmentMemoLine.SetRange("Document No.", DocNo);
         AssignmentMemoLine.SetRange(Reversed, false);
-        if not AssignmentMemoLine.IsEmpty then begin
-            AssignemntMemoHeader.Reversed := true;
-            AssignemntMemoHeader."Approval Status" := AssignemntMemoHeader."Approval Status"::Canceled;
-            AssignemntMemoHeader.Modify();
+
+        if AssignmentMemoLine.IsEmpty() then begin
+            if AssignemntMemoHeader.Get(DocNo) then begin
+                AssignemntMemoHeader.Reversed := true;
+                AssignemntMemoHeader."Approval Status" := AssignemntMemoHeader."Approval Status"::Canceled;
+                AssignemntMemoHeader.Modify();
+            end;
         end;
     end;
 
