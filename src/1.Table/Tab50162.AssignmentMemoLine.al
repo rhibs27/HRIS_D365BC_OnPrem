@@ -553,6 +553,19 @@ table 50162 "Assignment Memo Line"
         Validate(Panel, AssignmentMemoLedgerEntry.Panel);
     end;
 
+    procedure GetLineNo(DocNo: Code[20]): Integer
+    var
+        AllowanceAssignmentMemoLine: Record "Assignment Memo Line";
+    begin
+        AllowanceAssignmentMemoLine.Reset;
+        AllowanceAssignmentMemoLine.SetCurrentKey("Document No.", "Line No.");
+        AllowanceAssignmentMemoLine.SetRange("Document No.", DocNo);
+        if AllowanceAssignmentMemoLine.FindLast then
+            exit(AllowanceAssignmentMemoLine."Line No." + 10000)
+        else
+            exit(10000);
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
     begin
