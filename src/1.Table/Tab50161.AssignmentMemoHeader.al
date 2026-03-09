@@ -346,12 +346,11 @@ table 50161 "Assignment Memo Header"
             ApprovalHrms.DeleteAll(true);
 
             IncomingDocument.Reset();
-            IncomingDocumentAttachment.Reset();
             IncomingDocument.SetRange("No.", Rec."No.");
-            IncomingDocumentAttachment.SetRange("Document No.", IncomingDocument."No.");
-            IncomingDocumentAttachment.DeleteAll();
-            IncomingDocument.DeleteAll();
-
+            IncomingDocument.DeleteAll(true);
+            IncomingDocumentAttachment.Reset();
+            IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+            IncomingDocumentAttachment.DeleteAll(true);
         end;
     end;
 
