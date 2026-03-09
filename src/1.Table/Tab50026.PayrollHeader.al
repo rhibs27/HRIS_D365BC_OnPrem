@@ -430,16 +430,37 @@ table 50026 "Payroll Header"
     var
         PayrollLine: Record "Payroll Line";
         PayrollEngine: Codeunit "Payroll Engine";
+        ProgressDialog: Dialog;
+        LineCount: Integer;
+        ProcessedLines: Integer;
+        PercentComplete: Integer;
+        ProgressText: Label 'Tax Calculation in Progress\Payroll No.: #1##########\Current Employee: #2##########\Progress: #3#### \Processed: #4##########################################';
     begin
         if PayrollHeader.FindFirst then begin
             PayrollHeader.TestField(Status, Status::Pending);
             PayrollLine.Reset;
             PayrollLine.SetRange("Document No.", PayrollHeader."No.");
-            if PayrollLine.FindSet then
-                repeat
-                    Clear(PayrollEngine);
-                    PayrollEngine.InitPayrollLine(PayrollLine);
-                until PayrollLine.Next = 0;
+
+            LineCount := PayrollLine.Count;
+            ProcessedLines := 0;
+
+            if LineCount > 0 then begin
+                ProgressDialog.Open(ProgressText);
+                ProgressDialog.Update(1, PayrollHeader."No.");
+
+                if PayrollLine.FindSet then
+                    repeat
+                        ProcessedLines += 1;
+                        PercentComplete := Round(ProcessedLines / LineCount * 100, 1);
+                        ProgressDialog.Update(2, PayrollLine."Employee No.");
+                        ProgressDialog.Update(3, Format(PercentComplete) + ' %');
+                        ProgressDialog.Update(4, Format(ProcessedLines) + ' of ' + Format(LineCount) + ' Employees');
+
+                        Clear(PayrollEngine);
+                        PayrollEngine.InitPayrollLine(PayrollLine);
+                    until PayrollLine.Next = 0;
+                ProgressDialog.Close;
+            end;
 
             PayrollHeader.Status := PayrollHeader.Status::Released;
             PayrollHeader.Modify;
@@ -454,16 +475,35 @@ table 50026 "Payroll Header"
     var
         PayrollLine: Record "Payroll Line";
         PayrollEngine: Codeunit "Payroll Engine";
+        ProgressDialog: Dialog;
+        LineCount: Integer;
+        ProcessedLines: Integer;
+        PercentComplete: Integer;
+        ProgressText: Label 'Salary Calculation in Progress\Payroll No.: #1##########\Current Employee: #2##########\Progress: #3#### \Processed: #4##########################################';
     begin
         if PayrollHeader.FindFirst then begin
-            //PayrollHeader.TestField(Status,Status::Open);
             PayrollLine.Reset;
             PayrollLine.SetRange("Document No.", PayrollHeader."No.");
-            if PayrollLine.FindSet then
-                repeat
-                    Clear(PayrollEngine);
-                    PayrollLine.ValidateEmployee;
-                until PayrollLine.Next = 0;
+
+            LineCount := PayrollLine.Count;
+            ProcessedLines := 0;
+            if LineCount > 0 then begin
+                ProgressDialog.Open(ProgressText);
+                ProgressDialog.Update(1, PayrollHeader."No.");
+
+                if PayrollLine.FindSet then
+                    repeat
+                        ProcessedLines += 1;
+                        PercentComplete := Round(ProcessedLines / LineCount * 100, 1);
+                        ProgressDialog.Update(2, PayrollLine."Employee No.");
+                        ProgressDialog.Update(3, Format(PercentComplete) + ' %');
+                        ProgressDialog.Update(4, Format(ProcessedLines) + ' of ' + Format(LineCount) + ' Employees');
+
+                        Clear(PayrollEngine);
+                        PayrollLine.ValidateEmployee;
+                    until PayrollLine.Next = 0;
+                ProgressDialog.Close();
+            end;
         end;
         Message('Get Attributes Updated.');
     end;
