@@ -416,7 +416,7 @@ page 50061 "Employee Attendance & Activity"
             }
         }
     }
-    var
+    protected var
         Colors: Text;
 
     trigger OnAfterGetRecord()
@@ -427,7 +427,9 @@ page 50061 "Employee Attendance & Activity"
         else if (Rec."Day Type" = Rec."Day Type"::"Working Day") And (Rec."Absent Day" <> 1) then
             Colors := 'favorable'
         else if Rec."Day Type" = Rec."Day Type"::Holiday then
-            Colors := 'Ambiguous';
+            Colors := 'Ambiguous'
+        else if rec."Leave Day" <> 0 then
+            Colors := 'StrongAccent';
 
         if Rec."Day Type" = Rec."Day Type"::"Working Day" then begin
             if (Rec."Check In Time" = 0T) and (Rec."Check Out Time" = 0T) then

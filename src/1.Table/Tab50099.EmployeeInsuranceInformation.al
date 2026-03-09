@@ -73,12 +73,7 @@ table 50099 "Employee Insurance Information"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Insurance Start Date (AD)");
-                if EngNepDate.FindFirst then
-                    Validate("Insurance Start Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Insurance Start Date (BS)");
+                Validate("Insurance Start Date (BS)", EngNepDate.getNepaliDate("Insurance Start Date (AD)"));
                 if "Insurance Start Date (AD)" > Today then
                     Error(Error002, Today);
             end;
@@ -91,12 +86,7 @@ table 50099 "Employee Insurance Information"
         {
             trigger OnValidate()
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Insurance Expiry Date (AD)");
-                if EngNepDate.FindFirst then
-                    Validate("Insurance Expiry Date (BS)", EngNepDate."Nepali Date")
-                else
-                    Clear("Insurance Expiry Date (BS)");
+                Validate("Insurance Expiry Date (BS)", EngNepDate.getNepaliDate("Insurance Expiry Date (AD)"));
                 if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then
                     Error(Error001, "Insurance Start Date (AD)");
             end;
@@ -180,35 +170,8 @@ table 50099 "Employee Insurance Information"
                 "Insurance No." := NoSeriesMgt.GetNextNo("No. Series");
             ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
-        /*EmpInsurance.Reset();
-        EmpInsurance.SetRange("Employee No.","Employee No.");
-        EmpInsurance.SETFILTER(Status,'%1|%2',EmpInsurance.Status::Open,EmpInsurance.Status::Pending);
-        EmpInsurance.SETFILTER("Insurance No.",'<>%1',"Insurance No.");
-        IF EmpInsurance.FindFirst() THEN
-          ERROR('Insurance of employee %1 (%2) is pending.',EmpInsurance."Employee Name","Employee No.");*/
-        // if not GuiAllowed then begin
-        //     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
-        // LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
-        // IncomingDoc.Reset;
-        // IncomingDoc.SetRange("No.", '');
-        // IncomingDoc.SetRange("Employee Activity Type", IncomingDoc."Employee Activity Type"::Insurance);
-        // IncomingDoc.SetRange("Employee Code", "Employee No.");
-        // IncomingDoc.ModifyAll("No.", "Insurance No.");
-        // end;
         if GuiAllowed then begin
-            AttachmentSetup.Reset;
-            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
-            if AttachmentSetup.Find('-') then
-                repeat
-                    IncomingDoc.Init;
-                    IncomingDoc.Validate("No.", "Insurance No.");
-                    IncomingDoc.Validate("Table ID", Database::"Employee Insurance Information");
-                    IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                    IncomingDoc.Validate("Employee Code", "Employee No.");
-                    IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::Insurance);
-                    IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
-                    IncomingDoc.Insert;
-                until AttachmentSetup.Next = 0;
+            InsuranceMgt.GenerateAttachmentLine("Insurance No.", "Employee No.");
         end;
     end;
 
@@ -223,28 +186,19 @@ table 50099 "Employee Insurance Information"
             ApprovalEntry.SetRange("Document No.", "Insurance No.");
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
+            IncomingDoc.Reset();
+            IncomingDoc.SetRange("No.", "Insurance No.");
+            IncomingDoc.SetRange("Employee Code", "Employee No.");
+            IncomingDoc.DeleteAll();
         end;
     end;
 
-    // trigger OnModify()
-    // begin
-    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then
-    //         LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
-    //     if not GuiAllowed then
-    //         if "Approval Status" = "Approval Status"::Open then
-    //             "Approval Status" := "Approval Status"::Pending;
-    /*EmpInsurance.Reset();
-    EmpInsurance.SetRange("Employee No.",Rec."Employee No.");
-    EmpInsurance.SetRange("Policy Number",Rec."Policy Number");
-    IF EmpInsurance.FindFirst() THEN
-//       ERROR(Text019,Rec."Policy Number",EmpInsurance."Insurance No.");*/
-    // end;
     var
         NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        AttachmentSetup: Record "Attachment Setup";
+        InsuranceMgt: Codeunit "Insurance Mgt";
         IncomingDoc: Record "Incoming Document";
         EmpInsurance: Record "Employee Insurance Information";
         ApproverMgt: Codeunit "Approver Mgt";
