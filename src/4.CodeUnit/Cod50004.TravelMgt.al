@@ -178,8 +178,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest2.Validate(Extended, true);
             TravelRequest2.Modify;
         end;
-        OnAfterApplyTravelRequest(TravelReq."No.");
-        HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, TravelReq."Employee No.", TravelReq."No.", false);   //For email
+        EmailMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, TravelReq."Employee No.", TravelReq."No.", false);   //For email
         Message('Travel Request has been sent for apporval.');
         exit(true);
     end;
@@ -643,7 +642,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
             TravelRequest.Modify();
             // TravelRequest.Insert(true);
-            HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
+            EmailMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
             Message('Travel Claim has been sent for apporval.');
             TravelRequest2."Travel Claimed" := true;
             TravelRequest2."Travel claim Doc No." := TravelRequest."No.";
@@ -680,7 +679,7 @@ codeunit 50004 "Travel Mgt."
         end;
         TravelRequest."Approved Date" := Today;
         TravelRequest.Modify();
-        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
+        EmailMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, TravelRequest."Employee No.", TravelRequest."No.", false);   //For email
     end;
 
     procedure TravelClaimApproved(TravelCode: Code[20])
@@ -1053,6 +1052,7 @@ codeunit 50004 "Travel Mgt."
     var
         Employee, Employee1 : Record Employee;
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         HRSetup: Record "Human Resources Setup";
         ApproverMgt: Codeunit "Approver Mgt";
         AttendanceMgt: Codeunit "Attendance Mgt";

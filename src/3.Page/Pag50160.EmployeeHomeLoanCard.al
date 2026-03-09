@@ -3,7 +3,6 @@ page 50160 "Employee Home Loan Card"
     PageType = Card;
     SourceTable = "Employee Loan/Advance";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -16,10 +15,6 @@ page 50160 "Employee Home Loan Card"
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
 
-                    trigger OnValidate()
-                    begin
-                        CurrPage.Update;
-                    end;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
@@ -131,7 +126,7 @@ page 50160 "Employee Home Loan Card"
                 }
                 group(Control17)
                 {
-                    Editable = ForScreen;
+                    Editable = IsPending;
                     ShowCaption = false;
                     field("Requested Loan Date"; Rec."Requested Loan Date")
                     {
@@ -192,7 +187,6 @@ page 50160 "Employee Home Loan Card"
                         showMandatory = true;
                         ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
                         ApplicationArea = All;
-
                         trigger OnValidate()
                         begin
                             CurrPage.Update;
@@ -214,7 +208,8 @@ page 50160 "Employee Home Loan Card"
             group("Security Documentation")
             {
                 Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
-                field("Employee Citizenship No."; Rec."Citizenship No.")
+                field("Employee Citizenship No.";
+                Rec."Citizenship No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
                     ApplicationArea = All;
@@ -262,10 +257,10 @@ page 50160 "Employee Home Loan Card"
             }
             group("Facility Disbursement")
             {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
-                field("Loan Applied"; AppliedLoan)
+                Visible = IsApproved;
+                field("Loan Applied"; Rec."Applied Loan/Advance")
                 {
-                    ToolTip = 'Specifies the value of the AppliedLoan field.';
+                    ToolTip = 'Specifies the value of the Applied Loan field.';
                     ApplicationArea = All;
                 }
                 field("Disbursement Date"; Rec."Disbursement Date")
@@ -474,7 +469,7 @@ page 50160 "Employee Home Loan Card"
 
                 trigger OnAction()
                 begin
-                    LoanMgt.VerifyLoan(Rec);
+                    // LoanMgt.VerifyLoan(Rec);
                 end;
             }
             action("Approve Request")
@@ -526,7 +521,7 @@ page 50160 "Employee Home Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForSettle;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Settle Home Loan action.';
                 ApplicationArea = All;
 
@@ -631,12 +626,6 @@ page 50160 "Employee Home Loan Card"
             }
         }
     }
-
-    trigger OnAfterGetCurrRecord()
-    begin
-        SetControlAppearance;
-    end;
-
     trigger OnAfterGetRecord()
     begin
         SetLayout();
@@ -656,10 +645,7 @@ page 50160 "Employee Home Loan Card"
 
     trigger OnOpenPage()
     begin
-        CreateIncomingDocFromEmailAttachment := OfficeMgt.OCRAvailable;
-        CreateIncomingDocumentVisible := not OfficeMgt.IsOutlookMobileApp;
         SetLayout();
-        AppliedLoan := Rec."Applied Loan/Advance";
         if Rec."Approval Status" = Rec."Approval Status"::Open then begin
             Rec.Validate("Requested Loan Date", Today);
             Rec.Validate("Repayment Period", 1);
@@ -670,69 +656,22 @@ page 50160 "Employee Home Loan Card"
         RecRef.GetTable(Rec);
     end;
 
-    var
-        CreateIncomingDocumentVisible: Boolean;
-        CreateIncomingDocFromEmailAttachment: Boolean;
-        OfficeMgt: Codeunit "Office Management";
-        HasIncomingDocument: Boolean;
-        LoanMgt: Codeunit "Loan Mgt.";
-
-        ForApprove: Boolean;
-
-        ForRecommend: Boolean;
-
-        ForReject: Boolean;
-        ForScreen: Boolean;
-        ForSettle: Boolean;
-        AppliedLoan: Decimal;
+    protected var
         IsOpen: Boolean;
         IsPending: Boolean;
         IsApproved: Boolean;
+        ApproverMgt: Codeunit "Approver Mgt";
+
+    var
+        HasIncomingDocument: Boolean;
+        LoanMgt: Codeunit "Loan Mgt.";
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
         RecRef: RecordRef;
-        ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
-
-    local procedure SetControlAppearance()
-    begin
-        HasIncomingDocument := Rec."Incoming Document Entry No." <> 0;
-    end;
 
     local procedure SetLayout()
     begin
-        case Rec."Approval Status" of
-            Rec."Approval Status"::Open:
-                begin
-                    ForRecommend := true;
-                    ForReject := false;
-                    ForApprove := false;
-                    ForScreen := true;
-                end;
-            Rec."Approval Status"::"Pending":
-                begin
-                    ForRecommend := true;
-                    ForReject := true;
-                    ForApprove := true;
-                    ForScreen := false;
-                end;
-            Rec."Approval Status"::Rejected:
-                begin
-                    ForRecommend := false;
-                    ForApprove := true;
-                    ForReject := false;
-                    ForScreen := false;
-                    ForSettle := true;
-                end;
-            Rec."Approval Status"::Approved:
-                begin
-                    ForRecommend := false;
-                    ForApprove := true;
-                    ForReject := true;
-                    ForScreen := false;
-                    ForSettle := true;
-                end;
-        end;
         IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true

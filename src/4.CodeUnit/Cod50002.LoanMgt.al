@@ -10,6 +10,7 @@ codeunit 50002 "Loan Mgt."
         SalaryGrade: Record "Salary Grade";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         EmpSalaryAdv: Record "Employee Loan/Advance";
         LoanInterest: Record "Employee Loan Interest";
         InsurancePolicy: Record "Insurance Premium Setup";
@@ -90,7 +91,6 @@ codeunit 50002 "Loan Mgt."
 
         Evaluate(EmpLoan."Confirmation Service Period", Format((Today - Employee."Confirmation Date") / 365));
         EmpLoan.Validate("Confirmation Service Period", Round(EmpLoan."Confirmation Service Period", 0.01, '='));
-        HRMgt.CheckAgeAndBirthday(EmpLoan."Date of Birth", Today, EmpLoan.Age, AgeDays, IsBirthDay);  //really needed?
 
         EmpLoan."Remaining Service Period" := HRSetup."Retirement Age" - EmpLoan.Age;
         Evaluate(RemServicePeriodAsPerBankTenure, Format(30 - (Today - Employee."Employment Date") / 365));
@@ -588,8 +588,6 @@ codeunit 50002 "Loan Mgt."
             Error('Purpose of housing loan must have value.');
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::" " then
             Error('Repayment mode must have value.');
-        //TestField("Purpose of Housing Loan");
-        //TestField("Repayment Mode");
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"Insurance Tieup" then begin
             EmpLoan.TestField("Insurance Tieup");
             EmpLoan.TestField(Age);
@@ -609,8 +607,6 @@ codeunit 50002 "Loan Mgt."
         EmpLoan.TestField("Area Format");
         EmpLoan.TestField("Area of Plot");
         CheckAttachmentMandatory(EmpLoan);
-        //IF "Confirmation Service Period"< 1 THEN
-        //      ERROR('Total service period is not sufficient.');
         HRSetup.Get;
         //check board approval
         if EmpLoan."Approved By Board" then begin
@@ -641,16 +637,6 @@ codeunit 50002 "Loan Mgt."
         end;
         if EmpLoan."Repayment Period" > HRSetup."Home/Persona Loan Repay Period" then
             Error('Invalid Repayment Period.');
-    end;
-
-    local procedure GetEmployeeCode(): Code[20]
-    var
-        Employee: Record Employee;
-    begin
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        if Employee.FindFirst then
-            exit(Employee."No.");
     end;
 
     local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; "No.": Code[20]): Decimal
@@ -730,9 +716,6 @@ codeunit 50002 "Loan Mgt."
         EmpSalAvd.SetFilter("Approval Status", '%1|%2', EmpSalAvd."Approval Status"::Approved, EmpSalAvd."Approval Status"::Pending);
         EmpSalAvd.SetRange(Settled, false);
         if EmpSalAvd.FindFirst then begin
-            // if (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Rejected)
-            //   or (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Canceled) then
-            //     if not EmpSalAvd.Settled then
             Error('Please settle the existing salary advance. %1', EmpSalAvd."No.");
         end;
     end;
@@ -756,21 +739,11 @@ codeunit 50002 "Loan Mgt."
         EmpLoan1: Record "Employee Loan/Advance";
         APPROVALSENT: Label 'Approval request has been sent.';
         APPROVALCANCELLED: Label 'Approval request has been cancelled.';
-        APPROVED: Label 'Document is approved.';
-        APPROVALERROR: Label 'Approval status must be open.';
     begin
         if GuiAllowed then
             if not Confirm(CONFIRMATION, false) then
                 exit;
         HRSetup.Get;
-        // Employee.Reset;
-        // Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        // Employee.SetRange(Status, Employee.Status::Active);
-        // if Employee.FindFirst then;
-        // EmpLoan.Validate(Approver, Employee."No.");
-        // if not GuiAllowed then begin
-        //     EmpLoan.Validate(Recommender);
-        // end;
         Clear(Employee);
         Employee.Get(EmpLoan."Employee No.");
         EmpLoan."Requested Loan Date" := Today;
@@ -780,27 +753,15 @@ codeunit 50002 "Loan Mgt."
         if EmpLoan1.FindFirst then
             Error(LoanError, EmpLoan1."No.");
         SalaryLevel.Get(EmpLoan."Job Title");
-        //control
-        if SendCancelBool then
-            ValidateDocument(EmpLoan);
+        ValidateDocument(EmpLoan);
         CalculateEligibleLoanAmount(EmpLoan);
         CalculateEMI(EmpLoan);
         CalculateDBR(EmpLoan, SalaryLevel);
-        // if EmpLoan.Recommender = '' then
-        //     Error('Recommender must not be blank.');
-        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
-            Error(APPROVED);
         //action
         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
             EmpLoan.TestField("Purpose of Advance Salary");
         if SendCancelBool then begin
-            if not (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::" ", EmpLoan."Approval Status"::Open]) then
-                Error(APPROVALERROR);
             EmpLoan."Approval Status" := EmpLoan."Approval Status"::Pending;
-            // if EmpLoan.Recommender = '' then
-            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
-            // else
-            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Pending);
             EmpLoan.Modify();
             Message(APPROVALSENT);
         end else begin
@@ -809,7 +770,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoan.Modify();
             Message(APPROVALCANCELLED);
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee No.", Format(EmpLoan."No."), false);
+        EmailMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee No.", Format(EmpLoan."No."), false);
     end;
 
     procedure VerifyLoan(var EmpLoan: Record "Employee Loan/Advance")
@@ -1152,12 +1113,9 @@ codeunit 50002 "Loan Mgt."
         if IncomingDocument.FindFirst then
             repeat
                 AttachmentSetup.Reset;
-                //AttachmentSetup.SetRange("Table ID", DATABASE::"Employee Loan/Advance");
-                AttachmentSetup.SetRange(Mandatory, true);
-                //AttachmentSetup.SetRange(Type, EmpLoan."Loan Type");
-                //IF EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" THEN
-                // AttachmentSetup.SETFILTER("Purpose of Housing Loan",'%1|%2',AttachmentSetup."Purpose of Housing Loan",AttachmentSetup."Purpose of Housing Loan"::" ");
+                AttachmentSetup.Setfilter("Sub Type", Format(EmpLoan."Loan Type"));
                 AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
+                AttachmentSetup.SetRange(Mandatory, true);
                 if AttachmentSetup.FindFirst then begin
                     Error('Upload attachment for %1', IncomingDocument."Attachment Code");
                 end;
@@ -1717,51 +1675,37 @@ codeunit 50002 "Loan Mgt."
             EmployeeLoan.Validate("Transportation Management off.", EmpLoan.GetFilter("Transportation Management off."));
         EmployeeLoan.Modify;
     end;
-    // procedure PopUpChangingApprover(EmployeeLoan: Record "Employee Loan/Advance")
-    // var
-    //     LoanPageBuilder: FilterPageBuilder;
-    //     EmpLoan: Record "Employee Loan/Advance";
-    //     DisbursementDate: Date;
-    //     DisbursedAmt: Decimal;
-    // begin
-    //     LoanPageBuilder.AddRecord('Change Approver', EmpLoan);
-    //     LoanPageBuilder.ADdField('Change Approver', EmpLoan.Approver);
-    //     if LoanPageBuilder.RunModal then begin
-    //         EmpLoan.SetView(LoanPageBuilder.GetView('Change Approver'));
-    //         if EmpLoan.GetFilter(Approver) = '' then
-    //             Error('Approver Code cannot be blank.');
-    //         EmployeeLoan.Validate(Approver, EmpLoan.GetFilter(Approver));
-    //         EmployeeLoan.Modify;
-    //         Message('Approver updated.');
-    //     end;
-    // end;
-    // procedure PopUpChangingApproverAllowance(AllowanceHeader: Record "Allowance Assignment Header")
-    // var
-    //     AllowancePageBuilder: FilterPageBuilder;
-    //     AllowanceHead: Record "Allowance Assignment Header";
-    // begin
-    //     AllowancePageBuilder.AddRecord('Change Approver', AllowanceHead);
-    //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Approver ID");
-    //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Change Approver Remarks");
-    //     if AllowancePageBuilder.RunModal then begin
-    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin /
-    //             AllowanceHead.SetView(AllowancePageBuilder.GetView('Change Approver'));
-    //             Employee.Get(HRMgt.GetEmployeeNo);
-    //             // if not Employee.Screener then
-    //             //     Error('You are not eligible to change approver.');
-    //             if AllowanceHead.GetFilter("Approver ID") = '' then
-    //                 Error('Approver Id cannot be blank.');
-    //             if AllowanceHead.GetFilter("Change Approver Remarks") = '' then
-    //                 Error('Change approver Remarks must have value');
-    //             AllowanceHeader.Validate("Change Approver Remarks", AllowanceHead.GetFilter("Change Approver Remarks"));
-    //             AllowanceHeader.Validate("Approver ID", AllowanceHead.GetFilter("Approver ID"));
-    //             AllowanceHeader.Modify;
-    //             Message('Approver updated.');
-    //         end else begin
-    //             Error('You cannot change the approver of Approval Status : %1', AllowanceHeader."Approval Status");
-    //         end;
-    //     end;
-    // end;
+    procedure CheckInsuranceAttachment(InsuranceNo: Code[20]; EmpNo: Code[20])
+    var
+        IncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.Find('-') then
+            repeat
+                IncomingDoc.Reset;
+                IncomingDoc.SetRange("No.", InsuranceNo);
+                IncomingDoc.SetRange("Employee Code", EmpNo);
+                IncomingDoc.SetRange("File Name", '');
+                if IncomingDoc.FindFirst then
+                    Error('Please upload mandatory attachments.');
+            until AttachmentSetup.Next = 0;
+    end;
+
+    procedure CheckLoanEligibility(Employee: Record Employee): Boolean
+    var
+        Eligible: Boolean;
+    begin
+        Eligible := true;
+        if not (Employee."Employment Type" in [Employee."Employment Type"::"Permanent"]) then
+            exit(false);
+        if Employee.Status <> employee.Status::Active then
+            exit(false);
+        OnAfterCheckLoanEligibility(Employee, Eligible);
+        exit(Eligible);
+    end;
 
     local procedure "----Json API----"()
     begin
@@ -2041,4 +1985,8 @@ codeunit 50002 "Loan Mgt."
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckLoanEligibility(Employee: Record Employee; var Eligible: Boolean)
+    begin
+    end;
 }

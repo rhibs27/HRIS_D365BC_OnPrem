@@ -48,10 +48,8 @@ table 50106 "Employee Loan/Advance"
             trigger OnValidate()
             begin
                 if Employee.Get("Employee No.") then begin
-                    if Employee."Employment Type" <> employee."Employment Type"::"Permanent" then
-                        Error('Employee is not Permanent. Cannot apply for loan/advance.');
-                    if Employee.Status <> employee.Status::Active then
-                        Error('Employee is not active. Cannot apply for loan/advance.');
+                    if not LoanMgt.CheckLoanEligibility(Employee) then
+                        Error('You are not Eligible for loan apply.');
                     "Employee Name" := Employee.FullName();
                     Validate("Employee Type", "Employee Type");
                     Validate("Job Title", Employee."Job Title");
@@ -63,6 +61,12 @@ table 50106 "Employee Loan/Advance"
                     Validate("Department Code", Employee."Department Code");
                     Validate("Extension Counter Code", Employee."Extension Counter Code");
                     Validate("Unit Code", Employee."Unit Code");
+                    Validate("Province Name", Employee."Province Name");
+                    Validate("Branch Name", Employee."Branch Name");
+                    Validate("Department Name", Employee."Department Name");
+                    Validate("Extension Counter Name", Employee."Extension Counter Name");
+                    Validate("Unit Name", Employee."Unit Name");
+
                     if "Loan Type" = "Loan Type"::"Salary Advance" then
                         LoanMgt.NewSalaryAdvanceCheck("Employee No.");
                     Validate("Salary Level", Employee."Salary Level");
@@ -448,61 +452,26 @@ table 50106 "Employee Loan/Advance"
         field(190; "Province Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Province));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code") then
-                    "Province Name" := OrgStructureList.Name
-                else
-                    "Province Name" := '';
-            end;
         }
         field(191; "Province Name"; Text[50]) { }
         field(192; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Branch));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code") then
-                    "Branch Name" := OrgStructureList.Name
-                else
-                    "Branch Name" := '';
-            end;
         }
         field(193; "Branch Name"; Text[50]) { }
         field(194; "Department Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code") then
-                    "Department Name" := OrgStructureList.Name
-                else
-                    "Department Name" := '';
-            end;
         }
         field(195; "Department Name"; Text[50]) { }
         field(196; "Extension Counter Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter Code") then
-                    "Extension Counter Name" := OrgStructureList.Name
-                else
-                    "Extension Counter Name" := '';
-            end;
         }
         field(197; "Extension Counter Name"; Text[50]) { }
         field(198; "Unit Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Unit));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code") then
-                    "Unit Name" := OrgStructureList.Name
-                else
-                    "Unit Name" := '';
-            end;
         }
         field(199; "Unit Name"; Text[50]) { }
         //flow loan journal
@@ -608,12 +577,10 @@ table 50106 "Employee Loan/Advance"
 
     trigger OnModify()
     begin
-        // if (xRec."Approval Status" = "Approval Status") then
         LoanMgt.CalculateFields(Rec);
     end;
 
     var
-        OrgStructureList: Record "Organization Structure List";
         LoanMgt: Codeunit "Loan Mgt.";
         HRMgt: Codeunit "HR Mgt.";
         Employee: Record Employee;
@@ -621,12 +588,12 @@ table 50106 "Employee Loan/Advance"
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
         Text2: Label 'Invalid format of %1 for %2.';
-        ErrorSalAdv: Label 'You cannot apply before 4 month of previous salary advance approved date %1';
-        ErrorFY: Label 'You cannot apply Salary Advance more than 2 times in a Fiscal Year %1.';
+        ErrorSalAdv: Label 'You cannot apply before %1 days of previous salary advance approved date %2';
+        ErrorFY: Label 'You cannot apply Salary Advance more than %1 times in a Fiscal Year %2.';
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
 
-    local procedure CheckAreaofPlotFormat()
+    local procedure CheckAreaOfPlotFormat()
     var
         ValueLength: Integer;
         FormatLength: Integer;
@@ -698,7 +665,7 @@ table 50106 "Employee Loan/Advance"
         EmpSalaryAdv.SetRange("Approval Status", EmpSalaryAdv."Approval Status"::Approved);
         if EmpSalaryAdv.FindLast then begin
             if "Requested Loan Date" < EmpSalaryAdv."Approved Date" + HRSetup."Salary Advance Apply Days" then
-                Error(ErrorSalAdv, EmpSalaryAdv."Approved Date");
+                Error(ErrorSalAdv, HRSetup."Salary Advance Apply Days", EmpSalaryAdv."Approved Date");
         end;
     end;
 
@@ -706,14 +673,15 @@ table 50106 "Employee Loan/Advance"
     var
         EmpSalaryAdvance: Record "Employee Loan/Advance";
     begin
+        HRSetup.Get;
         EmpSalaryAdvance.SetLoadFields("No.", "Loan Type", "Approval Status", "Employee No.", Settled, "Fiscal Year");
         EmpSalaryAdvance.SetRange("Employee No.", "Employee No.");
         EmpSalaryAdvance.SetRange("Loan Type", EmpSalaryAdvance."Loan Type"::"Salary Advance");
         EmpSalaryAdvance.SetRange("Approval Status", EmpSalaryAdvance."Approval Status"::Approved);
         EmpSalaryAdvance.SetRange("Fiscal Year", "Fiscal Year");
         if EmpSalaryAdvance.FindSet then begin
-            if EmpSalaryAdvance.Count >= 2 then
-                Error(ErrorFY, EmpSalaryAdvance."Fiscal Year");
+            if EmpSalaryAdvance.Count >= HRSetup."No of Salary Advance" then
+                Error(ErrorFY, HRSetup."No of Salary Advance", EmpSalaryAdvance."Fiscal Year");
         end;
     end;
 }
