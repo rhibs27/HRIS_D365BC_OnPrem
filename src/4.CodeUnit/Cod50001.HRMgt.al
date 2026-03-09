@@ -4270,10 +4270,16 @@ codeunit 50001 "HR Mgt."
         PayCyclePeriod.SetRange(Posted, false);
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
-        Clear(ImportPayrollAttrReport);
-        ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
-        ImportPayrollAttrReport.UseRequestPage(false);
-        ImportPayrollAttrReport.Run();
+
+        PayrollAttributesUsage.reset();
+        PayrollAttributesUsage.SetRange("Employee Code", EmpCode);
+        if PayrollAttributesUsage.IsEmpty then begin
+            Clear(ImportPayrollAttrReport);
+            ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
+            ImportPayrollAttrReport.UseRequestPage(false);
+            ImportPayrollAttrReport.Run();
+        end;
+
         PayrollReportMgt.GetPayrollAttributes(Employee);
         EmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
         EmployeeLedgerEntries.SetRange("Employee No.", EmpCode);
