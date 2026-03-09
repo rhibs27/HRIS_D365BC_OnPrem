@@ -121,4 +121,8 @@ enum 50146 "Service Event"
     {
         Caption = 'Disciplinary Action';
     }
+    value(29; "Branch Merge")
+    {
+        Caption = 'Branch Merge';
+    }
 }

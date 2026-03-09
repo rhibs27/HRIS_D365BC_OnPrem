@@ -4300,12 +4300,12 @@ codeunit 50001 "HR Mgt."
         if TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
             TempRetirementFund."RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
         else
-            TempRetirementFund."RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
-        TempRetirementFund."Provident Fund Deposited" := Employee."PF Contribution (Office)" + Employee."PF Contribution";
-        TempRetirementFund."RF Contribution Deposited" := Employee."RF Deposit" + Employee."Lumpsum RF (Not Actual)" + PayrollOpening."Total RF Opening";
-        TempRetirementFund."CIT Contribution Deposited" := Employee."CIT Deposit" + Employee."Lump Sum CIT" + Employee."Lumpsum CIT (Not Actual)";
+            TempRetirementFund."RF Contribution Eligible Amt" := Round(PRSetup."Tax Ex. Amt. not Exceeding", 0.01, '=');
+        TempRetirementFund."Provident Fund Deposited" := Round(Employee."PF Contribution (Office)" + Employee."PF Contribution", 0.01, '=');
+        TempRetirementFund."RF Contribution Deposited" := Round(Employee."RF Deposit" + Employee."Lumpsum RF (Not Actual)" + PayrollOpening."Total RF Opening", 0.01, '=');
+        TempRetirementFund."CIT Contribution Deposited" := Round(Employee."CIT Deposit" + Employee."Lump Sum CIT" + Employee."Lumpsum CIT (Not Actual)", 0.01, '=');
         TempRetirementFund."Provident Fund Projected" := CalculateProvidentFundProjected(EmpCode, TempRetirementFund."Projection Month");
-        TempRetirementFund."Actual/Projected Contribution" := TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."CIT Contribution Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected";
+        TempRetirementFund."Actual/Projected Contribution" := Round((TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."CIT Contribution Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected"), 0.01, '=');
         TempRetirementFund."Additional Space for RF Cont." := CalculateValueNegtiveOrPostive(Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Actual/Projected Contribution", 0.01, '='));
         TempRetirementFund."Recommended Monthly CIT/RF" := CalculateValueNegtiveOrPostive(Round(TempRetirementFund."Additional Space for RF Cont." / TempRetirementFund."Projection Month", 0.01));
         CalculateRetirementFund(TempRetirementFund, TempRetirementFund."Projection Month");
@@ -4356,13 +4356,15 @@ codeunit 50001 "HR Mgt."
                 if PayrollAttributes.Formula <> '' then begin
                     PayrollReportMgt.SetEmployeeCode(Employee."No.");
                     AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
-                end;
-                if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
-                    Amount += PayrollAttributesUsage.Amount;
+                end else if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
+                        if PayrollAttributesUsage."Static Amount" then
+                            Amount += PayrollAttributesUsage.Amount - AttributeAmount
+                        else
+                            Amount += PayrollAttributesUsage.Amount;
             until PayrollAttributes.Next() = 0;
 
         TotalProvidentFundProjected := (Amount + AttributeAmount) * ProjectionMonth;
-        exit(TotalProvidentFundProjected)
+        exit(Round(TotalProvidentFundProjected, 0.01, '='));
     end;
 
     procedure CalculateValueNegtiveOrPostive(Amount: Decimal): Decimal
@@ -5781,6 +5783,18 @@ codeunit 50001 "HR Mgt."
             exit(PayCyclePeriod."End Date");
     end;
 
+    procedure CheckforFiscalYearcontrol(IncomingDate: Date)
+    var
+        IsHandled: Boolean;
+    begin
+        OnBeforeCheckFiscalYearControl(IncomingDate, IsHandled);
+        if IsHandled then
+            exit;
+        PayrollSetup.Get();
+        if IncomingDate < PayrollSetup."Payroll Fiscal Year Start Date" then
+            Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
@@ -5803,5 +5817,11 @@ codeunit 50001 "HR Mgt."
                               var IsHandled: Boolean);
     begin
         //Can be used to changes or modify any paramater before Create Email From Template
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckFiscalYearControl(IncomingDate: Date; var IsHandled: Boolean);
+    begin
+        //Can be Used to skp Fiscal year control on request
     end;
 }

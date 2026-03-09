@@ -39,8 +39,8 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AssignmentMemoLine: Record "Assignment Memo Line";
-        SkipAssignmentLedgerCreation: Boolean;
-        IsHandled: Boolean;
+        SkipAssignmentLedgerCreation, IsHandled : Boolean;
+        LeaveEarn: Record "Leave Earn";
     begin
         OnBeforeApproveRejectAllowance(docNo, IsApproved, IsHandled);
         if not IsHandled then begin
@@ -65,6 +65,15 @@ codeunit 50030 "Assignment Memo Mgt"
                         //clear ledger entry if any
                         ClearAssignmentMemoLedgerDataOnLineReject(AssignmentMemoLine."Assign Memo Ledger Entry No.");
                     until AssignmentMemoLine.Next() = 0;
+
+                //Clear Leave Earn if claimed as Leave
+                LeaveEarn.SetRange("Claimed Document No.", docNo);
+                LeaveEarn.SetRange(Claimed, true);
+                if LeaveEarn.FindFirst() then begin
+                    Clear(LeaveEarn."Claimed Document No.");
+                    Clear(LeaveEarn.Claimed);
+                    LeaveEarn.Modify();
+                end;
             end;
 
             //approved
@@ -93,7 +102,7 @@ codeunit 50030 "Assignment Memo Mgt"
             end;
         end;
     end;
-    
+
     procedure CreateAssignmentMemoLedgerEntry(DocumentNo: Code[20]; lineNo: Integer)
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
@@ -913,6 +922,10 @@ codeunit 50030 "Assignment Memo Mgt"
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
             PayrollAttributes."Specific Attributes"::"OutStation Allowance":
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+            PayrollAttributes."Specific Attributes"::"Maternity/Paternity Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Maternity/Paternity Allowance");
+            PayrollAttributes."Specific Attributes"::"Funeral Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Funeral Allowance");
             else
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
         end;
@@ -1429,12 +1442,20 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure CreateAllowanceRequestLineFromLeaveEarn(var AssignmentMemoHdr: Record "Assignment Memo Header"; var LeaveEarn: Record "Leave Earn")
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLine, AssignmentMemoLineCheckLine : Record "Assignment Memo Line";
+        LineNo: Integer;
     begin
+        AssignmentMemoLineCheckLine.SetRange("Document No.", AssignmentMemoHdr."No.");
+        if AssignmentMemoLineCheckLine.FindFirst() then
+            LineNo += AssignmentMemoLineCheckLine."Line No." + 10000
+        else
+            LineNo := 10000;
+
         AssignmentMemoLine.Init();
         AssignmentMemoLine.Validate("Document No.", AssignmentMemoHdr."No.");
         AssignmentMemoLine.Validate("Emp Act Type", AssignmentMemoHdr."Activity Type");
         AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
+        AssignmentMemoLine.Validate("Line No.", LineNo);
         AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
         AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."To date");
         AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
