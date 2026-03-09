@@ -418,15 +418,16 @@ codeunit 50027 "Payroll Report Mgt."
         PayrollAttributes.SetRange("Apply Every Month", true);
         if PayrollAttributes.FindSet() then
             repeat
-                if PayrollAttributes.Formula <> '' then begin
-                    PayrollReportMgt.SetEmployeeCode(Employee."No.");
-                    AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
-                end;
-                If PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
+                if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then begin
+                    if PayrollAttributes.Formula <> '' then begin
+                        PayrollReportMgt.SetEmployeeCode(Employee."No.");
+                        AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
+                    end;
                     if PayrollAttributesUsage."Static Amount" then
                         Amount += PayrollAttributesUsage.Amount - AttributeAmount
                     else
                         Amount += PayrollAttributesUsage.Amount;
+                end;
             Until PayrollAttributes.Next() = 0;
         Amount := Amount + AttributeAmount;
     end;
