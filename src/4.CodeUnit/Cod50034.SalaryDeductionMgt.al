@@ -14,25 +14,107 @@ codeunit 50034 "Salary Deduction Mgt"
         DeductionType: Enum "Attribute Deduction Type";
         SalaryLedgerEntryNo: Integer;
         AttendanceSetup: Record "Attendance Setup";
+        ProgressDialog: Dialog;
+        LineCount: Integer;
+        ProcessedLines: Integer;
+        PercentComplete: Integer;
+        ProgressText: Label 'Generating Deduction Entries\Attendance Document No.: #1##########\Current Employee: #2##########\Progress: #3#### \Processed: #4##########################################';
     begin
         AttendanceSetup.Get();
         AttendanceSummary.Reset();
         AttendanceSummary.SetRange("Document No.", AttendanceHeader."No.");
-        if AttendanceSummary.FindSet() then
-            repeat
-                if AttendanceSetup."Absent Deductions" then begin
-                    EmpAttenActivity[1].Reset();
-                    EmpAttenActivity[1].SetLoadFields("Employee No.", "Attendance Date", "Absent Day");
-                    EmpAttenActivity[1].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
-                    EmpAttenActivity[1].SetRange("Employee No.", AttendanceSummary."Employee No.");
-                    EmpAttenActivity[1].SetRange("Absent Day", 1);
-                    OnAfterFilterEmpAttendanceActivityOnAbsentDeduction(EmpAttenActivity[1], AttendanceHeader);
-                    if EmpAttenActivity[1].FindSet() then
+
+        LineCount := AttendanceSummary.Count;
+        ProcessedLines := 0;
+        if LineCount > 0 then begin
+            ProgressDialog.Open(ProgressText);
+            ProgressDialog.Update(1, AttendanceHeader."No.");
+
+            if AttendanceSummary.FindSet() then begin
+                repeat
+                    ProcessedLines += 1;
+                    PercentComplete := Round(ProcessedLines / LineCount * 100, 1);
+                    ProgressDialog.Update(2, AttendanceSummary."Employee No.");
+                    ProgressDialog.Update(3, Format(PercentComplete) + ' %');
+                    ProgressDialog.Update(4, Format(ProcessedLines) + ' of ' + Format(LineCount) + ' Employees');
+
+                    if AttendanceSetup."Absent Deductions" then begin
+                        EmpAttenActivity[1].Reset();
+                        EmpAttenActivity[1].SetLoadFields("Employee No.", "Attendance Date", "Absent Day");
+                        EmpAttenActivity[1].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
+                        EmpAttenActivity[1].SetRange("Employee No.", AttendanceSummary."Employee No.");
+                        EmpAttenActivity[1].SetRange("Absent Day", 1);
+                        OnAfterFilterEmpAttendanceActivityOnAbsentDeduction(EmpAttenActivity[1], AttendanceHeader);
+                        if EmpAttenActivity[1].FindSet() then
+                            repeat
+                                Clear(SalaryLedgerEntryNo);
+                                InitSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
+                                                                        EmpAttenActivity[1]."Attendance Date",
+                                                                        DeductionType::Absent,
+                                                                        AttendanceHeader."Pay Cycle Code",
+                                                                        AttendanceHeader."Pay Cycle Term",
+                                                                        AttendanceHeader."Pay Cycle Period",
+                                                                        SalaryLedgerEntryNo,
+                                                                        AttendanceHeader."No.");
+                                PayrollAttributeUsage.Reset();
+                                PayrollAttributeUsage.SetAutoCalcFields(Type, Subtype, "Formula Exists");
+                                PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[1]."Employee No.");
+                                PayrollAttributeUsage.SetRange("Deduct on Absent", true);
+                                PayrollAttributeUsage.SetFilter(Amount, '<>%1', 0);
+                                if PayrollAttributeUsage.FindSet() then
+                                    repeat
+                                        if (PayrollAttributeUsage.Subtype in [PayrollAttributeUsage.Subtype::CIT, PayrollAttributeUsage.Subtype::RF]) then begin
+                                            if (PayrollAttributeUsage."RF Contribution Type" = PayrollAttributeUsage."RF Contribution Type"::Percent) then
+                                                InsertDetailedSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
+                                                                                        EmpAttenActivity[1]."Attendance Date",
+                                                                                        DeductionType::Absent,
+                                                                                        AttendanceHeader."Pay Cycle Code",
+                                                                                        AttendanceHeader."Pay Cycle Term",
+                                                                                        AttendanceHeader."Pay Cycle Period",
+                                                                                        PayrollAttributeUsage."Type",
+                                                                                        PayrollAttributeUsage.Code,
+                                                                                        GetPercentRFContributionAmount(EmpAttenActivity[1]."Employee No.", PayrollAttributeUsage.Code),
+                                                                                        SalaryLedgerEntryNo,
+                                                                                        AttendanceHeader."No.",
+                                                                                        false)
+                                        end else
+                                            InsertDetailedSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
+                                                                                EmpAttenActivity[1]."Attendance Date",
+                                                                                DeductionType::Absent,
+                                                                                AttendanceHeader."Pay Cycle Code",
+                                                                                AttendanceHeader."Pay Cycle Term",
+                                                                                AttendanceHeader."Pay Cycle Period",
+                                                                                PayrollAttributeUsage."Type",
+                                                                                PayrollAttributeUsage.Code,
+                                                                                PayrollAttributeUsage.Amount,
+                                                                                SalaryLedgerEntryNo,
+                                                                                AttendanceHeader."No.",
+                                                                                false);
+                                    until PayrollAttributeUsage.Next() = 0;
+                                // Formula      
+                                InsertAmountsWithFormula(
+                                    EmpAttenActivity[1]."Employee No.",
+                                    EmpAttenActivity[1]."Attendance Date",
+                                    DeductionType::Absent,
+                                    AttendanceHeader."Pay Cycle Code",
+                                    AttendanceHeader."Pay Cycle Term",
+                                    AttendanceHeader."Pay Cycle Period",
+                                    SalaryLedgerEntryNo,
+                                    AttendanceHeader."No.");
+                            until EmpAttenActivity[1].Next() = 0;
+                    end;
+
+                    EmpAttenActivity[2].Reset();
+                    EmpAttenActivity[2].SetLoadFields("Employee No.", "Attendance Date", "Leave Day", "Pay Type");
+                    EmpAttenActivity[2].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
+                    EmpAttenActivity[2].SetRange("Employee No.", AttendanceSummary."Employee No.");
+                    EmpAttenActivity[2].SetRange("Leave Day", 1);
+                    EmpAttenActivity[2].SetRange("Pay Type", EmpAttenActivity[2]."Pay Type"::Unpaid);
+                    if EmpAttenActivity[2].FindSet() then
                         repeat
-                            Clear(SalaryLedgerEntryNo);
-                            InitSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
-                                                                    EmpAttenActivity[1]."Attendance Date",
-                                                                    DeductionType::Absent,
+                            InitSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
+                                                                    EmpAttenActivity[2]."Attendance Date",
+                                                                    DeductionType::LWP,
                                                                     AttendanceHeader."Pay Cycle Code",
                                                                     AttendanceHeader."Pay Cycle Term",
                                                                     AttendanceHeader."Pay Cycle Period",
@@ -40,29 +122,29 @@ codeunit 50034 "Salary Deduction Mgt"
                                                                     AttendanceHeader."No.");
                             PayrollAttributeUsage.Reset();
                             PayrollAttributeUsage.SetAutoCalcFields(Type, Subtype, "Formula Exists");
-                            PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[1]."Employee No.");
+                            PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[2]."Employee No.");
                             PayrollAttributeUsage.SetRange("Deduct on Absent", true);
                             PayrollAttributeUsage.SetFilter(Amount, '<>%1', 0);
                             if PayrollAttributeUsage.FindSet() then
                                 repeat
                                     if (PayrollAttributeUsage.Subtype in [PayrollAttributeUsage.Subtype::CIT, PayrollAttributeUsage.Subtype::RF]) then begin
                                         if (PayrollAttributeUsage."RF Contribution Type" = PayrollAttributeUsage."RF Contribution Type"::Percent) then
-                                            InsertDetailedSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
-                                                                                    EmpAttenActivity[1]."Attendance Date",
-                                                                                    DeductionType::Absent,
+                                            InsertDetailedSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
+                                                                                    EmpAttenActivity[2]."Attendance Date",
+                                                                                    DeductionType::LWP,
                                                                                     AttendanceHeader."Pay Cycle Code",
                                                                                     AttendanceHeader."Pay Cycle Term",
                                                                                     AttendanceHeader."Pay Cycle Period",
                                                                                     PayrollAttributeUsage."Type",
                                                                                     PayrollAttributeUsage.Code,
-                                                                                    GetPercentRFContributionAmount(EmpAttenActivity[1]."Employee No.", PayrollAttributeUsage.Code),
+                                                                                    GetPercentRFContributionAmount(EmpAttenActivity[2]."Employee No.", PayrollAttributeUsage.Code),
                                                                                     SalaryLedgerEntryNo,
                                                                                     AttendanceHeader."No.",
                                                                                     false)
                                     end else
-                                        InsertDetailedSalaryDeductionEntries(EmpAttenActivity[1]."Employee No.",
-                                                                            EmpAttenActivity[1]."Attendance Date",
-                                                                            DeductionType::Absent,
+                                        InsertDetailedSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
+                                                                            EmpAttenActivity[2]."Attendance Date",
+                                                                            DeductionType::LWP,
                                                                             AttendanceHeader."Pay Cycle Code",
                                                                             AttendanceHeader."Pay Cycle Term",
                                                                             AttendanceHeader."Pay Cycle Period",
@@ -73,147 +155,86 @@ codeunit 50034 "Salary Deduction Mgt"
                                                                             AttendanceHeader."No.",
                                                                             false);
                                 until PayrollAttributeUsage.Next() = 0;
-                            // Formula      
+                            // Formula
                             InsertAmountsWithFormula(
-                                EmpAttenActivity[1]."Employee No.",
-                                EmpAttenActivity[1]."Attendance Date",
-                                DeductionType::Absent,
+                                EmpAttenActivity[2]."Employee No.",
+                                EmpAttenActivity[2]."Attendance Date",
+                                DeductionType::LWP,
                                 AttendanceHeader."Pay Cycle Code",
                                 AttendanceHeader."Pay Cycle Term",
                                 AttendanceHeader."Pay Cycle Period",
                                 SalaryLedgerEntryNo,
                                 AttendanceHeader."No.");
-                        until EmpAttenActivity[1].Next() = 0;
-                end;
+                        until EmpAttenActivity[2].Next() = 0;
 
-                EmpAttenActivity[2].Reset();
-                EmpAttenActivity[2].SetLoadFields("Employee No.", "Attendance Date", "Leave Day", "Pay Type");
-                EmpAttenActivity[2].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
-                EmpAttenActivity[2].SetRange("Employee No.", AttendanceSummary."Employee No.");
-                EmpAttenActivity[2].SetRange("Leave Day", 1);
-                EmpAttenActivity[2].SetRange("Pay Type", EmpAttenActivity[2]."Pay Type"::Unpaid);
-                if EmpAttenActivity[2].FindSet() then
-                    repeat
-                        InitSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
-                                                                EmpAttenActivity[2]."Attendance Date",
-                                                                DeductionType::LWP,
-                                                                AttendanceHeader."Pay Cycle Code",
-                                                                AttendanceHeader."Pay Cycle Term",
-                                                                AttendanceHeader."Pay Cycle Period",
-                                                                SalaryLedgerEntryNo,
-                                                                AttendanceHeader."No.");
-                        PayrollAttributeUsage.Reset();
-                        PayrollAttributeUsage.SetAutoCalcFields(Type, Subtype, "Formula Exists");
-                        PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[2]."Employee No.");
-                        PayrollAttributeUsage.SetRange("Deduct on Absent", true);
-                        PayrollAttributeUsage.SetFilter(Amount, '<>%1', 0);
-                        if PayrollAttributeUsage.FindSet() then
-                            repeat
-                                if (PayrollAttributeUsage.Subtype in [PayrollAttributeUsage.Subtype::CIT, PayrollAttributeUsage.Subtype::RF]) then begin
-                                    if (PayrollAttributeUsage."RF Contribution Type" = PayrollAttributeUsage."RF Contribution Type"::Percent) then
-                                        InsertDetailedSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
-                                                                                EmpAttenActivity[2]."Attendance Date",
-                                                                                DeductionType::LWP,
-                                                                                AttendanceHeader."Pay Cycle Code",
-                                                                                AttendanceHeader."Pay Cycle Term",
-                                                                                AttendanceHeader."Pay Cycle Period",
-                                                                                PayrollAttributeUsage."Type",
-                                                                                PayrollAttributeUsage.Code,
-                                                                                GetPercentRFContributionAmount(EmpAttenActivity[2]."Employee No.", PayrollAttributeUsage.Code),
-                                                                                SalaryLedgerEntryNo,
-                                                                                AttendanceHeader."No.",
-                                                                                false)
-                                end else
-                                    InsertDetailedSalaryDeductionEntries(EmpAttenActivity[2]."Employee No.",
-                                                                        EmpAttenActivity[2]."Attendance Date",
-                                                                        DeductionType::LWP,
-                                                                        AttendanceHeader."Pay Cycle Code",
-                                                                        AttendanceHeader."Pay Cycle Term",
-                                                                        AttendanceHeader."Pay Cycle Period",
-                                                                        PayrollAttributeUsage."Type",
-                                                                        PayrollAttributeUsage.Code,
-                                                                        PayrollAttributeUsage.Amount,
-                                                                        SalaryLedgerEntryNo,
-                                                                        AttendanceHeader."No.",
-                                                                        false);
-                            until PayrollAttributeUsage.Next() = 0;
-                        // Formula
-                        InsertAmountsWithFormula(
-                            EmpAttenActivity[2]."Employee No.",
-                            EmpAttenActivity[2]."Attendance Date",
-                            DeductionType::LWP,
-                            AttendanceHeader."Pay Cycle Code",
-                            AttendanceHeader."Pay Cycle Term",
-                            AttendanceHeader."Pay Cycle Period",
-                            SalaryLedgerEntryNo,
-                            AttendanceHeader."No.");
-                    until EmpAttenActivity[2].Next() = 0;
+                    EmpAttenActivity[3].Reset();
+                    EmpAttenActivity[3].SetLoadFields("Employee No.", "Attendance Date", "Late Deduction");
+                    EmpAttenActivity[3].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
+                    EmpAttenActivity[3].SetRange("Employee No.", AttendanceSummary."Employee No.");
+                    EmpAttenActivity[3].SetRange("Late Deduction", true);
+                    OnAfterFilterEmpAttendanceActivityOnLateDeduction(EmpAttenActivity[3], AttendanceHeader);
+                    if EmpAttenActivity[3].FindSet() then
+                        repeat
+                            InitSalaryDeductionEntries(EmpAttenActivity[3]."Employee No.",
+                                                                    EmpAttenActivity[3]."Attendance Date",
+                                                                    DeductionType::Late,
+                                                                    AttendanceHeader."Pay Cycle Code",
+                                                                    AttendanceHeader."Pay Cycle Term",
+                                                                    AttendanceHeader."Pay Cycle Period",
+                                                                    SalaryLedgerEntryNo,
+                                                                    AttendanceHeader."No.");
 
-                EmpAttenActivity[3].Reset();
-                EmpAttenActivity[3].SetLoadFields("Employee No.", "Attendance Date", "Late Deduction");
-                EmpAttenActivity[3].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
-                EmpAttenActivity[3].SetRange("Employee No.", AttendanceSummary."Employee No.");
-                EmpAttenActivity[3].SetRange("Late Deduction", true);
-                OnAfterFilterEmpAttendanceActivityOnLateDeduction(EmpAttenActivity[3], AttendanceHeader);
-                if EmpAttenActivity[3].FindSet() then
-                    repeat
-                        InitSalaryDeductionEntries(EmpAttenActivity[3]."Employee No.",
-                                                                EmpAttenActivity[3]."Attendance Date",
-                                                                DeductionType::Late,
-                                                                AttendanceHeader."Pay Cycle Code",
-                                                                AttendanceHeader."Pay Cycle Term",
-                                                                AttendanceHeader."Pay Cycle Period",
-                                                                SalaryLedgerEntryNo,
-                                                                AttendanceHeader."No.");
-
-                        PayrollAttributeUsage.Reset();
-                        PayrollAttributeUsage.SetAutoCalcFields(Type, Subtype, "Formula Exists");
-                        PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[3]."Employee No.");
-                        PayrollAttributeUsage.SetRange("Deduct on Absent", true);
-                        PayrollAttributeUsage.SetFilter(Amount, '<>%1', 0);
-                        if PayrollAttributeUsage.FindSet() then
-                            repeat
-                                if (PayrollAttributeUsage.Subtype in [PayrollAttributeUsage.Subtype::CIT, PayrollAttributeUsage.Subtype::RF]) then begin
-                                    if (PayrollAttributeUsage."RF Contribution Type" = PayrollAttributeUsage."RF Contribution Type"::Percent) then
+                            PayrollAttributeUsage.Reset();
+                            PayrollAttributeUsage.SetAutoCalcFields(Type, Subtype, "Formula Exists");
+                            PayrollAttributeUsage.SetRange("Employee Code", EmpAttenActivity[3]."Employee No.");
+                            PayrollAttributeUsage.SetRange("Deduct on Absent", true);
+                            PayrollAttributeUsage.SetFilter(Amount, '<>%1', 0);
+                            if PayrollAttributeUsage.FindSet() then
+                                repeat
+                                    if (PayrollAttributeUsage.Subtype in [PayrollAttributeUsage.Subtype::CIT, PayrollAttributeUsage.Subtype::RF]) then begin
+                                        if (PayrollAttributeUsage."RF Contribution Type" = PayrollAttributeUsage."RF Contribution Type"::Percent) then
+                                            InsertDetailedSalaryDeductionEntries(EmpAttenActivity[3]."Employee No.",
+                                                                                    EmpAttenActivity[3]."Attendance Date",
+                                                                                    DeductionType::Late,
+                                                                                    AttendanceHeader."Pay Cycle Code",
+                                                                                    AttendanceHeader."Pay Cycle Term",
+                                                                                    AttendanceHeader."Pay Cycle Period",
+                                                                                    PayrollAttributeUsage."Type",
+                                                                                    PayrollAttributeUsage.Code,
+                                                                                    GetPercentRFContributionAmount(EmpAttenActivity[3]."Employee No.", PayrollAttributeUsage.Code),
+                                                                                    SalaryLedgerEntryNo,
+                                                                                    AttendanceHeader."No.",
+                                                                                    false)
+                                    end else
                                         InsertDetailedSalaryDeductionEntries(EmpAttenActivity[3]."Employee No.",
-                                                                                EmpAttenActivity[3]."Attendance Date",
-                                                                                DeductionType::Late,
-                                                                                AttendanceHeader."Pay Cycle Code",
-                                                                                AttendanceHeader."Pay Cycle Term",
-                                                                                AttendanceHeader."Pay Cycle Period",
-                                                                                PayrollAttributeUsage."Type",
-                                                                                PayrollAttributeUsage.Code,
-                                                                                GetPercentRFContributionAmount(EmpAttenActivity[3]."Employee No.", PayrollAttributeUsage.Code),
-                                                                                SalaryLedgerEntryNo,
-                                                                                AttendanceHeader."No.",
-                                                                                false)
-                                end else
-                                    InsertDetailedSalaryDeductionEntries(EmpAttenActivity[3]."Employee No.",
-                                                                        EmpAttenActivity[3]."Attendance Date",
-                                                                        DeductionType::Late,
-                                                                        AttendanceHeader."Pay Cycle Code",
-                                                                        AttendanceHeader."Pay Cycle Term",
-                                                                        AttendanceHeader."Pay Cycle Period",
-                                                                        PayrollAttributeUsage."Type",
-                                                                        PayrollAttributeUsage.Code,
-                                                                        PayrollAttributeUsage.Amount,
-                                                                        SalaryLedgerEntryNo,
-                                                                        AttendanceHeader."No.",
-                                                                        false);
-                            until PayrollAttributeUsage.Next() = 0;
-                        // Formula
-                        InsertAmountsWithFormula(
-                            EmpAttenActivity[3]."Employee No.",
-                            EmpAttenActivity[3]."Attendance Date",
-                            DeductionType::Late,
-                            AttendanceHeader."Pay Cycle Code",
-                            AttendanceHeader."Pay Cycle Term",
-                            AttendanceHeader."Pay Cycle Period",
-                            SalaryLedgerEntryNo,
-                            AttendanceHeader."No.");
-                    until EmpAttenActivity[3].Next() = 0;
-            until AttendanceSummary.Next = 0;
-        UpdateDocumentNoOnReversedEntries(AttendanceHeader);
+                                                                            EmpAttenActivity[3]."Attendance Date",
+                                                                            DeductionType::Late,
+                                                                            AttendanceHeader."Pay Cycle Code",
+                                                                            AttendanceHeader."Pay Cycle Term",
+                                                                            AttendanceHeader."Pay Cycle Period",
+                                                                            PayrollAttributeUsage."Type",
+                                                                            PayrollAttributeUsage.Code,
+                                                                            PayrollAttributeUsage.Amount,
+                                                                            SalaryLedgerEntryNo,
+                                                                            AttendanceHeader."No.",
+                                                                            false);
+                                until PayrollAttributeUsage.Next() = 0;
+                            // Formula
+                            InsertAmountsWithFormula(
+                                EmpAttenActivity[3]."Employee No.",
+                                EmpAttenActivity[3]."Attendance Date",
+                                DeductionType::Late,
+                                AttendanceHeader."Pay Cycle Code",
+                                AttendanceHeader."Pay Cycle Term",
+                                AttendanceHeader."Pay Cycle Period",
+                                SalaryLedgerEntryNo,
+                                AttendanceHeader."No.");
+                        until EmpAttenActivity[3].Next() = 0;
+                until AttendanceSummary.Next = 0;
+            end;
+            UpdateDocumentNoOnReversedEntries(AttendanceHeader);
+            ProgressDialog.Close();
+        end;
     end;
 
     local procedure GetPercentRFContributionAmount(EmployeeNo: Code[20]; AttributeCode: Code[20]): Decimal
@@ -612,6 +633,7 @@ codeunit 50034 "Salary Deduction Mgt"
                     DetailedSalaryDeductionLine.SetRange("Attendance No.", AttendanceNo);
                     DetailedSalaryDeductionLine.SetRange("Employee No.", EmpCode);
                     DetailedSalaryDeductionLine.SetRange("Attribute Code", PayrollAttributes.Code);
+                    DetailedSalaryDeductionLine.SetRange(Reversed, false);
                     if DetailedSalaryDeductionLine.FindFirst() then begin
                         CalculatedAmount := DetailedSalaryDeductionLine.Amount;
 
