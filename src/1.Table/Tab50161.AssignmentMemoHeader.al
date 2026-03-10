@@ -417,7 +417,6 @@ table 50161 "Assignment Memo Header"
     begin
         IncDocAttachment.Init();
         IncDocAttachment."No." := DocumentNo;
-        IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
         IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
         if EmpActType = EmpActType::"Request Allowance" then
             IncDocAttachment.Validate("Employee Code", EmployeeNo);
