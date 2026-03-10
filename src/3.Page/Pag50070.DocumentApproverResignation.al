@@ -87,6 +87,7 @@ page 50070 "Document Approver Resignation"
                 Image = Approval;
                 ToolTip = 'Executes the Return Rejected action.';
                 ApplicationArea = All;
+                Enabled = EditableField;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Approve record?', false) then begin

@@ -74,7 +74,7 @@ codeunit 50006 "Resignation Mgt"
         Count := 0;
         ResignDocApproverSetup.Reset();
         ResignDocApproverSetup.SetRange("Emp Act Type", EmpActType);
-        ResignDocApproverSetup.SetRange("Deputation Type", EmpRequest."Deputation on");
+        // ResignDocApproverSetup.SetRange("Deputation Type", EmpRequest."Deputation on");
         ResignDocApproverSetup.SetCurrentKey("Approver Sequence");
         ResignDocApproverSetup.SetAscending("Approver Sequence", true);
         if ResignDocApproverSetup.FindFirst() then
@@ -93,6 +93,8 @@ codeunit 50006 "Resignation Mgt"
                     end;
                     if ResignDocApproverSetup."Approver Role" <> '' then
                         EmployeeApprover.SetRange("Approver Role", ResignDocApproverSetup."Approver Role");
+                    if ResignDocApproverSetup."Functional Title" <> '' then
+                        EmployeeApprover.SetRange("Functional Title", ResignDocApproverSetup."Functional Title");
                 end;
                 if EmployeeApprover.Findfirst then begin
                     if ApproverSequence <> ResignDocApproverSetup."Approver Sequence" then begin
