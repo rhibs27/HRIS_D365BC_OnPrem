@@ -1740,7 +1740,7 @@ codeunit 50017 "Approver Mgt"
         ApprovalStatusEnum: Enum "Approval Status";
     begin
         if not CheckDocumentApprover(EmpActNo) then
-            Error('You arenot Eligible To Approve');
+            Error('You are not Eligible To Approve');
         if Approved then begin
             DocumentApprover.Reset();
             DocumentApprover.SetRange("Document No.", EmpActNo);
