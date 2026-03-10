@@ -126,7 +126,7 @@ page 50160 "Employee Home Loan Card"
                 }
                 group(Control17)
                 {
-                    Editable = IsPending;
+                    Editable = IsOpen;
                     ShowCaption = false;
                     field("Requested Loan Date"; Rec."Requested Loan Date")
                     {
@@ -199,11 +199,6 @@ page 50160 "Employee Home Loan Card"
                         ApplicationArea = All;
                     }
                 }
-            }
-            part(Attachment; "Attachment Subform")
-            {
-                SubPageLink = "No." = field("No.");
-                ApplicationArea = All;
             }
             group("Security Documentation")
             {
@@ -382,6 +377,11 @@ page 50160 "Employee Home Loan Card"
                     end;
                 }
             }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = All;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -389,18 +389,6 @@ page 50160 "Employee Home Loan Card"
                                 "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
-            }
-        }
-        area(FactBoxes)
-        {
-            systempart(Control36; Links)
-            {
-                Visible = false;
-                ApplicationArea = All;
-            }
-            systempart(Control10; Notes)
-            {
-                ApplicationArea = All;
             }
         }
     }

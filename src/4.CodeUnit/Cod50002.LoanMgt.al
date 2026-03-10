@@ -75,6 +75,7 @@ codeunit 50002 "Loan Mgt."
         EmpLoan."Employment Date" := Employee."Employment Date";
         EmpLoan.Gender := Employee.Gender;
         EmpLoan."Date of Birth" := Employee."Birth Date";
+        EmpLoan.Age := Employee.Age;
 
         if Employee."Confirmation Date" = 0D then
             Error('Confirmation Date must have value in employee %1.', Employee.FullName);  //this ensure only permanent employee eligible for loan/advance
@@ -149,6 +150,7 @@ codeunit 50002 "Loan Mgt."
         PreviousLoan: Record "Employee Loan/Advance";
         CheckSalaryLevel: Record "Salary Level";
         EligibleMonth: Decimal;
+        IsHandled: Boolean;
     begin
         Clear(PrevLoanAmt);
         case EmpLoan."Loan Type" of
@@ -166,16 +168,10 @@ codeunit 50002 "Loan Mgt."
                         EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 10 - PrevLoanAmt
                     else if EmpLoan."Confirmation Service Period" >= 1 then
                         EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 4 - PrevLoanAmt;
-                    CheckSalaryLevel.Reset;
-                    CheckSalaryLevel.SetRange("Senior Officer Level", true);
-                    if CheckSalaryLevel.FindFirst then begin
-                        if (SalaryLevel.Rank <= CheckSalaryLevel.Rank) then begin
-                            if EmpLoan."Confirmation Service Period" > 5 then
-                                EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 15 - PrevLoanAmt
-                            else if EmpLoan."Confirmation Service Period" > 3 then
-                                EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 12 - PrevLoanAmt;
-                        end;
-                    end;
+                    if EmpLoan."Confirmation Service Period" > 5 then
+                        EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 15 - PrevLoanAmt
+                    else if EmpLoan."Confirmation Service Period" > 3 then
+                        EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 12 - PrevLoanAmt;
                 end;
             EmpLoan."Loan Type"::"Vehicle Loan":
                 begin
@@ -186,6 +182,7 @@ codeunit 50002 "Loan Mgt."
                     PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
                     EmpLoan."Previous Loan Amount" := PrevLoanAmt;
                     EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
+
                     if SalaryLevel.Get(Employee."Salary Level") then begin
                         if CheckSalaryLevel.Rank <= SalaryLevel.Rank then
                             EmpLoan."Eligible Loan/Advance" := EmpLoan."Cost of Vehicle";
@@ -210,29 +207,29 @@ codeunit 50002 "Loan Mgt."
                 end;
             EmpLoan."Loan Type"::"Home Loan":
                 begin
-                    CheckSalaryLevel.Reset;
-                    CheckSalaryLevel.SetRange("Senior Officer Level", true);
-                    if CheckSalaryLevel.FindFirst then;
+                    // CheckSalaryLevel.Reset;
+                    // CheckSalaryLevel.SetRange("Senior Officer Level", true);
+                    // if CheckSalaryLevel.FindFirst then;
                     if SalaryLevel.Get(Employee."Salary Level") then begin
                         PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
                         EmpLoan."Previous Loan Amount" := PrevLoanAmt;
                         EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
-                        if SalaryLevel.Rank <= CheckSalaryLevel.Rank then
-                            EligibleMonth := HRSetup."Loan Eligible Month Below SO"
-                        else
-                            EligibleMonth := HRSetup."Home Loan Eligible Month";
-                        if SalaryLevel."Housing Loan Limit" <> 0 then begin
-                            if (EligibleMonth * EmpLoan."Gross Salary") > (SalaryLevel."Housing Loan Limit") then
-                                EmpLoan."Eligible Loan/Advance" := (SalaryLevel."Housing Loan Limit") - PrevLoanAmt
-                            else
+                        EligibleMonth := HRSetup."Home Loan Eligible Month";
+                        OnBeforeCalculateEligibleHomeLoanAmount(EmpLoan, IsHandled);
+                        if not IsHandled then begin
+                            if SalaryLevel."Housing Loan Limit" <> 0 then begin
+                                if (EligibleMonth * EmpLoan."Gross Salary") > (SalaryLevel."Housing Loan Limit") then
+                                    EmpLoan."Eligible Loan/Advance" := (SalaryLevel."Housing Loan Limit") - PrevLoanAmt
+                                else
+                                    EmpLoan."Eligible Loan/Advance" := (EligibleMonth * EmpLoan."Gross Salary") - PrevLoanAmt;
+                            end else
                                 EmpLoan."Eligible Loan/Advance" := (EligibleMonth * EmpLoan."Gross Salary") - PrevLoanAmt;
-                        end else
-                            EmpLoan."Eligible Loan/Advance" := (EligibleMonth * EmpLoan."Gross Salary") - PrevLoanAmt;
-                        if EmpLoan."Purpose of Housing Loan" = EmpLoan."Purpose of Housing Loan"::"Renovate/Extend/Repair" then begin
-                            if EmpLoan."Eligible Loan/Advance" > 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
-                                EmpLoan."Eligible Loan/Advance" := 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
-                        end else if EmpLoan."Eligible Loan/Advance" > 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
-                                EmpLoan."Eligible Loan/Advance" := 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
+                            if EmpLoan."Purpose of Housing Loan" = EmpLoan."Purpose of Housing Loan"::"Renovate/Extend/Repair" then begin
+                                if EmpLoan."Eligible Loan/Advance" > 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
+                                    EmpLoan."Eligible Loan/Advance" := 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
+                            end else if EmpLoan."Eligible Loan/Advance" > 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
+                                    EmpLoan."Eligible Loan/Advance" := 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
+                        end;
                     end;
                     if not EmpLoan."Loan Enhancement" then begin
                         PreviousLoan.Reset;
@@ -1675,6 +1672,7 @@ codeunit 50002 "Loan Mgt."
             EmployeeLoan.Validate("Transportation Management off.", EmpLoan.GetFilter("Transportation Management off."));
         EmployeeLoan.Modify;
     end;
+
     procedure CheckInsuranceAttachment(InsuranceNo: Code[20]; EmpNo: Code[20])
     var
         IncomingDoc: Record "Incoming Document";
@@ -1989,4 +1987,10 @@ codeunit 50002 "Loan Mgt."
     local procedure OnAfterCheckLoanEligibility(Employee: Record Employee; var Eligible: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateEligibleHomeLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
+    begin
+    end;
+    
 }

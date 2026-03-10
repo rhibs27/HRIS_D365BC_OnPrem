@@ -1553,6 +1553,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Method OnDelete - NamedType CannotDelete</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Access Token - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 317591136 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1572,6 +1577,11 @@
           <source>Assign Memo Ledger Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Assign Memo Ledger Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3069971261 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Assigned By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Assigned By - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 4208656117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>ATM Site</source>
@@ -42768,11 +42778,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Attendance - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3884601073 - Action 1581821057 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Get Calculate Line Tax action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Calculate Line Tax - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3884601073 - Action 2173385693 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Dimensions action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47197,6 +47202,11 @@
           <source>Specifies the value of the Annual Accessible Income field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Annual Accessible Income - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 1292965899 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CIT Contribution Deposited field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control CIT Contribution Deposited - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 4240594223 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Lumpsum Committed Contribution field.</source>
@@ -57688,6 +57698,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Finacle URL - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2467275564 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Home Loan Eligible Service Years field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control HL Eligibility Service Years - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 3083575731 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Home Loan Confirmation Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60327,6 +60342,11 @@
           <source>Hide Clearance Approver</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Hide Clearance Approver - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 2467275564 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>HL Eligibility Service Years</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field HL Eligibility Service Years - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 3083575731 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Home Loan Confirmation Period</source>
@@ -64528,20 +64548,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue   - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 258625110 - EnumValue 1941113921 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clear personal borrowing taken for residential property</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue Clear personal borrowing taken for residential property - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 258625110 - EnumValue 241358228 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Construction of House</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue Construction of House - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 258625110 - EnumValue 4132294926 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Equity Finance on already purchased/constructed/renovated property</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue Equity Finance on already purchased/constructed/renovated property - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 258625110 - EnumValue 411071470 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Purchase Built-up House/Flat/Apartment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue Purchase Built-up House/Flat/Apartment - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 258625110 - EnumValue 1462045391 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Purchase of Land</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue Purchase of Land - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 258625110 - EnumValue 1675012165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Purchase of ready built house</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue Purchase of ready built house - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 258625110 - EnumValue 2250028145 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Purpose of Equity Financing</source>

@@ -733,6 +733,11 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50161; "HL Eligibility Service Years"; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For eligible home loan Request';
+        }
     }
     trigger onAfterInsert()
     begin

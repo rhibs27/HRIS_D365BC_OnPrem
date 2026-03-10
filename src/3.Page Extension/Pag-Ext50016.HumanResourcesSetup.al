@@ -399,6 +399,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Home Loan Eligible Month field.';
                 }
+                field("HL Eligibility Service Years";Rec."HL Eligibility Service Years")
+                {
+                    ApplicationArea=All;
+                    ToolTip='Specifies the value of the Home Loan Eligible Service Years field.'; 
+                }
                 field("Loan Eligible Month Below SO"; Rec."Loan Eligible Month Below SO")
                 {
                     ApplicationArea = All;
