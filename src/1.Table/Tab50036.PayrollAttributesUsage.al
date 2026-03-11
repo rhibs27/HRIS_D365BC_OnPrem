@@ -150,6 +150,10 @@ table 50036 "Payroll Attributes Usage"
         {
             Editable = false;
         }
+        field(26; "Loan type"; Enum "Loan Type")
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

@@ -47,6 +47,10 @@ page 50033 "Payroll Attributes Usage"
                     ToolTip = 'Specifies the value of the Formula field.';
                     ApplicationArea = All;
                 }
+                field("Loan type"; rec."Loan type")
+                {
+                    ApplicationArea = All;
+                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';

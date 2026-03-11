@@ -245,7 +245,7 @@ codeunit 50002 "Loan Mgt."
                                 Error(HomeLoanReapplyErr);
                         end;
                     end;
-                    RepaymentPeriod := 25;
+                    RepaymentPeriod := HRSetup."Home/Persona Loan Repay Period";
                     if RepaymentPeriod < EmpLoan."Repayment Period" then
                         EmpLoan."Repayment Period" := RepaymentPeriod;
                     if EmpLoan."Repayment Period" > EmpLoan."Remaining Service Period" then begin
@@ -634,6 +634,8 @@ codeunit 50002 "Loan Mgt."
         end;
         if EmpLoan."Repayment Period" > HRSetup."Home/Persona Loan Repay Period" then
             Error('Invalid Repayment Period.');
+
+
     end;
 
     local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; "No.": Code[20]): Decimal
@@ -1992,5 +1994,5 @@ codeunit 50002 "Loan Mgt."
     local procedure OnBeforeCalculateEligibleHomeLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
     begin
     end;
-    
+
 }

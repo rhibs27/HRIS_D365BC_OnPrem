@@ -66,6 +66,8 @@ table 50106 "Employee Loan/Advance"
                     Validate("Department Name", Employee."Department Name");
                     Validate("Extension Counter Name", Employee."Extension Counter Name");
                     Validate("Unit Name", Employee."Unit Name");
+                    Validate("Functional title", Employee."Functional Title");
+                    Validate("Salary Account Number", Employee."Bank Account No.");
 
                     if "Loan Type" = "Loan Type"::"Salary Advance" then
                         LoanMgt.NewSalaryAdvanceCheck("Employee No.");
@@ -507,6 +509,14 @@ table 50106 "Employee Loan/Advance"
         {
             Caption = 'Monthly Deduction';
             DataClassification = ToBeClassified;
+        }
+        field(210; "Functional title"; Code[20])
+        {
+            Caption = 'Functional title';
+        }
+        field(211; "Salary Account Number"; Text[50])
+        {
+            Caption = 'Salary Account Number';
         }
     }
 

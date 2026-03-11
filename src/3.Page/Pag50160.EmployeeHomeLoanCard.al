@@ -27,14 +27,32 @@ page 50160 "Employee Home Loan Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field("Functional title"; rec."Functional title")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Salary Account Number"; rec."Salary Account Number")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field("Branch Name"; Rec."Branch Name")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
                 }
                 field("Department Name"; Rec."Department Name")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Department Name field.';
+                    ApplicationArea = All;
+                }
+                field("Unit Name"; Rec."Unit Name")
+                {
+                    Editable=false;
+                    ToolTip = 'Specifies the value of the Unit Name field.';
                     ApplicationArea = All;
                 }
                 field("Date of Birth"; Rec."Date of Birth")
@@ -51,11 +69,6 @@ page 50160 "Employee Home Loan Card"
                 field("Confirmation Service Period"; Rec."Confirmation Service Period")
                 {
                     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
-                    ApplicationArea = All;
-                }
-                field("Unit Name"; Rec."Unit Name")
-                {
-                    ToolTip = 'Specifies the value of the Unit Name field.';
                     ApplicationArea = All;
                 }
                 field("Approval Status"; Rec."Approval Status")
@@ -75,6 +88,12 @@ page 50160 "Employee Home Loan Card"
             }
             group("Home Loan Parameters")
             {
+                field("Requested Loan Date"; Rec."Requested Loan Date")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Requested Loan Date field.';
+                    ApplicationArea = All;
+                }
                 field("Previous Loan Amount"; Rec."Previous Loan Amount")
                 {
                     ToolTip = 'Specifies the value of the Previous Loan Amount field.';
@@ -128,11 +147,6 @@ page 50160 "Employee Home Loan Card"
                 {
                     Editable = IsOpen;
                     ShowCaption = false;
-                    field("Requested Loan Date"; Rec."Requested Loan Date")
-                    {
-                        ToolTip = 'Specifies the value of the Requested Loan Date field.';
-                        ApplicationArea = All;
-                    }
                     field("Purpose of Housing Loan"; Rec."Purpose of Housing Loan")
                     {
                         showMandatory = true;

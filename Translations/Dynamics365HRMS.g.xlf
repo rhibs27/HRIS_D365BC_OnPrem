@@ -7113,6 +7113,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Frequency - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 28900233 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Functional title - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2303302321 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Gender</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7342,6 +7347,11 @@
           <source>Returned Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Returned Loan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 2847486938 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Account Number</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Salary Account Number - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2224012302 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Advance Paid</source>
@@ -13552,6 +13562,11 @@
           <source>Last EMI Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Last EMI Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3652447633 - Field 2784302464 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes Usage - Field Loan type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3652447633 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Cycle Code</source>
@@ -29943,11 +29958,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Repayment Period - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 14706639 - Control 1953805996 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Requested Loan Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Requested Loan Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 14706639 - Control 3052974704 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Eligible Loan/Advance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29982,6 +29992,11 @@
           <source>Specifies the value of the Remaining Service Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Remaining Service Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 14706639 - Control 1953805996 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Loan Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Requested Loan Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Control 1440944918 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Loan Amount field.</source>

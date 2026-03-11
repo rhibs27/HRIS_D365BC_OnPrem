@@ -170,7 +170,7 @@ table 50141 OverTime
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            // Editable = false;
+            Editable = false;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
