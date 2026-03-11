@@ -392,6 +392,9 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.RoundAmount(MonthlyTax);
 
             TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
+            if PGSetup."Pro Rate Female Rebate" then
+                if TaxSetupHeader."Special Tax Exempt %" <> 0 then
+                    TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %") / 100 + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
             if TotalTaxWithoutSST > 0 then begin
                 if TotalTaxWithoutSST > TaxExempt then
                     TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
