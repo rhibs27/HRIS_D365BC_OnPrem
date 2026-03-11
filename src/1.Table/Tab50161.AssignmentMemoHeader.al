@@ -345,13 +345,19 @@ table 50161 "Assignment Memo Header"
             ApprovalHrms.SetRange("Document No.", Rec."No.");
             ApprovalHrms.DeleteAll(true);
 
+            //Delete Incoming and Attachment documents for particular deleted document.
             IncomingDocument.Reset();
-            IncomingDocumentAttachment.Reset();
             IncomingDocument.SetRange("No.", Rec."No.");
-            IncomingDocumentAttachment.SetRange("Document No.", IncomingDocument."No.");
-            IncomingDocumentAttachment.DeleteAll();
-            IncomingDocument.DeleteAll();
+            if IncomingDocument.FindSet() then
+                repeat
+                    IncomingDocumentAttachment.Reset();
+                    IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+                    if IncomingDocumentAttachment.FindFirst() then
+                        IncomingDocumentAttachment.Delete(true);
 
+                    IncomingDocument.Delete(true);
+
+                Until IncomingDocument.Next() = 0;
         end;
     end;
 

@@ -1538,6 +1538,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Method OnDelete - NamedType CannotDelete</note>
         </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Access Token - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4002069225 - Field 317591136 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1557,6 +1562,11 @@
           <source>Assign Memo Ledger Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Assign Memo Ledger Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4002069225 - Field 3069971261 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Assigned By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Line - Field Assigned By - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4002069225 - Field 4208656117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>ATM Site</source>
@@ -47062,6 +47072,11 @@
           <source>Specifies the value of the Annual Accessible Income field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Annual Accessible Income - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 1292965899 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CIT Contribution Deposited field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control CIT Contribution Deposited - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 4240594223 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Lumpsum Committed Contribution field.</source>
