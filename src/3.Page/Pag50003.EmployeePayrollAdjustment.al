@@ -282,11 +282,6 @@ page 50003 "Employee Payroll Adjustment"
                             if not EmpAdjust.FindFirst then begin
                                 if PayrollColumnConfig.FindFirst then begin
                                     FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
-                                    //AttributeAmt := EvaluateAmount(PayrollAttributes1.Formula,FALSE);
-                                    if PayrollAttributes1.Subtype in [PayrollAttributes1.Subtype::"Employee Contribution", PayrollAttributes1.Subtype::"Employer Contribution"] then
-                                        BasicAdjustmentPF(AttributeAmt);
-                                    //IF PayrollAttributes1.Code = 'LFA' THEN
-                                    //  CalculateLFA(AttributeAmt);
                                     FieldRefs.Validate(AttributeAmt);
                                 end;
                             end;

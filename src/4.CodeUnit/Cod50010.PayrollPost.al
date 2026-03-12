@@ -519,12 +519,18 @@ codeunit 50010 "Payroll-Post"
             SalaryDeductionEntry.ModifyAll("Payroll Posted", true);
             SalaryDeductionEntry.ModifyAll("Payroll Document No.", PostedPayrollHeader."No.");
         end;
+        OnAfterUpdateSourceDocumentOnPayrollPost(PayrollAttributes, PayrollLineRec, PGSetup, PostedPayrollHeader);
     end;
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader: Record "Payroll Header")
     begin
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterUpdateSourceDocumentOnPayrollPost(PayrollAttributes: Record "Payroll Attributes"; PayrollLine: Record "Payroll Line"; PGSetup: Record "Payroll General Setup"; PostedPayrollHeader: Record "Posted Payroll Header")
+    begin
     end;
 
     [IntegrationEvent(false, false)]
