@@ -65,6 +65,7 @@ codeunit 50030 "Assignment Memo Mgt"
                 until AssignmentMemoLine.Next() = 0;
 
             //Clear Leave Earn if claimed as Leave
+            LeaveEarn.SetCurrentKey("Claimed Document No.");
             LeaveEarn.SetRange("Claimed Document No.", docNo);
             LeaveEarn.SetRange(Claimed, true);
             if LeaveEarn.FindFirst() then begin
