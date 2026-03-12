@@ -738,6 +738,16 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'For eligible home loan Request';
         }
+        field(50162; "HL Minimum Road Access OutV."; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For eligible home loan Request Minimum Road Access Outside valley';
+        }
+        field(50163; "HL Minmum Road Access InV."; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For eligible home loan Request Minimum Road Access Inside valley';
+        }
     }
     trigger onAfterInsert()
     begin

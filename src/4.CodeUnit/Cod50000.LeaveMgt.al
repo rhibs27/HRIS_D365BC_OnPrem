@@ -285,7 +285,7 @@ codeunit 50000 "Leave Mgt."
 
         FoundAdjacent := true;
         while FoundAdjacent do begin
-            PreviousWorkingDate := GetPreviousWorkingDate(CurrentStart - 1, true);
+            PreviousWorkingDate := GetPreviousWorkingDate(CurrentStart - 1, true, EmpCode);
             Leave.Reset();
             Leave.SetRange("Leave Code", LeaveCode);
             Leave.SetRange("Employee No.", EmpCode);
@@ -303,7 +303,7 @@ codeunit 50000 "Leave Mgt."
 
         FoundAdjacent := true;
         while FoundAdjacent do begin
-            NextWorkingDate := GetPreviousWorkingDate(CurrentEnd + 1, false);
+            NextWorkingDate := GetPreviousWorkingDate(CurrentEnd + 1, false, EmpCode);
             Leave.Reset();
             Leave.SetRange("Leave Code", LeaveCode);
             Leave.SetRange("Employee No.", EmpCode);
@@ -1987,23 +1987,18 @@ codeunit 50000 "Leave Mgt."
             until Date.Next() = 0;
     end;
 
-    procedure GetPreviousWorkingDate(DateToCheck: Date; PreviousWorkingdate: Boolean): Date
+    procedure GetPreviousWorkingDate(DateToCheck: Date; PreviousWorkingDate: Boolean; EmpCode: Code[20]): Date
     var
-        CalendarChange: Record "Base Calendar Change";
         CheckDate: Date;
     begin
         CheckDate := DateToCheck;
+
         repeat
-            // Look for date in Base Calendar Change
-            CalendarChange.SetRange("Date", CheckDate);
-            if CalendarChange.FindFirst() then begin
-                if CalendarChange.Nonworking then
-                    if PreviousWorkingdate then begin
-                        CheckDate := CheckDate - 1 // Skip holiday
-                    end else
-                        CheckDate := CheckDate + 1
+            if GetNonWorkingDays(CheckDate, CheckDate, EmpCode) <> 0 then begin
+                if PreviousWorkingDate then
+                    CheckDate := CheckDate - 1
                 else
-                    exit(CheckDate);
+                    CheckDate := CheckDate + 1
             end else
                 exit(CheckDate);
         until false;

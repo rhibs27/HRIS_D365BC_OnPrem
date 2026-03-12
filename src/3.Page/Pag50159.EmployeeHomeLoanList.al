@@ -4,7 +4,7 @@ page 50159 "Employee Home Loan List"
     DataCaptionFields = "No.", "Employee No.", "Employee Name";
     PageType = List;
     SourceTable = "Employee Loan/Advance";
-    SourceTableView = where("Loan Type" = const("Home Loan"));
+    SourceTableView = sorting("No.") order(descending) where("Loan Type" = const("Home Loan"));
     UsageCategory = Lists;
     ApplicationArea = All;
 

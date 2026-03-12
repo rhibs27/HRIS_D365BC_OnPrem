@@ -6948,6 +6948,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Area of Plot - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3750614069 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Area of Propty. tobe Purchased</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Area of Propty. tobe Purchased - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29778,6 +29783,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Area of Plot - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 14706639 - Control 1524421062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Area of Property to be Purchased.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Area of Property to be Purchased - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 14706639 - Control 1524421062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Area of Property to be Purchased</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Area of Property to be Purchased - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 14706639 - Control 3733539411 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Complete Address of Property field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29787,6 +29802,11 @@
           <source>Specifies the value of the Name of Owner field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Existing Owner of the Property - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 14706639 - Control 432825887 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Existing Owner of the Property</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Existing Owner of the Property - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Control 3259739371 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Name of Spouse field.</source>
@@ -29798,15 +29818,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Plot No. of Property - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 14706639 - Control 2734013873 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 14706639 - Control 298076137 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Name of Proposed Owner field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Property in the name of - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 14706639 - Control 1808841140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Proposed Owner (Nepali) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Proposed Owner (Nepali) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 14706639 - Control 1620516346 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Property in the name of field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Proposed Owner of  the Property - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Proposed Owner Name(Nepali) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Control 3558390861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Age field.</source>
@@ -57718,6 +57738,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control HL Eligibility Service Years - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1780321452 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Home Loan Minimum Road Access Outside valley.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control HL Minimum Road Access OutV. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 3912788780 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Home Loan Minimum Road Access Inside valley.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control HL Minmum Road Access InV. - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 3083575731 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Home Loan Confirmation Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57748,11 +57778,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Json Token - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 692545714 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Loan Eligible Month Below SO field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Loan Eligible Month Below SO - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2410989594 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Max Adv. Salary Payback Month field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57762,11 +57787,6 @@
           <source>Specifies the value of the Max. no. of Salary Adv. in FY field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Max. no. of Salary Adv. in FY - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 809387275 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Max. Veh. Loan Repay Period field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Max. Veh. Loan Repay Period - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 3605196088 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Retirement Age field.</source>
@@ -57782,6 +57802,16 @@
           <source>Specifies the value of the Spouse Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Spouse Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 692545714 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Loan Eligible Month Below SO field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Loan Eligible Month Below SO - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 809387275 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Max. Veh. Loan Repay Period field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Max. Veh. Loan Repay Period - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 3341031116 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the V.loan Repay. Limit SO or less field.</source>
@@ -60362,6 +60392,16 @@
           <source>HL Eligibility Service Years</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field HL Eligibility Service Years - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1780321452 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>HL Minimum Road Access OutV.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field HL Minimum Road Access OutV. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 3912788780 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>HL Minmum Road Access InV.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field HL Minmum Road Access InV. - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 3083575731 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Home Loan Confirmation Period</source>

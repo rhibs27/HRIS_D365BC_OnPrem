@@ -257,7 +257,7 @@ table 50106 "Employee Loan/Advance"
         {
             trigger OnValidate()
             begin
-                CheckAreaofPlotFormat;
+                CheckAreaofPlotFormat("Area of Plot", FieldCaption("Area of Plot"), "Area Format");
             end;
         }
         field(53; "Estimated Cost of Construction"; Decimal)
@@ -312,6 +312,7 @@ table 50106 "Employee Loan/Advance"
             trigger OnValidate()
             begin
                 Clear("Area of Plot");
+                Clear("Area of Propty. tobe Purchased");
             end;
         }
         field(67; "Purpose of Advance Salary"; Text[250])
@@ -512,11 +513,16 @@ table 50106 "Employee Loan/Advance"
         }
         field(210; "Functional title"; Code[20])
         {
-            Caption = 'Functional title';
         }
         field(211; "Salary Account Number"; Text[50])
         {
-            Caption = 'Salary Account Number';
+        }
+        field(212; "Area of Propty. tobe Purchased"; Text[50])
+        {
+            trigger OnValidate()
+            begin
+                CheckAreaofPlotFormat("Area of Propty. tobe Purchased", FieldCaption("Area of Propty. tobe Purchased"), "Area Format");
+            end;
         }
     }
 
@@ -603,37 +609,71 @@ table 50106 "Employee Loan/Advance"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
 
-    local procedure CheckAreaOfPlotFormat()
+    // local procedure CheckAreaOfPlotFormat()
+    // var
+    //     ValueLength: Integer;
+    //     FormatLength: Integer;
+    //     FormatText: Text;
+    //     i: Integer;
+    //     FormatText1: Text;
+    //     FormatText2: Text;
+    // begin
+    //     Clear(FormatText);
+    //     Clear(FormatLength);
+    //     Clear(ValueLength);
+    //     TestField("Area Format");
+    //     if "Area Format" <> "Area Format"::" " then begin
+    //         FormatText := CopyStr("Area of Plot", StrLen("Area of Plot"), StrLen("Area of Plot"));
+    //         if FormatText = '-' then
+    //             Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
+    //         if StrPos("Area of Plot", '-') = 1 then
+    //             Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
+    //         if StrPos("Area of Plot", '-') = (StrLen("Area of Plot") - 1) then
+    //             Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
+    //         FormatLength := StrLen(DelChr(Format("Area Format"), '=', DelChr(Format("Area Format"), '=', '-')));
+    //         ValueLength := StrLen(DelChr("Area of Plot", '=', DelChr("Area of Plot", '=', '-')));
+    //         if FormatLength <> ValueLength then
+    //             Error(Text2, "Area of Plot", "Area Format");
+    //         for i := 1 to ValueLength do begin
+    //             FormatText1 := CopyStr("Area of Plot", StrPos("Area of Plot", '-'), i);
+    //             FormatText2 := CopyStr("Area of Plot", StrPos("Area of Plot", '-') + i + 1, i + 1);
+    //             if (FormatText1 = '--') or (FormatText2 = '--') then
+    //                 Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
+    //         end;
+    //     end;
+    // end;
+    local procedure CheckAreaOfPlotFormat(FieldValue: Text; FieldCaptionText: Text; AreaFormat: Enum "Area Format")
     var
         ValueLength: Integer;
         FormatLength: Integer;
         FormatText: Text;
-        i: Integer;
         FormatText1: Text;
         FormatText2: Text;
+        i: Integer;
     begin
-        Clear(FormatText);
-        Clear(FormatLength);
-        Clear(ValueLength);
-        TestField("Area Format");
-        if "Area Format" <> "Area Format"::" " then begin
-            FormatText := CopyStr("Area of Plot", StrLen("Area of Plot"), StrLen("Area of Plot"));
-            if FormatText = '-' then
-                Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            if StrPos("Area of Plot", '-') = 1 then
-                Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            if StrPos("Area of Plot", '-') = (StrLen("Area of Plot") - 1) then
-                Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            FormatLength := StrLen(DelChr(Format("Area Format"), '=', DelChr(Format("Area Format"), '=', '-')));
-            ValueLength := StrLen(DelChr("Area of Plot", '=', DelChr("Area of Plot", '=', '-')));
-            if FormatLength <> ValueLength then
-                Error(Text2, "Area of Plot", "Area Format");
-            for i := 1 to ValueLength do begin
-                FormatText1 := CopyStr("Area of Plot", StrPos("Area of Plot", '-'), i);
-                FormatText2 := CopyStr("Area of Plot", StrPos("Area of Plot", '-') + i + 1, i + 1);
-                if (FormatText1 = '--') or (FormatText2 = '--') then
-                    Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            end;
+        if AreaFormat = AreaFormat::" " then
+            Error('Area Format must be set for %1', FieldCaptionText);
+
+        FormatText := CopyStr(FieldValue, StrLen(FieldValue), 1);
+        if FormatText = '-' then
+            Error(Text2, FieldValue, FieldCaptionText);
+
+        if StrPos(FieldValue, '-') = 1 then
+            Error(Text2, FieldValue, FieldCaptionText);
+
+        if StrPos(FieldValue, '-') = (StrLen(FieldValue) - 1) then
+            Error(Text2, FieldValue, FieldCaptionText);
+
+        FormatLength := StrLen(DelChr(Format(AreaFormat), '=', DelChr(Format(AreaFormat), '=', '-')));
+        ValueLength := StrLen(DelChr(FieldValue, '=', DelChr(FieldValue, '=', '-')));
+        if FormatLength <> ValueLength then
+            Error(Text2, FieldValue, Format(AreaFormat));
+
+        for i := 1 to ValueLength do begin
+            FormatText1 := CopyStr(FieldValue, StrPos(FieldValue, '-'), i);
+            FormatText2 := CopyStr(FieldValue, StrPos(FieldValue, '-') + i + 1, i + 1);
+            if (FormatText1 = '--') or (FormatText2 = '--') then
+                Error(Text2, FieldValue, FieldCaptionText);
         end;
     end;
 

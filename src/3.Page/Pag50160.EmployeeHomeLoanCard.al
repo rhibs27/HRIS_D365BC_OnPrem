@@ -51,7 +51,7 @@ page 50160 "Employee Home Loan Card"
                 }
                 field("Unit Name"; Rec."Unit Name")
                 {
-                    Editable=false;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Unit Name field.';
                     ApplicationArea = All;
                 }
@@ -311,34 +311,16 @@ page 50160 "Employee Home Loan Card"
             group("Collateral Information")
             {
                 Editable = IsOpen;
-                field("Proposed Owner of  the Property"; Rec."Property in the name of")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Property in the name of field.';
-                    ApplicationArea = All;
-                }
-                field("Name of Spouse"; Rec."Name of Spouse")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Name of Spouse field.';
-                    ApplicationArea = All;
-                }
-                field("Existing Owner of the Property"; Rec."Name of Owner")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Name of Owner field.';
-                    ApplicationArea = All;
-                }
-                field("Address of Existing Owner"; Rec."Address of Owner")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Address of Owner field.';
-                    ApplicationArea = All;
-                }
                 field("Complete Address of Property"; Rec."Complete Address of Property")
                 {
                     showMandatory = true;
                     ToolTip = 'Specifies the value of the Complete Address of Property field.';
+                    ApplicationArea = All;
+                }
+                field("Plot No. of Property"; Rec."Plot No. of Property")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Plot No. of Property field.';
                     ApplicationArea = All;
                 }
                 field("Area Format"; Rec."Area Format")
@@ -353,13 +335,21 @@ page 50160 "Employee Home Loan Card"
                     ToolTip = 'Specifies the value of the Area of Plot field.';
                     ApplicationArea = All;
                 }
-                field("Plot No. of Property"; Rec."Plot No. of Property")
+                field("Area of Property to be Purchased"; rec."Area of Propty. tobe Purchased")
                 {
+                    Caption = 'Area of Property to be Purchased';
                     showMandatory = true;
-                    ToolTip = 'Specifies the value of the Plot No. of Property field.';
+                    ToolTip = 'Specifies the value of the Area of Property to be Purchased.';
                     ApplicationArea = All;
                 }
-                field("Proposed Owner (Nepali)"; Rec."Proposed Owner (Nepali)")
+                field("Existing Owner of the Property"; Rec."Name of Owner")
+                {
+                    Caption = 'Existing Owner of the Property';
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Name of Owner field.';
+                    ApplicationArea = All;
+                }
+                field("Proposed Owner Name(Nepali)"; Rec."Proposed Owner (Nepali)")
                 {
                     showMandatory = true;
                     ToolTip = 'Specifies the value of the Proposed Owner (Nepali) field.';
@@ -370,12 +360,30 @@ page 50160 "Employee Home Loan Card"
                     ToolTip = 'Specifies the value of the Address of Property (Nepali) field.';
                     ApplicationArea = All;
                 }
+                field("Address of Existing Owner"; Rec."Address of Owner")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Address of Owner field.';
+                    ApplicationArea = All;
+                }
+                field("Property in the name of"; Rec."Property in the name of")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Name of Proposed Owner field.';
+                    ApplicationArea = All;
+                }
+                field("Name of Spouse"; Rec."Name of Spouse")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Name of Spouse field.';
+                    ApplicationArea = All;
+                }
             }
             group("Group Remarks")
             {
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = IsPending;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
@@ -658,16 +666,12 @@ page 50160 "Employee Home Loan Card"
         RecRef.GetTable(Rec);
     end;
 
-    protected var
-        IsOpen: Boolean;
-        IsPending: Boolean;
-        IsApproved: Boolean;
-        ApproverMgt: Codeunit "Approver Mgt";
-
     var
+        IsOpen, IsPending, IsApproved : Boolean;
         HasIncomingDocument: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
         StatusView: Boolean;
+        ApproverMgt: Codeunit "Approver Mgt";
         ApprovalStatusView: Boolean;
         RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";

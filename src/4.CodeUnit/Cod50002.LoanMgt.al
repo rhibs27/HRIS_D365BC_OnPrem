@@ -581,6 +581,7 @@ codeunit 50002 "Loan Mgt."
         InsurancePremiumSetup: Record "Insurance Premium Setup";
         CheckSalaryLevel: Record "Salary Level";
     begin
+        OnBeforeCheckHomeLoanEligibility(EmpLoan);
         if EmpLoan."Purpose of Housing Loan" = EmpLoan."Purpose of Housing Loan"::" " then
             Error('Purpose of housing loan must have value.');
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::" " then
@@ -622,9 +623,9 @@ codeunit 50002 "Loan Mgt."
             if EmpLoan."Confirmation Service Period" < HRSetup."Home Loan Confirmation Period" then
                 Error('Employee not eligible as service period is less than %1 year.', HRSetup."Home Loan Confirmation Period");
         if SalaryLevel.Get(Employee."Salary Level") then;
-        CheckSalaryLevel.Reset();
-        CheckSalaryLevel.SetRange("Senior Officer Level", true);
-        CheckSalaryLevel.FindFirst;
+        // CheckSalaryLevel.Reset();
+        // CheckSalaryLevel.SetRange("Senior Officer Level", true);
+        // CheckSalaryLevel.FindFirst;
         if SalaryLevel.Rank > CheckSalaryLevel.Rank then begin
             if EmpLoan."DBR Ratio" > HRSetup."DBR Ratio" then
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
@@ -1610,9 +1611,9 @@ codeunit 50002 "Loan Mgt."
         if EmployeeLoan.Disbursed then
             Error('Loan has already been disbursed.');
         LoanPageBuilder.AddRecord('Disbursement', EmpLoan);
-        LoanPageBuilder.ADdField('Disbursement', EmpLoan."Disbursement Date");
-        LoanPageBuilder.ADdField('Disbursement', EmpLoan."Disbursed Amount");
-        LoanPageBuilder.ADdField('Disbursement', EmpLoan."Account No.");
+        LoanPageBuilder.AddField('Disbursement', EmpLoan."Disbursement Date");
+        LoanPageBuilder.AddField('Disbursement', EmpLoan."Disbursed Amount");
+        LoanPageBuilder.AddField('Disbursement', EmpLoan."Account No.");
         LoanPageBuilder.RunModal;
         EmpLoan.SetView(LoanPageBuilder.GetView('Disbursement'));
         Evaluate(DisbursementDate, EmpLoan.GetFilter("Disbursement Date"));
@@ -1992,6 +1993,11 @@ codeunit 50002 "Loan Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateEligibleHomeLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckHomeLoanEligibility(var EmpLoan: Record "Employee Loan/Advance")
     begin
     end;
 
