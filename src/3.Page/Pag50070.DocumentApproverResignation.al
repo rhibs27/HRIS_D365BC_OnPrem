@@ -58,7 +58,7 @@ page 50070 "Document Approver Resignation"
                 }
                 field(remarks; Rec.Remarks)
                 {
-                    Caption = 'Resign Clearance Remarks';
+                    Caption = 'Clearance Remarks';
                     ToolTip = 'Specifies the value of the Resign Clearance Remarks field.';
                     ApplicationArea = All;
                 }
@@ -92,6 +92,23 @@ page 50070 "Document Approver Resignation"
                 begin
                     if Confirm('Do you want to Approve record?', false) then begin
                         ApproverMgt.ApproveResignClerance(Rec, true);
+                    end;
+                end;
+            }
+            action("ReOpen")
+            {
+                Image = ReOpen;
+                ToolTip = 'Executes the Return Rejected action.';
+                ApplicationArea = All;
+                Enabled = Rec."Approval Status" = Rec."Approval Status"::Approved;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to ReOpen the clearance?', false) then begin
+                        ApproverMgt.CheckApprover(Rec."Document No.");
+                        Clear(Rec."Approved Date");
+                        Clear(Rec.Remarks);
+                        Rec."Approval Status" := Rec."Approval Status"::Open;
+                        Rec.Modify();
                     end;
                 end;
             }
