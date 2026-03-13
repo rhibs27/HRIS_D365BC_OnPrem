@@ -465,23 +465,6 @@ page 50003 "Employee Payroll Adjustment"
         end;
     end;
 
-    local procedure BasicAdjustmentPF(var AttributeAmt: Decimal)
-    var
-        AdjustPFAmt: Decimal;
-        EmpPayAdj: Record "Employee Payroll Adjustment";
-    begin
-        PGSetup.TestField("Basic Adjustment Code");
-        EmpPayAdj.Reset;
-        EmpPayAdj.SetRange("Employee No.", Employee."No.");
-        EmpPayAdj.SetRange("Payroll Document No.", PayrollDocNo);
-        EmpPayAdj.SetFilter("Attribute Code", '%1|%2|%3', PGSetup."Basic Adjustment Code", PGSetup."Grade Adjustment Code", PGSetup."Officiat Basic Adjustment Code");
-        if EmpPayAdj.FindSet then
-            repeat
-                AdjustPFAmt := 0.1 * EmpPayAdj.Amount;
-                AttributeAmt += AdjustPFAmt;
-            until EmpPayAdj.Next = 0;
-    end;
-
     local procedure CalculateLFA(var AttributeAmt: Decimal)
     var
         EmpPayAdj: Record "Employee Payroll Adjustment";
