@@ -831,9 +831,12 @@ codeunit 50030 "Assignment Memo Mgt"
                     Clear(AssignmentMemoLine);
                     AssignmentMemoLine.Init();
                     AssignmentMemoLine.Validate("Document No.", AllowanceAssignmentHdr."No.");
-                    AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
                     AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
-                    AssignmentMemoLine.Insert(true);
+                    AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
+                    AssignmentMemoLine.Validate("Employee No.", AllowanceAssignmentHdr."Employee No.");
+                    AssignmentMemoLine.Validate("Document Date", WorkDate());
+                    AssignmentMemoLine.Validate("Line No.", AssignmentMemoLine.GetLineNo(AllowanceAssignmentHdr."No."));
+                    AssignmentMemoLine.Insert();
                     AssignmentMemoLine.CopyFromAssignmentMemoLedgerEntry(AssignmentMemoLedgerEntry);
                     AssignmentMemoLine.Validate("Payroll Attribute Code");
                     AssignmentMemoLine.Modify();
