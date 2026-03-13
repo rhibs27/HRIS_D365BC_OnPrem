@@ -414,24 +414,22 @@ codeunit 50027 "Payroll Report Mgt."
         Clear(Amount);
         Employee.Get(EmployeeNo);
         PayrollAttributes.Reset();
-        PayrollAttributes.SetRange(Type, PayrollAttributes.Type::Benefits, PayrollAttributes.Type::"Non-Payment");
+        PayrollAttributes.SetFilter(Type, '%1|%2', PayrollAttributes.Type::Benefits, PayrollAttributes.Type::"Non-Payment");
         PayrollAttributes.SetRange("Apply Every Month", true);
         if PayrollAttributes.FindSet() then
             repeat
-                if PayrollAttributes.Formula <> '' then begin
-                    PayrollReportMgt.SetEmployeeCode(Employee."No.");
-                    AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
-                end;
-
-                PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
-                PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-                if PayrollAttributesUsage.FindSet() then
-                    repeat
+                if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then begin
+                    if PayrollAttributes.Formula <> '' then begin
+                        PayrollReportMgt.SetEmployeeCode(Employee."No.");
+                        AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
+                    end;
+                    if PayrollAttributesUsage."Static Amount" then
+                        Amount += PayrollAttributesUsage.Amount - AttributeAmount
+                    else
                         Amount += PayrollAttributesUsage.Amount;
-                    until PayrollAttributesUsage.Next() = 0;
+                end;
             Until PayrollAttributes.Next() = 0;
-
-        Amount += AttributeAmount;
+        Amount := Amount + AttributeAmount;
     end;
 
     local procedure CheckIfProjectable(AttrCode: Code[20]): Boolean

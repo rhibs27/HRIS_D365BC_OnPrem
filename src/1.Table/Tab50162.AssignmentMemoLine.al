@@ -312,11 +312,20 @@ table 50162 "Assignment Memo Line"
         {
             Caption = 'Bill No.';
         }
+        field(302; "Access Token"; Code[60])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(303; "Assigned By"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
         key(Key1; "Document No.", "Line No.") { }
+        key(key2; "Access Token") { }
     }
 
     trigger OnDelete()
@@ -593,6 +602,19 @@ table 50162 "Assignment Memo Line"
         Validate("ATM Site", AssignmentMemoLedgerEntry."ATM Site");
         Validate("Vault Name", AssignmentMemoLedgerEntry."Vault Name");
         Validate(Panel, AssignmentMemoLedgerEntry.Panel);
+    end;
+
+    procedure GetLineNo(DocNo: Code[20]): Integer
+    var
+        AllowanceAssignmentMemoLine: Record "Assignment Memo Line";
+    begin
+        AllowanceAssignmentMemoLine.Reset;
+        AllowanceAssignmentMemoLine.SetCurrentKey("Document No.", "Line No.");
+        AllowanceAssignmentMemoLine.SetRange("Document No.", DocNo);
+        if AllowanceAssignmentMemoLine.FindLast then
+            exit(AllowanceAssignmentMemoLine."Line No." + 10000)
+        else
+            exit(10000);
     end;
 
     [IntegrationEvent(false, false)]

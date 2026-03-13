@@ -3,6 +3,7 @@ report 50072 "Export Posted Payroll Value"
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019873.ExportPostedPayrollValue.rdl';
     ApplicationArea = All;
+    UsageCategory=ReportsAndAnalysis;
     dataset
     {
         dataitem("Posted Payroll Line"; "Posted Payroll Line")
@@ -16,6 +17,9 @@ report 50072 "Export Posted Payroll Value"
             column(SalaryLevel_; SalaryLevelDesc) { }
             column(SalaryGrade_; "Salary Grade") { }
             column(BranchName; BranchName) { }
+            column(SolID; "Sol ID") { }
+            column(DepartmentName; DepartmentName) { }
+            column(UnitName; UnitName) { }
             column(EmployeeType_; "Employee Type") { }
             column(PresentDays_; Format("Present Days")) { }
             column(AbsentDays_; Format("Absent Days")) { }
@@ -167,12 +171,21 @@ report 50072 "Export Posted Payroll Value"
             trigger OnAfterGetRecord()
             var
                 GLSetup: Record "General Ledger Setup";
+                Employee: Record Employee;
             begin
                 Clear(Counter);
                 clear(BranchName);
+                clear(DepartmentName);
+                Clear(UnitName);
                 GLSetup.get();
-                if DimensionValue.Get(GLSetup."Global Dimension 1 Code", "Global Dimension 1 Code") then
+                if DimensionValue.Get(GLSetup."Global Dimension 1 Code", "Global Dimension 1 Code") then begin
                     BranchName := DimensionValue.Name;
+                end;
+                if Employee.Get("Posted Payroll Line"."Employee No.") then begin
+                            DepartmentName := Employee."Department Name";
+                            UnitName := Employee."Unit Name";
+                        end;
+
                 Clear(FunctionalTitleDesc);
                 if FunctionalTitleRec.Get("Functional Title") then
                     FunctionalTitleDesc := FunctionalTitleRec.Description
@@ -253,6 +266,8 @@ report 50072 "Export Posted Payroll Value"
         SalaryLevelDesc: Text[50];
         ShowTaxDetails: Boolean;
         BranchName: Text[100];
+        DepartmentName: Text[100];
+        UnitName: Text[100];
         DimensionValue: Record "Dimension Value";
 
     local procedure ClearValue()
