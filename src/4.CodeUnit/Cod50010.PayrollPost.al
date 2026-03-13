@@ -490,11 +490,10 @@ codeunit 50010 "Payroll-Post"
                     LeaveEarn.Modify();
                 until LeaveEarn.Next() = 0;
         end;
-
         AllowanceAssignLine.SetRange("Allowance Type", PayrollAttributes.Code);
         AllowanceAssignLine.SetRange("Payroll Doc No.", PayrollHeader."No.");
-        if AllowanceAssignLine.FindSet() then
-            AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
+        AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
+        AllowanceAssignLine.ModifyAll("Payroll Posted", true);
 
         //check and update Assignment memo lines if any
         AssignmentMemoLedgerEntry.SetRange("Payroll Posted", false);

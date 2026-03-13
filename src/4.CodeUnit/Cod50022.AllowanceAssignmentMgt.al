@@ -343,7 +343,11 @@ codeunit 50022 "Allowance Assignment Mgt"
             Error('Date must have value');
         Clear(NoOfDays);
         if Employee.Get(EmpNo) then;
-        NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then begin
+            PGSetup.TestField("Total Days");
+            NoOfDays := PGSetup."Total Days" / 12;
+        end else
+            NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
         case AllowanceType of
             PGSetup."Evening Counter":
                 begin

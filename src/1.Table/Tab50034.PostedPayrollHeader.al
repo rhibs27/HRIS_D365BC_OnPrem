@@ -242,8 +242,8 @@ table 50034 "Posted Payroll Header"
             until LeaveEarn.Next() = 0;
 
         AllowanceAssignmentLine.SetRange("Payroll Doc No.", PostedDocNo);
-        if AllowanceAssignmentLine.FindSet() then
-            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+        AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+        AllowanceAssignmentLine.ModifyAll("Payroll Posted", false);
 
         AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PostedDocNo);
