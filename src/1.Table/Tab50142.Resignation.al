@@ -178,11 +178,10 @@ table 50142 Resignation
 
             trigger OnValidate()
             begin
-                if not GuiAllowed then
-                    if "Requested Last Working Day" < Today then
-                        Error(INVALID, FieldCaption("Requested Last Working Day"))
-                    else
-                        Validate("Recommended Last Working Day", "Requested Last Working Day");
+                if "Requested Last Working Day" < Today then
+                    Error(INVALID, FieldCaption("Requested Last Working Day"))
+                else
+                    Validate("Recommended Last Working Day", "Requested Last Working Day");
                 if HRSetup.Get() then
                     if HRSetup."Apply Resign Waiver" then
                         ResignationMgt.UpdateResignationWaiver(Rec);

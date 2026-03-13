@@ -1734,17 +1734,19 @@ codeunit 50017 "Approver Mgt"
         end;
     end;
 
-    procedure ApproveResignClerance(EmpActNo: Code[20]; Approved: Boolean)
+    procedure ApproveResignClerance(var DocApprover: Record "Document Approver"; Approved: Boolean)
     var
         DocumentApprover, DocumentApproverCheck : Record "Document Approver";
         ApprovalStatusEnum: Enum "Approval Status";
+        IsHandled: Boolean;
     begin
-        if not CheckDocumentApprover(EmpActNo) then
+        if not CheckDocumentApprover(DocApprover."Document No.") then
             Error('You are not Eligible To Approve');
         if Approved then begin
             DocumentApprover.Reset();
-            DocumentApprover.SetRange("Document No.", EmpActNo);
-            DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
+            DocumentApprover.SetRange("Document No.", DocApprover."Document No.");
+            DocumentApprover.SetRange("Approver Sequence", DocApprover."Approver Sequence");
+            DocumentApprover.SetRange("Approval Status", DocApprover."Approval Status"::Open);
             if DocumentApprover.FindSet() then
                 repeat
                     DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);
@@ -1752,14 +1754,17 @@ codeunit 50017 "Approver Mgt"
                     DocumentApprover.Validate("Approved Date", Today);
                     DocumentApprover.Modify();
                 until DocumentApprover.Next() = 0;
-            DocumentApproverCheck.Reset();
-            DocumentApproverCheck.SetRange("Document No.", EmpActNo);
-            DocumentApproverCheck.SetRange("Approver Sequence", DocumentApprover."Approver Sequence" + 1);
-            if DocumentApproverCheck.FindSet() then begin
-                repeat
-                    DocumentApproverCheck."Approval Status" := DocumentApproverCheck."Approval Status"::Open;
-                    DocumentApproverCheck.Modify;
-                until DocumentApproverCheck.Next() = 0;
+
+            OnBeforeIncrementOfApproverSequence(DocumentApproverCheck, DocumentApprover, IsHandled);
+            if not IsHandled then begin
+                DocumentApproverCheck.SetRange("Document No.", DocApprover."Document No.");
+                DocumentApproverCheck.SetRange("Approver Sequence", DocumentApprover."Approver Sequence" + 1);
+                if DocumentApproverCheck.FindSet() then begin
+                    repeat
+                        DocumentApproverCheck."Approval Status" := DocumentApproverCheck."Approval Status"::Open;
+                        DocumentApproverCheck.Modify;
+                    until DocumentApproverCheck.Next() = 0;
+                end;
             end;
         end
     end;
@@ -1830,6 +1835,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterOtherDocumentType(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeIncrementOfApproverSequence(var DocApproverCheck: Record "Document Approver"; var DocApprover: Record "Document Approver"; var IsHandled: Boolean)
     begin
     end;
 
