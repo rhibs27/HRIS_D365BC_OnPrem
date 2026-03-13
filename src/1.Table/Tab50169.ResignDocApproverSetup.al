@@ -87,7 +87,7 @@ table 50169 "Resign Doc Approver Setup"
         field(100; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
-            TableRelation = Employee."No." where(Status = filter("Employee Status"::Active));
+            TableRelation = Employee."No." where("Deputation on" = field("Approver Deputation Type"), "Deputation On Code" = field("Approver Deputation Code"), Status = filter("Employee Status"::Active));
             trigger OnValidate()
             begin
                 TestField("Approver Role", '');

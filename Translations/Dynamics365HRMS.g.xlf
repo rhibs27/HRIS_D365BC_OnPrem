@@ -19578,6 +19578,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Approver Deputation Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 22438250 - Field 1684724504 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Deputation Sub Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Approver Deputation Sub Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 22438250 - Field 3352267572 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approver Deputation Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19593,10 +19598,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Approver Sequence - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 22438250 - Field 1906111147 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Sub Deputation Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Approver Sub Deputation Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 22438250 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Deputation Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 22438250 - Field 2125093947 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Sub Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Deputation Sub Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 22438250 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Type</source>
@@ -19622,6 +19637,11 @@
           <source>Same Deputation Approver</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Same Deputation Approver - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 22438250 - Field 444722952 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub Deputation Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Resign Doc Approver Setup - Field Sub Deputation Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3932326675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resignation</source>
@@ -47953,36 +47973,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Action Promotion Eligibilty Criteria - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3671467288 - Control 27999376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Attachment Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Sample Attachments - Control Attachment Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3671467288 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Description field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Sample Attachments - Control Description - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3671467288 - Control 804481195 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the File Name field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Sample Attachments - Control File Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3671467288 - Action 593408208 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Download action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Sample Attachments - Action Download - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3671467288 - Action 3238504282 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Remove action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Sample Attachments - Action Remove - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3671467288 - Action 701918397 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Upload action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Sample Attachments - Action Upload - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2767038253 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Score Detail Subform</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60678,6 +60668,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1365319268 - Field 692903808 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
+          <source>Sub Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Sub Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1365319268 - Field 3135334477 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
           <source>Table ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60687,11 +60682,6 @@
           <source>Transfer Claim Attributes</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Transfer Claim Attributes - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1365319268 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
-          <source>Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2950119068 - Field 2377832346 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2251411675">
           <source>GPA Scale</source>
@@ -63022,16 +63012,6 @@
           <source>Weekend</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Holiday Type - EnumValue Weekend - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3871129073 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Incoming Document Sample - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3871129073 - EnumValue 1776355858 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sample</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Incoming Document Sample - EnumValue Sample - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4183540572 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>

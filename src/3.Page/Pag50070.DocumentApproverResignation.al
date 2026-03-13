@@ -30,7 +30,7 @@ page 50070 "Document Approver Resignation"
                 }
                 field(employeeNo; Rec."Employee No.")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
                     Caption = 'Employee No.';
@@ -91,7 +91,7 @@ page 50070 "Document Approver Resignation"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Approve record?', false) then begin
-                        ApproverMgt.ApproveResignClerance(Rec."Document No.", true);
+                        ApproverMgt.ApproveResignClerance(Rec, true);
                     end;
                 end;
             }
@@ -192,6 +192,7 @@ page 50070 "Document Approver Resignation"
     trigger OnOpenPage()
     begin
         Rec.SetRange("Document Type", Rec."Document Type"::Resignation);
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
     end;
 
     trigger OnAfterGetRecord()
@@ -209,6 +210,7 @@ page 50070 "Document Approver Resignation"
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
+        IsOpen: Boolean;
 
     local procedure returnAttachmentBase64(): Text;
     var
