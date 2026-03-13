@@ -374,17 +374,20 @@ codeunit 50029 "Process Daily Attendance"
     local procedure GetCheckInAndOutFromAttendanceLogInRange(StartTime: DateTime; EndTime: DateTime; var TimeVar: Time; FirstRecord: Boolean): Time
     var
         AttendanceLog: Record "Attendance Log";
+        IsHandled: Boolean;
     begin
         AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time");
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
-        if GuiAllowed then
-            AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
-        else begin
-            AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
-            AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
-        end;
+        OnFiteringAttendanceLog(StartTime, EndTime, EmpAttendance, AttendanceLog, IsHandled);
+        if not IsHandled then
+            if GuiAllowed then
+                AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
+            else begin
+                AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
+                AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
+            end;
         if FirstRecord then
             if AttendanceLog.FindFirst() then;
         if not FirstRecord then
@@ -409,6 +412,11 @@ codeunit 50029 "Process Daily Attendance"
 
     [IntegrationEvent(false, false)]
     procedure OnUpdateEmpAttendanceOnbeforeModify(var EmpAttendance: Record "Employee Attendance & Activity")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnFiteringAttendanceLog(var startTime: DateTime; var endTime: DateTime; var EmployeeAttendance: Record "Employee Attendance & Activity"; var AttendanceLog: Record "Attendance Log"; var IsHandled: Boolean)
     begin
     end;
 }
