@@ -94,4 +94,16 @@ enum 50032 "Payroll SubType"
     {
         Caption = 'Dashain Allowance';
     }
+    value(23; "Dearness Allowance")
+    {
+        Caption = 'Dearness Allowance';
+    }
+    value(24; "Child Allowance")
+    {
+        Caption = 'Child Allowance';
+    }
+    value(25; "Acting Allowance")
+    {
+        Caption = 'Acting Allowance';
+    }
 }

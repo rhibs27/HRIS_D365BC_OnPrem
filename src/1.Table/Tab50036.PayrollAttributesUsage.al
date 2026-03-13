@@ -150,7 +150,11 @@ table 50036 "Payroll Attributes Usage"
         {
             Editable = false;
         }
-        field(26; "Loan type"; Enum "Loan Type")
+        field(26; "Use Attribute for Home loan"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(27; "Use Attribute for Vehicle loan"; Boolean)
         {
             DataClassification = ToBeClassified;
         }

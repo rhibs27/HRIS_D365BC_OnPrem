@@ -47,7 +47,11 @@ page 50033 "Payroll Attributes Usage"
                     ToolTip = 'Specifies the value of the Formula field.';
                     ApplicationArea = All;
                 }
-                field("Loan type"; rec."Loan type")
+                field("Use Attribute for Home loan"; rec."Use Attribute for Home loan")
+                {
+                    ApplicationArea = All;
+                }
+                field("Use Attribute for Vehicle loan"; rec."Use Attribute for Vehicle loan")
                 {
                     ApplicationArea = All;
                 }
