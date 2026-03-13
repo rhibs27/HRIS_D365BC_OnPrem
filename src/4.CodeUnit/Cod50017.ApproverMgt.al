@@ -1317,6 +1317,24 @@ codeunit 50017 "Approver Mgt"
         end;
     end;
 
+    procedure HRApprover(EmpNo: Code[20]): Boolean
+    var
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
+    begin
+        if HRSetup.Get() and Employee.Get(EmpNo) then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    exit(true);
+            end
+            else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    exit(true);
+            end;
+        end;
+    end;
+
     procedure CheckFirstApproverSequence(DocNo: Code[20]): Boolean
     var
         Approver: Record "Approval HRMS";

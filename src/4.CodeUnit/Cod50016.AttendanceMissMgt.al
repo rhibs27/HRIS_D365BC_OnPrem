@@ -170,6 +170,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                     AttendanceLog.Validate("Log Time", AttendanceMissed."Check In Time");
                     AttendanceLog.Validate("Date Time Log", LogDateTime);
                     AttendanceLog.Validate("Biometric Attendance", false);
+                    AttendanceLog.Validate("Document No", AttendanceMissed."No.");
                     AttendanceLog."Machine Emp. Code" := Employee."Employee Attendance ID";
                     AttendanceLog.Insert();
                 end;
@@ -192,6 +193,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                     AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
                     AttendanceLog.Validate("Date Time Log", LogDateTime);
                     AttendanceLog.Validate("Biometric Attendance", false);
+                    AttendanceLog.Validate("Document No", AttendanceMissed."No.");
                     AttendanceLog."Machine Emp. Code" := Employee."Employee Attendance ID";
                     AttendanceLog.Insert();
                 end;
@@ -261,6 +263,43 @@ codeunit 50016 "AttendanceMiss Mgt"
             exit(Employee."No.")
         else
             exit(Employee."Employee Attendance ID");
+    end;
+
+    procedure CancelAttendanceMissedJournal(var AttendanceMissedJournal: Record "Posted Employee Journal")
+    begin
+        If AttendanceMissedJournal."Employee Act Type" = AttendanceMissedJournal."Employee Act Type"::"Attendance Missed" then
+            if not AttendanceMissedJournal.Cancelled then begin
+                AttendanceMissedJournal.Validate(Cancelled, true);
+                AttendanceMissedJournal.Validate("Cancelled By", HRMgt.GetEmployeeNo());
+                AttendanceMissedJournal.Validate("Cancelled Date", Today);
+                AttendanceMissedJournal.Modify();
+                CancelledAttendanceMissed(AttendanceMissedJournal."Document No");
+                CancelledAttendanceLogs(AttendanceMissedJournal."Document No");
+            end else
+                Error('%1 is Already Cancelled', AttendanceMissedJournal."Document No")
+        else
+            Error('Entry No %1 Type Must be %2', AttendanceMissedJournal."Entry No", AttendanceMissedJournal."Employee Act Type"::"Attendance Missed");
+    end;
+
+    procedure CancelledAttendanceMissed(DocNo: Code[20])
+    var
+        AttendanceMissed: Record "Attendance Missed";
+    begin
+        AttendanceMissed.Get(DocNo);
+        AttendanceMissed.Validate(Cancelled, true);
+        AttendanceMissed.Modify();
+    end;
+
+    procedure CancelledAttendanceLogs(DocNo: Code[20])
+    var
+        AttendanceLogs: Record "Attendance Log";
+    begin
+        AttendanceLogs.SetRange("Document No", DocNo);
+        if AttendanceLogs.FindSet() then
+            repeat
+                AttendanceLogs.Validate(Cancelled, true);
+                AttendanceLogs.Modify();
+            until AttendanceLogs.Next() = 0;
     end;
 
     [IntegrationEvent(false, false)]

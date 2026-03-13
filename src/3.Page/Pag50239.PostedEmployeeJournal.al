@@ -311,4 +311,30 @@ page 50239 "Posted Employee Journal"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Cancel journal")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Reject;
+                trigger OnAction()
+                var
+                    AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
+                    ApproverMgt: Codeunit "Approver Mgt";
+                    HrMgt: Codeunit "HR Mgt.";
+                begin
+                    if Confirm('Do you want to Cancel %1 ,%2 Journal?', false, Rec."Document No", Rec."Employee Act Type") then
+                        if ApproverMgt.HRApprover(HrMgt.GetEmployeeNo()) then
+                            case Rec."Employee Act Type" of
+                                rec."Employee Act Type"::"Attendance Missed":
+                                    AttendanceMissedMgt.CancelAttendanceMissedJournal(Rec);
+                            end;
+                end;
+            }
+        }
+    }
 }

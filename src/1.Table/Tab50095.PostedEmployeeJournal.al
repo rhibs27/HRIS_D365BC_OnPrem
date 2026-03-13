@@ -111,6 +111,7 @@ table 50095 "Posted Employee Journal"
         }
         field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
+        field(38; "Cancelled By"; Code[20]) { }
         field(39; Cancelled; Boolean) //Used in all Employee activity
         {
         }
