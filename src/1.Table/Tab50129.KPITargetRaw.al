@@ -23,12 +23,12 @@ table 50129 "KPI Target Raw"
         }
         field(3; "KPI Code"; Code[20])
         {
-            TableRelation = "KPI Master";
+            TableRelation = "Appraisal KPI Master";
 
             trigger OnValidate()
             begin
                 KPIMaster.Get("KPI Code");
-                "KPI Description" := KPIMaster.Description;
+                "KPI Description" := KPIMaster."Questionnaire/Description";
             end;
         }
         field(4; "KPI Description"; Text[250]) { }
@@ -65,6 +65,6 @@ table 50129 "KPI Target Raw"
     fieldgroups { }
 
     var
-        KPIMaster: Record "KPI Master";
+        KPIMaster: Record "Appraisal KPI Master";
         OrganizationStructureList: Record "Organization Structure List";
 }

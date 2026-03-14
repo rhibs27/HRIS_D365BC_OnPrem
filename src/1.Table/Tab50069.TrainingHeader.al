@@ -414,7 +414,7 @@ table 50069 "Training Header"
                 RatingSetup.SetFilter(From, '<=%1', "Trainer Percent");
                 RatingSetup.SetFilter("To", '>=%1', "Trainer Percent");
                 if RatingSetup.FindFirst then
-                    Validate("Trainer Remarks", Format(RatingSetup.Remarks));
+                    Validate("Trainer Remarks", Format(RatingSetup.Rating));
             end;
         }
         field(52; "Training Percent"; Decimal)
@@ -428,10 +428,10 @@ table 50069 "Training Header"
                 RatingSetup.SetFilter(From, '<=%1', "Training Percent");
                 RatingSetup.SetFilter("To", '>=%1', "Training Percent");
                 if RatingSetup.FindFirst then
-                    Validate("Training Remarks", Format(RatingSetup.Remarks));
+                    Validate("Training Remarks", Format(RatingSetup.Rating));
             end;
         }
-        field(53; "Trainer Remarks"; Text[50])
+        field(53; "Trainer Remarks"; Text[250])
         {
             Editable = false;
         }

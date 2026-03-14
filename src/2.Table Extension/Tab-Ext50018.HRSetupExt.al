@@ -716,6 +716,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50157; "Branch Appraisal Criteria"; DateFormula)
+        {
+            DataClassification = CustomerContent;
+        }
     }
     trigger onAfterInsert()
     begin

@@ -311,13 +311,6 @@ codeunit 50008 "Payroll Engine"
         else
             MedicalReimbursmentTaxBenefit := MedicalReimbursmentLimit2;
 
-        if PayrollHeader."Gross Payment" then begin
-            PopulateGlobalAmounts;
-            PayrollLine."Net Pay" := TaxAtOnceCurrentEarning - AddTaxOnInterestAllowance(Employee."No.", PayrollHeader."No.") - TaxAtOnceCurrentDeduction;
-            PayrollLine.Modify;
-            exit;
-        end;
-
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then
             TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit
         else
@@ -325,6 +318,13 @@ codeunit 50008 "Payroll Engine"
 
         //Calculation for TaxAtOnce attribute payroll
         CalculateTaxAtOnce;
+
+        if PayrollHeader."Gross Payment" then begin
+            PopulateGlobalAmounts;
+            PayrollLine."Net Pay" := TaxAtOnceCurrentEarning - AddTaxOnInterestAllowance(Employee."No.", PayrollHeader."No.") - TaxAtOnceCurrentDeduction;
+            PayrollLine.Modify;
+            exit;
+        end;
 
         if Employee.Disabled then begin
             TaxSetupLine.Reset;
