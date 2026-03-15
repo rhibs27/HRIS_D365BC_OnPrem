@@ -42,11 +42,9 @@ table 50161 "Assignment Memo Header"
             var
                 EngNepDate: Record "English-Nepali Date";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "From Date");
-                if EngNepDate.FindFirst then begin
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year");
-                    Validate("From Date(BS)", EngNepDate."Nepali Date");
+                if "From Date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("From Date"));
+                    Validate("From Date(BS)", EngNepDate.getNepaliDate("From Date"));
                 end else begin
                     Clear("Fiscal Year");
                     Clear("From Date(BS)");
@@ -69,11 +67,9 @@ table 50161 "Assignment Memo Header"
                     if "From Date" > "To date" then
                         Error('Invalid date.');
                 end;
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "To Date");
-                if EngNepDate.FindFirst then begin
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year");
-                    Validate("To date(BS)", EngNepDate."Nepali Date");
+                if "To date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("To date"));
+                    Validate("To date(BS)", EngNepDate.getNepaliDate("To date"));
                 end else begin
                     Clear("Fiscal Year");
                     Clear("From Date(BS)");

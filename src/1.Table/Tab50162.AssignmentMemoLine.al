@@ -46,13 +46,10 @@ table 50162 "Assignment Memo Line"
                 end;
                 if "From Date" <> 0D then
                     CheckandValidateTheDates("From Date");
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "From Date");
-                if EngNepDate.FindFirst then begin
-                    Validate("From date(BS)", EngNepDate."Nepali Date");
-                end else begin
+                if "From Date" <> 0D then
+                    Validate("From date(BS)", EngNepDate.getNepaliDate("From Date"))
+                else
                     Clear("From Date(BS)");
-                end;
 
                 if ("From Date" <> 0D) and ("To Date" <> 0D) then
                     "No. of Days" := "To Date" - "From Date" + 1;
@@ -66,13 +63,11 @@ table 50162 "Assignment Memo Line"
             var
                 EngNepDate: Record "English-Nepali Date";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "To Date");
-                if EngNepDate.FindFirst then begin
-                    Validate("To date(BS)", EngNepDate."Nepali Date");
-                end else begin
+                if "To Date" <> 0D then
+                    Validate("To date(BS)", EngNepDate.getNepaliDate("To Date"))
+                else
                     Clear("From Date(BS)");
-                end;
+
                 if "To Date" <> 0D then
                     CheckandValidateTheDates("To Date");
 
