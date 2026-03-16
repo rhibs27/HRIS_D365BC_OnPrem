@@ -109,8 +109,7 @@ codeunit 50015 "OverTime Mgt"
         if GuiAllowed then
             if not Confirm(ConfirmForm, false) then
                 exit;
-        OnBeforeApplyOvertime(TempOvertime);
-        OnBeforeOTCheck(TempOvertime, IsHandled);
+        OnBeforeApplyOvertime(TempOvertime, IsHandled);
         If not IsHandled then begin
             TempOvertime.TestField("Start Date");
             TempOvertime.TestField("Actual OT Hours");
@@ -566,7 +565,7 @@ codeunit 50015 "OverTime Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnBeforeApplyOvertime(Overtime: Record OverTime)
+    procedure OnBeforeApplyOvertime(Overtime: Record OverTime; var IsHandled: Boolean)
     begin
     end;
 
