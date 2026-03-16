@@ -151,8 +151,11 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50001; "Branch Code"; Code[20])
         {
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::Branch));
+            TableRelation = if ("Deputation On" = Const(Branch)) "Organization Structure line"."Reporting Code" where(Type = const("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::Branch))
+            else if ("Deputation On" = Const("Head Office")) "Organization Structure line"."Reporting Code" where(Type = const("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::"Head Office"));
             trigger OnValidate()
+            var
+                ishandled: Boolean;
             begin
                 TestField("Province Code");
                 if "Branch Code" <> xRec."Branch Code" then begin
@@ -166,10 +169,12 @@ tableextension 50013 "Employee Ext" extends Employee
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
                 else begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then
-                        Validate("Branch Name", OrganizationStructureList.Name)
-                    else
-                        Clear("Branch Name");
+                    OnAfterValidationOfDeputationOn(Rec, ishandled);
+                    if not ishandled then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then
+                            Validate("Branch Name", OrganizationStructureList.Name)
+                        else
+                            Clear("Branch Name");
                 end;
             end;
         }
@@ -1652,6 +1657,7 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         LeaveMgt.OpenLeaveRequest("No.");
     end;
+
     procedure TravelRequest();
     var
         EmployeeAct: enum "Employee Activity Type";
@@ -1709,6 +1715,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     end;
                 end;
         end;
+
     end;
 
     procedure TransferRequest();
@@ -1775,7 +1782,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
         OrgStructureList.SetRange(Type, DeputationOn);
         OrgStructureList.SetRange(Code, DeputationCode);
-        OrgStructureList.FindFirst();
+        if OrgStructureList.FindFirst() then;
         if OrgStructureList."Dimension Value Code" = '' then
             exit;
 
@@ -1822,6 +1829,7 @@ tableextension 50013 "Employee Ext" extends Employee
         UpdateDimensionBasedOnDeputation("Deputation on"::Department, "Department Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::Unit, "Unit Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::"Sub-Unit", "Sub Unit Code");
+        UpdateDimensionBasedOnDeputation("Deputation on"::"Head Office", "Branch Code");
     end;
 
     procedure ClearDimensionValue(DeputationOn: Enum "Deputation Type")
@@ -1847,6 +1855,11 @@ tableextension 50013 "Employee Ext" extends Employee
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmploymentType(var Rec: Record "Employee"; var xRec: Record "Employee"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterValidationOfDeputationOn(var Employee: Record "Employee"; var ishandled: Boolean)
     begin
     end;
 }
