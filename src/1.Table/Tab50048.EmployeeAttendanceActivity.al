@@ -258,6 +258,15 @@ table 50048 "Employee Attendance & Activity"
         {
             DataClassification = ToBeClassified;
         }
+        field(118; "Functional Title"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Functional Title";
+        }
+        field(119; "Functional Title Desc"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(200; "Entry Type"; Enum "Attendance Entry Type")
         {
             Caption = 'Entry Type';
@@ -306,5 +315,7 @@ table 50048 "Employee Attendance & Activity"
         "Extension Counter Name" := Employee."Extension Counter Name";
         "Deputation On" := Employee."Deputation on";
         "Deputation On Code" := Employee."Deputation On Code";
+        "Functional Title" := Employee."Functional Title";
+        "Functional Title Desc" := Employee."Functional Title Desc";
     end;
 }
