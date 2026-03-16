@@ -23,33 +23,20 @@ page 50096 "Trainee Subform"
                         CurrPage.Update;
                     end;
                 }
-                field(Name; Rec.Name)
+                field("Employee Name"; Rec."Employee Name")
                 {
-                    Editable = not IsApproved;
                     ToolTip = 'Specifies the value of the Name field.';
-                    ApplicationArea = All;
-                }
-                field("Department Code"; Rec."Department Code")
-                {
-                    Editable = not IsApproved;
-                    ToolTip = 'Specifies the value of the Department Code field.';
                     ApplicationArea = All;
                 }
                 field("Department Name"; Rec."Department Name")
                 {
-                    Editable = not IsApproved;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Department Name field.';
-                    ApplicationArea = All;
-                }
-                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
-                {
-                    Editable = not IsApproved;
-                    ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                     ApplicationArea = All;
                 }
                 field("Branch Name"; Rec."Branch Name")
                 {
-                    Editable = not IsApproved;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
                 }
@@ -334,19 +321,15 @@ page 50096 "Trainee Subform"
             action("Post Attended")
             {
                 Image = Register;
-                Visible = IsApproved;
                 ToolTip = 'Executes the Post Attended action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     TrainingLine.Reset;
-                    CurrPage.SetSelectionFilter(TrainingLine);
-                    if TrainingLine.Find('-') then
-                        repeat
-                            TrainingLine.Attended := true;
-                            TrainingLine.Modify;
-                        until TrainingLine.Next = 0;
+                    TrainingLine.SetRange("Training No.", Rec."Training No.");
+                    TrainingLine.SetRange(Type, Rec.Type::Trainee);
+                    TrainingLine.ModifyAll(Posted, true);
                 end;
             }
             action(InsertTrainee)
@@ -355,36 +338,74 @@ page 50096 "Trainee Subform"
                 Visible = false;
                 ToolTip = 'Executes the InsertTrainee action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-                    HRMgt.GenerateTraineeForTraining(Rec."Training No.");
+                    TrainingMgt.GenerateTraineeForTraining(Rec."Training No.");
                 end;
             }
-            action("Show Training Question")
+            action("Import Trainees")
             {
-                Image = Questionaire;
-                Visible = IsApproved;
-                ToolTip = 'Executes the Show Training Question action.';
+                Image = Import;
+                ToolTip = 'Executes the Import Trainees action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    Traline: Record "Training Line";
+                begin
+                    Traline.SetRange("Training No.", Rec."Training No.");
+                    Traline.DeleteAll();
+                    if Confirm('Do you want to import Trainees From Excel?', false) then
+                        ExcelImport.ImportTraineeFromExcelSheet(Rec."Training No.");
+                end;
+            }
+            action("Import Trainees Attendance")
+            {
+                Image = Import;
+                ToolTip = 'Executes the Import Trainees action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    HRMgt.ShowTrainingList(Rec."Training No.", Rec."Employee Code");
+                    if Confirm('Do you want to import Trainee Attendance From Excel?', false) then
+                        ExcelImport.ImportTrainingAttendanceFromExcelSheet(Rec."Training No.");
                 end;
             }
-            action("Show Trainer Question")
+            action("Export Trainee Attendance Format")
             {
-                Image = Questionaire;
-                Visible = IsApproved;
-                ToolTip = 'Executes the Show Trainer Question action.';
+                Image = Import;
+                ToolTip = 'Executes the Import Trainees action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    HRMgt.ShowTrainerList(Rec."Training No.", Rec."Employee Code");
+                    if Confirm('Do you want to import Trainee Attendance Format For Excel?', false) then
+                        ExcelImport.ExportTrainingAttendanceExcelFormat();
                 end;
             }
+            // action("Show Training Question")
+            // {
+            //     Image = Questionaire;
+            //     Visible = IsApproved;
+            //     ToolTip = 'Executes the Show Training Question action.';
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     begin
+            //         TrainingMgt.ShowTrainingList(Rec."Training No.", Rec."Employee Code");
+            //     end;
+            // }
+            // action("Show Trainer Question")
+            // {
+            //     Image = Questionaire;
+            //     Visible = IsApproved;
+            //     ToolTip = 'Executes the Show Trainer Question action.';
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     begin
+            //         TrainingMgt.ShowTrainerList(Rec."Training No.", Rec."Employee Code");
+            //     end;
+            // }
         }
     }
 
@@ -410,6 +431,8 @@ page 50096 "Trainee Subform"
 
     var
         TrainingLine: Record "Training Line";
+        TrainingMgt: Codeunit "Training Mgt";
+        ExcelImport: Codeunit "Excel Import";
         MatrixCellData: array[20] of Boolean;
 
         FieldVisible1: Boolean;
@@ -538,7 +561,7 @@ page 50096 "Trainee Subform"
             EmpFeedback.SetRange(Code, Rec."Training No.");
             EmpFeedback.SetRange("Employee No.", Rec."Employee Code");
             if not EmpFeedback.FindFirst then
-                HRMgt.InsertEmployeeWiseTrainingQuestion(Rec."Training No.", Rec."Employee Code");
+                TrainingMgt.InsertEmployeeWiseTrainingQuestion(Rec."Training No.", Rec."Employee Code");
 
         end else begin
             TrainingAtt.Reset;

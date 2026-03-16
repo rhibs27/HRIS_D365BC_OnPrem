@@ -33,21 +33,20 @@ table 50013 "Training Calendar"
         {
             Editable = false;
         }
-        field(4; "Coverage Branch"; Code[100])
+        field(4; "Coverage Branch"; Code[500])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate("Coverage Branch", HRMgt.LookupBranch("Coverage Branch", Province, "Sub-Province"));
-            // end;
+            trigger OnLookup()
+            begin
+                Validate("Coverage Branch", HRMgt.LookupBranch(''));
+            end;
         }
-        field(5; "Coverage Department"; Code[100])
+        field(5; "Coverage Department"; Code[500])
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate("Coverage Department", HRMgt.LookupDepartment("Coverage Department"));
-            // end;
+            trigger OnLookup()
+            begin
+                Validate("Coverage Department", HRMgt.LookupDepartment(''));
+            end;
         }
         field(6; "Coverage Functional Title"; Code[100])
         {
@@ -57,7 +56,7 @@ table 50013 "Training Calendar"
             end;
         }
         field(7; Valley; Enum "Outside/Inside Valley") { }
-        field(8; "Resouce person"; enum "Resouce person") { }
+        field(8; "Resource person"; enum "Resource person") { }
         field(9; "Assigned Person"; Code[20]) { }
         field(10; "Expected Venue"; Text[30])
         {
@@ -93,22 +92,14 @@ table 50013 "Training Calendar"
         {
             TableRelation = "No. Series";
         }
-        field(20; Quater; Enum Quater) { }
-        field(21; Province; Code[100])
+        field(20; Quarter; Enum Quarter) { }
+        field(21; Province; Code[500])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Province), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate(Province, HRMgt.SetCalendarHolidayProvience(Province));
-            // end;
+            trigger OnLookup()
+            begin
+                Validate(Province, HRMgt.LookupDepartment(''));
+            end;
         }
-        // field(22; "Sub-Province"; Code[250])
-        // {
-        //     trigger OnLookup()
-        //     begin
-        //         Validate("Sub-Province", HRMgt.LookupSubProvinceTraining("Sub-Province", Province));
-        //     end;
-        // }
     }
 
     keys
@@ -132,22 +123,11 @@ table 50013 "Training Calendar"
             while TrainingCalender.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
-
-        //NoseriesNew
-        // if "No." = '' then begin
-        //     HRSetup.Get();
-        //     HRSetup.TestField("Training Calendar No.");
-        //     "No. Series" := HRSetup."KPI No. Series";
-        //     if NoSeries.AreRelated(HRSetup."KPI No. Series", xRec."No. Series") then
-        //         "No. Series" := xRec."No. Series";
-        //     "No." := NoSeries.GetNextNo("No. Series");
-        // end;
     end;
 
     var
         TrainingMaster: Record "Training Master";
         NoSeriesMgt: Codeunit "No. Series";
-        // NOseries: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
 

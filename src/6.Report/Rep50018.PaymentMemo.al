@@ -48,7 +48,7 @@ report 50018 "Payment Memo"
                 column(PaymentMode_TrainingLine; "Training Line"."Payment Mode") { }
                 column(Amount_TrainingLine; "Training Line".Amount) { }
                 column(VendorInvoiceNo_TrainingLine; "Training Line"."Vendor Invoice No.") { }
-                column(Name_TrainingLine; "Training Line".Name) { }
+                column(Name_TrainingLine; "Training Line"."Employee Name") { }
                 column(Type_TrainingLine; "Training Line".Type) { }
 
                 trigger OnAfterGetRecord()
@@ -102,7 +102,7 @@ report 50018 "Payment Memo"
                 TrainingLine.SetRange(Type, TrainingLine.Type::Trainer);
                 if TrainingLine.FindFirst then
                     repeat
-                        TrainerName += TrainingLine.Name + ',';
+                        TrainerName += TrainingLine."Employee Name" + ',';
                     until TrainingLine.Next = 0;
 
                 if StrLen(FunctionalTitle) > 0 then

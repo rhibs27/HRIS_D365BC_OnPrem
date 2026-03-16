@@ -59,7 +59,7 @@ table 50156 "Allowance Configuration"
             Description = 'Filter by Department Code.';
             trigger OnLookup()
             begin
-                "Department Code" := HrMgt.LookupDepartment('', '');
+                "Department Code" := HrMgt.LookupDepartment('');
             end;
         }
         field(9; Amount; Decimal)

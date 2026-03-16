@@ -8,49 +8,40 @@ table 50069 "Training Header"
     {
         field(1; "No."; Code[20])
         {
+            Editable = false;
             trigger OnValidate()
             begin
                 if "No." <> xRec."No." then begin
                     HRSetup.Get;
-                    NoSeriesMgt.GetNextNo(HRSetup."Training No.");
+                    NoSeriesMgt.TestManual(HRSetup."Training No.");
                     "No. Series" := '';
                 end;
             end;
         }
-        field(2; Description; Text[250])
-        {
-            Editable = false;
-        }
-        field(3; "Start Date"; Date)
+        field(2; Type; Enum "Employee Activity Type") { }
+        field(3; "Employee No."; Code[20])
+        { }
+
+        field(4; "Start Date"; Date)
         {
             trigger OnValidate()
             begin
                 if "Start Date" <> xRec."Start Date" then begin
                     Validate("End Date", 0D);
-                    Clear("End Time");
                     Clear("Training Hours");
-                    Clear("Start Time");
                     Clear("No. of Days");
-                    //TrainingLine.Reset();
-                    //TrainingLine.SetRange("Training No.","No.");
-                    //TrainingLine.MODIFYALL("Training Start Date","Start Date");
                 end;
             end;
         }
-        field(4; "End Date"; Date)
+        field(5; "End Date"; Date)
         {
             trigger OnValidate()
             begin
                 if ("End Date" <> xRec."End Date") and ("End Date" <> 0D) then begin
-                    Clear("Start Time");
-                    Clear("End Time");
                     Clear("Training Hours");
                     if ("End Date" <> 0D) then begin
                         TestField("Start Date");
                         Validate("No. of Days", leaveMgt.CalculateNoOfDays("Start Date", "End Date", '', 0, 0, ''));
-                        //TrainingLine.Reset();
-                        //TrainingLine.SetRange("Training No.","No.");
-                        //TrainingLine.MODIFYALL("Training End Date","End Date");
                     end;
                 end;
                 if "End Date" <> 0D then
@@ -58,34 +49,7 @@ table 50069 "Training Header"
                         Error(DateError, FieldCaption("End Date"), "End Date", FieldCaption("Start Date"), "Start Date");
             end;
         }
-        field(5; "Start Time"; Time)
-        {
-            trigger OnValidate()
-            begin
-                TestField("Start Date");
-                TestField("End Date");
-                if xRec."Start Time" <> "Start Time" then begin
-                    Clear("End Time");
-                    Clear("Training Hours");
-                end;
-            end;
-        }
-        field(6; "End Time"; Time)
-        {
-            trigger OnValidate()
-            begin
-                TestField("No. of Days");
-                TestField("Start Date");
-                TestField("End Date");
-                TestField("Start Time");
-                if "End Time" < "Start Time" then
-                    Error(DateError, FieldCaption("End Time"), "End Time", FieldCaption("Start Time"), "Start Time");
-
-                /*VALIDATE("Training Hours",("End Time"-"Start Time"));
-                VALIDATE("Training Hours", "Training Hours"*"No. of Days");*/
-            end;
-        }
-        field(7; "Resource Person"; Enum "Resouce person")
+        field(7; "Resource Person"; Enum "Resource person")
         {
             trigger OnValidate()
             begin
@@ -119,14 +83,12 @@ table 50069 "Training Header"
         field(13; "Requested Date"; Date)
         {
             trigger OnValidate()
+            var
+                NepMonth: Enum "Nepali Month";
             begin
                 Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Requested Date"));
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate(Month, EngNepDate."Nepali Month")
-                else
-                    Validate(Month, 0);
+                Evaluate(NepMonth, EngNepDate.getNepaliMonth("Requested Date"));
+                Validate(Month, NepMonth);
             end;
         }
         field(14; "Training Hours"; Duration)
@@ -137,7 +99,11 @@ table 50069 "Training Header"
         {
             Editable = false;
         }
-        field(16; "Estimated Total Budget"; Decimal)
+        field(16; "Approval Status"; Enum "Approval Status")
+        {
+            Editable = false;
+        }
+        field(6; "Estimated Total Budget"; Decimal)
         {
             Editable = false;
         }
@@ -148,39 +114,11 @@ table 50069 "Training Header"
                 Validate("Training Calendar No", '');
             end;
         }
-        field(18; Province; Code[100])
+        field(18; Province; Code[500])
         {
-            trigger OnLookup()
-            begin
-                Validate(Province, HRMgt.SetCalendarHolidayProvience(Province));
-            end;
-
-            trigger OnValidate()
-            begin
-                if Province <> xRec.Province then begin
-                    "Province Name" := '';
-                    if Province <> '' then begin
-                        ProvienceVar.Reset;
-                        ProvienceVar.SetFilter(Code, Province);
-                        if ProvienceVar.Find('-') then
-                            repeat
-                                if "Province Name" = '' then
-                                    "Province Name" := ProvienceVar.Description
-                                else
-                                    "Province Name" += ',' + ProvienceVar.Description;
-                            until ProvienceVar.Next = 0
-                    end;
-                    // "Sub-Province" := '';
-                    "Branch Code" := '';
-                end;
-            end;
         }
-        field(19; "Expected No. of Participant"; Decimal) { }
+        field(19; "Expected No. of Participant"; Integer) { }
         field(20; "Province Name"; Text[250])
-        {
-            Editable = false;
-        }
-        field(21; "Approval Status"; enum "Approval Status")
         {
             Editable = false;
         }
@@ -203,12 +141,11 @@ table 50069 "Training Header"
                         Validate("Expected No. of Participant", TrainingCalendar."Maximum Participant");
                         Validate("Training Type", TrainingCalendar."Training Type");
                         Validate("Estimated Total Budget", TrainingCalendar."Total Cost");
-                        Validate("Resource Person", TrainingCalendar."Resouce person");
+                        Validate("Resource Person", TrainingCalendar."Resource person");
                         Validate(Cost, TrainingCalendar."Total Cost");
                         Validate(Province, TrainingCalendar.Province);
-                        // Validate("Sub-Province", TrainingCalendar."Sub-Province");
                         Validate("Branch Code", TrainingCalendar."Coverage Branch");
-                        Validate(Department, TrainingCalendar."Coverage Department");
+                        Validate("Department Code", TrainingCalendar."Coverage Department");
                         Validate("Estimated Trainer Cost", TrainingCalendar."Trainer Cost");
                         Validate("Estimated Training Cost", TrainingCalendar."Training Cost");
                     end else begin
@@ -223,34 +160,15 @@ table 50069 "Training Header"
             end;
         }
         field(24; Cost; Decimal) { }
-        // field(25; "Sub-Province"; Code[100])
-        // {
-        //     trigger OnLookup()
-        //     begin
-        //         Validate("Sub-Province", HRMgt.LookupSubProvinceTraining("Sub-Province", Province));
-        //     end;
-
-        //     trigger OnValidate()
-        //     begin
-        //         if "Sub-Province" <> xRec."Sub-Province" then
-        //             "Branch Code" := '';
-        //     end;
-        // }
-        field(26; "Branch Code"; Code[100])
+        field(25; Description; Text[250])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::branch), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate("Branch Code", HRMgt.LookupBranch("Branch Code", Province, "Sub-Province"));
-            // end;
+            Editable = false;
         }
-        field(27; Department; Code[100])
+        field(26; "Branch Code"; Code[500])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate(Department, HRMgt.LookupDepartment(Department));
-            // end;
+        }
+        field(27; "Department Code"; Code[500])
+        {
         }
         field(28; Valley; enum "Outside/Inside Valley") { }
         field(29; "Total No. of Participant"; Integer)
@@ -282,7 +200,6 @@ table 50069 "Training Header"
                 CalculateEstimatedTotalBudget;
             end;
         }
-        field(34; "Training Category"; Enum "Training Category") { }
         field(35; "Total Trainer Marks"; Decimal)
         {
             Editable = false;
@@ -439,29 +356,6 @@ table 50069 "Training Header"
         {
             Editable = false;
         }
-        field(55; "HR Manager Code"; Code[20])
-        {
-            TableRelation = Employee;
-
-            trigger OnValidate()
-            begin
-                if Employee.Get("HR Manager Code") then
-                    Validate("HR Manager Name", Employee."Full Name");
-            end;
-        }
-        field(56; "HR Manager Name"; Text[50]) { }
-        field(57; "HR Head Code"; Code[20])
-        {
-            TableRelation = Employee;
-        }
-        field(58; "HR Head Name"; Text[50])
-        {
-            trigger OnValidate()
-            begin
-                if Employee.Get("HR Head Code") then
-                    Validate("HR Head Name", Employee."Full Name");
-            end;
-        }
         field(59; "Estimated Fooding Cost"; Decimal)
         {
             trigger OnValidate()
@@ -492,6 +386,30 @@ table 50069 "Training Header"
         {
             Editable = false;
         }
+        field(68; "Start Time"; Time)
+        {
+            trigger OnValidate()
+            begin
+                TestField("Start Date");
+                TestField("End Date");
+                if xRec."Start Time" <> "Start Time" then begin
+                    Clear("End Time");
+                    Clear("Training Hours");
+                end;
+            end;
+        }
+        field(69; "End Time"; Time)
+        {
+            trigger OnValidate()
+            begin
+                TestField("No. of Days");
+                TestField("Start Date");
+                TestField("End Date");
+                TestField("Start Time");
+                if "End Time" < "Start Time" then
+                    Error(DateError, FieldCaption("End Time"), "End Time", FieldCaption("Start Time"), "Start Time");
+            end;
+        }
     }
 
     keys
@@ -518,14 +436,17 @@ table 50069 "Training Header"
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Training No.");
-            HRMgt.InitNoSeriesNew(HRSetup."Training No.", xRec."No. Series", 0D, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Training No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
 
             TrainingHeader.ReadIsolation(IsolationLevel::ReadUncommitted);
             TrainingHeader.SetLoadFields("No.");
             while TrainingHeader.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
+        Validate("Employee No.", HRMgt.GetEmployeeNo());
         Validate("Requested Date", Today);
+        Validate(Type, Type::Training);
+        ApprovalMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
     end;
 
     var
@@ -552,6 +473,7 @@ table 50069 "Training Header"
         EmpFeedback: Record "Employee Feedback";
         EmpVar: Record Employee;
         leaveMgt: Codeunit "Leave Mgt.";
+        ApprovalMgt: Codeunit "Approver Mgt";
 
     procedure AssistEdit(OldRec: Record "Training Header"): Boolean
     var
@@ -562,6 +484,7 @@ table 50069 "Training Header"
         HRSetup.TestField("Training No.");
         if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Training No.", OldRec."No. Series", TrainHeader."No. Series") then begin
             NoSeriesMgt.GetNextNo(TrainHeader."No.");
+            Rec := TrainHeader;
             exit(true);
         end;
     end;
@@ -596,11 +519,10 @@ table 50069 "Training Header"
         Clear("Estimated Total Budget");
         Clear("Resource Person");
         Clear(Cost);
-        // Clear("Sub-Province");
         Clear(Province);
         Clear("Province Name");
         Clear("Branch Code");
-        Clear(Department);
+        Clear("Department Code");
     end;
 
     local procedure CalculateTotalBudget()
@@ -676,12 +598,10 @@ table 50069 "Training Header"
         if TrainLine.FindFirst then
             if TrainLine."Payment Mode" = TrainLine."Payment Mode"::"account Credit" then begin
                 TrainLine.TestField("Account No.");
-                TrainLine.TestField("Shortcut Dimension 1 Code", '');
                 TrainLine.TestField("Department Code", '');
             end
             else if TrainLine."Payment Mode" = TrainLine."Payment Mode"::IDT then begin
                 TrainLine.TestField("Account No.");
-                TrainLine.TestField("Shortcut Dimension 1 Code");
                 TrainLine.TestField("Department Code");
             end;
 

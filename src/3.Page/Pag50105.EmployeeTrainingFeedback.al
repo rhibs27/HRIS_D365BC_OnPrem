@@ -6,6 +6,7 @@ page 50105 "Employee Training Feedback"
     PageType = List;
     SourceTable = "Employee Feedback";
     ApplicationArea = All;
+    UsageCategory = Lists;
 
     layout
     {
@@ -46,9 +47,10 @@ page 50105 "Employee Training Feedback"
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
-        HRMgt.CalTraineeRemarksTraining(Rec.Code, Rec."Employee No.");
+        TrainingMgt.CalTraineeRemarksTraining(Rec.Code, Rec."Employee No.");
     end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        TrainingMgt: Codeunit "Training Mgt";
 }

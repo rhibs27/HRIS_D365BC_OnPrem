@@ -26,16 +26,16 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field(Quarter; Rec.Quarter)
+                {
+                    ToolTip = 'Specifies the value of the Quarter field.';
+                    ApplicationArea = All;
+                }
                 field(Province; Rec.Province)
                 {
                     ToolTip = 'Specifies the value of the Province field.';
                     ApplicationArea = All;
                 }
-                // field("Sub-Province"; Rec."Sub-Province")
-                // {
-                //     ToolTip = 'Specifies the value of the Sub-Province field.';
-                //     ApplicationArea = All;
-                // }
                 field("Coverage Branch"; Rec."Coverage Branch")
                 {
                     ToolTip = 'Specifies the value of the Coverage Branch field.';
@@ -56,7 +56,7 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Valley field.';
                     ApplicationArea = All;
                 }
-                field("Resouce person"; Rec."Resouce person")
+                field("Resource person"; Rec."Resource person")
                 {
                     ToolTip = 'Specifies the value of the Resouce person field.';
                     ApplicationArea = All;

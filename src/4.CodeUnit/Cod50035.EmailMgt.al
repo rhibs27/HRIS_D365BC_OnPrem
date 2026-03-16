@@ -519,7 +519,7 @@ codeunit 50035 "Email Mgt"
     begin
         BodyText1 := '<table style="width:100%">' +
                '<tr>' +
-                 '<td><strong>' + TrainLine.FieldCaption(Name) + '</strong></td>' +
+                 '<td><strong>' + TrainLine.FieldCaption("Employee Name") + '</strong></td>' +
                  '<td><strong>' + TrainLine.FieldCaption("Trainer Date") + '</strong></td>' +
                  '<td><strong>' + TrainLine.FieldCaption("Name of Organization") + '</strong></td>' +
                  '<td><strong>' + TrainLine.FieldCaption("Start Time") + '</strong></td>' +
@@ -531,7 +531,7 @@ codeunit 50035 "Email Mgt"
         if TrainLine.Find('-') then
             repeat
                 BodyText1 += '<tr>' +
-                                '<td>' + TrainLine.Name + '</td>' +
+                                '<td>' + TrainLine."Employee Name" + '</td>' +
                                 '<td>' + Format(TrainLine."Trainer Date") + '</td>' +
                                 '<td>' + TrainLine."Name of Organization" + '</td>' +
                                 '<td>' + Format(TrainLine."Start Time") + '</td>' +

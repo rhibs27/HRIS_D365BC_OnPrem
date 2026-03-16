@@ -61,66 +61,10 @@ page 50098 "Training Lists"
     {
         area(Processing)
         {
-            action("Export Trainees")
-            {
-                Image = Export;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Export Trainees action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    HrMgt.ExportTrainee(Rec);
-                end;
-            }
-            action("Import Trainees")
-            {
-                Image = Import;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Import Trainees action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    HrMgt.ImportTrainee(Rec);
-                end;
-            }
-            action("Export Attendance")
-            {
-                Image = ExportDatabase;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Export Attendance action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    HrMgt.ExportTraineeAttendance(Rec);
-                end;
-            }
-            action("Import Attendance")
-            {
-                Image = ImportDatabase;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Import Attendance action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    HrMgt.ImportTraineeAttendance(Rec);
-                end;
-            }
         }
     }
 
-    var
-        HrMgt: Codeunit "HR Mgt.";
+    // var
+    //     HrMgt: Codeunit "HR Mgt.";
+    //     TrainingMgt: Codeunit "Training Mgt";
 }

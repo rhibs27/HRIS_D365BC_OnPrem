@@ -207,7 +207,7 @@ report 50077 "Service Event Update"
     end;
 
     var
-        DeputationOnTo : Enum "Deputation Type";
+        DeputationOnTo: Enum "Deputation Type";
         ServiceEvent: Enum "Service Event";
         DeputationCodeTo: Code[20];
         ProvinceCode: Code[20];
