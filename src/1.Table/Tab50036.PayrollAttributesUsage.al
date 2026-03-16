@@ -7,13 +7,25 @@ table 50036 "Payroll Attributes Usage"
         {
             NotBlank = true;
             TableRelation = "Payroll Attributes";
-
             trigger OnValidate()
             begin
-                if PayrollAtt.Get(Code) then
-                    Validate("Payroll Type", PayrollAtt."Payroll Type")
-                else
-                    Clear("Payroll Type");
+                if PayrollAtt.Get(Code) then begin
+                    Validate("Payroll Type", PayrollAtt."Payroll Type");
+                    Validate("Use Attr. for Home loan GS", PayrollAtt."Use Attr. for Home loan GS");
+                    Validate("Use Attr. for Vehicle loan GS", PayrollAtt."Use Attr. for Vehicle loan GS");
+                    Validate("Use Attr. for Salary Adv. GS", PayrollAtt."Use Attr. for Salary Adv. GS");
+                    Validate("Use Attr. for Home loan EL", PayrollAtt."Use Attr. for Home loan EL");
+                    Validate("Use Attr. for Vehicle loan EL", PayrollAtt."Use Attr. for Vehicle loan EL");
+                    Validate("Use Attr. for Salary Adv. EL", PayrollAtt."Use Attr. for Salary Adv. EL");
+                end else begin
+                    Validate("Payroll Type", '');
+                    Validate("Use Attr. for Home loan GS", false);
+                    Validate("Use Attr. for Vehicle loan GS", false);
+                    Validate("Use Attr. for Salary Adv. GS", false);
+                    Validate("Use Attr. for Home loan EL", false);
+                    Validate("Use Attr. for Vehicle loan EL", false);
+                    Validate("Use Attr. for Salary Adv. EL", false);
+                end;
             end;
         }
         field(2; "Employee Code"; Code[20])
@@ -150,11 +162,27 @@ table 50036 "Payroll Attributes Usage"
         {
             Editable = false;
         }
-        field(26; "Use Attribute for Home loan"; Boolean)
+        field(26; "Use Attr. for Home loan GS"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
-        field(27; "Use Attribute for Vehicle loan"; Boolean)
+        field(27; "Use Attr. for Vehicle loan GS"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(28; "Use Attr. for Salary Adv. GS"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(29; "Use Attr. for Home loan EL"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(30; "Use Attr. for Vehicle loan EL"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(31; "Use Attr. for Salary Adv. EL"; Boolean)
         {
             DataClassification = ToBeClassified;
         }

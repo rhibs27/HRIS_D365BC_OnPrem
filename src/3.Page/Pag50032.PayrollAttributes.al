@@ -201,6 +201,39 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Formula Column ID field.';
                     ApplicationArea = All;
                 }
+                field("Use Attribute for Home loan"; rec."Use Attr. for Home loan GS")
+                {
+                    Caption = 'Use Attr. for Home loan Gross Salary';
+                    ApplicationArea = All;
+                }
+                field("Use Attribute for Vehicle loan"; rec."Use Attr. for vehicle loan GS")
+                {
+                    Caption = 'Use Attr. for Vehicle loan Gross Salary';
+                    ApplicationArea = All;
+                }
+                field("Use Attr. for Salary Adv. GS"; rec."Use Attr. for Salary Adv. GS")
+                {
+                    Caption = 'Use Attr. for Salary Adv. Gross Salary';
+                    ApplicationArea = All;
+                }
+                field("Use Attr. for Home loan EL"; Rec."Use Attr. for Home loan EL")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Use Attribute for Home Loan Eligible Amount';
+                    ToolTip = 'Specifies whether this payroll attribute will be used to determine the eligible amount for Home Loan.';
+                }
+                field("Use Attr. for Vehicle loan EL"; Rec."Use Attr. for Vehicle loan EL")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Use Attribute for Vehicle Loan Eligible Amount';
+                    ToolTip = 'Specifies whether this payroll attribute will be used to determine the eligible amount for Vehicle Loan.';
+                }
+                field("Use Attr. for Salary Adv. EL"; Rec."Use Attr. for Salary Adv. EL")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Use Attribute for Salary Advance Eligible Amount';
+                    ToolTip = 'Specifies whether this payroll attribute will be used to determine the eligible amount for Salary Advance.';
+                }
             }
         }
     }

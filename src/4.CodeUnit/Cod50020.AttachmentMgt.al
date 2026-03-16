@@ -190,7 +190,7 @@ codeunit 50020 "Attachment Mgt."
         leave: Record leave;
     begin
         if EmpLoan.Get(IncomingDocument."No.") then begin
-            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) then
+            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::" "]) then
                 ERROR('Approval status must be Open.');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
             if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Open then

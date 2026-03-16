@@ -739,6 +739,7 @@ codeunit 50002 "Loan Mgt."
         EmpLoan1: Record "Employee Loan/Advance";
         APPROVALSENT: Label 'Approval request has been sent.';
         APPROVALCANCELLED: Label 'Approval request has been cancelled.';
+        ApproverMgt: Codeunit "Approver Mgt";
     begin
         if GuiAllowed then
             if not Confirm(CONFIRMATION, false) then
@@ -763,6 +764,7 @@ codeunit 50002 "Loan Mgt."
         if SendCancelBool then begin
             EmpLoan."Approval Status" := EmpLoan."Approval Status"::Pending;
             EmpLoan.Modify();
+            ApproverMgt.UpdateFirstApproverStatus(EmpLoan."No.");
             Message(APPROVALSENT);
         end else begin
             EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::"Pending");
