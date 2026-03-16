@@ -61,15 +61,13 @@ codeunit 50016 "AttendanceMiss Mgt"
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
         CheckAlreadyExists(AttendanceMissed."Employee No.", AttendanceMissed.Type, AttendanceMissed."Start Date");
-        PayrollSetup.Get;
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(AttendanceMissed."Start Date", AttendanceMissed."End Date", AttendanceMissed."Employee No.");
         if AttendanceMissed."No." = '' then begin
             AttendanceMissed.TestField("Start Date");
             if (AttendanceMissed."Start Date" > Today) or (AttendanceMissed."End Date" > Today) then
                 Error('Cannot apply for future date.Please check the date.');
-            if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-                Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+            HRMgt.CheckForFiscalYearControl(AttendanceMissed."Start Date");
             AttendanceMissed.TestField("End Date");
             AttendanceMissed.TestField(Remarks);
             AttendanceMissed1.Init;
@@ -97,13 +95,11 @@ codeunit 50016 "AttendanceMiss Mgt"
             if leave.FindFirst then
                 Error(LeaveCancelError, leave."No.", leave."Leave Code");
         end;
-        PayrollSetup.Get;
         if CancelDocument.Type = CancelDocument.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.");
         if CancelDocument."No." = '' then begin
             CancelDocument.TestField("Start Date");
-            if CancelDocument."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-                Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+            HRMgt.CheckForFiscalYearControl(CancelDocument."Start Date");
             CancelDocument.TestField("End Date");
             CancelDocument.TestField(Remarks);
             CancelDocument1.Init;
@@ -154,6 +150,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         MachineEmpNo: Text;
         CheckOutDate: Date;
         SalaryDeductionMgt: Codeunit "Salary Deduction Mgt";
+        IsHandled: Boolean;
     begin
         AttendanceMissed.Get(AttendanceMissCode);
         Employee.Get(AttendanceMissed."Employee No.");
@@ -162,7 +159,8 @@ codeunit 50016 "AttendanceMiss Mgt"
             if AttendanceMissed."Check In Time" <> 0T then
                 if not CheckAttendanceLogs(MachineEmpNo, AttendanceMissed."Start Date", AttendanceMissed."Check In Time") then begin//Check Already exits logs
                     AttendanceLog.Init();
-                    if (not GuiAllowed) and HRMgt.IsSaaS() then
+                    OnBeforeInsertAttendanceLog(AttendanceLog, IsHandled);
+                    if (not GuiAllowed) and (HRMgt.IsSaaS() or IsHandled) then
                         Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time" - (5 * 3600000 + 45 * 60000)))
                     else
                         Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + ' ' + Format(AttendanceMissed."Check In Time"));
@@ -184,7 +182,8 @@ codeunit 50016 "AttendanceMiss Mgt"
                 if not CheckAttendanceLogs(MachineEmpNo, CheckOutDate, AttendanceMissed."Check Out Time") then begin
                     AttendanceLog.Init();
                     AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(CheckOutDate, 0, '<Year4>-<Month,2>-<Day,2>') + ' ' + Format(AttendanceMissed."Check Out Time", 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>'));
-                    if (not GuiAllowed) and HRMgt.IsSaaS() then
+                    OnBeforeInsertAttendanceLog(AttendanceLog, IsHandled);
+                    if (not GuiAllowed) and (HRMgt.IsSaaS() or IsHandled) then  //Check wheather the environment is SaaS or not.
                         Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time" - (5 * 3600000 + 45 * 60000)))
                     else
                         Evaluate(LogDateTime, format(CheckOutDate) + ' ' + Format(AttendanceMissed."Check Out Time"));
@@ -266,6 +265,11 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnSkipForCallBackApprovedLeave(StartDate: Date; EndDate: Date; EmployeeCode: Code[20]; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertAttendanceLog(var AttendanceLog: Record "Attendance Log"; var IsHandled: Boolean)
     begin
     end;
 }

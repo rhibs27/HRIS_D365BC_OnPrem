@@ -89,6 +89,24 @@ page 50227 "Leave Journal"
                 {
                     ApplicationArea = All;
                 }
+                field("Attachment File Name"; Rec."Attachment File Name")
+                {
+                    ToolTip = 'Specifies the value of the Attachment File Name field.', Comment = '%';
+                    Editable = false;
+                    trigger OnDrillDown()
+                    begin
+                        if Rec.Attachment.HasValue() then
+                            //export the attachment
+                            AttachmentMgt.ExportAttachmentFromEmpActJnl(Rec)
+                        else
+                            //import the attachment
+                            begin
+                            Rec.TestField("Approval Status", Rec."Approval Status"::Open);
+                            AttachmentMgt.ImportAttachmentToEmpActJnl(Rec);
+                        end;
+                        CurrPage.Update();
+                    end;
+                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -259,4 +277,6 @@ page 50227 "Leave Journal"
         ExcelImportMgt: Codeunit "Excel Import";
         ListOfDocNo: List of [code[20]];
         i: Integer;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+        SelectFileTxt: Label 'Attach File(s)...';
 }

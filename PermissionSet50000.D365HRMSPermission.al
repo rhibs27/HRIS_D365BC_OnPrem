@@ -852,5 +852,6 @@ permissionset 50000 D365HRMSPermission
         page "Salary Deduction Entries" = X,
         report "Update Emp Att. and Act Doc." = X,
         page "Device Overview" = X,
+        page "Home Ins Tieup Card" = X,
         page "Late Deduction Journal" = X;
 }
