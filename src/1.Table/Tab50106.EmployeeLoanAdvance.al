@@ -68,6 +68,10 @@ table 50106 "Employee Loan/Advance"
                     Validate("Unit Name", Employee."Unit Name");
                     Validate("Functional title", Employee."Functional Title");
                     Validate("Salary Account Number", Employee."Bank Account No.");
+                    Validate("Employee Name in Nepali", Employee."Full Name (Nepali)");
+                    Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
+                    Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
+
 
                     if "Loan Type" = "Loan Type"::"Salary Advance" then
                         LoanMgt.NewSalaryAdvanceCheck("Employee No.");
@@ -215,10 +219,11 @@ table 50106 "Employee Loan/Advance"
                 if GuiAllowed then begin
                     if xRec."Repayment Mode" <> "Repayment Mode" then begin
                         Clear("Insurance Tieup");
+                        Clear("Insurance Company Code");
+                        Clear("Name of Insurance Company");
                         Clear("Applied Loan/Advance");
                         Modify(true);
                     end;
-
                     if "Repayment Mode" = "Repayment Mode"::"Insurance Tieup" then
                         Clear("Interest Rate");
                 end;
@@ -245,9 +250,24 @@ table 50106 "Employee Loan/Advance"
                     InsurancePremiumSetup.SetRange(Age, Age);
                     InsurancePremiumSetup.SetRange(Period, "Repayment Period");
                     if not InsurancePremiumSetup.FindFirst then
-                        Error('Premium Setup is not available for this insurance company. Please contact HR department.');
+                        Error('Insurance Premium Setup is not available for this insurance company. Please contact HR department.');
                 end;
             end;
+        }
+        field(12; "Insurance Company Code"; Code[20])
+        {
+            TableRelation = "Insurance Company";
+            trigger OnValidate()
+            var
+                InsuranceCompany: Record "Insurance Company";
+            begin
+                if InsuranceCompany.Get("Insurance Company Code") then
+                    "Name of Insurance Company" := InsuranceCompany.Name;
+            end;
+        }
+        field(15; "Name of Insurance Company"; Text[50])
+        {
+            Editable = false;
         }
         field(48; "Property in the name of"; Text[50]) { }
         field(49; "Name of Spouse"; Text[50]) { }
@@ -296,7 +316,7 @@ table 50106 "Employee Loan/Advance"
         field(62; Settled; Boolean)
         {
             Description = '50';
-            Editable = false;
+            // Editable = false;
         }
         field(63; "Settlement Date"; Date)
         {
@@ -388,6 +408,10 @@ table 50106 "Employee Loan/Advance"
         field(84; "Offer Letter Issued Date"; Date)
         {
             Editable = false;
+            trigger OnValidate()
+            begin
+                "Offer Letter Date(Nepali)" := HRMgt.GetNepaliDate("Offer Letter Issued Date");
+            end;
         }
         field(85; "Amount In Words (Nepali)"; Text[50])
         {
@@ -538,9 +562,14 @@ table 50106 "Employee Loan/Advance"
     fieldgroups { }
 
     trigger OnDelete()
+    var
+        incomingAttachmentDoc: Record "Incoming Document";
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-            Error(CannotDelete);
+        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        //     Error(CannotDelete);
+        incomingAttachmentDoc.Reset();
+        incomingAttachmentDoc.SetRange("No.", "No.");
+        incomingAttachmentDoc.DeleteAll();
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document No.", "No.");
         ApprovalEntry.DeleteAll();

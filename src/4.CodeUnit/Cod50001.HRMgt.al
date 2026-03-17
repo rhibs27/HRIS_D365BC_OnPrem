@@ -3358,6 +3358,8 @@ codeunit 50001 "HR Mgt."
             EmployeeInsuranceInformation."Employee Name" := EmployeeLoanAdvance."Employee Name";
             EmployeeInsuranceInformation."Linked Home Loan Account No." := EmployeeLoanAdvance."No.";
             EmployeeInsuranceInformation."Is Home Loan TieUp" := true;
+            EmployeeInsuranceInformation.Validate(Type, EmployeeInsuranceInformation.Type::Insurance);
+            EmployeeInsuranceInformation.Validate("Approval Status", EmployeeInsuranceInformation."Approval Status"::Open);
             EmployeeInsuranceInformation.Insert(true);
             EmployeeInsuranceInfoPage.SetTableView(EmployeeInsuranceInformation);
             EmployeeInsuranceInfoPage.Run;

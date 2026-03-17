@@ -196,6 +196,14 @@ page 50160 "Employee Home Loan Card"
                         ToolTip = 'Specifies the value of the Insurance Tieup field.';
                         ApplicationArea = All;
                     }
+                    field("Insurance Company Code"; rec."Insurance Company Code")
+                    {
+                        ApplicationArea = all;
+                    }
+                    field("Name of Insurance Company"; rec."Name of Insurance Company")
+                    {
+                        ApplicationArea = all;
+                    }
                     field("Applied Loan"; Rec."Applied Loan/Advance")
                     {
                         showMandatory = true;
@@ -212,100 +220,6 @@ page 50160 "Employee Home Loan Card"
                         ToolTip = 'Specifies the value of the DBR Ratio field.';
                         ApplicationArea = All;
                     }
-                }
-            }
-            group("Security Documentation")
-            {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
-                field("Employee Citizenship No.";
-                Rec."Citizenship No.")
-                {
-                    ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
-                    ApplicationArea = All;
-                }
-                field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
-                {
-                    ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
-                    ApplicationArea = All;
-                }
-                field("Employee Name in Nepali"; Rec."Employee Name in Nepali")
-                {
-                    ToolTip = 'Specifies the value of the Employee Name in Nepali field.';
-                    ApplicationArea = All;
-                }
-                field("Father's Name In Nepali"; Rec."Father's Name In Nepali")
-                {
-                    ToolTip = 'Specifies the value of the Father''s Name In Nepali field.';
-                    ApplicationArea = All;
-                }
-                field("Grandfather's Name In Nepali"; Rec."Grandfather's Name In Nepali")
-                {
-                    ToolTip = 'Specifies the value of the Grandfather''s Name In Nepali field.';
-                    ApplicationArea = All;
-                }
-                field("Offer Letter Issued Date"; Rec."Offer Letter Issued Date")
-                {
-                    ToolTip = 'Specifies the value of the Offer Letter Issued Date field.';
-                    ApplicationArea = All;
-                }
-                field("Offer Letter Date(Nepali)"; Rec."Offer Letter Date(Nepali)")
-                {
-                    ToolTip = 'Specifies the value of the Offer Letter Date(Nepali) field.';
-                    ApplicationArea = All;
-                }
-                field("Loan Expiry Date"; Rec."Loan Expiry Date")
-                {
-                    ToolTip = 'Specifies the value of the Loan Expiry Date field.';
-                    ApplicationArea = All;
-                }
-                field("Loan Expiry Date( Nepali)"; Rec."Loan Expiry Date( Nepali)")
-                {
-                    ToolTip = 'Specifies the value of the Loan Expiry Date( Nepali) field.';
-                    ApplicationArea = All;
-                }
-            }
-            group("Facility Disbursement")
-            {
-                Visible = IsApproved;
-                field("Loan Applied"; Rec."Applied Loan/Advance")
-                {
-                    ToolTip = 'Specifies the value of the Applied Loan field.';
-                    ApplicationArea = All;
-                }
-                field("Disbursement Date"; Rec."Disbursement Date")
-                {
-                    ToolTip = 'Specifies the value of the Disbursement Date field.';
-                    ApplicationArea = All;
-                }
-                field("Disbursed Amount"; Rec."Disbursed Amount")
-                {
-                    ToolTip = 'Specifies the value of the Disbursed Amount field.';
-                    ApplicationArea = All;
-                }
-                field(Settled; Rec.Settled)
-                {
-                    ToolTip = 'Specifies the value of the Settled field.';
-                    ApplicationArea = All;
-                }
-                field("Settlement Date"; Rec."Settlement Date")
-                {
-                    ToolTip = 'Specifies the value of the Settlement Date field.';
-                    ApplicationArea = All;
-                }
-                field("Settler User ID"; Rec."Settler User ID")
-                {
-                    ToolTip = 'Specifies the value of the Settler User ID field.';
-                    ApplicationArea = All;
-                }
-                field("Account No."; Rec."Account No.")
-                {
-                    ToolTip = 'Specifies the value of the Account No. field.';
-                    ApplicationArea = All;
-                }
-                field(Disbursed; Rec.Disbursed)
-                {
-                    ToolTip = 'Specifies the value of the Disbursed field.';
-                    ApplicationArea = All;
                 }
             }
             group("Collateral Information")
@@ -376,6 +290,104 @@ page 50160 "Employee Home Loan Card"
                 {
                     showMandatory = true;
                     ToolTip = 'Specifies the value of the Name of Spouse field.';
+                    ApplicationArea = All;
+                }
+            }
+            group("Security Documentation")
+            {
+                Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
+                field("Employee Citizenship No."; Rec."Citizenship No.")
+                {
+                    ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
+                    ApplicationArea = All;
+                }
+                field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
+                {
+                    ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
+                    ApplicationArea = All;
+                }
+                field("Employee Name in Nepali"; Rec."Employee Name in Nepali")
+                {
+                    ToolTip = 'Specifies the value of the Employee Name in Nepali field.';
+                    ApplicationArea = All;
+                }
+                field("Father's Name In Nepali"; Rec."Father's Name In Nepali")
+                {
+                    ToolTip = 'Specifies the value of the Father''s Name In Nepali field.';
+                    ApplicationArea = All;
+                }
+                field("Grandfather's Name In Nepali"; Rec."Grandfather's Name In Nepali")
+                {
+                    ToolTip = 'Specifies the value of the Grandfather''s Name In Nepali field.';
+                    ApplicationArea = All;
+                }
+                field("Offer Letter Issued Date"; Rec."Offer Letter Issued Date")
+                {
+                    ToolTip = 'Specifies the value of the Offer Letter Issued Date field.';
+                    ApplicationArea = All;
+                }
+                field("Offer Letter Date(Nepali)"; Rec."Offer Letter Date(Nepali)")
+                {
+                    ToolTip = 'Specifies the value of the Offer Letter Date(Nepali) field.';
+                    ApplicationArea = All;
+                }
+                field("Amount In Words (Nepali)"; rec."Amount In Words (Nepali)")
+                {
+                    ToolTip = 'Specifies the value of the Amount In Words (Nepali) field.';
+                    ApplicationArea = All;
+                }
+                field("Loan Expiry Date"; Rec."Loan Expiry Date")
+                {
+                    ToolTip = 'Specifies the value of the Loan Expiry Date field.';
+                    ApplicationArea = All;
+                }
+                field("Loan Expiry Date( Nepali)"; Rec."Loan Expiry Date( Nepali)")
+                {
+                    ToolTip = 'Specifies the value of the Loan Expiry Date( Nepali) field.';
+                    ApplicationArea = All;
+                }
+            }
+            group("Facility Disbursement")
+            {
+                Visible = IsApproved;
+                field("Loan Applied"; Rec."Applied Loan/Advance")
+                {
+                    ToolTip = 'Specifies the value of the Applied Loan field.';
+                    ApplicationArea = All;
+                }
+                field("Disbursement Date"; Rec."Disbursement Date")
+                {
+                    ToolTip = 'Specifies the value of the Disbursement Date field.';
+                    ApplicationArea = All;
+                }
+                field("Disbursed Amount"; Rec."Disbursed Amount")
+                {
+                    ToolTip = 'Specifies the value of the Disbursed Amount field.';
+                    ApplicationArea = All;
+                }
+                field(Settled; Rec.Settled)
+                {
+                    ToolTip = 'Specifies the value of the Settled field.';
+                    ApplicationArea = All;
+                }
+                field("Settlement Date"; Rec."Settlement Date")
+                {
+                    ToolTip = 'Specifies the value of the Settlement Date field.';
+                    ApplicationArea = All;
+                }
+                field("Settler User ID"; Rec."Settler User ID")
+                {
+                    ToolTip = 'Specifies the value of the Settler User ID field.';
+                    ApplicationArea = All;
+                }
+                field("Account No."; Rec."Account No.")
+                {
+                    ToolTip = 'Specifies the value of the Account No. field.';
+                    ApplicationArea = All;
+                }
+                field(Disbursed; Rec.Disbursed)
+                {
+                    ToolTip = 'Specifies the value of the Disbursed field.';
                     ApplicationArea = All;
                 }
             }
@@ -562,6 +574,7 @@ page 50160 "Employee Home Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Disburse action.';
                 ApplicationArea = All;
+                Visible = IsApproved;
                 trigger OnAction()
                 begin
                     Rec.DisburseLoan;
@@ -575,7 +588,7 @@ page 50160 "Employee Home Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Modify Security Document action.';
                 ApplicationArea = All;
-
+                Visible = IsApproved;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to modify security document?') then begin

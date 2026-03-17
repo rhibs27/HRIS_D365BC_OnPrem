@@ -164,7 +164,7 @@ codeunit 50020 "Attachment Mgt."
                and (IncomingDocument."File Name" <> '') then
                 Error('Cannot delete attachment.');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
-            if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
+            if (EmpInsurance."Approval Status" in [EmpInsurance."Approval Status"::Approved, EmpInsurance."Approval Status"::Pending]) then
                 Error('Cannot delete attachment.');
         end else if AppraisalEmp.Get(IncomingDocument."No.") then begin
             if AppraisalEmp."Approval Status" = AppraisalEmp."Approval Status"::Pending then

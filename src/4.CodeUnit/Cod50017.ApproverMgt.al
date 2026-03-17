@@ -1308,6 +1308,7 @@ codeunit 50017 "Approver Mgt"
                 else
                     RecRef.Field(16).Validate(ApprovalStatusEnum::Open); // Modify the record dynamically
                 RecRef.Modify();
+                OnAfterReOpenDocument(RecRef);
             end;
         end else
             Error('Document status ust be in Pending.');
@@ -1847,6 +1848,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterOtherDocumentType(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterReOpenDocument(var RecRef: RecordRef)
     begin
     end;
 

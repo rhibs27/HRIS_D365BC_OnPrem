@@ -124,6 +124,39 @@ page 50033 "Payroll Attributes Usage"
                     ImportPayrollAttrReport.Run();
                 end;
             }
+            action("Update Loan Flags (All)")
+            {
+                ApplicationArea = All;
+                Image = UpdateDescription;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                trigger OnAction()
+                var
+                    PayrollAttr: Record "Payroll Attributes";
+                begin
+                    if Confirm('Do you want to update loan flags for all attributes?', false) then begin
+
+                        PayrollAttr.Reset();
+
+                        if PayrollAttr.FindSet() then
+                            repeat
+                                PayrollAttr."Use Attr. for Home loan GS" := Rec."Use Attr. for Home loan GS";
+                                PayrollAttr."Use Attr. for Vehicle loan GS" := Rec."Use Attr. for Vehicle loan GS";
+                                PayrollAttr."Use Attr. for Salary Adv. GS" := Rec."Use Attr. for Salary Adv. GS";
+
+                                PayrollAttr."Use Attr. for Home loan EL" := Rec."Use Attr. for Home loan EL";
+                                PayrollAttr."Use Attr. for Vehicle loan EL" := Rec."Use Attr. for Vehicle loan EL";
+                                PayrollAttr."Use Attr. for Salary Adv. EL" := Rec."Use Attr. for Salary Adv. EL";
+
+                                PayrollAttr.Modify();
+                            until PayrollAttr.Next() = 0;
+
+                        Message('Loan flags updated for all payroll attributes.');
+                    end;
+                end;
+            }
         }
     }
 }

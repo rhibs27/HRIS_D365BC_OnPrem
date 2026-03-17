@@ -304,7 +304,7 @@ codeunit 50002 "Loan Mgt."
                     else if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"Insurance Tieup" then begin
                         EmpLoan."Interest Rate" := 0;
                         InsurancePolicy.Reset;
-                        //InsurancePolicy.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
+                        InsurancePolicy.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
                         InsurancePolicy.SetRange(Age, EmpLoan.Age);
                         InsurancePolicy.SetRange(Period, EmpLoan."Repayment Period");
                         if InsurancePolicy.FindFirst then begin
@@ -1638,12 +1638,12 @@ codeunit 50002 "Loan Mgt."
     begin
         LoanPageBuilder.AddRecord('Security Document', EmpLoan);
         LoanPageBuilder.ADdField('Security Document', EmpLoan."Offer Letter Issued Date");
-        LoanPageBuilder.ADdField('Security Document', EmpLoan."Offer Letter Date(Nepali)");
+        // LoanPageBuilder.ADdField('Security Document', EmpLoan."Offer Letter Date(Nepali)");
         LoanPageBuilder.ADdField('Security Document', EmpLoan."Amount In Words (Nepali)");
         LoanPageBuilder.RunModal;
         EmpLoan.SetView(LoanPageBuilder.GetView('Security Document'));
         Evaluate(OfferLetterDate, EmpLoan.GetFilter("Offer Letter Issued Date"));
-        EmployeeLoan.Validate("Offer Letter Date(Nepali)", EmpLoan.GetFilter("Offer Letter Date(Nepali)"));
+        // EmployeeLoan.Validate("Offer Letter Date(Nepali)", EmpLoan.GetFilter("Offer Letter Date(Nepali)"));
         EmployeeLoan.Validate("Offer Letter Issued Date", OfferLetterDate);
         EmployeeLoan.Validate("Amount In Words (Nepali)", EmpLoan.GetFilter("Amount In Words (Nepali)"));
         EmployeeLoan.Modify;

@@ -179,7 +179,7 @@ table 50099 "Employee Insurance Information"
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open, "Approval Status"::Created]) then
             Error(CannotDelete)
         else begin
             ApprovalEntry.Reset();

@@ -698,6 +698,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Mother''s Name (Nepali) field.';
                 }
+                field("GrandFather's Name (Nepali)"; rec."GrandFather's Name (Nepali)")
+                {
+                    ApplicationArea = all;
+                }
                 field("Citizenship No. (Nepali)"; Rec."Citizenship No. (Nepali)")
                 {
                     ApplicationArea = All;
