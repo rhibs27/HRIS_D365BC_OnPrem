@@ -28753,10 +28753,25 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Lists - Control Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3920941944 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Lists - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3920941944 - Control 4071519153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether this bank account is marked as the RF Account.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Lists - Control Is RF Account - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3920941944 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Lists - Control Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3920941944 - Control 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bank Account Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Lists - Control Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3920941944 - Control 966287263 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Name 2 field.</source>

@@ -167,6 +167,7 @@ codeunit 50023 EmployeeActivityMgt
         leaveJournal.setrange("Approval Status", leaveJournal."Approval Status"::Approved);
         if leaveJournal.FindSet() then
             repeat
+                LeaveMgt.AddLeaveAttachment(EmpActNo, leaveJournal."Employee No.", leaveJournal."Leave Code");
                 if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then begin
                     LeaveMgt.CheckPendingLeave('', leaveJournal."Leave Code", leaveJournal."Employee No.");
                     LeaveMgt.CheckRemainingLeaveDays(leaveJournal."Leave Code", leaveJournal."Employee No.", leaveJournal."No. of Days");
@@ -212,6 +213,7 @@ codeunit 50023 EmployeeActivityMgt
         AttendanceMissedJournal: Record "Employee Activity Journal";
         PostedAttendanceJournal: Record "Posted Employee Journal";
         AttendanceMgn: Codeunit "AttendanceMiss Mgt";
+        StandardText: Record "Standard Text";
     begin
         AttendanceMissedJournal.Reset();
         AttendanceMissedJournal.SetRange("Emp Act. No", EmpActNo);
@@ -232,6 +234,8 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("Approved Date", Today);
                 AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
                 AttendanceMissed.Validate("Employee Work Shift", AttendanceMissedJournal."Employee Work Shift");
+                AttendanceMissed.Validate(Remarks, AttendanceMissedJournal.Remarks);
+                OnBeforePostAttendanceJournal(AttendanceMissed, AttendanceMissedJournal);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
                 PostedAttendanceJournal.TransferFields(AttendanceMissedJournal);
@@ -686,6 +690,12 @@ codeunit 50023 EmployeeActivityMgt
     procedure OnAfterPromotionJournalPost(var PromotionEmployeeJournal: Record "Employee Activity Journal"; var PostedPromotionJournal: Record "Posted Employee Journal"; Var Promotion: Record Promotion)
     begin
         //For any control or modify after Promotion is posted
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforePostAttendanceJournal(var AttendanceMissed: Record "Attendance Missed"; AttendanceMissedJournal: Record "Employee Activity Journal")
+    begin
+
     end;
 
     var
