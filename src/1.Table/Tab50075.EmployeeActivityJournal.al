@@ -639,10 +639,18 @@ table 50075 "Employee Activity Journal"
         field(108; "CheckIn Time"; Time)
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                ValidateCheckInCheckOutTime()
+            end;
         }
         field(109; "CheckOut Time"; Time)
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                ValidateCheckInCheckOutTime();
+            end;
         }
         field(110; "CheckOut OverNight"; Boolean)
         {
@@ -865,6 +873,16 @@ table 50075 "Employee Activity Journal"
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
                 end;
         end;
+    end;
+
+    local procedure ValidateCheckInCheckOutTime()
+    begin
+        if Rec."CheckOut OverNight" then
+            exit;
+
+        if (Rec."CheckOut Time" <> 0T) and (Rec."CheckIn Time" <> 0T) then
+            if Rec."CheckOut Time" <= Rec."CheckIn Time" then
+                Error('Check-Out time must be greater than Check-In time.');
     end;
 
     var

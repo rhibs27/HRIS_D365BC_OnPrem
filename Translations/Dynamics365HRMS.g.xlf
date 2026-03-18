@@ -3173,6 +3173,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Cancelled No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3821175371 - Field 354043904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckIn Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field CheckIn Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3821175371 - Field 815150303 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckOut Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field CheckOut Time - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3821175371 - Field 1976374057 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Compensatory Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3292,6 +3302,16 @@
           <source>Posted</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Posted - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3821175371 - Field 3253477119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Previous Check In Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Previous Check In Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3821175371 - Field 3070335320 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Previous Check Out Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Cancel Document - Field Previous Check Out Time - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3821175371 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province Code</source>
@@ -25998,6 +26018,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Action Approve - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 178691202 - Action 3788807787 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Find Journal Action</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Action Cancel Update Attendance Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 178691202 - Action 772155760 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Find Journal Action</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Action Find Journal - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 178691202 - Action 113888489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26712,6 +26742,51 @@
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Leave List - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled Update Attendance List</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 1556068829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Cancelled Document No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control Cancelled Document No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the End Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control Requested Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1677627296 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Update Atten. List - Control Start Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1971990675 - Control 3050372732 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Communication</source>

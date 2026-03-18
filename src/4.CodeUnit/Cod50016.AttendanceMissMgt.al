@@ -221,6 +221,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceMissed.SetRange(Type, Type);
         AttendanceMissed.SetRange("Start Date", startDate);
         AttendanceMissed.SetFilter("Approval Status", '<>%1&<>%2', AttendanceMissed."Approval Status"::Rejected, AttendanceMissed."Approval Status"::Withdrawn);
+        AttendanceMissed.SetRange(Cancelled, false);
         if AttendanceMissed.FindFirst then
             Error('%1 already applied for date %2 for %3', Type, AttendanceMissed."Start Date", EmployeeNo);
     end;
@@ -299,7 +300,46 @@ codeunit 50016 "AttendanceMiss Mgt"
             repeat
                 AttendanceLogs.Validate(Cancelled, true);
                 AttendanceLogs.Modify();
+                AttendanceMgt.DailyAttendanceUpdate(AttendanceLogs.Date, AttendanceLogs.Date, AttendanceLogs."Employee ID");
             until AttendanceLogs.Next() = 0;
+    end;
+
+    procedure OpenCancelEmpActivity(AtteanceMissed: Record "Attendance Missed")
+    var
+        TempCancelDocument: Record "Cancel Document" temporary;
+        Approval: record "Approval HRMS";
+        HRSetup: Record "Human Resources Setup";
+        Ishandel: Boolean;
+    begin
+        HRSetup.Get();
+        if AtteanceMissed.Cancelled then
+                Error('Update Attendance request no. %1 is already cancelled.', AtteanceMissed."No.");
+        if AtteanceMissed."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
+            Error('Leave request no. %1 cannot be cancelled after %2', AtteanceMissed."No.", AtteanceMissed."Approved Date" + HRSetup."Cancel Document Upto (Days)");
+        AtteanceMissed.TestField("Approval Status", AtteanceMissed."Approval Status"::Approved);
+        AtteanceMissed.TestField("Cancelled Document No.", '');
+        // Clear Approval line
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Attendance Missed");
+        Approval.SetRange("Employee No", AtteanceMissed."Employee No.");
+        Approval.DeleteAll();
+        TempCancelDocument.Init;
+        TempCancelDocument.Validate(Cancelled, true);
+        TempCancelDocument.Validate("Employee No.", AtteanceMissed."Employee No.");
+        TempCancelDocument.Validate("Employee Name", AtteanceMissed."Employee Name");
+        TempCancelDocument.Validate("Approval Status", TempCancelDocument."Approval Status"::Open);
+        TempCancelDocument.Validate(Type, AtteanceMissed.Type);
+        TempCancelDocument.Validate("Requested Date", Today);
+        TempCancelDocument.Validate("Start Date", AtteanceMissed."Start Date");
+        TempCancelDocument.Validate("CheckIn Time", AtteanceMissed."Check In Time");
+        TempCancelDocument.Validate("CheckOut Time", AtteanceMissed."Check Out Time");
+        TempCancelDocument.Validate("Previous Check In Time", AtteanceMissed."Previous Check In Time");
+        TempCancelDocument.Validate("Previous Check Out Time", AtteanceMissed."Previous Check Out Time");
+        TempCancelDocument."Cancelled Document No." := AtteanceMissed."No.";
+        TempCancelDocument."No." := '';
+        TempCancelDocument.Insert;
+        PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
     end;
 
     [IntegrationEvent(false, false)]

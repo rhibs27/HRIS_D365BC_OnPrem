@@ -349,6 +349,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         if AttendanceLog.FindFirst() then begin
             EmpAttendance."Check In Time" := AttendanceLog."Log Time";
@@ -374,6 +375,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         if GuiAllowed then
             AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
         else begin

@@ -48,11 +48,13 @@ page 50180 "Cancel Document"
                 }
                 field("End Date"; Rec."End Date")
                 {
+                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
                 field("No. of Days"; Rec."No. of Days")
                 {
+                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
@@ -61,6 +63,18 @@ page 50180 "Cancel Document"
                     Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the Cancelled Document No. field.';
                     ApplicationArea = All;
+                }
+                field("Previous Check In Time"; rec."Previous Check In Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
+                }
+                field("Previous Check Out Time"; rec."Previous Check Out Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
@@ -114,6 +128,18 @@ page 50180 "Cancel Document"
                     ApplicationArea = All;
                     Visible = StatusView;
                     Caption = 'Approval Status';
+                }
+                field("CheckIn Time"; rec."CheckIn Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
+                }
+                field("CheckOut Time"; rec."CheckOut Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
                 }
             }
             group("Remark")
@@ -282,6 +308,7 @@ page 50180 "Cancel Document"
             StatusView := true
         else
             ApprovalStatusView := true;
+        IsAttendanceMissed := rec.Type = rec.Type::"Attendance Missed";
         IsLeaveRequest := Rec.Type = Rec.Type::"Leave Request";
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
@@ -293,7 +320,7 @@ page 50180 "Cancel Document"
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";
         IsApplied: Boolean;
 
-        IsLeaveRequest: Boolean;
+        IsLeaveRequest, IsAttendanceMissed : Boolean;
 
         IsOpen: Boolean;
         TypeFilter: Text;
