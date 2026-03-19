@@ -54,4 +54,8 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Funeral Allowance';
     }
+    value(13; "Resign Letter")
+    {
+        Caption = 'Resign Letter';
+    }
 }

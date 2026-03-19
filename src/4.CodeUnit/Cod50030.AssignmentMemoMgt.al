@@ -891,7 +891,6 @@ codeunit 50030 "Assignment Memo Mgt"
             exit;
 
         IncomingDoc.Init;
-        IncomingDoc.Validate(Type, IncomingDoc.Type::" ");
         IncomingDoc.Validate("No.", No);
 
         IncomingDoc.Validate("Employee Activity Type", EmpActType);

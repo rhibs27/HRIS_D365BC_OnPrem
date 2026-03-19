@@ -528,7 +528,7 @@ codeunit 50017 "Approver Mgt"
                         ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
                         ApprovalHRMS2.Modify;
                     until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
                 end
                 else begin
                     // If no next approval step found then set the status to approved
@@ -625,7 +625,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
             else begin
@@ -643,7 +643,7 @@ codeunit 50017 "Approver Mgt"
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
+                EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -813,7 +813,7 @@ codeunit 50017 "Approver Mgt"
                         ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
                         ApprovalHRMS2.Modify;
                     until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
                 end
                 else begin
                     // If no next approval step found then set the status to approved
@@ -907,7 +907,7 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
             else begin
@@ -924,7 +924,7 @@ codeunit 50017 "Approver Mgt"
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
+                EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -1736,13 +1736,59 @@ codeunit 50017 "Approver Mgt"
         for seqNo := 1 to ArrayLen(SequenceNoCount) do begin
             if SequenceNoCount[seqNo] = 0 then
                 exit;
-
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", docNo);
             ApprovalEntry.SetRange("Approval Sequence", seqNo);
             if ApprovalEntry.IsEmpty() then
                 Error('Approver not found for sequence %1', seqNo);
         end;
+    end;
+
+    procedure ApproveResignClerance(var DocApprover: Record "Document Approver"; Approved: Boolean)
+    var
+        DocumentApprover, DocumentApproverCheck : Record "Document Approver";
+        ApprovalStatusEnum: Enum "Approval Status";
+        IsHandled: Boolean;
+    begin
+        if not CheckDocumentApprover(DocApprover."Document No.") then
+            Error('You are not Eligible To Approve');
+        if Approved then begin
+            DocumentApprover.Reset();
+            DocumentApprover.SetRange("Document No.", DocApprover."Document No.");
+            DocumentApprover.SetRange("Approver Sequence", DocApprover."Approver Sequence");
+            DocumentApprover.SetRange("Approval Status", DocApprover."Approval Status"::Open);
+            if DocumentApprover.FindSet() then
+                repeat
+                    DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);
+                    DocumentApprover.Validate("Approved By", HRMgt.GetEmployeeNo());
+                    DocumentApprover.Validate("Approved Date", Today);
+                    DocumentApprover.Modify();
+                until DocumentApprover.Next() = 0;
+
+            OnBeforeIncrementOfApproverSequence(DocumentApproverCheck, DocumentApprover, IsHandled);
+            if not IsHandled then begin
+                DocumentApproverCheck.SetRange("Document No.", DocApprover."Document No.");
+                DocumentApproverCheck.SetRange("Approver Sequence", DocumentApprover."Approver Sequence" + 1);
+                if DocumentApproverCheck.FindSet() then begin
+                    repeat
+                        DocumentApproverCheck."Approval Status" := DocumentApproverCheck."Approval Status"::Open;
+                        DocumentApproverCheck.Modify;
+                    until DocumentApproverCheck.Next() = 0;
+                end;
+            end;
+        end
+    end;
+
+    procedure CheckDocumentApprover(DocumentNO: Code[20]): Boolean
+    var
+        DocumentApprover: Record "Document Approver";
+    begin
+        DocumentApprover.Reset;
+        DocumentApprover.SetRange("Document No.", DocumentNO);
+        DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo());
+        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
+        exit(DocumentApprover.FindFirst());
+
     end;
 
     [IntegrationEvent(false, false)]
@@ -1802,8 +1848,14 @@ codeunit 50017 "Approver Mgt"
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeIncrementOfApproverSequence(var DocApproverCheck: Record "Document Approver"; var DocApprover: Record "Document Approver"; var IsHandled: Boolean)
+    begin
+    end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         leaveMgt: Codeunit "Leave Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         AttendanceMissed: Codeunit "AttendanceMiss mgt";

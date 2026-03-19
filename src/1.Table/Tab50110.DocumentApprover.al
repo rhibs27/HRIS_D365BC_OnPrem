@@ -20,35 +20,58 @@ table 50110 "Document Approver"
         }
         field(5; Remarks; Text[250])
         {
-            trigger OnValidate()
-            begin
-                UpdateApprovalStatus();
-            end;
         }
         field(6; "Approval Status"; enum "Approval Status")
         {
-            trigger OnValidate()
-            begin
-                UpdateApprovalStatus();
-            end;
         }
         field(7; "Functional Title"; Code[20])
         {
             Editable = false;
+            TableRelation = "Functional Title";
         }
         field(8; "Approved Date"; Date) { }
-        field(9; "Employee Type"; Enum "Document Approver Emp. Type")
+        field(10; "Document Type"; Enum "Employee Activity Type")
+        {
+            ValuesAllowed = " ", "Resignation", "Training";
+        }
+        field(11; "Rejection Remarks"; Text[100]) { }
+        field(12; "Approver Sequence"; Integer)
         {
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
-                if "Employee Type" = "Employee Type"::"Initiated By" then
-                    if "Employee No." = '' then
-                        if not HrMgt.IsSaaS() then
-                            Validate("Employee No.", HRMgt.GetEmployeeNo());
+                OnBeforeValidateApproverSequence(Rec, IsHandled);
+                if not IsHandled then begin
+                    if "Approver Sequence" = 1 then
+                        Validate("Approval Status", "Approval Status"::Open)
+                    else
+                        Validate("Approval Status", "Approval Status"::Created);
+                end;
             end;
         }
-        field(10; "Document Type"; Enum "Document Approver Doc. Type")
+        field(13; "Deputation Type"; Enum "Deputation Type")
         {
+            Caption = 'Deputation Type';
+        }
+        field(14; "Deputation Code"; Code[20])
+        {
+            Caption = 'Deputation Code';
+            TableRelation = "Organization Structure List".Code where(Type = field("Deputation Type"));
+        }
+        field(15; "Approver Role"; Code[20])
+        {
+            Caption = 'Approver Code';
+            TableRelation = "Approval Role".Code;
+        }
+        field(16; "Approved By"; Code[20])
+        {
+            Caption = 'Approved By';
+            TableRelation = Employee;
+        }
+        field(17; "Attachment"; Media)
+        {
+            Caption = 'Attachment';
         }
         field(11; "Rejection Remarks"; Text[250]) { }
     }
@@ -79,19 +102,9 @@ table 50110 "Document Approver"
             "Line No." := 10000;
     end;
 
-    local procedure UpdateApprovalStatus()
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidateApproverSequence(var DocumentApprover: Record "Document Approver"; var IsHandled: Boolean)
     begin
-        UpdateApprovalStatus(HRMgt.GetEmployeeNo());
-    end;
-
-    local procedure UpdateApprovalStatus(empno: code[20])
-    var
-        Unauthorized: Label 'Not authorized.';
-    begin
-        if GuiAllowed then
-            if "Employee No." <> HRMgt.GetEmployeeNo() then
-                Error(Unauthorized);
-        IF "Approval Status" = "Approval Status"::Approved THEN
-            Validate("Approved Date", Today);
+        //To be used skipping sequential approval mechanism
     end;
 }
