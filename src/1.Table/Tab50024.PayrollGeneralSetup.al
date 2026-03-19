@@ -472,7 +472,7 @@ table 50024 "Payroll General Setup"
             DataClassification = ToBeClassified;
             Description = 'If enabled, allowance is taken for "Employee Activity Type" Allowance Assignment Memo from Assignment Memo Ledger Entries.';
         }
-        field(507; "No. Of Days based On"; Enum "Allowance days basedOn")
+        field(507; "NoOfDays basedOn(Assign Memo)"; Enum "Allowance days basedOn")
         {
             DataClassification = ToBeClassified;
         }

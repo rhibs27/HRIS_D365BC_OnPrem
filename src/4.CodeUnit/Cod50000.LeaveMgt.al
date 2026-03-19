@@ -262,44 +262,6 @@ codeunit 50000 "Leave Mgt."
                 Error(NoLeaveDaysError);
     end;
 
-    // procedure CheckForMultipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
-    // var
-    //     Leave: Record Leave;
-    //     LeaveTypeSetup: Record "Leave Type Setup";
-    //     ErrorforConsecutive: Label 'Your %1 Leave has exceeded maximum days limit as %1 cannot exceed %2 consecutive days.';
-    //     PreviousWorkingDate, NextWorkingDate : Date;
-    // begin
-    //     LeaveTypeSetup.Get(LeaveCode);
-    //     if LeaveTypeSetup."Limit Max. Leave at Once" then begin
-    //         PreviousWorkingDate := GetPreviousWorkingDate(StartDate - 1, true);
-    //         NextWorkingDate := GetPreviousWorkingDate(EndDate + 1, false);
-    //         Leave.Reset;
-    //         Leave.SetRange("Leave Code", LeaveCode);
-    //         Leave.SetRange("Employee No.", EmpCode);
-    //         Leave.Setfilter("Approval Status", '%1|%2', Leave."Approval Status"::Approved, Leave."Approval Status"::Pending);
-    //         Leave.SetRange("End Date", PreviousWorkingDate);
-    //         Leave.SetRange(Cancelled, false);
-    //         if Leave.FindFirst then begin
-    //             if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
-    //                 Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
-    //             else if LeaveTypeSetup."Exclude Non Working Days" then
-    //                 CheckForMultipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays)
-    //             else
-    //                 CheckForMultipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays + Leave."No. of Days");
-    //         end;
-    //         Clear(Leave);
-    //         Leave.SetRange("Leave Code", LeaveCode);
-    //         Leave.SetRange("Employee No.", EmpCode);
-    //         Leave.SetRange("Start Date", NextWorkingDate);
-    //         if Leave.FindFirst then begin
-    //             if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
-    //                 Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
-    //             else
-    //                 CheckForMultipleRequest(LeaveCode, EmpCode, StartDate, EndDate + 1, NoOfDays + Leave."No. of Days");
-    //         end;
-    //     end;
-    //     OnAfterCheckForMultipleLeaveRequest(LeaveTypeSetup, EmpCode, StartDate, EndDate, NoOfDays);
-    // end;
 
     procedure CheckForMultipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
     var

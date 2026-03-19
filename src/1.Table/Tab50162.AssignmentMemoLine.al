@@ -450,12 +450,12 @@ table 50162 "Assignment Memo Line"
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateToCheck);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateToCheck);
         PayCyclePeriod.FindFirst();
-        case PGSetUP."No. Of Days based On" of
-            PGSetUp."No. Of Days based On"::"Total days", PGSetUP."No. Of Days based On"::" ":
+        case PGSetUP."NoOfDays basedOn(Assign Memo)" of
+            PGSetUp."NoOfDays basedOn(Assign Memo)"::"Total days", PGSetUP."NoOfDays basedOn(Assign Memo)"::" ":
                 begin
                     exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1)
                 end;
-            PGSetUP."No. Of Days based On"::"Working days":
+            PGSetUP."NoOfDays basedOn(Assign Memo)"::"Working days":
                 begin
                     TotalDays := PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1;
                     NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Start Date", PayCyclePeriod."End Date", HrMgt.GetEmployeeNo());
