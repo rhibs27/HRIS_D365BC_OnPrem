@@ -2217,7 +2217,10 @@ codeunit 50008 "Payroll Engine"
                                  ((PGSetup.Gratuity = PayrollAttributes.Code) or (PGSetup."Leave Encashment" = PayrollAttributes.Code))) then
                                 TaxAtOnceCurrentEarning += FieldValue;
                         end;
-                    end
+                    end else begin
+                        if FieldValue <> 0 then
+                            CurrentNonTaxableBenefits += FieldValue;
+                    end;
                 end
                 else if (PayrollAttributes.Type = PayrollAttributes.Type::Deduction) then begin
                     if (FieldValue <> 0) and (PayrollAttributes.Subtype <> PayrollAttributes.Subtype::"Tax on Remuneration & Benefits")
