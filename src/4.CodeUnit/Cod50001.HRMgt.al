@@ -4247,7 +4247,6 @@ codeunit 50001 "HR Mgt."
         PayrollOpening: Record "Employee Payroll Opening";
         IsHandled: Boolean;
     begin
-        IsHandled := false;
         Clear(Employee);
         Employee.Get(EmpCode);
         PRSetup.Get;
