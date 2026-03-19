@@ -50,6 +50,7 @@ table 50124 Leave
                     Validate("Province Name", EmpVar."Province Name");
                     Validate("Employee Attendance ID", EmpVar."Employee Attendance ID");
                     Validate("Branch Code", EmpVar."Branch Code");
+                    Validate("Employment Type", EmpVar."Employment Type");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -379,6 +380,7 @@ table 50124 Leave
                     Validate("Branch Name", '');
             end;
         }
+        field(66; "Employment Type"; Enum "Employee Type") { }
         field(100; "Status"; Text[20]) { }
         field(200; Claimed; Boolean) { }
         field(201; "Claimed Doc No."; Code[20]) { }

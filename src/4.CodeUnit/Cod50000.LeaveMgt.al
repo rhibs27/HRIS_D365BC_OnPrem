@@ -22,7 +22,6 @@ codeunit 50000 "Leave Mgt."
             Page.Run(Page::"Leave Request", LeaveRequest)
         end else begin
             LeaveRequest2.Init;
-            LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
             LeaveRequest2.Validate("Employee No.", EmpCode);
             LeaveRequest2.Validate(Type, LeaveRequest2.Type::"Leave Request");
             LeaveRequest2.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
@@ -30,8 +29,6 @@ codeunit 50000 "Leave Mgt."
             LeaveRequest2.Validate("Employee Work Shift", Employee."Employee Work Shift");
             LeaveRequest2.Validate("Leave Type", LeaveRequest2."Leave Type"::"Full Day");
             LeaveRequest2.Validate("Requested Date", Today);
-            LeaveRequest2.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-            LeaveRequest2.Validate(Department, Employee."Department Code");
             LeaveRequest2.Insert(true);
             if GuiAllowed then
                 Page.Run(Page::"Leave Request", LeaveRequest2)
@@ -926,6 +923,9 @@ codeunit 50000 "Leave Mgt."
                 Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
             Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
             Leave.TestField("Cancelled Document No.", '');
+            Employee.Get(Leave."Employee No.");
+            if Leave."Employment Type" <> Employee."Employment Type" then
+                Error('Leave from %1 period cannot be canceled after employment change to %2.', Leave."Employment Type", Employee."Employment Type");
             // Clear Approval line
             Approval.Reset();
             Approval.SetRange("Document No.", '');
