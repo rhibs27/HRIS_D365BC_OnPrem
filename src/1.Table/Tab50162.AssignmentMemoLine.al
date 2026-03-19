@@ -105,7 +105,7 @@ table 50162 "Assignment Memo Line"
 
                     if Employee.Get("Employee No.") then begin
                         SalaryLevel.Get(Employee."Salary Level");
-                        if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                        if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                             "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                             if "Fuel Limit (ltr)" = 0 then
                                 "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";

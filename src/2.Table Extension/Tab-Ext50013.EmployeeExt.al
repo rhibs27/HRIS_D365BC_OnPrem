@@ -1008,14 +1008,6 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Disabled" = CONST(false)));
             Editable = false;
         }
-        field(50103; "Resignation Approver"; Boolean)
-        {
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
-            end;
-        }
         field(50105; "Emergency Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
@@ -1583,6 +1575,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Text003: Label 'ENU=%1 is not a contract Employee.';
         EngNepDate: Record "English-Nepali Date";
         HRMgt: Codeunit "HR Mgt.";
+        ResignMgt: Codeunit "Resignation Mgt";
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         LoanMgt: Codeunit "Loan Mgt.";

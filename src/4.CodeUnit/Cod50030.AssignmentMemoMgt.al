@@ -908,7 +908,6 @@ codeunit 50030 "Assignment Memo Mgt"
             exit;
 
         IncomingDoc.Init;
-        IncomingDoc.Validate(Type, IncomingDoc.Type::" ");
         IncomingDoc.Validate("No.", No);
 
         IncomingDoc.Validate("Employee Activity Type", EmpActType);
@@ -1063,7 +1062,7 @@ codeunit 50030 "Assignment Memo Mgt"
             if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler (EV)", Employee."Vehicle Type"::"Two Wheeler (EV)", Employee."Vehicle Type"::" "] then
                 Error('You are not eligible to claim Transportation Reimbursement.');
 
-            if Salarylevel.Rank >= GetAMRank() then begin
+            if (Salarylevel.Rank >= GetAMRank) and (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler") then begin
                 if GetAssignmentLineLtr(AssignmentMemoLine."Document No.") > Salarylevel."Fuel Limit (ltr)" then
                     Error('Fuel claimed exceeds the limit of allowable %1 liters.', Salarylevel."Fuel Limit (ltr)");
             end
@@ -1164,7 +1163,7 @@ codeunit 50030 "Assignment Memo Mgt"
         Employee.Get(AssignmentMemoHdr."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
 
-        if (Employee."Vehicle Type" in [Employee."Vehicle Type"::"Two Wheeler", Employee."Vehicle Type"::"Four Wheeler"])
+        if (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler")
             and (SalaryLevel.Rank >= GetAMRank()) then begin
             FuelLimit := SalaryLevel."Fuel Limit (ltr)";
             AmountLimit := 0;

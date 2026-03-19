@@ -870,7 +870,7 @@ codeunit 50000 "Leave Mgt."
             Leave.modify();
         end;
         if GuiAllowed then
-            HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.", false);   //For email
+            EmailMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, Leave."Employee No.", Leave."No.", false);   //For email
         exit(Leave."No.");
     end;
 
@@ -997,7 +997,6 @@ codeunit 50000 "Leave Mgt."
         TempIncomingDoc.Reset;
         LeaveType.Get(leave."Leave Code");
         TempIncomingDoc.SetRange("Employee Code", leave."Employee No.");
-        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
         TempIncomingDoc.SetRange("Leave Type Code", leave."Leave Code");
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
@@ -1017,7 +1016,6 @@ codeunit 50000 "Leave Mgt."
                         TempIncomingDoc.Reset;
                         TempIncomingDoc.Init;
                         Clear(TempIncomingDoc."Entry No.");
-                        TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
                         TempIncomingDoc.Validate("No.", leave."No.");
                         TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
                         TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
@@ -2201,6 +2199,7 @@ codeunit 50000 "Leave Mgt."
         LeaveError: Label 'You cannot apply leave in Present day %1.';
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         PayrollSetup: Record "Payroll General Setup";
         CalendarDescription: Text;
         HRSetup: Record "Human Resources Setup";

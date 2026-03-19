@@ -240,6 +240,8 @@ report 50067 "Process Daily Attendance"
             EmpAttendance."Department Name" := ServiceHistory."Department Description (To)";
             EmpAttendance."Unit Code" := ServiceHistory."Unit Code (To)";
             EmpAttendance."Extension Counter" := ServiceHistory."Extension Description (To)";
+            EmpAttendance."Functional Title" := ServiceHistory."Functional Title (To)";
+            EmpAttendance."Functional Title Desc" := ServiceHistory."Functional Title Desc. (To)";
             EmpAttendance.Modify();
         end;
     end;

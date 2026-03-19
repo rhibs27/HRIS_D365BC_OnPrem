@@ -142,6 +142,18 @@ page 50390 "Appraisal Form Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    Editable = IsPending;
+                    Visible = IsPending or IsRejected;
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
+                }
             }
             group("Appraisal's Details")
             {
@@ -212,23 +224,33 @@ page 50390 "Appraisal Form Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the ReOpen action.';
                 ApplicationArea = All;
-                Enabled = not Rec.Posted;
-
+                Enabled = IsPending;
+                Visible = IsPending;
                 trigger OnAction()
+                var
+                    ApprovalHRMS: Record "Approval HRMS";
+                    AppraisalMgt: Codeunit "AppraisalMgt.";
                 begin
-                    //HRMgt.CalcExtendDays(Rec,FALSE);
-                    Appraisal.Reset;
-                    Appraisal.SetRange("Appraisal Code", Rec."Appraisal Code");
-                    if Appraisal.FindFirst then
-                        repeat
-                            Appraisal."Approval Status" := Appraisal."Approval Status"::Open;
-                            Appraisal.Posted := false;
-                            Appraisal."Posting Date" := 0D;
-                            Appraisal.Validate("Total Final Score", 0);
-                            Clear(Rec."Final Grading");
-                            Appraisal.Modify(true);
-                        until Appraisal.Next = 0;
-                    CurrPage.Close;
+                    if Confirm('Do you want to Reopen the Document?', false) then begin
+                        Rec."Approval Status" := Appraisal."Approval Status"::Open;
+                        Rec.Posted := false;
+                        Rec."Posting Date" := 0D;
+                        Rec.Validate("Total Final Score", 0);
+                        Clear(Rec."Final Grading");
+                        Rec.Modify(true);
+                        ApprovalHRMS.Reset();
+                        ApprovalHRMS.SetRange("Document No.", Rec."Appraisal Code");
+                        ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::Appraisal);
+                        if ApprovalHRMS.FindSet() then
+                            repeat
+                                ApprovalHRMS."Approval Status" := ApprovalHRMS."Approval Status"::Created;
+                                ApprovalHRMS."Approved By" := '';
+                                ApprovalHRMS."Rejected By" := '';
+                                ApprovalHRMS.Modify(true);
+                            until ApprovalHRMS.Next() = 0;
+                        CurrPage.Update();
+                        Message('Document has been reopened');
+                    end;
                 end;
             }
             action("Request Appraisal")
@@ -305,8 +327,10 @@ page 50390 "Appraisal Form Card"
                 var
                     AppraisalMgt: Codeunit "AppraisalMgt.";
                 begin
-                    if Confirm('Do you want to calculate marks?', false) then
-                        AppraisalMgt.CalculateFinalMarks(Rec);
+                    if not Confirm('Do you want to calculate marks?', false) then
+                        exit;
+                    AppraisalMgt.CheckScoreDetailsSubmitted(Rec."Appraisal Code");
+                    AppraisalMgt.CalculateFinalMarks(Rec."Appraisal Code");
                 end;
             }
 
@@ -376,17 +400,4 @@ page 50390 "Appraisal Form Card"
         ReviewSent := Rec."Approval Status" in [Rec."Approval Status"::Reviewed];
         RecRef.GetTable(Rec);
     end;
-
-
-
-    // local procedure OpenKPIForKRARelated(AppraisalRec: Record Appraisal)
-    // var
-    //     KPIEmpRec: Record "KPI Employee";
-    // begin
-    //     KPIEmpRec.Reset();
-    //     KPIEmpRec.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
-    //     KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-    //     KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
-    //     Page.Run(Page::"KPI Employee", KPIEmpRec);
-    // end;
 }
