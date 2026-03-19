@@ -319,12 +319,13 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceLogs: Record "Attendance Log";
     begin
         AttendanceLogs.SetRange("Document No", DocNo);
-        if AttendanceLogs.FindSet() then
-            repeat
-                AttendanceLogs.Validate(Cancelled, true);
-                AttendanceLogs.Modify();
-                AttendanceMgt.DailyAttendanceUpdate(AttendanceLogs.Date, AttendanceLogs.Date, AttendanceLogs."Employee ID");
-            until AttendanceLogs.Next() = 0;
+        if not AttendanceLogs.FindSet() then
+            Error('No Attendance Log found for Document No. %1.', DocNo);
+        repeat
+            AttendanceLogs.Validate(Cancelled, true);
+            AttendanceLogs.Modify();
+            AttendanceMgt.DailyAttendanceUpdate(AttendanceLogs.Date, AttendanceLogs.Date, AttendanceLogs."Employee ID");
+        until AttendanceLogs.Next() = 0;
     end;
 
     procedure OpenCancelEmpActivity(AtteanceMissed: Record "Attendance Missed")
