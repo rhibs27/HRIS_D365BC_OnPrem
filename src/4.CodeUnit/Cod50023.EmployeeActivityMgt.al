@@ -167,7 +167,6 @@ codeunit 50023 EmployeeActivityMgt
         leaveJournal.setrange("Approval Status", leaveJournal."Approval Status"::Approved);
         if leaveJournal.FindSet() then
             repeat
-                LeaveMgt.AddLeaveAttachment(EmpActNo, leaveJournal."Employee No.", leaveJournal."Leave Code");
                 if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then begin
                     LeaveMgt.CheckPendingLeave('', leaveJournal."Leave Code", leaveJournal."Employee No.");
                     LeaveMgt.CheckRemainingLeaveDays(leaveJournal."Leave Code", leaveJournal."Employee No.", leaveJournal."No. of Days");
@@ -694,6 +693,11 @@ codeunit 50023 EmployeeActivityMgt
     local procedure OnBeforePostAttendanceJournal(var AttendanceMissed: Record "Attendance Missed"; AttendanceMissedJournal: Record "Employee Activity Journal")
     begin
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeLeaveRequestInsertAddLeaveAttachment(EmpActCode: Code[20]; EmpActJrlEmpCode: Code[20]; EmpActJrlLeaveCode: Code[20])
+    begin
     end;
 
     var
