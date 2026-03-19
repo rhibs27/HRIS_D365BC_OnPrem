@@ -233,7 +233,6 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("Approved Date", Today);
                 AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
                 AttendanceMissed.Validate("Employee Work Shift", AttendanceMissedJournal."Employee Work Shift");
-                AttendanceMissed.Validate(Remarks, AttendanceMissedJournal.Remarks);
                 OnBeforePostAttendanceJournal(AttendanceMissed, AttendanceMissedJournal);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
