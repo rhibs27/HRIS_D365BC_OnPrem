@@ -213,7 +213,6 @@ codeunit 50023 EmployeeActivityMgt
         AttendanceMissedJournal: Record "Employee Activity Journal";
         PostedAttendanceJournal: Record "Posted Employee Journal";
         AttendanceMgn: Codeunit "AttendanceMiss Mgt";
-        StandardText: Record "Standard Text";
     begin
         AttendanceMissedJournal.Reset();
         AttendanceMissedJournal.SetRange("Emp Act. No", EmpActNo);

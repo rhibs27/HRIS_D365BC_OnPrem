@@ -259,31 +259,6 @@ page 50249 "Service History Lists"
             }
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            action("Delete Service Line")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                trigger OnAction()
-                var
-                    EmployeeServiceHistory: Record "Employee Service History";
-                begin
-                    CurrPage.SetSelectionFilter(Rec);
-                    EmployeeServiceHistory.Get(Rec."Service History Code");
-                    CurrPage.SetTableView(EmployeeServiceHistory);
-                    if EmployeeServiceHistory.Delete() then
-                        Message('Document Deleted %1', EmployeeServiceHistory."Service History Code");
-                end;
-            }
-        }
-    }
-
     trigger OnOpenPage()
     begin
         Rec.SetCurrentKey("Effective Date");
