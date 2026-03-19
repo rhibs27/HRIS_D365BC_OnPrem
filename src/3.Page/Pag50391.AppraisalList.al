@@ -3,6 +3,7 @@ page 50391 "Appraisal List"
     Caption = 'Appraisal List';
     CardPageId = "Appraisal Form Card";
     PageType = List;
+    PromotedActionCategories = 'New,Process,Report,SetFilter';
     SourceTable = Appraisal;
     UsageCategory = Lists;
     ApplicationArea = All;
@@ -108,7 +109,96 @@ page 50391 "Appraisal List"
         }
     }
 
-    actions { }
+    actions
+    {
+        area(Navigation)
+        {
+            action(Open)
+            {
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Open action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action("Pending Approval")
+            {
+                Image = PendingApproval;
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Pending Approval action.';
+                Visible = true;
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action(Approved)
+            {
+                Image = Approve;
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Approved action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
+                    Rec.FilterGroup(0);
+                end;
+            }
+            action(Rejected)
+            {
+                Image = DeleteQtyToHandle;
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Rejected action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    ClearAll();
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
+                    Rec.FilterGroup(0);
+                end;
+            }
+
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Category4;
+                Image = ClearFilter;
+                ToolTip = 'Executes the Clear filter action.';
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Approval Status");
+                    Rec.FilterGroup(0);
+                end;
+            }
+        }
+
+    }
 
     trigger OnOpenPage()
     begin
