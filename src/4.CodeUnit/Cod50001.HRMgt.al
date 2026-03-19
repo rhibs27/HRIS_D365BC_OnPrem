@@ -5782,6 +5782,27 @@ codeunit 50001 "HR Mgt."
         if PayCyclePeriod.FindLast then
             exit(PayCyclePeriod."End Date");
     end;
+    procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
+    var
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
+    begin
+        if not HRSetup.Get() then
+            exit(false);
+        if not Employee.Get(EmployeeNo) then
+            exit(false);
+        if HRSetup."HR Department Code" <> '' then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    exit(true);
+            end else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    exit(true);
+            end;
+        end;
+        exit(false);
+    end;
 
     procedure CheckforFiscalYearcontrol(IncomingDate: Date)
     var
