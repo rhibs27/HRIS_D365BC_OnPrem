@@ -146,7 +146,7 @@ page 50397 "Training Need Card"
 
                 trigger OnAction()
                 begin
-                    Rec.Submit();
+                    TrainingMgt.Submit(Rec);
                     SetLayout();
                     CurrPage.Update(false);
                     Message('Training need has been submitted for HR review.');
@@ -190,6 +190,7 @@ page 50397 "Training Need Card"
         IsOpen: Boolean;
         IsSubmitted: Boolean;
         StatusStyle: Text;
+        TrainingMgt: Codeunit "Training Mgt";
 
     local procedure SetLayout()
     begin

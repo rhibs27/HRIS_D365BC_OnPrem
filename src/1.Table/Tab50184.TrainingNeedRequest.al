@@ -136,15 +136,6 @@ table 50184 "Training Need Request"
     var
         HRMgt: Codeunit "HR Mgt.";
 
-    procedure Submit()
-    begin
-        TestField("Employee No.");
-        TestField(Description);
-        TestField("Training Nature");
-        Validate(Status, Status::Pending);
-        Modify(true);
-    end;
-
     procedure Compile(CompiledBy: Code[20])
     begin
         TestField(Status, Status::Pending);

@@ -363,6 +363,15 @@ codeunit 50037 "Training Mgt"
         SheetName := ExcelBuffer.SelectSheetsNameStream(InStr);
     end;
 
+    procedure Submit(var TrainingNeed: Record "Training Need Request")
+    begin
+        TrainingNeed.TestField("Employee No.");
+        TrainingNeed.TestField(Description);
+        TrainingNeed.TestField("Training Nature");
+        TrainingNeed.Validate(Status, TrainingNeed.Status::Pending);
+        TrainingNeed.Modify(true);
+    end;
+
     var
         ExcelBuffer: Record "Excel Buffer";
         Employee: Record Employee;
