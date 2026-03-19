@@ -10878,6 +10878,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Employee Work Shift - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 4003090428 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employment Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Employment Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3212359541 - Field 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>End Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
