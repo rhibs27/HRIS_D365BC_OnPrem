@@ -4245,7 +4245,9 @@ codeunit 50001 "HR Mgt."
         PGSetup: Record "Payroll General Setup";
         ImportPayrollAttrReport: Report "Import Payroll Attributes";
         PayrollOpening: Record "Employee Payroll Opening";
+        IsHandled: Boolean;
     begin
+        IsHandled := false;
         Clear(Employee);
         Employee.Get(EmpCode);
         PRSetup.Get;
@@ -4271,9 +4273,8 @@ codeunit 50001 "HR Mgt."
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
 
-        PayrollAttributesUsage.reset();
-        PayrollAttributesUsage.SetRange("Employee Code", EmpCode);
-        if PayrollAttributesUsage.IsEmpty then begin
+        OnBeforeInsertOfPayrollAttributeUsage(EmpCode, IsHandled);
+        if not IsHandled then begin
             Clear(ImportPayrollAttrReport);
             ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
             ImportPayrollAttrReport.UseRequestPage(false);
@@ -5809,5 +5810,11 @@ codeunit 50001 "HR Mgt."
                               var IsHandled: Boolean);
     begin
         //Can be used to changes or modify any paramater before Create Email From Template
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeInsertOfPayrollAttributeUsage(EmployeeNo: Code[20]; var IsHandled: Boolean);
+    begin
+        //To make specific checks before inserting Attributes in Attribute Usage.
     end;
 }

@@ -12053,6 +12053,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field District Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 1285973296 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Email - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 2202210442 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fax No</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38288,6 +38293,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control District Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 1285973296 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Email field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Email - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 2202210442 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fax No Field</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -58552,6 +58562,11 @@
           <source>Branch Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Branch Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 4175794102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Candidate No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Candidate No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2400310955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>CIF ID</source>

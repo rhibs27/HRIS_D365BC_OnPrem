@@ -1541,6 +1541,11 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
             Description = 'Calculated based on salary level and employment date';
         }
+        field(50203; "Candidate No."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Candidate;
+        }
     }
     keys
     {
@@ -1652,6 +1657,7 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         LeaveMgt.OpenLeaveRequest("No.");
     end;
+
     procedure TravelRequest();
     var
         EmployeeAct: enum "Employee Activity Type";
