@@ -695,11 +695,6 @@ codeunit 50023 EmployeeActivityMgt
 
     end;
 
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeLeaveRequestInsertAddLeaveAttachment(EmpActCode: Code[20]; EmpActJrlEmpCode: Code[20]; EmpActJrlLeaveCode: Code[20])
-    begin
-    end;
-
     var
         ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
