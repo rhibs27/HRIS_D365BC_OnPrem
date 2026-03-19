@@ -188,27 +188,21 @@ report 50067 "Process Daily Attendance"
         RegularShiftCode: Code[20];
     begin
         RegularShiftCode := shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start");
-        DeleteStaleAttendanceLines(Employee."No.", Date."Period Start", RegularShiftCode);
         InsertEmpAttendance(Employee."No.", Date."Period Start", shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start"));
         UpdateEmpAttendanceAsTransferFromServiceHistory();
     end;
-
-    local procedure DeleteStaleAttendanceLines(EmpNo: Code[20]; AttDate: Date; NewShiftCode: Code[20])
-    var
-        AttendanceDel: Record "Employee Attendance & Activity";
-    begin
-        AttendanceDel.SetRange("Employee No.", EmpNo);
-        AttendanceDel.SetRange("Attendance Date", AttDate);
-        AttendanceDel.SetFilter("Employee Working Shift", '<>%1', NewShiftCode);
-        if AttendanceDel.FindSet() then
-            AttendanceDel.DeleteAll(true);
-    end;
-
+    
     local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text)
     var
         EmpVar: Record Employee;
         EngNep: Record "English-Nepali Date";
+        StaleAttendance: Record "Employee Attendance & Activity";
     begin
+        StaleAttendance.SetRange("Employee No.", EmpCode);
+        StaleAttendance.SetRange("Attendance Date", PostingDate);
+        StaleAttendance.SetFilter("Employee Working Shift", '<>%1', WorkShift);
+        if StaleAttendance.FindSet() then
+            StaleAttendance.DeleteAll(true);
         if not EmpAttendance.Get(EmpCode, PostingDate, WorkShift) then begin
             Clear(EmpAttendance);
             EmpAttendance.Init;
