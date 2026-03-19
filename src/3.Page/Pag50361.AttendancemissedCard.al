@@ -125,7 +125,6 @@ page 50361 "Attendance missed Card"
             }
         }
     }
-
     actions
     {
         area(Processing)
@@ -260,7 +259,10 @@ page 50361 "Attendance missed Card"
     trigger OnOpenPage()
     begin
         setlayOut();
+        if IsOpen then
+            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed", rec."Approval Status");
     end;
+
     trigger OnAfterGetRecord()
     begin
         setlayOut();
@@ -307,7 +309,5 @@ page 50361 "Attendance missed Card"
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         FromJournal := Rec."From Journal";
         RecRef.GetTable(Rec);
-        if IsOpen then
-            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed", rec."Approval Status");
     end;
 }

@@ -435,6 +435,12 @@ codeunit 50017 "Approver Mgt"
                                     if RecRef.Field(39).value then
                                         leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
                                 end;
+                            EmployeeActivityType::"Attendance Missed":
+                                //for leave Cancelled Reject
+                                begin
+                                    if RecRef.Field(39).value then
+                                        AttendanceMissed.RejectAttendanceMissed(RecRef.Field(1).Value) // For Cancelled Attendance Missed
+                                end;
                             //for travel claim Reject
                             EmployeeActivityType::"Travel Claim":
                                 begin
@@ -560,7 +566,10 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::"Attendance Missed":
                             begin
-                                AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
+                                if RecRef.Field(39).value then
+                                    AttendanceMissed.ApproveCancelledAttendanceMissed(RecRef.Field(1).Value) // For Cancelled Attendance missed
+                                else
+                                    AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
                             end;
                         EmployeeActivityType::"Transfer Claim":
                             begin

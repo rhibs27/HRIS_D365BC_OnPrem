@@ -88,6 +88,7 @@ page 50180 "Cancel Document"
                 }
                 field("End Date (BS)"; Rec."End Date (BS)")
                 {
+                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
                     ApplicationArea = All;
                 }
@@ -95,11 +96,13 @@ page 50180 "Cancel Document"
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
+                    Visible = IsLeaveRequest;
                     Editable = false;
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
+                    Visible = IsLeaveRequest;
                     ApplicationArea = All;
                     Editable = false;
                 }
@@ -114,13 +117,7 @@ page 50180 "Cancel Document"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                    Visible = ApprovalStatusView;
-                }
+
                 field(Status; rec.Status)
                 {
                     Editable = false;
@@ -140,6 +137,13 @@ page 50180 "Cancel Document"
                     Visible = IsAttendanceMissed;
                     Editable = false;
                     ApplicationArea = all;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = ApprovalStatusView;
                 }
             }
             group("Remark")
@@ -303,7 +307,7 @@ page 50180 "Cancel Document"
     procedure SetLayout()
     begin
         if Rec.Type = Rec.Type::"Attendance Missed" then
-            CurrPage.Caption('Attendance Missed');
+            CurrPage.Caption('Cancel Attendance Missed Request');
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else

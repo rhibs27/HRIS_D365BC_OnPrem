@@ -82,38 +82,61 @@ codeunit 50016 "AttendanceMiss Mgt"
     procedure ApplyCancelEmployeeActivity(CancelDocument: Record "Cancel Document" temporary): Text
     var
         CancelDocument1: Record "Cancel Document";
+        AttendanceMissed: Record "Attendance Missed";
         leave: Record Leave;
         LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
-                exit;
+                exit('');
+
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
-            leave.Reset;
+            CancelDocument.TestField("End Date");
+            leave.Reset();
             leave.SetRange("Cancelled Document No.", CancelDocument."Cancelled Document No.");
-            leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
-            if leave.FindFirst then
+            leave.SetFilter(Cancelled, '%1', true);
+            if leave.FindFirst() then
                 Error(LeaveCancelError, leave."No.", leave."Leave Code");
         end;
+
         if CancelDocument.Type = CancelDocument.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.");
+
         if CancelDocument."No." = '' then begin
             CancelDocument.TestField("Start Date");
             HRMgt.CheckForFiscalYearControl(CancelDocument."Start Date");
-            CancelDocument.TestField("End Date");
             CancelDocument.TestField(Remarks);
-            CancelDocument1.Init;
+            CancelDocument1.Init();
             CancelDocument1.TransferFields(CancelDocument);
             CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending);
             CancelDocument1."Cancelled No." := '';
             CancelDocument1.Insert(true);
-            leave.Reset;
-            if leave.Get(CancelDocument1."Cancelled Document No.") then begin
-                leave.Validate("Cancelled No.", CancelDocument1."No.");
-                leave.Validate(Cancelled, true);
-                leave.Modify(true);
-            end else
-                Error('Leave request no. %1 not found.', CancelDocument1."Cancelled Document No.");
+
+            case CancelDocument.Type of
+                CancelDocument.Type::"Leave Request":
+                    begin
+                        leave.Reset();
+                        if leave.Get(CancelDocument1."Cancelled Document No.") then begin
+                            leave.Validate("Cancelled No.", CancelDocument1."No.");
+                            leave.Validate(Cancelled, true);
+                            leave.Modify(true);
+                        end else
+                            Error('Leave request no. %1 not found.', CancelDocument1."Cancelled Document No.");
+                    end;
+                CancelDocument.Type::"Attendance Missed":
+                    begin
+                        AttendanceMissed.Reset();
+                        if AttendanceMissed.Get(CancelDocument1."Cancelled Document No.") then begin
+                            AttendanceMissed.Validate("Cancelled No.", CancelDocument1."No.");
+                            AttendanceMissed.Validate(Cancelled, true);
+                            AttendanceMissed.Modify(true);
+                        end else
+                            Error('Attendance Missed request no. %1 not found.', CancelDocument1."Cancelled Document No.");
+                    end;
+                else
+                    Error('Cancel document Type is not found type: %1', CancelDocument.Type);
+            end;
+
             exit(CancelDocument1."No.");
         end;
     end;
@@ -313,7 +336,7 @@ codeunit 50016 "AttendanceMiss Mgt"
     begin
         HRSetup.Get();
         if AtteanceMissed.Cancelled then
-                Error('Update Attendance request no. %1 is already cancelled.', AtteanceMissed."No.");
+            Error('Update Attendance request no. %1 is already cancelled.', AtteanceMissed."No.");
         if AtteanceMissed."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
             Error('Leave request no. %1 cannot be cancelled after %2', AtteanceMissed."No.", AtteanceMissed."Approved Date" + HRSetup."Cancel Document Upto (Days)");
         AtteanceMissed.TestField("Approval Status", AtteanceMissed."Approval Status"::Approved);
@@ -336,10 +359,39 @@ codeunit 50016 "AttendanceMiss Mgt"
         TempCancelDocument.Validate("CheckOut Time", AtteanceMissed."Check Out Time");
         TempCancelDocument.Validate("Previous Check In Time", AtteanceMissed."Previous Check In Time");
         TempCancelDocument.Validate("Previous Check Out Time", AtteanceMissed."Previous Check Out Time");
+        TempCancelDocument.Validate("Reason Code", AtteanceMissed."Reason Code");
+        TempCancelDocument.Validate("Reason Description", AtteanceMissed."Reason Description");
         TempCancelDocument."Cancelled Document No." := AtteanceMissed."No.";
         TempCancelDocument."No." := '';
         TempCancelDocument.Insert;
         PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
+    end;
+
+    procedure RejectAttendanceMissed(AttendanceMissedCancelledCode: Code[20])
+    var
+        CancelledDocument: Record "Cancel Document";
+        AttendanceMissed: Record "Attendance Missed";
+    begin
+        CancelledDocument.Get(AttendanceMissedCancelledCode);
+        if AttendanceMissed.Get(CancelledDocument."Cancelled Document No.") then begin
+            AttendanceMissed.Validate("Cancelled No.", '');
+            AttendanceMissed.Validate(Cancelled, false);
+            AttendanceMissed.Modify(true);
+        end else
+            Error('Attendance Missed request no. %1 not found.', CancelledDocument."Cancelled Document No.");
+    end;
+
+    procedure ApproveCancelledAttendanceMissed(CancelAttendanceMissedCode: Code[20])
+    var
+        LeaveEarn: Record "Leave Earn";
+        CancelDocument: Record "Cancel Document";
+        ServiceInactivity: Record "Service Inactivity Ledger";
+        EmpVar: Record Employee;
+    begin
+        CancelDocument.Get(CancelAttendanceMissedCode);
+        CancelDocument.TestField(Type, CancelDocument.Type::"Attendance Missed");
+        CancelledAttendanceMissed(CancelDocument."Cancelled Document No.");
+        CancelledAttendanceLogs(CancelDocument."Cancelled Document No.");
     end;
 
     [IntegrationEvent(false, false)]
