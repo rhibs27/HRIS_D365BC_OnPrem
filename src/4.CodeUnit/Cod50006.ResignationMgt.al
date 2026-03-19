@@ -2,41 +2,35 @@ codeunit 50006 "Resignation Mgt"
 {
     procedure OpenResignationRequest(EmpCode: Code[20])
     var
-        //EmpAct4: Record "Employee Activity" temporary;
-        Resignation2: Record Resignation temporary;
-        //EmpAct: Record "Employee Activity";
-        Resignation: Record Resignation;
+        Resignation, Resignation2 : Record Resignation;
         Approval: Record "Approval HRMS";
     begin
-        Clear(Employee);
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::Resignation);
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
-        Employee.Get(EmpCode);
         Resignation.Reset;
         Resignation.SetRange("Employee No.", EmpCode);
         Resignation.SetRange(Type, Resignation.Type::Resignation);
         Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected);
-        // Resignation.SetFilter("Approval Status", '<>%1', Resignation."Approval Status"::Rejected);
-        if Resignation.FindLast then begin
+        if Resignation.Findfirst then begin
+            Message('This Employee Already has open Leave Request.Click Ok to Open');
             PAGE.Run(PAGE::"Resignation Card", Resignation);
             exit;
         end;
-        Employee.Get(EmpCode);
         Resignation2.Init;
         Resignation2.Validate("Employee No.", EmpCode);
         Resignation2.Validate(Type, Resignation2.Type::Resignation);
         Resignation2.Validate("Approval Status", Resignation2."Approval Status"::Open);
         Resignation2.Validate("Requested Date", Today);
-        Resignation2.Insert;
+        Resignation2.Insert(true);
+        InsertResignAttachmentLetter(Resignation2."No.", Resignation2.Type, Resignation2."Employee No.");
         PAGE.Run(PAGE::"Resignation Card", Resignation2);
     end;
 
-    procedure SendResignationApproval(TempResignation: Record "Resignation" temporary): Boolean
+    procedure SendResignationApproval(var Resignation: Record "Resignation"): Boolean
     var
-        Resignation: Record "Resignation";
         ConfirmResign: Label 'Do you want to send resignation request?';
         ApprovalRequestSent: Label 'Resignation request approval has been sent.';
         EmailTemplate: Record "Email Template";
@@ -44,137 +38,122 @@ codeunit 50006 "Resignation Mgt"
         if GuiAllowed then
             if not Confirm(ConfirmResign, false) then
                 exit;
-        Resignation.Reset;
-        Resignation.SetRange("Employee No.", TempResignation."Employee No.");
-        Resignation.SetRange(Type, Resignation.Type::Resignation);
-        Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected);
-        if Resignation.FindFirst then
-            Error('Employee %1 has already send request for resignation', Resignation."Employee Name");
-        TempResignation.TestField("Proposed Date of Resignation");
-        TempResignation.TestField("Reason for Resignation");
-        TempResignation.TestField("Reason Code");
-        Clear(Resignation);
-        Resignation.Reset;
-        Resignation.Init;
-        Resignation.TransferFields(TempResignation);
-        Resignation.Validate("Approval Status", Resignation."Approval Status"::"Pending");
-        Resignation.Validate("User ID", UserId);
-        Employee.Get(Resignation."Employee No.");
-        //EmpAct.VALIDATE("Recommender Code", Employee."Recommender Code");
-        // Resignation.Validate("Approver Code", HrMgt.GetHrHead());
-        // if Resignation."Recommender Code" = '' then
-        //     Error(NoRecommender, Resignation.FieldCaption("Recommender Code"));
-        if Resignation."Requested Date" = 0D then
-            Resignation."Requested Date" := Today;
-        //Resignation."Supervisor Proposed Date" := Resignation."Proposed Date of Resignation";
-        Resignation."HR Proposed Date" := Resignation."Proposed Date of Resignation";
-        Resignation.Insert(true);
-        //HrMgt.InsertAttachmentLines(Resignation."No.", Format(Resignation.Type), Resignation."Employee No.");//attachment
-        // InsertResignationApprover(Resignation); //resignation approver
-        HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, Resignation."Employee No.", Resignation."No.", false);   //For email
-        // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::Pending) then
-        //     HrMgt.ResignationEmailSend(Resignation."Employee No.");
+        Resignation.TestField("Requested Last Working Day");
+        Resignation.TestField("Reason for Resignation");
+        if GuiAllowed then begin
+            AttachmentMgt.CheckMandatoryAttachment(Resignation."No.");
+            Resignation.Validate("Approval Status", "Approval Status"::Pending);
+        end;
+        CheckAlreadyExitRetirementRequest(Resignation);
+        ApproverMgt.UpdateFirstApproverStatus(Resignation."No.");
+        EmailMgt.SendResignEmailFromTemplate(Resignation.Type, Resignation."Approval Status", Resignation."Employee No.", Resignation."No.", Resignation);
         Message(ApprovalRequestSent);
         exit(true);
     end;
 
-    procedure CancelResignationApproval(var Resignation: Record "Resignation")
-    var
-        ConfirmCancel: Label 'Do you want to confirm cancel resignation request?';
+    procedure CheckAlreadyExitRetirementRequest(Resignation: Record Resignation)
     begin
-        Resignation.TestField("Approval Status", Resignation."Approval Status"::"Pending");
-        if not Confirm(ConfirmCancel, false) then
-            exit;
-        //Resignation.Validate("Approval Status", Resignation."Approval Status"::Cancelled);
-        Resignation.Modify(true);
+        Resignation.Reset;
+        Resignation.SetRange("Employee No.", Resignation."Employee No.");
+        Resignation.SetRange(Type, Resignation.Type::Resignation);
+        Resignation.SetFilter("Approval Status", '<>%1&<>%2&<>%3', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected, Resignation."Approval Status"::Open);
+        if Resignation.Findfirst then
+            Error('%1 Already has %2 Resignation Request No %3', Resignation."Employee Name", Resignation."Approval Status", Resignation."No.");
     end;
 
-    procedure InsertResignationApprover(var Resignation: Record "Resignation")
+    procedure InsertResignationApprover(EmployeeNo: Code[20];
+                                EmpActNo: Code[20];
+                                EmpActType: enum "Employee Activity Type")
     var
+        ResignDocApproverSetup: Record "Resign Doc Approver Setup";
+        EmpRequest, EmployeeApprover : Record Employee;
         ResignationApprover: Record "Document Approver";
-        Employee: Record Employee;
-    // EmpFieldRef: FieldRef;
-    // EmpRecordRef: RecordRef;
+        Count, ApproverSequence : Integer;
     begin
-        Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
-        Employee.Reset;
-        Employee.SetRange("Resignation Approver", true);
-        if Employee.FindFirst then
+        EmpRequest.Get(EmployeeNo);
+        Count := 0;
+        ResignDocApproverSetup.Reset();
+        ResignDocApproverSetup.SetRange("Emp Act Type", EmpActType);
+        // ResignDocApproverSetup.SetRange("Deputation Type", EmpRequest."Deputation on");
+        ResignDocApproverSetup.SetCurrentKey("Approver Sequence");
+        ResignDocApproverSetup.SetAscending("Approver Sequence", true);
+        if ResignDocApproverSetup.FindFirst() then
             repeat
-                ResignationApprover.Reset;
-                ResignationApprover.SetRange("Document No.", Resignation."No.");
-                ResignationApprover.SetRange("Employee No.", Employee."No.");
-                //ResignationApprover.SetRange("Approver Type", ResignationApprover."Approver Type"::"Finance & Accounts");
-                if not ResignationApprover.FindFirst then begin
+                EmployeeApprover.Reset();
+                EmployeeApprover.SetRange(Status, EmployeeApprover.Status::Active);
+                if ResignDocApproverSetup."Employee No" <> '' then
+                    EmployeeApprover.SetRange("No.", ResignDocApproverSetup."Employee No")
+                else begin
+                    if ResignDocApproverSetup."Same Deputation Approver" then begin
+                        EmployeeApprover.SetRange("Deputation on", EmpRequest."Deputation On");
+                        EmployeeApprover.SetRange("Deputation On Code", EmpRequest."Deputation On Code");
+                    end else begin
+                        EmployeeApprover.SetRange("Deputation on", ResignDocApproverSetup."Approver Deputation Type");
+                        EmployeeApprover.SetRange("Deputation On Code", ResignDocApproverSetup."Approver Deputation Code");
+                    end;
+                    if ResignDocApproverSetup."Approver Role" <> '' then
+                        EmployeeApprover.SetRange("Approver Role", ResignDocApproverSetup."Approver Role");
+                    if ResignDocApproverSetup."Functional Title" <> '' then
+                        EmployeeApprover.SetRange("Functional Title", ResignDocApproverSetup."Functional Title");
+                end;
+                if EmployeeApprover.Findfirst then begin
+                    if ApproverSequence <> ResignDocApproverSetup."Approver Sequence" then begin
+                        ApproverSequence := ResignDocApproverSetup."Approver Sequence";
+                        Count := Count + 1;
+                    end;
                     ResignationApprover.Init;
                     ResignationApprover."Document Type" := ResignationApprover."Document Type"::Resignation;
-                    ResignationApprover."Document No." := Resignation."No.";
-                    ResignationApprover.Validate("Employee No.", Employee."No.");
-                    ResignationApprover."Approval Status" := ResignationApprover."Approval Status"::Open;
-                    ResignationApprover.Validate("Functional Title", Employee."Functional Title");
+                    ResignationApprover."Document No." := EmpActNo;
+                    ResignationApprover.Validate("Employee No.", EmployeeApprover."No.");
+                    ResignationApprover.Validate("Deputation Type", EmployeeApprover."Deputation on");
+                    ResignationApprover.Validate("Deputation Code", EmployeeApprover."Deputation On Code");
+                    ResignationApprover.Validate("Approver Role", ResignDocApproverSetup."Approver Role");
+                    ResignationApprover.Validate("Approver Sequence", Count);
                     ResignationApprover.Insert(true);
                 end;
-            until Employee.Next = 0;
+            until ResignDocApproverSetup.Next() = 0
+        else
+            Error('Approval Setup not found');
     end;
 
-    procedure ScreenResignation(var Resignation: Record Resignation)
+    procedure resignClearanceAttachmentImport(var DocumentApprover: Record "Document Approver"; textBase64: text; extension: text)
     var
-        ConfirmScreen: Label 'Do you want to screen this document?';
+        InStr: InStream;
+        outStream: OutStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+        CleanedFileName: text;
+
     begin
-        //check authorized user
-        if not HrMgt.IsSaaS() then
-            Employee.Get(HrMgt.GetEmployeeNo());
-        if Resignation.Type = Resignation.Type::Resignation then begin
-            // if not Employee.Screener then           //resignation approver replaced with screener
-            //     Error('Not authorized screener.');
-            // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
-            //  EmpAct.TestField("Screener Remarks");
-            HrMgt.CheckDocumentApprover(Resignation."No.");
-            CheckResignationAttachmentMandatory(Resignation);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-            // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
-            Resignation.Modify;
-        end
-        else if Resignation.Type = Resignation.Type::"Travel Claim" then begin
-            /*HRSetup.GET;
-            Employee.Reset();
-            Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-            Employee.SetRange("NAV Login ID", USERID);
-            IF NOT Employee.FindFirst() THEN
-                ERROR('Not authorized screener.');*///AT
-            if not (Resignation."Approval Status" = Resignation."Approval Status"::Approved) then
-                Error('Approval Status must be approved before screening.');
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-            // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
-            Resignation.Modify;
-        end else if Resignation.Type = Resignation.Type::Overtime then begin
-            Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-            // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
-            Resignation.Modify;
-        end;
+        CleanedFileName := DocumentApprover."Document No." + '_' + Format(DocumentApprover."Line No.") + '.' + extension;
+        TempBlob.CreateOutStream(outStream);
+        base64.FromBase64(textBase64, Outstream);
+        TempBlob.CreateInStream(InStr);
+        AttachmentMgt.CheckAttachmentSizeLimit(InStr, Format(DocumentApprover."Document Type"::Resignation));
+        AttachmentMgt.checkAttachmentExtensionImage(Extension);
+        Clear(DocumentApprover.Attachment);
+        DocumentApprover.Attachment.ImportStream(InStr, CleanedFileName);
+        DocumentApprover.Modify(true);
     end;
 
-    procedure ForwardToHRForResignation(var Resignation: Record "Resignation")
-    var
-        ConfirmScreen: Label 'Do you want to confirm screen this document?';
-    begin
-        //check authorized user
-        if not HrMgt.IsSaaS() then// garima
-            Employee.Get(HrMgt.GetEmployeeNo());
-        if not (Employee."No." = Resignation."Employee No.") then
-            Error('Only employee %1 can forward this document to HR.', Resignation."Employee Name");
-        HrMgt.CheckDocumentApprover(Resignation."No.");
-        CheckResignationAttachmentMandatory(Resignation);
-        if GuiAllowed then
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-        // Resignation.Validate("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
-        Resignation.Modify;
-    end;
+    // procedure ForwardToHRForResignation(var Resignation: Record "Resignation")
+    // var
+    //     ConfirmScreen: Label 'Do you want to confirm screen this document?';
+    // begin
+    //     //check authorized user
+    //     if not HrMgt.IsSaaS() then// garima
+    //         Employee.Get(HrMgt.GetEmployeeNo());
+    //     if not (Employee."No." = Resignation."Employee No.") then
+    //         Error('Only employee %1 can forward this document to HR.', Resignation."Employee Name");
+    //     CheckDocumentApprover(Resignation."No.");
+    //     CheckResignationAttachmentMandatory(Resignation);
+    //     if GuiAllowed then
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
+    //     // Resignation.Validate("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
+    //     Resignation.Modify;
+    // end;
 
     procedure UpdateResignationWaiver(var Resignation: Record "Resignation")
     var
@@ -201,7 +180,7 @@ codeunit 50006 "Resignation Mgt"
         end;
         if Resignation."Requested Date" = 0D then
             Resignation."Requested Date" := Today;
-        if (Resignation."Proposed Date of Resignation" - Resignation."Requested Date" + 1) >= ResignationDays then
+        if (Resignation."Requested Last Working Day" - Resignation."Requested Date" + 1) >= ResignationDays then
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Normal)
         else
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Recovery);
@@ -226,51 +205,53 @@ codeunit 50006 "Resignation Mgt"
             until IncomingDocument.Next = 0;
     end;
 
-    procedure UpdateResign(EmpCode: Code[20])
-    var
-        ResignPageBuilder: FilterPageBuilder;
-        ResignDate: Date;
-    begin
-        Employee1.Get(EmpCode);
-        if Employee1.Status <> Employee1.Status::Active then
-            Error('Employee %1 status must be active', Employee1."Full Name");
-        ResignPageBuilder.AddRecord('Update to Employee Resignation', Employee);
-        ResignPageBuilder.ADdField('Update to Employee Resignation', Employee."Termination Date");
-        ResignPageBuilder.RunModal;
-        Employee.SetView(ResignPageBuilder.GetView('Update to Employee Resignation'));
-        Evaluate(ResignDate, Employee.GetFilter("Termination Date"));
-        Employee1.Status := Employee1.Status::Inactive;
-        Employee1."Termination Date" := ResignDate;
-        Employee1."Resignation Date" := ResignDate;
-        Employee1.Modify;
-        Message('Employee has been terminated.');
-    end;
-
-    procedure ReturnResignation(Resignation: Record "Resignation")
-    begin
-        // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
-        if Confirm('Do you want to return resignation?', false) then begin
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Open);
-            Resignation.Modify;
-            Message('Resignation Returned.');
-        end;
-    end;
-
     procedure ApproveResignation(resignationCode: Code[100])
     var
         Resignation: Record Resignation;
         ServiceEvent: Enum "Service Event";
     begin
         Resignation.Get(resignationCode);
-        InsertResignationApprover(Resignation); //resignation clearance approver
+        HRSetup.Get();
+        Resignation.TestField("Approved Last Working Day");
+        if not HRSetup."Hide Clearance Approver" then
+            InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
-        ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
+        ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."Approved Last Working Day");
+    end;
+
+    procedure InsertResignAttachmentLetter(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])
+    var
+        IncomingDocument: Record "Incoming Document";
+        AttachmentMandatory: Record "Attachment Setup";
+    begin
+        AttachmentMandatory.Reset;
+        AttachmentMandatory.Setfilter("Type", Format(AttachmentMandatory.Type::Resignation));
+        AttachmentMandatory.SetRange("Sub Type", AttachmentMandatory."Sub Type"::"Resign Letter");
+        if AttachmentMandatory.FindFirst then
+            repeat
+                IncomingDocument.Reset;
+                IncomingDocument.SetRange("No.", DocumentNo);
+                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+                if not IncomingDocument.FindFirst then begin
+                    IncomingDocument.Reset;
+                    IncomingDocument.Init;
+                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+                    IncomingDocument."No." := DocumentNo;
+                    IncomingDocument."Sub Type" := AttachmentMandatory."Sub Type";
+                    IncomingDocument."Employee Activity Type" := employeeAct;
+                    IncomingDocument."Employee Code" := employeeNo;
+                    IncomingDocument.Insert(true);
+                end;
+            until AttachmentMandatory.Next = 0;
     end;
 
     var
         Employee: Record Employee;
-        Employee1: Record Employee;
         HRSetup: Record "Human Resources Setup";
         HrMgt: Codeunit "HR Mgt.";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
+        EmailMgt: Codeunit "Email Mgt";
+        ApproverMgt: Codeunit "Approver Mgt";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 }

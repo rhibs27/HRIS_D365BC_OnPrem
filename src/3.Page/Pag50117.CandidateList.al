@@ -322,7 +322,7 @@ page 50117 "Candidate List"
                                     /*SendOfferLetter.ForOfferLetter;
                                     SendOfferLetter.SETTABLEVIEW(Candidate);
                                     SendOfferLetter.RUN;*/
-                                    HRMgt.SendEmailOfferLetter(Rec."No.", Candidate);
+                                    EmailMgt.SendEmailOfferLetter(Rec."No.", Candidate);
                                     Candidate.Validate(Status, Candidate.Status::"Offer Letter Sent");
                                     Candidate.Modify;
                                 until Candidate.Next = 0;
@@ -354,7 +354,7 @@ page 50117 "Candidate List"
                                     /*SendOfferLetter.ForOfferLetter;
                                     SendOfferLetter.SETTABLEVIEW(Candidate);
                                     SendOfferLetter.RUN;*/
-                                    HRMgt.SendOfferLetter(Rec."No.", Candidate);
+                                    EmailMgt.SendOfferLetter(Rec."No.", Candidate);
                                     Candidate.Validate(Status, Candidate.Status::"Offer Letter Sent");
                                     Candidate.Modify;
                                 until Candidate.Next = 0;
@@ -386,7 +386,7 @@ page 50117 "Candidate List"
                                     /*SendOfferLetter.ForOfferLetter;
                                     SendOfferLetter.SETTABLEVIEW(Candidate);
                                     SendOfferLetter.RUN;*/
-                                    HRMgt.SendAppointmentLetter(Rec."No.", Candidate);
+                                    EmailMgt.SendAppointmentLetter(Rec."No.", Candidate);
                                     Candidate.Validate(Status, Candidate.Status::"Appointment Letter Sent");
                                     Candidate.Modify;
                                 until Candidate.Next = 0;
@@ -512,5 +512,6 @@ page 50117 "Candidate List"
         Candidate: Record Candidate;
         Vacancy: Record "Vacancy Header";
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         EvaluationEntry: Record "Evaluation Entry";
 }

@@ -161,7 +161,7 @@ page 50144 "Final Selected Candidates list"
                     CurrPage.SetSelectionFilter(Candidate);
                     if Candidate.FindFirst then
                         repeat
-                            HRMgt.SendOfferLetter(Rec."Vacancy Code", Candidate);
+                            EmailMgt.SendOfferLetter(Rec."Vacancy Code", Candidate);
                         until Candidate.Next = 0;
                 end;
             }
@@ -170,4 +170,5 @@ page 50144 "Final Selected Candidates list"
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
 }

@@ -110,7 +110,7 @@ table 50161 "Assignment Memo Header"
             begin
                 if Employee.Get("Employee No.") then begin
                     SalaryLevel.Get(Employee."Salary Level");
-                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                         if "Fuel Limit (ltr)" = 0 then
                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -167,7 +167,7 @@ table 50161 "Assignment Memo Header"
 
                         if Employee.Get("Employee No.") then begin
                             SalaryLevel.Get(Employee."Salary Level");
-                            if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                            if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                                 "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                                 if "Fuel Limit (ltr)" = 0 then
                                     "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -191,7 +191,7 @@ table 50161 "Assignment Memo Header"
 
                                 if Employee.Get("Employee No.") then begin
                                     SalaryLevel.Get(Employee."Salary Level");
-                                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                                         if "Fuel Limit (ltr)" = 0 then
                                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -251,10 +251,10 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
                 PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
                 if PayCyclePeriod.FindFirst() then begin
-                    if not GuiAllowed then
-                        Employee.Get(HrMgt.GetEmployeeNo())
+                    if not GuiAllowed and HrMgt.IsSaaS() then
+                        Employee.Get("Employee No.")
                     else
-                        Employee.Get("Employee No.");
+                        Employee.Get(HrMgt.GetEmployeeNo());
                     IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
                         "From Date" := Employee."Employment Date"
                     else
@@ -320,21 +320,44 @@ table 50161 "Assignment Memo Header"
     trigger OnDelete()
     var
         CannotDelete: Label 'Cannot delete document.';
+        LeaveEarn: Record "Leave Earn";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
         else begin
+            LeaveEarn.SetCurrentKey("Claimed Document No.");
+            LeaveEarn.SetRange("Claimed Document No.", Rec."No.");
+            if LeaveEarn.FindSet() then
+                repeat
+                    LeaveEarn."Claimed Document No." := '';
+                    LeaveEarn.Claimed := false;
+                    LeaveEarn.Modify();
+                until LeaveEarn.Next() = 0;
             AssignmentMemoLine.Reset;
-            AssignmentMemoLine.SetRange("Document No.", "No.");
+            AssignmentMemoLine.SetRange("Document No.", Rec."No.");
             AssignmentMemoLine.DeleteAll(true);
 
             AssignmentmemoLineCopy.Reset;
-            AssignmentmemoLineCopy.SetRange("Document No.", "No.");
+            AssignmentmemoLineCopy.SetRange("Document No.", Rec."No.");
             AssignmentmemoLineCopy.DeleteAll(true);
 
             ApprovalHrms.Reset;
-            ApprovalHrms.SetRange("Document No.", "No.");
+            ApprovalHrms.SetRange("Document No.", Rec."No.");
             ApprovalHrms.DeleteAll(true);
+
+            //Delete Incoming and Attachment documents for particular deleted document.
+            IncomingDocument.Reset();
+            IncomingDocument.SetRange("No.", Rec."No.");
+            if IncomingDocument.FindSet() then
+                repeat
+                    IncomingDocumentAttachment.Reset();
+                    IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+                    if IncomingDocumentAttachment.FindFirst() then
+                        IncomingDocumentAttachment.Delete(true);
+
+                    IncomingDocument.Delete(true);
+
+                Until IncomingDocument.Next() = 0;
         end;
     end;
 
@@ -403,6 +426,8 @@ table 50161 "Assignment Memo Header"
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PGSetup: Record "Payroll General Setup";
         AssignmentmemoLineCopy: Record "Assignment Memo Line Copy";
+        IncomingDocument: Record "Incoming Document";
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
 
     procedure AutoInsertDatesForRequestAllowance()
     var
@@ -423,7 +448,7 @@ table 50161 "Assignment Memo Header"
     procedure InsertDocumentAttachment(EmpActType: Enum "Employee Activity Type"; DocumentNo: Code[20];
                                                        EmployeeNo: Code[50])
     var
-        IncDocAttachment: Record "Incoming Document";
+        IncDocAttachment, IncDocAttachment1 : Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
         PayrollAttributes: Record "Payroll Attributes";
@@ -443,6 +468,10 @@ table 50161 "Assignment Memo Header"
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
                 PayrollAttributes."Specific Attributes"::"OutStation Allowance":
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+                PayrollAttributes."Specific Attributes"::"Maternity/Paternity Allowance":
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Maternity/Paternity Allowance");
+                PayrollAttributes."Specific Attributes"::"Funeral Allowance":
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Funeral Allowance")
                 else
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
             end;
@@ -453,20 +482,22 @@ table 50161 "Assignment Memo Header"
             else
                 if EmpActType = EmpActType::"Allowance Assignment Memo" then
                     AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Allowance Assignment Memo");
-
         if AttachmentSetup.FindSet() then
             repeat
-                IncDocAttachment.Init();
-                IncDocAttachment."Entry No." := GetNextEntrNo;
-                IncDocAttachment."No." := DocumentNo;
-                IncDocAttachment."Document No." := DocumentNo;
-                IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
-                IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
-                if EmpActType = EmpActType::"Request Allowance" then
-                    IncDocAttachment.Validate("Employee Code", EmployeeNo);
-                IncDocAttachment.Validate("Employee Activity Type", EmpActType);
-                IncDocAttachment.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                IncDocAttachment.Insert(true);
+                IncDocAttachment1.SetRange("Document No.", DocumentNo);
+                IncDocAttachment1.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                if IncDocAttachment1.IsEmpty then begin
+                    IncDocAttachment.Init();
+                    IncDocAttachment."Entry No." := GetNextEntrNo;
+                    IncDocAttachment."No." := DocumentNo;
+                    IncDocAttachment."Document No." := DocumentNo;
+                    IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
+                    if EmpActType = EmpActType::"Request Allowance" then
+                        IncDocAttachment.Validate("Employee Code", EmployeeNo);
+                    IncDocAttachment.Validate("Employee Activity Type", EmpActType);
+                    IncDocAttachment.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                    IncDocAttachment.Insert(true);
+                end;
             until AttachmentSetup.Next() = 0;
     end;
 

@@ -44,7 +44,7 @@ codeunit 50007 "Insurance Mgt"
         IncomingDoc.Reset();
         IncomingDoc.SetRange("No.", medicalInsuranceClaim."No.");
         if IncomingDoc.Findset() then begin
-            if incomingDoc."File Name" = '' then      //attachment mandatory for leave
+            if incomingDoc."File Name" = '' then
                 Error('Attachment must be uploaded');
         end;
         if GuiAllowed then begin
@@ -122,8 +122,57 @@ codeunit 50007 "Insurance Mgt"
         end;
     end;
 
+    procedure CheckInsuranceAttachment(InsuranceNo: Code[20]; EmpNo: Code[20])
+    var
+        IncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+        IsHandled: Boolean;
+    begin
+        OnBeforeCheckInsuranceAttachment(InsuranceNo, IsHandled);
+        if IsHandled then
+            exit;
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.Find('-') then
+            repeat
+                IncomingDoc.Reset;
+                IncomingDoc.SetRange("No.", InsuranceNo);
+                IncomingDoc.SetRange("Employee Code", EmpNo);
+                IncomingDoc.SetRange("File Name", '');
+                if IncomingDoc.FindFirst then
+                    Error('Please upload mandatory attachments.');
+            until AttachmentSetup.Next = 0;
+    end;
+
+    procedure GenerateAttachmentLine(InsuranceNo: Code[20]; EmployeeNo: Code[20])
+    begin
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
+        if AttachmentSetup.Find('-') then
+            repeat
+                IncomingDoc.Init;
+                IncomingDoc.Validate("No.", InsuranceNo);
+                IncomingDoc.Validate("Table ID", Database::"Employee Insurance Information");
+                IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                IncomingDoc.Validate("Employee Code", EmployeeNo);
+                IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::Insurance);
+                IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
+                IncomingDoc.Insert;
+            until AttachmentSetup.Next = 0;
+    end;
+
+
     var
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDoc: Record "Incoming Document";
+
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckInsuranceAttachment(InsuranceNo: Code[20]; var IsHandled: Boolean)
+    begin
+    end;
 }

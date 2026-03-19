@@ -10,6 +10,7 @@ codeunit 50002 "Loan Mgt."
         SalaryGrade: Record "Salary Grade";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         EmpSalaryAdv: Record "Employee Loan/Advance";
         LoanInterest: Record "Employee Loan Interest";
         InsurancePolicy: Record "Insurance Premium Setup";
@@ -809,7 +810,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoan.Modify();
             Message(APPROVALCANCELLED);
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee No.", Format(EmpLoan."No."), false);
+        EmailMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", EmpLoan.type::Loan, EmpLoan."Approval Status", EmpLoan."Employee No.", Format(EmpLoan."No."), false);
     end;
 
     procedure VerifyLoan(var EmpLoan: Record "Employee Loan/Advance")
@@ -1762,24 +1763,6 @@ codeunit 50002 "Loan Mgt."
     //         end;
     //     end;
     // end;
-    procedure CheckInsuranceAttachment(InsuranceNo: Code[20]; EmpNo: Code[20])
-    var
-        IncomingDoc: Record "Incoming Document";
-        AttachmentSetup: Record "Attachment Setup";
-    begin
-        AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
-        AttachmentSetup.SetRange(Mandatory, true);
-        if AttachmentSetup.Find('-') then
-            repeat
-                IncomingDoc.Reset;
-                IncomingDoc.SetRange("No.", InsuranceNo);
-                IncomingDoc.SetRange("Employee Code", EmpNo);
-                IncomingDoc.SetRange("File Name", '');
-                if IncomingDoc.FindFirst then
-                    Error('Please upload mandatory attachments.');
-            until AttachmentSetup.Next = 0;
-    end;
 
     local procedure "----Json API----"()
     begin

@@ -99,17 +99,39 @@ report 50054 "Payroll Payslip"
                     column(PayCyclePeriod; "Pay Cycle Period") { }
                     column(PaymentAmount; NetPayAmount) { }
                     column(PaymentAmountInWords; TotalAmountText[1] + ' ' + TotalAmountText[2]) { }
-                    dataitem(Benefits; "Detailed Employee Ledger Entry")
+                    //TAXABLE
+                    dataitem(TaxableBenefits; "Detailed Employee Ledger Entry")
                     {
                         DataItemLink = "Entry No." = field("Entry No.");
                         DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter("Basic Earning" | "Other Earnings"), "Attribute Sub Type" = filter(<> "Tax on Interest"));
-                        column(Benefits_PayrollAttributeCode; AttributeDescription) { }
-                        column(Benefits_Amount; Amount) { }
+
+                        column(Taxable_Description; AttributeDescription) { }
+                        column(Taxable_Amount; Amount) { }
+
                         trigger OnAfterGetRecord()
                         begin
                             AttributeDescription := '';
                             if PayrollAttributes.Get("Payroll Attribute Code") then
-                                AttributeDescription := PayrollAttributes.Description;
+                                if not PayrollAttributes."Non-Taxable" then
+                                    AttributeDescription := PayrollAttributes.Description;
+                        end;
+                    }
+
+                    //NON-TAXABLE
+                    dataitem(NonTaxableBenefits; "Detailed Employee Ledger Entry")
+                    {
+                        DataItemLink = "Entry No." = field("Entry No.");
+                        DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter("Basic Earning" | "Other Earnings"), "Attribute Sub Type" = filter(<> "Tax on Interest"));
+
+                        column(NonTaxable_Description; AttributeDescription) { }
+                        column(NonTaxable_Amount; Amount) { }
+
+                        trigger OnAfterGetRecord()
+                        begin
+                            AttributeDescription := '';
+                            if PayrollAttributes.Get("Payroll Attribute Code") then
+                                if PayrollAttributes."Non-Taxable" then
+                                    AttributeDescription := PayrollAttributes.Description;
                         end;
                     }
                     dataitem(Deductions; "Detailed Employee Ledger Entry")

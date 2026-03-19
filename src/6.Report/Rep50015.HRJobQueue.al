@@ -34,6 +34,7 @@ report 50015 "HR Job Queue"
     var
         TrainHeader: Record "Training Header";
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         EmailTemplate: Record "Email Template";
         IsToSendMailTrain: Boolean;
 
@@ -44,7 +45,7 @@ report 50015 "HR Job Queue"
         TrainHeader.SetRange("Approval Status", TrainHeader."Approval Status"::Released);
         if TrainHeader.Find('-') then
             repeat
-                HRMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, TrainHeader."Prepared By", TrainHeader."No.", false);
+                EmailMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, TrainHeader."Prepared By", TrainHeader."No.", false);
             until TrainHeader.Next = 0;
     end;
 }

@@ -9,7 +9,7 @@ report 50023 "Employee Master"
     {
         dataitem(Employee; Employee)
         {
-            RequestFilterFields = "No.", "Employment Type", "Province Code", "Branch Code", "Department Code", "Salary Level";
+            RequestFilterFields = "No.", "Employment Type", "Province Code", "Branch Code", "Department Code", "Salary Level", Status;
             column(FilterApplied; FilterApplied) { }
             column(No; "No.") { }
             column(FullName; "Full Name") { }
@@ -150,7 +150,8 @@ report 50023 "Employee Master"
             begin
                 if EmploymentTypeFilter <> EmploymentTypeFilter::" " then
                     Employee.SetRange("Employment Type", EmploymentTypeFilter);
-                Employee.SetRange("Status", EmployeeStatusFilter); // Default to Active if not passed
+                if not GuiAllowed then
+                    Employee.SetRange("Status", EmployeeStatusFilter); // Default to Active if not passed
                 if BranchCodeFilter <> '' then
                     Employee.SetRange("Branch Code", BranchCodeFilter);
                 if EmployeeFulter <> '' then
@@ -166,7 +167,6 @@ report 50023 "Employee Master"
         {
             area(Content)
             {
-                group(GroupName) { }
             }
         }
         actions

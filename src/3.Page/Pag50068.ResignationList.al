@@ -7,10 +7,9 @@ page 50068 "Resignation List"
     ModifyAllowed = false;
     PageType = List;
     SourceTable = "Resignation";
-    SourceTableView = WHERE(Type = CONST(Resignation));
+    SourceTableView = WHERE(Type = filter("Employee Activity Type"::Resignation));
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -37,14 +36,14 @@ page 50068 "Resignation List"
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
-                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
+                field("Deputation On"; Rec."Deputation On")
                 {
                     ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                     ApplicationArea = All;
                 }
-                field(Department; Rec.Department)
+                field("Approved Last Working Day"; Rec."Approved Last Working Day")
                 {
-                    ToolTip = 'Specifies the value of the Department field.';
+                    ToolTip = 'Specifies the value of the HR Proposed Date field.';
                     ApplicationArea = All;
                 }
                 field("Functional Title"; Rec."Functional Title")
@@ -52,16 +51,6 @@ page 50068 "Resignation List"
                     ToolTip = 'Specifies the value of the Functional Title field.';
                     ApplicationArea = All;
                 }
-                // field("Recommender Code"; Rec."Recommender Code")
-                // {
-                //     ToolTip = 'Specifies the value of the Recommender Code field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Approver Code"; Rec."Approver Code")
-                // {
-                //     ToolTip = 'Specifies the value of the Approver Code field.';
-                //     ApplicationArea = All;
-                // }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -107,40 +96,6 @@ page 50068 "Resignation List"
                     Rec.FilterGroup(0);
                 end;
             }
-            action(Verified)
-            {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Verified action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    // ClearAll();
-                    // Rec.FilterGroup(2);
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    // Rec.FilterGroup(0);
-                end;
-            }
-            action(Recommended)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Recommended action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    // ClearAll();
-                    // Rec.FilterGroup(2);
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-                    // Rec.SetRange("Approver Code", HRMgt.GetEmployeeNo());
-                    // Rec.FilterGroup(0);
-                end;
-            }
             action(Approved)
             {
                 Image = Approve;
@@ -171,6 +126,21 @@ page 50068 "Resignation List"
                 begin
                     ClearAll();
                     Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
+                end;
+            }
+            action("Clear Filter")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                Image = ClearFilter;
+                ToolTip = 'Executes the Clear filter action.';
+                trigger OnAction()
+                begin
+                    Rec.FilterGroup(2);
+                    rec.SetRange("Approval Status");
+                    Rec.FilterGroup(0);
                 end;
             }
         }
