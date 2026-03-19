@@ -58823,6 +58823,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Branch Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 4175794102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Candidate No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Candidate No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2400310955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>CIF ID</source>
           <note from="Developer" annotates="general" priority="2"></note>

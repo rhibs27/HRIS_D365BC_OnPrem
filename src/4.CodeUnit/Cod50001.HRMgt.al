@@ -4245,6 +4245,7 @@ codeunit 50001 "HR Mgt."
         PGSetup: Record "Payroll General Setup";
         ImportPayrollAttrReport: Report "Import Payroll Attributes";
         PayrollOpening: Record "Employee Payroll Opening";
+        IsHandled: Boolean;
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
@@ -4270,10 +4271,15 @@ codeunit 50001 "HR Mgt."
         PayCyclePeriod.SetRange(Posted, false);
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
-        Clear(ImportPayrollAttrReport);
-        ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
-        ImportPayrollAttrReport.UseRequestPage(false);
-        ImportPayrollAttrReport.Run();
+
+        OnBeforeInsertOfPayrollAttributeUsage(EmpCode, IsHandled);
+        if not IsHandled then begin
+            Clear(ImportPayrollAttrReport);
+            ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
+            ImportPayrollAttrReport.UseRequestPage(false);
+            ImportPayrollAttrReport.Run();
+        end;
+
         PayrollReportMgt.GetPayrollAttributes(Employee);
         EmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
         EmployeeLedgerEntries.SetRange("Employee No.", EmpCode);
@@ -5844,5 +5850,11 @@ codeunit 50001 "HR Mgt."
     local procedure OnBeforeCheckFiscalYearControl(IncomingDate: Date; var IsHandled: Boolean);
     begin
         //Can be Used to skp Fiscal year control on request
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeInsertOfPayrollAttributeUsage(EmployeeNo: Code[20]; var IsHandled: Boolean);
+    begin
+        //To make specific checks before inserting Attributes in Attribute Usage.
     end;
 }

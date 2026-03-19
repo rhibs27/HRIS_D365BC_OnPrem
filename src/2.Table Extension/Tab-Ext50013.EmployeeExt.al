@@ -1652,6 +1652,7 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         LeaveMgt.OpenLeaveRequest("No.");
     end;
+
     procedure TravelRequest();
     var
         EmployeeAct: enum "Employee Activity Type";
