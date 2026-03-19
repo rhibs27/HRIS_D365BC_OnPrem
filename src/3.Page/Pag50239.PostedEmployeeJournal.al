@@ -315,11 +315,8 @@ page 50239 "Posted Employee Journal"
     {
         area(Processing)
         {
-            action("Cancel journal")
+            action("Cancel Journal")
             {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 Image = Reject;
                 trigger OnAction()
                 var
@@ -327,14 +324,29 @@ page 50239 "Posted Employee Journal"
                     ApproverMgt: Codeunit "Approver Mgt";
                     HrMgt: Codeunit "HR Mgt.";
                 begin
-                    if Confirm('Do you want to Cancel %1 ,%2 Journal?', false, Rec."Document No", Rec."Employee Act Type") then
-                        if ApproverMgt.HRApprover(HrMgt.GetEmployeeNo()) then
-                            case Rec."Employee Act Type" of
-                                rec."Employee Act Type"::"Attendance Missed":
-                                    AttendanceMissedMgt.CancelAttendanceMissedJournal(Rec);
+                    if not Confirm('Do you want to cancel %1, %2 Journal?', false, Rec."Document No", Rec."Employee Act Type") then
+                        exit;
+                    if not ApproverMgt.HRApprover(HrMgt.GetEmployeeNo()) then begin
+                        Message('You do not have permission to cancel this journal.');
+                        exit;
+                    end;
+                    case Rec."Employee Act Type" of
+                        Rec."Employee Act Type"::"Attendance Missed":
+                            begin
+                                AttendanceMissedMgt.CancelAttendanceMissedJournal(Rec);
+                                CurrPage.Update(false);
+                                Message('Journal cancelled successfully.');
                             end;
+                        else
+                            Error('Cancellation is not supported for type: %1', Rec."Employee Act Type");
+                    end;
                 end;
             }
+        }
+
+        area(Promoted)
+        {
+            actionref(CancelJournal_Promoted; "Cancel Journal") { }
         }
     }
 }

@@ -387,11 +387,14 @@ codeunit 50016 "AttendanceMiss Mgt"
         CancelDocument: Record "Cancel Document";
         ServiceInactivity: Record "Service Inactivity Ledger";
         EmpVar: Record Employee;
+        AttendanceMissed: Record "Attendance Missed";
     begin
         CancelDocument.Get(CancelAttendanceMissedCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Attendance Missed");
         CancelledAttendanceMissed(CancelDocument."Cancelled Document No.");
         CancelledAttendanceLogs(CancelDocument."Cancelled Document No.");
+        if AttendanceMissed.Get(CancelDocument."Cancelled Document No.") then
+            AttendanceMgt.DailyAttendanceUpdate(AttendanceMissed."Start Date", AttendanceMissed."Start Date", AttendanceMissed."Employee No.");
     end;
 
     [IntegrationEvent(false, false)]
