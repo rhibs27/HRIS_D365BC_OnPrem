@@ -40,6 +40,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AssignmentMemoLine: Record "Assignment Memo Line";
         SkipAssignmentLedgerCreation: Boolean;
+        LeaveEarn: Record "Leave Earn";
     begin
         if not AssignmentMemoHdr.Get(docNo) then
             Error('Assignment %1 not found.', docNo);
@@ -62,6 +63,16 @@ codeunit 50030 "Assignment Memo Mgt"
                     //clear ledger entry if any
                     ClearAssignmentMemoLedgerDataOnLineReject(AssignmentMemoLine."Assign Memo Ledger Entry No.");
                 until AssignmentMemoLine.Next() = 0;
+
+            //Clear Leave Earn if claimed as Leave
+            LeaveEarn.SetCurrentKey("Claimed Document No.");
+            LeaveEarn.SetRange("Claimed Document No.", docNo);
+            LeaveEarn.SetRange(Claimed, true);
+            if LeaveEarn.FindFirst() then begin
+                Clear(LeaveEarn."Claimed Document No.");
+                Clear(LeaveEarn.Claimed);
+                LeaveEarn.Modify();
+            end;
         end;
 
         //approved
@@ -803,9 +814,12 @@ codeunit 50030 "Assignment Memo Mgt"
                     Clear(AssignmentMemoLine);
                     AssignmentMemoLine.Init();
                     AssignmentMemoLine.Validate("Document No.", AllowanceAssignmentHdr."No.");
-                    AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
                     AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
-                    AssignmentMemoLine.Insert(true);
+                    AssignmentMemoLine.Validate("Emp Act Type", AllowanceAssignmentHdr."Activity Type");
+                    AssignmentMemoLine.Validate("Employee No.", AllowanceAssignmentHdr."Employee No.");
+                    AssignmentMemoLine.Validate("Document Date", WorkDate());
+                    AssignmentMemoLine.Validate("Line No.", AssignmentMemoLine.GetLineNo(AllowanceAssignmentHdr."No."));
+                    AssignmentMemoLine.Insert();
                     AssignmentMemoLine.CopyFromAssignmentMemoLedgerEntry(AssignmentMemoLedgerEntry);
                     AssignmentMemoLine.Validate("Payroll Attribute Code");
                     AssignmentMemoLine.Modify();
@@ -908,6 +922,10 @@ codeunit 50030 "Assignment Memo Mgt"
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
             PayrollAttributes."Specific Attributes"::"OutStation Allowance":
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+            PayrollAttributes."Specific Attributes"::"Maternity/Paternity Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Maternity/Paternity Allowance");
+            PayrollAttributes."Specific Attributes"::"Funeral Allowance":
+                AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Funeral Allowance");
             else
                 AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
         end;
@@ -1027,7 +1045,7 @@ codeunit 50030 "Assignment Memo Mgt"
             if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler (EV)", Employee."Vehicle Type"::"Two Wheeler (EV)", Employee."Vehicle Type"::" "] then
                 Error('You are not eligible to claim Transportation Reimbursement.');
 
-            if Salarylevel.Rank >= GetAMRank() then begin
+            if (Salarylevel.Rank >= GetAMRank) and (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler") then begin
                 if GetAssignmentLineLtr(AssignmentMemoLine."Document No.") > Salarylevel."Fuel Limit (ltr)" then
                     Error('Fuel claimed exceeds the limit of allowable %1 liters.', Salarylevel."Fuel Limit (ltr)");
             end
@@ -1128,7 +1146,7 @@ codeunit 50030 "Assignment Memo Mgt"
         Employee.Get(AssignmentMemoHdr."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
 
-        if (Employee."Vehicle Type" in [Employee."Vehicle Type"::"Two Wheeler", Employee."Vehicle Type"::"Four Wheeler"])
+        if (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler")
             and (SalaryLevel.Rank >= GetAMRank()) then begin
             FuelLimit := SalaryLevel."Fuel Limit (ltr)";
             AmountLimit := 0;
@@ -1424,12 +1442,20 @@ codeunit 50030 "Assignment Memo Mgt"
 
     procedure CreateAllowanceRequestLineFromLeaveEarn(var AssignmentMemoHdr: Record "Assignment Memo Header"; var LeaveEarn: Record "Leave Earn")
     var
-        AssignmentMemoLine: Record "Assignment Memo Line";
+        AssignmentMemoLine, AssignmentMemoLineCheckLine : Record "Assignment Memo Line";
+        LineNo: Integer;
     begin
+        AssignmentMemoLineCheckLine.SetRange("Document No.", AssignmentMemoHdr."No.");
+        if AssignmentMemoLineCheckLine.FindFirst() then
+            LineNo += AssignmentMemoLineCheckLine."Line No." + 10000
+        else
+            LineNo := 10000;
+
         AssignmentMemoLine.Init();
         AssignmentMemoLine.Validate("Document No.", AssignmentMemoHdr."No.");
         AssignmentMemoLine.Validate("Emp Act Type", AssignmentMemoHdr."Activity Type");
         AssignmentMemoLine.Validate("Employee No.", AssignmentMemoHdr."Employee No.");
+        AssignmentMemoLine.Validate("Line No.", LineNo);
         AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
         AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."To date");
         AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");

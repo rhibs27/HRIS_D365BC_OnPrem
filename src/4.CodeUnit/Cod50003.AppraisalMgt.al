@@ -5,6 +5,7 @@ codeunit 50003 "AppraisalMgt."
         Employee: Record Employee;
         Colon: Label ' : ';
         Email: Codeunit Email;
+        HrMgt: Codeunit "HR Mgt.";
 
     local procedure "------Appraisal---------"()
     begin
@@ -86,6 +87,8 @@ codeunit 50003 "AppraisalMgt."
     var
         AppraisalQuestionnaireMaster: Record "Appraisal Questionnaire Master";
         EmployeeAppraisalQuestion: Record "Employee Appraisal Question";
+        ScoreDetail: Record "Score Detail";
+        ReviewerSetup: Record "Reviewer Setup";
         LineNo: Integer;
     begin
         EmployeeAppraisalQuestion.Reset();
@@ -93,23 +96,37 @@ codeunit 50003 "AppraisalMgt."
         EmployeeAppraisalQuestion.SetRange("Employee Code", AppraisalRec."Employee Code");
         if not EmployeeAppraisalQuestion.IsEmpty then
             EmployeeAppraisalQuestion.DeleteAll();
+        LineNo := 10000;
         AppraisalQuestionnaireMaster.Reset();
         AppraisalQuestionnaireMaster.SetRange("Appraisal Template", AppraisalRec."Appraisal Template");
-        if AppraisalQuestionnaireMaster.FindSet() then begin
-            LineNo := 10000;
+
+        if AppraisalQuestionnaireMaster.FindSet() then
             repeat
-                EmployeeAppraisalQuestion.Init();
-                EmployeeAppraisalQuestion."Appraisal Code" := AppraisalRec."Appraisal Code";
-                EmployeeAppraisalQuestion."Employee Code" := AppraisalRec."Employee Code";
-                EmployeeAppraisalQuestion."Employee Name" := AppraisalRec."Employee Name";
-                EmployeeAppraisalQuestion."Line No." := LineNo;
-                EmployeeAppraisalQuestion."Question" := AppraisalQuestionnaireMaster."Question";
-                EmployeeAppraisalQuestion."Question Type" := AppraisalQuestionnaireMaster."Question Type";
-                EmployeeAppraisalQuestion.Insert();
-                LineNo := LineNo + 10000;
+                ScoreDetail.Reset();
+                ScoreDetail.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+
+                if ScoreDetail.FindSet() then
+                    repeat
+                        if ReviewerSetup.Get(ScoreDetail."Reviewer Type") then begin
+                            if (not ReviewerSetup."Is Self Review") and
+                               (not ReviewerSetup."Is Group Based") then begin
+                                EmployeeAppraisalQuestion.Init();
+                                EmployeeAppraisalQuestion."Appraisal Code" := AppraisalRec."Appraisal Code";
+                                EmployeeAppraisalQuestion."Employee Code" := AppraisalRec."Employee Code";
+                                EmployeeAppraisalQuestion."Employee Name" := AppraisalRec."Employee Name";
+                                EmployeeAppraisalQuestion."Line No." := LineNo;
+                                EmployeeAppraisalQuestion."Question" := AppraisalQuestionnaireMaster."Question";
+                                EmployeeAppraisalQuestion."Question Type" := AppraisalQuestionnaireMaster."Question Type";
+                                EmployeeAppraisalQuestion."Reviewer Type" := ScoreDetail."Reviewer Type";
+                                EmployeeAppraisalQuestion."Reviewer Code" := ScoreDetail."Score/Rating By";
+                                EmployeeAppraisalQuestion.Insert();
+                                LineNo += 10000;
+                            end;
+                        end;
+                    until ScoreDetail.Next() = 0;
             until AppraisalQuestionnaireMaster.Next() = 0;
-        end;
     end;
+
 
     procedure OnValidateKRACategory(AppraisalRec: Record Appraisal)
     var
@@ -122,13 +139,33 @@ codeunit 50003 "AppraisalMgt."
         KPIEmployee.DeleteAll;
         InsertKPIReviewerType(AppraisalRec);
         InsertScoreDetail(AppraisalRec);
+        UpdateKPIReviewerCodes(AppraisalRec."Appraisal Code");
+    end;
+
+    procedure UpdateKPIReviewerCodes(AppraisalCode: Code[20])
+    var
+        KPIEmployee: Record "KPI Employee";
+        ScoreDetail: Record "Score Detail";
+    begin
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", AppraisalCode);
+        if ScoreDetail.FindSet() then
+            repeat
+                KPIEmployee.Reset();
+                KPIEmployee.SetRange("Appraisal Code", ScoreDetail."Appraisal Code");
+                KPIEmployee.SetRange("Reviewer Type", ScoreDetail."Reviewer Type");
+                if KPIEmployee.FindSet() then
+                    repeat
+                        KPIEmployee."Reviewer Code" := ScoreDetail."Score/Rating By";
+                        KPIEmployee.Modify();
+                    until KPIEmployee.Next() = 0;
+            until ScoreDetail.Next() = 0;
     end;
 
     procedure ValidateKRACategoryRules(AppraisalRec: Record Appraisal)
     var
         AppraisalTemplate: Record "Appraisal Template";
         Employee: Record Employee;
-        HRMgt: Codeunit "HR Mgt.";
         FiscalYearEndDate: Date;
         ServiceStartDate: Date;
         ServiceEndDate: Date;
@@ -443,6 +480,8 @@ codeunit 50003 "AppraisalMgt."
                                 EmployeeKPI."Group Based" := KPIMaster."Group Based";
                                 EmployeeKPI."KPI Master Remarks" := KPIMaster."KPI Master Remarks";
                                 EmployeeKPI."Reviewer Type" := ReviewerWeightageSetup."Reviewer Type";
+                                EmployeeKPI."Reviewer Code" := '';
+                                //EmployeeKPI."Reviewer Code" := GetReviewerCode(AppraisalRec, ReviewerWeightageSetup."Reviewer Type");
                                 if ReviewerSetup."Is Group Based" and KPIMaster."Group Based" then begin
                                     EmployeeKPI.Score := KPIMaster."Group Performance Based Score";
                                     EmployeeKPI."Score Total" := ((EmployeeKPI.Score / EmployeeKPI."Max Score") * 100) * (EmployeeKPI.Weightage / 100);
@@ -538,12 +577,13 @@ codeunit 50003 "AppraisalMgt."
         until ReviewerWeightageSetup.Next() = 0;
     end;
 
-    procedure CalculateFinalMarks(Appraisal: Record Appraisal)
+    procedure CalculateFinalMarks(AppraisalNo: Code[20])
     var
         ScoreDetail: Record "Score Detail";
         TotalFinalScore: Decimal;
+        Appraisal: Record Appraisal;
     begin
-        // Appraisal.Validate("Total Final Score", 0);
+        Appraisal.Get(AppraisalNo);
         if appraisal."Total Final Score" = 0 then begin
             Clear(TotalFinalScore);
             ScoreDetail.Reset();
@@ -573,5 +613,111 @@ codeunit 50003 "AppraisalMgt."
         ScoreDetail.SetRange(Submitted, false);
         if not ScoreDetail.IsEmpty() then
             Error('Cannot proceed. first Submit Score Detail');
+    end;
+#if SaasFeature
+    procedure SubmitScoreDetails(appraisalCode: Code[20]; accessToken: Code[60])//used in Portal function submitAppraisalScoreAPI
+    var
+        ScoreDetail: Record "Score Detail";
+        ReviewerNo: Code[20];
+        SaasMgt: Codeunit SaaSLoginMgmt;
+    begin
+        ReviewerNo := SaasMgt.DecryptCode(accessToken);
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", appraisalCode);
+        ScoreDetail.SetRange("Score/Rating By", ReviewerNo);
+        if ScoreDetail.FindSet() then
+            repeat
+                ScoreDetail.Submitted := true;
+                ScoreDetail."Submitted Date" := Today;
+                ScoreDetail.Modify();
+            until ScoreDetail.Next() = 0;
+    end;
+#endif
+    procedure SubmitScoreDetail(appraisalCode: Code[20])
+    var
+        ScoreDetail: Record "Score Detail";
+        ReviewerNo: Code[20];
+    begin
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", appraisalCode);
+        ScoreDetail.SetRange("Score/Rating By", HrMgt.GetEmployeeNo());
+        if ScoreDetail.FindSet() then
+            repeat
+                ScoreDetail.Submitted := true;
+                ScoreDetail."Submitted Date" := Today;
+                ScoreDetail.Modify();
+            until ScoreDetail.Next() = 0;
+    end;
+
+    procedure SubmitAllScores(ScoreDetail: Record "Score Detail")
+    var
+        ScoreDetailCheck: Record "Score Detail";
+        CurrentEmployeeNo: Code[20];
+        IsHRUser: Boolean;
+        CanSubmit: Boolean;
+        LinesSubmitted: Integer;
+        ErrorMessages: Text;
+        AppraisalCode: Code[20];
+        ReviewerType: Code[20];
+        KPIEmployee: Record "KPI Employee";
+    begin
+        AppraisalCode := ScoreDetail."Appraisal Code";
+        ReviewerType := ScoreDetail."Reviewer Type";
+        CurrentEmployeeNo := HRMgt.GetEmployeeNo();
+        IsHRUser := HRMgt.IsHRApprover(CurrentEmployeeNo);
+        CanSubmit := false;
+        ScoreDetailCheck.Reset();
+        ScoreDetailCheck.SetRange("Appraisal Code", AppraisalCode);
+        ScoreDetailCheck.SetRange("Reviewer Type", ReviewerType);
+        ScoreDetailCheck.SetRange(Submitted, false);
+        if not ScoreDetailCheck.FindSet() then begin
+            Message('All score details are already submitted.');
+            exit;
+        end;
+        if IsHRUser then begin
+            CanSubmit := true;
+        end else begin
+            CanSubmit := true;
+            ErrorMessages := '';
+            repeat
+                if ScoreDetailCheck."Score/Rating By" <> CurrentEmployeeNo then begin
+                    CanSubmit := false;
+                    if ErrorMessages <> '' then
+                        ErrorMessages += '\';
+                    ErrorMessages += StrSubstNo('Line %1: Score/Rating By (%2) does not match current user (%3)',
+                        ScoreDetailCheck."Line No.", ScoreDetailCheck."Score/Rating By", CurrentEmployeeNo);
+                end;
+            until ScoreDetailCheck.Next() = 0;
+        end;
+        if not CanSubmit then begin
+            if ErrorMessages <> '' then
+                Error(ErrorMessages)
+            else
+                Error('Cannot submit scores. You are not authorized to submit these records.');
+            exit;
+        end;
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", AppraisalCode);
+        ScoreDetail.SetRange("Reviewer Type", ReviewerType);
+        ScoreDetail.SetRange(Submitted, false);
+        LinesSubmitted := 0;
+        if ScoreDetail.FindSet() then begin
+            repeat
+                ScoreDetail.Submitted := true;
+                ScoreDetail."Submitted Date" := Today;
+                ScoreDetail.Modify();
+                LinesSubmitted += 1;
+            until ScoreDetail.Next() = 0;
+            Message('%1 score detail(s) submitted successfully.', LinesSubmitted);
+
+        end;
+        KPIEmployee.Reset();
+        KPIEmployee.SetRange("Appraisal Code", AppraisalCode);
+        KPIEmployee.SetRange("Reviewer Type", ReviewerType);
+        if KPIEmployee.FindSet() then
+            repeat
+                KPIEmployee."Reviewer Code" := CurrentEmployeeNo;
+                KPIEmployee.Modify();
+            until KPIEmployee.Next() = 0;
     end;
 }

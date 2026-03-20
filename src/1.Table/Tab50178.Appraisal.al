@@ -20,28 +20,12 @@ table 50178 Appraisal
         {
             Caption = 'Document Type';
             DataClassification = CustomerContent;
-            InitValue = Appraisal;
+            Editable = false;
         }
         field(16; "Approval Status"; Enum "Approval Status")//approval status fixed id to 16
         {
             Caption = 'Approval Status';
             DataClassification = CustomerContent;
-
-            trigger OnValidate()
-            begin
-                if "Approval Status" = "Approval Status"::Pending then
-                    AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
-                if "Approval Status" = "Approval Status"::Approved then begin
-                    Posted := true;
-                    "Posting Date" := Today;
-                    "Approved Date" := Today;
-                end else begin
-                    Posted := false;
-                    Clear("Posting Date");
-                    Clear("Approved Date");
-                end;
-
-            end;
         }
         field(37; "Approved Date"; Date) { } // approved date field id is 37 which is fixed
         field(39; Cancelled; Boolean)//cancelled field id is fixed to 39 which is fixed
@@ -124,15 +108,13 @@ table 50178 Appraisal
             var
                 ApprisalTemplate: Record "Appraisal Template";
             begin
+                AppraisalMgt.OnValidateKRACategory(Rec);
+
                 if GuiAllowed then
                     AppraisalMgt.ValidateKRAInEmployeeQuestionnaire(Rec);
-                AppraisalMgt.OnValidateKRACategory(Rec);
             end;
         }
-        field(28; "KPI Rating Type"; Enum "KPI Rating Type")
-        {
-
-        }
+        field(28; "KPI Rating Type"; Enum "KPI Rating Type") { }
         field(29; "Reviewer III"; Code[20]) { TableRelation = Employee; }
         field(30; "Posting Date"; Date) { Editable = false; }
         field(31; "Reviewed Score I"; Decimal) { }
@@ -154,7 +136,6 @@ table 50178 Appraisal
         }
         field(47; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
         field(48; "Appraisal Subtype Quarterly"; Enum Quater) { }
-
         field(49; "Total Final Score"; Decimal)
         {
             Editable = false;
@@ -171,6 +152,12 @@ table 50178 Appraisal
         field(52; "Confirmation Date"; Date)
         {
             Editable = false;
+        }
+        field(53; "Rejection Remarks"; Text[100]) { }
+        field(301; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
         }
     }
     keys
@@ -194,8 +181,8 @@ table 50178 Appraisal
             HRMgt.InitNoSeriesNew(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
             "Appraisal Code" := NoSeriesMgt.GetNextNo(HumanResSetup."Appraisal No.", Today, true);
         end;
-        "Approval Status" := "Approval Status"::Open;
-        "Document Type" := "Document Type"::Appraisal;
+        Validate("Document Type", "Document Type"::Appraisal);
+        Validate("Approval Status", "Approval Status"::Open);
         if not GuiAllowed then begin
             if "Employee Code" = '' then
                 Validate("Employee Code", "Employee Code");

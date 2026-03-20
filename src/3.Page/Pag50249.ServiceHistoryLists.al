@@ -259,9 +259,6 @@ page 50249 "Service History Lists"
             }
         }
     }
-
-    actions { }
-
     trigger OnOpenPage()
     begin
         Rec.SetCurrentKey("Effective Date");
