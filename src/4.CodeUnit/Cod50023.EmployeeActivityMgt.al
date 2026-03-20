@@ -232,6 +232,7 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("Approved Date", Today);
                 AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
                 AttendanceMissed.Validate("Employee Work Shift", AttendanceMissedJournal."Employee Work Shift");
+                OnBeforePostAttendanceJournal(AttendanceMissed, AttendanceMissedJournal);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
                 PostedAttendanceJournal.TransferFields(AttendanceMissedJournal);
@@ -686,6 +687,12 @@ codeunit 50023 EmployeeActivityMgt
     procedure OnAfterPromotionJournalPost(var PromotionEmployeeJournal: Record "Employee Activity Journal"; var PostedPromotionJournal: Record "Posted Employee Journal"; Var Promotion: Record Promotion)
     begin
         //For any control or modify after Promotion is posted
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforePostAttendanceJournal(var AttendanceMissed: Record "Attendance Missed"; AttendanceMissedJournal: Record "Employee Activity Journal")
+    begin
+
     end;
 
     var

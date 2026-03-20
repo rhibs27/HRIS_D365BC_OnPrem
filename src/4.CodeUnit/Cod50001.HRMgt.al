@@ -3250,41 +3250,36 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    procedure WorkStationFunction(EmployeeRec: Record Employee) WorkStation: Text
+    procedure WorkStationFunction(EmployeeRec: Record Employee): Text
     var
-        // DimensionValue: Record "Dimension Value";
-        GLSetup: Record "General Ledger Setup";
-        // Dept: Record Department;
         HRSetUp: Record "Human Resources Setup";
         SalaryLevel: Record "Salary Level";
+        WorkStation: text;
     begin
-        GLSetup.Get;
-        if EmployeeRec."Global Dimension 2 Code" <> '' then begin
-            // DimensionValue.Get(GLSetup."Global Dimension 2 Code", EmployeeRec."Global Dimension 2 Code");
-            WorkStation := EmployeeRec."Branch Name";
-        end
-        else begin
-            if EmployeeRec."Province Name" <> '' then
-                WorkStation := EmployeeRec."Province Name"
-            else if EmployeeRec."Unit Code" <> '' then
-                WorkStation := EmployeeRec."Unit Code"
-            else if EmployeeRec."Department Code" <> '' then begin
-                // Dept.Get(EmployeeRec."Department Code");
-                WorkStation := EmployeeRec."Department Name";
-            end
-            // else if EmployeeRec."Reporting Line 1" <> '' then
-            //     WorkStation := EmployeeRec."Reporting Line 1"
-            // else if EmployeeRec."Reporting Line 2" <> '' then
-            //     WorkStation := EmployeeRec."Reporting Line 2"
-            // else if EmployeeRec."Eco-System" <> '' then
-            //     WorkStation := EmployeeRec."Eco-System"
-            // else if EmployeeRec.Office <> '' then
-            //     WorkStation := EmployeeRec.Office;
+        case EmployeeRec."Deputation on" of
+            EmployeeRec."Deputation on"::Province:
+                begin
+                    WorkStation := EmployeeRec."Province Name";
+                end;
+            EmployeeRec."Deputation on"::Department:
+                begin
+                    if EmployeeRec."Unit Code" <> '' then
+                        WorkStation := EmployeeRec."Unit Name"
+                    else if EmployeeRec."Department Code" <> '' then begin
+                        WorkStation := EmployeeRec."Department Name";
+                    end;
+                end;
+            EmployeeRec."Deputation on"::Branch:
+                begin
+                    if EmployeeRec."Extension Counter Code" <> '' then
+                        WorkStation := EmployeeRec."Extension Counter Name"
+                    else if EmployeeRec."Branch Code" <> '' then begin
+                        WorkStation := EmployeeRec."Branch Name";
+                    end;
+                end;
         end;
-        /*IF (EmployeeRec."Employment Type" <> EmployeeRec."Employment Type"::Contract) OR
-            (EmployeeRec."Employment Type" <> EmployeeRec."Employment Type"::" ") THEN
-            IF SalaryLevel.GET(EmployeeRec."Salary Level") THEN
-          WorkStation += ' in the internal job grade of '+ SalaryLevel.Description;*/
+        OnAfterWorkStation(EmployeeRec, WorkStation);
+        exit(WorkStation);
     end;
 
     procedure getDeputation(empCode: Code[20]): Text
@@ -3385,6 +3380,7 @@ codeunit 50001 "HR Mgt."
         PGSetup: Record "Payroll General Setup";
         ImportPayrollAttrReport: Report "Import Payroll Attributes";
         PayrollOpening: Record "Employee Payroll Opening";
+        IsHandled: Boolean;
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
@@ -3410,10 +3406,15 @@ codeunit 50001 "HR Mgt."
         PayCyclePeriod.SetRange(Posted, false);
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
-        Clear(ImportPayrollAttrReport);
-        ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
-        ImportPayrollAttrReport.UseRequestPage(false);
-        ImportPayrollAttrReport.Run();
+
+        OnBeforeInsertOfPayrollAttributeUsage(EmpCode, IsHandled);
+        if not IsHandled then begin
+            Clear(ImportPayrollAttrReport);
+            ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
+            ImportPayrollAttrReport.UseRequestPage(false);
+            ImportPayrollAttrReport.Run();
+        end;
+
         PayrollReportMgt.GetPayrollAttributes(Employee);
         EmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
         EmployeeLedgerEntries.SetRange("Employee No.", EmpCode);
@@ -4710,6 +4711,27 @@ codeunit 50001 "HR Mgt."
         if PayCyclePeriod.FindLast then
             exit(PayCyclePeriod."End Date");
     end;
+    procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
+    var
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
+    begin
+        if not HRSetup.Get() then
+            exit(false);
+        if not Employee.Get(EmployeeNo) then
+            exit(false);
+        if HRSetup."HR Department Code" <> '' then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    exit(true);
+            end else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    exit(true);
+            end;
+        end;
+        exit(false);
+    end;
 
     procedure CheckforFiscalYearcontrol(IncomingDate: Date)
     var
@@ -4751,5 +4773,17 @@ codeunit 50001 "HR Mgt."
     local procedure OnBeforeCheckFiscalYearControl(IncomingDate: Date; var IsHandled: Boolean);
     begin
         //Can be Used to skp Fiscal year control on request
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeInsertOfPayrollAttributeUsage(EmployeeNo: Code[20]; var IsHandled: Boolean);
+    begin
+        //To make specific checks before inserting Attributes in Attribute Usage.
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterWorkStation(Employee: Record Employee; WorkSation: Text);
+    begin
+        //Can be used to get Work Sation of Employee;
     end;
 }

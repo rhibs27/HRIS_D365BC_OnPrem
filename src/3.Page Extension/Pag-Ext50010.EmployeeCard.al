@@ -731,11 +731,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Portal Attendance field.';
                 }
-                field("Resignation Approver"; Rec."Resignation Approver")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Resignation Approver field.';
-                }
                 field("Attendance Device ID"; Rec."Attendance Device ID")
                 {
                     ApplicationArea = All;
@@ -1930,9 +1925,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 Promoted = true;
-                Visible = FieldVisible;
                 PromotedIsBig = true;
                 Image = Report;
+                Visible = Rec.Status = Rec.Status::Terminated;
                 PromotedCategory = Report;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Employee Experience Letter action.';
@@ -1948,36 +1943,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Employee.SetRange("No.", Rec."No.");
                         IF Employee.FindFirst() THEN begin
                             Employee.TestField(Salutation);
-                            REPORT.RUN(70022, TRUE, TRUE, Employee);  //which report to run?
-
+                            REPORT.RUN(Report::"Experience Letter", TRUE, TRUE, Employee);
                         end;
-                    end;
-                end;
-            }
-            action("Resignation Acceptance Letter")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                Visible = FieldVisible1;
-                PromotedIsBig = true;
-                Image = Report;
-                PromotedCategory = Report;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Resignation Acceptance Letter action.';
-
-                trigger OnAction()
-                var
-                    Resignation: Record Resignation;
-                begin
-                    Resignation.SetRange("Employee No.", Rec."No.");
-                    IF Resignation.FindLast() THEN
-                        Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
-
-                    Employee.Reset();
-                    Employee.SetRange("No.", Rec."No.");
-                    IF Employee.FindFirst() THEN begin
-                        Employee.TestField(Salutation);
-                        REPORT.RUN(70023, TRUE, TRUE, Employee); //which report to run?
                     end;
                 end;
             }
@@ -1985,8 +1952,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 Promoted = true;
-                Visible = FieldVisible;
                 PromotedIsBig = true;
+                Visible = Rec.Status = Rec.Status::Terminated;
                 Image = Report;
                 PromotedCategory = Report;
                 PromotedOnly = true;
@@ -2004,43 +1971,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Resignation.SetRange("Employee No.", Employee."No.");
                         IF Resignation.FindLast() THEN
                             Resignation.TestField("Approval Status", Resignation."Approval Status"::Settled);
-                        REPORT.RUN(70024, TRUE, TRUE, Employee);  //which report to run?
+                        REPORT.RUN(Report::"Release Letter", TRUE, TRUE, Employee);
                     end;
-                end;
-            }
-            action(Memo)
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = Report;
-                PromotedCategory = Report;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Memo action.';
-
-                trigger OnAction()
-                begin
-                    Employee.Reset();
-                    Employee.SetRange("No.", Rec."No.");
-                    IF Employee.FindFirst() THEN begin
-                        Employee.TestField(Salutation);
-                        REPORT.RUN(70026, TRUE, TRUE, Employee);  //what it is
-                    end;
-                end;
-            }
-            action("Insert Grade")  //no code?
-            {
-                ApplicationArea = All;
-                RunObject = Report "Insert Grade";
-                Promoted = true;
-                Visible = false;
-                PromotedIsBig = true;
-                Image = Action;
-                PromotedCategory = Process;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Insert Grade action.';
-                trigger OnAction()
-                begin
                 end;
             }
         }
@@ -2053,8 +1985,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         LoanMgt: Codeunit "Loan Mgt.";
         Type: Enum "Loan Type";
         AppraisalRec: Record Appraisal;
-        FieldVisible: Boolean;
-        FieldVisible1: Boolean;
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";

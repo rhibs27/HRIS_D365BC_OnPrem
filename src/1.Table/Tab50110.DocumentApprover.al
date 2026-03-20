@@ -34,15 +34,20 @@ table 50110 "Document Approver"
         {
             ValuesAllowed = " ", "Resignation", "Training";
         }
-        field(11; "Rejection Remarks"; Text[100]) { }
+        field(11; "Rejection Remarks"; Text[250]) { }
         field(12; "Approver Sequence"; Integer)
         {
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
-                if "Approver Sequence" = 1 then
-                    Validate("Approval Status", "Approval Status"::Open)
-                else
-                    Validate("Approval Status", "Approval Status"::Created);
+                OnBeforeValidateApproverSequence(Rec, IsHandled);
+                if not IsHandled then begin
+                    if "Approver Sequence" = 1 then
+                        Validate("Approval Status", "Approval Status"::Open)
+                    else
+                        Validate("Approval Status", "Approval Status"::Created);
+                end;
             end;
         }
         field(13; "Deputation Type"; Enum "Deputation Type")
@@ -94,5 +99,11 @@ table 50110 "Document Approver"
             "Line No." := ResignationApprover."Line No." + 10000
         else
             "Line No." := 10000;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidateApproverSequence(var DocumentApprover: Record "Document Approver"; var IsHandled: Boolean)
+    begin
+        //To be used skipping sequential approval mechanism
     end;
 }

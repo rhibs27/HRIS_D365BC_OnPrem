@@ -834,6 +834,7 @@ permissionset 50000 D365HRMSPermission
         page "Promotion Journal" = X,
         page "Team Profile Card" = X,
         page "Team Profile Subform" = X,
+
         report "Employee KYE Report" = X,
         report "Service Duration Report" = X,
         tabledata "Orgwise Vaults & ATM" = RIMD,
@@ -853,6 +854,12 @@ permissionset 50000 D365HRMSPermission
         tabledata "Resign Doc Approver Setup" = RIMD,
         table "Resign Doc Approver Setup" = X,
         report "Update Emp Att. and Act Doc." = X,
+<<<<<<< HEAD
+=======
+        page "Device Overview" = X,
+        page "Home Ins Tieup Card" = X,
+        page "Late Deduction Journal" = X;
+>>>>>>> dev
         codeunit "Email Mgt" = X,
         page "Late Deduction Journal" = X,
         page "Resign Document Approver Setup" = X;

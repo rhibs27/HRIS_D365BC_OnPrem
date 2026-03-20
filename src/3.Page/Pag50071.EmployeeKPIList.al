@@ -21,15 +21,6 @@ page 50071 "Employee KPI List"
                     ToolTip = 'Specifies the value of the Attribute Code field.';
                     ApplicationArea = All;
                 }
-                // field("Weightage (%)"; "Weightage (%)")
-                // {
-                // }
-                // field(Target; Target)
-                // {
-                // }
-                // field(Remarks; Remarks)
-                // {
-                // }
             }
         }
     }

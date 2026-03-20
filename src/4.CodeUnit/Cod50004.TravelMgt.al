@@ -178,6 +178,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest2.Validate(Extended, true);
             TravelRequest2.Modify;
         end;
+        OnAfterApplyTravelRequest(TravelReq."No.");
         EmailMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, TravelReq."Employee No.", TravelReq."No.", false);   //For email
         Message('Travel Request has been sent for apporval.');
         exit(true);
@@ -942,7 +943,6 @@ codeunit 50004 "Travel Mgt."
         //
         TempIncomingDoc.Reset;
         TempIncomingDoc.SetRange("Employee Code", TravelRequest."Employee No.");
-        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
             repeat
@@ -956,7 +956,6 @@ codeunit 50004 "Travel Mgt."
             repeat
                 TempIncomingDoc.Reset;
                 TempIncomingDoc.Init;
-                TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
                 TempIncomingDoc.Validate("No.", TravelRequest."No.");
                 TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Travel Claim");
                 TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");

@@ -945,7 +945,6 @@ codeunit 50000 "Leave Mgt."
         TempIncomingDoc.Reset;
         LeaveType.Get(leave."Leave Code");
         TempIncomingDoc.SetRange("Employee Code", leave."Employee No.");
-        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
         TempIncomingDoc.SetRange("Leave Type Code", leave."Leave Code");
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
@@ -965,7 +964,6 @@ codeunit 50000 "Leave Mgt."
                         TempIncomingDoc.Reset;
                         TempIncomingDoc.Init;
                         Clear(TempIncomingDoc."Entry No.");
-                        TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
                         TempIncomingDoc.Validate("No.", leave."No.");
                         TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
                         TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");

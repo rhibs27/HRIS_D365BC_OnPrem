@@ -38,7 +38,7 @@ codeunit 50006 "Resignation Mgt"
         if GuiAllowed then
             if not Confirm(ConfirmResign, false) then
                 exit;
-        Resignation.TestField("Proposed Date of Resignation");
+        Resignation.TestField("Requested Last Working Day");
         Resignation.TestField("Reason for Resignation");
         if GuiAllowed then begin
             AttachmentMgt.CheckMandatoryAttachment(Resignation."No.");
@@ -74,24 +74,28 @@ codeunit 50006 "Resignation Mgt"
         Count := 0;
         ResignDocApproverSetup.Reset();
         ResignDocApproverSetup.SetRange("Emp Act Type", EmpActType);
-        ResignDocApproverSetup.SetRange("Deputation Type", EmpRequest."Deputation on");
+        // ResignDocApproverSetup.SetRange("Deputation Type", EmpRequest."Deputation on");
         ResignDocApproverSetup.SetCurrentKey("Approver Sequence");
         ResignDocApproverSetup.SetAscending("Approver Sequence", true);
         if ResignDocApproverSetup.FindFirst() then
             repeat
                 EmployeeApprover.Reset();
                 EmployeeApprover.SetRange(Status, EmployeeApprover.Status::Active);
-                if ResignDocApproverSetup."Same Deputation Approver" then begin
-                    EmployeeApprover.SetRange("Deputation on", EmpRequest."Deputation On");
-                    EmployeeApprover.SetRange("Deputation On Code", EmpRequest."Deputation On Code");
-                end else begin
-                    EmployeeApprover.SetRange("Deputation on", ResignDocApproverSetup."Approver Deputation Type");
-                    EmployeeApprover.SetRange("Deputation On Code", ResignDocApproverSetup."Approver Deputation Code");
-                end;
-                if ResignDocApproverSetup."Approver Role" <> '' then
-                    EmployeeApprover.SetRange("Approver Role", ResignDocApproverSetup."Approver Role");
                 if ResignDocApproverSetup."Employee No" <> '' then
-                    EmployeeApprover.SetRange("No.", ResignDocApproverSetup."Employee No");
+                    EmployeeApprover.SetRange("No.", ResignDocApproverSetup."Employee No")
+                else begin
+                    if ResignDocApproverSetup."Same Deputation Approver" then begin
+                        EmployeeApprover.SetRange("Deputation on", EmpRequest."Deputation On");
+                        EmployeeApprover.SetRange("Deputation On Code", EmpRequest."Deputation On Code");
+                    end else begin
+                        EmployeeApprover.SetRange("Deputation on", ResignDocApproverSetup."Approver Deputation Type");
+                        EmployeeApprover.SetRange("Deputation On Code", ResignDocApproverSetup."Approver Deputation Code");
+                    end;
+                    if ResignDocApproverSetup."Approver Role" <> '' then
+                        EmployeeApprover.SetRange("Approver Role", ResignDocApproverSetup."Approver Role");
+                    if ResignDocApproverSetup."Functional Title" <> '' then
+                        EmployeeApprover.SetRange("Functional Title", ResignDocApproverSetup."Functional Title");
+                end;
                 if EmployeeApprover.Findfirst then begin
                     if ApproverSequence <> ResignDocApproverSetup."Approver Sequence" then begin
                         ApproverSequence := ResignDocApproverSetup."Approver Sequence";
@@ -176,7 +180,7 @@ codeunit 50006 "Resignation Mgt"
         end;
         if Resignation."Requested Date" = 0D then
             Resignation."Requested Date" := Today;
-        if (Resignation."Proposed Date of Resignation" - Resignation."Requested Date" + 1) >= ResignationDays then
+        if (Resignation."Requested Last Working Day" - Resignation."Requested Date" + 1) >= ResignationDays then
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Normal)
         else
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Recovery);
@@ -201,16 +205,6 @@ codeunit 50006 "Resignation Mgt"
             until IncomingDocument.Next = 0;
     end;
 
-    procedure ReturnResignation(Resignation: Record "Resignation")
-    begin
-        // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
-        if Confirm('Do you want to return resignation?', false) then begin
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Open);
-            Resignation.Modify;
-            Message('Resignation Returned.');
-        end;
-    end;
-
     procedure ApproveResignation(resignationCode: Code[100])
     var
         Resignation: Record Resignation;
@@ -218,49 +212,11 @@ codeunit 50006 "Resignation Mgt"
     begin
         Resignation.Get(resignationCode);
         HRSetup.Get();
+        Resignation.TestField("Approved Last Working Day");
         if not HRSetup."Hide Clearance Approver" then
             InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
-        ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
-    end;
-
-    procedure AddRemoveDocApprover(EmpCode: Code[20]; IsDocApprover: Boolean)
-    var
-        DocApporver: Record "Document Approver";
-        LineNo: Integer;
-        Resignation: Record Resignation;
-    begin
-        Resignation.SetRange("Employee No.", EmpCode);
-        Resignation.SetRange(Type, Resignation.Type::Resignation);
-        Resignation.SetFilter("Approval Status", '<>%1&<>%2&<>%3', Resignation."Approval Status"::Approved, Resignation."Approval Status"::Rejected, Resignation."Approval Status"::Canceled);
-        if Resignation.Find('-') then
-            repeat
-                if not IsDocApprover then begin
-                    DocApporver.Reset;
-                    DocApporver.SetRange("Document No.", Resignation."No.");
-                    DocApporver.SetRange("Employee No.", EmpCode);
-                    //DocApporver.SETFILTER("Approval Status",'<>%1',DocApporver."Approval Status"::Approved);
-                    if DocApporver.FindFirst then
-                        DocApporver.Delete;
-                end else begin
-                    DocApporver.Reset;
-                    DocApporver.SetRange("Document Type", DocApporver."Document Type"::Resignation);
-                    DocApporver.SetRange("Document No.", Resignation."No.");
-                    DocApporver.SetCurrentKey("Line No.");
-                    if LineNo = 0 then
-                        if DocApporver.FindLast then
-                            LineNo := DocApporver."Line No.";
-                    Clear(DocApporver);
-                    DocApporver.Init;
-                    DocApporver.Validate("Document No.", Resignation."No.");
-                    DocApporver.Validate("Employee No.", EmpCode);
-                    DocApporver.Validate("Document Type", DocApporver."Document Type"::Resignation);
-                    DocApporver."Approval Status" := DocApporver."Approval Status"::Open;
-                    DocApporver.Validate("Line No.", LineNo + 10000);
-                    LineNo += 10000;
-                    DocApporver.Insert;
-                end;
-            until Resignation.Next = 0;
+        ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."Approved Last Working Day");
     end;
 
     procedure InsertResignAttachmentLetter(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])
@@ -282,6 +238,7 @@ codeunit 50006 "Resignation Mgt"
                     IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
                     IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                     IncomingDocument."No." := DocumentNo;
+                    IncomingDocument."Sub Type" := AttachmentMandatory."Sub Type";
                     IncomingDocument."Employee Activity Type" := employeeAct;
                     IncomingDocument."Employee Code" := employeeNo;
                     IncomingDocument.Insert(true);

@@ -282,11 +282,6 @@ page 50003 "Employee Payroll Adjustment"
                             if not EmpAdjust.FindFirst then begin
                                 if PayrollColumnConfig.FindFirst then begin
                                     FieldRefs := RecRefs.Field(PayrollColumnConfig."Field No.");
-                                    //AttributeAmt := EvaluateAmount(PayrollAttributes1.Formula,FALSE);
-                                    if PayrollAttributes1.Subtype in [PayrollAttributes1.Subtype::"Employee Contribution", PayrollAttributes1.Subtype::"Employer Contribution"] then
-                                        BasicAdjustmentPF(AttributeAmt);
-                                    //IF PayrollAttributes1.Code = 'LFA' THEN
-                                    //  CalculateLFA(AttributeAmt);
                                     FieldRefs.Validate(AttributeAmt);
                                 end;
                             end;
@@ -468,23 +463,6 @@ page 50003 "Employee Payroll Adjustment"
             '-':
                 exit(Number1 - Number2);
         end;
-    end;
-
-    local procedure BasicAdjustmentPF(var AttributeAmt: Decimal)
-    var
-        AdjustPFAmt: Decimal;
-        EmpPayAdj: Record "Employee Payroll Adjustment";
-    begin
-        PGSetup.TestField("Basic Adjustment Code");
-        EmpPayAdj.Reset;
-        EmpPayAdj.SetRange("Employee No.", Employee."No.");
-        EmpPayAdj.SetRange("Payroll Document No.", PayrollDocNo);
-        EmpPayAdj.SetFilter("Attribute Code", '%1|%2|%3', PGSetup."Basic Adjustment Code", PGSetup."Grade Adjustment Code", PGSetup."Officiat Basic Adjustment Code");
-        if EmpPayAdj.FindSet then
-            repeat
-                AdjustPFAmt := 0.1 * EmpPayAdj.Amount;
-                AttributeAmt += AdjustPFAmt;
-            until EmpPayAdj.Next = 0;
     end;
 
     local procedure CalculateLFA(var AttributeAmt: Decimal)
