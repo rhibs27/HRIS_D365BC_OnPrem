@@ -131,6 +131,7 @@ table 50184 "Training Need Request"
     begin
         Validate("Requested Date", Today);
         Validate("Employee No.", HRMgt.GetEmployeeNo());
+        Validate("Entry No.", GetEntryNo())
     end;
 
     var
@@ -143,5 +144,16 @@ table 50184 "Training Need Request"
         Validate("Compiled By", CompiledBy);
         Validate("Compiled Date", Today);
         Modify(true);
+    end;
+
+    procedure GetEntryNo(): Integer
+    var
+        TrainingNeedRequest: Record "Training Need Request";
+    begin
+        TrainingNeedRequest.Reset();
+        if TrainingNeedRequest.FindLast() then
+            exit(TrainingNeedRequest."Entry No." + 1)
+        else
+            exit(1);
     end;
 }
