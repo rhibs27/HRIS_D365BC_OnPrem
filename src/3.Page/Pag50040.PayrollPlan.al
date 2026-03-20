@@ -266,7 +266,7 @@ page 50040 "Payroll Plan"
                     PromotedCategory = Process;
                     PromotedIsBig = true;
                     ShortcutKey = 'F9';
-                    ToolTip = 'Executes the P&ost action.';
+                    ToolTip = 'Executes the Post action.';
                     ApplicationArea = All;
 
                     trigger OnAction()

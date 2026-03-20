@@ -71,7 +71,18 @@ table 50180 "KPI Employee"
         field(21; Rating; Enum "Rating Enum")
         {
             trigger OnValidate()
+            var
+                RatingValue: Integer;
             begin
+                if Rating = Rating::" " then
+                    Error('Rating must be between 1 and 5.');
+
+                if not Evaluate(RatingValue, Format(Rating)) then
+                    Error('Invalid rating value.');
+
+                if (RatingValue < 1) or (RatingValue > 5) then
+                    Error('Rating must be between 1 and 5.');
+
                 CalculateScoreTotal();
             end;
         }
@@ -92,12 +103,10 @@ table 50180 "KPI Employee"
                         if AppraisalKPIMaster.Get("KPI No.") then begin
                             Validate(Score, AppraisalKPIMaster."Group Performance Based Score");
                             CalculateScoreTotal();
-                        end else begin
+                        end else
                             Clear(Score);
-                        end;
-                    end else begin
+                    end else
                         Clear(Score);
-                    end;
                 end;
             end;
         }
@@ -106,10 +115,20 @@ table 50180 "KPI Employee"
             Caption = 'Score Total';
             Editable = false;
         }
+        field(25; "Reviewer Code"; Code[20])
+        {
+            Caption = 'Reviewer Code';
+            Editable = false;
+        }
+        field(301; "Access Token"; code[60])
+        {
+            caption = 'Access Token';
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {
-        key(Key1; "Appraisal Code", "KPI", "Line No.") { }
+        key(Key1; "Appraisal Code", "KPI No.", "Line No.") { }
     }
     trigger OnInsert()
     begin
@@ -122,6 +141,14 @@ table 50180 "KPI Employee"
         else
             Validate("Line No.", 10000);
         CalculateScoreTotal();
+        if "Reviewer Type" <> '' then
+            "Reviewer Code" := GetReviewerCode("Appraisal Code", "Reviewer Type");
+    end;
+
+    trigger OnModify()
+    begin
+        if "Reviewer Type" <> '' then
+            "Reviewer Code" := GetReviewerCode("Appraisal Code", "Reviewer Type");
     end;
 
     var
@@ -135,7 +162,7 @@ table 50180 "KPI Employee"
         if Value < 0 then
             Error('Value cannot be less than 0.');
         if Value > "Max Score" then
-            Error('Please enter value within Weightage limit (%1).', "Max Score");
+            Error('Please enter value within Max Score (%1).', "Max Score");
     end;
 
     procedure CalculateScoreTotal()
@@ -175,5 +202,17 @@ table 50180 "KPI Employee"
             else
                 "Score Total" := 0;
         end;
+    end;
+
+    local procedure GetReviewerCode(AppraisalCode: Code[20]; ReviewerType: Code[20]): Code[20]
+    var
+        ScoreDetail: Record "Score Detail";
+    begin
+        ScoreDetail.Reset();
+        ScoreDetail.SetRange("Appraisal Code", AppraisalCode);
+        ScoreDetail.SetRange("Reviewer Type", ReviewerType);
+        if ScoreDetail.FindFirst() then
+            exit(ScoreDetail."Score/Rating By");
+        exit('');
     end;
 }

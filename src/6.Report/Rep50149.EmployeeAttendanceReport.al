@@ -70,6 +70,8 @@ report 50149 "Employee Attendance Report"
             column(TotalEarlyCheckOut; TotalEarlyCheckOut) { }
             column(TotalOvertimeHours; TotalOvertimeHours) { }
             column(AttendanceStatus; Remarks) { }
+            column(FunctionalTitle; FunctionalTitle) { }
+
             dataitem(Leave; Leave)
             {
                 DataItemLink = "Employee No." = field("Employee No.");
@@ -138,6 +140,10 @@ report 50149 "Employee Attendance Report"
                     SetFilter("Department Code", DepartmentCodeFilter);
                 if UnitCodeFilter <> '' then
                     SetFilter("Unit Code", UnitCodeFilter);
+                Clear(FunctionalTitle);
+                if Employee.Get("Employee No.") then
+                    FunctionalTitle := Employee."Functional Title Desc";
+
             end;
 
             trigger OnAfterGetRecord()
@@ -281,6 +287,7 @@ report 50149 "Employee Attendance Report"
         AttendanceDateFilter: Text;
         HRMgt: Codeunit "HR Mgt.";
         Employee: Record Employee;
+        FunctionalTitle: Text;
 
     local procedure GetCurrentEmployeeDeputation(): Code[20]
     var

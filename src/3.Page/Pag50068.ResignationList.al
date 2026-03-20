@@ -41,7 +41,7 @@ page 50068 "Resignation List"
                     ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                     ApplicationArea = All;
                 }
-                field("HR Proposed Date"; Rec."HR Proposed Date")
+                field("Approved Last Working Day"; Rec."Approved Last Working Day")
                 {
                     ToolTip = 'Specifies the value of the HR Proposed Date field.';
                     ApplicationArea = All;

@@ -16,20 +16,12 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
         {
             TableRelation = "Attachment Master".Code;
             DataClassification = CustomerContent;
-            // trigger OnValidate()
-            // begin
-            //     CheckSampleAttachment;
-            // end;
         }
         field(50004; "Employee Code"; Code[20])
         { DataClassification = CustomerContent; }
-        field(50005; "Type"; Enum "Incoming Document Sample")
+        field(50005; "Sub Type"; Enum "Attachment Setup SubType")
         {
             DataClassification = CustomerContent;
-            // trigger OnValidate()
-            // begin
-            //     CheckSampleAttachment;
-            // end;
         }
         field(50006; "Leave Type Code"; Code[20])
         {
@@ -74,16 +66,16 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
         exit(IncomingDocument."Entry No." + 1);
     end;
 
-    local procedure CheckSampleAttachment();
-    var
-        IncomingDoc: Record "Incoming Document";
-    begin
-        if Type = Type::Sample then begin
-            IncomingDoc.Reset();
-            IncomingDoc.SetRange("Attachment Code", "Attachment Code");
-            IncomingDoc.SetRange(Type, IncomingDoc.Type::Sample);
-            if IncomingDoc.FindFirst() then
-                Error('Sample attachment already exist for attachment %1', "Attachment Code");
-        end;
-    end;
+    // local procedure CheckSampleAttachment();
+    // var
+    //     IncomingDoc: Record "Incoming Document";
+    // begin
+    //     if Type = Type::Sample then begin
+    //         IncomingDoc.Reset();
+    //         IncomingDoc.SetRange("Attachment Code", "Attachment Code");
+    //         IncomingDoc.SetRange(Type, IncomingDoc.Type::Sample);
+    //         if IncomingDoc.FindFirst() then
+    //             Error('Sample attachment already exist for attachment %1', "Attachment Code");
+    //     end;
+    // end;
 }

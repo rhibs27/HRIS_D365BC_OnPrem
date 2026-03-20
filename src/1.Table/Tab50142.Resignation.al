@@ -74,6 +74,7 @@ table 50142 Resignation
             trigger OnValidate()
             begin
                 Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Requested Date"));
+                Validate("Recommended Last Working Day", "Requested Date");
             end;
         }
         field(11; "Fiscal Year"; Text[10])
@@ -150,6 +151,7 @@ table 50142 Resignation
         field(40; "Cancelled No."; Code[20])
         {
         }
+
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;
@@ -171,15 +173,16 @@ table 50142 Resignation
         field(51; "Deputation On"; Enum "Deputation Type")
         {
         }
-        field(52; "Proposed Date of Resignation"; Date)
+        field(52; "Requested Last Working Day"; Date)
         {
             Description = 'Resignation';
 
             trigger OnValidate()
             begin
-                if not GuiAllowed then
-                    if "Proposed Date of Resignation" < Today then
-                        Error(INVALID, FieldCaption("Proposed Date of Resignation"));
+                if "Requested Last Working Day" < Today then
+                    Error(INVALID, FieldCaption("Requested Last Working Day"))
+                else
+                    Validate("Recommended Last Working Day", "Requested Last Working Day");
                 if HRSetup.Get() then
                     if HRSetup."Apply Resign Waiver" then
                         ResignationMgt.UpdateResignationWaiver(Rec);
@@ -200,17 +203,17 @@ table 50142 Resignation
                 end;
             end;
         }
-        field(55; "Supervisor Proposed Date"; Date)
+        field(55; "Recommended Last Working Day"; Date)
         {
             Description = 'Resignation';
 
             trigger OnValidate()
             begin
-                if "Supervisor Proposed Date" < "Requested Date" then
-                    Error('Supervisor proposed date(%1) must be greater than requested date(%2)', "Supervisor Proposed Date", "Requested Date");
+                if "Recommended Last Working Day" < "Requested Date" then
+                    Error('Supervisor proposed date(%1) must be greater than requested date(%2)', "Recommended Last Working Day", "Requested Date");
             end;
         }
-        field(56; "HR Proposed Date"; Date)
+        field(56; "Approved Last Working Day"; Date)
         {
             Description = 'Resignation';
         }

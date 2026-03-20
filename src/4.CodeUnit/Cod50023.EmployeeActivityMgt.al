@@ -188,6 +188,8 @@ codeunit 50023 EmployeeActivityMgt
                     LeaveRequest.Validate("Form Journal", true);
                     OnBeforeLeaveRequestInsert(LeaveRequest, leaveJournal);
                     LeaveRequest.Insert(true);
+                    if leaveJournal.Attachment.HasValue then
+                        InsertAttachmentforLeave(LeaveRequest, leaveJournal);
                 end else if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Adjustment then
                         LeaveMgt.InsertLeaveEarnfromJournal(leaveJournal);
                 PostedLeaveJournal.Init();
@@ -230,6 +232,7 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate("Approved Date", Today);
                 AttendanceMissed.Validate("Checkout OverNight", AttendanceMissedJournal."CheckOut OverNight");
                 AttendanceMissed.Validate("Employee Work Shift", AttendanceMissedJournal."Employee Work Shift");
+                OnBeforePostAttendanceJournal(AttendanceMissed, AttendanceMissedJournal);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
                 PostedAttendanceJournal.TransferFields(AttendanceMissedJournal);
@@ -634,6 +637,42 @@ codeunit 50023 EmployeeActivityMgt
         Message('Loan Journal is posted')
     end;
 
+    procedure InsertAttachmentforLeave(Leave: Record Leave; leaveJournal: Record "Employee Activity Journal")
+    var
+        IncomingDocument: Record "Incoming Document";
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
+        TenantMedia: Record "Tenant Media";
+        InStr: InStream;
+        FileMgt: Codeunit "File Management";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+        AttachmentSetup.SetRange("Leave Type Code", Leave."Leave Code");
+        if AttachmentSetup.FindFirst() then begin
+            Clear(IncomingDocument);
+            IncomingDocument.Init;
+            IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+            IncomingDocument.Description := Leave.TableName;
+            IncomingDocument."Attachment Code" := AttachmentSetup."Attachment Code";
+            IncomingDocument."No." := Leave."No.";
+            IncomingDocument."Leave Type Code" := Leave."Leave Code";
+            IncomingDocument."Employee Code" := Leave."Employee No.";
+            IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Leave Request";
+            IncomingDocument."File Name" := leaveJournal."Attachment File Name";
+            IncomingDocument.Insert(true);
+            IncomingDocumentAttachment.Init;
+            IncomingDocumentAttachment."Line No." := 10000;
+            IncomingDocumentAttachment."Created Date-Time" := CurrentDateTime;
+            IncomingDocumentAttachment."Created By User Name" := UserId;
+            IncomingDocumentAttachment."Incoming Document Entry No." := IncomingDocument."Entry No.";
+            if TenantMedia.Get(leaveJournal.Attachment.MediaId) then
+                TenantMedia.CalcFields(Content);
+            IncomingDocumentAttachment."File Extension" := FileMgt.GetExtension(TenantMedia.Description);
+            IncomingDocumentAttachment.Content := TenantMedia.Content;
+            IncomingDocumentAttachment.Insert(true);
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnAfterTransferJournalPost(var PostedTransferEmployeeJournalACK: Record "Posted Employee Journal"; var TransferRequest: Record "Employee Transfer")
     begin
@@ -648,6 +687,12 @@ codeunit 50023 EmployeeActivityMgt
     procedure OnAfterPromotionJournalPost(var PromotionEmployeeJournal: Record "Employee Activity Journal"; var PostedPromotionJournal: Record "Posted Employee Journal"; Var Promotion: Record Promotion)
     begin
         //For any control or modify after Promotion is posted
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforePostAttendanceJournal(var AttendanceMissed: Record "Attendance Missed"; AttendanceMissedJournal: Record "Employee Activity Journal")
+    begin
+
     end;
 
     var

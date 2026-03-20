@@ -5,43 +5,72 @@ table 50169 "Resign Doc Approver Setup"
 
     fields
     {
-        field(1; "Approver Code"; Code[20])
+        field(10; "Approver Code"; Code[20])
         {
             Caption = 'Approver Code';
         }
-        field(2; "Deputation Type"; Enum "Deputation Type")
+        field(20; "Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Deputation Type';
         }
-        field(3; "Deputation Code"; Code[20])
+        field(21; "Deputation Sub Type"; Enum "Deputation Type")
+        {
+            Caption = 'Deputation Sub Type';
+        }
+        field(30; "Deputation Code"; Code[20])
         {
             Caption = 'Deputation Code';
-            TableRelation = "Organization Structure List".Code where(Type = field("Deputation Type"));
+            TableRelation = "Organization Structure List".Code where(Type = field("Deputation Type"), Blocked = const(false));
         }
-        field(4; "Approver Role"; Code[20])
+        field(31; "Sub Deputation Code"; Code[20])
+        {
+            Caption = 'Sub Deputation Code';
+            TableRelation = "Organization Structure List".Code where(Type = field("Deputation Type"), Code = field("Deputation Code"));
+        }
+        field(40; "Approver Role"; Code[20])
         {
             Caption = 'Approver Role';
             TableRelation = "Approval Role".Code;
+            trigger OnValidate()
+            begin
+                if not "Same Deputation Approver" then begin
+                    TestField("Approver Deputation Type");
+                    TestField("Approver Deputation Code");
+                end;
+            end;
         }
-        field(5; "Functional Title"; Code[20])
+        field(50; "Functional Title"; Code[20])
         {
             Caption = 'Functional Title';
             TableRelation = "Functional Title";
         }
-        field(6; "Approver Deputation Type"; Enum "Deputation Type")
+        field(60; "Approver Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Approver Deputation Type';
         }
-        field(7; "Approver Deputation Code"; Code[20])
+        field(61; "Approver Deputation Sub Type"; Enum "Deputation Type")
+        {
+            Caption = 'Approver Deputation Sub Type';
+        }
+        field(70; "Approver Deputation Code"; Code[20])
         {
             Caption = 'Approver Deputation Code';
-            TableRelation = "Organization Structure List".Code where(Type = field("Approver Deputation Type"));
+            TableRelation = "Organization Structure List".Code where(Type = field("Approver Deputation Type"), Blocked = const(false));
             trigger OnValidate()
             begin
                 Clear("Same Deputation Approver");
             end;
         }
-        field(8; "Same Deputation Approver"; Boolean)
+        field(71; "Approver Sub Deputation Code"; Code[20])
+        {
+            Caption = 'Approver Sub Deputation Code';
+            TableRelation = "Organization Structure Line".Code where(Type = field("Approver Deputation Type"), Code = field("Approver Deputation Code"));
+            trigger OnValidate()
+            begin
+                Clear("Same Deputation Approver");
+            end;
+        }
+        field(80; "Same Deputation Approver"; Boolean)
         {
             Caption = 'Same Deputation Approver';
             trigger OnValidate()
@@ -51,16 +80,20 @@ table 50169 "Resign Doc Approver Setup"
             end;
 
         }
-        field(9; "Approver Sequence"; Integer)
+        field(90; "Approver Sequence"; Integer)
         {
             Caption = 'Approver Sequence';
         }
-        field(10; "Employee No"; Code[20])
+        field(100; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
             TableRelation = Employee."No." where("Deputation on" = field("Approver Deputation Type"), "Deputation On Code" = field("Approver Deputation Code"), Status = filter("Employee Status"::Active));
+            trigger OnValidate()
+            begin
+                TestField("Approver Role", '');
+            end;
         }
-        field(11; "Emp Act Type"; Enum "Employee Activity Type")
+        field(110; "Emp Act Type"; Enum "Employee Activity Type")
         {
             Caption = 'Emp Act Type';
             ValuesAllowed = " ", "Resignation", "Training";
