@@ -229,7 +229,7 @@ page 50180 "Cancel Document"
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Rec."Rejection Remarks" := '';
-                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                        Message('%1 cancel document is Approved by %2', Rec.Type, HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -251,7 +251,7 @@ page 50180 "Cancel Document"
                             Error('Rejection Remarks is Empty')
                         else begin
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
-                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                            Message('%1 cancel document is Rejected by %2', Rec.Type, HRMgt.GetEmpName());
                         end;
                     end;
                 end;

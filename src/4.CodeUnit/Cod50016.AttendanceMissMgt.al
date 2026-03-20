@@ -339,7 +339,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         if AtteanceMissed.Cancelled then
             Error('Update Attendance request no. %1 is already cancelled.', AtteanceMissed."No.");
         if AtteanceMissed."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
-            Error('Leave request no. %1 cannot be cancelled after %2', AtteanceMissed."No.", AtteanceMissed."Approved Date" + HRSetup."Cancel Document Upto (Days)");
+            Error('Update Attendance request no. %1 cannot be cancelled after %2', AtteanceMissed."No.", AtteanceMissed."Approved Date" + HRSetup."Cancel Document Upto (Days)");
         AtteanceMissed.TestField("Approval Status", AtteanceMissed."Approval Status"::Approved);
         AtteanceMissed.TestField("Cancelled Document No.", '');
         // Clear Approval line
