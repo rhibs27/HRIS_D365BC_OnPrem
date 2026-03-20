@@ -158,7 +158,7 @@ page 50159 "Employee Home Loan List"
             {
                 Image = Return;
                 Promoted = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the withdrawn action.';
                 ApplicationArea = All;
@@ -176,7 +176,7 @@ page 50159 "Employee Home Loan List"
                 ApplicationArea = All;
                 Promoted = true;
                 PromotedIsBig = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 Image = ClearFilter;
                 ToolTip = 'Executes the Clear filter action.';
                 trigger OnAction()

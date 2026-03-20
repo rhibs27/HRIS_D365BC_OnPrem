@@ -622,7 +622,8 @@ table 50106 "Employee Loan/Advance"
 
     trigger OnModify()
     begin
-        LoanMgt.CalculateFields(Rec);
+        if "Approval Status" = "Approval Status"::Open then
+            LoanMgt.CalculateFields(Rec);
     end;
 
     var
