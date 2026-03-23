@@ -4316,23 +4316,24 @@ codeunit 50001 "HR Mgt."
     begin
         if Employee."Employment Date" <> 0D then begin
             NewEmploymentDate := GetAdjustedEmploymentDate(Employee, Employee."Employment Date", Today);
-
+            HRSetup.Get();
             LastDate := Employee."Termination Date";
             if Employee."Resignation Date" <> 0D then
                 LastDate := Employee."Resignation Date";
-
-            HRSetup.Get();
-            if HRSetup."Calculate Age using Nepali C." then begin
+            if HRSetup."Service Day without Last Date" then begin
                 if LastDate <> 0D then
-                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(LastDate))
+                    LastDate := LastDate - 1
                 else
-                    Employee."Service Period text" := GetAgeBS(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Today));
+                    LastDate := Today - 1;
+            end ELSE begin
+                LastDate := Today;
+            end;
+            if HRSetup."Calculate Age using Nepali C." then begin
+                Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(LastDate))
             end
             else begin
                 if LastDate <> 0D then
-                    Employee."Service Period text" := GetAge(NewEmploymentDate, LastDate)
-                else
-                    Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
+                    Employee."Service Period text" := GetAge(NewEmploymentDate, LastDate);
             end;
         end;
     end;
@@ -4709,6 +4710,7 @@ codeunit 50001 "HR Mgt."
         if PayCyclePeriod.FindLast then
             exit(PayCyclePeriod."End Date");
     end;
+
     procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
     var
         HRSetup: Record "Human Resources Setup";

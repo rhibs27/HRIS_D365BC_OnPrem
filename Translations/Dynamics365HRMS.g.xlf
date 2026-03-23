@@ -57738,6 +57738,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Salary Advance No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1927603509 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Service Day without LastDate field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Service Day without LastDate - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2051627541 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Service History No. Series field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60932,6 +60937,11 @@
           <source>Salary Advance No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Salary Advance No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1927603509 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Service Day without LastDate</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Service Day without LastDate - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2051627541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Service History No. Series</source>
