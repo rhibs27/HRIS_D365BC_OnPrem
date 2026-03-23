@@ -579,11 +579,6 @@ codeunit 50015 "OverTime Mgt"
     begin
     end;
 
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeOTCheck(TempOvertime: Record "OverTime" temporary; var IsHandled: Boolean);
-    begin
-    end;
-
 
     var
         HRSetup: Record "Human Resources Setup";

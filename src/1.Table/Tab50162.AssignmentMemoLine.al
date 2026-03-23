@@ -390,7 +390,13 @@ table 50162 "Assignment Memo Line"
         MonthlyAmt: Decimal;
         NoofDaysInMonth: Integer;
         AssignmentmemoHdr: Record "Assignment Memo Header";
+        IsHandled: Boolean;
+        Results: Decimal;
     begin
+        OnBeforGetAllowanceConfigAmount(AllowanceConfig, Rec, IsHandled, Results);
+        if IsHandled then
+            exit(Results);
+
         AssignmentmemoHdr.Get("Document No.");
         if "From Date" <> 0D then
             NoofDaysInMonth := GetNoofDaysInMonth("From Date")
@@ -629,6 +635,11 @@ table 50162 "Assignment Memo Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateDateAndEmployee(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled1: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforGetAllowanceConfigAmount(allowanceConfig: Record "Allowance Configuration"; var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean; var Results: Decimal)
     begin
     end;
 }
