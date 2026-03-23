@@ -158,6 +158,7 @@ codeunit 50020 "Attachment Mgt."
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalEmp: Record Appraisal;
         leave: Record leave;
+        Resign: Record Resignation;
     begin
         if EmpLoan.Get(IncomingDocument."No.") then begin
             if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Approved])
@@ -172,6 +173,10 @@ codeunit 50020 "Attachment Mgt."
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" = leave."Approval Status"::Approved then
                 Error('Cannot delete attachment.');
+        end else if Resign.Get(IncomingDocument."No.") then begin
+            if IncomingDocument."Sub Type" = incomingDocument."Sub Type"::"Resign Letter" then
+                if Resign."Approval Status" <> Resign."Approval Status"::open then
+                    Error('Cannot delete attachment.');
         end else if EmployeeTransfer.get(IncomingDocument."No.") then begin
             if EmployeeTransfer.Type in [EmployeeTransfer.Type::"Employee Transfer", EmployeeTransfer.Type::"HR Transfer"] then begin
                 if EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Acknowledged then
@@ -188,6 +193,7 @@ codeunit 50020 "Attachment Mgt."
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalEmp: Record Appraisal;
         leave: Record leave;
+        Resign: Record Resignation;
     begin
         if EmpLoan.Get(IncomingDocument."No.") then begin
             if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) then
@@ -201,6 +207,10 @@ codeunit 50020 "Attachment Mgt."
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" <> leave."Approval Status"::Open then
                 ERROR('Approval status must be Open.')
+        end else if Resign.Get(IncomingDocument."No.") then begin
+            if IncomingDocument."Sub Type" = incomingDocument."Sub Type"::"Resign Letter" then
+                if Resign."Approval Status" <> Resign."Approval Status"::open then
+                    Error('Attachment already exist.')
         end else if EmployeeTransfer.get(IncomingDocument."No.") then begin
             if EmployeeTransfer.Type in [EmployeeTransfer.Type::"Employee Transfer", EmployeeTransfer.Type::"HR Transfer"] then begin
                 if not ((EmployeeTransfer."Is Transfer Details Added") and (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved)) then
@@ -256,25 +266,45 @@ codeunit 50020 "Attachment Mgt."
     procedure CheckIfAttachmentExistsAsPerTheSetup(AttachmentType: enum "Attachment Setup Type"; AttachmentSubType: Enum "Attachment Setup SubType"; DocNo: Text): Boolean
     var
         AttachmentSetup: Record "Attachment Setup";
-        IncomintDocument: Record "Incoming Document";
+        IncomingDocument: Record "Incoming Document";
     begin
-        AttachmentSetup.SetRange(Mandatory, true);
+        AttachmentSetup.Reset();
         AttachmentSetup.SetRange(Type, AttachmentType);
         AttachmentSetup.SetRange("Sub Type", AttachmentSubType);
+        AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.FindFirst() then begin
-            IncomintDocument.SetRange("Document No.", DocNo);
-            IncomintDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
-            if IncomintDocument.IsEmpty() then
+            IncomingDocument.SetRange("Document No.", DocNo);
+            IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+            if IncomingDocument.IsEmpty() then
                 exit(false);
 
-            if IncomintDocument.findset() then
+            if IncomingDocument.findset() then
                 repeat
-                    if not IncomintDocument.HasAttachment() then
+                    if not IncomingDocument.HasAttachment() then
                         exit(false);
-                until IncomintDocument.Next() = 0;
+                until IncomingDocument.Next() = 0;
 
             exit(true);
         end;
-        exit(true);  //if setup does not exist, then no need to check attachment
+        exit(true);
+    end;
+
+    procedure CheckMandatoryAttachment(EmpActNo: Code[20])
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SetRange("No.", EmpActNo);
+        if TempIncomingDoc.Findset then
+            repeat
+                AttachmentSetup.Reset;
+                AttachmentSetup.SetRange("Attachment Code", TempIncomingDoc."Attachment Code");
+                if AttachmentSetup.FindFirst then begin
+                    if AttachmentSetup.Mandatory then
+                        if TempIncomingDoc."File Name" = '' then
+                            Error('Attachment must be uploaded');
+                end;
+            until TempIncomingDoc.Next = 0;
     end;
 }

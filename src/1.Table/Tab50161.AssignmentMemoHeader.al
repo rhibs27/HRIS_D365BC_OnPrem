@@ -110,7 +110,7 @@ table 50161 "Assignment Memo Header"
             begin
                 if Employee.Get("Employee No.") then begin
                     SalaryLevel.Get(Employee."Salary Level");
-                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                         if "Fuel Limit (ltr)" = 0 then
                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -167,7 +167,7 @@ table 50161 "Assignment Memo Header"
 
                         if Employee.Get("Employee No.") then begin
                             SalaryLevel.Get(Employee."Salary Level");
-                            if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                            if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                                 "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                                 if "Fuel Limit (ltr)" = 0 then
                                     "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -191,7 +191,7 @@ table 50161 "Assignment Memo Header"
 
                                 if Employee.Get("Employee No.") then begin
                                     SalaryLevel.Get(Employee."Salary Level");
-                                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                                         if "Fuel Limit (ltr)" = 0 then
                                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -491,7 +491,6 @@ table 50161 "Assignment Memo Header"
                     IncDocAttachment."Entry No." := GetNextEntrNo;
                     IncDocAttachment."No." := DocumentNo;
                     IncDocAttachment."Document No." := DocumentNo;
-                    IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
                     IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
                     if EmpActType = EmpActType::"Request Allowance" then
                         IncDocAttachment.Validate("Employee Code", EmployeeNo);

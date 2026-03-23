@@ -7,9 +7,7 @@ page 50385 "Eligible Appraisal Employee"
     Caption = 'Eligible Appraisal Employee';
     InsertAllowed = false;
     DeleteAllowed = true;
-    // ModifyAllowed = false;
-    Editable = false;
-
+    ModifyAllowed = false;
     layout
     {
         area(Content)

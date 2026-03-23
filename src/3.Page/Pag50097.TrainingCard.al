@@ -507,7 +507,7 @@ page 50097 "Training Card"
                     trigger OnAction()
                     begin
                         Rec.TestField("Prepared By");
-                        HRMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, Rec."Prepared By", Rec."No.", false);
+                        EmailMgt.SendMailFromTemplate(Database::"Training Header", EmailTemplate."Document Type"::Training, 0, Rec."Prepared By", Rec."No.", false);
                         Message('Mail has been send.');
                     end;
                 }
@@ -699,6 +699,7 @@ page 50097 "Training Card"
         DateFilter: Text;
         NoOfColumn: Integer;
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
 
         IsApproved: Boolean;
         TrainHead: Record "Training Header";

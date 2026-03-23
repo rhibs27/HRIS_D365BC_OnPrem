@@ -164,6 +164,8 @@ report 50077 "Service Event Update"
     end;
 
     trigger OnPreReport()
+    var
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
     begin
         Employee.Get(EmpNo);
         if ServiceEvent = ServiceEvent::" " then
@@ -184,7 +186,12 @@ report 50077 "Service Event Update"
                 Error('Probation Period must have value.')
             else
                 Employee.Validate("Probation Period", ProbationPeriod);
-        PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
+
+        PayrollAttributeUsage.Reset();
+        PayrollAttributeUsage.SetRange("Employee Code", EmpNo);
+        if PayrollAttributeUsage.IsEmpty then
+            PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
+
         ServiceHistory.Init;
         ServiceHistory.Validate("Employee No.", Employee."No.");
         ServiceHistory.Validate("Effective Date", EffectiveDate);
