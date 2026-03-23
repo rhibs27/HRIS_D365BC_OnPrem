@@ -719,6 +719,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                         Error('Attendance Not Found On %1', AllowanceAssignmentLine."From Date");
                 end;
         end;
+        OnAfterValidateAllowanceType(AllowanceAssignmentLine);
     end;
 
     procedure CheckMutuallyExclusive(AllowanceAssignmentLineRec: Record "Allowance Assignment Line")
@@ -783,4 +784,8 @@ codeunit 50022 "Allowance Assignment Mgt"
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnAfterValidateAllowanceType(AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    begin
+    end;
 }
