@@ -151,8 +151,7 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50001; "Branch Code"; Code[20])
         {
-            TableRelation = if ("Deputation On" = Const(Branch)) "Organization Structure line"."Reporting Code" where(Type = const("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::Branch))
-            else if ("Deputation On" = Const("Head Office")) "Organization Structure line"."Reporting Code" where(Type = const("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::"Head Office"));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::Branch));
             trigger OnValidate()
             var
                 ishandled: Boolean;
@@ -169,12 +168,10 @@ tableextension 50013 "Employee Ext" extends Employee
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
                 else begin
-                    OnAfterValidationOfDeputationOn(Rec, ishandled);
-                    if not ishandled then
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then
-                            Validate("Branch Name", OrganizationStructureList.Name)
-                        else
-                            Clear("Branch Name");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then
+                        Validate("Branch Name", OrganizationStructureList.Name)
+                    else
+                        Clear("Branch Name");
                 end;
             end;
         }
@@ -1848,11 +1845,6 @@ tableextension 50013 "Employee Ext" extends Employee
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmploymentType(var Rec: Record "Employee"; var xRec: Record "Employee"; var IsHandled: Boolean)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterValidationOfDeputationOn(var Employee: Record "Employee"; var ishandled: Boolean)
     begin
     end;
 }

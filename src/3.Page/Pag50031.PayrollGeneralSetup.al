@@ -810,9 +810,9 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Get Amount From Assignment field.';
                 }
-                field("NoOfDays basedOn(Assign Memo)"; Rec."NoOfDays basedOn(Assign Memo)")
+                field("Allowance days basedOn"; Rec."Allowance days basedOn")
                 {
-                    Caption = 'No. of Days Based on(Assignment Memo)';
+                    Caption = 'Allowance days based on';
                 }
 
             }
