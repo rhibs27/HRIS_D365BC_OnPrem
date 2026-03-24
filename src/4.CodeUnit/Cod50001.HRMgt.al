@@ -3492,16 +3492,16 @@ codeunit 50001 "HR Mgt."
         PayrollAttributes.SetFilter(Subtype, '%1|%2', PayrollAttributes.Subtype::"Employee Contribution", PayrollAttributes.Subtype::"Employer Contribution");
         if PayrollAttributes.FindSet() then
             repeat
-                if PayrollAttributes.Formula <> '' then begin
-                    PayrollReportMgt.SetEmployeeCode(Employee."No.");
-                    AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
-                end else if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
-                        if PayrollAttributesUsage."Static Amount" then
+                if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then begin
+                    if (PayrollAttributes.Formula <> '') then begin
+                        PayrollReportMgt.SetEmployeeCode(Employee."No.");
+                        AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
+                    end else if PayrollAttributesUsage."Static Amount" then
                             Amount += PayrollAttributesUsage.Amount - AttributeAmount
-                        else
-                            Amount += PayrollAttributesUsage.Amount;
+                    else
+                        Amount += PayrollAttributesUsage.Amount;
+                end;
             until PayrollAttributes.Next() = 0;
-
         TotalProvidentFundProjected := (Amount + AttributeAmount) * ProjectionMonth;
         exit(Round(TotalProvidentFundProjected, 0.01, '='));
     end;
