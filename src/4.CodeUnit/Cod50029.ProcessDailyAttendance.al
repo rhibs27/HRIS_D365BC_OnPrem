@@ -354,22 +354,20 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
         OnFiteringAttendanceLog(StartTime, EndTime, EmpAttendance, AttendanceLog, IsHandled);
         if not IsHandled then
-            if GuiAllowed then
+            if GuiAllowed or (not FromSyncProcess) then
                 AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
             else begin
                 AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
                 AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
             end;
-        if FirstRecord then
+        if FirstRecord then begin
             if AttendanceLog.FindFirst() then;
-        if not FirstRecord then
-            if AttendanceLog.FindLast() then;
-
-        TimeVar := AttendanceLog."Log Time";
-        if FirstRecord then
             EmpAttendance."Check-In Device IP" := AttendanceLog."Device IP"
-        else
+        end else begin
+            if AttendanceLog.FindLast() then;
             EmpAttendance."Check-Out Device IP" := AttendanceLog."Device IP"
+        end;
+        TimeVar := AttendanceLog."Log Time";
     end;
 
     procedure GetSyncProcessBoolean(VarFromSyncProcess: Boolean)

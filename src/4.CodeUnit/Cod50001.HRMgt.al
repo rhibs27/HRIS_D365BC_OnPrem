@@ -3492,16 +3492,16 @@ codeunit 50001 "HR Mgt."
         PayrollAttributes.SetFilter(Subtype, '%1|%2', PayrollAttributes.Subtype::"Employee Contribution", PayrollAttributes.Subtype::"Employer Contribution");
         if PayrollAttributes.FindSet() then
             repeat
-                if PayrollAttributes.Formula <> '' then begin
-                    PayrollReportMgt.SetEmployeeCode(Employee."No.");
-                    AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
-                end else if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then
-                        if PayrollAttributesUsage."Static Amount" then
+                if PayrollAttributesUsage.Get(PayrollAttributes.Code, EmployeeNo) then begin
+                    if (PayrollAttributes.Formula <> '') then begin
+                        PayrollReportMgt.SetEmployeeCode(Employee."No.");
+                        AttributeAmount += PayrollReportMgt.EvaluateAmount(PayrollAttributes.Formula, 0);
+                    end else if PayrollAttributesUsage."Static Amount" then
                             Amount += PayrollAttributesUsage.Amount - AttributeAmount
-                        else
-                            Amount += PayrollAttributesUsage.Amount;
+                    else
+                        Amount += PayrollAttributesUsage.Amount;
+                end;
             until PayrollAttributes.Next() = 0;
-
         TotalProvidentFundProjected := (Amount + AttributeAmount) * ProjectionMonth;
         exit(Round(TotalProvidentFundProjected, 0.01, '='));
     end;
@@ -4316,23 +4316,24 @@ codeunit 50001 "HR Mgt."
     begin
         if Employee."Employment Date" <> 0D then begin
             NewEmploymentDate := GetAdjustedEmploymentDate(Employee, Employee."Employment Date", Today);
-
+            HRSetup.Get();
             LastDate := Employee."Termination Date";
             if Employee."Resignation Date" <> 0D then
                 LastDate := Employee."Resignation Date";
-
-            HRSetup.Get();
-            if HRSetup."Calculate Age using Nepali C." then begin
+            if HRSetup."Service Day without Last Date" then begin
                 if LastDate <> 0D then
-                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(LastDate))
+                    LastDate := LastDate - 1
                 else
-                    Employee."Service Period text" := GetAgeBS(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Today));
+                    LastDate := Today - 1;
+            end ELSE begin
+                LastDate := Today;
+            end;
+            if HRSetup."Calculate Age using Nepali C." then begin
+                Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(LastDate))
             end
             else begin
                 if LastDate <> 0D then
-                    Employee."Service Period text" := GetAge(NewEmploymentDate, LastDate)
-                else
-                    Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
+                    Employee."Service Period text" := GetAge(NewEmploymentDate, LastDate);
             end;
         end;
     end;
@@ -4709,6 +4710,7 @@ codeunit 50001 "HR Mgt."
         if PayCyclePeriod.FindLast then
             exit(PayCyclePeriod."End Date");
     end;
+
     procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
     var
         HRSetup: Record "Human Resources Setup";
