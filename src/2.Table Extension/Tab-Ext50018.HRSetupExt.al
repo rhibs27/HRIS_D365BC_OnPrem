@@ -727,28 +727,28 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'No of Salary Advance Allowed in single Fiscal year.';
         }
-        field(50160; "Apply Resign Waiver"; Boolean)
+        field(50160; "Service Day without Last Date"; Boolean)
+        {
+            Caption = 'Service Day without Last Date';
+        }
+        field(50161; "Apply Resign Waiver"; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(50161; "HL Eligibility Service Years"; Decimal)
+        field(50162; "HL Eligibility Service Years"; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'For eligible home loan Request';
         }
-        field(50162; "HL Minimum Road Access OutV."; Decimal)
+        field(50163; "HL Minimum Road Access OutV."; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'For eligible home loan Request Minimum Road Access Outside valley';
         }
-        field(50163; "HL Minmum Road Access InV."; Decimal)
+        field(50164; "HL Minmum Road Access InV."; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'For eligible home loan Request Minimum Road Access Inside valley';
-        }
-        field(50160; "Service Day without Last Date"; Boolean)
-        {
-            Caption = 'Service Day without Last Date';
         }
     }
     trigger onAfterInsert()
