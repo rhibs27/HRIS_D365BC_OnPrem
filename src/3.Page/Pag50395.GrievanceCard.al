@@ -71,7 +71,7 @@ page 50395 "Grievance Card"
                     ToolTip = 'Specifies the deputation type.';
                     ApplicationArea = All;
                 }
-                field("Deputation On Code"; Rec."Deputation Code")
+                field("Deputation Code"; Rec."Deputation Code")
                 {
                     ToolTip = 'Specifies the deputation code.';
                     ApplicationArea = All;
