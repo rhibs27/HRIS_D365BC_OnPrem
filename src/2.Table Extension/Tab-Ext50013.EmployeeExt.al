@@ -153,8 +153,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::Branch));
             trigger OnValidate()
-            var
-                ishandled: Boolean;
             begin
                 TestField("Province Code");
                 if "Branch Code" <> xRec."Branch Code" then begin
