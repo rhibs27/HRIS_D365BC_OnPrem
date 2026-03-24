@@ -367,6 +367,7 @@ codeunit 50017 "Approver Mgt"
         LeaveEncahRequest: Record "Encashment Request";
         AttendanceMgt: Codeunit "Attendance Mgt";
         AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
+        AppraisalMgt: Codeunit "AppraisalMgt.";
         Cancelled: Boolean;
         RFContribution: Record "RF Contribution";
         AttributeAdj: Record "Attribute Adjustment Header";
@@ -618,6 +619,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 AttributeAdjustmentMgt.OnApprovalOfAttributeAdjustment(RecRef.Field(AttributeAdj.FieldNo("Document No.")).Value);
                             end;
+                        EmployeeActivityType::Appraisal:
+                            begin
+                                AppraisalMgt.CalculateFinalMarks(RecRef.Field(1).Value);
+                            end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
                     EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
@@ -665,6 +670,7 @@ codeunit 50017 "Approver Mgt"
         RFContribution: Record "RF Contribution";
         SkipRecRefModifyOnReject: Boolean;
         IsExit: Boolean;
+        AppraisalMgt: Codeunit "AppraisalMgt.";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -894,6 +900,10 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance", EmployeeActivityType::"Shift Assignment Memo":
                             begin
                                 AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, true);
+                            end;
+                        EmployeeActivityType::Appraisal:
+                            begin
+                                AppraisalMgt.CalculateFinalMarks(RecRef.Field(1).Value);
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);

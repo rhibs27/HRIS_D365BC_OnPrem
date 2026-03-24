@@ -15,12 +15,17 @@ page 50261 "Employee Bank Account Lists"
         {
             repeater(General)
             {
+                field("Employee No."; Rec."Employee No.")
+                {
+                    ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
+                }
                 field("Code"; Rec."Code")
                 {
                     ToolTip = 'Specifies the value of the Code field.', Comment = '%';
                 }
                 field(Name; Rec.Name)
                 {
+                    Caption = 'Bank Account Name';
                     ToolTip = 'Specifies the value of the Name field.', Comment = '%';
                 }
                 field("Name 2"; Rec."Name 2")
@@ -38,6 +43,10 @@ page 50261 "Employee Bank Account Lists"
                 field("Primary Payroll Account"; Rec."Primary Payroll Account")
                 {
                     ToolTip = 'Specifies the Primary Payroll Account';
+                }
+                field("Is RF Account"; Rec."Is RF Account")
+                {
+                    ToolTip = 'Specifies whether this bank account is marked as the RF Account.';
                 }
             }
         }

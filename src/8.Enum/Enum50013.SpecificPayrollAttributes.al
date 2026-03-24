@@ -69,4 +69,12 @@ enum 50013 "Specific Payroll Attributes"
     {
         Caption = 'Holiday Allowance';
     }
+    value(17; "Maternity/Paternity Allowance")
+    {
+        Caption = 'Maternity/Paternity Allowance';
+    }
+    value(18; "Funeral Allowance")
+    {
+        Caption = 'Funeral Allowance';
+    }
 }

@@ -81,7 +81,7 @@ table 50142 Resignation
         {
             Editable = false;
         }
-        field(14; Remarks; Text[100])
+        field(14; Remarks; Text[250])
         {
         }
         field(15; "User ID"; Text[50])
@@ -151,6 +151,7 @@ table 50142 Resignation
         field(40; "Cancelled No."; Code[20])
         {
         }
+
         field(41; "Cancelled Document No."; Code[20])
         {
             Editable = false;

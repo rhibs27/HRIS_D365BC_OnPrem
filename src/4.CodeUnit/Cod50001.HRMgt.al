@@ -3378,6 +3378,7 @@ codeunit 50001 "HR Mgt."
         PGSetup: Record "Payroll General Setup";
         ImportPayrollAttrReport: Report "Import Payroll Attributes";
         PayrollOpening: Record "Employee Payroll Opening";
+        IsHandled: Boolean;
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
@@ -3403,10 +3404,15 @@ codeunit 50001 "HR Mgt."
         PayCyclePeriod.SetRange(Posted, false);
         PayCyclePeriod.FindFirst();
         TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
-        Clear(ImportPayrollAttrReport);
-        ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
-        ImportPayrollAttrReport.UseRequestPage(false);
-        ImportPayrollAttrReport.Run();
+
+        OnBeforeInsertOfPayrollAttributeUsage(EmpCode, IsHandled);
+        if not IsHandled then begin
+            Clear(ImportPayrollAttrReport);
+            ImportPayrollAttrReport.SetEmployeeNo(Employee."No.");
+            ImportPayrollAttrReport.UseRequestPage(false);
+            ImportPayrollAttrReport.Run();
+        end;
+
         PayrollReportMgt.GetPayrollAttributes(Employee);
         EmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
         EmployeeLedgerEntries.SetRange("Employee No.", EmpCode);
@@ -4704,6 +4710,28 @@ codeunit 50001 "HR Mgt."
             exit(PayCyclePeriod."End Date");
     end;
 
+    procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
+    var
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
+    begin
+        if not HRSetup.Get() then
+            exit(false);
+        if not Employee.Get(EmployeeNo) then
+            exit(false);
+        if HRSetup."HR Department Code" <> '' then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    exit(true);
+            end else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    exit(true);
+            end;
+        end;
+        exit(false);
+    end;
+
     procedure CheckforFiscalYearcontrol(IncomingDate: Date)
     var
         IsHandled: Boolean;
@@ -4744,6 +4772,12 @@ codeunit 50001 "HR Mgt."
     local procedure OnBeforeCheckFiscalYearControl(IncomingDate: Date; var IsHandled: Boolean);
     begin
         //Can be Used to skp Fiscal year control on request
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeInsertOfPayrollAttributeUsage(EmployeeNo: Code[20]; var IsHandled: Boolean);
+    begin
+        //To make specific checks before inserting Attributes in Attribute Usage.
     end;
 
     [IntegrationEvent(false, false)]
