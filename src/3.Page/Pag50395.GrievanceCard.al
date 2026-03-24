@@ -50,12 +50,6 @@ page 50395 "Grievance Card"
                     ToolTip = 'Specifies the current approval status of the grievance.';
                     ApplicationArea = All;
                 }
-                field("Rejection Remarks"; Rec."Rejection Remarks")
-                {
-                    Editable = IsSubmitted;
-                    ToolTip = 'Specifies the reason for rejection.';
-                    ApplicationArea = All;
-                }
                 field(Anonymous; Rec.Anonymous)
                 {
                     Editable = IsOpen;
@@ -67,14 +61,9 @@ page 50395 "Grievance Card"
             {
                 Caption = 'Employee Placement';
                 Editable = false;
-                field("Department Code"; Rec."Department Code")
+                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
-                    ToolTip = 'Specifies the department of the employee.';
-                    ApplicationArea = All;
-                }
-                field("Branch Code"; Rec."Branch Code")
-                {
-                    ToolTip = 'Specifies the branch of the employee.';
+                    ToolTip = 'Specifies the Dimension 1 Code';
                     ApplicationArea = All;
                 }
                 field("Deputation On"; Rec."Deputation On")
@@ -82,7 +71,7 @@ page 50395 "Grievance Card"
                     ToolTip = 'Specifies the deputation type.';
                     ApplicationArea = All;
                 }
-                field("Deputation On Code"; Rec."Deputation On Code")
+                field("Deputation On Code"; Rec."Deputation Code")
                 {
                     ToolTip = 'Specifies the deputation code.';
                     ApplicationArea = All;
@@ -177,10 +166,16 @@ page 50395 "Grievance Card"
                     ToolTip = 'Specifies the employee who resolved the grievance.';
                     ApplicationArea = All;
                 }
-                field(CommentText; CommentText)
+                field("Comment Text"; CommentText)
                 {
                     Editable = IsSubmitted;
                     ToolTip = 'Specifies the employee who resolved the grievance.';
+                    ApplicationArea = All;
+                }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    Editable = IsSubmitted;
+                    ToolTip = 'Specifies the reason for rejection.';
                     ApplicationArea = All;
                 }
             }
@@ -233,9 +228,9 @@ page 50395 "Grievance Card"
                     CurrPage."Grievance Comments".Page.Update();
                 end;
             }
-            action("Approve Grievance")
+            action("Resolve Grievance")
             {
-                Caption = 'Approve';
+                Caption = 'Resolve';
                 Image = Approve;
                 Promoted = true;
                 PromotedCategory = Process;
@@ -281,7 +276,7 @@ page 50395 "Grievance Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsOpen;
+                Visible = IsSubmitted;
                 ToolTip = 'Withdraws the grievance.';
                 ApplicationArea = All;
                 trigger OnAction()

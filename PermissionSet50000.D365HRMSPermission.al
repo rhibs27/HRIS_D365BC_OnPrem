@@ -323,7 +323,6 @@ permissionset 50000 D365HRMSPermission
         report "Promissory Note Vehicle Loan" = X,
         report "Recruitment Memo" = X,
         report "Release Letter" = X,
-        report "Resignation Acceptance Letter" = X,
         report "Retirement funds report" = X,
         report "Sal Cert (Probation)" = X,
         report "Sal Cert veh Allownce(Foreign)" = X,

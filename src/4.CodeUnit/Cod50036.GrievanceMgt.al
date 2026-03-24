@@ -73,15 +73,19 @@ codeunit 50036 "Grievance Mgt"
         AddComment(Grievance."No.", StrSubstNo('Grievance rejected. Reason: %1', Grievance."Rejection Remarks"));
     end;
 
-    procedure WithdrawGrievance(var Grievance: Record "Grievance Header")
+    procedure WithdrawGrievance(var Grievance: Record "Grievance Header"): Boolean
     var
-        CannotWithdraw: Label 'Only grievances in Open status can be withdrawn.';
+        CannotWithdraw: Label 'Only grievances in submitted status can be withdrawn.';
+        WithdrawSuccess: Label 'Grievance withdrawn';
     begin
-        if not (Grievance."Approval Status" in [Grievance."Approval Status"::" ", Grievance."Approval Status"::Open]) then
+        if not (Grievance."Approval Status" in [Grievance."Approval Status"::" ", Grievance."Approval Status"::Submitted]) then
             Error(CannotWithdraw);
         Grievance.Validate("Approval Status", "Approval Status"::Withdrawn);
         Grievance.Modify(true);
         AddComment(Grievance."No.", 'Grievance withdrawn by employee.');
+        if GuiAllowed then
+            Message(WithdrawSuccess);
+        exit(true);
     end;
 
     procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000])
@@ -94,7 +98,7 @@ codeunit 50036 "Grievance Mgt"
             Error('Add Comment text First.');
         if GrievanceHeader.Get(GrievanceNo) then
             if GrievanceHeader."Approval Status" = GrievanceHeader."Approval Status"::Settled then
-                Error('Grievance is already settled');
+                Error('Grievance is already settled.');
         EmpNo := HRMgt.GetEmployeeNo();
         GrievanceComment.Init();
         GrievanceComment.Validate("Grievance No.", GrievanceNo);

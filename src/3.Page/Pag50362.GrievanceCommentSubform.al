@@ -31,7 +31,7 @@ page 50362 "Grievance Comment Subform"
                     Editable = false;
                     ToolTip = 'Specifies the name of the employee who added the comment.';
                     ApplicationArea = All;
-                    Caption = 'CommentedBy Name';
+                    Caption = 'Commented By Name';
                 }
                 field(role; Rec.Role)
                 {
