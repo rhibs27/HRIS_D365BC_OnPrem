@@ -323,7 +323,6 @@ permissionset 50000 D365HRMSPermission
         report "Promissory Note Vehicle Loan" = X,
         report "Recruitment Memo" = X,
         report "Release Letter" = X,
-        report "Resignation Acceptance Letter" = X,
         report "Retirement funds report" = X,
         report "Sal Cert (Probation)" = X,
         report "Sal Cert veh Allownce(Foreign)" = X,
@@ -872,7 +871,6 @@ permissionset 50000 D365HRMSPermission
         table "Reviewer Setup" = X,
         table "Reviewer Weightage Setup" = X,
         table "Score Detail" = X,
-        codeunit "Email Mgt" = X,
         page "Appraisal KPI Master" = X,
         page "Appraisal Questionnaire Master" = X,
         page "Appraisal Setup" = X,
@@ -881,7 +879,6 @@ permissionset 50000 D365HRMSPermission
         page "Eligible Appraisal Employee" = X,
         page "Eligible Employee Selection" = X,
         page "Employee Appraisal Questions" = X,
-        page "Resign Document Approver Setup" = X,
         page "Reviewer Setups" = X,
         page "Reviewer Weightage Setups" = X,
         page "Score Detail Subform" = X;

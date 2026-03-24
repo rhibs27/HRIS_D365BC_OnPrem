@@ -746,6 +746,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'For eligible home loan Request Minimum Road Access Inside valley';
         }
+        field(50160; "Service Day without Last Date"; Boolean)
+        {
+            Caption = 'Service Day without Last Date';
+        }
     }
     trigger onAfterInsert()
     begin
