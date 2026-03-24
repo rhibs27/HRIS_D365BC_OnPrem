@@ -54578,6 +54578,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Process Daily Attendance - Control EmailIds - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 3363109207 - Control 407760838 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Portal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Process Daily Attendance - Control FromPortal - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 1951896362 - NamedType 230925682" size-unit="char" translate="yes" xml:space="preserve">
           <source>The %1 Meeting of Human Resource Staffing Committee was held on %2.Key highlights of the deliberations and decisions made during the meeting are as follows:</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57737,6 +57742,11 @@
           <source>Specifies the value of the Salary Advance No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Salary Advance No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 162649797 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Service Day without LastDate field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Service Day without Last Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2051627541 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Service History No. Series field.</source>
@@ -60932,6 +60942,11 @@
           <source>Salary Advance No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Salary Advance No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 162649797 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Service Day without Last Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Service Day without Last Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2051627541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Service History No. Series</source>
