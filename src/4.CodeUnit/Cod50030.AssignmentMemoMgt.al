@@ -110,6 +110,7 @@ codeunit 50030 "Assignment Memo Mgt"
         EmployeeWorkShift: Record "Employee Work Shift";
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         DateVar: Record Date;
         IsHandled: Boolean;
     begin
@@ -192,6 +193,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     end;
                     AssignmentMemoLedgerEntry.Insert(true);
                 until DateVar.Next() = 0;
+            Commit();
+            ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLine."From Date", AssignmentMemoLine."To Date", AssignmentMemoLine."Employee No.");
         end;
     end;
 
@@ -416,10 +419,9 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLedgerEntry.Validate("Open", false);
                 AssignmentMemoLedgerEntry.Validate("Substituted Employee No.", SubAssigmemoLine."Employee No.");
                 AssignmentMemoLedgerEntry.Modify(true);
-                Commit();
-                ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Employee No.");
-                ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLedgerEntry."Posting Date", AssignmentMemoLedgerEntry."Substituted Employee No.");
             until AssignmentMemoLedgerEntry.Next() = 0;
+        Commit();
+        ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(SubAssigmemoLine."From Date", SubAssigmemoLine."To Date", AssignmentMemoLedgerEntry."Employee No.");
     end;
 
     procedure CheckConflictingSubstituteAssignment(docNo: Code[20]; LineNo: Integer; fromDate: Date; toDate: Date): Boolean

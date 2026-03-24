@@ -196,13 +196,7 @@ report 50067 "Process Daily Attendance"
     var
         EmpVar: Record Employee;
         EngNep: Record "English-Nepali Date";
-        StaleAttendance: Record "Employee Attendance & Activity";
     begin
-        StaleAttendance.SetRange("Employee No.", EmpCode);
-        StaleAttendance.SetRange("Attendance Date", PostingDate);
-        StaleAttendance.SetFilter("Employee Working Shift", '<>%1', WorkShift);
-        if StaleAttendance.FindSet() then
-            StaleAttendance.DeleteAll(true);
         if not EmpAttendance.Get(EmpCode, PostingDate, WorkShift) then begin
             Clear(EmpAttendance);
             EmpAttendance.Init;

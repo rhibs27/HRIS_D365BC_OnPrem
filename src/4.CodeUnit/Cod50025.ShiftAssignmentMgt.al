@@ -210,17 +210,20 @@ codeunit 50025 "Shift Assignment Mgt"
         end;
     end;
 
-    procedure ProcessDailyAttendanceForShiftSubstitute(RosterDate: Date; EmployeeNo: Code[20])
+    procedure ProcessDailyAttendanceForShiftSubstitute(FromDate: Date; ToDate: Date; EmployeeNo: Code[20])
     begin
-        if RosterDate <= Today then begin
-            EmpAttendance.Reset();
-            EmpAttendance.SetRange("Attendance Date", RosterDate);
-            EmpAttendance.SetRange("Employee No.", EmployeeNo);
-            if EmpAttendance.FindSet() then
-                repeat
-                    EmpAttendance.Delete();
-                until EmpAttendance.Next() = 0;
-            AttendanceMgt.DailyAttendanceUpdate(RosterDate, RosterDate, EmployeeNo);
+        EmpAttendance.Reset();
+        EmpAttendance.SetRange("Attendance Date", FromDate, ToDate);
+        EmpAttendance.SetRange("Employee No.", EmployeeNo);
+        if EmpAttendance.FindSet() then
+            repeat
+                EmpAttendance.Delete();
+            until EmpAttendance.Next() = 0;
+        if FromDate <= Today then begin
+            if ToDate > Today then
+                AttendanceMgt.DailyAttendanceUpdate(FromDate, Today, EmployeeNo)
+            else
+                AttendanceMgt.DailyAttendanceUpdate(FromDate, ToDate, EmployeeNo)
         end;
     end;
 
