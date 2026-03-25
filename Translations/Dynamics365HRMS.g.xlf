@@ -37633,6 +37633,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Attendance Days - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 310427152 - Control 3267479251 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Back Date Allowed UpTo in date formula.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Back Date Allowed UpTo - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 310427152 - Control 932744881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Calculate Proratawise field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50978,10 +50983,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Approve - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 276376150 - Action 939157021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Format for Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Export Format for Excel - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 276376150 - Action 870704432 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Import Attachment action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Import Attachment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 276376150 - Action 1731482064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import From Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Import From Excel - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Action 2282416948 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Post action.</source>

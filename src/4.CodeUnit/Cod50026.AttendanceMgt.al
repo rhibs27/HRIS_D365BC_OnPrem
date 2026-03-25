@@ -303,6 +303,23 @@ codeunit 50026 "Attendance Mgt"
         exit(CalendarDescription);
     end;
 
+    procedure GetWeekendCount(StartDate: Date; EndDate: Date): Integer
+    var
+        BaseCalChange: Record "Base Calendar Change";
+        TargetDate: Date;
+        Counter: Integer;
+    begin
+        Counter := 0;
+        BaseCalChange.SetRange("Recurring System", BaseCalChange."Recurring System"::"Weekly Recurring");
+        if BaseCalChange.FindFirst() then begin
+            for TargetDate := StartDate to EndDate do begin
+                if DATE2DWY(TargetDate, 1) = BaseCalChange.Day then
+                    Counter += 1;
+            end;
+            exit(Counter);
+        end;
+    end;
+
     var
         CalendarDescription: Text;
         Employee: Record Employee;
