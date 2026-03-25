@@ -154,5 +154,13 @@ table 50118 "Shift Line"
         ShiftLine.SetFilter("Line No", '<>%1', "Line No");
         if ShiftLine.FindFirst() then
             Error('Employee %1 is already scheduled on %2 at Line No. %3', "Employee No", "Roster Date", ShiftLine."Line No");
+        ShiftLine.Reset();
+        ShiftLine.SetRange(Type, ShiftLine.Type::"Shift Assignment");
+        ShiftLine.SetFilter("No.", '<>%1', "No.");
+        ShiftLine.SetRange("Employee No", "Employee No");
+        ShiftLine.SetRange("Roster Date", "Roster Date");
+        ShiftLine.SetFilter("Approval Status", '%1|%2', ShiftLine."Approval Status"::Pending, ShiftLine."Approval Status"::Approved);
+        if ShiftLine.FindFirst() then
+            Error('Employee %1 is already scheduled on %2 in document %3 with status %4', "Employee No", "Roster Date", ShiftLine."No.", ShiftLine."Approval Status");
     end;
 }

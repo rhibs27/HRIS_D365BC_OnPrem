@@ -74,6 +74,7 @@ table 50092 "Allowance Assignment Header"
                 Validate("Fiscal Year", HrMgt.ReturnFiscalYear("From Date"));
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
+                ValidateDatesAreWithinMonth("From Date", "To date")
             end;
         }
         field(5; "To date"; Date)
@@ -81,10 +82,11 @@ table 50092 "Allowance Assignment Header"
             trigger OnValidate()
             begin
                 TestField("From Date");
-                if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then
+                if "Activity Type" in ["Activity Type"::"Allowance Assignment Claim", "Activity Type"::"Allowance Assignment"] then
                     AllowanceMgt.CheckCutOffDate("From Date", "To date", Month);
                 if "From Date" > "To date" then
                     Error('Invalid date.');
+                ValidateDatesAreWithinMonth("From Date", "To date")
             end;
         }
         field(6; "Type"; Enum "Branchwise/Extension Type")
@@ -180,12 +182,50 @@ table 50092 "Allowance Assignment Header"
         field(27; Month; Enum "Nepali Month")
         {
             trigger OnValidate()
+            var
+                PayCyclePeriod: Record "Pay Cycle Period";
+                PGSetup: Record "Payroll General Setup";
+                Employee: Record Employee;
             begin
                 if xRec.Month <> Rec.Month then begin
                     Clear("From Date");
                     Clear("To date");
                 end;
+                PGSetup.Get();
+                PGSetup.TestField("Payroll Fiscal Year Start Date");
+
+                PayCyclePeriod.SetFilter("Nepali Month", '%1', Month);
+                PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
+                if PayCyclePeriod.FindFirst() then begin
+                    if not GuiAllowed and HrMgt.IsSaaS() then
+                        Employee.Get("Employee No.")
+                    else
+                        Employee.Get(HrMgt.GetEmployeeNo());
+                    IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
+                        "From Date" := Employee."Employment Date"
+                    else
+                        "From Date" := PayCyclePeriod."Start Date";
+                    "To date" := PayCyclePeriod."End Date";
+                    "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
+                    "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
+                    "Pay Cycle Period" := PayCyclePeriod.Period;
+                end else begin
+                    Error('No pay cycle period found for the selected Nepali Month.');
+                end;
             end;
+        }
+        field(28; "Pay Cycle Code"; Code[20])
+        {
+            TableRelation = "Pay Cycle";
+        }
+        field(29; "Pay Cycle Term"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+        }
+        field(30; "Pay Cycle Period"; Integer)
+        {
+            TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
+                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
         }
         field(100; "Status"; Text[20]) { }
     }
@@ -232,6 +272,30 @@ table 50092 "Allowance Assignment Header"
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type", "Approval Status");
                     end;
             end;
+    end;
+
+
+    procedure ValidateDatesAreWithinMonth(fromDate: Date; toDate: Date)
+    var
+        PayCycleperiod: Record "Pay Cycle Period";
+    begin
+        if (fromDate = 0D) or (toDate = 0D) then
+            exit;
+
+        PayCycleperiod.SetFilter("Start Date", '<=%1', fromDate);
+        PayCycleperiod.SetFilter("End Date", '>=%1', toDate);
+        if not PayCycleperiod.FindFirst then
+            Error('From Date and To Date must be within the same payroll month.');
+
+        if fromDate <> PayCycleperiod."Start Date" then
+            Error('From Date must be the starting date of payroll month.');
+        if toDate <> PayCycleperiod."End Date" then
+            Error('To Date must be the ending date of payroll month.');
+
+        "Pay Cycle Code" := PayCycleperiod."Pay Cycle Code";
+        "Pay Cycle Term" := PayCycleperiod."Pay Cycle Term";
+        "Pay Cycle Period" := PayCycleperiod.Period;
+        "Month" := PayCycleperiod."Nepali Month";
     end;
 
     var

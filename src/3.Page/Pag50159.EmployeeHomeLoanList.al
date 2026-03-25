@@ -89,102 +89,98 @@ page 50159 "Employee Home Loan List"
     {
         area(Creation)
         {
-            action(Open)
+            group("Filter By Status")
             {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Open action.';
-                ApplicationArea = All;
-                Image = Open;
+                Caption = 'Filter By Status';
+                Image = FilterLines;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedIsBig = true;
+                action(Open)
+                {
+                    Caption = 'Open';
+                    ToolTip = 'Executes the Open action.';
+                    ApplicationArea = All;
+                    Image = Open;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action("Pending Approval")
-            {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Pending Approval action.';
-                ApplicationArea = All;
-                Image = PendingApproval;
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Approved)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Approved action.';
-                ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action("Pending Approval")
+                {
+                    Caption = 'Pending Approval';
+                    ToolTip = 'Executes the Pending Approval action.';
+                    ApplicationArea = All;
+                    Image = PendingApproval;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action(Approved)
+                {
+                    Caption = 'Approved';
+                    Image = Approve;
+                    ToolTip = 'Executes the Approved action.';
+                    ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Rejected)
-            {
-                Image = DeleteQtyToHandle;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Rejected action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(WithDrawn)
-            {
-                Image = Return;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the withdrawn action.';
-                ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action(Rejected)
+                {
+                    Caption = 'Rejected';
+                    Image = DeleteQtyToHandle;
+                    ToolTip = 'Executes the Rejected action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action(WithDrawn)
+                {
+                    Caption = 'Withdrawn';
+                    Image = Return;
+                    ToolTip = 'Executes the withdrawn action.';
+                    ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Withdrawn);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action("Clear Filter")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                Image = ClearFilter;
-                ToolTip = 'Executes the Clear filter action.';
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    rec.SetRange("Approval Status");
-                    Rec.FilterGroup(0);
-                end;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::Withdrawn);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action("Clear Filter")
+                {
+                    Caption = 'Clear Filter';
+                    ApplicationArea = All;
+                    Image = ClearFilter;
+                    ToolTip = 'Executes the Clear filter action.';
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        rec.SetRange("Approval Status");
+                        Rec.FilterGroup(0);
+                    end;
+                }
             }
         }
     }

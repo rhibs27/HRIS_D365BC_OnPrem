@@ -613,10 +613,10 @@ table 50106 "Employee Loan/Advance"
             while EmployeeAdvanceLoan.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
-            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Loan Type");
+            ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Loan Type");
         end;
-
-        LoanMgt.CalculateFields(Rec);
+        if "Approval Status" = "Approval Status"::Open then
+            LoanMgt.CalculateFields(Rec);
         CheckForAlreadyExitsLoan();
     end;
 
