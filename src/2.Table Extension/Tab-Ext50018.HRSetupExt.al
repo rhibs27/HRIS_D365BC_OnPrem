@@ -726,6 +726,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50160; "Service Day without Last Date"; Boolean)
+        {
+            Caption = 'Service Day without Last Date';
+        }
     }
     trigger onAfterInsert()
     begin
