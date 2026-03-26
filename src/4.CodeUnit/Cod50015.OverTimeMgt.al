@@ -232,22 +232,26 @@ codeunit 50015 "OverTime Mgt"
     var
         OverTime: Record OverTime;
         leaveTypeSetup: Record "Leave Type Setup";
+        IsHandled: Boolean;
     begin
         OverTime.Get(overTimeNo);
         leaveTypeSetup.SetRange("Leave Category", leaveTypeSetup."Leave Category"::Substitute);
         if not leaveTypeSetup.FindFirst() then
             Error('Leave Type not found for Compensatory leave.');
-        LeaveEarn.Init;
-        LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
-        LeaveEarn.Validate("Leave Code", leaveTypeSetup."Code");
-        LeaveEarn.Validate("Employee No.", OverTime."Employee No.");
-        LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
-        LeaveEarn.Validate("Fiscal year", OverTime."Fiscal Year");
-        LeaveEarn.Validate("Posted Date", OverTime."Start Date");
-        LeaveEarn.Validate("Balancing Days", OverTime."Compensatory Days");
-        LeaveEarn.Validate("Overtime Request No", OverTime."No.");
-        LeaveEarn.Validate("Overtime Date", OverTime."Start Date");
-        LeaveEarn.Insert(true);
+        OnBeforeInsertLeaveEarnOvertime(OverTime, leaveTypeSetup, IsHandled);
+        if not IsHandled then begin
+            LeaveEarn.Init;
+            LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
+            LeaveEarn.Validate("Leave Code", leaveTypeSetup."Code");
+            LeaveEarn.Validate("Employee No.", OverTime."Employee No.");
+            LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
+            LeaveEarn.Validate("Fiscal year", OverTime."Fiscal Year");
+            LeaveEarn.Validate("Posted Date", OverTime."Start Date");
+            LeaveEarn.Validate("Balancing Days", OverTime."Compensatory Days");
+            LeaveEarn.Validate("Overtime Request No", OverTime."No.");
+            LeaveEarn.Validate("Overtime Date", OverTime."Start Date");
+            LeaveEarn.Insert(true);
+        end;
     end;
 
     procedure OpenOTBulk(EmpCode: Code[20])
@@ -571,6 +575,11 @@ codeunit 50015 "OverTime Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeGetEmployeeFilter(var Overtime: Record OverTime; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertLeaveEarnOvertime(Overtime: Record OverTime; leaveTypeSetup: Record "Leave Type Setup"; var IsHandled: Boolean)
     begin
     end;
 

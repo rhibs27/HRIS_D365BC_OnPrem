@@ -320,6 +320,16 @@ codeunit 50026 "Attendance Mgt"
         end;
     end;
 
+    procedure GetTotalWorkingDays(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Integer
+    var
+        TotalDays: Integer;
+        NonWorkingDays: Integer;
+    begin
+        TotalDays := EndDate - StartDate + 1;
+        NonWorkingDays := LeaveMgt.GetNonWorkingDays(StartDate, EndDate, EmployeeNo);
+        exit(TotalDays - NonWorkingDays);
+    end;
+
     var
         CalendarDescription: Text;
         Employee: Record Employee;

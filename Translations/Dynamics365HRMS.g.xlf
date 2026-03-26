@@ -11218,6 +11218,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Adjustment Sequence - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 394136589 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowed Date Range</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Allowed Date Range - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 1785283783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>AML Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11232,11 +11237,6 @@
           <source>Attendance Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Attendance Days - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 310427152 - Field 3267479251 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Back Date Allowed UpTo</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Back Date Allowed UpTo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 3543129988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Blocked</source>
@@ -37634,7 +37634,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Attendance Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 3267479251 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Back Date Allowed UpTo in date formula.</source>
+          <source>Specifies the value of the Back Date or future date leave apply allowed in date formula.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Back Date Allowed UpTo - Property ToolTip</note>
         </trans-unit>
