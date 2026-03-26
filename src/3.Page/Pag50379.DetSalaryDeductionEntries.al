@@ -6,6 +6,7 @@ page 50379 "Det Salary Deduction Entries"
     ApplicationArea = All;
     UsageCategory = Lists;
     InsertAllowed = false;
+    DeleteAllowed = false;
     ModifyAllowed = false;
 
     layout
