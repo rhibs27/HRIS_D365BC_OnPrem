@@ -4,7 +4,7 @@ page 50371 "Shift Assignment Memos"
     Caption = 'Shift Assignment Memos';
     PageType = List;
     SourceTable = "Assignment Memo Header";
-    SourceTableView = where("Activity Type" = const("Shift Assignment Memo"));
+    SourceTableView = sorting("No.") order(descending) where("Activity Type" = const("Shift Assignment Memo"));
     CardPageId = "Assignment Memo Card";
     UsageCategory = Lists;
     InsertAllowed = false;
