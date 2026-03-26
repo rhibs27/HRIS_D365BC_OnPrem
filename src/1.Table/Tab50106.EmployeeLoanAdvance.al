@@ -71,7 +71,7 @@ table 50106 "Employee Loan/Advance"
                     Validate("Employee Name in Nepali", Employee."Full Name (Nepali)");
                     Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
                     Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
-
+                    Validate("License No.", Employee."Driving License No.");
 
                     if "Loan Type" = "Loan Type"::"Salary Advance" then
                         LoanMgt.NewSalaryAdvanceCheck("Employee No.");
@@ -537,6 +537,7 @@ table 50106 "Employee Loan/Advance"
         }
         field(210; "Functional title"; Code[20])
         {
+            TableRelation = "Functional Title";
         }
         field(211; "Salary Account Number"; Text[50])
         {
@@ -548,6 +549,36 @@ table 50106 "Employee Loan/Advance"
                 CheckAreaofPlotFormat("Area of Propty. tobe Purchased", FieldCaption("Area of Propty. tobe Purchased"), "Area Format");
             end;
         }
+        field(213; "License No."; Text[30])
+        {
+        }
+        field(214; "License Expiry Date"; Date)
+        {
+        }
+        field(215; "License Category"; Enum "Driving License Category")
+        {
+        }
+        field(216; "Driving License Owner"; Option)
+        {
+            OptionMembers = Self,Spouse;
+        }
+        field(217; "Staff VL previously"; Boolean)
+        {
+            trigger OnValidate()
+            begin
+                if not "Staff VL previously" then begin
+                    Clear("HR Recommended Tenure");
+                    Clear("HR VL Recommended Amount");
+                end;
+            end;
+        }
+        field(218; "HR VL Recommended Amount"; Decimal)
+        {
+        }
+        field(219; "HR Recommended Tenure"; Integer)
+        {
+        }
+
     }
 
     keys
@@ -639,39 +670,6 @@ table 50106 "Employee Loan/Advance"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
 
-    // local procedure CheckAreaOfPlotFormat()
-    // var
-    //     ValueLength: Integer;
-    //     FormatLength: Integer;
-    //     FormatText: Text;
-    //     i: Integer;
-    //     FormatText1: Text;
-    //     FormatText2: Text;
-    // begin
-    //     Clear(FormatText);
-    //     Clear(FormatLength);
-    //     Clear(ValueLength);
-    //     TestField("Area Format");
-    //     if "Area Format" <> "Area Format"::" " then begin
-    //         FormatText := CopyStr("Area of Plot", StrLen("Area of Plot"), StrLen("Area of Plot"));
-    //         if FormatText = '-' then
-    //             Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-    //         if StrPos("Area of Plot", '-') = 1 then
-    //             Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-    //         if StrPos("Area of Plot", '-') = (StrLen("Area of Plot") - 1) then
-    //             Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-    //         FormatLength := StrLen(DelChr(Format("Area Format"), '=', DelChr(Format("Area Format"), '=', '-')));
-    //         ValueLength := StrLen(DelChr("Area of Plot", '=', DelChr("Area of Plot", '=', '-')));
-    //         if FormatLength <> ValueLength then
-    //             Error(Text2, "Area of Plot", "Area Format");
-    //         for i := 1 to ValueLength do begin
-    //             FormatText1 := CopyStr("Area of Plot", StrPos("Area of Plot", '-'), i);
-    //             FormatText2 := CopyStr("Area of Plot", StrPos("Area of Plot", '-') + i + 1, i + 1);
-    //             if (FormatText1 = '--') or (FormatText2 = '--') then
-    //                 Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-    //         end;
-    //     end;
-    // end;
     local procedure CheckAreaOfPlotFormat(FieldValue: Text; FieldCaptionText: Text; AreaFormat: Enum "Area Format")
     var
         ValueLength: Integer;

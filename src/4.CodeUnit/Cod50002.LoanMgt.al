@@ -182,15 +182,17 @@ codeunit 50002 "Loan Mgt."
                     PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
                     EmpLoan."Previous Loan Amount" := PrevLoanAmt;
                     EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
-
-                    if SalaryLevel.Get(Employee."Salary Level") then begin
-                        if CheckSalaryLevel.Rank <= SalaryLevel.Rank then
-                            EmpLoan."Eligible Loan/Advance" := EmpLoan."Cost of Vehicle";
-                        if SalaryLevel."Vehicle Loan Limit" <> 0 then
-                            if SalaryLevel."Vehicle Loan Limit" < EmpLoan."Eligible Loan/Advance" then
-                                EmpLoan."Eligible Loan/Advance" := SalaryLevel."Vehicle Loan Limit";
-                        if EmpLoan."Eligible Loan/Advance" > HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary" then
-                            EmpLoan."Eligible Loan/Advance" := HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary";
+                    OnBeforeCalculateEligibleVehicleLoanAmount(EmpLoan, IsHandled);
+                    if not IsHandled then begin
+                        if SalaryLevel.Get(Employee."Salary Level") then begin
+                            if CheckSalaryLevel.Rank <= SalaryLevel.Rank then
+                                EmpLoan."Eligible Loan/Advance" := EmpLoan."Cost of Vehicle";
+                            if SalaryLevel."Vehicle Loan Limit" <> 0 then
+                                if SalaryLevel."Vehicle Loan Limit" < EmpLoan."Eligible Loan/Advance" then
+                                    EmpLoan."Eligible Loan/Advance" := SalaryLevel."Vehicle Loan Limit";
+                            if EmpLoan."Eligible Loan/Advance" > HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary" then
+                                EmpLoan."Eligible Loan/Advance" := HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary";
+                        end;
                     end;
                     if SalaryLevel."Reapply Year (Vehicle Loan)" <> 0 then begin
                         PreviousLoan.Reset;
@@ -260,6 +262,7 @@ codeunit 50002 "Loan Mgt."
     var
         InterestRate: Decimal;
         PowerValue: Decimal;
+        CostOfHouse: Decimal;
     begin
         HRSetup.Get;
         EmpLoan.EMI := 0;
@@ -273,7 +276,7 @@ codeunit 50002 "Loan Mgt."
                 end;
             EmpLoan."Loan Type"::"Personal Loan":
                 begin
-                    EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type");
+                    EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Applied Loan/Advance");
                     EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * EmpLoan."Interest Rate" / 100) / 12;
                 end;
             EmpLoan."Loan Type"::"Vehicle Loan":
@@ -283,9 +286,10 @@ codeunit 50002 "Loan Mgt."
                     if (SalaryLevel."Vehicle Loan Limit" <> 0) then   //changes for salary level greater than AM
                         EmpLoan."Interest Rate" := 0    //changes for salary level greater than AM
                     else
-                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type");
+                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Cost of Vehicle");
                     InterestRate := (EmpLoan."Interest Rate" / 12) / 100;
-                    PowerValue := Power((1 + InterestRate), (EmpLoan."Repayment Period" * 12));
+                    PowerValue := Power((1 + InterestRate), (EmpLoan."Repayment Period" * 12)); //EMI = P × r × (1+r)ⁿ / ((1+r)ⁿ - 1) formula for emi
+
                     if EmpLoan."Interest Rate" = 0 then     //changes for salary level greater than AM
                         EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / (EmpLoan."Repayment Period" * 12)    //changes for salary level greater than AM
                     else
@@ -295,7 +299,11 @@ codeunit 50002 "Loan Mgt."
             EmpLoan."Loan Type"::"Home Loan":
                 begin
                     if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"EMI Basis" then begin
-                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type");
+                        if EmpLoan."Estimated Cost of Construction" <> 0 then
+                            CostOfHouse := EmpLoan."Estimated Cost of Construction"
+                        else
+                            CostOfHouse := EmpLoan."Commercial Value of Property";
+                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", CostOfHouse);
                         InterestRate := (EmpLoan."Interest Rate" / 12) / 100;
                         PowerValue := Power((1 + InterestRate), (EmpLoan."Repayment Period" * 12));
                         EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * InterestRate * PowerValue)
@@ -428,8 +436,15 @@ codeunit 50002 "Loan Mgt."
             until AttachmentSetup.Next = 0;
     end;
 
-    procedure GetInterestRate(StartingDate: Date; LoanType: enum "Loan Type"): Decimal
+    procedure GetInterestRate(StartingDate: Date; LoanType: enum "Loan Type"; LoanAmount: Decimal): Decimal
+    var
+        InterestRate: Decimal;
+        IsHandled: Boolean;
     begin
+        IsHandled := false;
+        OnBeforeGetInterestRate(StartingDate, LoanType, LoanAmount, InterestRate, IsHandled);
+        if IsHandled then
+            exit(InterestRate);
         LoanInterest.Reset;
         LoanInterest.SetCurrentKey("Starting Date");
         LoanInterest.SetRange("Starting Date", 0D, StartingDate);
@@ -438,6 +453,7 @@ codeunit 50002 "Loan Mgt."
             exit(LoanInterest."Interest Rate");
         Error('Loan Interest setup not found for %1, Date %2', LoanType, StartingDate);
     end;
+
 
     procedure ValidateDocument(var EmpLoan: Record "Employee Loan/Advance"): Boolean
     begin
@@ -1144,6 +1160,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoanAdvance.Validate("Employee No.", No);
             EmpLoanAdvance.Validate("Employee Name in Nepali", Employee."Full Name (Nepali)");
             EmpLoanAdvance.Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
+            EmpLoanAdvance.Validate("Requested Loan Date", Today);
             EmpLoanAdvance.Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
             EmpLoanAdvance.Validate("Approval Status", EmpLoanAdvance."Approval Status"::"Pending");
             EmpLoanAdvance.Insert(true);
@@ -2000,6 +2017,16 @@ codeunit 50002 "Loan Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCheckHomeLoanEligibility(var EmpLoan: Record "Employee Loan/Advance")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateEligibleVehicleLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGetInterestRate(StartingDate: Date; LoanType: Enum "Loan Type"; LoanAmount: Decimal; var InterestRate: Decimal; var IsHandled: Boolean)
     begin
     end;
 

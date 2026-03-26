@@ -93,15 +93,16 @@ page 50159 "Employee Home Loan List"
             {
                 Caption = 'Filter By Status';
                 Image = FilterLines;
-                // Promoted = true;
-                // PromotedCategory = Process;
-                // PromotedIsBig = true;
+
                 action(Open)
                 {
                     Caption = 'Open';
                     ToolTip = 'Executes the Open action.';
                     ApplicationArea = All;
                     Image = Open;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
 
                     trigger OnAction()
                     begin
@@ -116,6 +117,9 @@ page 50159 "Employee Home Loan List"
                     ToolTip = 'Executes the Pending Approval action.';
                     ApplicationArea = All;
                     Image = PendingApproval;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
                     trigger OnAction()
                     begin
                         Rec.FilterGroup(2);
@@ -130,6 +134,9 @@ page 50159 "Employee Home Loan List"
                     Image = Approve;
                     ToolTip = 'Executes the Approved action.';
                     ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
 
                     trigger OnAction()
                     begin
@@ -145,6 +152,9 @@ page 50159 "Employee Home Loan List"
                     Image = DeleteQtyToHandle;
                     ToolTip = 'Executes the Rejected action.';
                     ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
                     trigger OnAction()
                     begin
                         Rec.FilterGroup(2);
@@ -159,6 +169,9 @@ page 50159 "Employee Home Loan List"
                     Image = Return;
                     ToolTip = 'Executes the withdrawn action.';
                     ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
 
                     trigger OnAction()
                     begin
@@ -174,6 +187,9 @@ page 50159 "Employee Home Loan List"
                     ApplicationArea = All;
                     Image = ClearFilter;
                     ToolTip = 'Executes the Clear filter action.';
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
                     trigger OnAction()
                     begin
                         Rec.FilterGroup(2);

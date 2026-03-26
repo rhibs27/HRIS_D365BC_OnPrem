@@ -26,6 +26,17 @@ page 50158 "Employee Vehicle Loan Card"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
+                field("Job Title(Desgination)"; Rec."Job Title")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Job Title field.';
+                    ApplicationArea = All;
+                }
+                field("Salary Account Number"; rec."Salary Account Number")
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                }
                 field(Age; Rec.Age)
                 {
                     Editable = false;
@@ -37,31 +48,38 @@ page 50158 "Employee Vehicle Loan Card"
                     ToolTip = 'Specifies the value of the Date of Birth field.';
                     ApplicationArea = All;
                 }
-                field("Job Title(Desgination)"; Rec."Job Title")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Job Title field.';
-                    ApplicationArea = All;
-                }
                 field("Branch Name"; Rec."Branch Name")
                 {
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Department Name"; Rec."Department Name")
                 {
                     ToolTip = 'Specifies the value of the Department Name field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Unit Name"; Rec."Unit Name")
                 {
                     ToolTip = 'Specifies the value of the Unit Name field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Functional title"; rec."Functional title")
+                {
+                    Editable = false;
                     ApplicationArea = All;
                 }
                 field("Confirmation Service Period"; Rec."Confirmation Service Period")
                 {
                     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
                     ApplicationArea = All;
+                }
+                field("Remaining Service Period"; rec."Remaining Service Period")
+                {
+                    ApplicationArea = all;
+                    Editable = false;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -80,7 +98,13 @@ page 50158 "Employee Vehicle Loan Card"
             }
             group("Vehicle Loan Parameter")
             {
-                Editable = ForScreen;
+                Editable = IsOpen;
+                field("Requested Loan Date"; Rec."Requested Loan Date")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Requested Loan Date field.';
+                    ApplicationArea = All;
+                }
                 field("Previous Loan Amount"; Rec."Previous Loan Amount")
                 {
                     Editable = false;
@@ -123,6 +147,14 @@ page 50158 "Employee Vehicle Loan Card"
                     ToolTip = 'Specifies the value of the Purpose of Loan field.';
                     ApplicationArea = All;
                 }
+                field("Driving License Owner"; rec."Driving License Owner")
+                {
+                    ApplicationArea = All;
+                }
+                field("License Category"; rec."License Category")
+                {
+                    ApplicationArea = All;
+                }
                 field("Cost of Vehicle"; Rec."Cost of Vehicle")
                 {
                     Editable = true;
@@ -134,14 +166,20 @@ page 50158 "Employee Vehicle Loan Card"
                         CurrPage.Update;
                     end;
                 }
-                field("Requested Loan Date"; Rec."Requested Loan Date")
+
+                field("Repayment Period"; Rec."Repayment Period")
                 {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Requested Loan Date field.';
+                    ToolTip = 'Specifies the value of the Repayment Period field.';
                     ApplicationArea = All;
+
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update;
+                    end;
                 }
                 field("Requested Loan Amount"; Rec."Applied Loan/Advance")
                 {
+                    Caption = 'Requested Loan Amount';
                     ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
                     ApplicationArea = All;
 
@@ -154,6 +192,15 @@ page 50158 "Employee Vehicle Loan Card"
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the DBR Ratio field.';
+                    ApplicationArea = All;
+                }
+                field("Insurance Company Code"; rec."Insurance Company Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Insurance Company"; rec."Insurance Company")
+                {
+                    Caption = 'Insurance Company Name';
                     ApplicationArea = All;
                 }
                 field("Vehicle Loan Type"; Rec."Vehicle Loan Type")
@@ -169,15 +216,13 @@ page 50158 "Employee Vehicle Loan Card"
                     ToolTip = 'Specifies the value of the Vehicle Type (Nepali) field.';
                     ApplicationArea = All;
                 }
-                field("Repayment Period"; Rec."Repayment Period")
+                field("License No."; rec."License No.")
                 {
-                    ToolTip = 'Specifies the value of the Repayment Period field.';
                     ApplicationArea = All;
-
-                    trigger OnValidate()
-                    begin
-                        CurrPage.Update;
-                    end;
+                }
+                field("License Expiry Date"; rec."License Expiry Date")
+                {
+                    ApplicationArea = All;
                 }
             }
             group("Vehicle Details")
@@ -310,29 +355,53 @@ page 50158 "Employee Vehicle Loan Card"
                     ApplicationArea = All;
                 }
             }
+
+            group("Group Remarks")
+            {
+
+                field(Remarks; Rec.Remarks)
+                {
+                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+                field("Rejection Remark"; Rec."Rejection Remark")
+                {
+                    ToolTip = 'Specifies the value of the Rejection Remark field.';
+                    ApplicationArea = All;
+                    Editable = IsPending;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
+                }
+            }
             part(Attachment; "Attachment Subform")
             {
                 Editable = IsOpen;
                 SubPageLink = "No." = field("No.");
                 ApplicationArea = All;
             }
-            group("Group Remarks")
+            group("HR Recommendation")
             {
-                Editable = IsPending;
-                field(Remarks; Rec.Remarks)
+                Visible = IsPending;
+                field("Staff VL previously"; rec."Staff VL previously")
                 {
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
+                    Caption = 'Did Staff Utlized Previous SVL for more than half tenure?';
+                    ApplicationArea = all;
                 }
-                field("Rejection Remark"; Rec."Rejection Remark")
+                field("HR VL Recommended Amount"; rec."HR VL Recommended Amount")
                 {
-                    ToolTip = 'Specifies the value of the Rejection Remark field.';
-                    ApplicationArea = All;
-                    trigger OnValidate()
-                    begin
-                        CurrPage.Update();
-                        RecRef.GetTable(Rec);
-                    end;
+                    Editable = Rec."Staff VL previously";
+                    Caption = 'HR VL Recommended Amount';
+                    ApplicationArea = ALL;
+                }
+                field(Tenure; rec."HR Recommended Tenure")
+                {
+                    Editable = Rec."Staff VL previously";
+                    Caption = 'HR Recommended Tenure';
+                    ApplicationArea = ALL;
                 }
             }
             part("Approval Subform"; "HRMS Approval Entry")
@@ -383,21 +452,6 @@ page 50158 "Employee Vehicle Loan Card"
                     LoanMgt.SendApprovaLoan(Rec, true);
                 end;
             }
-            action("Cancel Approval Request")
-            {
-                Image = CancelApprovalRequest;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Cancel Approval Request action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    LoanMgt.SendApprovaLoan(Rec, false);
-                end;
-            }
             action("Screen Request")
             {
                 Promoted = true;
@@ -427,6 +481,7 @@ page 50158 "Employee Vehicle Loan Card"
 
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
+                        RecRef.GetTable(Rec);
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Message('Vehicle Loan is Approved by %1', HRMgt.GetEmpName());
                         clear(Rec."Rejection Remark");
@@ -450,6 +505,7 @@ page 50158 "Employee Vehicle Loan Card"
                         IF REC."Rejection Remark" = '' then
                             Error('Rejection Remark is Empty')
                         else begin
+                            RecRef.GetTable(Rec);
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
                             Message('Vehicle Loan is Rejected by %1', HRMgt.GetEmpName());
                         end;
@@ -493,6 +549,7 @@ page 50158 "Employee Vehicle Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Disburse action.';
                 ApplicationArea = All;
+                Visible = IsApproved;
 
                 trigger OnAction()
                 begin
@@ -507,6 +564,7 @@ page 50158 "Employee Vehicle Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Modify Security Document action.';
                 ApplicationArea = All;
+                Visible = IsApproved;
 
                 trigger OnAction()
                 begin
@@ -543,6 +601,7 @@ page 50158 "Employee Vehicle Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Update Vehicle Details action.';
                 ApplicationArea = All;
+                Visible = IsApproved;
 
                 trigger OnAction()
                 begin
@@ -668,7 +727,8 @@ page 50158 "Employee Vehicle Loan Card"
     trigger OnAfterGetRecord()
     begin
         SetLayout();
-        //LoanMgt.CalculateFields(Rec);
+        if rec."Approval Status" = rec."Approval Status"::Open then
+            LoanMgt.CalculateFields(Rec);
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -686,12 +746,14 @@ page 50158 "Employee Vehicle Loan Card"
         CreateIncomingDocFromEmailAttachment := OfficeMgt.OCRAvailable;
         CreateIncomingDocumentVisible := not OfficeMgt.IsOutlookMobileApp;
         SetLayout();
-        AppliedLoan := Rec."Applied Loan/Advance";
-        // if Rec."Approval Status" = Rec."Approval Status"::Open then begin
-        //     Rec.Validate("Employee No.");
-        //     Rec.Modify(true);
-        // end;
-        RecRef.GetTable(Rec);
+        if Rec."Approval Status" = Rec."Approval Status"::Open then begin
+            Rec.Validate("Requested Loan Date", Today);
+            Rec.Validate("Repayment Period", 1);
+            Rec.Validate("Applied Loan/Advance", 0);
+            Rec.Validate("Employee No.");
+            Rec.Modify(true);
+            RecRef.GetTable(Rec);
+        end;
     end;
 
     var
