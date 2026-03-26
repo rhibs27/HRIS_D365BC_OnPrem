@@ -92,6 +92,10 @@ table 50167 "Det Salary Deduction Entry"
         field(18; "Reversed From Pay Cycle Period"; Integer)
         {
         }
+        field(19; Blocked; Boolean)
+        {
+            Editable = false;
+        }
 
     }
 
@@ -104,29 +108,4 @@ table 50167 "Det Salary Deduction Entry"
         key(key1; "Employee No.") { }
         key(key2; "Employee No.", "Deduction Date") { }
     }
-    trigger OnDelete()
-    var
-        SalaryDeductionEntries: Record "Salary Deduction Entry";
-    begin
-        if Rec."Attendance Posted" then
-            Error('Cannot delete posted entries');
-
-
-        SalaryDeductionEntries.Reset();
-        SalaryDeductionEntries.SetRange("Entry No.", "Deduction Entry No.");
-        if SalaryDeductionEntries.FindFirst() then begin
-            SalaryDeductionEntries.Reversed := false;
-            SalaryDeductionEntries.Modify();
-        end;
-
-        Rec.Reset();
-        Rec.SetRange("Deduction Entry No.", Rec."Deduction Entry No.");
-        Rec.SetRange("Attendance Posted", true);
-        Rec.ModifyAll(Reversed, false);
-
-        Rec.Reset();
-        Rec.SetRange("Deduction Entry No.", Rec."Deduction Entry No.");
-        Rec.SetRange("Attendance Posted", false);
-        Rec.DeleteAll();
-    end;
 }

@@ -3983,6 +3983,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Attribute Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2683117390 - Field 3543129988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Blocked</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Blocked - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2683117390 - Field 3252322165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47303,11 +47308,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Resign Clearance Verifier - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2288209159 - Action 210317425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Resignation Acceptance Letter action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Action Acceptance Letter - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2288209159 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50998,10 +50998,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Approve - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 276376150 - Action 939157021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Format for Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Export Format for Excel - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 276376150 - Action 870704432 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Import Attachment action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Import Attachment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 276376150 - Action 1731482064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import From Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Import From Excel - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Action 2282416948 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Post action.</source>
