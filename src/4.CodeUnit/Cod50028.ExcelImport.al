@@ -632,8 +632,9 @@ codeunit 50028 "Excel Import"
         //Header
         TempExcelBuffer.NewRow();
         TempExcelBuffer.AddColumn(TrainingAttendance.FieldCaption("Employee No."), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn('Employee Name', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn(TrainingAttendance.FieldCaption("Attended Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Date);
-        CreateExcelBook(TempExcelBuffer, 'ShiftLine');
+        CreateExcelBook(TempExcelBuffer, 'Attendance Line');
     end;
 
     procedure ExportTransferSheet(EmployeeActJournal: Record "Employee Activity Journal")

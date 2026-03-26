@@ -15,51 +15,52 @@ page 50097 "Training Card"
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
 
-                    trigger OnAssistEdit()
-                    begin
-                        if Rec.AssistEdit(xRec) then
-                            CurrPage.Update;
-                    end;
+                    // trigger OnAssistEdit()
+                    // begin
+                    //     if Rec.AssistEdit(xRec) then
+                    //         CurrPage.Update;
+                    // end;
                 }
-                field("Training Nature"; Rec."Training Nature")
-                {
-                    Editable = IsOpen;
-                    ToolTip = 'Specifies the value of the Training Nature field.';
-                    ApplicationArea = All;
-                }
+
                 field("Training Calendar No"; Rec."Training Calendar No")
                 {
                     Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Training Calendar No field.';
                     ApplicationArea = All;
                 }
+                field("Training Nature"; Rec."Training Nature")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Training Nature field.';
+                    ApplicationArea = All;
+                }
                 field(Description; Rec.Description)
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
                 field(Province; Rec.Province)
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Province field.';
                     ApplicationArea = All;
                 }
                 field("Province Name"; Rec."Province Name")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Province Name field.';
                     ApplicationArea = All;
                 }
                 field(Venue; Rec.Venue)
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Venue field.';
                     ApplicationArea = All;
                 }
                 field("Training Type"; Rec."Training Type")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Training Type field.';
                     ApplicationArea = All;
                 }
@@ -115,7 +116,7 @@ page 50097 "Training Card"
                 }
                 field("Branch Code"; Rec."Branch Code")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Branch Code field.';
                     ApplicationArea = All;
 
@@ -125,12 +126,11 @@ page 50097 "Training Card"
                             FieldEditable := false
                         else
                             FieldEditable := true;
-                        CurrPage.Update;
                     end;
                 }
                 field("Department Code"; Rec."Department Code")
                 {
-                    Editable = FieldEditable;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;
                 }
@@ -147,7 +147,7 @@ page 50097 "Training Card"
                 }
                 field("Expected No. of Participant"; Rec."Expected No. of Participant")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Expected No. of Participant field.';
                     ApplicationArea = All;
                 }
@@ -158,7 +158,7 @@ page 50097 "Training Card"
                 }
                 field("Resource Person"; Rec."Resource Person")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Resource Person field.';
                     ApplicationArea = All;
                 }
@@ -181,22 +181,22 @@ page 50097 "Training Card"
                 group(Estimated)
                 {
                     Caption = 'Estimated';
-                    field(Vendor; Rec.Vendor)
+                    field("Vendor Code"; Rec."Vendor Code")
                     {
                         Caption = 'Vendor Code';
-                        Editable = IsOpen;
+                        Editable = false;
                         ToolTip = 'Specifies the value of the Vendor Code field.';
                         ApplicationArea = All;
                     }
                     field("Vendor Name"; Rec."Vendor Name")
                     {
-                        Editable = IsOpen;
+                        Editable = false;
                         ToolTip = 'Specifies the value of the Vendor Name field.';
                         ApplicationArea = All;
                     }
                     field("Estimated Training Cost"; Rec."Estimated Training Cost")
                     {
-                        Editable = IsOpen;
+                        Editable = false;
                         ToolTip = 'Specifies the value of the Estimated Training Cost field.';
                         ApplicationArea = All;
                     }
@@ -222,6 +222,7 @@ page 50097 "Training Card"
                     {
                         ToolTip = 'Specifies the value of the Estimated Total Budget field.';
                         ApplicationArea = All;
+                        Editable = false;
                     }
                 }
                 group("Actual Expense")
@@ -259,6 +260,7 @@ page 50097 "Training Card"
             }
             group(Budget)
             {
+                Visible = false;
                 field("YTD Amount"; Rec."YTD Amount")
                 {
                     ToolTip = 'Specifies the value of the YTD Amount field.';
@@ -282,6 +284,7 @@ page 50097 "Training Card"
             }
             group("Training Review")
             {
+                Visible = false;
                 field("Total Trainer Marks"; Rec."Total Trainer Marks")
                 {
                     ToolTip = 'Specifies the value of the Total Trainer Marks field.';
@@ -328,6 +331,7 @@ page 50097 "Training Card"
             group("Training Payment Approval")
             {
                 Editable = IsApproved;
+                Visible = false;
                 field("ROCE Code"; Rec."ROCE Code")
                 {
                     Editable = IsApproved;
@@ -710,7 +714,6 @@ page 50097 "Training Card"
 
     trigger OnAfterGetRecord()
     begin
-        TrainingCalendarEditable := Rec."Training Nature" = Rec."Training Nature"::Calendar;
         RecRef.GetTable(Rec);
     end;
 
@@ -746,7 +749,6 @@ page 50097 "Training Card"
         TrainingMgt: Codeunit "Training Mgt";
         ExcelImport: Codeunit "Excel Import";
         RecRef: RecordRef;
-        DateFilter: Text;
         NoOfColumn: Integer;
         HRMgt: Codeunit "HR Mgt.";
         EmailMgt: Codeunit "Email Mgt";
@@ -754,7 +756,6 @@ page 50097 "Training Card"
         IsOpen, IsPending, IsApproved : Boolean;
         EmailTemplate: Record "Email Template";
         RatingSetup: Record "Rating Setup";
-        TrainingCalendarEditable: Boolean;
         TrainingLine: Record "Training Line";
         FieldEditable: Boolean;
 
@@ -763,7 +764,6 @@ page 50097 "Training Card"
         StartDate: Date;
         EndDate: Date;
     begin
-        DateFilter := StrSubstNo('%1..%2', Rec."Start Date", Rec."End Date");
         NoOfColumn := Rec."End Date" - Rec."Start Date" + 1;
         StartDate := Rec."Start Date";
         EndDate := Rec."End Date";

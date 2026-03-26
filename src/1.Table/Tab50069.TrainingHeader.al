@@ -62,14 +62,15 @@ table 50069 "Training Header"
             end;
         }
         field(8; Venue; Text[250]) { }
-        field(9; Vendor; Code[20])
+        field(9; "Vendor Code"; Code[20])
         {
             TableRelation = Vendor;
-
             trigger OnValidate()
+            var
+                Vendor: Record Vendor;
             begin
-                if VendorVar.Get(Vendor) then
-                    Validate("Vendor Name", VendorVar.Name)
+                if Vendor.Get("Vendor Code") then
+                    Validate("Vendor Name", Vendor.Name)
                 else
                     Clear("Vendor Name");
             end;
@@ -109,10 +110,6 @@ table 50069 "Training Header"
         }
         field(17; "Training Nature"; Enum "Training Nature")
         {
-            trigger OnValidate()
-            begin
-                Validate("Training Calendar No", '');
-            end;
         }
         field(18; Province; Code[500])
         {
@@ -128,36 +125,30 @@ table 50069 "Training Header"
         }
         field(23; "Training Calendar No"; Code[20])
         {
-            TableRelation = if ("Training Nature" = const(Calendar)) "Training Calendar"
-            else
-            "Training Master";
-
+            TableRelation = "Training Calendar"."No.";
             trigger OnValidate()
+            var
+                TrainingCalendar: Record "Training Calendar";
             begin
-                if "Training Nature" = "Training Nature"::Calendar then begin
-                    if TrainingCalendar.Get("Training Calendar No") then begin
-                        Validate(Description, TrainingCalendar.Description);
-                        Validate(Venue, TrainingCalendar."Expected Venue");
-                        Validate("Expected No. of Participant", TrainingCalendar."Maximum Participant");
-                        Validate("Training Type", TrainingCalendar."Training Type");
-                        Validate("Estimated Total Budget", TrainingCalendar."Total Cost");
-                        Validate("Resource Person", TrainingCalendar."Resource person");
-                        Validate(Cost, TrainingCalendar."Total Cost");
-                        Validate(Province, TrainingCalendar.Province);
-                        Validate("Branch Code", TrainingCalendar."Coverage Branch");
-                        Validate("Department Code", TrainingCalendar."Coverage Department");
-                        Validate("Estimated Trainer Cost", TrainingCalendar."Trainer Cost");
-                        Validate("Estimated Training Cost", TrainingCalendar."Training Cost");
-                    end else begin
-                        Clear(Description);
-                        ClearFields;
-                    end;
-                end else begin
-                    if TrainingMaster.Get("Training Calendar No") then
-                        Validate(Description, TrainingMaster.Description);
-                    ClearFields;
-                end;
+                if TrainingCalendar.Get("Training Calendar No") then begin
+                    Validate(Description, TrainingCalendar.Description);
+                    Validate(Venue, TrainingCalendar."Expected Venue");
+                    Validate("Expected No. of Participant", TrainingCalendar."Maximum Participant");
+                    Validate("Training Type", TrainingCalendar."Training Type");
+                    Validate("Estimated Total Budget", TrainingCalendar."Total Cost");
+                    Validate("Resource Person", TrainingCalendar."Resource person");
+                    Validate(Cost, TrainingCalendar."Total Cost");
+                    Validate(Province, TrainingCalendar.Province);
+                    Validate("Branch Code", TrainingCalendar."Coverage Branch");
+                    Validate("Department Code", TrainingCalendar."Coverage Department");
+                    Validate("Estimated Trainer Cost", TrainingCalendar."Trainer Cost");
+                    Validate("Estimated Training Cost", TrainingCalendar."Training Cost");
+                    Validate("Training Nature", TrainingCalendar."Training Nature");
+                    Validate(Function, TrainingCalendar.Function);
+                end else
+                    ClearFields();
             end;
+
         }
         field(24; Cost; Decimal) { }
         field(25; Description; Text[250])
@@ -302,18 +293,6 @@ table 50069 "Training Header"
         field(49; "Supported By"; Code[20])
         {
             TableRelation = Employee where(Status = const(Active));
-
-            trigger OnLookup()
-            begin
-                EmpVar.Reset;
-                if Page.RunModal(0, EmpVar) = Action::LookupOK then
-                    if StrPos("Supported By", EmpVar."No.") = 0 then
-                        if "Supported By" <> '' then
-                            Validate("Supported By", "Supported By" + '|' + EmpVar."No.")
-                        else
-                            Validate("Supported By", EmpVar."No.");
-            end;
-
             trigger OnValidate()
             begin
                 HRMgt.GetEmployeeName("Supported By", "Supported By Name");
@@ -453,12 +432,8 @@ table 50069 "Training Header"
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
-        ProvienceVar: Record Province;
-        TrainingCalendar: Record "Training Calendar";
         TrainingLine: Record "Training Line";
         DeleteError: Label 'Document %1 must be open. ';
-        TrainingMaster: Record "Training Master";
-        VendorVar: Record Vendor;
         EngNepDate: Record "English-Nepali Date";
         TrainBudgHead: Record "Training Budget Header";
         TrainBudgtLine: Record "Training Budget Line";
@@ -471,7 +446,6 @@ table 50069 "Training Header"
         TrainAttendance: Record "Training Attendance";
         Found: Boolean;
         EmpFeedback: Record "Employee Feedback";
-        EmpVar: Record Employee;
         leaveMgt: Codeunit "Leave Mgt.";
         ApprovalMgt: Codeunit "Approver Mgt";
 
@@ -523,6 +497,11 @@ table 50069 "Training Header"
         Clear("Province Name");
         Clear("Branch Code");
         Clear("Department Code");
+        Clear(Description);
+        Clear("Estimated Trainer Cost");
+        Clear("Estimated Training Cost");
+        Clear("Training Nature");
+        Clear(Function);
     end;
 
     local procedure CalculateTotalBudget()

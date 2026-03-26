@@ -102,6 +102,11 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Training Type field.';
                     ApplicationArea = All;
                 }
+                field("Training Nature"; Rec."Training Nature")
+                {
+                    ToolTip = 'Specifies the value of the Training Nature field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }

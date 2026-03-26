@@ -3,7 +3,6 @@ table 50013 "Training Calendar"
     DrillDownPageId = "Training Calendar Lists";
     LookupPageId = "Training Calendar Lists";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -100,6 +99,7 @@ table 50013 "Training Calendar"
                 Validate(Province, HRMgt.LookupDepartment(''));
             end;
         }
+        field(22; "Training Nature"; Enum "Training Nature") { }
     }
 
     keys

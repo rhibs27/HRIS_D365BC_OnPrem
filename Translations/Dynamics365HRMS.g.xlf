@@ -21833,6 +21833,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Calendar - Field Training Master code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2596593430 - Field 2123914291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Nature</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Calendar - Field Training Nature - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2596593430 - Field 3982664412 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Training Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22148,10 +22153,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field Valley - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 691882305 - Field 1936001480 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Vendor</source>
+        <trans-unit id="Table 691882305 - Field 2853492251 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Vendor Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field Vendor - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field Vendor Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 691882305 - Field 3119688693 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vendor Name</source>
@@ -50523,6 +50528,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Lists - Control Training Master code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 851111573 - Control 2123914291 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Training Nature field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Lists - Control Training Nature - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 851111573 - Control 3982664412 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Training Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50743,15 +50753,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Estimated Training Cost - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2676995112 - Control 1936001480 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2676995112 - Control 2853492251 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Vendor Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Vendor - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Vendor Code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2676995112 - Control 1936001480 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2676995112 - Control 2853492251 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vendor Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Vendor - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Vendor Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2676995112 - Control 3119688693 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Vendor Name field.</source>
