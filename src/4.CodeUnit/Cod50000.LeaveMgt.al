@@ -1025,11 +1025,15 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure InsertLeaveEarnfromJournal(LeaveJournal: Record "Employee Activity Journal")
+    procedure InsertLeaveEarnFromJournal(LeaveJournal: Record "Employee Activity Journal")
     var
         LeaveEarn: Record "Leave Earn";
         HRMgt: Codeunit "HR Mgt.";
+        IsHandled: Boolean;
     begin
+        OnInsertLeaveEarnFromJournal(LeaveJournal, IsHandled);
+        if IsHandled then
+            exit;
         LeaveEarn.Init;
         LeaveEarn.Validate("Leave Code", LeaveJournal."Leave Code");
         LeaveEarn.Validate("Employee No.", LeaveJournal."Employee No.");
@@ -2124,6 +2128,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsertLeaveLeaderOnApprove(var LeaveEarn: Record "Leave Earn")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertLeaveEarnfromJournal(var leaveJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
     begin
     end;
 
