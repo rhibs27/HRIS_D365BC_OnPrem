@@ -368,6 +368,7 @@ codeunit 50008 "Payroll Engine"
         TotalTaxRemunPaid := EmpPayOpen."Total Tax Remuneration Opening" + Employee."Remuneration & Benefits Tax";
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
+        IsHandle := false;
         OnBeforeAnnualTaxZeroonNegative(IsHandle);
         if not IsHandle then
             if AnnualTax < 0 then
@@ -386,7 +387,7 @@ codeunit 50008 "Payroll Engine"
             else
                 MonthlyTax := AnnualTax / (RemainingMonth + 1) + Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');   //settlement
 
-            OnAfterMothlyTaxCalculation(AnnualTax, MonthlyTax, NegMonthlyTax);
+            OnAfterMonthlyTaxCalculation(AnnualTax, MonthlyTax, NegMonthlyTax);
 
             if TaxAtOnceAnnualTax < 0 then begin
                 MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax";
@@ -408,6 +409,7 @@ codeunit 50008 "Payroll Engine"
                 if TotalTaxWithoutSST > TaxExempt then
                     TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
                 else begin
+                    IsHandle := false;
                     OnAfterAnnualTaxCalculation(SocialSecurityTax, TaxExempt, TotalTaxWithoutSST, IsHandle);
                     if not IsHandle then begin
                         SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
@@ -449,6 +451,7 @@ codeunit 50008 "Payroll Engine"
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
 
+                IsHandle := false;
                 OnBeforeResetOnNegative(IsHandle);
                 if not IsHandle then begin
                     IF MonthlyTax < 0 THEN begin
@@ -460,7 +463,7 @@ codeunit 50008 "Payroll Engine"
             end;
         end;
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
-        OnCheckNegativeAountWithSSTaxAmount(IsNegativeTax);
+        OnCheckNegativeAmountWithSSTaxAmount(IsNegativeTax);
         if (SocialSecurityTaxAmount >= MonthlyTax) and (not IsNegativeTax) then
             MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
@@ -3807,7 +3810,7 @@ codeunit 50008 "Payroll Engine"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterMothlyTaxCalculation(var AnnualTax: Decimal; var MonthlyTax: Decimal; var NegMonthlyTax: Decimal)
+    local procedure OnAfterMonthlyTaxCalculation(var AnnualTax: Decimal; var MonthlyTax: Decimal; var NegMonthlyTax: Decimal)
     begin
     end;
 
@@ -3832,7 +3835,7 @@ codeunit 50008 "Payroll Engine"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnCheckNegativeAountWithSSTaxAmount(var IsNegativeTax: Boolean)
+    local procedure OnCheckNegativeAmountWithSSTaxAmount(var IsNegativeTax: Boolean)
     begin
     end;
 
