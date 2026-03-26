@@ -11493,6 +11493,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Adjustment Sequence - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 394136589 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowed Date Range</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Allowed Date Range - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 1785283783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>AML Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11507,11 +11512,6 @@
           <source>Attendance Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Attendance Days - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 310427152 - Field 3267479251 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Back Date Allowed UpTo</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Back Date Allowed UpTo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 3543129988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Blocked</source>
@@ -38398,6 +38398,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Attendance Days - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 310427152 - Control 3267479251 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Back Date or future date leave apply allowed in date formula.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Back Date Allowed UpTo - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 310427152 - Control 932744881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Calculate Proratawise field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48043,11 +48048,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Control Resign Clearance Verifier - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2288209159 - Action 210317425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Resignation Acceptance Letter action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Card - Action Acceptance Letter - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2288209159 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51878,10 +51878,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Approve - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 276376150 - Action 939157021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Export Format for Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Export Format for Excel - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 276376150 - Action 870704432 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Import Attachment action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Import Attachment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 276376150 - Action 1731482064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import From Excel action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Action Import From Excel - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Action 2282416948 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Post action.</source>
@@ -55478,6 +55488,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Process Daily Attendance - Control EmailIds - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 3363109207 - Control 407760838 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Portal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Process Daily Attendance - Control FromPortal - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 1951896362 - NamedType 230925682" size-unit="char" translate="yes" xml:space="preserve">
           <source>The %1 Meeting of Human Resource Staffing Committee was held on %2.Key highlights of the deliberations and decisions made during the meeting are as follows:</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58652,6 +58667,11 @@
           <source>Specifies the value of the Salary Advance No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Salary Advance No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 162649797 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Service Day without LastDate field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Service Day without Last Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2051627541 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Service History No. Series field.</source>
@@ -61857,6 +61877,11 @@
           <source>Salary Advance No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Salary Advance No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 162649797 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Service Day without Last Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Service Day without Last Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2051627541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Service History No. Series</source>

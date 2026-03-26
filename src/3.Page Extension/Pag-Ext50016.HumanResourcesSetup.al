@@ -213,6 +213,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Calculate Age using Nepali Calender field.', Comment = '%';
             }
+            field("Service Day without Last Date"; Rec."Service Day without Last Date")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Service Day without LastDate field.', Comment = '%';
+            }
             field("Validate Permanent Address"; Rec."Validate Permanent Address")
             {
                 ApplicationArea = All;

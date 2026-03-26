@@ -726,7 +726,11 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50160; "Grievance No."; Code[20])
+        field(50160; "Service Day without Last Date"; Boolean)
+        {
+            Caption = 'Service Day without Last Date';
+        }
+        field(50161; "Grievance No."; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;

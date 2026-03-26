@@ -28,7 +28,7 @@ report 50067 "Process Daily Attendance"
                     trigger OnAfterGetRecord()
                     begin
                         Commit();
-                        ProcessDailyAttendance.GetSyncProcessBoolean(FromSyncProcess);
+                        ProcessDailyAttendance.GetSyncProcessBoolean(FromPortal);
                         if not ProcessDailyAttendance.Run(EmpAttendance) then
                             PrepareEmailArray();
                     end;
@@ -124,6 +124,11 @@ report 50067 "Process Daily Attendance"
                         Caption = 'Email Id';
                         ApplicationArea = All;
                     }
+                    field(FromPortal; FromPortal)
+                    {
+                        Caption = 'From Portal';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }
@@ -162,7 +167,8 @@ report 50067 "Process Daily Attendance"
         EMailMessage: Codeunit "Email Message";
         Email: Codeunit Email;
         EmailArray: JsonArray;
-        FromSyncProcess: Boolean;
+        FromPortal: Boolean;
+
 
     procedure GetSetup()
     begin
@@ -241,7 +247,7 @@ report 50067 "Process Daily Attendance"
             EmpAttendance."Department Code" := ServiceHistory."Department Code (To)";
             EmpAttendance."Department Name" := ServiceHistory."Department Description (To)";
             EmpAttendance."Unit Code" := ServiceHistory."Unit Code (To)";
-            EmpAttendance."Extension Counter" := ServiceHistory."Extension Description (To)";
+            EmpAttendance."Extension Counter" := ServiceHistory."Extension Counter (To)";
             EmpAttendance."Functional Title" := ServiceHistory."Functional Title (To)";
             EmpAttendance."Functional Title Desc" := ServiceHistory."Functional Title Desc. (To)";
             EmpAttendance.Modify();
@@ -328,7 +334,7 @@ report 50067 "Process Daily Attendance"
     procedure GetEmailIds(VarEmailId: Text; VarFromProcess: Boolean)
     begin
         EmailIds := VarEmailId;
-        FromSyncProcess := VarFromProcess;
+        FromPortal := VarFromProcess;
     end;
 
     procedure CheckAndUpdateEmployeeInLog()
