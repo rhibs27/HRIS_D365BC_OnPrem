@@ -225,9 +225,16 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         NoLeaveDaysError: Label 'You do not have enough leave Days.';
         LeaveEarn: Record "Leave Earn";
+        EarliestAllowedDate: Date;
     begin
         //check leave criteria
         LeaveTypeSetup.Get(LeaveCode);
+        if Format(LeaveTypeSetup."Allowed Date Range") <> '' then begin
+            EarliestAllowedDate := CalcDate(LeaveTypeSetup."Allowed Date Range", Today);
+            if StartDate < EarliestAllowedDate then
+                Error('Cannot apply %1 leave with start date %2. Back date allowed up to %3 only.',
+                    LeaveTypeSetup.Description, StartDate, EarliestAllowedDate);
+        end;
         Employee.Get(EmpCode);
         if LeaveTypeSetup."Services Period" then begin
             Leave.Reset;
@@ -1018,11 +1025,15 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure InsertLeaveEarnfromJournal(LeaveJournal: Record "Employee Activity Journal")
+    procedure InsertLeaveEarnFromJournal(LeaveJournal: Record "Employee Activity Journal")
     var
         LeaveEarn: Record "Leave Earn";
         HRMgt: Codeunit "HR Mgt.";
+        IsHandled: Boolean;
     begin
+        OnInsertLeaveEarnFromJournal(LeaveJournal, IsHandled);
+        if IsHandled then
+            exit;
         LeaveEarn.Init;
         LeaveEarn.Validate("Leave Code", LeaveJournal."Leave Code");
         LeaveEarn.Validate("Employee No.", LeaveJournal."Employee No.");
@@ -1552,7 +1563,7 @@ codeunit 50000 "Leave Mgt."
                                                           BalanceDays: Decimal;
                                         entryNo: Integer;
                                         ExtDocumentNo: Code[20];
-                                        Remarks: Text[100];
+                                        Remarks: Text[250];
                                         Office: Code[20]): Integer
     var
         leaveLedger: Record "Leave Earn";
@@ -2117,6 +2128,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsertLeaveLeaderOnApprove(var LeaveEarn: Record "Leave Earn")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertLeaveEarnfromJournal(var leaveJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
     begin
     end;
 

@@ -41,7 +41,7 @@ table 50066 "Leave Type Setup"
         field(11; "Exclude Non Working Days"; Boolean) { }
         field(12; "Disable Multiple Leave Request"; Boolean)
         {
-            Description = 'Cannot send leave request unitl previous leave request is approved.';
+            Description = 'Cannot send leave request until previous leave request is approved.';
         }
         field(13; "Leave For Employee Type"; enum "Employee Type") { }
         field(14; "Encashable Limit"; Decimal) { }
@@ -151,7 +151,7 @@ table 50066 "Leave Type Setup"
             OptionMembers = Beginning,"End";
         }
         field(107; "Display in Portal"; Boolean) { }
-        field(108; "Back Date Allowed UpTo"; DateFormula) { }
+        field(108; "Allowed Date Range"; DateFormula) { }
         field(109; "Leave Category"; Enum "Leave Category") { }
         field(110; "Emplymt. Contract Code"; Code[200])
         {
