@@ -104,56 +104,61 @@ codeunit 50015 "OverTime Mgt"
         EmpOvertime: Record "OverTime";
         ConfirmForm: Label 'Do you want to send request ?';
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        IsHandled: Boolean;
     begin
         if GuiAllowed then
             if not Confirm(ConfirmForm, false) then
                 exit;
-        OnBeforeApplyOvertime(TempOvertime);
-        TempOvertime.TestField("Start Date");
-        TempOvertime.TestField("Actual OT Hours");
-        TempOvertime.TestField("Overtime Claim Type");
-        PayrollSetup.Get;
-        PayrollSetup.TestField("Friday Counter");
-        PayrollSetup.TestField("Holiday Counter");
-        PayrollSetup.TestField("Evening Counter");
+        OnBeforeApplyOvertime(TempOvertime, IsHandled);
+        If not IsHandled then begin
+            TempOvertime.TestField("Start Date");
+            TempOvertime.TestField("Actual OT Hours");
+            TempOvertime.TestField("Overtime Claim Type");
+            PayrollSetup.Get;
+            PayrollSetup.TestField("Friday Counter");
+            PayrollSetup.TestField("Holiday Counter");
+            PayrollSetup.TestField("Evening Counter");
 
-        case TempOvertime.Type of
-            TempOvertime.Type::Overtime:
-                begin
-                    EmpOvertime.Reset;
-                    EmpOvertime.SetRange(Type, EmpOvertime.Type::Overtime);
-                    EmpOvertime.SetRange("Employee No.", TempOvertime."Employee No.");
-                    EmpOvertime.SetRange("Start Date", TempOvertime."Start Date");
-                    EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected);
-                    if EmpOvertime.FindFirst then
-                        Error('Overtime already submitted for %1', TempOvertime."Start Date");
+            case TempOvertime.Type of
+                TempOvertime.Type::Overtime:
+                    begin
+                        EmpOvertime.Reset;
+                        EmpOvertime.SetRange(Type, EmpOvertime.Type::Overtime);
+                        EmpOvertime.SetRange("Employee No.", TempOvertime."Employee No.");
+                        EmpOvertime.SetRange("Start Date", TempOvertime."Start Date");
+                        EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected);
+                        if EmpOvertime.FindFirst then
+                            Error('Overtime already submitted for %1', TempOvertime."Start Date");
 
-                    AllowanceAssignmentLine.Reset;
-                    AllowanceAssignmentLine.SetRange("Employee Code", TempOvertime."Employee No.");
-                    AllowanceAssignmentLine.SetRange("From Date", TempOvertime."Start Date");
-                    AllowanceAssignmentLine.SetFilter("Allowance Type", '%1|%2|%3', PayrollSetup."Friday Counter",
-                                                      PayrollSetup."Evening Counter", PayrollSetup."Holiday Counter");
-                    AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
-                    if AllowanceAssignmentLine.FindFirst then
-                        Error('%1 is already approved for the date %2. Overtime submission not allowed.',
-                                    AllowanceAssignmentLine."Allowance Type", TempOvertime."Start Date");
-                    if TempOvertime.Remarks = '' then
-                        Error('Please enter reason for OT before submitting.');
-                end;
-        end;
-        if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::Encashment then begin
-            TempOvertime.TestField("OT Amount");
-        end;
-        if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::"Substitute Leave" then begin
-            TempOvertime.TestField("Compensatory Days");
-        end;
-        EmpOvertime.Init;
-        EmpOvertime.TransferFields(TempOvertime);
-        EmpOvertime.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending");
-        EmpOvertime.Validate("User ID", UserId);
-        EmpOvertime.Insert(true);
-        Message('Document has been sent for approval.');
-        exit(true);
+                        AllowanceAssignmentLine.Reset;
+                        AllowanceAssignmentLine.SetRange("Employee Code", TempOvertime."Employee No.");
+                        AllowanceAssignmentLine.SetRange("From Date", TempOvertime."Start Date");
+                        AllowanceAssignmentLine.SetFilter("Allowance Type", '%1|%2|%3', PayrollSetup."Friday Counter",
+                                                          PayrollSetup."Evening Counter", PayrollSetup."Holiday Counter");
+                        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+                        if AllowanceAssignmentLine.FindFirst then
+                            Error('%1 is already approved for the date %2. Overtime submission not allowed.',
+                                        AllowanceAssignmentLine."Allowance Type", TempOvertime."Start Date");
+                        if TempOvertime.Remarks = '' then
+                            Error('Please enter reason for OT before submitting.');
+                    end;
+            end;
+            if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::Encashment then begin
+                if GuiAllowed then
+                    TempOvertime.TestField("OT Amount");
+            end;
+            if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::"Substitute Leave" then begin
+                if GuiAllowed then
+                    TempOvertime.TestField("Compensatory Days");
+            end;
+            EmpOvertime.Init;
+            EmpOvertime.TransferFields(TempOvertime);
+            EmpOvertime.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending");
+            EmpOvertime.Validate("User ID", UserId);
+            EmpOvertime.Insert(true);
+            Message('Document has been sent for approval.');
+            exit(true);
+        end
     end;
 
     procedure CheckOvertime(var OverTime: Record OverTime)
@@ -564,7 +569,7 @@ codeunit 50015 "OverTime Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnBeforeApplyOvertime(Overtime: Record OverTime)
+    procedure OnBeforeApplyOvertime(Overtime: Record OverTime; var IsHandled: Boolean)
     begin
     end;
 
@@ -582,7 +587,6 @@ codeunit 50015 "OverTime Mgt"
     local procedure OnBeforeInsertLeaveEarnOvertime(Overtime: Record OverTime; leaveTypeSetup: Record "Leave Type Setup"; var IsHandled: Boolean)
     begin
     end;
-
     var
         HRSetup: Record "Human Resources Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
