@@ -1313,7 +1313,7 @@ codeunit 50008 "Payroll Engine"
             else
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date");
             EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
-            EmployeeAttendActivity.SetRange("Leave Day", 1);
+            EmployeeAttendActivity.SetFilter("Leave Day", '<>%1', 0);
             EmployeeAttendActivity.SetRange("Present Day", 0);
             EmployeeAttendActivity.CalcSums("Leave Day");
             PriorLWPDays := EmployeeAttendActivity."Leave day";
