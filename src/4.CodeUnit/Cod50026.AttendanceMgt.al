@@ -80,7 +80,7 @@ codeunit 50026 "Attendance Mgt"
                 exit(true);
     end;
 
-    procedure GetNonWorkingDaysFromAttendance(AttendanceDate: Date; DeputationOn: Enum "Deputation Type"; DeputationOnCode: Code[20]; ProvinceCode: Code[20]; EmpCode: Code[20]): Integer
+    procedure GetNonWorkingDaysFromAttendance(StartDate: Date; EndDateDate: Date; DeputationOn: Enum "Deputation Type"; DeputationOnCode: Code[20]; ProvinceCode: Code[20]; EmpCode: Code[20]): Integer
     var
         Description: Text;
         Provinces: Text;
@@ -104,7 +104,7 @@ codeunit 50026 "Attendance Mgt"
         PayrollSetup.Get;
         Employee.Get(EmpCode);
         CalendarDate.SetRange("Period Type", CalendarDate."Period Type"::Date);
-        CalendarDate.SetRange("Period Start", AttendanceDate);
+        CalendarDate.SetRange("Period Start", StartDate, EndDateDate);
         if CalendarDate.Find('-') then
             repeat
                 isNonWorkingDay := true;
@@ -301,6 +301,33 @@ codeunit 50026 "Attendance Mgt"
     procedure ReturnCalendarDescription(): Text
     begin
         exit(CalendarDescription);
+    end;
+
+    procedure GetWeekendCount(StartDate: Date; EndDate: Date): Integer
+    var
+        BaseCalChange: Record "Base Calendar Change";
+        TargetDate: Date;
+        Counter: Integer;
+    begin
+        Counter := 0;
+        BaseCalChange.SetRange("Recurring System", BaseCalChange."Recurring System"::"Weekly Recurring");
+        if BaseCalChange.FindFirst() then begin
+            for TargetDate := StartDate to EndDate do begin
+                if DATE2DWY(TargetDate, 1) = BaseCalChange.Day then
+                    Counter += 1;
+            end;
+            exit(Counter);
+        end;
+    end;
+
+    procedure GetTotalWorkingDays(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Integer
+    var
+        TotalDays: Integer;
+        NonWorkingDays: Integer;
+    begin
+        TotalDays := EndDate - StartDate + 1;
+        NonWorkingDays := LeaveMgt.GetNonWorkingDays(StartDate, EndDate, EmployeeNo);
+        exit(TotalDays - NonWorkingDays);
     end;
 
     var

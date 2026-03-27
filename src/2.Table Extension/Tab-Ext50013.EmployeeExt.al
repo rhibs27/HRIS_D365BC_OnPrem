@@ -514,7 +514,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(50048; "Province Name"; Text[50])
+        field(50048; "Province Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
@@ -1003,14 +1003,6 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Disabled" = CONST(false)));
             Editable = false;
         }
-        field(50103; "Resignation Approver"; Boolean)
-        {
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
-            end;
-        }
         field(50105; "Emergency Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
@@ -1211,12 +1203,12 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50133; "Department Name"; Text[50])
+        field(50133; "Department Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50134; "Branch Name"; Text[50])
+        field(50134; "Branch Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
@@ -1578,6 +1570,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Text003: Label 'ENU=%1 is not a contract Employee.';
         EngNepDate: Record "English-Nepali Date";
         HRMgt: Codeunit "HR Mgt.";
+        ResignMgt: Codeunit "Resignation Mgt";
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         LoanMgt: Codeunit "Loan Mgt.";
@@ -1652,6 +1645,7 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         LeaveMgt.OpenLeaveRequest("No.");
     end;
+
     procedure TravelRequest();
     var
         EmployeeAct: enum "Employee Activity Type";
@@ -1709,6 +1703,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     end;
                 end;
         end;
+
     end;
 
     procedure TransferRequest();
@@ -1775,7 +1770,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
         OrgStructureList.SetRange(Type, DeputationOn);
         OrgStructureList.SetRange(Code, DeputationCode);
-        OrgStructureList.FindFirst();
+        if OrgStructureList.FindFirst() then;
         if OrgStructureList."Dimension Value Code" = '' then
             exit;
 
@@ -1822,6 +1817,7 @@ tableextension 50013 "Employee Ext" extends Employee
         UpdateDimensionBasedOnDeputation("Deputation on"::Department, "Department Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::Unit, "Unit Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::"Sub-Unit", "Sub Unit Code");
+        UpdateDimensionBasedOnDeputation("Deputation on"::"Head Office", "Branch Code");
     end;
 
     procedure ClearDimensionValue(DeputationOn: Enum "Deputation Type")

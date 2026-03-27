@@ -102,11 +102,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Bulk Cash No. field.';
             }
-            field("Resignation No."; Rec."Resignation No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Resignation No. field.';
-            }
             field("Salary Advance No."; Rec."Salary Advance No.")
             {
                 ApplicationArea = All;
@@ -217,6 +212,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Calculate Age using Nepali Calender field.', Comment = '%';
+            }
+            field("Service Day without Last Date"; Rec."Service Day without Last Date")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Service Day without LastDate field.', Comment = '%';
             }
             field("Validate Permanent Address"; Rec."Validate Permanent Address")
             {
@@ -532,6 +532,21 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             }
             group(Resignation)
             {
+                field("Resignation No."; Rec."Resignation No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Resignation No. field.';
+                }
+                field("Apply Resign Waiver"; Rec."Apply Resign Waiver")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'If this value is set true Resign Waiver will be Apply.';
+                }
+                field("Hide Clearance Approver"; Rec."Hide Clearance Approver")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'If this value is set true clearance Approver will not be generated from setup.';
+                }
                 field("Resignation Period Contract"; Rec."Resignation Period Contract")
                 {
                     ApplicationArea = All;

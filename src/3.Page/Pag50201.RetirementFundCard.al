@@ -67,6 +67,12 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the RF Contribution Deposited field.';
                     ApplicationArea = All;
                 }
+                field("CIT Contribution Deposited"; Rec."CIT Contribution Deposited")
+                {
+                    ToolTip = 'Specifies the value of the CIT Contribution Deposited field.';
+                    ApplicationArea = All;
+                }
+
                 field("Provident Fund Projected"; Rec."Provident Fund Projected")
                 {
                     ToolTip = 'Specifies the value of the Provident Fund Projected field.';

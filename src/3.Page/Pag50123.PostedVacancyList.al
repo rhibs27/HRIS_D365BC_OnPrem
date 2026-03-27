@@ -358,7 +358,7 @@ page 50123 "Posted Vacancy List"
                     trigger OnAction()
                     begin
                         if Confirm('Do you want to send mail interview schedule email to candidates?', false) then
-                            HRMgt.InterviewScheduleEmailToCandidate(Rec."No.", false);
+                            EmailMgt.InterviewScheduleEmailToCandidate(Rec."No.", false);
                     end;
                 }
                 action("Send Sch. Mail to Interviewers ")
@@ -374,7 +374,7 @@ page 50123 "Posted Vacancy List"
                     trigger OnAction()
                     begin
                         if Confirm('Do you want to send mail interview schedule email to interview?', false) then
-                            HRMgt.CandidateListmailToInterviewer(Rec."No.", false);
+                            EmailMgt.CandidateListmailToInterviewer(Rec."No.", false);
                     end;
                 }
             }
@@ -483,7 +483,7 @@ page 50123 "Posted Vacancy List"
                                     /*SendOfferLetter.ForOfferLetter;
                                     SendOfferLetter.SETTABLEVIEW(Candidate);
                                     SendOfferLetter.RUN;*/
-                                    HRMgt.SendOfferLetter(Rec."No.", Candidate);
+                                    EmailMgt.SendOfferLetter(Rec."No.", Candidate);
                                     Candidate.Validate(Status, Candidate.Status::"Offer Letter Sent");
                                     Candidate.Modify;
                                 until Candidate.Next = 0;
@@ -512,7 +512,7 @@ page 50123 "Posted Vacancy List"
                                 /*SendOfferLetter.ForAppointmentLetter;
                                 SendOfferLetter.SETTABLEVIEW(Candidate);
                                 SendOfferLetter.RUN;*/
-                                HRMgt.SendAppointmentLetter(Rec."No.", Candidate);
+                                EmailMgt.SendAppointmentLetter(Rec."No.", Candidate);
                                 Candidate.Validate(Status, Candidate.Status::"Appointment Letter Sent");
                                 Candidate.Modify;
                             end;
@@ -586,6 +586,7 @@ page 50123 "Posted Vacancy List"
     var
         StyleTxt: Text;
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
 
         IsGroupDiscussion: Boolean;
 

@@ -10,11 +10,6 @@ page 50069 "Document Approver"
         {
             repeater(Group)
             {
-                field("Employee Type"; Rec."Employee Type")
-                {
-                    ToolTip = 'Specifies the value of the Employee Type field.';
-                    ApplicationArea = All;
-                }
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';

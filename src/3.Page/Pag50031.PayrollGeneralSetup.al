@@ -810,6 +810,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Get Amount From Assignment field.';
                 }
+                field("Allowance days basedOn"; Rec."Allowance days basedOn")
+                {
+                    Caption = 'Allowance days based on';
+                }
 
             }
             part(PayrollSetupLines; "Payroll Setup Lines")

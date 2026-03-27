@@ -33,80 +33,65 @@ page 50320 "Employee Insurance Card"
                 {
                     ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsuranceCompanyEdit;
+                    Editable = IsOpen;
                 }
                 field("Insurance Company Name"; Rec."Insurance Company Name")
                 {
                     ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                // field("Life Insurance Company"; Rec."Life Insurance Company")
-                // {
-                //     ToolTip = 'Specifies the value of the Life Insurance Company field.', Comment = '%';
-                //     ApplicationArea = All;
-                //     Editable = LifeInsEdit;
-                // }
-                // field("Medical/Property Ins Company"; Rec."Medical/Property Ins Company")
-                // {
-                //     ToolTip = 'Specifies the value of the Medical/Property Ins Company field.', Comment = '%';
-                //     ApplicationArea = All;
-                //     Editable = NonLifeInsEdit;
-                // }
                 field("Policy Number"; Rec."Policy Number")
                 {
                     ToolTip = 'Specifies the value of the Policy Number field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = PolicyNoEdit;
+                    Editable = IsOpen;
                 }
                 field("Insurance Start Date (AD)"; Rec."Insurance Start Date (AD)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Start Date (AD) field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsStartDateEdit;
+                    Editable = IsOpen;
                 }
                 field("Insurance Start Date (BS)"; Rec."Insurance Start Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Start Date (BS) field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsStartDateEdit;
                 }
                 field("Insurance Expiry Date (AD)"; Rec."Insurance Expiry Date (AD)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Expiry Date (AD) field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsEndDateEdit;
+                    Editable = IsOpen;
                 }
                 field("Insurance Expiry Date (BS)"; Rec."Insurance Expiry Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Expiry Date (BS) field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsEndDateEdit;
                 }
 
                 field("Last Premium Payment Date (AD)"; Rec."Last Premium Payment Date (AD)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Last Premium Pay Date (AD) field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsStartDateEdit;
+                    Editable = IsOpen;
                 }
 
                 field("Last Premium Payment Date (BS)"; Rec."Last Premium Payment Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Last Premium Pay Date (BS) field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsStartDateEdit;
                 }
                 field("Premium Paid By"; Rec."Premium Paid By")
                 {
                     ToolTip = 'Specifies the value of the Premium Paid By field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsEndDateEdit;
+                    Editable = IsOpen;
                 }
                 field("Insurance Amount"; Rec."Insurance Amount")
                 {
                     ToolTip = 'Specifies the value of the Insurance Amount field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsAmountEdit;
+                    Editable = IsOpen;
                 }
                 field(Status; Rec.Status)
                 {
@@ -126,13 +111,13 @@ page 50320 "Employee Insurance Card"
                 {
                     ToolTip = 'Specifies the value of the Annual Premium Amount field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = AnnualPremiumAmtEdit;
+                    Editable = IsOpen;
                 }
                 field("Monthly Premium Amount"; Rec."Monthly Premium Amount")
                 {
                     ToolTip = 'Specifies the value of the Monthly Premium Amount field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsAmountEdit;
+                    Editable = IsOpen;
                 }
                 field("Linked Home Loan Account No."; Rec."Linked Home Loan Account No.")
                 {
@@ -153,7 +138,7 @@ page 50320 "Employee Insurance Card"
                 {
                     ToolTip = 'Specifies the value of the Type field.', Comment = '%';
                     ApplicationArea = All;
-                    Editable = InsuranceTypeEdit;
+                    Editable = IsOpen;
                 }
                 field(Remarks; Rec.Remarks)
                 {
@@ -209,7 +194,7 @@ page 50320 "Employee Insurance Card"
                     Rec.TestField("Approval Status", Rec."Approval Status"::Open);
                     Rec.Validate("Approval Status", Rec."Approval Status"::Pending);
                     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
-                    LoanMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.");
+                    InsuranceMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.");
                     Rec.Modify();
                     Message('Request Sent');
                 end;
@@ -227,7 +212,7 @@ page 50320 "Employee Insurance Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
-                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Rec."Rejection Remarks" := '';
                         Message('Insurance is Approved by %1', HRMgt.GetEmpName());
                     end;
@@ -247,7 +232,7 @@ page 50320 "Employee Insurance Card"
                 begin
                     if not Confirm('Do you want to return this insurance?', false) then
                         exit;
-                    ApprovalMgt.ReopenDocument(RecRef);
+                    ApproverMgt.ReopenDocument(RecRef);
                     Message('Request Returned');
                 end;
             }
@@ -267,7 +252,7 @@ page 50320 "Employee Insurance Card"
                         IF REC."Rejection Remarks" = '' then
                             Error('Rejection Remarks is Empty')
                         else begin
-                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            ApproverMgt.ApproveRejectDocument(RecRef, false);
                             Message('Insurance is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
@@ -323,14 +308,6 @@ page 50320 "Employee Insurance Card"
 
     var
         Employee: Record Employee;
-        LoanMgt: Codeunit "Loan Mgt.";
-        InsuranceTypeEdit: Boolean;
-        InsuranceCompanyEdit: Boolean;
-        PolicyNoEdit: Boolean;
-        InsStartDateEdit: Boolean;
-        InsEndDateEdit: Boolean;
-        InsAmountEdit: Boolean;
-        AnnualPremiumAmtEdit: Boolean;
         LifeInsEdit: Boolean;
         NonLifeInsEdit: Boolean;
         StatusView: Boolean;
@@ -340,8 +317,8 @@ page 50320 "Employee Insurance Card"
         IsOpen: Boolean;
         IsApproved: Boolean;
         RecRef: RecordRef;
-        ApprovalMgt: Codeunit "Approver Mgt";
         HrMgt: Codeunit "HR Mgt.";
+        InsuranceMgt: Codeunit "Insurance Mgt";
 
     local procedure InsuranceEditControl();
     begin
@@ -353,31 +330,6 @@ page 50320 "Employee Insurance Card"
             StatusView := true
         else
             ApprovalStatusView := true;
-        if Rec."Approval Status" = Rec."Approval Status"::Pending then begin
-            InsuranceTypeEdit := false;
-            InsuranceCompanyEdit := false;
-            PolicyNoEdit := false;
-            InsStartDateEdit := false;
-            InsEndDateEdit := false;
-            InsAmountEdit := false;
-            AnnualPremiumAmtEdit := false;
-        end else if Rec."Approval Status" = Rec."Approval Status"::open then begin
-            InsuranceTypeEdit := true;
-            InsuranceCompanyEdit := true;
-            PolicyNoEdit := true;
-            InsStartDateEdit := true;
-            InsEndDateEdit := true;
-            InsAmountEdit := true;
-            AnnualPremiumAmtEdit := true;
-        end else begin
-            InsuranceTypeEdit := false;
-            InsuranceCompanyEdit := false;
-            PolicyNoEdit := false;
-            InsStartDateEdit := false;
-            InsEndDateEdit := false;
-            InsAmountEdit := false;
-            AnnualPremiumAmtEdit := false;
-        end;
         if Rec."Insurance Type" = Rec."Insurance Type"::"Life Insurance" then
             LifeInsEdit := true
         else

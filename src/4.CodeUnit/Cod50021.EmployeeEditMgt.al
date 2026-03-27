@@ -87,6 +87,8 @@ codeunit 50021 "Employee Edit Mgt."
                     Employee.Validate(Religion, EmployeeEdit.Religion);
                 if EmployeeEdit.Attachment.HasValue() then
                     Employee.Validate(Image, EmployeeEdit.Attachment);
+                if EmployeeEdit."Birth Date" <> 0D then
+                    Employee.Validate("Birth Date", EmployeeEdit."Birth Date");
                 //Official document
                 if EmployeeEdit."Passport No." <> '' then
                     Employee.Validate("Passport Number", EmployeeEdit."Passport No.");

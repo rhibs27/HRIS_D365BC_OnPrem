@@ -720,6 +720,16 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
+        field(50158; "Hide Clearance Approver"; Boolean) { }
+
+        field(50159; "Apply Resign Waiver"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50160; "Service Day without Last Date"; Boolean)
+        {
+            Caption = 'Service Day without Last Date';
+        }
     }
     trigger onAfterInsert()
     begin

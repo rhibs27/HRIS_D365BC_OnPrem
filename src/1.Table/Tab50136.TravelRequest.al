@@ -688,7 +688,6 @@ table 50136 "Travel Request"
                             while TravelRequest.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status"); //Create Approval line from Setup Santosh
-                            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
                     //for travel claim
                     Type::"Travel Claim":
@@ -700,7 +699,6 @@ table 50136 "Travel Request"
                             while TravelRequest.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
                             ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
-                            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", Type, "Approval Status"::Pending, "Employee No.", "No.", false);   //For email
                         end;
                 end;
             end;

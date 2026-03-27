@@ -106,7 +106,7 @@ report 50005 "Generate Can Schedule"
         VacancyHeader.Status := VacancyHeader.Status::"Interview Scheduled";
         VacancyHeader.Modify;
         Message('Interview Schedule has been set for vacancy code %1', VacancyHeader."No.");
-        HRMgt.InterviewScheduleEmailToCandidate(VacancyHeader."No.", Reschedule);
+        EmailMgt.InterviewScheduleEmailToCandidate(VacancyHeader."No.", Reschedule);
         //HRMgt.CandidateListmailToInterviewer(VacancyHeader."No.",Reschedule);
     end;
 
@@ -146,6 +146,7 @@ report 50005 "Generate Can Schedule"
         VacancyFilter: Text;
         VenueFilter: Text;
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         Reschedule: Boolean;
 
     local procedure GetInterval()

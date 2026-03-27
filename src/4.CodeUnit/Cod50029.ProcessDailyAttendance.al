@@ -91,30 +91,10 @@ codeunit 50029 "Process Daily Attendance"
         EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::" ";
     end;
 
-    local procedure GetShiftCodeformShiftAssignment(): Code[20]
-    begin
-        if PGSetup."Use Allowance Configuration" then begin
-            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
-            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
-            AssignmentMemoLedgerEntry.SetRange(Reversed, false);
-            AssignmentMemoLedgerEntry.SetRange("Employee No.", EmpAttendance."Employee No.");
-            AssignmentMemoLedgerEntry.SetRange("Posting Date", EmpAttendance."Attendance Date");
-            AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
-            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
-        end
-        else begin
-            ShiftLine.Reset();
-            ShiftLine.SetRange("Roster Date", EmpAttendance."Attendance Date");
-            ShiftLine.SetRange("Employee No", EmpAttendance."Employee No.");
-            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-            ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-            exit(ShiftLine."Employee Work Shift");
-        end;
-    end;
-
     procedure ProcessHolidayAndShiftNormal()
     var
         WorkShiftCode: Code[20];
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
     begin
         if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
             EmpAttendance."Day Type" := EmpAttendance."Day Type"::Holiday;
@@ -125,10 +105,7 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Week Off Day" := 0;
             EmpAttendance."Holiday Remarks" := '';
         end;
-
-        WorkShiftCode := GetShiftCodeformShiftAssignment();
-        if WorkShiftCode = '' then
-            WorkShiftCode := EmpAttendance."Employee Working Shift";
+        WorkShiftCode := ShiftAssignmentMgt.ReturnEmployeeWorkShift(EmpAttendance."Employee No.", EmpAttendance."Attendance Date");
 
         if EmpWorkShiftDetail.Get(WorkShiftCode) then begin
             EmpAttendance."OverNight Shift" := EmpWorkShiftDetail.OverNight;
@@ -301,7 +278,7 @@ codeunit 50029 "Process Daily Attendance"
     begin
         ReturnBool := false;
         Clear(CalendarDescription);
-        ReturnBool := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
+        ReturnBool := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
         CalendarDescription := AttendanceMgt.ReturnCalendarDescription;
         exit(ReturnBool);
     end;
@@ -369,27 +346,28 @@ codeunit 50029 "Process Daily Attendance"
     local procedure GetCheckInAndOutFromAttendanceLogInRange(StartTime: DateTime; EndTime: DateTime; var TimeVar: Time; FirstRecord: Boolean): Time
     var
         AttendanceLog: Record "Attendance Log";
+        IsHandled: Boolean;
     begin
         AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time");
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
-        //if GuiAllowed then
-        AttendanceLog.SetRange("Date Time Log", StartTime, EndTime);
-        // else begin
-        //     AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
-        //     AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
-        // end;
-        if FirstRecord then
+        OnFiteringAttendanceLog(StartTime, EndTime, EmpAttendance, AttendanceLog, IsHandled);
+        if not IsHandled then
+            if GuiAllowed or (not FromSyncProcess) then
+                AttendanceLog.SetRange("Date Time Log", StartTime, EndTime)
+            else begin
+                AttendanceLog.SetRange(Date, DT2Date(StartTime), DT2Date(EndTime));
+                AttendanceLog.SetRange("Log Time", DT2Time(StartTime), DT2Time(EndTime));
+            end;
+        if FirstRecord then begin
             if AttendanceLog.FindFirst() then;
-        if not FirstRecord then
-            if AttendanceLog.FindLast() then;
-
-        TimeVar := AttendanceLog."Log Time";
-        if FirstRecord then
             EmpAttendance."Check-In Device IP" := AttendanceLog."Device IP"
-        else
+        end else begin
+            if AttendanceLog.FindLast() then;
             EmpAttendance."Check-Out Device IP" := AttendanceLog."Device IP"
+        end;
+        TimeVar := AttendanceLog."Log Time";
     end;
 
     procedure GetSyncProcessBoolean(VarFromSyncProcess: Boolean)
@@ -404,6 +382,11 @@ codeunit 50029 "Process Daily Attendance"
 
     [IntegrationEvent(false, false)]
     procedure OnUpdateEmpAttendanceOnbeforeModify(var EmpAttendance: Record "Employee Attendance & Activity")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnFiteringAttendanceLog(var startTime: DateTime; var endTime: DateTime; var EmployeeAttendance: Record "Employee Attendance & Activity"; var AttendanceLog: Record "Attendance Log"; var IsHandled: Boolean)
     begin
     end;
 }

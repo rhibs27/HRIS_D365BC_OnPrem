@@ -42,13 +42,13 @@ table 50161 "Assignment Memo Header"
             var
                 EngNepDate: Record "English-Nepali Date";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "From Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
+                if "From Date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("From Date"));
+                    Validate("From Date(BS)", EngNepDate.getNepaliDate("From Date"));
+                end else begin
                     Clear("Fiscal Year");
-
+                    Clear("From Date(BS)");
+                end;
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
 
@@ -59,11 +59,20 @@ table 50161 "Assignment Memo Header"
         field(4; "To date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
                 if "Activity Type" <> "Activity Type"::"Request Allowance" then begin
                     TestField("From Date");
                     if "From Date" > "To date" then
                         Error('Invalid date.');
+                end;
+                if "To date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("To date"));
+                    Validate("To date(BS)", EngNepDate.getNepaliDate("To date"));
+                end else begin
+                    Clear("Fiscal Year");
+                    Clear("From Date(BS)");
                 end;
                 //check if dates are within the months
                 ValidateDatesAreWithinMonth("From Date", "To date");
@@ -84,7 +93,7 @@ table 50161 "Assignment Memo Header"
         }
         field(8; "Unit Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
         }
         field(9; "Document Date"; Date) { }
         field(10; Remarks; Text[250])
@@ -110,7 +119,7 @@ table 50161 "Assignment Memo Header"
             begin
                 if Employee.Get("Employee No.") then begin
                     SalaryLevel.Get(Employee."Salary Level");
-                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                         if "Fuel Limit (ltr)" = 0 then
                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -167,7 +176,7 @@ table 50161 "Assignment Memo Header"
 
                         if Employee.Get("Employee No.") then begin
                             SalaryLevel.Get(Employee."Salary Level");
-                            if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                            if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                                 "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                                 if "Fuel Limit (ltr)" = 0 then
                                     "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -191,7 +200,7 @@ table 50161 "Assignment Memo Header"
 
                                 if Employee.Get("Employee No.") then begin
                                     SalaryLevel.Get(Employee."Salary Level");
-                                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                                         if "Fuel Limit (ltr)" = 0 then
                                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -310,6 +319,13 @@ table 50161 "Assignment Memo Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(106; "From Date(BS)"; Code[20])
+        {
+        }
+        field(107; "To date(BS)"; Code[20])
+        {
+        }
+
     }
 
     keys
@@ -320,21 +336,44 @@ table 50161 "Assignment Memo Header"
     trigger OnDelete()
     var
         CannotDelete: Label 'Cannot delete document.';
+        LeaveEarn: Record "Leave Earn";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
         else begin
+            LeaveEarn.SetCurrentKey("Claimed Document No.");
+            LeaveEarn.SetRange("Claimed Document No.", Rec."No.");
+            if LeaveEarn.FindSet() then
+                repeat
+                    LeaveEarn."Claimed Document No." := '';
+                    LeaveEarn.Claimed := false;
+                    LeaveEarn.Modify();
+                until LeaveEarn.Next() = 0;
             AssignmentMemoLine.Reset;
-            AssignmentMemoLine.SetRange("Document No.", "No.");
+            AssignmentMemoLine.SetRange("Document No.", Rec."No.");
             AssignmentMemoLine.DeleteAll(true);
 
             AssignmentmemoLineCopy.Reset;
-            AssignmentmemoLineCopy.SetRange("Document No.", "No.");
+            AssignmentmemoLineCopy.SetRange("Document No.", Rec."No.");
             AssignmentmemoLineCopy.DeleteAll(true);
 
             ApprovalHrms.Reset;
-            ApprovalHrms.SetRange("Document No.", "No.");
+            ApprovalHrms.SetRange("Document No.", Rec."No.");
             ApprovalHrms.DeleteAll(true);
+
+            //Delete Incoming and Attachment documents for particular deleted document.
+            IncomingDocument.Reset();
+            IncomingDocument.SetRange("No.", Rec."No.");
+            if IncomingDocument.FindSet() then
+                repeat
+                    IncomingDocumentAttachment.Reset();
+                    IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+                    if IncomingDocumentAttachment.FindFirst() then
+                        IncomingDocumentAttachment.Delete(true);
+
+                    IncomingDocument.Delete(true);
+
+                Until IncomingDocument.Next() = 0;
         end;
     end;
 
@@ -403,6 +442,8 @@ table 50161 "Assignment Memo Header"
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PGSetup: Record "Payroll General Setup";
         AssignmentmemoLineCopy: Record "Assignment Memo Line Copy";
+        IncomingDocument: Record "Incoming Document";
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
 
     procedure AutoInsertDatesForRequestAllowance()
     var
@@ -423,7 +464,7 @@ table 50161 "Assignment Memo Header"
     procedure InsertDocumentAttachment(EmpActType: Enum "Employee Activity Type"; DocumentNo: Code[20];
                                                        EmployeeNo: Code[50])
     var
-        IncDocAttachment: Record "Incoming Document";
+        IncDocAttachment, IncDocAttachment1 : Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
         PayrollAttributes: Record "Payroll Attributes";
@@ -443,6 +484,10 @@ table 50161 "Assignment Memo Header"
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Remote Allowance");
                 PayrollAttributes."Specific Attributes"::"OutStation Allowance":
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Outstation Allowance");
+                PayrollAttributes."Specific Attributes"::"Maternity/Paternity Allowance":
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Maternity/Paternity Allowance");
+                PayrollAttributes."Specific Attributes"::"Funeral Allowance":
+                    AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Funeral Allowance")
                 else
                     AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::" ");
             end;
@@ -453,20 +498,22 @@ table 50161 "Assignment Memo Header"
             else
                 if EmpActType = EmpActType::"Allowance Assignment Memo" then
                     AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Allowance Assignment Memo");
-
         if AttachmentSetup.FindSet() then
             repeat
-                IncDocAttachment.Init();
-                IncDocAttachment."Entry No." := GetNextEntrNo;
-                IncDocAttachment."No." := DocumentNo;
-                IncDocAttachment."Document No." := DocumentNo;
-                IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
-                IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
-                if EmpActType = EmpActType::"Request Allowance" then
-                    IncDocAttachment.Validate("Employee Code", EmployeeNo);
-                IncDocAttachment.Validate("Employee Activity Type", EmpActType);
-                IncDocAttachment.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                IncDocAttachment.Insert(true);
+                IncDocAttachment1.SetRange("Document No.", DocumentNo);
+                IncDocAttachment1.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                if IncDocAttachment1.IsEmpty then begin
+                    IncDocAttachment.Init();
+                    IncDocAttachment."Entry No." := GetNextEntrNo;
+                    IncDocAttachment."No." := DocumentNo;
+                    IncDocAttachment."Document No." := DocumentNo;
+                    IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
+                    if EmpActType = EmpActType::"Request Allowance" then
+                        IncDocAttachment.Validate("Employee Code", EmployeeNo);
+                    IncDocAttachment.Validate("Employee Activity Type", EmpActType);
+                    IncDocAttachment.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                    IncDocAttachment.Insert(true);
+                end;
             until AttachmentSetup.Next() = 0;
     end;
 
