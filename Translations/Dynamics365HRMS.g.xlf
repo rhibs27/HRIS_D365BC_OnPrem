@@ -58548,6 +58548,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Municipality -OR - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 4011142773 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Nepali Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Nepali Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 2906764345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Nepali Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Nepali Month - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 3280749004 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Posting Region</source>
           <note from="Developer" annotates="general" priority="2"></note>
