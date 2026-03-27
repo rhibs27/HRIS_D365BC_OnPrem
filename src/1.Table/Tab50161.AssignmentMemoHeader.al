@@ -42,13 +42,13 @@ table 50161 "Assignment Memo Header"
             var
                 EngNepDate: Record "English-Nepali Date";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "From Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
+                if "From Date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("From Date"));
+                    Validate("From Date(BS)", EngNepDate.getNepaliDate("From Date"));
+                end else begin
                     Clear("Fiscal Year");
-
+                    Clear("From Date(BS)");
+                end;
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
 
@@ -59,11 +59,20 @@ table 50161 "Assignment Memo Header"
         field(4; "To date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
                 if "Activity Type" <> "Activity Type"::"Request Allowance" then begin
                     TestField("From Date");
                     if "From Date" > "To date" then
                         Error('Invalid date.');
+                end;
+                if "To date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("To date"));
+                    Validate("To date(BS)", EngNepDate.getNepaliDate("To date"));
+                end else begin
+                    Clear("Fiscal Year");
+                    Clear("From Date(BS)");
                 end;
                 //check if dates are within the months
                 ValidateDatesAreWithinMonth("From Date", "To date");
@@ -84,7 +93,7 @@ table 50161 "Assignment Memo Header"
         }
         field(8; "Unit Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
         }
         field(9; "Document Date"; Date) { }
         field(10; Remarks; Text[250])
@@ -251,10 +260,10 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
                 PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
                 if PayCyclePeriod.FindFirst() then begin
-                    if not GuiAllowed and HrMgt.IsSaaS() then
-                        Employee.Get("Employee No.")
+                    if not GuiAllowed then
+                        Employee.Get(HrMgt.GetEmployeeNo())
                     else
-                        Employee.Get(HrMgt.GetEmployeeNo());
+                        Employee.Get("Employee No.");
                     IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
                         "From Date" := Employee."Employment Date"
                     else
@@ -310,6 +319,13 @@ table 50161 "Assignment Memo Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(106; "From Date(BS)"; Code[20])
+        {
+        }
+        field(107; "To date(BS)"; Code[20])
+        {
+        }
+
     }
 
     keys
