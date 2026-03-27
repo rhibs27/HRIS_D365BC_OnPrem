@@ -1721,8 +1721,13 @@ table 50027 "Payroll Line"
                                     AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
-                        if PayrollAttributes."Deduct on Absent" then
-                            AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
+                        if PayrollAttributes."Deduct on Absent" then begin
+                            if PGSetup."Deduction Entries" then
+                                AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false)
+                            else
+                                AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
+                        end;
+
 
                         CalculateDifferentialInterestAmount(AttributeAmount);
 
