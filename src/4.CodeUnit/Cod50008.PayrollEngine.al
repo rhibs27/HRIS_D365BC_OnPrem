@@ -1373,7 +1373,6 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         AttendanceSummary.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         AttendanceSummary.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
-        AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
         AttendanceSummary.SetAutoCalcFields("Present Day", "Week Off Day", "Leave Day", "Absent Day", "Night Shift Days",
             "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day", "Late Deduction");
         if AttendanceSummary.FindLast then begin
