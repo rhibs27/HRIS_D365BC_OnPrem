@@ -1257,11 +1257,7 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.SetCurrentKey("Employee No.", "From Date", "To Date");
         AttendanceSummary.SetRange("Employee No.", PayrollLine."Employee No.");
         if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then begin
-            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
-                AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date" - 1)
-            else
-                AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayrollHeader."To Date");
-
+            AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
             //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::" " then begin
             if Employee."Employment Date" > PayCyclePeriod."Pay Date" then
                 LatterPresentDays := PayrollHeader."To Date" - Employee."Employment Date" + 1
