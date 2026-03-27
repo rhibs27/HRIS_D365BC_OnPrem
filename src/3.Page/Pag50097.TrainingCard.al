@@ -14,14 +14,7 @@ page 50097 "Training Card"
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
-
-                    // trigger OnAssistEdit()
-                    // begin
-                    //     if Rec.AssistEdit(xRec) then
-                    //         CurrPage.Update;
-                    // end;
                 }
-
                 field("Training Calendar No"; Rec."Training Calendar No")
                 {
                     Editable = IsOpen;
@@ -424,7 +417,6 @@ page 50097 "Training Card"
                     PromotedIsBig = true;
                     ToolTip = 'Executes the Send A&pproval Request action.';
                     ApplicationArea = All;
-
                     trigger OnAction()
                     begin
                         if Confirm('Do you want to Send training for approve?', false) then begin

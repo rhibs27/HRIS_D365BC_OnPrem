@@ -406,8 +406,6 @@ permissionset 50000 D365HRMSPermission
         page "Review Master List" = X,
         page "KRA Category" = X,
         page "KRA Subform" = X,
-        page QASubjectives = X,
-        page "Subjective KPI Questions" = X,
         page "Leave Type Setup" = X,
         page "Leave Request" = X,
         page "Leave Requests" = X,
