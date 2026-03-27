@@ -1313,7 +1313,7 @@ codeunit 50008 "Payroll Engine"
             else
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date");
             EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
-            EmployeeAttendActivity.SetRange("Leave Day", 1);
+            EmployeeAttendActivity.SetFilter("Leave Day", '<>%1', 0);
             EmployeeAttendActivity.SetRange("Present Day", 0);
             EmployeeAttendActivity.CalcSums("Leave Day");
             PriorLWPDays := EmployeeAttendActivity."Leave day";
@@ -1373,6 +1373,7 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         AttendanceSummary.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         AttendanceSummary.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+        AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
         AttendanceSummary.SetAutoCalcFields("Present Day", "Week Off Day", "Leave Day", "Absent Day", "Night Shift Days",
             "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day", "Late Deduction");
         if AttendanceSummary.FindLast then begin
