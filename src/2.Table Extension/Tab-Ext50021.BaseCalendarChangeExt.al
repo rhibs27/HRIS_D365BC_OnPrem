@@ -67,6 +67,14 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
                 Validate(Employee, HRMgt.LookupEmployee());
             end;
         }
+        field(50012; "Nepali Date"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50013; "Nepali Month"; Enum "Nepali Month")
+        {
+            DataClassification = ToBeClassified;
+        }
         field(50020; "Province Filter -OR"; Text[500])
         {
             DataClassification = ToBeClassified;
