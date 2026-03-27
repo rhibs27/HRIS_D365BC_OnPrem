@@ -514,7 +514,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(50048; "Province Name"; Text[50])
+        field(50048; "Province Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
@@ -1203,12 +1203,12 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50133; "Department Name"; Text[50])
+        field(50133; "Department Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50134; "Branch Name"; Text[50])
+        field(50134; "Branch Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
@@ -1703,6 +1703,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     end;
                 end;
         end;
+
     end;
 
     procedure TransferRequest();
@@ -1769,7 +1770,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
         OrgStructureList.SetRange(Type, DeputationOn);
         OrgStructureList.SetRange(Code, DeputationCode);
-        OrgStructureList.FindFirst();
+        if OrgStructureList.FindFirst() then;
         if OrgStructureList."Dimension Value Code" = '' then
             exit;
 
@@ -1816,6 +1817,7 @@ tableextension 50013 "Employee Ext" extends Employee
         UpdateDimensionBasedOnDeputation("Deputation on"::Department, "Department Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::Unit, "Unit Code");
         UpdateDimensionBasedOnDeputation("Deputation on"::"Sub-Unit", "Sub Unit Code");
+        UpdateDimensionBasedOnDeputation("Deputation on"::"Head Office", "Branch Code");
     end;
 
     procedure ClearDimensionValue(DeputationOn: Enum "Deputation Type")

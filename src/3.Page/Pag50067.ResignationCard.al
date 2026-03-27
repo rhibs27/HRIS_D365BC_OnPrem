@@ -276,28 +276,6 @@ page 50067 "Resignation Card"
                     end;
                 end;
             }
-            action("Acceptance Letter")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Visible = IsApproved or IsPending;
-                Image = Report;
-                PromotedCategory = Report;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Resignation Acceptance Letter action.';
-                trigger OnAction()
-                var
-                    Resignation: Record Resignation;
-                begin
-                    Resignation.SetRange("No.", Rec."No.");
-                    IF Resignation.FindFirst() THEN begin
-                        Rec.TestField("Requested Date");
-                        Rec.TestField("Approved Last Working Day");
-                        REPORT.RunModal(Report::"Resignation Acceptance Letter", true, true, Resignation);
-                    end;
-                end;
-            }
         }
     }
     trigger OnAfterGetRecord()
