@@ -476,6 +476,10 @@ table 50024 "Payroll General Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(508; "Deduction Entries"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

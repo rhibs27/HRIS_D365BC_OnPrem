@@ -814,6 +814,11 @@ page 50031 "Payroll General Setup"
                 {
                     Caption = 'Allowance days based on';
                 }
+                field("Deduction Entries"; Rec."Deduction Entries")
+                {
+                    ToolTip = 'Specifies the value of the Deduction Entries field.', Comment = '%';
+                }
+
 
             }
             part(PayrollSetupLines; "Payroll Setup Lines")
