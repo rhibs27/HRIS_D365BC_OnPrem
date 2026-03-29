@@ -13883,6 +13883,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Dashain Start Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 2798898839 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deduction Entries</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Deduction Entries - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3844311027 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Distributable Amt. for Statuto</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40152,6 +40157,11 @@
           <source>Specifies the value of the Dashain Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Dashain Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 2798898839 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deduction Entries field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Deduction Entries - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3844311027 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Distributable Amt. for Statutory Bonus field.</source>

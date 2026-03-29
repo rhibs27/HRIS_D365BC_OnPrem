@@ -1310,7 +1310,7 @@ codeunit 50008 "Payroll Engine"
             EmployeeAttendActivity.CalcSums("Leave Day");
             PriorLWPDays := EmployeeAttendActivity."Leave day";
 
-            //Calculate Present Days in previous paycycle period after previous paycycle period pay date
+            //Calculate Present Days in previous paycycle period after previous paycycle period pay date for employee joining last month
             if (PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation]) then begin
                 if (Employee."Employment Date" >= PreviousPayCyclePeriod."Pay Date") and (Employee."Employment Date" <= PayrollHeader."From Date" - 1) then begin
                     EmployeeAttendActivity.Reset;
@@ -1404,11 +1404,7 @@ codeunit 50008 "Payroll Engine"
             AttendanceSetup.Get();
             if PGSetup."Deduction Entries" then
                 GetUnpaidDaysFromDeductionEntries(PayrollHeader,
-                                                    PayrollLine."Employee No.",
-                                                    PayrollLine."Late Days",
-                                                    PayrollLine."LWP Days",
-                                                    PayrollLine."Absent Days",
-                                                    PayrollLine."Prior Absent Days",
+                                                    PayrollLine,
                                                     AttendanceSetup."Absent Deductions")
             else begin
                 PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
@@ -1467,47 +1463,38 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure GetUnpaidDaysFromDeductionEntries(PayrollHeaderRec: Record "Payroll Header";
-                                                        EmployeeNo: Code[20];
-                                                        var LateDays: Decimal;
-                                                        var LWPDays: Decimal;
-                                                        var AbsentDays: Decimal;
-                                                        var PriorAbsentDays: Decimal;
+    local procedure GetUnpaidDaysFromDeductionEntries(PayrollHeader: Record "Payroll Header";
+                                                        var PayrollLine: Record "Payroll Line";
                                                         AbsentDeduction: Boolean)
     var
         SalaryDeductionEntries: Record "Salary Deduction Entry";
         PayCyclePeriod, PreviousPayCyclePeriod : Record "Pay Cycle Period";
     begin
-        LateDays := 0;
-        LWPDays := 0;
-        if PayCyclePeriod.Get(PayrollHeaderRec."Pay Cycle Code", PayrollHeaderRec."Pay Cycle Term", PayrollHeaderRec."Pay Cycle Period") then;
-        if PayCyclePeriod.Get(PayrollHeaderRec."Pay Cycle Code", PayrollHeaderRec."Pay Cycle Term", PayrollHeaderRec."Pay Cycle Period" - 1) then;
+        if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then;
+        if PreviousPayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period" - 1) then;
 
         // Base filters for all deduction types
         SalaryDeductionEntries.Reset();
-        SalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
-        SalaryDeductionEntries.SetRange("Pay Cycle Code", PayrollHeaderRec."Pay Cycle Code");
-        SalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeaderRec."Pay Cycle Term");
-        SalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeaderRec."Pay Cycle Period");
+        SalaryDeductionEntries.SetRange("Employee No.", PayrollLine."Employee No.");
+        SalaryDeductionEntries.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+        SalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+        SalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
         SalaryDeductionEntries.SetRange(Reversed, false);
 
         // Count entries by deduction type
         SalaryDeductionEntries.SetRange("Deduction Type", SalaryDeductionEntries."Deduction Type"::Late);
-        LateDays := SalaryDeductionEntries.Count();
+        PayrollLine.Validate("Late Days", SalaryDeductionEntries.Count());
 
         SalaryDeductionEntries.SetRange("Deduction Type", SalaryDeductionEntries."Deduction Type"::LWP);
-        LWPDays := SalaryDeductionEntries.Count();
+        PayrollLine.Validate("LWP Days", SalaryDeductionEntries.Count());
 
         if AbsentDeduction then begin
-            AbsentDays := 0;
-            PriorAbsentDays := 0;
-
             SalaryDeductionEntries.SetRange("Deduction Type", SalaryDeductionEntries."Deduction Type"::Absent);
-            SalaryDeductionEntries.SetRange("Deduction Date", PayrollHeaderRec."From Date", PayCyclePeriod."Pay Date");
-            AbsentDays := SalaryDeductionEntries.Count();
+            SalaryDeductionEntries.SetRange("Deduction Date", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
+            PayrollLine.validate("Absent Days", SalaryDeductionEntries.Count());
 
             SalaryDeductionEntries.SetRange("Deduction Date", PreviousPayCyclePeriod."Pay Date", PreviousPayCyclePeriod."End Date");
-            PriorAbsentDays := SalaryDeductionEntries.Count;
+            PayrollLine.Validate("Prior Absent Days", SalaryDeductionEntries.Count());
         end;
     end;
 

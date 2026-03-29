@@ -162,6 +162,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Use Allowance Configuration field.', Comment = '%';
                 }
+                field("Deduction Entries"; Rec."Deduction Entries")
+                {
+                    ToolTip = 'Specifies the value of the Deduction Entries field.', Comment = '%';
+                }
                 field("Payroll Archive Nos."; Rec."Payroll Archive Nos.")
                 {
                     ToolTip = 'Specifies the value of the Payroll Archive Nos. field.', Comment = '%';
@@ -814,12 +818,6 @@ page 50031 "Payroll General Setup"
                 {
                     Caption = 'Allowance days based on';
                 }
-                field("Deduction Entries"; Rec."Deduction Entries")
-                {
-                    ToolTip = 'Specifies the value of the Deduction Entries field.', Comment = '%';
-                }
-
-
             }
             part(PayrollSetupLines; "Payroll Setup Lines")
             {
