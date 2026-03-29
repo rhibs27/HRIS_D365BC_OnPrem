@@ -1378,7 +1378,7 @@ codeunit 50008 "Payroll Engine"
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", AttendanceSummary."Absent Day");
 
-                PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
+                // PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
                 // if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then begin
                 //     if EmployeeAttendActivity."Absent Day" > (LeaveDays - AttendanceSummary."Absent Day") then
                 //         PayrollLine.Validate("Prior Absent Days", EmployeeAttendActivity."Absent Day" - (LeaveDays - AttendanceSummary."Absent Day") + PriorLWPDays)
@@ -1402,19 +1402,20 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup.Get();
             AttendanceSetup.Get();
-            if not PGSetup."Deduction Entries" then begin
-                PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
-                PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
-                PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays);
-                PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
-            end else
+            if PGSetup."Deduction Entries" then
                 GetUnpaidDaysFromDeductionEntries(PayrollHeader,
                                                     PayrollLine."Employee No.",
                                                     PayrollLine."Late Days",
                                                     PayrollLine."LWP Days",
                                                     PayrollLine."Absent Days",
                                                     PayrollLine."Prior Absent Days",
-                                                    AttendanceSetup."Absent Deductions");
+                                                    AttendanceSetup."Absent Deductions")
+            else begin
+                PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
+                PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
+                PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays);
+                PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
+            end;
             if PayrollHeader.Type = PayrollHeader.Type::Resignation then
                 PayrollLine.Validate("Post Resignation Days", PayrollHeader."To Date" - PayrollLine."Resignation Date");
             if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
@@ -1484,10 +1485,10 @@ codeunit 50008 "Payroll Engine"
 
         // Base filters for all deduction types
         SalaryDeductionEntries.Reset();
+        SalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
         SalaryDeductionEntries.SetRange("Pay Cycle Code", PayrollHeaderRec."Pay Cycle Code");
         SalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeaderRec."Pay Cycle Term");
         SalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeaderRec."Pay Cycle Period");
-        SalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
         SalaryDeductionEntries.SetRange(Reversed, false);
 
         // Count entries by deduction type
