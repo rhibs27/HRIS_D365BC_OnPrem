@@ -1541,7 +1541,7 @@ table 50027 "Payroll Line"
     begin
         AttenSetup.Get();
         if not AttenSetup."Absent Deductions" then
-            "Total Unpaid Days" := "Late Days" + "LWP Days" + "Prior Absent Days"
+            "Total Unpaid Days" := "Late Days" + "LWP Days"
         else
             "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days";
     end;
