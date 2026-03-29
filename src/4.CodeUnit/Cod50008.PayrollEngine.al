@@ -1467,13 +1467,13 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure GetUnpaidDaysFromDeductionEntries(PayrollHeaderRec: Record "Payroll Header";
-                                                EmployeeNo: Code[20];
-                                                var LateDays: Decimal;
-                                                var LWPDays: Decimal;
-                                                var AbsentDays: Decimal;
-                                                var PriorAbsentDays: Decimal;
-                                                AbsentDeduction: Boolean)
+    local procedure GetUnpaidDaysFromDeductionEntries(PayrollHeaderRec: Record "Payroll Header";
+                                                        EmployeeNo: Code[20];
+                                                        var LateDays: Decimal;
+                                                        var LWPDays: Decimal;
+                                                        var AbsentDays: Decimal;
+                                                        var PriorAbsentDays: Decimal;
+                                                        AbsentDeduction: Boolean)
     var
         SalaryDeductionEntries: Record "Salary Deduction Entry";
         PayCyclePeriod, PreviousPayCyclePeriod : Record "Pay Cycle Period";
