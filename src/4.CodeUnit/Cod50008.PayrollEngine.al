@@ -1380,7 +1380,7 @@ codeunit 50008 "Payroll Engine"
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", AttendanceSummary."Absent Day");
 
-                PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
+                // PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
                 // if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then begin
                 //     if EmployeeAttendActivity."Absent Day" > (LeaveDays - AttendanceSummary."Absent Day") then
                 //         PayrollLine.Validate("Prior Absent Days", EmployeeAttendActivity."Absent Day" - (LeaveDays - AttendanceSummary."Absent Day") + PriorLWPDays)
@@ -1388,13 +1388,14 @@ codeunit 50008 "Payroll Engine"
 
                 // end;
             end else begin
-                PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
+
                 PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day");
                 // if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
                 //     PayrollLine.Validate("Prior Absent Days",);
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", LeaveDays);
             end;
+            PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
             PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
             PayrollLine.Validate("Prior Present Days", PriorPresentDays);
             PayrollLine.Validate("Week off Days", AttendanceSummary."Week Off Day");
