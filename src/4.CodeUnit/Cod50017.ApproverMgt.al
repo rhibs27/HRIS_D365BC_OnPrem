@@ -1219,6 +1219,7 @@ codeunit 50017 "Approver Mgt"
         RetirementFund: Record "Retirement Fund";
         AttendanceMissed: Record "Attendance Missed";
         EncashmentRequest: Record "Encashment Request";
+        OvertimeRequest: Record OverTime;
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
         case EmpActTypeEnum of
@@ -1255,9 +1256,15 @@ codeunit 50017 "Approver Mgt"
             EmpActTypeEnum::"Leave Encashment":
                 if EncashmentRequest.Get(documentNo) then begin
                     RecRef.GetTable(EncashmentRequest);
-                    WithDrawRequest(RecRef);
+                    WithDrawRequest(RecRef, AccessToken);
+                end;
+            EmpActTypeEnum::Overtime:
+                if OvertimeRequest.Get(documentNo) then begin
+                    RecRef.GetTable(OvertimeRequest);
+                    WithDrawRequest(RecRef, AccessToken);
                 end;
         end;
+        OnAfterOtherDocumentTypeSAAS(documentNo, EmpActTypeEnum, AccessToken);
     end;
 #endif
 
@@ -1306,7 +1313,7 @@ codeunit 50017 "Approver Mgt"
                 RecRef.Modify();
             end;
         end else
-            Error('Document status ust be in Pending.');
+            Error('Document status must be in Pending.');
     end;
 
     procedure IsFinalApprover(DocNo: Code[20]): Boolean
@@ -1848,6 +1855,11 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
+    local procedure OnAfterOtherDocumentTypeSAAS(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type"; AccessToken: Code[60])
+    begin
+
+    end;
+
     local procedure OnBeforeIncrementOfApproverSequence(var DocApproverCheck: Record "Document Approver"; var DocApprover: Record "Document Approver"; var IsHandled: Boolean)
     begin
     end;

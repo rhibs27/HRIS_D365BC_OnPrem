@@ -190,22 +190,14 @@ report 50067 "Process Daily Attendance"
     procedure InitEmpAttendance()
     var
         ShiftLine: Record "Shift Line";
+        shiftmgt: Codeunit "Shift Assignment Mgt";
+        RegularShiftCode: Code[20];
     begin
-        ShiftLine.SetLoadFields("Employee No", "Roster Date", "Approval Status", "Substitute Type", "Employee Work Shift");
-        ShiftLine.SetRange("Roster Date", Date."Period Start");
-        ShiftLine.SetRange("Employee No", Employee."No.");
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-        ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-        if ShiftLine.FindSet() then
-            repeat
-                InsertEmpAttendance(ShiftLine."Employee No", ShiftLine."Roster Date", ShiftLine."Employee Work Shift");
-            until ShiftLine.Next() = 0
-        else
-            InsertEmpAttendance(Employee."No.", Date."Period Start", Employee."Employee Work Shift");
-
+        RegularShiftCode := shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start");
+        InsertEmpAttendance(Employee."No.", Date."Period Start", shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start"));
         UpdateEmpAttendanceAsTransferFromServiceHistory();
     end;
-
+    
     local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text)
     var
         EmpVar: Record Employee;
@@ -247,7 +239,7 @@ report 50067 "Process Daily Attendance"
             EmpAttendance."Department Code" := ServiceHistory."Department Code (To)";
             EmpAttendance."Department Name" := ServiceHistory."Department Description (To)";
             EmpAttendance."Unit Code" := ServiceHistory."Unit Code (To)";
-            EmpAttendance."Extension Counter" := ServiceHistory."Extension Description (To)";
+            EmpAttendance."Extension Counter" := ServiceHistory."Extension Counter (To)";
             EmpAttendance."Functional Title" := ServiceHistory."Functional Title (To)";
             EmpAttendance."Functional Title Desc" := ServiceHistory."Functional Title Desc. (To)";
             EmpAttendance.Modify();

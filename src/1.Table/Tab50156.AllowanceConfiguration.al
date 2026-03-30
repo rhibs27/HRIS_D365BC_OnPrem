@@ -97,6 +97,10 @@ table 50156 "Allowance Configuration"
             FieldClass = FlowField;
             CalcFormula = lookup("Payroll Attributes"."Specific Attributes" where(Code = field("Payroll Attribute")));
         }
+        field(11; "Day Type"; Enum "Day Type")
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
