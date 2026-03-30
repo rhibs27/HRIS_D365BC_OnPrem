@@ -55,11 +55,9 @@ page 50181 "Request Allowance Subform"
                     begin
                         EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
                         EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
+                        EmployeeRelative.SetRange(Discontinue, false);
                         if Page.RunModal(Page::"Employee Relatives", EmployeeRelative) = Action::LookupOK then
-                            if EmployeeRelative.Discontinue then
-                                Error('Selected Children is discontinued for Allowance.');
-                        Rec.Validate("Name of Children", EmployeeRelative."Full Name");
-
+                            Rec.Validate("Name of Children", EmployeeRelative."Full Name");
                         AssignmentMemoMgt.LookUpNameofChildren(EmployeeRelative, Rec);
                     end;
                 }

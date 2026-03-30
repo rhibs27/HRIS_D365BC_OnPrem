@@ -580,7 +580,7 @@ codeunit 50021 "Employee Edit Mgt."
     begin
         EmployeeEdit.get(EmployeeEditCode);
         EmployeeEditOnBeforeApprove(EmployeeEdit);
-        if EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then
+        if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then
             CheckForVehicleClaimedType(EmployeeEdit);
         EmployeeEdit."Approval Status" := EmployeeEdit."Approval Status"::Pending;
         EmployeeEdit.Modify();

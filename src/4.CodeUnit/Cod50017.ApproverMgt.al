@@ -1472,10 +1472,6 @@ codeunit 50017 "Approver Mgt"
     var
         Approval: Record "Approval HRMS";
     begin
-        Approval.Reset;
-        Approval.SetRange("Document No.", EmpActNo);
-        Approval.DeleteAll(true);
-
         Approval.Init();
         Approval.Validate("Document No.", EmpActNo);
         Approval.Validate("Document Type", EmpActType);
