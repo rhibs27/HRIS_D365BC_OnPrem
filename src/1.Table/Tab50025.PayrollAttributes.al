@@ -172,6 +172,10 @@ table 50025 "Payroll Attributes"
         field(50; "Use Attr. for Salary Adv. EL"; Boolean)
         {
         }
+        field(51; "Use Attr. for personal Loan GS"; Boolean)
+        { }
+        field(52; "Use Attr. staff Social Loan GS"; Boolean)
+        { }
     }
 
     keys

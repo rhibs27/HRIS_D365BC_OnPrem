@@ -255,6 +255,18 @@ codeunit 50002 "Loan Mgt."
                         EmpLoan."Repayment Period" := EmpLoan."Remaining Service Period";
                     end;
                 end;
+            EmpLoan."Loan Type"::"Staff Social Loan":
+                begin
+                    PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
+                    EmpLoan."Previous Loan Amount" := PrevLoanAmt;
+                    EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
+                    OnBeforeCalculateEligibleStaffSocialLoanAmount(EmpLoan, IsHandled);
+                    if not IsHandled then begin
+                        if HRSetup."Max Staff Social Loan Amount" = 0 then
+                            Error('Before Applying Staff Social loan Max Staff Social Loan Amount should be set in human resource setup');
+                        EmpLoan."Eligible Loan/Advance" := HRSetup."Max Staff Social Loan Amount";
+                    end;
+                end;
         end;
     end;
 
@@ -275,6 +287,11 @@ codeunit 50002 "Loan Mgt."
                         EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / 1;
                 end;
             EmpLoan."Loan Type"::"Personal Loan":
+                begin
+                    EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Applied Loan/Advance");
+                    EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * EmpLoan."Interest Rate" / 100) / 12;
+                end;
+            EmpLoan."Loan Type"::"Staff Social Loan":
                 begin
                     EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Applied Loan/Advance");
                     EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * EmpLoan."Interest Rate" / 100) / 12;
@@ -337,11 +354,15 @@ codeunit 50002 "Loan Mgt."
         Employee.Get(EmpLoan."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
         SalaryGrade.Get(Employee."Salary Grade");
+
+        // Home Loan EMI from Finacle (external outstanding)
         LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
         LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
         LoanOutstanding.CalcSums(EMI);
         PreviosuEMI := LoanOutstanding.EMI;
+
+        // Personal Loan (ODA) EMI from Finacle
         LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
         LoanOutstanding.SetRange("Scheme Type", 'ODA'); //need setup
@@ -351,56 +372,46 @@ codeunit 50002 "Loan Mgt."
         EmpLoanInterest.SetCurrentKey("Starting Date");
         if EmpLoanInterest.FindLast then;
         EMIPersonalLoan := LoanOutstanding."Loan Limit" * EmpLoanInterest."Interest Rate" / 100 / 12;
+
+        // Internal loans: all active/pending unsettled loans except the current one,
+        // including Staff Social Loan
         EmpSalaryAdv.Reset;
         EmpSalaryAdv.SetRange("Employee No.", EmpLoan."Employee No.");
-        //EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
-        //EmpSalaryAdv.SetFilter("Approval Status", '%1|%2|%3|%4|%5', EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Reviewed, EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending", EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
         EmpSalaryAdv.SetRange(Settled, false);
-        //EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
-        EmpSalaryAdv.SetFilter("Loan Type", '%1|%2|%3|%4', EmpSalaryAdv."Loan Type"::"Salary Advance", EmpSalaryAdv."Loan Type"::"Home Loan", EmpSalaryAdv."Loan Type"::"Personal Loan", EmpSalaryAdv."Loan Type"::"Vehicle Loan");
+        EmpSalaryAdv.SetFilter("Loan Type", '%1|%2|%3|%4|%5',
+            EmpSalaryAdv."Loan Type"::"Salary Advance",
+            EmpSalaryAdv."Loan Type"::"Home Loan",
+            EmpSalaryAdv."Loan Type"::"Personal Loan",
+            EmpSalaryAdv."Loan Type"::"Vehicle Loan",
+            EmpSalaryAdv."Loan Type"::"Staff Social Loan");
         EmpSalaryAdv.CalcSums(EMI);
+
+        // Vehicle Loan EMI from Finacle for employees below AM level (no vehicle loan limit set)
         Clear(VehicleLoanEMI);
         if SalaryLevel."Vehicle Loan Limit" = 0 then begin
-            Clear(LoanOutstanding);
-            LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
+            LoanOutstanding.Reset;
             LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
             LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
             LoanOutstanding.CalcSums(EMI);
             VehicleLoanEMI := LoanOutstanding.EMI;
         end;
-        /*
-          Homeloan.Reset();
-          Homeloan.SetRange("Employee Code", "Employee Code");
-          Homeloan.SetRange("Approval Status", "Approval Status"::Approved);
-          Homeloan.SETFILTER("No.", '<>%1', "No.");
-          Homeloan.SetRange(Settled,FALSE);
-          Homeloan.SetRange("Loan Type",Homeloan."Loan Type"::"Home Loan");
-          Homeloan.SetRange("Repayment Mode",Homeloan."Repayment Mode"::"Insurance Tieup");
-          Homeloan.CALCSUMS(EMI);
-        */
-        if (SalaryLevel."Vehicle Loan Limit" <> 0) then begin
-            if (EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Vehicle Loan") then
-                TotalEMI := EmpSalaryAdv.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI + EmpLoan.EMI //+ Homeloan.EMI
-            else
-                TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI; //+Homeloan.EMI;
-        end else
-            TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI; //+Homeloan.EMI;
-        //all emi + advance / gross
+
+        TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI;
+
         // CheckSalaryLevel.Reset();
         // CheckSalaryLevel.SetRange("Senior Officer Level", true);
-        // CheckSalaryLevel.FindFirst;  // aslo hard code
+        // CheckSalaryLevel.FindFirst;
 
+        HRSetup.Get;
         if SalaryLevel.Rank > CheckSalaryLevel.Rank then begin
             EmpLoan."DBR Ratio" := TotalEMI / EmpLoan."Gross Salary" * 100;
-            HRSetup.Get;
             if EmpLoan."DBR Ratio" > HRSetup."DBR Ratio" then
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
         end else begin
             BelowSOAmt := GetLFAAndDashainAllowance(SalaryLevel, SalaryGrade);
             EmpLoan."DBR Ratio" := TotalEMI / (EmpLoan."Gross Salary" + BelowSOAmt) * 100;
-            HRSetup.Get;
             if EmpLoan."DBR Ratio" > HRSetup."Below SO DBR" then
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
         end;
@@ -410,9 +421,12 @@ codeunit 50002 "Loan Mgt."
     var
         IncomingDocument: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
+        AttachmentType: Enum "Attachment Setup Type";
     begin
+        if not Evaluate(AttachmentType, Format(EmpLoan."Loan Type")) then
+            Error('Attachment setup is not configured for loan type: %1.', EmpLoan."Loan Type");
         AttachmentSetup.Reset;
-        AttachmentSetup.SetFilter(Type, Format(EmpLoan."Loan Type"));
+        AttachmentSetup.SetRange(Type, AttachmentType);
         AttachmentSetup.SetRange("Purpose of Housing Loan", EmpLoan."Purpose of Housing Loan");
         AttachmentSetup.SetRange(Enhancement, EmpLoan."Loan Enhancement");
         if AttachmentSetup.FindFirst then
@@ -468,6 +482,8 @@ codeunit 50002 "Loan Mgt."
                 VehicleLoanValidateDocument(EmpLoan);
             EmpLoan."Loan Type"::"Home Loan":
                 HomeLoanValidateDocument(EmpLoan);
+            EmpLoan."Loan Type"::"Staff Social Loan":
+                StaffSocialLoanValidateDocument(EmpLoan);
             else
                 Error('Case not handled.');
         end;
@@ -655,10 +671,38 @@ codeunit 50002 "Loan Mgt."
 
     end;
 
+    local procedure StaffSocialLoanValidateDocument(var EmpLoan: Record "Employee Loan/Advance")
+    var
+        CheckSalaryLevel: Record "Salary Level";
+        ExistingLoan: Record "Employee Loan/Advance";
+    begin
+        HRSetup.Get;
+        EmpLoan.TestField("Purpose of Loan");
+        HRSetup.TestField("Max Staff Social Loan Amount");
+
+        if EmpLoan."Applied Loan/Advance" > HRSetup."Max Staff Social Loan Amount" then
+            Error('Applied amount %1 exceeds maximum staff social loan limit of %2.',
+                EmpLoan."Applied Loan/Advance", HRSetup."Max Staff Social Loan Amount");
+
+        ExistingLoan.Reset;
+        ExistingLoan.SetRange("Employee No.", EmpLoan."Employee No.");
+        ExistingLoan.SetRange("Loan Type", ExistingLoan."Loan Type"::"Staff Social Loan");
+        ExistingLoan.SetRange("Approval Status", ExistingLoan."Approval Status"::Approved);
+        ExistingLoan.SetRange(Settled, false);
+        ExistingLoan.SetFilter("No.", '<>%1', EmpLoan."No.");
+        if ExistingLoan.FindFirst then
+            Error('Please settle existing staff social loan %1 before applying for a new one.', ExistingLoan."No.");
+
+        CheckAttachmentMandatory(EmpLoan);
+    end;
+
     local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; "No.": Code[20]): Decimal
     var
         LoanOutstanding: Record "Loan Outstanding from Finacle";
     begin
+        if HRSetup."Use Internal Loan Balance" then
+            exit(GetExistingLoanAmountFromEmpTable(EmployeeCode, LoanType, "No."));
+
         if LoanType = LoanType::"Home Loan" then begin
             LoanOutstanding.Reset;
             LoanOutstanding.SetRange("Employee No.", EmployeeCode);
@@ -678,6 +722,26 @@ codeunit 50002 "Loan Mgt."
             LoanOutstanding.CalcSums("Outstanding Amount");
             exit(Abs(LoanOutstanding."Outstanding Amount"));
         end;
+    end;
+
+    local procedure GetExistingLoanAmountFromEmpTable(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; ExcludeNo: Code[20]): Decimal
+    var
+        PreviousLoan: Record "Employee Loan/Advance";
+        TotalAmt: Decimal;
+    begin
+        TotalAmt := 0;
+        PreviousLoan.Reset();
+        PreviousLoan.SetRange("Employee No.", EmployeeCode);
+        PreviousLoan.SetRange("Loan Type", LoanType);
+        PreviousLoan.SetRange("Approval Status", PreviousLoan."Approval Status"::Approved);
+        PreviousLoan.SetRange(Disbursed, true);
+        PreviousLoan.SetRange(Settled, false);
+        PreviousLoan.SetFilter("No.", '<>%1', ExcludeNo);
+        if PreviousLoan.FindSet() then
+            repeat
+                TotalAmt += PreviousLoan."Applied Loan/Advance";
+            until PreviousLoan.Next() = 0;
+        exit(TotalAmt);
     end;
 
     local procedure CheckEligibilityforLoanReapplication(EmployeeCode: Code[20]; LoanType: Option; EntryNo: Integer)
@@ -1174,6 +1238,8 @@ codeunit 50002 "Loan Mgt."
                 PAGE.Run(PAGE::"Employee Personal Loan Card", EmpLoanAdvance);
             Type::"Vehicle Loan":
                 PAGE.Run(PAGE::"Employee Vehicle Loan Card", EmpLoanAdvance);
+            Type::"Staff Social Loan":
+                PAGE.Run(PAGE::"Emp Staff Social Loan Card", EmpLoanAdvance);
         end;
     end;
 
@@ -2029,5 +2095,11 @@ codeunit 50002 "Loan Mgt."
     local procedure OnBeforeGetInterestRate(StartingDate: Date; LoanType: Enum "Loan Type"; LoanAmount: Decimal; var InterestRate: Decimal; var IsHandled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateEligibleStaffSocialLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
+    begin
+    end;
+
 
 }

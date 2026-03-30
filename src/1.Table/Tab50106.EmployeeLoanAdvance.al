@@ -638,6 +638,11 @@ table 50106 "Employee Loan/Advance"
                         HRSetup.TestField("Vehicle Loan No.");
                         HRMgt.InitNoSeriesNew(HRSetup."Vehicle Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
                     end;
+                "Loan Type"::"Staff Social Loan":
+                    begin
+                        HRSetup.TestField("Staff Social Loan No.");
+                        HRMgt.InitNoSeriesNew(HRSetup."Staff Social Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
+                    end;
             end;
             EmployeeAdvanceLoan.ReadIsolation(IsolationLevel::ReadUncommitted);
             EmployeeAdvanceLoan.SetLoadFields("No.");

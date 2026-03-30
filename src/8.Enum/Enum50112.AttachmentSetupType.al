@@ -139,4 +139,8 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Home Loan Insurance Tieup';
     }
+    value(36; "Staff Social Loan")
+    {
+        Caption = 'Staff Social Loan';
+    }
 }

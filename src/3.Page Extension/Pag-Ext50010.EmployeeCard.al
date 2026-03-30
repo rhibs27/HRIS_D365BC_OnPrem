@@ -1676,6 +1676,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         LoanMgt.OpenLoan(Rec."No.", Type::"Home Loan");
                     end;
                 }
+                action("Staff Social Home Loan")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = SocialSecurityTax;
+                    PromotedCategory = Category5;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Request Home Loan action.';
+
+                    trigger OnAction()
+                    begin
+                        CLEAR(LoanMgt);
+                        LoanMgt.OpenLoan(Rec."No.", Type::"Staff Social Loan");
+                    end;
+                }
                 action("Update Loan Details")
                 {
                     ApplicationArea = All;

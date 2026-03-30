@@ -750,6 +750,22 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'For eligible home loan Request Minimum Road Access Inside valley';
         }
+        field(50165; "Staff Social Loan No."; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+            Description = 'No. series';
+        }
+        field(50166; "Max Staff Social Loan Amount"; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For Max Staff Social Loan Amount';
+        }
+        field(50167; "Use Internal Loan Balance"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Description = 'If true, previous loan amount is taken from Employee Loan/Advance table instead of Finacle.';
+        }
     }
     trigger onAfterInsert()
     begin

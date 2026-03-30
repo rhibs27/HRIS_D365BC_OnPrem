@@ -216,6 +216,17 @@ page 50032 "Payroll Attributes"
                     Caption = 'Use Attr. for Salary Adv. Gross Salary';
                     ApplicationArea = All;
                 }
+                field("Use Attr. for personal Loan GS"; rec."Use Attr. for personal Loan GS")
+                {
+                    Caption = 'Use Attr. for personal Loan GS';
+                    ApplicationArea = All;
+                }
+                field("Use Attr. staff Social Loan GS"; rec."Use Attr. staff Social Loan GS")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Use Attribute for staff Social Loan GS';
+                    ToolTip = 'Specifies whether this payroll attribute will be used to determine the gross salary amount for staff social Loan.';
+                }
                 field("Use Attr. for Home loan EL"; Rec."Use Attr. for Home loan EL")
                 {
                     ApplicationArea = All;

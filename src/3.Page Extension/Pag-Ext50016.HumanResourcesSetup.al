@@ -127,6 +127,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Vehicle Loan No. field.';
             }
+            field("Staff Social Loan No."; rec."Staff Social Loan No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Staff Social Loan No. field.';
+            }
             field("OT eligible hour"; Rec."OT eligible hour")
             {
                 ApplicationArea = All;
@@ -461,7 +466,16 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Spouse Code field.';
                 }
-
+                field("Max Staff Social Loan Amount"; rec."Max Staff Social Loan Amount")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Max Staff Social Loan Amount field.';
+                }
+                field("Use Internal Loan Balance"; Rec."Use Internal Loan Balance")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'If enabled, previous loan amount is calculated from Employee Loan/Advance table (Approved, Disbursed, not Settled) instead of Finacle.';
+                }
                 field("Base Interest Rate"; Rec."Base Interest Rate")
                 {
                     ApplicationArea = All;
