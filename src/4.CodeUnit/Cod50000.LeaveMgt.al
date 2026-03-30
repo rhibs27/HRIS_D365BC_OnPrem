@@ -22,7 +22,6 @@ codeunit 50000 "Leave Mgt."
             Page.Run(Page::"Leave Request", LeaveRequest)
         end else begin
             LeaveRequest2.Init;
-            LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
             LeaveRequest2.Validate("Employee No.", EmpCode);
             LeaveRequest2.Validate(Type, LeaveRequest2.Type::"Leave Request");
             LeaveRequest2.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
@@ -30,8 +29,6 @@ codeunit 50000 "Leave Mgt."
             LeaveRequest2.Validate("Employee Work Shift", Employee."Employee Work Shift");
             LeaveRequest2.Validate("Leave Type", LeaveRequest2."Leave Type"::"Full Day");
             LeaveRequest2.Validate("Requested Date", Today);
-            LeaveRequest2.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-            LeaveRequest2.Validate(Department, Employee."Department Code");
             LeaveRequest2.Insert(true);
             if GuiAllowed then
                 Page.Run(Page::"Leave Request", LeaveRequest2)
@@ -272,43 +269,79 @@ codeunit 50000 "Leave Mgt."
                 Error(NoLeaveDaysError);
     end;
 
+
     procedure CheckForMultipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
     var
         Leave: Record Leave;
         LeaveTypeSetup: Record "Leave Type Setup";
         ErrorforConsecutive: Label 'Your %1 Leave has exceeded maximum days limit as %1 cannot exceed %2 consecutive days.';
         PreviousWorkingDate, NextWorkingDate : Date;
+        TotalDays: Decimal;
+        CurrentStart, CurrentEnd : Date;
+        FoundAdjacent: Boolean;
     begin
         LeaveTypeSetup.Get(LeaveCode);
-        if LeaveTypeSetup."Limit Max. Leave at Once" then begin
-            PreviousWorkingDate := GetPreviousWorkingDate(StartDate - 1, true);
-            NextWorkingDate := GetPreviousWorkingDate(EndDate + 1, false);
-            Leave.Reset;
-            Leave.SetRange("Leave Code", LeaveCode);
-            Leave.SetRange("Employee No.", EmpCode);
-            Leave.Setfilter("Approval Status", '%1|%2', Leave."Approval Status"::Approved, Leave."Approval Status"::Pending);
-            Leave.SetRange("End Date", PreviousWorkingDate);
-            Leave.SetRange(Cancelled, false);
-            if Leave.FindFirst then begin
-                if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
-                    Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
-                else if LeaveTypeSetup."Exclude Non Working Days" then
-                    CheckForMultipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays)
-                else
-                    CheckForMultipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays + Leave."No. of Days");
-            end;
-            Clear(Leave);
-            Leave.SetRange("Leave Code", LeaveCode);
-            Leave.SetRange("Employee No.", EmpCode);
-            Leave.SetRange("Start Date", NextWorkingDate);
-            if Leave.FindFirst then begin
-                if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
-                    Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
-                else
-                    CheckForMultipleRequest(LeaveCode, EmpCode, StartDate, EndDate + 1, NoOfDays + Leave."No. of Days");
-            end;
+        if not LeaveTypeSetup."Limit Max. Leave at Once" then begin
+            exit;
         end;
+        TotalDays := NoOfDays;
+        CurrentStart := StartDate;
+        CurrentEnd := EndDate;
+
+        FoundAdjacent := true;
+        while FoundAdjacent do begin
+            PreviousWorkingDate := GetPreviousWorkingDate(CurrentStart - 1, true, EmpCode);
+            Leave.Reset();
+            Leave.SetRange("Leave Code", LeaveCode);
+            Leave.SetRange("Employee No.", EmpCode);
+            Leave.SetFilter("Approval Status", '%1|%2', Leave."Approval Status"::Approved, Leave."Approval Status"::Pending);
+            Leave.SetRange("End Date", PreviousWorkingDate, CurrentStart - 1); // range, not exact
+            Leave.SetRange(Cancelled, false);
+            if Leave.FindFirst() then begin
+                if LeaveTypeSetup."Maximum Leave at once" < TotalDays + Leave."No. of Days" then
+                    Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once");
+                TotalDays := TotalDays + Leave."No. of Days";
+                CurrentStart := Leave."Start Date";
+            end else
+                FoundAdjacent := false;
+        end;
+
+        FoundAdjacent := true;
+        while FoundAdjacent do begin
+            NextWorkingDate := GetPreviousWorkingDate(CurrentEnd + 1, false, EmpCode);
+            Leave.Reset();
+            Leave.SetRange("Leave Code", LeaveCode);
+            Leave.SetRange("Employee No.", EmpCode);
+            Leave.SetFilter("Approval Status", '%1|%2', Leave."Approval Status"::Approved, Leave."Approval Status"::Pending);
+            Leave.SetRange("Start Date", CurrentEnd + 1, NextWorkingDate);
+            Leave.SetRange(Cancelled, false);
+            if Leave.FindFirst() then begin
+                if LeaveTypeSetup."Maximum Leave at once" < TotalDays + Leave."No. of Days" then
+                    Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once");
+                TotalDays := TotalDays + Leave."No. of Days";
+                CurrentEnd := Leave."End Date";
+            end else
+                FoundAdjacent := false;
+        end;
+
         OnAfterCheckForMultipleLeaveRequest(LeaveTypeSetup, EmpCode, StartDate, EndDate, NoOfDays);
+    end;
+
+    procedure GetPreviousWorkingDate(DateToCheck: Date; PreviousWorkingDate: Boolean; EmpCode: Code[20]): Date
+    var
+        CheckDate: Date;
+    begin
+        CheckDate := DateToCheck;
+
+        repeat
+            if GetNonWorkingDays(CheckDate, CheckDate, EmpCode) <> 0 then begin
+                if PreviousWorkingDate then
+                    CheckDate := CheckDate - 1
+                else
+                    CheckDate := CheckDate + 1
+            end else
+                exit(CheckDate);
+        until false;
     end;
 
     procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Enum "Employee Type"; Gender: enum "Employee Gender";
@@ -859,6 +892,9 @@ codeunit 50000 "Leave Mgt."
                 Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
             Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
             Leave.TestField("Cancelled Document No.", '');
+            Employee.Get(Leave."Employee No.");
+            if Leave."Employment Type" <> Employee."Employment Type" then
+                Error('Leave from %1 period cannot be canceled after employment change to %2.', Leave."Employment Type", Employee."Employment Type");
             // Clear Approval line
             Approval.Reset();
             Approval.SetRange("Document No.", '');
