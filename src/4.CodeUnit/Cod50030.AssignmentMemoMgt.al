@@ -62,6 +62,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine.Modify();
                     //clear ledger entry if any
                     ClearAssignmentMemoLedgerDataOnLineReject(AssignmentMemoLine."Assign Memo Ledger Entry No.");
+
+                    OnAfterRejectOnAssignmentMemoLine(AssignmentMemoHdr, AssignmentMemoLine) //To handle multiple line.
                 until AssignmentMemoLine.Next() = 0;
 
             //Clear Leave Earn if claimed as Leave
@@ -73,6 +75,8 @@ codeunit 50030 "Assignment Memo Mgt"
                 Clear(LeaveEarn.Claimed);
                 LeaveEarn.Modify();
             end;
+
+
         end;
 
         //approved
@@ -94,10 +98,15 @@ codeunit 50030 "Assignment Memo Mgt"
                     CheckSkipAssignmentLedgerCreation(AssignmentMemoLine, SkipAssignmentLedgerCreation);
                     if not SkipAssignmentLedgerCreation then
                         CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
+
                 until AssignmentMemoLine.Next() = 0;
             if not ((AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo") or (AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo")) then
                 CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
-            OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
+            if not SkipAssignmentLedgerCreation then
+                OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
+
+            //Check is ledger already exit
+            CheckAssignmentLedgerAlreadyExits(AssignmentMemoLine, SkipAssignmentLedgerCreation);
         end;
     end;
 
@@ -211,6 +220,8 @@ codeunit 50030 "Assignment Memo Mgt"
         if AssignmentMemoLine2."Allowance Amount" = 0 then
             if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Request Allowance" then
                 Error('Total Allowance Amount cannot be zero.');
+
+        CheckEligibleEduRequest(AssignmentmemoHdr);//Check for Eligible Education Allowance request
 
         CheckAttachmentOnBeforeSendForApproval(AssignmentmemoHdr);  //check mandatory attachment exist
         AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);  //company specific and allowance specific controls
@@ -402,6 +413,7 @@ codeunit 50030 "Assignment Memo Mgt"
                 AssignmentMemoLedgerEntry.Validate("Open", false);
                 AssignmentMemoLedgerEntry.Validate("Substituted Employee No.", SubAssigmemoLine."Employee No.");
                 AssignmentMemoLedgerEntry.Modify(true);
+                OnAfterSubtituteModifyAssignmentMemoLedgerEntry(AssignmentMemoLedgerEntry);
             until AssignmentMemoLedgerEntry.Next() = 0;
     end;
 
@@ -1034,16 +1046,36 @@ codeunit 50030 "Assignment Memo Mgt"
         PayrollAttributes: Record "Payroll Attributes";
         Employee: Record Employee;
         Salarylevel: Record "Salary Level";
+        PayCyclePeriod: Record "Pay Cycle Period";
+        EmployeeServiceHistory: Record "Employee Service History";
+        AssignmentMemoHeader: Record "Assignment Memo Header";
     begin
         if not PayrollAttributes.Get(AssignmentMemoLine."Payroll Attribute Code") then
             exit;
 
+        AssignmentMemoHeader.Get(AssignmentMemoLine."Document No.");
+
         Employee.Get(AssignmentMemoLine."Employee No.");
-        Salarylevel.Get(Employee."Salary Level");
 
         if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::Reimbursement then begin
             if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler (EV)", Employee."Vehicle Type"::"Two Wheeler (EV)", Employee."Vehicle Type"::" "] then
                 Error('You are not eligible to claim Transportation Reimbursement.');
+
+            EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Promotion);
+            EmployeeServiceHistory.SetFilter("Effective Date", '>=%1', AssignmentMemoHeader."From Date");
+            if EmployeeServiceHistory.FindFirst() then begin
+                PayCyclePeriod.Reset();
+                PayCyclePeriod.SetFilter("Start Date", '<=%1', EmployeeServiceHistory."Effective Date");
+                PayCyclePeriod.SetFilter("End Date", '>=%1', EmployeeServiceHistory."Effective Date");
+                if PayCyclePeriod.FindFirst() then
+                    if AssignmentMemoHeader."Pay Cycle Period" < PayCyclePeriod.Period then
+                        Salarylevel.Get(EmployeeServiceHistory."Salary Level (From)")
+                    else
+                        if AssignmentMemoHeader."Pay Cycle Period" = PayCyclePeriod.Period then
+                            Salarylevel.Get(EmployeeServiceHistory."Salary Level (To)")
+            end
+            else
+                Salarylevel.Get(Employee."Salary Level");
 
             if (Salarylevel.Rank >= GetAMRank) and (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler") then begin
                 if GetAssignmentLineLtr(AssignmentMemoLine."Document No.") > Salarylevel."Fuel Limit (ltr)" then
@@ -1468,6 +1500,11 @@ codeunit 50030 "Assignment Memo Mgt"
         LeaveEarn.Modify();
     end;
 
+    procedure LookUpNameofChildren(EmployeeRelative: Record "Employee Relative"; var AssignmentMemoLine: Record "Assignment Memo Line")
+    begin
+        OnAfterLookUpNameofChildren(EmployeeRelative, AssignmentMemoLine);
+    end;
+
     [EventSubscriber(ObjectType::Table, Database::"Assignment Memo Header", OnAfterInsertEvent, '', false, false)]
     local procedure OnafterInsertAssignmentMemoHeader(var Rec: Record "Assignment Memo Header")
     var
@@ -1502,6 +1539,31 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure CheckSkipAssignmentLedgerCreation(var AssignmentMemoLine: Record "Assignment Memo Line"; var SkipAssignmentLedgerCreation: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterLookUpNameofChildren(EmployeeRelative: Record "Employee Relative"; Var AssignmentMemoLine: Record "Assignment Memo Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckEligibleEduRequest(AssignmentmemoHdr: Record "Assignment Memo Header")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckAssignmentLedgerAlreadyExits(Var AssignmentMemoLine: Record "Assignment Memo Line"; var SkipAssignmentLedgerCreation: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterRejectOnAssignmentMemoLine(AssignmentmemoHdr: Record "Assignment Memo Header"; Var AssignmentMemoLine: Record "Assignment Memo Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterSubtituteModifyAssignmentMemoLedgerEntry(AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry")
     begin
     end;
 }

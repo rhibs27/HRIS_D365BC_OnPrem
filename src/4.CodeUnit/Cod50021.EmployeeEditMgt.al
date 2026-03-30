@@ -580,6 +580,8 @@ codeunit 50021 "Employee Edit Mgt."
     begin
         EmployeeEdit.get(EmployeeEditCode);
         EmployeeEditOnBeforeApprove(EmployeeEdit);
+        if EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" = EmployeeEdit."Changes In Employee Type"::"Vehicle Info Update" then
+            CheckForVehicleClaimedType(EmployeeEdit);
         EmployeeEdit."Approval Status" := EmployeeEdit."Approval Status"::Pending;
         EmployeeEdit.Modify();
 
@@ -654,6 +656,11 @@ codeunit 50021 "Employee Edit Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterEmployeeVehicleInfoUpdate(var EmployeeEdit: Record "Employee Edit"; var Employee: Record Employee; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckForVehicleClaimedType(Var EmployeeEdit: Record "Employee Edit")
     begin
     end;
 }

@@ -579,6 +579,11 @@ table 50075 "Employee Activity Journal"
             end;
         }
         field(84; "Outgoing Rep. Person Name 2"; Text[50]) { }
+
+
+
+
+
         // OverTime
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
@@ -815,7 +820,7 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.SetRange("Document No.", '');
                 ApprovalHRMS.setRange("Document Type", Rec."Employee Act Type");
                 ApprovalHRMS.DeleteAll();
-                if HRSetup."Skip Approval On HR Transfer" and (Rec."Employee Act Type" = Rec."Employee Act Type"::"HR Transfer") then
+                if (HRSetup."Skip Approval On HR Transfer") and (Rec."Employee Act Type" in ["Employee Act Type"::"Request Allowance", "Employee Act Type"::"HR Transfer"]) then
                     SkipApproval := true;
 
                 OnSetupNewLineOnBeforeInsertApproval(Rec, SkipApproval);

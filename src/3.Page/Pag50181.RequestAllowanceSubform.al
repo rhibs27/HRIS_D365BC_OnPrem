@@ -51,11 +51,16 @@ page 50181 "Request Allowance Subform"
                     trigger OnLookup(var Text: Text): Boolean
                     var
                         EmployeeRelative: Record "Employee Relative";
+                        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                     begin
                         EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
                         EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
                         if Page.RunModal(Page::"Employee Relatives", EmployeeRelative) = Action::LookupOK then
-                            Rec."Name of Children" := EmployeeRelative."Full Name";
+                            if EmployeeRelative.Discontinue then
+                                Error('Selected Children is discontinued for Allowance.');
+                        Rec.Validate("Name of Children", EmployeeRelative."Full Name");
+
+                        AssignmentMemoMgt.LookUpNameofChildren(EmployeeRelative, Rec);
                     end;
                 }
                 field("Grade/Class"; Rec."Grade/Class")
