@@ -222,7 +222,7 @@ codeunit 50030 "Assignment Memo Mgt"
                 Error('Total Allowance Amount cannot be zero.');
 
         CheckEligibleEduRequest(AssignmentmemoHdr);//Check for Eligible Education Allowance request
-
+        CheckDiscontinuedEduRequest(AssignmentmemoHdr);//Check for Discontinued Education Allowance request
         CheckAttachmentOnBeforeSendForApproval(AssignmentmemoHdr);  //check mandatory attachment exist
         AssignmentMemoOnbeforeSendForApproval(AssignmentmemoHdr, IsHandled);  //company specific and allowance specific controls
         if AssignmentmemoHdr."Activity Type" = AssignmentmemoHdr."Activity Type"::"Allowance Assignment Memo" then
@@ -1566,4 +1566,10 @@ codeunit 50030 "Assignment Memo Mgt"
     local procedure OnAfterSubtituteModifyAssignmentMemoLedgerEntry(AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry")
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckDiscontinuedEduRequest(AssignmentmemoHdr: Record "Assignment Memo Header")
+    begin
+    end;
+
 }
