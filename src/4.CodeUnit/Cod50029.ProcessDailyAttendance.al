@@ -322,7 +322,7 @@ codeunit 50029 "Process Daily Attendance"
     var
         AttendanceLog: Record "Attendance Log";
     begin
-        AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time", "Device IP");
+        AttendanceLog.SetLoadFields("Employee ID", Date, "Log Time", "Device IP");
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
@@ -331,8 +331,6 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Check In Time" := AttendanceLog."Log Time";
             EmpAttendance."Check-In Device IP" := AttendanceLog."Device IP";
         end;
-
-        AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         if AttendanceLog.FindLast() then
             if EmpAttendance."Check In Time" <> AttendanceLog."Log Time" then begin
                 EmpAttendance."Check Out Time" := AttendanceLog."Log Time";
