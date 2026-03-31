@@ -164,6 +164,11 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the No. of Days for Attachment field.';
                     ApplicationArea = All;
                 }
+                field("Back Date Allowed UpTo"; Rec."Allowed Date Range")
+                {
+                    ToolTip = 'Specifies the value of the Back Date or future date leave apply allowed in date formula.';
+                    ApplicationArea = All;
+                }
                 field("Skip Balance Check"; Rec."Skip Balance Check")
                 {
                     ToolTip = 'Specifies the value of the Skip Balance Check field.';

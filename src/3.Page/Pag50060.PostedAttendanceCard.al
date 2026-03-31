@@ -243,6 +243,19 @@ page 50060 "Posted Attendance Card"
                     RunPageLink = "Attendance Document No" = field("No.");
                     RunPageMode = View;
                 }
+                action("View Deduction Reversals")
+                {
+                    Image = AnalysisView;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the View Reversal action';
+                    ApplicationArea = All;
+                    RunObject = page "Det Salary Deduction Entries";
+                    RunPageLink = "Attendance No." = field("No.");
+                    RunPageView = where(Reversed = const(true));
+                    RunPageMode = View;
+                }
             }
         }
     }

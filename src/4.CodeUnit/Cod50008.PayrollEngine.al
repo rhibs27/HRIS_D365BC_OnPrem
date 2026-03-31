@@ -133,6 +133,9 @@ codeunit 50008 "Payroll Engine"
         TotalAnnualEarning: Decimal;
         Math: Codeunit Math;
         PayrollAttributeUsage: Record "Payroll Attributes Usage";
+        NegMonthlyTax: Decimal;
+        IsNegativeTax: Boolean;
+        IsHandle: Boolean;
     begin
         PGSetup.Get;
         PGSetup.TestField("Payroll Fiscal Year End Date");
@@ -365,8 +368,11 @@ codeunit 50008 "Payroll Engine"
         TotalTaxRemunPaid := EmpPayOpen."Total Tax Remuneration Opening" + Employee."Remuneration & Benefits Tax";
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
-        if AnnualTax < 0 then
-            AnnualTax := 0;
+        IsHandle := false;
+        OnBeforeAnnualTaxZeroonNegative(IsHandle);
+        if not IsHandle then
+            if AnnualTax < 0 then
+                AnnualTax := 0;
 
         if TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits = 0 then  //do not pay tax if there is no benifit. employee will pay in next month
             if RemainingMonth > 0 then
@@ -375,14 +381,18 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Gratuity & leave Encash Tax" := Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');
 
         // do the calculain only if there is tax.
-        if AnnualTax > 0 then begin
+        if (AnnualTax > 0) or IsHandle then begin
             if PayrollHeader.Type = PayrollHeader.Type::Payroll then
                 MonthlyTax := AnnualTax / (RemainingMonth + 1)
             else
                 MonthlyTax := AnnualTax / (RemainingMonth + 1) + Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');   //settlement
 
-            if TaxAtOnceAnnualTax < 0 then
-                MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax"
+            OnAfterMonthlyTaxCalculation(AnnualTax, MonthlyTax, NegMonthlyTax);
+
+            if TaxAtOnceAnnualTax < 0 then begin
+                MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax";
+                OnAfterAdditionOfTaxAtOnceAnnualTax(AnnualTax, MonthlyTax, NegMonthlyTax);
+            end
             else begin
                 if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
                     MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
@@ -394,13 +404,17 @@ codeunit 50008 "Payroll Engine"
             TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
             if PGSetup."Pro Rate Female Rebate" then
                 if TaxSetupHeader."Special Tax Exempt %" <> 0 then
-                    TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %") / 100 + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
+                    TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
             if TotalTaxWithoutSST > 0 then begin
                 if TotalTaxWithoutSST > TaxExempt then
                     TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
                 else begin
-                    SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
-                    TotalTaxWithoutSST := 0;
+                    IsHandle := false;
+                    OnAfterAnnualTaxCalculation(SocialSecurityTax, TaxExempt, TotalTaxWithoutSST, IsHandle);
+                    if not IsHandle then begin
+                        SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
+                        TotalTaxWithoutSST := 0;
+                    end;
                 end;
             end else
                 SocialSecurityTax := SocialSecurityTax - TaxExempt;
@@ -409,6 +423,7 @@ codeunit 50008 "Payroll Engine"
                 if SocialSecurityTax - TotalSSTPaid < 0 then begin
                     SocialSecurityTaxAmount := 0;
                     MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
+                    OnAllowNegativeTaxForSST(SocialSecurityTaxAmount, SocialSecurityTax, TotalSSTPaid, MonthlyTax, RemainingMonth, AnnualTax, NegMonthlyTax, TaxAtOnceAnnualTax);
                 end else begin
                     SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
                     PayrollLine.RoundAmount(SocialSecurityTaxAmount);
@@ -417,7 +432,7 @@ codeunit 50008 "Payroll Engine"
                     else begin
                         if PGSetup."Pro Rate Female Rebate" then begin
                             if TaxSetupHeader.Gender = TaxSetupHeader.Gender::Female then
-                                SocialSecurityTaxAmount := ((SocialSecurityTax - SocialSecurityTax * (TaxSetupHeader."Special Tax Exempt %" / 100)) - TotalSSTPaid) / (RemainingMonth + 1)
+                                SocialSecurityTaxAmount := ((SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100)) - TotalSSTPaid) / (RemainingMonth + 1)
                         end;
                     end;
 
@@ -428,6 +443,16 @@ codeunit 50008 "Payroll Engine"
                             SocialSecurityTaxAmount := SocialSecurityTax - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
                         else
                             SocialSecurityTaxAmount := 0;
+
+                        if PGSetup."Pro Rate Female Rebate" then
+                            if TaxSetupHeader.Gender = TaxSetupHeader.Gender::Female then begin
+                                if SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
+                                    SocialSecurityTaxAmount := MonthlyTax
+                                else if (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax) < SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) then
+                                    SocialSecurityTaxAmount := SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
+                                else
+                                    SocialSecurityTaxAmount := 0;
+                            end;
                     end;
                     if TotalTaxWithoutSST > 0 then begin
                         if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
@@ -436,15 +461,20 @@ codeunit 50008 "Payroll Engine"
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
 
-                IF MonthlyTax < 0 THEN begin
-                    MonthlyTax := 0;
-                    SocialSecurityTaxAmount := 0;
-                    MonthlyTax := 0;
+                IsHandle := false;
+                OnBeforeResetOnNegative(IsHandle);
+                if not IsHandle then begin
+                    IF MonthlyTax < 0 THEN begin
+                        MonthlyTax := 0;
+                        SocialSecurityTaxAmount := 0;
+                        MonthlyTax := 0;
+                    end;
                 end;
             end;
         end;
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
-        if SocialSecurityTaxAmount >= MonthlyTax then
+        OnCheckNegativeAmountWithSSTaxAmount(IsNegativeTax);
+        if (SocialSecurityTaxAmount >= MonthlyTax) and (not IsNegativeTax) then
             MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
         PayrollLine.Modify;
@@ -3782,6 +3812,41 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to Get Gratuity amount from employee card
         //You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeAnnualTaxZeroonNegative(var IsHandle: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterMonthlyTaxCalculation(var AnnualTax: Decimal; var MonthlyTax: Decimal; var NegMonthlyTax: Decimal)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterAdditionOfTaxAtOnceAnnualTax(var AnnualTax: Decimal; var MonthlyTax: Decimal; var NegMonthlyTax: Decimal)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterAnnualTaxCalculation(var SocialSecurityTax: Decimal; var TaxExempt: Decimal; var TotalTaxWithoutSST: Decimal; var IsHandle: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAllowNegativeTaxForSST(var SocialSecurityTaxAmount: Decimal; var SocialSecurityTax: Decimal; var TotalSSTPaid: Decimal; var MonthlyTax: Decimal; var RemainingMonth: Decimal; var AnnualTax: Decimal; var NegMonthlyTax: Decimal; var TaxAtOnceAnnualTax: Decimal)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeResetOnNegative(var IsHandle: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCheckNegativeAmountWithSSTaxAmount(var IsNegativeTax: Boolean)
+    begin
     end;
 
 }
