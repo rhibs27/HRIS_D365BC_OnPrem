@@ -344,8 +344,7 @@ table 50047 "Attendance Summary"
     local procedure GetAttedanceDate()
     begin
         if AttendanceHeader.Get("Document No.") then begin
-            Validate("From Date", AttendanceHeader."From Date");
-            Validate("To Date", AttendanceHeader."To Date")
+            CopyFromAttendanceHeader(AttendanceHeader)
         end;
     end;
 }
