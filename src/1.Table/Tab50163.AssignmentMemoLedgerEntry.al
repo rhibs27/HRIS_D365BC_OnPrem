@@ -180,6 +180,14 @@ table 50163 "Assignment Memo Ledger Entry"
             Caption = 'Payroll Posted Date';
             Editable = false;
         }
+        field(63; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(64; "Branch Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
