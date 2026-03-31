@@ -700,6 +700,24 @@ page 50097 "Training Card"
                         Page.Run(Page::"Training Need List", TrainingNeedRequest);
                     end;
                 }
+                action("View Employee Feedback")
+                {
+                    Caption = 'View Training Needs';
+                    Image = "List";
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'View training need requests linked to this training.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    var
+                        EmployeeFeedback: Record "Employee Feedback";
+                    begin
+                        EmployeeFeedback.Reset();
+                        EmployeeFeedback.SetRange(Code, Rec."No.");
+                        Page.Run(Page::"Employee Training Feedback", EmployeeFeedback);
+                    end;
+                }
             }
         }
     }

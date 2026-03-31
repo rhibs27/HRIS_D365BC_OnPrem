@@ -30,7 +30,7 @@ table 50115 "Employee Feedback"
                     Answer::Agree:
                         Validate(Marks, 4);
 
-                    Answer::Netural:
+                    Answer::Neutral:
                         Validate(Marks, 3);
 
                     Answer::Disagree:

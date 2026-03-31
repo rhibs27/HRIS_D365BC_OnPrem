@@ -50913,6 +50913,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Action Sending Mail - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2676995112 - Action 3516763074 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View training need requests linked to this training.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Action View Employee Feedback - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2676995112 - Action 3516763074 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View Training Needs</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Action View Employee Feedback - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2676995112 - Action 1659707944 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>View training need requests linked to this training.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -63858,10 +63868,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Disagree - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1264256981 - EnumValue 636107671 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Netural</source>
+        <trans-unit id="Enum 1264256981 - EnumValue 3122611279 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Neutral</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Netural - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Neutral - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1264256981 - EnumValue 1986447438 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Strongly Agree</source>
