@@ -3998,6 +3998,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Attribute Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2683117390 - Field 3543129988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Blocked</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Blocked - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2683117390 - Field 3252322165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4052,6 +4057,16 @@
           <source>Reversed By Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed By Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2683117390 - Field 863279737 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed From Pay Cycle Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed From Pay Cycle Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2683117390 - Field 248026704 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed From Pay Cycle Term</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed From Pay Cycle Term - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 847710914 - Field 3662076853 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Code</source>
@@ -43352,6 +43367,11 @@
           <source>Executes the Re-Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Attendance Card - Action Re-Open - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 618653926 - Action 1523784011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the View Reversal action</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Attendance Card - Action View Deduction Reversals - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 618653926 - Action 515767299 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the View Deductions action</source>
