@@ -167,6 +167,12 @@ page 50097 "Training Card"
                     ToolTip = 'Specifies the value of the Online field.';
                     ApplicationArea = All;
                 }
+                field("Sponsorship Type"; Rec."Sponsorship Type")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Sponsorship Type field.';
+                    ApplicationArea = All;
+                }
             }
             group("Training Expense")
             {
@@ -410,7 +416,8 @@ page 50097 "Training Card"
                 action("Send Approval Request")
                 {
                     Caption = 'Send A&pproval Request';
-                    Enabled = IsOpen;
+                    Enabled = false;
+                    Visible = false;
                     Image = SendApprovalRequest;
                     Promoted = true;
                     PromotedCategory = Process;
@@ -464,7 +471,8 @@ page 50097 "Training Card"
                     PromotedIsBig = true;
                     ToolTip = 'Executes the Export Attendance action.';
                     ApplicationArea = All;
-                    Visible = Rec."Approval Status" = Rec."Approval Status"::Released;
+                    Enabled = not Rec.Posted;
+                    Visible = (Rec."Approval Status" = Rec."Approval Status"::Released);
                     trigger OnAction()
                     begin
                         Rec.TestField("Approval Status", Rec."Approval Status"::Released);
@@ -482,10 +490,13 @@ page 50097 "Training Card"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Post action.';
                     ApplicationArea = All;
-
+                    Visible = not Rec.Posted;
                     trigger OnAction()
                     begin
-                        Rec.SetPosted;
+                        if Confirm('Do you want to Post Training Card?', false) then begin
+                            Rec.SetPosted;
+                            CurrPage.Close();
+                        end;
                     end;
                 }
                 // action("Approve Attendance")
@@ -541,6 +552,7 @@ page 50097 "Training Card"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Sending Mail action.';
                     ApplicationArea = All;
+                    Visible = false;
                     trigger OnAction()
                     begin
                         Rec.TestField("Prepared By");
@@ -570,7 +582,7 @@ page 50097 "Training Card"
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    Visible = IsApproved;
+                    Visible = false;
                     ToolTip = 'Executes the Payment Memo action.';
                     ApplicationArea = All;
 
@@ -691,6 +703,7 @@ page 50097 "Training Card"
                     PromotedIsBig = true;
                     ToolTip = 'View training need requests linked to this training.';
                     ApplicationArea = All;
+                    Visible = false;
                     trigger OnAction()
                     var
                         TrainingNeedRequest: Record "Training Need Request";
@@ -702,7 +715,6 @@ page 50097 "Training Card"
                 }
                 action("View Employee Feedback")
                 {
-                    Caption = 'View Training Needs';
                     Image = "List";
                     Promoted = true;
                     PromotedCategory = Process;

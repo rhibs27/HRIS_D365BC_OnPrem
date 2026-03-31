@@ -87,6 +87,7 @@ page 50016 "Facilitator Pool Lists"
                 {
                     ToolTip = 'Specifies the value of the Appointed Date field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
             }
         }
@@ -99,7 +100,7 @@ page 50016 "Facilitator Pool Lists"
             group("Request Approval")
             {
                 Caption = 'Request Approval';
-                // Visible = false;
+                Visible = false;
                 action("Send Approval Request")
                 {
                     Caption = 'Send A&pproval Request';

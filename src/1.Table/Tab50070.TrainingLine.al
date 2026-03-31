@@ -207,11 +207,12 @@ table 50070 "Training Line"
 
     trigger OnDelete()
     begin
+        if Posted then
+            Error('Cannot Delete Posted Line');
         TrainingAtt.Reset;
         TrainingAtt.SetRange("Employee No.", "Employee Code");
         TrainingAtt.SetRange("Training No", "Training No.");
         TrainingAtt.DeleteAll;
-
         QATraining.Reset;
         QATraining.SetRange("Employee No.", "Employee Code");
         QATraining.SetRange(Code, "Training No.");

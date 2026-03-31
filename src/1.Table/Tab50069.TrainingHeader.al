@@ -555,34 +555,35 @@ table 50069 "Training Header"
         TrainLine.SetRange(Type, TrainLine.Type::Trainee);
         if TrainLine.FindFirst then
             repeat
-                TrainAttendance.Reset;
-                TrainAttendance.SetRange("Training No", TrainLine."Training No.");
-                TrainAttendance.SetRange("Employee No.", TrainLine."Employee Code");
-                Found := TrainAttendance.FindFirst;
+                TrainLine.TestField(Posted, true);
+            // TrainAttendance.Reset;
+            // TrainAttendance.SetRange("Training No", TrainLine."Training No.");
+            // TrainAttendance.SetRange("Employee No.", TrainLine."Employee Code");
+            // Found := TrainAttendance.FindFirst;
 
-                EmpFeedback.Reset;
-                EmpFeedback.SetRange(Code, TrainLine."Training No.");
-                EmpFeedback.SetRange("Employee No.", TrainLine."Employee Code");
-                EmpFeedback.SetRange(Type, EmpFeedback.Type::Training);
-                EmpFeedback.SetRange("Sub Type", EmpFeedback."Sub Type"::Training);
-                EmpFeedback.SetRange("Is Subjective", false);
-                if (EmpFeedback.FindFirst) and (Found) then
-                    repeat
-                        EmpFeedback.TestField(Answer);
-                    until EmpFeedback.Next = 0;
+            // EmpFeedback.Reset;
+            // EmpFeedback.SetRange(Code, TrainLine."Training No.");
+            // EmpFeedback.SetRange("Employee No.", TrainLine."Employee Code");
+            // EmpFeedback.SetRange(Type, EmpFeedback.Type::Training);
+            // EmpFeedback.SetRange("Sub Type", EmpFeedback."Sub Type"::Training);
+            // EmpFeedback.SetRange("Is Subjective", false);
+            // if (EmpFeedback.FindFirst) and (Found) then
+            //     repeat
+            //         EmpFeedback.TestField(Answer);
+            //     until EmpFeedback.Next = 0;
             until TrainLine.Next = 0;
 
-        TrainLine.Reset;
-        TrainLine.SetRange("Training No.", "No.");
-        if TrainLine.FindFirst then
-            if TrainLine."Payment Mode" = TrainLine."Payment Mode"::"account Credit" then begin
-                TrainLine.TestField("Account No.");
-                TrainLine.TestField("Department Code", '');
-            end
-            else if TrainLine."Payment Mode" = TrainLine."Payment Mode"::IDT then begin
-                TrainLine.TestField("Account No.");
-                TrainLine.TestField("Department Code");
-            end;
+        // TrainLine.Reset;
+        // TrainLine.SetRange("Training No.", "No.");
+        // if TrainLine.FindFirst then
+        //     if TrainLine."Payment Mode" = TrainLine."Payment Mode"::"account Credit" then begin
+        //         TrainLine.TestField("Account No.");
+        //         TrainLine.TestField("Department Code", '');
+        //     end
+        //     else if TrainLine."Payment Mode" = TrainLine."Payment Mode"::IDT then begin
+        //         TrainLine.TestField("Account No.");
+        //         TrainLine.TestField("Department Code");
+        //     end;
 
         Posted := true;
     end;

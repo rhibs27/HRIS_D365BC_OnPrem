@@ -50703,6 +50703,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Resource Person - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2676995112 - Control 1331783802 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Sponsorship Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Sponsorship Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2676995112 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50917,11 +50922,6 @@
           <source>View training need requests linked to this training.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Action View Employee Feedback - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2676995112 - Action 3516763074 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View Training Needs</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Action View Employee Feedback - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2676995112 - Action 1659707944 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>View training need requests linked to this training.</source>

@@ -372,6 +372,23 @@ codeunit 50037 "Training Mgt"
         TrainingNeed.Modify(true);
     end;
 
+    procedure UpdateTrainingOnEmpAttAct(TrainingNo: Code[20])
+    Var
+        TrainingAttendance: Record "Training Attendance";
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+    begin
+        TrainingAttendance.SetRange("Training No", TrainingNo);
+        if TrainingAttendance.FindSet() then
+            repeat
+                EmployeeAttendanceActivity.SetRange("Employee No.", TrainingAttendance."Employee No.");
+                EmployeeAttendanceActivity.SetRange("Attendance Date", TrainingAttendance."Attended Date");
+                if EmployeeAttendanceActivity.FindFirst() then begin
+                    EmployeeAttendanceActivity."Training Day" := 1;
+                    EmployeeAttendanceActivity.Modify();
+                end;
+            until TrainingAttendance.Next() = 0;
+    end;
+
     var
         ExcelBuffer: Record "Excel Buffer";
         Employee: Record Employee;

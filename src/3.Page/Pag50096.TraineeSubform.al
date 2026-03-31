@@ -326,10 +326,13 @@ page 50096 "Trainee Subform"
 
                 trigger OnAction()
                 begin
-                    TrainingLine.Reset;
-                    TrainingLine.SetRange("Training No.", Rec."Training No.");
-                    TrainingLine.SetRange(Type, Rec.Type::Trainee);
-                    TrainingLine.ModifyAll(Posted, true);
+                    if Confirm('Do you want to Post Attendance of Trainee?', false) then begin
+                        TrainingLine.Reset;
+                        TrainingLine.SetRange("Training No.", Rec."Training No.");
+                        TrainingLine.SetRange(Type, Rec.Type::Trainee);
+                        TrainingLine.ModifyAll(Posted, true);
+                        TrainingMgt.UpdateTrainingOnEmpAttAct(Rec."Training No.");
+                    end;
                 end;
             }
             action(InsertTrainee)
