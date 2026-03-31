@@ -88,6 +88,7 @@ table 50141 OverTime
                     Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
                     Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                     if type = type::Overtime then begin
+                        OnCheckOvertimeBackdateLimit(Rec."Start Date");
                         HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                         EmployeeAttendance.Reset;
                         EmployeeAttendance.SetRange("Employee No.", "Employee No.");
@@ -102,6 +103,7 @@ table 50141 OverTime
                                 Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
                                 Validate("Day Type", EmployeeAttendance."Day Type");
                                 Validate("Overnight Shift", EmployeeAttendance."OverNight Shift");
+                                Validate("Week day", EmployeeAttendance.Week);
                             end;
                         end else
                             Error('No Attendance Found on %1', rec."Start Date");
@@ -392,6 +394,9 @@ table 50141 OverTime
         {
             DataClassification = ToBeClassified;
         }
+        field(69; "Week day"; Enum Week)
+        {
+        }
         field(100; Status; text[20]) { }
     }
     keys
@@ -483,6 +488,11 @@ table 50141 OverTime
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeOTDateValidation(Var Overtime: Record OverTime; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCheckOvertimeBackdateLimit(var startDate: Date)
     begin
     end;
 

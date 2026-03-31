@@ -116,8 +116,10 @@ page 50254 "Shift Assignment Card"
                     ShiftLine.SetRange("No.", Rec."No.");
                     if ShiftLine.Count = 0 then
                         Error('Shift Line not Found');
-                    if Confirm('Do you want to send approval request?', false) then
+                    if Confirm('Do you want to send approval request?', false) then begin
                         ShiftAssignmentMgt.SendApprovalShiftAssignment(Rec, ShiftLine);
+                        Message('Shift Assignment Request send for approval by %1', HRMgt.GetEmpName());
+                    end;
                 end;
             }
             action("Approve Request")
@@ -133,7 +135,7 @@ page 50254 "Shift Assignment Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the document?', false) then
-                        ApproverMgt.ApproveRejectDocument(RecRef, true)
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
                 end;
             }
             action("Reject Request")

@@ -22,7 +22,6 @@ codeunit 50000 "Leave Mgt."
             Page.Run(Page::"Leave Request", LeaveRequest)
         end else begin
             LeaveRequest2.Init;
-            LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
             LeaveRequest2.Validate("Employee No.", EmpCode);
             LeaveRequest2.Validate(Type, LeaveRequest2.Type::"Leave Request");
             LeaveRequest2.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
@@ -30,8 +29,6 @@ codeunit 50000 "Leave Mgt."
             LeaveRequest2.Validate("Employee Work Shift", Employee."Employee Work Shift");
             LeaveRequest2.Validate("Leave Type", LeaveRequest2."Leave Type"::"Full Day");
             LeaveRequest2.Validate("Requested Date", Today);
-            LeaveRequest2.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-            LeaveRequest2.Validate(Department, Employee."Department Code");
             LeaveRequest2.Insert(true);
             if GuiAllowed then
                 Page.Run(Page::"Leave Request", LeaveRequest2)
@@ -225,9 +222,16 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         NoLeaveDaysError: Label 'You do not have enough leave Days.';
         LeaveEarn: Record "Leave Earn";
+        EarliestAllowedDate: Date;
     begin
         //check leave criteria
         LeaveTypeSetup.Get(LeaveCode);
+        if Format(LeaveTypeSetup."Allowed Date Range") <> '' then begin
+            EarliestAllowedDate := CalcDate(LeaveTypeSetup."Allowed Date Range", Today);
+            if StartDate < EarliestAllowedDate then
+                Error('Cannot apply %1 leave with start date %2. Back date allowed up to %3 only.',
+                    LeaveTypeSetup.Description, StartDate, EarliestAllowedDate);
+        end;
         Employee.Get(EmpCode);
         if LeaveTypeSetup."Services Period" then begin
             Leave.Reset;
@@ -264,6 +268,7 @@ codeunit 50000 "Leave Mgt."
             if LeaveTypeSetup."Remaining Days" < NoofDays then
                 Error(NoLeaveDaysError);
     end;
+
 
     procedure CheckForMultipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
     var
@@ -320,6 +325,23 @@ codeunit 50000 "Leave Mgt."
         end;
 
         OnAfterCheckForMultipleLeaveRequest(LeaveTypeSetup, EmpCode, StartDate, EndDate, NoOfDays);
+    end;
+
+    procedure GetPreviousWorkingDate(DateToCheck: Date; PreviousWorkingDate: Boolean; EmpCode: Code[20]): Date
+    var
+        CheckDate: Date;
+    begin
+        CheckDate := DateToCheck;
+
+        repeat
+            if GetNonWorkingDays(CheckDate, CheckDate, EmpCode) <> 0 then begin
+                if PreviousWorkingDate then
+                    CheckDate := CheckDate - 1
+                else
+                    CheckDate := CheckDate + 1
+            end else
+                exit(CheckDate);
+        until false;
     end;
 
     procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Enum "Employee Type"; Gender: enum "Employee Gender";
@@ -874,6 +896,9 @@ codeunit 50000 "Leave Mgt."
                 Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
             Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
             Leave.TestField("Cancelled Document No.", '');
+            Employee.Get(Leave."Employee No.");
+            if Leave."Employment Type" <> Employee."Employment Type" then
+                Error('Leave from %1 period cannot be canceled after employment change to %2.', Leave."Employment Type", Employee."Employment Type");
             // Clear Approval line
             Approval.Reset();
             Approval.SetRange("Document No.", '');
@@ -1040,11 +1065,15 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure InsertLeaveEarnfromJournal(LeaveJournal: Record "Employee Activity Journal")
+    procedure InsertLeaveEarnFromJournal(LeaveJournal: Record "Employee Activity Journal")
     var
         LeaveEarn: Record "Leave Earn";
         HRMgt: Codeunit "HR Mgt.";
+        IsHandled: Boolean;
     begin
+        OnInsertLeaveEarnFromJournal(LeaveJournal, IsHandled);
+        if IsHandled then
+            exit;
         LeaveEarn.Init;
         LeaveEarn.Validate("Leave Code", LeaveJournal."Leave Code");
         LeaveEarn.Validate("Employee No.", LeaveJournal."Employee No.");
@@ -1574,7 +1603,7 @@ codeunit 50000 "Leave Mgt."
                                                           BalanceDays: Decimal;
                                         entryNo: Integer;
                                         ExtDocumentNo: Code[20];
-                                        Remarks: Text[100];
+                                        Remarks: Text[250];
                                         Office: Code[20]): Integer
     var
         leaveLedger: Record "Leave Earn";
@@ -2140,6 +2169,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsertLeaveLeaderOnApprove(var LeaveEarn: Record "Leave Earn")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertLeaveEarnfromJournal(var leaveJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
     begin
     end;
 
