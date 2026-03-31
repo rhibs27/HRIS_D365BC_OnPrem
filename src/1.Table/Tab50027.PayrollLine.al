@@ -1656,6 +1656,7 @@ table 50027 "Payroll Line"
     var
         AbsentDeductionAmount: Decimal;
         AttributeAmount: Decimal;
+        IsHandled: Boolean;
     begin
         GetPayrollHeader;
         if not PayrollHeader.Irregular then
@@ -1723,9 +1724,12 @@ table 50027 "Payroll Line"
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
                         if PayrollAttributes."Deduct on Absent" then begin
-                            if PGSetup."Deduction Entries" then
-                                AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false)
-                            else
+                            if PGSetup."Deduction Entries" then begin
+                                if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+                                    OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", AttributeAmount, IsHandled);
+                                if not IsHandled then
+                                    AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false)
+                            end else
                                 AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
                         end;
 
@@ -2985,6 +2989,7 @@ table 50027 "Payroll Line"
     local procedure GetAmountFromDeductionEntries(EmployeeNo: Code[20]; AttributeCode: Code[20]; ForReversedEntries: Boolean): Decimal
     var
         DetSalaryDeductionEntries: Record "Det Salary Deduction Entry";
+        IsHandled: Boolean;
     begin
         DetSalaryDeductionEntries.Reset();
         DetSalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
