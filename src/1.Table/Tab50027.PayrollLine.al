@@ -1723,13 +1723,14 @@ table 50027 "Payroll Line"
                                     AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
+
+                        Attributeamount += AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days";
                         if PayrollAttributes."Deduct on Absent" then begin
                             if PGSetup."Deduction Entries" then begin
                                 if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
                                     OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", AttributeAmount, IsHandled);
                                 if not IsHandled then
-                                    AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false);
-                                Attributeamount += AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
+                                    AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false)
                             end else
                                 AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
                         end;

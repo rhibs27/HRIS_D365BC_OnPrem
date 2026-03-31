@@ -1399,6 +1399,8 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("OT Hrs", AttendanceSummary."OT Hrs");
             PayrollLine.Validate("OT Days", AttendanceSummary."OT Days");
             PayrollLine.Validate("Night Shifts", AttendanceSummary."Night Shift Days");
+            PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
+            PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
 
             PGSetup.Get();
             AttendanceSetup.Get();
@@ -1408,9 +1410,7 @@ codeunit 50008 "Payroll Engine"
                                                     AttendanceSetup."Absent Deductions")
             else begin
                 PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
-                PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
                 PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays);
-                PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
             end;
             if PayrollHeader.Type = PayrollHeader.Type::Resignation then
                 PayrollLine.Validate("Post Resignation Days", PayrollHeader."To Date" - PayrollLine."Resignation Date");
