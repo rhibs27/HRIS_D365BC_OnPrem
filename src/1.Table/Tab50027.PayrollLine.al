@@ -1728,7 +1728,8 @@ table 50027 "Payroll Line"
                                 if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
                                     OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", AttributeAmount, IsHandled);
                                 if not IsHandled then
-                                    AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false)
+                                    AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false);
+                                Attributeamount += AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
                             end else
                                 AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
                         end;
