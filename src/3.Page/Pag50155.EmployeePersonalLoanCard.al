@@ -369,6 +369,7 @@ page 50155 "Employee Personal Loan Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
+                        RecRef.GetTable(Rec);
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Message('Personal Loan is Approved by %1', HRMgt.GetEmpName());
                         clear(Rec."Rejection Remark");
@@ -392,6 +393,7 @@ page 50155 "Employee Personal Loan Card"
                         IF REC."Rejection Remark" = '' then
                             Error('Rejection Remark is Empty')
                         else begin
+                            RecRef.GetTable(Rec);
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
                             Message('Personal loan is Rejected by %1', HRMgt.GetEmpName());
                         end;

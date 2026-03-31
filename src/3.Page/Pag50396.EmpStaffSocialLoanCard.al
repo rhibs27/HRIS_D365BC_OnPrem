@@ -364,8 +364,9 @@ page 50396 "Emp Staff Social Loan Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
+                        RecRef.GetTable(Rec);
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
-                        Message('Personal Loan is Approved by %1', HRMgt.GetEmpName());
+                        Message('Staff Social Loan is Approved by %1', HRMgt.GetEmpName());
                         clear(Rec."Rejection Remark");
                     end;
                 end;
@@ -387,6 +388,7 @@ page 50396 "Emp Staff Social Loan Card"
                         IF REC."Rejection Remark" = '' then
                             Error('Rejection Remark is Empty')
                         else begin
+                            RecRef.GetTable(Rec);
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
                             Message('Personal loan is Rejected by %1', HRMgt.GetEmpName());
                         end;
@@ -442,7 +444,7 @@ page 50396 "Emp Staff Social Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible=IsApproved;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Modify Security Document action.';
                 ApplicationArea = All;
 
@@ -472,28 +474,9 @@ page 50396 "Emp Staff Social Loan Card"
                 trigger OnAction()
                 begin
                     CurrPage.SetSelectionFilter(Rec);
-                    // Report.Run(Report::"Personal Loan Deed", true, false, Rec)
+                    Report.Run(Report::"Staff Social Loan Report", true, false, Rec);
                 end;
             }
-
-            // action("Print Reports")
-            // {
-            //     Image = Print;
-            //     Promoted = true;
-            //     PromotedCategory = "Report";
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the Print Reports action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want to print the document?', false) then begin
-            //             CurrPage.SetSelectionFilter(Rec);
-            //             Report.Run(Report::"Loan/Salary Advance Report", true, false, Rec);
-            //         end;
-            //     end;
-            // }
         }
     }
 
