@@ -260,10 +260,10 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
                 PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
                 if PayCyclePeriod.FindFirst() then begin
-                    if not GuiAllowed then
-                        Employee.Get(HrMgt.GetEmployeeNo())
+                    if (not GuiAllowed) and HrMgt.IsSaaS() then
+                        Employee.Get("Employee No.")
                     else
-                        Employee.Get("Employee No.");
+                        Employee.Get(HrMgt.GetEmployeeNo());
                     IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
                         "From Date" := Employee."Employment Date"
                     else

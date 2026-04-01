@@ -44,7 +44,7 @@ table 50032 "Salary Deduction Entry"
         field(9; "Amount"; Decimal)
         {
             Caption = 'Amount';
-            CalcFormula = sum("Det Salary Deduction Entry".Amount where("Deduction Entry No." = field("Entry No.")));
+            CalcFormula = sum("Det Salary Deduction Entry".Amount where("Deduction Entry No." = field("Entry No."), Blocked = const(false)));
             Editable = false;
             FieldClass = FlowField;
         }
