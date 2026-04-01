@@ -2,33 +2,30 @@ codeunit 50037 "Training Mgt"
 {
     procedure InsertEmployeeWiseTrainingQuestion(TrainingNo: Code[20]; EmployeeNo: Code[20])
     var
-        SubQuet: Record "Employee Question Setup";
-        QATrain: Record "Employee Feedback";
-        LineNo: Integer;
+        TrainingQuestionSetup: Record "Employee Question Setup";
+        EmployeeFeedBack: Record "Employee Feedback";
     begin
-        SubQuet.Reset;
-        SubQuet.SetRange(Type, SubQuet.Type::Training);
-        if SubQuet.Find('-') then
+        TrainingQuestionSetup.Reset;
+        TrainingQuestionSetup.SetRange(Type, TrainingQuestionSetup.Type::Training);
+        if TrainingQuestionSetup.Find('-') then
             repeat
-                QATrain.Reset;
-                QATrain.SetRange("Question Code", SubQuet."Question Code");
-                QATrain.SetRange("Employee No.", EmployeeNo);
-                QATrain.SetRange(Code, TrainingNo);
-                QATrain.SetRange("Line No.", SubQuet."Line No.");
-                QATrain.SetRange(Type, QATrain.Type::Training);
-                if not QATrain.FindFirst then begin
-                    QATrain.Init;
-                    QATrain.Validate(Code, TrainingNo);
-                    QATrain.Validate(Type, QATrain.Type::Training);
-                    QATrain.Validate("Sub Type", SubQuet."Sub Type");
-                    QATrain.Validate("Employee No.", EmployeeNo);
-                    QATrain.Validate(Type, QATrain.Type::Training);
-                    QATrain.Validate(Question, SubQuet.Question);
-                    QATrain.Validate("Question Code", SubQuet."Question Code");
-                    QATrain.Validate("Line No.", SubQuet."Line No.");
-                    QATrain.Insert;
+                EmployeeFeedBack.Reset;
+                EmployeeFeedBack.SetRange("Employee No.", EmployeeNo);
+                EmployeeFeedBack.SetRange("Training No.", TrainingNo);
+                EmployeeFeedBack.SetRange("Question Code", TrainingQuestionSetup."Question Code");
+                EmployeeFeedBack.SetRange(Type, EmployeeFeedBack.Type::Training);
+                if not EmployeeFeedBack.FindFirst then begin
+                    EmployeeFeedBack.Init;
+                    EmployeeFeedBack.Validate("Training No.", TrainingNo);
+                    EmployeeFeedBack.Validate("Question Code", TrainingQuestionSetup."Question Code");
+                    EmployeeFeedBack.Validate(Type, EmployeeFeedBack.Type::Training);
+                    EmployeeFeedBack.Validate("Sub Type", EmployeeFeedBack."Sub Type");
+                    EmployeeFeedBack.Validate("Employee No.", EmployeeNo);
+                    EmployeeFeedBack.Validate(Question, TrainingQuestionSetup.Question);
+                    EmployeeFeedBack.Validate("Is Subjective", TrainingQuestionSetup."Is Subjective");
+                    EmployeeFeedBack.Insert;
                 end;
-            until SubQuet.Next = 0;
+            until TrainingQuestionSetup.Next = 0;
     end;
 
     procedure ShowTrainerList(TrainingNo: Code[20]; EmployeeNo: Code[20])
@@ -37,7 +34,7 @@ codeunit 50037 "Training Mgt"
     begin
         QATrain.Reset;
         QATrain.FilterGroup(2);
-        QATrain.SetRange(Code, TrainingNo);
+        QATrain.SetRange("Training No.", TrainingNo);
         QATrain.SetRange("Employee No.", EmployeeNo);
         QATrain.SetRange(Type, QATrain.Type::Training);
         QATrain.SetRange("Sub Type", QATrain."Sub Type"::Trainer);
@@ -51,7 +48,7 @@ codeunit 50037 "Training Mgt"
     begin
         QATrain.Reset;
         QATrain.FilterGroup(2);
-        QATrain.SetRange(Code, TrainingNo);
+        QATrain.SetRange("Training No.", TrainingNo);
         QATrain.SetRange("Employee No.", EmployeeNo);
         QATrain.SetRange("Sub Type", QATrain."Sub Type"::Training);
         QATrain.SetRange(Type, QATrain.Type::Training);
@@ -61,18 +58,18 @@ codeunit 50037 "Training Mgt"
 
     local procedure CalculateTrainingMarks(TrainNo: Code[20]; EmpNo: Code[20]): Decimal
     var
-        QATrain: Record "Employee Feedback";
+        TrainingFeedback: Record "Employee Feedback";
         TotalMarks: Decimal;
     begin
-        QATrain.Reset;
-        QATrain.SetRange(Code, TrainNo);
-        QATrain.SetRange("Employee No.", EmpNo);
-        QATrain.SetRange("Sub Type", QATrain."Sub Type"::Training);
-        QATrain.SetRange(Type, QATrain.Type::Training);
-        QATrain.CalcSums(Marks);
-        TotalMarks := QATrain.Marks;
-        if QATrain.Count <> 0 then
-            exit(TotalMarks / QATrain.Count);
+        TrainingFeedback.Reset;
+        TrainingFeedback.SetRange("Training No.", TrainNo);
+        TrainingFeedback.SetRange("Employee No.", EmpNo);
+        TrainingFeedback.SetRange("Sub Type", TrainingFeedback."Sub Type"::Training);
+        TrainingFeedback.SetRange(Type, TrainingFeedback.Type::Training);
+        TrainingFeedback.CalcSums(Marks);
+        TotalMarks := TrainingFeedback.Marks;
+        if TrainingFeedback.Count <> 0 then
+            exit(TotalMarks / TrainingFeedback.Count);
     end;
 
     local procedure CalculateTrainerMarks(TrainNo: Code[20]; EmpNo: Code[20]): Decimal
@@ -81,7 +78,7 @@ codeunit 50037 "Training Mgt"
         TotalMarks: Decimal;
     begin
         QATrain.Reset;
-        QATrain.SetRange(Code, TrainNo);
+        QATrain.SetRange("Training No.", TrainNo);
         QATrain.SetRange("Employee No.", EmpNo);
         QATrain.SetRange("Sub Type", QATrain."Sub Type"::Trainer);
         QATrain.SetRange(Type, QATrain.Type::Training);
@@ -376,10 +373,12 @@ codeunit 50037 "Training Mgt"
     Var
         TrainingAttendance: Record "Training Attendance";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        EmployeeActType: Enum "Employee Activity Type";
     begin
         TrainingAttendance.SetRange("Training No", TrainingNo);
         if TrainingAttendance.FindSet() then
             repeat
+                HRMgt.CreateEmpActLedger(EmployeeActType::Training, TrainingAttendance."Training No", TrainingAttendance."Employee No.", TrainingAttendance."Attended Date", false, 1);
                 EmployeeAttendanceActivity.SetRange("Employee No.", TrainingAttendance."Employee No.");
                 EmployeeAttendanceActivity.SetRange("Attendance Date", TrainingAttendance."Attended Date");
                 if EmployeeAttendanceActivity.FindFirst() then begin
@@ -395,4 +394,5 @@ codeunit 50037 "Training Mgt"
         ExportTraineeTxt: Label 'Export Trainee';
         UploadFileTxt: Label 'Select the Excel File to Import';
         ExportAttendanceTxt: Label 'Export Attendance';
+        HRMgt: Codeunit "HR Mgt.";
 }

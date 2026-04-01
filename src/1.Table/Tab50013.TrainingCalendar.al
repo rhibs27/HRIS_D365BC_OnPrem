@@ -1,6 +1,6 @@
 table 50013 "Training Calendar"
 {
-    DrillDownPageId = "Training Calendar Lists";
+    DrillDownPageId = "Training Calendar Card";
     LookupPageId = "Training Calendar Lists";
     DataClassification = CustomerContent;
     fields
@@ -18,8 +18,7 @@ table 50013 "Training Calendar"
         }
         field(2; "Training Master code"; Code[20])
         {
-            TableRelation = "Training Master";
-
+            TableRelation = "Training Master"."No." where("Setup Type" = filter("Training Setup Type"::" "));
             trigger OnValidate()
             begin
                 if TrainingMaster.Get("Training Master code") then
@@ -96,10 +95,90 @@ table 50013 "Training Calendar"
         {
             trigger OnLookup()
             begin
-                Validate(Province, HRMgt.LookupDepartment(''));
+                Validate(Province, HRMgt.LookupProvinceOrganization());
             end;
         }
         field(22; "Training Nature"; Enum "Training Nature") { }
+        field(23; "Training Institute Name"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Institute Name");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Institute Name" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(24; "Training Category"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Category");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Category" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(25; "Training Module"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Module");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Module" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(26; "Training Type Name"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Type");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Type Name" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(27; "Training Mode"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Mode");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Mode" := TrgMaster.Description;
+                end;
+            end;
+        }
     }
 
     keys

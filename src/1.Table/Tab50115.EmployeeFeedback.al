@@ -5,7 +5,7 @@ table 50115 "Employee Feedback"
 
     fields
     {
-        field(1; "Code"; Code[20]) { }
+        field(1; "Training No."; Code[20]) { }
         field(2; "Employee No."; Code[20])
         {
             TableRelation = Employee."No.";
@@ -15,8 +15,7 @@ table 50115 "Employee Feedback"
             Editable = false;
         }
         field(4; "Answers Text"; Text[250]) { }
-        field(5; "Line No."; Integer) { }
-        field(6; "Question Code"; Code[20]) { }
+        field(5; "Question Code"; Code[20]) { }
         field(7; Type; Enum "Employee Question Type") { }
         field(8; "Sub Type"; Enum "Employee Question SubType") { }
         field(9; Answer; Enum "Employee FeedBack")
@@ -72,7 +71,7 @@ table 50115 "Employee Feedback"
 
     keys
     {
-        key(Key1; "Code", "Line No.", "Employee No.") { }
+        key(Key1; "Training No.", "Question Code", "Employee No.") { }
     }
 
     fieldgroups { }

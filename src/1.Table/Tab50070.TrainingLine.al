@@ -213,10 +213,10 @@ table 50070 "Training Line"
         TrainingAtt.SetRange("Employee No.", "Employee Code");
         TrainingAtt.SetRange("Training No", "Training No.");
         TrainingAtt.DeleteAll;
-        QATraining.Reset;
-        QATraining.SetRange("Employee No.", "Employee Code");
-        QATraining.SetRange(Code, "Training No.");
-        QATraining.DeleteAll;
+        EmployeeFeedback.Reset;
+        EmployeeFeedback.SetRange("Employee No.", "Employee Code");
+        EmployeeFeedback.SetRange("Training No.", "Training No.");
+        EmployeeFeedback.DeleteAll;
     end;
 
     trigger OnInsert()
@@ -239,9 +239,8 @@ table 50070 "Training Line"
         HRMgt: Codeunit "HR Mgt.";
         TrainingMgt: Codeunit "Training Mgt";
         TrainingAtt: Record "Training Attendance";
-        QATraining: Record "Employee Feedback";
+        EmployeeFeedback: Record "Employee Feedback";
         SalaryLevel: Record "Salary Level";
-        // LevelWiseAttributes: Record "Level Wise Attributes";
         PRSetup: Record "Payroll General Setup";
         Vendor: Record Vendor;
         Amt: Decimal;

@@ -16,6 +16,11 @@ page 50014 "Training Master"
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
+                field("Setup Type"; Rec."Setup Type")
+                {
+                    ToolTip = 'Specifies the type of setup entry (Training Institute Name, Training Category, etc.).';
+                    ApplicationArea = All;
+                }
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.';

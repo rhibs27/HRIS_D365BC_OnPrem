@@ -355,8 +355,6 @@ page 50096 "Trainee Subform"
                 var
                     Traline: Record "Training Line";
                 begin
-                    Traline.SetRange("Training No.", Rec."Training No.");
-                    Traline.DeleteAll();
                     if Confirm('Do you want to import Trainees From Excel?', false) then
                         ExcelImport.ImportTraineeFromExcelSheet(Rec."Training No.");
                 end;
@@ -385,30 +383,6 @@ page 50096 "Trainee Subform"
                         ExcelImport.ExportTrainingAttendanceExcelFormat();
                 end;
             }
-            // action("Show Training Question")
-            // {
-            //     Image = Questionaire;
-            //     Visible = IsApproved;
-            //     ToolTip = 'Executes the Show Training Question action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         TrainingMgt.ShowTrainingList(Rec."Training No.", Rec."Employee Code");
-            //     end;
-            // }
-            // action("Show Trainer Question")
-            // {
-            //     Image = Questionaire;
-            //     Visible = IsApproved;
-            //     ToolTip = 'Executes the Show Trainer Question action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         TrainingMgt.ShowTrainerList(Rec."Training No.", Rec."Employee Code");
-            //     end;
-            // }
         }
     }
 
@@ -561,11 +535,10 @@ page 50096 "Trainee Subform"
                 TrainingAtt.Insert;
             end;
             EmpFeedback.Reset;
-            EmpFeedback.SetRange(Code, Rec."Training No.");
+            EmpFeedback.SetRange("Training No.", Rec."Training No.");
             EmpFeedback.SetRange("Employee No.", Rec."Employee Code");
             if not EmpFeedback.FindFirst then
                 TrainingMgt.InsertEmployeeWiseTrainingQuestion(Rec."Training No.", Rec."Employee Code");
-
         end else begin
             TrainingAtt.Reset;
             TrainingAtt.SetRange("Employee No.", Rec."Employee Code");

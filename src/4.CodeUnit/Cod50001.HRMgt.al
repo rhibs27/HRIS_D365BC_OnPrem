@@ -63,7 +63,6 @@ codeunit 50001 "HR Mgt."
         ReleaseTrainingTxt: Label 'Custom - Release the Training document.';
         CreateTrainingApproveApprovalRequestAutomaticallyTxt: Label 'Custom - Create and approve an approval request automatically on Training.';
         OpenDocumentTrainingTxt: Label 'Custom - Reopen the Training.';
-        ExportTraineeTxt: Label 'Export Trainee';
         ExportAttendanceTxt: Label 'Export Attendance';
         FacilitatorDocCategoryTxt: Label 'Facilitator';
         CustFacilitatorCategoryTxt: Label 'Facilitator';

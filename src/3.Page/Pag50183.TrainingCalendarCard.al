@@ -1,21 +1,26 @@
-page 50015 "Training Calendar Lists"
+page 50183 "Training Calendar Card"
 {
-    PageType = List;
+    PageType = Card;
     SourceTable = "Training Calendar";
-    CardPageId = "Training Calendar Card";
-    UsageCategory = Lists;
     ApplicationArea = All;
-    Editable = false;
+
     layout
     {
         area(Content)
         {
-            repeater(Group)
+            group(General)
             {
+                Caption = 'General';
                 field("No."; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
+
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
                 }
                 field("Training Master code"; Rec."Training Master code")
                 {
@@ -32,6 +37,46 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Quarter field.';
                     ApplicationArea = All;
                 }
+                field("Training Type"; Rec."Training Type")
+                {
+                    ToolTip = 'Specifies the value of the Training Type field.';
+                    ApplicationArea = All;
+                }
+                field("Training Nature"; Rec."Training Nature")
+                {
+                    ToolTip = 'Specifies the value of the Training Nature field.';
+                    ApplicationArea = All;
+                }
+                field("Function"; Rec."Function")
+                {
+                    ToolTip = 'Specifies the value of the Function field.';
+                    ApplicationArea = All;
+                }
+                field(Valley; Rec.Valley)
+                {
+                    ToolTip = 'Specifies the value of the Valley field.';
+                    ApplicationArea = All;
+                }
+                field("Resource person"; Rec."Resource person")
+                {
+                    ToolTip = 'Specifies the value of the Resource person field.';
+                    ApplicationArea = All;
+                }
+                field("Assigned Person"; Rec."Assigned Person")
+                {
+                    ToolTip = 'Specifies the value of the Assigned Person field.';
+                    ApplicationArea = All;
+                }
+                field(District; Rec.District)
+                {
+                    Caption = 'Expected Venue';
+                    ToolTip = 'Specifies the Expected Venue (District).';
+                    ApplicationArea = All;
+                }
+            }
+            group(Coverage)
+            {
+                Caption = 'Coverage';
                 field(Province; Rec.Province)
                 {
                     ToolTip = 'Specifies the value of the Province field.';
@@ -52,22 +97,10 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Coverage Functional Title field.';
                     ApplicationArea = All;
                 }
-                field(Valley; Rec.Valley)
-                {
-                    ToolTip = 'Specifies the value of the Valley field.';
-                    ApplicationArea = All;
-                }
-                field("Resource person"; Rec."Resource person")
-                {
-                    ToolTip = 'Specifies the value of the Resouce person field.';
-                    ApplicationArea = All;
-                }
-                field(District; Rec.District)
-                {
-                    Caption = 'Expected Venue';
-                    ToolTip = 'Specifies the value of the Expected Venue field.';
-                    ApplicationArea = All;
-                }
+            }
+            group(Participants)
+            {
+                Caption = 'Participants';
                 field("Minimum Participant"; Rec."Minimum Participant")
                 {
                     ToolTip = 'Specifies the value of the Minimum Participant field.';
@@ -78,11 +111,10 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Maximum Participant field.';
                     ApplicationArea = All;
                 }
-                field("Function"; Rec."Function")
-                {
-                    ToolTip = 'Specifies the value of the Function field.';
-                    ApplicationArea = All;
-                }
+            }
+            group(Cost)
+            {
+                Caption = 'Cost';
                 field("Training Cost"; Rec."Training Cost")
                 {
                     ToolTip = 'Specifies the value of the Training Cost field.';
@@ -98,16 +130,10 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Total Cost field.';
                     ApplicationArea = All;
                 }
-                field("Training Type"; Rec."Training Type")
-                {
-                    ToolTip = 'Specifies the value of the Training Type field.';
-                    ApplicationArea = All;
-                }
-                field("Training Nature"; Rec."Training Nature")
-                {
-                    ToolTip = 'Specifies the value of the Training Nature field.';
-                    ApplicationArea = All;
-                }
+            }
+            group("Training Setup")
+            {
+                Caption = 'Training Setup';
                 field("Training Institute Name"; Rec."Training Institute Name")
                 {
                     ToolTip = 'Specifies the Training Institute Name.';

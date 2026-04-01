@@ -390,12 +390,12 @@ page 50097 "Training Card"
                 Visible = IsApproved;
                 ApplicationArea = All;
             }
-            part("Approval Subform"; "HRMS Approval Entry")
-            {
-                SubPageLink = "Document No." = field("No."), "Document Type" = field(Type);
-                ApplicationArea = all;
-                Editable = false;
-            }
+            // part("Approval Subform"; "HRMS Approval Entry")
+            // {
+            //     SubPageLink = "Document No." = field("No."), "Document Type" = field(Type);
+            //     ApplicationArea = all;
+            //     Editable = false;
+            // }
         }
         area(FactBoxes)
         {
@@ -629,71 +629,6 @@ page 50097 "Training Card"
                         end;
                     end;
                 }
-                // action("Export Trainees")
-                // {
-                //     Image = Export;
-                //     Promoted = true;
-                //     PromotedCategory = Process;
-                //     PromotedIsBig = true;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Export Trainees action.';
-                //     ApplicationArea = All;
-                //     trigger OnAction()
-                //     var
-                //         TrainingLine: Record "Training Line";
-                //     begin
-                //         if Confirm('Do you want to Export Training line?', false) then begin
-                //             TrainingLine.SetRange("Training No.", Rec."No.");
-                //             TrainingLine.SetRange(Type, TrainingLine.Type::Trainee);
-                //             RecRef.GetTable(TrainingLine);
-                //             ExcelImport.ExportDataInExcel(RecRef);
-                //         end;
-                //     end;
-                // }
-                // action("Import Trainees")
-                // {
-                //     Image = Import;
-                //     Promoted = true;
-                //     PromotedCategory = Process;
-                //     PromotedIsBig = true;
-                //     ToolTip = 'Executes the Import Trainees action.';
-                //     ApplicationArea = All;
-
-                //     trigger OnAction()
-                //     begin
-                //         if Confirm('Do you want to import Trainees From Excel?', false) then
-                //             ExcelImport.ImportFromExcelSheet(Database::"Training Line", '', false);
-                //         // TrainingMgt.ImportTrainee(Rec);
-                //     end;
-                // }
-                // action("Export Attendance")
-                // {
-                //     Image = ExportDatabase;
-                //     Promoted = true;
-                //     PromotedCategory = Process;
-                //     PromotedIsBig = true;
-                //     ToolTip = 'Executes the Export Attendance action.';
-                //     ApplicationArea = All;
-
-                //     trigger OnAction()
-                //     begin
-                //         TrainingMgt.ExportTraineeAttendance(Rec);
-                //     end;
-                // }
-                // action("Import Attendance")
-                // {
-                //     Image = ImportDatabase;
-                //     Promoted = true;
-                //     PromotedCategory = Process;
-                //     PromotedIsBig = true;
-                //     ToolTip = 'Executes the Import Attendance action.';
-                //     ApplicationArea = All;
-
-                //     trigger OnAction()
-                //     begin
-                //         TrainingMgt.ImportTraineeAttendance(Rec);
-                //     end;
-                // }
                 action("View Training Needs")
                 {
                     Caption = 'View Training Needs';
@@ -726,7 +661,7 @@ page 50097 "Training Card"
                         EmployeeFeedback: Record "Employee Feedback";
                     begin
                         EmployeeFeedback.Reset();
-                        EmployeeFeedback.SetRange(Code, Rec."No.");
+                        EmployeeFeedback.SetRange("Training No.", Rec."No.");
                         Page.Run(Page::"Employee Training Feedback", EmployeeFeedback);
                     end;
                 }

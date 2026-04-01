@@ -439,12 +439,10 @@ table 50069 "Training Header"
         TrainBudgtLine: Record "Training Budget Line";
         MonthError: Label 'Document %1 must be open or pending.';
         TrainHead: Record "Training Header";
-        TrainLine: Record "Training Line";
         RatingSetup: Record "Rating Setup";
         DateError: Label '%1 : %2 should be greater than %3: %4';
         Employee: Record Employee;
         TrainAttendance: Record "Training Attendance";
-        Found: Boolean;
         EmpFeedback: Record "Employee Feedback";
         leaveMgt: Codeunit "Leave Mgt.";
         ApprovalMgt: Codeunit "Approver Mgt";
@@ -550,12 +548,12 @@ table 50069 "Training Header"
     procedure SetPosted()
     begin
         TestField("Approval Status", "Approval Status"::Released);
-        TrainLine.Reset;
-        TrainLine.SetRange("Training No.", "No.");
-        TrainLine.SetRange(Type, TrainLine.Type::Trainee);
-        if TrainLine.FindFirst then
+        TrainingLine.Reset;
+        TrainingLine.SetRange("Training No.", "No.");
+        TrainingLine.SetRange(Type, TrainingLine.Type::Trainee);
+        if TrainingLine.FindFirst then
             repeat
-                TrainLine.TestField(Posted, true);
+                TrainingLine.TestField(Posted, true);
             // TrainAttendance.Reset;
             // TrainAttendance.SetRange("Training No", TrainLine."Training No.");
             // TrainAttendance.SetRange("Employee No.", TrainLine."Employee Code");
@@ -571,7 +569,7 @@ table 50069 "Training Header"
             //     repeat
             //         EmpFeedback.TestField(Answer);
             //     until EmpFeedback.Next = 0;
-            until TrainLine.Next = 0;
+            until TrainingLine.Next = 0;
 
         // TrainLine.Reset;
         // TrainLine.SetRange("Training No.", "No.");
@@ -590,15 +588,15 @@ table 50069 "Training Header"
 
     procedure CheckLineForApproval()
     begin
-        Clear(TrainLine);
-        TrainLine.SetRange("Training No.", "No.");
-        TrainLine.SetRange(Type, TrainLine.Type::Trainer);
-        if TrainLine.Count = 0 then
+        Clear(TrainingLine);
+        TrainingLine.SetRange("Training No.", "No.");
+        TrainingLine.SetRange(Type, TrainingLine.Type::Trainer);
+        if TrainingLine.Count = 0 then
             Error('There must be a trainer in training No %1', "No.");
-        Clear(TrainLine);
-        TrainLine.SetRange("Training No.", "No.");
-        TrainLine.SetRange(Type, TrainLine.Type::Trainee);
-        if TrainLine.Count = 0 then
+        Clear(TrainingLine);
+        TrainingLine.SetRange("Training No.", "No.");
+        TrainingLine.SetRange(Type, TrainingLine.Type::Trainee);
+        if TrainingLine.Count = 0 then
             Error('There must be a trainee in training No %1', "No.");
     end;
 }

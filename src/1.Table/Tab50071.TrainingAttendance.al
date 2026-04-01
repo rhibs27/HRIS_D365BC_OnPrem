@@ -10,6 +10,8 @@ table 50071 "Training Attendance"
         {
             trigger OnValidate()
             begin
+                If "Approved Date" > Today then
+                    Error('&%1 is Greater than Today');
                 TrainingHeader.Get("Training No");
                 if ("Attended Date" < TrainingHeader."Start Date") or ("Attended Date" > TrainingHeader."End Date") then
                     Error('The entered date %1 for employee %2 does not lie between training conducted period.', Format("Attended Date"), "Employee No.");
