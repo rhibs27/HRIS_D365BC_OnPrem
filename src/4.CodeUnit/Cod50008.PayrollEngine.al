@@ -1401,7 +1401,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Night Shifts", AttendanceSummary."Night Shift Days");
             PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
             PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
-            PayrollLine.Validate("Prior Employment Days", PriorEmploymentDays);
+            PayrollLine.Validate("Days Before Joining", PriorEmploymentDays);
             PGSetup.Get();
             AttendanceSetup.Get();
             if PGSetup."Deduction Entries" then
