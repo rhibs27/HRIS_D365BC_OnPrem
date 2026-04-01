@@ -1438,6 +1438,14 @@ table 50027 "Payroll Line"
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
         field(1105; "Total Unpaid Days"; Decimal) { }
+        field(1106; "Prior Employment Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                GetTotalDays;
+                ValidateUnpaidDays();
+            end;
+        }
     }
     keys
     {
@@ -1532,7 +1540,7 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days";
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days" + "Prior Employment Days";
     end;
 
     procedure ValidateUnpaidDays()
@@ -1541,9 +1549,9 @@ table 50027 "Payroll Line"
     begin
         AttenSetup.Get();
         if not AttenSetup."Absent Deductions" then
-            "Total Unpaid Days" := "Late Days" + "LWP Days"
+            "Total Unpaid Days" := "Late Days" + "LWP Days" + "Prior Employment Days"
         else
-            "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days";
+            "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days" + "Prior Employment Days";
     end;
 
     procedure GetPayrollHeader()
@@ -1724,7 +1732,11 @@ table 50027 "Payroll Line"
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
 
-                        Attributeamount += AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days";
+                        if PGSetup."Skip Attribute Adjustment" then
+                            Attributeamount := AttributeAmount
+                                                + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
+                                                - AttributeAmount / FindTotalDays() * "Prior Employment Days";
+
                         if PayrollAttributes."Deduct on Absent" then begin
                             if PGSetup."Deduction Entries" then begin
                                 if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then

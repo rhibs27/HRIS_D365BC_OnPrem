@@ -14338,6 +14338,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Sick Leave - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1187430302 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Skip Attribute Adjustment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Skip Attribute Adjustment - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 2235867818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Staff Vehicle Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15582,6 +15587,11 @@
           <source>Prior Absent Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Prior Absent Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3212271507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Prior Employment Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Prior Employment Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 351149174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Prior Leave Days</source>
@@ -40298,6 +40308,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Return Tax - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1187430302 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deduction Entries field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Skip Attribute Adjustment - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1358397137 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the TA Salary Level field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -42437,6 +42452,11 @@
           <source>Specifies the value of the Prior Absent Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Prior Absent Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 3212271507 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Post Resignation Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Prior Employment Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 351149174 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Prior Leave Days field.</source>

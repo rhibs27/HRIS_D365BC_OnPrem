@@ -1211,7 +1211,7 @@ codeunit 50008 "Payroll Engine"
         PayCyclePeriod: Record "Pay Cycle Period";
         LatterPresentDays: Integer;
         EmployeeAttendActivity: Record "Employee Attendance & Activity";
-        AbsentDays: Decimal;
+        AbsentDays, PriorEmploymentDays : Decimal;
         LeaveDays: Decimal;
         LWPDays: Decimal;
         PriorLWPDays: Decimal;
@@ -1346,7 +1346,7 @@ codeunit 50008 "Payroll Engine"
 
         Employee.TestField("Employment Date");
         if (Employee."Employment Date" >= PayrollHeader."From Date") and (Employee."Employment Date" <= PayrollHeader."To Date") then
-            AbsentDays := Employee."Employment Date" - PayrollHeader."From Date";
+            PriorEmploymentDays := Employee."Employment Date" - PayrollHeader."From Date";
 
         Clear(LeaveTypeSetup);
         LeaveTypeSetup.Reset;
@@ -1401,7 +1401,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Night Shifts", AttendanceSummary."Night Shift Days");
             PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
             PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
-
+            PayrollLine.Validate("Prior Employment Days", PriorEmploymentDays);
             PGSetup.Get();
             AttendanceSetup.Get();
             if PGSetup."Deduction Entries" then

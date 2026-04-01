@@ -166,6 +166,10 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the Deduction Entries field.', Comment = '%';
                 }
+                field("Skip Attribute Adjustment"; Rec."Skip Attribute Adjustment")
+                {
+                    ToolTip = 'Specifies the value of the Deduction Entries field.', Comment = '%';
+                }
                 field("Payroll Archive Nos."; Rec."Payroll Archive Nos.")
                 {
                     ToolTip = 'Specifies the value of the Payroll Archive Nos. field.', Comment = '%';
