@@ -184,9 +184,9 @@ page 50255 "Shift subform"
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                     Rec.Modify();
-                    ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(Rec."Roster Date", Rec."Employee No");
+                    ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(Rec."Roster Date", rec."Roster Date", Rec."Employee No");
                     if ShiftAssignmentLine.Get(Rec."No.", Rec."Substitute of Line No.") then begin
-                        ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(ShiftAssignmentLine."Roster Date", ShiftAssignmentLine."Employee No")
+                        ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(ShiftAssignmentLine."Roster Date", rec."Roster Date", ShiftAssignmentLine."Employee No")
                     end;
                     Message('Substitute Allowance is Approved');
                 end;
