@@ -2014,23 +2014,6 @@ codeunit 50000 "Leave Mgt."
             until Date.Next() = 0;
     end;
 
-    procedure GetPreviousWorkingDate(DateToCheck: Date; PreviousWorkingDate: Boolean; EmpCode: Code[20]): Date
-    var
-        CheckDate: Date;
-    begin
-        CheckDate := DateToCheck;
-
-        repeat
-            if GetNonWorkingDays(CheckDate, CheckDate, EmpCode) <> 0 then begin
-                if PreviousWorkingDate then
-                    CheckDate := CheckDate - 1
-                else
-                    CheckDate := CheckDate + 1
-            end else
-                exit(CheckDate);
-        until false;
-    end;
-
     procedure ReturnCalendarDescription(): Text
     begin
         exit(CalendarDescription);

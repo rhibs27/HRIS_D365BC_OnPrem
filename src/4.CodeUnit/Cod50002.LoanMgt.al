@@ -298,6 +298,7 @@ codeunit 50002 "Loan Mgt."
                 end;
             EmpLoan."Loan Type"::"Vehicle Loan":
                 begin
+                    EmpLoan."Requested Loan Date" := Today;
                     if EmpLoan."Repayment Period" > HRSetup."Max. Veh. Loan Repay Period" then
                         Error('Repayment period exceeded.');
                     if (SalaryLevel."Vehicle Loan Limit" <> 0) then   //changes for salary level greater than AM

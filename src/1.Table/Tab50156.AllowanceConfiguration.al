@@ -100,6 +100,7 @@ table 50156 "Allowance Configuration"
         field(11; "Day Type"; Enum "Day Type")
         {
             DataClassification = ToBeClassified;
+            InitValue = " ";
         }
     }
     keys

@@ -476,6 +476,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Editable = false;
                     ToolTip = 'Specifies the value of the Job Position field.';
                 }
+                field("Salary Level Description"; rec."Salary Level Description")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Job Position Description';
+                    Editable = false;
+                }
                 field("Functional Title"; Rec."Functional Title")
                 {
                     ApplicationArea = All;

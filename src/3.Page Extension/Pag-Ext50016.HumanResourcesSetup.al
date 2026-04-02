@@ -117,6 +117,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Home Loan No. field.';
             }
+            field("Home Loan Settlement No."; Rec."Home Loan Settlement No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the No. Series for Home Loan Settlement documents.';
+            }
             field("Home Loan Insur. TieUp No."; Rec."Home Loan Insur. TieUp No.")
             {
                 ApplicationArea = All;

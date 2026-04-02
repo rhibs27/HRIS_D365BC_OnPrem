@@ -766,6 +766,12 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'If true, previous loan amount is taken from Employee Loan/Advance table instead of Finacle.';
         }
+        field(50168; "Home Loan Settlement No."; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+            Description = 'No. series for Home Loan Settlement documents';
+        }
     }
     trigger onAfterInsert()
     begin

@@ -79,6 +79,12 @@ report 50077 "Service Event Update"
                         ApplicationArea = All;
                         ShowMandatory = true;
                     }
+                    field("staff Level"; staffLevel)
+                    {
+                        ToolTip = 'Specifies the value of the staff level field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
                     field("Salary level"; SalaryLevel)
                     {
                         TableRelation = "Salary Level";
@@ -210,6 +216,7 @@ report 50077 "Service Event Update"
         ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
         ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
         ServiceHistory.Validate("Province Code (To)", ProvinceCode);
+        ServiceHistory.Validate("Staff Level (From)", Employee."Staff level");
         case ServiceEvent of
             ServiceEvent::"Branch Merge":
                 if DeputationOnTo = DeputationOnTo::Branch then begin
@@ -227,6 +234,7 @@ report 50077 "Service Event Update"
             Employee.Validate("Employment Type", EmploymentType);
             Employee.Validate("Salary Level", SalaryLevel);
             Employee.Validate("Salary Grade", SalaryGrade);
+            Employee.Validate("Staff level", staffLevel);
         end;
         if ServiceEvent = ServiceEvent::Appointment then
             Employee.Validate("Employment Date", EffectiveDate)
@@ -265,6 +273,7 @@ report 50077 "Service Event Update"
         ProbationPeriod: Enum "Probation Period";
         ContractCode: Code[10];
         BranchMergeVisible: Boolean;
+        staffLevel: Enum "Staff Type";
 
     local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
     var
@@ -388,6 +397,9 @@ report 50077 "Service Event Update"
 
             if SalaryLevel = '' then
                 Error(MissingFieldErr, 'Salary Level');
+
+            if staffLevel = staffLevel::" " then
+                Error(MissingFieldErr, 'staff Level');
 
             if EmploymentType = EmploymentType::" " then
                 Error(MissingFieldErr, 'Employment Type');

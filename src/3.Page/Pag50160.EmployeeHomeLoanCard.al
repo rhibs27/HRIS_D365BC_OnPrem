@@ -647,6 +647,69 @@ page 50160 "Employee Home Loan Card"
                     HRMgt.UpdateInsuranceFromHomeLoan(Rec);
                 end;
             }
+            action("Create Settlement")
+            {
+                Caption = 'Create Settlement';
+                Image = CreateDocument;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                // Visible = CanCreateSettlement;
+                ToolTip = 'Initiate a Home Loan Settlement for this disbursed loan.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    // HomeLoanSettlementMgt.InitiateSettlement(Rec);
+                    CurrPage.Update(false);
+                end;
+            }
+            // action("View Settlement")
+            // {
+            //     Caption = 'View Settlement';
+            //     Image = View;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = CanViewSettlement;
+            //     ToolTip = 'Open the Home Loan Settlement for this loan.';
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     var
+            //         Settlement: Record "Home Loan Settlement";
+            //         SettlementCard: Page "Home Loan Settlement Card";
+            //     begin
+            //         Settlement.SetRange("Loan No.", Rec."No.");
+            //         if Settlement.FindFirst() then begin
+            //             SettlementCard.SetRecord(Settlement);
+            //             SettlementCard.Run();
+            //         end;
+            //     end;
+            // }
+            // action("Print Settlement Statement")
+            // {
+            //     Caption = 'Print Settlement Statement';
+            //     Image = Print;
+            //     Promoted = true;
+            //     PromotedCategory = Report;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = CanViewSettlement;
+            //     ToolTip = 'Print the Home Loan Settlement Statement.';
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     var
+            //         Settlement: Record "Home Loan Settlement";
+            //     begin
+            //         Settlement.SetRange("Loan No.", Rec."No.");
+            //         if Settlement.FindFirst() then
+            //             HomeLoanSettlementMgt.PrintSettlementStatement(Settlement);
+            //     end;
+            // }
         }
     }
     trigger OnAfterGetRecord()
@@ -689,6 +752,17 @@ page 50160 "Employee Home Loan Card"
         ApprovalStatusView: Boolean;
         RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";
+    //     HomeLoanSettlementMgt: Codeunit "Home Loan Settlement Mgt.";
+    //     CanCreateSettlement: Boolean;
+    //     CanViewSettlement: Boolean;
+
+    // local procedure SettlementExists(LoanNo: Code[20]): Boolean
+    // var
+    //     Settlement: Record "Home Loan Settlement";
+    // begin
+    //     Settlement.SetRange("Loan No.", LoanNo);
+    //     exit(not Settlement.IsEmpty());
+    // end;
 
     local procedure SetLayout()
     begin
@@ -699,5 +773,7 @@ page 50160 "Employee Home Loan Card"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        // CanCreateSettlement := IsApproved AND Rec.Disbursed AND NOT SettlementExists(Rec."No.");
+        // CanViewSettlement := IsApproved AND Rec.Disbursed AND SettlementExists(Rec."No.");
     end;
 }
