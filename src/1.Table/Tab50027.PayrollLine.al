@@ -3003,7 +3003,6 @@ table 50027 "Payroll Line"
     local procedure GetAmountFromDeductionEntries(EmployeeNo: Code[20]; AttributeCode: Code[20]; ForReversedEntries: Boolean): Decimal
     var
         DetSalaryDeductionEntries: Record "Det Salary Deduction Entry";
-        IsHandled: Boolean;
     begin
         DetSalaryDeductionEntries.Reset();
         DetSalaryDeductionEntries.SetRange("Employee No.", EmployeeNo);
