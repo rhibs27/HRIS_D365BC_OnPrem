@@ -1385,7 +1385,13 @@ table 50027 "Payroll Line"
         field(1067; "Projected Non-Payments"; Decimal) { Editable = false; }
         field(1068; "Past Non-Payments"; Decimal) { Editable = false; }
         field(1069; "39% Slab"; Decimal) { }
-        field(1070; "Post Resignation Days"; Decimal) { }
+        field(1070; "Post Resignation Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
+        }
         field(1071; "Post Payroll Days"; Decimal)
         {
             Description = 'Post Payroll Days';
@@ -1549,9 +1555,9 @@ table 50027 "Payroll Line"
     begin
         AttenSetup.Get();
         if not AttenSetup."Absent Deductions" then
-            "Total Unpaid Days" := "Late Days" + "LWP Days" + "Days Before Joining"
+            "Total Unpaid Days" := "Late Days" + "LWP Days" + "Days Before Joining" + "Post Resignation Days"
         else
-            "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days" + "Days Before Joining";
+            "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days" + "Days Before Joining" + "Post Resignation Days";
     end;
 
     procedure GetPayrollHeader()
@@ -1663,7 +1669,7 @@ table 50027 "Payroll Line"
     local procedure GetPayrollAttributes()
     var
         AbsentDeductionAmount: Decimal;
-        AttributeAmount: Decimal;
+        AttributeAmount, PostResignationDeductionAmount : Decimal;
         IsHandled: Boolean;
     begin
         GetPayrollHeader;
@@ -1732,12 +1738,14 @@ table 50027 "Payroll Line"
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
 
-                        if PGSetup."Skip Attribute Adjustment" then
-                            Attributeamount := AttributeAmount
-                                                + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
-                                                - AttributeAmount / FindTotalDays() * "Days Before Joining";
-
                         if PayrollAttributes."Deduct on Absent" then begin
+
+                            PostResignationDeductionAmount := AttributeAmount - AttributeAmount / FindTotalDays() * "Post Resignation Days";
+                            if PGSetup."Skip Attribute Adjustment" then
+                                Attributeamount := AttributeAmount
+                                                    + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
+                                                    - AttributeAmount / FindTotalDays() * "Days Before Joining";
+
                             if PGSetup."Deduction Entries" then begin
                                 if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
                                     OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", AttributeAmount, IsHandled);
@@ -1753,7 +1761,7 @@ table 50027 "Payroll Line"
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
 
-                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true);
+                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true) - PostResignationDeductionAmount;
                         if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
                             AttributeAmount := AttributeAmount + GetOneTimeRFContributionAmount(PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
