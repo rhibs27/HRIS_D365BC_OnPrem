@@ -22,12 +22,12 @@ page 50183 "Training Calendar Card"
                             CurrPage.Update();
                     end;
                 }
-                field("Training Master code"; Rec."Training Master code")
+                field("Training Master code"; Rec."Master Code")
                 {
                     ToolTip = 'Specifies the value of the Training Master code field.';
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field(Description; Rec."Master Description")
                 {
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
@@ -35,21 +35,6 @@ page 50183 "Training Calendar Card"
                 field(Quarter; Rec.Quarter)
                 {
                     ToolTip = 'Specifies the value of the Quarter field.';
-                    ApplicationArea = All;
-                }
-                field("Training Type"; Rec."Training Type")
-                {
-                    ToolTip = 'Specifies the value of the Training Type field.';
-                    ApplicationArea = All;
-                }
-                field("Training Nature"; Rec."Training Nature")
-                {
-                    ToolTip = 'Specifies the value of the Training Nature field.';
-                    ApplicationArea = All;
-                }
-                field("Function"; Rec."Function")
-                {
-                    ToolTip = 'Specifies the value of the Function field.';
                     ApplicationArea = All;
                 }
                 field(Valley; Rec.Valley)
@@ -69,65 +54,12 @@ page 50183 "Training Calendar Card"
                 }
                 field(District; Rec.District)
                 {
-                    Caption = 'Expected Venue';
                     ToolTip = 'Specifies the Expected Venue (District).';
                     ApplicationArea = All;
                 }
-            }
-            group(Coverage)
-            {
-                Caption = 'Coverage';
-                field(Province; Rec.Province)
+                field("Expected Venue"; Rec."Expected Venue")
                 {
-                    ToolTip = 'Specifies the value of the Province field.';
-                    ApplicationArea = All;
-                }
-                field("Coverage Branch"; Rec."Coverage Branch")
-                {
-                    ToolTip = 'Specifies the value of the Coverage Branch field.';
-                    ApplicationArea = All;
-                }
-                field("Coverage Department"; Rec."Coverage Department")
-                {
-                    ToolTip = 'Specifies the value of the Coverage Department field.';
-                    ApplicationArea = All;
-                }
-                field("Coverage Functional Title"; Rec."Coverage Functional Title")
-                {
-                    ToolTip = 'Specifies the value of the Coverage Functional Title field.';
-                    ApplicationArea = All;
-                }
-            }
-            group(Participants)
-            {
-                Caption = 'Participants';
-                field("Minimum Participant"; Rec."Minimum Participant")
-                {
-                    ToolTip = 'Specifies the value of the Minimum Participant field.';
-                    ApplicationArea = All;
-                }
-                field("Maximum Participant"; Rec."Maximum Participant")
-                {
-                    ToolTip = 'Specifies the value of the Maximum Participant field.';
-                    ApplicationArea = All;
-                }
-            }
-            group(Cost)
-            {
-                Caption = 'Cost';
-                field("Training Cost"; Rec."Training Cost")
-                {
-                    ToolTip = 'Specifies the value of the Training Cost field.';
-                    ApplicationArea = All;
-                }
-                field("Trainer Cost"; Rec."Trainer Cost")
-                {
-                    ToolTip = 'Specifies the value of the Trainer Cost field.';
-                    ApplicationArea = All;
-                }
-                field("Total Cost"; Rec."Total Cost")
-                {
-                    ToolTip = 'Specifies the value of the Total Cost field.';
+                    ToolTip = 'Specifies the Expected Venue.';
                     ApplicationArea = All;
                 }
             }
@@ -149,7 +81,7 @@ page 50183 "Training Calendar Card"
                     ToolTip = 'Specifies the Training Module.';
                     ApplicationArea = All;
                 }
-                field("Training Type Name"; Rec."Training Type Name")
+                field("Training Type"; Rec."Training Type")
                 {
                     ToolTip = 'Specifies the Training Type.';
                     ApplicationArea = All;
@@ -157,6 +89,63 @@ page 50183 "Training Calendar Card"
                 field("Training Mode"; Rec."Training Mode")
                 {
                     ToolTip = 'Specifies the Training Mode.';
+                    ApplicationArea = All;
+                }
+            }
+            group(Coverage)
+            {
+                Caption = 'Coverage';
+                field(Province; Rec.Province)
+                {
+                    ToolTip = 'Specifies the value of the Province field.';
+                    ApplicationArea = All;
+                }
+                field("Branch"; Rec."Coverage Branch")
+                {
+                    ToolTip = 'Specifies the value of the Coverage Branch field.';
+                    ApplicationArea = All;
+                }
+                field("Department"; Rec."Coverage Department")
+                {
+                    ToolTip = 'Specifies the value of the Coverage Department field.';
+                    ApplicationArea = All;
+                }
+                field("Functional Title"; Rec."Coverage Functional Title")
+                {
+                    ToolTip = 'Specifies the value of the Coverage Functional Title field.';
+                    ApplicationArea = All;
+                }
+            }
+            group(Participants)
+            {
+                Caption = 'Participants';
+                field("Minimum Participant"; Rec."Minimum Participant")
+                {
+                    ToolTip = 'Specifies the value of the Minimum Participant field.';
+                    ApplicationArea = All;
+                }
+                field("Maximum Participant"; Rec."Maximum Participant")
+                {
+                    ToolTip = 'Specifies the value of the Maximum Participant field.';
+                    ApplicationArea = All;
+                }
+            }
+            group("Estimated Cost")
+            {
+                Caption = 'Estimated Cost';
+                field("Training Cost"; Rec."Training Cost")
+                {
+                    ToolTip = 'Specifies the value of the Training Cost field.';
+                    ApplicationArea = All;
+                }
+                field("Trainer Cost"; Rec."Trainer Cost")
+                {
+                    ToolTip = 'Specifies the value of the Trainer Cost field.';
+                    ApplicationArea = All;
+                }
+                field("Total Cost"; Rec."Total Cost")
+                {
+                    ToolTip = 'Specifies the value of the Total Cost field.';
                     ApplicationArea = All;
                 }
             }

@@ -13,8 +13,8 @@ report 50018 "Payment Memo"
             column(StartDate_TrainingHeader; Format("Training Header"."Start Date")) { }
             column(EndDate_TrainingHeader; Format("Training Header"."End Date")) { }
             column(Venue_TrainingHeader; "Training Header".Venue) { }
-            column(Vendor_TrainingHeader; "Training Header"."Vendor Code") { }
-            column(VendorName_TrainingHeader; "Training Header"."Vendor Name") { }
+            column(Vendor_TrainingHeader; "Training Header"."Institute Code") { }
+            column(VendorName_TrainingHeader; "Training Header"."Institute Name") { }
             column(TotalNoofParticipant_TrainingHeader; "Training Header"."Total No. of Participant") { }
             column(ActualTrainerCost_TrainingHeader; "Training Header"."Actual Trainer Cost") { }
             column(ActualOtherCost_TrainingHeader; "Training Header"."Actual Other Cost") { }

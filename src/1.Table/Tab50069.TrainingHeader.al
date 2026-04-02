@@ -62,21 +62,21 @@ table 50069 "Training Header"
             end;
         }
         field(8; Venue; Text[250]) { }
-        field(9; "Vendor Code"; Code[20])
+        field(9; "Institute Code"; Code[20])
         {
-            TableRelation = Vendor;
+            TableRelation = "Training Master".Code where("Master Type" = filter("Training Setup Type"::"Training Institute"));
             trigger OnValidate()
             var
-                Vendor: Record Vendor;
+                TrainingMaster: Record "Training Master";
             begin
-                if Vendor.Get("Vendor Code") then
-                    Validate("Vendor Name", Vendor.Name)
+                if TrainingMaster.Get("Institute Code") then
+                    Validate("Institute Name", TrainingMaster.Description)
                 else
-                    Clear("Vendor Name");
+                    Clear("Institute Name");
             end;
         }
-        field(10; "Vendor Name"; Text[50]) { }
-        field(11; "Training Type"; Enum "Training Type") { }
+        field(10; "Institute Name"; Text[50]) { }
+        field(11; "Training Type"; Text[250]) { }
         field(12; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -131,10 +131,9 @@ table 50069 "Training Header"
                 TrainingCalendar: Record "Training Calendar";
             begin
                 if TrainingCalendar.Get("Training Calendar No") then begin
-                    Validate(Description, TrainingCalendar.Description);
+                    Validate(Description, TrainingCalendar."Master Description");
                     Validate(Venue, TrainingCalendar."Expected Venue");
                     Validate("Expected No. of Participant", TrainingCalendar."Maximum Participant");
-                    Validate("Training Type", TrainingCalendar."Training Type");
                     Validate("Estimated Total Budget", TrainingCalendar."Total Cost");
                     Validate("Resource Person", TrainingCalendar."Resource person");
                     Validate(Cost, TrainingCalendar."Total Cost");
@@ -145,6 +144,11 @@ table 50069 "Training Header"
                     Validate("Estimated Training Cost", TrainingCalendar."Training Cost");
                     Validate("Training Nature", TrainingCalendar."Training Nature");
                     Validate(Function, TrainingCalendar.Function);
+                    Validate("Training Type", TrainingCalendar."Training Type");
+                    Validate("Training Category", TrainingCalendar."Training Category");
+                    Validate("Training Module", TrainingCalendar."Training Module");
+                    Validate("Training Mode", TrainingCalendar."Training Mode");
+                    Validate("Institute Name", TrainingCalendar."Training Institute Name");
                 end else
                     ClearFields();
             end;
@@ -387,8 +391,13 @@ table 50069 "Training Header"
                 TestField("Start Time");
                 if "End Time" < "Start Time" then
                     Error(DateError, FieldCaption("End Time"), "End Time", FieldCaption("Start Time"), "Start Time");
+
+                Validate("Training Hours", "End Time" - "Start Time");
             end;
         }
+        field(70; "Training Category"; Text[250]) { }
+        field(71; "Training Module"; Text[250]) { }
+        field(72; "Training Mode"; Text[250]) { }
     }
 
     keys
@@ -500,6 +509,11 @@ table 50069 "Training Header"
         Clear("Estimated Training Cost");
         Clear("Training Nature");
         Clear(Function);
+        Clear("Training Category");
+        Clear("Training Mode");
+        Clear("Training Module");
+        Clear("Training Type");
+        Clear("Institute Name");
     end;
 
     local procedure CalculateTotalBudget()

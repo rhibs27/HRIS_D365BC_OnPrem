@@ -66,12 +66,6 @@ page 50397 "Training Need Card"
                     ToolTip = 'Specifies the training topic or description.';
                     ApplicationArea = All;
                 }
-                field("Training Nature"; Rec."Training Nature")
-                {
-                    Editable = IsOpen;
-                    ToolTip = 'Specifies the training Nature.';
-                    ApplicationArea = All;
-                }
                 field("Training Type"; Rec."Training Type")
                 {
                     Editable = IsOpen;

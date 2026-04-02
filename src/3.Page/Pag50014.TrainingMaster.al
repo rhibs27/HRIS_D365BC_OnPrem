@@ -11,14 +11,14 @@ page 50014 "Training Master"
         {
             repeater(Group)
             {
-                field("No."; Rec."No.")
-                {
-                    ToolTip = 'Specifies the value of the No. field.';
-                    ApplicationArea = All;
-                }
-                field("Setup Type"; Rec."Setup Type")
+                field("Setup Type"; Rec."Master Type")
                 {
                     ToolTip = 'Specifies the type of setup entry (Training Institute Name, Training Category, etc.).';
+                    ApplicationArea = All;
+                }
+                field("No."; Rec.Code)
+                {
+                    ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
                 field(Description; Rec.Description)

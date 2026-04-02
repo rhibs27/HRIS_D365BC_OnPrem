@@ -38,11 +38,6 @@ page 50398 "Training Need List"
                     ToolTip = 'Specifies the training topic or description.';
                     ApplicationArea = All;
                 }
-                field("Training Nature"; Rec."Training Nature")
-                {
-                    ToolTip = 'Specifies the training Nature.';
-                    ApplicationArea = All;
-                }
                 field("Training Type"; Rec."Training Type")
                 {
                     ToolTip = 'Specifies the type of training.';

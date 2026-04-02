@@ -364,7 +364,6 @@ codeunit 50037 "Training Mgt"
     begin
         TrainingNeed.TestField("Employee No.");
         TrainingNeed.TestField(Description);
-        TrainingNeed.TestField("Training Nature");
         TrainingNeed.Validate(Status, TrainingNeed.Status::Pending);
         TrainingNeed.Modify(true);
     end;

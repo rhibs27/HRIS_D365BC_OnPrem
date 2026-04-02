@@ -21,12 +21,6 @@ page 50097 "Training Card"
                     ToolTip = 'Specifies the value of the Training Calendar No field.';
                     ApplicationArea = All;
                 }
-                field("Training Nature"; Rec."Training Nature")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Training Nature field.';
-                    ApplicationArea = All;
-                }
                 field(Description; Rec.Description)
                 {
                     Editable = false;
@@ -55,6 +49,24 @@ page 50097 "Training Card"
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Training Type field.';
+                    ApplicationArea = All;
+                }
+                field("Training Category"; Rec."Training Category")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Training Category field.';
+                    ApplicationArea = All;
+                }
+                field("Training Module"; Rec."Training Module")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Training Module field.';
+                    ApplicationArea = All;
+                }
+                field("Training Mode"; Rec."Training Mode")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Training Mode field.';
                     ApplicationArea = All;
                 }
                 field("Start Date"; Rec."Start Date")
@@ -161,12 +173,6 @@ page 50097 "Training Card"
                     ToolTip = 'Specifies the value of the Month field.';
                     ApplicationArea = All;
                 }
-                field(Online; Rec.Online)
-                {
-                    Editable = IsOpen;
-                    ToolTip = 'Specifies the value of the Online field.';
-                    ApplicationArea = All;
-                }
                 field("Sponsorship Type"; Rec."Sponsorship Type")
                 {
                     Editable = IsOpen;
@@ -180,14 +186,13 @@ page 50097 "Training Card"
                 group(Estimated)
                 {
                     Caption = 'Estimated';
-                    field("Vendor Code"; Rec."Vendor Code")
+                    field("Vendor Code"; Rec."Institute Code")
                     {
                         Caption = 'Vendor Code';
-                        Editable = false;
                         ToolTip = 'Specifies the value of the Vendor Code field.';
                         ApplicationArea = All;
                     }
-                    field("Vendor Name"; Rec."Vendor Name")
+                    field("Vendor Name"; Rec."Institute Name")
                     {
                         Editable = false;
                         ToolTip = 'Specifies the value of the Vendor Name field.';

@@ -32,7 +32,7 @@ page 50098 "Training Lists"
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
-                field("Vendor Name"; Rec."Vendor Name")
+                field("Vendor Name"; Rec."Institute Name")
                 {
                     ToolTip = 'Specifies the value of the Vendor Name field.';
                     ApplicationArea = All;

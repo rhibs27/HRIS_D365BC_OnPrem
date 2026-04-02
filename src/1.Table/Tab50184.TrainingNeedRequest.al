@@ -50,7 +50,7 @@ table 50184 "Training Need Request"
         {
             Caption = 'Training Nature';
         }
-        field(7; "Training Type"; Enum "Training Type")
+        field(7; "Training Type"; Text[250])
         {
             Caption = 'Training Type';
         }

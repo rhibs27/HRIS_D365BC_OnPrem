@@ -159,7 +159,7 @@ table 50070 "Training Line"
             end;
         }
         field(26; "Vendor Invoice No."; Text[30]) { }
-        field(27; "Training Type"; enum "Training Type") { }
+        field(27; "Training Type"; Text[250]) { }
         field(28; "Account No."; Code[20]) { }
         field(29; "Sponsorship Type"; Enum "Sponsorship Type") { }
         field(30; Country; Code[20])

@@ -17,12 +17,12 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
-                field("Training Master code"; Rec."Training Master code")
+                field("Training Master code"; Rec."Master Code")
                 {
                     ToolTip = 'Specifies the value of the Training Master code field.';
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field(Description; Rec."Master Description")
                 {
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
@@ -98,11 +98,6 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Total Cost field.';
                     ApplicationArea = All;
                 }
-                field("Training Type"; Rec."Training Type")
-                {
-                    ToolTip = 'Specifies the value of the Training Type field.';
-                    ApplicationArea = All;
-                }
                 field("Training Nature"; Rec."Training Nature")
                 {
                     ToolTip = 'Specifies the value of the Training Nature field.';
@@ -123,7 +118,7 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the Training Module.';
                     ApplicationArea = All;
                 }
-                field("Training Type Name"; Rec."Training Type Name")
+                field("Training Type"; Rec."Training Type")
                 {
                     ToolTip = 'Specifies the Training Type.';
                     ApplicationArea = All;

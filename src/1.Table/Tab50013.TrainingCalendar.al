@@ -16,18 +16,18 @@ table 50013 "Training Calendar"
                 end;
             end;
         }
-        field(2; "Training Master code"; Code[20])
+        field(2; "Master Code"; Code[20])
         {
-            TableRelation = "Training Master"."No." where("Setup Type" = filter("Training Setup Type"::" "));
+            TableRelation = "Training Master".Code where("Master Type" = filter("Training Setup Type"::" "));
             trigger OnValidate()
             begin
-                if TrainingMaster.Get("Training Master code") then
-                    Validate(Description, TrainingMaster.Description)
+                if TrainingMaster.Get("Master Code") then
+                    Validate("Master Description", TrainingMaster.Description)
                 else
-                    Clear(Description);
+                    Clear("Master Description");
             end;
         }
-        field(3; Description; Text[250])
+        field(3; "Master Description"; Text[250])
         {
             Editable = false;
         }
@@ -58,7 +58,6 @@ table 50013 "Training Calendar"
         field(9; "Assigned Person"; Code[20]) { }
         field(10; "Expected Venue"; Text[30])
         {
-            Description = '//not needed';
         }
         field(11; District; Code[20])
         {
@@ -85,7 +84,6 @@ table 50013 "Training Calendar"
         {
             Editable = false;
         }
-        field(18; "Training Type"; Enum "Training Type") { }
         field(19; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -106,7 +104,7 @@ table 50013 "Training Calendar"
                 TrgMaster: Record "Training Master";
                 TrgMasterPage: Page "Training Master";
             begin
-                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Institute Name");
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Institute");
                 TrgMasterPage.SetTableView(TrgMaster);
                 TrgMasterPage.LookupMode(true);
                 if TrgMasterPage.RunModal() = Action::LookupOK then begin
@@ -122,7 +120,7 @@ table 50013 "Training Calendar"
                 TrgMaster: Record "Training Master";
                 TrgMasterPage: Page "Training Master";
             begin
-                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Category");
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Category");
                 TrgMasterPage.SetTableView(TrgMaster);
                 TrgMasterPage.LookupMode(true);
                 if TrgMasterPage.RunModal() = Action::LookupOK then begin
@@ -138,7 +136,7 @@ table 50013 "Training Calendar"
                 TrgMaster: Record "Training Master";
                 TrgMasterPage: Page "Training Master";
             begin
-                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Module");
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Module");
                 TrgMasterPage.SetTableView(TrgMaster);
                 TrgMasterPage.LookupMode(true);
                 if TrgMasterPage.RunModal() = Action::LookupOK then begin
@@ -147,19 +145,19 @@ table 50013 "Training Calendar"
                 end;
             end;
         }
-        field(26; "Training Type Name"; Text[250])
+        field(26; "Training Type"; Text[250])
         {
             trigger OnLookup()
             var
                 TrgMaster: Record "Training Master";
                 TrgMasterPage: Page "Training Master";
             begin
-                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Type");
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Type");
                 TrgMasterPage.SetTableView(TrgMaster);
                 TrgMasterPage.LookupMode(true);
                 if TrgMasterPage.RunModal() = Action::LookupOK then begin
                     TrgMasterPage.GetRecord(TrgMaster);
-                    "Training Type Name" := TrgMaster.Description;
+                    "Training Type" := TrgMaster.Description;
                 end;
             end;
         }
@@ -170,7 +168,7 @@ table 50013 "Training Calendar"
                 TrgMaster: Record "Training Master";
                 TrgMasterPage: Page "Training Master";
             begin
-                TrgMaster.SetRange("Setup Type", TrgMaster."Setup Type"::"Training Mode");
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Mode");
                 TrgMasterPage.SetTableView(TrgMaster);
                 TrgMasterPage.LookupMode(true);
                 if TrgMasterPage.RunModal() = Action::LookupOK then begin

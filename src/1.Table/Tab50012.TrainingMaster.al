@@ -6,14 +6,14 @@ table 50012 "Training Master"
 
     fields
     {
-        field(1; "No."; Code[20]) { }
+        field(1; Code; Code[20]) { }
         field(2; Description; Text[250]) { }
-        field(3; "Setup Type"; Enum "Training Setup Type") { }
+        field(3; "Master Type"; Enum "Training Setup Type") { }
     }
 
     keys
     {
-        key(Key1; "No.") { }
+        key(Key1; Code) { }
     }
 
     fieldgroups { }
