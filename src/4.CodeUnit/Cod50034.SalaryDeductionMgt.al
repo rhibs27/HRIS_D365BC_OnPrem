@@ -280,6 +280,8 @@ codeunit 50034 "Salary Deduction Mgt"
                     GetPayCycleCodeTermAndPeriod(Today(), ReversedDetailedSalaryDeductionEntry);
                     ReversedDetailedSalaryDeductionEntry.Reversed := true;
                     ReversedDetailedSalaryDeductionEntry."Reversed By Entry No." := DetailedSalaryDeductionEntry."Entry No.";
+                    ReversedDetailedSalaryDeductionEntry."Reversed From Pay Cycle Term" := DetailedSalaryDeductionEntry."Pay Cycle Term";
+                    ReversedDetailedSalaryDeductionEntry."Reversed From Pay Cycle Period" := DetailedSalaryDeductionEntry."Pay Cycle Period";
                     ReversedDetailedSalaryDeductionEntry."Attendance Posted" := false;
                     ReversedDetailedSalaryDeductionEntry."Attendance No." := '';
                     ReversedDetailedSalaryDeductionEntry.Insert();

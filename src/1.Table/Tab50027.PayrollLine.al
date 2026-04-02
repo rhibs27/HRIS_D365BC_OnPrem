@@ -3017,6 +3017,7 @@ table 50027 "Payroll Line"
         DetSalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         DetSalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
         DetSalaryDeductionEntries.SetRange(Reversed, ForReversedEntries);
+        DetSalaryDeductionEntries.SetRange(Blocked, false);
         DetSalaryDeductionEntries.CalcSums(Amount);
         exit(Abs(DetSalaryDeductionEntries.Amount));
     end;
