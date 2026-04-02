@@ -381,7 +381,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Gratuity & leave Encash Tax" := Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');
 
         // do the calculain only if there is tax.
-        if (AnnualTax > 0) or IsHandle then begin
+        if AnnualTax > 0 then begin
             if PayrollHeader.Type = PayrollHeader.Type::Payroll then
                 MonthlyTax := AnnualTax / (RemainingMonth + 1)
             else
