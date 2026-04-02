@@ -1716,6 +1716,7 @@ table 50027 "Payroll Line"
                 PayrollAttributes.SetRange(Code, PayrollAttributesUsage.Code);
                 if PayrollAttributes.FindFirst then begin
                     AttributeAmount := 0;
+                    PostResignationDeductionAmount := 0;
                     if IsValidComponent then begin
                         if PayrollAttributesUsage.Amount <> 0 then begin
                             if PayrollAttributesUsage."Static Amount" then
