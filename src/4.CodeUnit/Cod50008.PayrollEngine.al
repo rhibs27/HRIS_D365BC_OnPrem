@@ -404,7 +404,7 @@ codeunit 50008 "Payroll Engine"
             TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
             if PGSetup."Pro Rate Female Rebate" then
                 if TaxSetupHeader."Special Tax Exempt %" <> 0 then
-                    TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %") / 100 + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
+                    TotalTaxWithoutSST := TaxAtOnceAnnualTax + TotalTaxRemunPaid + TotalSSTPaid - SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) + TaxExempt + PayrollLine."Gratuity & leave Encash Tax";
             if TotalTaxWithoutSST > 0 then begin
                 if TotalTaxWithoutSST > TaxExempt then
                     TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
@@ -432,7 +432,7 @@ codeunit 50008 "Payroll Engine"
                     else begin
                         if PGSetup."Pro Rate Female Rebate" then begin
                             if TaxSetupHeader.Gender = TaxSetupHeader.Gender::Female then
-                                SocialSecurityTaxAmount := ((SocialSecurityTax - SocialSecurityTax * (TaxSetupHeader."Special Tax Exempt %" / 100)) - TotalSSTPaid) / (RemainingMonth + 1)
+                                SocialSecurityTaxAmount := ((SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100)) - TotalSSTPaid) / (RemainingMonth + 1)
                         end;
                     end;
 
@@ -443,6 +443,16 @@ codeunit 50008 "Payroll Engine"
                             SocialSecurityTaxAmount := SocialSecurityTax - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
                         else
                             SocialSecurityTaxAmount := 0;
+
+                        if PGSetup."Pro Rate Female Rebate" then
+                            if TaxSetupHeader.Gender = TaxSetupHeader.Gender::Female then begin
+                                if SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) = (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid) then
+                                    SocialSecurityTaxAmount := MonthlyTax
+                                else if (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax) < SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) then
+                                    SocialSecurityTaxAmount := SocialSecurityTax * (1 - TaxSetupHeader."Special Tax Exempt %" / 100) - (TaxAtOnceAnnualTax + TotalSSTPaid + TotalTaxRemunPaid - MonthlyTax)
+                                else
+                                    SocialSecurityTaxAmount := 0;
+                            end;
                     end;
                     if TotalTaxWithoutSST > 0 then begin
                         if (TotalTaxWithoutSST - TotalTaxRemunPaid) < 0 then
@@ -1401,7 +1411,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Night Shifts", AttendanceSummary."Night Shift Days");
             PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
             PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
-            PayrollLine.Validate("Prior Employment Days", PriorEmploymentDays);
+            PayrollLine.Validate("Days Before Joining", PriorEmploymentDays);
             PGSetup.Get();
             AttendanceSetup.Get();
             if PGSetup."Deduction Entries" then

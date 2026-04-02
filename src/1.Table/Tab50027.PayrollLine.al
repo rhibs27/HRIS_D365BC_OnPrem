@@ -1438,7 +1438,7 @@ table 50027 "Payroll Line"
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
         field(1105; "Total Unpaid Days"; Decimal) { }
-        field(1106; "Prior Employment Days"; Decimal)
+        field(1106; "Days Before Joining"; Decimal)
         {
             trigger OnValidate()
             begin
@@ -1540,7 +1540,7 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days" + "Prior Employment Days";
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days" + "Days Before Joining";
     end;
 
     procedure ValidateUnpaidDays()
@@ -1549,9 +1549,9 @@ table 50027 "Payroll Line"
     begin
         AttenSetup.Get();
         if not AttenSetup."Absent Deductions" then
-            "Total Unpaid Days" := "Late Days" + "LWP Days" + "Prior Employment Days"
+            "Total Unpaid Days" := "Late Days" + "LWP Days" + "Days Before Joining"
         else
-            "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days" + "Prior Employment Days";
+            "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days" + "Days Before Joining";
     end;
 
     procedure GetPayrollHeader()
@@ -1735,7 +1735,7 @@ table 50027 "Payroll Line"
                         if PGSetup."Skip Attribute Adjustment" then
                             Attributeamount := AttributeAmount
                                                 + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
-                                                - AttributeAmount / FindTotalDays() * "Prior Employment Days";
+                                                - AttributeAmount / FindTotalDays() * "Days Before Joining";
 
                         if PayrollAttributes."Deduct on Absent" then begin
                             if PGSetup."Deduction Entries" then begin
@@ -3011,6 +3011,7 @@ table 50027 "Payroll Line"
         DetSalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         DetSalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
         DetSalaryDeductionEntries.SetRange(Reversed, ForReversedEntries);
+        DetSalaryDeductionEntries.SetRange(Blocked, false);
         DetSalaryDeductionEntries.CalcSums(Amount);
         exit(Abs(DetSalaryDeductionEntries.Amount));
     end;

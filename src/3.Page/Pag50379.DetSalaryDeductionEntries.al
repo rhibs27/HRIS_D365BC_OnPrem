@@ -4,10 +4,10 @@ page 50379 "Det Salary Deduction Entries"
     SourceTable = "Det Salary Deduction Entry";
     Caption = 'Detailed Salary Deduction Entries';
     ApplicationArea = All;
-    Editable = false;
     UsageCategory = Lists;
-    ModifyAllowed = false;
+    InsertAllowed = false;
     DeleteAllowed = false;
+    ModifyAllowed = false;
 
     layout
     {
@@ -25,14 +25,20 @@ page 50379 "Det Salary Deduction Entries"
                 field("Attribute Type"; Rec."Attribute Type") { }
                 field("Attribute Code"; Rec."Attribute Code") { }
                 field(Amount; Rec.Amount) { }
+                field(Reversed; Rec.Reversed) { }
+                field("Reversed From Pay Cycle Term"; Rec."Reversed From Pay Cycle Term") { }
+                field("Reversed From Pay Cycle Period"; Rec."Reversed From Pay Cycle Period") { }
+                field("Blocked"; Rec.Blocked) { }
             }
         }
     }
 
     actions
     {
-        area(processing)
+        area(Processing)
         {
+
         }
+
     }
 }

@@ -88,9 +88,9 @@ page 50041 "Payroll Subform"
                     ApplicationArea = All;
                     Visible = IsResignation;
                 }
-                field("Prior Employment Days"; Rec."Prior Employment Days")
+                field("Days Before Joining"; Rec."Days Before Joining")
                 {
-                    ToolTip = 'Specifies the value of Post Resignation Days field.';
+                    ToolTip = 'Specifies the value of Days Before Joining field.';
                     ApplicationArea = All;
                     Visible = not IsResignation;
                 }
