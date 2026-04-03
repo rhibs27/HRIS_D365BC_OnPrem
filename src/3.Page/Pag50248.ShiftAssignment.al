@@ -5,6 +5,8 @@ page 50248 "Shift Assignment"
     PageType = List;
     SourceTable = "Shift Assignment Header";
     UsageCategory = Lists;
+    SourceTableView = SORTING("No.")
+                      ORDER(Descending) WHERE(Type = CONST("Shift Assignment"));
     CardPageId = "Shift Assignment Card";
     ModifyAllowed = false;
 

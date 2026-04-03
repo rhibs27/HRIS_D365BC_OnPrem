@@ -151,6 +151,7 @@ table 50118 "Shift Line"
         ShiftLine.SetRange("No.", "No.");
         ShiftLine.SetRange("Employee No", "Employee No");
         ShiftLine.SetRange("Roster Date", "Roster Date");
+        ShiftLine.SetFilter("Approval Status", '<>%1', ShiftLine."Approval Status"::Rejected);
         ShiftLine.SetFilter("Line No", '<>%1', "Line No");
         if ShiftLine.FindFirst() then
             Error('Employee %1 is already scheduled on %2 at Line No. %3', "Employee No", "Roster Date", ShiftLine."Line No");
