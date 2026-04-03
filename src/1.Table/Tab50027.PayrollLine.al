@@ -1741,7 +1741,7 @@ table 50027 "Payroll Line"
 
                         if PayrollAttributes."Deduct on Absent" then begin
 
-                            PostResignationDeductionAmount := AttributeAmount - AttributeAmount / FindTotalDays() * "Post Resignation Days";
+                            PostResignationDeductionAmount := AttributeAmount / FindTotalDays() * "Post Resignation Days";
                             if PGSetup."Skip Attribute Adjustment" then
                                 Attributeamount := AttributeAmount
                                                     + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
