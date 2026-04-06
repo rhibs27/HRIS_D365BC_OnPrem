@@ -1,4 +1,4 @@
-table 50181 "Quarterly Cost of Fund"
+table 50184 "Quarterly Cost of Fund"
 {
     Caption = 'Quarterly Cost of Fund';
     DrillDownPageId = "Quarterly Cost of Fund";

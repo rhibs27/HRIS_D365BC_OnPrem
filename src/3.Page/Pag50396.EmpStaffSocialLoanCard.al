@@ -1,4 +1,4 @@
-page 50396 "Emp Staff Social Loan Card"
+page 50397 "Emp Staff Social Loan Card"
 {
     Caption = 'Employee Staff Social Loan Card';
     PageType = Card;

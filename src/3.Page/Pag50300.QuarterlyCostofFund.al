@@ -1,4 +1,4 @@
-page 50395 "Quarterly Cost of Fund"
+page 50398 "Quarterly Cost of Fund"
 {
     Caption = 'Quarterly Cost of Fund';
     PageType = List;
