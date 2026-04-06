@@ -106,9 +106,9 @@ codeunit 50034 "Salary Deduction Mgt"
 
                     EmpAttenActivity[2].Reset();
                     EmpAttenActivity[2].SetLoadFields("Employee No.", "Attendance Date", "Leave Day", "Pay Type");
-                    EmpAttenActivity[2].SetRange("Attendance Date", AttendanceHeader."From Date", AttendanceHeader."To Date");
+                    EmpAttenActivity[2].SetRange("Attendance Date", GetPreviousPeriodPayDate(AttendanceHeader), AttendanceHeader."To Date");
                     EmpAttenActivity[2].SetRange("Employee No.", AttendanceSummary."Employee No.");
-                    EmpAttenActivity[2].SetRange("Leave Day", 1);
+                    EmpAttenActivity[2].SetFilter("Leave Day", '<>%1', 0);
                     EmpAttenActivity[2].SetRange("Pay Type", EmpAttenActivity[2]."Pay Type"::Unpaid);
                     if EmpAttenActivity[2].FindSet() then
                         repeat
@@ -235,6 +235,14 @@ codeunit 50034 "Salary Deduction Mgt"
             UpdateDocumentNoOnReversedEntries(AttendanceHeader);
             ProgressDialog.Close();
         end;
+    end;
+
+    local procedure GetPreviousPeriodPayDate(AttenHeader: Record "Attendance Header"): Date
+    var
+        PreviousPayCyclePeriod: Record "Pay Cycle Period";
+    begin
+        if PreviousPayCyclePeriod.Get(AttenHeader."Pay Cycle Code", AttenHeader."Pay Cycle Term", AttenHeader."Pay Cycle Period" - 1) then
+            exit(PreviousPayCyclePeriod."Pay Date");
     end;
 
     local procedure GetPercentRFContributionAmount(EmployeeNo: Code[20]; AttributeCode: Code[20]): Decimal
@@ -495,8 +503,18 @@ codeunit 50034 "Salary Deduction Mgt"
         if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
             exit(PGSetup."Total Days" / 12);
 
-        if PayCyclePeriod.Get(DetailedSalaryDeductEntry."Pay Cycle Code", DetailedSalaryDeductEntry."Pay Cycle Term", DetailedSalaryDeductEntry."Pay Cycle Period") then
+        if GetPayCyclePeriodByDeductionDate(DetailedSalaryDeductEntry."Deduction Date", PayCyclePeriod) then
             exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1);
+    end;
+
+    local procedure GetPayCyclePeriodByDeductionDate(DateParam: Date; var PayCyclePeriod: Record "Pay Cycle Period"): Boolean
+    begin
+        PayCyclePeriod.Reset();
+        PayCyclePeriod.SetFilter("Start Date", '<=%1', DateParam);
+        PayCyclePeriod.SetFilter("End Date", '>=%1', DateParam);
+        if PayCyclePeriod.FindFirst() then
+            exit(true)
+
     end;
 
     procedure EvaluateAmountOnDetailedSalaryEntry(Expression: Code[100]; AttendanceNo: Code[20]; EmpCode: Code[20]): Decimal

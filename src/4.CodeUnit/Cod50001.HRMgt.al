@@ -4746,6 +4746,11 @@ codeunit 50001 "HR Mgt."
             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
     end;
 
+    procedure UpdateCompulsoryRetirement()
+    begin
+        UpdateCompulsoryRetirementIntegrationEvent();
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);
     begin
@@ -4792,5 +4797,11 @@ codeunit 50001 "HR Mgt."
     procedure OnAfterCalculationOfAcutalOrProjectedContribution(var RetirementFund: Record "Retirement Fund");
     begin
         //To add additional contribution if any
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure UpdateCompulsoryRetirementIntegrationEvent()
+    begin
+
     end;
 }

@@ -179,6 +179,7 @@ table 50027 "Payroll Line"
             trigger OnValidate()
             begin
                 GetTotalDays;
+                ValidateUnpaidDays();
             end;
         }
         field(17; "Paid Days"; Decimal)
@@ -189,6 +190,10 @@ table 50027 "Payroll Line"
         field(18; "Late Days"; Decimal)
         {
             Description = 'Late Day';
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
         }
         field(19; "Week off Days"; Decimal)
         {
@@ -1305,7 +1310,13 @@ table 50027 "Payroll Line"
         field(1015; "Total Insurance Claim Amount"; Decimal) { }
         field(1016; LFA; Decimal) { }
         field(1017; "Morning Counter Days"; Decimal) { Description = 'allowance assignment'; }
-        field(1018; "Prior Absent Days"; Decimal) { }
+        field(1018; "Prior Absent Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
+        }
         field(1019; "Prior Present Days"; Decimal) { }
         field(1020; "Salary Advance No."; Code[20]) { }
         field(1021; "Projected Benefit"; Decimal) { Editable = false; }
@@ -1360,7 +1371,13 @@ table 50027 "Payroll Line"
         field(1059; "Marital Status"; enum "Marital Status") { Editable = false; }
         field(1060; "Total SST Paid"; Decimal) { }
         field(1061; "Total Tax Remuneration Paid"; Decimal) { }
-        field(1062; "LWP Days"; Decimal) { }
+        field(1062; "LWP Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
+        }
         field(1063; "Prior Leave Days"; Decimal) { }
         field(1064; "Property Insurance Premium"; Decimal) { }
         field(1065; Selected; Boolean) { }
@@ -1368,7 +1385,13 @@ table 50027 "Payroll Line"
         field(1067; "Projected Non-Payments"; Decimal) { Editable = false; }
         field(1068; "Past Non-Payments"; Decimal) { Editable = false; }
         field(1069; "39% Slab"; Decimal) { }
-        field(1070; "Post Resignation Days"; Decimal) { }
+        field(1070; "Post Resignation Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                ValidateUnpaidDays();
+            end;
+        }
         field(1071; "Post Payroll Days"; Decimal)
         {
             Description = 'Post Payroll Days';
@@ -1419,6 +1442,15 @@ table 50027 "Payroll Line"
         {
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
+        }
+        field(1105; "Total Unpaid Days"; Decimal) { }
+        field(1106; "Days Before Joining"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                GetTotalDays;
+                ValidateUnpaidDays();
+            end;
         }
     }
     keys
@@ -1514,8 +1546,18 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days";
-        //"OT Hrs (30MIN)" := "OT Days" * 30/60;
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days" + "Days Before Joining";
+    end;
+
+    procedure ValidateUnpaidDays()
+    var
+        AttenSetup: Record "Attendance Setup";
+    begin
+        AttenSetup.Get();
+        if not AttenSetup."Absent Deductions" then
+            "Total Unpaid Days" := "Late Days" + "LWP Days" + "Days Before Joining" + "Post Resignation Days"
+        else
+            "Total Unpaid Days" := "Absent Days" + "Late Days" + "LWP Days" + "Prior Absent Days" + "Days Before Joining" + "Post Resignation Days";
     end;
 
     procedure GetPayrollHeader()
@@ -1627,7 +1669,8 @@ table 50027 "Payroll Line"
     local procedure GetPayrollAttributes()
     var
         AbsentDeductionAmount: Decimal;
-        AttributeAmount: Decimal;
+        AttributeAmount, PostResignationDeductionAmount : Decimal;
+        IsHandled: Boolean;
     begin
         GetPayrollHeader;
         if not PayrollHeader.Irregular then
@@ -1673,6 +1716,7 @@ table 50027 "Payroll Line"
                 PayrollAttributes.SetRange(Code, PayrollAttributesUsage.Code);
                 if PayrollAttributes.FindFirst then begin
                     AttributeAmount := 0;
+                    PostResignationDeductionAmount := 0;
                     if IsValidComponent then begin
                         if PayrollAttributesUsage.Amount <> 0 then begin
                             if PayrollAttributesUsage."Static Amount" then
@@ -1694,15 +1738,31 @@ table 50027 "Payroll Line"
                                     AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
-                        if PayrollAttributes."Deduct on Absent" then
-                            AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
+
+                        if PayrollAttributes."Deduct on Absent" then begin
+
+                            PostResignationDeductionAmount := AttributeAmount / FindTotalDays() * "Post Resignation Days";
+                            if PGSetup."Skip Attribute Adjustment" then
+                                Attributeamount := AttributeAmount
+                                                    + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
+                                                    - AttributeAmount / FindTotalDays() * "Days Before Joining";
+
+                            if PGSetup."Deduction Entries" then begin
+                                if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+                                    OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", AttributeAmount, IsHandled);
+                                if not IsHandled then
+                                    AttributeAmount -= GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, false)
+                            end else
+                                AttributeAmount := GetAmountAfterAbsenteeism(AttributeAmount);
+                        end;
+
 
                         CalculateDifferentialInterestAmount(AttributeAmount);
 
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
 
-                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true);
+                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true) - PostResignationDeductionAmount;
                         if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
                             AttributeAmount := AttributeAmount + GetOneTimeRFContributionAmount(PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
@@ -2045,10 +2105,10 @@ table 50027 "Payroll Line"
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                 //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
-                    OnBeforeCalculateTotalAmount("Total Days", "LWP Days", TotalAmount, IsHandled);
+                    OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", TotalAmount, IsHandled);
                     if IsHandled then
                         exit(TotalAmount);
-                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * ("LWP Days" + "Late Days")) / TotalDaysInMonth);
+                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * "Total Unpaid Days") / TotalDaysInMonth);
                     if TotalAmount > 0 then
                         exit(TotalAmount)
                     else

@@ -192,6 +192,14 @@ table 50163 "Assignment Memo Ledger Entry"
         {
             DataClassification = ToBeClassified;
         }
+        field(66; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(67; "Branch Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

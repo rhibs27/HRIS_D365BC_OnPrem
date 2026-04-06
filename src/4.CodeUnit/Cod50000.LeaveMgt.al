@@ -1599,7 +1599,7 @@ codeunit 50000 "Leave Mgt."
                                                           BalanceDays: Decimal;
                                         entryNo: Integer;
                                         ExtDocumentNo: Code[20];
-                                        Remarks: Text[250];
+                                         Remarks: Text[250];
                                         Office: Code[20]): Integer
     var
         leaveLedger: Record "Leave Earn";

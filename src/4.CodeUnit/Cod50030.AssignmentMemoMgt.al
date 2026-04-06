@@ -122,6 +122,7 @@ codeunit 50030 "Assignment Memo Mgt"
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         DateVar: Record Date;
         IsHandled: Boolean;
+        OrganizationStructureList: Record "Organization Structure List";
     begin
         AssignmentMemoHdr.Get(DocumentNo);
         if AssignmentMemoLine.Get(DocumentNo, lineNo) then begin
@@ -189,6 +190,11 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLedgerEntry.Validate(Panel, AssignmentMemoLine."Panel");
                     AssignmentMemoLedgerEntry.Validate("ATM Site", AssignmentMemoLine."ATM Site");
                     AssignmentMemoLedgerEntry.Validate("Employee Work Shift", AssignmentMemoLine."Employee Work Shift");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, AssignmentMemoHdr."Branch Code") then begin
+                        AssignmentMemoLedgerEntry.Validate("Branch Code", OrganizationStructureList.Code);
+                        AssignmentMemoLedgerEntry.Validate("Branch Name", OrganizationStructureList.Name);
+                    end;
+
                     if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo" then
                         if EmployeeWorkShift.Get(AssignmentMemoLine."Employee Work Shift") then
                             AssignmentMemoLedgerEntry.Validate("Payroll Attribute Code", EmployeeWorkShift."Payroll Attribute Code");
@@ -410,9 +416,11 @@ codeunit 50030 "Assignment Memo Mgt"
     procedure UpdateSubstituteAssignmentMemoLedgerEntry(var SubAssigmemoLine: Record "Assignment Memo Line")
     var
         AssignmentMemoLine: Record "Assignment Memo Line";
-        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        AssignmentMemoLedgerEntry, AssignmentMemoLedgerEntry1 : Record "Assignment Memo Ledger Entry";
         AttendanceMgt: Codeunit "Attendance Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+        AssignmentMemoHeader: Record "Assignment Memo Header";
+        OrganizationStructureList: Record "Organization Structure List";
     begin
         AssignmentMemoLine.Get(SubAssigmemoLine."Document No.", SubAssigmemoLine."Substitute of Line No.");
         AssignmentMemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine."Document No.");
@@ -434,6 +442,14 @@ codeunit 50030 "Assignment Memo Mgt"
             until AssignmentMemoLedgerEntry.Next() = 0;
         Commit();
         ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(SubAssigmemoLine."From Date", SubAssigmemoLine."To Date", AssignmentMemoLedgerEntry."Employee No.");
+
+        //Update Branch Code and Branch Name 
+        if AssignmentMemoHeader.Get(SubAssigmemoLine."Document No.") then begin
+            OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, AssignmentMemoHeader."Branch Code");
+            AssignmentMemoLedgerEntry1.SetRange("Document No.", AssignmentMemoLine."Document No.");
+            AssignmentMemoLedgerEntry1.ModifyAll("Branch Code", OrganizationStructureList.Code);
+            AssignmentMemoLedgerEntry1.ModifyAll("Branch Name", OrganizationStructureList.Name);
+        end;
     end;
 
     procedure CheckConflictingSubstituteAssignment(docNo: Code[20]; LineNo: Integer; fromDate: Date; toDate: Date): Boolean

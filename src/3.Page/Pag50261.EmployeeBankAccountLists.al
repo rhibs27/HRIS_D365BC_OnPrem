@@ -48,6 +48,10 @@ page 50261 "Employee Bank Account Lists"
                 {
                     ToolTip = 'Specifies whether this bank account is marked as the RF Account.';
                 }
+                field("Bank Account No."; Rec."Bank Account No.")
+                {
+                    ToolTip = 'Specifies the bank account number.';
+                }
             }
         }
     }
