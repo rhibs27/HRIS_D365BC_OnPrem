@@ -142,6 +142,14 @@ page 50369 "Assignment Memo Ledger Entries"
                     ToolTip = 'Specifies the value of the No. of Children field.', Comment = '%';
                     Editable = false;
                 }
+                field("Branch Code"; Rec."Branch Code")
+                {
+                    ToolTip = 'Specifies the value of the Branch Code field.', Comment = '%';
+                }
+                field("Branch Name"; Rec."Branch Name")
+                {
+                    ToolTip = 'Specifies the value of the Branch Name field.', Comment = '%';
+                }
 
             }
         }
