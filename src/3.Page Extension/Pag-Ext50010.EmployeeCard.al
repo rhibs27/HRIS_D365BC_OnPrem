@@ -1997,6 +1997,29 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     end;
                 end;
             }
+            group(Grievance)
+            {
+                Caption = 'Grievance';
+                Image = Comment;
+                action("View Grievances")
+                {
+                    ApplicationArea = All;
+                    Caption = 'View Grievances';
+                    Image = ViewComments;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Shows all grievances filed by this employee.';
+                    trigger OnAction()
+                    var
+                        GrievanceHeader: Record "Grievance Header";
+                    begin
+                        GrievanceHeader.SetRange("Employee No.", Rec."No.");
+                        Page.Run(Page::"Grievance List", GrievanceHeader);
+                    end;
+                }
+            }
         }
     }
     var
@@ -2028,6 +2051,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+        GrievanceMgt: Codeunit "Grievance Mgt";
 
     trigger OnOpenPage()
     begin

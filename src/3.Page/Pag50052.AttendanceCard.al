@@ -258,7 +258,8 @@ page 50052 "Attendance Card"
                     ToolTip = 'Executes the View Reversal action';
                     ApplicationArea = All;
                     RunObject = page "Det Salary Deduction Entries";
-                    RunPageLink = "Attendance No." = field("No."), Reversed = filter(true);
+                    RunPageLink = "Attendance No." = field("No.");
+                    RunPageView = where(Reversed = const(true));
                     RunPageMode = View;
                 }
             }

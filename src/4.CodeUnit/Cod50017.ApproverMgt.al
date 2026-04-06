@@ -1519,7 +1519,6 @@ codeunit 50017 "Approver Mgt"
         Approval.Validate("Employee No", EmployeeNo);
         Approval.Validate("Alternative Approval Workflow", ApprovalSetUpLine."Alternative Approval Workflow");
         Approval.Insert(true);
-        //to identify sequence 1 approver exist.
         if ApprovalSequence = 1 then
             exit(1)
         else

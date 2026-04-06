@@ -137,6 +137,11 @@ page 50369 "Assignment Memo Ledger Entries"
                     ToolTip = 'Specifies the value of the Payroll Posted Month field.', Comment = '%';
                     Editable = false;
                 }
+                field("No. of Children"; Rec."No. of Children")
+                {
+                    ToolTip = 'Specifies the value of the No. of Children field.', Comment = '%';
+                    Editable = false;
+                }
 
             }
         }
