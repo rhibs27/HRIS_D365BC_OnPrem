@@ -721,6 +721,8 @@ table 50106 "Employee Loan/Advance"
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1&<>%2', EmpSalaryAdv."Approval Status"::Rejected, EmpSalaryAdv."Approval Status"::Approved);
         if "Loan Type" in ["Loan Type"::"Salary Advance", "Loan Type"::"Vehicle Loan", "Loan Type"::"Home Loan"] then
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1', EmpSalaryAdv."Approval Status"::Rejected);
+        if "Loan Type" in ["Loan Type"::"Staff Social Loan"] then
+            EmpSalaryAdv.SetFilter("Approval Status", '<>%1&<>%2', EmpSalaryAdv."Approval Status"::Rejected, EmpSalaryAdv."Approval Status"::Approved);
         EmpSalaryAdv.SetRange(Settled, false);
         if EmpSalaryAdv.FindFirst then
             Error('%1 already exist for employee %2.Settle this Loan First.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
