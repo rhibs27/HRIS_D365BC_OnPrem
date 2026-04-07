@@ -293,6 +293,7 @@ codeunit 50002 "Loan Mgt."
                 end;
             EmpLoan."Loan Type"::"Staff Social Loan":
                 begin
+                    EmpLoan."Requested Loan Date" := Today;
                     EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Applied Loan/Advance");
                     EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * EmpLoan."Interest Rate" / 100) / 12;
                 end;
@@ -356,14 +357,12 @@ codeunit 50002 "Loan Mgt."
         SalaryLevel.Get(Employee."Salary Level");
         SalaryGrade.Get(Employee."Salary Grade");
 
-        // Home Loan EMI from Finacle (external outstanding)
         LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
         LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
         LoanOutstanding.CalcSums(EMI);
         PreviosuEMI := LoanOutstanding.EMI;
 
-        // Personal Loan (ODA) EMI from Finacle
         LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
         LoanOutstanding.SetRange("Scheme Type", 'ODA'); //need setup
@@ -374,8 +373,6 @@ codeunit 50002 "Loan Mgt."
         if EmpLoanInterest.FindLast then;
         EMIPersonalLoan := LoanOutstanding."Loan Limit" * EmpLoanInterest."Interest Rate" / 100 / 12;
 
-        // Internal loans: all active/pending unsettled loans except the current one,
-        // including Staff Social Loan
         EmpSalaryAdv.Reset;
         EmpSalaryAdv.SetRange("Employee No.", EmpLoan."Employee No.");
         EmpSalaryAdv.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending", EmpLoan."Approval Status"::Approved);
@@ -389,7 +386,6 @@ codeunit 50002 "Loan Mgt."
             EmpSalaryAdv."Loan Type"::"Staff Social Loan");
         EmpSalaryAdv.CalcSums(EMI);
 
-        // Vehicle Loan EMI from Finacle for employees below AM level (no vehicle loan limit set)
         Clear(VehicleLoanEMI);
         if SalaryLevel."Vehicle Loan Limit" = 0 then begin
             LoanOutstanding.Reset;

@@ -127,7 +127,7 @@ page 50397 "Emp Staff Social Loan Card"
                 }
                 field(EMI; Rec.EMI)
                 {
-                    Caption = 'Monthly Interest';
+                    Caption = 'Monthly EMI';
                     Editable = false;
                     ToolTip = 'Specifies the value of the Monthly Interest field.';
                     ApplicationArea = All;
@@ -430,6 +430,7 @@ page 50397 "Emp Staff Social Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Disburse action.';
                 ApplicationArea = All;
 
