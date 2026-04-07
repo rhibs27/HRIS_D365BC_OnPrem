@@ -209,5 +209,24 @@ page 50089 "Leave Requests"
                 end;
             }
         }
+        area(Processing)
+        {
+            action("Process Attendance")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Process Attendance action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    AttendanceMgt: Codeunit "Attendance Mgt";
+                begin
+                    if Confirm('Do you want to Process the Attendance?', false) then
+                        AttendanceMgt.DailyAttendanceUpdateLeave(Rec."Start Date", Rec."End Date", rec."Employee No.")//For Ongoing Leave
+                end;
+            }
+        }
     }
 }

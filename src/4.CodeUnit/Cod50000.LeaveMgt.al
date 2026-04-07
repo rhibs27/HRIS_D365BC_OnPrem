@@ -1053,12 +1053,7 @@ codeunit 50000 "Leave Mgt."
         OnAfterApproveLeaveRequestOnbeforeProcessAttendance(leave);
         Commit();
         // Update Daily Attendance
-        if leave."Start Date" <= Today then begin
-            if leave."End Date" > Today then
-                AttendanceMgt.DailyAttendanceUpdate(leave."Start Date", Today, leave."Employee No.")//For Ongoing Leave
-            else
-                AttendanceMgt.DailyAttendanceUpdate(leave."Start Date", leave."End Date", leave."Employee No.") // For Completed Leave
-        end;
+        AttendanceMgt.DailyAttendanceUpdateLeave(leave."Start Date", leave."End Date", leave."Employee No.")//For Ongoing Leave
     end;
 
     procedure InsertLeaveEarnFromJournal(LeaveJournal: Record "Employee Activity Journal")
