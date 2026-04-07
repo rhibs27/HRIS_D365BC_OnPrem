@@ -1393,11 +1393,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Absent Days - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1450550140 - Field 1211660521 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Adjustment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Adjustment - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1450550140 - Field 636392376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1417,16 +1412,6 @@
           <source>Blocked for Payroll</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Blocked for Payroll - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1450550140 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Branch Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1450550140 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Branch Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 2541479021 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Claimed</source>
@@ -1477,11 +1462,6 @@
           <source>Nepali Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Nepali Month - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1450550140 - Field 3719659903 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Children</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field No. of Children - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 4259830144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Open</source>
@@ -1542,11 +1522,6 @@
           <source>Present Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Present Days - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1450550140 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Remarks</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Assignment Memo Ledger Entry - Field Remarks - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1450550140 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reversed</source>
@@ -4033,11 +4008,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Attribute Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2683117390 - Field 3543129988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Blocked</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Blocked - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2683117390 - Field 3252322165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deduction Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4092,16 +4062,6 @@
           <source>Reversed By Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed By Entry No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2683117390 - Field 863279737 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reversed From Pay Cycle Period</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed From Pay Cycle Period - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2683117390 - Field 248026704 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reversed From Pay Cycle Term</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Det Salary Deduction Entry - Field Reversed From Pay Cycle Term - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 847710914 - Field 3662076853 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Code</source>
@@ -4777,11 +4737,6 @@
           <source>Notify to</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Notify to - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 576525598 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>On Employee Request</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field On Employee Request - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 503080369 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OT Amount</source>
@@ -8243,11 +8198,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Officiating Allow. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3659416491 - Field 576525598 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>On Employee Request</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field On Employee Request - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3659416491 - Field 3233325486 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>On Hold Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9267,266 +9217,6 @@
           <source>Total Grade Percentage</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Total Grade Percentage - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance Comment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Field 2790486453 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Field Comment - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Field 813097569 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comment Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Field Comment Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Field 2213433435 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Commented By</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Field Commented By - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Field 737181658 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Commented By Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Field Commented By Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Field 745748987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Field Grievance No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Line No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Field Line No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3265802215 - Field 2339353424 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Role</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Comment - Field Role - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance Header</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Cannot delete a grievance that is not in Open status.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Method OnDelete - NamedType CannotDelete</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 260852886 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Against Employee Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Against Employee Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1054896606 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Against Employee No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Against Employee No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 2413119109 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>File Anonymously</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Anonymous - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Approval Status - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 3702373668 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Category</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Category - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Deputation Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Deputation Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Deputation On</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Deputation On - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Description - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 3322554545 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Dimension Set ID</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Dimension Set ID - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Employee Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Employee No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Fiscal Year</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Fiscal Year - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 291697870 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Grievance Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 265201069 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>HR Remarks</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field HR Remarks - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. Series</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field No. Series - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 4130293374 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Priority</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Priority - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Rejection Remarks</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Rejection Remarks - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1709497190 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Resolution Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Resolution Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1499182812 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Resolution Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Resolution Description - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1102851453 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Resolved By</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Resolved By - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 3618771765 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Severity</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Severity - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1577567912 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Shortcut Dimension 1 Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Shortcut Dimension 1 Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 2750406545 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deadline after which the grievance will be escalated if unresolved, based on the SLA Matrix.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field SLA Escalation Due - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 2750406545 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>SLA Escalation Due</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field SLA Escalation Due - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 4161444008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deadline by which the grievance must be resolved, based on the SLA Matrix.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field SLA Resolution Due - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 4161444008 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>SLA Resolution Due</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field SLA Resolution Due - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 3198670899 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deadline by which the grievance must be acknowledged, based on the SLA Matrix.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field SLA Response Due - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 3198670899 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>SLA Response Due</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field SLA Response Due - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 1234124704 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Subject</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Subject - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3033279291 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>User ID</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field User ID - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance SLA Matrix</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies additional details about this SLA configuration.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Description - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Description - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 904043990 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the hours after which an unresolved grievance is escalated.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Escalation Time (Hours) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 904043990 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Escalation Time (Hours)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Escalation Time (Hours) - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 4130293374 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Priority</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Priority - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 455620835 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the maximum hours within which the grievance must be resolved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Resolution Time (Hours) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 455620835 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Resolution Time (Hours)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Resolution Time (Hours) - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 999284416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the maximum hours within which the grievance must be acknowledged.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Response Time (Hours) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 999284416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Response Time (Hours)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Response Time (Hours) - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1816351813 - Field 3618771765 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Severity</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance SLA Matrix - Field Severity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1103261920 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
@@ -14193,11 +13883,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Dashain Start Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3915598104 - Field 2798898839 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Deduction Entries</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Deduction Entries - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3844311027 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Distributable Amt. for Statuto</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14647,11 +14332,6 @@
           <source>Sick Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Sick Leave - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3915598104 - Field 1187430302 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Skip Attribute Adjustment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Skip Attribute Adjustment - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 2235867818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Staff Vehicle Allowance</source>
@@ -15623,11 +15303,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Dashain Allowance Days - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 4095896672 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Days Before Joining</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Days Before Joining - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -16097,11 +15772,6 @@
           <source>Total Tax Remuneration Paid</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Total Tax Remuneration Paid - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 3994800182 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total Unpaid Days</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Total Unpaid Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 2438516277 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tour Days</source>
@@ -17318,11 +16988,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Notify to - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 576525598 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>On Employee Request</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field On Employee Request - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 504766950 - Field 503080369 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OT Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17903,11 +17568,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Current Non-Payments - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 4095896672 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Days Before Joining</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Days Before Joining - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18397,11 +18057,6 @@
           <source>Total Tax Remuneration Paid</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Total Tax Remuneration Paid - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 3994800182 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total Unpaid Days</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Total Unpaid Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 2438516277 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tour Days</source>
@@ -23268,10 +22923,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckPendingAppraisal - NamedType AppraisalError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 537990529 - NamedType 940807328" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to Approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method ApproveRejectDocument - NamedType ApproveNotEligibleErrors</note>
+        </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3261554141 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 1613818109 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApproverSaas - NamedType ApproveNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to WithDraw this document </source>
@@ -23342,41 +23007,6 @@
           <source>%1_%2_%3</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Excel Import - Method CreateExcelBook - NamedType ExcelFileName1</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 600719444 - Method 4246869011 - NamedType 2202762914" size-unit="char" translate="yes" xml:space="preserve">
-          <source>This grievance has already been resolved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Grievance Mgt - Method ApproveGrievance - NamedType AlreadyResolved</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 600719444 - Method 1408621949 - NamedType 1089999574" size-unit="char" translate="yes" xml:space="preserve">
-          <source>This employee already has an open grievance. Click Ok to open it.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Grievance Mgt - Method OpenGrievanceRequest - NamedType AlreadyOpen</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 600719444 - Method 1189242707 - NamedType 1822050572" size-unit="char" translate="yes" xml:space="preserve">
-          <source>This grievance has already been rejected.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Grievance Mgt - Method RejectGrievance - NamedType AlreadyRejected</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 600719444 - Method 522187814 - NamedType 2625661458" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to submit this grievance for review?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Grievance Mgt - Method SubmitGrievance - NamedType ConfirmSubmit</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 600719444 - Method 522187814 - NamedType 2080150041" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance has been submitted for HR review.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Grievance Mgt - Method SubmitGrievance - NamedType SubmitSuccess</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 600719444 - Method 335749616 - NamedType 327112245" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Only grievances in submitted status can be withdrawn.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Grievance Mgt - Method WithdrawGrievance - NamedType CannotWithdraw</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 600719444 - Method 335749616 - NamedType 3032079979" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance withdrawn</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Grievance Mgt - Method WithdrawGrievance - NamedType WithdrawSuccess</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - NamedType 2838649434" size-unit="char" translate="yes" xml:space="preserve">
           <source>AND</source>
@@ -25633,16 +25263,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Blocked for Payroll - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2241004978 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Branch Code field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Branch Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2241004978 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Branch Name field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Branch Name - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2241004978 - Control 2541479021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Claimed field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -25682,11 +25302,6 @@
           <source>Specifies the value of the Nepali Month field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control Nepali Month - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2241004978 - Control 3719659903 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of Children field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Assignment Memo Ledger Entries - Control No. of Children - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2241004978 - Control 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Open field.</source>
@@ -29203,11 +28818,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Friday Counter Days - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 251429658 - Control 2696944170 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Functional Title Desc field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Functional Title Desc - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 251429658 - Control 108902921 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Half Day field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29512,11 +29122,6 @@
           <source>Specifies the value of the Address 2 field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Lists - Control Address 2 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3920941944 - Control 4248640148 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the bank account number.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Bank Account Lists - Control Bank Account No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3920941944 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
@@ -33502,391 +33107,6 @@
           <source>Specifies the value of the Total Grade Percentage field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Grade Entries - Control Total Grade Percentage - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance Card</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>General</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control General - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 2413119109 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies if the grievance is filed anonymously.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Anonymous - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the current approval status of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Approval Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the name of the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Employee Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the employee who filed the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the fiscal year.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Fiscal Year - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 291697870 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the date the grievance was filed.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Grievance Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the grievance document number.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1591829650 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comments</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Grievance Comments - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1479269856 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance Details</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Grievance Details - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 260852886 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the name of the employee the grievance is against.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Against Employee Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1054896606 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the employee the grievance is filed against, if applicable.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Against Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 3702373668 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the category of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Category - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 4130293374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the priority level of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Priority - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 3618771765 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the severity level of the grievance (S1=Critical, S2=High, S3=Medium, S4=Low).</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Severity - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1234124704 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the subject of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Subject - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1536621291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Placement</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Placement - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deputation code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Deputation Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deputation type.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Deputation On - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1577567912 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the Dimension 1 Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Shortcut Dimension 1 Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 2521221354 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Resolution</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Resolution - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 3975392194 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the employee who resolved the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Comment Text - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 265201069 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies remarks from HR regarding this grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control HR Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the reason for rejection.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Rejection Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1709497190 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the date the grievance was resolved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Resolution Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 1102851453 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the employee who resolved the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control Resolved By - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 2631115154 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>SLA Deadlines</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control SLA - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 2750406545 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deadline after which the grievance will be escalated if unresolved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control SLA Escalation Due - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 4161444008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deadline by which the grievance must be resolved, based on the SLA Matrix.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control SLA Resolution Due - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Control 3198670899 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the deadline by which the grievance must be acknowledged, based on the SLA Matrix.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Control SLA Response Due - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 252671678 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Adds a comment to this grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Add Comment - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 252671678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Add Comment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Add Comment - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 2634074179 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Rejects the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Reject Grievance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 2634074179 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reject</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Reject Grievance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 3809572390 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approves and resolves the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Resolve Grievance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 3809572390 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Resolve</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Resolve Grievance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 3730430030 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Submits the grievance for HR review.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Submit Grievance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 3730430030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Submit Grievance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Submit Grievance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 1976680456 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Withdraws the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Withdraw Grievance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362894294 - Action 1976680456 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Withdraw</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Card - Action Withdraw Grievance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comments</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 2998405077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the comment text.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control comment - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 2998405077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control comment - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 3714958417 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the date and time the comment was added.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentDate - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 3714958417 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Comment Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentDate - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 3411871027 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the employee who added the comment.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedBy - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 3411871027 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Commented By</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedBy - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 1835654482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the name of the employee who added the comment.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedByName - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 1835654482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Commented By Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control commentedByName - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 3595021104 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the role of the person who commented.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control role - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1709206145 - Control 3595021104 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Role</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance Comment Subform - Control role - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievances</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 260852886 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the name of the employee the grievance is filed against.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Against Employee Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the current approval status of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Approval Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 3702373668 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the category of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Category - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the current deputation on of the employee</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Deputation On - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 163506987 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the current deputation code of the employee</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Deputation On Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the name of the employee who filed the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Employee Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the employee who filed the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the fiscal year of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Fiscal Year - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 291697870 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the date the grievance was filed.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Grievance Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the grievance document number.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 4130293374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the priority level of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Priority - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 1709497190 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the date the grievance was resolved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Resolution Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Control 1234124704 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the subject of the grievance.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Control Subject - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Action 4287006694 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Opens a new grievance card for the current employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Action New Grievance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1824240720 - Action 4287006694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>New Grievance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance List - Action New Grievance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance SLA Matrix Setup</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies additional details about this SLA configuration.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Control Description - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Control 904043990 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the hours after which an unresolved grievance is escalated.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Control Escalation Time (Hours) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Control 4130293374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the priority level (P1=Critical, P2=High, P3=Medium, P4=Low).</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Control Priority - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Control 455620835 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the maximum hours within which the grievance must be resolved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Control Resolution Time (Hours) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Control 999284416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the maximum hours within which the grievance must be acknowledged.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Control Response Time (Hours) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Control 3618771765 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the severity level (S1=Critical, S2=High, S3=Medium, S4=Low).</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Control Severity - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Action 1703479938 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Populates the SLA Matrix with default values for all Priority and Severity combinations.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Action PopulateDefaults - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1222726504 - Action 1703479938 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Populate Default SLA</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grievance SLA Matrix Setup - Action PopulateDefaults - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2718731950 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Home Ins Tieup Card</source>
@@ -38453,11 +37673,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1942697859 - Action 3499802184 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Process Attendance action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action Process Attendance - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 310427152 - Control 639139532 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Ajusted sequentially for absent days in Settlement</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40943,11 +40158,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Dashain Start Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3915598104 - Control 2798898839 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Deduction Entries field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Deduction Entries - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3844311027 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Distributable Amt. for Statutory Bonus field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -41082,11 +40292,6 @@
           <source>Specifies the value of the Return Tax field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Return Tax - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3915598104 - Control 1187430302 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Deduction Entries field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Skip Attribute Adjustment - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1358397137 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the TA Salary Level field.</source>
@@ -43093,11 +42298,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Dashain Allowance Days - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 4095896672 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of Days Before Joining field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Days Before Joining - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3884601073 - Control 3488572172 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Disable Person Reduction field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43172,6 +42372,11 @@
           <source>Specifies the value of the LWP Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control LWP Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 76363896 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unpaid Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control LWP Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 2174406897 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Net Pay field.</source>
@@ -43367,11 +42572,6 @@
           <source>Specifies the value of the Total Tax Paid field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Total Tax Paid - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 3994800182 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Prior Absent Days field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Total Unpaid Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 308253895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Used Leave Annual field.</source>
@@ -44517,11 +43717,6 @@
           <source>Executes the Re-Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Attendance Card - Action Re-Open - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 618653926 - Action 1523784011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the View Reversal action</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Attendance Card - Action View Deduction Reversals - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 618653926 - Action 515767299 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the View Deductions action</source>
@@ -53498,16 +52693,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control Update Emp. Age &amp; Service Period - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 1722841060 - Control 1870335963 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies whether to update compulsory retirement.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateCompulsoryRetirement - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1722841060 - Control 1870335963 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Update Compulsory Retirement</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Update - Control UpdateCompulsoryRetirement - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Report 1722841060 - Control 3127680453 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies whether to update employee seniority.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54032,11 +53217,6 @@
           <source>Specifies the value of the LeaveCodeFilter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Grant Permission Needed Leave - Control Leave Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2157680350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Grievance Summary Report</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Grievance Summary - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 3087060224 - Control 3336969479 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Send Training Mail field.</source>
@@ -57343,21 +56523,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Employee Experience Letter - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 55569714 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Grievance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Grievance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 2162031724 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Shows all grievances filed by this employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action View Grievances - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 2162031724 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>View Grievances</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action View Grievances - Property Caption</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2757392290 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Resignation Release Letter action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58428,11 +57593,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Relatives - Control Employee_BOD - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 1146489215 - Control 1660738458 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1146489215">
-          <source>Late</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Relatives - Control Lt. - Property Caption</note>
-        </trans-unit>
         <trans-unit id="PageExtension 1146489215 - Control 3168444338 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1146489215">
           <source>Specifies the value of the Address field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58462,11 +57622,6 @@
           <source>Specifies the value of the Citizenship No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Relatives - Control Citizenship No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 1146489215 - Control 2484270393 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1146489215">
-          <source>Specifies the value of the Discontinue field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Relatives - Control Discontinue - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 1146489215 - Control 847710914 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1146489215">
           <source>Specifies the value of the District field.</source>
@@ -58812,11 +57967,6 @@
           <source>Specifies the value of the Gratuity Rate for Level 4 field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Gratuity Rate for Level 4 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 745748987 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Grievance No. Nos. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Grievance No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2142341633 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Leave Encashment Nos. field.</source>
@@ -60993,11 +60143,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Citizenship No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 630092753 - Field 2484270393 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
-          <source>Discontinue</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Discontinue - Property Caption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 630092753 - Field 847710914 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
           <source>District</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -61487,11 +60632,6 @@
           <source>Gratuity Rate for Level 4</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Gratuity Rate for Level 4 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 4168225968 - Field 745748987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
-          <source>Grievance No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Grievance No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2136498619 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Half Limit (out expense)</source>
@@ -64373,101 +63513,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Gender - EnumValue Others - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 417500707 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Discrimination</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Discrimination - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 1512877436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Harassment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Harassment - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 3562730581 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Management</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Management - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 3448339824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Other</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Other - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 371151164 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Policy</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Policy - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 2301572193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Salary/Benefits</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Salary/Benefits - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 2960271817 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Workload</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Workload - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 539974346 - EnumValue 2115600062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Workplace</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Category - EnumValue Workplace - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 4251930123 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>P1 - Critical</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P1 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 1870052678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>P2 - High</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P2 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 1232356061 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>P3 - Medium</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P3 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 2338840272 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>P4 - Low</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P4 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 536401205 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Critical</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue Critical - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 3116416530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>High</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue High - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 3592530208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Low</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue Low - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3273735063 - EnumValue 432767615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medium</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Severity - EnumValue Medium - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 166358986 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -67197,11 +66242,6 @@
           <source>Settled</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Settled - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="EnumExtension 1878856189 - EnumValue 72070539 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
-          <source>Submitted</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Submitted - Property Caption</note>
         </trans-unit>
         <trans-unit id="EnumExtension 1878856189 - EnumValue 1052239488 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
           <source>Withdrawn</source>
