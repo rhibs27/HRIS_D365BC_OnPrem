@@ -38503,11 +38503,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action WithDrawn - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1942697859 - Action 3499802184 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Process Attendance action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action Process Attendance - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 310427152 - Control 639139532 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Ajusted sequentially for absent days in Settlement</source>
           <note from="Developer" annotates="general" priority="2"></note>

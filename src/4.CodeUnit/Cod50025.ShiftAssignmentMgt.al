@@ -225,7 +225,12 @@ codeunit 50025 "Shift Assignment Mgt"
     end;
 
     procedure ProcessDailyAttendanceForShiftSubstitute(FromDate: Date; ToDate: Date; EmployeeNo: Code[20])
+    var
+        IsHandled: Boolean;
     begin
+        OnBeforeProcessDailyAttendanceForShiftSubstitute(IsHandled);
+        if IsHandled then
+            exit;
         EmpAttendance.Reset();
         EmpAttendance.SetRange("Attendance Date", FromDate, ToDate);
         EmpAttendance.SetRange("Employee No.", EmployeeNo);
@@ -243,6 +248,11 @@ codeunit 50025 "Shift Assignment Mgt"
 
     [IntegrationEvent(false, false)]
     procedure OnAfterGetEmployeeWorkShift(EmployeeNo: Code[20]; ShiftDate: Date; var EmployeeWorkShift: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeProcessDailyAttendanceForShiftSubstitute(var IsHandled: Boolean)
     begin
     end;
 
