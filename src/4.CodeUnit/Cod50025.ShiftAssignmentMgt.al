@@ -214,9 +214,8 @@ codeunit 50025 "Shift Assignment Mgt"
     var
         IsHandled: Boolean;
     begin
-        IsHandled := false;
         OnBeforeProcessDailyAttendanceForShiftSubstitute(IsHandled);
-        if not IsHandled then
+        if IsHandled then
             exit;
         EmpAttendance.Reset();
         EmpAttendance.SetRange("Attendance Date", FromDate, ToDate);
