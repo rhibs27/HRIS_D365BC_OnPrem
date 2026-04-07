@@ -1387,9 +1387,12 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         AssignmentMemoHdr: Record "Assignment Memo Header";
+        AssignmentMemoLine: Record "Assignment Memo Line";
     begin
+        AssignmentMemoLine.Get(DocNo, LineNo);
         AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open, Reversed, "Claimed Doc No.", Claimed);
         AssignmentMemoLedgerEntry.SetRange("Document No.", DocNo);
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
         AssignmentMemoLedgerEntry.SetRange(Claimed, true);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
