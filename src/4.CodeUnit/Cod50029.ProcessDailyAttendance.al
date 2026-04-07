@@ -119,7 +119,7 @@ codeunit 50029 "Process Daily Attendance"
 
         if EmpWorkShiftDetail.Get(WorkShiftCode) then begin
             EmpAttendance."OverNight Shift" := EmpWorkShiftDetail.OverNight;
-            EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
+            EmpAttendance."Shift Start Time" := ShiftMgt.ReturnShiftStartTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail);
             EmpAttendance."Shift End Time" := ShiftMgt.ReturnShiftEndTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail);
             if not EmpAttendance."OverNight Shift" then
                 EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time"

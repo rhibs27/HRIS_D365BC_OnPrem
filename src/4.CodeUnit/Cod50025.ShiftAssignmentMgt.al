@@ -195,9 +195,23 @@ codeunit 50025 "Shift Assignment Mgt"
         EmployeeWorkShift.TestField("Winter End Time");
     end;
 
+    procedure ReturnShiftStartTime(ShiftDate: date; var WorkShift: Record "Employee Work Shift"): Time
+    begin
+        if HRMgt.IsAlternateShift(ShiftDate, WorkShift) then begin
+            exit(WorkShift."Alternate start Time");
+        end else begin
+            exit(WorkShift."Start Time");
+        end;
+    end;
+
     procedure ReturnShiftEndTime(ShiftDate: date; var WorkShift: Record "Employee Work Shift"): Time
     begin
-        if HRMgt.IsWinter(ShiftDate, WorkShift) then begin
+        if HRMgt.IsAlternateShift(ShiftDate, WorkShift) then begin
+            if HRMgt.IsFriday(ShiftDate) then
+                exit(WorkShift."Alternate Friday End Time")
+            else
+                exit(WorkShift."Alternate End Time");
+        end else if HRMgt.IsWinter(ShiftDate, WorkShift) then begin
             if HRMgt.IsFriday(ShiftDate) then
                 exit(WorkShift."Friday End Time")
             else

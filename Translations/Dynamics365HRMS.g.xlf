@@ -8563,6 +8563,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - NamedType Text000</note>
         </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 1497263701 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternate End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Alternate End Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 2058764134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternate End Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Alternate End Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 3141161549 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternate Friday End Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Alternate Friday End Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 2721321272 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternate Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Alternate Start Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 4184148247 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Alternate Start Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Alternate Start Time - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2137842149 - Field 962821377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Check In From</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -32822,6 +32847,31 @@
           <source>Specifies the value of the To Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Qualification - Control To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 1497263701 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Alternate End Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Alternate End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 2058764134 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Alternate End Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Alternate End Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 3141161549 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Alternate End Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Alternate Friday End Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 2721321272 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Alternate Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Alternate Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 4184148247 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Alternate Start Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Alternate Start Time - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2137842149 - Control 962821377 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Check In From field.</source>
