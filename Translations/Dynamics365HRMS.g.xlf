@@ -51003,11 +51003,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control No. of Days - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2676995112 - Control 1182281945 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Online field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Card - Control Online - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2676995112 - Control 1237689382 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -64858,25 +64853,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue   - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 536401205 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Critical</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 4251930123 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>P1 - Critical</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue Critical - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P1 - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 3116416530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>High</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 1870052678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>P2 - High</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue High - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P2 - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 3592530208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Low</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 1232356061 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>P3 - Medium</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue Low - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P3 - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3209029952 - EnumValue 432767615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medium</source>
+        <trans-unit id="Enum 3209029952 - EnumValue 2338840272 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>P4 - Low</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue Medium - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Grievance Priority - EnumValue P4 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3273735063 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
