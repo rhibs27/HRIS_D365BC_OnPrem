@@ -1629,7 +1629,7 @@ codeunit 50000 "Leave Mgt."
                 LeaveTypeSetup.TestField(Encashable, true);
                 leaveLedger."Payroll Attribute" := LeaveTypeSetup."Payroll Attribute";
                 if LeaveTypeSetup."Encashed Formula" <> '' then
-                    leaveLedger."Encashment Amount" := AllowanceConfig.EvaluateAmountForEmployee(LeaveTypeSetup."Encashed Formula", empCode);
+                    leaveLedger."Encashment Amount" := AllowanceConfig.EvaluateAmountForEmployee(LeaveTypeSetup."Encashed Formula", empCode) * Abs(BalanceDays);
                 leaveLedger.Modify(true);
             end;
         end;
@@ -1757,7 +1757,7 @@ codeunit 50000 "Leave Mgt."
                             "Leave Earn Type"::Encashed,
                             NoofDays,
                             GetNextLeaveLedgerEntryNo,
-                            '',
+                            DocNo,
                             'Leave Encashed',
                             '');
     end;
