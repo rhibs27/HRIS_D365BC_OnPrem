@@ -74,29 +74,29 @@ page 50396 "Grievance SLA Matrix Setup"
         Priority: Enum "Grievance Priority";
         Severity: Enum "Grievance Severity";
     begin
-        // P1 (Critical) combinations
-        InsertSLALine(Severity::Critical, Priority::S1, 'P1-S1: Highest urgency - immediate response required');
-        InsertSLALine(Severity::Critical, Priority::S2, 'P1-S2: Critical priority with high severity');
-        InsertSLALine(Severity::Critical, Priority::S3, 'P1-S3: Critical priority with medium severity');
-        InsertSLALine(Severity::Critical, Priority::S4, 'P1-S4: Critical priority with low severity');
+        // S1 (Critical) combinations
+        InsertSLALine(Severity::Critical, Priority::P1, 'S1-P1: Highest urgency - immediate response required');
+        InsertSLALine(Severity::Critical, Priority::P2, 'S1-P2: Critical priority with high severity');
+        InsertSLALine(Severity::Critical, Priority::P3, 'S1-P3: Critical priority with medium severity');
+        InsertSLALine(Severity::Critical, Priority::P4, 'S1-P4: Critical priority with low severity');
 
-        // P2 (High) combinations
-        InsertSLALine(Severity::High, Priority::S1, 'P2-S1: High priority with critical severity');
-        InsertSLALine(Severity::High, Priority::S2, 'P2-S2: High priority with high severity');
-        InsertSLALine(Severity::High, Priority::S3, 'P2-S3: High priority with medium severity');
-        InsertSLALine(Severity::High, Priority::S4, 'P2-S4: High priority with low severity');
+        // S2 (High) combinations
+        InsertSLALine(Severity::High, Priority::P1, 'S2-P1: High priority with critical severity');
+        InsertSLALine(Severity::High, Priority::P2, 'S2-P2: High priority with high severity');
+        InsertSLALine(Severity::High, Priority::P3, 'S2-P3: High priority with medium severity');
+        InsertSLALine(Severity::High, Priority::P4, 'S2-P4: High priority with low severity');
 
-        // P3 (Medium) combinations
-        InsertSLALine(Severity::Medium, Priority::S1, 'P3-S1: Medium priority with critical severity');
-        InsertSLALine(Severity::Medium, Priority::S2, 'P3-S2: Medium priority with high severity');
-        InsertSLALine(Severity::Medium, Priority::S3, 'P3-S3: Medium priority with medium severity');
-        InsertSLALine(Severity::Medium, Priority::S4, 'P3-S4: Medium priority with low severity');
+        // S3 (Medium) combinations
+        InsertSLALine(Severity::Medium, Priority::P1, 'S3-P1: Medium priority with critical severity');
+        InsertSLALine(Severity::Medium, Priority::P2, 'S3-P2: Medium priority with high severity');
+        InsertSLALine(Severity::Medium, Priority::P3, 'S3-P3: Medium priority with medium severity');
+        InsertSLALine(Severity::Medium, Priority::P4, 'S3-P4: Medium priority with low severity');
 
-        // P4 (Low) combinations
-        InsertSLALine(Severity::Low, Priority::S1, 'P4-S1: Low priority with critical severity');
-        InsertSLALine(Severity::Low, Priority::S2, 'P4-S2: Low priority with high severity');
-        InsertSLALine(Severity::Low, Priority::S3, 'P4-S3: Low priority with medium severity');
-        InsertSLALine(Severity::Low, Priority::S4, 'P4-S4: Standard - lowest urgency');
+        // S4 (Low) combinations
+        InsertSLALine(Severity::Low, Priority::P1, 'S4-P1: Low priority with critical severity');
+        InsertSLALine(Severity::Low, Priority::P2, 'S4-P2: Low priority with high severity');
+        InsertSLALine(Severity::Low, Priority::P3, 'S4-P3: Low priority with medium severity');
+        InsertSLALine(Severity::Low, Priority::P4, 'S4-P4: Standard - lowest urgency');
     end;
 
     local procedure InsertSLALine(Severity: Enum "Grievance Severity"; Priority: Enum "Grievance Priority"; Desc: Text[250])

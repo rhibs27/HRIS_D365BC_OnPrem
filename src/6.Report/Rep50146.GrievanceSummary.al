@@ -10,7 +10,7 @@ report 50146 "Grievance Summary"
     {
         dataitem("Grievance Header"; "Grievance Header")
         {
-            RequestFilterFields = "Grievance Date", Category, Priority, Severity, "Approval Status", "Department Code", "Fiscal Year";
+            RequestFilterFields = "Grievance Date", Category, Priority, Severity, "Approval Status", "Fiscal Year";
 
             column(CompanyName; CompanyInfo.Name) { }
             column(CompanyAddress; CompanyAddress) { }
@@ -26,7 +26,6 @@ report 50146 "Grievance Summary"
             column(Priority; Format(Priority)) { }
             column(Severity; Format(Severity)) { }
             column(Subject; Subject) { }
-            column(DepartmentCode; "Department Code") { }
             column(ApprovalStatus; Format("Approval Status")) { }
             column(SLAResolutionDue; "SLA Resolution Due") { }
             column(ResolutionDate; "Resolution Date") { }

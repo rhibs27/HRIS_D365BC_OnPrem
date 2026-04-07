@@ -6,20 +6,20 @@ enum 50203 "Grievance Priority"
     {
         Caption = ' ';
     }
-    value(1; S1)
+    value(1; P1)
     {
-        Caption = 'S1 - Critical';
+        Caption = 'P1 - Critical';
     }
-    value(2; S2)
+    value(2; P2)
     {
-        Caption = 'S2 - High';
+        Caption = 'P2 - High';
     }
-    value(3; S3)
+    value(3; P3)
     {
-        Caption = 'S3 - Medium';
+        Caption = 'P3 - Medium';
     }
-    value(4; S4)
+    value(4; P4)
     {
-        Caption = 'S4 - Low';
+        Caption = 'P4 - Low';
     }
 }

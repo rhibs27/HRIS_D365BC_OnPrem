@@ -25,10 +25,8 @@ table 50181 "Grievance Header"
                 if Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
                     Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-                    Validate("Department Code", Employee."Department Code");
                     Validate("Deputation On", Employee."Deputation on");
-                    Validate("Deputation On Code", Employee."Deputation On Code");
-                    Validate("Branch Code", Employee."Branch Code");
+                    Validate("Deputation Code", Employee."Deputation On Code");
                 end;
             end;
         }
@@ -46,7 +44,7 @@ table 50181 "Grievance Header"
             end;
         }
         field(7; Subject; Text[250]) { }
-        field(8; Description; Blob)
+        field(8; Description; Text[1000])
         {
             Caption = 'Description';
         }
@@ -65,14 +63,6 @@ table 50181 "Grievance Header"
             end;
         }
         field(10; "Against Employee Name"; Text[100])
-        {
-            Editable = false;
-        }
-        field(11; "Department Code"; Code[20])
-        {
-            Editable = false;
-        }
-        field(12; "Branch Code"; Code[20])
         {
             Editable = false;
         }
@@ -101,14 +91,18 @@ table 50181 "Grievance Header"
             CaptionClass = '1,2,1';
             Editable = false;
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
+            trigger OnValidate()
+            begin
+                ValidateShortcutDimCode(1, "Shortcut Dimension 1 Code")
+            end;
         }
         field(22; "Deputation On"; Enum "Deputation Type")
         {
             Editable = false;
         }
-        field(23; "Deputation On Code"; Code[20])
+        field(23; "Deputation Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code;
+            TableRelation = "Organization Structure List".Code where(Type = field("Deputation On"));
             Editable = false;
         }
         field(24; "User ID"; Text[50])
@@ -146,6 +140,12 @@ table 50181 "Grievance Header"
             Editable = false;
             ToolTip = 'Specifies the deadline after which the grievance will be escalated if unresolved, based on the SLA Matrix.';
         }
+        field(30; "Dimension Set ID"; Integer)
+        {
+            Caption = 'Dimension Set ID';
+            Editable = false;
+            TableRelation = "Dimension Set Entry";
+        }
     }
 
     keys
@@ -158,6 +158,8 @@ table 50181 "Grievance Header"
     }
 
     trigger OnInsert()
+    var
+        GrievanceRec: Record "Grievance Header";
     begin
         if "Grievance Date" = 0D then
             "Grievance Date" := Today;
@@ -166,6 +168,10 @@ table 50181 "Grievance Header"
         if "No." = '' then begin
             HRSetup.TestField("Grievance No.");
             HRMgt.InitNoSeriesNew(HRSetup."Grievance No.", xRec."No. Series", "Grievance Date", "No.", "No. Series");
+            GrievanceRec.ReadIsolation(IsolationLevel::ReadUncommitted);
+            GrievanceRec.SetLoadFields("No.");
+            while GrievanceRec.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
         Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Grievance Date"));
     end;
@@ -205,6 +211,13 @@ table 50181 "Grievance Header"
         "SLA Response Due" := BaseDateTime + (SLAMatrix."Response Time (Hours)" * 3600000);
         "SLA Resolution Due" := BaseDateTime + (SLAMatrix."Resolution Time (Hours)" * 3600000);
         "SLA Escalation Due" := BaseDateTime + (SLAMatrix."Escalation Time (Hours)" * 3600000);
+    end;
+
+    procedure ValidateShortcutDimCode(FieldNumber: Integer; var ShortcutDimCode: Code[20])
+    var
+        DimMgt: Codeunit DimensionManagement;
+    begin
+        DimMgt.ValidateShortcutDimValues(FieldNumber, ShortcutDimCode, "Dimension Set ID");
     end;
 
     var

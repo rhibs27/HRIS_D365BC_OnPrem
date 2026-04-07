@@ -51,11 +51,14 @@ page 50181 "Request Allowance Subform"
                     trigger OnLookup(var Text: Text): Boolean
                     var
                         EmployeeRelative: Record "Employee Relative";
+                        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                     begin
                         EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
                         EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
+                        EmployeeRelative.SetRange(Discontinue, false);
                         if Page.RunModal(Page::"Employee Relatives", EmployeeRelative) = Action::LookupOK then
-                            Rec."Name of Children" := EmployeeRelative."Full Name";
+                            Rec.Validate("Name of Children", EmployeeRelative."Full Name");
+                        AssignmentMemoMgt.LookUpNameofChildren(EmployeeRelative, Rec);
                     end;
                 }
                 field("Grade/Class"; Rec."Grade/Class")

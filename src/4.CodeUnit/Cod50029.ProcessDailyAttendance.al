@@ -39,13 +39,23 @@ codeunit 50029 "Process Daily Attendance"
         // if (EmpAttendance."Present Day" > 0) and (EmpAttendance."Shift Start Time" <> 0T) then
         //     EmpAttendance."OT Hrs" := Round((EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time") / (60 * 60000), 0.01, '=') + Round((EmpAttendance."Shift Start Time" - EmpAttendance."Check In Time") / (60 * 60000), 0.01, '=');
 
-        if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then
+
+        ProcessDayFromEmpActLedgerEntry();
+
+        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
+            if EmpAttendance."Present Day" <> 0 then
+                EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
+        end;
+        if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then begin
             if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) then begin
                 EmpAttendance."Absent Day" := 1;
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
-
-        ProcessDayFromEmpActLedgerEntry();
+            if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) then begin
+                EmpAttendance."Absent Day" := (1 - EmpAttendance."Leave Day");
+                EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
+            end;
+        end;
 
         if Employee."Automatic Attendance" and (EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day") then begin
             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
@@ -178,6 +188,11 @@ codeunit 50029 "Process Daily Attendance"
                         begin
                             EmpAttendance."Leave Day" += EmpActLedgerEntry.Day;
                             EmpAttendance."Absent Day" := 0;
+
+                            if EmpAttendance."Leave Day" <> 0 then begin
+                                if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then
+                                    EmpAttendance."Week Off Day" := (1 - EmpAttendance."Leave Day")
+                            end;
                             EmpAttendance."Leave Type" := EmpActLedgerEntry."Leave Type";
                             if LeaveRequest.Get(EmpActLedgerEntry."Document No.") then begin
                                 EmpAttendance."Leave Code" := LeaveRequest."Leave Code";
@@ -322,7 +337,7 @@ codeunit 50029 "Process Daily Attendance"
     var
         AttendanceLog: Record "Attendance Log";
     begin
-        AttendanceLog.SetLoadFields("Employee ID", Date, "Date Time Log", "Log Time", "Device IP");
+        AttendanceLog.SetLoadFields("Employee ID", Date, "Log Time", "Device IP");
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
@@ -331,8 +346,6 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Check In Time" := AttendanceLog."Log Time";
             EmpAttendance."Check-In Device IP" := AttendanceLog."Device IP";
         end;
-
-        AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         if AttendanceLog.FindLast() then
             if EmpAttendance."Check In Time" <> AttendanceLog."Log Time" then begin
                 EmpAttendance."Check Out Time" := AttendanceLog."Log Time";

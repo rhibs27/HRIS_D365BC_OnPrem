@@ -49,14 +49,19 @@ page 50360 "Grievance List"
                     ToolTip = 'Specifies the subject of the grievance.';
                     ApplicationArea = All;
                 }
-                field("Department Code"; Rec."Department Code")
-                {
-                    ToolTip = 'Specifies the department of the employee.';
-                    ApplicationArea = All;
-                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the current approval status of the grievance.';
+                    ApplicationArea = All;
+                }
+                field("Deputation On"; Rec."Deputation On")
+                {
+                    ToolTip = 'Specifies the current deputation on of the employee';
+                    ApplicationArea = All;
+                }
+                field("Deputation On Code"; Rec."Deputation Code")
+                {
+                    ToolTip = 'Specifies the current deputation code of the employee';
                     ApplicationArea = All;
                 }
                 field("Against Employee Name"; Rec."Against Employee Name")

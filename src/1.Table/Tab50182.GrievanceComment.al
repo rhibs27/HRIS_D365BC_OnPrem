@@ -52,6 +52,11 @@ table 50182 "Grievance Comment"
             "Line No." := 10000;
     end;
 
+    trigger OnDelete()
+    begin
+        Error('Cannot Delete Comment');
+    end;
+
     var
         Employee: Record Employee;
 }

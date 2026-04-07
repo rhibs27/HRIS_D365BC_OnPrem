@@ -1051,9 +1051,6 @@
         <Field Name="Subject">
           <DataField>Subject</DataField>
         </Field>
-        <Field Name="DepartmentCode">
-          <DataField>DepartmentCode</DataField>
-        </Field>
         <Field Name="ApprovalStatus">
           <DataField>ApprovalStatus</DataField>
         </Field>
