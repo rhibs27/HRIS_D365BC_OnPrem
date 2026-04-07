@@ -1271,6 +1271,10 @@ table 50035 "Posted Payroll Line"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
         }
+        field(1105; "Total Unpaid Days"; Decimal) { }
+        field(1106; "Days Before Joining"; Decimal)
+        {
+        }
 
     }
 

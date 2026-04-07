@@ -180,6 +180,26 @@ table 50163 "Assignment Memo Ledger Entry"
             Caption = 'Payroll Posted Date';
             Editable = false;
         }
+        field(63; "No. of Children"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(64; Adjustment; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(65; Remarks; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(66; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(67; "Branch Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

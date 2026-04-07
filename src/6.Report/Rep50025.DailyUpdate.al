@@ -41,6 +41,13 @@ report 50025 "Daily Update"
                         ToolTip = 'Specifies whether to update employee seniority.';
                         ApplicationArea = All;
                     }
+                    field(UpdateCompulsoryRetirement; UpdateCompulsoryRetirement)
+                    {
+                        Caption = 'Update Compulsory Retirement';
+                        ToolTip = 'Specifies whether to update compulsory retirement.';
+                        ApplicationArea = All;
+                    }
+
                 }
             }
         }
@@ -63,6 +70,9 @@ report 50025 "Daily Update"
 
         if UpdateEmployeeSeniority then
             HRMgt.AssignEmployeeSeniority();
+
+        if UpdateCompulsoryRetirement then
+            HRMgt.UpdateCompulsoryRetirement();
     end;
 
     var
@@ -76,6 +86,7 @@ report 50025 "Daily Update"
         UpdateLastPlacementDate: Boolean;
         UpdateServiceDurationForInactiveEmployees: Boolean;
         UpdateEmployeeSeniority: Boolean;
+        UpdateCompulsoryRetirement: Boolean;
 
     local procedure UpdateAgeServicePeriod()
     var

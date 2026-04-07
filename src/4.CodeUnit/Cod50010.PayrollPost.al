@@ -498,7 +498,11 @@ codeunit 50010 "Payroll-Post"
 
         //check and update Assignment memo lines if any
         AssignmentMemoLedgerEntry.SetRange("Payroll Posted", false);
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PGSetup.Get();
+        if PGSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PayrollHeader."No.");
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat

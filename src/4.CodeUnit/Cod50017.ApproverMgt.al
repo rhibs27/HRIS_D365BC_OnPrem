@@ -1502,7 +1502,6 @@ codeunit 50017 "Approver Mgt"
             Approval.Validate("Approval Status", "Approval Status"::Created);  //if sequence > 1
         Approval.Validate("Employee No", EmployeeNo);
         Approval.Insert(true);
-        //to identify sequence 1 approver exist.
         if ApprovalSequence = 1 then
             exit(1)
         else

@@ -136,6 +136,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
                 TransferRequest.Validate("Is Transfer Details Added", true);
                 TransferRequest.Validate("Approved Date", Today);
+                TransferRequest.Validate("On Employee Request", TransferEmployeeJournal."On Employee Request");
                 TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
                 TransferRequest.Insert(true);
 
