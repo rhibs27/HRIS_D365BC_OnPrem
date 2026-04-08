@@ -222,16 +222,9 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         NoLeaveDaysError: Label 'You do not have enough leave Days.';
         LeaveEarn: Record "Leave Earn";
-        EarliestAllowedDate: Date;
     begin
         //check leave criteria
         LeaveTypeSetup.Get(LeaveCode);
-        if Format(LeaveTypeSetup."Allowed Date Range") <> '' then begin
-            EarliestAllowedDate := CalcDate(LeaveTypeSetup."Allowed Date Range", Today);
-            if StartDate < EarliestAllowedDate then
-                Error('Cannot apply %1 leave with start date %2. Back date allowed up to %3 only.',
-                    LeaveTypeSetup.Description, StartDate, EarliestAllowedDate);
-        end;
         Employee.Get(EmpCode);
         if LeaveTypeSetup."Services Period" then begin
             Leave.Reset;
@@ -269,6 +262,28 @@ codeunit 50000 "Leave Mgt."
                 Error(NoLeaveDaysError);
     end;
 
+    procedure CheckDateRangeCriteria(LeaveCode: Code[20]; StartDate: Date; EndDate: Date; EmpCode: Code[20])
+    var
+        LeaveTypeSetup: Record "Leave Type Setup";
+        EarliestAllowedDate: Date;
+    begin
+        LeaveTypeSetup.Get(LeaveCode);
+        if Format(LeaveTypeSetup."Allowed Date Range") <> '' then begin
+            EarliestAllowedDate := CalcDate(LeaveTypeSetup."Allowed Date Range", Today);
+            if EarliestAllowedDate <= Today then begin
+                if StartDate < EarliestAllowedDate then
+                    Error('Cannot apply %1 leave with start date %2. Date allowed up to %3 only.',
+                         LeaveTypeSetup.Description, StartDate, EarliestAllowedDate)
+            end else begin
+                if StartDate > EarliestAllowedDate - 1 then
+                    Error('Cannot apply %1 leave with start date %2. Date allowed up to %3 only.',
+                         LeaveTypeSetup.Description, StartDate, EarliestAllowedDate - 1);
+                if EndDate > EarliestAllowedDate - 1 then
+                    Error('Cannot apply %1 leave with end date %2. Future date allowed up to %3 only.',
+                         LeaveTypeSetup.Description, EndDate, EarliestAllowedDate - 1);
+            end;
+        end;
+    end;
 
     procedure CheckForMultipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
     var
@@ -804,6 +819,7 @@ codeunit 50000 "Leave Mgt."
         CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
         // CheckEmployeeAttendance(leave."Employee No.", leave."Start Date", Leave."End Date", leave."Leave Type"); Remove this Condition After Bank request
         CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
+        CheckDateRangeCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.");
         CheckForMultipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
