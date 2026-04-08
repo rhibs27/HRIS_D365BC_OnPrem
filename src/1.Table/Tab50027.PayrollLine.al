@@ -46,8 +46,7 @@ table 50027 "Payroll Line"
                 Validate("Employee Type", Employee."Employment Type");
                 Validate("Employee Name", Employee.FullName);
                 Validate("Deputation On", Employee."Deputation on");
-                if "Deputation Value" = '' then
-                    Validate("Deputation Value", Employee."Deputation On Code");
+                Validate("Deputation Value", Employee."Deputation On Code");
                 Validate("Sol ID", Employee."Sol Id");
                 Validate("CIT No.", Employee."CIT No.");
                 Validate("PF No.", Employee."PF No.");
