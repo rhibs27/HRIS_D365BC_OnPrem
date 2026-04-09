@@ -143,4 +143,8 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Staff Social Loan';
     }
+    value(37; "Loan Settlement")
+    {
+        Caption = 'Loan Settlement';
+    }
 }

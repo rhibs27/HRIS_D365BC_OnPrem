@@ -767,16 +767,15 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'For Max Staff Social Loan Amount';
         }
-        field(50168; "Use Internal Loan Balance"; Boolean)
+        field(50168; "Get Loan Table Balance"; Boolean)
         {
             DataClassification = CustomerContent;
-            Description = 'If true, previous loan amount is taken from Employee Loan/Advance table instead of Finacle.';
         }
-        field(50169; "Home Loan Settlement No."; Code[20])
+        field(50169; "Loan Settlement No."; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
-            Description = 'No. series for Home Loan Settlement documents';
+            Description = 'No. series for Loan Settlement documents (all loan types)';
         }
     }
     trigger onAfterInsert()

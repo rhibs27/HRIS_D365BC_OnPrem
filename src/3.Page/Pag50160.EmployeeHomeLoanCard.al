@@ -655,61 +655,48 @@ page 50160 "Employee Home Loan Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                // Visible = CanCreateSettlement;
-                ToolTip = 'Initiate a Home Loan Settlement for this disbursed loan.';
+                Visible = CanCreateSettlement;
+                ToolTip = 'Initiate a Loan Settlement request for this disbursed loan.';
                 ApplicationArea = All;
 
                 trigger OnAction()
+                var
+                    LoanSettlement: Record "Loan Settlement";
+                    LoanSettlementCard: Page "Loan Settlement Card";
                 begin
-                    // HomeLoanSettlementMgt.InitiateSettlement(Rec);
+                    LoanSettlement.Init();
+                    LoanSettlement."Loan Type" := Rec."Loan Type";
+                    LoanSettlement.Validate("Loan No.", Rec."No.");
+                    LoanSettlement.Insert(true);
+                    LoanSettlementCard.SetRecord(LoanSettlement);
+                    LoanSettlementCard.Run();
                     CurrPage.Update(false);
                 end;
             }
-            // action("View Settlement")
-            // {
-            //     Caption = 'View Settlement';
-            //     Image = View;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     Visible = CanViewSettlement;
-            //     ToolTip = 'Open the Home Loan Settlement for this loan.';
-            //     ApplicationArea = All;
+            action("View Settlement")
+            {
+                Caption = 'View Settlement';
+                Image = View;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = CanViewSettlement;
+                ToolTip = 'Open the existing Loan Settlement for this loan.';
+                ApplicationArea = All;
 
-            //     trigger OnAction()
-            //     var
-            //         Settlement: Record "Home Loan Settlement";
-            //         SettlementCard: Page "Home Loan Settlement Card";
-            //     begin
-            //         Settlement.SetRange("Loan No.", Rec."No.");
-            //         if Settlement.FindFirst() then begin
-            //             SettlementCard.SetRecord(Settlement);
-            //             SettlementCard.Run();
-            //         end;
-            //     end;
-            // }
-            // action("Print Settlement Statement")
-            // {
-            //     Caption = 'Print Settlement Statement';
-            //     Image = Print;
-            //     Promoted = true;
-            //     PromotedCategory = Report;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     Visible = CanViewSettlement;
-            //     ToolTip = 'Print the Home Loan Settlement Statement.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     var
-            //         Settlement: Record "Home Loan Settlement";
-            //     begin
-            //         Settlement.SetRange("Loan No.", Rec."No.");
-            //         if Settlement.FindFirst() then
-            //             HomeLoanSettlementMgt.PrintSettlementStatement(Settlement);
-            //     end;
-            // }
+                trigger OnAction()
+                var
+                    LoanSettlement: Record "Loan Settlement";
+                    LoanSettlementCard: Page "Loan Settlement Card";
+                begin
+                    LoanSettlement.SetRange("Loan No.", Rec."No.");
+                    if LoanSettlement.FindFirst() then begin
+                        LoanSettlementCard.SetRecord(LoanSettlement);
+                        LoanSettlementCard.Run();
+                    end;
+                end;
+            }
         }
     }
     trigger OnAfterGetRecord()
@@ -745,6 +732,7 @@ page 50160 "Employee Home Loan Card"
 
     var
         IsOpen, IsPending, IsApproved : Boolean;
+        CanCreateSettlement, CanViewSettlement : Boolean;
         HasIncomingDocument: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
         StatusView: Boolean;
@@ -752,17 +740,7 @@ page 50160 "Employee Home Loan Card"
         ApprovalStatusView: Boolean;
         RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";
-    //     HomeLoanSettlementMgt: Codeunit "Home Loan Settlement Mgt.";
-    //     CanCreateSettlement: Boolean;
-    //     CanViewSettlement: Boolean;
 
-    // local procedure SettlementExists(LoanNo: Code[20]): Boolean
-    // var
-    //     Settlement: Record "Home Loan Settlement";
-    // begin
-    //     Settlement.SetRange("Loan No.", LoanNo);
-    //     exit(not Settlement.IsEmpty());
-    // end;
 
     local procedure SetLayout()
     begin
@@ -773,7 +751,15 @@ page 50160 "Employee Home Loan Card"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-        // CanCreateSettlement := IsApproved AND Rec.Disbursed AND NOT SettlementExists(Rec."No.");
-        // CanViewSettlement := IsApproved AND Rec.Disbursed AND SettlementExists(Rec."No.");
+        CanCreateSettlement := IsApproved and Rec.Disbursed and not Rec.Settled and not SettlementExists(Rec."No.");
+        CanViewSettlement := IsApproved and Rec.Disbursed and SettlementExists(Rec."No.");
+    end;
+
+    local procedure SettlementExists(LoanNo: Code[20]): Boolean
+    var
+        LoanSettlement: Record "Loan Settlement";
+    begin
+        LoanSettlement.SetRange("Loan No.", LoanNo);
+        exit(not LoanSettlement.IsEmpty());
     end;
 }

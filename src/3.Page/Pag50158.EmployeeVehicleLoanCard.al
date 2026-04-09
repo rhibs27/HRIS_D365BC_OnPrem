@@ -610,6 +610,56 @@ page 50158 "Employee Vehicle Loan Card"
                     end;
                 end;
             }
+            action("Create Settlement")
+            {
+                Caption = 'Create Settlement';
+                Image = CreateDocument;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = CanCreateSettlement;
+                ToolTip = 'Initiate a Loan Settlement request for this disbursed vehicle loan.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    LoanSettlement: Record "Loan Settlement";
+                    LoanSettlementCard: Page "Loan Settlement Card";
+                begin
+                    LoanSettlement.Init();
+                    LoanSettlement."Loan Type" := Rec."Loan Type";
+                    LoanSettlement.Validate("Loan No.", Rec."No.");
+                    LoanSettlement.Insert(true);
+                    LoanSettlementCard.SetRecord(LoanSettlement);
+                    LoanSettlementCard.Run();
+                    CurrPage.Update(false);
+                end;
+            }
+            action("View Settlement")
+            {
+                Caption = 'View Settlement';
+                Image = View;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = CanViewSettlement;
+                ToolTip = 'Open the existing Loan Settlement for this vehicle loan.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    LoanSettlement: Record "Loan Settlement";
+                    LoanSettlementCard: Page "Loan Settlement Card";
+                begin
+                    LoanSettlement.SetRange("Loan No.", Rec."No.");
+                    if LoanSettlement.FindFirst() then begin
+                        LoanSettlementCard.SetRecord(LoanSettlement);
+                        LoanSettlementCard.Run();
+                    end;
+                end;
+            }
         }
         area(Reporting)
         {
@@ -774,6 +824,7 @@ page 50158 "Employee Vehicle Loan Card"
         IsOpen: Boolean;
         IsPending: Boolean;
         IsApproved: Boolean;
+        CanCreateSettlement, CanViewSettlement : Boolean;
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         RecRef: RecordRef;
@@ -818,5 +869,15 @@ page 50158 "Employee Vehicle Loan Card"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        CanCreateSettlement := IsApproved and Rec.Disbursed and not Rec.Settled and not SettlementExists(Rec."No.");
+        CanViewSettlement := IsApproved and Rec.Disbursed and SettlementExists(Rec."No.");
+    end;
+
+    local procedure SettlementExists(LoanNo: Code[20]): Boolean
+    var
+        LoanSettlement: Record "Loan Settlement";
+    begin
+        LoanSettlement.SetRange("Loan No.", LoanNo);
+        exit(not LoanSettlement.IsEmpty());
     end;
 }

@@ -697,7 +697,7 @@ codeunit 50002 "Loan Mgt."
     var
         LoanOutstanding: Record "Loan Outstanding from Finacle";
     begin
-        if HRSetup."Use Internal Loan Balance" then
+        if HRSetup."Get Loan Table Balance" then
             exit(GetExistingLoanAmountFromEmpTable(EmployeeCode, LoanType, "No."));
 
         if LoanType = LoanType::"Home Loan" then begin
@@ -721,7 +721,7 @@ codeunit 50002 "Loan Mgt."
         end;
     end;
 
-    local procedure GetExistingLoanAmountFromEmpTable(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; ExcludeNo: Code[20]): Decimal
+    procedure GetExistingLoanAmountFromEmpTable(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; ExcludeNo: Code[20]): Decimal
     var
         PreviousLoan: Record "Employee Loan/Advance";
         TotalAmt: Decimal;
@@ -1929,6 +1929,67 @@ codeunit 50002 "Loan Mgt."
     //             Evaluate(EMIValue, PropertyValue);
     //     end;
     // end;
+
+    procedure SendSettlementApproval(var loanSettelment: Record "Loan Settlement"; SendBool: Boolean)
+    var
+        ApproverMgt2: Codeunit "Approver Mgt";
+        CONFIRMATION: Label 'Do you want to proceed?';
+        EmpLoanAdv: Record "Employee Loan/Advance";
+    begin
+        if not Confirm(CONFIRMATION, false) then
+            exit;
+        loanSettelment.TestField("Loan No.");
+        loanSettelment.TestField("Settlement Type");
+        loanSettelment.TestField("Settlement Amount");
+        if SendBool then begin
+            loanSettelment."Approval Status" := loanSettelment."Approval Status"::Pending;
+            loanSettelment.Modify();
+            ApproverMgt2.UpdateFirstApproverStatus(loanSettelment."No.");
+            Message('Settlement approval request has been sent.');
+        end else begin
+            loanSettelment.TestField("Approval Status", loanSettelment."Approval Status"::Pending);
+            loanSettelment.Validate("Approval Status", loanSettelment."Approval Status"::Open);
+            loanSettelment.Modify();
+            Message('Settlement approval request has been cancelled.');
+        end;
+    end;
+
+    procedure InsertSettelmentAttachmentLines(var EmpLoanSettelment: Record "Loan Settlement")
+    var
+        IncomingDocument: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, "Attachment Setup Type"::"Loan Settlement");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"Home Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Home Loan Settelment");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"vehicle Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"vehicle Loan Settelment");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"Staff Social Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Social Loan Settelment");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"Personal Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Personal Loan Settelment");
+        if AttachmentSetup.FindFirst then
+            repeat
+                IncomingDocument.Reset;
+                IncomingDocument.SetRange("Table ID", DATABASE::"Loan Settlement");
+                IncomingDocument.SetRange("No.", EmpLoanSettelment."No.");
+                IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                if not IncomingDocument.FindFirst then begin
+                    IncomingDocument.Reset;
+                    IncomingDocument.Init;
+                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                    IncomingDocument.Description := EmpLoanSettelment.TableName;
+                    IncomingDocument."Attachment Code" := AttachmentSetup."Attachment Code";
+                    IncomingDocument."No." := EmpLoanSettelment."No.";
+                    IncomingDocument."Employee Code" := EmpLoanSettelment."Employee No.";
+                    IncomingDocument."Employee Activity Type" := EmpLoanSettelment.Type::"Loan Settlement";
+                    IncomingDocument."Table ID" := DATABASE::"Loan Settlement";
+                    IncomingDocument.Insert(true);
+                end;
+            until AttachmentSetup.Next = 0;
+    end;
+
     local procedure InsertEmployeeLoanDetailsViaJson(EmpNo: Code[20])
     var
         LoanOutstanding: Record "Loan Outstanding from Finacle";

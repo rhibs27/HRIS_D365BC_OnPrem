@@ -117,11 +117,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Home Loan No. field.';
             }
-            field("Home Loan Settlement No."; Rec."Home Loan Settlement No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the No. Series for Home Loan Settlement documents.';
-            }
             field("Home Loan Insur. TieUp No."; Rec."Home Loan Insur. TieUp No.")
             {
                 ApplicationArea = All;
@@ -136,6 +131,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Staff Social Loan No. field.';
+            }
+            field("Loan Settlement No."; rec."Loan Settlement No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the No. Series for Home Loan Settlement documents.';
             }
             field("OT eligible hour"; Rec."OT eligible hour")
             {
@@ -481,7 +481,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Max Staff Social Loan Amount field.';
                 }
-                field("Use Internal Loan Balance"; Rec."Use Internal Loan Balance")
+                field("Get Loan Table Balance"; Rec."Get Loan Table Balance")
                 {
                     ApplicationArea = All;
                     ToolTip = 'If enabled, previous loan amount is calculated from Employee Loan/Advance table (Approved, Disbursed, not Settled) instead of Finacle.';
