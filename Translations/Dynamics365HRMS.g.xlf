@@ -2803,6 +2803,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Leave Day - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 644771389 - Field 86745917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Pending Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Leave Pending Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 644771389 - Field 3465500804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15807,6 +15812,11 @@
           <source>Leave Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Leave Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 86745917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Pending Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Leave Pending Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 550081341 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>LFA</source>
