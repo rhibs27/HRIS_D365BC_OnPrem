@@ -825,6 +825,7 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine.Validate("From Date", AllowanceAssignmentHdr."From Date");
                     AssignmentMemoLine.Validate("To Date", AllowanceAssignmentHdr."To Date");
                     AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+                    OnBeforeInsertAssignmentMemo(AssignmentMemoLine, LastAssignmentMemoLine);
                     AssignmentMemoLine.Insert(true);
                     AssignmentMemoLine.Validate("Payroll Attribute Code");
                     AssignmentMemoLine.Modify();
@@ -1709,6 +1710,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure CheckDiscontinuedEduRequest(AssignmentmemoHdr: Record "Assignment Memo Header")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertAssignmentMemo(Var AssignmentMemoLine: Record "Assignment Memo Line"; LastAssignmentMemoLine: Record "Assignment Memo Line")
     begin
     end;
 
