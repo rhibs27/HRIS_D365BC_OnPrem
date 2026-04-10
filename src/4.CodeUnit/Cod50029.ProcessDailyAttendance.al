@@ -14,8 +14,7 @@ codeunit 50029 "Process Daily Attendance"
         EmpWorkShiftDetail: Record "Employee Work Shift";
         AttSetup: Record "Attendance Setup";
         Employee: Record Employee;
-        Date: Record Date;
-        FromSyncProcess: Boolean;
+        FromSyncProcess, IsHolidayTemp : Boolean;
         ShiftLine: Record "Shift Line";
         CalendarDescription: Text;
         AllowanceAssignment: Codeunit "Allowance Assignment Mgt";
@@ -75,6 +74,7 @@ codeunit 50029 "Process Daily Attendance"
 
     local procedure ResetDays()
     begin
+        IsHolidayTemp := false;
         EmpAttendance."Half Day" := 0;
         EmpAttendance."Late Day" := 0;
         EmpAttendance."Tour Day" := 0;
@@ -119,7 +119,7 @@ codeunit 50029 "Process Daily Attendance"
 
         if EmpWorkShiftDetail.Get(WorkShiftCode) then begin
             EmpAttendance."OverNight Shift" := EmpWorkShiftDetail.OverNight;
-            EmpAttendance."Shift Start Time" := EmpWorkShiftDetail."Start Time";
+            EmpAttendance."Shift Start Time" := ShiftMgt.ReturnShiftStartTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail);
             EmpAttendance."Shift End Time" := ShiftMgt.ReturnShiftEndTime(EmpAttendance."Attendance Date", EmpWorkShiftDetail);
             if not EmpAttendance."OverNight Shift" then
                 EmpAttendance."Standard Work Time" := EmpAttendance."Shift End Time" - EmpAttendance."Shift Start Time"
@@ -247,7 +247,7 @@ codeunit 50029 "Process Daily Attendance"
     procedure UpdateAttendanceRemarks()
     begin
 
-        if IsHoliday(Date."Period Start", EmpAttendance."Employee No.") then
+        if IsHolidayTemp then
             EmpAttendance.Remarks := CalendarDescription
         else begin
             if EmpAttendance."Absent Day" = 0.5 then
@@ -289,13 +289,11 @@ codeunit 50029 "Process Daily Attendance"
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
     var
         AttendanceMgt: Codeunit "Attendance Mgt";
-        ReturnBool: Boolean;
     begin
-        ReturnBool := false;
         Clear(CalendarDescription);
-        ReturnBool := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
+        IsHolidayTemp := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
         CalendarDescription := AttendanceMgt.ReturnCalendarDescription;
-        exit(ReturnBool);
+        exit(IsHolidayTemp);
     end;
 
     procedure GetSetup()
@@ -304,7 +302,6 @@ codeunit 50029 "Process Daily Attendance"
         PGSetup.Get;
         AttSetup.TestField("Base Calender");
         Employee.Get(EmpAttendance."Employee No.");
-        Date.Get(Date."Period Type"::Date, EmpAttendance."Attendance Date");
     end;
 
     procedure GetCheckInandOutFromAttendanceLog()
@@ -336,24 +333,29 @@ codeunit 50029 "Process Daily Attendance"
     procedure GetCheckInAndOutFromAttendanceLogRegular()
     var
         AttendanceLog: Record "Attendance Log";
+        FirstFound, LastFound : Boolean;
+        FirstLogTime: Time;
     begin
         AttendanceLog.SetLoadFields("Employee ID", Date, "Log Time", "Device IP");
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
-        if AttendanceLog.FindFirst() then begin
-            EmpAttendance."Check In Time" := AttendanceLog."Log Time";
+        FirstFound := AttendanceLog.FindFirst();
+        if FirstFound then begin
+            FirstLogTime := AttendanceLog."Log Time";
+            EmpAttendance."Check In Time" := FirstLogTime;
             EmpAttendance."Check-In Device IP" := AttendanceLog."Device IP";
-        end;
-        if AttendanceLog.FindLast() then
-            if EmpAttendance."Check In Time" <> AttendanceLog."Log Time" then begin
+
+            LastFound := AttendanceLog.FindLast();
+            if LastFound and (FirstLogTime <> AttendanceLog."Log Time") then begin
                 EmpAttendance."Check Out Time" := AttendanceLog."Log Time";
                 EmpAttendance."Check-Out Device IP" := AttendanceLog."Device IP";
-            end else begin
+            end else if FirstFound then begin
                 Clear(EmpAttendance."Check Out Time");
                 Clear(EmpAttendance."Check-Out Device IP");
             end;
+        end;
     end;
 
     local procedure GetCheckInAndOutFromAttendanceLogInRange(StartTime: DateTime; EndTime: DateTime; var TimeVar: Time; FirstRecord: Boolean): Time

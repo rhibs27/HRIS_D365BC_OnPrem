@@ -252,6 +252,7 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod: Record "Pay Cycle Period";
                 PGSetup: Record "Payroll General Setup";
                 Employee: Record Employee;
+                isHandled: Boolean;
             begin
                 //based on nepali month selected update the from date to date and other field
                 PGSetup.Get();
@@ -264,11 +265,14 @@ table 50161 "Assignment Memo Header"
                         Employee.Get("Employee No.")
                     else
                         Employee.Get(HrMgt.GetEmployeeNo());
-                    IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
-                        "From Date" := Employee."Employment Date"
-                    else
-                        "From Date" := PayCyclePeriod."Start Date";
-                    "To date" := PayCyclePeriod."End Date";
+                    OnBeforeGetPaycycleAllowancePeriod(Rec, Employee, PayCyclePeriod, isHandled);
+                    if not isHandled then begin
+                        IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
+                            "From Date" := Employee."Employment Date"
+                        else
+                            "From Date" := PayCyclePeriod."Start Date";
+                        "To date" := PayCyclePeriod."End Date";
+                    end;
                     "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
                     "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
                     "Pay Cycle Period" := PayCyclePeriod.Period;
@@ -557,7 +561,11 @@ table 50161 "Assignment Memo Header"
     procedure CheckIfWithinAllowancePeriod()
     var
         PayCyclePeriod: Record "Pay Cycle Period";
+        isHandled: Boolean;
     begin
+        OnSkipCheckIfWithinAllowancePeriod(PayCyclePeriod, Rec, isHandled);
+        if isHandled then
+            exit;
         if "Activity Type" <> "Activity Type"::"Request Allowance" then
             exit;
         PayCyclePeriod.SetFilter("Start Date", '<=%1', "Document Date");
@@ -616,6 +624,16 @@ table 50161 "Assignment Memo Header"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsert(var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGetPaycycleAllowancePeriod(var AssignmentMemoHeader: Record "Assignment Memo Header"; Employee: Record Employee; PaycyclePeriod: Record "Pay Cycle Period"; var isHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSkipCheckIfWithinAllowancePeriod(PaycyclePeriod: Record "Pay Cycle Period"; AssignmentMemoHeader: Record "Assignment Memo Header"; var isHandled: Boolean)
     begin
     end;
 }

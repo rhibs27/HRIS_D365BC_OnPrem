@@ -178,7 +178,7 @@ codeunit 50015 "OverTime Mgt"
         StartTime := 0T;
         EndTime := 0T;
         StandardWorkingHrs := 0;
-        StartTime := WorkShift."Start Time";
+        StartTime := ShiftMgt.ReturnShiftStartTime(OverTime."Start Date", WorkShift);
         EndTime := ShiftMgt.ReturnShiftEndTime(OverTime."Start Date", WorkShift);
         StandardWorkingHrs := (EndTime - StartTime) / 3600000;
         if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
@@ -324,7 +324,7 @@ codeunit 50015 "OverTime Mgt"
                 TotalOTHrs := 0;
                 CheckInDifference := 0;
 
-                StartTime := WorkShift."Start Time";
+                StartTime := ShiftMgt.ReturnShiftStartTime(OvertimeLine."Overtime Date", WorkShift);
                 EndTime := ShiftMgt.ReturnShiftEndTime(OvertimeLine."Overtime Date", WorkShift);
                 StandardWorkingHrs := (EndTime - StartTime) / 3600000;
                 OnBeforeCheckOTHrs(OvertimeLine, EmployeeWorkShift, StartTime, EndTime, IsHandled);
@@ -587,6 +587,7 @@ codeunit 50015 "OverTime Mgt"
     local procedure OnBeforeInsertLeaveEarnOvertime(Overtime: Record OverTime; leaveTypeSetup: Record "Leave Type Setup"; var IsHandled: Boolean)
     begin
     end;
+
     var
         HRSetup: Record "Human Resources Setup";
         LeaveMgt: Codeunit "Leave Mgt.";

@@ -529,11 +529,6 @@ table 50124 Leave
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterApplyForLeave(var Leave: Record Leave)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
     local procedure OnBeforeCheckEmploymentAndConfirmationDate(EmployeeNo: Code[20]; StartDate: date; LeaveCode: Code[20]; Var IsHandled: Boolean)
     begin
     end;
