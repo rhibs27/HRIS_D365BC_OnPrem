@@ -1,4 +1,4 @@
-enum 50009 Quater
+enum 50009 Quarter
 {
     Extensible = true;
 

@@ -12,20 +12,7 @@ page 50097 "Training Card"
             {
                 field("No."; Rec."No.")
                 {
-                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the No. field.';
-                    ApplicationArea = All;
-
-                    trigger OnAssistEdit()
-                    begin
-                        if Rec.AssistEdit(xRec) then
-                            CurrPage.Update;
-                    end;
-                }
-                field("Training Nature"; Rec."Training Nature")
-                {
-                    Editable = IsOpen;
-                    ToolTip = 'Specifies the value of the Training Nature field.';
                     ApplicationArea = All;
                 }
                 field("Training Calendar No"; Rec."Training Calendar No")
@@ -36,32 +23,50 @@ page 50097 "Training Card"
                 }
                 field(Description; Rec.Description)
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
                 field(Province; Rec.Province)
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Province field.';
                     ApplicationArea = All;
                 }
                 field("Province Name"; Rec."Province Name")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Province Name field.';
                     ApplicationArea = All;
                 }
                 field(Venue; Rec.Venue)
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Venue field.';
                     ApplicationArea = All;
                 }
                 field("Training Type"; Rec."Training Type")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Training Type field.';
+                    ApplicationArea = All;
+                }
+                field("Training Category"; Rec."Training Category")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Training Category field.';
+                    ApplicationArea = All;
+                }
+                field("Training Module"; Rec."Training Module")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Training Module field.';
+                    ApplicationArea = All;
+                }
+                field("Training Mode"; Rec."Training Mode")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Training Mode field.';
                     ApplicationArea = All;
                 }
                 field("Start Date"; Rec."Start Date")
@@ -95,14 +100,12 @@ page 50097 "Training Card"
                 field("Start Time"; Rec."Start Time")
                 {
                     Editable = IsOpen;
-                    Visible = false;
                     ToolTip = 'Specifies the value of the Start Time field.';
                     ApplicationArea = All;
                 }
                 field("End Time"; Rec."End Time")
                 {
                     Editable = IsOpen;
-                    Visible = false;
                     ToolTip = 'Specifies the value of the End Time field.';
                     ApplicationArea = All;
                 }
@@ -116,15 +119,9 @@ page 50097 "Training Card"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                // field("Sub-Province"; Rec."Sub-Province")
-                // {
-                //     Editable = IsOpen;
-                //     ToolTip = 'Specifies the value of the Sub-Province field.';
-                //     ApplicationArea = All;
-                // }
                 field("Branch Code"; Rec."Branch Code")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Branch Code field.';
                     ApplicationArea = All;
 
@@ -134,12 +131,11 @@ page 50097 "Training Card"
                             FieldEditable := false
                         else
                             FieldEditable := true;
-                        CurrPage.Update;
                     end;
                 }
-                field(Department; Rec.Department)
+                field("Department Code"; Rec."Department Code")
                 {
-                    Editable = FieldEditable;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;
                 }
@@ -156,7 +152,7 @@ page 50097 "Training Card"
                 }
                 field("Expected No. of Participant"; Rec."Expected No. of Participant")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Expected No. of Participant field.';
                     ApplicationArea = All;
                 }
@@ -167,7 +163,7 @@ page 50097 "Training Card"
                 }
                 field("Resource Person"; Rec."Resource Person")
                 {
-                    Editable = IsOpen;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Resource Person field.';
                     ApplicationArea = All;
                 }
@@ -177,9 +173,10 @@ page 50097 "Training Card"
                     ToolTip = 'Specifies the value of the Month field.';
                     ApplicationArea = All;
                 }
-                field(Online; Rec.Online)
+                field("Sponsorship Type"; Rec."Sponsorship Type")
                 {
-                    ToolTip = 'Specifies the value of the Online field.';
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Sponsorship Type field.';
                     ApplicationArea = All;
                 }
             }
@@ -189,22 +186,21 @@ page 50097 "Training Card"
                 group(Estimated)
                 {
                     Caption = 'Estimated';
-                    field(Vendor; Rec.Vendor)
+                    field("Vendor Code"; Rec."Institute Code")
                     {
                         Caption = 'Vendor Code';
-                        Editable = IsOpen;
                         ToolTip = 'Specifies the value of the Vendor Code field.';
                         ApplicationArea = All;
                     }
-                    field("Vendor Name"; Rec."Vendor Name")
+                    field("Vendor Name"; Rec."Institute Name")
                     {
-                        Editable = IsOpen;
+                        Editable = false;
                         ToolTip = 'Specifies the value of the Vendor Name field.';
                         ApplicationArea = All;
                     }
                     field("Estimated Training Cost"; Rec."Estimated Training Cost")
                     {
-                        Editable = IsOpen;
+                        Editable = false;
                         ToolTip = 'Specifies the value of the Estimated Training Cost field.';
                         ApplicationArea = All;
                     }
@@ -230,6 +226,7 @@ page 50097 "Training Card"
                     {
                         ToolTip = 'Specifies the value of the Estimated Total Budget field.';
                         ApplicationArea = All;
+                        Editable = false;
                     }
                 }
                 group("Actual Expense")
@@ -267,6 +264,7 @@ page 50097 "Training Card"
             }
             group(Budget)
             {
+                Visible = false;
                 field("YTD Amount"; Rec."YTD Amount")
                 {
                     ToolTip = 'Specifies the value of the YTD Amount field.';
@@ -288,62 +286,9 @@ page 50097 "Training Card"
                     ApplicationArea = All;
                 }
             }
-            part(Control29; "Trainer Subform")
-            {
-                SubPageLink = "Training No." = field("No."),
-                              Type = const(Trainer);
-                ApplicationArea = All;
-            }
-            part("Trainee Subform"; "Trainee Subform")
-            {
-                SubPageLink = "Training No." = field("No."),
-                              Type = const(Trainee);
-                UpdatePropagation = Both;
-                ApplicationArea = All;
-            }
-            part("Training Approval"; "Document Approver")
-            {
-                Caption = 'Training Approval';
-                Editable = not IsApproved;
-                SubPageLink = "Document No." = field("No.");
-                ApplicationArea = All;
-            }
-            group(HR)
-            {
-                Visible = false;
-                field("HR Manager Code"; Rec."HR Manager Code")
-                {
-                    ToolTip = 'Specifies the value of the HR Manager Code field.';
-                    ApplicationArea = All;
-                }
-                field("HR Manager Name"; Rec."HR Manager Name")
-                {
-                    ToolTip = 'Specifies the value of the HR Manager Name field.';
-                    ApplicationArea = All;
-                }
-                field("HR Head Code"; Rec."HR Head Code")
-                {
-                    ToolTip = 'Specifies the value of the HR Head Code field.';
-                    ApplicationArea = All;
-                }
-                field("HR Head Name"; Rec."HR Head Name")
-                {
-                    ToolTip = 'Specifies the value of the HR Head Name field.';
-                    ApplicationArea = All;
-                }
-            }
-            part("Training Payment"; "Training Payee")
-            {
-                Caption = 'Training Payment';
-                Editable = IsApproved;
-                SubPageLink = "Training No." = field("No."),
-                              Type = const(Vendor);
-                Visible = IsApproved;
-                ApplicationArea = All;
-            }
             group("Training Review")
             {
-                Visible = IsApproved;
+                Visible = false;
                 field("Total Trainer Marks"; Rec."Total Trainer Marks")
                 {
                     ToolTip = 'Specifies the value of the Total Trainer Marks field.';
@@ -390,6 +335,7 @@ page 50097 "Training Card"
             group("Training Payment Approval")
             {
                 Editable = IsApproved;
+                Visible = false;
                 field("ROCE Code"; Rec."ROCE Code")
                 {
                     Editable = IsApproved;
@@ -427,6 +373,34 @@ page 50097 "Training Card"
                     ApplicationArea = All;
                 }
             }
+            part(Control29; "Trainer Subform")
+            {
+                SubPageLink = "Training No." = field("No."),
+                              Type = const(Trainer);
+                ApplicationArea = All;
+            }
+            part("Trainee Subform"; "Trainee Subform")
+            {
+                SubPageLink = "Training No." = field("No."),
+                              Type = const(Trainee);
+                UpdatePropagation = Both;
+                ApplicationArea = All;
+            }
+
+            part("Training Payment"; "Training Payee")
+            {
+                Caption = 'Training Payment';
+                SubPageLink = "Training No." = field("No."),
+                              Type = const(Vendor);
+                Visible = IsApproved;
+                ApplicationArea = All;
+            }
+            // part("Approval Subform"; "HRMS Approval Entry")
+            // {
+            //     SubPageLink = "Document No." = field("No."), "Document Type" = field(Type);
+            //     ApplicationArea = all;
+            //     Editable = false;
+            // }
         }
         area(FactBoxes)
         {
@@ -444,56 +418,136 @@ page 50097 "Training Card"
             group("Request Approval")
             {
                 Caption = 'Request Approval';
-                // Visible = false;
                 action("Send Approval Request")
                 {
                     Caption = 'Send A&pproval Request';
-                    Enabled = not OpenApprovalEntriesExist;
+                    Enabled = false;
+                    Visible = false;
                     Image = SendApprovalRequest;
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
                     ToolTip = 'Executes the Send A&pproval Request action.';
                     ApplicationArea = All;
-
                     trigger OnAction()
                     begin
-                        //HRMgt.CheckDocumentApprover("No.");
-                        TrainingLineCheck(Rec."No.");
-                        TrainingLine.Reset;
-                        TrainingLine.SetRange("Training No.", Rec."No.");
-                        TrainingLine.SetRange(Type, TrainingLine.Type::Trainer);
-                        TrainingLine.SetFilter("Employee Code", '<>%1', '');
-                        if TrainingLine.FindFirst then
-                            repeat
-                                TrainingLine.TestField("Start Time");
-                                TrainingLine.TestField("End Time");
-                            until TrainingLine.Next = 0;
-                        if not ApprovalsMgmt.HasOpenApprovalEntries(Rec.RecordId) then begin
-                            if (Rec."Approval Status" = Rec."Approval Status"::Open) then begin
-                                Rec.CheckLineForApproval;
-                                Rec.OnSendTrainingDocForApproval(Rec);
-                            end;
-                        end else
-                            Message('Workflow is not enable for training');
+                        if Confirm('Do you want to Send training for approve?', false) then begin
+                            Rec.TestField(Description);
+                            Rec.TestField("Start Date");
+                            Rec.TestField("End Date");
+                            TrainingLineCheck(Rec."No.");
+                            TrainingLine.Reset;
+                            TrainingLine.SetRange("Training No.", Rec."No.");
+                            TrainingLine.SetRange(Type, TrainingLine.Type::Trainer);
+                            TrainingLine.SetFilter("Employee Code", '<>%1', '');
+                            if TrainingLine.FindFirst then
+                                repeat
+                                    TrainingLine.TestField("Start Time");
+                                    TrainingLine.TestField("End Time");
+                                until TrainingLine.Next = 0;
+                            Rec."Approval Status" := Rec."Approval Status"::Pending;
+                            Rec.Modify();
+                            ApproverMgt.UpdateFirstApproverStatus(Rec."No.");
+                        end;
                     end;
                 }
-                action("Cancel Approval Request")
+                action("Release")
                 {
-                    Caption = 'Cancel Approval Re&quest';
-                    Enabled = OpenApprovalEntriesExist;
-                    Image = Cancel;
+                    Image = ReleaseDoc;
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    ToolTip = 'Executes the Cancel Approval Re&quest action.';
+                    ToolTip = 'Executes the Export Attendance action.';
                     ApplicationArea = All;
-
+                    Visible = IsOpen;
                     trigger OnAction()
                     begin
-                        Rec.OnCancelTrainingDocForApproval(Rec);
+                        Rec.TestField("Approval Status", Rec."Approval Status"::Open);
+                        Rec."Approval Status" := Rec."Approval Status"::Released;
+                        Rec.Modify();
+                        CurrPage.Update();
                     end;
                 }
+                action("Re Open")
+                {
+                    Image = ReOpen;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    ToolTip = 'Executes the Export Attendance action.';
+                    ApplicationArea = All;
+                    Enabled = not Rec.Posted;
+                    Visible = (Rec."Approval Status" = Rec."Approval Status"::Released);
+                    trigger OnAction()
+                    begin
+                        Rec.TestField("Approval Status", Rec."Approval Status"::Released);
+                        Rec."Approval Status" := Rec."Approval Status"::Open;
+                        Rec.Modify();
+                        CurrPage.Update();
+                    end;
+                }
+                action(Post)
+                {
+                    Image = Post;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Post action.';
+                    ApplicationArea = All;
+                    Visible = not Rec.Posted;
+                    trigger OnAction()
+                    begin
+                        if Confirm('Do you want to Post Training Card?', false) then begin
+                            Rec.SetPosted;
+                            CurrPage.Close();
+                        end;
+                    end;
+                }
+                // action("Approve Attendance")
+                // {
+                //     Caption = 'Approve Attendance';
+                //     Image = Approve;
+                //     Promoted = true;
+                //     PromotedCategory = Process;
+                //     PromotedIsBig = true;
+                //     ToolTip = 'Approve the attendance records for this training and update employee training records.';
+                //     ApplicationArea = All;
+                //     trigger OnAction()
+                //     var
+                //         TrainingAttendance: Record "Training Attendance";
+                //         ApproverEmpNo: Code[20];
+                //         ApprovedCount: Integer;
+                //         ConfirmApprove: Label 'Do you want to approve all attendance records for training %1? This will update employee training records.';
+                //     begin
+                //         if not Confirm(StrSubstNo(ConfirmApprove, Rec."No."), false) then
+                //             exit;
+
+                //         ApproverEmpNo := HRMgt.GetEmployeeNo();
+                //         TrainingAttendance.Reset();
+                //         TrainingAttendance.SetRange("Training No", Rec."No.");
+                //         TrainingAttendance.SetRange(Approved, false);
+                //         if TrainingAttendance.FindSet(true) then
+                //             repeat
+                //                 TrainingAttendance.Approved := true;
+                //                 TrainingAttendance."Approved By" := ApproverEmpNo;
+                //                 TrainingAttendance."Approved Date" := Today;
+                //                 TrainingAttendance.Modify(true);
+                //                 ApprovedCount += 1;
+                //             until TrainingAttendance.Next() = 0;
+
+                //         if ApprovedCount > 0 then
+                //             Message('%1 attendance record(s) approved and training records updated.', ApprovedCount)
+                //         else
+                //             Message('All attendance records are already approved.');
+
+                //         CurrPage.Update(false);
+                //     end;
+                // }
+            }
+            group("Calculation")
+            {
+                Caption = 'Calculation';
                 action("Sending Mail")
                 {
                     Image = SendConfirmation;
@@ -503,7 +557,7 @@ page 50097 "Training Card"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Sending Mail action.';
                     ApplicationArea = All;
-
+                    Visible = false;
                     trigger OnAction()
                     begin
                         Rec.TestField("Prepared By");
@@ -511,29 +565,29 @@ page 50097 "Training Card"
                         Message('Mail has been send.');
                     end;
                 }
-                action("Calculate Training Marks")
-                {
-                    Image = CalculateBalanceAccount;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
-                    Visible = IsApproved;
-                    ToolTip = 'Executes the Calculate Training Marks action.';
-                    ApplicationArea = All;
+                // action("Calculate Training Marks")
+                // {
+                //     Image = CalculateBalanceAccount;
+                //     Promoted = true;
+                //     PromotedCategory = Process;
+                //     PromotedIsBig = true;
+                //     PromotedOnly = true;
+                //     Visible = IsApproved;
+                //     ToolTip = 'Executes the Calculate Training Marks action.';
+                //     ApplicationArea = All;
 
-                    trigger OnAction()
-                    begin
-                        HRMgt.CalTrainingMarks(Rec."No.");
-                    end;
-                }
+                //     trigger OnAction()
+                //     begin
+                //         TrainingMgt.CalTrainingMarks(Rec."No.");
+                //     end;
+                // }
                 action("Payment Memo")
                 {
                     Image = "Report";
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    Visible = IsApproved;
+                    Visible = false;
                     ToolTip = 'Executes the Payment Memo action.';
                     ApplicationArea = All;
 
@@ -546,114 +600,74 @@ page 50097 "Training Card"
                             Report.Run(Report::"Payment Memo", true, true, TrainHead);
                     end;
                 }
-                action("Calculate YTD And MTD")
+                // action("Calculate YTD And MTD")
+                // {
+                //     Image = Calculate;
+                //     Promoted = true;
+                //     PromotedCategory = Process;
+                //     PromotedIsBig = true;
+                //     PromotedOnly = true;
+                //     ToolTip = 'Executes the Calculate YTD And MTD action.';
+                //     ApplicationArea = All;
+
+                //     trigger OnAction()
+                //     begin
+                //         Rec.CalculateYTDExpense;
+                //         Rec.CalcualteMTDExpense;
+                //     end;
+                // }
+                action("Approve Request")
                 {
-                    Image = Calculate;
+                    Image = Approve;
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
                     PromotedOnly = true;
-                    ToolTip = 'Executes the Calculate YTD And MTD action.';
+                    Visible = IsPending;
+                    ToolTip = 'Executes the Approve Request action.';
                     ApplicationArea = All;
-
                     trigger OnAction()
                     begin
-                        Rec.CalculateYTDExpense;
-                        Rec.CalcualteMTDExpense;
+                        if Confirm('Do you want to approve the request?', false) then begin
+                            ApproverMgt.ApproveRejectDocument(RecRef, true);
+                            Message('Document is Approved by %1', HRMgt.GetEmpName());
+                        end;
                     end;
                 }
-                action(Post)
+                action("View Training Needs")
                 {
-                    Image = Post;
+                    Caption = 'View Training Needs';
+                    Image = "List";
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    PromotedOnly = true;
-                    Visible = IsApproved;
-                    ToolTip = 'Executes the Post action.';
+                    ToolTip = 'View training need requests linked to this training.';
                     ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        Rec.SetPosted;
-                    end;
-                }
-                action(Approvals)
-                {
-                    Image = Approvals;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Approvals action.';
-                    ApplicationArea = All;
-
+                    Visible = false;
                     trigger OnAction()
                     var
-                        ApprovalEntries: Record "Approval Entry";
+                        TrainingNeedRequest: Record "Training Need Request";
                     begin
-                        ApprovalEntries.Reset;
-                        ApprovalEntries.SetRange("Document No.", Rec."No.");
-                        ApprovalEntries.SetRange(Status, ApprovalEntries.Status::Open);
-                        if ApprovalEntries.FindFirst then
-                            Page.Run(658, ApprovalEntries);
+                        TrainingNeedRequest.Reset();
+                        TrainingNeedRequest.SetRange("Linked Training No.", Rec."No.");
+                        Page.Run(Page::"Training Need List", TrainingNeedRequest);
                     end;
                 }
-                action("Export Trainees")
+                action("View Employee Feedback")
                 {
-                    Image = Export;
+                    Image = "List";
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Export Trainees action.';
+                    ToolTip = 'View training need requests linked to this training.';
                     ApplicationArea = All;
-
                     trigger OnAction()
+                    var
+                        EmployeeFeedback: Record "Employee Feedback";
                     begin
-                        HRMgt.ExportTrainee(Rec);
-                    end;
-                }
-                action("Import Trainees")
-                {
-                    Image = Import;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    ToolTip = 'Executes the Import Trainees action.';
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        HRMgt.ImportTrainee(Rec);
-                    end;
-                }
-                action("Export Attendance")
-                {
-                    Image = ExportDatabase;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    ToolTip = 'Executes the Export Attendance action.';
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        HRMgt.ExportTraineeAttendance(Rec);
-                    end;
-                }
-                action("Import Attendance")
-                {
-                    Image = ImportDatabase;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    ToolTip = 'Executes the Import Attendance action.';
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        HRMgt.ImportTraineeAttendance(Rec);
+                        EmployeeFeedback.Reset();
+                        EmployeeFeedback.SetRange("Training No.", Rec."No.");
+                        Page.Run(Page::"Employee Training Feedback", EmployeeFeedback);
                     end;
                 }
             }
@@ -662,7 +676,7 @@ page 50097 "Training Card"
 
     trigger OnAfterGetRecord()
     begin
-        TrainingCalendarEditable := Rec."Training Nature" = Rec."Training Nature"::Calendar;
+        RecRef.GetTable(Rec);
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -672,7 +686,6 @@ page 50097 "Training Card"
 
     trigger OnOpenPage()
     begin
-        OpenApprovalEntriesExist := ApprovalsMgmt.HasOpenApprovalEntries(Rec.RecordId);
         Rec.CalcFields("Total No. of Participant");
         if (Rec."Start Date" <> 0D) and (Rec."End Date" <> 0D) then
             SetColumn;
@@ -682,32 +695,29 @@ page 50097 "Training Card"
             IsOpen := TrainHead."Approval Status" = TrainHead."Approval Status"::Open;
         end else
             IsOpen := true;
-
-        if Rec.Posted then
-            CurrPage.Editable(false);
-
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         if Rec."Branch Code" <> '' then
             FieldEditable := false
         else
             FieldEditable := true;
+        if Rec.Posted then
+            CurrPage.Editable(false);
+        RecRef.GetTable(Rec);
     end;
 
     var
 
-        OpenApprovalEntriesExist: Boolean;
-        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
-        DateFilter: Text;
+        ApproverMgt: Codeunit "Approver Mgt";
+        TrainingMgt: Codeunit "Training Mgt";
+        ExcelImport: Codeunit "Excel Import";
+        RecRef: RecordRef;
         NoOfColumn: Integer;
         HRMgt: Codeunit "HR Mgt.";
         EmailMgt: Codeunit "Email Mgt";
-
-        IsApproved: Boolean;
         TrainHead: Record "Training Header";
-
-        IsOpen: Boolean;
+        IsOpen, IsPending, IsApproved : Boolean;
         EmailTemplate: Record "Email Template";
         RatingSetup: Record "Rating Setup";
-        TrainingCalendarEditable: Boolean;
         TrainingLine: Record "Training Line";
         FieldEditable: Boolean;
 
@@ -716,7 +726,6 @@ page 50097 "Training Card"
         StartDate: Date;
         EndDate: Date;
     begin
-        DateFilter := StrSubstNo('%1..%2', Rec."Start Date", Rec."End Date");
         NoOfColumn := Rec."End Date" - Rec."Start Date" + 1;
         StartDate := Rec."Start Date";
         EndDate := Rec."End Date";

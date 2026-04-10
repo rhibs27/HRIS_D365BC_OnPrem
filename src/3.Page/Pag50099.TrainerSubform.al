@@ -30,36 +30,38 @@ page 50099 "Trainer Subform"
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
+                    Caption = 'Trainer No';
                 }
-                field(Name; Rec.Name)
+                field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Name field.';
                     ApplicationArea = All;
+                    Caption = 'Trainer Name';
+                    Editable = IsExternal;
                 }
                 field("Name of Organization"; Rec."Name of Organization")
                 {
                     ToolTip = 'Specifies the value of the Name of Organization field.';
                     ApplicationArea = All;
+                    Editable = IsExternal;
                 }
                 field("Department Code"; Rec."Department Code")
                 {
                     ToolTip = 'Specifies the value of the Department Code field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Department Name"; Rec."Department Name")
                 {
                     ToolTip = 'Specifies the value of the Department Name field.';
                     ApplicationArea = All;
-                }
-                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
-                {
-                    ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
-                    ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Branch Name"; Rec."Branch Name")
                 {
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Start Time"; Rec."Start Time")
                 {
@@ -94,6 +96,12 @@ page 50099 "Trainer Subform"
     end;
 
     trigger OnOpenPage()
+    begin
+        IsExternal := Rec."Trainer Type" = Rec."Trainer Type"::External;
+    end;
+
+    trigger OnAfterGetRecord()
+    var
     begin
         IsExternal := Rec."Trainer Type" = Rec."Trainer Type"::External;
     end;

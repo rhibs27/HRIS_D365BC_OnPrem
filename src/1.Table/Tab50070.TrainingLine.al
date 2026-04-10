@@ -8,76 +8,70 @@ table 50070 "Training Line"
         field(3; "Employee Code"; Code[20])
         {
             TableRelation = if (Type = const(Trainee)) Employee where(Status = const(Active))
-            else if (Type = const(Trainer),
-                                     "Trainer Type" = const(Internal)) "Facilitator Pool"."Employee No." where("Fiscal Year" = field("Fiscal Year"),
-                                                                                                              "Approval Status" = const(released))
+            else if (Type = const(Trainer), "Trainer Type" = filter("Resource person"::Internal)) "Facilitator Pool"."Employee No." where("Trainer Type" = const(internal), "Fiscal Year" = field("Fiscal Year"))
+            else if (Type = const(Trainer), "Trainer Type" = const(External)) "Facilitator Pool"."Employee No." where("Trainer Type" = const(External), "Fiscal Year" = field("Fiscal Year"))
+            else if (Type = const(Trainer), "Trainer Type" = const(Both)) "Facilitator Pool"."Employee No." where("Fiscal Year" = field("Fiscal Year"))
             else if (Type = const(Vendor)) Vendor where(Blocked = const(" "));
-
             trigger OnValidate()
+            var
+                FacilitatorPool: Record "Facilitator Pool";
             begin
                 GetTrainHead;
                 Validate("Training Description", TrainHead.Description);
                 Validate("Training Start Date", TrainHead."Start Date");
                 Validate("Training End Date", TrainHead."End Date");
-                EmpVar.Reset;
-                if Type <> Type::Vendor then begin
+                if ((Type in [Type::Trainee])) then begin
+                    EmpVar.Reset;
                     if EmpVar.Get("Employee Code") then begin
-                        if "Employee Code" <> xRec."Employee Code" then begin
-                            EmpVar.TestField(Status, EmpVar.Status::Active);
-                            TrainLine.Reset;
-                            TrainLine.SetRange("Employee Code", "Employee Code");
-                            TrainLine.SetRange("Training No.", "Training No.");
-                            if Type = Type::Trainer then begin
-                                TestField("Trainer Date");
-                                TrainLine.SetRange("Trainer Date", "Trainer Date");
-                            end;
-                            if TrainLine.FindFirst then
-                                Error(ErrorEmp, "Training No.");
-                            Validate(Name, EmpVar."Full Name");
-                            Validate("Department Code", EmpVar."Department Code");
-                            Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
-                        end;
+                        CheckEmployee();
+                        EmpVar.TestField(Status, EmpVar.Status::Active);
+                        Validate("Employee Name", EmpVar."Full Name");
+                        Validate("Department Code", EmpVar."Department Code");
+                        Validate("Department Name", EmpVar."Department Name");
+                        Validate("Branch Code", EmpVar."Branch Code");
+                        Validate("Branch Name", EmpVar."Branch Name");
                     end else begin
-                        Clear(Name);
+                        Clear("Employee Name");
                         Clear("Department Code");
-                        Clear("Shortcut Dimension 1 Code");
                     end;
-                end else begin
+                end else if Type = Type::Vendor then begin
                     if Vendor.Get("Employee Code") then
-                        Validate(Name, Vendor.Name);
+                        Validate("Employee Name", Vendor.Name)
+                end else if Type = Type::Trainer then begin
+                    FacilitatorPool.SetRange("Employee No.", "Employee Code");
+                    FacilitatorPool.SetRange("Fiscal Year", "Fiscal Year");
+                    if FacilitatorPool.FindFirst() then begin
+                        Validate("Employee Name", FacilitatorPool.Name);
+                        Validate("Name of Organization", FacilitatorPool.Position)
+                    end
                 end;
                 if Type = Type::Trainee then
-                    HRMgt.InsertEmployeeWiseTrainingQuestion("Training No.", "Employee Code");
+                    TrainingMgt.InsertEmployeeWiseTrainingQuestion("Training No.", "Employee Code")
             end;
         }
-        field(4; Name; Text[100]) { }
+        field(4; "Employee Name"; Text[100])
+        {
+            Editable = false;
+        }
         field(5; "Department Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
         }
         field(6; "Department Name"; Text[100]) { }
-        field(7; "Shortcut Dimension 1 Code"; Code[20])
-        {
-            CaptionClass = '1,2,1';
-            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1),
-                                                          Blocked = const(false));
-        }
         field(8; "Branch Name"; Text[100]) { }
         field(9; Type; Enum "Training Line Type") { }
         field(10; "Training Description"; Text[250]) { }
-        field(11; Attended; Boolean) { }
+        field(11; Posted; Boolean) { }
         field(12; "Training Start Date"; Date) { }
         field(13; "Training End Date"; Date) { }
         field(14; "Fiscal Year"; Text[10]) { }
-        field(15; "Trainer Type"; Enum InternalExternal)
+        field(15; "Trainer Type"; Enum "Resource person")
         {
             trigger OnValidate()
             begin
                 GetTrainHead;
-                Validate("Training Description", TrainHead.Description);
-                Validate("Training Start Date", TrainHead."Start Date");
-                Validate("Training End Date", TrainHead."End Date");
                 case TrainHead."Resource Person" of
+
                     TrainHead."Resource Person"::External:
                         if "Trainer Type" <> "Trainer Type"::External then
                             Error(ErrorExtRes);
@@ -115,12 +109,10 @@ table 50070 "Training Line"
         }
         field(19; "Total Hours"; Duration)
         {
-            Editable = false;
-
             trigger OnValidate()
             begin
-                SetTrainerCost;
-                //GetTrainerHours;
+                // SetTrainerCost;
+                // GetTrainerHours;
             end;
         }
         field(20; "Trainer Date"; Date)
@@ -152,14 +144,14 @@ table 50070 "Training Line"
             trigger OnValidate()
             begin
                 Clear(Amt);
-                TrainLine.Reset;
-                TrainLine.SetRange("Training No.", "Training No.");
-                TrainLine.SetRange(Type, TrainLine.Type::Vendor);
-                TrainLine.SetFilter("Line No", '<>%1', "Line No");
-                if TrainLine.Find('-') then
+                TrainingLine.Reset;
+                TrainingLine.SetRange("Training No.", "Training No.");
+                TrainingLine.SetRange(Type, TrainingLine.Type::Vendor);
+                TrainingLine.SetFilter("Line No", '<>%1', "Line No");
+                if TrainingLine.Find('-') then
                     repeat
-                        Amt += TrainLine.Amount;
-                    until TrainLine.Next = 0;
+                        Amt += TrainingLine.Amount;
+                    until TrainingLine.Next = 0;
                 Amt += Amount;
                 GetTrainHead;
                 if Amt > (TrainHead."Actual Other Cost" + TrainHead."Actual Training Cost") then
@@ -167,7 +159,7 @@ table 50070 "Training Line"
             end;
         }
         field(26; "Vendor Invoice No."; Text[30]) { }
-        field(27; "Training Type"; enum "Training Type") { }
+        field(27; "Training Type"; Text[250]) { }
         field(28; "Account No."; Code[20]) { }
         field(29; "Sponsorship Type"; Enum "Sponsorship Type") { }
         field(30; Country; Code[20])
@@ -200,7 +192,7 @@ table 50070 "Training Line"
                     "Branch Name" := '';
             end;
         }
-        field(54; "Training Remarks"; Text[500])
+        field(33; "Training Remarks"; Text[500])
         {
             Editable = false;
         }
@@ -215,15 +207,16 @@ table 50070 "Training Line"
 
     trigger OnDelete()
     begin
+        if Posted then
+            Error('Cannot Delete Posted Line');
         TrainingAtt.Reset;
         TrainingAtt.SetRange("Employee No.", "Employee Code");
         TrainingAtt.SetRange("Training No", "Training No.");
         TrainingAtt.DeleteAll;
-
-        QATraining.Reset;
-        QATraining.SetRange("Employee No.", "Employee Code");
-        QATraining.SetRange(Code, "Training No.");
-        QATraining.DeleteAll;
+        EmployeeFeedback.Reset;
+        EmployeeFeedback.SetRange("Employee No.", "Employee Code");
+        EmployeeFeedback.SetRange("Training No.", "Training No.");
+        EmployeeFeedback.DeleteAll;
     end;
 
     trigger OnInsert()
@@ -239,20 +232,48 @@ table 50070 "Training Line"
     var
         EmpVar: Record Employee;
         TrainHead: Record "Training Header";
-        TrainLine: Record "Training Line";
-        ErrorEmp: Label 'Employee already exists in Training Document No. %1.';
+        TrainingLine: Record "Training Line";
         ErrorExtRes: Label 'Trainer Type must be external.';
         ErrorExtInt: Label 'Trainer Type must be internal.';
         ErrorTrainerDate: Label 'Date must be between %1 and %2.';
         HRMgt: Codeunit "HR Mgt.";
+        TrainingMgt: Codeunit "Training Mgt";
         TrainingAtt: Record "Training Attendance";
-        QATraining: Record "Employee Feedback";
+        EmployeeFeedback: Record "Employee Feedback";
         SalaryLevel: Record "Salary Level";
-        LevelWiseAttributes: Record "Level Wise Attributes";
         PRSetup: Record "Payroll General Setup";
         Vendor: Record Vendor;
         Amt: Decimal;
         ErrorVendPay: Label 'Total payee amount must be less than %1.';
+
+    procedure GetLineNo(DocNo: Code[20]): Integer
+    var
+        TrainingLine: Record "Training line";
+    begin
+        TrainingLine.Reset;
+        TrainingLine.SetCurrentKey("Training No.", "Line No");
+        TrainingLine.SetRange("Training No.", DocNo);
+        if TrainingLine.FindLast then
+            exit(TrainingLine."Line No" + 10000)
+        else
+            exit(10000);
+    end;
+
+    local procedure CheckEmployee()
+    var
+        TrainingLine: Record "Training Line";
+        AttendanceError: Label 'Employee No. %1 already exists on line %2 in training No. %3. ';
+    begin
+        TrainingLine.Reset;
+        TrainingLine.SetRange("Employee Code", "Employee Code");
+        TrainingLine.SetRange("Training No.", "Training No.");
+        if Type = Type::Trainer then begin
+            TestField("Trainer Date");
+            TrainingLine.SetRange("Trainer Date", "Trainer Date");
+        end;
+        if TrainingLine.FindFirst then
+            Error(AttendanceError, "Employee Code", "Line No", "Training No.");
+    end;
 
     procedure GetTrainHead(): Text
     begin
@@ -260,19 +281,18 @@ table 50070 "Training Line"
         TrainHead.TestField(Description);
         TrainHead.TestField("Start Date");
         TrainHead.TestField("End Date");
-        exit(TrainHead."Fiscal Year");
     end;
 
-    local procedure SetTrainerCost()
-    begin
-        if (Type = Type::Trainer) and ("Trainer Type" = "Trainer Type"::Internal) then begin
-            PRSetup.Get;
-            EmpVar.Get("Employee Code");
-            SalaryLevel.Get(EmpVar."Salary Level");
-            LevelWiseAttributes.Get(EmpVar."Salary Grade", EmpVar."Salary Level");
-            Validate("Trainer Cost", Round(SalaryLevel."Net Learning" * ("Total Hours" / 3600000 / PRSetup."Base Teaching Hours") * (LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance) / GetNepalMonthiDays, 0.01, '='));
-        end;
-    end;
+    // local procedure SetTrainerCost()
+    // begin
+    //     if (Type = Type::Trainer) and ("Trainer Type" = "Trainer Type"::Internal) then begin
+    //         PRSetup.Get;
+    //         EmpVar.Get("Employee Code");
+    //         SalaryLevel.Get(EmpVar."Salary Level");
+    //         LevelWiseAttributes.Get(EmpVar."Salary Grade", EmpVar."Salary Level");
+    //         Validate("Trainer Cost", Round(SalaryLevel."Net Learning" * ("Total Hours" / 3600000 / PRSetup."Base Teaching Hours") * (LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance) / GetNepalMonthiDays, 0.01, '='));
+    //     end;
+    // end;
 
     local procedure GetNepalMonthiDays(): Integer
     var
@@ -311,14 +331,14 @@ table 50070 "Training Line"
         TrainerCost: Decimal;
     begin
         Clear(TrainerCost);
-        TrainLine.Reset;
-        TrainLine.SetRange("Training No.", "Training No.");
-        TrainLine.SetRange(Type, TrainLine.Type::Trainer);
-        TrainLine.SetFilter("Line No", '<>%1', "Line No");
-        if TrainLine.Find('-') then
+        TrainingLine.Reset;
+        TrainingLine.SetRange("Training No.", "Training No.");
+        TrainingLine.SetRange(Type, TrainingLine.Type::Trainer);
+        TrainingLine.SetFilter("Line No", '<>%1', "Line No");
+        if TrainingLine.Find('-') then
             repeat
-                TrainerCost += TrainLine."Trainer Cost";
-            until TrainLine.Next = 0;
+                TrainerCost += TrainingLine."Trainer Cost";
+            until TrainingLine.Next = 0;
         TrainerCost += "Trainer Cost";
         GetTrainHead;
         TrainHead.Validate("Actual Trainer Cost", TrainerCost);

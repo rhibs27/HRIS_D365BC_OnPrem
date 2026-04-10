@@ -7,6 +7,7 @@ table 50114 "Employee Question Setup"
     {
         field(1; "Question Code"; Code[20])
         {
+            Editable = false;
             trigger OnValidate()
             begin
                 if Type = Type::Training then
@@ -17,7 +18,7 @@ table 50114 "Employee Question Setup"
                     end;
             end;
         }
-        field(2; "Line No."; Integer) { }
+        field(2; "Is Subjective"; Boolean) { }
         field(3; Question; Text[250]) { }
         field(4; Type; Enum "Employee Question Type") { }
         field(5; "No. Series"; Code[20])
@@ -29,20 +30,10 @@ table 50114 "Employee Question Setup"
 
     keys
     {
-        key(Key1; "Question Code", "Line No.") { }
+        key(Key1; "Question Code") { }
     }
 
     fieldgroups { }
-
-    trigger OnDelete()
-    begin
-        QASubj.Reset;
-        QASubj.SetRange(Type, Type::Training);
-        QASubj.SetRange("Question Code", "Question Code");
-        QASubj.SetRange("Line No.", "Line No.");
-        QASubj.DeleteAll;
-    end;
-
     trigger OnInsert()
     begin
         if Type = Type::Training then begin
@@ -59,7 +50,6 @@ table 50114 "Employee Question Setup"
     end;
 
     var
-        QASubj: Record "Employee Feedback";
         HRSetup: Record "Human Resources Setup";
         NoMgmt: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";

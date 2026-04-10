@@ -135,7 +135,8 @@ table 50178 Appraisal
             Editable = false;
         }
         field(47; "Appraisal Subtype Monthly"; Enum "Nepali Month") { }
-        field(48; "Appraisal Subtype Quarterly"; Enum Quater) { }
+        field(48; "Appraisal Subtype Quarterly"; Enum Quarter) { }
+
         field(49; "Total Final Score"; Decimal)
         {
             Editable = false;

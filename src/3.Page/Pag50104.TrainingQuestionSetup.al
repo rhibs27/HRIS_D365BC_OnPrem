@@ -1,6 +1,5 @@
 page 50104 "Training Question Setup"
 {
-    AutoSplitKey = true;
     PageType = List;
     SourceTable = "Employee Question Setup";
     SourceTableView = where(Type = const(Training));
@@ -17,12 +16,6 @@ page 50104 "Training Question Setup"
                 {
                     ToolTip = 'Specifies the value of the Question Code field.';
                     ApplicationArea = All;
-
-                    trigger OnLookup(var Text: Text): Boolean
-                    begin
-                        if Rec.AssistEdit(xRec) then
-                            CurrPage.Update;
-                    end;
                 }
                 field("Sub Type"; Rec."Sub Type")
                 {
@@ -32,6 +25,11 @@ page 50104 "Training Question Setup"
                 field(Question; Rec.Question)
                 {
                     ToolTip = 'Specifies the value of the Question field.';
+                    ApplicationArea = All;
+                }
+                field("Is Subjective"; Rec."Is Subjective")
+                {
+                    ToolTip = 'Specifies the value of the Is Subjective field.';
                     ApplicationArea = All;
                 }
             }

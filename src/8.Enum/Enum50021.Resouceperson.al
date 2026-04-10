@@ -1,4 +1,4 @@
-enum 50021 "Resouce person"
+enum 50021 "Resource person"
 {
     Extensible = true;
 

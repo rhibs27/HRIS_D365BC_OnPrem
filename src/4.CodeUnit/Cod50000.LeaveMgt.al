@@ -1698,7 +1698,7 @@ codeunit 50000 "Leave Mgt."
     procedure CalculateCurrentQuarterDates(PostingDate: Date; var QuarterStartDate: Date; var QuarterEndDate: Date)
     var
         LeavePeriod, LeavePeriodNext : Record "Accounting Period";
-        CurrentQuarter: Enum Quater;
+        CurrentQuarter: Enum Quarter;
     begin
         // Find the period that starts on or before the posting date
         LeavePeriod.Reset();

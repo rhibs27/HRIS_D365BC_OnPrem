@@ -27,7 +27,7 @@ table 50180 "KPI Employee"
         {
             Caption = 'Appraisal Subtype Monthly';
         }
-        field(11; "Appraisal Subtype Quarterly"; Enum Quater)
+        field(11; "Appraisal Subtype Quarterly"; Enum Quarter)
         {
             Caption = 'Appraisal Subtype Quarterly';
         }
