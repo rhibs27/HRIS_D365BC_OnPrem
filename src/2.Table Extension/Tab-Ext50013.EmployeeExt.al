@@ -250,8 +250,6 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = true;
 
             trigger OnValidate()
-            var
-                myInt: Integer;
             begin
                 if Rec.Gender = Rec.Gender::" " then
                     Error('Please Select gender before selecting Tax Code');

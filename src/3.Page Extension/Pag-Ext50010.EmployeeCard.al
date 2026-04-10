@@ -1632,6 +1632,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Salary Advance action.';
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Salary Advance for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Salary Advance");
                     end;
@@ -1647,6 +1649,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Personal Loan action.';
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Personal Loan for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Personal Loan");
                     end;
@@ -1662,6 +1666,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Vehicle Loan action.';
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Vehicle Loan for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Vehicle Loan");
                     end;
@@ -1678,6 +1684,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Home Loan for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Home Loan");
                     end;
@@ -1694,6 +1702,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Staff Social Loan for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Staff Social Loan");
                     end;
