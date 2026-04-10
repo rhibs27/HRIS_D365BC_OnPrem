@@ -176,17 +176,6 @@ table 50141 OverTime
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
-            CaptionClass = '1,2,1';
-            Editable = false;
-            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-            trigger OnValidate()
-            begin
-                GLSetup.Get;
-                if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-                    Validate("Branch Name", DimValue.Name)
-                else
-                    Validate("Branch Name", '');
-            end;
         }
         field(18; Department; Code[20])
         {
