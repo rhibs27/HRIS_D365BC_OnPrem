@@ -18,7 +18,12 @@ table 50185 "Loan Settlement"
                 end;
             end;
         }
-        field(2; "Loan No."; Code[20])
+
+        field(2; Type; Enum "Employee Activity Type")
+        {
+            Editable = false;
+        }
+        field(3; "Loan No."; Code[20])
         {
             TableRelation = "Employee Loan/Advance";
 
@@ -48,20 +53,20 @@ table 50185 "Loan Settlement"
                 end;
             end;
         }
-        field(3; "Loan Type"; Enum "Loan Type")
+        field(4; "Loan Type"; Enum "Loan Type")
         {
             Editable = false;
         }
-        field(4; "Employee No."; Code[20])
+        field(5; "Employee No."; Code[20])
         {
             TableRelation = Employee;
             Editable = false;
         }
-        field(5; "Employee Name"; Text[100])
+        field(6; "Employee Name"; Text[100])
         {
             Editable = false;
         }
-        field(6; "Settlement Request Date"; Date)
+        field(7; "Settlement Request Date"; Date)
         {
             NotBlank = true;
 
@@ -70,7 +75,6 @@ table 50185 "Loan Settlement"
                 Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Settlement Request Date"));
             end;
         }
-        field(7; "Settlement Type"; Enum "Settlement Type") { }
         field(8; "Disbursed Amount"; Decimal)
         {
             Editable = false;
@@ -82,9 +86,9 @@ table 50185 "Loan Settlement"
         field(10; "Settlement Amount"; Decimal) { }
         field(11; Remarks; Text[250]) { }
         field(12; "Rejection Remark"; Text[150]) { }
-        field(13; "Approval Status"; Enum "Approval Status")
+        field(13; "No. Series"; Code[20])
         {
-            Editable = false;
+            TableRelation = "No. Series";
         }
         field(14; "Settled Date"; Date)
         {
@@ -94,15 +98,13 @@ table 50185 "Loan Settlement"
         {
             Editable = false;
         }
-        field(16; "No. Series"; Code[20])
-        {
-            TableRelation = "No. Series";
-        }
-        field(17; "Fiscal Year"; Code[20]) { }
-        field(18; Type; Enum "Employee Activity Type")
+        field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
         }
+        field(17; "Fiscal Year"; Code[20]) { }
+        field(18; "Settlement Type"; Enum "Settlement Type") { }
+
         field(19; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Branch));

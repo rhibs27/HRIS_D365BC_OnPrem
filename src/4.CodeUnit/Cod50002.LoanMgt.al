@@ -2124,6 +2124,43 @@ codeunit 50002 "Loan Mgt."
         end;
     end;
 
+    procedure LoanSettlementApproveReject(docNo: Code[20]; IsApprove: Boolean)
+    var
+        LoanSettlement: Record "Loan Settlement";
+        EmpLoan: Record "Employee Loan/Advance";
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        if not LoanSettlement.Get(docNo) then
+            Error('Loan Settlement %1 not found.', docNo);
+
+        if IsApprove then begin
+            // Mark the underlying loan as settled
+            if EmpLoan.Get(LoanSettlement."Loan No.") then begin
+                EmpLoan.Validate(Settled, true);
+                EmpLoan.Validate("Settlement Date", Today);
+                EmpLoan.Validate("Settler User ID", UserId);
+                EmpLoan.Modify();
+            end;
+            // Update settlement record with settled details
+            LoanSettlement."Settled Date" := Today;
+            LoanSettlement."Settler User ID" := UserId;
+            LoanSettlement.Modify();
+        end else begin
+            // Reject all remaining Approval HRMS entries for this document
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", docNo);
+            ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Loan Settlement");
+            ApprovalHRMS.SetFilter("Approval Status", '%1|%2',
+                ApprovalHRMS."Approval Status"::Created,
+                ApprovalHRMS."Approval Status"::Open);
+            if ApprovalHRMS.FindSet() then
+                repeat
+                    ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+                    ApprovalHRMS.Modify();
+                until ApprovalHRMS.Next() = 0;
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnCalculateFieldsOnBeforeCalculateGrossSalary(var EmpLoan: Record "Employee Loan/Advance"; var IsHandled: Boolean)
     begin

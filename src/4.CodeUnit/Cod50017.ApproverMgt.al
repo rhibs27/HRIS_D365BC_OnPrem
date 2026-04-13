@@ -376,6 +376,7 @@ codeunit 50017 "Approver Mgt"
         AttributeAdj: Record "Attribute Adjustment Header";
         SkipRecRefModifyOnReject: Boolean;
         IsExit: Boolean;
+        loanSettlement: Record "Loan Settlement";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -495,6 +496,10 @@ codeunit 50017 "Approver Mgt"
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
 
+                            EmployeeActivityType::"Loan Settlement":
+                                begin
+                                    loanMgt.LoanSettlementApproveReject(RecRef.Field(1).Value, false);
+                                end;
                             EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance", EmployeeActivityType::"Shift Assignment Memo":
                                 begin
                                     AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false);
@@ -544,6 +549,8 @@ codeunit 50017 "Approver Mgt"
                         RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
                     else if EmployeeActivityType = EmployeeActivityType::"Attribute Adjustment" then
                         RecRef.Field(AttributeAdj.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
+                    else if EmployeeActivityType = EmployeeActivityType::"Loan Settlement" then
+                        RecRef.Field(loanSettlement.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
                     else begin
                         //old code
                         RecRef.Field(16).Validate(ApprovalStatus::Approved);
@@ -633,6 +640,10 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::Appraisal:
                             begin
                                 AppraisalMgt.CalculateFinalMarks(RecRef.Field(1).Value);
+                            end;
+                        EmployeeActivityType::"Loan Settlement":
+                            begin
+                                loanMgt.LoanSettlementApproveReject(RecRef.Field(1).Value, true);
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
@@ -1901,4 +1912,5 @@ codeunit 50017 "Approver Mgt"
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+        loanMgt: Codeunit "Loan Mgt.";
 }
