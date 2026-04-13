@@ -417,6 +417,10 @@ page 50040 "Payroll Plan"
             Rec.Validate(Irregular, true);
         end;
         Rec.Status := rec.Status::Open;
+        if Rec.Type = Rec.Type::Adjustment then begin
+            AjustmentVisible := true;
+            CurrPage.Caption := 'Adjustment Plan';
+        end;
     end;
 
     trigger OnOpenPage()

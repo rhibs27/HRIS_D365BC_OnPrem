@@ -2926,6 +2926,15 @@ codeunit 50001 "HR Mgt."
             exit(false)
     end;
 
+    procedure IsAlternateShift(CheckDate: Date; EmployeeWorkShift: Record "Employee Work Shift"): Boolean
+    begin
+        if (CheckDate >= EmployeeWorkShift."Alternate Start Date") and (CheckDate <= EmployeeWorkShift."Alternate End Date") then
+            exit(true)
+        else
+            exit(false)
+    end;
+
+
     procedure IsFriday(CheckDate: Date): Boolean
     begin
         EngNep.Reset;

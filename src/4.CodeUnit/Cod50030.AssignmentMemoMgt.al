@@ -209,7 +209,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLedgerEntry.Insert(true);
                 until DateVar.Next() = 0;
             Commit();
-            ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLine."From Date", AssignmentMemoLine."To Date", AssignmentMemoLine."Employee No.");
+            if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo" then
+                ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(AssignmentMemoLine."From Date", AssignmentMemoLine."To Date", AssignmentMemoLine."Employee No.");
         end;
     end;
 
@@ -824,6 +825,7 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignmentMemoLine.Validate("From Date", AllowanceAssignmentHdr."From Date");
                     AssignmentMemoLine.Validate("To Date", AllowanceAssignmentHdr."To Date");
                     AssignmentMemoLine.Validate("Approval Status", AssignmentMemoLine."Approval Status"::Open);
+                    OnBeforeInsertAssignmentMemo(AssignmentMemoLine, LastAssignmentMemoLine);
                     AssignmentMemoLine.Insert(true);
                     AssignmentMemoLine.Validate("Payroll Attribute Code");
                     AssignmentMemoLine.Modify();
@@ -1039,21 +1041,24 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoHdr: Record "Assignment Memo Header";
         PayCyclePeriod: Record "Pay Cycle Period";
         EmployeeEdit: Record "Employee Edit";
+        IsHandled: Boolean;
     begin
         case RecRef.Number of
             Database::"Assignment Memo Header":
                 begin
                     AssignmentMemoHdr.Get(DocumentNo);
 
-                    //check if within the date
-                    PayCyclePeriod.SetFilter("Start Date", '<=%1', AssignmentMemoHdr."From Date");
-                    PayCyclePeriod.SetFilter("End Date", '>=%1', AssignmentMemoHdr."To Date");
-                    PayCyclePeriod.FindFirst();
-                    if PayCyclePeriod."Allowance End Date" <> 0D then
-                        if WorkDate() >= PayCyclePeriod."Allowance End Date" then
-                            if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Request Allowance" then
-                                Error('Cannot approve/reject the allowance request as the allowance end date %1 has passed.', PayCyclePeriod."Allowance End Date");
-
+                    OnSkipAllowanceEndDate(AssignmentMemoHdr, PayCyclePeriod, IsHandled);
+                    if not IsHandled then begin
+                        //check if within the date
+                        PayCyclePeriod.SetFilter("Start Date", '<=%1', AssignmentMemoHdr."From Date");
+                        PayCyclePeriod.SetFilter("End Date", '>=%1', AssignmentMemoHdr."To Date");
+                        PayCyclePeriod.FindFirst();
+                        if PayCyclePeriod."Allowance End Date" <> 0D then
+                            if WorkDate() >= PayCyclePeriod."Allowance End Date" then
+                                if AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Request Allowance" then
+                                    Error('Cannot approve/reject the allowance request as the allowance end date %1 has passed.', PayCyclePeriod."Allowance End Date");
+                    end;
                     if ApprovalStatusField = 'Approved' then begin
                         if (AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending) then begin
                             ApprovalStatusField := 'Pending';
@@ -1383,9 +1388,12 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         AssignmentMemoHdr: Record "Assignment Memo Header";
+        AssignmentMemoLine: Record "Assignment Memo Line";
     begin
+        AssignmentMemoLine.Get(DocNo, LineNo);
         AssignmentMemoLedgerEntry.SetLoadFields("Employee No.", "Employee Activity Type", "Payroll Attribute Code", "Posting Date", Open, Reversed, "Claimed Doc No.", Claimed);
         AssignmentMemoLedgerEntry.SetRange("Document No.", DocNo);
+        AssignmentMemoLedgerEntry.SetRange("Employee No.", AssignmentMemoLine."Employee No.");
         AssignmentMemoLedgerEntry.SetRange(Claimed, true);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
@@ -1671,6 +1679,11 @@ codeunit 50030 "Assignment Memo Mgt"
     end;
 
     [IntegrationEvent(false, false)]
+    local procedure OnSkipAllowanceEndDate(AssignmentMemoHdr: Record "Assignment Memo Header"; PayCyclePeriod: Record "Pay Cycle Period"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
     local procedure OnAfterLookUpNameofChildren(EmployeeRelative: Record "Employee Relative"; Var AssignmentMemoLine: Record "Assignment Memo Line")
     begin
     end;
@@ -1697,6 +1710,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure CheckDiscontinuedEduRequest(AssignmentmemoHdr: Record "Assignment Memo Header")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertAssignmentMemo(Var AssignmentMemoLine: Record "Assignment Memo Line"; LastAssignmentMemoLine: Record "Assignment Memo Line")
     begin
     end;
 

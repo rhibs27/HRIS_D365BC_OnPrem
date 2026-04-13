@@ -399,7 +399,8 @@ codeunit 50010 "Payroll-Post"
                     Employee.Modify;
                 end;
             until PayrollLine.Next = 0;
-        ClearPayrollAttributeUsageFromAttributeHistory(PayrollHeader."From Date", PayrollHeader."To Date");
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+            ClearPayrollAttributeUsageFromAttributeHistory(PayrollHeader."From Date", PayrollHeader."To Date");
         PayrollLine.DeleteAll();
         PayrollHeader.Delete;
     end;
@@ -412,6 +413,7 @@ codeunit 50010 "Payroll-Post"
         //To Automate stop payment of payroll attribute with end date in history.
         PayrollAttrUsageHistory.Reset();
         PayrollAttrUsageHistory.SetRange("End Date", FromDate, ToDate);
+        PayrollAttrUsageHistory.SetRange(Reversed, false);
         if PayrollAttrUsageHistory.FindSet() then
             repeat
                 if PayrollAttributesUsage.get(PayrollAttrUsageHistory."Attribute Code", PayrollAttrUsageHistory."Employee No.") then begin

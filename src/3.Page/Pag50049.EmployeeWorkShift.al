@@ -93,6 +93,31 @@ page 50049 "Employee Work Shift"
                     ToolTip = 'Specifies the value of the Winter End Date field.';
                     ApplicationArea = All;
                 }
+                field("Alternate Start Date"; Rec."Alternate Start Date")
+                {
+                    ToolTip = 'Specifies the value of the Alternate Start Date field.';
+                    ApplicationArea = All;
+                }
+                field("Alternate End Date"; Rec."Alternate End Date")
+                {
+                    ToolTip = 'Specifies the value of the Alternate End Date field.';
+                    ApplicationArea = All;
+                }
+                field("Alternate Start Time"; Rec."Alternate Start Time")
+                {
+                    ToolTip = 'Specifies the value of the Alternate Start Time field.';
+                    ApplicationArea = All;
+                }
+                field("Alternate End Time"; Rec."Alternate End Time")
+                {
+                    ToolTip = 'Specifies the value of the Alternate End Time field.';
+                    ApplicationArea = All;
+                }
+                field("Alternate Friday End Time"; Rec."Alternate Friday End Time")
+                {
+                    ToolTip = 'Specifies the value of the Alternate End Time field.';
+                    ApplicationArea = All;
+                }
                 field("Default Employee Type"; Rec."Default Employee Type")
                 {
                     ToolTip = 'Specifies the value of the Default Employee Type field.';

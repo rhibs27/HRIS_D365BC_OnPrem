@@ -195,9 +195,23 @@ codeunit 50025 "Shift Assignment Mgt"
         EmployeeWorkShift.TestField("Winter End Time");
     end;
 
+    procedure ReturnShiftStartTime(ShiftDate: date; var WorkShift: Record "Employee Work Shift"): Time
+    begin
+        if HRMgt.IsAlternateShift(ShiftDate, WorkShift) then begin
+            exit(WorkShift."Alternate start Time");
+        end else begin
+            exit(WorkShift."Start Time");
+        end;
+    end;
+
     procedure ReturnShiftEndTime(ShiftDate: date; var WorkShift: Record "Employee Work Shift"): Time
     begin
-        if HRMgt.IsWinter(ShiftDate, WorkShift) then begin
+        if HRMgt.IsAlternateShift(ShiftDate, WorkShift) then begin
+            if HRMgt.IsFriday(ShiftDate) then
+                exit(WorkShift."Alternate Friday End Time")
+            else
+                exit(WorkShift."Alternate End Time");
+        end else if HRMgt.IsWinter(ShiftDate, WorkShift) then begin
             if HRMgt.IsFriday(ShiftDate) then
                 exit(WorkShift."Friday End Time")
             else
@@ -211,7 +225,12 @@ codeunit 50025 "Shift Assignment Mgt"
     end;
 
     procedure ProcessDailyAttendanceForShiftSubstitute(FromDate: Date; ToDate: Date; EmployeeNo: Code[20])
+    var
+        IsHandled: Boolean;
     begin
+        OnBeforeProcessDailyAttendanceForShiftSubstitute(IsHandled);
+        if IsHandled then
+            exit;
         EmpAttendance.Reset();
         EmpAttendance.SetRange("Attendance Date", FromDate, ToDate);
         EmpAttendance.SetRange("Employee No.", EmployeeNo);
@@ -229,6 +248,11 @@ codeunit 50025 "Shift Assignment Mgt"
 
     [IntegrationEvent(false, false)]
     procedure OnAfterGetEmployeeWorkShift(EmployeeNo: Code[20]; ShiftDate: Date; var EmployeeWorkShift: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeProcessDailyAttendanceForShiftSubstitute(var IsHandled: Boolean)
     begin
     end;
 
