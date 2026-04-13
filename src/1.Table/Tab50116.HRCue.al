@@ -360,6 +360,13 @@ table 50116 "HR Cue"
             FieldClass = FlowField;
             CalcFormula = count("Biometric Device Config.");
         }
+        field(107; Resignation; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Resignation"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+            Editable = false;
+        }
     }
 
     keys

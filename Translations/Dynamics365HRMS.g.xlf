@@ -2803,11 +2803,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Leave Day - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 644771389 - Field 86745917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Pending Days</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Leave Pending Days - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 644771389 - Field 3465500804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9798,6 +9793,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Request Allowance - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 470349803 - Field 3932326675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Resignation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Resignation - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 470349803 - Field 3973430723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resignation By Age</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15812,11 +15812,6 @@
           <source>Leave Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Leave Hours - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 86745917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Pending Days</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Leave Pending Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 550081341 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>LFA</source>
@@ -35818,6 +35813,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Overtime - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 3932326675 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Resignation field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Resignation - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1780339891 - Control 1145153898 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Retirement Fund field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38512,6 +38512,11 @@
           <source>Executes the withdrawn action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action WithDrawn - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1942697859 - Action 3499802184 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Process Attendance action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Action Process Attendance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 639139532 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Ajusted sequentially for absent days in Settlement</source>
