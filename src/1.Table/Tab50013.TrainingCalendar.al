@@ -21,9 +21,10 @@ table 50013 "Training Calendar"
             TableRelation = "Training Master".Code where("Master Type" = filter("Training Setup Type"::" "));
             trigger OnValidate()
             begin
-                if TrainingMaster.Get("Master Code") then
-                    Validate("Master Description", TrainingMaster.Description)
-                else
+                if TrainingMaster.Get("Master Code") then begin
+                    Validate("Master Description", TrainingMaster.Description);
+                    Validate("Training Category", TrainingMaster."Training Category");
+                end else
                     Clear("Master Description");
             end;
         }
@@ -184,7 +185,12 @@ table 50013 "Training Calendar"
         key(Key1; "No.") { }
     }
 
-    fieldgroups { }
+    fieldgroups
+    {
+        fieldgroup(DropDown; "No.", "Master Code", "Master Description")
+        {
+        }
+    }
 
     trigger OnInsert()
     var

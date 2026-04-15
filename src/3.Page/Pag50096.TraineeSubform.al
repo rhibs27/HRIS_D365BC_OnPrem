@@ -310,6 +310,11 @@ page 50096 "Trainee Subform"
                     ToolTip = 'Specifies the value of the Training Marks field.';
                     ApplicationArea = All;
                 }
+                field(Posted; Rec.Posted)
+                {
+                    ToolTip = 'Specifies the value of the Posted field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
@@ -411,45 +416,25 @@ page 50096 "Trainee Subform"
         TrainingMgt: Codeunit "Training Mgt";
         ExcelImport: Codeunit "Excel Import";
         MatrixCellData: array[20] of Boolean;
-
         FieldVisible1: Boolean;
-
         FieldVisible2: Boolean;
-
         FieldVisible3: Boolean;
-
         FieldVisible4: Boolean;
-
         FieldVisible5: Boolean;
-
         FieldVisible6: Boolean;
-
         FieldVisible7: Boolean;
-
         FieldVisible8: Boolean;
-
         FieldVisible9: Boolean;
-
         FieldVisible10: Boolean;
-
         FieldVisible11: Boolean;
-
         FieldVisible12: Boolean;
-
         FieldVisible13: Boolean;
-
         FieldVisible14: Boolean;
-
         FieldVisible15: Boolean;
-
         FieldVisible16: Boolean;
-
         FieldVisible17: Boolean;
-
         FieldVisible18: Boolean;
-
         FieldVisible19: Boolean;
-
         FieldVisible20: Boolean;
         MatrixCaption: array[20] of Text;
         MatrixColumnCount: Integer;
@@ -534,11 +519,11 @@ page 50096 "Trainee Subform"
                 TrainingAtt.Validate("Line No.", LineNo + 10000);
                 TrainingAtt.Insert;
             end;
-            EmpFeedback.Reset;
-            EmpFeedback.SetRange("Training No.", Rec."Training No.");
-            EmpFeedback.SetRange("Employee No.", Rec."Employee Code");
-            if not EmpFeedback.FindFirst then
-                TrainingMgt.InsertEmployeeWiseTrainingQuestion(Rec."Training No.", Rec."Employee Code");
+            // EmpFeedback.Reset;
+            // EmpFeedback.SetRange("Training No.", Rec."Training No.");
+            // EmpFeedback.SetRange("Employee No.", Rec."Employee Code");
+            // if not EmpFeedback.FindFirst then
+            //     TrainingMgt.InsertEmployeeWiseTrainingQuestion(Rec."Training No.", Rec."Employee Code");
         end else begin
             TrainingAtt.Reset;
             TrainingAtt.SetRange("Employee No.", Rec."Employee Code");

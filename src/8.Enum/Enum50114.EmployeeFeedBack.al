@@ -6,24 +6,24 @@ enum 50114 "Employee FeedBack"
     {
         Caption = '';
     }
-    value(1; "Strongly Disagree")
+    value(1; Excellent)
     {
-        Caption = 'Strongly Disagree';
+        Caption = 'Excellent';
     }
-    value(2; Disagree)
+    value(2; "Very Good")
     {
-        Caption = 'Disagree';
+        Caption = 'Very Good';
     }
-    value(3; Neutral)
+    value(3; Good)
     {
-        Caption = 'Neutral';
+        Caption = 'Good';
     }
-    value(4; Agree)
+    value(4; Satisfactory)
     {
-        Caption = 'Agree';
+        Caption = 'Satisfactory';
     }
-    value(5; "Strongly Agree")
+    value(5; "Poor")
     {
-        Caption = 'Strongly Agree';
+        Caption = 'Poor';
     }
 }

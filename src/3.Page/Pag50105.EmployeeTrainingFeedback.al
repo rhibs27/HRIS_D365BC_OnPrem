@@ -1,7 +1,7 @@
 page 50105 "Employee Training Feedback"
 {
     AutoSplitKey = true;
-    DeleteAllowed = false;
+    // DeleteAllowed = true;
     InsertAllowed = false;
     PageType = List;
     SourceTable = "Employee Feedback";
@@ -22,6 +22,11 @@ page 50105 "Employee Training Feedback"
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
+                    ApplicationArea = All;
+                }
+                field("Trainer Name"; Rec."Trainer Name")
+                {
+                    ToolTip = 'Specifies the value of the Trainer Name field.';
                     ApplicationArea = All;
                 }
                 field(Question; Rec.Question)
