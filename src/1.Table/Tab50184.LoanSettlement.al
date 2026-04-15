@@ -40,10 +40,10 @@ table 50185 "Loan Settlement"
                     if EmpLoan.Settled then
                         Error('This loan is already settled.');
                     "Loan Type" := EmpLoan."Loan Type";
-                    "Employee No." := EmpLoan."Employee No.";
-                    "Employee Name" := EmpLoan."Employee Name";
+                    Validate("Employee No.", EmpLoan."Employee No.");
                     "Disbursed Amount" := EmpLoan."Disbursed Amount";
-                    "Outstanding Amount" := loanMgt.GetExistingLoanAmountFromEmpTable("Employee No.", "Loan Type", '');
+                    "Total Approved Amount" := EmpLoan."Applied Loan/Advance";
+                    "Outstanding Amount" := loanMgt.GetLoanOutstandingAmount("Loan No.");
                     "Branch Code" := EmpLoan."Branch Code";
                     "Branch Name" := EmpLoan."Branch Name";
                     "Department Code" := EmpLoan."Department Code";
@@ -61,6 +61,17 @@ table 50185 "Loan Settlement"
         {
             TableRelation = Employee;
             Editable = false;
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                if Employee.Get("Employee No.") then begin
+                    "Employee Name" := Employee.FullName();
+                    "Functional Title Code" := Employee."Functional Title";
+                    "Functional Title Description" := Employee."Functional Title Desc";
+                    "Salary Account Number" := Employee."Bank Account No.";
+                end;
+            end;
         }
         field(6; "Employee Name"; Text[100])
         {
@@ -132,6 +143,16 @@ table 50185 "Loan Settlement"
         {
             Editable = false;
         }
+        field(25; "Functional Title Code"; Code[20])
+        {
+            TableRelation = "Functional Title";
+        }
+        field(26; "Functional Title Description"; Text[100]) { Editable = false; }
+        field(27; "Salary Account Number"; Text[50])
+        {
+        }
+        field(28; "Total Approved Amount"; Decimal) { Editable = false; }
+        field(100; "Status"; Text[20]) { }
     }
 
     keys

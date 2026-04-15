@@ -23,6 +23,11 @@ page 50400 "Loan Settlement Card"
                     ToolTip = 'Specifies the employee name.';
                     ApplicationArea = All;
                 }
+                field("Functional Title Code"; rec."Functional Title Code")
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                }
                 field("Branch Name"; Rec."Branch Name")
                 {
                     Editable = false;
@@ -80,9 +85,19 @@ page 50400 "Loan Settlement Card"
                     ToolTip = 'Specifies the type of loan being settled.';
                     ApplicationArea = All;
                 }
-
+                field("Salary Account Number"; rec."Salary Account Number")
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                }
+                field("Total Approved Amount"; Rec."Total Approved Amount")
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                }
                 field("Disbursed Amount"; Rec."Disbursed Amount")
                 {
+                    Caption = 'Total Disbursed Amount';
                     Editable = false;
                     ToolTip = 'Specifies the originally disbursed loan amount.';
                     ApplicationArea = All;
@@ -102,6 +117,7 @@ page 50400 "Loan Settlement Card"
                 }
                 field("Settlement Amount"; Rec."Settlement Amount")
                 {
+                    Caption = 'Requested Settlement Amount';
                     Editable = IsOpen;
                     ToolTip = 'Specifies the amount to be settled.';
                     ApplicationArea = All;
@@ -143,6 +159,7 @@ page 50400 "Loan Settlement Card"
             {
                 SubPageLink = "No." = field("No.");
                 ApplicationArea = All;
+                Editable = IsOpen;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -203,6 +220,7 @@ page 50400 "Loan Settlement Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the settlement request?', false) then begin
+                        RecRef.GetTable(Rec);
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Message('Loan Settlement is Approved by %1', HRMgt.GetEmpName());
                         Clear(Rec."Rejection Remark");
@@ -227,6 +245,7 @@ page 50400 "Loan Settlement Card"
                         if Rec."Rejection Remark" = '' then
                             Error('Rejection Remark is Empty.')
                         else begin
+                            RecRef.GetTable(Rec);
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
                             Message('Loan Settlement is Rejected by %1', HRMgt.GetEmpName());
                             CurrPage.Update(false);
@@ -234,36 +253,36 @@ page 50400 "Loan Settlement Card"
                     end;
                 end;
             }
-            action("Mark as Settled")
-            {
-                Image = Completed;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = IsApproved;
-                ToolTip = 'Mark the loan as fully settled after the settlement is approved.';
-                ApplicationArea = All;
+            // action("Mark as Settled")
+            // {
+            //     Image = Completed;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     Visible = IsApproved;
+            //     ToolTip = 'Mark the loan as fully settled after the settlement is approved.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                var
-                    EmpLoan: Record "Employee Loan/Advance";
-                begin
-                    if not Confirm('Do you want to mark this loan as settled?', false) then
-                        exit;
-                    Rec.TestField("Loan No.");
-                    if EmpLoan.Get(Rec."Loan No.") then begin
-                        EmpLoan.Settled := true;
-                        EmpLoan."Settlement Date" := Today;
-                        EmpLoan."Settler User ID" := UserId;
-                        EmpLoan.Modify(true);
-                    end;
-                    Rec."Settled Date" := Today;
-                    Rec."Settler User ID" := UserId;
-                    Rec.Modify(true);
-                    Message('Loan has been marked as settled.');
-                    CurrPage.Update(false);
-                end;
-            }
+            //     trigger OnAction()
+            //     var
+            //         EmpLoan: Record "Employee Loan/Advance";
+            //     begin
+            //         if not Confirm('Do you want to mark this loan as settled?', false) then
+            //             exit;
+            //         Rec.TestField("Loan No.");
+            //         if EmpLoan.Get(Rec."Loan No.") then begin
+            //             EmpLoan.Settled := true;
+            //             EmpLoan."Settlement Date" := Today;
+            //             EmpLoan."Settler User ID" := UserId;
+            //             EmpLoan.Modify(true);
+            //         end;
+            //         Rec."Settled Date" := Today;
+            //         Rec."Settler User ID" := UserId;
+            //         Rec.Modify(true);
+            //         Message('Loan has been marked as settled.');
+            //         CurrPage.Update(false);
+            //     end;
+            // }
         }
     }
 
