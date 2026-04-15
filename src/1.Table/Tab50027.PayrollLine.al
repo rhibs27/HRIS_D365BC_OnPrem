@@ -2846,8 +2846,13 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
         PayrollGeneralSetup: Record "Payroll General Setup";
+        PayrollAttributes: Record "Payroll Attributes";
     begin
         PayrollGeneralSetup.Get();
+        if PayrollAttributes.Get(PayrollAttr) then
+            If PayrollLine.Type = PayrollLine.Type::Payroll then
+                if PayrollAttributes.Irregular then
+                    exit(0);
         if not PayrollGeneralSetup."Get Amount From Assignment" then
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance")
         else
