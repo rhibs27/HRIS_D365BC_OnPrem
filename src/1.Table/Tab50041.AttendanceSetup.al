@@ -81,6 +81,12 @@ table 50041 "Attendance Setup"
             DataClassification = ToBeClassified;
             // True if "Employee ID" and "machine Emp. Code" are different in attendance log table.
         }
+        field(51; "Attendance Allowed From"; Date)
+        {
+            Caption = 'Attendance Allowed From';
+            DataClassification = ToBeClassified;
+            // True this value is set then Attendance Process is only allowed form this Date.
+        }
 
         // device configuration related field
         field(100; "User Name"; Text[50])

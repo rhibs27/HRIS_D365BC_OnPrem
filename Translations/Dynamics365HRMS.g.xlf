@@ -2568,6 +2568,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Activity Document No. Series - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 2158792835 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Allowed From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Attendance Allowed From - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2922227932 - Field 477836456 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Document No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26827,6 +26832,11 @@
           <source>Specifies the value of the Activate Punch in Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Activate Punch in Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 2158792835 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Attendance Allowed From field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Attendance Allowed From - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2922227932 - Control 477836456 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attendance Document No. Series field.</source>
