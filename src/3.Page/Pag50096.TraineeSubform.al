@@ -519,11 +519,11 @@ page 50096 "Trainee Subform"
                 TrainingAtt.Validate("Line No.", LineNo + 10000);
                 TrainingAtt.Insert;
             end;
-            // EmpFeedback.Reset;
-            // EmpFeedback.SetRange("Training No.", Rec."Training No.");
-            // EmpFeedback.SetRange("Employee No.", Rec."Employee Code");
-            // if not EmpFeedback.FindFirst then
-            //     TrainingMgt.InsertEmployeeWiseTrainingQuestion(Rec."Training No.", Rec."Employee Code");
+            EmpFeedback.Reset;
+            EmpFeedback.SetRange("Training No.", Rec."Training No.");
+            EmpFeedback.SetRange("Employee No.", Rec."Employee Code");
+            if not EmpFeedback.FindFirst then
+                TrainingMgt.InsertEmployeeWiseTrainingQuestion(Rec."Training No.", Rec."Employee Code");
         end else begin
             TrainingAtt.Reset;
             TrainingAtt.SetRange("Employee No.", Rec."Employee Code");
