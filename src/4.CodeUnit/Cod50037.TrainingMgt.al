@@ -4,31 +4,85 @@ codeunit 50037 "Training Mgt"
     var
         TrainingQuestionSetup: Record "Employee Question Setup";
         EmployeeFeedBack: Record "Employee Feedback";
+        TrainerLine: Record "Training Line";
     begin
         TrainingQuestionSetup.Reset;
         TrainingQuestionSetup.SetRange(Type, TrainingQuestionSetup.Type::Training);
+        TrainingQuestionSetup.SetFilter("Sub Type", '<>%1', "Employee Question SubType"::"Trainer Ratings");
         if TrainingQuestionSetup.Find('-') then
             repeat
                 EmployeeFeedBack.Reset;
                 EmployeeFeedBack.SetRange("Employee No.", EmployeeNo);
                 EmployeeFeedBack.SetRange("Training No.", TrainingNo);
                 EmployeeFeedBack.SetRange("Question Code", TrainingQuestionSetup."Question Code");
+                EmployeeFeedBack.SetFilter("Trainer Name", '%1', '');
                 EmployeeFeedBack.SetRange(Type, EmployeeFeedBack.Type::Training);
+                EmployeeFeedBack.SetFilter("Sub Type", '<>%1', "Employee Question SubType"::"Trainer Ratings");
                 if not EmployeeFeedBack.FindFirst then begin
                     EmployeeFeedBack.Init;
                     EmployeeFeedBack.Validate("Training No.", TrainingNo);
                     EmployeeFeedBack.Validate("Question Code", TrainingQuestionSetup."Question Code");
-                    EmployeeFeedBack.Validate(Type, EmployeeFeedBack.Type::Training);
-                    EmployeeFeedBack.Validate("Sub Type", EmployeeFeedBack."Sub Type");
                     EmployeeFeedBack.Validate("Employee No.", EmployeeNo);
+                    EmployeeFeedBack.Validate("Line No.", GetLineNo(TrainingNo, EmployeeNo, TrainingQuestionSetup."Question Code"));
+                    EmployeeFeedBack.Validate("Trainer Name", '');
+                    EmployeeFeedBack.Validate(Type, EmployeeFeedBack.Type::Training);
+                    EmployeeFeedBack.Validate("Sub Type", TrainingQuestionSetup."Sub Type");
                     EmployeeFeedBack.Validate(Question, TrainingQuestionSetup.Question);
                     EmployeeFeedBack.Validate("Is Subjective", TrainingQuestionSetup."Is Subjective");
                     EmployeeFeedBack.Insert;
                 end;
             until TrainingQuestionSetup.Next = 0;
+
+        TrainingQuestionSetup.Reset;
+        TrainingQuestionSetup.SetRange(Type, TrainingQuestionSetup.Type::Training);
+        TrainingQuestionSetup.SetFilter("Sub Type", '%1', "Employee Question SubType"::"Trainer Ratings");
+        if TrainingQuestionSetup.Find('-') then
+            repeat
+                TrainerLine.Reset();
+                TrainerLine.SetRange("Training No.", TrainingNo);
+                TrainerLine.SetRange(Type, "Training Line Type"::Trainer);
+                if TrainerLine.FindFirst() then
+                    repeat
+                        EmployeeFeedBack.Reset;
+                        EmployeeFeedBack.SetRange("Employee No.", EmployeeNo);
+                        EmployeeFeedBack.SetRange("Training No.", TrainingNo);
+                        EmployeeFeedBack.SetRange("Question Code", TrainingQuestionSetup."Question Code");
+                        EmployeeFeedBack.SetRange("Trainer Name", TrainerLine."Employee Name");
+                        EmployeeFeedBack.SetRange(Type, EmployeeFeedBack.Type::Training);
+                        EmployeeFeedBack.SetFilter("Sub Type", '%1', "Employee Question SubType"::"Trainer Ratings");
+                        if not EmployeeFeedBack.FindFirst() then begin
+                            EmployeeFeedBack.Init;
+                            EmployeeFeedBack.Validate("Training No.", TrainingNo);
+                            EmployeeFeedBack.Validate("Employee No.", EmployeeNo);
+                            EmployeeFeedBack.Validate("Question Code", TrainingQuestionSetup."Question Code");
+                            EmployeeFeedBack.Validate("Line No.", GetLineNo(TrainingNo, EmployeeNo, TrainingQuestionSetup."Question Code"));
+                            EmployeeFeedBack.Validate("Trainer Name", TrainerLine."Employee Name");
+                            EmployeeFeedBack.Validate(Type, EmployeeFeedBack.Type::Training);
+                            EmployeeFeedBack.Validate("Sub Type", TrainingQuestionSetup."Sub Type");
+                            EmployeeFeedBack.Validate(Question, TrainingQuestionSetup.Question);
+                            EmployeeFeedBack.Validate("Is Subjective", TrainingQuestionSetup."Is Subjective");
+                            EmployeeFeedBack.Insert;
+                        end
+                    until TrainerLine.Next() = 0;
+            until TrainingQuestionSetup.Next = 0;
     end;
 
-    procedure ShowTrainerList(TrainingNo: Code[20]; EmployeeNo: Code[20])
+    local procedure GetLineNo(TrainingNo: Code[20]; EmployeeNo: Code[20]; QuestionCode: Code[20]): Integer
+    var
+        EmpFeedback: Record "Employee Feedback";
+    begin
+        EmpFeedback.Reset();
+        EmpFeedback.SetRange("Training No.", TrainingNo);
+        EmpFeedback.SetRange("Employee No.", EmployeeNo);
+        EmpFeedback.SetRange("Question Code", QuestionCode);
+        if EmpFeedback.FindLast() then
+            exit(EmpFeedback."Line No." + 10000)
+        else
+            exit(10000)
+    end;
+
+    procedure ShowTrainerList(TrainingNo: Code[20];
+                EmployeeNo: Code[20])
     var
         QATrain: Record "Employee Feedback";
     begin
@@ -152,8 +206,10 @@ codeunit 50037 "Training Mgt"
             LineNo := TrainLine."Line No";
         Employee.Reset;
         Employee.SetFilter("No.", TrainerCode);
-        Employee.SetFilter("Global Dimension 1 Code", TrainHead."Branch Code");
-        Employee.SetFilter("Department Code", TrainHead."Department Code");
+        if Employee."Deputation on" = "Deputation Type"::Branch then
+            Employee.SetFilter("Branch Code", TrainHead."Branch Code");
+        if Employee."Deputation on" = "Deputation Type"::Department then
+            Employee.SetFilter("Department Code", TrainHead."Department Code");
         if Employee.Find('-') then
             repeat
                 LineNo := TrainLine."Line No" + 10000;

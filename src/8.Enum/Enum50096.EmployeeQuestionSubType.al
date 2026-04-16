@@ -14,4 +14,16 @@ enum 50096 "Employee Question SubType"
     {
         Caption = 'Trainer';
     }
+    value(3; "Trainer Ratings")
+    {
+        Caption = 'Trainer Ratings';
+    }
+    value(4; Overall)
+    {
+        Caption = 'Overall';
+    }
+    value(5; Expection)
+    {
+        Caption = 'Expectation';
+    }
 }

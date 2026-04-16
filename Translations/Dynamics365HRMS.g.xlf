@@ -6708,6 +6708,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Is Subjective - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4261979893 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Line No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4261979893 - Field 1551280122 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Marks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6742,6 +6747,11 @@
           <source>Sub Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Sub Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4261979893 - Field 425087284 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Trainer Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Trainer Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4261979893 - Field 667895281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Training No.</source>
@@ -22558,6 +22568,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Master - Field Master Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3517550624 - Field 4149592804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Category</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Master - Field Training Category - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 311335013 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Training Need Request</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -32322,6 +32337,11 @@
           <source>Specifies the value of the Question field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Training Feedback - Control Question - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4042094885 - Control 425087284 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Trainer Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Training Feedback - Control Trainer Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4042094885 - Control 667895281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Training No. field.</source>
@@ -50553,6 +50573,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Trainee Subform - Control MatrixCellData[9] - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1657686998 - Control 35450067 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Posted field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Trainee Subform - Control Posted - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1657686998 - Control 3802230659 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Trainer Marks field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -64283,30 +64308,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue  - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1264256981 - EnumValue 2037228664 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Agree</source>
+        <trans-unit id="Enum 1264256981 - EnumValue 1680140304 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Excellent</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Agree - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Excellent - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1264256981 - EnumValue 2894502390 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Disagree</source>
+        <trans-unit id="Enum 1264256981 - EnumValue 4041807949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Good</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Disagree - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Good - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1264256981 - EnumValue 3122611279 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Neutral</source>
+        <trans-unit id="Enum 1264256981 - EnumValue 2037984094 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Poor</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Neutral - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Poor - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1264256981 - EnumValue 1986447438 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Strongly Agree</source>
+        <trans-unit id="Enum 1264256981 - EnumValue 2923686772 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Satisfactory</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Strongly Agree - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Satisfactory - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1264256981 - EnumValue 652264304 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Strongly Disagree</source>
+        <trans-unit id="Enum 1264256981 - EnumValue 3419649133 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Very Good</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Strongly Disagree - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Very Good - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1645288751 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
@@ -64453,10 +64478,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue   - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 1539901012 - EnumValue 599712977 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Expectation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue Expection - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1539901012 - EnumValue 3208238345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overall</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue Overall - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 1539901012 - EnumValue 3791596769 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Trainer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue Trainer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1539901012 - EnumValue 1303229277 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Trainer Ratings</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue Trainer Ratings - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1539901012 - EnumValue 2116756124 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Training</source>
