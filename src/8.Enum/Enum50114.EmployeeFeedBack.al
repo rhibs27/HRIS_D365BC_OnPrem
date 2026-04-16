@@ -6,24 +6,24 @@ enum 50114 "Employee FeedBack"
     {
         Caption = '';
     }
-    value(1; Excellent)
+    value(1; Poor)
     {
-        Caption = 'Excellent';
+        Caption = 'Poor';
     }
-    value(2; "Very Good")
+    value(2; Satisfactory)
     {
-        Caption = 'Very Good';
+        Caption = 'Satisfactory';
     }
     value(3; Good)
     {
         Caption = 'Good';
     }
-    value(4; Satisfactory)
+    value(4; "Very Good")
     {
-        Caption = 'Satisfactory';
+        Caption = 'Very Good';
     }
-    value(5; "Poor")
+    value(5; "Excellent")
     {
-        Caption = 'Poor';
+        Caption = 'Excellent';
     }
 }
