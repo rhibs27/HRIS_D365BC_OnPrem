@@ -9813,6 +9813,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Request Allowance - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 470349803 - Field 3932326675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Resignation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Resignation - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 470349803 - Field 3973430723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resignation By Age</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35957,6 +35962,11 @@
           <source>Specifies the value of the Overtime field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Overtime - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 3932326675 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Resignation field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Resignation - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1780339891 - Control 1145153898 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Retirement Fund field.</source>
