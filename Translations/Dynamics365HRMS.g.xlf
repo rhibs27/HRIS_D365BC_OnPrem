@@ -7578,6 +7578,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Settlement Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 102903639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Settlement Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2661423651 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Settler User ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7597,6 +7602,11 @@
           <source>Total Loan Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Total Loan Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 1736094863 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Settled Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Total Settled Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2860060064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transportation Management off.</source>
@@ -12223,6 +12233,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Fiscal Year - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3211098075 - Field 2910637958 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Functional Title Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3211098075 - Field 1692494299 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Functional Title Description - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3211098075 - Field 2899030173 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Loan No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12258,6 +12278,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Remarks - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3211098075 - Field 2847486938 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Account Number</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Salary Account Number - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3211098075 - Field 1774881961 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Settled Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12283,6 +12308,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Settler User ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3211098075 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3211098075 - Field 2818011231 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Approved Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Total Approved Amount - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3211098075 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12297,6 +12332,61 @@
           <source>Unit Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement - Field Unit Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Settlement Entry</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 2369664869 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Created By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Created By - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 3572756595 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Created DateTime</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Created DateTime - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 2899030173 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Loan No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 2228618656 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Loan Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 691502545 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settled Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Settled Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 317985459 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Settlement Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 1076517905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Source No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Settlement Source No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3781216375 - Field 102903639 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Settlement Entry - Field Settlement Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1411835413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Medical Insurance Claim</source>
@@ -31178,6 +31268,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Loan Applied - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 14706639 - Control 3134116370 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the remaining loan balance (Disbursed Amount minus Total Settled Amount).</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Outstanding Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 14706639 - Control 902249373 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Settled field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31188,10 +31283,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Settlement Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 14706639 - Control 102903639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Settlement type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Settlement Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 14706639 - Control 2661423651 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Settler User ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Settler User ID - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 14706639 - Control 1736094863 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the cumulative amount settled across all approved settlement entries.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Total Settled Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 14706639 - Control 1736094863 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Settled Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Control Total Settled Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Control 3044859615 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Rejection Remark field.</source>
@@ -31408,6 +31518,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Action Settle Home Loan - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 14706639 - Action 723928553 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the full history of posted settlement entries for this loan.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Action Settlement Entries - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 14706639 - Action 723928553 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Entries</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Action Settlement Entries - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 14706639 - Action 1625391141 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Update Insurance action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31419,12 +31539,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Action Validate Document - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Action 652157180 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the existing Loan Settlement for this loan.</source>
+          <source>Open all Loan Settlement requests for this loan.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Action View Settlement - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Action 652157180 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View Settlement</source>
+          <source>View Settlements</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Home Loan Card - Action View Settlement - Property Caption</note>
         </trans-unit>
@@ -33093,6 +33213,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Control Disbursement Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2737898174 - Control 3134116370 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the remaining loan balance (Disbursed Amount minus Total Settled Amount).</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Control Outstanding Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2737898174 - Control 902249373 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Settled field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -33107,6 +33232,16 @@
           <source>Specifies the value of the Settler User ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Control Settler User ID - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2737898174 - Control 1736094863 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the cumulative amount settled across all approved settlement entries.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Control Total Settled Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2737898174 - Control 1736094863 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Settled Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Control Total Settled Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2737898174 - Control 3044859615 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Rejection Remark field.</source>
@@ -33343,6 +33478,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Action Settle Vehicle Loan - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2737898174 - Action 723928553 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the full history of posted settlement entries for this loan.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Action Settlement Entries - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2737898174 - Action 723928553 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Entries</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Action Settlement Entries - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2737898174 - Action 1556295005 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Update Vehicle Details action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -33354,12 +33499,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Action Validate Document - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2737898174 - Action 652157180 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the existing Loan Settlement for this vehicle loan.</source>
+          <source>Open all Loan Settlement requests for this vehicle loan.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Action View Settlement - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2737898174 - Action 652157180 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View Settlement</source>
+          <source>View Settlements</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Vehicle Loan Card - Action View Settlement - Property Caption</note>
         </trans-unit>
@@ -39933,6 +40078,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Card - Control Disbursed Amount - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4110283823 - Control 455293407 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Disbursed Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Card - Control Disbursed Amount - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 4110283823 - Control 2899030173 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the source loan document number.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39953,6 +40103,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Card - Control Settlement Amount - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4110283823 - Control 4082902411 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Settlement Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Card - Control Settlement Amount - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 4110283823 - Control 102903639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies whether this is a Full or Partial settlement.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39968,11 +40123,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Card - Action Cancel Approval Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 4110283823 - Action 2961880920 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Mark the loan as fully settled after the settlement is approved.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Card - Action Mark as Settled - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 4110283823 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reject this settlement request.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39982,6 +40132,61 @@
           <source>Send the settlement request for approval.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Card - Action Send Approval Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Loan Settlement Entries</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 2369664869 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the user who posted this settlement.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Created By - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 3572756595 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the date and time this entry was created.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Created DateTime - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the employee number.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the entry number.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 2899030173 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the loan document number.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Loan No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 2228618656 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the type of loan.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Loan Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 691502545 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the amount settled in this entry.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Settled Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 317985459 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the date this settlement was posted.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Settlement Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 1076517905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the settlement request document that generated this entry.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Settlement Source No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2111075349 - Control 102903639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether this was a full or partial settlement.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Settlement Entries - Control Settlement Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2039588037 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Loan Settlement List</source>

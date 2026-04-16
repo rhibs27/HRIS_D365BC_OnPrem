@@ -352,6 +352,7 @@ page 50160 "Employee Home Loan Card"
                 Visible = IsApproved;
                 field("Loan Applied"; Rec."Applied Loan/Advance")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Applied Loan field.';
                     ApplicationArea = All;
                 }
@@ -363,6 +364,19 @@ page 50160 "Employee Home Loan Card"
                 field("Disbursed Amount"; Rec."Disbursed Amount")
                 {
                     ToolTip = 'Specifies the value of the Disbursed Amount field.';
+                    ApplicationArea = All;
+                }
+                field("Total Settled Amount"; Rec."Total Settled Amount")
+                {
+                    Caption = 'Total Settled Amount';
+                    Editable = false;
+                    ToolTip = 'Specifies the cumulative amount settled across all approved settlement entries.';
+                    ApplicationArea = All;
+                }
+                field("Outstanding Amount"; Rec."Outstanding Amount")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the remaining loan balance (Disbursed Amount minus Total Settled Amount).';
                     ApplicationArea = All;
                 }
                 field(Settled; Rec.Settled)
@@ -383,6 +397,11 @@ page 50160 "Employee Home Loan Card"
                 field("Account No."; Rec."Account No.")
                 {
                     ToolTip = 'Specifies the value of the Account No. field.';
+                    ApplicationArea = All;
+                }
+                field("Settlement Type"; rec."Settlement Type")
+                {
+                    ToolTip = 'Specifies the value of the Settlement type field.';
                     ApplicationArea = All;
                 }
                 field(Disbursed; Rec.Disbursed)
@@ -675,26 +694,46 @@ page 50160 "Employee Home Loan Card"
             }
             action("View Settlement")
             {
-                Caption = 'View Settlement';
+                Caption = 'View Settlements';
                 Image = View;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 Visible = CanViewSettlement;
-                ToolTip = 'Open the existing Loan Settlement for this loan.';
+                ToolTip = 'Open all Loan Settlement requests for this loan.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 var
                     LoanSettlement: Record "Loan Settlement";
-                    LoanSettlementCard: Page "Loan Settlement Card";
+                    LoanSettlementList: Page "Loan Settlement List";
                 begin
                     LoanSettlement.SetRange("Loan No.", Rec."No.");
-                    if LoanSettlement.FindFirst() then begin
-                        LoanSettlementCard.SetRecord(LoanSettlement);
-                        LoanSettlementCard.Run();
-                    end;
+                    LoanSettlementList.SetTableView(LoanSettlement);
+                    LoanSettlementList.Run();
+                end;
+            }
+            action("Settlement Entries")
+            {
+                Caption = 'Settlement Entries';
+                Image = Entries;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsApproved;
+                ToolTip = 'View the full history of posted settlement entries for this loan.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    LoanSettlementEntry: Record "Loan Settlement Entry";
+                    LoanSettlementEntries: Page "Loan Settlement Entries";
+                begin
+                    LoanSettlementEntry.SetRange("Loan No.", Rec."No.");
+                    LoanSettlementEntries.SetTableView(LoanSettlementEntry);
+                    LoanSettlementEntries.Run();
                 end;
             }
         }
@@ -704,6 +743,7 @@ page 50160 "Employee Home Loan Card"
         SetLayout();
         if rec."Approval Status" = rec."Approval Status"::Open then
             LoanMgt.CalculateFields(Rec);
+        Rec.CalcFields("Total Settled Amount");
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -751,7 +791,9 @@ page 50160 "Employee Home Loan Card"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-        CanCreateSettlement := IsApproved and Rec.Disbursed and not Rec.Settled and not SettlementExists(Rec."No.");
+        // Allow creating a new settlement only if no active (Open/Pending) settlement exists
+        CanCreateSettlement := IsApproved and Rec.Disbursed and not Rec.Settled and not ActiveSettlementExists(Rec."No.");
+        // Allow viewing settlement history if any settlement (past or active) exists
         CanViewSettlement := IsApproved and Rec.Disbursed and SettlementExists(Rec."No.");
     end;
 
@@ -760,6 +802,17 @@ page 50160 "Employee Home Loan Card"
         LoanSettlement: Record "Loan Settlement";
     begin
         LoanSettlement.SetRange("Loan No.", LoanNo);
+        exit(not LoanSettlement.IsEmpty());
+    end;
+
+    local procedure ActiveSettlementExists(LoanNo: Code[20]): Boolean
+    var
+        LoanSettlement: Record "Loan Settlement";
+    begin
+        LoanSettlement.SetRange("Loan No.", LoanNo);
+        LoanSettlement.SetFilter("Approval Status", '%1|%2',
+            LoanSettlement."Approval Status"::Open,
+            LoanSettlement."Approval Status"::Pending);
         exit(not LoanSettlement.IsEmpty());
     end;
 }

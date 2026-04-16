@@ -6,6 +6,7 @@ page 50399 "Loan Settlement List"
     ApplicationArea = All;
     CardPageId = "Loan Settlement Card";
     Editable = false;
+    SourceTableView = sorting("No.") order(descending);
     UsageCategory = Lists;
 
     layout

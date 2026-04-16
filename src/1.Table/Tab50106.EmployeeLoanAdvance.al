@@ -578,6 +578,14 @@ table 50106 "Employee Loan/Advance"
         field(219; "HR Recommended Tenure"; Integer)
         {
         }
+        field(220; "Settlement Type"; Enum "Settlement Type") { }
+        field(221; "Total Settled Amount"; Decimal)
+        {
+            Caption = 'Total Settled Amount';
+            CalcFormula = sum("Loan Settlement Entry"."Settled Amount" where("Loan No." = field("No.")));
+            FieldClass = FlowField;
+            Editable = false;
+        }
 
     }
 

@@ -175,18 +175,13 @@ codeunit 50002 "Loan Mgt."
                 end;
             EmpLoan."Loan Type"::"Vehicle Loan":
                 begin
-                    EmpLoan."Eligible Loan/Advance" := 90 / 100 * EmpLoan."Cost of Vehicle";
-                    CheckSalaryLevel.Reset;
-                    CheckSalaryLevel.SetRange("Is AM", true);
-                    if CheckSalaryLevel.FindFirst then;
                     PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
                     EmpLoan."Previous Loan Amount" := PrevLoanAmt;
                     EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
                     OnBeforeCalculateEligibleVehicleLoanAmount(EmpLoan, IsHandled);
                     if not IsHandled then begin
+                        EmpLoan."Eligible Loan/Advance" := 90 / 100 * EmpLoan."Cost of Vehicle";
                         if SalaryLevel.Get(Employee."Salary Level") then begin
-                            if CheckSalaryLevel.Rank <= SalaryLevel.Rank then
-                                EmpLoan."Eligible Loan/Advance" := EmpLoan."Cost of Vehicle";
                             if SalaryLevel."Vehicle Loan Limit" <> 0 then
                                 if SalaryLevel."Vehicle Loan Limit" < EmpLoan."Eligible Loan/Advance" then
                                     EmpLoan."Eligible Loan/Advance" := SalaryLevel."Vehicle Loan Limit";
@@ -1935,13 +1930,29 @@ codeunit 50002 "Loan Mgt."
         ApproverMgt2: Codeunit "Approver Mgt";
         CONFIRMATION: Label 'Do you want to proceed?';
         EmpLoanAdv: Record "Employee Loan/Advance";
+        OutstandingAmt: Decimal;
     begin
         if not Confirm(CONFIRMATION, false) then
             exit;
         loanSettelment.TestField("Loan No.");
         loanSettelment.TestField("Settlement Type");
         loanSettelment.TestField("Settlement Amount");
+        loanSettelment.TestField(Remarks);
         if SendBool then begin
+            // Validate loan is disbursed
+            if EmpLoanAdv.Get(loanSettelment."Loan No.") then begin
+                if not EmpLoanAdv.Disbursed then
+                    Error('Loan %1 must be disbursed before a settlement can be submitted.', loanSettelment."Loan No.");
+                if EmpLoanAdv.Settled then
+                    Error('Loan %1 is already fully settled.', loanSettelment."Loan No.");
+            end;
+            // Validate settlement amount
+            if loanSettelment."Settlement Amount" <= 0 then
+                Error('Settlement Amount must be greater than 0.');
+            OutstandingAmt := GetLoanOutstandingAmount(loanSettelment."Loan No.");
+            if loanSettelment."Settlement Amount" > OutstandingAmt then
+                Error('Settlement Amount (%1) cannot exceed Outstanding Amount (%2).',
+                      loanSettelment."Settlement Amount", OutstandingAmt);
             loanSettelment."Approval Status" := loanSettelment."Approval Status"::Pending;
             loanSettelment.Modify();
             ApproverMgt2.UpdateFirstApproverStatus(loanSettelment."No.");
@@ -2129,22 +2140,51 @@ codeunit 50002 "Loan Mgt."
         LoanSettlement: Record "Loan Settlement";
         EmpLoan: Record "Employee Loan/Advance";
         ApprovalHRMS: Record "Approval HRMS";
+        LoanSettlementEntry: Record "Loan Settlement Entry";
     begin
         if not LoanSettlement.Get(docNo) then
             Error('Loan Settlement %1 not found.', docNo);
 
         if IsApprove then begin
-            // Mark the underlying loan as settled
             if EmpLoan.Get(LoanSettlement."Loan No.") then begin
-                EmpLoan.Validate(Settled, true);
-                EmpLoan.Validate("Settlement Date", Today);
-                EmpLoan.Validate("Settler User ID", UserId);
+                // Post settlement entry for full audit trail
+                LoanSettlementEntry.Init();
+                LoanSettlementEntry."Entry No." := LoanSettlementEntry.GetNextEntryNo();
+                LoanSettlementEntry."Loan No." := EmpLoan."No.";
+                LoanSettlementEntry."Settlement Source No." := LoanSettlement."No.";
+                LoanSettlementEntry."Settlement Date" := Today;
+                LoanSettlementEntry."Settled Amount" := LoanSettlement."Settlement Amount";
+                LoanSettlementEntry."Settlement Type" := LoanSettlement."Settlement Type";
+                LoanSettlementEntry."Employee No." := EmpLoan."Employee No.";
+                LoanSettlementEntry."Loan Type" := EmpLoan."Loan Type";
+                LoanSettlementEntry."Created By" := UserId;
+                LoanSettlementEntry."Created DateTime" := CurrentDateTime;
+                LoanSettlementEntry.Insert(true);
+
+                // Recalculate outstanding from entries (authoritative)
+                EmpLoan.CalcFields("Total Settled Amount");
+                EmpLoan."Outstanding Amount" := EmpLoan."Disbursed Amount" - EmpLoan."Total Settled Amount";
+                if EmpLoan."Outstanding Amount" < 0 then
+                    EmpLoan."Outstanding Amount" := 0;
+
+                if (LoanSettlement."Settlement Type" = LoanSettlement."Settlement Type"::"Full Settlement") or
+                   (EmpLoan."Outstanding Amount" = 0)
+                then begin
+                    EmpLoan."Outstanding Amount" := 0;
+                    EmpLoan.Validate("Settlement Type", EmpLoan."Settlement Type"::"Full Settlement");
+                    EmpLoan.Validate(Settled, true);
+                    EmpLoan.Validate("Settlement Date", Today);
+                    EmpLoan.Validate("Settler User ID", UserId);
+                end else begin
+                    EmpLoan.Validate("Settlement Type", EmpLoan."Settlement Type"::"Partial Settlement");
+                end;
                 EmpLoan.Modify();
+
+                // Update settlement record with posted details
+                LoanSettlement."Settled Date" := Today;
+                LoanSettlement."Settler User ID" := UserId;
+                LoanSettlement.Modify();
             end;
-            // Update settlement record with settled details
-            LoanSettlement."Settled Date" := Today;
-            LoanSettlement."Settler User ID" := UserId;
-            LoanSettlement.Modify();
         end else begin
             // Reject all remaining Approval HRMS entries for this document
             ApprovalHRMS.Reset();
@@ -2159,6 +2199,22 @@ codeunit 50002 "Loan Mgt."
                     ApprovalHRMS.Modify();
                 until ApprovalHRMS.Next() = 0;
         end;
+    end;
+
+    /// <summary>
+    /// Returns the current outstanding loan balance for a given loan.
+    /// Calculated as Disbursed Amount minus the sum of all posted settlement entries.
+    /// Use this function wherever outstanding balance is needed to ensure consistency.
+    /// </summary>
+    procedure GetLoanOutstandingAmount(LoanNo: Code[20]): Decimal
+    var
+        EmpLoan: Record "Employee Loan/Advance";
+    begin
+        if EmpLoan.Get(LoanNo) then begin
+            EmpLoan.CalcFields("Total Settled Amount");
+            exit(EmpLoan."Disbursed Amount" - EmpLoan."Total Settled Amount");
+        end;
+        exit(0);
     end;
 
     [IntegrationEvent(false, false)]
