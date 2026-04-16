@@ -6703,6 +6703,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Is Subjective - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4261979893 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Line No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4261979893 - Field 1551280122 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Marks</source>
           <note from="Developer" annotates="general" priority="2"></note>

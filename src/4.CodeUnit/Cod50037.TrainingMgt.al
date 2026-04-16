@@ -17,11 +17,13 @@ codeunit 50037 "Training Mgt"
                 EmployeeFeedBack.SetRange("Question Code", TrainingQuestionSetup."Question Code");
                 EmployeeFeedBack.SetFilter("Trainer Name", '%1', '');
                 EmployeeFeedBack.SetRange(Type, EmployeeFeedBack.Type::Training);
+                EmployeeFeedBack.SetFilter("Sub Type", '<>%1', "Employee Question SubType"::"Trainer Ratings");
                 if not EmployeeFeedBack.FindFirst then begin
                     EmployeeFeedBack.Init;
                     EmployeeFeedBack.Validate("Training No.", TrainingNo);
                     EmployeeFeedBack.Validate("Question Code", TrainingQuestionSetup."Question Code");
                     EmployeeFeedBack.Validate("Employee No.", EmployeeNo);
+                    EmployeeFeedBack.Validate("Line No.", GetLineNo(TrainingNo, EmployeeNo, TrainingQuestionSetup."Question Code"));
                     EmployeeFeedBack.Validate("Trainer Name", '');
                     EmployeeFeedBack.Validate(Type, EmployeeFeedBack.Type::Training);
                     EmployeeFeedBack.Validate("Sub Type", TrainingQuestionSetup."Sub Type");
@@ -51,17 +53,32 @@ codeunit 50037 "Training Mgt"
                         if not EmployeeFeedBack.FindFirst() then begin
                             EmployeeFeedBack.Init;
                             EmployeeFeedBack.Validate("Training No.", TrainingNo);
+                            EmployeeFeedBack.Validate("Employee No.", EmployeeNo);
                             EmployeeFeedBack.Validate("Question Code", TrainingQuestionSetup."Question Code");
+                            EmployeeFeedBack.Validate("Line No.", GetLineNo(TrainingNo, EmployeeNo, TrainingQuestionSetup."Question Code"));
+                            EmployeeFeedBack.Validate("Trainer Name", TrainerLine."Employee Name");
                             EmployeeFeedBack.Validate(Type, EmployeeFeedBack.Type::Training);
                             EmployeeFeedBack.Validate("Sub Type", TrainingQuestionSetup."Sub Type");
-                            EmployeeFeedBack.Validate("Employee No.", EmployeeNo);
                             EmployeeFeedBack.Validate(Question, TrainingQuestionSetup.Question);
                             EmployeeFeedBack.Validate("Is Subjective", TrainingQuestionSetup."Is Subjective");
-                            EmployeeFeedBack.Validate("Trainer Name", TrainerLine."Employee Name");
                             EmployeeFeedBack.Insert;
                         end
                     until TrainerLine.Next() = 0;
             until TrainingQuestionSetup.Next = 0;
+    end;
+
+    local procedure GetLineNo(TrainingNo: Code[20]; EmployeeNo: Code[20]; QuestionCode: Code[20]): Integer
+    var
+        EmpFeedback: Record "Employee Feedback";
+    begin
+        EmpFeedback.Reset();
+        EmpFeedback.SetRange("Training No.", TrainingNo);
+        EmpFeedback.SetRange("Employee No.", EmployeeNo);
+        EmpFeedback.SetRange("Question Code", QuestionCode);
+        if EmpFeedback.FindLast() then
+            exit(EmpFeedback."Line No." + 10000)
+        else
+            exit(10000)
     end;
 
     procedure ShowTrainerList(TrainingNo: Code[20];

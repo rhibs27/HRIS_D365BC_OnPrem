@@ -70,11 +70,15 @@ table 50115 "Employee Feedback"
         field(16; "Trainer Name"; Text[100])
         {
         }
+        field(17; "Line No."; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
-        key(Key1; "Training No.", "Question Code", "Employee No.", "Trainer Name") { }
+        key(Key1; "Training No.", "Question Code", "Employee No.", "Line No.") { }
     }
 
     fieldgroups { }
