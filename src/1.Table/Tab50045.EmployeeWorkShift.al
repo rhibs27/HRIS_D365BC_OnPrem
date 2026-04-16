@@ -71,6 +71,11 @@ table 50045 "Employee Work Shift"
             DataClassification = ToBeClassified;
             TableRelation = "Payroll Attributes";
         }
+        field(22; "Alternate Start Time"; Time) { }
+        field(23; "Alternate End Time"; Time) { }
+        field(24; "Alternate Start Date"; Date) { }
+        field(25; "Alternate End Date"; Date) { }
+        field(26; "Alternate Friday End Time"; Time) { }
     }
     keys
     {

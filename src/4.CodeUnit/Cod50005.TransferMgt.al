@@ -91,8 +91,8 @@ codeunit 50005 "Transfer Mgt."
     begin
         HRSetup.Get();
         HRSetup.TestField("HR Department Code");
-        if not HrMgt.IsSaaS() then
-            Employee.Get(HRMgt.GetEmployeeNo());
+        // if not HrMgt.IsSaaS() then
+        Employee.Get(HRMgt.GetEmployeeNo());
         if HRSetup."HR Department Code" <> Employee."Department Code" then
             Error('Only Employee from HR department can confirm transfer Details');
         if Today > EmpHrTransfer."Transfer Effective Date" then

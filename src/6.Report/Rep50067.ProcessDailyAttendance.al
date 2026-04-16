@@ -43,8 +43,9 @@ report 50067 "Process Daily Attendance"
                 begin
                     if Employee."Employment Date" > Date."Period Start" then
                         CurrReport.Skip();
-                    if Date."Period Start" > Today then
-                        CurrReport.Skip();
+                    if not FutureSync then
+                        if Date."Period Start" > Today then
+                            CurrReport.Skip();
                     InitEmpAttendance();
                 end;
             }
@@ -143,6 +144,10 @@ report 50067 "Process Daily Attendance"
             FromDate := Today - 1;
             ToDate := Today;
         end;
+        if AttSetup."Attendance Allowed From" <> 0D then
+            if FromDate < AttSetup."Attendance Allowed From" then
+                Error('Process daily Attendance is allowed from %1. Please check Attendance Setup', AttSetup."Attendance Allowed From");
+
     end;
 
     trigger OnPostReport()
@@ -167,7 +172,7 @@ report 50067 "Process Daily Attendance"
         EMailMessage: Codeunit "Email Message";
         Email: Codeunit Email;
         EmailArray: JsonArray;
-        FromPortal: Boolean;
+        FromPortal, FutureSync : Boolean;
 
 
     procedure GetSetup()
@@ -197,7 +202,7 @@ report 50067 "Process Daily Attendance"
         InsertEmpAttendance(Employee."No.", Date."Period Start", shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start"));
         UpdateEmpAttendanceAsTransferFromServiceHistory();
     end;
-    
+
     local procedure InsertEmpAttendance(EmpCode: Text; PostingDate: Date; WorkShift: Text)
     var
         EmpVar: Record Employee;
@@ -327,6 +332,11 @@ report 50067 "Process Daily Attendance"
     begin
         EmailIds := VarEmailId;
         FromPortal := VarFromProcess;
+    end;
+
+    procedure SetFutureProcess(FromFuture: Boolean)
+    begin
+        FutureSync := FromFuture;
     end;
 
     procedure CheckAndUpdateEmployeeInLog()

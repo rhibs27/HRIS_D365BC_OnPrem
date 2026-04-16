@@ -25,6 +25,20 @@ codeunit 50026 "Attendance Mgt"
         exit(true);
     end;
 
+    procedure DailyAttendanceUpdateLeave(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Boolean
+    var
+        ProcessDailyAttendance: Report "Process Daily Attendance";
+        Employee: Record Employee;
+    begin
+        Employee.SetRange("No.", EmployeeNo);
+        Employee.SetFilter("Date Filter", '%1..%2', StartDate, EndDate);
+        ProcessDailyAttendance.SetTableView(Employee);
+        ProcessDailyAttendance.UseRequestPage(false);
+        ProcessDailyAttendance.SetFutureProcess(true);
+        ProcessDailyAttendance.Run();
+        exit(true);
+    end;
+
     procedure GetPresentDays(EmpCode: Code[20]; PStartDate: Date; PEndDate: Date): Decimal
     var
         EmpAtt: Record "Employee Attendance & Activity";

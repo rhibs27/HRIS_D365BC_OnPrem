@@ -21,7 +21,7 @@ page 50111 "Training Payee"
                     ToolTip = 'Specifies the value of the Payment Mode field.';
                     ApplicationArea = All;
                 }
-                field(Name; Rec.Name)
+                field("Employee Name"; rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Name field.';
                     ApplicationArea = All;
@@ -39,11 +39,6 @@ page 50111 "Training Payee"
                 field("Department Code"; Rec."Department Code")
                 {
                     ToolTip = 'Specifies the value of the Department Code field.';
-                    ApplicationArea = All;
-                }
-                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
-                {
-                    ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                     ApplicationArea = All;
                 }
                 field("Account No."; Rec."Account No.")

@@ -42,7 +42,7 @@ table 50179 "Appraisal KPI Master"
             Editable = false;
             Caption = 'Appraisal Subtype Monthly';
         }
-        field(7; "Appraisal Subtype Quarterly"; Enum Quater)
+        field(7; "Appraisal Subtype Quarterly"; Enum Quarter)
         {
             Editable = false;
             Caption = 'Appraisal Subtype Quarterly';
