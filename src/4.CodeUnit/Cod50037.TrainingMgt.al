@@ -1,18 +1,5 @@
 codeunit 50037 "Training Mgt"
 {
-    procedure GenerateTraineeQuestions(TrainingNo: Code[20])
-    var
-        TraineeLine: Record "Training Line";
-    begin
-        TraineeLine.Reset();
-        TraineeLine.SetRange("Training No.", TrainingNo);
-        TraineeLine.SetRange(Type, TraineeLine.Type::Trainee);
-        if TraineeLine.FindSet() then
-            repeat
-                InsertEmployeeWiseTrainingQuestion(TrainingNo, TraineeLine."Employee Code");
-            until TraineeLine.Next() = 0;
-    end;
-
     procedure InsertEmployeeWiseTrainingQuestion(TrainingNo: Code[20]; EmployeeNo: Code[20])
     var
         TrainingQuestionSetup: Record "Employee Question Setup";

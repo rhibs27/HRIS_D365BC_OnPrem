@@ -467,7 +467,6 @@ page 50097 "Training Card"
                     begin
                         Rec.TestField("Approval Status", Rec."Approval Status"::Open);
                         Rec."Approval Status" := Rec."Approval Status"::Released;
-                        // TrainingMgt.GenerateTraineeQuestions(Rec."No.");
                         Rec.Modify();
                         CurrPage.Update();
                     end;
