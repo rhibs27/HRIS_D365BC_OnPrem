@@ -611,6 +611,7 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeLoanRec."Yearly Premium Amount" := LoanJournal."Yearly Premium Amount";
                 EmployeeLoanRec."First Premium Date" := LoanJournal."First Premium Date";
                 EmployeeLoanRec."Monthly Deduction" := LoanJournal."Monthly Deduction";
+                EmployeeLoanRec."Effective Date" := LoanJournal."Transfer Effective Date";
 
                 EmployeeLoanRec.Validate(Remarks, LoanJournal.Remarks);
                 EmployeeLoanRec.Validate("Approval Status", EmployeeLoanRec."Approval Status"::Approved);
