@@ -42,28 +42,32 @@ codeunit 50023 EmployeeActivityMgt
     var
         EmphrTransfer: Record "Employee Transfer";
         TransferType: Enum "Transfer Type";
+        IsHandled: Boolean;
     begin
-        if not (EmployeeACTJnl."Transfer Type" in [TransferType::"Intra Branch", TransferType::"Intra Department", TransferType::"Intra Provincial"]) then begin
-            EmployeeACTJnl.TestField("Incoming Supervisor");
-            EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
-        end;
-        EmployeeACTJnl.TestField("Employee No.");
-        EmployeeACTJnl.TestField("Transfer Type");
-        EmployeeACTJnl.TestField("Transfer Category");
-        EmployeeACTJnl.TestField("Deputation On (To)");
-        EmployeeACTJnl.TestField("Transfer Effective Date");
-        EmployeeACTJnl.TestField("Approver Role (TO)");
-        case EmployeeACTJnl."Deputation On (To)" of
-            EmployeeACTJnl."Deputation On (To)"::Branch:
-                EmployeeACTJnl.TestField("To Branch");
-            EmployeeACTJnl."Deputation On (To)"::Department:
-                EmployeeACTJnl.TestField("Department Code (To)");
-            EmployeeACTJnl."Deputation On (To)"::"Extension Counter":
-                EmployeeACTJnl.TestField("Extension Counter (To)");
-            EmployeeACTJnl."Deputation On (To)"::Province:
-                EmployeeACTJnl.TestField("Province Code (To)");
-            EmployeeACTJnl."Deputation On (To)"::Unit:
-                EmployeeACTJnl.TestField("Unit (To)");
+        OnBeforeConfirmTransferJournalDetails(EmployeeACTJnl, IsHandled);
+        if not IsHandled then begin
+            if not (EmployeeACTJnl."Transfer Type" in [TransferType::"Intra Branch", TransferType::"Intra Department", TransferType::"Intra Provincial"]) then begin
+                EmployeeACTJnl.TestField("Incoming Supervisor");
+                EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
+            end;
+            EmployeeACTJnl.TestField("Employee No.");
+            EmployeeACTJnl.TestField("Transfer Type");
+            EmployeeACTJnl.TestField("Transfer Category");
+            EmployeeACTJnl.TestField("Deputation On (To)");
+            EmployeeACTJnl.TestField("Transfer Effective Date");
+            EmployeeACTJnl.TestField("Approver Role (TO)");
+            case EmployeeACTJnl."Deputation On (To)" of
+                EmployeeACTJnl."Deputation On (To)"::Branch:
+                    EmployeeACTJnl.TestField("To Branch");
+                EmployeeACTJnl."Deputation On (To)"::Department:
+                    EmployeeACTJnl.TestField("Department Code (To)");
+                EmployeeACTJnl."Deputation On (To)"::"Extension Counter":
+                    EmployeeACTJnl.TestField("Extension Counter (To)");
+                EmployeeACTJnl."Deputation On (To)"::Province:
+                    EmployeeACTJnl.TestField("Province Code (To)");
+                EmployeeACTJnl."Deputation On (To)"::Unit:
+                    EmployeeACTJnl.TestField("Unit (To)");
+            end;
         end;
         EmphrTransfer.Reset();
         EmphrTransfer.SetRange("Employee No.", EmployeeACTJnl."Employee No.");
@@ -704,6 +708,12 @@ codeunit 50023 EmployeeActivityMgt
     local procedure onBeforeTransferInsert(var TransferJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
     begin
         //For any Control related to TransferInsert
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeConfirmTransferJournalDetails(var TransferJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
+    begin
+        //For any Control related to Journal
     end;
 
     var
