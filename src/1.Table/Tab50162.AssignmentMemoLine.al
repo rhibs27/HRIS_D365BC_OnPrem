@@ -409,8 +409,13 @@ table 50162 "Assignment Memo Line"
         if AllowanceConfig.Source in [AllowanceConfig.Source::Direct, AllowanceConfig.Source::Leave] then
             if AllowanceConfig.Formula = '' then
                 exit(AllowanceConfig.Amount)
-            else
-                exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No."));
+            else begin
+                OnBeforeCalculateAssignmentProrataAmount(MonthlyAmt, AllowanceConfig, Rec, NoofDaysInMonth, IsHandled);
+                if not IsHandled then
+                    exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No."))
+                else
+                    exit(MonthlyAmt);
+            end;
 
         if AllowanceConfig.Source in [AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift] then begin
             if AllowanceConfig.Formula = '' then
