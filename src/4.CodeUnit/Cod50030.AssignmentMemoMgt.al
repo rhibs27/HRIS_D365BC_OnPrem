@@ -422,6 +422,7 @@ codeunit 50030 "Assignment Memo Mgt"
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         AssignmentMemoHeader: Record "Assignment Memo Header";
         OrganizationStructureList: Record "Organization Structure List";
+        SkipCheck: Boolean;
     begin
         AssignmentMemoLine.Get(SubAssigmemoLine."Document No.", SubAssigmemoLine."Substitute of Line No.");
         AssignmentMemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine."Document No.");
@@ -445,11 +446,14 @@ codeunit 50030 "Assignment Memo Mgt"
         ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(SubAssigmemoLine."From Date", SubAssigmemoLine."To Date", AssignmentMemoLedgerEntry."Employee No.");
 
         //Update Branch Code and Branch Name 
-        if AssignmentMemoHeader.Get(SubAssigmemoLine."Document No.") then begin
-            OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, AssignmentMemoHeader."Branch Code");
-            AssignmentMemoLedgerEntry1.SetRange("Document No.", AssignmentMemoLine."Document No.");
-            AssignmentMemoLedgerEntry1.ModifyAll("Branch Code", OrganizationStructureList.Code);
-            AssignmentMemoLedgerEntry1.ModifyAll("Branch Name", OrganizationStructureList.Name);
+        OnBeforeAmountCheck(AssignmentMemoLine, SkipCheck);
+        if not SkipCheck then begin
+            if AssignmentMemoHeader.Get(SubAssigmemoLine."Document No.") then begin
+                OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, AssignmentMemoHeader."Branch Code");
+                AssignmentMemoLedgerEntry1.SetRange("Document No.", AssignmentMemoLine."Document No.");
+                AssignmentMemoLedgerEntry1.ModifyAll("Branch Code", OrganizationStructureList.Code);
+                AssignmentMemoLedgerEntry1.ModifyAll("Branch Name", OrganizationStructureList.Name);
+            end;
         end;
     end;
 
