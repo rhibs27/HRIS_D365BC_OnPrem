@@ -430,6 +430,7 @@ codeunit 50037 "Training Mgt"
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         EmployeeActType: Enum "Employee Activity Type";
     begin
+        HRMgt.DeleteExistingActivityLedgerEntries(EmployeeActType::Training, TrainingNo);
         TrainingAttendance.SetRange("Training No", TrainingNo);
         if TrainingAttendance.FindSet() then
             repeat
@@ -442,6 +443,7 @@ codeunit 50037 "Training Mgt"
                 end;
             until TrainingAttendance.Next() = 0;
     end;
+
 
     var
         ExcelBuffer: Record "Excel Buffer";
