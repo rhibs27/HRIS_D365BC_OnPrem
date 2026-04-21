@@ -419,7 +419,7 @@ codeunit 50037 "Training Mgt"
     procedure Submit(var TrainingNeed: Record "Training Need Request")
     begin
         TrainingNeed.TestField("Employee No.");
-        TrainingNeed.TestField(Description);
+        TrainingNeed.TestField("Training Name");
         TrainingNeed.Validate(Status, TrainingNeed.Status::Pending);
         TrainingNeed.Modify(true);
     end;

@@ -28,19 +28,25 @@ page 50398 "Training Need List"
                     ToolTip = 'Specifies the employee name.';
                     ApplicationArea = All;
                 }
-                field("Department Code"; Rec."Department Code")
+                field("Deputation On"; Rec."Deputation On")
                 {
-                    ToolTip = 'Specifies the department.';
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of Deputation On field';
+                }
+                field("Deputation Code"; Rec."Deputation Code")
+                {
+                    ToolTip = 'Specifies the value of Deputation Code field';
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
-                {
-                    ToolTip = 'Specifies the training topic or description.';
-                    ApplicationArea = All;
-                }
-                field("Training Type"; Rec."Training Type")
+
+                field("Training Category"; Rec."Training Category")
                 {
                     ToolTip = 'Specifies the type of training.';
+                    ApplicationArea = All;
+                }
+                field("Training Name"; Rec."Training Name")
+                {
+                    ToolTip = 'Specifies the training topic or description.';
                     ApplicationArea = All;
                 }
                 field(Priority; Rec.Priority)
