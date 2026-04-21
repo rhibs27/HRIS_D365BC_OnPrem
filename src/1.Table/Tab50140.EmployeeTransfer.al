@@ -901,6 +901,7 @@ table 50140 "Employee Transfer"
                                 IncomingDocument."No." := "No.";
                                 IncomingDocument."Employee Code" := "Employee No.";
                                 IncomingDocument."Table ID" := DATABASE::"Employee Transfer";
+                                IncomingDocument."Sub Type" := AttachmentMandatory."Sub Type";
                                 if Type = Type::"Employee Transfer" then
                                     IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Employee Transfer"
                                 else if Type = Type::"HR Transfer" then

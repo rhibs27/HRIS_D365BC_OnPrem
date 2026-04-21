@@ -263,7 +263,7 @@ codeunit 50020 "Attachment Mgt."
         end;
     end;
 
-    procedure CheckIfAttachmentExistsAsPerTheSetup(AttachmentType: enum "Attachment Setup Type"; AttachmentSubType: Enum "Attachment Setup SubType"; DocNo: Text): Boolean
+    procedure CheckMandatoryAttachmentOnType(AttachmentType: enum "Attachment Setup Type"; AttachmentSubType: Enum "Attachment Setup SubType"; DocNo: Text): Boolean
     var
         AttachmentSetup: Record "Attachment Setup";
         IncomingDocument: Record "Incoming Document";
@@ -272,20 +272,15 @@ codeunit 50020 "Attachment Mgt."
         AttachmentSetup.SetRange(Type, AttachmentType);
         AttachmentSetup.SetRange("Sub Type", AttachmentSubType);
         AttachmentSetup.SetRange(Mandatory, true);
-        if AttachmentSetup.FindFirst() then begin
-            IncomingDocument.SetRange("Document No.", DocNo);
-            IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
-            if IncomingDocument.IsEmpty() then
-                exit(false);
-
-            if IncomingDocument.findset() then
-                repeat
-                    if not IncomingDocument.HasAttachment() then
-                        exit(false);
-                until IncomingDocument.Next() = 0;
-
-            exit(true);
-        end;
+        if AttachmentSetup.Findset() then
+            repeat
+                IncomingDocument.Reset();
+                IncomingDocument.SetRange("No.", DocNo);
+                IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                IncomingDocument.SetRange("File Name", '');
+                if IncomingDocument.FindFirst() then
+                    Error('%1 attachment is missing.Please Upload.', AttachmentSetup."Attachment Code");
+            until AttachmentSetup.Next() = 0;
         exit(true);
     end;
 
