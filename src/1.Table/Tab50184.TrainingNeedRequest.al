@@ -161,7 +161,7 @@ table 50184 "Training Need Request"
     procedure Compile(CompiledBy: Code[20])
     begin
         TestField(Status, Status::Pending);
-        Validate(Status, Status::Approved);
+        Validate(Status, Status::Acknowledged);
         Validate("Compiled By", CompiledBy);
         Validate("Compiled Date", Today);
         Modify(true);

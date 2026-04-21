@@ -127,7 +127,7 @@ page 50398 "Training Need List"
                 StatusStyle := 'StandardAccent';
             Rec.Status::Pending:
                 StatusStyle := 'Attention';
-            Rec.Status::Approved:
+            Rec.Status::Acknowledged:
                 StatusStyle := 'Favorable';
             Rec.Status::Settled:
                 StatusStyle := 'Favorable';

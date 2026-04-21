@@ -22593,15 +22593,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Compiled Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 311335013 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Department Code</source>
+        <trans-unit id="Table 311335013 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Department Code - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Deputation Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 311335013 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Description / Topic</source>
+        <trans-unit id="Table 311335013 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Description - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Deputation On - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 311335013 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
@@ -22653,15 +22653,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 311335013 - Field 2123914291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Nature</source>
+        <trans-unit id="Table 311335013 - Field 4149592804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Category</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Training Nature - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Training Category - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 311335013 - Field 3982664412 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Type</source>
+        <trans-unit id="Table 311335013 - Field 1515274951 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Training Type - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Training Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 311335013 - Field 3623772065 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Description / Topic</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Need Request - Field Training Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4120834124 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Claim Detail</source>
@@ -51433,10 +51438,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control General - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 410164034 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the department of the employee.</source>
+        <trans-unit id="Page 410164034 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the deputation of the employee.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Department Code - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Deputation Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 410164034 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the deputation of the employee.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Deputation On - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 410164034 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the name of the employee.</source>
@@ -51503,11 +51513,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Training Details - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 410164034 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the training topic or description.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Description - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 410164034 - Control 1680889796 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the business justification for this training.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51518,10 +51523,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Priority - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 410164034 - Control 3982664412 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 410164034 - Control 4149592804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the type of training requested.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Training Type - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Training Category - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 410164034 - Control 1515274951 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the training Code or description.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Training Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 410164034 - Control 3623772065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the training description.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need Card - Control Training Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 410164034 - Action 855225403 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Mark this training need as compiled by HR.</source>
@@ -51553,15 +51568,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Compiled By Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2757192740 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the department.</source>
+        <trans-unit id="Page 2757192740 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Deputation Code field</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Department Code - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Deputation Code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2757192740 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the training topic or description.</source>
+        <trans-unit id="Page 2757192740 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Deputation On field</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Description - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Deputation On - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2757192740 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the employee name.</source>
@@ -51603,10 +51618,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Status - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2757192740 - Control 3982664412 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2757192740 - Control 4149592804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the type of training.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Training Type - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Training Category - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2757192740 - Control 3623772065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the training topic or description.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Need List - Control Training Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2757192740 - Action 386677252 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Mark the selected submitted training needs as compiled by HR.</source>
