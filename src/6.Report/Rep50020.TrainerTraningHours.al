@@ -9,9 +9,9 @@ report 50020 "Trainer Traning Hours"
     {
         dataitem("Training Line"; "Training Line")
         {
-            DataItemTableView = where(Type = filter(Trainer), Name = filter(<> ''));
+            DataItemTableView = where(Type = filter(Trainer), "Employee Name" = filter(<> ''));
             column(TrainerType_TrainingLine; "Training Line"."Trainer Type") { }
-            column(Name_TrainingLine; "Training Line".Name) { }
+            column(Name_TrainingLine; "Training Line"."Employee Name") { }
             column(Type_TrainingLine; "Training Line".Type) { }
             column(TotalHours_TrainingLine; Hours) { }
             column(TrainingType_TrainingLine; "Training Line"."Training Type") { }

@@ -539,6 +539,10 @@ table 50106 "Employee Loan/Advance"
             Caption = 'Monthly Deduction';
             DataClassification = ToBeClassified;
         }
+        field(210; "Effective Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

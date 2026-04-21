@@ -133,9 +133,6 @@ codeunit 50008 "Payroll Engine"
         TotalAnnualEarning: Decimal;
         Math: Codeunit Math;
         PayrollAttributeUsage: Record "Payroll Attributes Usage";
-        NegMonthlyTax: Decimal;
-        IsNegativeTax: Boolean;
-        IsHandle: Boolean;
     begin
         PGSetup.Get;
         PGSetup.TestField("Payroll Fiscal Year End Date");
@@ -368,11 +365,8 @@ codeunit 50008 "Payroll Engine"
         TotalTaxRemunPaid := EmpPayOpen."Total Tax Remuneration Opening" + Employee."Remuneration & Benefits Tax";
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
-        IsHandle := false;
-        OnBeforeAnnualTaxZeroonNegative(IsHandle);
-        if not IsHandle then
-            if AnnualTax < 0 then
-                AnnualTax := 0;
+        if AnnualTax < 0 then
+            AnnualTax := 0;
 
         if TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits = 0 then  //do not pay tax if there is no benifit. employee will pay in next month
             if RemainingMonth > 0 then
@@ -381,18 +375,14 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Gratuity & leave Encash Tax" := Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');
 
         // do the calculain only if there is tax.
-        if (AnnualTax > 0) or IsHandle then begin
+        if AnnualTax > 0 then begin
             if PayrollHeader.Type = PayrollHeader.Type::Payroll then
                 MonthlyTax := AnnualTax / (RemainingMonth + 1)
             else
                 MonthlyTax := AnnualTax / (RemainingMonth + 1) + Round(PGSetup."Settlement TAX Rate" * SettlementAmount / 100, 0.01, '=');   //settlement
 
-            OnAfterMonthlyTaxCalculation(AnnualTax, MonthlyTax, NegMonthlyTax);
-
-            if TaxAtOnceAnnualTax < 0 then begin
-                MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax";
-                OnAfterAdditionOfTaxAtOnceAnnualTax(AnnualTax, MonthlyTax, NegMonthlyTax);
-            end
+            if TaxAtOnceAnnualTax < 0 then
+                MonthlyTax := TaxAtOnceAnnualTax + PayrollLine."Gratuity & leave Encash Tax"
             else begin
                 if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
                     MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
@@ -409,12 +399,8 @@ codeunit 50008 "Payroll Engine"
                 if TotalTaxWithoutSST > TaxExempt then
                     TotalTaxWithoutSST := TotalTaxWithoutSST - TaxExempt
                 else begin
-                    IsHandle := false;
-                    OnAfterAnnualTaxCalculation(SocialSecurityTax, TaxExempt, TotalTaxWithoutSST, IsHandle);
-                    if not IsHandle then begin
-                        SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
-                        TotalTaxWithoutSST := 0;
-                    end;
+                    SocialSecurityTax := SocialSecurityTax - (TaxExempt - TotalTaxWithoutSST);
+                    TotalTaxWithoutSST := 0;
                 end;
             end else
                 SocialSecurityTax := SocialSecurityTax - TaxExempt;
@@ -423,7 +409,6 @@ codeunit 50008 "Payroll Engine"
                 if SocialSecurityTax - TotalSSTPaid < 0 then begin
                     SocialSecurityTaxAmount := 0;
                     MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
-                    OnAllowNegativeTaxForSST(SocialSecurityTaxAmount, SocialSecurityTax, TotalSSTPaid, MonthlyTax, RemainingMonth, AnnualTax, NegMonthlyTax, TaxAtOnceAnnualTax);
                 end else begin
                     SocialSecurityTaxAmount := (SocialSecurityTax - TotalSSTPaid) / (RemainingMonth + 1);   //>>pradhan     SocialSecTaxAmt
                     PayrollLine.RoundAmount(SocialSecurityTaxAmount);
@@ -461,20 +446,15 @@ codeunit 50008 "Payroll Engine"
                         MonthlyTax := SocialSecurityTaxAmount;
                 end;
 
-                IsHandle := false;
-                OnBeforeResetOnNegative(IsHandle);
-                if not IsHandle then begin
-                    IF MonthlyTax < 0 THEN begin
-                        MonthlyTax := 0;
-                        SocialSecurityTaxAmount := 0;
-                        MonthlyTax := 0;
-                    end;
+                IF MonthlyTax < 0 THEN begin
+                    MonthlyTax := 0;
+                    SocialSecurityTaxAmount := 0;
+                    MonthlyTax := 0;
                 end;
             end;
         end;
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
-        OnCheckNegativeAmountWithSSTaxAmount(IsNegativeTax);
-        if (SocialSecurityTaxAmount >= MonthlyTax) and (not IsNegativeTax) then
+        if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
         PopulateGlobalAmounts;
         PayrollLine.Modify;
@@ -1221,11 +1201,12 @@ codeunit 50008 "Payroll Engine"
         PayCyclePeriod: Record "Pay Cycle Period";
         LatterPresentDays: Integer;
         EmployeeAttendActivity: Record "Employee Attendance & Activity";
-        AbsentDays: Decimal;
+        AbsentDays, PriorEmploymentDays : Decimal;
         LeaveDays: Decimal;
         LWPDays: Decimal;
         PriorLWPDays: Decimal;
         PriorPresentDays: Decimal;
+        PriorAbsentDays: Decimal;
         SickLeave: Decimal;
         AnnualLeave: Decimal;
         UsedLeave: Decimal;
@@ -1245,6 +1226,7 @@ codeunit 50008 "Payroll Engine"
         Clear(LatterPresentDays);
         Clear(LWPDays);
         Clear(PriorPresentDays);
+        Clear(PriorAbsentDays);
         Clear(PriorLWPDays);
         Clear(SettlementStartDate);
         Clear(SickLeave);
@@ -1265,11 +1247,10 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.SetCurrentKey("Employee No.", "From Date", "To Date");
         AttendanceSummary.SetRange("Employee No.", PayrollLine."Employee No.");
         if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then begin
-            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
-                AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date" - 1)
+            if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayrollLine."Resignation Date")
             else
-                AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayrollHeader."To Date");
-
+                AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
             //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::" " then begin
             if Employee."Employment Date" > PayCyclePeriod."Pay Date" then
                 LatterPresentDays := PayrollHeader."To Date" - Employee."Employment Date" + 1
@@ -1287,30 +1268,27 @@ codeunit 50008 "Payroll Engine"
             AttendanceSummary.SetRange("Date Filter", SettlementStartDate, PayrollLine."Resignation Date");
         end;
 
-        //Absent Days for LWP
+        //Calculate LWP Days of Current Pay Cycle Period
         EmployeeAttendActivity.Reset;
         EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
         EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
+        EmployeeAttendActivity.SetRange("Leave Day", 1);
         EmployeeAttendActivity.SetRange("Present Day", 0);
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-            if PayrollHeader."Employee Type" in [PayrollHeader."Employee Type"::Permanent, PayrollHeader."Employee Type"::" "] then
-                EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayCyclePeriod."Pay Date")
-            else
-                EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayrollHeader."To Date");
-
-        end else if PayrollHeader.Type = PayrollHeader.Type::Resignation then
-                EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayrollLine."Resignation Date")
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayCyclePeriod."Pay Date")
+        else if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayrollLine."Resignation Date")
         else
             EmployeeAttendActivity.SetRange("Attendance Date", SettlementStartDate, PayrollLine."Resignation Date");
-
-        EmployeeAttendActivity.CalcSums("Absent Day");
-        LWPDays := EmployeeAttendActivity."Absent Day";
+        EmployeeAttendActivity.CalcSums("Leave Day");
+        LWPDays := EmployeeAttendActivity."Leave Day";
 
         //CLEAR(PayCyclePeriod);
         Clear(EmployeeAttendActivity);
         //IF PayCyclePerioid.GET(PayrollHeader."Pay Cycle Code",PayrollHeader."Pay Cycle Term",PayrollHeader."Pay Cycle Period"-1) THEN;
         GetPreviousPayCycleCode(PayrollHeader);
         if PreviousPayCyclePeriod."Pay Date" <> 0D then begin
+            //Calculate LWP Days of Post Payroll Dates of Last Pay Cycle Period
             EmployeeAttendActivity.Reset;
             EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
             if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then
@@ -1320,10 +1298,13 @@ codeunit 50008 "Payroll Engine"
             else
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date");
             EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
-            EmployeeAttendActivity.CalcSums("Absent Day");
-            PriorLWPDays := EmployeeAttendActivity."Absent Day";
+            EmployeeAttendActivity.SetFilter("Leave Day", '<>%1', 0);
+            EmployeeAttendActivity.SetRange("Present Day", 0);
+            EmployeeAttendActivity.CalcSums("Leave Day");
+            PriorLWPDays := EmployeeAttendActivity."Leave day";
 
-            if (PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation]) and (PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent) then begin
+            //Calculate Present Days in previous paycycle period after previous paycycle period pay date for employee joining last month
+            if (PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation]) then begin
                 if (Employee."Employment Date" >= PreviousPayCyclePeriod."Pay Date") and (Employee."Employment Date" <= PayrollHeader."From Date" - 1) then begin
                     EmployeeAttendActivity.Reset;
                     EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
@@ -1341,6 +1322,7 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
 
+            //Calculate Absent Days in previous paycycle period after previous paycycle period pay date
             EmployeeAttendActivity.Reset;
             EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
             if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then
@@ -1350,12 +1332,14 @@ codeunit 50008 "Payroll Engine"
             else
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date");
             EmployeeAttendActivity.SetFilter("Pay Type", '<>%1', EmployeeAttendActivity."Pay Type"::Unpaid);
+            EmployeeAttendActivity.SetRange("Present Day", 0);
             EmployeeAttendActivity.CalcSums("Absent Day");
+            PriorAbsentDays := EmployeeAttendActivity."Absent Day";
         end;
 
         Employee.TestField("Employment Date");
         if (Employee."Employment Date" >= PayrollHeader."From Date") and (Employee."Employment Date" <= PayrollHeader."To Date") then
-            AbsentDays := Employee."Employment Date" - PayrollHeader."From Date";
+            PriorEmploymentDays := Employee."Employment Date" - PayrollHeader."From Date";
 
         Clear(LeaveTypeSetup);
         LeaveTypeSetup.Reset;
@@ -1373,29 +1357,31 @@ codeunit 50008 "Payroll Engine"
             until LeaveTypeSetup.Next = 0;
 
         AttendanceSummary.SetRange(Status, AttendanceSummary.Status::Released);
+        AttendanceSummary.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+        AttendanceSummary.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+        AttendanceSummary.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
         AttendanceSummary.SetAutoCalcFields("Present Day", "Week Off Day", "Leave Day", "Absent Day", "Night Shift Days",
-            "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day", "Late Deduction");
+                                            "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day", "Late Deduction");
         if AttendanceSummary.FindLast then begin
             PayrollLine.Validate("Present Days", AttendanceSummary."Present Day");
             PayrollLine.Validate("Post Payroll Days", LatterPresentDays);
-            PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
+            // PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
             if LeaveDays > AttendanceSummary."Absent Day" then begin
-                PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + AttendanceSummary."Absent Day");
+                PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day");
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", AttendanceSummary."Absent Day");
 
-                PayrollLine.Validate("Absent Days", AbsentDays + LWPDays);
-                if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then begin
-                    if EmployeeAttendActivity."Absent Day" > (LeaveDays - AttendanceSummary."Absent Day") then
-                        PayrollLine.Validate("Prior Absent Days", EmployeeAttendActivity."Absent Day" - (LeaveDays - AttendanceSummary."Absent Day") + PriorLWPDays)
-                    else
-                        PayrollLine.Validate("Prior Absent Days", PriorLWPDays);
-                end;
+                // PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
+                // if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then begin
+                //     if EmployeeAttendActivity."Absent Day" > (LeaveDays - AttendanceSummary."Absent Day") then
+                //         PayrollLine.Validate("Prior Absent Days", EmployeeAttendActivity."Absent Day" - (LeaveDays - AttendanceSummary."Absent Day") + PriorLWPDays)
+                //     else
+
+                // end;
             end else begin
-                PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day" - LeaveDays + AbsentDays);
-                PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + LeaveDays);
-                if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
-                    PayrollLine.Validate("Prior Absent Days", PriorLWPDays);
+                PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day");
+                // if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
+                //     PayrollLine.Validate("Prior Absent Days",);
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", LeaveDays);
             end;
@@ -1406,10 +1392,23 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("OT Hrs", AttendanceSummary."OT Hrs");
             PayrollLine.Validate("OT Days", AttendanceSummary."OT Days");
             PayrollLine.Validate("Night Shifts", AttendanceSummary."Night Shift Days");
-            PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
-            if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+            PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
+            PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
+            PayrollLine.Validate("Days Before Joining", PriorEmploymentDays);
+            PGSetup.Get();
+            AttendanceSetup.Get();
+            if PGSetup."Deduction Entries" then
+                GetUnpaidDaysFromDeductionEntries(PayrollHeader,
+                                                    PayrollLine,
+                                                    AttendanceSetup."Absent Deductions")
+            else begin
+                PayrollLine.Validate("Late Days", AttendanceSummary."Late Deduction");
+                PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays);
+            end;
+            if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
                 PayrollLine.Validate("Post Resignation Days", PayrollHeader."To Date" - PayrollLine."Resignation Date");
-            PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays + PayrollLine."Post Resignation Days");
+                PayrollLine.Validate("Post Payroll Days", 0);
+            end;
             if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                 EmployeeAttendActivity.Reset();
                 EmployeeAttendActivity.SetRange("Attendance Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
@@ -1456,6 +1455,41 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Head Teller Days", AttendanceSummary."Head Teller Days");
             PayrollLine.Validate("Teller Days", AttendanceSummary."Teller Days");
             PayrollLine.Validate("Dashain Allowance Days", AttendanceSummary."Dashain Allowance Days");
+        end;
+    end;
+
+    local procedure GetUnpaidDaysFromDeductionEntries(PayrollHeader: Record "Payroll Header";
+                                                        var PayrollLine: Record "Payroll Line";
+                                                        AbsentDeduction: Boolean)
+    var
+        SalaryDeductionEntries: Record "Salary Deduction Entry";
+        PayCyclePeriod, PreviousPayCyclePeriod : Record "Pay Cycle Period";
+    begin
+        if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then;
+        if PreviousPayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period" - 1) then;
+
+        // Base filters for all deduction types
+        SalaryDeductionEntries.Reset();
+        SalaryDeductionEntries.SetRange("Employee No.", PayrollLine."Employee No.");
+        SalaryDeductionEntries.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+        SalaryDeductionEntries.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+        SalaryDeductionEntries.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+        SalaryDeductionEntries.SetRange(Reversed, false);
+
+        // Count entries by deduction type
+        SalaryDeductionEntries.SetRange("Deduction Type", SalaryDeductionEntries."Deduction Type"::Late);
+        PayrollLine.Validate("Late Days", SalaryDeductionEntries.Count());
+
+        SalaryDeductionEntries.SetRange("Deduction Type", SalaryDeductionEntries."Deduction Type"::LWP);
+        PayrollLine.Validate("LWP Days", SalaryDeductionEntries.Count());
+
+        if AbsentDeduction then begin
+            SalaryDeductionEntries.SetRange("Deduction Type", SalaryDeductionEntries."Deduction Type"::Absent);
+            SalaryDeductionEntries.SetRange("Deduction Date", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
+            PayrollLine.validate("Absent Days", SalaryDeductionEntries.Count());
+
+            SalaryDeductionEntries.SetRange("Deduction Date", PreviousPayCyclePeriod."Pay Date", PreviousPayCyclePeriod."End Date");
+            PayrollLine.Validate("Prior Absent Days", SalaryDeductionEntries.Count());
         end;
     end;
 
@@ -3610,41 +3644,6 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to Get Gratuity amount from employee card
         //You can add custom logic here if needed.
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeAnnualTaxZeroonNegative(var IsHandle: Boolean)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterMonthlyTaxCalculation(var AnnualTax: Decimal; var MonthlyTax: Decimal; var NegMonthlyTax: Decimal)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterAdditionOfTaxAtOnceAnnualTax(var AnnualTax: Decimal; var MonthlyTax: Decimal; var NegMonthlyTax: Decimal)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterAnnualTaxCalculation(var SocialSecurityTax: Decimal; var TaxExempt: Decimal; var TotalTaxWithoutSST: Decimal; var IsHandle: Boolean)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAllowNegativeTaxForSST(var SocialSecurityTaxAmount: Decimal; var SocialSecurityTax: Decimal; var TotalSSTPaid: Decimal; var MonthlyTax: Decimal; var RemainingMonth: Decimal; var AnnualTax: Decimal; var NegMonthlyTax: Decimal; var TaxAtOnceAnnualTax: Decimal)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeResetOnNegative(var IsHandle: Boolean)
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnCheckNegativeAmountWithSSTaxAmount(var IsNegativeTax: Boolean)
-    begin
     end;
 
 }

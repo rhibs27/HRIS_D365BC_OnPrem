@@ -36,7 +36,6 @@ page 50364 "Qualification Attachment"
                     FromFileName: Text;
                     AttachmentMgt: Codeunit "Attachment Mgt.";
                 begin
-                    // Rec.TestField("Entry No.");
                     if Rec.Attachment.HasValue() then
                         if not Confirm(OverrideImageQst) then
                             exit;
@@ -81,16 +80,12 @@ page 50364 "Qualification Attachment"
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
                 begin
-                    // Rec.TestField("Entry No.");
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
                         ToFile := Format(Rec."Employee No.") + '_' + format(Rec."Emp Qualification Type") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
                         ItemTenantMedia.CalcFields(Content);
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
                         DownloadFromStream(Instream, '', '', '', ToFile);
                     end;
-                    // ExportPath := TemporaryPath + Format(Rec."Employee No.") + Format(Rec.Attachment.MediaId);
-                    // Rec.Attachment.ExportFile(ExportPath);
-                    // FileManagement.ExportImage(ExportPath, ToFile);
                 end;
             }
             action(DeletePicture)
@@ -144,7 +139,5 @@ page 50364 "Qualification Attachment"
     local procedure SetEditableOnPictureActions()
     begin
         DeleteExportEnabled := Rec.Attachment.HasValue();
-        // if rec."Notice End Date" >= Today then
-        //     EditableField := true;
     end;
 }

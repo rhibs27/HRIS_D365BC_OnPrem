@@ -414,7 +414,8 @@ codeunit 50010 "Payroll-Post"
                     Employee.Modify;
                 end;
             until PayrollLine.Next = 0;
-        ClearPayrollAttributeUsageFromAttributeHistory(PayrollHeader."From Date", PayrollHeader."To Date");
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+            ClearPayrollAttributeUsageFromAttributeHistory(PayrollHeader."From Date", PayrollHeader."To Date");
         PayrollLine.DeleteAll();
         PayrollHeader.Delete;
     end;
@@ -427,6 +428,7 @@ codeunit 50010 "Payroll-Post"
         //To Automate stop payment of payroll attribute with end date in history.
         PayrollAttrUsageHistory.Reset();
         PayrollAttrUsageHistory.SetRange("End Date", FromDate, ToDate);
+        PayrollAttrUsageHistory.SetRange(Reversed, false);
         if PayrollAttrUsageHistory.FindSet() then
             repeat
                 if PayrollAttributesUsage.get(PayrollAttrUsageHistory."Attribute Code", PayrollAttrUsageHistory."Employee No.") then begin
@@ -507,7 +509,11 @@ codeunit 50010 "Payroll-Post"
 
         //check and update Assignment memo lines if any
         AssignmentMemoLedgerEntry.SetRange("Payroll Posted", false);
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PGSetup.Get();
+        if PGSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PayrollHeader."No.");
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat

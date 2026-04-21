@@ -154,6 +154,11 @@ page 50276 "HR Overview"
                         ToolTip = 'Specifies the value of the Retirement Fund field.';
                         ApplicationArea = All;
                     }
+                    field(Resignation; Rec.Resignation)
+                    {
+                        ToolTip = 'Specifies the value of the Resignation field.';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }

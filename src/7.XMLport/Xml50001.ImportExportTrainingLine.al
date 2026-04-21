@@ -24,7 +24,7 @@ xmlport 50001 "Import/Export Training Line"
                 {
                     trigger OnBeforePassVariable()
                     begin
-                        EmployeeNameTitle := "Training Line".FieldCaption(Name);
+                        EmployeeNameTitle := "Training Line".FieldCaption("Employee Name");
                     end;
                 }
                 textelement(DepartmentCodeTitle)
@@ -61,10 +61,9 @@ xmlport 50001 "Import/Export Training Line"
                 XmlName = 'TrainingLine';
                 SourceTableView = where(Type = const(Trainee));
                 fieldelement("EmployeeNo."; "Training Line"."Employee Code") { }
-                fieldelement(EmployeeName; "Training Line".Name) { }
+                fieldelement(EmployeeName; "Training Line"."Employee Name") { }
                 fieldelement(DepartmentCode; "Training Line"."Department Code") { }
                 fieldelement(DepartmentName; "Training Line"."Department Name") { }
-                fieldelement(BranchCode; "Training Line"."Shortcut Dimension 1 Code") { }
                 fieldelement(BranchName; "Training Line"."Branch Name") { }
 
                 trigger OnBeforeInsertRecord()

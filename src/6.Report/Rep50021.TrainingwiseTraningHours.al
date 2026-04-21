@@ -15,7 +15,7 @@ report 50021 "Training wise Traning Hours"
             {
                 DataItemLink = "Training No." = field("No.");
                 column(TrainerType_TrainingLine; "Training Line"."Trainer Type") { }
-                column(Name_TrainingLine; "Training Line".Name) { }
+                column(Name_TrainingLine; "Training Line"."Employee Name") { }
                 column(Type_TrainingLine; "Training Line".Type) { }
                 column(TotalHours_TrainingLine; Hours) { }
                 column(TrainingType_TrainingLine; "Training Line"."Training Type") { }

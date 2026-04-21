@@ -53,6 +53,7 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
         {
             field("Lt."; Rec."Lt.")
             {
+                Caption = 'Late';
                 ApplicationArea = all;
             }
         }
@@ -103,6 +104,11 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Ward No field.';
             }
+            field(Discontinue; Rec.Discontinue)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Discontinue field.';
+            }
 
             field(Age; Rec.Age)
             {
@@ -128,6 +134,7 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
                 ToolTip = 'Specifies the value of the Citizenship Date (Nepali) field.';
                 Visible = false;
             }
+
         }
     }
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean

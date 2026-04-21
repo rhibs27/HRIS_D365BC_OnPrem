@@ -95,6 +95,11 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies the value of Absent Deductions field';
                     ApplicationArea = All;
                 }
+                field("Attendance Allowed From"; Rec."Attendance Allowed From")
+                {
+                    ToolTip = 'Specifies the value of Attendance Allowed From field';
+                    ApplicationArea = All;
+                }
             }
             group(Integration)
             {

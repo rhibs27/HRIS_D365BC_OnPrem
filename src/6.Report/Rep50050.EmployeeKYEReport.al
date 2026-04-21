@@ -187,7 +187,7 @@ report 50050 "Employee KYE Report"
             }
             dataitem("Training Line"; "Training Line")
             {
-                DataItemTableView = sorting("Training Start Date") order(descending) where(Type = const(Trainee), Attended = const(true));
+                DataItemTableView = sorting("Training Start Date") order(descending) where(Type = const(Trainee), Posted = const(true));
                 DataItemLinkReference = Employee;
                 DataItemLink = "Employee Code" = field("No.");
                 column(TrainingDescription_TrainingLine; "Training Line"."Training Description") { }

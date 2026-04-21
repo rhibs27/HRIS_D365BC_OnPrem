@@ -45,4 +45,8 @@ enumextension 50002 "Approval Status" extends "Approval Status"
     {
         Caption = 'Reviewed';
     }
+    value(50011; Submitted)
+    {
+        Caption = 'Submitted';
+    }
 }

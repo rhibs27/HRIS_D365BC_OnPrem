@@ -231,6 +231,7 @@ table 50034 "Posted Payroll Header"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         OvertimeLedgerEntry: Record "OverTime Ledger Entry";
         SalaryDeductionEntry: Record "Salary Deduction Entry";
+        PGSetup: Record "Payroll General Setup";
     begin
         LeaveEarn.SetRange("Payroll Posted", true);
         LeaveEarn.SetRange("Payroll Document No", PostedDocNo);
@@ -242,10 +243,17 @@ table 50034 "Posted Payroll Header"
             until LeaveEarn.Next() = 0;
 
         AllowanceAssignmentLine.SetRange("Payroll Doc No.", PostedDocNo);
-        AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
-        AllowanceAssignmentLine.ModifyAll("Payroll Posted", false);
+        if AllowanceAssignmentLine.FindSet() then
+            repeat
+                AllowanceAssignmentLine.Validate("Payroll Doc No.", '');
+                AllowanceAssignmentLine.Validate("Payroll Posted", false);
+            until AllowanceAssignmentLine.Next() = 0;
 
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PGSetup.Get();
+        if PGSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PostedDocNo);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat

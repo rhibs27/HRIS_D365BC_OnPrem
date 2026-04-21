@@ -42,28 +42,32 @@ codeunit 50023 EmployeeActivityMgt
     var
         EmphrTransfer: Record "Employee Transfer";
         TransferType: Enum "Transfer Type";
+        IsHandled: Boolean;
     begin
-        if not (EmployeeACTJnl."Transfer Type" in [TransferType::"Intra Branch", TransferType::"Intra Department", TransferType::"Intra Provincial"]) then begin
-            EmployeeACTJnl.TestField("Incoming Supervisor");
-            EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
-        end;
-        EmployeeACTJnl.TestField("Employee No.");
-        EmployeeACTJnl.TestField("Transfer Type");
-        EmployeeACTJnl.TestField("Transfer Category");
-        EmployeeACTJnl.TestField("Deputation On (To)");
-        EmployeeACTJnl.TestField("Transfer Effective Date");
-        EmployeeACTJnl.TestField("Approver Role (TO)");
-        case EmployeeACTJnl."Deputation On (To)" of
-            EmployeeACTJnl."Deputation On (To)"::Branch:
-                EmployeeACTJnl.TestField("To Branch");
-            EmployeeACTJnl."Deputation On (To)"::Department:
-                EmployeeACTJnl.TestField("Department Code (To)");
-            EmployeeACTJnl."Deputation On (To)"::"Extension Counter":
-                EmployeeACTJnl.TestField("Extension Counter (To)");
-            EmployeeACTJnl."Deputation On (To)"::Province:
-                EmployeeACTJnl.TestField("Province Code (To)");
-            EmployeeACTJnl."Deputation On (To)"::Unit:
-                EmployeeACTJnl.TestField("Unit (To)");
+        OnBeforeConfirmTransferJournalDetails(EmployeeACTJnl, IsHandled);
+        if not IsHandled then begin
+            if not (EmployeeACTJnl."Transfer Type" in [TransferType::"Intra Branch", TransferType::"Intra Department", TransferType::"Intra Provincial"]) then begin
+                EmployeeACTJnl.TestField("Incoming Supervisor");
+                EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
+            end;
+            EmployeeACTJnl.TestField("Employee No.");
+            EmployeeACTJnl.TestField("Transfer Type");
+            EmployeeACTJnl.TestField("Transfer Category");
+            EmployeeACTJnl.TestField("Deputation On (To)");
+            EmployeeACTJnl.TestField("Transfer Effective Date");
+            EmployeeACTJnl.TestField("Approver Role (TO)");
+            case EmployeeACTJnl."Deputation On (To)" of
+                EmployeeACTJnl."Deputation On (To)"::Branch:
+                    EmployeeACTJnl.TestField("To Branch");
+                EmployeeACTJnl."Deputation On (To)"::Department:
+                    EmployeeACTJnl.TestField("Department Code (To)");
+                EmployeeACTJnl."Deputation On (To)"::"Extension Counter":
+                    EmployeeACTJnl.TestField("Extension Counter (To)");
+                EmployeeACTJnl."Deputation On (To)"::Province:
+                    EmployeeACTJnl.TestField("Province Code (To)");
+                EmployeeACTJnl."Deputation On (To)"::Unit:
+                    EmployeeACTJnl.TestField("Unit (To)");
+            end;
         end;
         EmphrTransfer.Reset();
         EmphrTransfer.SetRange("Employee No.", EmployeeACTJnl."Employee No.");
@@ -95,6 +99,7 @@ codeunit 50023 EmployeeActivityMgt
         TransferEmployeeJournal: Record "Employee Activity Journal";
         HrSetup: Record "Human Resources Setup";
         AttachmentSetup: Record "Attachment Setup";
+        IsHandled: Boolean;
     begin
         HrSetup.Get();
         TransferEmployeeJournal.Reset();
@@ -112,32 +117,35 @@ codeunit 50023 EmployeeActivityMgt
                     if not TransferEmployeeJournal.Attachment.HasValue then
                         Error('Please attach the mandatory document in Transfer Journal No %1 and line no %2 before posting', TransferEmployeeJournal."Emp Act. No", TransferEmployeeJournal."Line No");
 
-                TransferRequest.Init();
-                TransferRequest.Validate("No.", '');
-                TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
-                TransferRequest.Validate("Deputation On (To)", TransferEmployeeJournal."Deputation On (To)");
-                TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
-                TransferRequest.Validate("Province Code (To)", TransferEmployeeJournal."Province Code (To)");
-                TransferRequest.Validate("To Branch", TransferEmployeeJournal."To Branch");
-                TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
-                TransferRequest.Validate("Extension Counter (To)", TransferEmployeeJournal."Extension Counter (To)");
-                TransferRequest.Validate("Unit (To)", TransferEmployeeJournal."Unit (To)");
-                TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
-                TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
-                TransferRequest.Validate("Transfer Type", TransferEmployeeJournal."Transfer Type");
-                TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
-                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
-                TransferRequest.Validate("Incoming Supervisior 2", TransferEmployeeJournal."Incoming Supervisor 2");
-                TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
-                TransferRequest.Validate("Outgoing Branch Rep. Person 2", TransferEmployeeJournal."Outgoing Branch Rep. Person 2");
-                TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
-                TransferRequest.Validate("Approver Role To", TransferEmployeeJournal."Approver Role (TO)");
-                TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
-                TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
-                TransferRequest.Validate("Is Transfer Details Added", true);
-                TransferRequest.Validate("Approved Date", Today);
-                TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
-                TransferRequest.Insert(true);
+                onBeforeTransferInsert(TransferEmployeeJournal, IsHandled);
+                if not IsHandled then begin
+                    TransferRequest.Init();
+                    TransferRequest.Validate("No.", '');
+                    TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
+                    TransferRequest.Validate("Deputation On (To)", TransferEmployeeJournal."Deputation On (To)");
+                    TransferRequest.Validate("Province Code (To)", TransferEmployeeJournal."Province Code (To)");
+                    TransferRequest.Validate("To Branch", TransferEmployeeJournal."To Branch");
+                    TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
+                    TransferRequest.Validate("Extension Counter (To)", TransferEmployeeJournal."Extension Counter (To)");
+                    TransferRequest.Validate("Unit (To)", TransferEmployeeJournal."Unit (To)");
+                    TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
+                    TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
+                    TransferRequest.Validate("Transfer Type", TransferEmployeeJournal."Transfer Type");
+                    TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
+                    TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
+                    TransferRequest.Validate("Incoming Supervisior 2", TransferEmployeeJournal."Incoming Supervisor 2");
+                    TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
+                    TransferRequest.Validate("Outgoing Branch Rep. Person 2", TransferEmployeeJournal."Outgoing Branch Rep. Person 2");
+                    TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
+                    TransferRequest.Validate("Approver Role To", TransferEmployeeJournal."Approver Role (TO)");
+                    TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
+                    TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
+                    TransferRequest.Validate("Is Transfer Details Added", true);
+                    TransferRequest.Validate("Approved Date", Today);
+                    TransferRequest.Validate("On Employee Request", TransferEmployeeJournal."On Employee Request");
+                    TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
+                    TransferRequest.Insert(true);
+                end;
 
                 //Handle the attachment transfer from Employee Activity Journal to Posted Employee Journal
                 if TransferEmployeeJournal.Attachment.HasValue then
@@ -606,6 +614,7 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeLoanRec."Yearly Premium Amount" := LoanJournal."Yearly Premium Amount";
                 EmployeeLoanRec."First Premium Date" := LoanJournal."First Premium Date";
                 EmployeeLoanRec."Monthly Deduction" := LoanJournal."Monthly Deduction";
+                EmployeeLoanRec."Effective Date" := LoanJournal."Transfer Effective Date";
 
                 EmployeeLoanRec.Validate(Remarks, LoanJournal.Remarks);
                 EmployeeLoanRec.Validate("Approval Status", EmployeeLoanRec."Approval Status"::Approved);
@@ -693,6 +702,18 @@ codeunit 50023 EmployeeActivityMgt
     local procedure OnBeforePostAttendanceJournal(var AttendanceMissed: Record "Attendance Missed"; AttendanceMissedJournal: Record "Employee Activity Journal")
     begin
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure onBeforeTransferInsert(var TransferJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
+    begin
+        //For any Control related to TransferInsert
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeConfirmTransferJournalDetails(var TransferJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
+    begin
+        //For any Control related to Journal
     end;
 
     var
