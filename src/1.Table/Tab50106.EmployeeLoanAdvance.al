@@ -389,6 +389,11 @@ table 50106 "Employee Loan/Advance"
         {
             Description = 'vehicle loan';
             Editable = false;
+
+            trigger OnValidate()
+            begin
+                "Outstanding Amount" := "Disbursed Amount";
+            end;
         }
         field(79; "Outstanding Amount"; Decimal)
         {
