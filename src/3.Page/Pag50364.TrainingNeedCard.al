@@ -77,7 +77,7 @@ page 50397 "Training Need Card"
                     ToolTip = 'Specifies the training Code or description.';
                     ApplicationArea = All;
                 }
-                field("Training Name"; "Training Name")
+                field("Training Name"; Rec."Training Name")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the training description.';
@@ -199,7 +199,7 @@ page 50397 "Training Need Card"
 
     local procedure SetLayout()
     begin
-        IsOpen := Rec.Status = Rec.Status::Open;
+        IsOpen := (Rec.Status = Rec.Status::Open);
         IsSubmitted := Rec.Status = Rec.Status::Pending;
 
         case Rec.Status of

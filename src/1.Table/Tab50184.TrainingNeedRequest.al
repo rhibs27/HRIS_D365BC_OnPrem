@@ -151,6 +151,7 @@ table 50184 "Training Need Request"
     trigger OnInsert()
     begin
         Validate("Requested Date", Today);
+        Validate(Status, Status::Open);
         Validate("Employee No.", HRMgt.GetEmployeeNo());
         Validate("Entry No.", GetEntryNo())
     end;

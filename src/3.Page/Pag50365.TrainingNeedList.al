@@ -6,6 +6,8 @@ page 50398 "Training Need List"
     CardPageId = "Training Need Card";
     ApplicationArea = All;
     UsageCategory = Lists;
+    ModifyAllowed = false;
+    DeleteAllowed = false;
 
     layout
     {
