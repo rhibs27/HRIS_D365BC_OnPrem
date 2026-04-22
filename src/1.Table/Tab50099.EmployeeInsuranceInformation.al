@@ -95,7 +95,15 @@ table 50099 "Employee Insurance Information"
         {
             Editable = false;
         }
-        field(12; "Insurance Amount"; Decimal) { }
+        field(12; "Insurance Amount"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                if Rec."Insurance Amount" <> xRec."Insurance Amount" then
+                    Clear("Annual Premium Amount");
+            end;
+        }
+
         field(13; "Annual Premium Amount"; Decimal)
         {
             trigger OnValidate()

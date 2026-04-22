@@ -347,6 +347,7 @@ codeunit 50002 "Loan Mgt."
         EmpLoanInterest: Record "Employee Loan Interest";
         VehicleLoanEMI: Decimal;
         CheckSalaryLevel: Record "Salary Level";
+        SalaryCalcMgt: Codeunit "Salary Calculation Mgt";
     begin
         Employee.Get(EmpLoan."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
@@ -407,6 +408,9 @@ codeunit 50002 "Loan Mgt."
             if EmpLoan."DBR Ratio" > HRSetup."Below SO DBR" then
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
         end;
+
+        // Calculate and store take-home salary using SalaryCalculationMgt
+        SalaryCalcMgt.CalculateAndStoreTakeHome(EmpLoan);
     end;
 
     local procedure InsertAttachmentLines(var EmpLoan: Record "Employee Loan/Advance")

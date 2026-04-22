@@ -586,6 +586,11 @@ table 50106 "Employee Loan/Advance"
             FieldClass = FlowField;
             Editable = false;
         }
+        field(222; "Take-Home Salary"; Decimal)
+        {
+            Caption = 'Take-Home Salary';
+            Editable = false;
+        }
 
     }
 
