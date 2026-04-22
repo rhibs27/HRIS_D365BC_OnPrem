@@ -62,23 +62,19 @@ table 50184 "Training Need Request"
         field(6; "Training Name"; Text[250])
         {
             Caption = 'Training Description / Topic';
-            Editable = false;
         }
         field(7; "Deputation On"; Enum "Deputation Type")
         {
             Caption = 'Deputation On';
-            Editable = false;
         }
         field(8; "Deputation Code"; Code[20])
         {
             DataClassification = ToBeClassified;
-            Editable = false;
             TableRelation = "Organization Structure List".Code where(Type = field("Deputation On"));
         }
         field(9; "Fiscal Year"; Text[10])
         {
             Caption = 'Fiscal Year';
-            Editable = false;
         }
         field(10; Justification; Text[2000])
         {
