@@ -2906,8 +2906,13 @@ table 50027 "Payroll Line"
     procedure UnmarkAssignmentMemoLedgerEntry(PayrollDocNo: Code[20]; EmployeeCode: Code[20])
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        PGSetup: Record "Payroll General Setup";
     begin
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PGSetup.Get();
+        IF PGSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", PayrollDocNo);
         if AssignmentMemoLedgerEntry.FindSet() then
