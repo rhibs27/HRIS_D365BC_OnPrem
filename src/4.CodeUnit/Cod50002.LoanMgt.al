@@ -1936,8 +1936,9 @@ codeunit 50002 "Loan Mgt."
         EmpLoanAdv: Record "Employee Loan/Advance";
         OutstandingAmt: Decimal;
     begin
-        if not Confirm(CONFIRMATION, false) then
-            exit;
+        if GuiAllowed then
+            if not Confirm(CONFIRMATION, false) then
+                exit;
         loanSettelment.TestField("Loan No.");
         loanSettelment.TestField("Settlement Type");
         loanSettelment.TestField("Settlement Amount");
@@ -2255,6 +2256,5 @@ codeunit 50002 "Loan Mgt."
     local procedure OnBeforeCalculateEligibleStaffSocialLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
     begin
     end;
-
 
 }

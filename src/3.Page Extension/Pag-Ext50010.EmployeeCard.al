@@ -997,6 +997,40 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Editable = false;
             }
         }
+        addafter("Cause of Inactivity Code")
+        {
+            field("Suspension Active"; Rec."Suspension Active")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                StyleExpr = SuspensionStyle;
+                ToolTip = 'Indicates whether the employee is currently under suspension.';
+            }
+            field("Suspension Level Code"; Rec."Suspension Level Code")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the suspension level affecting payroll.';
+            }
+            field("Suspension Reason"; Rec."Suspension Reason")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the reason for the suspension.';
+            }
+            field("Suspension Start Date"; Rec."Suspension Start Date")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the date the suspension began.';
+            }
+            field("Suspension End Date"; Rec."Suspension End Date")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the expected end date of the suspension.';
+            }
+        }
     }
     actions
     {
@@ -1903,6 +1937,66 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         end;
                     end;
                 }
+                action("Update Suspension Event")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Campaign;
+                    PromotedCategory = Category7;
+                    PromotedOnly = true;
+                    ToolTip = 'Records a suspension event for the employee.';
+                    trigger OnAction()
+                    var
+                        SuspensionDialog: Page "Suspension Event Dialog";
+                        ServiceHistory: Record "Employee Service History";
+                        LevelCode: Code[20];
+                        InactivityCode: Code[10];
+                        Reason: Text[100];
+                        StartDate: Date;
+                        EndDate: Date;
+                        ActiveFlag: Boolean;
+                    begin
+                        Rec.TestField("No.");
+                        SuspensionDialog.RunModal();
+                        if SuspensionDialog.IsOKPressed() then begin
+                            SuspensionDialog.GetValues(LevelCode, InactivityCode, Reason, StartDate, EndDate, ActiveFlag);
+                            ServiceHistory.Init();
+                            ServiceHistory.Validate("Service Event", ServiceHistory."Service Event"::Suspension);
+                            ServiceHistory.Validate("Employee No.", Rec."No.");
+                            ServiceHistory.Validate("Effective Date", StartDate);
+                            ServiceHistory.Validate("From Date", StartDate);
+                            ServiceHistory.Validate("To Date", EndDate);
+                            ServiceHistory."Suspension Level Code" := LevelCode;
+                            ServiceHistory."Cause of Inactivity Code" := InactivityCode;
+                            ServiceHistory."Suspension Reason" := Reason;
+                            ServiceHistory."Suspension Start Date" := StartDate;
+                            ServiceHistory."Suspension End Date" := EndDate;
+                            ServiceHistory."Suspension Active" := ActiveFlag;
+                            ServiceHistory.Insert(true);
+                            if ActiveFlag then begin
+                                Rec."Suspension Active" := true;
+                                Rec."Suspension Level Code" := LevelCode;
+                                Rec."Cause of Inactivity Code" := InactivityCode;
+                                Rec."Suspension Reason" := Reason;
+                                Rec."Suspension Start Date" := StartDate;
+                                Rec."Suspension End Date" := EndDate;
+                                SuspensionStyle := 'Unfavorable';
+                            end else begin
+                                Rec."Suspension Active" := false;
+                                Clear(Rec."Suspension Level Code");
+                                Clear(Rec."Cause of Inactivity Code");
+                                Clear(Rec."Suspension Reason");
+                                Clear(Rec."Suspension Start Date");
+                                Clear(Rec."Suspension End Date");
+                                SuspensionStyle := 'None';
+                            end;
+                            Rec.Modify(true);
+                            CurrPage.Update(false);
+                            Message('Suspension event has been recorded successfully.');
+                        end;
+                    end;
+                }
                 action("Add Job Function")
                 {
                     ApplicationArea = All;
@@ -2062,6 +2156,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         GrievanceMgt: Codeunit "Grievance Mgt";
+        SuspensionStyle: Text;
 
     trigger OnOpenPage()
     begin
@@ -2080,6 +2175,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
     trigger OnAfterGetRecord()
     begin
         SetFieldEnable();
+        if Rec."Suspension Active" then
+            SuspensionStyle := 'Unfavorable'
+        else
+            SuspensionStyle := 'None';
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)

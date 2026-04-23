@@ -183,10 +183,6 @@ table 50185 "Loan Settlement"
             if "Approval Status" = "Approval Status"::Open then
                 loanMgt.InsertSettelmentAttachmentLines(rec);
 
-            if not GuiAllowed then begin
-                Type := type::"Loan Settlement";
-                loanMgt.SendSettlementApproval(Rec, true);
-            end;
         end;
     end;
 

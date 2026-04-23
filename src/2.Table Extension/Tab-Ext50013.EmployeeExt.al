@@ -1545,6 +1545,33 @@ tableextension 50013 "Employee Ext" extends Employee
             Caption = 'Suspension Active';
             DataClassification = CustomerContent;
         }
+        field(50204; "Suspension Level Code"; Code[20])
+        {
+            Caption = 'Suspension Level Code';
+            DataClassification = CustomerContent;
+            TableRelation = "Suspension Level";
+        }
+        // field(50205; "Suspension Cause of Inactivity"; Code[10])
+        // {
+        //     Caption = 'Cause of Inactivity';
+        //     DataClassification = CustomerContent;
+        //     TableRelation = "Cause of Inactivity";
+        // }
+        field(50206; "Suspension Reason"; Text[100])
+        {
+            Caption = 'Suspension Reason';
+            DataClassification = CustomerContent;
+        }
+        field(50207; "Suspension Start Date"; Date)
+        {
+            Caption = 'Suspension Start Date';
+            DataClassification = CustomerContent;
+        }
+        field(50208; "Suspension End Date"; Date)
+        {
+            Caption = 'Suspension End Date';
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {
