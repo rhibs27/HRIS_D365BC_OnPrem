@@ -1,4 +1,4 @@
-codeunit 50037 "Salary Calculation Mgt"
+codeunit 50038 "Salary Calculation Mgt"
 {
     trigger OnRun()
     begin

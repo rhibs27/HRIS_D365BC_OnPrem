@@ -1540,6 +1540,11 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
             Description = 'Calculated based on salary level and employment date';
         }
+        field(50203; "Suspension Active"; Boolean)
+        {
+            Caption = 'Suspension Active';
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {
