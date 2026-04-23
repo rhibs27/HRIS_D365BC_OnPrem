@@ -74,4 +74,9 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Personal Loan Settelment';
     }
+    value(18; "Transfer Takeover")
+    {
+        Caption = 'Transfer Takeover';
+    }
+
 }

@@ -144,6 +144,10 @@ report 50067 "Process Daily Attendance"
             FromDate := Today - 1;
             ToDate := Today;
         end;
+        if AttSetup."Attendance Allowed From" <> 0D then
+            if FromDate < AttSetup."Attendance Allowed From" then
+                Error('Process daily Attendance is allowed from %1. Please check Attendance Setup', AttSetup."Attendance Allowed From");
+
     end;
 
     trigger OnPostReport()

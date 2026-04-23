@@ -1,9 +1,8 @@
 table 50013 "Training Calendar"
 {
-    DrillDownPageId = "Training Calendar Lists";
+    DrillDownPageId = "Training Calendar Card";
     LookupPageId = "Training Calendar Lists";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -17,37 +16,36 @@ table 50013 "Training Calendar"
                 end;
             end;
         }
-        field(2; "Training Master code"; Code[20])
+        field(2; "Master Code"; Code[20])
         {
-            TableRelation = "Training Master";
-
+            TableRelation = "Training Master".Code where("Master Type" = filter("Training Setup Type"::" "));
             trigger OnValidate()
             begin
-                if TrainingMaster.Get("Training Master code") then
-                    Validate(Description, TrainingMaster.Description)
-                else
-                    Clear(Description);
+                if TrainingMaster.Get("Master Code") then begin
+                    Validate("Master Description", TrainingMaster.Description);
+                    Validate("Training Category", TrainingMaster."Training Category");
+                end else
+                    Clear("Master Description");
             end;
         }
-        field(3; Description; Text[250])
+        field(3; "Master Description"; Text[250])
         {
             Editable = false;
         }
-        field(4; "Coverage Branch"; Code[100])
+        field(4; "Coverage Branch"; Code[500])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate("Coverage Branch", HRMgt.LookupBranch("Coverage Branch", Province, "Sub-Province"));
-            // end;
+            trigger OnLookup()
+            begin
+                Validate("Coverage Branch", HRMgt.LookupBranch(''));
+            end;
         }
-        field(5; "Coverage Department"; Code[100])
+        field(5; "Coverage Department"; Code[500])
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate("Coverage Department", HRMgt.LookupDepartment("Coverage Department"));
-            // end;
+            trigger OnLookup()
+            begin
+                Validate("Coverage Department", HRMgt.LookupDepartment(''));
+            end;
         }
         field(6; "Coverage Functional Title"; Code[100])
         {
@@ -57,11 +55,10 @@ table 50013 "Training Calendar"
             end;
         }
         field(7; Valley; Enum "Outside/Inside Valley") { }
-        field(8; "Resouce person"; enum "Resouce person") { }
+        field(8; "Resource person"; enum "Resource person") { }
         field(9; "Assigned Person"; Code[20]) { }
         field(10; "Expected Venue"; Text[30])
         {
-            Description = '//not needed';
         }
         field(11; District; Code[20])
         {
@@ -88,27 +85,99 @@ table 50013 "Training Calendar"
         {
             Editable = false;
         }
-        field(18; "Training Type"; Enum "Training Type") { }
         field(19; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(20; Quater; Enum Quater) { }
-        field(21; Province; Code[100])
+        field(20; Quarter; Enum Quarter) { }
+        field(21; Province; Code[500])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Province), Blocked = filter(false));
-            // trigger OnLookup()
-            // begin
-            //     Validate(Province, HRMgt.SetCalendarHolidayProvience(Province));
-            // end;
+            trigger OnLookup()
+            begin
+                Validate(Province, HRMgt.LookupProvinceOrganization());
+            end;
         }
-        // field(22; "Sub-Province"; Code[250])
-        // {
-        //     trigger OnLookup()
-        //     begin
-        //         Validate("Sub-Province", HRMgt.LookupSubProvinceTraining("Sub-Province", Province));
-        //     end;
-        // }
+        field(22; "Training Nature"; Enum "Training Nature") { }
+        field(23; "Training Institute Name"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Institute");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Institute Name" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(24; "Training Category"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Category");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Category" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(25; "Training Module"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Module");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Module" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(26; "Training Type"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Type");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Type" := TrgMaster.Description;
+                end;
+            end;
+        }
+        field(27; "Training Mode"; Text[250])
+        {
+            trigger OnLookup()
+            var
+                TrgMaster: Record "Training Master";
+                TrgMasterPage: Page "Training Master";
+            begin
+                TrgMaster.SetRange("Master Type", TrgMaster."Master Type"::"Training Mode");
+                TrgMasterPage.SetTableView(TrgMaster);
+                TrgMasterPage.LookupMode(true);
+                if TrgMasterPage.RunModal() = Action::LookupOK then begin
+                    TrgMasterPage.GetRecord(TrgMaster);
+                    "Training Mode" := TrgMaster.Description;
+                end;
+            end;
+        }
     }
 
     keys
@@ -116,7 +185,12 @@ table 50013 "Training Calendar"
         key(Key1; "No.") { }
     }
 
-    fieldgroups { }
+    fieldgroups
+    {
+        fieldgroup(DropDown; "No.", "Master Code", "Master Description")
+        {
+        }
+    }
 
     trigger OnInsert()
     var
@@ -132,22 +206,11 @@ table 50013 "Training Calendar"
             while TrainingCalender.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
-
-        //NoseriesNew
-        // if "No." = '' then begin
-        //     HRSetup.Get();
-        //     HRSetup.TestField("Training Calendar No.");
-        //     "No. Series" := HRSetup."KPI No. Series";
-        //     if NoSeries.AreRelated(HRSetup."KPI No. Series", xRec."No. Series") then
-        //         "No. Series" := xRec."No. Series";
-        //     "No." := NoSeries.GetNextNo("No. Series");
-        // end;
     end;
 
     var
         TrainingMaster: Record "Training Master";
         NoSeriesMgt: Codeunit "No. Series";
-        // NOseries: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
 

@@ -1,11 +1,12 @@
 page 50105 "Employee Training Feedback"
 {
     AutoSplitKey = true;
-    DeleteAllowed = false;
+    // DeleteAllowed = true;
     InsertAllowed = false;
     PageType = List;
     SourceTable = "Employee Feedback";
     ApplicationArea = All;
+    UsageCategory = Lists;
 
     layout
     {
@@ -13,6 +14,21 @@ page 50105 "Employee Training Feedback"
         {
             repeater(Group)
             {
+                field("Training No."; Rec."Training No.")
+                {
+                    ToolTip = 'Specifies the value of the Training No. field.';
+                    ApplicationArea = All;
+                }
+                field("Employee No."; Rec."Employee No.")
+                {
+                    ToolTip = 'Specifies the value of the Employee No. field.';
+                    ApplicationArea = All;
+                }
+                field("Trainer Name"; Rec."Trainer Name")
+                {
+                    ToolTip = 'Specifies the value of the Trainer Name field.';
+                    ApplicationArea = All;
+                }
                 field(Question; Rec.Question)
                 {
                     ToolTip = 'Specifies the value of the Question field.';
@@ -26,6 +42,17 @@ page 50105 "Employee Training Feedback"
                 field(Marks; Rec.Marks)
                 {
                     ToolTip = 'Specifies the value of the Marks field.';
+                    ApplicationArea = All;
+                }
+                field("Is Subjective"; Rec."Is Subjective")
+                {
+                    ToolTip = 'Specifies the value of the Is Subjective field.';
+                    ApplicationArea = All;
+                }
+
+                field("Answers Text"; Rec."Answers Text")
+                {
+                    ToolTip = 'Specifies the value of the Answers Text field.';
                     ApplicationArea = All;
                 }
                 field("Answer II"; Rec."Answer II")
@@ -46,9 +73,10 @@ page 50105 "Employee Training Feedback"
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
-        HRMgt.CalTraineeRemarksTraining(Rec.Code, Rec."Employee No.");
+        TrainingMgt.CalTraineeRemarksTraining(Rec."Training No.", Rec."Employee No.");
     end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        TrainingMgt: Codeunit "Training Mgt";
 }

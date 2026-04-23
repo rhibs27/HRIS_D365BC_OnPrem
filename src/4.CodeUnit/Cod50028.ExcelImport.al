@@ -549,6 +549,94 @@ codeunit 50028 "Excel Import"
         CreateExcelBook(TempExcelBuffer, 'ShiftLine');
     end;
 
+    procedure ImportTrainingAttendanceFromExcelSheet(DocNo: Code[20])
+    var
+        FileMgt: Codeunit "File Management";
+        IStream: InStream;
+        FromFile, CellValue : Text;
+        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
+        FieldRef: FieldRef;
+        RecRef: RecordRef;
+        TrainingAttendance: Record "Training Attendance";
+    begin
+        if UploadIntoStream('Import From Excel', '', '', FromFile, IStream) then begin
+            if FromFile <> '' then begin
+                FileName := FileMgt.GetFileName(FromFile);
+                SheetName := ExcelBuffer.SelectSheetsNameStream(IStream);
+            end
+            else
+                Error('No file found.');
+            ExcelBuffer.Reset();
+            ExcelBuffer.DeleteAll();
+            ExcelBuffer.OpenBookStream(IStream, SheetName);
+            ExcelBuffer.ReadSheet();
+            ExcelBuffer.SetRange("Column No.", 1);
+            ExcelBuffer.FindLast();
+            LastRow := ExcelBuffer."Row No.";
+            for RowNo := 2 to LastRow do begin
+                TrainingAttendance.Init();
+                TrainingAttendance.Validate("Training No", DocNo);
+                TrainingAttendance."Line No." := TrainingAttendance.GetLineNo(DocNo);
+                Evaluate(TrainingAttendance."Employee No.", GetValueAtCell(RowNo, 1));
+                TrainingAttendance.Validate("Employee No.");
+                Evaluate(TrainingAttendance."Attended Date", GetValueAtCell(RowNo, 3));
+                TrainingAttendance.Validate("Attended Date");
+                TrainingAttendance.Insert(true);
+            end;
+            Message(ExcelImportSuccess);
+        end;
+    end;
+
+    procedure ImportTraineeFromExcelSheet(DocNo: Code[20])
+    var
+        FileMgt: Codeunit "File Management";
+        IStream: InStream;
+        FromFile, CellValue : Text;
+        RowNo, LastRow, LastColumn, NoOfField, ColNo, LineNo : Integer;
+        FieldRef: FieldRef;
+        RecRef: RecordRef;
+        TrainingLine: Record "Training Line";
+    begin
+        if UploadIntoStream('Import From Excel', '', '', FromFile, IStream) then begin
+            if FromFile <> '' then begin
+                FileName := FileMgt.GetFileName(FromFile);
+                SheetName := ExcelBuffer.SelectSheetsNameStream(IStream);
+            end
+            else
+                Error('No file found.');
+            ExcelBuffer.Reset();
+            ExcelBuffer.DeleteAll();
+            ExcelBuffer.OpenBookStream(IStream, SheetName);
+            ExcelBuffer.ReadSheet();
+            ExcelBuffer.SetRange("Column No.", 1);
+            ExcelBuffer.FindLast();
+            LastRow := ExcelBuffer."Row No.";
+            for RowNo := 2 to LastRow do begin
+                TrainingLine.Init();
+                TrainingLine.Validate("Training No.", DocNo);
+                TrainingLine.Validate(Type, TrainingLine.Type::Trainee);
+                TrainingLine."Line No" := TrainingLine.GetLineNo(DocNo);
+                Evaluate(TrainingLine."Employee Code", GetValueAtCell(RowNo, 1));
+                TrainingLine.Validate("Employee Code");
+                TrainingLine.Insert(true);
+            end;
+            Message(ExcelImportSuccess);
+        end;
+    end;
+
+    procedure ExportTrainingAttendanceExcelFormat()
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+        TrainingAttendance: Record "Training Attendance";
+    begin
+        //Header
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn(TrainingAttendance.FieldCaption("Employee No."), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn('Employee Name', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(TrainingAttendance.FieldCaption("Attended Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Date);
+        CreateExcelBook(TempExcelBuffer, 'Attendance Line');
+    end;
+
     procedure ExportTransferSheet(EmployeeActJournal: Record "Employee Activity Journal")
     var
         TempExcelBuffer: Record "Excel Buffer" temporary;
@@ -571,6 +659,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Incoming Supervisor"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption("Outgoing Branch Rep. Person"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn(EmployeeActJournal.FieldCaption(Remarks), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        OnExportTransferSheetOnAfterHeader(TempExcelBuffer, EmployeeActJournal);
         //Data
         TempExcelBuffer.NewRow();
         TempExcelBuffer.AddColumn(EmployeeActJournal."Employee No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -589,6 +678,7 @@ codeunit 50028 "Excel Import"
         TempExcelBuffer.AddColumn(EmployeeActJournal."Incoming Supervisor", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn(EmployeeActJournal."Outgoing Branch Rep. Person", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn(EmployeeActJournal.Remarks, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        OnExportTransferSheetOnAfterData(TempExcelBuffer, EmployeeActJournal);
         //
         CreateExcelBook(TempExcelBuffer, 'TransferJournal');
     end;
@@ -629,6 +719,7 @@ codeunit 50028 "Excel Import"
         EmployeeActJournal.Validate("Outgoing Branch Rep. Person");
         Evaluate(EmployeeActJournal.Remarks, GetValueAtCell(RowNo, 16));
         EmployeeActJournal.Validate(Remarks);
+        OnImportTransferLineBeforeInsertApproval(EmployeeActJournal, RowNo, DocNo, FirstLine, ExcelBuffer);
         EmployeeActJournal.InsertApproval(FirstLine, DocNo);
         EmployeeActJournal."Emp Act. No" := DocNo;
         EmployeeActJournal."Line No" := EmployeeActJournal."Line No" + 10000;
@@ -652,6 +743,21 @@ codeunit 50028 "Excel Import"
 
     [IntegrationEvent(false, false)]
     procedure OnImportAttendanceLineBeforeInsertApproval(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; var FirstLine: Boolean; var ExcelBuffer: Record "Excel Buffer" temporary)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnImportTransferLineBeforeInsertApproval(var EmployeeActJournal: Record "Employee Activity Journal"; RowNo: Integer; DocNo: Code[20]; var FirstLine: Boolean; var ExcelBuffer: Record "Excel Buffer" temporary)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnExportTransferSheetOnAfterHeader(var TempExcelBuffer: Record "Excel Buffer" temporary; EmployeeActJournal: Record "Employee Activity Journal")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnExportTransferSheetOnAfterData(var TempExcelBuffer: Record "Excel Buffer" temporary; EmployeeActJournal: Record "Employee Activity Journal")
     begin
     end;
 

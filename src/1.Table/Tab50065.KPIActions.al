@@ -10,7 +10,7 @@ table 50065 "KPI Actions"
             Editable = false;
             TableRelation = Appraisal."Employee Code";
         }
-        field(3; "KPI Quater"; Enum Quater)
+        field(3; "KPI Quarter"; Enum Quarter)
         {
             Editable = false;
         }
@@ -26,7 +26,7 @@ table 50065 "KPI Actions"
 
     keys
     {
-        key(Key1; "Fiscal Year", "Employee Code", "KPI Quater", "Line No.", "Action Line No.") { }
+        key(Key1; "Fiscal Year", "Employee Code", "KPI Quarter", "Line No.", "Action Line No.") { }
     }
 
     fieldgroups { }

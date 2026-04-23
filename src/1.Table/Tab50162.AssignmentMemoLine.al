@@ -409,14 +409,22 @@ table 50162 "Assignment Memo Line"
         if AllowanceConfig.Source in [AllowanceConfig.Source::Direct, AllowanceConfig.Source::Leave] then
             if AllowanceConfig.Formula = '' then
                 exit(AllowanceConfig.Amount)
-            else
-                exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No."));
+            else begin
+                OnBeforeCalculateAssignmentProrataAmount(MonthlyAmt, AllowanceConfig, Rec, NoofDaysInMonth, IsHandled);
+                if not IsHandled then
+                    exit(AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No."))
+                else
+                    exit(MonthlyAmt);
+            end;
 
         if AllowanceConfig.Source in [AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift] then begin
             if AllowanceConfig.Formula = '' then
                 MonthlyAmt := AllowanceConfig.Amount
-            else
-                MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No.");
+            else begin
+                OnBeforeCalculateAssignmentProrataAmount(MonthlyAmt, AllowanceConfig, Rec, NoofDaysInMonth, IsHandled);
+                if not IsHandled then
+                    MonthlyAmt := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, "Employee No.");
+            end;
 
             exit(Round(MonthlyAmt / NoofDaysInMonth, 0.0001, '='));
         end;
@@ -640,6 +648,12 @@ table 50162 "Assignment Memo Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforGetAllowanceConfigAmount(allowanceConfig: Record "Allowance Configuration"; var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean; var Results: Decimal)
+    begin
+    end;
+
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateAssignmentProrataAmount(var MonthlyAmt: Decimal; AllowanceConfig: Record "Allowance Configuration"; var AssignmentMemoLine: Record "Assignment Memo Line"; NoofDaysInMonth: Integer; var IsHandled: Boolean)
     begin
     end;
 }

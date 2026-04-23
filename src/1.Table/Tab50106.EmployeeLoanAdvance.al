@@ -540,9 +540,9 @@ table 50106 "Employee Loan/Advance"
             Caption = 'Monthly Deduction';
             DataClassification = ToBeClassified;
         }
-        field(210; "Functional title"; Code[20])
+        field(210; "Effective Date"; Date)
         {
-            TableRelation = "Functional Title";
+            DataClassification = ToBeClassified;
         }
         field(211; "Salary Account Number"; Text[50])
         {
@@ -596,7 +596,10 @@ table 50106 "Employee Loan/Advance"
             Caption = 'Take-Home Salary';
             Editable = false;
         }
-
+                field(223; "Functional title"; Code[20])
+        {
+            TableRelation = "Functional Title";
+        }
     }
 
     keys

@@ -1473,8 +1473,8 @@ table 50027 "Payroll Line"
         EmployeeAdj.SetRange("Payroll Document No.", "Document No.");
         EmployeeAdj.SetRange("Employee No.", "Employee No.");
         EmployeeAdj.DeleteAll;
-
         UnmarkAssignmentMemoLedgerEntry("Document No.", "Employee No.");
+        UnmarkAssignmentLeaveEarn("Document No.", "Employee No.")
     end;
 
     trigger OnInsert()
@@ -2847,8 +2847,13 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         Amt: Decimal;
         PayrollGeneralSetup: Record "Payroll General Setup";
+        PayrollAttributes: Record "Payroll Attributes";
     begin
         PayrollGeneralSetup.Get();
+        if PayrollAttributes.Get(PayrollAttr) then
+            If PayrollLine.Type = PayrollLine.Type::Payroll then
+                if PayrollAttributes.Irregular then
+                    exit(0);
         if not PayrollGeneralSetup."Get Amount From Assignment" then
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance")
         else
@@ -2908,6 +2913,16 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", PayrollDocNo);
         if AssignmentMemoLedgerEntry.FindSet() then
             AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", '');
+    end;
+
+    procedure UnmarkAssignmentLeaveEarn(PayrollDocNo: Code[20]; EmployeeCode: Code[20])
+    var
+        LeaveEarn: Record "Leave Earn";
+    begin
+        LeaveEarn.SetRange("Employee No.", EmployeeCode);
+        LeaveEarn.SetFilter("Payroll Document No", PayrollDocNo);
+        if LeaveEarn.FindSet() then
+            LeaveEarn.ModifyAll("Payroll Document No", '');
     end;
 
     local procedure CalculateProRataAmtFromStartDate(EmpCode: Code[20]; AttrCode: Code[20]; var ProRatedAmount: Decimal)
