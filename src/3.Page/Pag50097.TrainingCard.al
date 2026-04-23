@@ -461,6 +461,9 @@ page 50097 "Training Card"
                     ApplicationArea = All;
                     Visible = IsOpen;
                     trigger OnAction()
+                    var
+                        EmpFeedback: Record "Employee Feedback";
+                        TraineeLine: Record "Training Line";
                     begin
                         Rec.TestField("Approval Status", Rec."Approval Status"::Open);
                         Rec."Approval Status" := Rec."Approval Status"::Released;
@@ -479,10 +482,16 @@ page 50097 "Training Card"
                     Enabled = not Rec.Posted;
                     Visible = (Rec."Approval Status" = Rec."Approval Status"::Released);
                     trigger OnAction()
+                    var
+                        TrainingLine: Record "Training Line";
                     begin
                         Rec.TestField("Approval Status", Rec."Approval Status"::Released);
                         Rec."Approval Status" := Rec."Approval Status"::Open;
                         Rec.Modify();
+
+                        TrainingLine.Reset();
+                        TrainingLine.SetRange("Training No.", Rec."No.");
+                        TrainingLine.ModifyAll(Posted, false);
                         CurrPage.Update();
                     end;
                 }

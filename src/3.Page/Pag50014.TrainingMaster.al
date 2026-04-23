@@ -26,6 +26,10 @@ page 50014 "Training Master"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Training Type"; Rec."Training Category")
+                {
+
+                }
             }
         }
     }

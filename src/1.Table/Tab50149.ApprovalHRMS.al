@@ -121,6 +121,7 @@ table 50149 "Approval HRMS"
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AppraisalRec: Record Appraisal;
+        ResignationRec: Record Resignation;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -176,8 +177,10 @@ table 50149 "Approval HRMS"
             "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
                 if AssignmentMemoHdr.Get("Document No.") then
                     RecRef.GetTable(AssignmentMemoHdr);
+            "Document Type"::Resignation:
+                if ResignationRec.Get("Document No.") then
+                    RecRef.GetTable(ResignationRec);
         end;
-
         RecRef.SetRecFilter();
         PageManagement.PageRun(RecRef);
     end;
@@ -202,6 +205,7 @@ table 50149 "Approval HRMS"
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AppraisalRec: Record Appraisal;
+        ResignationRec: Record Resignation;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -257,6 +261,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
                 if AssignmentMemoHdr.Get("Document No.") then
                     RecRef.GetTable(AssignmentMemoHdr);
+            "Document Type"::Resignation:
+                if ResignationRec.Get("Document No.") then
+                    RecRef.GetTable(ResignationRec);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, true);
     end;
@@ -281,6 +288,7 @@ table 50149 "Approval HRMS"
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AppraisalRec: Record Appraisal;
+        ResignationRec: Record Resignation;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -339,6 +347,9 @@ table 50149 "Approval HRMS"
             "Document Type"::"Allowance Assignment Memo", "Document Type"::"Request Allowance", "Document Type"::"Shift Assignment Memo":
                 if AssignmentMemoHdr.Get("Document No.") then
                     RecRef.GetTable(AssignmentMemoHdr);
+            "Document Type"::Resignation:
+                if ResignationRec.Get("Document No.") then
+                    RecRef.GetTable(ResignationRec);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, false);
     end;

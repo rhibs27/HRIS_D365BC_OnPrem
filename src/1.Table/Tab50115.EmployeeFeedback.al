@@ -23,20 +23,20 @@ table 50115 "Employee Feedback"
             trigger OnValidate()
             begin
                 case Answer of
-                    Answer::"Strongly Agree":
-                        Validate(Marks, 5);
+                    Answer::"Poor":
+                        Validate(Marks, 1);
 
-                    Answer::Agree:
-                        Validate(Marks, 4);
-
-                    Answer::Neutral:
-                        Validate(Marks, 3);
-
-                    Answer::Disagree:
+                    Answer::Satisfactory:
                         Validate(Marks, 2);
 
-                    Answer::"Strongly Disagree":
-                        Validate(Marks, 1);
+                    Answer::Good:
+                        Validate(Marks, 3);
+
+                    Answer::"Very Good":
+                        Validate(Marks, 4);
+
+                    Answer::Excellent:
+                        Validate(Marks, 5);
 
                     else
                         Validate(Marks, 0);
@@ -67,11 +67,18 @@ table 50115 "Employee Feedback"
         {
             Editable = false;
         }
+        field(16; "Trainer Name"; Text[100])
+        {
+        }
+        field(17; "Line No."; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
-        key(Key1; "Training No.", "Question Code", "Employee No.") { }
+        key(Key1; "Training No.", "Question Code", "Employee No.", "Line No.") { }
     }
 
     fieldgroups { }
