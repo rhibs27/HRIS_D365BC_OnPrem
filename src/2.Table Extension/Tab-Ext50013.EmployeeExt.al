@@ -498,6 +498,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnValidate()
             var
                 EmployeeWorkShift: Record "Employee Work Shift";
+                AttendanceSetup: Record "Attendance Setup";
                 IsHandled: Boolean;
             begin
                 OnValidateEmploymentType(Rec, xRec, IsHandled);
@@ -508,9 +509,8 @@ tableextension 50013 "Employee Ext" extends Employee
                     Rec."Employee Work Shift" := EmployeeWorkShift.Code
                 else begin
                     EmployeeWorkShift.Reset();
-                    EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
-                    if EmployeeWorkShift.FindFirst() then
-                        Rec."Employee Work Shift" := EmployeeWorkShift.Code;
+                    AttendanceSetup.Get();
+                    Rec."Employee Work Shift" := AttendanceSetup."Default Work Shift";
                 end;
             end;
         }

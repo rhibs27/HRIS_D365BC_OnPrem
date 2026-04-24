@@ -2054,8 +2054,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
     var
         AttendanceSetup: Record "Attendance Setup";
     begin
-        if AttendanceSetup.Get() then
-            Rec."Employee Work Shift" := AttendanceSetup."Default Work Shift";
+        AttendanceSetup.Get();
+        Rec."Employee Work Shift" := AttendanceSetup."Default Work Shift";
     end;
 
     local procedure SetFieldEnable();
