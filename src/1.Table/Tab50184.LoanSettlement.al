@@ -152,6 +152,11 @@ table 50185 "Loan Settlement"
         {
         }
         field(28; "Total Approved Amount"; Decimal) { Editable = false; }
+        field(29; "User ID"; Text[50])
+        {
+            Editable = false;
+            TableRelation = "User Setup"."User ID";
+        }
         field(100; "Status"; Text[20]) { }
     }
 
@@ -167,6 +172,13 @@ table 50185 "Loan Settlement"
         LoanSettlement: Record "Loan Settlement";
     begin
         Validate(Type, Type::"Loan Settlement");
+        if not GuiAllowed then begin
+            if not HrMgt.IsSaaS() then
+                "Employee No." := HRMgt.GetEmployeeNo();
+            "User ID" := userID;
+            if "Approval Status" <> "Approval Status"::Approved then
+                "Approval Status" := "Approval Status"::Pending;
+        end;
         HRSetup.Get();
         if "No." = '' then begin
             Validate("Approval Status", "Approval Status"::Open);
@@ -178,10 +190,15 @@ table 50185 "Loan Settlement"
             while LoanSettlement.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
-            ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Loan Type");
+            if "Approval Status" <> "Approval Status"::Approved then
+                ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Loan Type");
+                
+            if GuiAllowed then
+                if "Approval Status" = "Approval Status"::Open then
+                    loanMgt.InsertSettelmentAttachmentLines(rec);
 
-            if "Approval Status" = "Approval Status"::Open then
-                loanMgt.InsertSettelmentAttachmentLines(rec);
+            if not GuiAllowed then
+                loanMgt.SendSettlementApproval(rec, true);
 
         end;
     end;

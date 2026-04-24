@@ -596,7 +596,7 @@ table 50106 "Employee Loan/Advance"
             Caption = 'Take-Home Salary';
             Editable = false;
         }
-                field(223; "Functional title"; Code[20])
+        field(223; "Functional title"; Code[20])
         {
             TableRelation = "Functional Title";
         }

@@ -1958,15 +1958,19 @@ codeunit 50002 "Loan Mgt."
             if loanSettelment."Settlement Amount" > OutstandingAmt then
                 Error('Settlement Amount (%1) cannot exceed Outstanding Amount (%2).',
                       loanSettelment."Settlement Amount", OutstandingAmt);
-            loanSettelment."Approval Status" := loanSettelment."Approval Status"::Pending;
-            loanSettelment.Modify();
+            // if GuiAllowed then begin
+                loanSettelment."Approval Status" := loanSettelment."Approval Status"::Pending;
+            //     loanSettelment.Modify();
+            // end;
             ApproverMgt2.UpdateFirstApproverStatus(loanSettelment."No.");
             Message('Settlement approval request has been sent.');
         end else begin
-            loanSettelment.TestField("Approval Status", loanSettelment."Approval Status"::Pending);
-            loanSettelment.Validate("Approval Status", loanSettelment."Approval Status"::Open);
-            loanSettelment.Modify();
-            Message('Settlement approval request has been cancelled.');
+            if GuiAllowed then begin
+                loanSettelment.TestField("Approval Status", loanSettelment."Approval Status"::Pending);
+                loanSettelment.Validate("Approval Status", loanSettelment."Approval Status"::Open);
+                loanSettelment.Modify();
+                Message('Settlement approval request has been cancelled.');
+            end;
         end;
     end;
 
