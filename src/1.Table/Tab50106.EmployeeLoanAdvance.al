@@ -584,7 +584,7 @@ table 50106 "Employee Loan/Advance"
                     begin
                         HRSetup.TestField("Salary Advance No.");
                         HRMgt.InitNoSeriesNew(HRSetup."Salary Advance No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
-                        SalaryAdvanceFiscalYearControl();
+                        //SalaryAdvanceFiscalYearControl();
                         SkipSalaryAdvanceControl(SkipSalaryLoanControl);
                         if not SkipSalaryLoanControl then
                             SalaryAdvanceControl();
@@ -713,7 +713,7 @@ table 50106 "Employee Loan/Advance"
         end;
     end;
 
-    local procedure SalaryAdvanceFiscalYearControl()
+    local procedure SalaryAdvanceFiscalYearControl() // this is comment bacause - frequency of salrary loan must be maintain from setup.
     var
         EmpSalaryAdvance: Record "Employee Loan/Advance";
     begin
