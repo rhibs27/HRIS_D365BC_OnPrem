@@ -65489,7 +65489,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Enum LFA Source - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 596585762 - EnumValue 3388074941 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>as per Basic Salary</source>
+          <source>as per Formula</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum LFA Source - EnumValue as per Basic Salary - Property Caption</note>
         </trans-unit>
