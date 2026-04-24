@@ -50,6 +50,11 @@ page 50038 "Loan Journal"
                 {
                     ToolTip = 'Specifies the value of the Loan Disbursement Date field.', Comment = '%';
                 }
+                field("Loan Effective Date"; Rec."Transfer Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Loan Effective Date field.', Comment = '%';
+                    Caption = 'Loan Effective Date';
+                }
                 field("Loan Expiry Date"; Rec."Loan Expiry Date")
                 {
                     ToolTip = 'Specifies the value of the Loan Expiry Date field.', Comment = '%';
