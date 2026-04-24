@@ -23,6 +23,10 @@ page 50254 "Shift Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Deputation Type field.', Comment = '%';
                     Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Deputation Name"; Rec."Deputation Name")
                 {
