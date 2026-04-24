@@ -2920,8 +2920,7 @@ table 50027 "Payroll Line"
     begin
         LeaveEarn.SetRange("Employee No.", EmployeeCode);
         LeaveEarn.SetFilter("Payroll Document No", PayrollDocNo);
-        if LeaveEarn.FindSet() then
-            LeaveEarn.ModifyAll("Payroll Document No", '');
+        LeaveEarn.ModifyAll("Payroll Document No", '');
     end;
 
     local procedure CalculateProRataAmtFromStartDate(EmpCode: Code[20]; AttrCode: Code[20]; var ProRatedAmount: Decimal)
