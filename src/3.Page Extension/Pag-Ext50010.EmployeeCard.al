@@ -2052,17 +2052,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     var
-        EmployeeWorkShift: Record "Employee Work Shift";
+        AttendanceSetup: Record "Attendance Setup";
     begin
-        EmployeeWorkShift.SetRange("Default Employee Type", Rec."Employment Type");
-        if EmployeeWorkShift.FindFirst() then
-            Rec."Employee Work Shift" := EmployeeWorkShift.Code
-        else begin
-            EmployeeWorkShift.Reset();
-            EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
-            if EmployeeWorkShift.FindFirst() then
-                Rec."Employee Work Shift" := EmployeeWorkShift.Code;
-        end;
+        if AttendanceSetup.Get() then
+            Rec."Employee Work Shift" := AttendanceSetup."Default Work Shift";
     end;
 
     local procedure SetFieldEnable();
