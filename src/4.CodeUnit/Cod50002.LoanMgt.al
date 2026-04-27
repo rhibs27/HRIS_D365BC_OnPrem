@@ -1935,6 +1935,7 @@ codeunit 50002 "Loan Mgt."
         CONFIRMATION: Label 'Do you want to proceed?';
         EmpLoanAdv: Record "Employee Loan/Advance";
         OutstandingAmt: Decimal;
+        loanSettlementDoc: Record "Loan Settlement";
     begin
         if GuiAllowed then
             if not Confirm(CONFIRMATION, false) then
@@ -1950,6 +1951,11 @@ codeunit 50002 "Loan Mgt."
                     Error('Loan %1 must be disbursed before a settlement can be submitted.', loanSettelment."Loan No.");
                 if EmpLoanAdv.Settled then
                     Error('Loan %1 is already fully settled.', loanSettelment."Loan No.");
+                loanSettlementDoc.SetRange("Loan No.", loanSettelment."Loan No.");
+                loanSettlementDoc.SetFilter("No.", '<>%1', loanSettelment."No.");
+                loanSettlementDoc.SetRange("Approval Status", loanSettlementDoc."Approval Status"::Pending);
+                if loanSettlementDoc.FindFirst() then
+                    Error('You have pending settlement request For loan no. %1', loanSettelment."Loan No.");
             end;
             // Validate settlement amount
             if loanSettelment."Settlement Amount" <= 0 then
@@ -1958,19 +1964,15 @@ codeunit 50002 "Loan Mgt."
             if loanSettelment."Settlement Amount" > OutstandingAmt then
                 Error('Settlement Amount (%1) cannot exceed Outstanding Amount (%2).',
                       loanSettelment."Settlement Amount", OutstandingAmt);
-            // if GuiAllowed then begin
-                loanSettelment."Approval Status" := loanSettelment."Approval Status"::Pending;
-            //     loanSettelment.Modify();
-            // end;
+            loanSettelment."Approval Status" := loanSettelment."Approval Status"::Pending;
             ApproverMgt2.UpdateFirstApproverStatus(loanSettelment."No.");
             Message('Settlement approval request has been sent.');
         end else begin
-            if GuiAllowed then begin
-                loanSettelment.TestField("Approval Status", loanSettelment."Approval Status"::Pending);
-                loanSettelment.Validate("Approval Status", loanSettelment."Approval Status"::Open);
-                loanSettelment.Modify();
+            loanSettelment.TestField("Approval Status", loanSettelment."Approval Status"::Pending);
+            loanSettelment.Validate("Approval Status", loanSettelment."Approval Status"::Open);
+            loanSettelment.Modify();
+            if GuiAllowed then
                 Message('Settlement approval request has been cancelled.');
-            end;
         end;
     end;
 
@@ -2196,17 +2198,17 @@ codeunit 50002 "Loan Mgt."
             end;
         end else begin
             // Reject all remaining Approval HRMS entries for this document
-            ApprovalHRMS.Reset();
-            ApprovalHRMS.SetRange("Document No.", docNo);
-            ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Loan Settlement");
-            ApprovalHRMS.SetFilter("Approval Status", '%1|%2',
-                ApprovalHRMS."Approval Status"::Created,
-                ApprovalHRMS."Approval Status"::Open);
-            if ApprovalHRMS.FindSet() then
-                repeat
-                    ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
-                    ApprovalHRMS.Modify();
-                until ApprovalHRMS.Next() = 0;
+            // ApprovalHRMS.Reset();
+            // ApprovalHRMS.SetRange("Document No.", docNo);
+            // ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Loan Settlement");
+            // ApprovalHRMS.SetFilter("Approval Status", '%1|%2',
+            //     ApprovalHRMS."Approval Status"::Created,
+            //     ApprovalHRMS."Approval Status"::Open);
+            // if ApprovalHRMS.FindSet() then
+            //     repeat
+            //         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+            //         ApprovalHRMS.Modify();
+            //     until ApprovalHRMS.Next() = 0;
         end;
     end;
 
