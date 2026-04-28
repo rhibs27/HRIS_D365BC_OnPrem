@@ -207,6 +207,10 @@ page 50153 "Employee Salary Advance Card"
                     end;
                 }
             }
+            part("Employee Loan Advance Subform"; "Employee Loan Advance Subform")
+            {
+                SubPageLink = "Document No." = field("No.");
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -214,6 +218,12 @@ page 50153 "Employee Salary Advance Card"
                                 "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No."),
+                              "Employee Code" = field("Employee No.");
+                ApplicationArea = All;
             }
             // group(Approval)
             // {
@@ -444,6 +454,7 @@ page 50153 "Employee Salary Advance Card"
                 end;
             }
         }
+
     }
 
     trigger OnAfterGetCurrRecord()
