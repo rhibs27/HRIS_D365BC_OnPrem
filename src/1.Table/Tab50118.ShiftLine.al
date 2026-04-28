@@ -26,7 +26,8 @@ table 50118 "Shift Line"
             else if ("Deputation Type" = filter("Deputation Type"::Department)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
             else if ("Deputation Type" = filter("Deputation Type"::Unit)) Employee."No." where("Unit Code" = field("Deputation Code"))
             else if ("Deputation Type" = filter("Deputation Type"::"Extension Counter")) Employee."No." where("Extension Counter Code" = field("Deputation Code"))
-            else if ("Deputation Type" = filter("Deputation Type"::Province)) Employee."No." where("Deputation On Code" = field("Deputation Code"));
+            else if ("Deputation Type" = filter("Deputation Type"::Province)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
+            else if ("Deputation Type" = filter("Deputation Type"::" ")) Employee."No." where(Status = filter("Employee Status"::Active));
             trigger OnValidate()
             var
                 Employee: Record Employee;
