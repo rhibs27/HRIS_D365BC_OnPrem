@@ -31,7 +31,7 @@ page 50113 "Training Budget Card"
                     ApplicationArea = All;
                 }
             }
-            part(Control6; "Training Budget Subforms")
+            part(Control6; "Monthwise Training Budget")
             {
                 SubPageLink = "Training Header Entry No." = field("Entry No.");
                 ApplicationArea = All;

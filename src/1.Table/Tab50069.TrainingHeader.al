@@ -266,7 +266,7 @@ table 50069 "Training Header"
                     TrainBudgtLine.SetRange("Training Header Entry No.", TrainBudgHead."Entry No.");
                     TrainBudgtLine.SetRange(Month, Month);
                     if TrainBudgtLine.FindFirst then begin
-                        Validate("MTD Amount", TrainBudgtLine."Budget Amount");
+                        Validate("MTD Amount", TrainBudgtLine."Budgeted Amount");
                         Validate("YTD Amount", TrainBudgtLine."YTD Budget");
                     end else begin
                         Validate("MTD Amount", 0);

@@ -79,13 +79,19 @@ table 50072 "Training Budget Header"
             repeat
                 TrainBudgetLine2.SetRange("Training Header Entry No.", "Entry No.");
                 TrainBudgetLine2.SetFilter("Line No", '<%1', TrainBudgetLine."Line No");
-                TrainBudgetLine2.CalcSums("Budget Amount");
-                TrainBudgetLine."YTD Budget" := TrainBudgetLine2."Budget Amount" + TrainBudgetLine."Budget Amount";
+                TrainBudgetLine2.CalcSums("Budgeted Amount");
+                TrainBudgetLine."YTD Budget" := TrainBudgetLine2."Budgeted Amount" + TrainBudgetLine."Budgeted Amount";
                 TrainBudgetLine.Modify;
-                Amt := TrainBudgetLine2."Budget Amount" + TrainBudgetLine."Budget Amount";
-                ;
+                Amt := TrainBudgetLine2."Budgeted Amount" + TrainBudgetLine."Budgeted Amount";
             until TrainBudgetLine.Next = 0;
         "Total Budget" := Amt;
         Modify;
+    end;
+
+    procedure GetNumberOfTrainingInAMonth(Month: Enum "Nepali Month")
+    var
+        TrainingCalendar: Record "Training Calendar";
+    begin
+
     end;
 }

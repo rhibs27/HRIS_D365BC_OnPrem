@@ -1,9 +1,10 @@
-page 50114 "Training Budget Subforms"
+page 50114 "Monthwise Training Budget"
 {
     AutoSplitKey = true;
     InsertAllowed = false;
     PageType = ListPart;
     SourceTable = "Training Budget Line";
+    SourceTableView = where("Budget By" = filter(Month));
     ApplicationArea = All;
 
     layout
@@ -17,12 +18,12 @@ page 50114 "Training Budget Subforms"
                     ToolTip = 'Specifies the value of the Month field.';
                     ApplicationArea = All;
                 }
-                field("No. of Training"; Rec."No. of Training")
+                field("No. of Training"; Rec."Budgeted No. of Trainings")
                 {
                     ToolTip = 'Specifies the value of the No. of Training field.';
                     ApplicationArea = All;
                 }
-                field("Budget Amount"; Rec."Budget Amount")
+                field("Budget Amount"; Rec."Budgeted Amount")
                 {
                     ToolTip = 'Specifies the value of the Budget Amount field.';
                     ApplicationArea = All;
