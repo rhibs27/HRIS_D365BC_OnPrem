@@ -643,6 +643,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Date (B.S.) field.';
                 }
+                field("Area"; Rec."Area")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Area field.';
+                }
                 field("Sol Id"; Rec."Sol Id")
                 {
                     ApplicationArea = All;

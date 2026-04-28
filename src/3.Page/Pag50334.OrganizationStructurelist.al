@@ -24,6 +24,11 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Name field.', Comment = '%';
                 }
+                field("Area"; Rec."Area")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Area field.', Comment = '%';
+                }
                 field("Sol ID"; Rec."Sol ID")
                 {
                     ToolTip = 'Specifies the value of the Sol ID field.', Comment = '%';

@@ -162,6 +162,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Posting Region");
                     Clear("Inside/Outside Valley");
                     Clear("Sol Id");
+                    clear("Area");
                 end;
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
@@ -1533,6 +1534,10 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
             Description = 'Calculated based on salary level and employment date';
         }
+        field(50203; "Area"; Enum "Area")
+        {
+            Editable = false;
+        }
     }
     keys
     {
@@ -1665,6 +1670,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
+                    Validate("Area", OrganizationStructureList."Area");
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
@@ -1673,6 +1679,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
+                    Validate("Area", OrganizationStructureList."Area");
                 end;
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then begin
@@ -1681,6 +1688,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
+                    Validate("Area", OrganizationStructureList."Area");
                 end;
             "Deputation on"::"Extension Counter":
                 begin
@@ -1690,6 +1698,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                         Validate("Sol Id", OrganizationStructureList."Sol ID");
+                        Validate("Area", OrganizationStructureList."Area");
                     end;
                 end;
             "Deputation on"::Unit:
@@ -1700,6 +1709,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                         Validate("Sol Id", OrganizationStructureList."Sol ID");
+                        Validate("Area", OrganizationStructureList."Area");
                     end;
                 end;
         end;
@@ -1738,6 +1748,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Inside/Outside Valley");
         Clear("Deputation On Code");
         Clear("Sol Id");
+        Clear("Area");
     end;
 
     procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;
