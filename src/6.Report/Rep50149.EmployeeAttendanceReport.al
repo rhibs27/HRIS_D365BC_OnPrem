@@ -71,7 +71,7 @@ report 50149 "Employee Attendance Report"
             column(TotalOvertimeHours; TotalOvertimeHours) { }
             column(AttendanceStatus; Remarks) { }
             column(FunctionalTitle; FunctionalTitle) { }
-
+            column(Pending_Update_Atten__Doc_No_; "Pending Update Atten. Doc No.") { }
             dataitem(Leave; Leave)
             {
                 DataItemLink = "Employee No." = field("Employee No.");
@@ -160,7 +160,7 @@ report 50149 "Employee Attendance Report"
                 TotalOvertimeHours += "OT Hrs";
                 if Employee.Get("Employee No.") then
                     if not IncludeResignEmployees then
-                        if Employee.Status = Employee.Status::Terminated then
+                        if (Employee.Status = Employee.Status::Terminated) or (Employee.Status = Employee.Status::Inactive) then
                             CurrReport.Skip();
             end;
         }
