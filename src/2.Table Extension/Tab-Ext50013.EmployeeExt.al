@@ -104,16 +104,17 @@ tableextension 50013 "Employee Ext" extends Employee
 
                 if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
                     Error('Phone No Validation Error');
+                if StrLen("Mobile Phone No.") > 15 then
+                    Error(Text009);
                 if "Mobile Phone No." <> '' then begin
                     EmployeeRec.Reset;
                     EmployeeRec.SetFilter("No.", '<>%1', Rec."No.");
                     EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
                     EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
+                    EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
                     if EmployeeRec.FindFirst then
                         Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
                 end;
-                if StrLen("Mobile Phone No.") > 15 then
-                    Error(Text009);
             end;
         }
         modify("No.")
@@ -838,6 +839,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     HrSetup.Get();
                     IF HrSetup."Validate Temporary Address" then begin
                         Municipalities.SetRange("Municipality Name", "Temporary VDC");
+                        Municipalities.SetRange("District Name", "Temporary District");
                         if Municipalities.FindFirst() then begin
                             if "Temporary Ward No" > Municipalities."No of ward" then
                                 Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
