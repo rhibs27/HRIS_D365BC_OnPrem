@@ -642,11 +642,6 @@ table 50162 "Assignment Memo Line"
             exit(10000);
     end;
 
-    procedure AssignAllowanceHeaderEmployee(_empNo: Code[60])
-    begin
-        EmployeeNo := _empNo;
-    end;
-
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateAmountForLine(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
     begin
