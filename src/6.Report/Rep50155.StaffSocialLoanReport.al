@@ -1,4 +1,4 @@
-report 50155 "Staff Social Loan Report"
+report 50156 "Staff Social Loan Report"
 {
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep50155.StaffSocialLoanReport.rdl';

@@ -1,4 +1,4 @@
-enum 50006 "Driving License Category"
+enum 50083 "Driving License Category"
 {
     Extensible = true;
 

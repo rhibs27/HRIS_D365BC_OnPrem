@@ -1,4 +1,4 @@
-page 50400 "Loan Settlement Card"
+page 50405 "Loan Settlement Card"
 {
     Caption = 'Loan Settlement Card';
     PageType = Card;
