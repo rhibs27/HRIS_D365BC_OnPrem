@@ -423,6 +423,7 @@ codeunit 50030 "Assignment Memo Mgt"
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         AssignmentMemoHeader: Record "Assignment Memo Header";
         OrganizationStructureList: Record "Organization Structure List";
+        SkipCheck: Boolean;
     begin
         AssignmentMemoLine.Get(SubAssigmemoLine."Document No.", SubAssigmemoLine."Substitute of Line No.");
         AssignmentMemoLedgerEntry.SetRange("Document No.", AssignmentMemoLine."Document No.");
@@ -446,11 +447,14 @@ codeunit 50030 "Assignment Memo Mgt"
         ShiftAssignmentMgt.ProcessDailyAttendanceForShiftSubstitute(SubAssigmemoLine."From Date", SubAssigmemoLine."To Date", AssignmentMemoLedgerEntry."Employee No.");
 
         //Update Branch Code and Branch Name 
-        if AssignmentMemoHeader.Get(SubAssigmemoLine."Document No.") then begin
-            OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, AssignmentMemoHeader."Branch Code");
-            AssignmentMemoLedgerEntry1.SetRange("Document No.", AssignmentMemoLine."Document No.");
-            AssignmentMemoLedgerEntry1.ModifyAll("Branch Code", OrganizationStructureList.Code);
-            AssignmentMemoLedgerEntry1.ModifyAll("Branch Name", OrganizationStructureList.Name);
+        OnBeforeAmountCheck(AssignmentMemoLine, SkipCheck);
+        if not SkipCheck then begin
+            if AssignmentMemoHeader.Get(SubAssigmemoLine."Document No.") then begin
+                OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, AssignmentMemoHeader."Branch Code");
+                AssignmentMemoLedgerEntry1.SetRange("Document No.", AssignmentMemoLine."Document No.");
+                AssignmentMemoLedgerEntry1.ModifyAll("Branch Code", OrganizationStructureList.Code);
+                AssignmentMemoLedgerEntry1.ModifyAll("Branch Name", OrganizationStructureList.Name);
+            end;
         end;
     end;
 
@@ -769,6 +773,7 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AllowanceConfig: Record "Allowance Configuration";
+        isHandled: Boolean;
     begin
         if not AssignmentMemoHdr.Get(AllowanceAssignmentCode) then
             exit;
@@ -780,7 +785,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
         case AllowanceConfig.Source of
             AllowanceConfig.Source::Assignment, AllowanceConfig.Source::Shift:
-                CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
+                begin
+                    OnSkipCreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source, isHandled);
+                    if not isHandled then
+                        CreateAllowanceRequestLineFromAssignmentLine(AssignmentMemoHdr, AllowanceConfig.Source);
+                end;
             AllowanceConfig.Source::Leave:
                 CreateAllowanceRequestLineFromApprovedLeave(AssignmentMemoHdr);
         end;
@@ -1434,7 +1443,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignemntMemoLedgerEntry.Open := false;
                     AssignemntMemoLedgerEntry."Blocked for Payroll" := true;
                     AssignemntMemoLedgerEntry.Modify();
-                    AttendanceMgt.DailyAttendanceUpdate(AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Employee No.");
+                    if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Shift Assignment Memo" then
+                        AttendanceMgt.DailyAttendanceUpdate(AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Employee No.");
                 until AssignemntMemoLedgerEntry.Next() = 0;
 
         end else if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Request Allowance" then begin
@@ -1443,8 +1453,8 @@ codeunit 50030 "Assignment Memo Mgt"
             AssignemntMemoLedgerEntry.SetFilter("Payroll Document No.", '<>%1', '');
             if AssignemntMemoLedgerEntry.FindSet() then
                 repeat
-                    if PostedPayrollHeader.Get(AssignemntMemoLedgerEntry."Payroll Document No.") then
-                        Error('Cannot reverse the allowance request %1 as payroll for the claimed allowance has been posted in payroll %2. Reverse the payroll first.', DocNo, PostedPayrollHeader."No.");
+                    // if PostedPayrollHeader.Get(AssignemntMemoLedgerEntry."Payroll Document No.") then
+                    Error('Cannot reverse the allowance request %1 as payroll for the claimed allowance has been posted in payroll %2. Reverse the payroll first.', DocNo, AssignemntMemoLedgerEntry."Payroll Document No.");
                 until AssignemntMemoLedgerEntry.Next() = 0;
         end;
 
@@ -1507,7 +1517,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignemntMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         AttendanceMgt: Codeunit "Attendance Mgt";
     begin
-        if AssignemntMemoHeader."Activity Type" in [AssignemntMemoHeader."Activity Type"::"Shift Assignment Memo"] then begin
+        if AssignemntMemoHeader."Activity Type" in [AssignemntMemoHeader."Activity Type"::"Shift Assignment Memo", AssignemntMemoHeader."Activity Type"::"Request Allowance"] then begin
             //check if claimed
             AssignemntMemoLedgerEntry.SetRange("Document No.", AllownaceAssignmentMemoLine."Document No.");
             AssignemntMemoLedgerEntry.SetRange("Employee No.", AllownaceAssignmentMemoLine."Employee No.");
@@ -1521,7 +1531,8 @@ codeunit 50030 "Assignment Memo Mgt"
                     AssignemntMemoLedgerEntry.Open := false;
                     AssignemntMemoLedgerEntry."Blocked for Payroll" := true;
                     AssignemntMemoLedgerEntry.Modify();
-                    AttendanceMgt.DailyAttendanceUpdate(AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Employee No.");
+                    if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Shift Assignment Memo" then
+                        AttendanceMgt.DailyAttendanceUpdate(AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Posting Date", AssignemntMemoLedgerEntry."Employee No.");
                 until AssignemntMemoLedgerEntry.Next() = 0;
         end;
     end;
@@ -1720,6 +1731,11 @@ codeunit 50030 "Assignment Memo Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsertAssignmentMemo(Var AssignmentMemoLine: Record "Assignment Memo Line"; LastAssignmentMemoLine: Record "Assignment Memo Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSkipCreateAllowanceRequestLineFromAssignmentLine(AssignmentHdr: Record "Assignment Memo Header"; AllowanceSource: enum "Allowance Config. Source"; var isHandled: Boolean)
     begin
     end;
 

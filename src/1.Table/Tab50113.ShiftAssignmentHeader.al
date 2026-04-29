@@ -16,6 +16,13 @@ table 50113 "Shift Assignment Header"
         field(3; "Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Deputation Type';
+            trigger OnValidate()
+            begin
+                if "Deputation Type" = "Deputation Type"::" " then begin
+                    Clear("Deputation Code");
+                    Clear("Deputation Name");
+                end;
+            end;
         }
         field(4; "Deputation Code"; Code[20])
         {

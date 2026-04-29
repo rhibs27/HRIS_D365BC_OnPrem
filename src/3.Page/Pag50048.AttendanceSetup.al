@@ -100,6 +100,11 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies the value of Attendance Allowed From field';
                     ApplicationArea = All;
                 }
+                field("Default Work Shift"; Rec."Default Work Shift")
+                {
+                    ToolTip = 'Specifies the default work shift code which will be used in employee card when the employee card is created.';
+                    ApplicationArea = All;
+                }
             }
             group(Integration)
             {

@@ -2236,6 +2236,8 @@ codeunit 50008 "Payroll Engine"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
     begin
+        if ExpiryDate > PGSetup."Payroll Fiscal Year End Date" then
+            exit(12);
         if ExpiryDate < PGSetup."Payroll Fiscal Year Start Date" then//For Employee Resign in Previous FY
             exit(0);
         PayCyclePeriod.Reset;
@@ -3405,15 +3407,14 @@ codeunit 50008 "Payroll Engine"
     var
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
         SalaryLevel: Record "Salary Level";
+        PayrollAttributes: Record "Payroll Attributes";
     begin
         PGSetup.Get();
         if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Basic Salary" then begin
             PayrollAttributesUsage.Reset();
-            PayrollAttributesUsage.SetRange("Employee Code", EmpNo);
-            PayrollAttributesUsage.SetAutoCalcFields(Type, Subtype);
-            PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic, PayrollAttributesUsage.Subtype::Grade);
-            if PayrollAttributesUsage.FindFirst() then
-                exit(Round(PayrollAttributesUsage.Amount, 0.01, '='))
+            PGSetup.TestField("Leave Fare Allowance");
+            PayrollAttributes.Get(PGSetup."Leave Fare Allowance");
+            exit(Round(EvaluateAmount(PayrollAttributes.Formula, false), 0.01, '='));
         end
         else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
             Employee.Reset();

@@ -3897,16 +3897,18 @@ codeunit 50001 "HR Mgt."
 
     procedure GetAgeInteger(BirthDate: Date; ToDate: Date; var year: Integer; var Month: Integer; var Days: Integer)
     begin
-        year := Date2DMY(ToDate, 3) - Date2DMY(BirthDate, 3);
-        Month := Date2DMY(ToDate, 2) - Date2DMY(BirthDate, 2);        //Total Service = Employment date - Today's date
-        Days := Date2DMY(ToDate, 1) - Date2DMY(BirthDate, 1) + 1;  // include today
-        if Days < 0 then begin
-            Month := Month - 1;
-            Days := Date2DMY(CalcDate('<CM>', BirthDate), 1) - Abs(Days);
-        end;
-        if Month < 0 then begin
-            year := year - 1;
-            Month := 12 - Abs(Month);
+        if (ToDate <> 0D) And (BirthDate <> 0D) then begin
+            year := Date2DMY(ToDate, 3) - Date2DMY(BirthDate, 3);
+            Month := Date2DMY(ToDate, 2) - Date2DMY(BirthDate, 2);        //Total Service = Employment date - Today's date
+            Days := Date2DMY(ToDate, 1) - Date2DMY(BirthDate, 1) + 1;  // include today
+            if Days < 0 then begin
+                Month := Month - 1;
+                Days := Date2DMY(CalcDate('<CM>', BirthDate), 1) - Abs(Days);
+            end;
+            if Month < 0 then begin
+                year := year - 1;
+                Month := 12 - Abs(Month);
+            end;
         end;
     end;
 

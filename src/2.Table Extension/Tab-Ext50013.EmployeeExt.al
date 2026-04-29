@@ -104,16 +104,17 @@ tableextension 50013 "Employee Ext" extends Employee
 
                 if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
                     Error('Phone No Validation Error');
+                if StrLen("Mobile Phone No.") > 15 then
+                    Error(Text009);
                 if "Mobile Phone No." <> '' then begin
                     EmployeeRec.Reset;
                     EmployeeRec.SetFilter("No.", '<>%1', Rec."No.");
                     EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
                     EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
+                    EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
                     if EmployeeRec.FindFirst then
                         Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
                 end;
-                if StrLen("Mobile Phone No.") > 15 then
-                    Error(Text009);
             end;
         }
         modify("No.")
@@ -162,6 +163,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Posting Region");
                     Clear("Inside/Outside Valley");
                     Clear("Sol Id");
+                    clear("Area");
                 end;
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
@@ -504,6 +506,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnValidate()
             var
                 EmployeeWorkShift: Record "Employee Work Shift";
+                AttendanceSetup: Record "Attendance Setup";
                 IsHandled: Boolean;
             begin
                 OnValidateEmploymentType(Rec, xRec, IsHandled);
@@ -514,9 +517,8 @@ tableextension 50013 "Employee Ext" extends Employee
                     Rec."Employee Work Shift" := EmployeeWorkShift.Code
                 else begin
                     EmployeeWorkShift.Reset();
-                    EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
-                    if EmployeeWorkShift.FindFirst() then
-                        Rec."Employee Work Shift" := EmployeeWorkShift.Code;
+                    AttendanceSetup.Get();
+                    Rec."Employee Work Shift" := AttendanceSetup."Default Work Shift";
                 end;
             end;
         }
@@ -844,6 +846,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     HrSetup.Get();
                     IF HrSetup."Validate Temporary Address" then begin
                         Municipalities.SetRange("Municipality Name", "Temporary VDC");
+                        Municipalities.SetRange("District Name", "Temporary District");
                         if Municipalities.FindFirst() then begin
                             if "Temporary Ward No" > Municipalities."No of ward" then
                                 Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
@@ -1540,7 +1543,11 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
             Description = 'Calculated based on salary level and employment date';
         }
-        field(50203; "Suspension Active"; Boolean)
+        field(50203; "Area"; Enum "Area")
+        {
+            Editable = false;
+        }
+        field(50205; "Suspension Active"; Boolean)
         {
             Caption = 'Suspension Active';
             DataClassification = CustomerContent;
@@ -1551,12 +1558,6 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             TableRelation = "Suspension Level";
         }
-        // field(50205; "Suspension Cause of Inactivity"; Code[10])
-        // {
-        //     Caption = 'Cause of Inactivity';
-        //     DataClassification = CustomerContent;
-        //     TableRelation = "Cause of Inactivity";
-        // }
         field(50206; "Suspension Reason"; Text[100])
         {
             Caption = 'Suspension Reason';
@@ -1571,6 +1572,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Suspension End Date';
             DataClassification = CustomerContent;
+
         }
     }
     keys
@@ -1704,6 +1706,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
+                    Validate("Area", OrganizationStructureList."Area");
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
@@ -1712,6 +1715,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
+                    Validate("Area", OrganizationStructureList."Area");
                 end;
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then begin
@@ -1720,6 +1724,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
+                    Validate("Area", OrganizationStructureList."Area");
                 end;
             "Deputation on"::"Extension Counter":
                 begin
@@ -1729,6 +1734,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                         Validate("Sol Id", OrganizationStructureList."Sol ID");
+                        Validate("Area", OrganizationStructureList."Area");
                     end;
                 end;
             "Deputation on"::Unit:
@@ -1739,6 +1745,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                         Validate("Sol Id", OrganizationStructureList."Sol ID");
+                        Validate("Area", OrganizationStructureList."Area");
                     end;
                 end;
         end;
@@ -1777,6 +1784,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Inside/Outside Valley");
         Clear("Deputation On Code");
         Clear("Sol Id");
+        Clear("Area");
     end;
 
     procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;

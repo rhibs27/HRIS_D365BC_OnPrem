@@ -113,6 +113,10 @@ table 50147 "Organization Structure List"
         {
             DataClassification = ToBeClassified;
         }
+        field(38; "Area"; Enum "Area")
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

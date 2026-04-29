@@ -52,7 +52,12 @@ codeunit 50002 "Loan Mgt."
         RemServicePeriodAsPerBankTenure: Decimal;
         RemAgePeriodAsPerBankTenure: Decimal;
         IsHandledSalarycalc: Boolean;
+        IsHandle: Boolean;
     begin
+        OnBeforeInsertEmployeeLoan(EmpLoan, IsHandle);
+        if IsHandle then
+            exit;
+
         //check mandatory setup fields
         HRSetup.Get;
         HRSetup.TestField("DBR Ratio");
@@ -2262,5 +2267,16 @@ codeunit 50002 "Loan Mgt."
     local procedure OnBeforeCalculateEligibleStaffSocialLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertEmployeeLoan(var EmpLoan: Record "Employee Loan/Advance"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnSkipSalaryAdvanceControl(var SkipSalaryLoanControl: Boolean)
+    begin
+    end;
+
 
 }

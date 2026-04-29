@@ -649,6 +649,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Date (B.S.) field.';
                 }
+                field("Area"; Rec."Area")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Area field.';
+                }
                 field("Sol Id"; Rec."Sol Id")
                 {
                     ApplicationArea = All;
@@ -972,7 +977,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
             }
         }
+#if not CLEAN25
         moveafter(Control3; "Attached Documents")
+#else
+        moveafter(Control3; "Attached Documents List")
+#endif
 
         addafter(Control1905767507)
         {
@@ -2183,17 +2192,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     var
-        EmployeeWorkShift: Record "Employee Work Shift";
+        AttendanceSetup: Record "Attendance Setup";
     begin
-        EmployeeWorkShift.SetRange("Default Employee Type", Rec."Employment Type");
-        if EmployeeWorkShift.FindFirst() then
-            Rec."Employee Work Shift" := EmployeeWorkShift.Code
-        else begin
-            EmployeeWorkShift.Reset();
-            EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
-            if EmployeeWorkShift.FindFirst() then
-                Rec."Employee Work Shift" := EmployeeWorkShift.Code;
-        end;
+        AttendanceSetup.Get();
+        Rec."Employee Work Shift" := AttendanceSetup."Default Work Shift";
     end;
 
     local procedure SetFieldEnable();
