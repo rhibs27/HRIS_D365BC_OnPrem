@@ -22,10 +22,14 @@ table 50163 "Assignment Memo Ledger Entry"
             trigger OnValidate()
             var
                 PayCyclePeriod: Record "Pay Cycle Period";
+                isHandled: Boolean;
             begin
-                // validate paycycle related fields based on posting date
-                PayCyclePeriod.SetFilter("Start Date", '<=%1', "Posting Date");
-                PayCyclePeriod.SetFilter("End Date", '>=%1', "Posting Date");
+                OnBeforeValidatePostingDate(PayCyclePeriod, "Posting Date", isHandled);
+                if not isHandled then begin
+                    // validate paycycle related fields based on posting date
+                    PayCyclePeriod.SetFilter("Start Date", '<=%1', "Posting Date");
+                    PayCyclePeriod.SetFilter("End Date", '>=%1', "Posting Date");
+                end;
                 if PayCyclePeriod.FindFirst() then begin
                     "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
                     "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
@@ -236,4 +240,8 @@ table 50163 "Assignment Memo Ledger Entry"
     //     else
     //         exit(true);
     // end;
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeValidatePostingDate(var PayCyclePeriod: Record "Pay Cycle Period"; PostingDate: Date; var isHandled: Boolean)
+    begin
+    end;
 }

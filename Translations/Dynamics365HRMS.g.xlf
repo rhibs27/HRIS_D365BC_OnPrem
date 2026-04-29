@@ -7133,11 +7133,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Disbursement Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 761498003 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Effective Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Effective Date - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3052974704 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Eligible Loan/Advance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39188,16 +39183,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Disbursement Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1304637111 - Control 882692791 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Loan Effective Date field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Effective Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1304637111 - Control 882692791 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Loan Effective Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Loan Journal - Control Loan Effective Date - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 1304637111 - Control 1676886993 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Loan Expiry Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -63138,11 +63123,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue Transfer Letter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2318393622 - EnumValue 3471825722 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Transfer Takeover</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup SubType - EnumValue Transfer Takeover - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 2318393622 - EnumValue 3563641297 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vehicle Info Update</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -65489,7 +65469,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Enum LFA Source - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 596585762 - EnumValue 3388074941 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>as per Formula</source>
+          <source>as per Basic Salary</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum LFA Source - EnumValue as per Basic Salary - Property Caption</note>
         </trans-unit>

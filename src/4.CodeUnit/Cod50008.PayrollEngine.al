@@ -2236,6 +2236,8 @@ codeunit 50008 "Payroll Engine"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
     begin
+        if ExpiryDate > PGSetup."Payroll Fiscal Year End Date" then
+            exit(12);
         if ExpiryDate < PGSetup."Payroll Fiscal Year Start Date" then//For Employee Resign in Previous FY
             exit(0);
         PayCyclePeriod.Reset;

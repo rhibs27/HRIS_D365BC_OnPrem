@@ -64,6 +64,11 @@ page 50093 "Travel Requests"
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
                     ApplicationArea = All;
                 }
+                field("Advance Cash"; Rec."Advance Cash")
+                {
+                    ToolTip = 'Specifies the value of the Advance Cash field.';
+                    ApplicationArea = All;
+                }
                 field("Disbursed Advance"; Rec."Advance Disbursed")
                 {
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
