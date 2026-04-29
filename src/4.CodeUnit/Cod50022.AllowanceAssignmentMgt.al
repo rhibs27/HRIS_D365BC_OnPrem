@@ -60,6 +60,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                         if AllowanceLineCheck.Panel = AllowanceLineCheck.Panel::" " then
                             Error('Must select panel for allowance type Atm custodian allowance and Key custodian allowance of line no. %1', AllowanceLineCheck."Line No.");
                     end;
+                    OnAfterCheckAllowanceLine(AllowanceLineCheck);
                 until AllowanceLineCheck.Next = 0;
         end;
         AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
@@ -785,6 +786,11 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     [IntegrationEvent(false, false)]
     procedure OnAfterValidateAllowanceType(AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterCheckAllowanceLine(AllowanceLineCheck: Record "Allowance Assignment Line")
     begin
     end;
 }
