@@ -3054,14 +3054,12 @@ codeunit 50001 "HR Mgt."
             DetailedEmpledger.SetRange("Employee Ledger Entry No.", EmployeeLedgerEntries."Entry No.");
             if DetailedEmpledger.FindFirst() then
                 TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term") - DetailedEmpledger."Pay Cycle Period"
-            else
-                TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
         end
-        else begin
-            if (PRSetup."Payroll Fiscal Year Start Date" < Employee."Employment Date") and
+        else if (PRSetup."Payroll Fiscal Year Start Date" < Employee."Employment Date") and
                             (PRSetup."Payroll Fiscal Year End Date" > Employee."Employment Date") then
-                TempRetirementFund."Projection Month" := PayrollReportMgt.GetFirstPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
-        end;
+            TempRetirementFund."Projection Month" := PayrollReportMgt.GetFirstPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term")
+        else
+            TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
         Employee.Reset();
         Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
         Employee.CalcFields("CIT Deposit", "RF Deposit", "Total Retirement Contribution", "PF Contribution (Office)", "PF Contribution", "Lump Sum CIT");
