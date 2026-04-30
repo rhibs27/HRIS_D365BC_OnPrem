@@ -57888,8 +57888,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Employee Experience Letter - Property ToolTip</note>
         </trans-unit>
-<<<<<<< HEAD
-=======
         <trans-unit id="PageExtension 866835530 - Action 55569714 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Grievance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57905,7 +57903,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action View Grievances - Property Caption</note>
         </trans-unit>
->>>>>>> dev
         <trans-unit id="PageExtension 866835530 - Action 2757392290 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Resignation Release Letter action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
