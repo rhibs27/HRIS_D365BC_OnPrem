@@ -39,8 +39,6 @@ codeunit 50029 "Process Daily Attendance"
         //     EmpAttendance."OT Hrs" := Round((EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time") / (60 * 60000), 0.01, '=') + Round((EmpAttendance."Shift Start Time" - EmpAttendance."Check In Time") / (60 * 60000), 0.01, '=');
 
 
-        ProcessDayFromEmpActLedgerEntry();
-
         if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
             if EmpAttendance."Present Day" <> 0 then
                 EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
@@ -60,6 +58,8 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
             EmpAttendance.Validate("Present Day", 1);
         end;
+
+        ProcessDayFromEmpActLedgerEntry();
 
         UpdateAttendanceRemarks();
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Leave Day" <> 0) then

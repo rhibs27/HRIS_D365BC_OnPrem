@@ -188,31 +188,40 @@ table 50143 "Medical Insurance Claim"
         }
         field(50; "Insurance Claim"; Enum "Insurance Claim")
         {
+            ValuesAllowed = 1, 7;
             trigger OnValidate()
             begin
-                Clear("Father Name");
-                Clear("Mother Name");
-                Clear("Spouse Name");
-                Clear("Child Name");
-                if "Insurance Claim" <> "Insurance Claim"::"General Checkup" then begin
-                    EmpRelative.Reset;
-                    EmpRelative.SetRange("Employee No.", "Employee No.");
-                    EmpRelative.SetRange("Relative Code", Format("Insurance Claim"));
-                    if EmpRelative.FindFirst then begin
-                        case "Insurance Claim" of
-                            "Insurance Claim"::Father:
-                                Validate("Father Name", EmpRelative."Full Name");
-                            "Insurance Claim"::Mother:
-                                Validate("Mother Name", EmpRelative."Full Name");
-                            "Insurance Claim"::Spouse:
-                                Validate("Spouse Name", EmpRelative."Full Name");
-                            "Insurance Claim"::Child:
-                                Validate("Child Name", EmpRelative."Full Name");
-                            else
-                                Error('Please enter the family details in "Employee Relative" table.');
-                        end;
-                    end;
+                if "Insurance Claim" <> xRec."Insurance Claim" then begin
+                    Clear("Insured Name");
+                    Clear("Relation");
                 end;
+                if "Insurance Claim" = "Insurance Claim"::Self then begin
+                    if Employee.Get("Employee No.") then
+                        Validate("Insured Name", Employee."Full Name");
+                end;
+                // Clear("Father Name");
+                // Clear("Mother Name");
+                // Clear("Spouse Name");
+                // Clear("Child Name");
+                // if "Insurance Claim" <> "Insurance Claim"::"General Checkup" then begin
+                //     EmpRelative.Reset;
+                //     EmpRelative.SetRange("Employee No.", "Employee No.");
+                //     EmpRelative.SetRange("Relative Code", Format("Insurance Claim"));
+                //     if EmpRelative.FindFirst then begin
+                //         case "Insurance Claim" of
+                //             "Insurance Claim"::Father:
+                //                 Validate("Father Name", EmpRelative."Full Name");
+                //             "Insurance Claim"::Mother:
+                //                 Validate("Mother Name", EmpRelative."Full Name");
+                //             "Insurance Claim"::Spouse:
+                //                 Validate("Spouse Name", EmpRelative."Full Name");
+                //             "Insurance Claim"::Child:
+                //                 Validate("Child Name", EmpRelative."Full Name");
+                //             else
+                //                 Error('Please enter the family details in "Employee Relative" table.');
+                //         end;
+                //     end;
+                // end;
             end;
         }
         field(51; "Father Name"; Text[50])
@@ -236,6 +245,50 @@ table 50143 "Medical Insurance Claim"
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
         }
+        field(301; "Access Token"; Code[60])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Access Token';
+        }
+        field(302; "Insured Name"; Text[50])
+        {
+            Caption = 'Name';
+
+            trigger OnLookup()
+            var
+                HrMgt: Codeunit "HR Mgt.";
+            begin
+                if "Insurance Claim" = "Insurance Claim"::Dependent then
+                    Validate("Insured Name", HrMgt.LookupRelatives("Employee No."));
+            end;
+
+            trigger OnValidate()
+            var
+                Relatives: Record Relative;
+            begin
+                if "Insurance Claim" = "Insurance Claim"::Dependent then begin
+                    EmpRelative.Reset();
+                    EmpRelative.SetRange("Employee No.", "Employee No.");
+                    EmpRelative.SetRange("Is Medical Insurance Eligible", true);
+                    EmpRelative.SetRange("Full Name", "Insured Name");
+                    if EmpRelative.FindFirst() then begin
+                        if Relatives.Get(EmpRelative."Relative Code") then
+                            Relation := Relatives.Description;
+                    end;
+                end;
+                if "Insurance Claim" = "Insurance Claim"::Self then
+                    Relation := 'Self';
+            end;
+
+        }
+        field(303; "Relation"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(304; "Batch Id"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
@@ -243,7 +296,7 @@ table 50143 "Medical Insurance Claim"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date") { }
+        key(Key2; "Start Date", "Insured Name") { }
     }
     trigger OnInsert()
     begin
@@ -271,7 +324,8 @@ table 50143 "Medical Insurance Claim"
                             MedicalInsuranceClaimRec.SetLoadFields("No.");
                             while MedicalInsuranceClaimRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
+                            if not HRSetup."Skip Approval Setup" then
+                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
                 end;
             end;
@@ -324,4 +378,5 @@ table 50143 "Medical Insurance Claim"
         IncomingDoc: Record "Incoming Document";
         InsuranceMgt: Codeunit "Insurance Mgt";
         MedicalInsuranceClaimRec: Record "Medical Insurance Claim";
+        Employee: Record Employee;
 }

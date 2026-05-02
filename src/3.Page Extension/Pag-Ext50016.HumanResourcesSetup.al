@@ -688,6 +688,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Medical Insurance Premium field.';
                 }
+                field("Skip Approval Setup"; Rec."Skip Approval Setup")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Skip Approval Setup field. If set to true, the system will skip approval for medical insurance claims.';
+                }
             }
             group("Portal Database Connection")
             {

@@ -12,7 +12,7 @@ codeunit 50007 "Insurance Mgt"
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
         MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Open);
         if MedicalInsurance.FindFirst then begin
-            Message('This Employee Already has open Leave Request.Click Ok to Open');
+            Message('This Employee Already has open Medical Insurance Claim Request.Click Ok to Open');
             PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
         end
         else begin
@@ -30,7 +30,9 @@ codeunit 50007 "Insurance Mgt"
     var
         MedicalInsurance: Record "Medical Insurance Claim";
         IncomingDoc: Record "Incoming Document";
+        HRSetup: Record "Human Resources Setup";
     begin
+        HRSetup.Get();
         medicalInsuranceClaim.TestField("Insurance Claim");
         medicalInsuranceClaim.TestField("Medical Prescription Date");
         medicalInsuranceClaim.TestField("Discharge Date");
@@ -38,7 +40,8 @@ codeunit 50007 "Insurance Mgt"
         medicalInsurance.Reset();
         MedicalInsurance.SetRange("Employee No.", medicalInsuranceClaim."Employee No.");
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
-        MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Pending);
+        // MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Pending);
+        medicalInsuranceClaim.SetRange("Insurance Status", MedicalInsurance."Insurance Status"::"Submitted to HRD");
         if MedicalInsurance.FindFirst then
             Error('This Employee Already has Pending Medical Insurance Claim Request.');
         IncomingDoc.Reset();
@@ -48,8 +51,11 @@ codeunit 50007 "Insurance Mgt"
                 Error('Attachment must be uploaded');
         end;
         if GuiAllowed then begin
-            ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
-            medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
+            if not HRSetup."Skip Approval Setup" then begin
+                ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
+                medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending")
+            end else
+                medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Approved");
             medicalInsuranceClaim.Modify();
         end;
     end;

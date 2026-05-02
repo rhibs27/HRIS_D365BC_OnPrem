@@ -736,6 +736,11 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'Grievance No. Series';
         }
+        field(50162; "Skip Approval Setup"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Skip Approval Setup';
+        }
     }
     trigger onAfterInsert()
     begin

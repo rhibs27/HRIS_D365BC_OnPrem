@@ -161,7 +161,7 @@ codeunit 50004 "Travel Mgt."
             if TravelReq."Advance Cash" > 0 then
                 TravelReq."Advance Cash Required" := true;
         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
-        OnBeforeValidatingUserID(TravelReq, IsHandledUserID);
+        OnBeforeValidatingUserID(IsHandledUserID);
         if not IsHandledUserID then
             TravelReq.Validate("User ID", UserId);
         if TravelReq."Advance Cash" > TravelReq."Total Estimated Cost" then
@@ -1030,7 +1030,7 @@ codeunit 50004 "Travel Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeValidatingUserID(var TravelReq: Record "Travel Request"; var IsHandledUserID: Boolean)
+    procedure OnBeforeValidatingUserID(var IsHandledUserID: Boolean)
     begin
     end;
 

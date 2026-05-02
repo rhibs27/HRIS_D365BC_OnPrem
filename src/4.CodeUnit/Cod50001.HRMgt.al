@@ -4243,6 +4243,24 @@ codeunit 50001 "HR Mgt."
             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
     end;
 
+    procedure LookupRelatives(EmpNo: Code[60]): Text
+    var
+        EmpRelativesRec: Record "Employee Relative";
+        EmpRelativesPage: Page "Employee Relatives";
+    begin
+        Clear(EmpRelativesPage);
+        EmpRelativesRec.Reset;
+        EmpRelativesRec.SetRange("Employee No.", EmpNo);
+        EmpRelativesRec.SetRange("Is Medical Insurance Eligible", true);
+        EmpRelativesPage.SetRecord(EmpRelativesRec);
+        EmpRelativesPage.SetTableView(EmpRelativesRec);
+        EmpRelativesPage.LookupMode(true);
+        if EmpRelativesPage.RunModal = ACTION::LookupOK then begin
+            EmpRelativesPage.GetRecord(EmpRelativesRec);
+            exit(EmpRelativesRec."Full Name");
+        end;
+    end;
+
     procedure UpdateCompulsoryRetirement()
     begin
         UpdateCompulsoryRetirementIntegrationEvent();

@@ -44,6 +44,8 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer: Record "Employee Transfer";
         TransferSent: Label 'Transfer request approval has been sent.';
         IncomingDoc: Record "Incoming Document";
+        IsHandled: Boolean;
+        TravelMgt: Codeunit "Travel Mgt.";
     begin
         if not GuiAllowed then
             TempEmphrtransfer."Transfer Category" := TempEmphrtransfer."Transfer Category"::General;
@@ -66,7 +68,9 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.Validate("Requested Date", Today);
         EmphrTransfer.TransferFields(TempEmphrtransfer);
         EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending");
-        EmphrTransfer.Validate("User ID", UserId);
+        TravelMgt.OnBeforeValidatingUserID(IsHandled);
+        if not IsHandled then
+            EmphrTransfer.Validate("User ID", UserId);
         EmphrTransfer.Insert(true);
 
         // transfer the attachment lines
