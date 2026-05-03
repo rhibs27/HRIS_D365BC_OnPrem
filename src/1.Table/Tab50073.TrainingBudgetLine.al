@@ -20,10 +20,9 @@ table 50073 "Training Budget Line"
         field(6; "Budgeted No. of Trainings"; Integer) { }
         field(7; "Actual No. of Trainings"; Integer) { }
         field(8; "Budgeted Amount"; Decimal) { }
-        field(9; "YTD Budget"; Decimal)
-        {
-            Editable = false;
-        }
+        field(9; "YTD Budgeted Amount"; Decimal) { Editable = false; }
+        field(10; "Actual Amount"; Decimal) { }
+        field(11; "YTD Actual Amount"; Decimal) { }
     }
 
     keys

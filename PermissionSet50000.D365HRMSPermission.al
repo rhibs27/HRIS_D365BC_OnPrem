@@ -560,7 +560,6 @@ permissionset 50000 D365HRMSPermission
         page "Trainer Subform" = X,
         page "Training Budget Card" = X,
         page "Training Budget Lists" = X,
-        page "Training Budget Subforms" = X,
         page "Training Calendar Lists" = X,
         page "Training Card" = X,
         page "Training Lists" = X,
@@ -898,5 +897,7 @@ permissionset 50000 D365HRMSPermission
         page "Grievance SLA Matrix Setup" = X,
         page "Training Calendar Card" = X,
         page "Training Need Card" = X,
-        page "Training Need List" = X;
+        page "Training Need List" = X,
+        page "Categorized Budget Summary" = X,
+        page "Monthwise Training Budget" = X;
 }

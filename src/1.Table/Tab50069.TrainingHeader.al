@@ -209,10 +209,7 @@ table 50069 "Training Header"
 
             trigger OnValidate()
             begin
-                if not Online then begin
-                    Validate("Estimated Trainer Cost", "Actual Trainer Cost");
-                    CalculateTotalBudget;
-                end;
+                CalculateTotalBudget;
             end;
         }
         field(38; "Actual Other Cost"; Decimal)
@@ -229,7 +226,7 @@ table 50069 "Training Header"
                 CalculateTotalBudget;
             end;
         }
-        field(40; "Actual Total Budget"; Decimal)
+        field(40; "Actual Total Cost"; Decimal)
         {
             Editable = false;
         }
@@ -267,7 +264,7 @@ table 50069 "Training Header"
                     TrainBudgtLine.SetRange(Month, Month);
                     if TrainBudgtLine.FindFirst then begin
                         Validate("MTD Amount", TrainBudgtLine."Budgeted Amount");
-                        Validate("YTD Amount", TrainBudgtLine."YTD Budget");
+                        Validate("YTD Amount", TrainBudgtLine."YTD Budgeted Amount");
                     end else begin
                         Validate("MTD Amount", 0);
                         Validate("YTD Amount", 0);
@@ -350,7 +347,6 @@ table 50069 "Training Header"
         field(61; "Prepared By Name"; Text[50]) { }
         field(62; "Reviewed By Name"; Text[50]) { }
         field(63; "Supported By Name"; Text[50]) { }
-        field(64; Online; Boolean) { }
         field(65; "Sponsorship Type"; Enum "Sponsorship Type") { }
         field(66; Country; Code[20])
         {
@@ -488,8 +484,7 @@ table 50069 "Training Header"
 
     local procedure CalculateEstimatedTotalBudget()
     begin
-        if not Online then
-            Validate("Estimated Total Budget", "Estimated Training Cost" + "Estimated Trainer Cost" + "Estimated Other Cost" + "Estimated Fooding Cost");
+        Validate("Estimated Total Budget", "Estimated Training Cost" + "Estimated Trainer Cost" + "Estimated Other Cost" + "Estimated Fooding Cost");
     end;
 
     local procedure ClearFields()
@@ -518,8 +513,7 @@ table 50069 "Training Header"
 
     local procedure CalculateTotalBudget()
     begin
-        if not Online then
-            Validate("Actual Total Budget", "Actual Trainer Cost" + "Actual Training Cost" + "Actual Other Cost" + "Actual Fooding Cost");
+        Validate("Actual Total Cost", "Actual Trainer Cost" + "Actual Training Cost" + "Actual Other Cost" + "Actual Fooding Cost");
     end;
 
     procedure CalculateYTDExpense()
@@ -533,9 +527,9 @@ table 50069 "Training Header"
         TrainHead.SetFilter("No.", '<>%1', "No.");
         if TrainHead.Find('-') then
             repeat
-                YTDAmt += TrainHead."Actual Total Budget";
+                YTDAmt += TrainHead."Actual Total Cost";
             until TrainHead.Next = 0;
-        Validate("YTD Expense", YTDAmt + "Actual Total Budget");
+        Validate("YTD Expense", YTDAmt + "Actual Total Cost");
     end;
 
     procedure CalcualteMTDExpense()
@@ -554,9 +548,9 @@ table 50069 "Training Header"
         TrainHead.SetFilter("No.", '<>%1', "No.");
         if TrainHead.Find('-') then
             repeat
-                MTDExpense += TrainHead."Actual Total Budget";
+                MTDExpense += TrainHead."Actual Total Cost";
             until TrainHead.Next = 0;
-        Validate("MTD Expense", MTDExpense + "Actual Total Budget");
+        Validate("MTD Expense", MTDExpense + "Actual Total Cost");
     end;
 
     procedure SetPosted()

@@ -21873,10 +21873,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Header - Field Total Budget - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 297320045 - Field 2927622491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Budget Amount</source>
+        <trans-unit id="Table 297320045 - Field 3853094718 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Actual Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Budget Amount - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Actual Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 297320045 - Field 1230861 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Actual No. of Trainings</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Actual No. of Trainings - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 297320045 - Field 1018556194 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Budget By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Budget By - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 297320045 - Field 2685983588 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Budgeted Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Budgeted Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 297320045 - Field 1314568771 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Budgeted No. of Trainings</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Budgeted No. of Trainings - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 297320045 - Field 3123372377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No</source>
@@ -21888,20 +21908,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Month - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 297320045 - Field 398553530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Training</source>
+        <trans-unit id="Table 297320045 - Field 4149592804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Category</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field No. of Training - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Training Category - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 297320045 - Field 2260958696 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Training Header Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field Training Header Entry No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 297320045 - Field 4157537688 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>YTD Budget</source>
+        <trans-unit id="Table 297320045 - Field 1802875661 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>YTD Actual Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field YTD Budget - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field YTD Actual Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 297320045 - Field 1661503203 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>YTD Budgeted Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Budget Line - Field YTD Budgeted Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2596593430 - Field 246590583 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assigned Person</source>
@@ -21958,6 +21983,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Calendar - Field Minimum Participant - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2596593430 - Field 3465500804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Calendar - Field Month - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2596593430 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21972,11 +22002,6 @@
           <source>Province</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Calendar - Field Province - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2596593430 - Field 316457880 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Quarter</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Calendar - Field Quarter - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2596593430 - Field 2617354569 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resource person</source>
@@ -22058,10 +22083,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field Actual Other Cost - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 691882305 - Field 1902808771 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Actual Total Budget</source>
+        <trans-unit id="Table 691882305 - Field 2787053313 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Actual Total Cost</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field Actual Total Budget - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field Actual Total Cost - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 691882305 - Field 3813051094 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Actual Trainer Cost</source>
@@ -28272,6 +28297,36 @@
           <source>Co&amp;mments</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Candidate Relatives - Action Co&amp;mments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3937493166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Categorized Budget Summary</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Categorized Budget Summary - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3937493166 - Control 3853094718 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Categorized Budget Summary - Control Actual Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3937493166 - Control 1230861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual No. of Training field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Categorized Budget Summary - Control Actual No. of Trainings - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3937493166 - Control 2685983588 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Budgeted Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Categorized Budget Summary - Control Budgeted Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3937493166 - Control 1314568771 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Training field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Categorized Budget Summary - Control Budgeted No. of Trainings - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3937493166 - Control 4149592804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Training Category field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Categorized Budget Summary - Control Training Category - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3107296669 - Control 2049739791 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Correct Option field.</source>
@@ -39538,6 +39593,46 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Lists - Control Total Insurance Claim Amount - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1856781311 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Monthwise Budget Summary</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1856781311 - Control 3853094718 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Control Actual Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1856781311 - Control 1097431468 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual No. of Training field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Control Actual No. of Training - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1856781311 - Control 2685983588 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Budgeted Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Control Budgeted Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1856781311 - Control 3465500804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Month field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Control Month - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1856781311 - Control 398553530 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Training field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Control No. of Training - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1856781311 - Control 1802875661 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the YTD Actual Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Control YTD Actual Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1856781311 - Control 1661503203 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the YTD Budgeted Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Monthwise Training Budget - Control YTD Budgeted Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4171089046 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50758,26 +50853,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Budget Lists - Control Fiscal Year - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1017841424 - Control 2927622491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Budget Amount field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Budget Subforms - Control Budget Amount - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1017841424 - Control 3465500804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Month field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Budget Subforms - Control Month - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1017841424 - Control 398553530 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of Training field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Budget Subforms - Control No. of Training - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1017841424 - Control 4157537688 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the YTD Budget field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Budget Subforms - Control YTD Budget - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 750878546 - Control 1335298042 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Coverage</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50848,15 +50923,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Card - Control Expected Venue - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 750878546 - Control 3465500804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Quarter field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Card - Control Month - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 750878546 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Card - Control No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 750878546 - Control 316457880 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Quarter field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Card - Control Quarter - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 750878546 - Control 2617354569 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Resource person field.</source>
@@ -50963,6 +51038,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Lists - Control Minimum Participant - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 851111573 - Control 3465500804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Quarter field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Lists - Control Month - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 851111573 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50972,11 +51052,6 @@
           <source>Specifies the value of the Province field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Lists - Control Province - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 851111573 - Control 316457880 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Quarter field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Training Calendar Lists - Control Quarter - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 851111573 - Control 2617354569 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Resouce person field.</source>

@@ -36,6 +36,11 @@ page 50113 "Training Budget Card"
                 SubPageLink = "Training Header Entry No." = field("Entry No.");
                 ApplicationArea = All;
             }
+            part(Control7; "Categorized Budget Summary")
+            {
+                SubPageLink = "Training Header Entry No." = field("Entry No.");
+                ApplicationArea = All;
+            }
         }
     }
 
@@ -47,6 +52,7 @@ page 50113 "Training Budget Card"
             {
                 Image = CreateLinesFromJob;
                 Promoted = true;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Create Budget Line action.';
@@ -69,7 +75,8 @@ page 50113 "Training Budget Card"
 
                 trigger OnAction()
                 begin
-                    Rec.CalculateTrainBudgetLine;
+                    Rec.CalculateMonthlyTrainBudgetLine;
+                    Rec.CalculateCategorizedTrainingBudgetLine;
                 end;
             }
         }
