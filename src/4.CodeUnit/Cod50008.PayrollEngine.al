@@ -96,7 +96,7 @@ codeunit 50008 "Payroll Engine"
         HRMgt: Codeunit "HR Mgt.";
         EmpPayOpen: Record "Employee Payroll Opening";
         SlabAmount: Decimal;
-        SlabCount: Integer;
+        SlabCount, RegularSlabCount : Integer;
         RemoteAreaDeduction: Decimal;
         ServiceHistory: Record "Employee Service History";
         TotalTaxRemunPaid: Decimal;
@@ -345,11 +345,12 @@ codeunit 50008 "Payroll Engine"
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
         TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
-        Clear(SlabCount);
+        Clear(RegularSlabCount);
         if TaxSetupLine.FindSet then
             repeat
                 if RemainingTaxableAmount > 0 then begin
                     TaxSetupLine.TestField("Tax Rate");
+                    RegularSlabCount += 1;
                     SlabAmount := GetTax(TaxSetupLine."Start Amount", TaxSetupLine."End Amount");
                     AnnualTax += SlabAmount * TaxSetupLine."Tax Rate" / 100.0;
                     //GetSlabAmount();
@@ -365,8 +366,14 @@ codeunit 50008 "Payroll Engine"
         TotalTaxRemunPaid := EmpPayOpen."Total Tax Remuneration Opening" + Employee."Remuneration & Benefits Tax";
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
-        if AnnualTax < 0 then
+        if AnnualTax < 0 then begin
+            if TaxAtOnceAnnualTax > 0 then begin
+                MonthlyTax := TaxAtOnceAnnualTax;
+                if (RegularSlabCount = 1) and (SlabCount = 2) then
+                    SocialSecurityTaxAmount := (PayrollLine."1% Slab" * 100 - TaxableAmount) * 0.01;
+            end;
             AnnualTax := 0;
+        end;
 
         if TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits = 0 then  //do not pay tax if there is no benifit. employee will pay in next month
             if RemainingMonth > 0 then
@@ -901,7 +908,7 @@ codeunit 50008 "Payroll Engine"
         EmployeeLedgerEntry.SetRange("Employee No.", Employee."No.");
         EmployeeLedgerEntry.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         EmployeeLedgerEntry.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
-        EmployeeLedgerEntry.SetRange(Type, PayrollType);
+        EmployeeLedgerEntry.SetRange(Type, PayrollType::Payroll);
         EmployeeLedgerEntry.SetFilter(Amount, '<>%1', 0);
         if EmployeeLedgerEntry.FindLast then
             LastPayCyclePeriod := EmployeeLedgerEntry."Pay Cycle Period";
