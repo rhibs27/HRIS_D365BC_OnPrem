@@ -469,7 +469,6 @@ table 50162 "Assignment Memo Line"
         Clear(TotalDays);
         Clear(NonWorkingDays);
         PGSetUP.Get();
-        AssignmentHeader.Get(Rec.GetFilter("Document No."));
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateToCheck);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateToCheck);
         PayCyclePeriod.FindFirst();
@@ -480,6 +479,7 @@ table 50162 "Assignment Memo Line"
                 end;
             PGSetUP."Allowance days basedOn"::"Working days":
                 begin
+                    AssignmentHeader.Get("Document No.");
                     if (PayCyclePeriod."Allowance Start Date" <> 0D) and (PayCyclePeriod."Allowance End Date" <> 0D) then begin
                         TotalDays := PayCyclePeriod."Allowance End Date" - PayCyclePeriod."Allowance Start Date" + 1;
                         // NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date", HrMgt.GetEmployeeNo());
