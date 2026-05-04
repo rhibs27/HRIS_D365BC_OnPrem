@@ -2748,7 +2748,7 @@ table 50027 "Payroll Line"
         if AllowanceAssignmentLine.FindSet() then
             repeat
                 if PayrollAttrUses.Get(AllowanceAssignmentLine."Allowance Type", "Employee No.") then begin
-                    PayrollAttrUses.Amount += AllowanceAssignmentLine."Allowance Amount";
+                    PayrollAttrUses.Amount := AllowanceAssignmentLine."Allowance Amount";
                     PayrollAttrUses.Modify();
                 end else begin
                     Clear(PayrollAttrUses);
