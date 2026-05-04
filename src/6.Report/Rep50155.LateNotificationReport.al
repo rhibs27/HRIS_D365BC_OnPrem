@@ -51,7 +51,7 @@ report 50155 "Late Notification Email"
                 EmployeeAttendance.SetRange("Employee No.", Employee."No.");
                 EmployeeAttendance.SetRange("Attendance Date", StartDate, EndDate);
                 EmployeeAttendance.SetRange("Late Day", 1);
-                EmployeeAttendance.SetRange("Late Remarks", '');
+                OnFilterEmployeeAttendance(EmployeeAttendance);
                 if EmployeeAttendance.FindSet() then
                     if SendLateNotificationEmail(Employee, EmployeeAttendance, StartDate, EndDate) then
                         EmailsSent += 1;
@@ -137,7 +137,6 @@ report 50155 "Late Notification Email"
         EmailBody.AppendLine('<th>Check In Time</th>');
         EmailBody.AppendLine('<th>Check Out Time</th>');
         EmailBody.AppendLine('<th>Shift Start Time</th>');
-        EmailBody.AppendLine('<th>Late Remarks</th>');
         EmailBody.AppendLine('</tr>');
 
         // Add attendance records
@@ -148,7 +147,6 @@ report 50155 "Late Notification Email"
                 EmailBody.AppendLine(StrSubstNo('<td>%1</td>', FormatTime(EmployeeAttendance."Check In Time")));
                 EmailBody.AppendLine(StrSubstNo('<td>%1</td>', FormatTime(EmployeeAttendance."Check Out Time")));
                 EmailBody.AppendLine(StrSubstNo('<td>%1</td>', FormatTime(EmployeeAttendance."Shift Start Time")));
-                EmailBody.AppendLine(StrSubstNo('<td>%1</td>', EmployeeAttendance."Late Remarks"));
                 EmailBody.AppendLine('</tr>');
             until EmployeeAttendance.Next() = 0;
 
@@ -173,6 +171,12 @@ report 50155 "Late Notification Email"
         if TimeValue = 0T then
             exit('-');
         exit(Format(TimeValue));
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnFilterEmployeeAttendance(var EmployeeAttendance: Record "Employee Attendance & Activity")
+    begin
+        //To add additional filter as required bu specific company.
     end;
 
     var

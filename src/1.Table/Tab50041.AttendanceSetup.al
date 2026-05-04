@@ -20,6 +20,7 @@ table 50041 "Attendance Setup"
         {
             Caption = 'Per Day Late tolerance (Minutes)';
             MinValue = 0;
+            DecimalPlaces = 9;
         }
         field(6; "Per Month Late Tolerance"; Decimal)
         {

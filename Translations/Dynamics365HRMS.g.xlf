@@ -26918,6 +26918,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Overtime Claim Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 3364452882 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of per day late tolerance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Per Day Late Tolerance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2922227932 - Control 557018098 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Sync Attendance From field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54667,6 +54672,21 @@
           <source>Attendance Date To</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Control AttendanceDateTo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1046293815 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Notification Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Notification Email - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1046293815 - Control 845401037 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Notification Email - Control EndDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1046293815 - Control 3605153064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Notification Email - Control StartDate - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2904538926 - Control 3083556976 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ReferenceNo field.</source>
