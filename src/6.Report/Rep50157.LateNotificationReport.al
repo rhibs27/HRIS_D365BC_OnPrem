@@ -1,5 +1,5 @@
 //must check pending attendance update/ attendnace transit update / leave request / travel and training
-report 50155 "Late Notification Email"
+report 50157 "Late Notification Email"
 {
     ApplicationArea = All;
     Caption = 'Late Notification Email';
