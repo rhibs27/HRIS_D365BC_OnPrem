@@ -319,17 +319,7 @@ table 50096 "Employee Service History"
             Caption = 'Suspension Reason';
             DataClassification = CustomerContent;
         }
-        field(83; "Suspension Start Date"; Date)
-        {
-            Caption = 'Suspension Start Date';
-            DataClassification = CustomerContent;
-        }
-        field(84; "Suspension End Date"; Date)
-        {
-            Caption = 'Suspension End Date';
-            DataClassification = CustomerContent;
-        }
-        field(85; "Suspension Active"; Boolean)
+        field(83; "Suspension Active"; Boolean)
         {
             Caption = 'Suspension Active';
             DataClassification = CustomerContent;

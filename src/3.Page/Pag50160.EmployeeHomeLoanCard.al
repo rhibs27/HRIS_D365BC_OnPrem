@@ -114,7 +114,6 @@ page 50160 "Employee Home Loan Card"
                 field("Take-Home Salary"; Rec."Take-Home Salary")
                 {
                     Editable = false;
-                    ToolTip = 'Net take-home salary after deducting PF (10% of Basic+Grade), income tax (Nepal slab), and all loan EMIs. A warning is shown if deductions exceed 66.67% of gross.';
                     ApplicationArea = All;
                     Style = Favorable;
                     StyleExpr = Rec."Take-Home Salary" > 0;

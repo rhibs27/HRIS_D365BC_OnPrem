@@ -1979,8 +1979,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             ServiceHistory."Suspension Level Code" := LevelCode;
                             ServiceHistory."Cause of Inactivity Code" := InactivityCode;
                             ServiceHistory."Suspension Reason" := Reason;
-                            ServiceHistory."Suspension Start Date" := StartDate;
-                            ServiceHistory."Suspension End Date" := EndDate;
+                            ServiceHistory."Effective Date" := StartDate;
+                            ServiceHistory."To Date" := EndDate;
                             ServiceHistory."Suspension Active" := ActiveFlag;
                             ServiceHistory.Insert(true);
                             if ActiveFlag then begin

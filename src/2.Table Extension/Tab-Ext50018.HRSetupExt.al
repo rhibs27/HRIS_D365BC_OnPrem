@@ -721,11 +721,9 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
         }
         field(50158; "Hide Clearance Approver"; Boolean) { }
-
-        field(50159; "No of Salary Advance"; Integer)
+        field(50159; "Apply Resign Waiver"; Boolean)
         {
             DataClassification = CustomerContent;
-            Description = 'No of Salary Advance Allowed in single Fiscal year.';
         }
         field(50160; "Service Day without Last Date"; Boolean)
         {
@@ -737,9 +735,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'Grievance No. Series';
         }
-        field(50162; "Apply Resign Waiver"; Boolean)
+        field(50162; "No of Salary Advance"; Integer)
         {
             DataClassification = CustomerContent;
+            Description = 'No of Salary Advance Allowed in single Fiscal year.';
         }
         field(50163; "HL Eligibility Service Years"; Decimal)
         {
