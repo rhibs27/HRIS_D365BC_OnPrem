@@ -2,7 +2,7 @@ permissionset 50000 D365HRMSPermission
 {
     Assignable = true;
     Permissions = //>>manual inserted for table extension object
-        tabledata Employee = RIM,
+ tabledata Employee = RIM,
         tabledata "G/L Account" = RIM,
         tabledata "G/L Entry" = RIM,
         tabledata "Gen. Journal Line" = RIM,
@@ -560,7 +560,6 @@ permissionset 50000 D365HRMSPermission
         page "Trainer Subform" = X,
         page "Training Budget Card" = X,
         page "Training Budget Lists" = X,
-        page "Training Budget Subforms" = X,
         page "Training Calendar Lists" = X,
         page "Training Card" = X,
         page "Training Lists" = X,
@@ -846,7 +845,6 @@ permissionset 50000 D365HRMSPermission
         page "Salary Deduction Entries" = X,
         tabledata "Resign Doc Approver Setup" = RIMD,
         table "Resign Doc Approver Setup" = X,
-
         report "Update Emp Att. and Act Doc." = X,
         page "Device Overview" = X,
         page "Home Ins Tieup Card" = X,
@@ -899,5 +897,7 @@ permissionset 50000 D365HRMSPermission
         page "Grievance SLA Matrix Setup" = X,
         page "Training Calendar Card" = X,
         page "Training Need Card" = X,
-        page "Training Need List" = X;
+        page "Training Need List" = X,
+        page "Categorized Budget Summary" = X,
+        page "Monthwise Training Budget" = X;
 }

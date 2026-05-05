@@ -89,7 +89,7 @@ table 50013 "Training Calendar"
         {
             TableRelation = "No. Series";
         }
-        field(20; Quarter; Enum Quarter) { }
+        field(20; Month; Enum "Nepali Month") { }
         field(21; Province; Code[500])
         {
             trigger OnLookup()

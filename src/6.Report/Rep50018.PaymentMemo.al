@@ -19,7 +19,7 @@ report 50018 "Payment Memo"
             column(ActualTrainerCost_TrainingHeader; "Training Header"."Actual Trainer Cost") { }
             column(ActualOtherCost_TrainingHeader; "Training Header"."Actual Other Cost") { }
             column(ActualTrainingCost_TrainingHeader; "Training Header"."Actual Training Cost") { }
-            column(ActualTotalBudget_TrainingHeader; "Training Header"."Actual Total Budget") { }
+            column(ActualTotalBudget_TrainingHeader; "Training Header"."Actual Total Cost") { }
             column(FunctionalTitle; NewFunctionalTitle) { }
             column(ApprovedDate; Format(NewApprovedDate)) { }
             column(TrainerName; NewTrainerName) { }
