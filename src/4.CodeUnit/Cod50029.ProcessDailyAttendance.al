@@ -37,14 +37,6 @@ codeunit 50029 "Process Daily Attendance"
         // Need to discuss
         // if (EmpAttendance."Present Day" > 0) and (EmpAttendance."Shift Start Time" <> 0T) then
         //     EmpAttendance."OT Hrs" := Round((EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time") / (60 * 60000), 0.01, '=') + Round((EmpAttendance."Shift Start Time" - EmpAttendance."Check In Time") / (60 * 60000), 0.01, '=');
-
-
-        ProcessDayFromEmpActLedgerEntry();
-
-        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
-            if EmpAttendance."Present Day" <> 0 then
-                EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
-        end;
         if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then begin
             if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) then begin
                 EmpAttendance."Absent Day" := 1;
@@ -54,6 +46,11 @@ codeunit 50029 "Process Daily Attendance"
                 EmpAttendance."Absent Day" := (1 - EmpAttendance."Leave Day");
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
+        end;
+        ProcessDayFromEmpActLedgerEntry();
+        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
+            if EmpAttendance."Present Day" <> 0 then
+                EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
         end;
 
         if Employee."Automatic Attendance" and (EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day") then begin
