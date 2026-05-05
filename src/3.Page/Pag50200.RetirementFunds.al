@@ -6,6 +6,7 @@ page 50200 "Retirement Funds"
     UsageCategory = Lists;
     ApplicationArea = All;
     InsertAllowed = false;
+    ModifyAllowed=false;
 
     layout
     {

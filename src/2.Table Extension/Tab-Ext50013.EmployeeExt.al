@@ -247,9 +247,15 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50012; "Tax Code"; Code[20])
         {
-            TableRelation = "Tax Setup Header";
+            TableRelation = "Tax Setup Header".Code where(Gender = field(Gender));
             DataClassification = CustomerContent;
             Editable = true;
+
+            trigger OnValidate()
+            begin
+                if Rec.Gender = Rec.Gender::" " then
+                    Error('Please Select gender before selecting Tax Code');
+            end;
         }
         field(50013; "Total Medical Re-Imbursement"; Decimal)
         {
@@ -1227,8 +1233,9 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50137; "Functional Title Desc"; Text[100])
         {
-            DataClassification = CustomerContent;
             Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = lookup("Functional Title".Description where(Code = field("Functional Title")));
         }
         field(50138; "Salary Level Description"; Text[50])
         {
@@ -1539,6 +1546,33 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50203; "Area"; Enum "Area")
         {
             Editable = false;
+        }
+        field(50205; "Suspension Active"; Boolean)
+        {
+            Caption = 'Suspension Active';
+            DataClassification = CustomerContent;
+        }
+        field(50204; "Suspension Level Code"; Code[20])
+        {
+            Caption = 'Suspension Level Code';
+            DataClassification = CustomerContent;
+            TableRelation = "Suspension Level";
+        }
+        field(50206; "Suspension Reason"; Text[100])
+        {
+            Caption = 'Suspension Reason';
+            DataClassification = CustomerContent;
+        }
+        field(50207; "Suspension Start Date"; Date)
+        {
+            Caption = 'Suspension Start Date';
+            DataClassification = CustomerContent;
+        }
+        field(50208; "Suspension End Date"; Date)
+        {
+            Caption = 'Suspension End Date';
+            DataClassification = CustomerContent;
+
         }
     }
     keys

@@ -7,7 +7,6 @@ table 50036 "Payroll Attributes Usage"
         {
             NotBlank = true;
             TableRelation = "Payroll Attributes";
-
             trigger OnValidate()
             begin
                 if PayrollAtt.Get(Code) then begin

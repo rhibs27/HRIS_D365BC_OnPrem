@@ -30,6 +30,125 @@
                       <CellContents>
                         <Rectangle Name="Rectangle1">
                           <ReportItems>
+                            <Textbox Name="TitleBox">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">;jf/L ;fwg shf{ td;'s</Value>
+                                      <Style>
+                                        <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                        <FontSize>13pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                        <TextDecoration>Underline</TextDecoration>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>TitleBox</rd:DefaultName>
+                              <Top>0in</Top>
+                              <Left>0in</Left>
+                              <Height>0.32in</Height>
+                              <Width>7.17778in</Width>
+                              <ZIndex>4</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>4pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="LoanInfoBox">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">shf{ g+=M  </Value>
+                                      <Style>
+                                        <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                        <FontSize>7.5pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!LoanNo.value</Value>
+                                      <Style>
+                                        <FontFamily>Times New Roman</FontFamily>
+                                        <FontSize>7.5pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">          sd{rf/L gfdM  </Value>
+                                      <Style>
+                                        <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                        <FontSize>7.5pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!EmpName.value</Value>
+                                      <Style>
+                                        <FontFamily>Times New Roman</FontFamily>
+                                        <FontSize>7.5pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">     sd{rf/L g+=M  </Value>
+                                      <Style>
+                                        <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                        <FontSize>7.5pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!EmployeeCode.value</Value>
+                                      <Style>
+                                        <FontFamily>Times New Roman</FontFamily>
+                                        <FontSize>7.5pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>LoanInfoBox</rd:DefaultName>
+                              <Top>0.32in</Top>
+                              <Left>0.66945in</Left>
+                              <Height>0.21in</Height>
+                              <Width>6.50833in</Width>
+                              <ZIndex>5</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <BottomBorder>
+                                  <Color>Black</Color>
+                                  <Style>Solid</Style>
+                                  <Width>0.5pt</Width>
+                                </BottomBorder>
+                                <BackgroundColor>#F2F2F2</BackgroundColor>
+                                <PaddingLeft>4pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
                             <Tablix Name="Tablix2">
                               <TablixBody>
                                 <TablixColumns>
@@ -39,7 +158,7 @@
                                 </TablixColumns>
                                 <TablixRows>
                                   <TablixRow>
-                                    <Height>11.34722in</Height>
+                                    <Height>10.79722in</Height>
                                     <TablixCells>
                                       <TablixCell>
                                         <CellContents>
@@ -50,7 +169,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">lnlvtd wgLsf gfd sf&amp;df*f}+ lhNnf sf&amp;df*f}+ dxfgu/kflnsf j*f g+= 11 yfkfynL l:yt ^Ù]* ^fj/ g]kfndf /lhi^*{ -s]lGb|o_ sfof{no /x]sf] Pg cfO{ ;L Plzof a}+s ln= -h;nfO{ o;kl% ÙwgL a}+sÙ elgPsf] %_ lnvt ul/lbg] </Value>
+                                                    <Value EvaluationMode="Auto">lnlvtd wgLsf gfd sf&amp;df*f}+ lhNnf sf&amp;df*f}+ dxfgu/kflnsf j*f g+= 11 yfkfynL l:yt ^Ù]* ^fj/ g]kfndf /lhi^*{ -s]lGb|o_ sfof{no /x]sf] Pg cfO{ ;L Plzof a}+s ln= -h;nfO{ o;kl% ÙwgL a}+sÙ elgPsf] %_ lnvt ul/lbg] </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
@@ -218,7 +337,7 @@
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">_ -h;nfO{ o;kl% ÙC0fL sd{rf/LÙ elgPsf] %_ cfu] d C)fLnfO{ ;jf/L ;fwg vl/bsf nflu C)f shf{sf] cfjZostf k/L tkfO{ wlg a}+s;¤u cg"/f]w u/]sf]df tkfO{ wlg a}+sn] d C)fLsf] gfp¤df hf/L u/]sf] ldtL O{=;+= </Value>
+                                                    <Value EvaluationMode="Auto">_ -h;nfO{ o;kl% ÙC0fL sd{rf/LÙ elgPsf] %_ cfu] d C)fLnfO{ ;jf/L ;fwg vl/bsf nflu C)f shf{sf] cfjZostf k/L tkfO{ wlg a}+s;¤u cg"/f]w u/]sf]df tkfO{ wlg a}+sn] d C)fLsf] gfp¤df hf/L u/]sf] ldtL O{=;+= </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
@@ -232,7 +351,7 @@
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto"> sf] C)f :jLs[lt kqfgÙ;f/ :jLs[t ?=</Value>
+                                                    <Value EvaluationMode="Auto"> sf] C)f :jLs[lt kqfgÙ;f/ :jLs[t ?=</Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
@@ -246,7 +365,7 @@
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">-cIf/]kL </Value>
+                                                    <Value EvaluationMode="Auto">-cIf/]kL </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
@@ -260,7 +379,7 @@
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto"> ?k+}of dfq_ ;Ddsf] C)f shf{ ;Ùljwf k|fKt u/] jfkt of] C)f shf{sf] td;"s u/L lbPsf] &amp;Ls ;f¤rf] xf] . tkfO{ wlg a}+saf^ k|fKt C)f shf{df nfUg] Aofh, sldzg, z"Ns cflb tkfO{ wgL a}+ssf] pNn]lvt ldltsf] C)f :jLs[ltkq /Ùjf ;f] sf] ;+zf]wg /Ùjf ;f] sf] ;§fdf hf/L xÙg] kqdf pNn]v ePsf] ;t{, tl/sf, b/ tyf ;f]xLdf lgwf{l/t efvf leq ltg]{ aÙemfpg] %ÙÙ%f}+ . :jLs[t C)fshf{ tyf a}+lsÙ ;"ljwf gjLs/)f jf kÙg;{+/rgf ePdf ;d]t gjLs/)f x"¤bfsf avt tkfO{+ wgL a}+sn] d?xfdL C)fLsf gfp¤df hf/L ug]{ C)f :jLs[lt kqdf tf]lsPsf] ;t{, tl/sf, b/ tyf ;f]xLdf lgwf{l/t efvf leqdf C)fshf{sf] ;Dk')f{ ;f¤jf, Jofh rÙQmf eÙQmfg ug]{%Ù?%f}+ . d?xfdL C)fLsf] gfp¤df :jLs[t C)f shf{ pkef]u ubf{ tkfO{+ wgL a}+s pk/ s"g} yk bfloTj &gt;[hgf ePdf To:tf] yk bfloTj tkfO{+ wgL a}+sn] dfu ugf{;fy ltg]{ aÙÙfpg] %ÙÙ%f}+ . :jLs[t C)fshf{ tyf eljiodf tkfO{+ wgL a}+sn] pknAw u/fpg] yk C)fshf{ tyf ;Ùljwfsf] ;Ù/If)f jfkt tkfO{ wgL a}+ssf] C)f shf{af^ vl/b xÙg] tklzndf pNn]lvt ljj/)f cgÙ;f/sf] ;jf/L ;fwg tkfO{ wgL a}+ss} gfddf gfd;f/L btf{ ul/lbg]%ÙÙ%f}+ . pNn]lvt ;fjf/L ;fwgsf cltl/Qm d?xfdL C)fLsf] lghL &gt;f]taf^ vl/b u/]sf] &gt;[hgf ePsf] ;DkÙ)f{ rn crn ;DklQ nufot d C)fLsf] tyf d C)fLsf Psf kl/jf/ hf] ;Ùs}sf] gfp¤df /x] ePsf] ;Dk')f{ rn csrn ;DklQ tyf eljiodf d C)fLsf] tyf d]/f Psf kl/jf/ hf] ;Ùs}sf] gfp¤df sfod x"g] &gt;L ;DklQ tyf d?xfdL C)fLn] eÙQmfgL k|fKt ug{ af¤sL /sdx? </Value>
+                                                    <Value EvaluationMode="Auto"> ?k+}of dfq_ ;Ddsf] C)f shf{ ;Ùljwf k|fKt u/] jfkt of] C)f shf{sf] td;"s u/L lbPsf] &amp;Ls ;f¤rf] xf] . tkfO{ wlg a}+saf^ k|fKt C)f shf{df nfUg] Aofh, sldzg, z"Ns cflb tkfO{ wgL a}+ssf] pNn]lvt ldltsf] C)f :jLs[ltkq /Ùjf ;f] sf] ;+zf]wg /Ùjf ;f] sf] ;§fdf hf/L xÙg] kqdf pNn]v ePsf] ;t{, tl/sf, b/ tyf ;f]xLdf lgwf{l/t efvf leq ltg]{ aÙemfpg] %ÙÙ%f}+ . :jLs[t C)fshf{ tyf a}+lsÙ ;"ljwf gjLs/)f jf kÙg;{+/rgf ePdf ;d]t gjLs/)f x"¤bfsf avt tkfO{+ wgL a}+sn] d?xfdL C)fLsf gfp¤df hf/L ug]{ C)f :jLs[lt kqdf tf]lsPsf] ;t{, tl/sf, b/ tyf ;f]xLdf lgwf{l/t efvf leqdf C)fshf{sf] ;Dk')f{ ;f¤jf, Jofh rÙQmf eÙQmfg ug]{%Ù?%f}+ . d?xfdL C)fLsf] gfp¤df :jLs[t C)f shf{ pkef]u ubf{ tkfO{+ wgL a}+s pk/ s"g} yk bfloTj &gt;[hgf ePdf To:tf] yk bfloTj tkfO{+ wgL a}+sn] dfu ugf{;fy ltg]{ aÙÙfpg] %ÙÙ%f}+ . :jLs[t C)fshf{ tyf eljiodf tkfO{+ wgL a}+sn] pknAw u/fpg] yk C)fshf{ tyf ;Ùljwfsf] ;Ù/If)f jfkt tkfO{ wgL a}+ssf] C)f shf{af^ vl/b xÙg] tklzndf pNn]lvt ljj/)f cgÙ;f/sf] ;jf/L ;fwg tkfO{ wgL a}+ss} gfddf gfd;f/L btf{ ul/lbg]%ÙÙ%f}+ . pNn]lvt ;fjf/L ;fwgsf cltl/Qm d?xfdL C)fLsf] lghL &gt;f]taf^ vl/b u/]sf] &gt;[hgf ePsf] ;DkÙ)f{ rn crn ;DklQ nufot d C)fLsf] tyf d C)fLsf Psf kl/jf/ hf] ;Ùs}sf] gfp¤df /x] ePsf] ;Dk')f{ rn csrn ;DklQ tyf eljiodf d C)fLsf] tyf d]/f Psf kl/jf/ hf] ;Ùs}sf] gfp¤df sfod x"g] &gt;L ;DklQ tyf d?xfdL C)fLn] eÙQmfgL k|fKt ug{ af¤sL /sdx? </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
@@ -274,7 +393,7 @@
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto"> ;d]t o;} lnlvtaf^ tkfO{+ wgL a}+ssf] gfp¤df lwtf] aGws n]lvlbPsf] %Ù . k|fKt C)fshf{sf] tkfO{+ wgL a}+snfO{ ltgÙ{kg]{ ;fj¤f, Jofh, yk Aofh, sldzg z"Ns cflb tkfO{ wgL a}+ssf] pNn]lvt ldltsf] C)f :jLs[ltkq /Ùjf ;f] sf] ;+zf]wg /Ùjf ;f] sf] ;§fdf hf/L xÙg] kqfgÙ;f/ tf]lsP adf]lhd glt/] gaÙÙfPdf jf aÙÙfpg cfn^fn u/]df jf ls:tf lvnfkmL u/]df jf C)f :jLs[lt kq tyf o; lnlvtsf s"g} klg zt{aGb]hx? pNn+#g u/]df d C)fLnfO{ sÙg} kÙj{ ;Ùrgf jf hfgsf/L ;d]t glbO{ tkfO{ wgL a}+sn] plrt &amp;x-ofP adf]lhd d C)fLsf] tyf d]/f Psf kl/jf/ hf] ;Ùs}sf] gfp¤df tkfO{+ wgL a}+sdf vÙn]sf] lgIf]k vftfdf hDdf /x]sf] /sdaf^ s§f u/L tyf tkfO{ wgL a}+snfO{ gfd;f/L btf{ ul/lbPsf] ;jf/L ;fwg tyf cGo lwtf] &gt;L;DklQ a}+s tyf ljQLo ;+:yf ;DalGw cWofb]z, 2062 adf]lhd lnnfd lalqm jf cGo Joj:yf u/L tkfO{+ wgL a}+sn] d C)fLaf^ lng af¤sL ;f¤jf, Aofh, xh{gf Aofh, b} b:tÙ/, C)f c;Ùn pk/ ug]{ ;DaGwdf ePsf] vr{, sfgÙgL vr{ nufotsf] ;Dk')f{ n]gf /sd c;Ùn pk/ u/L lngÙxf]nf . a}+s shf{ c;Ùn pk/ ug]{ ;DaGwdf tkfO{ wgL a}+snfO{ gfd;f/L btf{ ul/lbPsf] ;jf/L ;fwg d C)fLnfO{ sÙg} kÙj{ ;Ùrgf glbO{ ;fj{hlgs lnnfdL k|lqmof jf g]uf]l;Pzgsf] dfWodaf^ jf tkfO{ wgL a}+sn] plrt &amp;x-ofP adf]lhd hÙg ;Ùs} sDkgL, ;+:yf, kmd{ jf JolQmnfO{ k|ToIf laqmL (Direct Sale) u/L jf wgL a}+snfO{ plrt nfu]sf] cGo sÙg} klg laqmLsy k|lqmof cjnDjg u/L cfkm\gf] n]gf c;Ùn pk/ u/]df d]/f] kÙ)f{ d~hÙ/L % . kl% s]xL u/L d}n] vl/b u/]sf] ;jf/L ;fwg dnfO{ hfgsf/L glbO{ #^L a(L dÙNodf laqmL ug{ kfOg] xf]Og egL sÙg} jfbljjfb lvrnf] ug]{ %}g . u/] o;} shf{ td;Ùssf] lnvtn] ab/ xf]; . sy+sbflrt ;jf/L ;fwg lnnfd laqmL xÙg g;s]df jf lnnfd laqmL xÙ¤bf ;d]t tkfO{+ wgL a}+ssf] ;Dk')f{ n]gf /sd c;Ùn pk/ xÙg g;s]df d C)fLsf] tyf d C)fLsf Psf kl/jf/ hf] ;Ùs}sf] gfddf /x]sf]] #/ #/fgfsf] &gt;L ;DklQaf^ c;Ùn pk/ u/L lngÙ xf]nf . k|rlnt sfgÙg jf g]kfn /fi^Ù a}+sn] tf]s] adf]lhd d C)fL tyf d C)fL;¤u ;Da$ cGo kIfnfO{ shf{ ;Ùrgf s]GbÙ jf k|rlnt sfgÙgdf Aoj:yf eP adf]lhd cGo sÙg} lgsfosf] lgb]{zg kfngf ugÙ{kg]{ cj:yfdf a}+sn] ;f] lgb]{zg /Ùjf sfgÙgL k|fjwfg adf]lhd sfo{ u/]df ;d]t d]/f d~hÙ/L % egL d]/f Psf kl/jf/sf] d+h"/Lsf ;fy lsgf/sf ;fIfLsf /f]xj/df tkfO{+ wgL a}+ssf] sfof{nodf a;L of] shf{ td;Ùssf] lnvtdf ;xL%fk u/L tkfO{+ wgL a}+snfO{ lbP¤ . o;sf] bf]xf]/L ;d]t aÙlÙlnP¤+ .</Value>
+                                                    <Value EvaluationMode="Auto"> ;d]t o;} lnlvtaf^ tkfO{+ wgL a}+ssf] gfp¤df lwtf] aGws n]lvlbPsf] %Ù . k|fKt C)fshf{sf] tkfO{+ wgL a}+snfO{ ltgÙ{kg]{ ;fj¤f, Jofh, yk Aofh, sldzg z"Ns cflb tkfO{ wgL a}+ssf] pNn]lvt ldltsf] C)f :jLs[ltkq /Ùjf ;f] sf] ;+zf]wg /Ùjf ;f] sf] ;§fdf hf/L xÙg] kqfgÙ;f/ tf]lsP adf]lhd glt/] gaÙÙfPdf jf aÙÙfpg cfn^fn u/]df jf ls:tf lvnfkmL u/]df jf C)f :jLs[lt kq tyf o; lnlvtsf s"g} klg zt{aGb]hx? pNn+#g u/]df d C)fLnfO{ sÙg} kÙj{ ;Ùrgf jf hfgsf/L ;d]t glbO{ tkfO{ wgL a}+sn] plrt &amp;x-ofP adf]lhd d C)fLsf] tyf d]/f Psf kl/jf/ hf] ;Ùs}sf] gfp¤df tkfO{+ wgL a}+sdf vÙn]sf] lgIf]k vftfdf hDdf /x]sf] /sdaf^ s§f u/L tyf tkfO{ wgL a}+snfO{ gfd;f/L btf{ ul/lbPsf] ;jf/L ;fwg tyf cGo lwtf] &gt;L;DklQ a}+s tyf ljQLo ;+:yf ;DalGw cWofb]z, 2062 adf]lhd lnnfd lalqm jf cGo Joj:yf u/L tkfO{+ wgL a}+sn] d C)fLaf^ lng af¤sL ;f¤jf, Aofh, xh{gf Aofh, b} b:tÙ/, C)f c;Ùn pk/ ug]{ ;DaGwdf ePsf] vr{, sfgÙgL vr{ nufotsf] ;Dk')f{ n]gf /sd c;Ùn pk/ u/L lngÙxf]nf . a}+s shf{ c;Ùn pk/ ug]{ ;DaGwdf tkfO{ wgL a}+snfO{ gfd;f/L btf{ ul/lbPsf] ;jf/L ;fwg d C)fLnfO{ sÙg} kÙj{ ;Ùrgf glbO{ ;fj{hlgs lnnfdL k|lqmof jf g]uf]l;Pzgsf] dfWodaf^ jf tkfO{ wgL a}+sn] plrt &amp;x-ofP adf]lhd hÙg ;Ùs} sDkgL, ;+:yf, kmd{ jf JolQmnfO{ k|ToIf laqmL (Direct Sale) u/L jf wgL a}+snfO{ plrt nfu]sf] cGo sÙg} klg laqmLsy k|lqmof cjnDjg u/L cfkm\gf] n]gf c;Ùn pk/ u/]df d]/f] kÙ)f{ d~hÙ/L % . kl% s]xL u/L d}n] vl/b u/]sf] ;jf/L ;fwg dnfO{ hfgsf/L glbO{ #^L a(L dÙNodf laqmL ug{ kfOg] xf]Og egL sÙg} jfbljjfb lvrnf] ug]{ %}g . u/] o;} shf{ td;Ùssf] lnvtn] ab/ xf]; . sy+sbflrt ;jf/L ;fwg lnnfd laqmL xÙg g;s]df jf lnnfd laqmL xÙ¤bf ;d]t tkfO{+ wgL a}+ssf] ;Dk')f{ n]gf /sd c;Ùn pk/ xÙg g;s]df d C)fLsf] tyf d C)fLsf Psf kl/jf/ hf] ;Ùs}sf] gfddf /x]sf]] #/ #/fgfsf] &gt;L ;DklQaf^ c;Ùn pk/ u/L lngÙ xf]nf . k|rlnt sfgÙg jf g]kfn /fi^Ù a}+sn] tf]s] adf]lhd d C)fL tyf d C)fL;¤u ;Da$ cGo kIfnfO{ shf{ ;Ùrgf s]GbÙ jf k|rlnt sfgÙgdf Aoj:yf eP adf]lhd cGo sÙg} lgsfosf] lgb]{zg kfngf ugÙ{kg]{ cj:yfdf a}+sn] ;f] lgb]{zg /Ùjf sfgÙgL k|fjwfg adf]lhd sfo{ u/]df ;d]t d]/f d~hÙ/L % egL d]/f Psf kl/jf/sf] d+h"/Lsf ;fy lsgf/sf ;fIfLsf /f]xj/df tkfO{+ wgL a}+ssf] sfof{nodf a;L of] shf{ td;Ùssf] lnvtdf ;xL%fk u/L tkfO{+ wgL a}+snfO{ lbP¤ . o;sf] bf]xf]/L ;d]t aÙlÙlnP¤+ .</Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
@@ -286,25 +405,47 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">tklzn
-;jf/L ;fwgsf] ljj/)f</Value>
+                                                    <Value EvaluationMode="Auto">tklzn - ;jf/L ;fwgsf] ljj/)f</Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7.5pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                      <TextDecoration>Underline</TextDecoration>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">;jf/L lsl;d÷k|s[ltM  </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
-                                                </TextRuns>
-                                                <Style />
-                                              </Paragraph>
-                                              <Paragraph>
-                                                <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">O{lGhg g+M DHYRKF59242  r]l;; g+M DA2A11CY9KPF33125  ;jf/L btf{ g+=M n" 49 k 2409  ;jf/Lsf] lsl;dÙk|s[ltM k|fOe]^ df]^/;fO{sn </Value>
+                                                    <Value EvaluationMode="Auto">=fields!VehicleTypeNepali.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">          ;jf/L df]*nM  </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!VehicleModel.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -313,11 +454,48 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto" />
+                                                    <Value EvaluationMode="Auto">O{lGhg g+M  </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!VehicleEngineNo.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">          r]l;; g+M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!VehicleChasisNo.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">          ;jf/L btf{ g+=M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!VehicleRegistrationNo.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -326,26 +504,150 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">O{lGhg g+M DHYRKF59242  r]l;; g+M DA2A11CY9KPF33125  ;jf/L btf{ g+=M n" 49 k 2409  ;jf/Lsf] lsl;dÙk|s[ltM k|fOe]^ df]^/;fO{sn          
-
-pk/f]Qm adf]lhd wgL a}+sn] dÙxfdL C)fLnfO{ pknAw u/fPsf] shf{sf yk ;t{x? b]xfo adf]lhd xÙg] sÙ/fdf ;d]t d]/f] kÙ)f{ d~hÙ/L % .
+                                                    <Value EvaluationMode="Auto">cfk"lt{stf{sf] gfdM  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!NameOfSupplier.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">          ;jf/Lsf] d"No (?=)M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!CostOfVehicle.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">shf{ /sd (?=)M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!AppliedLoanAdvance.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">          Aofh b/ -;=_M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!InterestRate.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto"> %          ls:tf cjlw -dlxgf_M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!RepaymentPeriod.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">          dfl;s ls:tf -O{PdcfO{_ (?=)M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!EMIAmount.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">          nfO;]G; g+=M  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=fields!LicenseNo.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto"></Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">pk/f]Qm adf]lhd wgL a}+sn] dÙxfdL C)fLnfO{ pknAw u/fPsf] shf{sf yk ;t{x? b]xfo adf]lhd xÙg] sÙ/fdf ;d]t d]/f] kÙ)f{ d~hÙ/L % .
 yk zt{ aGb]hx?
-1.      pk/f]Qm adf]lhd wgL a}+sn] d C)fLnfO{ pknAw u/fpg] shf{sf] /sd ;f]em} ;jf/L ;fwg laqm]tfnfO{ eÙQmfgL lbPdf d C)fLsf] d~hÙ/L % .
-2.      pQm ;jf/L ;fwg Jojxf/df jf Joj;fodf Nofp¤bf ;jf/L P]g tyf k|rlnt lgod sfg'gsf] kfngf ug]{%Ù / pQm P]g lgodx? pNn+#g xÙg] u/L jf ;f]xLn] aGb]h u/]sf] sfd sf/jfxL jf dfn ;fdfg (ÙjfgL ug]{ sfo{df pQm ;jf/L ;fwg k|of]u ug]{ %}g u/] ;f]sf] hjfkmb]xL d :jo+ xÙg]%Ù .
-3.      pQm ;jf/L ;fwg k|of]udf Nofp¤bf d :jo+ jf d]/f] sd{rf/L, rfns nofotsf] unkmft jf nfk/jfxLn] bÙ#{^gf eO{ jf cGo s"g} klg cj:yfdf P]g lgod adf]lhd b)*, ;hfo+, hl/jfgf jf Ifltk'lt{ ltg{ k/]df ;f]sf] ;Dk')f{ hjfkmb]xL d :jo+ xÙg]%Ù .
-4.      tkfO{+ wgL a}+ssf] n]gf c;'n pk/ geP;Dd pQm ;jf/L ;fwg rfnÙ xfntdf /fVg] %Ù . ;jf/L ;fwgsf] d'Nodf c;/ kg]{ s"g} klg sfd sf/jfxL ug]{ %}g .
-5.      pQm ;jf/L ;fwgdf ;do ;dodf u/fpgÙ kg]{ dd{t ;Ùwf/ -;le{l;ÙÙ_ d cfkm}+n] vr{ Joxf]/L u/fpg] %Ù .
-6.      cfkm\gf] vr{df pQm ;jf/L ;fwg aLdf sDkgLaf^ a}+s;{ Snh cGtu{t Iflt tyf hf]lvdsf] aLdf u/fO{ ;do ;dodf ;f] sf] gjLs/)f ;d]t u/L aLdf tyf ;f] sf] gjLs/)f;¤u ;DalGwt ;Ssn} k|lt sfuhft a}+sdf k]z ug]{%Ù . sy+sbflrt ;jf/L ;fwgsf] aLdf jf ;f] sf] gjLs/)f ug{ g;s]df wgL a}+s :jo+n] ;f] sf] aLdf tyf gjLs/)f u/L ;f] afktsf] lk|ldod d C)fLaf^ c;Ùn pk/ u/]df d C)fLsf] d~hÙ/L % .
-7.      o; lnvt /Ùjf C)f :jLs[ltkq /Ùjf ;f] sf] ;+zf]wg tyf wgL a}+s;¤usf] sÙg} klg ;Demf}tfkqÙ sfuhftdf pNn]lvt zt{aGb]hx? kfngf gu/]df jf pNn+#g u/]df jf wgL a}+snfO{ aÙemfpgÙ kg]{ ls:tf, ;f¤jf, Aofh, b} b:tÙ/ lgwf{l/t ;dodf gaÙemfPdf d C)fL tyf hdfgLstf{sf] t:jL/ ;d]t ;fj{hlgs u/L shf{ c;Ùnpk/ ;DaGwL cfjZos sfgÙgL sf/afxL u/]df d]/f] d~hÙ/ % . 
-8.      pQm ;jf/L rnfp¤bf syd\sbflrt bÙ#{^gf ePdf tkfO{+ wgL a}+snfO{ tTsfn} ;f] sf] hfgsf/L lbO{ ;DalGwt aLdf sDklgaf^ Ifltk'lt{ c;'n pk/ ug{ u/fpg cfjZos k|df)f d cfkm}+n] hÙ^fpg]%Ù . cfjZos k/]df cfkm\g} vr{df sfg'gL sf/jfxL ;d]t ug]{%Ù . bÙ#{^gf k/L ;jf/L ;fwgsf] rfnÙ xfntdf /fVg nfu]sf] v'b vr{ eGbf aLdf sDkgLaf^ c;'n pk/ ePsf] Ifltk'lt{sf] /sd sd ePdf sd eP hlt /sd jf aLdf sDkgLaf^ c;'n pk/ gePdf To:tf] dd{tdf nfu]sf] ;Dk')f{ vr{ d cfkm}+n] Joxf]g]{%Ù .
-9.      k|fKt C)f shf{sf] ;Dk')f{ ;fjf+, Jofh tyf cGo /sd rÙQmf eÙQmfg geP;Dd pQm ;jf/L ;fwg /fd|f] rfnÙ cj:yfdf /fVg]%Ù . ;f] cjlw leq a}+sn] rfx]df pQm ;jf/L ;fwg hÙg;Ùs} avt lgl/If)f ug{ ;Sg] % . ;fy} pQm ;jf/L ;fwgsf] kf^{k'hf{ lauf/L jf ;§f k§f cbnL abnL u/] jf c;nL xfntdf /x] ePsf] b]lvg gcfPdf wgL a}+sn] o; zt{gfdf la?Ù ePsf] dflg pQm ;jf/L ;fwg sAhf u/L gf]S;fgL ePsf] Ifltk'lt{ jfkt xhf{gfsf] bfjL u/]df ;f] adf]lhdsf] xhf{gf tTsfn} ltg]{ aÙÙfpg]%Ù .
-10.     pQm ;jf/L ;fwg Jojxf/df Nofp¤bf lau|L bÙ#{^gfdf k/L jf cGo sf/)f rfnÙ cj:yfdf g/x]tf klg a}+snfO{ ltg{ aÙÙfpgÙ kg]{ ;fjf+ tyf Aofhsf] ;+oÙQm ls:tf (Equated Monthly Installments) tyf cGo b} b:tÙ/ lgwf{l/t ;dodf g} ltg]{ aÙÙfpg]%Ù .
-11.     k|fKt C)f shf{sf] ;Dk')f{ ;fjf+, Jofh rÙQmf eÙQmfg geP;Dd pQm ;jf/L ;fwgdf wgL a}+ss} :jfldTj sfod /xg] % / s"g} xfntdf klg pQm ;jf/L ;fwg wgL a}+ssf] xs clwsf/ vnn xÙg] u/L c? s;}nfO{ lwtf] aGws jf ef]u jf sÙg} klg Joxf]/faf^ xs %f]l*lbg] %}g .
-12.     pQm ;jf/L ;fwg btf{ ubf{ tyf Jojxf/df Nofp¤bf jf rfnÙ /fVg /f]* z]if jf c? lsl;dsf] e}kl/ cfpg] ;Dk')f{ vr{ d cfkm}+n] ltg]{ aÙÙfpg] %Ù .
-13.     pQm ;jf/L ;fwgdf ?NIC Asia Bank af^ ;xof]u k|fKt? egL ;+s]t kf^L /fVg d]/f] d+hÙ/L % .
-14.     o; zt{gfdfdf pNn]lvt bkmfx?sf] lj?Ù sfd sf/jfxL u/]df cyjf ;f] bkmfx? cgÙ;f/ ugÙ{ kg]{ sfd gu/L wgL a}+ssf] xs clwsf/df sÙg} lsl;dsf] jfwf lj/f]w xfgL gf]S;fgL xÙg uPdf wgL a}+sn] pQm ;jf/L ;fwg tÙ?Gt sAhf u/L cfkm\gf] xhf{gfsf] yk bfjL ug{ kfpg] % / o;/L bfjL xÙg cfPdf bfjL eP cgÙ;f/sf] xhf{gf tTsfn} wgL a}+sdf aÙÙfpg]  %Ù .
-15.      pQm ;jf/L ;fwg a}+ss} gfddf ;DaGwLt sfof{nodf btf{ u/fpg] %' . a}+ssf] ;Dk')f{ /sd r'Qmf ePkl% dfq pQm ;jf/L ;fwg d]/f] gfddf gfd;f/L u/fpg d+h'/L % .
-</Value>
+1.      pk/f]Qm adf]lhd wgL a}+sn] d C)fLnfO{ pknAw u/fpg] shf{sf] /sd ;f]em} ;jf/L ;fwg laqm]tfnfO{ eÙQmfgL lbPdf d C)fLsf] d~hÙ/L % .
+2.      pQm ;jf/L ;fwg Jojxf/df jf Joj;fodf Nofp¤bf ;jf/L P]g tyf k|rlnt lgod sfg'gsf] kfngf ug]{%Ù / pQm P]g lgodx? pNn+#g xÙg] u/L jf ;f]xLn] aGb]h u/]sf] sfd sf/jfxL jf dfn ;fdfg (ÙjfgL ug]{ sfo{df pQm ;jf/L ;fwg k|of]u ug]{ %}g u/] ;f]sf] hjfkmb]xL d :jo+ xÙg]%Ù .
+3.      pQm ;jf/L ;fwg k|of]udf Nofp¤bf d :jo+ jf d]/f] sd{rf/L, rfns nufotsf] unkmft jf nfk/jfxLn] bÙ#{^gf eO{ jf cGo s"g} klg cj:yfdf P]g lgod adf]lhd b)*, ;hfo+, hl/jfgf jf Ifltk'lt{ ltg{ k/]df ;f]sf] ;Dk')f{ hjfkmb]xL d :jo+ xÙg]%Ù .
+4.      tkfO{+ wgL a}+ssf] n]gf c;'n pk/ geP;Dd pQm ;jf/L ;fwg rfnÙ xfntdf /fVg] %Ù . ;jf/L ;fwgsf] d'Nodf c;/ kg]{ s"g} klg sfd sf/jfxL ug]{ %}g .
+5.      pQm ;jf/L ;fwgdf ;do ;dodf u/fpgÙ kg]{ dd{t ;Ùwf/ -;le{l;ÙÙ_ d cfkm}+n] vr{ Joxf]/L u/fpg] %Ù .
+6.      cfkm\gf] vr{df pQm ;jf/L ;fwg aLdf sDkgLaf^ a}+s;{ Snh cGtu{t Iflt tyf hf]lvdsf] aLdf u/fO{ ;do ;dodf ;f] sf] gjLs/)f ;d]t u/L aLdf tyf ;f] sf] gjLs/)f;¤u ;DalGwt ;Ssn} k|lt sfuhft a}+sdf k]z ug]{%Ù . sy+sbflrt ;jf/L ;fwgsf] aLdf jf ;f] sf] gjLs/)f ug{ g;s]df wgL a}+s :jo+n] ;f] sf] aLdf tyf gjLs/)f u/L ;f] afktsf] lk|ldod d C)fLaf^ c;Ùn pk/ u/]df d C)fLsf] d~hÙ/L % .
+7.      o; lnvt /Ùjf C)f :jLs[ltkq /Ùjf ;f] sf] ;+zf]wg tyf wgL a}+s;¤usf] sÙg} klg ;Demf}tfkqÙ sfuhftdf pNn]lvt zt{aGb]hx? kfngf gu/]df jf pNn+#g u/]df jf wgL a}+snfO{ aÙemfpgÙ kg]{ ls:tf, ;f¤jf, Aofh, b} b:tÙ/ lgwf{l/t ;dodf gaÙemfPdf d C)fL tyf hdfgLstf{sf] t:jL/ ;d]t ;fj{hlgs u/L shf{ c;Ùnpk/ ;DaGwL cfjZos sfgÙgL sf/afxL u/]df d]/f] d~hÙ/ % .
+8.      pQm ;jf/L rnfp¤bf syd\sbflrt bÙ#{^gf ePdf tkfO{+ wgL a}+snfO{ tTsfn} ;f] sf] hfgsf/L lbO{ ;DalGwt aLdf sDklgaf^ Ifltk'lt{ c;'n pk/ ug{ u/fpg cfjZos k|df)f d cfkm}+n] hÙ^fpg]%Ù . cfjZos k/]df cfkm\g} vr{df sfg'gL sf/jfxL ;d]t ug]{%Ù . bÙ#{^gf k/L ;jf/L ;fwgsf] rfnÙ xfntdf /fVg nfu]sf] v'b vr{ eGbf aLdf sDkgLaf^ c;'n pk/ ePsf] Ifltk'lt{sf] /sd sd ePdf sd eP hlt /sd jf aLdf sDkgLaf^ c;'n pk/ gePdf To:tf] dd{tdf nfu]sf] ;Dk')f{ vr{ d cfkm}+n] Joxf]g]{%Ù .
+9.      k|fKt C)f shf{sf] ;Dk')f{ ;fjf+, Jofh tyf cGo /sd rÙQmf eÙQmfg geP;Dd pQm ;jf/L ;fwg /fd|f] rfnÙ cj:yfdf /fVg]%Ù . ;f] cjlw leq a}+sn] rfx]df pQm ;jf/L ;fwg hÙg;Ùs} avt lgl/If)f ug{ ;Sg] % . ;fy} pQm ;jf/L ;fwgsf] kf^{k'hf{ lauf/L jf ;§f k§f cbnL abnL u/] jf c;nL xfntdf /x] ePsf] b]lvg gcfPdf wgL a}+sn] o; zt{gfdf la?Ù ePsf] dflg pQm ;jf/L ;fwg sAhf u/L gf]S;fgL ePsf] Ifltk'lt{ jfkt xhf{gfsf] bfjL u/]df ;f] adf]lhdsf] xhf{gf tTsfn} ltg]{ aÙÙfpg]%Ù .
+10.     pQm ;jf/L ;fwg Jojxf/df Nofp¤bf lau|L bÙ#{^gfdf k/L jf cGo sf/)f rfnÙ cj:yfdf g/x]tf klg a}+snfO{ ltg{ aÙÙfpgÙ kg]{ ;fjf+ tyf Aofhsf] ;+oÙQm ls:tf (Equated Monthly Installments) tyf cGo b} b:tÙ/ lgwf{l/t ;dodf g} ltg]{ aÙÙfpg]%Ù .
+11.     k|fKt C)f shf{sf] ;Dk')f{ ;fjf+, Jofh rÙQmf eÙQmfg geP;Dd pQm ;jf/L ;fwgdf wgL a}+ss} :jfldTj sfod /xg] % / s"g} xfntdf klg pQm ;jf/L ;fwg wgL a}+ssf] xs clwsf/ vnn xÙg] u/L c? s;}nfO{ lwtf] aGws jf ef]u jf sÙg} klg Joxf]/faf^ xs %f]l*lbg] %}g .
+12.     pQm ;jf/L ;fwg btf{ ubf{ tyf Jojxf/df Nofp¤bf jf rfnÙ /fVg /f]* z]if jf c? lsl;dsf] e}kl/ cfpg] ;Dk')f{ vr{ d cfkm}+n] ltg]{ aÙÙfpg] %Ù .
+13.     pQm ;jf/L ;fwgdf ?NIC Asia Bank af^ ;xof]u k|fKt? egL ;+s]t kf^L /fVg d]/f] d+hÙ/L % .
+14.     o; zt{gfdfdf pNn]lvt bkmfx?sf] lj?Ù sfd sf/jfxL u/]df cyjf ;f] bkmfx? cgÙ;f/ ugÙ{ kg]{ sfd gu/L wgL a}+ssf] xs clwsf/df sÙg} lsl;dsf] jfwf lj/f]w xfgL gf]S;fgL xÙg uPdf wgL a}+sn] pQm ;jf/L ;fwg tÙ?Gt sAhf u/L cfkm\gf] xhf{gfsf] yk bfjL ug{ kfpg] % / o;/L bfjL xÙg cfPdf bfjL eP cgÙ;f/sf] xhf{gf tTsfn} wgL a}+sdf aÙÙfpg]  %Ù .
+15.      pQm ;jf/L ;fwg a}+ss} gfddf ;DaGwLt sfof{nodf btf{ u/fpg] %' . a}+ssf] ;Dk')f{ /sd r'Qmf ePkl% dfq pQm ;jf/L ;fwg d]/f] gfddf gfd;f/L u/fpg d+h'/L % .</Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
@@ -358,11 +660,10 @@ yk zt{ aGb]hx?
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto" />
+                                                    <Value EvaluationMode="Auto"></Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
-                                                      <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -419,12 +720,43 @@ yk zt{ aGb]hx?
                                                     </Style>
                                                   </TextRun>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto"> ut] /f]h 3 zÙed\ .
+                                                    <Value EvaluationMode="Auto"> ut] /f]h 3 zÙed\ .
  </Value>
                                                     <Style>
                                                       <FontFamily>FONTASY_HIMALI_TT</FontFamily>
                                                       <FontSize>7pt</FontSize>
                                                       <FontWeight>Normal</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto"></Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">C)fL sd{rf/Lsf] b:tvt M ___________________________          sd{rf/Lsf] gfdM  </Value>
+                                                    <Style>
+                                                      <FontFamily>FONTASY_HIMALI_TT</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                  <TextRun>
+                                                    <Value EvaluationMode="Auto">=Fields!EmpName.value</Value>
+                                                    <Style>
+                                                      <FontFamily>Times New Roman</FontFamily>
+                                                      <FontSize>7pt</FontSize>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -460,7 +792,8 @@ yk zt{ aGb]hx?
                                 </TablixMembers>
                               </TablixRowHierarchy>
                               <Left>0.66945in</Left>
-                              <Height>11.34722in</Height>
+                              <Top>0.55in</Top>
+                              <Height>10.79722in</Height>
                               <Width>6.50833in</Width>
                               <Style>
                                 <Border>
@@ -491,7 +824,7 @@ yk zt{ aGb]hx?
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox7</rd:DefaultName>
-                              <Top>0.775in</Top>
+                              <Top>1.125in</Top>
                               <Height>2.25in</Height>
                               <Width>0.63889in</Width>
                               <ZIndex>1</ZIndex>
@@ -557,10 +890,10 @@ yk zt{ aGb]hx?
       <Page>
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
-        <LeftMargin>0.25in</LeftMargin>
-        <RightMargin>0.25in</RightMargin>
-        <TopMargin>0.75in</TopMargin>
-        <BottomMargin>0.75in</BottomMargin>
+        <LeftMargin>0.4in</LeftMargin>
+        <RightMargin>0.4in</RightMargin>
+        <TopMargin>0.5in</TopMargin>
+        <BottomMargin>0.5in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -607,6 +940,21 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
+        <Field Name="LoanNo">
+          <DataField>LoanNo</DataField>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+        </Field>
+        <Field Name="JobTitle">
+          <DataField>JobTitle</DataField>
+        </Field>
+        <Field Name="BranchName">
+          <DataField>BranchName</DataField>
+        </Field>
+        <Field Name="DepartmentName">
+          <DataField>DepartmentName</DataField>
+        </Field>
         <Field Name="RequestedLoanDate">
           <DataField>RequestedLoanDate</DataField>
         </Field>
@@ -672,6 +1020,51 @@ End Function
         </Field>
         <Field Name="DisbursedAmtFormat">
           <DataField>DisbursedAmtFormat</DataField>
+        </Field>
+        <Field Name="VehicleModel">
+          <DataField>VehicleModel</DataField>
+        </Field>
+        <Field Name="VehicleEngineNo">
+          <DataField>VehicleEngineNo</DataField>
+        </Field>
+        <Field Name="VehicleChasisNo">
+          <DataField>VehicleChasisNo</DataField>
+        </Field>
+        <Field Name="VehicleRegistrationNo">
+          <DataField>VehicleRegistrationNo</DataField>
+        </Field>
+        <Field Name="VehicleTypeNepali">
+          <DataField>VehicleTypeNepali</DataField>
+        </Field>
+        <Field Name="NameOfSupplier">
+          <DataField>NameOfSupplier</DataField>
+        </Field>
+        <Field Name="CostOfVehicle">
+          <DataField>CostOfVehicle</DataField>
+        </Field>
+        <Field Name="CostOfVehicleFormat">
+          <DataField>CostOfVehicleFormat</DataField>
+        </Field>
+        <Field Name="InterestRate">
+          <DataField>InterestRate</DataField>
+        </Field>
+        <Field Name="InterestRateFormat">
+          <DataField>InterestRateFormat</DataField>
+        </Field>
+        <Field Name="RepaymentPeriod">
+          <DataField>RepaymentPeriod</DataField>
+        </Field>
+        <Field Name="RepaymentPeriodFormat">
+          <DataField>RepaymentPeriodFormat</DataField>
+        </Field>
+        <Field Name="EMIAmount">
+          <DataField>EMIAmount</DataField>
+        </Field>
+        <Field Name="EMIAmountFormat">
+          <DataField>EMIAmountFormat</DataField>
+        </Field>
+        <Field Name="LicenseNo">
+          <DataField>LicenseNo</DataField>
         </Field>
       </Fields>
       <Query>

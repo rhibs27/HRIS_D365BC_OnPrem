@@ -39,74 +39,75 @@ codeunit 50030 "Assignment Memo Mgt"
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
         AssignmentMemoLine: Record "Assignment Memo Line";
-        SkipAssignmentLedgerCreation: Boolean;
+        SkipAssignmentLedgerCreation, IsHandled : Boolean;
         LeaveEarn: Record "Leave Earn";
     begin
-        if not AssignmentMemoHdr.Get(docNo) then
-            Error('Assignment %1 not found.', docNo);
+        OnBeforeApproveRejectAllowance(docNo, IsApproved, IsHandled);
+        if not IsHandled then begin
+            if not AssignmentMemoHdr.Get(docNo) then
+                Error('Assignment %1 not found.', docNo);
 
-        if not IsApproved then begin
-            if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then  //substitute approval pending
-                AssignmentMemoHdr."Substitute Approval Status" := AssignmentMemoHdr."Substitute Approval Status"::Rejected;
-            if (AssignmentMemoHdr."Approval Status" <> AssignmentMemoHdr."Approval Status"::Approved) and
-               (AssignmentMemoHdr."Substitute Approval Status" in [AssignmentMemoHdr."Substitute Approval Status"::Open, AssignmentMemoHdr."Substitute Approval Status"::Created]) then
-                AssignmentMemoHdr."Approval Status" := AssignmentMemoHdr."Approval Status"::Rejected;
-            AssignmentMemoHdr.Modify();
+            if not IsApproved then begin
+                if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then  //substitute approval pending
+                    AssignmentMemoHdr."Substitute Approval Status" := AssignmentMemoHdr."Substitute Approval Status"::Rejected;
+                if (AssignmentMemoHdr."Approval Status" <> AssignmentMemoHdr."Approval Status"::Approved) and
+                   (AssignmentMemoHdr."Substitute Approval Status" in [AssignmentMemoHdr."Substitute Approval Status"::Open, AssignmentMemoHdr."Substitute Approval Status"::Created]) then
+                    AssignmentMemoHdr."Approval Status" := AssignmentMemoHdr."Approval Status"::Rejected;
+                AssignmentMemoHdr.Modify();
 
-            //reject the pending line as well
-            AssignmentMemoLine.SetRange("Document No.", docNo);
-            AssignmentMemoLine.SetRange("Approval Status", AssignmentMemoLine."Approval Status"::"Pending");
-            if AssignmentMemoLine.FindSet() then
-                repeat
-                    AssignmentMemoLine."Approval Status" := AssignmentMemoLine."Approval Status"::Rejected;
-                    AssignmentMemoLine.Modify();
-                    //clear ledger entry if any
-                    ClearAssignmentMemoLedgerDataOnLineReject(AssignmentMemoLine."Assign Memo Ledger Entry No.");
+                //reject the pending line as well
+                AssignmentMemoLine.SetRange("Document No.", docNo);
+                AssignmentMemoLine.SetRange("Approval Status", AssignmentMemoLine."Approval Status"::"Pending");
+                if AssignmentMemoLine.FindSet() then
+                    repeat
+                        AssignmentMemoLine."Approval Status" := AssignmentMemoLine."Approval Status"::Rejected;
+                        AssignmentMemoLine.Modify();
+                        //clear ledger entry if any
+                        ClearAssignmentMemoLedgerDataOnLineReject(AssignmentMemoLine."Assign Memo Ledger Entry No.");
 
-                    OnAfterRejectOnAssignmentMemoLine(AssignmentMemoHdr, AssignmentMemoLine) //To handle multiple line.
-                until AssignmentMemoLine.Next() = 0;
+                        OnAfterRejectOnAssignmentMemoLine(AssignmentMemoHdr, AssignmentMemoLine) //To handle multiple line.
+                    until AssignmentMemoLine.Next() = 0;
 
-            //Clear Leave Earn if claimed as Leave
-            LeaveEarn.SetCurrentKey("Claimed Document No.");
-            LeaveEarn.SetRange("Claimed Document No.", docNo);
-            LeaveEarn.SetRange(Claimed, true);
-            if LeaveEarn.FindFirst() then begin
-                Clear(LeaveEarn."Claimed Document No.");
-                Clear(LeaveEarn.Claimed);
-                LeaveEarn.Modify();
+                //Clear Leave Earn if claimed as Leave
+                LeaveEarn.SetCurrentKey("Claimed Document No.");
+                LeaveEarn.SetRange("Claimed Document No.", docNo);
+                LeaveEarn.SetRange(Claimed, true);
+                if LeaveEarn.FindFirst() then begin
+                    Clear(LeaveEarn."Claimed Document No.");
+                    Clear(LeaveEarn.Claimed);
+                    LeaveEarn.Modify();
+                end;
             end;
 
+            //approved
+            if IsApproved then begin
+                AssignmentMemoHdr."Approval Status" := AssignmentMemoHdr."Approval Status"::Approved;
+                if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then
+                    AssignmentMemoHdr."Substitute Approval Status" := AssignmentMemoHdr."Substitute Approval Status"::Approved;
+                AssignmentMemoHdr.Modify();
 
-        end;
+                //approve line as well
+                AssignmentMemoLine.SetRange("Document No.", docNo);
+                AssignmentMemoLine.SetRange("Approval Status", AssignmentMemoLine."Approval Status"::"Pending");
+                if AssignmentMemoLine.FindSet() then
+                    repeat
+                        AssignmentMemoLine."Approval Status" := AssignmentMemoLine."Approval Status"::Approved;
+                        AssignmentMemoLine.Modify();
 
-        //approved
-        if IsApproved then begin
-            AssignmentMemoHdr."Approval Status" := AssignmentMemoHdr."Approval Status"::Approved;
-            if AssignmentMemoHdr."Substitute Approval Status" = AssignmentMemoHdr."Substitute Approval Status"::Pending then
-                AssignmentMemoHdr."Substitute Approval Status" := AssignmentMemoHdr."Substitute Approval Status"::Approved;
-            AssignmentMemoHdr.Modify();
+                        //create assignment memo ledger entry
+                        CheckSkipAssignmentLedgerCreation(AssignmentMemoLine, SkipAssignmentLedgerCreation);
+                        if not SkipAssignmentLedgerCreation then
+                            CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
 
-            //approve line as well
-            AssignmentMemoLine.SetRange("Document No.", docNo);
-            AssignmentMemoLine.SetRange("Approval Status", AssignmentMemoLine."Approval Status"::"Pending");
-            if AssignmentMemoLine.FindSet() then
-                repeat
-                    AssignmentMemoLine."Approval Status" := AssignmentMemoLine."Approval Status"::Approved;
-                    AssignmentMemoLine.Modify();
+                    until AssignmentMemoLine.Next() = 0;
+                if not ((AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo") or (AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo")) then
+                    CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
+                if not SkipAssignmentLedgerCreation then
+                    OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
 
-                    //create assignment memo ledger entry
-                    CheckSkipAssignmentLedgerCreation(AssignmentMemoLine, SkipAssignmentLedgerCreation);
-                    if not SkipAssignmentLedgerCreation then
-                        CreateAssignmentMemoLedgerEntry(AssignmentMemoLine."Document No.", AssignmentMemoLine."Line No.");
-
-                until AssignmentMemoLine.Next() = 0;
-            if not ((AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Allowance Assignment Memo") or (AssignmentMemoHdr."Activity Type" = AssignmentMemoHdr."Activity Type"::"Shift Assignment Memo")) then
-                CreatePayrollAttrUsesOnApprovedAssignmentMemo(AssignmentMemoHdr);
-            if not SkipAssignmentLedgerCreation then
-                OnafterApproveAssignmentMemo(AssignmentMemoHdr); //company specific logic hook
-
-            //Check is ledger already exit
-            CheckAssignmentLedgerAlreadyExits(AssignmentMemoLine, SkipAssignmentLedgerCreation);
+                //Check is ledger already exit
+                CheckAssignmentLedgerAlreadyExits(AssignmentMemoLine, SkipAssignmentLedgerCreation);
+            end;
         end;
     end;
 
@@ -1665,6 +1666,10 @@ codeunit 50030 "Assignment Memo Mgt"
     end;
 
     [IntegrationEvent(false, false)]
+    local procedure OnBeforeApproveRejectAllowance(DocNo: Code[20]; IsApproved: Boolean; var IsHandled: Boolean)
+    begin
+    end;
+
     local procedure OnOtherAllowanceConfigurationCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var AllConfig2: Record "Allowance Configuration"; var IsHandled: Boolean)
     begin
     end;

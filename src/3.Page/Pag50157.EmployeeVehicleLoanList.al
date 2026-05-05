@@ -4,7 +4,7 @@ page 50157 "Employee Vehicle Loan List"
     DataCaptionFields = "No.", "Employee No.", "Employee Name";
     PageType = List;
     SourceTable = "Employee Loan/Advance";
-    SourceTableView = where("Loan Type" = const("Vehicle Loan"));
+    SourceTableView = sorting("No.") order(descending) where("Loan Type" = const("Vehicle Loan"));
     UsageCategory = Lists;
     ApplicationArea = All;
     InsertAllowed = false;
@@ -116,7 +116,7 @@ page 50157 "Employee Vehicle Loan List"
             action(Open)
             {
                 Promoted = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Open action.';
                 ApplicationArea = All;
@@ -134,7 +134,7 @@ page 50157 "Employee Vehicle Loan List"
             {
                 Image = Approvals;
                 Promoted = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Pending Approval action.';
                 ApplicationArea = All;
@@ -153,7 +153,7 @@ page 50157 "Employee Vehicle Loan List"
             {
                 Image = Approve;
                 Promoted = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Approved action.';
                 ApplicationArea = All;
@@ -170,7 +170,7 @@ page 50157 "Employee Vehicle Loan List"
             {
                 Image = DeleteQtyToHandle;
                 Promoted = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Rejected action.';
                 ApplicationArea = All;
@@ -187,7 +187,7 @@ page 50157 "Employee Vehicle Loan List"
             {
                 Image = Return;
                 Promoted = true;
-                PromotedCategory = Process;
+                PromotedCategory = Category4;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Return action.';
                 ApplicationArea = All;

@@ -8,7 +8,8 @@ page 50321 "Employee Insurance Lists"
     Caption = 'Employee Insurance Lists';
     PageType = List;
     SourceTable = "Employee Insurance Information";
-    SourceTableView = where(type = filter("Employee Activity Type"::Insurance));
+    SourceTableView = sorting("Insurance No.") order(Descending)
+                        where(type = filter("Employee Activity Type"::Insurance));
     UsageCategory = Lists;
     CardPageId = "Employee Insurance Card";
     PromotedActionCategories = 'New, Report, Process, Filters';

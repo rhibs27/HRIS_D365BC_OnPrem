@@ -2,7 +2,7 @@ permissionset 50000 D365HRMSPermission
 {
     Assignable = true;
     Permissions = //>>manual inserted for table extension object
- tabledata Employee = RIM,
+        tabledata Employee = RIM,
         tabledata "G/L Account" = RIM,
         tabledata "G/L Entry" = RIM,
         tabledata "Gen. Journal Line" = RIM,
@@ -846,6 +846,7 @@ permissionset 50000 D365HRMSPermission
         page "Salary Deduction Entries" = X,
         tabledata "Resign Doc Approver Setup" = RIMD,
         table "Resign Doc Approver Setup" = X,
+
         report "Update Emp Att. and Act Doc." = X,
         page "Device Overview" = X,
         page "Home Ins Tieup Card" = X,

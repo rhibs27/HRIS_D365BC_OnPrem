@@ -1,4 +1,4 @@
-page 50397 "Training Need Card"
+page 50402 "Training Need Card"
 {
     PageType = Card;
     SourceTable = "Training Need Request";

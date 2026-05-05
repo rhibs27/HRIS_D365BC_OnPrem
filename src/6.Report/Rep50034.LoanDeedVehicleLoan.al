@@ -3,7 +3,6 @@ report 50034 "Loan Deed Vehicle Loan"
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019835.LoanDeedVehicleLoan.rdl';
     WordLayout = './src/6.Report/Rep33019835.LoanDeedVehicleLoan.docx';
-    // EnableExternalAssemblies = true;
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
 
@@ -12,6 +11,11 @@ report 50034 "Loan Deed Vehicle Loan"
         dataitem("Employee Loan/Advance"; "Employee Loan/Advance")
         {
             DataItemTableView = where("Loan Type" = filter("Vehicle Loan"));
+            column(LoanNo; "No.") { }
+            column(EmployeeName; "Employee Name") { }
+            column(JobTitle; "Job Title") { }
+            column(BranchName; "Branch Name") { }
+            column(DepartmentName; "Department Name") { }
             column(RequestedLoanDate; "Offer Letter Date(Nepali)") { }
             column(EmployeeCode; "Employee No.") { }
             column(AppliedLoanAdvance; "Applied Loan/Advance") { }
@@ -32,6 +36,17 @@ report 50034 "Loan Deed Vehicle Loan"
             column(AmountInWordsNepali; "Amount In Words (Nepali)") { }
             column(EmpWardNo; EmpVar."Permanent Ward No") { }
             column(DisbursedAmt; "Disbursed Amount") { }
+            column(VehicleModel; "Vehicle Model") { }
+            column(VehicleEngineNo; "Vehicle Engine No.") { }
+            column(VehicleChasisNo; "Vehicle Chasis No.") { }
+            column(VehicleRegistrationNo; "Vehicle Registration No.") { }
+            column(VehicleTypeNepali; "Vehicle Type (Nepali)") { }
+            column(NameOfSupplier; "Name of Supplier") { }
+            column(CostOfVehicle; "Cost of Vehicle") { }
+            column(InterestRate; "Interest Rate") { }
+            column(RepaymentPeriod; "Repayment Period") { }
+            column(EMIAmount; EMI) { }
+            column(LicenseNo; "License No.") { }
 
             trigger OnAfterGetRecord()
             begin

@@ -77,7 +77,7 @@ codeunit 50004 "Travel Mgt."
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
         TravelRequest1: Record "Travel Request";
-        IsHandled: Boolean;
+        IsHandled, IsHandled2 : Boolean;
         IsHandledUserID: Boolean;
     begin
         if GuiAllowed then
@@ -90,18 +90,21 @@ codeunit 50004 "Travel Mgt."
         TravelReq.TestField("Departure From");
         TravelReq.TestField(Destination);
         TravelReq.TestField("Purpose of Travel");
-        TravelRequest.Reset;
-        TravelRequest.SetRange("Employee No.", TravelReq."Employee No.");
-        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-        TravelRequest.SetFilter("Approval Status", '<>%1&<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
-        TravelRequest.SetRange("Cancelled No.", '');
-        TravelRequest.SetRange(Cancelled, false);
-        TravelRequest.FilterGroup(-1);
-        TravelRequest.SetRange("Start Date", TravelReq."Start Date", TravelReq."End Date");
-        TravelRequest.SetRange("End Date", TravelReq."Start Date", TravelReq."End Date");
-        TravelRequest.FilterGroup(0);
-        if TravelRequest.Count <> 0 then
-            Error('Travel request has already been requested between %1 to %2', TravelReq."Start Date", TravelReq."End Date");
+        OnBeforeTravelRequestDateCheck(TravelReq, IsHandled2);
+        if not IsHandled2 then begin
+            TravelRequest.Reset;
+            TravelRequest.SetRange("Employee No.", TravelReq."Employee No.");
+            TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
+            TravelRequest.SetFilter("Approval Status", '<>%1&<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
+            TravelRequest.SetRange("Cancelled No.", '');
+            TravelRequest.SetRange(Cancelled, false);
+            TravelRequest.FilterGroup(-1);
+            TravelRequest.SetRange("Start Date", TravelReq."Start Date", TravelReq."End Date");
+            TravelRequest.SetRange("End Date", TravelReq."Start Date", TravelReq."End Date");
+            TravelRequest.FilterGroup(0);
+            if TravelRequest.Count <> 0 then
+                Error('Travel request has already been requested between %1 to %2', TravelReq."Start Date", TravelReq."End Date");
+        end;
         if TravelReq."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
         Employee.Reset();
@@ -343,6 +346,7 @@ codeunit 50004 "Travel Mgt."
         ApprovalEntry: Record "Approval HRMS";
         IsHandled, IsHandled1 : Boolean;
     begin
+        checkDocumentStatus(TravelOrderNo);
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Travel Claim");
         ApprovalEntry.SetRange("Document No.", '');
@@ -594,6 +598,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.TestField("Start Date");
             TravelRequest.TestField("End Date");
         end;
+        checkDocumentStatus(TravelRequest."No.");
         ApproverMgt.UpdateFirstApproverStatus(TravelRequest."No.");
         if TravelRequest2.Get(TravelRequest."Travel Order No.") then
             if (TravelRequest2."Travel Claimed") then
@@ -977,12 +982,79 @@ codeunit 50004 "Travel Mgt."
             until TravelRequest.Next = 0;
     end;
 
+    procedure ApproveCancelTravelRequest(docNo: Code[20]): Text
+    var
+        TravelRequest: Record "Travel Request";
+        CancelDocument: Record "Cancel Document";
+        EmpLedgerEntry: Record "Emp. Act. Ledger Entry";
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        CancelDocument.Get(docNo);
+        if TravelRequest.Get(CancelDocument."Cancelled Document No.") then begin
+            if (TravelRequest."Travel Claimed" = false) and (TravelRequest.Extended = false) then begin
+                // TravelRequest."Approval Status" := TravelRequest."Approval Status"::Canceled;
+                // TravelRequest.Modify();
+
+                EmpLedgerEntry.SetRange("Document No.", CancelDocument."Cancelled Document No.");
+                EmpLedgerEntry.SetRange("Document Type", EmpLedgerEntry."Document Type"::"Travel Request");
+                EmpLedgerEntry.SetRange("Cancellation Entry", false);
+                if EmpLedgerEntry.FindSet(true) then begin
+                    repeat
+                        EmpLedgerEntry.Rename(
+                            EmpLedgerEntry."Document Type",
+                            EmpLedgerEntry."Document No.",
+                            EmpLedgerEntry."Employee No.",
+                            EmpLedgerEntry."Event Date",
+                            true);
+                    until EmpLedgerEntry.Next() = 0;
+                end;
+                if CancelDocument."Start Date" <= Today then begin
+                    if CancelDocument."End Date" > Today then
+                        AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", Today, CancelDocument."Employee No.")
+                    else
+                        AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.")
+                end;
+                exit('Cancel Travel Request cancelled successfully.');
+            end;
+        end;
+    end;
+
+
+    procedure RejectTravelRequest(CancelDocNo: Code[20])
+    var
+        CancelledDocument: Record "Cancel Document";
+        TravelRequest: Record "Travel Request";
+    begin
+        if not CancelledDocument.Get(CancelDocNo) then
+            Error('Cancel document %1 not found.', CancelDocNo);
+        CancelledDocument.Validate(Cancelled, false);
+        CancelledDocument.Modify(true);
+        if not TravelRequest.Get(CancelledDocument."Cancelled Document No.") then
+            Error('Travel request no. %1 not found.', CancelledDocument."Cancelled Document No.");
+
+        TravelRequest.Validate("Cancelled No.", '');
+        TravelRequest.Validate(Cancelled, false);
+        TravelRequest.Modify(true);
+    end;
+
+
+    procedure checkDocumentStatus(docNo: Code[20])
+    var
+        TravelRequest: Record "Travel Request";
+    begin
+        TravelRequest.Get(docNo);
+        if TravelRequest.Cancelled then
+            Error('This document %1 is cancelled, It cannot be claimed', docNo);
+    end;
+
+
     var
         Employee, Employee1 : Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         EmailMgt: Codeunit "Email Mgt";
         HRSetup: Record "Human Resources Setup";
         ApproverMgt: Codeunit "Approver Mgt";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 
     [IntegrationEvent(false, false)]
     procedure OnAfterApplyTravelClaim(TravelClaimNo: Code[20])
@@ -1035,6 +1107,10 @@ codeunit 50004 "Travel Mgt."
     end;
 
     [IntegrationEvent(false, false)]
+    procedure OnBeforeTravelRequestDateCheck(Var TravelRequest: Record "Travel Request"; var IsHandled: Boolean)
+    begin
+    end;
+
     local procedure OnBeforeApplyTravelRequest(var TravelReq: Record "Travel Request")
     begin
     end;

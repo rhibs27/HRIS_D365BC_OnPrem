@@ -391,7 +391,7 @@ page 50101 "Travel Form"
 
                 trigger OnAction()
                 begin
-                    if not Rec.Extended and not rec."Travel Claimed" then
+                    if not Rec.Extended and not rec."Travel Claimed" and not rec.Cancelled then
                         TravelMgt.OpenTravelClaimed(Rec."Employee No.", Rec."No.", Rec."Travel With", Rec."Travel Countries")
                     else
                         Error(ErrorExtended, Rec.GetExtendedTravelNo);
@@ -444,7 +444,7 @@ page 50101 "Travel Form"
     var
         HRMgt: Codeunit "HR Mgt.";
         IsOpen, IsPending, IsApproved : Boolean;
-        ErrorExtended: Label 'This Travel is order is Extended. Please try Travel order No %1.';
+        ErrorExtended: Label 'This Travel is order is Cancelled. Please try Travel order No %1.';
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
         TravelMgt: Codeunit "Travel Mgt.";
