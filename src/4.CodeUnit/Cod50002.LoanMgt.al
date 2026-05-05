@@ -52,7 +52,12 @@ codeunit 50002 "Loan Mgt."
         RemServicePeriodAsPerBankTenure: Decimal;
         RemAgePeriodAsPerBankTenure: Decimal;
         IsHandledSalarycalc: Boolean;
+        IsHandle: Boolean;
     begin
+        OnBeforeInsertEmployeeLoan(EmpLoan, IsHandle);
+        if IsHandle then
+            exit;
+
         //check mandatory setup fields
         HRSetup.Get;
         HRSetup.TestField("DBR Ratio");
@@ -75,6 +80,7 @@ codeunit 50002 "Loan Mgt."
         EmpLoan."Employment Date" := Employee."Employment Date";
         EmpLoan.Gender := Employee.Gender;
         EmpLoan."Date of Birth" := Employee."Birth Date";
+        EmpLoan."Requested Loan Date" := Today;
 
         if Employee."Confirmation Date" = 0D then
             Error('Confirmation Date must have value in employee %1.', Employee.FullName);  //this ensure only permanent employee eligible for loan/advance
@@ -2041,5 +2047,18 @@ codeunit 50002 "Loan Mgt."
     local procedure OnCalculateFieldsOnBeforeCalculateGrossSalary(var EmpLoan: Record "Employee Loan/Advance"; var IsHandled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertEmployeeLoan(var EmpLoan: Record "Employee Loan/Advance"; var IsHandled: Boolean)
+    begin
+
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnSkipSalaryAdvanceControl(var SkipSalaryLoanControl: Boolean)
+    begin
+
+    end;
+
 
 }

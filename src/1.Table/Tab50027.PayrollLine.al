@@ -2942,7 +2942,11 @@ table 50027 "Payroll Line"
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
         SalaryDeductionEntry: Record "Salary Deduction Entry";
     begin
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PGSetup.Get();
+        IF PGSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeCode);
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", PayrollDocNo);
         if AssignmentMemoLedgerEntry.FindSet() then

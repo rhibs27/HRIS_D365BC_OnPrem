@@ -185,29 +185,28 @@ table 50161 "Assignment Memo Header"
                         GetVehicleDetails();
                     end;
                 end else begin
-                    if not GuiAllowed then begin
-                        if Employee2.Get(HrMgt.GetEmployeeNo()) then begin
-                            "Employee Name" := Employee2.FullName();
-                            "Permanent Address" := Employee2.Address;
-                            "Temporary Address" := Employee2."Temporary Address";
-                            "Salary Level" := Employee2."Salary Level";
+                    // if Employee2.Get(HrMgt.GetEmployeeNo()) then begin
+                    if Employee2.Get("Employee No.") then begin
+                        "Employee Name" := Employee2.FullName();
+                        "Permanent Address" := Employee2.Address;
+                        "Temporary Address" := Employee2."Temporary Address";
+                        "Salary Level" := Employee2."Salary Level";
 
-                            if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
-                                "Province Code" := Employee."Province Code";
-                                "Branch Code" := Employee."Branch Code";
-                                "Department Code" := Employee."Department Code";
-                                "Unit Code" := Employee."Unit Code";
+                        if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
+                            "Province Code" := Employee."Province Code";
+                            "Branch Code" := Employee."Branch Code";
+                            "Department Code" := Employee."Department Code";
+                            "Unit Code" := Employee."Unit Code";
 
-                                if Employee.Get("Employee No.") then begin
-                                    SalaryLevel.Get(Employee."Salary Level");
-                                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
-                                        "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
-                                        if "Fuel Limit (ltr)" = 0 then
-                                            "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
-                                    end;
+                            if Employee.Get("Employee No.") then begin
+                                SalaryLevel.Get(Employee."Salary Level");
+                                if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
+                                    "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
+                                    if "Fuel Limit (ltr)" = 0 then
+                                        "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                                 end;
-                                GetVehicleDetails();
                             end;
+                            GetVehicleDetails();
                         end;
                     end;
                 end;
@@ -261,12 +260,12 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
                 PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
                 if PayCyclePeriod.FindFirst() then begin
-                    if (not GuiAllowed) and HrMgt.IsSaaS() then
-                        Employee.Get("Employee No.")
-                    else
-                        Employee.Get(HrMgt.GetEmployeeNo());
                     OnBeforeGetPaycycleAllowancePeriod(Rec, Employee, PayCyclePeriod, isHandled);
                     if not isHandled then begin
+                        if (not GuiAllowed) and HrMgt.IsSaaS() then
+                            Employee.Get("Employee No.")
+                        else
+                            Employee.Get(HrMgt.GetEmployeeNo());
                         IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
                             "From Date" := Employee."Employment Date"
                         else

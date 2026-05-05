@@ -477,6 +477,8 @@ codeunit 50010 "Payroll-Post"
     procedure UpdateSourceDocumentOnPayrollPost(PayrollAttributes: Record "Payroll Attributes"; PayrollLineRec: Record "Payroll Line")
     var
         LeaveEarn: Record "Leave Earn";
+        EncashmentRequest: Record "Encashment Request";
+        AllowanceAssignLine: Record "Allowance Assignment Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         SalaryDeductionEntry: Record "Salary Deduction Entry";
     begin
@@ -504,6 +506,13 @@ codeunit 50010 "Payroll-Post"
                     LeaveEarn."Payroll Posted" := true;
                     LeaveEarn."Payroll Document No" := PostedPayrollHeader."No.";
                     LeaveEarn.Modify();
+                    //To modify taken leave is encashed 
+                    EncashmentRequest.SetRange("No.", LeaveEarn."Leave Request No");
+                    if EncashmentRequest.FindFirst() then begin
+                        EncashmentRequest.Validate(Paid, true);
+                        EncashmentRequest.Validate("Paid Date", PostedPayrollHeader."Posting Date");
+                        EncashmentRequest.Modify();
+                    end;
                 until LeaveEarn.Next() = 0;
         end;
 

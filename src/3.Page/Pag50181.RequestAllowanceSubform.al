@@ -136,6 +136,26 @@ page 50181 "Request Allowance Subform"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Reverse Line")
+            {
+                Image = ReverseRegister;
+                ToolTip = 'Executes the Reverse action.';
+                ApplicationArea = All;
+                Visible = Rec."Approval Status" = rec."Approval Status"::Approved;
+                trigger OnAction()
+                var
+                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                begin
+                    if Confirm('Do you want to reverse the document Line?', false) then
+                        AssignmentMemoMgt.ReverseAssignmentMemosLine(Rec);
+                end;
+            }
+        }
+    }
 
     trigger OnAfterGetRecord()
     begin
