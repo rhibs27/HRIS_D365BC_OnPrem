@@ -1473,8 +1473,7 @@ table 50027 "Payroll Line"
         EmployeeAdj.SetRange("Payroll Document No.", "Document No.");
         EmployeeAdj.SetRange("Employee No.", "Employee No.");
         EmployeeAdj.DeleteAll;
-        UnmarkAssignmentMemoLedgerEntry("Document No.", "Employee No.");
-        UnmarkAssignmentLeaveEarn("Document No.", "Employee No.")
+        UnmarkPayrollDocNo("Document No.", "Employee No.");
     end;
 
     trigger OnInsert()
@@ -1700,6 +1699,7 @@ table 50027 "Payroll Line"
             GetSettlementRecovery();
 
         GetAttributesFromAllowanceConfiguration();
+        CalculateAllowanceAssignmentLineAmount();
         OnGetPayrollAttributesOnBeforeSaveValue(Rec);
 
         PayrollAttributesUsage.Reset;
@@ -1838,6 +1838,7 @@ table 50027 "Payroll Line"
                     RFContributionLine.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
                 end;
                 RFContributionLine.SetRange("Employee No.", PayrollAttrUses."Employee Code");
+                RFContributionLine.SetRange("Attribute Code", PayrollAttrUses.Code);
                 RFContributionLine.SetRange(Type, PayrollAttrUses."RF Contribution Type");
                 RFContributionLine.SetRange("Document No.", RetirementFundHeader."No.");
                 RFContributionLine.SetRange("Approval Status", RFContributionLine."Approval Status"::Approved);
@@ -2731,6 +2732,38 @@ table 50027 "Payroll Line"
         end;
     end;
 
+    procedure CalculateAllowanceAssignmentLineAmount()
+    var
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+    begin
+        AllowanceAssignmentLine.Reset();
+        AllowanceAssignmentLine.SetRange("Employee Code", "Employee No.");
+        AllowanceAssignmentLine.SetRange("Payroll Doc No.", '');
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        AllowanceAssignmentLine.SetRange("From Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+        AllowanceAssignmentLine.SetRange("Payroll Posted", false);
+        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment Claim");
+        AllowanceAssignmentLine.SetFilter("Substitute Type", '%1|%2', AllowanceAssignmentLine."Substitute Type"::" ", AllowanceAssignmentLine."Substitute Type"::"Added as Substitute");
+        OnAfterFilterAllowanceAssignmentLine(AllowanceAssignmentLine);
+        if AllowanceAssignmentLine.FindSet() then
+            repeat
+                if PayrollAttrUses.Get(AllowanceAssignmentLine."Allowance Type", "Employee No.") then begin
+                    PayrollAttrUses.Amount += AllowanceAssignmentLine."Allowance Amount";
+                    PayrollAttrUses.Modify();
+                end else begin
+                    Clear(PayrollAttrUses);
+                    PayrollAttrUses.Init();
+                    PayrollAttrUses.Validate(Code, AllowanceAssignmentLine."Allowance Type");
+                    PayrollAttrUses.Validate("Employee Code", "Employee No.");
+                    PayrollAttrUses.Validate(Amount, AllowanceAssignmentLine."Allowance Amount");
+                    if PayrollAttrUses.Insert() then;
+                end;
+                AllowanceAssignmentLine."Payroll Doc No." := "Document No.";
+                AllowanceAssignmentLine.Modify();
+            until AllowanceAssignmentLine.Next() = 0
+    end;
+
     procedure GetTotalInsuranceClaim()
     var
         AttributeAmount: Decimal;
@@ -2903,10 +2936,12 @@ table 50027 "Payroll Line"
             exit(false);
     end;
 
-    procedure UnmarkAssignmentMemoLedgerEntry(PayrollDocNo: Code[20]; EmployeeCode: Code[20])
+    procedure UnmarkPayrollDocNo(PayrollDocNo: Code[20]; EmployeeCode: Code[20])
     var
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
-        PGSetup: Record "Payroll General Setup";
+        OvertimeLedgerEntry: Record "OverTime Ledger Entry";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
     begin
         PGSetup.Get();
         IF PGSetup."Get Amount From Assignment" then
@@ -2917,15 +2952,26 @@ table 50027 "Payroll Line"
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", PayrollDocNo);
         if AssignmentMemoLedgerEntry.FindSet() then
             AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", '');
-    end;
 
-    procedure UnmarkAssignmentLeaveEarn(PayrollDocNo: Code[20]; EmployeeCode: Code[20])
-    var
-        LeaveEarn: Record "Leave Earn";
-    begin
+        LeaveEarn.Reset();
+        LeaveEarn.SetRange("Payroll Document No", PayrollDocNo);
         LeaveEarn.SetRange("Employee No.", EmployeeCode);
-        LeaveEarn.SetFilter("Payroll Document No", PayrollDocNo);
         LeaveEarn.ModifyAll("Payroll Document No", '');
+
+        AllowanceAssignmentLine.Reset();
+        AllowanceAssignmentLine.SetRange("Payroll Doc No.", PayrollDocNo);
+        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+
+        OvertimeLedgerEntry.Reset();
+        OvertimeLedgerEntry.SetRange("Payroll No.", PayrollDocNo);
+        OvertimeLedgerEntry.SetRange("Employee No.", EmployeeCode);
+        OvertimeLedgerEntry.ModifyAll("Payroll No.", '');
+
+        SalaryDeductionEntry.Reset();
+        SalaryDeductionEntry.SetRange("Payroll Document No.", PayrollDocNo);
+        SalaryDeductionEntry.SetRange("Employee No.", EmployeeCode);
+        SalaryDeductionEntry.ModifyAll("Payroll Document No.", '');
     end;
 
     local procedure CalculateProRataAmtFromStartDate(EmpCode: Code[20]; AttrCode: Code[20]; var ProRatedAmount: Decimal)
@@ -3122,5 +3168,11 @@ table 50027 "Payroll Line"
     procedure OnBeforeGettingAllowanceAmtFromAllowanceConfiguration(AllowanceConfiguration: Record "Allowance Configuration"; PayrollLine: Record "Payroll Line"; var IsHandled: Boolean)
     begin
         //conditional step to skip allowance amount fetching from assignment memo ledger
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterFilterAllowanceAssignmentLine(var AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    begin
+        //Additional filter on Allowance Line
     end;
 }

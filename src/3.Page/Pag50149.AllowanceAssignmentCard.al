@@ -67,6 +67,11 @@ page 50149 "Allowance Assignment Card"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
+                field("Created Date"; Rec."Created Date")
+                {
+                    Caption = 'Request Date';
+                    ApplicationArea = All;
+                }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';

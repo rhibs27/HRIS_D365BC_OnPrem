@@ -1,7 +1,7 @@
 table 50184 "Training Need Request"
 {
     Caption = 'Training Need Request';
-    DataCaptionFields = "Entry No.", "Employee No.", Description;
+    DataCaptionFields = "Entry No.", "Employee No.", "Training Name";
     LookupPageId = "Training Need List";
     DataClassification = CustomerContent;
 
@@ -23,11 +23,14 @@ table 50184 "Training Need Request"
             begin
                 if Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
-                    Validate("Department Code", Employee."Department Code");
+                    Validate("Deputation On", Employee."Deputation on");
+                    Validate("Deputation Code", Employee."Deputation On Code");
                     Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
                 end else begin
                     Clear("Employee Name");
-                    Clear("Department Code");
+                    Clear("Deputation On");
+                    Clear("Deputation Code");
+                    Clear("Fiscal Year");
                 end;
             end;
         }
@@ -36,37 +39,42 @@ table 50184 "Training Need Request"
             Caption = 'Employee Name';
             Editable = false;
         }
-        field(4; "Department Code"; Code[100])
+        field(4; "Training Category"; Code[20])
         {
-            Caption = 'Department Code';
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
-            Editable = false;
+            Caption = 'Training Category';
+            TableRelation = "Training Master".Code where("Master Type" = filter("Training Setup Type"::"Training Category"));
         }
-        field(5; Description; Text[250])
+
+        field(5; "Training Code"; Code[20])
+        {
+            Caption = 'Training Code';
+            TableRelation = "Training Master".Code where("Master Type" = filter("Training Setup Type"::" "));
+            trigger OnValidate()
+            var
+                TrainingMaster: Record "Training Master";
+            begin
+                if TrainingMaster.Get("Training Code") then
+                    Validate("Training Name", TrainingMaster.Description)
+                else
+                    Clear("Training Name");
+            end;
+        }
+        field(6; "Training Name"; Text[250])
         {
             Caption = 'Training Description / Topic';
         }
-        field(6; "Training Nature"; Enum "Training Nature")
+        field(7; "Deputation On"; Enum "Deputation Type")
         {
-            Caption = 'Training Nature';
+            Caption = 'Deputation On';
         }
-        field(7; "Training Type"; Text[250])
+        field(8; "Deputation Code"; Code[20])
         {
-            Caption = 'Training Type';
-        }
-        field(8; "Requested Date"; Date)
-        {
-            Caption = 'Requested Date';
-
-            trigger OnValidate()
-            begin
-                Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Requested Date"));
-            end;
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = field("Deputation On"));
         }
         field(9; "Fiscal Year"; Text[10])
         {
             Caption = 'Fiscal Year';
-            Editable = false;
         }
         field(10; Justification; Text[2000])
         {
@@ -116,6 +124,15 @@ table 50184 "Training Need Request"
         {
             Caption = 'Priority';
         }
+        field(18; "Requested Date"; Date)
+        {
+            Caption = 'Requested Date';
+
+            trigger OnValidate()
+            begin
+                Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Requested Date"));
+            end;
+        }
     }
 
     keys
@@ -130,6 +147,7 @@ table 50184 "Training Need Request"
     trigger OnInsert()
     begin
         Validate("Requested Date", Today);
+        Validate(Status, Status::Open);
         Validate("Employee No.", HRMgt.GetEmployeeNo());
         Validate("Entry No.", GetEntryNo())
     end;
@@ -140,7 +158,7 @@ table 50184 "Training Need Request"
     procedure Compile(CompiledBy: Code[20])
     begin
         TestField(Status, Status::Pending);
-        Validate(Status, Status::Approved);
+        Validate(Status, Status::Acknowledged);
         Validate("Compiled By", CompiledBy);
         Validate("Compiled Date", Today);
         Modify(true);

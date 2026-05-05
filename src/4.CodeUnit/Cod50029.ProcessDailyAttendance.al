@@ -146,12 +146,12 @@ codeunit 50029 "Process Daily Attendance"
         if EmpAttendance."Shift Start Time" = 0T then
             exit;
         if (EmpAttendance."Check In Time" <> 0T) then
-            if EmpAttendance."Shift Start Time" + (AttSetup."Per Day Late Tolerance" * 60000) < EmpAttendance."Check In Time" then begin
+            if EmpAttendance."Shift Start Time" + Round((AttSetup."Per Day Late Tolerance" * 60000), 0.01, '=') < EmpAttendance."Check In Time" then begin
                 EmpAttendance."Late Check In Day" := 1;
                 EmpAttendance."Late Day" := 1;
             end;
         if (EmpAttendance."Check Out Time" <> 0T) then
-            if EmpAttendance."Shift End Time" - (60000 * AttSetup."Per Day Late Tolerance") > EmpAttendance."Check Out Time" then begin
+            if EmpAttendance."Shift End Time" - Round((60000 * AttSetup."Per Day Late Tolerance"), 0.01, '=') > EmpAttendance."Check Out Time" then begin
                 EmpAttendance."Early Check Out Day" := 1;
                 EmpAttendance."Late Day" := 1;
             end;

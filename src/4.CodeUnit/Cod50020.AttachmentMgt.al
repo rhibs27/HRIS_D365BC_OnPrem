@@ -165,7 +165,7 @@ codeunit 50020 "Attachment Mgt."
                and (IncomingDocument."File Name" <> '') then
                 Error('Cannot delete attachment.');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
-            if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
+            if (EmpInsurance."Approval Status" in [EmpInsurance."Approval Status"::Approved, EmpInsurance."Approval Status"::Pending]) then
                 Error('Cannot delete attachment.');
         end else if AppraisalEmp.Get(IncomingDocument."No.") then begin
             if AppraisalEmp."Approval Status" = AppraisalEmp."Approval Status"::Pending then
@@ -196,7 +196,7 @@ codeunit 50020 "Attachment Mgt."
         Resign: Record Resignation;
     begin
         if EmpLoan.Get(IncomingDocument."No.") then begin
-            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) then
+            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::" "]) then
                 ERROR('Approval status must be Open.');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
             if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Open then

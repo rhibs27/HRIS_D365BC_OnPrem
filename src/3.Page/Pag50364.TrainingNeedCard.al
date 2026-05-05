@@ -1,4 +1,4 @@
-page 50397 "Training Need Card"
+page 50402 "Training Need Card"
 {
     PageType = Card;
     SourceTable = "Training Need Request";
@@ -37,10 +37,16 @@ page 50397 "Training Need Card"
                     ToolTip = 'Specifies the name of the employee.';
                     ApplicationArea = All;
                 }
-                field("Department Code"; Rec."Department Code")
+                field("Deputation On"; Rec."Deputation On")
                 {
                     Editable = false;
-                    ToolTip = 'Specifies the department of the employee.';
+                    ToolTip = 'Specifies the deputation of the employee.';
+                    ApplicationArea = All;
+                }
+                field("Deputation Code"; Rec."Deputation Code")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the deputation of the employee.';
                     ApplicationArea = All;
                 }
                 field("Requested Date"; Rec."Requested Date")
@@ -59,17 +65,22 @@ page 50397 "Training Need Card"
             group("Training Details")
             {
                 Caption = 'Training Details';
-                field(Description; Rec.Description)
-                {
-                    Editable = IsOpen;
-                    MultiLine = true;
-                    ToolTip = 'Specifies the training topic or description.';
-                    ApplicationArea = All;
-                }
-                field("Training Type"; Rec."Training Type")
+                field("Training Category"; Rec."Training Category")
                 {
                     Editable = IsOpen;
                     ToolTip = 'Specifies the type of training requested.';
+                    ApplicationArea = All;
+                }
+                field("Training Code"; Rec."Training Code")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the training Code or description.';
+                    ApplicationArea = All;
+                }
+                field("Training Name"; Rec."Training Name")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the training description.';
                     ApplicationArea = All;
                 }
                 field(Priority; Rec.Priority)
@@ -188,7 +199,7 @@ page 50397 "Training Need Card"
 
     local procedure SetLayout()
     begin
-        IsOpen := Rec.Status = Rec.Status::Open;
+        IsOpen := (Rec.Status = Rec.Status::Open);
         IsSubmitted := Rec.Status = Rec.Status::Pending;
 
         case Rec.Status of
@@ -196,7 +207,7 @@ page 50397 "Training Need Card"
                 StatusStyle := 'StandardAccent';
             Rec.Status::Pending:
                 StatusStyle := 'Attention';
-            Rec.Status::Approved:
+            Rec.Status::Acknowledged:
                 StatusStyle := 'Favorable';
             Rec.Status::Settled:
                 StatusStyle := 'Favorable';

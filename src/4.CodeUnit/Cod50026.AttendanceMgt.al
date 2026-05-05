@@ -94,6 +94,32 @@ codeunit 50026 "Attendance Mgt"
                 exit(true);
     end;
 
+    procedure CheckEmployeeAbsent(EmpCode: Code[20]; AttendanceDate: Date): Boolean
+    var
+        EmpAtt: Record "Employee Attendance & Activity";
+    begin
+        EmpAtt.Reset();
+        EmpAtt.SetRange("Employee No.", EmpCode);
+        EmpAtt.SetRange("Attendance Date", AttendanceDate);
+        if EmpAtt.FindFirst() then begin
+            if EmpAtt."Absent Day" = 1 then
+                exit(true)
+        end else
+            exit(true);
+    end;
+
+    procedure CheckEmployeeLeave(EmpCode: Code[20]; AttendanceDate: Date): Boolean
+    var
+        EmpAtt: Record "Employee Attendance & Activity";
+    begin
+        EmpAtt.Reset();
+        EmpAtt.SetRange("Employee No.", EmpCode);
+        EmpAtt.SetRange("Attendance Date", AttendanceDate);
+        if EmpAtt.FindFirst() then
+            if EmpAtt."Leave Day" <> 0 then
+                exit(true)
+    end;
+
     procedure GetNonWorkingDaysFromAttendance(StartDate: Date; EndDateDate: Date; DeputationOn: Enum "Deputation Type"; DeputationOnCode: Code[20]; ProvinceCode: Code[20]; EmpCode: Code[20]): Integer
     var
         Description: Text;

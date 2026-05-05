@@ -10,4 +10,8 @@ enum 50047 "Day Type"
     {
         Caption = 'Holiday';
     }
+    value(2; " ")
+    {
+        Caption = ' ';
+    }
 }

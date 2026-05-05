@@ -32,7 +32,7 @@ page 50183 "Training Calendar Card"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
-                field(Quarter; Rec.Quarter)
+                field(Month; Rec.Month)
                 {
                     ToolTip = 'Specifies the value of the Quarter field.';
                     ApplicationArea = All;

@@ -2510,11 +2510,6 @@ codeunit 50008 "Payroll Engine"
 
         if PriorLevelwise.Get(PromotionHistory."Previous Salary Grade", PromotionHistory."Previous Salary Level") then;
         case PayAttributeCode of
-
-            PGSetup."Relocation Allowance":
-                begin
-                    //EXIT(TransferEmpActivity."Relocation Allow.");
-                end;
             PGSetup."Outstn/Discomfort Allowance":
                 begin
                     OnBeforeInsertOutstationAllowance(Employee."No.", PayCyclePeriod, IsHandled, Amount);
@@ -2585,90 +2580,6 @@ codeunit 50008 "Payroll Engine"
                         Amount := LevelWiseAttributes."Total Basic Salary" * 0.25;  //this goes to company specific extension
                     exit(Amount);
                 end;
-            //BM accomendation
-            // PGSetup."BM Accomendation":
-            //     begin
-            //         EmployeeTranfer.Reset;
-            //         EmployeeTranfer.SetRange("Employee No.", Employee."No.");
-            //         EmployeeTranfer.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-            //         EmployeeTranfer.SetFilter(Type, '%1|%2', EmployeeTranfer.Type::"HR Transfer", EmployeeTranfer.Type::"Employee Transfer");
-            //         EmployeeTranfer.SetRange("Transfer Category", EmployeeTranfer."Transfer Category"::General);
-            //         EmployeeTranfer.SetRange("Approval Status", EmployeeTranfer."Approval Status"::Acknowledged);
-            //         InitialDate := 0D;
-            //         if EmployeeTranfer.FindLast then
-            //             repeat
-            //                 if EmployeeTranfer."BM Accomodation Allow." <> 0 then begin
-            //                     Clear(BranchCode);
-            //                     if EmployeeTranfer."Deputation On (To)" = EmployeeTranfer."Deputation On (To)"::Branch then
-            //                         BranchCode := EmployeeTranfer."Shortcut Dimension 1 Code (To)"
-            //                     else if EmployeeTranfer."Deputation On (To)" = EmployeeTranfer."Deputation On (To)"::"Extension Counter" then begin
-            //                         OrganizationStructureList.Reset;
-            //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::"Extension Counter");
-            //                         OrganizationStructureList.SetRange(Code, EmployeeTranfer."Extension Counter (To)");
-            //                         if OrganizationStructureList.FindFirst then
-            //                             BranchCode := OrganizationStructureList.code;
-            //                     end;
-            //                     if FuntionalTitle.Get(EmployeeTranfer."Functional Title (To)") then begin
-            //                         if FuntionalTitle.Locationwise then begin
-            //                             OrganizationStructureList.Reset();
-            //                             OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, BranchCode);
-            //                             // Branches.Get(GLSetup."Global Dimension 1 Code", BranchCode);
-            //                             RemoteAreaCategory.Get(OrganizationStructureList."BM Category");
-            //                             if InitialDate = 0D then begin
-            //                                 Amount := RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - TransferEmpActivity."Date of Joining Of Transfer" + 1);
-            //                             end else begin
-            //                                 Amount += RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (InitialDate - TransferEmpActivity."Date of Joining Of Transfer");
-            //                             end;
-            //                         end;
-            //                     end;
-            //                 end;
-            //                 InitialDate := TransferEmpActivity."Date of Joining Of Transfer";
-            //             until TransferEmpActivity.Next(-1) = 0;
-            //         TransferEmpActivity.Reset;
-            //         TransferEmpActivity.SetRange("Employee No.", Employee."No.");
-            //         TransferEmpActivity.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-            //         TransferEmpActivity.SetFilter(Type, '%1|%2', TransferEmpActivity.Type::"HR Transfer", TransferEmpActivity.Type::"Employee Transfer");
-            //         TransferEmpActivity.SetRange("Transfer Category", TransferEmpActivity."Transfer Category"::General);
-            //         TransferEmpActivity.SetRange("Approval Status", TransferEmpActivity."Approval Status"::Acknowledged);
-            //         if TransferEmpActivity.FindFirst then begin
-            //             if TransferEmpActivity."BM Accomodation Allow." <> 0 then begin
-            //                 Clear(BranchCode);
-            //                 Clear(RemoteAreaCategory);
-            //                 if TransferEmpActivity."Deputation On" = TransferEmpActivity."Deputation On"::Branch then
-            //                     BranchCode := TransferEmpActivity."Shortcut Dimension 1 Code"
-            //                 else if TransferEmpActivity."Deputation On" = TransferEmpActivity."Deputation On"::"Extension Counter" then begin
-            //                     EmpHie.Reset;
-            //                     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-            //                     EmpHie.SetRange(Code, TransferEmpActivity."Extension Counter Code");
-            //                     if EmpHie.FindFirst then
-            //                         BranchCode := EmpHie."Shortcut Dimension 1 Code";
-            //                 end;
-
-            //                 FuntionalTitle.Get(TransferEmpActivity."Functional Title");
-            //                 if FuntionalTitle.Locationwise then begin
-            //                     Branches.Get(GLSetup."Global Dimension 1 Code", BranchCode);
-            //                     if RemoteAreaCategory.Get(Branches."BM Category") then
-            //                         PriorAmount := RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (TransferEmpActivity."Date of Joining Of Transfer" - PayCyclePeriod."Start Date");
-            //                 end;
-            //             end;
-            //             exit(PriorAmount + Amount);
-            //         end else begin
-            //             TransferEmpActivity.Reset;
-            //             TransferEmpActivity.SetRange("Employee No.", Employee."No.");
-            //             TransferEmpActivity.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-            //             TransferEmpActivity.SetFilter(Type, '%1|%2', TransferEmpActivity.Type::"HR Transfer", TransferEmpActivity.Type::"Employee Transfer");
-            //             TransferEmpActivity.SetRange("Transfer Category", TransferEmpActivity."Transfer Category"::General);
-            //             TransferEmpActivity.SetRange("Approval Status", TransferEmpActivity."Approval Status"::Acknowledged);
-            //             if TransferEmpActivity.FindLast then begin
-            //                 if TransferEmpActivity."BM Accomodation Allow." <> 0 then begin
-            //                     if Branches.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then;
-            //                     if RemoteAreaCategory.Get(Branches."BM Category") then
-            //                         exit(RemoteAreaCategory."BM Accomodation Amount");
-            //                 end;
-            //             end;
-            //         end;
-            //     end;
-
             PGSetup."Salary Advance":
                 begin
                     SalaryAdvance.Reset;
@@ -2705,22 +2616,6 @@ codeunit 50008 "Payroll Engine"
                     end;
                     exit(Amount + PriorAmount);
                 end;
-
-            // PGSetup."COPO/COSPO Allowance":
-            //     begin
-            //         if FuntionalTitle.Get(TransferEmpActivity."Functional Title") then
-            //             if TransferEmpActivity."Date of Joining Of Transfer" <> 0D then
-            //                 PriorAmount := FuntionalTitle."COPO/COSPO Allowance" / PayrollLineVar."Total Days" * (TransferEmpActivity."Date of Joining Of Transfer" - PayCyclePeriod."Start Date");
-
-            //         if FuntionalTitle.Get(Employee."Functional Title") then begin
-            //             if TransferEmpActivity."Date of Joining Of Transfer" <> 0D then
-            //                 Amount := FuntionalTitle."COPO/COSPO Allowance" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - TransferEmpActivity."Date of Joining Of Transfer" + 1)
-            //             else
-            //                 Amount := FuntionalTitle."COPO/COSPO Allowance";
-            //         end;
-            //         exit(Amount + PriorAmount);
-            //     end;
-            //remote area allowance
             PGSetup."Remote Area Allowance":
                 begin
                     //getting gross salary
@@ -2817,17 +2712,6 @@ codeunit 50008 "Payroll Engine"
                VALIDATE(Amount,(SalaryLevel."Net Learning"*(PayrollLine."Faciliating Hours" DIV PGSetup."Base Teaching Hours")*(LevelWiseAttributes."Total Basic Salary"+LevelWiseAttributes.Allowance)));
                MODIFY;
              end;*/
-            PGSetup."Friday Counter":
-                begin
-                    AllowanceAssignmentLine.Reset;
-                    AllowanceAssignmentLine.SetRange("Employee Code", PayrollLineVar."Employee No.");
-                    AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-                    AllowanceAssignmentLine.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
-                    AllowanceAssignmentLine.SetRange("Allowance Type", PGSetup."Friday Counter");
-                    AllowanceAssignmentLine.CalcSums("Allowance Amount");
-                    if not (AllowanceAssignmentLine."Allowance Amount" = 0) then
-                        exit(AllowanceAssignmentLine."Allowance Amount");
-                end;
             PGSetup."Staff Vehicle Allowance":
                 begin
                     if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
@@ -2837,32 +2721,10 @@ codeunit 50008 "Payroll Engine"
                         exit(LevelWiseAttributes."Staff Vehicle Allowance");//oman
                     end;
                 end;
-            /*PGSetup."Dashain Renumeration" : begin
-              //EXIT(LevelWiseAttributes."Dashain Remuneration");
-              EXIT(0);
-            end;*/
-            PGSetup."Officiating Allowance Code":
-                begin
-                    //EXIT(PGSetup."Officiating Allowance");
-                    exit(0);
-                end;
-
             PGSetup."Bulk Cash Allowance":
                 begin
                     exit(PGSetup."bulk Cash Amt" * PayrollLineVar."Bulk Cash Transfer Days");
                 end;
-            PGSetup."Evening Counter":
-                begin
-                    AllowanceAssignmentLine.Reset;
-                    AllowanceAssignmentLine.SetRange("Employee Code", PayrollLineVar."Employee No.");
-                    AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-                    AllowanceAssignmentLine.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
-                    AllowanceAssignmentLine.SetRange("Allowance Type", PGSetup."Evening Counter");
-                    AllowanceAssignmentLine.CalcSums("Allowance Amount");
-                    if not (AllowanceAssignmentLine."Allowance Amount" = 0) then
-                        exit(AllowanceAssignmentLine."Allowance Amount");
-                end;
-
             PGSetup."Holiday Counter":
                 begin
                     OverTime.Reset;
@@ -2913,76 +2775,12 @@ codeunit 50008 "Payroll Engine"
                     OverTime.CalcSums("OT Amount");
                     if not (OverTime."OT Amount" = 0) then
                         exit(OverTime."OT Amount");
-                    /*AllowanceAssignmentLine.Reset();
-                    AllowanceAssignmentLine.SetRange("Employee Code","Employee No.");
-                    AllowanceAssignmentLine.SetRange("Approval Status",AllowanceAssignmentLine."Approval Status"::Screened);
-                    AllowanceAssignmentLine.SetRange("From Date",PayCyclePeriod."Allowance Start Date",PayCyclePeriod."Allowance End Date");
-                    AllowanceAssignmentLine.SetRange("Allowance Type",PGSetup."Festival Counter");
-                    AllowanceAssignmentLine.CALCSUMS("Allowance Amount");
-                    IF NOT (AllowanceAssignmentLine."Allowance Amount" =0) THEN
-                    EXIT(AllowanceAssignmentLine."Allowance Amount");*/
                 end;
 
             PGSetup."Vault Key":
                 begin
                     exit(PayrollLineVar."Vault Key Days" / PayrollLineVar."Total Days" * PGSetup."Vault Key Allowance(Regular)")
                 end;
-
-            PGSetup."Morning Counter":
-                begin
-                    AllowanceAssignmentLine.Reset;
-                    AllowanceAssignmentLine.SetRange("Employee Code", PayrollLineVar."Employee No.");
-                    AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-                    AllowanceAssignmentLine.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
-                    AllowanceAssignmentLine.SetRange("Allowance Type", PGSetup."Morning Counter");
-                    AllowanceAssignmentLine.CalcSums("Allowance Amount");
-                    if not (AllowanceAssignmentLine."Allowance Amount" = 0) then
-                        exit(AllowanceAssignmentLine."Allowance Amount");
-                end;
-
-            PGSetup."Risk Allowance":
-                begin
-                    AllowanceAssignmentLine.Reset;
-                    AllowanceAssignmentLine.SetRange("Employee Code", PayrollLineVar."Employee No.");
-                    AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-                    AllowanceAssignmentLine.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
-                    AllowanceAssignmentLine.SetRange("Allowance Type", PGSetup."Risk Allowance");
-                    AllowanceAssignmentLine.CalcSums("Allowance Amount");
-                    if not (AllowanceAssignmentLine."Allowance Amount" = 0) then
-                        exit(AllowanceAssignmentLine."Allowance Amount");
-                end;
-
-            PGSetup."ATM Custodian":
-                begin
-                    exit(PayrollLineVar."ATM Custodian Days" / PayrollLineVar."Total Days" * PGSetup."ATM Custodian regular (month)")
-                end;
-
-            PGSetup."Head Teller Allowance":
-                begin
-                    exit(PayrollLineVar."Head Teller Days" / PayrollLineVar."Total Days" * PGSetup."Head Teller Allow. (Regular)")
-                end;
-
-            PGSetup."Teller Allowance":
-                begin
-                    exit(PayrollLineVar."Teller Days" / PayrollLineVar."Total Days" * PGSetup."Teller Allowance (Regular)")
-                end;
-            PGSetup."Night Shift Allowance":
-                begin
-                    LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level");
-                    exit(PayrollLineVar."Night Shifts" * LevelWiseAttributes."Night Shift Allowance")
-                end;
-            PGSetup."Dashain Allowance":
-                begin
-                    exit(PayrollLineVar."Dashain Allowance Days" * PGSetup."Dashain Allowance Amount")
-                end;
-            /*
-            PGSetup."OT Benefit Component" : begin
-              EXIT((LevelWiseAttributes."Total Basic Salary" / PayrollHeader."Total Days")*"OT Hrs");
-              end;
-
-            PGSetup."LFA Alowance": begin
-              EXIT(LevelWiseAttributes."Total Basic Salary");
-              end;*/
             PGSetup."Contract Basic":
                 begin
                     exit(Employee."Contract Salary Amount");
@@ -3354,8 +3152,6 @@ codeunit 50008 "Payroll Engine"
             exit((DashainDays + 1) / 183 * TotalGrossSalary);
     end;
 
-
-
     procedure LoadLeaveFareAllowance(EmpType: Enum "Employee Type"; PayrollDocumentNo: Code[20])
     var
         Employee: Record Employee;
@@ -3389,7 +3185,8 @@ codeunit 50008 "Payroll Engine"
             until LeaveEarn.Next() = 0;
         foreach EmployeeNo in TotalAnnualLeaveByEmployee.Keys do begin
             LeaveTypeSetup.get(TempLeaveCode);
-            if LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
+            TotalAnnualLeaveByEmployee.Get(EmployeeNo, LeaveDays);
+            if -LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
                 EmployeePayrollAdjustment.Init();
                 EmployeePayrollAdjustment."Payroll Document No." := PayrollDocumentNo;
                 EmployeePayrollAdjustment.Validate("Employee No.", EmployeeNo);
@@ -3409,13 +3206,39 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
     begin
         PGSetup.Get();
+        case PGSetup."LFA Source" of
+            PGSetup."LFA Source"::"as per Basic Salary":
+                begin
+                    PayrollAttributesUsage.Reset();
+                    PayrollAttributesUsage.SetRange("Employee Code", EmpNo);
+                    PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic);
+                    if PayrollAttributesUsage.FindFirst() then
+                        exit(Round(PayrollAttributesUsage.Amount, 0.01, '='))
+                end;
+            PGSetup."LFA Source"::"as Per Formula":
+                begin
+                    PayrollAttributesUsage.Reset();
+                    PGSetup.TestField("Leave Fare Allowance");
+                    PayrollAttributes.Get(PGSetup."Leave Fare Allowance");
+                    exit(Round(EvaluateAmount(PayrollAttributes.Formula, false), 0.01, '='));
+                end;
+            PGSetup."LFA Source"::"as per Salary Level":
+                begin
+                    Employee.Reset();
+                    Employee.SetRange("No.", EmpNo);
+                    if Employee.FindFirst() then begin
+                        SalaryLevel.Get(Employee."Salary Level");
+                        exit(Round(SalaryLevel."Leave Fare Allowance", 0.01, '='))
+                    end;
+                end;
+
+        end;
         if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Basic Salary" then begin
             PayrollAttributesUsage.Reset();
             PGSetup.TestField("Leave Fare Allowance");
             PayrollAttributes.Get(PGSetup."Leave Fare Allowance");
             exit(Round(EvaluateAmount(PayrollAttributes.Formula, false), 0.01, '='));
-        end
-        else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
+        end else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
             Employee.Reset();
             Employee.SetRange("No.", EmpNo);
             if Employee.FindFirst() then begin

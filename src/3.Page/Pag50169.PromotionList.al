@@ -12,6 +12,10 @@ page 50169 "Promotion List"
         {
             repeater(General)
             {
+                field("No."; Rec."No.")
+                {
+                    ApplicationArea = All;
+                }
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
