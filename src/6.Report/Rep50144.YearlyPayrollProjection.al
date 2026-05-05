@@ -1052,7 +1052,7 @@ report 50144 "Yearly Payroll Projection"
         // Add current fiscal year tax payments
         DetailedEmpLedgerEntry.Reset();
         DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeNo);
-        DetailedEmpLedgerEntry.SetRange("Fiscal Year", PayCycleTerm);
+        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
         DetailedEmpLedgerEntry.SetRange("Document Type", DetailedEmpLedgerEntry."Document Type"::Invoice);
         DetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
             DetailedEmpLedgerEntry."Attribute Sub Type"::"Social Security Tax",
