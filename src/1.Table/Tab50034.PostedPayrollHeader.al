@@ -244,7 +244,11 @@ table 50034 "Posted Payroll Header"
 
         AllowanceAssignmentLine.SetRange("Payroll Doc No.", PostedDocNo);
         if AllowanceAssignmentLine.FindSet() then
-            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+            repeat
+                AllowanceAssignmentLine.Validate("Payroll Doc No.", '');
+                AllowanceAssignmentLine.Validate("Payroll Posted", false);
+            until AllowanceAssignmentLine.Next() = 0;
+
         PGSetup.Get();
         if PGSetup."Get Amount From Assignment" then
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")

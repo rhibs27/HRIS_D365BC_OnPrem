@@ -353,6 +353,7 @@ codeunit 50010 "Payroll-Post"
             //PayrollEngine.GetLeaveDaysForSettlement(PayrollLine."Total Adjusted Leave Days",SickLeave,"Annual Leave",PayrollLine."Employee No.",TRUE);
             OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader);
         end;
+        UpdatePayrollNoInAllowanceAssignment;
         Window.Update(3, CreatingGLEntriesTxt);
         LineCount := 0;
         PostJournal(PayrollJournalLine);
@@ -370,6 +371,20 @@ codeunit 50010 "Payroll-Post"
     begin
         if not ((PostingDate >= PayCyclePeriod."Start Date") and (PostingDate <= PayCyclePeriod."End Date")) then
             exit(true);
+    end;
+
+    local procedure UpdatePayrollNoInAllowanceAssignment()
+    var
+        AllowanceAssignLine: Record "Allowance Assignment Line";
+    begin
+        AllowanceAssignLine.Reset();
+        AllowanceAssignLine.SetRange("Payroll Doc No.", PayrollHeader."No.");
+        if AllowanceAssignLine.FindSet() then
+            repeat
+                AllowanceAssignLine.Validate("Payroll Doc No.", PostedPayrollHeader."No.");
+                AllowanceAssignLine.Validate("Payroll Posted", true);
+                AllowanceAssignLine.Modify();
+            until AllowanceAssignLine.Next() = 0;
     end;
 
     local procedure DeleteDocument()
@@ -500,11 +515,6 @@ codeunit 50010 "Payroll-Post"
                     end;
                 until LeaveEarn.Next() = 0;
         end;
-
-        AllowanceAssignLine.SetRange("Allowance Type", PayrollAttributes.Code);
-        AllowanceAssignLine.SetRange("Payroll Doc No.", PayrollHeader."No.");
-        if AllowanceAssignLine.FindSet() then
-            AllowanceAssignLine.ModifyAll("Payroll Doc No.", PostedPayrollHeader."No.");
 
         //check and update Assignment memo lines if any
         AssignmentMemoLedgerEntry.SetRange("Payroll Posted", false);
