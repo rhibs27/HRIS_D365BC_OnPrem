@@ -97,8 +97,13 @@ report 50155 "Late Notification Email"
     var
         CompanyInfo: Record "Company Information";
         EmailBody: TextBuilder;
+        DeputationOn, DeputationOnDesc : Text[100];
+        OrgStrucList: Record "Organization Structure List";
     begin
         CompanyInfo.Get();
+        DeputationOn := Format(Employee."Deputation on");
+        OrgStrucList.Get(Employee."Deputation on", Employee."Deputation On Code");
+        DeputationOnDesc := OrgStrucList.Name;
 
         // Build HTML email
         EmailBody.AppendLine('<!DOCTYPE html>');
@@ -125,7 +130,7 @@ report 50155 "Late Notification Email"
         EmailBody.AppendLine('<div class="summary">');
         EmailBody.AppendLine(StrSubstNo('<strong>Employee No:</strong> %1<br>', Employee."No."));
         EmailBody.AppendLine(StrSubstNo('<strong>Employee Name:</strong> %1<br>', Employee."Full Name"));
-        EmailBody.AppendLine(StrSubstNo('<strong>Department:</strong> %1<br>', Employee."Department Name"));
+        EmailBody.AppendLine(StrSubstNo('<strong>%1:</strong> %2<br>', DeputationOn, DeputationOnDesc));
         EmailBody.AppendLine(StrSubstNo('<strong>Period:</strong> %1 to %2<br>', Format(FromDate), Format(ToDate)));
         EmailBody.AppendLine(StrSubstNo('<strong>Total Late Days:</strong> %1', LateDayCount));
         EmailBody.AppendLine('</div>');
