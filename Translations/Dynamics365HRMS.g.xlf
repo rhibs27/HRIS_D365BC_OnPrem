@@ -8198,11 +8198,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Staff Level (To) - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 565250863 - Field 746754563 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Suspension Active</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Suspension Active - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 565250863 - Field 2164249818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Suspension Level Code</source>
           <note from="Developer" annotates="general" priority="2"></note>

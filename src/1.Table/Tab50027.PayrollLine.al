@@ -1769,7 +1769,7 @@ table 50027 "Payroll Line"
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
-            until PayrollAttributesUsage.Next = 0;  
+            until PayrollAttributesUsage.Next = 0;
     end;
 
     procedure GetOneTimeRFContributionAmount(PayrollAttributesCode: Code[20]): Decimal
@@ -2966,7 +2966,7 @@ table 50027 "Payroll Line"
         OvertimeLedgerEntry.Reset();
         OvertimeLedgerEntry.SetRange("Payroll No.", PayrollDocNo);
         OvertimeLedgerEntry.SetRange("Employee No.", EmployeeCode);
-        AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+        OvertimeLedgerEntry.ModifyAll("Payroll No.", '');
 
         SalaryDeductionEntry.Reset();
         SalaryDeductionEntry.SetRange("Payroll Document No.", PayrollDocNo);
