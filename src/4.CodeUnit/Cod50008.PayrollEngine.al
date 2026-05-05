@@ -3409,13 +3409,39 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
     begin
         PGSetup.Get();
+        case PGSetup."LFA Source" of
+            PGSetup."LFA Source"::"as per Basic Salary":
+                begin
+                    PayrollAttributesUsage.Reset();
+                    PayrollAttributesUsage.SetRange("Employee Code", EmpNo);
+                    PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic);
+                    if PayrollAttributesUsage.FindFirst() then
+                        exit(Round(PayrollAttributesUsage.Amount, 0.01, '='))
+                end;
+            PGSetup."LFA Source"::"as Per Formula":
+                begin
+                    PayrollAttributesUsage.Reset();
+                    PGSetup.TestField("Leave Fare Allowance");
+                    PayrollAttributes.Get(PGSetup."Leave Fare Allowance");
+                    exit(Round(EvaluateAmount(PayrollAttributes.Formula, false), 0.01, '='));
+                end;
+            PGSetup."LFA Source"::"as per Salary Level":
+                begin
+                    Employee.Reset();
+                    Employee.SetRange("No.", EmpNo);
+                    if Employee.FindFirst() then begin
+                        SalaryLevel.Get(Employee."Salary Level");
+                        exit(Round(SalaryLevel."Leave Fare Allowance", 0.01, '='))
+                    end;
+                end;
+
+        end;
         if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Basic Salary" then begin
             PayrollAttributesUsage.Reset();
             PGSetup.TestField("Leave Fare Allowance");
             PayrollAttributes.Get(PGSetup."Leave Fare Allowance");
             exit(Round(EvaluateAmount(PayrollAttributes.Formula, false), 0.01, '='));
-        end
-        else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
+        end else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
             Employee.Reset();
             Employee.SetRange("No.", EmpNo);
             if Employee.FindFirst() then begin
