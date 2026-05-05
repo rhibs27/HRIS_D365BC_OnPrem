@@ -40,9 +40,13 @@ table 50162 "Assignment Memo Line"
             trigger OnValidate()
             var
                 EngNepDate: Record "English-Nepali Date";
+                IsHandled: Boolean;
             begin
-                if Rec."From Date" <> xRec."From Date" then begin
-                    Clear("To Date");
+                OnBeforeFromDateValidation(Rec, IsHandled);
+                if not IsHandled then begin
+                    if Rec."From Date" <> xRec."From Date" then begin
+                        Clear("To Date");
+                    end;
                 end;
                 if "From Date" <> 0D then
                     CheckandValidateTheDates("From Date");
@@ -371,6 +375,7 @@ table 50162 "Assignment Memo Line"
         SalaryLevel: Record "Salary Level";
         AllowanceConfiguration: Record "Allowance Configuration";
         PayrollAttributes: Record "Payroll Attributes";
+        EmployeeNo: code[60];
 
     local procedure GetLineNo()
     var
@@ -459,7 +464,10 @@ table 50162 "Assignment Memo Line"
         TotalDays: Integer;
         NonWorkingDays: Integer;
         leaveMgt: Codeunit "Leave Mgt.";
+        AssignmentHeader: Record "Assignment Memo Header";
     begin
+        Clear(TotalDays);
+        Clear(NonWorkingDays);
         PGSetUP.Get();
         PayCyclePeriod.SetFilter("Start Date", '<=%1', DateToCheck);
         PayCyclePeriod.SetFilter("End Date", '>=%1', DateToCheck);
@@ -471,8 +479,16 @@ table 50162 "Assignment Memo Line"
                 end;
             PGSetUP."Allowance days basedOn"::"Working days":
                 begin
-                    TotalDays := PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1;
-                    NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Start Date", PayCyclePeriod."End Date", HrMgt.GetEmployeeNo());
+                    AssignmentHeader.Get("Document No.");
+                    if (PayCyclePeriod."Allowance Start Date" <> 0D) and (PayCyclePeriod."Allowance End Date" <> 0D) then begin
+                        TotalDays := PayCyclePeriod."Allowance End Date" - PayCyclePeriod."Allowance Start Date" + 1;
+                        // NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date", HrMgt.GetEmployeeNo());
+                        NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date", AssignmentHeader."Employee No.");
+                    end else begin
+                        TotalDays := PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1;
+                        // NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Start Date", PayCyclePeriod."End Date", HrMgt.GetEmployeeNo());
+                        NonWorkingDays := leaveMgt.GetNonWorkingDays(PayCyclePeriod."Start Date", PayCyclePeriod."End Date", AssignmentHeader."Employee No.");
+                    end;
                     exit(TotalDays - NonWorkingDays);
                 end;
         end;
@@ -654,6 +670,11 @@ table 50162 "Assignment Memo Line"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateAssignmentProrataAmount(var MonthlyAmt: Decimal; AllowanceConfig: Record "Allowance Configuration"; var AssignmentMemoLine: Record "Assignment Memo Line"; NoofDaysInMonth: Integer; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeFromDateValidation(var AssignmentMemoLine: Record "Assignment Memo Line"; var IsHandled: Boolean)
     begin
     end;
 }

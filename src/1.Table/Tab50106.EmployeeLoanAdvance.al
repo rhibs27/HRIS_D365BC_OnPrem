@@ -437,6 +437,10 @@ table 50106 "Employee Loan/Advance"
         }
         field(101; "Reinstate Date"; Date) { }
         field(102; "Age Home Loan"; Decimal) { }
+        field(103; "Requested Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(188; "Deputation On"; Enum "Deputation Type")
         {
             Caption = 'Deputation On';
@@ -568,6 +572,7 @@ table 50106 "Employee Loan/Advance"
     trigger OnInsert()
     var
         EmployeeAdvanceLoan: Record "Employee Loan/Advance";
+        SkipSalaryLoanControl: Boolean;
     begin
         Validate(Type, Rec.Type::Loan);
 
@@ -579,8 +584,10 @@ table 50106 "Employee Loan/Advance"
                     begin
                         HRSetup.TestField("Salary Advance No.");
                         HRMgt.InitNoSeriesNew(HRSetup."Salary Advance No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
-                        SalaryAdvanceControl();
-                        SalaryAdvanceFiscalYearControl();
+                        //SalaryAdvanceFiscalYearControl();
+                        SkipSalaryAdvanceControl(SkipSalaryLoanControl);
+                        if not SkipSalaryLoanControl then
+                            SalaryAdvanceControl();
                     end;
                 "Loan Type"::"Personal Loan":
                     begin
@@ -603,7 +610,7 @@ table 50106 "Employee Loan/Advance"
             while EmployeeAdvanceLoan.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
-            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Loan Type");
+            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
         end;
 
         LoanMgt.CalculateFields(Rec);
@@ -706,7 +713,7 @@ table 50106 "Employee Loan/Advance"
         end;
     end;
 
-    local procedure SalaryAdvanceFiscalYearControl()
+    local procedure SalaryAdvanceFiscalYearControl() // this is comment bacause - frequency of salrary loan must be maintain from setup.
     var
         EmpSalaryAdvance: Record "Employee Loan/Advance";
     begin
@@ -719,5 +726,12 @@ table 50106 "Employee Loan/Advance"
             if EmpSalaryAdvance.Count >= 2 then
                 Error(ErrorFY, EmpSalaryAdvance."Fiscal Year");
         end;
+    end;
+
+    local procedure SkipSalaryAdvanceControl(var SkipSalaryLoanControl: Boolean)
+    var
+        LoanMgt: Codeunit "Loan Mgt.";
+    begin
+        LoanMgt.OnSkipSalaryAdvanceControl(SkipSalaryLoanControl);
     end;
 }

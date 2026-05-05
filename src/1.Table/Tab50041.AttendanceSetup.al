@@ -127,6 +127,12 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(109; "Default Work Shift"; Code[20])
+        {
+            TableRelation = "Employee Work Shift".Code;
+            DataClassification = ToBeClassified;
+        }
+
     }
 
     keys

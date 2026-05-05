@@ -46,6 +46,15 @@ page 50172 "Leave Encashment Requests"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
+                field(Paid; Rec.Paid)
+                {
+                    ToolTip = 'Specifies the value of the Paid field.', Comment = '%';
+                }
+                field("Paid Date"; Rec."Paid Date")
+                {
+                    ToolTip = 'Specifies the value of the Paid Date field.', Comment = '%';
+                }
+
             }
         }
     }
