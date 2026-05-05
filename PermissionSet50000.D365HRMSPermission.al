@@ -899,8 +899,7 @@ permissionset 50000 D365HRMSPermission
         page "Training Need Card" = X,
         page "Training Need List" = X,
         page "Categorized Budget Summary" = X,
-        page "Monthwise Training Budget" = X;
-        page "Training Need List" = X,
+        page "Monthwise Training Budget" = X,
         tabledata "Employee Loan/Advance Line" = RIMD,
         tabledata "Loan Settlement" = RIMD,
         tabledata "Loan Settlement Entry" = RIMD,

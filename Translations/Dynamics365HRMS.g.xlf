@@ -22818,11 +22818,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field No. Series - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 691882305 - Field 1182281945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Online</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Training Header - Field Online - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 691882305 - Field 35450067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posted</source>
           <note from="Developer" annotates="general" priority="2"></note>
