@@ -2719,15 +2719,53 @@ table 50027 "Payroll Line"
         AttributeAmount: Decimal;
         PayrollAttr: Record "Payroll Attributes";
         PayrollAttrUses: Record "Payroll Attributes Usage";
+        OverTimeLedgerEntry: Record "OverTime Ledger Entry";
+        PGSetup: Record "Payroll General Setup";
+        Overtime: Record OverTime;
     begin
+        // PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"OverTime Salary");
+        // PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        // if PayrollAttr.FindFirst() then begin
+        //     if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
+        //         AttributeAmount := ("Basic Salary" / "Total Days" / AttendanceSetup."Working Hour per day" * "OT Hrs");
+        //         RoundAmount(AttributeAmount);
+        //         PayrollAttrUses.Amount := AttributeAmount;
+        //         PayrollAttrUses.Modify();
+        //     end;
+        // end;
+        PGSetup.Get();
         PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"OverTime Salary");
         PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
         if PayrollAttr.FindFirst() then begin
             if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
-                AttributeAmount := ("Basic Salary" / "Total Days" / AttendanceSetup."Working Hour per day" * "OT Hrs");
+                OverTimeLedgerEntry.Reset();
+                OverTimeLedgerEntry.SetRange("Employee No.", "Employee No.");
+                OverTimeLedgerEntry.SetRange("Approval Status", OverTimeLedgerEntry."Approval Status"::Approved);
+                OverTimeLedgerEntry.SetRange("OT Disbursed", false);
+                OverTimeLedgerEntry.SetRange("Cancelled", false);
+                OverTimeLedgerEntry.SetRange("Reversed", false);
+                OverTimeLedgerEntry.SetRange("Overtime Claim Type", OverTimeLedgerEntry."Overtime Claim Type"::Encashment);
+                OverTimeLedgerEntry.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+                OverTimeLedgerEntry.CalcSums("OT Amount");
+                AttributeAmount := OverTimeLedgerEntry."OT Amount";
                 RoundAmount(AttributeAmount);
                 PayrollAttrUses.Amount := AttributeAmount;
                 PayrollAttrUses.Modify();
+                OvertimeLedgerEntry.ModifyAll("Payroll No.", "Document No.");
+
+                Overtime.Reset();
+                Overtime.SetRange("Employee No.", "Employee No.");
+                Overtime.SetRange("Approval Status", Overtime."Approval Status"::Approved);
+                Overtime.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+                Overtime.SetRange("Payroll No.", '');
+                Overtime.SetRange("Updated Payroll Line", false);
+                Overtime.SetRange("Cancelled", false);
+                If OverTime.FindSet() then
+                    repeat
+                        Overtime."Payroll No." := "Document No.";
+                        Overtime."Updated Payroll Line" := true;
+                        Overtime.Modify();
+                    until Overtime.Next() = 0;
             end;
         end;
     end;
@@ -2972,6 +3010,8 @@ table 50027 "Payroll Line"
         SalaryDeductionEntry.SetRange("Payroll Document No.", PayrollDocNo);
         SalaryDeductionEntry.SetRange("Employee No.", EmployeeCode);
         SalaryDeductionEntry.ModifyAll("Payroll Document No.", '');
+
+        OnAfterUnmarkPayrollDocNo(PayrollDocNo, EmployeeCode);
     end;
 
     local procedure CalculateProRataAmtFromStartDate(EmpCode: Code[20]; AttrCode: Code[20]; var ProRatedAmount: Decimal)
@@ -3174,5 +3214,11 @@ table 50027 "Payroll Line"
     local procedure OnAfterFilterAllowanceAssignmentLine(var AllowanceAssignmentLine: Record "Allowance Assignment Line")
     begin
         //Additional filter on Allowance Line
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterUnmarkPayrollDocNo(PayrollDocNo: Code[20]; EmployeeCode: Code[20])
+    begin
+        //Additional steps after unmarking payroll document number from related tables
     end;
 }

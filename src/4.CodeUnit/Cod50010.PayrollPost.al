@@ -325,6 +325,9 @@ codeunit 50010 "Payroll-Post"
                             UpdatePayrollJnl(PayrollJournalLine);
                             PostEmployee(PayrollJournalLine);
                         end;
+                        if PayrollAttributes."Specific Attributes" = PayrollAttributes."Specific Attributes"::"OverTime Salary" then begin
+                            PayrollEngine.PostEmployeeOvertimeLedger(PayrollHeader."No.", PostedPayrollHeader."No.");
+                        end;
                     end;
                 end;
                 if Round(PayrollLine."Net Pay", 0.01, '=') <> Round((LineBalance - PayrollEngine.AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollHeader."No.")
