@@ -356,6 +356,11 @@ report 50144 "Yearly Payroll Projection"
         CleanupTempTables();
     end;
 
+    protected var
+        PayCycleTerm: Code[10];
+        EmployeeFilter: Code[20];
+        OptimumDeduction: Boolean;
+
     var
         PgSetup: Record "Payroll General Setup";
         GlSetup: Record "General Ledger Setup";
@@ -366,8 +371,6 @@ report 50144 "Yearly Payroll Projection"
         EmployeePayrollOpen: Record "Employee Payroll Opening";
         PayrollColumnConfig: Record "Payroll Column Configuration";
         EmployeeInsuranceInfo: Record "Employee Insurance Information";
-        PayCycleTerm: Code[10];
-        EmployeeFilter: Code[20];
         Amount: Decimal;
         BenefitAmount: Decimal;
         DeductionAmount: Decimal;
@@ -706,6 +709,8 @@ report 50144 "Yearly Payroll Projection"
     end;
     // Calculates tax exemption limits and minimum deduction values
     local procedure CalculateTaxExemptions()
+    var
+        Math: Codeunit Math;
     begin
         // Calculate one third of gross income
         if PgSetup."Tax Ex. Amt Divsion" <> 0 then
@@ -713,11 +718,15 @@ report 50144 "Yearly Payroll Projection"
         // Get Tax Exemption Limit from Payroll Setup Line filtered by Pay Cycle Term
         TaxExemptionLimit := GetTaxExemptionLimitFromSetupLine();
         // Calculate minimum value among total retirement contribution, one third of gross income, and tax exemption limit
-        MinValueDeduction := TotalRetirement;
-        if OneThird < MinValueDeduction then
-            MinValueDeduction := OneThird;
-        if TaxExemptionLimit < MinValueDeduction then
-            MinValueDeduction := TaxExemptionLimit;
+        if OptimumDeduction then begin
+            MinValueDeduction := Math.Min(OneThird, TaxExemptionLimit);
+        end else begin
+            MinValueDeduction := TotalRetirement;
+            if OneThird < MinValueDeduction then
+                MinValueDeduction := OneThird;
+            if TaxExemptionLimit < MinValueDeduction then
+                MinValueDeduction := TaxExemptionLimit;
+        end;
     end;
 
     local procedure GetTaxExemptionLimitFromSetupLine(): Decimal
@@ -977,6 +986,8 @@ report 50144 "Yearly Payroll Projection"
     Var
         HomeLoanInsurance: Record "Employee Loan/Advance";
     begin
+        if (OptimumDeduction) and (InsuranceType = InsuranceType::"Life Insurance") then
+            exit(PgSetup."Tax Ex. Life Insurance Amt.");
         EmployeeInsuranceInfo.Reset();
         EmployeeInsuranceInfo.SetRange("Employee No.", EmployeeNo);
         EmployeeInsuranceInfo.SetRange(Type, EmployeeInsuranceInfo.Type::Insurance);

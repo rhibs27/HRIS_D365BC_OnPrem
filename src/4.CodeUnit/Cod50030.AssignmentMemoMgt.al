@@ -1113,6 +1113,7 @@ codeunit 50030 "Assignment Memo Mgt"
 
             EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Promotion);
             EmployeeServiceHistory.SetFilter("Effective Date", '>=%1', AssignmentMemoHeader."From Date");
+            EmployeeServiceHistory.SetRange("Employee No.", Employee."No.");
             if EmployeeServiceHistory.FindFirst() then begin
                 PayCyclePeriod.Reset();
                 PayCyclePeriod.SetFilter("Start Date", '<=%1', EmployeeServiceHistory."Effective Date");
