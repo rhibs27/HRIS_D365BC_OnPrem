@@ -52,7 +52,6 @@ codeunit 50029 "Process Daily Attendance"
             if EmpAttendance."Present Day" <> 0 then
                 EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
         end;
-
         if Employee."Automatic Attendance" and (EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day") then begin
             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
             EmpAttendance.Validate("Present Day", 1);
@@ -143,7 +142,7 @@ codeunit 50029 "Process Daily Attendance"
 
     local procedure UpdateLateDay()
     begin
-        if EmpAttendance."Shift Start Time" = 0T then
+        if (EmpAttendance."Shift Start Time" = 0T) or (EmpAttendance."Day Type" = EmpAttendance."Day Type"::Holiday) then
             exit;
         if (EmpAttendance."Check In Time" <> 0T) then
             if EmpAttendance."Shift Start Time" + Round((AttSetup."Per Day Late Tolerance" * 60000), 0.01, '=') < EmpAttendance."Check In Time" then begin
