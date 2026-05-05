@@ -29,7 +29,7 @@ table 50092 "Allowance Assignment Header"
             NotBlank = true;
             TableRelation = if (Type = filter("Deputation Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
             else if (Type = filter("Deputation Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"))
-            else if (Type = filter("Deputation Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
+            else if (Type = filter(Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
             else if (Type = filter("Deputation Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::Unit));
             trigger OnValidate()
             begin
@@ -81,7 +81,7 @@ table 50092 "Allowance Assignment Header"
             trigger OnValidate()
             begin
                 TestField("From Date");
-                if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then
+                if "Activity Type" in ["Activity Type"::"Allowance Assignment Claim", "Activity Type"::"Allowance Assignment"] then
                     AllowanceMgt.CheckCutOffDate("From Date", "To date", Month);
                 if "From Date" > "To date" then
                     Error('Invalid date.');
@@ -173,15 +173,33 @@ table 50092 "Allowance Assignment Header"
         {
             Editable = false;
         }
+        field(38; "Substitute Approval Status"; Enum "Approval Status")
+        {
+
+        }
         field(27; Month; Enum "Nepali Month")
         {
             trigger OnValidate()
+            var
             begin
                 if xRec.Month <> Rec.Month then begin
                     Clear("From Date");
                     Clear("To date");
                 end;
             end;
+        }
+        field(28; "Pay Cycle Code"; Code[20])
+        {
+            TableRelation = "Pay Cycle";
+        }
+        field(29; "Pay Cycle Term"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
+        }
+        field(30; "Pay Cycle Period"; Integer)
+        {
+            TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
+                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
         }
         field(100; "Status"; Text[20]) { }
     }

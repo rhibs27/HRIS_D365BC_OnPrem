@@ -56,7 +56,7 @@ page 50037 "RF Contribution Lines"
                 }
                 field(amount; Rec.Amount)
                 {
-                    Caption = 'Amount';
+                    Caption = 'Amount / %';
                     ToolTip = 'Specifies the value of the Amount field.', Comment = '%';
                 }
                 field(approvalStatus; Rec."Approval Status")

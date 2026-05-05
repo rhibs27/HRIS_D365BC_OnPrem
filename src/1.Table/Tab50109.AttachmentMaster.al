@@ -7,7 +7,7 @@ table 50109 "Attachment Master"
     fields
     {
         field(1; "Code"; Code[20]) { }
-        field(2; Description; Text[50]) { }
+        field(2; Description; Text[100]) { }
     }
 
     keys

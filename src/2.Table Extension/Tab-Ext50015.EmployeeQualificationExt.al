@@ -112,6 +112,9 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
     var
         Employee: Record Employee;
     begin
+        if "Qualification Code" = '' then
+            Error('Qualification Code cannot be empty.');
+
         if "Master Type" = "Master Type"::Employee then begin
             Employee.Get("Employee No.");
             "Employee Status" := Employee.Status;

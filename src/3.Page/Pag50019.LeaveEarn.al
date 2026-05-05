@@ -53,6 +53,11 @@ page 50019 "Leave Earn"
                     ToolTip = 'Specifies the value of the Balancing Days field.';
                     ApplicationArea = All;
                 }
+                field("Nepali year"; rec."Nepali year")
+                {
+                    ToolTip = 'Specifies the value of the Nepali year field.';
+                    ApplicationArea = All;
+                }
                 field(Type; Rec.Type)
                 {
                     ToolTip = 'Specifies the value of the Type field.';

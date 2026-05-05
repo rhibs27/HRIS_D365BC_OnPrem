@@ -73,6 +73,7 @@ table 50152 "Approval Setup Line"
         }
         field(10; "Line No."; Integer) { }
         field(11; "Payroll Filter"; Code[200]) { }
+        field(12; "Alternative Approval Workflow"; Enum "Alternative Approval Workflow") { }
     }
     keys
     {

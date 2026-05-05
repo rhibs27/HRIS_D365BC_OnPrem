@@ -80,7 +80,8 @@ codeunit 50017 "Approver Mgt"
                                  ApprovalStatus,
                                  EmployeeNo,
                                  Enum::"Loan Type"::" ",
-                                 false
+                                 false,
+                                 ApprovalSetupLine
                              );
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -161,7 +162,8 @@ codeunit 50017 "Approver Mgt"
                              Enum::"Approval Status"::" ",
                              EmployeeNo,
                              LoanType,
-                             false
+                             false,
+                             ApprovalSetupLine
                          );
                         ApprovalEntryCount -= 1;
                     until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -242,7 +244,8 @@ codeunit 50017 "Approver Mgt"
                              Enum::"Approval Status"::" ",
                              EmployeeNo,
                              Enum::"Loan Type"::" ",
-                             Cancelled
+                             Cancelled,
+                             ApprovalSetUpLine
                          );
                         ApprovalEntryCount -= 1;
                     until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -373,6 +376,7 @@ codeunit 50017 "Approver Mgt"
         AttributeAdj: Record "Attribute Adjustment Header";
         SkipRecRefModifyOnReject: Boolean;
         IsExit: Boolean;
+        loanSettlement: Record "Loan Settlement";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -436,6 +440,11 @@ codeunit 50017 "Approver Mgt"
                                     if RecRef.Field(39).value then
                                         leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
                                 end;
+                            EmployeeActivityType::"Travel Request":
+                                begin
+                                    if RecRef.Field(39).value then
+                                        TravelMgt.RejectTravelRequest(RecRef.Field(1).Value);
+                                end;
                             //for travel claim Reject
                             EmployeeActivityType::"Travel Claim":
                                 begin
@@ -487,6 +496,10 @@ codeunit 50017 "Approver Mgt"
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
 
+                            EmployeeActivityType::"Loan Settlement":
+                                begin
+                                    loanMgt.LoanSettlementApproveReject(RecRef.Field(1).Value, false);
+                                end;
                             EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance", EmployeeActivityType::"Shift Assignment Memo":
                                 begin
                                     AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false);
@@ -536,6 +549,8 @@ codeunit 50017 "Approver Mgt"
                         RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
                     else if EmployeeActivityType = EmployeeActivityType::"Attribute Adjustment" then
                         RecRef.Field(AttributeAdj.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
+                    else if EmployeeActivityType = EmployeeActivityType::"Loan Settlement" then
+                        RecRef.Field(loanSettlement.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
                     else begin
                         //old code
                         RecRef.Field(16).Validate(ApprovalStatus::Approved);
@@ -553,7 +568,10 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::"Travel Request":
                             begin
-                                TravelMgt.TravelApproved(RecRef.Field(1).Value);
+                                if RecRef.Field(39).value then
+                                    TravelMgt.ApproveCancelTravelRequest(RecRef.Field(1).Value)
+                                else
+                                    TravelMgt.TravelApproved(RecRef.Field(1).Value);
                             end;
                         EmployeeActivityType::"Travel Claim":
                             begin
@@ -622,6 +640,10 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::Appraisal:
                             begin
                                 AppraisalMgt.CalculateFinalMarks(RecRef.Field(1).Value);
+                            end;
+                        EmployeeActivityType::"Loan Settlement":
+                            begin
+                                loanMgt.LoanSettlementApproveReject(RecRef.Field(1).Value, true);
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
@@ -1178,14 +1200,17 @@ codeunit 50017 "Approver Mgt"
             //Travel Request
             EmpActTypeEnum::"Travel Request":
                 begin
-                    if TravelRequest.Get(documentNo) then begin
-                        RecRef.GetTable(TravelRequest);
-                        WithDrawRequest(RecRef);
-                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+                    if not TravelRequest.Get(documentNo) then
+                        exit;
+                    RecRef.GetTable(TravelRequest);
+                    WithDrawRequest(RecRef);
+                    if TravelRequest."Travel Order No." <> '' then
+                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then begin
                             TravelRequest2.Extended := false;
-                        TravelRequest2.Modify();
-                    end;
+                            TravelRequest2.Modify();
+                        end;
                 end;
+
             EmpActTypeEnum::Retirement:
                 begin
                     if RetirementFund.Get(documentNo) then begin
@@ -1311,6 +1336,7 @@ codeunit 50017 "Approver Mgt"
                 else
                     RecRef.Field(16).Validate(ApprovalStatusEnum::Open); // Modify the record dynamically
                 RecRef.Modify();
+                OnAfterReOpenDocument(RecRef);
             end;
         end else
             Error('Document status must be in Pending.');
@@ -1474,7 +1500,8 @@ codeunit 50017 "Approver Mgt"
                         ApprovalStatus: Enum "Approval Status";
                         EmployeeNo: Code[20];
                         LoanType: Enum "Loan Type";
-                        Cancelled: Boolean
+                        Cancelled: Boolean;
+                        ApprovalSetUpLine: Record "Approval Setup Line"
     ): Integer
     var
         Approval: Record "Approval HRMS";
@@ -1501,6 +1528,7 @@ codeunit 50017 "Approver Mgt"
         end else
             Approval.Validate("Approval Status", "Approval Status"::Created);  //if sequence > 1
         Approval.Validate("Employee No", EmployeeNo);
+        Approval.Validate("Alternative Approval Workflow", ApprovalSetUpLine."Alternative Approval Workflow");
         Approval.Insert(true);
         if ApprovalSequence = 1 then
             exit(1)
@@ -1589,7 +1617,8 @@ codeunit 50017 "Approver Mgt"
                                  ApprovalStatus,
                                  EmployeeNo,
                                  Enum::"Loan Type"::" ",
-                                 false
+                                 false,
+                                 ApprovalSetupLine
                              );
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -1855,11 +1884,17 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
+    local procedure OnAfterReOpenDocument(var RecRef: RecordRef)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
     local procedure OnAfterOtherDocumentTypeSAAS(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type"; AccessToken: Code[60])
     begin
 
     end;
 
+    [IntegrationEvent(false, false)]
     local procedure OnBeforeIncrementOfApproverSequence(var DocApproverCheck: Record "Document Approver"; var DocApprover: Record "Document Approver"; var IsHandled: Boolean)
     begin
     end;
@@ -1877,4 +1912,5 @@ codeunit 50017 "Approver Mgt"
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+        loanMgt: Codeunit "Loan Mgt.";
 }

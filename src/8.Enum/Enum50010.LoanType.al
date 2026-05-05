@@ -26,4 +26,8 @@ enum 50010 "Loan Type"
     {
         Caption = 'Home Loan Insurance Tieup';
     }
+    value(6; "Staff Social Loan")
+    {
+        Caption = 'Staff Social Loan';
+    }
 }

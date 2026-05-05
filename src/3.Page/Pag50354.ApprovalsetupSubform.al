@@ -36,6 +36,10 @@ page 50354 "Approval setup Subform"
                 {
                     ToolTip = 'Specifies the value of the Approval From Same Deputation.', Comment = '%';
                 }
+                field("Alternative Approval Workflow"; Rec."Alternative Approval Workflow")
+                {
+                    ApplicationArea = All;
+                }
             }
         }
     }

@@ -32,6 +32,21 @@ page 50156 "Employee Loan Interest"
                     ToolTip = 'Specifies the value of the Interest Rate field.';
                     ApplicationArea = All;
                 }
+                field("Loan Amount Threshold"; Rec."Loan Amount Threshold")
+                {
+                    ToolTip = 'Specifies the loan amount boundary for tiered interest. Loans at or below this amount use the Below Threshold Rate; loans above use Cost of Fund Rate + Above Threshold Spread.';
+                    ApplicationArea = All;
+                }
+                field("Below Threshold Rate"; Rec."Below Threshold Rate")
+                {
+                    ToolTip = 'Specifies the flat interest rate (%) applied to loans at or below the Loan Amount Threshold.';
+                    ApplicationArea = All;
+                }
+                field("Above Threshold Spread"; Rec."Above Threshold Spread")
+                {
+                    ToolTip = 'Specifies the spread (%) added to the Cost of Fund Rate for loans above the Loan Amount Threshold.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
