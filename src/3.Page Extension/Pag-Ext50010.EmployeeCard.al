@@ -1981,7 +1981,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             ServiceHistory."Suspension Reason" := Reason;
                             ServiceHistory."Effective Date" := StartDate;
                             ServiceHistory."To Date" := EndDate;
-                            ServiceHistory."Suspension Active" := ActiveFlag;
                             ServiceHistory.Insert(true);
                             if ActiveFlag then begin
                                 Rec."Suspension Active" := true;

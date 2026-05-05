@@ -319,12 +319,6 @@ table 50096 "Employee Service History"
             Caption = 'Suspension Reason';
             DataClassification = CustomerContent;
         }
-        field(83; "Suspension Active"; Boolean)
-        {
-            Caption = 'Suspension Active';
-            DataClassification = CustomerContent;
-        }
-
     }
 
     keys
