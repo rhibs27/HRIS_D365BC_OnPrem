@@ -2723,16 +2723,6 @@ table 50027 "Payroll Line"
         PGSetup: Record "Payroll General Setup";
         Overtime: Record OverTime;
     begin
-        // PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"OverTime Salary");
-        // PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
-        // if PayrollAttr.FindFirst() then begin
-        //     if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
-        //         AttributeAmount := ("Basic Salary" / "Total Days" / AttendanceSetup."Working Hour per day" * "OT Hrs");
-        //         RoundAmount(AttributeAmount);
-        //         PayrollAttrUses.Amount := AttributeAmount;
-        //         PayrollAttrUses.Modify();
-        //     end;
-        // end;
         PGSetup.Get();
         PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"OverTime Salary");
         PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);

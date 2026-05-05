@@ -232,7 +232,6 @@ table 50034 "Posted Payroll Header"
         OvertimeLedgerEntry: Record "OverTime Ledger Entry";
         SalaryDeductionEntry: Record "Salary Deduction Entry";
         PGSetup: Record "Payroll General Setup";
-        Overtime: Record "OverTime";
     begin
         LeaveEarn.SetRange("Payroll Posted", true);
         LeaveEarn.SetRange("Payroll Document No", PostedDocNo);
