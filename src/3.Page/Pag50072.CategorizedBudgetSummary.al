@@ -1,4 +1,4 @@
-page 50072 "Categorized Budget Summary"
+page 50074 "Categorized Budget Summary"
 {
     ApplicationArea = All;
     Caption = 'Categorized Budget Summary';

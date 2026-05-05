@@ -1699,7 +1699,7 @@ table 50027 "Payroll Line"
             GetSettlementRecovery();
 
         GetAttributesFromAllowanceConfiguration();
-        CalculateAllowanceAssignmentLineAmount();
+        // CalculateAllowanceAssignmentLineAmount();
         OnGetPayrollAttributesOnBeforeSaveValue(Rec);
 
         PayrollAttributesUsage.Reset;
