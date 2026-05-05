@@ -81,6 +81,7 @@ codeunit 50002 "Loan Mgt."
         EmpLoan.Gender := Employee.Gender;
         EmpLoan."Date of Birth" := Employee."Birth Date";
         EmpLoan.Age := Employee.Age;
+        EmpLoan."Requested Loan Date" := Today;
 
         if Employee."Confirmation Date" = 0D then
             Error('Confirmation Date must have value in employee %1.', Employee.FullName);  //this ensure only permanent employee eligible for loan/advance
