@@ -14,9 +14,9 @@ enum 50107 "Purpose of Housing Loan"
     {
         Caption = 'Construction of House';
     }
-    value(3; "Purchase of ready built house")
+    value(3; "Purchase Built-up House/Flat/Apartment")
     {
-        Caption = 'Purchase of ready built house';
+        Caption = 'Purchase Built-up House/Flat/Apartment';
     }
     value(4; "Renovate/Extend/Repair")
     {
@@ -25,5 +25,13 @@ enum 50107 "Purpose of Housing Loan"
     value(5; "Purpose of Equity Financing")
     {
         Caption = 'Purpose of Equity Financing';
+    }
+    value(6; "Equity Finance on already purchased/constructed/renovated property")
+    {
+        Caption = 'Equity Finance on already purchased/constructed/renovated property';
+    }
+    value(7; "Clear personal borrowing taken for residential property")
+    {
+        Caption = 'Clear personal borrowing taken for residential property';
     }
 }

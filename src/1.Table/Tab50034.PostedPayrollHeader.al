@@ -244,7 +244,11 @@ table 50034 "Posted Payroll Header"
 
         AllowanceAssignmentLine.SetRange("Payroll Doc No.", PostedDocNo);
         if AllowanceAssignmentLine.FindSet() then
-            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+            repeat
+                AllowanceAssignmentLine.Validate("Payroll Doc No.", '');
+                AllowanceAssignmentLine.Validate("Payroll Posted", false);
+            until AllowanceAssignmentLine.Next() = 0;
+
         PGSetup.Get();
         if PGSetup."Get Amount From Assignment" then
             AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")
@@ -267,6 +271,7 @@ table 50034 "Posted Payroll Header"
             repeat
                 OvertimeLedgerEntry."Payroll No." := '';
                 OvertimeLedgerEntry."OT Disbursed" := false;
+                OvertimeLedgerEntry.Posted := false;
                 OvertimeLedgerEntry.Modify();
             until OvertimeLedgerEntry.Next() = 0;
 
@@ -274,5 +279,13 @@ table 50034 "Posted Payroll Header"
         SalaryDeductionEntry.SetRange("Payroll Document No.", "No.");
         SalaryDeductionEntry.ModifyAll("Payroll Posted", false);
         SalaryDeductionEntry.ModifyAll("Payroll Document No.", '');
+
+        OnAfterUnmarkPostedPayrollDocNo(PostedDocNo);
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterUnmarkPostedPayrollDocNo(PostedDocNo: Code[20]);
+    begin
+        //Additional steps after unmarking payroll document number from related tables
     end;
 }

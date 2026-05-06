@@ -37,12 +37,6 @@ codeunit 50029 "Process Daily Attendance"
         // Need to discuss
         // if (EmpAttendance."Present Day" > 0) and (EmpAttendance."Shift Start Time" <> 0T) then
         //     EmpAttendance."OT Hrs" := Round((EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time") / (60 * 60000), 0.01, '=') + Round((EmpAttendance."Shift Start Time" - EmpAttendance."Check In Time") / (60 * 60000), 0.01, '=');
-
-
-        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
-            if EmpAttendance."Present Day" <> 0 then
-                EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
-        end;
         if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then begin
             if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) then begin
                 EmpAttendance."Absent Day" := 1;
@@ -53,13 +47,16 @@ codeunit 50029 "Process Daily Attendance"
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
         end;
+        ProcessDayFromEmpActLedgerEntry();
+        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
+            if EmpAttendance."Present Day" <> 0 then
+                EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
+        end;
 
         if Employee."Automatic Attendance" and (EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day") then begin
             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
             EmpAttendance.Validate("Present Day", 1);
         end;
-
-        ProcessDayFromEmpActLedgerEntry();
 
         UpdateAttendanceRemarks();
         if (EmpAttendance."Present Day" = 1) and (EmpAttendance."Leave Day" <> 0) then
@@ -149,12 +146,12 @@ codeunit 50029 "Process Daily Attendance"
         if EmpAttendance."Shift Start Time" = 0T then
             exit;
         if (EmpAttendance."Check In Time" <> 0T) then
-            if EmpAttendance."Shift Start Time" + (AttSetup."Per Day Late Tolerance" * 60000) < EmpAttendance."Check In Time" then begin
+            if EmpAttendance."Shift Start Time" + Round((AttSetup."Per Day Late Tolerance" * 60000), 0.01, '=') < EmpAttendance."Check In Time" then begin
                 EmpAttendance."Late Check In Day" := 1;
                 EmpAttendance."Late Day" := 1;
             end;
         if (EmpAttendance."Check Out Time" <> 0T) then
-            if EmpAttendance."Shift End Time" - (60000 * AttSetup."Per Day Late Tolerance") > EmpAttendance."Check Out Time" then begin
+            if EmpAttendance."Shift End Time" - Round((60000 * AttSetup."Per Day Late Tolerance"), 0.01, '=') > EmpAttendance."Check Out Time" then begin
                 EmpAttendance."Early Check Out Day" := 1;
                 EmpAttendance."Late Day" := 1;
             end;

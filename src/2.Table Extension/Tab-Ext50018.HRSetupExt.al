@@ -721,7 +721,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
         }
         field(50158; "Hide Clearance Approver"; Boolean) { }
-
         field(50159; "Apply Resign Waiver"; Boolean)
         {
             DataClassification = CustomerContent;
@@ -736,10 +735,51 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'Grievance No. Series';
         }
-        field(50162; "Skip Approval Setup"; Boolean)
+        field(50162; "No of Salary Advance"; Integer)
         {
             DataClassification = CustomerContent;
-            Description = 'Skip Approval Setup';
+            Description = 'No of Salary Advance Allowed in single Fiscal year.';
+        }
+        field(50163; "HL Eligibility Service Years"; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For eligible home loan Request';
+        }
+        field(50164; "HL Minimum Road Access OutV."; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For eligible home loan Request Minimum Road Access Outside valley';
+        }
+        field(50165; "HL Minmum Road Access InV."; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For eligible home loan Request Minimum Road Access Inside valley';
+        }
+        field(50166; "Staff Social Loan No."; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+            Description = 'No. series';
+        }
+        field(50167; "Max Staff Social Loan Amount"; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'For Max Staff Social Loan Amount';
+        }
+        field(50168; "Get Loan Table Balance"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50169; "Loan Settlement No."; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+            Description = 'No. series for Loan Settlement documents (all loan types)';
+        }
+        field(50170; "Skip Approval Setup"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Skip Medical Approval Setup';
         }
     }
     trigger onAfterInsert()

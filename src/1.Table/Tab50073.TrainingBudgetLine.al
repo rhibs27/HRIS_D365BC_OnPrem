@@ -5,16 +5,24 @@ table 50073 "Training Budget Line"
     {
         field(1; "Training Header Entry No."; Integer) { }
         field(2; "Line No"; Integer) { }
-        field(3; Month; Enum "Nepali Month")
+        field(3; "Budget By"; Option)
+        {
+            OptionMembers = ,Month,"Training Category";
+        }
+        field(4; Month; Enum "Nepali Month")
         {
             Editable = false;
         }
-        field(4; "No. of Training"; Integer) { }
-        field(5; "Budget Amount"; Decimal) { }
-        field(6; "YTD Budget"; Decimal)
+        field(5; "Training Category"; Code[20])
         {
-            Editable = false;
+            TableRelation = "Training Master".Code where("Master Type" = filter("Training Setup Type"::"Training Category"));
         }
+        field(6; "Budgeted No. of Trainings"; Integer) { }
+        field(7; "Actual No. of Trainings"; Integer) { }
+        field(8; "Budgeted Amount"; Decimal) { }
+        field(9; "YTD Budgeted Amount"; Decimal) { Editable = false; }
+        field(10; "Actual Amount"; Decimal) { }
+        field(11; "YTD Actual Amount"; Decimal) { }
     }
 
     keys

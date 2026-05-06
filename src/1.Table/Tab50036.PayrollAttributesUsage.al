@@ -7,11 +7,13 @@ table 50036 "Payroll Attributes Usage"
         {
             NotBlank = true;
             TableRelation = "Payroll Attributes";
-
             trigger OnValidate()
             begin
-                if PayrollAtt.Get(Code) then
-                    Validate("Payroll Type", PayrollAtt."Payroll Type")
+                if PayrollAtt.Get(Code) then begin
+                    Validate("Payroll Type", PayrollAtt."Payroll Type");
+                    Validate(Formula, PayrollAtt.Formula);
+                    Validate(Description, PayrollAtt.Description);
+                end
                 else
                     Clear("Payroll Type");
             end;

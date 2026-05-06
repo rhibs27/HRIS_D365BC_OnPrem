@@ -21,7 +21,7 @@ report 50154 "Update Emp Att. and Act Doc."
                     Leave.SetFilter("Start Date", '>=%1', StartDate);
                     Leave.SetFilter("End Date", '<=%1', EndDate);
                 end;
-                IF Leave.FindSet() then
+                if Leave.FindSet() then
                     repeat
                         EmpAttAndActLeave.Reset();
                         EmpAttAndActLeave.SetRange("Employee No.", Leave."Employee No.");
@@ -29,6 +29,7 @@ report 50154 "Update Emp Att. and Act Doc."
                         if EmpAttAndActLeave.FindSet() then
                             repeat
                                 EmpAttAndActLeave."Pending Leave Request Doc No." := Leave."No.";
+                                EmpAttAndActLeave."Pay Type" := Leave."Pay Type";
                                 EmpAttAndActLeave.Modify();
                             until EmpAttAndActLeave.Next() = 0;
                     until Leave.Next() = 0;
@@ -92,8 +93,14 @@ report 50154 "Update Emp Att. and Act Doc."
     begin
         if (StartDate <> 0D) and (EndDate <> 0D) then
             EmpAttAndAct.SetRange("Attendance Date", StartDate, EndDate);
+        EmpAttAndAct.SetFilter("Pending Leave Request Doc No.", '<>%1', '');
+        EmpAttAndAct.ModifyAll("Pay Type", EmpAttAndAct."Pay Type"::" ");
+
+        EmpAttAndAct.Reset();
+        if (StartDate <> 0D) and (EndDate <> 0D) then
+            EmpAttAndAct.SetRange("Attendance Date", StartDate, EndDate);
         EmpAttAndAct.ModifyAll("Pending Leave Request Doc No.", '');
-        EmpAttAndAct.ModifyAll("Pending Leave Request Doc No.", '');
+        EmpAttAndAct.ModifyAll("Pending Update Atten. Doc No.", '');
     end;
 
     var

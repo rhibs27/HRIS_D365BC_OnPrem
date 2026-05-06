@@ -92,6 +92,10 @@ page 50320 "Employee Insurance Card"
                     ToolTip = 'Specifies the value of the Insurance Amount field.', Comment = '%';
                     ApplicationArea = All;
                     Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        currpage.Update();
+                    end;
                 }
                 field(Status; Rec.Status)
                 {

@@ -557,14 +557,18 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveTypeSetup: Record "Leave Type Setup";
         DateExpr: Text;
+        Ishandled: Boolean;
     begin
         LeaveTypeSetup.Get(LeaveCode);
         Clear(Employee);
         Employee.Get(EmpCode);
-        if LeaveTypeSetup."Min. Service Year Eligibility" <> 0 then begin
-            DateExpr := '<' + Format(LeaveTypeSetup."Min. Service Year Eligibility") + 'Y>';
-            if Today < CalcDate(DateExpr, Employee."Employment Date") then
-                Error('You are not eligible to apply for leave %1', LeaveTypeSetup.Description);
+        CheckForConfirmationDate(LeaveCode, EmpCode, Ishandled);
+        if not Ishandled then begin
+            if LeaveTypeSetup."Min. Service Year Eligibility" <> 0 then begin
+                DateExpr := '<' + Format(LeaveTypeSetup."Min. Service Year Eligibility") + 'Y>';
+                if Today < CalcDate(DateExpr, Employee."Employment Date") then
+                    Error('You are not eligible to apply for leave %1', LeaveTypeSetup.Description);
+            end;
         end;
     end;
 
@@ -2024,28 +2028,6 @@ codeunit 50000 "Leave Mgt."
             until Date.Next() = 0;
     end;
 
-    procedure GetPreviousWorkingDate(DateToCheck: Date; PreviousWorkingdate: Boolean): Date
-    var
-        CalendarChange: Record "Base Calendar Change";
-        CheckDate: Date;
-    begin
-        CheckDate := DateToCheck;
-        repeat
-            // Look for date in Base Calendar Change
-            CalendarChange.SetRange("Date", CheckDate);
-            if CalendarChange.FindFirst() then begin
-                if CalendarChange.Nonworking then
-                    if PreviousWorkingdate then begin
-                        CheckDate := CheckDate - 1 // Skip holiday
-                    end else
-                        CheckDate := CheckDate + 1
-                else
-                    exit(CheckDate);
-            end else
-                exit(CheckDate);
-        until false;
-    end;
-
     procedure ReturnCalendarDescription(): Text
     begin
         exit(CalendarDescription);
@@ -2169,6 +2151,12 @@ codeunit 50000 "Leave Mgt."
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCalculateLeaveDaysToCredit(var leavetypesetup: Record "Leave Type Setup"; var LeaveDaysToCredit: Decimal; var IsHandled: Boolean)
     begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure CheckForConfirmationDate(LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled: Boolean)
+    begin
+
     end;
 
     [IntegrationEvent(false, false)]

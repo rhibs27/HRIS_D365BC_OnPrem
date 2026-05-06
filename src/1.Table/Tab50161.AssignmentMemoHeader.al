@@ -384,10 +384,13 @@ table 50161 "Assignment Memo Header"
     var
         TempAssignmentmemoHdr: Record "Assignment Memo Header" temporary;
         Recordref: RecordRef;
+        Ishandled: Boolean;
     begin
         "Document Date" := WorkDate();
         PGSetup.Get();
-        PGSetup.TestField("Use Allowance Configuration");
+        OnBeforeInsert(Ishandled);
+        if not Ishandled then
+            PGSetup.TestField("Use Allowance Configuration");
         TestField("Employee No.");
         Validate("Employee No.");
         if "No." = '' then
@@ -616,6 +619,11 @@ table 50161 "Assignment Memo Header"
 
         if ((not PGSetup."Allow Future Allowance Request") and ("To Date" > PayCyclePeriod."End Date")) then
             Error('Future allowance request is not allowed as per payroll setup.');
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsert(var IsHandled: Boolean)
+    begin
     end;
 
     [IntegrationEvent(false, false)]

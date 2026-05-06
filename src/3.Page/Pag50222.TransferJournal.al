@@ -26,6 +26,10 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
                     Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Transfer Category"; Rec."Transfer Category")
                 {

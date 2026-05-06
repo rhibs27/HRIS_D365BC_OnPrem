@@ -49,6 +49,10 @@ page 50093 "Travel Requests"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
+                field(Cancelled; rec.Cancelled)
+                {
+                    ApplicationArea = All;
+                }
                 field(Extended; Rec.Extended)
                 {
                     ToolTip = 'Specifies the value of the Extended Travel field.';
