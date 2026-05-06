@@ -16,12 +16,13 @@ report 50154 "Update Emp Att. and Act Doc."
                 EmpAttAndActAttendance: Record "Employee Attendance & Activity";
                 AttendanceMissed: Record "Attendance Missed";
             begin
+                Leave.SetRange("Pay Type", Leave."Pay Type"::Paid);
                 Leave.SetRange("Approval Status", Leave."Approval Status"::Pending);
                 if (StartDate <> 0D) and (EndDate <> 0D) then begin
                     Leave.SetFilter("Start Date", '>=%1', StartDate);
                     Leave.SetFilter("End Date", '<=%1', EndDate);
                 end;
-                IF Leave.FindSet() then
+                if Leave.FindSet() then
                     repeat
                         EmpAttAndActLeave.Reset();
                         EmpAttAndActLeave.SetRange("Employee No.", Leave."Employee No.");
