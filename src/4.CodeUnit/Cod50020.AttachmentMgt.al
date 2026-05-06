@@ -159,7 +159,11 @@ codeunit 50020 "Attachment Mgt."
         AppraisalEmp: Record Appraisal;
         leave: Record leave;
         Resign: Record Resignation;
+        IsHandle: Boolean;
     begin
+        OnCheckDocumentToUploadAttachment(IsHandle, incomingDocument);
+        if IsHandle then
+            exit;
         if EmpLoan.Get(IncomingDocument."No.") then begin
             if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Approved])
                and (IncomingDocument."File Name" <> '') then
@@ -194,9 +198,14 @@ codeunit 50020 "Attachment Mgt."
         AppraisalEmp: Record Appraisal;
         leave: Record leave;
         Resign: Record Resignation;
+        IsHandle: Boolean;
     begin
+        OnCheckDocumentToUploadAttachment(IsHandle, incomingDocument);
+        if IsHandle then
+            exit;
+
         if EmpLoan.Get(IncomingDocument."No.") then begin
-            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::" "]) then
+            if not (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) then
                 ERROR('Approval status must be Open.');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
             if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Open then
@@ -301,5 +310,10 @@ codeunit 50020 "Attachment Mgt."
                             Error('Attachment must be uploaded');
                 end;
             until TempIncomingDoc.Next = 0;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCheckDocumentToUploadAttachment(var IsHandle: Boolean; incomingDocument: Record "Incoming Document")
+    begin
     end;
 }

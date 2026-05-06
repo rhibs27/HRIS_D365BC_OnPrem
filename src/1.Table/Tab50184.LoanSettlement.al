@@ -191,8 +191,8 @@ table 50185 "Loan Settlement"
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
             if "Approval Status" <> "Approval Status"::Approved then
-                ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Loan Type");
-                
+                ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Approval Status", "Loan Type");
+
             if GuiAllowed then
                 if "Approval Status" = "Approval Status"::Open then
                     loanMgt.InsertSettelmentAttachmentLines(rec);

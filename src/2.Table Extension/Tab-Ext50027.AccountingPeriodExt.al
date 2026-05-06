@@ -19,6 +19,14 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
             Caption = 'Leave Year Closed';
         }
         field(50004; "Quarterly"; Enum Quarter) { }
+        field(50005; "Nepali Fiscal Year"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50006; "Nepali Year"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     procedure GetLeaveYearStartDate(ForDate: Date): Date;
     var
