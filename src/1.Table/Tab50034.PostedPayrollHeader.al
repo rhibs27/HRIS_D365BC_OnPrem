@@ -271,6 +271,7 @@ table 50034 "Posted Payroll Header"
             repeat
                 OvertimeLedgerEntry."Payroll No." := '';
                 OvertimeLedgerEntry."OT Disbursed" := false;
+                OvertimeLedgerEntry.Posted := false;
                 OvertimeLedgerEntry.Modify();
             until OvertimeLedgerEntry.Next() = 0;
 
@@ -278,5 +279,13 @@ table 50034 "Posted Payroll Header"
         SalaryDeductionEntry.SetRange("Payroll Document No.", "No.");
         SalaryDeductionEntry.ModifyAll("Payroll Posted", false);
         SalaryDeductionEntry.ModifyAll("Payroll Document No.", '');
+
+        OnAfterUnmarkPostedPayrollDocNo(PostedDocNo);
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterUnmarkPostedPayrollDocNo(PostedDocNo: Code[20]);
+    begin
+        //Additional steps after unmarking payroll document number from related tables
     end;
 }
