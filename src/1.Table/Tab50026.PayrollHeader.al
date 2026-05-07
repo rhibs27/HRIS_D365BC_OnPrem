@@ -328,13 +328,8 @@ table 50026 "Payroll Header"
         PayLine.Reset;
         PayLine.SetRange("Document No.", "No.");
         if PayLine.FindSet() then;
-        PayLine.DeleteAll;
+        PayLine.DeleteAll(true);
 
-        //reset payroll tag
-        AllowanceAssignmentLine.Reset();
-        AllowanceAssignmentLine.SetRange("Payroll Doc No.", "No.");
-        if AllowanceAssignmentLine.FindSet() then
-            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
     end;
 
     var
