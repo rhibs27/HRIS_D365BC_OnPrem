@@ -1234,8 +1234,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50137; "Functional Title Desc"; Text[100])
         {
             Editable = false;
-            FieldClass = FlowField;
-            CalcFormula = lookup("Functional Title".Description where(Code = field("Functional Title")));
+            DataClassification = CustomerContent;
         }
         field(50138; "Salary Level Description"; Text[50])
         {
