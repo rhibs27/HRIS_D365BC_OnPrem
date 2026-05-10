@@ -215,6 +215,10 @@ table 50027 "Payroll Line"
         field(21; "Tour Days"; Decimal)
         {
             Description = 'Tour';
+            trigger OnValidate()
+            begin
+                GetTotalDays;
+            end;
         }
         field(22; "Half Days"; Decimal)
         {
@@ -332,6 +336,13 @@ table 50027 "Payroll Line"
         field(49; "Teller Days"; Decimal) { }
         field(50; "Night Shifts"; Decimal) { }
         field(51; "Dashain Allowance Days"; Decimal) { }
+        field(52; "Training Days"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                GetTotalDays;
+            end;
+        }
         field(61; "Variable Field 50501"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
@@ -1544,7 +1555,7 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days" + "Days Before Joining";
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days" + "Days Before Joining" + "Tour Days" + "Training Days";
     end;
 
     procedure ValidateUnpaidDays()

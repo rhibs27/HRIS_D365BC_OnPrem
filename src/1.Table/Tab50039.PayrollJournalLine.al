@@ -551,6 +551,10 @@ table 50039 "Payroll Journal Line"
             DataClassification = ToBeClassified;
             TableRelation = "Salary Grade";
         }
+        field(78; "Training Days"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -764,6 +768,7 @@ table 50039 "Payroll Journal Line"
         "Dimension Set ID" := PayrollLine."Dimension Set ID";
         "Salary Level" := PayrollLine."Salary Level";
         "Salary Grade" := PayrollLine."Salary Grade";
+        "Training Days" := PayrollLine."Training Days";
 
     end;
 
