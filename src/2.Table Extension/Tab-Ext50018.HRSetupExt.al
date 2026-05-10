@@ -776,7 +776,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'No. series for Loan Settlement documents (all loan types)';
         }
-        field(50170; "Skip Approval Setup"; Boolean)
+        field(50170; "Skip Medical Approval Setup"; Boolean)
         {
             DataClassification = CustomerContent;
             Description = 'Skip Medical Approval Setup';

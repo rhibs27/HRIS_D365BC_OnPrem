@@ -502,10 +502,12 @@ codeunit 50005 "Transfer Mgt."
             if IncomingDocument.FindFirst then
                 Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
         end;
-        UserSetup.Get(UserId);
-        if EmpHrTransfer."Employee No." <> HRMgt.GetEmployeeNo then
-            if not UserSetup."Is Admin" then
-                Error('You are not Eligible');
+        if GuiAllowed then begin
+            UserSetup.Get(UserId);
+            if EmpHrTransfer."Employee No." <> HRMgt.GetEmployeeNo then
+                if not UserSetup."Is Admin" then
+                    Error('You are not Eligible');
+        end;
         EmpHrTransfer.Validate(Handover, true);
         EmpHrTransfer.Modify();
         if GuiAllowed then

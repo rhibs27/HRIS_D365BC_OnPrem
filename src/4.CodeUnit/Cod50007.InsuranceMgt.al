@@ -41,7 +41,7 @@ codeunit 50007 "Insurance Mgt"
         MedicalInsurance.SetRange("Employee No.", medicalInsuranceClaim."Employee No.");
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
         // MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Pending);
-        medicalInsuranceClaim.SetRange("Insurance Status", MedicalInsurance."Insurance Status"::"Submitted to HRD");
+        MedicalInsurance.SetRange("Insurance Status", MedicalInsurance."Insurance Status"::"Submitted to HRD");
         if MedicalInsurance.FindFirst then
             Error('This Employee Already has Pending Medical Insurance Claim Request.');
         IncomingDoc.Reset();
@@ -51,11 +51,13 @@ codeunit 50007 "Insurance Mgt"
                 Error('Attachment must be uploaded');
         end;
         if GuiAllowed then begin
-            if not HRSetup."Skip Approval Setup" then begin
+            if not HRSetup."Skip Medical Approval Setup" then begin
                 ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
                 medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending")
-            end else
+            end else begin
                 medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Approved");
+                medicalInsuranceClaim.Validate("Insurance Status", medicalInsuranceClaim."Insurance Status"::"Submitted to HRD");
+            end;
             medicalInsuranceClaim.Modify();
         end;
     end;

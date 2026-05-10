@@ -898,14 +898,12 @@ permissionset 50000 D365HRMSPermission
         page "Training Calendar Card" = X,
         page "Training Need Card" = X,
         page "Training Need List" = X,
-        page "Categorized Budget Summary" = X,
-        page "Monthwise Training Budget" = X,
         tabledata "Employee Loan/Advance Line" = RIMD,
+        table "Employee Loan/Advance Line" = X,
         tabledata "Loan Settlement" = RIMD,
         tabledata "Loan Settlement Entry" = RIMD,
         tabledata "Quarterly Cost of Fund" = RIMD,
         tabledata "Suspension Level" = RIMD,
-        table "Employee Loan/Advance Line" = X,
         table "Loan Settlement" = X,
         table "Loan Settlement Entry" = X,
         table "Quarterly Cost of Fund" = X,
@@ -921,5 +919,8 @@ permissionset 50000 D365HRMSPermission
         page "Loan Settlement List" = X,
         page "Quarterly Cost of Fund" = X,
         page "Suspension Event Dialog" = X,
-        page "Suspension Level Setup" = X;
+        page "Suspension Level Setup" = X,
+        report MedicalClaimChangeDetails = X,
+        page "Categorized Budget Summary" = X,
+        page "Monthwise Training Budget" = X;
 }

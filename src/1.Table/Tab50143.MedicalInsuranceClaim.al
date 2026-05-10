@@ -46,6 +46,7 @@ table 50143 "Medical Insurance Claim"
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Department Name", EmpVar."Department Name");
                     Validate("Province Name", EmpVar."Province Name");
+                    Validate("Contact No.", EmpVar."Mobile Phone No.");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -289,6 +290,10 @@ table 50143 "Medical Insurance Claim"
         {
             DataClassification = ToBeClassified;
         }
+        field(305; "Reimbursed Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
@@ -324,7 +329,7 @@ table 50143 "Medical Insurance Claim"
                             MedicalInsuranceClaimRec.SetLoadFields("No.");
                             while MedicalInsuranceClaimRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-                            if not HRSetup."Skip Approval Setup" then
+                            if not HRSetup."Skip Medical Approval Setup" then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
                 end;
