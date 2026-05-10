@@ -1233,8 +1233,8 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50137; "Functional Title Desc"; Text[100])
         {
-            DataClassification = CustomerContent;
             Editable = false;
+            DataClassification = CustomerContent;
         }
         field(50138; "Salary Level Description"; Text[50])
         {
