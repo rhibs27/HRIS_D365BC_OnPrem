@@ -86,6 +86,16 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the Leave Days field.';
                     ApplicationArea = All;
                 }
+                field("Tour Days"; Rec."Tour Days")
+                {
+                    ToolTip = 'Specifies the value of the Tour Days field.';
+                    ApplicationArea = All;
+                }
+                field("Training Days"; Rec."Training Days")
+                {
+                    ToolTip = 'Specifies the value of the Training Days field.';
+                    ApplicationArea = All;
+                }
                 field("Absent Days"; Rec."Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Absent Days field.';

@@ -106,6 +106,11 @@ page 50040 "Payroll Plan"
                     ToolTip = 'Specifies the value of the Total Days field.';
                     ApplicationArea = All;
                 }
+                field("No of Employees"; Rec."No of Employees")
+                {
+                    ToolTip = 'Specifies the value of the No of Employees field.';
+                    ApplicationArea = All;
+                }
                 field("Nepali Year"; Rec."Nepali Year")
                 {
                     Importance = Additional;
