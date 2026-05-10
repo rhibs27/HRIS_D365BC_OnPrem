@@ -96,6 +96,11 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the Training Days field.';
                     ApplicationArea = All;
                 }
+                field("Post Payroll Days"; Rec."Post Payroll Days")
+                {
+                    ToolTip = 'Specifies the value of the Post Payroll Days field.';
+                    ApplicationArea = All;
+                }
                 field("Absent Days"; Rec."Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Absent Days field.';
@@ -104,6 +109,11 @@ page 50046 "Posted Payroll Subform"
                 field("Total Days"; Rec."Total Days")
                 {
                     ToolTip = 'Specifies the value of the Total Days field.';
+                    ApplicationArea = All;
+                }
+                field("LWP Days"; Rec."LWP Days")
+                {
+                    ToolTip = 'Specifies the value of the LWP Days field.';
                     ApplicationArea = All;
                 }
                 field("Prior Absent Days"; Rec."Prior Absent Days")
