@@ -2,7 +2,7 @@ permissionset 50000 D365HRMSPermission
 {
     Assignable = true;
     Permissions = //>>manual inserted for table extension object
-        tabledata Employee = RIM,
+ tabledata Employee = RIM,
         tabledata "G/L Account" = RIM,
         tabledata "G/L Entry" = RIM,
         tabledata "Gen. Journal Line" = RIM,
@@ -560,7 +560,6 @@ permissionset 50000 D365HRMSPermission
         page "Trainer Subform" = X,
         page "Training Budget Card" = X,
         page "Training Budget Lists" = X,
-        page "Training Budget Subforms" = X,
         page "Training Calendar Lists" = X,
         page "Training Card" = X,
         page "Training Lists" = X,
@@ -846,7 +845,6 @@ permissionset 50000 D365HRMSPermission
         page "Salary Deduction Entries" = X,
         tabledata "Resign Doc Approver Setup" = RIMD,
         table "Resign Doc Approver Setup" = X,
-
         report "Update Emp Att. and Act Doc." = X,
         page "Device Overview" = X,
         page "Home Ins Tieup Card" = X,
@@ -899,5 +897,29 @@ permissionset 50000 D365HRMSPermission
         page "Grievance SLA Matrix Setup" = X,
         page "Training Calendar Card" = X,
         page "Training Need Card" = X,
-        page "Training Need List" = X;
+        page "Training Need List" = X,
+        page "Categorized Budget Summary" = X,
+        page "Monthwise Training Budget" = X,
+        tabledata "Employee Loan/Advance Line" = RIMD,
+        tabledata "Loan Settlement" = RIMD,
+        tabledata "Loan Settlement Entry" = RIMD,
+        tabledata "Quarterly Cost of Fund" = RIMD,
+        tabledata "Suspension Level" = RIMD,
+        table "Employee Loan/Advance Line" = X,
+        table "Loan Settlement" = X,
+        table "Loan Settlement Entry" = X,
+        table "Quarterly Cost of Fund" = X,
+        table "Suspension Level" = X,
+        report "Generate No Series" = X,
+        report "Late Notification Email" = X,
+        report "Staff Social Loan Report" = X,
+        page "Emp Staff Social Loan Card" = X,
+        page "Emp. Staff Social Loan Lists" = X,
+        page "Employee Loan Advance Subform" = X,
+        page "Loan Settlement Card" = X,
+        page "Loan Settlement Entries" = X,
+        page "Loan Settlement List" = X,
+        page "Quarterly Cost of Fund" = X,
+        page "Suspension Event Dialog" = X,
+        page "Suspension Level Setup" = X;
 }

@@ -4064,6 +4064,16 @@ codeunit 50001 "HR Mgt."
         EmpActLedgerEntry.insert();
     end;
 
+    procedure DeleteExistingActivityLedgerEntries(DocumentType: Enum "Employee Activity Type"; DocumentNo: Code[20])
+    var
+        EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
+    begin
+        EmpActLedgerEntry.Reset();
+        EmpActLedgerEntry.SetRange("Document Type", DocumentType);
+        EmpActLedgerEntry.SetRange("Document No.", DocumentNo);
+        EmpActLedgerEntry.DeleteAll();
+    end;
+
     procedure CancelEmpActLedgerForDateRange(EmpActType: Enum "Employee Activity Type";
                                                              DocNo: Code[20];
                                                              EmpNo: Code[20];

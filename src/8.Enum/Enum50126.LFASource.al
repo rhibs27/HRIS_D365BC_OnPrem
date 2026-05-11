@@ -8,10 +8,14 @@ enum 50126 "LFA Source"
     }
     value(1; "as per Basic Salary")
     {
-        Caption = 'as per Formula';
+        Caption = 'as per Basic Salary';
     }
     value(2; "as per Salary Level")
     {
         Caption = 'as per Salary Level';
+    }
+    value(3; "as Per Formula")
+    {
+        Caption = 'as per Formula';
     }
 }

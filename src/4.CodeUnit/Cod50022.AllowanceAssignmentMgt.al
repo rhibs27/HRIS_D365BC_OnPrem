@@ -60,6 +60,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                         if AllowanceLineCheck.Panel = AllowanceLineCheck.Panel::" " then
                             Error('Must select panel for allowance type Atm custodian allowance and Key custodian allowance of line no. %1', AllowanceLineCheck."Line No.");
                     end;
+                    OnAfterCheckAllowanceLine(AllowanceLineCheck);
                 until AllowanceLineCheck.Next = 0;
         end;
         AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
@@ -191,19 +192,20 @@ codeunit 50022 "Allowance Assignment Mgt"
             Error('Employee not eligbile for this allowance type.');
     end;
 
-    procedure CheckEmployeeAlreadyExistsForSameEmployee(No: Code[20]; LineNo: Integer; EmpNo: Code[20]; AllowanceType: Code[20]; FromDate: Date; EmpActType: Enum "Employee Activity Type")
+    procedure CheckEmployeeAlreadyExistsForSameEmployee(AllowanceAssignmentLine: Record "Allowance Assignment Line");
     var
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        AllowanceAssignmentLineCheck: Record "Allowance Assignment Line";
     begin
-        AllowanceAssignmentLine.Reset;
-        AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
-        AllowanceAssignmentLine.SetRange("Emp Act Type", EmpActType);
-        AllowanceAssignmentLine.SetRange("Allowance Type", AllowanceType);
-        AllowanceAssignmentLine.Setfilter("Substitute Type", '%1|%2', AllowanceAssignmentLine."Substitute Type"::" ", AllowanceAssignmentLine."Substitute Type"::"Added as Substitute");
-        AllowanceAssignmentLine.SetFilter("Approval Status", '<>%1', AllowanceAssignmentLine."Approval Status"::Rejected);
-        AllowanceAssignmentLine.SetRange("From Date", FromDate);
-        if AllowanceAssignmentLine.FindFirst then
-            Error('Employee already exist for same allowance type in same day in Allowance No %1 and Line no %2', AllowanceAssignmentLine."No.", AllowanceAssignmentLine."Line No.");
+        AllowanceAssignmentLineCheck.Reset;
+        AllowanceAssignmentLineCheck.SetRange("Employee Code", AllowanceAssignmentLine."Employee Code");
+        AllowanceAssignmentLineCheck.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type");
+        AllowanceAssignmentLineCheck.SetRange("Allowance Type", AllowanceAssignmentLine."Allowance Type");
+        AllowanceAssignmentLineCheck.Setfilter("Substitute Type", '%1|%2', AllowanceAssignmentLine."Substitute Type"::" ", AllowanceAssignmentLine."Substitute Type"::"Added as Substitute");
+        AllowanceAssignmentLineCheck.SetFilter("Approval Status", '<>%1', AllowanceAssignmentLine."Approval Status"::Rejected);
+        AllowanceAssignmentLineCheck.SetRange("From Date", AllowanceAssignmentLine."From Date");
+        if AllowanceAssignmentLineCheck.FindFirst then
+            Error('Employee already exist for same allowance type in same day in Allowance No %1 and Line no %2', AllowanceAssignmentLineCheck."No.", AllowanceAssignmentLineCheck."Line No.");
+        OnAfterValidateAllowanceType(AllowanceAssignmentLine);
     end;
 
     procedure CheckSalaryLevelForVaultKey(AllowanceAssignLine: Record "Allowance Assignment Line")
@@ -337,18 +339,17 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
         NoOfDays: Decimal;
-        Ishandled: Boolean;
-        Amount: Decimal;
     begin
         PGSetup.Get;
         if FromDate = 0D then
             Error('Date must have value');
         Clear(NoOfDays);
         if Employee.Get(EmpNo) then;
-        NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
-        calculateAmountFromAllowanceConfiguration(AllowanceType, EmpNo, FromDate, Amount, Ishandled);
-        if Ishandled then
-            exit(Amount);
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then begin
+            PGSetup.TestField("Total Days");
+            NoOfDays := PGSetup."Total Days" / 12;
+        end else
+            NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
         case AllowanceType of
             PGSetup."Evening Counter":
                 begin
@@ -701,7 +702,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         if AllowanceAssignmentLine."To Date" <> 0D then
             if AllowanceAssignmentLine."To Date" > AllowanceHeader."To date" then
                 Error('Date is not within period.');
-        // CalculateNoOfDays(Rec);
     end;
 
     procedure ValidateAllowanceType(AllowanceAssignmentLine: Record "Allowance Assignment Line")
@@ -780,12 +780,17 @@ codeunit 50022 "Allowance Assignment Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure calculateAmountFromAllowanceConfiguration(AllowanceType: Code[20]; Employee: Code[20]; FromDate: Date; var Amount: Decimal; var IsHandeled: Boolean)
-    begin
-    end;
-
     procedure OnBeforeOpenAllowanceAssignmentClaim(EmployeeNo: Code[20])
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnAfterValidateAllowanceType(AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterCheckAllowanceLine(AllowanceLineCheck: Record "Allowance Assignment Line")
+    begin
+    end;
 }

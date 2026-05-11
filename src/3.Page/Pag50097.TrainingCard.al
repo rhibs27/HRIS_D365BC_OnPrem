@@ -255,7 +255,7 @@ page 50097 "Training Card"
                         ToolTip = 'Specifies the value of the Actual Trainer Cost field.';
                         ApplicationArea = All;
                     }
-                    field("Actual Total Budget"; Rec."Actual Total Budget")
+                    field("Actual Total Budget"; Rec."Actual Total Cost")
                     {
                         ToolTip = 'Specifies the value of the Actual Total Budget field.';
                         ApplicationArea = All;
