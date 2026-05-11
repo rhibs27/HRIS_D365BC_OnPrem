@@ -38,7 +38,7 @@ report 50157 "Late Notification Email"
     begin
         // Set default date range if not specified
         if StartDate = 0D then
-            StartDate := Today - 2;
+            StartDate := Today;
         if EndDate = 0D then
             EndDate := Today;
         EmailsSent := 0;
