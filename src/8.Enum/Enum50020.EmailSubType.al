@@ -18,4 +18,7 @@ enum 50020 "Email Sub Type"
     {
         Caption = 'Payroll';
     }
+    value(4; "Absent Notification")
+    {
+    }
 }
