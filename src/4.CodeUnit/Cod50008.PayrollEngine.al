@@ -3572,32 +3572,25 @@ codeunit 50008 "Payroll Engine"
         Overtime: Record OverTime;
         PayrollLine: Record "Payroll Line";
     begin
-        PayrollLine.Reset;
-        PayrollLine.SetRange("Document No.", PayrollNo);
-        if PayrollLine.FindSet then
+        OvertimeLedger.Reset();
+        OvertimeLedger.SetRange("Payroll No.", PayrollNo);
+        if OvertimeLedger.FindSet() then
             repeat
-                OvertimeLedger.Reset();
-                OvertimeLedger.SetRange("Employee No.", PayrollLine."Employee No.");
-                OvertimeLedger.SetRange("Payroll No.", PayrollNo);
-                if OvertimeLedger.FindSet() then
-                    repeat
-                        OvertimeLedger."OT Disbursed" := true;
-                        OvertimeLedger."Payroll No." := PostedPayrollNo;
-                        OvertimeLedger.Posted := true;
-                        OvertimeLedger.Modify();
-                    until OvertimeLedger.Next() = 0;
-                Overtime.Reset();
-                Overtime.SetRange("Employee No.", PayrollLine."Employee No.");
-                Overtime.SetRange("Payroll No.", PayrollNo);
-                if Overtime.FindSet() then
-                    repeat
-                        Overtime."Updated Payroll Line" := true;
-                        Overtime."Payroll No." := PostedPayrollNo;
-                        Overtime.Posted := true;
-                        Overtime."OT Disbursed" := true;
-                        Overtime.Modify();
-                    until Overtime.Next() = 0;
-            until PayrollLine.Next = 0;
+                OvertimeLedger."OT Disbursed" := true;
+                OvertimeLedger."Payroll No." := PostedPayrollNo;
+                OvertimeLedger.Posted := true;
+                OvertimeLedger.Modify();
+            until OvertimeLedger.Next() = 0;
+        Overtime.Reset();
+        Overtime.SetRange("Payroll No.", PayrollNo);
+        if Overtime.FindSet() then
+            repeat
+                Overtime."Updated Payroll Line" := true;
+                Overtime."Payroll No." := PostedPayrollNo;
+                Overtime.Posted := true;
+                Overtime."OT Disbursed" := true;
+                Overtime.Modify();
+            until Overtime.Next() = 0;
     end;
 
     procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[50]
