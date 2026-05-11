@@ -4,7 +4,7 @@ page 50075 "Employee Insurance Journal"
     Caption = 'Employee Insurance Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
-    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Attendance Missed"));
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Insurance"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
 
@@ -21,6 +21,10 @@ page 50075 "Employee Insurance Journal"
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.';
                 }
                 field("Insurance Type"; rec."Insurance Type")
                 {
@@ -50,10 +54,46 @@ page 50075 "Employee Insurance Journal"
                 {
                     Editable = false;
                 }
-                field("Approval Status"; Rec."Approval Status")
+                field("Insurance Amount"; rec."Insurance Amount")
                 {
-                    ToolTip = 'Specifies the value of the Approval Status field.';
+
                 }
+                field("Premium Paid By"; rec."Premium Paid By")
+                {
+
+                }
+
+                field("Monthly Premium Amount"; rec."Monthly Premium Amount")
+                {
+
+                }
+                field("Premium Payment Frequency"; Rec."Premium Payment Frequency")
+                {
+
+                }
+                field("Annual Premium Amount"; rec."Annual Premium Amount")
+                {
+
+                }
+                field("Attachment File Name"; Rec."Attachment File Name")
+                {
+                    ToolTip = 'Specifies the value of the Attachment File Name field.', Comment = '%';
+                    Editable = false;
+                    trigger OnDrillDown()
+                    begin
+                        if Rec.Attachment.HasValue() then
+                            //export the attachment
+                            AttachmentMgt.ExportAttachmentFromEmpActJnl(Rec)
+                        else
+                            //import the attachment
+                            begin
+                            Rec.TestField("Approval Status", Rec."Approval Status"::Open);
+                            AttachmentMgt.ImportAttachmentToEmpActJnl(Rec);
+                        end;
+                        CurrPage.Update();
+                    end;
+                }
+
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -103,4 +143,5 @@ page 50075 "Employee Insurance Journal"
         ExcelImportMgt: Codeunit "Excel Import";
         ListOfDocNo: List of [code[20]];
         i: Integer;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 }

@@ -855,6 +855,10 @@ table 50075 "Employee Activity Journal"
                 end;
             end;
         }
+        field(167; "Premium Payment Frequency"; Enum "Premium Payment Frequency")
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
