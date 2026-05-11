@@ -328,7 +328,13 @@ table 50026 "Payroll Header"
 
     trigger OnDelete()
     begin
-
+        if Status <> Status::Open then begin
+            Error(Text009);
+        end;
+        PayLine.Reset;
+        PayLine.SetRange("Document No.", "No.");
+        if PayLine.FindSet() then;
+        PayLine.DeleteAll();
         UnmarkPayrollDocNo("Document No.")
     end;
 
@@ -805,18 +811,11 @@ table 50026 "Payroll Header"
         SalaryDeductionEntry: Record "Salary Deduction Entry";
         LeaveEarn: Record "Leave Earn";
     begin
-        if Status <> Status::Open then begin
-            Error(Text009);
-        end;
-        PayLine.Reset;
-        PayLine.SetRange("Document No.", "No.");
-        if PayLine.FindSet() then;
-        PayLine.DeleteAll();
-
         AssignmentMemoLedgerEntry.Reset();
         AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", "No.");
         if AssignmentMemoLedgerEntry.FindSet() then
             AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", '');
+
         LeaveEarn.Reset();
         LeaveEarn.SetRange("Payroll Document No", "No.");
         LeaveEarn.ModifyAll("Payroll Document No", '');
