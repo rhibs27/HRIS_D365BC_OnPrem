@@ -2271,7 +2271,7 @@ codeunit 50002 "Loan Mgt."
         IsFemale := Employee.Gender = Employee.Gender::Female;
         MonthlyTax := CalculateMonthlyTax(AnnualTaxable, IsFemale);
 
-        PF := HrMgt.CalculateProvidentFundProjected(EmpLoan."Employee No.", 1);
+        // PF := HrMgt.CalculateProvidentFundProjected(EmpLoan."Employee No.", 1);
 
         // Sum EMI from Loan Outstanding (Home Loan + Insurance Tieup variants)
         LoanOutstanding.Reset();
@@ -2346,25 +2346,19 @@ codeunit 50002 "Loan Mgt."
     begin
         TotalDeduction := 0;
 
-        // Step 1: Find the current period by matching RequestDate within Start and End Date
         CurrentPayCyclePeriod.Reset();
         CurrentPayCyclePeriod.SetFilter("Start Date", '<=%1', RequestDate);
         CurrentPayCyclePeriod.SetFilter("End Date", '>=%1', RequestDate);
         if not CurrentPayCyclePeriod.FindFirst() then
             exit(0);
-        // CurrentPayCyclePeriod.Period now holds e.g. 5
 
-        // Step 2: Find the previous period (Period - 1) with same Pay Cycle Code and Term
-        // e.g. if current is period 5, look for period 4
         PreviousPayCyclePeriod.Reset();
         PreviousPayCyclePeriod.SetRange("Pay Cycle Code", CurrentPayCyclePeriod."Pay Cycle Code");
         PreviousPayCyclePeriod.SetRange("Pay Cycle Term", CurrentPayCyclePeriod."Pay Cycle Term");
         PreviousPayCyclePeriod.SetRange(Period, CurrentPayCyclePeriod.Period - 1);
         if not PreviousPayCyclePeriod.FindFirst() then
             exit(0);
-        // PreviousPayCyclePeriod now has Pay Cycle Code, Term, Period = 4
 
-        // Step 3: Find the posted payroll header matching previous period details
         PostedPayrollHeader.Reset();
         PostedPayrollHeader.SetCurrentKey("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period");
         PostedPayrollHeader.SetRange("Pay Cycle Code", PreviousPayCyclePeriod."Pay Cycle Code");
@@ -2375,7 +2369,6 @@ codeunit 50002 "Loan Mgt."
         if not PostedPayrollHeader.FindFirst() then
             exit(0);
 
-        // Step 4: Find the employee line in that posted payroll header
         PostedPayrollLine.Reset();
         PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
         PostedPayrollLine.SetRange("Employee No.", EmployeeNo);
