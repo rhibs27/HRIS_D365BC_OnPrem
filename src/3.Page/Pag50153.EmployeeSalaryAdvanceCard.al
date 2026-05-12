@@ -102,6 +102,12 @@ page 50153 "Employee Salary Advance Card"
             group("Facility Disbursement")
             {
                 Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
+                field(Reversed; Rec.Reversed)
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Reversed field.', Comment = '%';
+                }
                 field(Disburse; Rec.Disbursed)
                 {
                     Editable = false;
@@ -178,7 +184,7 @@ page 50153 "Employee Salary Advance Card"
             }
             group("Group Remarks")
             {
-                Editable = IsPending;
+                Editable = IsPending or IsSettlementPending;
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
@@ -207,9 +213,25 @@ page 50153 "Employee Salary Advance Card"
                     end;
                 }
             }
+            group(SettlementDetails)
+            {
+                Caption = 'Settlement Details';
+                Editable = false;
+                field("Settlement Approval Status"; Rec."Settlement Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Settlement Approval Status field.', Comment = '%';
+                }
+            }
             part("Employee Loan Advance Subform"; "Employee Loan Advance Subform")
             {
                 SubPageLink = "Document No." = field("No.");
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No."),
+                              "Employee Code" = field("Employee No."),
+                              "Employee Activity Type" = field(Type);
+                ApplicationArea = All;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -218,12 +240,6 @@ page 50153 "Employee Salary Advance Card"
                                 "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
-            }
-            part(Attachment; "Attachment Subform")
-            {
-                SubPageLink = "No." = field("No."),
-                              "Employee Code" = field("Employee No.");
-                ApplicationArea = All;
             }
             // group(Approval)
             // {
@@ -507,6 +523,7 @@ page 50153 "Employee Salary Advance Card"
         HRSetup: Record "Human Resources Setup";
         IsOpen: Boolean;
         IsPending: Boolean;
+        IsSettlementPending: Boolean;
         IsApproved: Boolean;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
@@ -566,6 +583,7 @@ page 50153 "Employee Salary Advance Card"
         else
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsSettlementPending := Rec."Settlement Approval Status" = Rec."Settlement Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
 
         // if Rec."Approval Status" in [Rec."Approval Status"::Recommended, Rec."Approval Status"::Screened,

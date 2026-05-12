@@ -793,6 +793,7 @@ codeunit 50002 "Loan Mgt."
         EmpSalAvd.SetRange("Loan Type", EmpSalAvd."Loan Type"::"Salary Advance");
         EmpSalAvd.SetFilter("Approval Status", '%1|%2', EmpSalAvd."Approval Status"::Approved, EmpSalAvd."Approval Status"::Pending);
         EmpSalAvd.SetRange(Settled, false);
+        EmpSalAvd.SetRange(Reversed, false);
         if EmpSalAvd.FindFirst then begin
             Error('Please settle the existing salary advance. %1', EmpSalAvd."No.");
         end;
