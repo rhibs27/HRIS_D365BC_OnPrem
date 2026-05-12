@@ -48,8 +48,8 @@ table 50106 "Employee Loan/Advance"
             trigger OnValidate()
             begin
                 if Employee.Get("Employee No.") then begin
-                    if not LoanMgt.CheckLoanEligibility(Employee) then
-                        Error('You are not Eligible for loan apply.');
+                    if Employee.Status <> employee.Status::Active then
+                        Error('Employee is not active. Cannot apply for loan/advance.');
                     "Employee Name" := Employee.FullName();
                     Validate("Employee Type", "Employee Type");
                     Validate("Job Title", Employee."Job Title");
@@ -72,7 +72,7 @@ table 50106 "Employee Loan/Advance"
                     Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
                     Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
                     Validate("License No.", Employee."Driving License No.");
-
+                    Validate("Account No.", Employee."Bank Account No.");
                     if "Loan Type" = "Loan Type"::"Salary Advance" then
                         LoanMgt.NewSalaryAdvanceCheck("Employee No.");
                     Validate("Salary Level", Employee."Salary Level");
@@ -477,6 +477,14 @@ table 50106 "Employee Loan/Advance"
         {
             DataClassification = ToBeClassified;
         }
+        field(104; Reversed; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(105; "Settlement Approval Status"; Enum "Approval Status")
+        {
+            DataClassification = ToBeClassified;
+        }
         field(188; "Deputation On"; Enum "Deputation Type")
         {
             Caption = 'Deputation On';
@@ -604,6 +612,10 @@ table 50106 "Employee Loan/Advance"
         {
             TableRelation = "Functional Title";
         }
+        field(301; "Access Token"; Code[60])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -628,7 +640,24 @@ table 50106 "Employee Loan/Advance"
         incomingAttachmentDoc.DeleteAll();
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document No.", "No.");
-        ApprovalEntry.DeleteAll();
+        ApprovalEntry.DeleteAll(true);
+
+        EmployeeAdvanceLoanAdvanceLine.Reset();
+        EmployeeAdvanceLoanAdvanceLine.SetCurrentKey("Document No.", "Loan Type");
+        EmployeeAdvanceLoanAdvanceLine.SetRange("Document No.", Rec."No.");
+        EmployeeAdvanceLoanAdvanceLine.SetRange("Loan Type", Rec."Loan Type");
+        EmployeeAdvanceLoanAdvanceLine.DeleteAll(true);
+
+        IncomingDocument.Reset;
+        IncomingDocument.SetCurrentKey("No.", "Employee Code", "Table ID");
+        IncomingDocument.SetRange("No.", Rec."No.");
+        IncomingDocument.SetRange("Employee Code", Rec."Employee No.");
+        IncomingDocument.SetRange("Table ID", Database::"Employee Loan/Advance");
+        if IncomingDocument.FindSet() then
+            repeat
+                AttachmentMgt.DeleteAttachment(IncomingDocument);
+                IncomingDocument.Delete(true);
+            until IncomingDocument.Next() = 0;
     end;
 
     trigger OnInsert()
@@ -677,10 +706,11 @@ table 50106 "Employee Loan/Advance"
             while EmployeeAdvanceLoan.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
-            ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Loan Type");
+            ApproverMgt.InsertApprovalLoan(Rec."Employee No.", Rec."No.", Rec.Type, Rec."Approval Status", Rec."Loan Type");
         end;
         if "Approval Status" = "Approval Status"::Open then
             LoanMgt.CalculateFields(Rec);
+        OnInsertLoanAttachmentFromAttachmentSetup(Rec);
         CheckForAlreadyExitsLoan();
     end;
 
@@ -702,6 +732,9 @@ table 50106 "Employee Loan/Advance"
         ErrorFY: Label 'You cannot apply Salary Advance more than %1 times in a Fiscal Year %2.';
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
+        EmployeeAdvanceLoanAdvanceLine: Record "Employee Loan/Advance Line";
+        IncomingDocument: Record "Incoming Document";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 
     local procedure CheckAreaOfPlotFormat(FieldValue: Text; FieldCaptionText: Text; AreaFormat: Enum "Area Format")
     var
@@ -752,6 +785,7 @@ table 50106 "Employee Loan/Advance"
         if "Loan Type" in ["Loan Type"::"Staff Social Loan"] then
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1&<>%2', EmpSalaryAdv."Approval Status"::Rejected, EmpSalaryAdv."Approval Status"::Approved);
         EmpSalaryAdv.SetRange(Settled, false);
+        EmpSalaryAdv.SetRange(Reversed, false);
         if EmpSalaryAdv.FindFirst then
             Error('%1 already exist for employee %2.Settle this Loan First.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
     end;
@@ -803,5 +837,10 @@ table 50106 "Employee Loan/Advance"
         LoanMgt: Codeunit "Loan Mgt.";
     begin
         LoanMgt.OnSkipSalaryAdvanceControl(SkipSalaryLoanControl);
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnInsertLoanAttachmentFromAttachmentSetup(EmployeeLoanAdvance: Record "Employee Loan/Advance")
+    begin
     end;
 }

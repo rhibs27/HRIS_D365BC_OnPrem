@@ -170,15 +170,67 @@ codeunit 50035 "Email Mgt"
                             end;
                     end;
                 end;
+            DocumentType::Loan:
+                begin
+                    case DocumentStatus of
+                        DocumentStatus::Pending:
+                            begin
+                                EmailReceipent.SetRange("Email Template Code", TemplateCode);
+                                if EmailReceipent.FindSet() then
+                                    repeat
+                                        if EmailReceipent."Recipient Type" = EmailReceipent."Recipient Type"::"To" then
+                                            EmailReceipientText.Add(EmailReceipent."Email Recipients");
+                                        if EmailReceipent."Recipient Type" = EmailReceipent."Recipient Type"::Bcc then
+                                            EmailBCCReceipent.Add(EmailReceipent."Email Recipients");
+                                        if EmailReceipent."Recipient Type" = EmailReceipent."Recipient Type"::Cc then
+                                            EmailCCReceipent.Add(EmailReceipent."Email Recipients");
+                                    until EmailReceipent.next = 0;
+                                ApprovalHRMS.SetRange("Document No.", DocumentNo);
+                                ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Open);
+                                if ApprovalHRMS.FindFirst() then begin
+                                    Employee.Get(ApprovalHRMS."Approver No");
+                                    Employee.TestField("Company E-Mail");
+                                    EmailReceipientText.add(Employee."Company E-Mail");
+                                end;
+
+                            end;
+                        DocumentStatus::Approved, DocumentStatus::Rejected:
+                            begin
+                                EmailReceipent.SetRange("Email Template Code", TemplateCode);
+                                if EmailReceipent.FindSet() then
+                                    repeat
+                                        if EmailReceipent."Recipient Type" = EmailReceipent."Recipient Type"::"To" then
+                                            EmailReceipientText.Add(EmailReceipent."Email Recipients");
+                                        if EmailReceipent."Recipient Type" = EmailReceipent."Recipient Type"::Bcc then
+                                            EmailBCCReceipent.Add(EmailReceipent."Email Recipients");
+                                        if EmailReceipent."Recipient Type" = EmailReceipent."Recipient Type"::Cc then
+                                            EmailCCReceipent.Add(EmailReceipent."Email Recipients");
+                                    until EmailReceipent.next = 0;
+                                ApprovalHRMS.Reset();
+                                ApprovalHRMS.SetRange("Document No.", DocumentNo);
+                                if ApprovalHRMS.Findfirst() then begin
+                                    if Employee.Get(ApprovalHRMS."Employee No") then begin
+                                        Employee.TestField("Company E-Mail");
+                                        EmailReceipientText.Add(Employee."Company E-Mail");
+                                    end;
+                                end;
+                            end;
+                    end;
+                end;
         end;
     end;
 
     procedure SendMailFromTemplate(TableNo: Integer;
-            DocumentType: enum "Employee Activity Type";
-                              ApprovalStatus: Enum "approval status";
-                              EmployeeNo: Text;
-                              DocumentNo: Code[20];
-                              Cancelled: Boolean)
+            DocumentType:
+                enum "Employee Activity Type";
+            ApprovalStatus:
+                Enum "approval status";
+            EmployeeNo:
+                Text;
+            DocumentNo:
+                Code[20];
+            Cancelled:
+                Boolean)
     var
         EmailTemplate: Record "Email Template";
         Header, Footer, Body, Disclaimer : text;
@@ -190,6 +242,9 @@ codeunit 50035 "Email Mgt"
         AllowanceBodyText: Label '<br>The allowance assignment from %1 Branch/Extension Counter for the week %2 of month %3 has not been recorded till date.<br>Request you to assign it till EOD.<br>';
         CalcuationDate: Date;
         Week: Integer;
+        ApprovalHRMS: Record "Approval HRMS";
+        SalaryLevel: Record "Salary Level";
+        EmployeeVar: Record Employee;
     begin
         OnBeforeCreateEmailFromTemplate(TableNo, DocumentType, ApprovalStatus, EmployeeNo, DocumentNo, Cancelled, IsHandled);
         if IsHandled then
@@ -202,10 +257,6 @@ codeunit 50035 "Email Mgt"
         EmailTemplate.Reset;
         EmailTemplate.SetRange("Document Type", DocumentType);
         EmailTemplate.SetRange("Approval Status", ApprovalStatus);
-        if TableNo = DATABASE::"Employee Loan/Advance" then begin
-            if EmpLoan.Get(DocumentNo) then
-                EmailTemplate.SetRange("Loan Type", EmpLoan."Loan Type");
-        end;
         if (EmailTemplate.FindFirst) and (not Cancelled) then begin
             Clear(Footer);
             Clear(Header);
@@ -303,17 +354,20 @@ codeunit 50035 "Email Mgt"
                 DATABASE::"Employee Loan/Advance":
                     begin
                         if EmpLoan.Get(DocumentNo) then begin
-                            Employee.Reset;
-                            if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::Rejected] then
-                                Employee.SetRange("No.", EmpLoan."Employee No.")
-                            else
-                                if Employee.FindFirst then
-                                    repeat
-                                        Employee.TestField("Company E-Mail");
-                                        EmailReceipientText.add(Employee."Company E-Mail");
-                                    until Employee.Next = 0;
+                            SalaryLevel.Get(EmpLoan."Salary Level");
+                            EmployeeVar.Get(EmpLoan."Employee No.");
+                            CodeunitEmailMessage.AppendToBody(EmpLoan.FieldCaption("Requested Date") + Colon + Format(EmpLoan."Requested Date", 0, '<Day,2>/<Month,2>/<Year4>') + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmpLoan.FieldCaption("Employee No.") + Colon + Format(EmpLoan."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmpLoan.FieldCaption("Employee Name") + Colon + Format(EmpLoan."Employee Name") + '<br>');
+                            CodeunitEmailMessage.AppendToBody('Designation' + Colon + Format(SalaryLevel.Description) + '<br>');
+                            CodeunitEmailMessage.AppendToBody('Working Office' + Colon + Format(EmpLoan."Branch Name") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmpLoan.FieldCaption("Purpose of Advance Salary") + Colon + Format(EmpLoan."Purpose of Advance Salary") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmpLoan.FieldCaption("Applied Loan/Advance") + Colon + Format(EmpLoan."Applied Loan/Advance") + '<br>');
+                            CodeunitEmailMessage.AppendToBody('Bank A/C' + Colon + Format(EmpLoan."Account No.") + '<br>');
+                            if ApprovalStatus = ApprovalStatus::Rejected then
+                                CodeunitEmailMessage.AppendToBody(EmpLoan.FieldCaption("Rejection Remark") + Colon + Format(EmpLoan."Rejection Remark") + '<br>');
+                            loanMgt.GetLoanBody(EmpLoan);
                         end;
-                        loanMgt.GetLoanBody(EmpLoan);
                     end;
                 Database::Resignation:
                     begin
@@ -423,7 +477,15 @@ codeunit 50035 "Email Mgt"
         exit(ReceipentText);
     end;
 
-    procedure SendLeaveFromTemplate(DocumentType: enum "Employee Activity Type"; ApprovalStatus: Enum "approval status"; EmployeeNo: Text; DocumentNo: Code[20]; Leave: Record leave)
+    procedure SendLeaveFromTemplate(DocumentType: enum "Employee Activity Type";
+            ApprovalStatus:
+                Enum "approval status";
+            EmployeeNo:
+                Text;
+            DocumentNo:
+                Code[20];
+            Leave:
+                Record leave)
     var
         Colon: Label ' : ';
         EmailTemplate: Record "Email Template";
