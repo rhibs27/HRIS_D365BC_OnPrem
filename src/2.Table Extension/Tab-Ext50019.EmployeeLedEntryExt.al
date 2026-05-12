@@ -62,6 +62,7 @@ tableextension 50019 "Employee Led. Entry Ext " extends "Employee Ledger Entry"
         field(50025; "LWP Days"; Decimal) { DataClassification = ToBeClassified; }
         field(50026; "Salary Level"; code[20]) { DataClassification = ToBeClassified; }
         field(50027; "Salary Grade"; code[20]) { DataClassification = ToBeClassified; }
+        field(50028; "Training Days"; Decimal) { DataClassification = ToBeClassified; }
     }
     procedure CopyFromPayrollJnlLine(var PayrollJournalLine: Record "Payroll Journal Line" temporary);
     begin
@@ -98,6 +99,7 @@ tableextension 50019 "Employee Led. Entry Ext " extends "Employee Ledger Entry"
         "Dimension Set ID" := PayrollJournalLine."Dimension Set ID";
         "Salary Level" := PayrollJournalLine."Salary Level";
         "Salary Grade" := PayrollJournalLine."Salary Grade";
+        "Training Days" := PayrollJournalLine."Training Days";
     end;
 
     procedure Navigate();

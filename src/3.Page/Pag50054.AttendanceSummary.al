@@ -44,14 +44,19 @@ page 50054 "Attendance Summary"
                     ToolTip = 'Specifies the value of the Absent Day field.';
                     ApplicationArea = All;
                 }
-                field("Total Days"; Rec."Total Days")
-                {
-                    ToolTip = 'Specifies the value of the Total Days field.';
-                    ApplicationArea = All;
-                }
                 field("Tour Day"; Rec."Tour Day")
                 {
                     ToolTip = 'Specifies the value of the Tour Day field.';
+                    ApplicationArea = All;
+                }
+                field("Training Day"; Rec."Training Day")
+                {
+                    ToolTip = 'Specifies the value of the Training Day field.';
+                    ApplicationArea = All;
+                }
+                field("Total Days"; Rec."Total Days")
+                {
+                    ToolTip = 'Specifies the value of the Total Days field.';
                     ApplicationArea = All;
                 }
                 field("Late Day"; Rec."Late Check In Day")
