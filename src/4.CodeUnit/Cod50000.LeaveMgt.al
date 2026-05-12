@@ -1128,6 +1128,7 @@ codeunit 50000 "Leave Mgt."
                 EmpVar.Validate("Employment Date");
                 EmpVar.Modify();
             end;
+            UpdateTypeOnLeaveEarn(CancelDocument."Cancelled Document No.", LeaveEarn.Type::Cancelled);
             //Update EmpActledger
             HRMgt.CancelEmpActLedgerForDateRange(CancelDocument.Type,
                                             CancelDocument."Cancelled Document No.",
@@ -2065,6 +2066,17 @@ codeunit 50000 "Leave Mgt."
         ApprovalHRMS.SetRange("Approval Sequence", 1);
         if ApprovalHRMS.FindSet() then
             ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
+    end;
+
+    procedure UpdateTypeOnLeaveEarn(DocumentNo: Code[20]; NewLeaveEarnType: Enum "Leave Earn Type")
+    var
+        leaveEarn: Record "Leave Earn";
+    begin
+        leaveEarn.SetRange("Leave Request No", DocumentNo);
+        if leaveEarn.FindFirst() then begin
+            leaveEarn.Validate(Type, NewLeaveEarnType);
+            leaveEarn.Modify();
+        end;
     end;
 
     [IntegrationEvent(false, false)]
