@@ -172,14 +172,14 @@ table 50066 "Leave Type Setup"
         {
             Caption = 'Used Days';
             FieldClass = FlowField;
-            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Used), "Posted Date" = field("Date Filter")));
+            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Used), "Posted Date" = field("Date Filter"), Closed = const(false)));
             Editable = false;
         }
         field(503; "Earned Days"; Decimal)
         {
             Caption = 'Earned Days';
             FieldClass = FlowField;
-            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Earned), "Posted Date" = field("Date Filter")));
+            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Earned), "Posted Date" = field("Date Filter"), Closed = const(false)));
             Editable = false;
         }
         field(504; "Encash Date"; Date) { }
