@@ -762,6 +762,103 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+
+        //employee Insurance
+        field(155; "Insurance Type"; Enum "Employee Insurance Type") { }
+        field(156; "Insurance Company Code"; Code[20])
+        {
+            TableRelation = if ("Insurance Type" = const("Life Insurance")) "Insurance Company".code where(Blocked = const(false), Type = const("Life Insurance"))
+            else
+            "Insurance Company".code where(Blocked = const(false), Type = const("Non-Life Insurance"));
+            trigger OnValidate()
+            var
+                InsuranceCompany: Record "Insurance Company";
+            begin
+                if "Insurance Company Code" <> '' then begin
+                    if not InsuranceCompany.Get("Insurance Company Code") then
+                        Error('Kindly select the company from the dropdown list');
+                    Validate("Insurance Company Name", InsuranceCompany.Name);
+                end else
+                    Clear("Insurance Company Name");
+            end;
+        }
+        field(157; "Insurance Company Name"; Text[50])
+        {
+            Editable = false;
+        }
+        field(158; "Policy Number"; Text[30])
+        {
+            // trigger OnValidate()
+            // begin
+            //     Clear(Len);
+            //     Len := StrLen(DelChr("Policy Number", '=', DelChr("Policy Number", '=', SpecialChars)));
+            //     if Len > 0 then
+            //         Error(SpecialCharsErr);
+
+            //     EmpInsurance.Reset;
+            //     EmpInsurance.SetRange("Employee No.", Rec."Employee No.");
+            //     EmpInsurance.SetRange("Policy Number", Rec."Policy Number");
+            //     EmpInsurance.SetFilter("Insurance No.", '<>%1', Rec."Insurance No.");
+            //     EmpInsurance.SetFilter("Approval Status", '<>%1', EmpInsurance."Approval Status"::Rejected);
+            //     if EmpInsurance.FindFirst then
+            //         Error(Text019, Rec."Policy Number", EmpInsurance."Insurance No.");
+            // end;
+        }
+        field(159; "Insurance Start Date (AD)"; Date)
+        {
+            trigger OnValidate()
+            begin
+                Validate("Insurance Start Date (BS)", EngNepDate.getNepaliDate("Insurance Start Date (AD)"));
+                if "Insurance Start Date (AD)" > Today then
+                    Error('Insurance Start Date must be less or equal to %1.', Today);
+            end;
+        }
+        field(160; "Insurance Start Date (BS)"; Text[20])
+        {
+            Editable = false;
+        }
+        field(161; "Insurance Expiry Date (AD)"; Date)
+        {
+            trigger OnValidate()
+            begin
+                Validate("Insurance Expiry Date (BS)", EngNepDate.getNepaliDate("Insurance Expiry Date (AD)"));
+                if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then
+                    Error('Insurance Expiry Date must be greater then Insurance Start Date %1.', "Insurance Start Date (AD)");
+            end;
+        }
+        field(162; "Insurance Expiry Date (BS)"; Text[20])
+        {
+            Editable = false;
+        }
+        field(163; "Premium Paid By"; enum "Premium Paid By")
+        {
+            Caption = 'Premium Paid By';
+        }
+        field(164; "Insurance Amount"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                if Rec."Insurance Amount" <> xRec."Insurance Amount" then begin
+                    Clear("Annual Premium Amount");
+                    Clear("Monthly Premium Amount");
+                end;
+            end;
+        }
+        field(165; "Monthly Premium Amount"; Decimal) { }
+        field(166; "Annual Premium Amount"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                if "Annual Premium Amount" <> 0 then begin
+                    if "Annual Premium Amount" > "Insurance Amount" then
+                        Error('Annual Premium Amount Should be less than Insurance Amount.');
+                end;
+            end;
+        }
+        field(167; "Premium Payment Frequency"; Enum "Premium Payment Frequency")
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

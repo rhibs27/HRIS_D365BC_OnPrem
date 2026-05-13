@@ -150,7 +150,6 @@ table 50113 "Shift Assignment Header"
         }
         field(38; "Substitute Approval Status"; Enum "Approval Status")
         {
-            Caption = 'Approved Date';
             Editable = false;
         }
         field(100; Status; Text[20])
