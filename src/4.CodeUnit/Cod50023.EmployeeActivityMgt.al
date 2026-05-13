@@ -29,6 +29,10 @@ codeunit 50023 EmployeeActivityMgt
                         begin
                             CheckPromotionDetails(EmpActJnl1);
                         end;
+                    DocumentType::Insurance:
+                        begin
+                            CheckInsuranceDetails(EmpActJnl1);
+                        end;
                 end;
                 EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
                 EmpActJnl1.Modify();
@@ -90,6 +94,23 @@ codeunit 50023 EmployeeActivityMgt
 
         if (EmployeeACTJnl."CheckIn Time" = 0T) and (EmployeeACTJnl."CheckOut Time" = 0T) then
             Error('Check In or check Out fields must have a Value');
+    end;
+
+
+    procedure CheckInsuranceDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    var
+        InsuranceMgt: Codeunit "Insurance Mgt";
+    begin
+        EmployeeACTJnl.TestField("Employee No.");
+        EmployeeACTJnl.TestField("Policy No");
+        EmployeeACTJnl.TestField("Insurance Expiry Date (AD)");
+        EmployeeACTJnl.TestField("Insurance Start Date (AD)");
+        EmployeeACTJnl.TestField("Insurance Amount");
+        EmployeeACTJnl.TestField("Annual Premium Amount");
+        EmployeeACTJnl.TestField("Insurance Type");
+        EmployeeACTJnl.TestField("Insurance Company Code");
+        if EmployeeACTJnl."Premium Paid By" = EmployeeACTJnl."Premium Paid By"::" " then
+            Error('Premium Paid By field is empty in line No. %1', EmployeeACTJnl."Line No");
     end;
 
     procedure PostTransferInBulk(EmpActNo: Code[20])
@@ -251,6 +272,54 @@ codeunit 50023 EmployeeActivityMgt
                 PostedAttendanceJournal.Insert(true);
                 AttendanceMissedJournal.Delete();
             until AttendanceMissedJournal.next() = 0
+        else
+            Error('There is no Document to post');
+    end;
+
+    procedure PostEmployeeInsuranceJournal(EmpActNo: Code[20])
+    var
+        EmployeeInsurance: Record "Employee Insurance Information";
+        EmployeeInsuranceJournal: Record "Employee Activity Journal";
+        PostedEmployeeInsuranceJournal: Record "Posted Employee Journal";
+        AttendanceMgn: Codeunit "AttendanceMiss Mgt";
+    begin
+        EmployeeInsuranceJournal.Reset();
+        EmployeeInsuranceJournal.SetRange("Emp Act. No", EmpActNo);
+        EmployeeInsuranceJournal.setrange("Approval Status", EmployeeInsuranceJournal."Approval Status"::Approved);
+        if EmployeeInsuranceJournal.FindSet() then
+            repeat
+                EmployeeInsurance.Reset();
+                EmployeeInsurance.Init();
+                EmployeeInsurance.Validate("Insurance No.", '');
+                EmployeeInsurance.Validate("Employee No.", EmployeeInsuranceJournal."Employee No.");
+                EmployeeInsurance.Validate(Type, EmployeeInsurance.Type::"Insurance");
+                EmployeeInsurance.Validate("From Journal", true);
+                EmployeeInsurance.Validate("Insurance Type", EmployeeInsuranceJournal."Insurance Type");
+                EmployeeInsurance.Validate("Insurance Company Code", EmployeeInsuranceJournal."Insurance Company Code");
+                EmployeeInsurance.Validate("Insurance start Date (AD)", EmployeeInsuranceJournal."Insurance start Date (AD)");
+                EmployeeInsurance.Validate("Insurance Expiry Date (AD)", EmployeeInsuranceJournal."Insurance Expiry Date (AD)");
+                EmployeeInsurance.Validate("Premium Paid By", EmployeeInsuranceJournal."Premium Paid By");
+                EmployeeInsurance.Validate("Policy Number", EmployeeInsuranceJournal."Policy Number");
+                EmployeeInsurance.Validate("Insurance Amount", EmployeeInsuranceJournal."Insurance Amount");
+                EmployeeInsurance.Validate("Monthly Premium Amount", EmployeeInsuranceJournal."Premium Amount");
+                EmployeeInsurance.Validate("Approval Status", EmployeeInsurance."Approval Status"::Approved);
+                // EmployeeInsurance.Validate("Annual Premium Amount",EmployeeInsuranceJournal."Annual Premium Amount");
+                OnBeforePostEmployeeInsuranceJournal(EmployeeInsurance, EmployeeInsuranceJournal);
+                EmployeeInsurance.Validate("Approved Date", Today);
+                EmployeeInsurance.Validate(Remarks, EmployeeInsuranceJournal.Remarks);
+                EmployeeInsurance.Insert(true);
+
+                //To insert attachment
+                if EmployeeInsuranceJournal.Attachment.HasValue then
+                    InsertEmployeeInsuranceAttachment(EmployeeInsuranceJournal, EmployeeInsurance);
+
+                PostedEmployeeInsuranceJournal.Init();
+                PostedEmployeeInsuranceJournal.TransferFields(EmployeeInsuranceJournal);
+                PostedEmployeeInsuranceJournal.Validate("Document No", EmployeeInsurance."Insurance No.");
+                PostedEmployeeInsuranceJournal.Validate(Posted, true);
+                PostedEmployeeInsuranceJournal.Insert(true);
+                EmployeeInsuranceJournal.Delete();
+            until EmployeeInsuranceJournal.next() = 0
         else
             Error('There is no Document to post');
     end;
@@ -429,6 +498,22 @@ codeunit 50023 EmployeeActivityMgt
                         EmployeeTransfer."No.",
                         EmployeeTransfer."Employee No.",
                         EmployeeTransfer.Type,
+                        AttachmentSetup."Attachment Code");
+    end;
+
+
+    procedure InsertEmployeeInsuranceAttachment(var EmployeeActivityJournal: Record "Employee Activity Journal"; var EmployeeInsurance: Record "Employee Insurance Information")
+    var
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
+        // AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Transfer Letter");
+        AttachmentSetup.FindFirst();
+
+        InsertAttachment(EmployeeActivityJournal,
+                        EmployeeInsurance."Insurance No.",
+                        EmployeeInsurance."Employee No.",
+                        EmployeeInsurance.Type,
                         AttachmentSetup."Attachment Code");
     end;
 
@@ -714,6 +799,13 @@ codeunit 50023 EmployeeActivityMgt
     local procedure OnBeforeConfirmTransferJournalDetails(var TransferJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
     begin
         //For any Control related to Journal
+    end;
+
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforePostEmployeeInsuranceJournal(var EmployeeInsurance: Record "Employee Insurance Information"; EmployeeInsuranceJournal: Record "Employee Activity Journal")
+    begin
+
     end;
 
     var

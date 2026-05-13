@@ -148,8 +148,10 @@ table 50099 "Employee Insurance Information"
         {
             Editable = false;
         }
+
         field(37; "Approved Date"; Date) { }
         field(24; "Expired"; Boolean) { }
+        field(27; "From Journal"; Boolean) { }
         field(100; Status; Text[20])
         {
             TableRelation = "Status Master";
@@ -182,7 +184,9 @@ table 50099 "Employee Insurance Information"
             EmpInsurance.SetLoadFields("Insurance No.");
             while EmpInsurance.Get("Insurance No.") do
                 "Insurance No." := NoSeriesMgt.GetNextNo("No. Series");
-            ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
+            if not "From Journal" then begin
+                ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
+            end;
         end;
         if GuiAllowed then begin
             InsuranceMgt.GenerateAttachmentLine("Insurance No.", "Employee No.");

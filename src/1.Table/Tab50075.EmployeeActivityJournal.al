@@ -840,11 +840,11 @@ table 50075 "Employee Activity Journal"
             begin
                 if Rec."Insurance Amount" <> xRec."Insurance Amount" then begin
                     Clear("Annual Premium Amount");
-                    Clear("Monthly Premium Amount");
+                    Clear("Premium Amount");
                 end;
             end;
         }
-        field(165; "Monthly Premium Amount"; Decimal) { }
+        field(165; "Premium Amount"; Decimal) { }
         field(166; "Annual Premium Amount"; Decimal)
         {
             trigger OnValidate()

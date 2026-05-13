@@ -28,52 +28,62 @@ page 50075 "Employee Insurance Journal"
                 }
                 field("Insurance Type"; rec."Insurance Type")
                 {
-
+                    ApplicationArea = all;
+                }
+                field("Policy No"; rec."Policy No")
+                {
+                    ApplicationArea = all;
                 }
                 field("Insurance Company Code"; rec."Insurance Company Code")
                 {
-
+                    ApplicationArea = all;
                 }
                 field("Insurance Company Name"; rec."Insurance Company Name")
                 {
-
+                    ApplicationArea = all;
                 }
                 field("Insurance Start Date (AD)"; rec."Insurance Start Date (AD)")
                 {
-
+                    ApplicationArea = all;
                 }
                 field("Insurance Start Date (BS)"; rec."Insurance Start Date (BS)")
                 {
                     Editable = false;
+                    ApplicationArea = all;
                 }
                 field("Insurance Expiry Date (AD)"; rec."Insurance Expiry Date (AD)")
                 {
-
+                    ApplicationArea = all;
                 }
                 field("Insurance Expiry Date (BS)"; rec."Insurance Expiry Date (BS)")
                 {
                     Editable = false;
+                    ApplicationArea = all;
                 }
                 field("Insurance Amount"; rec."Insurance Amount")
                 {
-
+                    ApplicationArea = all;
                 }
                 field("Premium Paid By"; rec."Premium Paid By")
                 {
-
+                    ApplicationArea = all;
                 }
 
-                field("Monthly Premium Amount"; rec."Monthly Premium Amount")
+                field("Monthly Premium Amount"; rec."Premium Amount")
                 {
-
+                    ApplicationArea = all;
                 }
                 field("Premium Payment Frequency"; Rec."Premium Payment Frequency")
                 {
-
+                    ApplicationArea = all;
                 }
                 field("Annual Premium Amount"; rec."Annual Premium Amount")
                 {
-
+                    ApplicationArea = all;
+                }
+                field(Remarks; rec.Remarks)
+                {
+                    ApplicationArea = all;
                 }
                 field("Attachment File Name"; Rec."Attachment File Name")
                 {
@@ -99,6 +109,115 @@ page 50075 "Employee Insurance Journal"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("Send For Approval")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = SendApprovalRequest;
+                Visible = IsOpen;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to Send for Approval request?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Insurance");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), Rec."Employee Act Type"::Insurance);
+                        end;
+                    end;
+                end;
+            }
+            action("Approve")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Approve;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to Approve request?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        Rec.Reset();
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Insurance");
+                        for i := 1 to ListOfDocNo.Count do begin
+                            ApproverMgt.ApproveJournalDocument(ListOfDocNo.Get(i), true);
+                        end;
+                    end;
+                end;
+            }
+
+            action(Post)
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Post;
+                Visible = IsApproved;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to Post Document?', false) then begin
+                        Clear(ListOfDocNo);
+                        CurrPage.SetSelectionFilter(Rec);
+                        if Rec.FindSet() then
+                            repeat
+                                if not ListOfDocNo.Contains(Rec."Emp Act. No") then
+                                    ListOfDocNo.Add(rec."Emp Act. No");
+                            until rec.Next() = 0;
+                        for i := 1 to ListOfDocNo.Count do begin
+                            EmpActMgt.PostEmployeeInsuranceJournal(ListOfDocNo.Get(i));
+                        end;
+                        Message('Employee Insurance Journal is posted');
+                        CurrPage.Close();
+                    end;
+                end;
+            }
+            action(Reject)
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Reject;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want to Reject Employee Insurance Journal?', false) then
+                        exit;
+                    EmpActMgt.RejectJournal(Rec, true);
+                end;
+            }
+            action("Import From Excel")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = ImportExcel;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want Employee Insurance From Excel?', false) then
+                        exit;
+                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::Insurance);
+                end;
             }
         }
     }
