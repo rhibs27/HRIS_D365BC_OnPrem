@@ -202,6 +202,10 @@ codeunit 50029 "Process Daily Attendance"
                     EmpActLedgerEntry."Document Type"::"Travel Request":
                         begin
                             EmpAttendance."Absent Day" := 0;
+                            EmpAttendance."Leave Day" := 0;
+                            EmpAttendance."Training Day" := 0;
+                            EmpAttendance."Present Day" := 0;
+                            EmpAttendance."Week Off Day" := 0;
                             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::"Outdoor Duty";
                             EmpAttendance."Tour Day" := EmpActLedgerEntry.Day;
                             EmpAttendance.Remarks := 'TRAVEL';
@@ -211,6 +215,7 @@ codeunit 50029 "Process Daily Attendance"
                             EmpAttendance."Transfer Day" := EmpActLedgerEntry.Day;
                             EmpAttendance."Absent Day" := 0;
                             EmpAttendance."Transfer Day" := 1;
+                            EmpAttendance."Week Off Day" := 0;
                             EmpAttendance.Remarks := Format(EmpActLedgerEntry."Document Type");
                         end;
                     EmpActLedgerEntry."Document Type"::Training:
@@ -218,6 +223,10 @@ codeunit 50029 "Process Daily Attendance"
                             EmpAttendance."Training Day" := 1;
                             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Training;
                             EmpAttendance."Absent Day" := 0;
+                            EmpAttendance."Present Day" := 0;
+                            EmpAttendance."Leave Day" := 0;
+                            EmpAttendance."Tour Day" := 0;
+                            EmpAttendance."Week Off Day" := 0;
                             EmpAttendance.Remarks := 'TRAINING';
                         end;
                     EmpActLedgerEntry."Document Type"::"Allowance Assignment Claim":
@@ -243,7 +252,7 @@ codeunit 50029 "Process Daily Attendance"
     procedure UpdateAttendanceRemarks()
     begin
 
-        if IsHolidayTemp then
+        if EmpAttendance."Week Off Day" > 0 then
             EmpAttendance.Remarks := CalendarDescription
         else begin
             if EmpAttendance."Absent Day" = 0.5 then

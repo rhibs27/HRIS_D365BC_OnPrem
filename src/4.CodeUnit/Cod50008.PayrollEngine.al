@@ -1359,7 +1359,7 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         AttendanceSummary.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
         AttendanceSummary.SetAutoCalcFields("Present Day", "Week Off Day", "Leave Day", "Absent Day", "Night Shift Days",
-                                            "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day", "Late Deduction");
+                                            "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day", "Late Deduction", "Training Day");
         if AttendanceSummary.FindLast then begin
             PayrollLine.Validate("Present Days", AttendanceSummary."Present Day");
             PayrollLine.Validate("Post Payroll Days", LatterPresentDays);
@@ -1393,6 +1393,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day");
             PayrollLine.Validate("Prior Absent Days", PriorAbsentDays);
             PayrollLine.Validate("Days Before Joining", PriorEmploymentDays);
+            PayrollLine.Validate("Training Days", AttendanceSummary."Training Day");
             PGSetup.Get();
             AttendanceSetup.Get();
             if PGSetup."Deduction Entries" then
@@ -3571,31 +3572,25 @@ codeunit 50008 "Payroll Engine"
         Overtime: Record OverTime;
         PayrollLine: Record "Payroll Line";
     begin
-        PayrollLine.Reset;
-        PayrollLine.SetRange("Document No.", PayrollNo);
-        if PayrollLine.FindSet then
+        OvertimeLedger.Reset();
+        OvertimeLedger.SetRange("Payroll No.", PayrollNo);
+        if OvertimeLedger.FindSet() then
             repeat
-                OvertimeLedger.Reset();
-                OvertimeLedger.SetRange("Employee No.", PayrollLine."Employee No.");
-                OvertimeLedger.SetRange("Payroll No.", PayrollNo);
-                if OvertimeLedger.FindSet() then
-                    repeat
-                        OvertimeLedger."OT Disbursed" := true;
-                        OvertimeLedger."Payroll No." := PostedPayrollNo;
-                        OvertimeLedger.Posted := true;
-                        OvertimeLedger.Modify();
-                    until OvertimeLedger.Next() = 0;
-                Overtime.Reset();
-                Overtime.SetRange("Employee No.", PayrollLine."Employee No.");
-                Overtime.SetRange("Payroll No.", PayrollNo);
-                if Overtime.FindSet() then
-                    repeat
-                        Overtime."Updated Payroll Line" := true;
-                        Overtime."Payroll No." := PostedPayrollNo;
-                        Overtime.Posted := true;
-                        Overtime.Modify();
-                    until Overtime.Next() = 0;
-            until PayrollLine.Next = 0;
+                OvertimeLedger."OT Disbursed" := true;
+                OvertimeLedger."Payroll No." := PostedPayrollNo;
+                OvertimeLedger.Posted := true;
+                OvertimeLedger.Modify();
+            until OvertimeLedger.Next() = 0;
+        Overtime.Reset();
+        Overtime.SetRange("Payroll No.", PayrollNo);
+        if Overtime.FindSet() then
+            repeat
+                Overtime."Updated Payroll Line" := true;
+                Overtime."Payroll No." := PostedPayrollNo;
+                Overtime.Posted := true;
+                Overtime."OT Disbursed" := true;
+                Overtime.Modify();
+            until Overtime.Next() = 0;
     end;
 
     procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[50]
