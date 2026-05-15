@@ -11,7 +11,6 @@ table 50036 "Payroll Attributes Usage"
             begin
                 if PayrollAtt.Get(Code) then begin
                     Validate("Payroll Type", PayrollAtt."Payroll Type");
-                    Validate(Formula, PayrollAtt.Formula);
                     Validate(Description, PayrollAtt.Description);
                 end
                 else
@@ -102,6 +101,9 @@ table 50036 "Payroll Attributes Usage"
         }
         field(12; Formula; Code[100])
         {
+            CalcFormula = lookup("Payroll Attributes".Formula where(Code = field(Code)));
+            Editable = false;
+            FieldClass = FlowField;
             trigger OnValidate()
             begin
                 Amount := 0;

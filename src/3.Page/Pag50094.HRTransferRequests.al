@@ -72,6 +72,16 @@ page 50094 "HR Transfer Requests"
                     ToolTip = 'Specifies the value of the Transfer Effective Date field.';
                     ApplicationArea = All;
                 }
+                field(Handover; Rec.Handover)
+                {
+                    ToolTip = 'Specifies the value of the Handover field.';
+                    ApplicationArea = All;
+                }
+                field(Takeover; Rec.Takeover)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Handover field.';
+                }
                 field("Acknowledged Date"; Rec."Acknowledged Date")
                 {
                     ToolTip = 'Specifies the value of the Acknowledged Date field.';

@@ -2933,6 +2933,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Tour Day - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 644771389 - Field 2291569624 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Day</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Training Day - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 644771389 - Field 3208628662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Key Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7118,6 +7123,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - NamedType Text2</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3174535945 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Access Token</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Access Token - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 1622979514 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Account No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7638,6 +7648,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Returned Loan - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3744289816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reversed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Reversed - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2847486938 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Account Number</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7672,6 +7687,11 @@
           <source>Settled</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Settled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3188117941 - Field 3300113282 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Settlement Approval Status - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 317985459 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Settlement Date</source>
@@ -15573,6 +15593,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field Nepali Year - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3621654542 - Field 387134915 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No of Employees</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - Field No of Employees - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3621654542 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -16087,6 +16112,11 @@
           <source>Tour</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Journal Line - Field Tour Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3977045334 - Field 729126073 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Journal Line - Field Training Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3977045334 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -16747,6 +16777,11 @@
           <source>Tour Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Tour Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 729126073 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Training Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -19047,6 +19082,11 @@
           <source>Tour Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Tour Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 729126073 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Training Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -27778,6 +27818,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Tour Day - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 644771389 - Control 2291569624 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Training Day field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Training Day - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 644771389 - Control 3208628662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Vault Key Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -33163,6 +33208,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Salary Advance Card - Control Disbursement Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4043754004 - Control 3744289816 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Reversed field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Salary Advance Card - Control Reversed - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4043754004 - Control 902249373 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Settled field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -33257,6 +33307,16 @@
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Salary Advance Card - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4043754004 - Control 3773559409 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Details</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Salary Advance Card - Control SettlementDetails - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4043754004 - Control 3300113282 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Settlement Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Salary Advance Card - Control Settlement Approval Status - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4043754004 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Request action.</source>
@@ -39668,10 +39728,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Leave Year Closed - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1218146754 - Control 1480725430 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Fiscal Year field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Nepali Fiscal Year - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1218146754 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Nepali Month for the period</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Nepali Month - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Control 276555556 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Nepali Year field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Nepali Year - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1218146754 - Control 2242708900 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specify the start of a leave year</source>
@@ -39692,6 +39762,11 @@
           <source>Closes the leave periods of the first open year.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Action Close Leave Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Action 3235875066 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Create Nepali Fiscal Year for next period.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Action Create Nepali Fiscal Year - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1218146754 - Action 3585886388 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Closes the leave periods of the first open year.</source>
@@ -42588,6 +42663,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Control Formula - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3652447633 - Control 1052547722 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Formula Exists field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Control Formula Exists - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3652447633 - Control 115701454 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of RF Contribution Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -43958,6 +44038,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control Nepali Year - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3181578682 - Control 387134915 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No of Employees field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Control No of Employees - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3181578682 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -45252,6 +45337,16 @@
           <source>Specifies the value of the Prior Absent Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Total Unpaid Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 2438516277 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Tour Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Tour Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 729126073 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Training Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Training Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 308253895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Used Leave Annual field.</source>
@@ -47628,6 +47723,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Life Insurance Premium - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 76363896 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the LWP Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control LWP Days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3668632682 - Control 2174406897 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Net Pay field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47682,6 +47782,11 @@
           <source>Specifies the value of the PF Posted 2 field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control PF Posted 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 1351167662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Post Payroll Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Post Payroll Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3668632682 - Control 4287538008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Present Days field.</source>
@@ -47812,6 +47917,16 @@
           <source>Specifies the value of the Total Tax Paid field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Total Tax Paid - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 2438516277 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Tour Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Tour Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 729126073 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Training Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Training Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3668632682 - Control 308253895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Used Leave Annual field.</source>
@@ -55758,6 +55873,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Branch/Extension Email Address - NamedType Title</note>
         </trans-unit>
+        <trans-unit id="Report 3235875066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Create Nepali Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Create Nepali Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3235875066 - Control 2074765983 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Create Nepali Fiscal Year - Control Starting Fiscal Year - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 753180737 - Control 1881820726 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the CompensatoryLeaveEarnUpdate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -61808,10 +61933,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Leave Year Closed - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1937631775 - Field 1480725430 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
+          <source>Nepali Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Nepali Fiscal Year - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1937631775 - Field 2906764345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
           <source>Nepali Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Nepali Month - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1937631775 - Field 276555556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
+          <source>Nepali Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Nepali Year - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1937631775 - Field 2242708900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
           <source>New Leave Year</source>
@@ -63357,6 +63492,11 @@
           <source>Tour Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Led. Entry Ext  - Field Tour Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4274179184 - Field 729126073 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1874461389">
+          <source>Training Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Led. Entry Ext  - Field Training Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4274179184 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1874461389">
           <source>Type</source>
