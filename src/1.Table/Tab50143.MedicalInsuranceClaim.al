@@ -64,32 +64,28 @@ table 50143 "Medical Insurance Claim"
         {
             TableRelation = "No. Series";
         }
-        field(7; "Start Date"; Date)
+        field(7; "Policy Start Date"; Date)
         {
             trigger OnValidate()
             begin
-                HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
-                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
-                if "Start Date" <> xRec."Start Date" then begin
-                    Clear("End Date");
-                    Clear("End Date (BS)");
-                    Validate("No. of Days", 0);
+                // HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
+                Validate("Policy Start Date (BS)", EngNepDate.getNepaliDate("Policy Start Date"));
+                if "Policy Start Date" <> xRec."Policy Start Date" then begin
+                    Clear("Policy End Date");
+                    Clear("Policy End Date (BS)");
                 end;
             end;
         }
-        field(8; "End Date"; Date)
+        field(8; "Policy End Date"; Date)
         {
             trigger OnValidate()
             begin
-                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"))
+                Validate("Policy End Date (BS)", EngNepDate.getNepaliDate("Policy End Date"))
             end;
         }
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-            trigger OnValidate()
-            begin
-            end;
         }
         field(10; "Requested Date"; Date)
         {
@@ -102,11 +98,11 @@ table 50143 "Medical Insurance Claim"
         {
             Editable = false;
         }
-        field(12; "Start Date (BS)"; Text[20])
+        field(12; "Policy Start Date (BS)"; Text[20])
         {
             Editable = false;
         }
-        field(13; "End Date (BS)"; Text[20])
+        field(13; "Policy End Date (BS)"; Text[20])
         {
             Editable = false;
         }
@@ -200,29 +196,6 @@ table 50143 "Medical Insurance Claim"
                     if Employee.Get("Employee No.") then
                         Validate("Insured Name", Employee."Full Name");
                 end;
-                // Clear("Father Name");
-                // Clear("Mother Name");
-                // Clear("Spouse Name");
-                // Clear("Child Name");
-                // if "Insurance Claim" <> "Insurance Claim"::"General Checkup" then begin
-                //     EmpRelative.Reset;
-                //     EmpRelative.SetRange("Employee No.", "Employee No.");
-                //     EmpRelative.SetRange("Relative Code", Format("Insurance Claim"));
-                //     if EmpRelative.FindFirst then begin
-                //         case "Insurance Claim" of
-                //             "Insurance Claim"::Father:
-                //                 Validate("Father Name", EmpRelative."Full Name");
-                //             "Insurance Claim"::Mother:
-                //                 Validate("Mother Name", EmpRelative."Full Name");
-                //             "Insurance Claim"::Spouse:
-                //                 Validate("Spouse Name", EmpRelative."Full Name");
-                //             "Insurance Claim"::Child:
-                //                 Validate("Child Name", EmpRelative."Full Name");
-                //             else
-                //                 Error('Please enter the family details in "Employee Relative" table.');
-                //         end;
-                //     end;
-                // end;
             end;
         }
         field(51; "Father Name"; Text[50])
@@ -233,8 +206,20 @@ table 50143 "Medical Insurance Claim"
         field(53; "Spouse Name"; Text[50]) { }
         field(54; "Child Name"; Text[50]) { }
         field(55; "Total Insurance Claim Amount"; Decimal) { }
-        field(56; "Medical Prescription Date"; Date) { }
-        field(57; "Discharge Date"; Date) { }
+        field(56; "Medical Prescription Date"; Date)
+        {
+            trigger OnValidate()
+            begin
+                Validate("Medical Prescription Date (BS)", EngNepDate.getNepaliDate("Medical Prescription Date"))
+            end;
+        }
+        field(57; "Discharge Date"; Date)
+        {
+            trigger OnValidate()
+            begin
+                Validate("Discharge Date (BS)", EngNepDate.getNepaliDate("Discharge Date"))
+            end;
+        }
         field(58; "Bank Account No."; Text[30]) { }
         field(59; "Contact No."; Text[30]) { }
         field(60; "Insurance Status"; Enum "Insurance Status")
@@ -253,7 +238,7 @@ table 50143 "Medical Insurance Claim"
         }
         field(302; "Insured Name"; Text[50])
         {
-            Caption = 'Name';
+            Caption = 'Insured Name';
 
             trigger OnLookup()
             var
@@ -294,6 +279,14 @@ table 50143 "Medical Insurance Claim"
         {
             DataClassification = ToBeClassified;
         }
+        field(306; "Medical Prescription Date (BS)"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(307; "Discharge Date (BS)"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
@@ -301,7 +294,7 @@ table 50143 "Medical Insurance Claim"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date", "Insured Name") { }
+        key(Key2; "Policy Start Date", "Insured Name") { }
     }
     trigger OnInsert()
     begin

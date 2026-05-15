@@ -3,10 +3,14 @@ codeunit 50007 "Insurance Mgt"
     procedure OpenMedicalInsurancePage(EmployeeCode: Code[20])
     var
         MedicalInsurance: Record "Medical Insurance Claim";
+        HRSetup: Record "Human Resources Setup";
     begin
+        HRSetup.Get();
         Employee.Get(EmployeeCode);
         if Employee.Status <> Employee.Status::Active then
             Error('Employee is not active.');
+        if (HRSetup."Policy Start Date" = 0D) or (HRSetup."Policy End Date" = 0D) then
+            Error('The Policy Start Date and Policy End Date must be specified in the Human Resources Setup.');
         MedicalInsurance.Reset;
         MedicalInsurance.SetRange("Employee No.", EmployeeCode);
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
@@ -21,6 +25,8 @@ codeunit 50007 "Insurance Mgt"
             MedicalInsurance.Validate("Employee No.", EmployeeCode);
             MedicalInsurance.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
             MedicalInsurance.Validate("Approval Status", MedicalInsurance."Approval Status"::Open);
+            MedicalInsurance.Validate("Policy Start Date", HRSetup."Policy Start Date");
+            MedicalInsurance.Validate("Policy End Date", HRSetup."Policy End Date");
             MedicalInsurance.Insert(true);
             PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
         end;
@@ -37,6 +43,7 @@ codeunit 50007 "Insurance Mgt"
         medicalInsuranceClaim.TestField("Medical Prescription Date");
         medicalInsuranceClaim.TestField("Discharge Date");
         medicalInsuranceClaim.TestField("Total Insurance Claim Amount");
+        medicalInsuranceClaim.TestField(Remarks);
         medicalInsurance.Reset();
         MedicalInsurance.SetRange("Employee No.", medicalInsuranceClaim."Employee No.");
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
@@ -50,14 +57,16 @@ codeunit 50007 "Insurance Mgt"
             if incomingDoc."File Name" = '' then
                 Error('Attachment must be uploaded');
         end;
+        if not GuiAllowed then begin
+            medicalInsuranceClaim.Validate("Insurance Status", medicalInsuranceClaim."Insurance Status"::"Submitted to HRD");
+            medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
+        end;
         if GuiAllowed then begin
-            if not HRSetup."Skip Medical Approval Setup" then begin
-                ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
-                medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending")
-            end else begin
-                medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Approved");
+            if not HRSetup."Skip Medical Approval Setup" then
+                ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.")
+            else
                 medicalInsuranceClaim.Validate("Insurance Status", medicalInsuranceClaim."Insurance Status"::"Submitted to HRD");
-            end;
+            medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
             medicalInsuranceClaim.Modify();
         end;
     end;

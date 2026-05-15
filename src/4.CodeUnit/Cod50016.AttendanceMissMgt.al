@@ -85,7 +85,12 @@ codeunit 50016 "AttendanceMiss Mgt"
         CancelDocument1: Record "Cancel Document";
         leave: Record Leave;
         LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
+        IsHandled: Boolean;
+        Result: Text;
     begin
+        OnBeforeApplyCancelEmployeeActivity(CancelDocument, IsHandled, Result);
+        if IsHandled then
+            exit(Result);
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
@@ -262,6 +267,11 @@ codeunit 50016 "AttendanceMiss Mgt"
             exit(Employee."No.")
         else
             exit(Employee."Employee Attendance ID");
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeApplyCancelEmployeeActivity(CancelDocument: Record "Cancel Document" temporary; var IsHandled: Boolean; var Result: Text)
+    begin
     end;
 
     [IntegrationEvent(false, false)]

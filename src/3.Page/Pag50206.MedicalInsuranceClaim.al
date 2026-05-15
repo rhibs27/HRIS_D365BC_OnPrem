@@ -76,13 +76,32 @@ page 50206 "Medical Insurance Claim"
                     Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
+                    ShowMandatory = true;
+                }
+                field("Insurance Status"; Rec."Insurance Status")
+                {
+                    ToolTip = 'Specifies the value of the Insurance Status field.';
+                    ApplicationArea = All;
+                    Visible = IsPending;
+                }
+                field("Batch Id"; Rec."Batch Id")
+                {
+                    ToolTip = 'Specifies the value of the Batch Id field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                    Visible = IsPending and IsApproved;
+                }
+                field("Reimbursed Amount"; Rec."Reimbursed Amount")
+                {
+                    ToolTip = 'Specifies the Value of the Reimbursed Amount field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                    Visible = IsPending and IsApproved;
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    // Editable = IsPending or SkipApproval;
-                    // Visible = (IsPending or IsRejected) and SkipApproval;
-                    Editable = IsApproved and SkipApproval;
-                    Visible = IsApproved and SkipApproval;
+                    Editable = IsPending and not IsInsuranceCoRejected;
+                    Visible = (IsPending or IsRejected);
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                     trigger OnValidate()
@@ -90,26 +109,6 @@ page 50206 "Medical Insurance Claim"
                         CurrPage.Update();
                         RecRef.GetTable(Rec);
                     end;
-                }
-                field("Insurance Status"; Rec."Insurance Status")
-                {
-                    ToolTip = 'Specifies the value of the Insurance Status field.';
-                    ApplicationArea = All;
-                    Visible = IsApproved;
-                }
-                field("Batch Id"; Rec."Batch Id")
-                {
-                    ToolTip = 'Specifies the value of the Batch Id field.';
-                    ApplicationArea = All;
-                    Editable = false;
-                    Visible = IsApproved;
-                }
-                field("Reimbursed Amount"; Rec."Reimbursed Amount")
-                {
-                    ToolTip = 'Specifies the Value of the Reimbursed Amount field.';
-                    ApplicationArea = All;
-                    Editable = false;
-                    Visible = IsApproved;
                 }
             }
             group("Insurance Details")
@@ -140,11 +139,42 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Medical Prescription Date field.';
                     ApplicationArea = All;
                 }
+                field("Medical Prescription Date (BS)"; Rec."Medical Prescription Date (BS)")
+                {
+                    ToolTip = 'Specifies the value of the Medical Prescription Date (BS) field.';
+                    ApplicationArea = All;
+                }
                 field("Discharge Date"; Rec."Discharge Date")
                 {
                     ToolTip = 'Specifies the value of the Discharge Date field.';
                     ApplicationArea = All;
                 }
+                field("Discharge Date (BS)"; Rec."Discharge Date (BS)")
+                {
+                    ToolTip = 'Specifies the value of the Discharge Date (BS) field.';
+                    ApplicationArea = All;
+                }
+                field("Policy Start Date"; Rec."Policy Start Date")
+                {
+                    ToolTip = 'Specifies the value of the Policy Start Date field.';
+                    ApplicationArea = All;
+                }
+                field("Policy Start Date (BS)"; Rec."Policy Start Date (BS)")
+                {
+                    ToolTip = 'Specifies the value of the Policy Start Date (BS) field.';
+                    ApplicationArea = All;
+                }
+                field("Policy End Date"; Rec."Policy End Date")
+                {
+                    ToolTip = 'Specifies the value of the Policy End Date field.';
+                    ApplicationArea = All;
+                }
+                field("Policy End Date (BS)"; Rec."Policy End Date (BS)")
+                {
+                    ToolTip = 'Specifies the value of the Policy End Date (BS) field.';
+                    ApplicationArea = All;
+                }
+
             }
             part(Attachment; "Attachment Subform")
             {
@@ -172,14 +202,13 @@ page 50206 "Medical Insurance Claim"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsOpen and not SkipApproval;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Send Request to DTMD action.';
                 ApplicationArea = All;
                 trigger OnAction()
                 begin
                     InsuranceMgt.SendMedicalInsuranceApproval(Rec);
                     Message('Medical Insurance Claim request has been sent.');
-                    CurrPage.Close();
                 end;
             }
             action("Approve Request")
@@ -209,8 +238,7 @@ page 50206 "Medical Insurance Claim"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-                Visible = IsPending and not SkipApproval;
-                ;
+                Visible = IsPending and IsHRDRejected;
 
                 trigger OnAction()
                 begin
@@ -218,7 +246,13 @@ page 50206 "Medical Insurance Claim"
                         IF REC."Rejection Remarks" = '' then
                             Error('Rejection Remarks is Empty')
                         else begin
-                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            if not HRSetup."Skip Medical Approval Setup" then
+                                ApprovalMgt.ApproveRejectDocument(RecRef, false)
+                            else begin
+                                Rec."Insurance Status" := Rec."Insurance Status"::Rejected;
+                                Rec."Approval Status" := Rec."Approval Status"::Rejected;
+                                Rec.Modify();
+                            end;
                             Message('Medical Insurance Claim is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
@@ -247,8 +281,8 @@ page 50206 "Medical Insurance Claim"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = SkipApproval and not ApproveReject and IsApproved;
-                ToolTip = 'Executes the Send to Insurance Company action.';
+                Visible = IsHRDRejected;
+                ToolTip = 'Forwards this medical insurance claim to the insurance company.';
                 ApplicationArea = All;
                 trigger OnAction()
                 var
@@ -257,8 +291,6 @@ page 50206 "Medical Insurance Claim"
                     EnteredBatchId: Integer;
                     BatchIdFilter: Text;
                 begin
-                    if Rec."Approval Status" <> Rec."Approval Status"::Approved then
-                        Error('Only approved claims can be sent to the insurance company.');
                     FilterPageBuilder.AddRecord('Medical Insurance Claim', Rec);
                     FilterPageBuilder.AddField('Medical Insurance Claim', Rec."Batch Id");
 
@@ -274,12 +306,13 @@ page 50206 "Medical Insurance Claim"
                         Rec."Batch Id" := EnteredBatchId;
 
                         Rec.SetRange("Batch Id");
+
+                        // HRMgt.SendMailFromTemplate(Database::"Medical Insurance Claim", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
+                        Rec.Validate("Insurance Status", Rec."Insurance Status"::"Forwarded to Insurance Co.");
+                        Rec.Modify;
+                        Message(ApprovalRequestSent);
+                        CurrPage.Update(false);
                     end;
-                    // HRMgt.SendMailFromTemplate(Database::"Medical Insurance Claim", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
-                    Rec.Validate("Insurance Status", Rec."Insurance Status"::"Forwarded to Insurance Co.");
-                    Rec.Modify;
-                    Message(ApprovalRequestSent);
-                    CurrPage.Close();
                 end;
             }
             // action(Reimbursed)
@@ -316,7 +349,7 @@ page 50206 "Medical Insurance Claim"
                     FilterText: Text;
                 begin
                     if Rec."Insurance Status" <> Rec."Insurance Status"::"Forwarded to Insurance Co." then
-                        Error('1 claim(s) attempted.\nErrors:\n - %1: Insurance Status must be "Forwarded to Insurance Co."', Rec."No.");
+                        Error('Insurance Status must be Forwarded to Insurance Co.', Rec."No.");
                     FilterPageBuilder.AddRecord('Reimbursed', Rec);
                     FilterPageBuilder.AddField('Reimbursed', Rec."Reimbursed Amount");
                     if FilterPageBuilder.RunModal() then begin
@@ -333,8 +366,34 @@ page 50206 "Medical Insurance Claim"
                             Error('Reimbursed Amount must be greater than zero.');
 
                         Rec.Validate("Reimbursed Amount", ReimbursedAmount);
+                        Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
+                        Rec.Validate("Insurance Status", Rec."Insurance Status"::Reimbursed);
                         Rec.Modify(true);
                     end;
+                end;
+            }
+            action("Return Request")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                Image = Return;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Return Request action.';
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want to return this insurance?', false) then
+                        exit;
+                    if not HRSetup."Skip Medical Approval Setup" then
+                        ApprovalMgt.ReopenDocument(RecRef)
+                    else begin
+                        Rec.Validate("Approval Status", Rec."Approval Status"::Open);
+                        Rec.Validate("Insurance Status", Rec."Insurance Status"::"Submitted to HRD");
+                    end;
+                    Message('Request Returned');
+                    CurrPage.Update(false);
                 end;
             }
             action("Rejected by Insurance Company")
@@ -351,46 +410,6 @@ page 50206 "Medical Insurance Claim"
                 trigger OnAction()
                 begin
                     InsuranceMgt.ApproveRejectMedicalInsurance(false, Rec);
-                end;
-            }
-            action("Submit Request")
-            {
-                Image = SendApprovalRequest;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = IsOpen and SkipApproval;
-                ToolTip = 'Executes the Send Request to DTMD action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    InsuranceMgt.SendMedicalInsuranceApproval(Rec);
-                    Message('Medical Insurance Claim request has been sent.');
-                    CurrPage.Close();
-                end;
-            }
-            action("Reject Submit Request")
-            {
-                Image = Reject;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Reject Request action.';
-                ApplicationArea = All;
-                Visible = SkipApproval and IsHRDRejected;
-
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want reject the request?', false) then begin
-                        IF REC."Rejection Remarks" = '' then
-                            Error('Rejection Remarks is Empty')
-                        else begin
-                            Rec."Insurance Status" := Rec."Insurance Status"::Rejected;
-                            Rec.Modify();
-                            Message('Medical Insurance Claim is Rejected by %1', HRMgt.GetEmpName());
-                        end;
-                    end;
                 end;
             }
         }
@@ -423,8 +442,7 @@ page 50206 "Medical Insurance Claim"
         NameFieldVisible: Boolean;
         NameCaptionTxt: Text;
         HRSetup: Record "Human Resources Setup";
-        SkipApproval: Boolean;
-        IsHRDRejected: Boolean;
+        SkipApproval, IsInsuranceCoRejected, IsHRDRejected : Boolean;
 
     procedure SetLayout()
     begin
@@ -441,5 +459,6 @@ page 50206 "Medical Insurance Claim"
         // ApprovalSent := Rec."Insurance Status" in [Rec."Insurance Status"::" ", Rec."Insurance Status"::"Request to DTMD"];
         ApproveReject := Rec."Insurance Status" = Rec."Insurance Status"::"Forwarded to Insurance Co.";
         IsHRDRejected := Rec."Insurance Status" = Rec."Insurance Status"::"Submitted to HRD";
+        IsInsuranceCoRejected := Rec."Insurance Status" = Rec."Insurance Status"::Rejected;
     end;
 }

@@ -781,6 +781,16 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'Skip Medical Approval Setup';
         }
+        field(50171; "CBS G\L Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Parking G\L';
+        }
+        field(50172; "CBS G\L Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Parking G\L';
+        }
     }
     trigger onAfterInsert()
     begin
