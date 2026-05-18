@@ -299,7 +299,7 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeInsurance.Validate("Insurance start Date (AD)", EmployeeInsuranceJournal."Insurance start Date (AD)");
                 EmployeeInsurance.Validate("Insurance Expiry Date (AD)", EmployeeInsuranceJournal."Insurance Expiry Date (AD)");
                 EmployeeInsurance.Validate("Premium Paid By", EmployeeInsuranceJournal."Premium Paid By");
-                EmployeeInsurance.Validate("Policy Number", EmployeeInsuranceJournal."Policy Number");
+                EmployeeInsurance.Validate("Policy Number", EmployeeInsuranceJournal."Policy No");
                 EmployeeInsurance.Validate("Insurance Amount", EmployeeInsuranceJournal."Insurance Amount");
                 EmployeeInsurance.Validate("Monthly Premium Amount", EmployeeInsuranceJournal."Premium Amount");
                 EmployeeInsurance.Validate("Approval Status", EmployeeInsurance."Approval Status"::Approved);

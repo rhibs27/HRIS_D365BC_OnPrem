@@ -764,7 +764,18 @@ table 50075 "Employee Activity Journal"
         }
 
         //employee Insurance
-        field(155; "Insurance Type"; Enum "Employee Insurance Type") { }
+        field(155; "Insurance Type"; Enum "Employee Insurance Type")
+        {
+            trigger OnValidate()
+            var
+                myInt: Integer;
+            begin
+                if rec."Insurance Type" <> xRec."Insurance Type" then begin
+                    Clear("Insurance Company Code");
+                    Clear("Insurance Company Name");
+                end;
+            end;
+        }
         field(156; "Insurance Company Code"; Code[20])
         {
             TableRelation = if ("Insurance Type" = const("Life Insurance")) "Insurance Company".code where(Blocked = const(false), Type = const("Life Insurance"))
@@ -786,23 +797,9 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(158; "Policy Number"; Text[30])
+        field(158; "Premium Payment Frequency"; Enum "Premium Payment Frequency")
         {
-            // trigger OnValidate()
-            // begin
-            //     Clear(Len);
-            //     Len := StrLen(DelChr("Policy Number", '=', DelChr("Policy Number", '=', SpecialChars)));
-            //     if Len > 0 then
-            //         Error(SpecialCharsErr);
-
-            //     EmpInsurance.Reset;
-            //     EmpInsurance.SetRange("Employee No.", Rec."Employee No.");
-            //     EmpInsurance.SetRange("Policy Number", Rec."Policy Number");
-            //     EmpInsurance.SetFilter("Insurance No.", '<>%1', Rec."Insurance No.");
-            //     EmpInsurance.SetFilter("Approval Status", '<>%1', EmpInsurance."Approval Status"::Rejected);
-            //     if EmpInsurance.FindFirst then
-            //         Error(Text019, Rec."Policy Number", EmpInsurance."Insurance No.");
-            // end;
+            DataClassification = ToBeClassified;
         }
         field(159; "Insurance Start Date (AD)"; Date)
         {
@@ -855,10 +852,7 @@ table 50075 "Employee Activity Journal"
                 end;
             end;
         }
-        field(167; "Premium Payment Frequency"; Enum "Premium Payment Frequency")
-        {
-            DataClassification = ToBeClassified;
-        }
+
     }
     keys
     {

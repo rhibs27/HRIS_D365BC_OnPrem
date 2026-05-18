@@ -17,6 +17,7 @@ page 50075 "Employee Insurance Journal"
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
+                    Editable=IsOpen;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
@@ -29,14 +30,17 @@ page 50075 "Employee Insurance Journal"
                 field("Insurance Type"; rec."Insurance Type")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Policy No"; rec."Policy No")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Insurance Company Code"; rec."Insurance Company Code")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Insurance Company Name"; rec."Insurance Company Name")
                 {
@@ -45,6 +49,7 @@ page 50075 "Employee Insurance Journal"
                 field("Insurance Start Date (AD)"; rec."Insurance Start Date (AD)")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Insurance Start Date (BS)"; rec."Insurance Start Date (BS)")
                 {
@@ -54,6 +59,7 @@ page 50075 "Employee Insurance Journal"
                 field("Insurance Expiry Date (AD)"; rec."Insurance Expiry Date (AD)")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Insurance Expiry Date (BS)"; rec."Insurance Expiry Date (BS)")
                 {
@@ -63,15 +69,18 @@ page 50075 "Employee Insurance Journal"
                 field("Insurance Amount"; rec."Insurance Amount")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Premium Paid By"; rec."Premium Paid By")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
 
                 field("Monthly Premium Amount"; rec."Premium Amount")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Premium Payment Frequency"; Rec."Premium Payment Frequency")
                 {
@@ -80,10 +89,12 @@ page 50075 "Employee Insurance Journal"
                 field("Annual Premium Amount"; rec."Annual Premium Amount")
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field(Remarks; rec.Remarks)
                 {
                     ApplicationArea = all;
+                    Editable=IsOpen;
                 }
                 field("Attachment File Name"; Rec."Attachment File Name")
                 {
