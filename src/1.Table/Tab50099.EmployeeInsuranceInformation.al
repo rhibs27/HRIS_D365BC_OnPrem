@@ -34,7 +34,9 @@ table 50099 "Employee Insurance Information"
         field(4; "Employee Name"; Text[50]) { }
         field(5; "Insurance Company Code"; Code[20])
         {
-            TableRelation = "Insurance Company" where(Blocked = const(false));
+            TableRelation = if ("Insurance Type" = const("Life Insurance")) "Insurance Company".code where(Blocked = const(false), Type = const("Life Insurance"))
+            else
+            "Insurance Company".code where(Blocked = const(false), Type = const("Non-Life Insurance"));
             trigger OnValidate()
             var
                 InsuranceCompany: Record "Insurance Company";
@@ -95,13 +97,25 @@ table 50099 "Employee Insurance Information"
         {
             Editable = false;
         }
-        field(12; "Insurance Amount"; Decimal) { }
+        field(12; "Insurance Amount"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                if Rec."Insurance Amount" <> xRec."Insurance Amount" then begin
+                    Clear("Annual Premium Amount");
+                    Clear("Monthly Premium Amount");
+                end;
+            end;
+        }
+
         field(13; "Annual Premium Amount"; Decimal)
         {
             trigger OnValidate()
             begin
-                if "Annual Premium Amount" > "Insurance Amount" then
-                    Error('Annual Premium Amount Should be less than Insurance Amount.');
+                if "Annual Premium Amount" <> 0 then begin
+                    if "Annual Premium Amount" > "Insurance Amount" then
+                        Error('Annual Premium Amount Should be less than Insurance Amount.');
+                end;
             end;
         }
         field(14; "Monthly Premium Amount"; Decimal) { }
@@ -179,7 +193,7 @@ table 50099 "Employee Insurance Information"
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open, "Approval Status"::Created]) then
             Error(CannotDelete)
         else begin
             ApprovalEntry.Reset();

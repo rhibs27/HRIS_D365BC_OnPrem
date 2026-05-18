@@ -125,4 +125,8 @@ enum 50146 "Service Event"
     {
         Caption = 'Branch Merge';
     }
+    value(30; Suspension)
+    {
+        Caption = 'Suspension';
+    }
 }

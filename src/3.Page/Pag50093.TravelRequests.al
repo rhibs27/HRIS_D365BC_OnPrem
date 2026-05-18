@@ -49,6 +49,10 @@ page 50093 "Travel Requests"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
+                field(Cancelled; rec.Cancelled)
+                {
+                    ApplicationArea = All;
+                }
                 field(Extended; Rec.Extended)
                 {
                     ToolTip = 'Specifies the value of the Extended Travel field.';
@@ -62,6 +66,11 @@ page 50093 "Travel Requests"
                 field("Advance Cash Required"; Rec."Advance Cash Required")
                 {
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
+                    ApplicationArea = All;
+                }
+                field("Advance Cash"; Rec."Advance Cash")
+                {
+                    ToolTip = 'Specifies the value of the Advance Cash field.';
                     ApplicationArea = All;
                 }
                 field("Disbursed Advance"; Rec."Advance Disbursed")

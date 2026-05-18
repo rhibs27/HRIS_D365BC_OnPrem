@@ -188,6 +188,8 @@ codeunit 50014 "Event Management"
                     else if ActType in [ActType::"Allowance Assignment Memo", ActType::"Shift Assignment Memo"] then
                         CardPageID := Page::"Assignment Memo Card";
                 end;
+            Database::Resignation:
+                CardPageID := Page::"Resignation Card";
         end;
     end;
 }

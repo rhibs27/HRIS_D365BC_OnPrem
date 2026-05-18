@@ -3,7 +3,6 @@ page 50160 "Employee Home Loan Card"
     PageType = Card;
     SourceTable = "Employee Loan/Advance";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -16,10 +15,6 @@ page 50160 "Employee Home Loan Card"
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
 
-                    trigger OnValidate()
-                    begin
-                        CurrPage.Update;
-                    end;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
@@ -32,14 +27,32 @@ page 50160 "Employee Home Loan Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field("Functional title"; rec."Functional title")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Salary Account Number"; rec."Salary Account Number")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field("Branch Name"; Rec."Branch Name")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Branch Name field.';
                     ApplicationArea = All;
                 }
                 field("Department Name"; Rec."Department Name")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Department Name field.';
+                    ApplicationArea = All;
+                }
+                field("Unit Name"; Rec."Unit Name")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Unit Name field.';
                     ApplicationArea = All;
                 }
                 field("Date of Birth"; Rec."Date of Birth")
@@ -56,11 +69,6 @@ page 50160 "Employee Home Loan Card"
                 field("Confirmation Service Period"; Rec."Confirmation Service Period")
                 {
                     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
-                    ApplicationArea = All;
-                }
-                field("Unit Name"; Rec."Unit Name")
-                {
-                    ToolTip = 'Specifies the value of the Unit Name field.';
                     ApplicationArea = All;
                 }
                 field("Approval Status"; Rec."Approval Status")
@@ -80,6 +88,12 @@ page 50160 "Employee Home Loan Card"
             }
             group("Home Loan Parameters")
             {
+                field("Requested Loan Date"; Rec."Requested Loan Date")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Requested Loan Date field.';
+                    ApplicationArea = All;
+                }
                 field("Previous Loan Amount"; Rec."Previous Loan Amount")
                 {
                     ToolTip = 'Specifies the value of the Previous Loan Amount field.';
@@ -96,6 +110,13 @@ page 50160 "Employee Home Loan Card"
                     Editable = false;
                     ToolTip = 'Specifies the value of the Gross Salary field.';
                     ApplicationArea = All;
+                }
+                field("Take-Home Salary"; Rec."Take-Home Salary")
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                    Style = Favorable;
+                    StyleExpr = Rec."Take-Home Salary" > 0;
                 }
                 field("Eligible Loan/Advance"; Rec."Eligible Loan/Advance")
                 {
@@ -131,13 +152,8 @@ page 50160 "Employee Home Loan Card"
                 }
                 group(Control17)
                 {
-                    Editable = ForScreen;
+                    Editable = IsOpen;
                     ShowCaption = false;
-                    field("Requested Loan Date"; Rec."Requested Loan Date")
-                    {
-                        ToolTip = 'Specifies the value of the Requested Loan Date field.';
-                        ApplicationArea = All;
-                    }
                     field("Purpose of Housing Loan"; Rec."Purpose of Housing Loan")
                     {
                         showMandatory = true;
@@ -187,12 +203,19 @@ page 50160 "Employee Home Loan Card"
                         ToolTip = 'Specifies the value of the Insurance Tieup field.';
                         ApplicationArea = All;
                     }
+                    field("Insurance Company Code"; rec."Insurance Company Code")
+                    {
+                        ApplicationArea = all;
+                    }
+                    field("Name of Insurance Company"; rec."Name of Insurance Company")
+                    {
+                        ApplicationArea = all;
+                    }
                     field("Applied Loan"; Rec."Applied Loan/Advance")
                     {
                         showMandatory = true;
                         ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
                         ApplicationArea = All;
-
                         trigger OnValidate()
                         begin
                             CurrPage.Update;
@@ -206,10 +229,76 @@ page 50160 "Employee Home Loan Card"
                     }
                 }
             }
-            part(Attachment; "Attachment Subform")
+            group("Collateral Information")
             {
-                SubPageLink = "No." = field("No.");
-                ApplicationArea = All;
+                Editable = IsOpen;
+                field("Complete Address of Property"; Rec."Complete Address of Property")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Complete Address of Property field.';
+                    ApplicationArea = All;
+                }
+                field("Plot No. of Property"; Rec."Plot No. of Property")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Plot No. of Property field.';
+                    ApplicationArea = All;
+                }
+                field("Area Format"; Rec."Area Format")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Area Format field.';
+                    ApplicationArea = All;
+                }
+                field("Area of Plot"; Rec."Area of Plot")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Area of Plot field.';
+                    ApplicationArea = All;
+                }
+                field("Area of Property to be Purchased"; rec."Area of Propty. tobe Purchased")
+                {
+                    Caption = 'Area of Property to be Purchased';
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Area of Property to be Purchased.';
+                    ApplicationArea = All;
+                }
+                field("Existing Owner of the Property"; Rec."Name of Owner")
+                {
+                    Caption = 'Existing Owner of the Property';
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Name of Owner field.';
+                    ApplicationArea = All;
+                }
+                field("Proposed Owner Name(Nepali)"; Rec."Proposed Owner (Nepali)")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Proposed Owner (Nepali) field.';
+                    ApplicationArea = All;
+                }
+                field("Address of Property (Nepali)"; Rec."Address of Property (Nepali)")
+                {
+                    ToolTip = 'Specifies the value of the Address of Property (Nepali) field.';
+                    ApplicationArea = All;
+                }
+                field("Address of Existing Owner"; Rec."Address of Owner")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Address of Owner field.';
+                    ApplicationArea = All;
+                }
+                field("Property in the name of"; Rec."Property in the name of")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Name of Proposed Owner field.';
+                    ApplicationArea = All;
+                }
+                field("Name of Spouse"; Rec."Name of Spouse")
+                {
+                    showMandatory = true;
+                    ToolTip = 'Specifies the value of the Name of Spouse field.';
+                    ApplicationArea = All;
+                }
             }
             group("Security Documentation")
             {
@@ -249,6 +338,11 @@ page 50160 "Employee Home Loan Card"
                     ToolTip = 'Specifies the value of the Offer Letter Date(Nepali) field.';
                     ApplicationArea = All;
                 }
+                field("Amount In Words (Nepali)"; rec."Amount In Words (Nepali)")
+                {
+                    ToolTip = 'Specifies the value of the Amount In Words (Nepali) field.';
+                    ApplicationArea = All;
+                }
                 field("Loan Expiry Date"; Rec."Loan Expiry Date")
                 {
                     ToolTip = 'Specifies the value of the Loan Expiry Date field.';
@@ -262,10 +356,11 @@ page 50160 "Employee Home Loan Card"
             }
             group("Facility Disbursement")
             {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
-                field("Loan Applied"; AppliedLoan)
+                Visible = IsApproved;
+                field("Loan Applied"; Rec."Applied Loan/Advance")
                 {
-                    ToolTip = 'Specifies the value of the AppliedLoan field.';
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Applied Loan field.';
                     ApplicationArea = All;
                 }
                 field("Disbursement Date"; Rec."Disbursement Date")
@@ -276,6 +371,19 @@ page 50160 "Employee Home Loan Card"
                 field("Disbursed Amount"; Rec."Disbursed Amount")
                 {
                     ToolTip = 'Specifies the value of the Disbursed Amount field.';
+                    ApplicationArea = All;
+                }
+                field("Total Settled Amount"; Rec."Total Settled Amount")
+                {
+                    Caption = 'Total Settled Amount';
+                    Editable = false;
+                    ToolTip = 'Specifies the cumulative amount settled across all approved settlement entries.';
+                    ApplicationArea = All;
+                }
+                field("Outstanding Amount"; Rec."Outstanding Amount")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the remaining loan balance (Disbursed Amount minus Total Settled Amount).';
                     ApplicationArea = All;
                 }
                 field(Settled; Rec.Settled)
@@ -298,72 +406,14 @@ page 50160 "Employee Home Loan Card"
                     ToolTip = 'Specifies the value of the Account No. field.';
                     ApplicationArea = All;
                 }
+                field("Settlement Type"; rec."Settlement Type")
+                {
+                    ToolTip = 'Specifies the value of the Settlement type field.';
+                    ApplicationArea = All;
+                }
                 field(Disbursed; Rec.Disbursed)
                 {
                     ToolTip = 'Specifies the value of the Disbursed field.';
-                    ApplicationArea = All;
-                }
-            }
-            group("Collateral Information")
-            {
-                Editable = IsOpen;
-                field("Proposed Owner of  the Property"; Rec."Property in the name of")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Property in the name of field.';
-                    ApplicationArea = All;
-                }
-                field("Name of Spouse"; Rec."Name of Spouse")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Name of Spouse field.';
-                    ApplicationArea = All;
-                }
-                field("Existing Owner of the Property"; Rec."Name of Owner")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Name of Owner field.';
-                    ApplicationArea = All;
-                }
-                field("Address of Existing Owner"; Rec."Address of Owner")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Address of Owner field.';
-                    ApplicationArea = All;
-                }
-                field("Complete Address of Property"; Rec."Complete Address of Property")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Complete Address of Property field.';
-                    ApplicationArea = All;
-                }
-                field("Area Format"; Rec."Area Format")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Area Format field.';
-                    ApplicationArea = All;
-                }
-                field("Area of Plot"; Rec."Area of Plot")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Area of Plot field.';
-                    ApplicationArea = All;
-                }
-                field("Plot No. of Property"; Rec."Plot No. of Property")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Plot No. of Property field.';
-                    ApplicationArea = All;
-                }
-                field("Proposed Owner (Nepali)"; Rec."Proposed Owner (Nepali)")
-                {
-                    showMandatory = true;
-                    ToolTip = 'Specifies the value of the Proposed Owner (Nepali) field.';
-                    ApplicationArea = All;
-                }
-                field("Address of Property (Nepali)"; Rec."Address of Property (Nepali)")
-                {
-                    ToolTip = 'Specifies the value of the Address of Property (Nepali) field.';
                     ApplicationArea = All;
                 }
             }
@@ -371,7 +421,7 @@ page 50160 "Employee Home Loan Card"
             {
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = IsPending;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
@@ -387,6 +437,11 @@ page 50160 "Employee Home Loan Card"
                     end;
                 }
             }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = All;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -394,18 +449,6 @@ page 50160 "Employee Home Loan Card"
                                 "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
-            }
-        }
-        area(FactBoxes)
-        {
-            systempart(Control36; Links)
-            {
-                Visible = false;
-                ApplicationArea = All;
-            }
-            systempart(Control10; Notes)
-            {
-                ApplicationArea = All;
             }
         }
     }
@@ -474,7 +517,7 @@ page 50160 "Employee Home Loan Card"
 
                 trigger OnAction()
                 begin
-                    LoanMgt.VerifyLoan(Rec);
+                    // LoanMgt.VerifyLoan(Rec);
                 end;
             }
             action("Approve Request")
@@ -526,7 +569,7 @@ page 50160 "Employee Home Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForSettle;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Settle Home Loan action.';
                 ApplicationArea = All;
 
@@ -557,6 +600,7 @@ page 50160 "Employee Home Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Disburse action.';
                 ApplicationArea = All;
+                Visible = IsApproved;
                 trigger OnAction()
                 begin
                     Rec.DisburseLoan;
@@ -570,7 +614,7 @@ page 50160 "Employee Home Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Modify Security Document action.';
                 ApplicationArea = All;
-
+                Visible = IsApproved;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to modify security document?') then begin
@@ -629,18 +673,84 @@ page 50160 "Employee Home Loan Card"
                     HRMgt.UpdateInsuranceFromHomeLoan(Rec);
                 end;
             }
+            action("Create Settlement")
+            {
+                Caption = 'Create Settlement';
+                Image = CreateDocument;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = CanCreateSettlement;
+                ToolTip = 'Initiate a Loan Settlement request for this disbursed loan.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    LoanSettlement: Record "Loan Settlement";
+                    LoanSettlementCard: Page "Loan Settlement Card";
+                begin
+                    LoanSettlement.Init();
+                    LoanSettlement."Loan Type" := Rec."Loan Type";
+                    LoanSettlement.Validate("Loan No.", Rec."No.");
+                    LoanSettlement.Insert(true);
+                    LoanSettlementCard.SetRecord(LoanSettlement);
+                    LoanSettlementCard.Run();
+                    CurrPage.Update(false);
+                end;
+            }
+            action("View Settlement")
+            {
+                Caption = 'View Settlements';
+                Image = View;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = CanViewSettlement;
+                ToolTip = 'Open all Loan Settlement requests for this loan.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    LoanSettlement: Record "Loan Settlement";
+                    LoanSettlementList: Page "Loan Settlement List";
+                begin
+                    LoanSettlement.SetRange("Loan No.", Rec."No.");
+                    LoanSettlementList.SetTableView(LoanSettlement);
+                    LoanSettlementList.Run();
+                end;
+            }
+            action("Settlement Entries")
+            {
+                Caption = 'Settlement Entries';
+                Image = Entries;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsApproved;
+                ToolTip = 'View the full history of posted settlement entries for this loan.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    LoanSettlementEntry: Record "Loan Settlement Entry";
+                    LoanSettlementEntries: Page "Loan Settlement Entries";
+                begin
+                    LoanSettlementEntry.SetRange("Loan No.", Rec."No.");
+                    LoanSettlementEntries.SetTableView(LoanSettlementEntry);
+                    LoanSettlementEntries.Run();
+                end;
+            }
         }
     }
-
-    trigger OnAfterGetCurrRecord()
-    begin
-        SetControlAppearance;
-    end;
-
     trigger OnAfterGetRecord()
     begin
         SetLayout();
-        LoanMgt.CalculateFields(Rec);
+        if rec."Approval Status" = rec."Approval Status"::Open then
+            LoanMgt.CalculateFields(Rec);
+        Rec.CalcFields("Total Settled Amount");
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -656,10 +766,7 @@ page 50160 "Employee Home Loan Card"
 
     trigger OnOpenPage()
     begin
-        CreateIncomingDocFromEmailAttachment := OfficeMgt.OCRAvailable;
-        CreateIncomingDocumentVisible := not OfficeMgt.IsOutlookMobileApp;
         SetLayout();
-        AppliedLoan := Rec."Applied Loan/Advance";
         if Rec."Approval Status" = Rec."Approval Status"::Open then begin
             Rec.Validate("Requested Loan Date", Today);
             Rec.Validate("Repayment Period", 1);
@@ -671,68 +778,19 @@ page 50160 "Employee Home Loan Card"
     end;
 
     var
-        CreateIncomingDocumentVisible: Boolean;
-        CreateIncomingDocFromEmailAttachment: Boolean;
-        OfficeMgt: Codeunit "Office Management";
+        IsOpen, IsPending, IsApproved : Boolean;
+        CanCreateSettlement, CanViewSettlement : Boolean;
         HasIncomingDocument: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
-
-        ForApprove: Boolean;
-
-        ForRecommend: Boolean;
-
-        ForReject: Boolean;
-        ForScreen: Boolean;
-        ForSettle: Boolean;
-        AppliedLoan: Decimal;
-        IsOpen: Boolean;
-        IsPending: Boolean;
-        IsApproved: Boolean;
         StatusView: Boolean;
+        ApproverMgt: Codeunit "Approver Mgt";
         ApprovalStatusView: Boolean;
         RecRef: RecordRef;
-        ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
 
-    local procedure SetControlAppearance()
-    begin
-        HasIncomingDocument := Rec."Incoming Document Entry No." <> 0;
-    end;
 
     local procedure SetLayout()
     begin
-        case Rec."Approval Status" of
-            Rec."Approval Status"::Open:
-                begin
-                    ForRecommend := true;
-                    ForReject := false;
-                    ForApprove := false;
-                    ForScreen := true;
-                end;
-            Rec."Approval Status"::"Pending":
-                begin
-                    ForRecommend := true;
-                    ForReject := true;
-                    ForApprove := true;
-                    ForScreen := false;
-                end;
-            Rec."Approval Status"::Rejected:
-                begin
-                    ForRecommend := false;
-                    ForApprove := true;
-                    ForReject := false;
-                    ForScreen := false;
-                    ForSettle := true;
-                end;
-            Rec."Approval Status"::Approved:
-                begin
-                    ForRecommend := false;
-                    ForApprove := true;
-                    ForReject := true;
-                    ForScreen := false;
-                    ForSettle := true;
-                end;
-        end;
         IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
@@ -740,5 +798,28 @@ page 50160 "Employee Home Loan Card"
             ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        // Allow creating a new settlement only if no active (Open/Pending) settlement exists
+        CanCreateSettlement := IsApproved and Rec.Disbursed and not Rec.Settled and not ActiveSettlementExists(Rec."No.");
+        // Allow viewing settlement history if any settlement (past or active) exists
+        CanViewSettlement := IsApproved and Rec.Disbursed and SettlementExists(Rec."No.");
+    end;
+
+    local procedure SettlementExists(LoanNo: Code[20]): Boolean
+    var
+        LoanSettlement: Record "Loan Settlement";
+    begin
+        LoanSettlement.SetRange("Loan No.", LoanNo);
+        exit(not LoanSettlement.IsEmpty());
+    end;
+
+    local procedure ActiveSettlementExists(LoanNo: Code[20]): Boolean
+    var
+        LoanSettlement: Record "Loan Settlement";
+    begin
+        LoanSettlement.SetRange("Loan No.", LoanNo);
+        LoanSettlement.SetFilter("Approval Status", '%1|%2',
+            LoanSettlement."Approval Status"::Open,
+            LoanSettlement."Approval Status"::Pending);
+        exit(not LoanSettlement.IsEmpty());
     end;
 }

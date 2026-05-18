@@ -114,7 +114,6 @@ table 50047 "Attendance Summary"
         field(19; "Tour Day"; Decimal)
         {
             CalcFormula = sum("Employee Attendance & Activity"."Tour Day" where("Employee No." = field("Employee No."),
-                                                                                 "Day Type" = const("Working Day"),
                                                                                  "Attendance Date" = field("Date Filter"),
                                                                                  "Tour Day" = filter(<> 0)));
             Editable = false;
@@ -285,6 +284,14 @@ table 50047 "Attendance Summary"
             CalcFormula = count("Employee Attendance & Activity" where("Employee No." = field("Employee No."),
                                                                     "Attendance Date" = field("Date Filter"),
                                                                     "Late Deduction" = filter(true)));
+        }
+        field(41; "Training Day"; Decimal)
+        {
+            CalcFormula = sum("Employee Attendance & Activity"."Training Day" where("Employee No." = field("Employee No."),
+                                                                                 "Attendance Date" = field("Date Filter"),
+                                                                                 "Training Day" = filter(<> 0)));
+            Editable = false;
+            FieldClass = FlowField;
         }
     }
     keys

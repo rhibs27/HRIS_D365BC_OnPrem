@@ -47,6 +47,7 @@ page 50201 "Retirement Fund Card"
             group("Annual Income Details")
             {
                 Editable = false;
+                Visible = false;
                 field("Annual Accessible Income"; Rec."Annual Assessable Income")
                 {
                     ToolTip = 'Specifies the value of the Annual Accessible Income field.';
@@ -124,12 +125,14 @@ page 50201 "Retirement Fund Card"
                     field("RTF Amount (Month)"; Rec."RTF Amount (Month)")
                     {
                         Caption = 'RTF';
+                        Visible = false;
                         ToolTip = 'Specifies the value of the RTF field.';
                         ApplicationArea = All;
                     }
                     field("CIT Amount (Month)"; Rec."CIT Amount (Month)")
                     {
                         Caption = 'CIT';
+                        Visible = false;
                         ToolTip = 'Specifies the value of the CIT field.';
                         ApplicationArea = All;
                     }
@@ -147,10 +150,17 @@ page 50201 "Retirement Fund Card"
                             Rec.TestField("Attribute Code");
                         end;
                     }
+                    field("One Time Contribution"; Rec."One Time Contribution")
+                    {
+                        Caption = 'One Time Contribution';
+                        ToolTip = 'Specifies the value of the One Time Contribution field.';
+                        ApplicationArea = All;
+                    }
                 }
                 group(Lumpsum)
                 {
                     Caption = 'Lumpsum';
+                    Visible = false;
                     field("RTF Amount (Lumpsum)"; Rec."RTF Amount (Lumpsum)")
                     {
                         Caption = 'RTF';
@@ -163,12 +173,7 @@ page 50201 "Retirement Fund Card"
                         ToolTip = 'Specifies the value of the CIT field.';
                         ApplicationArea = All;
                     }
-                    field("One Time Contribution"; Rec."One Time Contribution")
-                    {
-                        Caption = 'One Time Contribution';
-                        ToolTip = 'Specifies the value of the One Time Contribution field.';
-                        ApplicationArea = All;
-                    }
+
 
                 }
             }
@@ -242,7 +247,7 @@ page 50201 "Retirement Fund Card"
         {
             action("Submit for Approval")
             {
-                Image = Suggest;
+                Image = Apply;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;

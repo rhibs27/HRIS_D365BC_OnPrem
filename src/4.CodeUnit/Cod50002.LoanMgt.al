@@ -52,7 +52,12 @@ codeunit 50002 "Loan Mgt."
         RemServicePeriodAsPerBankTenure: Decimal;
         RemAgePeriodAsPerBankTenure: Decimal;
         IsHandledSalarycalc: Boolean;
+        IsHandle: Boolean;
     begin
+        OnBeforeInsertEmployeeLoan(EmpLoan, IsHandle);
+        if IsHandle then
+            exit;
+
         //check mandatory setup fields
         HRSetup.Get;
         HRSetup.TestField("DBR Ratio");
@@ -75,6 +80,8 @@ codeunit 50002 "Loan Mgt."
         EmpLoan."Employment Date" := Employee."Employment Date";
         EmpLoan.Gender := Employee.Gender;
         EmpLoan."Date of Birth" := Employee."Birth Date";
+        EmpLoan.Age := Employee.Age;
+        EmpLoan."Requested Loan Date" := Today;
 
         if Employee."Confirmation Date" = 0D then
             Error('Confirmation Date must have value in employee %1.', Employee.FullName);  //this ensure only permanent employee eligible for loan/advance
@@ -91,7 +98,6 @@ codeunit 50002 "Loan Mgt."
 
         Evaluate(EmpLoan."Confirmation Service Period", Format((Today - Employee."Confirmation Date") / 365));
         EmpLoan.Validate("Confirmation Service Period", Round(EmpLoan."Confirmation Service Period", 0.01, '='));
-        HRMgt.CheckAgeAndBirthday(EmpLoan."Date of Birth", Today, EmpLoan.Age, AgeDays, IsBirthDay);  //really needed?
 
         EmpLoan."Remaining Service Period" := HRSetup."Retirement Age" - EmpLoan.Age;
         Evaluate(RemServicePeriodAsPerBankTenure, Format(30 - (Today - Employee."Employment Date") / 365));
@@ -150,6 +156,7 @@ codeunit 50002 "Loan Mgt."
         PreviousLoan: Record "Employee Loan/Advance";
         CheckSalaryLevel: Record "Salary Level";
         EligibleMonth: Decimal;
+        IsHandled: Boolean;
     begin
         Clear(PrevLoanAmt);
         case EmpLoan."Loan Type" of
@@ -167,34 +174,26 @@ codeunit 50002 "Loan Mgt."
                         EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 10 - PrevLoanAmt
                     else if EmpLoan."Confirmation Service Period" >= 1 then
                         EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 4 - PrevLoanAmt;
-                    CheckSalaryLevel.Reset;
-                    CheckSalaryLevel.SetRange("Senior Officer Level", true);
-                    if CheckSalaryLevel.FindFirst then begin
-                        if (SalaryLevel.Rank <= CheckSalaryLevel.Rank) then begin
-                            if EmpLoan."Confirmation Service Period" > 5 then
-                                EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 15 - PrevLoanAmt
-                            else if EmpLoan."Confirmation Service Period" > 3 then
-                                EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 12 - PrevLoanAmt;
-                        end;
-                    end;
+                    if EmpLoan."Confirmation Service Period" > 5 then
+                        EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 15 - PrevLoanAmt
+                    else if EmpLoan."Confirmation Service Period" > 3 then
+                        EmpLoan."Eligible Loan/Advance" := EmpLoan."Gross Salary" * 12 - PrevLoanAmt;
                 end;
             EmpLoan."Loan Type"::"Vehicle Loan":
                 begin
-                    EmpLoan."Eligible Loan/Advance" := 90 / 100 * EmpLoan."Cost of Vehicle";
-                    CheckSalaryLevel.Reset;
-                    CheckSalaryLevel.SetRange("Is AM", true);
-                    if CheckSalaryLevel.FindFirst then;
                     PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
                     EmpLoan."Previous Loan Amount" := PrevLoanAmt;
                     EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
-                    if SalaryLevel.Get(Employee."Salary Level") then begin
-                        if CheckSalaryLevel.Rank <= SalaryLevel.Rank then
-                            EmpLoan."Eligible Loan/Advance" := EmpLoan."Cost of Vehicle";
-                        if SalaryLevel."Vehicle Loan Limit" <> 0 then
-                            if SalaryLevel."Vehicle Loan Limit" < EmpLoan."Eligible Loan/Advance" then
-                                EmpLoan."Eligible Loan/Advance" := SalaryLevel."Vehicle Loan Limit";
-                        if EmpLoan."Eligible Loan/Advance" > HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary" then
-                            EmpLoan."Eligible Loan/Advance" := HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary";
+                    OnBeforeCalculateEligibleVehicleLoanAmount(EmpLoan, IsHandled);
+                    if not IsHandled then begin
+                        EmpLoan."Eligible Loan/Advance" := 90 / 100 * EmpLoan."Cost of Vehicle";
+                        if SalaryLevel.Get(Employee."Salary Level") then begin
+                            if SalaryLevel."Vehicle Loan Limit" <> 0 then
+                                if SalaryLevel."Vehicle Loan Limit" < EmpLoan."Eligible Loan/Advance" then
+                                    EmpLoan."Eligible Loan/Advance" := SalaryLevel."Vehicle Loan Limit";
+                            if EmpLoan."Eligible Loan/Advance" > HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary" then
+                                EmpLoan."Eligible Loan/Advance" := HRSetup."Vehicle Loan Eligible Month" * EmpLoan."Gross Salary";
+                        end;
                     end;
                     if SalaryLevel."Reapply Year (Vehicle Loan)" <> 0 then begin
                         PreviousLoan.Reset;
@@ -211,29 +210,29 @@ codeunit 50002 "Loan Mgt."
                 end;
             EmpLoan."Loan Type"::"Home Loan":
                 begin
-                    CheckSalaryLevel.Reset;
-                    CheckSalaryLevel.SetRange("Senior Officer Level", true);
-                    if CheckSalaryLevel.FindFirst then;
+                    // CheckSalaryLevel.Reset;
+                    // CheckSalaryLevel.SetRange("Senior Officer Level", true);
+                    // if CheckSalaryLevel.FindFirst then;
                     if SalaryLevel.Get(Employee."Salary Level") then begin
                         PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
                         EmpLoan."Previous Loan Amount" := PrevLoanAmt;
                         EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
-                        if SalaryLevel.Rank <= CheckSalaryLevel.Rank then
-                            EligibleMonth := HRSetup."Loan Eligible Month Below SO"
-                        else
-                            EligibleMonth := HRSetup."Home Loan Eligible Month";
-                        if SalaryLevel."Housing Loan Limit" <> 0 then begin
-                            if (EligibleMonth * EmpLoan."Gross Salary") > (SalaryLevel."Housing Loan Limit") then
-                                EmpLoan."Eligible Loan/Advance" := (SalaryLevel."Housing Loan Limit") - PrevLoanAmt
-                            else
+                        EligibleMonth := HRSetup."Home Loan Eligible Month";
+                        OnBeforeCalculateEligibleHomeLoanAmount(EmpLoan, IsHandled);
+                        if not IsHandled then begin
+                            if SalaryLevel."Housing Loan Limit" <> 0 then begin
+                                if (EligibleMonth * EmpLoan."Gross Salary") > (SalaryLevel."Housing Loan Limit") then
+                                    EmpLoan."Eligible Loan/Advance" := (SalaryLevel."Housing Loan Limit") - PrevLoanAmt
+                                else
+                                    EmpLoan."Eligible Loan/Advance" := (EligibleMonth * EmpLoan."Gross Salary") - PrevLoanAmt;
+                            end else
                                 EmpLoan."Eligible Loan/Advance" := (EligibleMonth * EmpLoan."Gross Salary") - PrevLoanAmt;
-                        end else
-                            EmpLoan."Eligible Loan/Advance" := (EligibleMonth * EmpLoan."Gross Salary") - PrevLoanAmt;
-                        if EmpLoan."Purpose of Housing Loan" = EmpLoan."Purpose of Housing Loan"::"Renovate/Extend/Repair" then begin
-                            if EmpLoan."Eligible Loan/Advance" > 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
-                                EmpLoan."Eligible Loan/Advance" := 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
-                        end else if EmpLoan."Eligible Loan/Advance" > 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
-                                EmpLoan."Eligible Loan/Advance" := 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
+                            if EmpLoan."Purpose of Housing Loan" = EmpLoan."Purpose of Housing Loan"::"Renovate/Extend/Repair" then begin
+                                if EmpLoan."Eligible Loan/Advance" > 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
+                                    EmpLoan."Eligible Loan/Advance" := 95 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
+                            end else if EmpLoan."Eligible Loan/Advance" > 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction") then
+                                    EmpLoan."Eligible Loan/Advance" := 90 / 100 * (EmpLoan."Commercial Value of Property" + EmpLoan."Estimated Cost of Construction");
+                        end;
                     end;
                     if not EmpLoan."Loan Enhancement" then begin
                         PreviousLoan.Reset;
@@ -249,12 +248,24 @@ codeunit 50002 "Loan Mgt."
                                 Error(HomeLoanReapplyErr);
                         end;
                     end;
-                    RepaymentPeriod := 25;
+                    RepaymentPeriod := HRSetup."Home/Persona Loan Repay Period";
                     if RepaymentPeriod < EmpLoan."Repayment Period" then
                         EmpLoan."Repayment Period" := RepaymentPeriod;
                     if EmpLoan."Repayment Period" > EmpLoan."Remaining Service Period" then begin
                         Error('Maximum repayment period is %1', EmpLoan."Remaining Service Period");
                         EmpLoan."Repayment Period" := EmpLoan."Remaining Service Period";
+                    end;
+                end;
+            EmpLoan."Loan Type"::"Staff Social Loan":
+                begin
+                    PrevLoanAmt := GetExistingLoanAmount(EmpLoan."Employee No.", EmpLoan."Loan Type", EmpLoan."No.");
+                    EmpLoan."Previous Loan Amount" := PrevLoanAmt;
+                    EmpLoan."Total Loan Amount" := PrevLoanAmt + EmpLoan."Applied Loan/Advance";
+                    OnBeforeCalculateEligibleStaffSocialLoanAmount(EmpLoan, IsHandled);
+                    if not IsHandled then begin
+                        if HRSetup."Max Staff Social Loan Amount" = 0 then
+                            Error('Before Applying Staff Social loan Max Staff Social Loan Amount should be set in human resource setup');
+                        EmpLoan."Eligible Loan/Advance" := HRSetup."Max Staff Social Loan Amount";
                     end;
                 end;
         end;
@@ -264,6 +275,7 @@ codeunit 50002 "Loan Mgt."
     var
         InterestRate: Decimal;
         PowerValue: Decimal;
+        CostOfHouse: Decimal;
     begin
         HRSetup.Get;
         EmpLoan.EMI := 0;
@@ -277,19 +289,27 @@ codeunit 50002 "Loan Mgt."
                 end;
             EmpLoan."Loan Type"::"Personal Loan":
                 begin
-                    EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type");
+                    EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Applied Loan/Advance");
+                    EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * EmpLoan."Interest Rate" / 100) / 12;
+                end;
+            EmpLoan."Loan Type"::"Staff Social Loan":
+                begin
+                    EmpLoan."Requested Loan Date" := Today;
+                    EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Applied Loan/Advance");
                     EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * EmpLoan."Interest Rate" / 100) / 12;
                 end;
             EmpLoan."Loan Type"::"Vehicle Loan":
                 begin
+                    EmpLoan."Requested Loan Date" := Today;
                     if EmpLoan."Repayment Period" > HRSetup."Max. Veh. Loan Repay Period" then
                         Error('Repayment period exceeded.');
                     if (SalaryLevel."Vehicle Loan Limit" <> 0) then   //changes for salary level greater than AM
                         EmpLoan."Interest Rate" := 0    //changes for salary level greater than AM
                     else
-                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type");
+                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", EmpLoan."Cost of Vehicle");
                     InterestRate := (EmpLoan."Interest Rate" / 12) / 100;
-                    PowerValue := Power((1 + InterestRate), (EmpLoan."Repayment Period" * 12));
+                    PowerValue := Power((1 + InterestRate), (EmpLoan."Repayment Period" * 12)); //EMI = P × r × (1+r)ⁿ / ((1+r)ⁿ - 1) formula for emi
+
                     if EmpLoan."Interest Rate" = 0 then     //changes for salary level greater than AM
                         EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / (EmpLoan."Repayment Period" * 12)    //changes for salary level greater than AM
                     else
@@ -299,7 +319,11 @@ codeunit 50002 "Loan Mgt."
             EmpLoan."Loan Type"::"Home Loan":
                 begin
                     if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"EMI Basis" then begin
-                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type");
+                        if EmpLoan."Estimated Cost of Construction" <> 0 then
+                            CostOfHouse := EmpLoan."Estimated Cost of Construction"
+                        else
+                            CostOfHouse := EmpLoan."Commercial Value of Property";
+                        EmpLoan."Interest Rate" := GetInterestRate(EmpLoan."Requested Loan Date", EmpLoan."Loan Type", CostOfHouse);
                         InterestRate := (EmpLoan."Interest Rate" / 12) / 100;
                         PowerValue := Power((1 + InterestRate), (EmpLoan."Repayment Period" * 12));
                         EmpLoan.EMI := (EmpLoan."Applied Loan/Advance" * InterestRate * PowerValue)
@@ -308,7 +332,7 @@ codeunit 50002 "Loan Mgt."
                     else if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"Insurance Tieup" then begin
                         EmpLoan."Interest Rate" := 0;
                         InsurancePolicy.Reset;
-                        //InsurancePolicy.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
+                        InsurancePolicy.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
                         InsurancePolicy.SetRange(Age, EmpLoan.Age);
                         InsurancePolicy.SetRange(Period, EmpLoan."Repayment Period");
                         if InsurancePolicy.FindFirst then begin
@@ -333,11 +357,13 @@ codeunit 50002 "Loan Mgt."
         Employee.Get(EmpLoan."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
         SalaryGrade.Get(Employee."Salary Grade");
+
         LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
         LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
         LoanOutstanding.CalcSums(EMI);
         PreviosuEMI := LoanOutstanding.EMI;
+
         LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
         LoanOutstanding.SetRange("Scheme Type", 'ODA'); //need setup
@@ -347,56 +373,43 @@ codeunit 50002 "Loan Mgt."
         EmpLoanInterest.SetCurrentKey("Starting Date");
         if EmpLoanInterest.FindLast then;
         EMIPersonalLoan := LoanOutstanding."Loan Limit" * EmpLoanInterest."Interest Rate" / 100 / 12;
+
         EmpSalaryAdv.Reset;
         EmpSalaryAdv.SetRange("Employee No.", EmpLoan."Employee No.");
-        //EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
-        //EmpSalaryAdv.SetFilter("Approval Status", '%1|%2|%3|%4|%5', EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Reviewed, EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending", EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
         EmpSalaryAdv.SetRange(Settled, false);
-        //EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
-        EmpSalaryAdv.SetFilter("Loan Type", '%1|%2|%3|%4', EmpSalaryAdv."Loan Type"::"Salary Advance", EmpSalaryAdv."Loan Type"::"Home Loan", EmpSalaryAdv."Loan Type"::"Personal Loan", EmpSalaryAdv."Loan Type"::"Vehicle Loan");
+        EmpSalaryAdv.SetFilter("Loan Type", '%1|%2|%3|%4|%5',
+            EmpSalaryAdv."Loan Type"::"Salary Advance",
+            EmpSalaryAdv."Loan Type"::"Home Loan",
+            EmpSalaryAdv."Loan Type"::"Personal Loan",
+            EmpSalaryAdv."Loan Type"::"Vehicle Loan",
+            EmpSalaryAdv."Loan Type"::"Staff Social Loan");
         EmpSalaryAdv.CalcSums(EMI);
+
         Clear(VehicleLoanEMI);
         if SalaryLevel."Vehicle Loan Limit" = 0 then begin
-            Clear(LoanOutstanding);
-            LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
+            LoanOutstanding.Reset;
             LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
             LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
             LoanOutstanding.CalcSums(EMI);
             VehicleLoanEMI := LoanOutstanding.EMI;
         end;
-        /*
-          Homeloan.Reset();
-          Homeloan.SetRange("Employee Code", "Employee Code");
-          Homeloan.SetRange("Approval Status", "Approval Status"::Approved);
-          Homeloan.SETFILTER("No.", '<>%1', "No.");
-          Homeloan.SetRange(Settled,FALSE);
-          Homeloan.SetRange("Loan Type",Homeloan."Loan Type"::"Home Loan");
-          Homeloan.SetRange("Repayment Mode",Homeloan."Repayment Mode"::"Insurance Tieup");
-          Homeloan.CALCSUMS(EMI);
-        */
-        if (SalaryLevel."Vehicle Loan Limit" <> 0) then begin
-            if (EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Vehicle Loan") then
-                TotalEMI := EmpSalaryAdv.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI + EmpLoan.EMI //+ Homeloan.EMI
-            else
-                TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI; //+Homeloan.EMI;
-        end else
-            TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI; //+Homeloan.EMI;
-        //all emi + advance / gross
+
+        TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI;
+
         // CheckSalaryLevel.Reset();
         // CheckSalaryLevel.SetRange("Senior Officer Level", true);
-        // CheckSalaryLevel.FindFirst;  // aslo hard code
+        // CheckSalaryLevel.FindFirst;
 
+        HRSetup.Get;
         if SalaryLevel.Rank > CheckSalaryLevel.Rank then begin
             EmpLoan."DBR Ratio" := TotalEMI / EmpLoan."Gross Salary" * 100;
-            HRSetup.Get;
             if EmpLoan."DBR Ratio" > HRSetup."DBR Ratio" then
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
         end else begin
             BelowSOAmt := GetLFAAndDashainAllowance(SalaryLevel, SalaryGrade);
             EmpLoan."DBR Ratio" := TotalEMI / (EmpLoan."Gross Salary" + BelowSOAmt) * 100;
-            HRSetup.Get;
             if EmpLoan."DBR Ratio" > HRSetup."Below SO DBR" then
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
         end;
@@ -406,9 +419,12 @@ codeunit 50002 "Loan Mgt."
     var
         IncomingDocument: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
+        AttachmentType: Enum "Attachment Setup Type";
     begin
+        if not Evaluate(AttachmentType, Format(EmpLoan."Loan Type")) then
+            Error('Attachment setup is not configured for loan type: %1.', EmpLoan."Loan Type");
         AttachmentSetup.Reset;
-        AttachmentSetup.SetFilter(Type, Format(EmpLoan."Loan Type"));
+        AttachmentSetup.SetRange(Type, AttachmentType);
         AttachmentSetup.SetRange("Purpose of Housing Loan", EmpLoan."Purpose of Housing Loan");
         AttachmentSetup.SetRange(Enhancement, EmpLoan."Loan Enhancement");
         if AttachmentSetup.FindFirst then
@@ -432,8 +448,15 @@ codeunit 50002 "Loan Mgt."
             until AttachmentSetup.Next = 0;
     end;
 
-    procedure GetInterestRate(StartingDate: Date; LoanType: enum "Loan Type"): Decimal
+    procedure GetInterestRate(StartingDate: Date; LoanType: enum "Loan Type"; LoanAmount: Decimal): Decimal
+    var
+        InterestRate: Decimal;
+        IsHandled: Boolean;
     begin
+        IsHandled := false;
+        OnBeforeGetInterestRate(StartingDate, LoanType, LoanAmount, InterestRate, IsHandled);
+        if IsHandled then
+            exit(InterestRate);
         LoanInterest.Reset;
         LoanInterest.SetCurrentKey("Starting Date");
         LoanInterest.SetRange("Starting Date", 0D, StartingDate);
@@ -442,6 +465,7 @@ codeunit 50002 "Loan Mgt."
             exit(LoanInterest."Interest Rate");
         Error('Loan Interest setup not found for %1, Date %2', LoanType, StartingDate);
     end;
+
 
     procedure ValidateDocument(var EmpLoan: Record "Employee Loan/Advance"): Boolean
     begin
@@ -456,6 +480,8 @@ codeunit 50002 "Loan Mgt."
                 VehicleLoanValidateDocument(EmpLoan);
             EmpLoan."Loan Type"::"Home Loan":
                 HomeLoanValidateDocument(EmpLoan);
+            EmpLoan."Loan Type"::"Staff Social Loan":
+                StaffSocialLoanValidateDocument(EmpLoan);
             else
                 Error('Case not handled.');
         end;
@@ -585,12 +611,11 @@ codeunit 50002 "Loan Mgt."
         InsurancePremiumSetup: Record "Insurance Premium Setup";
         CheckSalaryLevel: Record "Salary Level";
     begin
+        OnBeforeCheckHomeLoanEligibility(EmpLoan);
         if EmpLoan."Purpose of Housing Loan" = EmpLoan."Purpose of Housing Loan"::" " then
             Error('Purpose of housing loan must have value.');
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::" " then
             Error('Repayment mode must have value.');
-        //TestField("Purpose of Housing Loan");
-        //TestField("Repayment Mode");
         if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"Insurance Tieup" then begin
             EmpLoan.TestField("Insurance Tieup");
             EmpLoan.TestField(Age);
@@ -610,8 +635,6 @@ codeunit 50002 "Loan Mgt."
         EmpLoan.TestField("Area Format");
         EmpLoan.TestField("Area of Plot");
         CheckAttachmentMandatory(EmpLoan);
-        //IF "Confirmation Service Period"< 1 THEN
-        //      ERROR('Total service period is not sufficient.');
         HRSetup.Get;
         //check board approval
         if EmpLoan."Approved By Board" then begin
@@ -630,9 +653,9 @@ codeunit 50002 "Loan Mgt."
             if EmpLoan."Confirmation Service Period" < HRSetup."Home Loan Confirmation Period" then
                 Error('Employee not eligible as service period is less than %1 year.', HRSetup."Home Loan Confirmation Period");
         if SalaryLevel.Get(Employee."Salary Level") then;
-        CheckSalaryLevel.Reset();
-        CheckSalaryLevel.SetRange("Senior Officer Level", true);
-        CheckSalaryLevel.FindFirst;
+        // CheckSalaryLevel.Reset();
+        // CheckSalaryLevel.SetRange("Senior Officer Level", true);
+        // CheckSalaryLevel.FindFirst;
         if SalaryLevel.Rank > CheckSalaryLevel.Rank then begin
             if EmpLoan."DBR Ratio" > HRSetup."DBR Ratio" then
                 Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
@@ -642,22 +665,42 @@ codeunit 50002 "Loan Mgt."
         end;
         if EmpLoan."Repayment Period" > HRSetup."Home/Persona Loan Repay Period" then
             Error('Invalid Repayment Period.');
+
+
     end;
 
-    local procedure GetEmployeeCode(): Code[20]
+    local procedure StaffSocialLoanValidateDocument(var EmpLoan: Record "Employee Loan/Advance")
     var
-        Employee: Record Employee;
+        CheckSalaryLevel: Record "Salary Level";
+        ExistingLoan: Record "Employee Loan/Advance";
     begin
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        if Employee.FindFirst then
-            exit(Employee."No.");
+        HRSetup.Get;
+        EmpLoan.TestField("Purpose of Loan");
+        HRSetup.TestField("Max Staff Social Loan Amount");
+
+        if EmpLoan."Applied Loan/Advance" > HRSetup."Max Staff Social Loan Amount" then
+            Error('Applied amount %1 exceeds maximum staff social loan limit of %2.',
+                EmpLoan."Applied Loan/Advance", HRSetup."Max Staff Social Loan Amount");
+
+        ExistingLoan.Reset;
+        ExistingLoan.SetRange("Employee No.", EmpLoan."Employee No.");
+        ExistingLoan.SetRange("Loan Type", ExistingLoan."Loan Type"::"Staff Social Loan");
+        ExistingLoan.SetRange("Approval Status", ExistingLoan."Approval Status"::Approved);
+        ExistingLoan.SetRange(Settled, false);
+        ExistingLoan.SetFilter("No.", '<>%1', EmpLoan."No.");
+        if ExistingLoan.FindFirst then
+            Error('Please settle existing staff social loan %1 before applying for a new one.', ExistingLoan."No.");
+
+        CheckAttachmentMandatory(EmpLoan);
     end;
 
     local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; "No.": Code[20]): Decimal
     var
         LoanOutstanding: Record "Loan Outstanding from Finacle";
     begin
+        if HRSetup."Get Loan Table Balance" then
+            exit(GetExistingLoanAmountFromEmpTable(EmployeeCode, LoanType, "No."));
+
         if LoanType = LoanType::"Home Loan" then begin
             LoanOutstanding.Reset;
             LoanOutstanding.SetRange("Employee No.", EmployeeCode);
@@ -677,6 +720,26 @@ codeunit 50002 "Loan Mgt."
             LoanOutstanding.CalcSums("Outstanding Amount");
             exit(Abs(LoanOutstanding."Outstanding Amount"));
         end;
+    end;
+
+    procedure GetExistingLoanAmountFromEmpTable(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; ExcludeNo: Code[20]): Decimal
+    var
+        PreviousLoan: Record "Employee Loan/Advance";
+        TotalAmt: Decimal;
+    begin
+        TotalAmt := 0;
+        PreviousLoan.Reset();
+        PreviousLoan.SetRange("Employee No.", EmployeeCode);
+        PreviousLoan.SetRange("Loan Type", LoanType);
+        PreviousLoan.SetRange("Approval Status", PreviousLoan."Approval Status"::Approved);
+        PreviousLoan.SetRange(Disbursed, true);
+        PreviousLoan.SetRange(Settled, false);
+        PreviousLoan.SetFilter("No.", '<>%1', ExcludeNo);
+        if PreviousLoan.FindSet() then
+            repeat
+                TotalAmt += PreviousLoan."Applied Loan/Advance";
+            until PreviousLoan.Next() = 0;
+        exit(TotalAmt);
     end;
 
     local procedure CheckEligibilityforLoanReapplication(EmployeeCode: Code[20]; LoanType: Option; EntryNo: Integer)
@@ -730,10 +793,8 @@ codeunit 50002 "Loan Mgt."
         EmpSalAvd.SetRange("Loan Type", EmpSalAvd."Loan Type"::"Salary Advance");
         EmpSalAvd.SetFilter("Approval Status", '%1|%2', EmpSalAvd."Approval Status"::Approved, EmpSalAvd."Approval Status"::Pending);
         EmpSalAvd.SetRange(Settled, false);
+        EmpSalAvd.SetRange(Reversed, false);
         if EmpSalAvd.FindFirst then begin
-            // if (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Rejected)
-            //   or (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Canceled) then
-            //     if not EmpSalAvd.Settled then
             Error('Please settle the existing salary advance. %1', EmpSalAvd."No.");
         end;
     end;
@@ -757,21 +818,12 @@ codeunit 50002 "Loan Mgt."
         EmpLoan1: Record "Employee Loan/Advance";
         APPROVALSENT: Label 'Approval request has been sent.';
         APPROVALCANCELLED: Label 'Approval request has been cancelled.';
-        APPROVED: Label 'Document is approved.';
-        APPROVALERROR: Label 'Approval status must be open.';
+        ApproverMgt: Codeunit "Approver Mgt";
     begin
         if GuiAllowed then
             if not Confirm(CONFIRMATION, false) then
                 exit;
         HRSetup.Get;
-        // Employee.Reset;
-        // Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        // Employee.SetRange(Status, Employee.Status::Active);
-        // if Employee.FindFirst then;
-        // EmpLoan.Validate(Approver, Employee."No.");
-        // if not GuiAllowed then begin
-        //     EmpLoan.Validate(Recommender);
-        // end;
         Clear(Employee);
         Employee.Get(EmpLoan."Employee No.");
         EmpLoan."Requested Loan Date" := Today;
@@ -781,28 +833,17 @@ codeunit 50002 "Loan Mgt."
         if EmpLoan1.FindFirst then
             Error(LoanError, EmpLoan1."No.");
         SalaryLevel.Get(EmpLoan."Job Title");
-        //control
-        if SendCancelBool then
-            ValidateDocument(EmpLoan);
+        ValidateDocument(EmpLoan);
         CalculateEligibleLoanAmount(EmpLoan);
         CalculateEMI(EmpLoan);
         CalculateDBR(EmpLoan, SalaryLevel);
-        // if EmpLoan.Recommender = '' then
-        //     Error('Recommender must not be blank.');
-        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
-            Error(APPROVED);
         //action
         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
             EmpLoan.TestField("Purpose of Advance Salary");
         if SendCancelBool then begin
-            if not (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::" ", EmpLoan."Approval Status"::Open]) then
-                Error(APPROVALERROR);
             EmpLoan."Approval Status" := EmpLoan."Approval Status"::Pending;
-            // if EmpLoan.Recommender = '' then
-            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
-            // else
-            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Pending);
             EmpLoan.Modify();
+            ApproverMgt.UpdateFirstApproverStatus(EmpLoan."No.");
             Message(APPROVALSENT);
         end else begin
             EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::"Pending");
@@ -1153,12 +1194,9 @@ codeunit 50002 "Loan Mgt."
         if IncomingDocument.FindFirst then
             repeat
                 AttachmentSetup.Reset;
-                //AttachmentSetup.SetRange("Table ID", DATABASE::"Employee Loan/Advance");
-                AttachmentSetup.SetRange(Mandatory, true);
-                //AttachmentSetup.SetRange(Type, EmpLoan."Loan Type");
-                //IF EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" THEN
-                // AttachmentSetup.SETFILTER("Purpose of Housing Loan",'%1|%2',AttachmentSetup."Purpose of Housing Loan",AttachmentSetup."Purpose of Housing Loan"::" ");
+                AttachmentSetup.Setfilter("Sub Type", Format(EmpLoan."Loan Type"));
                 AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
+                AttachmentSetup.SetRange(Mandatory, true);
                 if AttachmentSetup.FindFirst then begin
                     Error('Upload attachment for %1', IncomingDocument."Attachment Code");
                 end;
@@ -1185,6 +1223,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoanAdvance.Validate("Employee No.", No);
             EmpLoanAdvance.Validate("Employee Name in Nepali", Employee."Full Name (Nepali)");
             EmpLoanAdvance.Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
+            EmpLoanAdvance.Validate("Requested Loan Date", Today);
             EmpLoanAdvance.Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
             EmpLoanAdvance.Validate("Approval Status", EmpLoanAdvance."Approval Status"::"Pending");
             EmpLoanAdvance.Insert(true);
@@ -1198,6 +1237,8 @@ codeunit 50002 "Loan Mgt."
                 PAGE.Run(PAGE::"Employee Personal Loan Card", EmpLoanAdvance);
             Type::"Vehicle Loan":
                 PAGE.Run(PAGE::"Employee Vehicle Loan Card", EmpLoanAdvance);
+            Type::"Staff Social Loan":
+                PAGE.Run(PAGE::"Emp Staff Social Loan Card", EmpLoanAdvance);
         end;
     end;
 
@@ -1654,9 +1695,9 @@ codeunit 50002 "Loan Mgt."
         if EmployeeLoan.Disbursed then
             Error('Loan has already been disbursed.');
         LoanPageBuilder.AddRecord('Disbursement', EmpLoan);
-        LoanPageBuilder.ADdField('Disbursement', EmpLoan."Disbursement Date");
-        LoanPageBuilder.ADdField('Disbursement', EmpLoan."Disbursed Amount");
-        LoanPageBuilder.ADdField('Disbursement', EmpLoan."Account No.");
+        LoanPageBuilder.AddField('Disbursement', EmpLoan."Disbursement Date");
+        LoanPageBuilder.AddField('Disbursement', EmpLoan."Disbursed Amount");
+        LoanPageBuilder.AddField('Disbursement', EmpLoan."Account No.");
         LoanPageBuilder.RunModal;
         EmpLoan.SetView(LoanPageBuilder.GetView('Disbursement'));
         Evaluate(DisbursementDate, EmpLoan.GetFilter("Disbursement Date"));
@@ -1679,12 +1720,12 @@ codeunit 50002 "Loan Mgt."
     begin
         LoanPageBuilder.AddRecord('Security Document', EmpLoan);
         LoanPageBuilder.ADdField('Security Document', EmpLoan."Offer Letter Issued Date");
-        LoanPageBuilder.ADdField('Security Document', EmpLoan."Offer Letter Date(Nepali)");
+        // LoanPageBuilder.ADdField('Security Document', EmpLoan."Offer Letter Date(Nepali)");
         LoanPageBuilder.ADdField('Security Document', EmpLoan."Amount In Words (Nepali)");
         LoanPageBuilder.RunModal;
         EmpLoan.SetView(LoanPageBuilder.GetView('Security Document'));
         Evaluate(OfferLetterDate, EmpLoan.GetFilter("Offer Letter Issued Date"));
-        EmployeeLoan.Validate("Offer Letter Date(Nepali)", EmpLoan.GetFilter("Offer Letter Date(Nepali)"));
+        // EmployeeLoan.Validate("Offer Letter Date(Nepali)", EmpLoan.GetFilter("Offer Letter Date(Nepali)"));
         EmployeeLoan.Validate("Offer Letter Issued Date", OfferLetterDate);
         EmployeeLoan.Validate("Amount In Words (Nepali)", EmpLoan.GetFilter("Amount In Words (Nepali)"));
         EmployeeLoan.Modify;
@@ -1718,51 +1759,38 @@ codeunit 50002 "Loan Mgt."
             EmployeeLoan.Validate("Transportation Management off.", EmpLoan.GetFilter("Transportation Management off."));
         EmployeeLoan.Modify;
     end;
-    // procedure PopUpChangingApprover(EmployeeLoan: Record "Employee Loan/Advance")
-    // var
-    //     LoanPageBuilder: FilterPageBuilder;
-    //     EmpLoan: Record "Employee Loan/Advance";
-    //     DisbursementDate: Date;
-    //     DisbursedAmt: Decimal;
-    // begin
-    //     LoanPageBuilder.AddRecord('Change Approver', EmpLoan);
-    //     LoanPageBuilder.ADdField('Change Approver', EmpLoan.Approver);
-    //     if LoanPageBuilder.RunModal then begin
-    //         EmpLoan.SetView(LoanPageBuilder.GetView('Change Approver'));
-    //         if EmpLoan.GetFilter(Approver) = '' then
-    //             Error('Approver Code cannot be blank.');
-    //         EmployeeLoan.Validate(Approver, EmpLoan.GetFilter(Approver));
-    //         EmployeeLoan.Modify;
-    //         Message('Approver updated.');
-    //     end;
-    // end;
-    // procedure PopUpChangingApproverAllowance(AllowanceHeader: Record "Allowance Assignment Header")
-    // var
-    //     AllowancePageBuilder: FilterPageBuilder;
-    //     AllowanceHead: Record "Allowance Assignment Header";
-    // begin
-    //     AllowancePageBuilder.AddRecord('Change Approver', AllowanceHead);
-    //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Approver ID");
-    //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Change Approver Remarks");
-    //     if AllowancePageBuilder.RunModal then begin
-    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin /
-    //             AllowanceHead.SetView(AllowancePageBuilder.GetView('Change Approver'));
-    //             Employee.Get(HRMgt.GetEmployeeNo);
-    //             // if not Employee.Screener then
-    //             //     Error('You are not eligible to change approver.');
-    //             if AllowanceHead.GetFilter("Approver ID") = '' then
-    //                 Error('Approver Id cannot be blank.');
-    //             if AllowanceHead.GetFilter("Change Approver Remarks") = '' then
-    //                 Error('Change approver Remarks must have value');
-    //             AllowanceHeader.Validate("Change Approver Remarks", AllowanceHead.GetFilter("Change Approver Remarks"));
-    //             AllowanceHeader.Validate("Approver ID", AllowanceHead.GetFilter("Approver ID"));
-    //             AllowanceHeader.Modify;
-    //             Message('Approver updated.');
-    //         end else begin
-    //             Error('You cannot change the approver of Approval Status : %1', AllowanceHeader."Approval Status");
-    //         end;
-    //     end;
-    // end;
+
+    procedure CheckInsuranceAttachment(InsuranceNo: Code[20]; EmpNo: Code[20])
+    var
+        IncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.Find('-') then
+            repeat
+                IncomingDoc.Reset;
+                IncomingDoc.SetRange("No.", InsuranceNo);
+                IncomingDoc.SetRange("Employee Code", EmpNo);
+                IncomingDoc.SetRange("File Name", '');
+                if IncomingDoc.FindFirst then
+                    Error('Please upload mandatory attachments.');
+            until AttachmentSetup.Next = 0;
+    end;
+
+    procedure CheckLoanEligibility(Employee: Record Employee): Boolean
+    var
+        Eligible: Boolean;
+    begin
+        Eligible := true;
+        if not (Employee."Employment Type" in [Employee."Employment Type"::"Permanent"]) then
+            exit(false);
+        if Employee.Status <> employee.Status::Active then
+            exit(false);
+        OnAfterCheckLoanEligibility(Employee, Eligible);
+        exit(Eligible);
+    end;
 
     local procedure "----Json API----"()
     begin
@@ -1903,6 +1931,90 @@ codeunit 50002 "Loan Mgt."
     //             Evaluate(EMIValue, PropertyValue);
     //     end;
     // end;
+
+    procedure SendSettlementApproval(var loanSettelment: Record "Loan Settlement"; SendBool: Boolean)
+    var
+        ApproverMgt2: Codeunit "Approver Mgt";
+        CONFIRMATION: Label 'Do you want to proceed?';
+        EmpLoanAdv: Record "Employee Loan/Advance";
+        OutstandingAmt: Decimal;
+        loanSettlementDoc: Record "Loan Settlement";
+    begin
+        if GuiAllowed then
+            if not Confirm(CONFIRMATION, false) then
+                exit;
+        loanSettelment.TestField("Loan No.");
+        loanSettelment.TestField("Settlement Type");
+        loanSettelment.TestField("Settlement Amount");
+        loanSettelment.TestField(Remarks);
+        if SendBool then begin
+            // Validate loan is disbursed
+            if EmpLoanAdv.Get(loanSettelment."Loan No.") then begin
+                if not EmpLoanAdv.Disbursed then
+                    Error('Loan %1 must be disbursed before a settlement can be submitted.', loanSettelment."Loan No.");
+                if EmpLoanAdv.Settled then
+                    Error('Loan %1 is already fully settled.', loanSettelment."Loan No.");
+                loanSettlementDoc.SetRange("Loan No.", loanSettelment."Loan No.");
+                loanSettlementDoc.SetFilter("No.", '<>%1', loanSettelment."No.");
+                loanSettlementDoc.SetRange("Approval Status", loanSettlementDoc."Approval Status"::Pending);
+                if loanSettlementDoc.FindFirst() then
+                    Error('You have pending settlement request For loan no. %1', loanSettelment."Loan No.");
+            end;
+            // Validate settlement amount
+            if loanSettelment."Settlement Amount" <= 0 then
+                Error('Settlement Amount must be greater than 0.');
+            OutstandingAmt := GetLoanOutstandingAmount(loanSettelment."Loan No.");
+            if loanSettelment."Settlement Amount" > OutstandingAmt then
+                Error('Settlement Amount (%1) cannot exceed Outstanding Amount (%2).',
+                      loanSettelment."Settlement Amount", OutstandingAmt);
+            loanSettelment."Approval Status" := loanSettelment."Approval Status"::Pending;
+            ApproverMgt2.UpdateFirstApproverStatus(loanSettelment."No.");
+            Message('Settlement approval request has been sent.');
+        end else begin
+            loanSettelment.TestField("Approval Status", loanSettelment."Approval Status"::Pending);
+            loanSettelment.Validate("Approval Status", loanSettelment."Approval Status"::Open);
+            loanSettelment.Modify();
+            if GuiAllowed then
+                Message('Settlement approval request has been cancelled.');
+        end;
+    end;
+
+    procedure InsertSettelmentAttachmentLines(var EmpLoanSettelment: Record "Loan Settlement")
+    var
+        IncomingDocument: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, "Attachment Setup Type"::"Loan Settlement");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"Home Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Home Loan Settelment");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"vehicle Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"vehicle Loan Settelment");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"Staff Social Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Social Loan Settelment");
+        if EmpLoanSettelment."Loan Type" = EmpLoanSettelment."Loan Type"::"Personal Loan" then
+            AttachmentSetup.SetRange("Sub Type", AttachmentSetup."Sub Type"::"Personal Loan Settelment");
+        if AttachmentSetup.FindFirst then
+            repeat
+                IncomingDocument.Reset;
+                IncomingDocument.SetRange("Table ID", DATABASE::"Loan Settlement");
+                IncomingDocument.SetRange("No.", EmpLoanSettelment."No.");
+                IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                if not IncomingDocument.FindFirst then begin
+                    IncomingDocument.Reset;
+                    IncomingDocument.Init;
+                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                    IncomingDocument.Description := EmpLoanSettelment.TableName;
+                    IncomingDocument."Attachment Code" := AttachmentSetup."Attachment Code";
+                    IncomingDocument."No." := EmpLoanSettelment."No.";
+                    IncomingDocument."Employee Code" := EmpLoanSettelment."Employee No.";
+                    IncomingDocument."Employee Activity Type" := EmpLoanSettelment.Type::"Loan Settlement";
+                    IncomingDocument."Table ID" := DATABASE::"Loan Settlement";
+                    IncomingDocument.Insert(true);
+                end;
+            until AttachmentSetup.Next = 0;
+    end;
+
     local procedure InsertEmployeeLoanDetailsViaJson(EmpNo: Code[20])
     var
         LoanOutstanding: Record "Loan Outstanding from Finacle";
@@ -2037,9 +2149,132 @@ codeunit 50002 "Loan Mgt."
         end;
     end;
 
+    procedure LoanSettlementApproveReject(docNo: Code[20]; IsApprove: Boolean)
+    var
+        LoanSettlement: Record "Loan Settlement";
+        EmpLoan: Record "Employee Loan/Advance";
+        ApprovalHRMS: Record "Approval HRMS";
+        LoanSettlementEntry: Record "Loan Settlement Entry";
+    begin
+        if not LoanSettlement.Get(docNo) then
+            Error('Loan Settlement %1 not found.', docNo);
+
+        if IsApprove then begin
+            if EmpLoan.Get(LoanSettlement."Loan No.") then begin
+                // Post settlement entry for full audit trail
+                LoanSettlementEntry.Init();
+                LoanSettlementEntry."Entry No." := LoanSettlementEntry.GetNextEntryNo();
+                LoanSettlementEntry."Loan No." := EmpLoan."No.";
+                LoanSettlementEntry."Settlement Source No." := LoanSettlement."No.";
+                LoanSettlementEntry."Settlement Date" := Today;
+                LoanSettlementEntry."Settled Amount" := LoanSettlement."Settlement Amount";
+                LoanSettlementEntry."Settlement Type" := LoanSettlement."Settlement Type";
+                LoanSettlementEntry."Employee No." := EmpLoan."Employee No.";
+                LoanSettlementEntry."Loan Type" := EmpLoan."Loan Type";
+                LoanSettlementEntry."Created By" := UserId;
+                LoanSettlementEntry."Created DateTime" := CurrentDateTime;
+                LoanSettlementEntry.Insert(true);
+
+                // Recalculate outstanding from entries (authoritative)
+                EmpLoan.CalcFields("Total Settled Amount");
+                EmpLoan."Outstanding Amount" := EmpLoan."Disbursed Amount" - EmpLoan."Total Settled Amount";
+                if EmpLoan."Outstanding Amount" < 0 then
+                    EmpLoan."Outstanding Amount" := 0;
+
+                if (LoanSettlement."Settlement Type" = LoanSettlement."Settlement Type"::"Full Settlement") or
+                   (EmpLoan."Outstanding Amount" = 0)
+                then begin
+                    EmpLoan."Outstanding Amount" := 0;
+                    EmpLoan.Validate("Settlement Type", EmpLoan."Settlement Type"::"Full Settlement");
+                    EmpLoan.Validate(Settled, true);
+                    EmpLoan.Validate("Settlement Date", Today);
+                    EmpLoan.Validate("Settler User ID", UserId);
+                end else begin
+                    EmpLoan.Validate("Settlement Type", EmpLoan."Settlement Type"::"Partial Settlement");
+                end;
+                EmpLoan.Modify();
+
+                // Update settlement record with posted details
+                LoanSettlement."Settled Date" := Today;
+                LoanSettlement."Settler User ID" := UserId;
+                LoanSettlement.Modify();
+            end;
+        end else begin
+            // Reject all remaining Approval HRMS entries for this document
+            // ApprovalHRMS.Reset();
+            // ApprovalHRMS.SetRange("Document No.", docNo);
+            // ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Loan Settlement");
+            // ApprovalHRMS.SetFilter("Approval Status", '%1|%2',
+            //     ApprovalHRMS."Approval Status"::Created,
+            //     ApprovalHRMS."Approval Status"::Open);
+            // if ApprovalHRMS.FindSet() then
+            //     repeat
+            //         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+            //         ApprovalHRMS.Modify();
+            //     until ApprovalHRMS.Next() = 0;
+        end;
+    end;
+
+    /// <summary>
+    /// Returns the current outstanding loan balance for a given loan.
+    /// Calculated as Disbursed Amount minus the sum of all posted settlement entries.
+    /// Use this function wherever outstanding balance is needed to ensure consistency.
+    /// </summary>
+    procedure GetLoanOutstandingAmount(LoanNo: Code[20]): Decimal
+    var
+        EmpLoan: Record "Employee Loan/Advance";
+    begin
+        if EmpLoan.Get(LoanNo) then begin
+            EmpLoan.CalcFields("Total Settled Amount");
+            exit(EmpLoan."Disbursed Amount" - EmpLoan."Total Settled Amount");
+        end;
+        exit(0);
+    end;
+
     [IntegrationEvent(false, false)]
     local procedure OnCalculateFieldsOnBeforeCalculateGrossSalary(var EmpLoan: Record "Employee Loan/Advance"; var IsHandled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckLoanEligibility(Employee: Record Employee; var Eligible: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateEligibleHomeLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCheckHomeLoanEligibility(var EmpLoan: Record "Employee Loan/Advance")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateEligibleVehicleLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGetInterestRate(StartingDate: Date; LoanType: Enum "Loan Type"; LoanAmount: Decimal; var InterestRate: Decimal; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCalculateEligibleStaffSocialLoanAmount(var EmpLoan: Record "Employee Loan/Advance"; var Ishandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertEmployeeLoan(var EmpLoan: Record "Employee Loan/Advance"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnSkipSalaryAdvanceControl(var SkipSalaryLoanControl: Boolean)
+    begin
+    end;
+
 
 }

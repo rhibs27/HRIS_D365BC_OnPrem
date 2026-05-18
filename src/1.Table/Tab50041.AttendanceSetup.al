@@ -20,6 +20,7 @@ table 50041 "Attendance Setup"
         {
             Caption = 'Per Day Late tolerance (Minutes)';
             MinValue = 0;
+            DecimalPlaces = 9;
         }
         field(6; "Per Month Late Tolerance"; Decimal)
         {
@@ -126,6 +127,12 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(109; "Default Work Shift"; Code[20])
+        {
+            TableRelation = "Employee Work Shift".Code;
+            DataClassification = ToBeClassified;
+        }
+
     }
 
     keys

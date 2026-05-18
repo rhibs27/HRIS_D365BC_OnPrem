@@ -4,7 +4,7 @@ page 50159 "Employee Home Loan List"
     DataCaptionFields = "No.", "Employee No.", "Employee Name";
     PageType = List;
     SourceTable = "Employee Loan/Advance";
-    SourceTableView = where("Loan Type" = const("Home Loan"));
+    SourceTableView = sorting("No.") order(descending) where("Loan Type" = const("Home Loan"));
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -34,61 +34,12 @@ page 50159 "Employee Home Loan List"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Job Title"; Rec."Job Title")
-                {
-                    ToolTip = 'Specifies the value of the Job Title field.';
-                    ApplicationArea = All;
-                }
-                field(Department; Rec."Department Code")
-                {
-                    ToolTip = 'Specifies the value of the Department field.';
-                    ApplicationArea = All;
-                }
-                field("Date of Birth"; Rec."Date of Birth")
-                {
-                    ToolTip = 'Specifies the value of the Date of Birth field.';
-                    ApplicationArea = All;
-                }
-                field(Gender; Rec.Gender)
-                {
-                    ToolTip = 'Specifies the value of the Gender field.';
-                    ApplicationArea = All;
-                }
-                field(Age; Rec.Age)
-                {
-                    ToolTip = 'Specifies the value of the Age field.';
-                    ApplicationArea = All;
-                }
                 field("Requested Loan Date"; Rec."Requested Loan Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Loan Date field.';
                     ApplicationArea = All;
                 }
-                field("Confirmation Service Period"; Rec."Confirmation Service Period")
-                {
-                    ToolTip = 'Specifies the value of the Confirmation Service Period field.';
-                    ApplicationArea = All;
-                }
-                field("Purpose of Housing Loan"; Rec."Purpose of Housing Loan")
-                {
-                    ToolTip = 'Specifies the value of the Purpose of Housing Loan field.';
-                    ApplicationArea = All;
-                }
-                field("Screened Date"; Rec."Screened Date")
-                {
-                    ToolTip = 'Specifies the value of the Screened Date field.';
-                    ApplicationArea = All;
-                }
-                field("Repayment Mode"; Rec."Repayment Mode")
-                {
-                    ToolTip = 'Specifies the value of the Repayment Mode field.';
-                    ApplicationArea = All;
-                }
-                field("Commercial Value of Property"; Rec."Commercial Value of Property")
-                {
-                    ToolTip = 'Specifies the value of the Commercial Value of Property field.';
-                    ApplicationArea = All;
-                }
+
                 field("Insurance Tieup"; Rec."Insurance Tieup")
                 {
                     ToolTip = 'Specifies the value of the Insurance Tieup field.';
@@ -99,26 +50,6 @@ page 50159 "Employee Home Loan List"
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-                // field(Recommender; Rec.Recommender)
-                // {
-                //     ToolTip = 'Specifies the value of the Recommender field.';
-                //     ApplicationArea = All;
-                // }
-                // field(Approver; Rec.Approver)
-                // {
-                //     ToolTip = 'Specifies the value of the Approver field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Recommender Name"; Rec."Recommender Name")
-                // {
-                //     ToolTip = 'Specifies the value of the Recommender Name field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Approver Name"; Rec."Approver Name")
-                // {
-                //     ToolTip = 'Specifies the value of the Approver Name field.';
-                //     ApplicationArea = All;
-                // }
                 field(Settled; Rec.Settled)
                 {
                     ToolTip = 'Specifies the value of the Settled field.';
@@ -139,28 +70,12 @@ page 50159 "Employee Home Loan List"
                     ToolTip = 'Specifies the value of the Disbursement Date field.';
                     ApplicationArea = All;
                 }
-                field("Applied Loan"; Rec."Applied Loan/Advance")
-                {
-                    ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
-                    ApplicationArea = All;
-                }
-                field(EMI; Rec.EMI)
-                {
-                    ToolTip = 'Specifies the value of the EMI field.';
-                    ApplicationArea = All;
-                }
-                field("DBR Ratio"; Rec."DBR Ratio")
-                {
-                    ToolTip = 'Specifies the value of the DBR Ratio field.';
-                    ApplicationArea = All;
-                }
             }
         }
         area(FactBoxes)
         {
             systempart(Control26; Links)
             {
-                Visible = false;
                 ApplicationArea = All;
             }
             systempart(Control27; Notes)
@@ -174,130 +89,115 @@ page 50159 "Employee Home Loan List"
     {
         area(Creation)
         {
-            action(Open)
+            group("Filter By Status")
             {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Open action.';
-                ApplicationArea = All;
+                Caption = 'Filter By Status';
+                Image = FilterLines;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
+                action(Open)
+                {
+                    Caption = 'Open';
+                    ToolTip = 'Executes the Open action.';
+                    ApplicationArea = All;
+                    Image = Open;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
 
-                    Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Verified)
-            {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Verified action.';
-                ApplicationArea = All;
-                Visible = false;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action("Pending Approval")
+                {
+                    Caption = 'Pending Approval';
+                    ToolTip = 'Executes the Pending Approval action.';
+                    ApplicationArea = All;
+                    Image = PendingApproval;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action(Approved)
+                {
+                    Caption = 'Approved';
+                    Image = Approve;
+                    ToolTip = 'Executes the Approved action.';
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
 
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    // Rec.FilterGroup(0);
-                end;
-            }
-            action("Pending Approval")
-            {
-                Image = PendingApproval;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Pending Approval action.';
-                ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action(Rejected)
+                {
+                    Caption = 'Rejected';
+                    Image = DeleteQtyToHandle;
+                    ToolTip = 'Executes the Rejected action.';
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action(WithDrawn)
+                {
+                    Caption = 'Withdrawn';
+                    Image = Return;
+                    ToolTip = 'Executes the withdrawn action.';
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Recommended)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Recommended action.';
-                ApplicationArea = All;
-                Visible = false;
-
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-                    // Rec.FilterGroup(0);
-                end;
-            }
-            action(Approved)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Approved action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Rejected)
-            {
-                Image = DeleteQtyToHandle;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Rejected action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Return)
-            {
-                Image = Return;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Return action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    //Rec.ReOpenDocument(Rec);
-                end;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        ClearAll();
+                        Rec.SetRange("Approval Status", Rec."Approval Status"::Withdrawn);
+                        Rec.FilterGroup(0);
+                    end;
+                }
+                action("Clear Filter")
+                {
+                    Caption = 'Clear Filter';
+                    ApplicationArea = All;
+                    Image = ClearFilter;
+                    ToolTip = 'Executes the Clear filter action.';
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    trigger OnAction()
+                    begin
+                        Rec.FilterGroup(2);
+                        rec.SetRange("Approval Status");
+                        Rec.FilterGroup(0);
+                    end;
+                }
             }
         }
     }
-
-    trigger OnOpenPage()
-    begin
-        /*FILTERGROUP(2);
-        SETFILTER("Approval Status",'<>%1',"Approval Status"::Open);
-        FILTERGROUP(0);*/
-    end;
 }

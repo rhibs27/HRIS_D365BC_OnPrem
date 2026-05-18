@@ -283,8 +283,10 @@ table 50124 Leave
                         Clear("Child's Gender");
                     end;
                 end else
-                    if LeaveTypeVar.Get("Leave Code") then
-                        Validate("Leave Description", LeaveTypeVar.Description)
+                    if LeaveTypeVar.Get("Leave Code") then begin
+                        Validate("Leave Description", LeaveTypeVar.Description);
+                        Validate("Pay Type", LeaveTypeVar."Pay Type");
+                    end;
             end;
         }
         field(52; "Leave Description"; Text[50])

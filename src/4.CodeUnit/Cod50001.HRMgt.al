@@ -2985,6 +2985,8 @@ codeunit 50001 "HR Mgt."
             EmployeeInsuranceInformation."Employee Name" := EmployeeLoanAdvance."Employee Name";
             EmployeeInsuranceInformation."Linked Home Loan Account No." := EmployeeLoanAdvance."No.";
             EmployeeInsuranceInformation."Is Home Loan TieUp" := true;
+            EmployeeInsuranceInformation.Validate(Type, EmployeeInsuranceInformation.Type::Insurance);
+            EmployeeInsuranceInformation.Validate("Approval Status", EmployeeInsuranceInformation."Approval Status"::Open);
             EmployeeInsuranceInformation.Insert(true);
             EmployeeInsuranceInfoPage.SetTableView(EmployeeInsuranceInformation);
             EmployeeInsuranceInfoPage.Run;
@@ -3054,14 +3056,12 @@ codeunit 50001 "HR Mgt."
             DetailedEmpledger.SetRange("Employee Ledger Entry No.", EmployeeLedgerEntries."Entry No.");
             if DetailedEmpledger.FindFirst() then
                 TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term") - DetailedEmpledger."Pay Cycle Period"
-            else
-                TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
         end
-        else begin
-            if (PRSetup."Payroll Fiscal Year Start Date" < Employee."Employment Date") and
+        else if (PRSetup."Payroll Fiscal Year Start Date" < Employee."Employment Date") and
                             (PRSetup."Payroll Fiscal Year End Date" > Employee."Employment Date") then
-                TempRetirementFund."Projection Month" := PayrollReportMgt.GetFirstPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
-        end;
+            TempRetirementFund."Projection Month" := PayrollReportMgt.GetFirstPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term")
+        else
+            TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
         Employee.Reset();
         Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
         Employee.CalcFields("CIT Deposit", "RF Deposit", "Total Retirement Contribution", "PF Contribution (Office)", "PF Contribution", "Lump Sum CIT");
@@ -3895,16 +3895,18 @@ codeunit 50001 "HR Mgt."
 
     procedure GetAgeInteger(BirthDate: Date; ToDate: Date; var year: Integer; var Month: Integer; var Days: Integer)
     begin
-        year := Date2DMY(ToDate, 3) - Date2DMY(BirthDate, 3);
-        Month := Date2DMY(ToDate, 2) - Date2DMY(BirthDate, 2);        //Total Service = Employment date - Today's date
-        Days := Date2DMY(ToDate, 1) - Date2DMY(BirthDate, 1) + 1;  // include today
-        if Days < 0 then begin
-            Month := Month - 1;
-            Days := Date2DMY(CalcDate('<CM>', BirthDate), 1) - Abs(Days);
-        end;
-        if Month < 0 then begin
-            year := year - 1;
-            Month := 12 - Abs(Month);
+        if (ToDate <> 0D) And (BirthDate <> 0D) then begin
+            year := Date2DMY(ToDate, 3) - Date2DMY(BirthDate, 3);
+            Month := Date2DMY(ToDate, 2) - Date2DMY(BirthDate, 2);        //Total Service = Employment date - Today's date
+            Days := Date2DMY(ToDate, 1) - Date2DMY(BirthDate, 1) + 1;  // include today
+            if Days < 0 then begin
+                Month := Month - 1;
+                Days := Date2DMY(CalcDate('<CM>', BirthDate), 1) - Abs(Days);
+            end;
+            if Month < 0 then begin
+                year := year - 1;
+                Month := 12 - Abs(Month);
+            end;
         end;
     end;
 
@@ -4060,6 +4062,16 @@ codeunit 50001 "HR Mgt."
             end;
         OnBeforeInsertEmpActLedger(EmpActType, DocNo, EmpNo, ActDate, EmpActLedgerEntry);
         EmpActLedgerEntry.insert();
+    end;
+
+    procedure DeleteExistingActivityLedgerEntries(DocumentType: Enum "Employee Activity Type"; DocumentNo: Code[20])
+    var
+        EmpActLedgerEntry: Record "Emp. Act. Ledger Entry";
+    begin
+        EmpActLedgerEntry.Reset();
+        EmpActLedgerEntry.SetRange("Document Type", DocumentType);
+        EmpActLedgerEntry.SetRange("Document No.", DocumentNo);
+        EmpActLedgerEntry.DeleteAll();
     end;
 
     procedure CancelEmpActLedgerForDateRange(EmpActType: Enum "Employee Activity Type";
