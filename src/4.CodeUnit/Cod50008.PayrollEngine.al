@@ -1463,6 +1463,7 @@ codeunit 50008 "Payroll Engine"
     var
         SalaryDeductionEntries: Record "Salary Deduction Entry";
         PayCyclePeriod, PreviousPayCyclePeriod : Record "Pay Cycle Period";
+        EmployeeAttendance: Record "Employee Attendance & Activity";
     begin
         if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then;
         if PreviousPayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period" - 1) then;
@@ -1489,6 +1490,13 @@ codeunit 50008 "Payroll Engine"
 
             SalaryDeductionEntries.SetRange("Deduction Date", PreviousPayCyclePeriod."Pay Date", PreviousPayCyclePeriod."End Date");
             PayrollLine.Validate("Prior Absent Days", SalaryDeductionEntries.Count());
+
+            EmployeeAttendance.Reset();
+            EmployeeAttendance.SetRange("Attendance Date", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
+            EmployeeAttendance.SetRange("Employee No.", PayrollLine."Employee No.");
+            EmployeeAttendance.SetRange("Pay Type", "Leave Pay Type"::Paid);
+            EmployeeAttendance.SetFilter("Pending Leave Request Doc No.", '<>%1', '');
+            PayrollLine.Validate("Leave Days", PayrollLine."Leave Days" + EmployeeAttendance.Count);
         end;
     end;
 

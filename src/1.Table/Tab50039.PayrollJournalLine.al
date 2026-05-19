@@ -412,6 +412,8 @@ table 50039 "Payroll Journal Line"
                 if "Employee No." <> '' then begin
                     Employee.Get("Employee No.");
                     Validate("Employee Name", Employee.FullName);
+                    Validate("Deputation On", Employee."Deputation on");
+                    Validate("Deputation Value", Employee."Deputation On Code");
                     TestField("From Date");
                     TestField("To Date");
                     if not PayrollEngine.IsValidEmployee(Employee, "From Date", "To Date") then

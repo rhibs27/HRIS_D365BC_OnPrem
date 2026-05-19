@@ -1610,7 +1610,7 @@ table 50027 "Payroll Line"
         GetPayrollHeader;
         Employee.Get("Employee No.");
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
+        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment, PayrollHeader.Type::Resignation]) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         Employee.TestField("Bank Account No.");
