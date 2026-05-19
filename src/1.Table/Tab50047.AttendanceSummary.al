@@ -114,7 +114,6 @@ table 50047 "Attendance Summary"
         field(19; "Tour Day"; Decimal)
         {
             CalcFormula = sum("Employee Attendance & Activity"."Tour Day" where("Employee No." = field("Employee No."),
-                                                                                 "Day Type" = const("Working Day"),
                                                                                  "Attendance Date" = field("Date Filter"),
                                                                                  "Tour Day" = filter(<> 0)));
             Editable = false;
@@ -286,6 +285,14 @@ table 50047 "Attendance Summary"
                                                                     "Attendance Date" = field("Date Filter"),
                                                                     "Late Deduction" = filter(true)));
         }
+        field(41; "Training Day"; Decimal)
+        {
+            CalcFormula = sum("Employee Attendance & Activity"."Training Day" where("Employee No." = field("Employee No."),
+                                                                                 "Attendance Date" = field("Date Filter"),
+                                                                                 "Training Day" = filter(<> 0)));
+            Editable = false;
+            FieldClass = FlowField;
+        }
     }
     keys
     {
@@ -344,8 +351,7 @@ table 50047 "Attendance Summary"
     local procedure GetAttedanceDate()
     begin
         if AttendanceHeader.Get("Document No.") then begin
-            Validate("From Date", AttendanceHeader."From Date");
-            Validate("To Date", AttendanceHeader."To Date")
+            CopyFromAttendanceHeader(AttendanceHeader)
         end;
     end;
 }

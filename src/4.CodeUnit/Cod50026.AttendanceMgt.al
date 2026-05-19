@@ -25,6 +25,20 @@ codeunit 50026 "Attendance Mgt"
         exit(true);
     end;
 
+    procedure DailyAttendanceUpdateLeave(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Boolean
+    var
+        ProcessDailyAttendance: Report "Process Daily Attendance";
+        Employee: Record Employee;
+    begin
+        Employee.SetRange("No.", EmployeeNo);
+        Employee.SetFilter("Date Filter", '%1..%2', StartDate, EndDate);
+        ProcessDailyAttendance.SetTableView(Employee);
+        ProcessDailyAttendance.UseRequestPage(false);
+        ProcessDailyAttendance.SetFutureProcess(true);
+        ProcessDailyAttendance.Run();
+        exit(true);
+    end;
+
     procedure GetPresentDays(EmpCode: Code[20]; PStartDate: Date; PEndDate: Date): Decimal
     var
         EmpAtt: Record "Employee Attendance & Activity";
@@ -78,6 +92,32 @@ codeunit 50026 "Attendance Mgt"
         if EmpAtt.FindFirst() then
             if EmpAtt."Present Day" <> 0 then
                 exit(true);
+    end;
+
+    procedure CheckEmployeeAbsent(EmpCode: Code[20]; AttendanceDate: Date): Boolean
+    var
+        EmpAtt: Record "Employee Attendance & Activity";
+    begin
+        EmpAtt.Reset();
+        EmpAtt.SetRange("Employee No.", EmpCode);
+        EmpAtt.SetRange("Attendance Date", AttendanceDate);
+        if EmpAtt.FindFirst() then begin
+            if EmpAtt."Absent Day" = 1 then
+                exit(true)
+        end else
+            exit(true);
+    end;
+
+    procedure CheckEmployeeLeave(EmpCode: Code[20]; AttendanceDate: Date): Boolean
+    var
+        EmpAtt: Record "Employee Attendance & Activity";
+    begin
+        EmpAtt.Reset();
+        EmpAtt.SetRange("Employee No.", EmpCode);
+        EmpAtt.SetRange("Attendance Date", AttendanceDate);
+        if EmpAtt.FindFirst() then
+            if EmpAtt."Leave Day" <> 0 then
+                exit(true)
     end;
 
     procedure GetNonWorkingDaysFromAttendance(StartDate: Date; EndDateDate: Date; DeputationOn: Enum "Deputation Type"; DeputationOnCode: Code[20]; ProvinceCode: Code[20]; EmpCode: Code[20]): Integer
@@ -301,6 +341,33 @@ codeunit 50026 "Attendance Mgt"
     procedure ReturnCalendarDescription(): Text
     begin
         exit(CalendarDescription);
+    end;
+
+    procedure GetWeekendCount(StartDate: Date; EndDate: Date): Integer
+    var
+        BaseCalChange: Record "Base Calendar Change";
+        TargetDate: Date;
+        Counter: Integer;
+    begin
+        Counter := 0;
+        BaseCalChange.SetRange("Recurring System", BaseCalChange."Recurring System"::"Weekly Recurring");
+        if BaseCalChange.FindFirst() then begin
+            for TargetDate := StartDate to EndDate do begin
+                if DATE2DWY(TargetDate, 1) = BaseCalChange.Day then
+                    Counter += 1;
+            end;
+            exit(Counter);
+        end;
+    end;
+
+    procedure GetTotalWorkingDays(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Integer
+    var
+        TotalDays: Integer;
+        NonWorkingDays: Integer;
+    begin
+        TotalDays := EndDate - StartDate + 1;
+        NonWorkingDays := LeaveMgt.GetNonWorkingDays(StartDate, EndDate, EmployeeNo);
+        exit(TotalDays - NonWorkingDays);
     end;
 
     var

@@ -80,6 +80,7 @@ codeunit 50025 "Shift Assignment Mgt"
         ShiftAssignLine.Insert();
         ShiftAssignmentLine.Validate("Substitute Type", ShiftAssignmentLine."Substitute Type"::Substituted);
         ShiftAssignmentLine.Modify();
+        OnAfterSubstituteShiftLine(ShiftAssignmentLine, EmployeeNo);
         Message('%1 is Successfully Substituted by %2', ShiftAssignmentLine."Employee Name", ShiftAssignLine."Employee Name");
     end;
 
@@ -122,34 +123,38 @@ codeunit 50025 "Shift Assignment Mgt"
         ApproverMgt: Codeunit "Approver Mgt";
         EmpAttendance: Record "Employee Attendance & Activity";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        Ishandled: Boolean;
     begin
-        ShiftAssignmentHeader.Get(DocumentNo);
-        ShiftLine.Reset;
-        ShiftLine.SetRange("No.", DocumentNo);
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::"Pending");
-        if ShiftLine.Findset() then
-            repeat
-                if Approved then begin
-                    EmpAttendance.Reset();
-                    EmpAttendance.SetRange("Attendance Date", ShiftLine."Roster Date");
-                    EmpAttendance.SetRange("Employee No.", ShiftLine."Employee No");
-                    if EmpAttendance.FindSet() then
-                        repeat
-                            EmpAttendance.Delete();
-                        until EmpAttendance.Next() = 0;
-                    ShiftLine.Validate("Approval Status", ShiftLine."Approval Status"::Approved);
-                    ShiftLine.Validate("Approved Date", Today);
-                    ShiftLine.Modify();
-                    if ShiftLine."Roster Date" <= Today then
-                        AttendanceMgt.DailyAttendanceUpdate(ShiftLine."Roster Date", ShiftLine."Roster Date", ShiftLine."Employee No");
-                end;
-            until ShiftLine.Next() = 0;
-        if not Approved then begin
-            ShiftLine.ModifyAll("Approval Status", ShiftLine."Approval Status"::open);
-            ApprovalLine.Reset();
-            ApprovalLine.SetRange("Document No.", DocumentNo);
-            ApprovalLine.DeleteAll(true);
-            ApproverMgt.InsertApproval(ShiftAssignmentHeader."Employee No.", DocumentNo, ShiftAssignmentHeader."Type"::"Shift Assignment", ShiftAssignmentHeader."Approval Status"::open);
+        OnBeforeApproveRejectShiftLine(Approved, DocumentNo, Ishandled);
+        if not Ishandled then begin
+            ShiftAssignmentHeader.Get(DocumentNo);
+            ShiftLine.Reset;
+            ShiftLine.SetRange("No.", DocumentNo);
+            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::"Pending");
+            if ShiftLine.Findset() then
+                repeat
+                    if Approved then begin
+                        EmpAttendance.Reset();
+                        EmpAttendance.SetRange("Attendance Date", ShiftLine."Roster Date");
+                        EmpAttendance.SetRange("Employee No.", ShiftLine."Employee No");
+                        if EmpAttendance.FindSet() then
+                            repeat
+                                EmpAttendance.Delete();
+                            until EmpAttendance.Next() = 0;
+                        ShiftLine.Validate("Approval Status", ShiftLine."Approval Status"::Approved);
+                        ShiftLine.Validate("Approved Date", Today);
+                        ShiftLine.Modify();
+                        if ShiftLine."Roster Date" <= Today then
+                            AttendanceMgt.DailyAttendanceUpdate(ShiftLine."Roster Date", ShiftLine."Roster Date", ShiftLine."Employee No");
+                    end;
+                until ShiftLine.Next() = 0;
+            if not Approved then begin
+                ShiftLine.ModifyAll("Approval Status", ShiftLine."Approval Status"::open);
+                ApprovalLine.Reset();
+                ApprovalLine.SetRange("Document No.", DocumentNo);
+                ApprovalLine.DeleteAll(true);
+                ApproverMgt.InsertApproval(ShiftAssignmentHeader."Employee No.", DocumentNo, ShiftAssignmentHeader."Type"::"Shift Assignment", ShiftAssignmentHeader."Approval Status"::open);
+            end;
         end;
     end;
 
@@ -170,27 +175,19 @@ codeunit 50025 "Shift Assignment Mgt"
     var
         ShiftLine: Record "Shift Line";
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        EmployeeWorkShift: Code[20];
     begin
-        PGSetup.Get();
-        if PGSetup."Use Allowance Configuration" then begin
-            AssignmentMemoLedgerEntry.SetLoadFields("Employee Activity Type", Reversed, "Employee No.", "Employee Work Shift", "Posting Date", "Substituted Employee No.");
-            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Shift Assignment Memo");
-            AssignmentMemoLedgerEntry.SetRange(Reversed, false);
-            AssignmentMemoLedgerEntry.SetRange("Employee No.", EmployeeNo);
-            AssignmentMemoLedgerEntry.SetRange("Posting Date", ShiftDate);
-            AssignmentMemoLedgerEntry.SetRange("Substituted Employee No.", '');
-            exit(AssignmentMemoLedgerEntry."Employee Work Shift");
-        end else begin
-            ShiftLine.Reset();
-            ShiftLine.SetRange("Employee No", EmployeeNo);
-            ShiftLine.SetRange("Roster Date", ShiftDate);
-            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-            ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-            if ShiftLine.FindFirst() then
-                exit(ShiftLine."Employee Work Shift")
-        end;
+        ShiftLine.Reset();
+        ShiftLine.SetRange("Employee No", EmployeeNo);
+        ShiftLine.SetRange("Roster Date", ShiftDate);
+        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+        ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
+        if ShiftLine.FindFirst() then
+            exit(ShiftLine."Employee Work Shift");
         Employee.Get(EmployeeNo);
-        exit(Employee."Employee Work Shift");
+        EmployeeWorkShift := Employee."Employee Work Shift";
+        OnAfterGetEmployeeWorkShift(EmployeeNo, ShiftDate, EmployeeWorkShift);
+        exit(EmployeeWorkShift);
     end;
 
     procedure CheckWorkShiftFields(EmployeeWorkShift: Record "Employee Work Shift");
@@ -203,9 +200,23 @@ codeunit 50025 "Shift Assignment Mgt"
         EmployeeWorkShift.TestField("Winter End Time");
     end;
 
+    procedure ReturnShiftStartTime(ShiftDate: date; var WorkShift: Record "Employee Work Shift"): Time
+    begin
+        if HRMgt.IsAlternateShift(ShiftDate, WorkShift) then begin
+            exit(WorkShift."Alternate start Time");
+        end else begin
+            exit(WorkShift."Start Time");
+        end;
+    end;
+
     procedure ReturnShiftEndTime(ShiftDate: date; var WorkShift: Record "Employee Work Shift"): Time
     begin
-        if HRMgt.IsWinter(ShiftDate, WorkShift) then begin
+        if HRMgt.IsAlternateShift(ShiftDate, WorkShift) then begin
+            if HRMgt.IsFriday(ShiftDate) then
+                exit(WorkShift."Alternate Friday End Time")
+            else
+                exit(WorkShift."Alternate End Time");
+        end else if HRMgt.IsWinter(ShiftDate, WorkShift) then begin
             if HRMgt.IsFriday(ShiftDate) then
                 exit(WorkShift."Friday End Time")
             else
@@ -218,18 +229,46 @@ codeunit 50025 "Shift Assignment Mgt"
         end;
     end;
 
-    procedure ProcessDailyAttendanceForShiftSubstitute(RosterDate: Date; EmployeeNo: Code[20])
+    procedure ProcessDailyAttendanceForShiftSubstitute(FromDate: Date; ToDate: Date; EmployeeNo: Code[20])
+    var
+        IsHandled: Boolean;
     begin
-        if RosterDate <= Today then begin
-            EmpAttendance.Reset();
-            EmpAttendance.SetRange("Attendance Date", RosterDate);
-            EmpAttendance.SetRange("Employee No.", EmployeeNo);
-            if EmpAttendance.FindSet() then
-                repeat
-                    EmpAttendance.Delete();
-                until EmpAttendance.Next() = 0;
-            AttendanceMgt.DailyAttendanceUpdate(RosterDate, RosterDate, EmployeeNo);
+        OnBeforeProcessDailyAttendanceForShiftSubstitute(IsHandled);
+        if IsHandled then
+            exit;
+        EmpAttendance.Reset();
+        EmpAttendance.SetRange("Attendance Date", FromDate, ToDate);
+        EmpAttendance.SetRange("Employee No.", EmployeeNo);
+        if EmpAttendance.FindSet() then
+            repeat
+                EmpAttendance.Delete();
+            until EmpAttendance.Next() = 0;
+        if FromDate <= Today then begin
+            if ToDate > Today then
+                AttendanceMgt.DailyAttendanceUpdate(FromDate, Today, EmployeeNo)
+            else
+                AttendanceMgt.DailyAttendanceUpdate(FromDate, ToDate, EmployeeNo)
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterGetEmployeeWorkShift(EmployeeNo: Code[20]; ShiftDate: Date; var EmployeeWorkShift: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterSubstituteShiftLine(Var ShiftAssignmentLine: Record "Shift Line"; EmployeeNo: Code[20])
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeApproveRejectShiftLine(Approve: Boolean; DocumentNo: Code[20]; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeProcessDailyAttendanceForShiftSubstitute(var IsHandled: Boolean)
+    begin
     end;
 
     var

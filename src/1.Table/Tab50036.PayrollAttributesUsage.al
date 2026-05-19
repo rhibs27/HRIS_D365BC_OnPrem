@@ -7,11 +7,12 @@ table 50036 "Payroll Attributes Usage"
         {
             NotBlank = true;
             TableRelation = "Payroll Attributes";
-
             trigger OnValidate()
             begin
-                if PayrollAtt.Get(Code) then
-                    Validate("Payroll Type", PayrollAtt."Payroll Type")
+                if PayrollAtt.Get(Code) then begin
+                    Validate("Payroll Type", PayrollAtt."Payroll Type");
+                    Validate(Description, PayrollAtt.Description);
+                end
                 else
                     Clear("Payroll Type");
             end;
@@ -100,6 +101,9 @@ table 50036 "Payroll Attributes Usage"
         }
         field(12; Formula; Code[100])
         {
+            CalcFormula = lookup("Payroll Attributes".Formula where(Code = field(Code)));
+            Editable = false;
+            FieldClass = FlowField;
             trigger OnValidate()
             begin
                 Amount := 0;

@@ -33,7 +33,7 @@ report 50019 "Trainee Traning Hours"
                     TrainingLine.SetRange("Employee Code", "Training Attendance"."Employee No.");
                     if TrainingLine.FindFirst then begin
                         TrainingType := Format(TrainingLine."Training Type");
-                        EmployeeName := TrainingLine.Name;
+                        EmployeeName := TrainingLine."Employee Name";
                     end;
 
                     TrainingLine.Reset;

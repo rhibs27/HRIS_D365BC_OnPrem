@@ -13,13 +13,13 @@ report 50018 "Payment Memo"
             column(StartDate_TrainingHeader; Format("Training Header"."Start Date")) { }
             column(EndDate_TrainingHeader; Format("Training Header"."End Date")) { }
             column(Venue_TrainingHeader; "Training Header".Venue) { }
-            column(Vendor_TrainingHeader; "Training Header".Vendor) { }
-            column(VendorName_TrainingHeader; "Training Header"."Vendor Name") { }
+            column(Vendor_TrainingHeader; "Training Header"."Institute Code") { }
+            column(VendorName_TrainingHeader; "Training Header"."Institute Name") { }
             column(TotalNoofParticipant_TrainingHeader; "Training Header"."Total No. of Participant") { }
             column(ActualTrainerCost_TrainingHeader; "Training Header"."Actual Trainer Cost") { }
             column(ActualOtherCost_TrainingHeader; "Training Header"."Actual Other Cost") { }
             column(ActualTrainingCost_TrainingHeader; "Training Header"."Actual Training Cost") { }
-            column(ActualTotalBudget_TrainingHeader; "Training Header"."Actual Total Budget") { }
+            column(ActualTotalBudget_TrainingHeader; "Training Header"."Actual Total Cost") { }
             column(FunctionalTitle; NewFunctionalTitle) { }
             column(ApprovedDate; Format(NewApprovedDate)) { }
             column(TrainerName; NewTrainerName) { }
@@ -48,7 +48,7 @@ report 50018 "Payment Memo"
                 column(PaymentMode_TrainingLine; "Training Line"."Payment Mode") { }
                 column(Amount_TrainingLine; "Training Line".Amount) { }
                 column(VendorInvoiceNo_TrainingLine; "Training Line"."Vendor Invoice No.") { }
-                column(Name_TrainingLine; "Training Line".Name) { }
+                column(Name_TrainingLine; "Training Line"."Employee Name") { }
                 column(Type_TrainingLine; "Training Line".Type) { }
 
                 trigger OnAfterGetRecord()
@@ -102,7 +102,7 @@ report 50018 "Payment Memo"
                 TrainingLine.SetRange(Type, TrainingLine.Type::Trainer);
                 if TrainingLine.FindFirst then
                     repeat
-                        TrainerName += TrainingLine.Name + ',';
+                        TrainerName += TrainingLine."Employee Name" + ',';
                     until TrainingLine.Next = 0;
 
                 if StrLen(FunctionalTitle) > 0 then

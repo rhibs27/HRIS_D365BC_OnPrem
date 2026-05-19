@@ -26,7 +26,8 @@ table 50118 "Shift Line"
             else if ("Deputation Type" = filter("Deputation Type"::Department)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
             else if ("Deputation Type" = filter("Deputation Type"::Unit)) Employee."No." where("Unit Code" = field("Deputation Code"))
             else if ("Deputation Type" = filter("Deputation Type"::"Extension Counter")) Employee."No." where("Extension Counter Code" = field("Deputation Code"))
-            else if ("Deputation Type" = filter("Deputation Type"::Province)) Employee."No." where("Deputation On Code" = field("Deputation Code"));
+            else if ("Deputation Type" = filter("Deputation Type"::Province)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
+            else if ("Deputation Type" = filter("Deputation Type"::" ")) Employee."No." where(Status = filter("Employee Status"::Active));
             trigger OnValidate()
             var
                 Employee: Record Employee;
@@ -151,8 +152,17 @@ table 50118 "Shift Line"
         ShiftLine.SetRange("No.", "No.");
         ShiftLine.SetRange("Employee No", "Employee No");
         ShiftLine.SetRange("Roster Date", "Roster Date");
+        ShiftLine.SetFilter("Approval Status", '<>%1', ShiftLine."Approval Status"::Rejected);
         ShiftLine.SetFilter("Line No", '<>%1', "Line No");
         if ShiftLine.FindFirst() then
             Error('Employee %1 is already scheduled on %2 at Line No. %3', "Employee No", "Roster Date", ShiftLine."Line No");
+        ShiftLine.Reset();
+        ShiftLine.SetRange(Type, ShiftLine.Type::"Shift Assignment");
+        ShiftLine.SetFilter("No.", '<>%1', "No.");
+        ShiftLine.SetRange("Employee No", "Employee No");
+        ShiftLine.SetRange("Roster Date", "Roster Date");
+        ShiftLine.SetFilter("Approval Status", '%1|%2', ShiftLine."Approval Status"::Pending, ShiftLine."Approval Status"::Approved);
+        if ShiftLine.FindFirst() then
+            Error('Employee %1 is already scheduled on %2 in document %3 with status %4', "Employee No", "Roster Date", ShiftLine."No.", ShiftLine."Approval Status");
     end;
 }

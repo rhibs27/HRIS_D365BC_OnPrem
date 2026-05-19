@@ -413,6 +413,10 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Punch out Remarks field.', Comment = '%';
                     StyleExpr = Colors;
                 }
+                field("Functional Title Desc"; Rec."Functional Title Desc")
+                {
+                    ToolTip = 'Specifies the value of the Functional Title Desc field.', Comment = '%';
+                }
             }
         }
     }

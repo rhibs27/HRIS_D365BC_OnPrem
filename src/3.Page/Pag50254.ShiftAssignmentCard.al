@@ -22,12 +22,16 @@ page 50254 "Shift Assignment Card"
                 field("Deputation Type"; Rec."Deputation Type")
                 {
                     ToolTip = 'Specifies the value of the Deputation Type field.', Comment = '%';
-                    Editable = false;
+                    Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Deputation Name"; Rec."Deputation Name")
                 {
                     ToolTip = 'Specifies the value of the Deputation Name field.', Comment = '%';
-                    Editable = false;
+                    Editable = IsOpen;
                 }
                 field("Deputation Sub Type"; Rec."Deputation Sub Type")
                 {
@@ -116,8 +120,10 @@ page 50254 "Shift Assignment Card"
                     ShiftLine.SetRange("No.", Rec."No.");
                     if ShiftLine.Count = 0 then
                         Error('Shift Line not Found');
-                    if Confirm('Do you want to send approval request?', false) then
+                    if Confirm('Do you want to send approval request?', false) then begin
                         ShiftAssignmentMgt.SendApprovalShiftAssignment(Rec, ShiftLine);
+                        Message('Shift Assignment Request send for approval by %1', HRMgt.GetEmpName());
+                    end;
                 end;
             }
             action("Approve Request")
@@ -133,7 +139,7 @@ page 50254 "Shift Assignment Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the document?', false) then
-                        ApproverMgt.ApproveRejectDocument(RecRef, true)
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
                 end;
             }
             action("Reject Request")
@@ -156,24 +162,6 @@ page 50254 "Shift Assignment Card"
                             Message('Overtime is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
-                end;
-            }
-            action(Reverse)
-            {
-                Image = ReverseRegister;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Reverse action.';
-                ApplicationArea = All;
-                Visible = IsApprove;
-                trigger OnAction()
-                var
-                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
-                begin
-                    if Confirm('Do you want to reverse the document?', false) then
-                        AssignmentMemoMgt.ReverseAssignmentMemos(Rec."No.");
                 end;
             }
         }

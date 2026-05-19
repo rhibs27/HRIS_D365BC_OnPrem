@@ -72,6 +72,16 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Leave Days field.';
                     ApplicationArea = All;
                 }
+                field("Tour Days"; Rec."Tour Days")
+                {
+                    ToolTip = 'Specifies the value of the Tour Days field.';
+                    ApplicationArea = All;
+                }
+                field("Training Days"; Rec."Training Days")
+                {
+                    ToolTip = 'Specifies the value of the Training Days field.';
+                    ApplicationArea = All;
+                }
                 field("Absent Days"; Rec."Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Absent Days field.';
@@ -88,6 +98,12 @@ page 50041 "Payroll Subform"
                     ApplicationArea = All;
                     Visible = IsResignation;
                 }
+                field("Days Before Joining"; Rec."Days Before Joining")
+                {
+                    ToolTip = 'Specifies the value of Days Before Joining field.';
+                    ApplicationArea = All;
+                    Visible = not IsResignation;
+                }
                 field("Total Days"; Rec."Total Days")
                 {
                     ToolTip = 'Specifies the value of the Total Days field.';
@@ -98,26 +114,31 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Late Days field.';
                     ApplicationArea = All;
                 }
-                field("Prior Present Days"; Rec."Prior Present Days")
-                {
-                    ToolTip = 'Specifies the value of the Prior Present Days field.';
-                    ApplicationArea = All;
-                }
                 field("LWP Days"; Rec."LWP Days")
                 {
                     // Editable = false;
                     ToolTip = 'Specifies the value of the LWP Days field.';
                     ApplicationArea = All;
-                    Caption = 'Unpaid Days';
-                }
-                field("Prior Leave Days"; Rec."Prior Leave Days")
-                {
-                    ToolTip = 'Specifies the value of the Prior Leave Days field.';
-                    ApplicationArea = All;
                 }
                 field("Prior Absent Days"; Rec."Prior Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Prior Absent Days field.';
+                    ApplicationArea = All;
+                }
+                field("Total Unpaid Days"; Rec."Total Unpaid Days")
+                {
+                    ToolTip = 'Specifies the value of the Prior Absent Days field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
+                field("Prior Present Days"; Rec."Prior Present Days")
+                {
+                    ToolTip = 'Specifies the value of the Prior Present Days field.';
+                    ApplicationArea = All;
+                }
+                field("Prior Leave Days"; Rec."Prior Leave Days")
+                {
+                    ToolTip = 'Specifies the value of the Prior Leave Days field.';
                     ApplicationArea = All;
                 }
                 field("ATM Custodian Days"; Rec."ATM Custodian Days")
@@ -1768,8 +1789,34 @@ page 50041 "Payroll Subform"
                         repeat
                             payrollLine.ValidateEmployee();
                         until payrollLine.Next() = 0;
+                    Message('Line Attributes Updated.');
                 end;
             }
+
+            // Testing is required from functional side so for now it is commented
+
+            // action("Calculate Line Tax")
+            // {
+            //     Image = TaxDetail;
+            //     ApplicationArea = All;
+            //     ToolTip = 'Executes the Get Calculate Line Tax action.';
+            //     trigger OnAction()
+            //     var
+            //         PayrollLine: Record "Payroll Line";
+            //         PayrollEngine: Codeunit "Payroll Engine";
+            //     begin
+            //         PayrollHeader.TestField(Status, PayrollHeader.Status::Pending);
+            //         CurrPage.SetSelectionFilter(PayrollLine);
+            //         PayrollLine.MarkedOnly(true);
+            //         if PayrollLine.FindSet() then
+            //             repeat
+            //                 Clear(PayrollEngine);
+            //                 PayrollEngine.InitPayrollLine(PayrollLine);
+            //             until PayrollLine.Next() = 0;
+            //         PayrollHeader.CalcFields("Total Net Payable");
+            //         Message('Line Tax Calculated');
+            //     end;
+            // }
 
             action(Dimensions)
             {

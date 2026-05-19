@@ -476,6 +476,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Editable = false;
                     ToolTip = 'Specifies the value of the Job Position field.';
                 }
+                field("Salary Level Description"; rec."Salary Level Description")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Job Position Description';
+                    Editable = false;
+                }
                 field("Functional Title"; Rec."Functional Title")
                 {
                     ApplicationArea = All;
@@ -643,6 +649,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Date (B.S.) field.';
                 }
+                field("Area"; Rec."Area")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Area field.';
+                }
                 field("Sol Id"; Rec."Sol Id")
                 {
                     ApplicationArea = All;
@@ -698,6 +709,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Mother''s Name (Nepali) field.';
                 }
+                field("GrandFather's Name (Nepali)"; rec."GrandFather's Name (Nepali)")
+                {
+                    ApplicationArea = all;
+                }
                 field("Citizenship No. (Nepali)"; Rec."Citizenship No. (Nepali)")
                 {
                     ApplicationArea = All;
@@ -726,11 +741,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Portal Attendance field.';
-                }
-                field("Resignation Approver"; Rec."Resignation Approver")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Resignation Approver field.';
                 }
                 field("Attendance Device ID"; Rec."Attendance Device ID")
                 {
@@ -967,7 +977,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
             }
         }
+#if not CLEAN25
         moveafter(Control3; "Attached Documents")
+#else
+        moveafter(Control3; "Attached Documents List")
+#endif
 
         addafter(Control1905767507)
         {
@@ -990,6 +1004,40 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 caption = 'Service Period';
                 ApplicationArea = all;
                 Editable = false;
+            }
+        }
+        addafter("Cause of Inactivity Code")
+        {
+            field("Suspension Active"; Rec."Suspension Active")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                StyleExpr = SuspensionStyle;
+                ToolTip = 'Indicates whether the employee is currently under suspension.';
+            }
+            field("Suspension Level Code"; Rec."Suspension Level Code")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the suspension level affecting payroll.';
+            }
+            field("Suspension Reason"; Rec."Suspension Reason")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the reason for the suspension.';
+            }
+            field("Suspension Start Date"; Rec."Suspension Start Date")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the date the suspension began.';
+            }
+            field("Suspension End Date"; Rec."Suspension End Date")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the expected end date of the suspension.';
             }
         }
     }
@@ -1627,6 +1675,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Salary Advance action.';
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Salary Advance for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Salary Advance");
                     end;
@@ -1642,6 +1692,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Personal Loan action.';
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Personal Loan for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Personal Loan");
                     end;
@@ -1657,6 +1709,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Vehicle Loan action.';
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Vehicle Loan for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Vehicle Loan");
                     end;
@@ -1673,8 +1727,28 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     trigger OnAction()
                     begin
+                        if not Confirm('Are you sure you want to request a Home Loan for employee %1?', false, Rec."No.") then
+                            exit;
                         CLEAR(LoanMgt);
                         LoanMgt.OpenLoan(Rec."No.", Type::"Home Loan");
+                    end;
+                }
+                action("Staff Social Home Loan")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = SocialSecurityTax;
+                    PromotedCategory = Category5;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Request Home Loan action.';
+
+                    trigger OnAction()
+                    begin
+                        if not Confirm('Are you sure you want to request a Staff Social Loan for employee %1?', false, Rec."No.") then
+                            exit;
+                        CLEAR(LoanMgt);
+                        LoanMgt.OpenLoan(Rec."No.", Type::"Staff Social Loan");
                     end;
                 }
                 action("Update Loan Details")
@@ -1872,6 +1946,65 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         end;
                     end;
                 }
+                action("Update Suspension Event")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Campaign;
+                    PromotedCategory = Category7;
+                    PromotedOnly = true;
+                    ToolTip = 'Records a suspension event for the employee.';
+                    trigger OnAction()
+                    var
+                        SuspensionDialog: Page "Suspension Event Dialog";
+                        ServiceHistory: Record "Employee Service History";
+                        LevelCode: Code[20];
+                        InactivityCode: Code[10];
+                        Reason: Text[100];
+                        StartDate: Date;
+                        EndDate: Date;
+                        ActiveFlag: Boolean;
+                    begin
+                        Rec.TestField("No.");
+                        SuspensionDialog.RunModal();
+                        if SuspensionDialog.IsOKPressed() then begin
+                            SuspensionDialog.GetValues(LevelCode, InactivityCode, Reason, StartDate, EndDate, ActiveFlag);
+                            ServiceHistory.Init();
+                            ServiceHistory.Validate("Service Event", ServiceHistory."Service Event"::Suspension);
+                            ServiceHistory.Validate("Employee No.", Rec."No.");
+                            ServiceHistory.Validate("Effective Date", StartDate);
+                            ServiceHistory.Validate("From Date", StartDate);
+                            ServiceHistory.Validate("To Date", EndDate);
+                            ServiceHistory."Suspension Level Code" := LevelCode;
+                            ServiceHistory."Cause of Inactivity Code" := InactivityCode;
+                            ServiceHistory."Suspension Reason" := Reason;
+                            ServiceHistory."Effective Date" := StartDate;
+                            ServiceHistory."To Date" := EndDate;
+                            ServiceHistory.Insert(true);
+                            if ActiveFlag then begin
+                                Rec."Suspension Active" := true;
+                                Rec."Suspension Level Code" := LevelCode;
+                                Rec."Cause of Inactivity Code" := InactivityCode;
+                                Rec."Suspension Reason" := Reason;
+                                Rec."Suspension Start Date" := StartDate;
+                                Rec."Suspension End Date" := EndDate;
+                                SuspensionStyle := 'Unfavorable';
+                            end else begin
+                                Rec."Suspension Active" := false;
+                                Clear(Rec."Suspension Level Code");
+                                Clear(Rec."Cause of Inactivity Code");
+                                Clear(Rec."Suspension Reason");
+                                Clear(Rec."Suspension Start Date");
+                                Clear(Rec."Suspension End Date");
+                                SuspensionStyle := 'None';
+                            end;
+                            Rec.Modify(true);
+                            CurrPage.Update(false);
+                            Message('Suspension event has been recorded successfully.');
+                        end;
+                    end;
+                }
                 action("Add Job Function")
                 {
                     ApplicationArea = All;
@@ -1926,9 +2059,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 Promoted = true;
-                Visible = FieldVisible;
                 PromotedIsBig = true;
                 Image = Report;
+                Visible = Rec.Status = Rec.Status::Terminated;
                 PromotedCategory = Report;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Employee Experience Letter action.';
@@ -1944,36 +2077,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Employee.SetRange("No.", Rec."No.");
                         IF Employee.FindFirst() THEN begin
                             Employee.TestField(Salutation);
-                            REPORT.RUN(70022, TRUE, TRUE, Employee);  //which report to run?
-
+                            REPORT.RUN(Report::"Experience Letter", TRUE, TRUE, Employee);
                         end;
-                    end;
-                end;
-            }
-            action("Resignation Acceptance Letter")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                Visible = FieldVisible1;
-                PromotedIsBig = true;
-                Image = Report;
-                PromotedCategory = Report;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Resignation Acceptance Letter action.';
-
-                trigger OnAction()
-                var
-                    Resignation: Record Resignation;
-                begin
-                    Resignation.SetRange("Employee No.", Rec."No.");
-                    IF Resignation.FindLast() THEN
-                        Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
-
-                    Employee.Reset();
-                    Employee.SetRange("No.", Rec."No.");
-                    IF Employee.FindFirst() THEN begin
-                        Employee.TestField(Salutation);
-                        REPORT.RUN(70023, TRUE, TRUE, Employee); //which report to run?
                     end;
                 end;
             }
@@ -1981,8 +2086,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 Promoted = true;
-                Visible = FieldVisible;
                 PromotedIsBig = true;
+                Visible = Rec.Status = Rec.Status::Terminated;
                 Image = Report;
                 PromotedCategory = Report;
                 PromotedOnly = true;
@@ -2000,44 +2105,32 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Resignation.SetRange("Employee No.", Employee."No.");
                         IF Resignation.FindLast() THEN
                             Resignation.TestField("Approval Status", Resignation."Approval Status"::Settled);
-                        REPORT.RUN(70024, TRUE, TRUE, Employee);  //which report to run?
+                        REPORT.RUN(Report::"Release Letter", TRUE, TRUE, Employee);
                     end;
                 end;
             }
-            action(Memo)
+            group(Grievance)
             {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = Report;
-                PromotedCategory = Report;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Memo action.';
-
-                trigger OnAction()
-                begin
-                    Employee.Reset();
-                    Employee.SetRange("No.", Rec."No.");
-                    IF Employee.FindFirst() THEN begin
-                        Employee.TestField(Salutation);
-                        REPORT.RUN(70026, TRUE, TRUE, Employee);  //what it is
+                Caption = 'Grievance';
+                Image = Comment;
+                action("View Grievances")
+                {
+                    ApplicationArea = All;
+                    Caption = 'View Grievances';
+                    Image = ViewComments;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Shows all grievances filed by this employee.';
+                    trigger OnAction()
+                    var
+                        GrievanceHeader: Record "Grievance Header";
+                    begin
+                        GrievanceHeader.SetRange("Employee No.", Rec."No.");
+                        Page.Run(Page::"Grievance List", GrievanceHeader);
                     end;
-                end;
-            }
-            action("Insert Grade")  //no code?
-            {
-                ApplicationArea = All;
-                RunObject = Report "Insert Grade";
-                Promoted = true;
-                Visible = false;
-                PromotedIsBig = true;
-                Image = Action;
-                PromotedCategory = Process;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Insert Grade action.';
-                trigger OnAction()
-                begin
-                end;
+                }
             }
         }
     }
@@ -2049,8 +2142,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         LoanMgt: Codeunit "Loan Mgt.";
         Type: Enum "Loan Type";
         AppraisalRec: Record Appraisal;
-        FieldVisible: Boolean;
-        FieldVisible1: Boolean;
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
@@ -2072,6 +2163,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+        GrievanceMgt: Codeunit "Grievance Mgt";
+        SuspensionStyle: Text;
 
     trigger OnOpenPage()
     begin
@@ -2090,21 +2183,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
     trigger OnAfterGetRecord()
     begin
         SetFieldEnable();
+        if Rec."Suspension Active" then
+            SuspensionStyle := 'Unfavorable'
+        else
+            SuspensionStyle := 'None';
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
     var
-        EmployeeWorkShift: Record "Employee Work Shift";
+        AttendanceSetup: Record "Attendance Setup";
     begin
-        EmployeeWorkShift.SetRange("Default Employee Type", Rec."Employment Type");
-        if EmployeeWorkShift.FindFirst() then
-            Rec."Employee Work Shift" := EmployeeWorkShift.Code
-        else begin
-            EmployeeWorkShift.Reset();
-            EmployeeWorkShift.SetRange("Default Employee Type", EmployeeWorkShift."Default Employee Type"::" ");
-            if EmployeeWorkShift.FindFirst() then
-                Rec."Employee Work Shift" := EmployeeWorkShift.Code;
-        end;
+        AttendanceSetup.Get();
+        Rec."Employee Work Shift" := AttendanceSetup."Default Work Shift";
     end;
 
     local procedure SetFieldEnable();

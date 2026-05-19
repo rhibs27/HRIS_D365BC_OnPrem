@@ -80,7 +80,8 @@ codeunit 50017 "Approver Mgt"
                                  ApprovalStatus,
                                  EmployeeNo,
                                  Enum::"Loan Type"::" ",
-                                 false
+                                 false,
+                                 ApprovalSetupLine
                              );
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -108,6 +109,7 @@ codeunit 50017 "Approver Mgt"
     procedure InsertApprovalLoan(EmployeeNo: Code[20];
                                     EmpActNo: Code[20];
                                     EmpActType: enum "Employee Activity Type";
+                                    ApprovalStatus: Enum "Approval Status";
         LoanType: Enum "Loan Type")
     var
         ApprovalSetup: Record "Approval Setup";
@@ -116,73 +118,90 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         SequenceOneCount, ApprovalEntryCount : Integer;
+        isHandled, SkipError : Boolean;
         PerSequenceCount: array[10] of Integer;
     begin
-        EmpRequest.Reset();
         EmpRequest.Get(EmployeeNo);
-        ApprovalSetupLine.Reset();
-        ApprovalSetupLine.SetRange("Request Type", EmpActType);
-        ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
-        ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
-        SequenceOneCount := 0;
-        GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
-        if ApprovalSetupLine.Findset() then begin
-            repeat
-                ApprovalSetup.Get(ApprovalSetupLine."Request Type", ApprovalSetupLine."Deputation On");
-                Employee.Reset();
-                Employee.SetRange(Status, Employee.Status::Active);
-                Employee.SetFilter("NAV Login ID", '<>%1', '');
-                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
-                    Employee.SetRange("Deputation On", EmpRequest."Deputation On");
-                    if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                        Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
-                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                        Employee.SetRange("Department Code", EmpRequest."Department Code")
-                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
-                        Employee.SetRange("Province Code", EmpRequest."Province Code");
-                end else begin
-                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
-                        Employee.SetRange("Province Code", EmpRequest."Province Code");
-                end;
-                Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-                if Employee.FindSet() then begin
-                    if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
-                        ApprovalEntryCount := Employee.Count
+        //if employee is a manual approver
+        if EmpRequest."Manual Approver User" then begin
+            IsManualApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+            if IsHandled then
+                exit;
+        end;
+        //if employee is not manual approver
+        if not isHandled then begin
+            ApprovalSetupLine.Reset();
+            ApprovalSetupLine.SetRange("Request Type", EmpActType);
+            ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
+            ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
+            OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType, EmpActNo, EmployeeNo);
+            OnSkipEmployeeError(SkipError);
+            SequenceOneCount := 0;
+            GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
+            if ApprovalSetupLine.Findset() then begin
+                repeat
+                    ApprovalSetup.Get(ApprovalSetupLine."Request Type", ApprovalSetupLine."Deputation On");
+                    Employee.Reset();
+                    Employee.SetRange(Status, Employee.Status::Active);
+                    Employee.SetFilter("NAV Login ID", '<>%1', '');
+                    OnInsertApprovalOnBeforeSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
+                    if not isHandled then begin
+                        if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
+                            Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                            if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                                Employee.SetRange("Branch Code", EmpRequest."Branch Code")
+                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                                Employee.SetRange("Department Code", EmpRequest."Department Code")
+                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                                Employee.SetRange("Province Code", EmpRequest."Province Code");
+                        end else begin
+                            if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
+                                Employee.SetRange("Province Code", EmpRequest."Province Code")
+                            else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
+                                Employee.SetRange("Unit Code", EmpRequest."Unit Code");
+                        end;
+                    end;
+                    Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+                    if Employee.FindSet() then begin
+                        if ApprovalSetup."Approval Entry Creation Policy" = ApprovalSetup."Approval Entry Creation Policy"::"Everyone in Role" then
+                            ApprovalEntryCount := Employee.Count
+                        else
+                            ApprovalEntryCount := 1;
+                        repeat
+                            SequenceOneCount := SequenceOneCount + GenerateApprovalEntry(
+                                 EmpActType,
+                                 EmpActNo,
+                                 Employee."No.",
+                                 ApprovalSetupLine."Approval Sequence",
+                                 ApprovalSetupLine."Approval Status",
+                                 ApprovalSetupLine."Approver Role",
+                                 ApprovalStatus,
+                                 EmployeeNo,
+                                 LoanType,
+                                 false,
+                                 ApprovalSetupLine
+                             );
+                            ApprovalEntryCount -= 1;
+                        until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
+                    end
                     else
-                        ApprovalEntryCount := 1;
-                    repeat
-                        SequenceOneCount := SequenceOneCount + GenerateApprovalEntry(
-                             EmpActType,
-                             EmpActNo,
-                             Employee."No.",
-                             ApprovalSetupLine."Approval Sequence",
-                             ApprovalSetupLine."Approval Status",
-                             ApprovalSetupLine."Approver Role",
-                             Enum::"Approval Status"::" ",
-                             EmployeeNo,
-                             LoanType,
-                             false
-                         );
-                        ApprovalEntryCount -= 1;
-                    until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
-                end
-                else
-                    if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
-                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
+                        if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"All Approver Role Mandatory" then
+                            Error('Approvers not found for %1 Role', ApprovalSetupLine."Approver Role");
 
-            until ApprovalSetupLine.Next() = 0;
+                until ApprovalSetupLine.Next() = 0;
 
-            if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"At Least One Role Per Sequence Mandatory" then
-                CheckAndValidatePerSequenceApproval(EmpActNo, PerSequenceCount);
-        end
-        else
-            Error('Approval Setup not found');
-        if SequenceOneCount = 0 then
-            Error('There is no approver setup for sequence 1');
-        Approval1.Reset();
-        Approval1.SetRange("Document No.", EmpActNo);
-        if not Approval1.FindFirst() then
-            Error('Approval Not Found');
+                if ApprovalSetup."Approval Sending Policy" = ApprovalSetup."Approval Sending Policy"::"At Least One Role Per Sequence Mandatory" then
+                    CheckAndValidatePerSequenceApproval(EmpActNo, PerSequenceCount);
+            end
+            else
+                Error('Approval Setup not found');
+            if SequenceOneCount = 0 then
+                Error('There is no approver setup for sequence 1');
+            Approval1.Reset();
+            Approval1.SetRange("Document No.", EmpActNo);
+            if not Approval1.FindFirst() then
+                Error('Approval Not Found');
+        end;
     end;
     // << Insert Approval in temporary table <<
     procedure InsertApprovalCancelled(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; Cancelled: Boolean)
@@ -242,7 +261,8 @@ codeunit 50017 "Approver Mgt"
                              Enum::"Approval Status"::" ",
                              EmployeeNo,
                              Enum::"Loan Type"::" ",
-                             Cancelled
+                             Cancelled,
+                             ApprovalSetUpLine
                          );
                         ApprovalEntryCount -= 1;
                     until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -367,11 +387,14 @@ codeunit 50017 "Approver Mgt"
         LeaveEncahRequest: Record "Encashment Request";
         AttendanceMgt: Codeunit "Attendance Mgt";
         AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
+        AppraisalMgt: Codeunit "AppraisalMgt.";
         Cancelled: Boolean;
         RFContribution: Record "RF Contribution";
         AttributeAdj: Record "Attribute Adjustment Header";
         SkipRecRefModifyOnReject: Boolean;
         IsExit: Boolean;
+        loanSettlement: Record "Loan Settlement";
+        IsHandle: Boolean;
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -408,7 +431,9 @@ codeunit 50017 "Approver Mgt"
             end;
         end;
 
-        OnApproverejectDocumentOnBeforeCheckApprover(RecRef, EmployeeActivityType, DocumentNo, ApprovalStatusField);
+        OnApproverejectDocumentOnBeforeCheckApprover(RecRef, EmployeeActivityType, DocumentNo, ApprovalStatusField, Approved, IsHandle);
+        if IsHandle then
+            exit;
 
         if ApprovalStatusField = Format(ApprovalStatus::Pending) then begin
             CheckApprover(DocumentNo);
@@ -434,6 +459,11 @@ codeunit 50017 "Approver Mgt"
                                 begin
                                     if RecRef.Field(39).value then
                                         leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
+                                end;
+                            EmployeeActivityType::"Travel Request":
+                                begin
+                                    if RecRef.Field(39).value then
+                                        TravelMgt.RejectTravelRequest(RecRef.Field(1).Value);
                                 end;
                             EmployeeActivityType::"Attendance Missed":
                                 //for leave Cancelled Reject
@@ -492,6 +522,10 @@ codeunit 50017 "Approver Mgt"
                             EmployeeActivityType::"Leave Encashment":
                                 RecRef.Field(LeaveEncahRequest.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
 
+                            EmployeeActivityType::"Loan Settlement":
+                                begin
+                                    loanMgt.LoanSettlementApproveReject(RecRef.Field(1).Value, false);
+                                end;
                             EmployeeActivityType::"Allowance Assignment Memo", EmployeeActivityType::"Request Allowance", EmployeeActivityType::"Shift Assignment Memo":
                                 begin
                                     AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, false);
@@ -533,7 +567,7 @@ codeunit 50017 "Approver Mgt"
                         ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
                         ApprovalHRMS2.Modify;
                     until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
                 end
                 else begin
                     // If no next approval step found then set the status to approved
@@ -541,6 +575,8 @@ codeunit 50017 "Approver Mgt"
                         RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
                     else if EmployeeActivityType = EmployeeActivityType::"Attribute Adjustment" then
                         RecRef.Field(AttributeAdj.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
+                    else if EmployeeActivityType = EmployeeActivityType::"Loan Settlement" then
+                        RecRef.Field(loanSettlement.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved)
                     else begin
                         //old code
                         RecRef.Field(16).Validate(ApprovalStatus::Approved);
@@ -558,7 +594,10 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::"Travel Request":
                             begin
-                                TravelMgt.TravelApproved(RecRef.Field(1).Value);
+                                if RecRef.Field(39).value then
+                                    TravelMgt.ApproveCancelTravelRequest(RecRef.Field(1).Value)
+                                else
+                                    TravelMgt.TravelApproved(RecRef.Field(1).Value);
                             end;
                         EmployeeActivityType::"Travel Claim":
                             begin
@@ -627,9 +666,17 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 AttributeAdjustmentMgt.OnApprovalOfAttributeAdjustment(RecRef.Field(AttributeAdj.FieldNo("Document No.")).Value);
                             end;
+                        EmployeeActivityType::Appraisal:
+                            begin
+                                AppraisalMgt.CalculateFinalMarks(RecRef.Field(1).Value);
+                            end;
+                        EmployeeActivityType::"Loan Settlement":
+                            begin
+                                loanMgt.LoanSettlementApproveReject(RecRef.Field(1).Value, true);
+                            end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
             else begin
@@ -647,7 +694,7 @@ codeunit 50017 "Approver Mgt"
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
+                EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -674,6 +721,8 @@ codeunit 50017 "Approver Mgt"
         RFContribution: Record "RF Contribution";
         SkipRecRefModifyOnReject: Boolean;
         IsExit: Boolean;
+        AppraisalMgt: Codeunit "AppraisalMgt.";
+        IsHandle: Boolean;
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -704,7 +753,9 @@ codeunit 50017 "Approver Mgt"
             end;
         end;
 
-        OnApproverejectDocumentOnBeforeCheckApprover(RecRef, EmployeeActivityType, DocumentNo, ApprovalStatusField);
+        OnApproverejectDocumentOnBeforeCheckApprover(RecRef, EmployeeActivityType, DocumentNo, ApprovalStatusField, Approved, IsHandle);
+        if IsHandle then
+            exit;
 
         if ApprovalStatusField = Format(ApprovalStatus::Pending) then begin
             CheckApproverSaas(DocumentNo, GetApproverNoSAAS(AccessToken));
@@ -721,6 +772,7 @@ codeunit 50017 "Approver Mgt"
                     else begin
                         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
                         ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpNameSaas(GetApproverNoSAAS(AccessToken)));
+
                         RecRef.Field(16).Validate(ApprovalStatus::Rejected);
                         case EmployeeActivityType of
                             EmployeeActivityType::"Leave Request":
@@ -816,7 +868,7 @@ codeunit 50017 "Approver Mgt"
                         ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
                         ApprovalHRMS2.Modify;
                     until ApprovalHRMS2.Next() = 0;
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Pending, ApprovalHRMS2."Employee No", DocumentNo, Cancelled);//Email For Approver
                 end
                 else begin
                     // If no next approval step found then set the status to approved
@@ -904,9 +956,13 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 AssignmentMemoMgt.ApproveRejectAssignmentmemo(RecRef.Field(1).Value, true);
                             end;
+                        EmployeeActivityType::Appraisal:
+                            begin
+                                AppraisalMgt.CalculateFinalMarks(RecRef.Field(1).Value);
+                            end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
-                    HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
+                    EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Approved, '', DocumentNo, Cancelled);//Email For Requester
                 end;
             end
             else begin
@@ -923,7 +979,7 @@ codeunit 50017 "Approver Mgt"
                             ApprovalHRMS.Modify();
                         end;
                     until ApprovalHRMS.Next() = 0;
-                HRMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
+                EmailMgt.SendMailFromTemplate(RecRef.Number(), EmployeeActivityType, ApprovalStatus::Rejected, '', DocumentNo, Cancelled);//Email for Requester
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -1177,14 +1233,17 @@ codeunit 50017 "Approver Mgt"
             //Travel Request
             EmpActTypeEnum::"Travel Request":
                 begin
-                    if TravelRequest.Get(documentNo) then begin
-                        RecRef.GetTable(TravelRequest);
-                        WithDrawRequest(RecRef);
-                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+                    if not TravelRequest.Get(documentNo) then
+                        exit;
+                    RecRef.GetTable(TravelRequest);
+                    WithDrawRequest(RecRef);
+                    if TravelRequest."Travel Order No." <> '' then
+                        if TravelRequest2.Get(TravelRequest."Travel Order No.") then begin
                             TravelRequest2.Extended := false;
-                        TravelRequest2.Modify();
-                    end;
+                            TravelRequest2.Modify();
+                        end;
                 end;
+
             EmpActTypeEnum::Retirement:
                 begin
                     if RetirementFund.Get(documentNo) then begin
@@ -1218,6 +1277,7 @@ codeunit 50017 "Approver Mgt"
         RetirementFund: Record "Retirement Fund";
         AttendanceMissed: Record "Attendance Missed";
         EncashmentRequest: Record "Encashment Request";
+        OvertimeRequest: Record OverTime;
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
         case EmpActTypeEnum of
@@ -1254,9 +1314,15 @@ codeunit 50017 "Approver Mgt"
             EmpActTypeEnum::"Leave Encashment":
                 if EncashmentRequest.Get(documentNo) then begin
                     RecRef.GetTable(EncashmentRequest);
-                    WithDrawRequest(RecRef);
+                    WithDrawRequest(RecRef, AccessToken);
+                end;
+            EmpActTypeEnum::Overtime:
+                if OvertimeRequest.Get(documentNo) then begin
+                    RecRef.GetTable(OvertimeRequest);
+                    WithDrawRequest(RecRef, AccessToken);
                 end;
         end;
+        OnAfterOtherDocumentTypeSAAS(documentNo, EmpActTypeEnum, AccessToken);
     end;
 #endif
 
@@ -1303,9 +1369,10 @@ codeunit 50017 "Approver Mgt"
                 else
                     RecRef.Field(16).Validate(ApprovalStatusEnum::Open); // Modify the record dynamically
                 RecRef.Modify();
+                OnAfterReOpenDocument(RecRef);
             end;
         end else
-            Error('Document status ust be in Pending.');
+            Error('Document status must be in Pending.');
     end;
 
     procedure IsFinalApprover(DocNo: Code[20]): Boolean
@@ -1484,7 +1551,8 @@ codeunit 50017 "Approver Mgt"
                         ApprovalStatus: Enum "Approval Status";
                         EmployeeNo: Code[20];
                         LoanType: Enum "Loan Type";
-                        Cancelled: Boolean
+                        Cancelled: Boolean;
+                        ApprovalSetUpLine: Record "Approval Setup Line"
     ): Integer
     var
         Approval: Record "Approval HRMS";
@@ -1511,8 +1579,8 @@ codeunit 50017 "Approver Mgt"
         end else
             Approval.Validate("Approval Status", "Approval Status"::Created);  //if sequence > 1
         Approval.Validate("Employee No", EmployeeNo);
+        Approval.Validate("Alternative Approval Workflow", ApprovalSetUpLine."Alternative Approval Workflow");
         Approval.Insert(true);
-        //to identify sequence 1 approver exist.
         if ApprovalSequence = 1 then
             exit(1)
         else
@@ -1600,7 +1668,8 @@ codeunit 50017 "Approver Mgt"
                                  ApprovalStatus,
                                  EmployeeNo,
                                  Enum::"Loan Type"::" ",
-                                 false
+                                 false,
+                                 ApprovalSetupLine
                              );
                             ApprovalEntryCount -= 1;
                         until (Employee.Next() = 0) or (ApprovalEntryCount = 0);
@@ -1753,13 +1822,59 @@ codeunit 50017 "Approver Mgt"
         for seqNo := 1 to ArrayLen(SequenceNoCount) do begin
             if SequenceNoCount[seqNo] = 0 then
                 exit;
-
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", docNo);
             ApprovalEntry.SetRange("Approval Sequence", seqNo);
             if ApprovalEntry.IsEmpty() then
                 Error('Approver not found for sequence %1', seqNo);
         end;
+    end;
+
+    procedure ApproveResignClerance(var DocApprover: Record "Document Approver"; Approved: Boolean)
+    var
+        DocumentApprover, DocumentApproverCheck : Record "Document Approver";
+        ApprovalStatusEnum: Enum "Approval Status";
+        IsHandled: Boolean;
+    begin
+        if not CheckDocumentApprover(DocApprover."Document No.") then
+            Error('You are not Eligible To Approve');
+        if Approved then begin
+            DocumentApprover.Reset();
+            DocumentApprover.SetRange("Document No.", DocApprover."Document No.");
+            DocumentApprover.SetRange("Approver Sequence", DocApprover."Approver Sequence");
+            DocumentApprover.SetRange("Approval Status", DocApprover."Approval Status"::Open);
+            if DocumentApprover.FindSet() then
+                repeat
+                    DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);
+                    DocumentApprover.Validate("Approved By", HRMgt.GetEmployeeNo());
+                    DocumentApprover.Validate("Approved Date", Today);
+                    DocumentApprover.Modify();
+                until DocumentApprover.Next() = 0;
+
+            OnBeforeIncrementOfApproverSequence(DocumentApproverCheck, DocumentApprover, IsHandled);
+            if not IsHandled then begin
+                DocumentApproverCheck.SetRange("Document No.", DocApprover."Document No.");
+                DocumentApproverCheck.SetRange("Approver Sequence", DocumentApprover."Approver Sequence" + 1);
+                if DocumentApproverCheck.FindSet() then begin
+                    repeat
+                        DocumentApproverCheck."Approval Status" := DocumentApproverCheck."Approval Status"::Open;
+                        DocumentApproverCheck.Modify;
+                    until DocumentApproverCheck.Next() = 0;
+                end;
+            end;
+        end
+    end;
+
+    procedure CheckDocumentApprover(DocumentNO: Code[20]): Boolean
+    var
+        DocumentApprover: Record "Document Approver";
+    begin
+        DocumentApprover.Reset;
+        DocumentApprover.SetRange("Document No.", DocumentNO);
+        DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo());
+        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
+        exit(DocumentApprover.FindFirst());
+
     end;
 
     [IntegrationEvent(false, false)]
@@ -1805,7 +1920,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnApproverejectDocumentOnBeforeCheckApprover(var RecRef: RecordRef; var EmployeeActivityType: Enum "Employee Activity Type"; var DocumentNo: Code[20]; var ApprovalStatusField: Text)
+    local procedure OnApproverejectDocumentOnBeforeCheckApprover(var RecRef: RecordRef; var EmployeeActivityType: Enum "Employee Activity Type"; var DocumentNo: Code[20]; var ApprovalStatusField: Text; var Approved: Boolean; var IsHandle: Boolean)
     begin
     end;
 
@@ -1819,8 +1934,25 @@ codeunit 50017 "Approver Mgt"
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterReOpenDocument(var RecRef: RecordRef)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterOtherDocumentTypeSAAS(documentNo: Code[20]; EmpActTypeEnum: Enum "Employee Activity Type"; AccessToken: Code[60])
+    begin
+
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeIncrementOfApproverSequence(var DocApproverCheck: Record "Document Approver"; var DocApprover: Record "Document Approver"; var IsHandled: Boolean)
+    begin
+    end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
+        EmailMgt: Codeunit "Email Mgt";
         leaveMgt: Codeunit "Leave Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         AttendanceMissed: Codeunit "AttendanceMiss mgt";
@@ -1831,4 +1963,5 @@ codeunit 50017 "Approver Mgt"
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+        loanMgt: Codeunit "Loan Mgt.";
 }

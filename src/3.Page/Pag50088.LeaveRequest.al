@@ -182,7 +182,6 @@ page 50088 "Leave Request"
             part(Attachment; "Attachment Subform")
             {
                 SubPageLink = "No." = field("No."),
-                              Type = const(" "),
                               "Employee Code" = field("Employee No."),
                               "Leave Type Code" = field("Leave Code"),
                               "Employee Activity Type" = field(Type);
@@ -241,7 +240,6 @@ page 50088 "Leave Request"
     begin
         TempIncomingDoc.Reset;
         TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
-        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
         TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
@@ -264,7 +262,6 @@ page 50088 "Leave Request"
                     TempIncomingDoc.Reset;
                     TempIncomingDoc.Init;
                     TempIncomingDoc."No." := Rec."No.";
-                    TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
                     TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
                     TempIncomingDoc.Validate(Description, Format(Rec.Type) + ': ' + Rec."Leave Description");
                     TempIncomingDoc.Validate("Employee Code", Rec."Employee No.");

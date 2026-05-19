@@ -154,6 +154,28 @@ table 50025 "Payroll Attributes"
         {
             DataClassification = ToBeClassified;
         }
+        field(45; "Use Attr. for Home loan GS"; Boolean)
+        {
+        }
+        field(46; "Use Attr. for Vehicle loan GS"; Boolean)
+        {
+        }
+        field(47; "Use Attr. for Salary Adv. GS"; Boolean)
+        {
+        }
+        field(48; "Use Attr. for Home loan EL"; Boolean)
+        {
+        }
+        field(49; "Use Attr. for Vehicle loan EL"; Boolean)
+        {
+        }
+        field(50; "Use Attr. for Salary Adv. EL"; Boolean)
+        {
+        }
+        field(51; "Use Attr. for personal Loan GS"; Boolean)
+        { }
+        field(52; "Use Attr. staff Social Loan GS"; Boolean)
+        { }
     }
 
     keys

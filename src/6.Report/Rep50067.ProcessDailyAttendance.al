@@ -28,7 +28,7 @@ report 50067 "Process Daily Attendance"
                     trigger OnAfterGetRecord()
                     begin
                         Commit();
-                        ProcessDailyAttendance.GetSyncProcessBoolean(FromSyncProcess);
+                        ProcessDailyAttendance.GetSyncProcessBoolean(FromPortal);
                         if not ProcessDailyAttendance.Run(EmpAttendance) then
                             PrepareEmailArray();
                     end;
@@ -43,8 +43,9 @@ report 50067 "Process Daily Attendance"
                 begin
                     if Employee."Employment Date" > Date."Period Start" then
                         CurrReport.Skip();
-                    if Date."Period Start" > Today then
-                        CurrReport.Skip();
+                    if not FutureSync then
+                        if Date."Period Start" > Today then
+                            CurrReport.Skip();
                     InitEmpAttendance();
                 end;
             }
@@ -124,6 +125,11 @@ report 50067 "Process Daily Attendance"
                         Caption = 'Email Id';
                         ApplicationArea = All;
                     }
+                    field(FromPortal; FromPortal)
+                    {
+                        Caption = 'From Portal';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }
@@ -138,6 +144,10 @@ report 50067 "Process Daily Attendance"
             FromDate := Today - 1;
             ToDate := Today;
         end;
+        if AttSetup."Attendance Allowed From" <> 0D then
+            if FromDate < AttSetup."Attendance Allowed From" then
+                Error('Process daily Attendance is allowed from %1. Please check Attendance Setup', AttSetup."Attendance Allowed From");
+
     end;
 
     trigger OnPostReport()
@@ -162,7 +172,8 @@ report 50067 "Process Daily Attendance"
         EMailMessage: Codeunit "Email Message";
         Email: Codeunit Email;
         EmailArray: JsonArray;
-        FromSyncProcess: Boolean;
+        FromPortal, FutureSync : Boolean;
+
 
     procedure GetSetup()
     begin
@@ -184,19 +195,11 @@ report 50067 "Process Daily Attendance"
     procedure InitEmpAttendance()
     var
         ShiftLine: Record "Shift Line";
+        shiftmgt: Codeunit "Shift Assignment Mgt";
+        RegularShiftCode: Code[20];
     begin
-        ShiftLine.SetLoadFields("Employee No", "Roster Date", "Approval Status", "Substitute Type", "Employee Work Shift");
-        ShiftLine.SetRange("Roster Date", Date."Period Start");
-        ShiftLine.SetRange("Employee No", Employee."No.");
-        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-        ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
-        if ShiftLine.FindSet() then
-            repeat
-                InsertEmpAttendance(ShiftLine."Employee No", ShiftLine."Roster Date", ShiftLine."Employee Work Shift");
-            until ShiftLine.Next() = 0
-        else
-            InsertEmpAttendance(Employee."No.", Date."Period Start", Employee."Employee Work Shift");
-
+        RegularShiftCode := shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start");
+        InsertEmpAttendance(Employee."No.", Date."Period Start", shiftmgt.ReturnEmployeeWorkShift(Employee."No.", Date."Period Start"));
         UpdateEmpAttendanceAsTransferFromServiceHistory();
     end;
 
@@ -241,7 +244,9 @@ report 50067 "Process Daily Attendance"
             EmpAttendance."Department Code" := ServiceHistory."Department Code (To)";
             EmpAttendance."Department Name" := ServiceHistory."Department Description (To)";
             EmpAttendance."Unit Code" := ServiceHistory."Unit Code (To)";
-            EmpAttendance."Extension Counter" := ServiceHistory."Extension Description (To)";
+            EmpAttendance."Extension Counter" := ServiceHistory."Extension Counter (To)";
+            EmpAttendance."Functional Title" := ServiceHistory."Functional Title (To)";
+            EmpAttendance."Functional Title Desc" := ServiceHistory."Functional Title Desc. (To)";
             EmpAttendance.Modify();
         end;
     end;
@@ -326,7 +331,12 @@ report 50067 "Process Daily Attendance"
     procedure GetEmailIds(VarEmailId: Text; VarFromProcess: Boolean)
     begin
         EmailIds := VarEmailId;
-        FromSyncProcess := VarFromProcess;
+        FromPortal := VarFromProcess;
+    end;
+
+    procedure SetFutureProcess(FromFuture: Boolean)
+    begin
+        FutureSync := FromFuture;
     end;
 
     procedure CheckAndUpdateEmployeeInLog()

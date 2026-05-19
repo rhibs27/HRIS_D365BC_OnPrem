@@ -50,6 +50,7 @@ table 50124 Leave
                     Validate("Province Name", EmpVar."Province Name");
                     Validate("Employee Attendance ID", EmpVar."Employee Attendance ID");
                     Validate("Branch Code", EmpVar."Branch Code");
+                    Validate("Employment Type", EmpVar."Employment Type");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -282,8 +283,10 @@ table 50124 Leave
                         Clear("Child's Gender");
                     end;
                 end else
-                    if LeaveTypeVar.Get("Leave Code") then
-                        Validate("Leave Description", LeaveTypeVar.Description)
+                    if LeaveTypeVar.Get("Leave Code") then begin
+                        Validate("Leave Description", LeaveTypeVar.Description);
+                        Validate("Pay Type", LeaveTypeVar."Pay Type");
+                    end;
             end;
         }
         field(52; "Leave Description"; Text[50])
@@ -379,6 +382,7 @@ table 50124 Leave
                     Validate("Branch Name", '');
             end;
         }
+        field(66; "Employment Type"; Enum "Employee Type") { }
         field(100; "Status"; Text[20]) { }
         field(200; Claimed; Boolean) { }
         field(201; "Claimed Doc No."; Code[20]) { }
@@ -434,6 +438,7 @@ table 50124 Leave
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
+        EmailMgt: Codeunit "Email Mgt";
 
     trigger OnInsert()
     var
@@ -470,7 +475,7 @@ table 50124 Leave
                             if not GuiAllowed then begin
                                 Type := type::"Leave Request";
                                 leaveMgt.ApplyForLeave(Rec);
-                                OnAfterApplyForLeave(Rec);
+                                EmailMgt.SendLeaveFromTemplate(Type, "Approval Status"::Pending, "Employee No.", "No.", Rec)
                             end;
                         end;
                 end;
@@ -522,11 +527,6 @@ table 50124 Leave
 
     [IntegrationEvent(false, false)]
     local procedure OnvalidateEndDateOnbeforeCalculatingNoofDays(var Leave: Record Leave; var IsHandled: Boolean);
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterApplyForLeave(var Leave: Record Leave)
     begin
     end;
 

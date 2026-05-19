@@ -231,6 +231,7 @@ table 50034 "Posted Payroll Header"
         AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
         OvertimeLedgerEntry: Record "OverTime Ledger Entry";
         SalaryDeductionEntry: Record "Salary Deduction Entry";
+        PGSetup: Record "Payroll General Setup";
     begin
         LeaveEarn.SetRange("Payroll Posted", true);
         LeaveEarn.SetRange("Payroll Document No", PostedDocNo);
@@ -243,9 +244,16 @@ table 50034 "Posted Payroll Header"
 
         AllowanceAssignmentLine.SetRange("Payroll Doc No.", PostedDocNo);
         if AllowanceAssignmentLine.FindSet() then
-            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+            repeat
+                AllowanceAssignmentLine.Validate("Payroll Doc No.", '');
+                AllowanceAssignmentLine.Validate("Payroll Posted", false);
+            until AllowanceAssignmentLine.Next() = 0;
 
-        AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
+        PGSetup.Get();
+        if PGSetup."Get Amount From Assignment" then
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Allowance Assignment Memo")
+        else
+            AssignmentMemoLedgerEntry.SetRange("Employee Activity Type", AssignmentMemoLedgerEntry."Employee Activity Type"::"Request Allowance");
         AssignmentMemoLedgerEntry.SetRange("Payroll Document No.", PostedDocNo);
         if AssignmentMemoLedgerEntry.FindSet() then
             repeat
@@ -263,6 +271,7 @@ table 50034 "Posted Payroll Header"
             repeat
                 OvertimeLedgerEntry."Payroll No." := '';
                 OvertimeLedgerEntry."OT Disbursed" := false;
+                OvertimeLedgerEntry.Posted := false;
                 OvertimeLedgerEntry.Modify();
             until OvertimeLedgerEntry.Next() = 0;
 
@@ -270,5 +279,13 @@ table 50034 "Posted Payroll Header"
         SalaryDeductionEntry.SetRange("Payroll Document No.", "No.");
         SalaryDeductionEntry.ModifyAll("Payroll Posted", false);
         SalaryDeductionEntry.ModifyAll("Payroll Document No.", '');
+
+        OnAfterUnmarkPostedPayrollDocNo(PostedDocNo);
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterUnmarkPostedPayrollDocNo(PostedDocNo: Code[20]);
+    begin
+        //Additional steps after unmarking payroll document number from related tables
     end;
 }

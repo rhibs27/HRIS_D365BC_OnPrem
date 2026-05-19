@@ -2,6 +2,17 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
 {
     fields
     {
+        modify(Date)
+        {
+            trigger OnAfterValidate()
+            var
+                NepaliMonth: Enum "Nepali Month";
+            begin
+                Validate("Nepali Date", HRMgt.GetNepaliDate(Date));
+                Evaluate(NepaliMonth, EnglishNepaliDate.getNepaliMonth(Date));
+                Validate("Nepali Month", NepaliMonth);
+            end;
+        }
         field(50000; "Holiday Type"; Enum "Holiday Type")
         {
             DataClassification = ToBeClassified;
@@ -66,6 +77,14 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             begin
                 Validate(Employee, HRMgt.LookupEmployee());
             end;
+        }
+        field(50012; "Nepali Date"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50013; "Nepali Month"; Enum "Nepali Month")
+        {
+            DataClassification = ToBeClassified;
         }
         field(50020; "Province Filter -OR"; Text[500])
         {
@@ -136,6 +155,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
     }
     var
         HRMgt: Codeunit "HR Mgt.";
+        EnglishNepaliDate: Record "English-Nepali Date";
 
     procedure UpdateEmployeeAttendanceActivity();
     var

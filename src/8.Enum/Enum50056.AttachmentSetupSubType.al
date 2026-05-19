@@ -54,4 +54,29 @@ enum 50056 "Attachment Setup SubType"
     {
         Caption = 'Funeral Allowance';
     }
+    value(13; "Resign Letter")
+    {
+        Caption = 'Resign Letter';
+    }
+    value(14; "Home Loan Settelment")
+    {
+        Caption = 'Home Loan Settelment';
+    }
+    value(15; "Vehicle Loan Settelment")
+    {
+        Caption = 'vehicle Loan Settelment';
+    }
+    value(16; "Social Loan Settelment")
+    {
+        Caption = 'Social Loan Settelment';
+    }
+    value(17; "Personal Loan Settelment")
+    {
+        Caption = 'Personal Loan Settelment';
+    }
+    value(18; "Transfer Takeover")
+    {
+        Caption = 'Transfer Takeover';
+    }
+
 }

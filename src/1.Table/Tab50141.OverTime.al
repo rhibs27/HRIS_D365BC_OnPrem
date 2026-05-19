@@ -88,6 +88,7 @@ table 50141 OverTime
                     Validate("Fiscal Year", HrMgt.ReturnFiscalYear("Start Date"));
                     Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
                     if type = type::Overtime then begin
+                        OnCheckOvertimeBackdateLimit(Rec."Start Date");
                         HrMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                         EmployeeAttendance.Reset;
                         EmployeeAttendance.SetRange("Employee No.", "Employee No.");
@@ -102,6 +103,7 @@ table 50141 OverTime
                                 Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
                                 Validate("Day Type", EmployeeAttendance."Day Type");
                                 Validate("Overnight Shift", EmployeeAttendance."OverNight Shift");
+                                Validate("Week day", EmployeeAttendance.Week);
                             end;
                         end else
                             Error('No Attendance Found on %1', rec."Start Date");
@@ -170,21 +172,10 @@ table 50141 OverTime
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            // Editable = false;
+            Editable = false;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
-            CaptionClass = '1,2,1';
-            Editable = false;
-            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-            trigger OnValidate()
-            begin
-                GLSetup.Get;
-                if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-                    Validate("Branch Name", DimValue.Name)
-                else
-                    Validate("Branch Name", '');
-            end;
         }
         field(18; Department; Code[20])
         {
@@ -392,6 +383,9 @@ table 50141 OverTime
         {
             DataClassification = ToBeClassified;
         }
+        field(69; "Week day"; Enum Week)
+        {
+        }
         field(100; Status; text[20]) { }
     }
     keys
@@ -483,6 +477,11 @@ table 50141 OverTime
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeOTDateValidation(Var Overtime: Record OverTime; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCheckOvertimeBackdateLimit(var startDate: Date)
     begin
     end;
 

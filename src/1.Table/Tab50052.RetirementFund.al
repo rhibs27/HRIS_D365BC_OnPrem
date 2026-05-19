@@ -219,7 +219,7 @@ table 50052 "Retirement Fund"
         }
         field(103; "Attribute Code"; Code[20])
         {
-            TableRelation = "Payroll Attributes".Code where(Subtype = filter(CIT | RF));
+            TableRelation = "Payroll Attributes Usage".Code where("Employee Code" = field("Employee No."), Subtype = filter(CIT | RF));
             Caption = 'Attribute Code';
             trigger OnValidate()
             var

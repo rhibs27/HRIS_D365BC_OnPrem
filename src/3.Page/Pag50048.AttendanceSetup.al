@@ -43,6 +43,11 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies the value of the Working Hour per day field.';
                     ApplicationArea = All;
                 }
+                field("Per Day Late Tolerance"; Rec."Per Day Late Tolerance")
+                {
+                    ToolTip = 'Specifies the value of per day late tolerance';
+                    ApplicationArea = All;
+                }
                 field("Deactivate Punch in Count"; Rec."Deactivate Punch in Count")
                 {
                     ToolTip = 'Specifies the value of the Deactivate Punch in Count field.';
@@ -93,6 +98,16 @@ page 50048 "Attendance Setup"
                 field("Absent Deductions"; Rec."Absent Deductions")
                 {
                     ToolTip = 'Specifies the value of Absent Deductions field';
+                    ApplicationArea = All;
+                }
+                field("Attendance Allowed From"; Rec."Attendance Allowed From")
+                {
+                    ToolTip = 'Specifies the value of Attendance Allowed From field';
+                    ApplicationArea = All;
+                }
+                field("Default Work Shift"; Rec."Default Work Shift")
+                {
+                    ToolTip = 'Specifies the default work shift code which will be used in employee card when the employee card is created.';
                     ApplicationArea = All;
                 }
             }

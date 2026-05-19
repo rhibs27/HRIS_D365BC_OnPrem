@@ -51,11 +51,14 @@ page 50181 "Request Allowance Subform"
                     trigger OnLookup(var Text: Text): Boolean
                     var
                         EmployeeRelative: Record "Employee Relative";
+                        AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                     begin
                         EmployeeRelative.SetRange("Employee No.", Rec."Employee No.");
                         EmployeeRelative.SetRange(Relationship, EmployeeRelative.Relationship::Children);
+                        EmployeeRelative.SetRange(Discontinue, false);
                         if Page.RunModal(Page::"Employee Relatives", EmployeeRelative) = Action::LookupOK then
-                            Rec."Name of Children" := EmployeeRelative."Full Name";
+                            Rec.Validate("Name of Children", EmployeeRelative."Full Name");
+                        AssignmentMemoMgt.LookUpNameofChildren(EmployeeRelative, Rec);
                     end;
                 }
                 field("Grade/Class"; Rec."Grade/Class")
@@ -130,6 +133,26 @@ page 50181 "Request Allowance Subform"
                 {
                     ToolTip = 'Specifies the value of the No of Approved Days field.', Comment = '%';
                 }
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("Reverse Line")
+            {
+                Image = ReverseRegister;
+                ToolTip = 'Executes the Reverse action.';
+                ApplicationArea = All;
+                Visible = Rec."Approval Status" = rec."Approval Status"::Approved;
+                trigger OnAction()
+                var
+                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                begin
+                    if Confirm('Do you want to reverse the document Line?', false) then
+                        AssignmentMemoMgt.ReverseAssignmentMemosLine(Rec);
+                end;
             }
         }
     }

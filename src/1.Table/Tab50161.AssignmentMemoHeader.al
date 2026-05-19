@@ -42,13 +42,13 @@ table 50161 "Assignment Memo Header"
             var
                 EngNepDate: Record "English-Nepali Date";
             begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "From Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
+                if "From Date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("From Date"));
+                    Validate("From Date(BS)", EngNepDate.getNepaliDate("From Date"));
+                end else begin
                     Clear("Fiscal Year");
-
+                    Clear("From Date(BS)");
+                end;
                 if Rec."From Date" <> xRec."From Date" then
                     Clear("To date");
 
@@ -59,11 +59,20 @@ table 50161 "Assignment Memo Header"
         field(4; "To date"; Date)
         {
             trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
             begin
                 if "Activity Type" <> "Activity Type"::"Request Allowance" then begin
                     TestField("From Date");
                     if "From Date" > "To date" then
                         Error('Invalid date.');
+                end;
+                if "To date" <> 0D then begin
+                    Validate("Fiscal Year", HrMgt.ReturnFiscalYear("To date"));
+                    Validate("To date(BS)", EngNepDate.getNepaliDate("To date"));
+                end else begin
+                    Clear("Fiscal Year");
+                    Clear("From Date(BS)");
                 end;
                 //check if dates are within the months
                 ValidateDatesAreWithinMonth("From Date", "To date");
@@ -84,7 +93,7 @@ table 50161 "Assignment Memo Header"
         }
         field(8; "Unit Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = const(Unit));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
         }
         field(9; "Document Date"; Date) { }
         field(10; Remarks; Text[250])
@@ -110,7 +119,7 @@ table 50161 "Assignment Memo Header"
             begin
                 if Employee.Get("Employee No.") then begin
                     SalaryLevel.Get(Employee."Salary Level");
-                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                    if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                         "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                         if "Fuel Limit (ltr)" = 0 then
                             "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -167,7 +176,7 @@ table 50161 "Assignment Memo Header"
 
                         if Employee.Get("Employee No.") then begin
                             SalaryLevel.Get(Employee."Salary Level");
-                            if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
+                            if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
                                 "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
                                 if "Fuel Limit (ltr)" = 0 then
                                     "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
@@ -176,29 +185,28 @@ table 50161 "Assignment Memo Header"
                         GetVehicleDetails();
                     end;
                 end else begin
-                    if not GuiAllowed then begin
-                        if Employee2.Get(HrMgt.GetEmployeeNo()) then begin
-                            "Employee Name" := Employee2.FullName();
-                            "Permanent Address" := Employee2.Address;
-                            "Temporary Address" := Employee2."Temporary Address";
-                            "Salary Level" := Employee2."Salary Level";
+                    // if Employee2.Get(HrMgt.GetEmployeeNo()) then begin
+                    if Employee2.Get("Employee No.") then begin
+                        "Employee Name" := Employee2.FullName();
+                        "Permanent Address" := Employee2.Address;
+                        "Temporary Address" := Employee2."Temporary Address";
+                        "Salary Level" := Employee2."Salary Level";
 
-                            if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
-                                "Province Code" := Employee."Province Code";
-                                "Branch Code" := Employee."Branch Code";
-                                "Department Code" := Employee."Department Code";
-                                "Unit Code" := Employee."Unit Code";
+                        if "Activity Type" in ["Activity Type"::"Request Allowance"] then begin
+                            "Province Code" := Employee."Province Code";
+                            "Branch Code" := Employee."Branch Code";
+                            "Department Code" := Employee."Department Code";
+                            "Unit Code" := Employee."Unit Code";
 
-                                if Employee.Get("Employee No.") then begin
-                                    SalaryLevel.Get(Employee."Salary Level");
-                                    if Employee."Vehicle Type" in [Employee."Vehicle Type"::"Four Wheeler", Employee."Vehicle Type"::"Two Wheeler"] then begin
-                                        "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
-                                        if "Fuel Limit (ltr)" = 0 then
-                                            "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
-                                    end;
+                            if Employee.Get("Employee No.") then begin
+                                SalaryLevel.Get(Employee."Salary Level");
+                                if Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler" then begin
+                                    "Fuel Limit (ltr)" := SalaryLevel."Fuel Limit (ltr)";
+                                    if "Fuel Limit (ltr)" = 0 then
+                                        "Fuel Limit (amt)" := SalaryLevel."Transportation Allowance";
                                 end;
-                                GetVehicleDetails();
                             end;
+                            GetVehicleDetails();
                         end;
                     end;
                 end;
@@ -243,6 +251,7 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod: Record "Pay Cycle Period";
                 PGSetup: Record "Payroll General Setup";
                 Employee: Record Employee;
+                isHandled: Boolean;
             begin
                 //based on nepali month selected update the from date to date and other field
                 PGSetup.Get();
@@ -251,15 +260,18 @@ table 50161 "Assignment Memo Header"
                 PayCyclePeriod.SetFilter("Nepali Month", '%1', "Nepali Month");
                 PayCyclePeriod.SetFilter("Start Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
                 if PayCyclePeriod.FindFirst() then begin
-                    if not GuiAllowed and HrMgt.IsSaaS() then
-                        Employee.Get("Employee No.")
-                    else
-                        Employee.Get(HrMgt.GetEmployeeNo());
-                    IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
-                        "From Date" := Employee."Employment Date"
-                    else
-                        "From Date" := PayCyclePeriod."Start Date";
-                    "To date" := PayCyclePeriod."End Date";
+                    OnBeforeGetPaycycleAllowancePeriod(Rec, Employee, PayCyclePeriod, isHandled);
+                    if not isHandled then begin
+                        if (not GuiAllowed) and HrMgt.IsSaaS() then
+                            Employee.Get("Employee No.")
+                        else
+                            Employee.Get(HrMgt.GetEmployeeNo());
+                        IF Employee."Employment Date" > PayCyclePeriod."Start Date" then
+                            "From Date" := Employee."Employment Date"
+                        else
+                            "From Date" := PayCyclePeriod."Start Date";
+                        "To date" := PayCyclePeriod."End Date";
+                    end;
                     "Pay Cycle Code" := PayCyclePeriod."Pay Cycle Code";
                     "Pay Cycle Term" := PayCyclePeriod."Pay Cycle Term";
                     "Pay Cycle Period" := PayCyclePeriod.Period;
@@ -310,6 +322,13 @@ table 50161 "Assignment Memo Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(106; "From Date(BS)"; Code[20])
+        {
+        }
+        field(107; "To date(BS)"; Code[20])
+        {
+        }
+
     }
 
     keys
@@ -365,10 +384,13 @@ table 50161 "Assignment Memo Header"
     var
         TempAssignmentmemoHdr: Record "Assignment Memo Header" temporary;
         Recordref: RecordRef;
+        Ishandled: Boolean;
     begin
         "Document Date" := WorkDate();
         PGSetup.Get();
-        PGSetup.TestField("Use Allowance Configuration");
+        OnBeforeInsert(Ishandled);
+        if not Ishandled then
+            PGSetup.TestField("Use Allowance Configuration");
         TestField("Employee No.");
         Validate("Employee No.");
         if "No." = '' then
@@ -491,7 +513,6 @@ table 50161 "Assignment Memo Header"
                     IncDocAttachment."Entry No." := GetNextEntrNo;
                     IncDocAttachment."No." := DocumentNo;
                     IncDocAttachment."Document No." := DocumentNo;
-                    IncDocAttachment.Validate(Type, IncDocAttachment.Type::" ");
                     IncDocAttachment.Validate(Description, Format(EmpActType) + ': ' + Format(DocumentNo));
                     if EmpActType = EmpActType::"Request Allowance" then
                         IncDocAttachment.Validate("Employee Code", EmployeeNo);
@@ -539,7 +560,11 @@ table 50161 "Assignment Memo Header"
     procedure CheckIfWithinAllowancePeriod()
     var
         PayCyclePeriod: Record "Pay Cycle Period";
+        isHandled: Boolean;
     begin
+        OnSkipCheckIfWithinAllowancePeriod(PayCyclePeriod, Rec, isHandled);
+        if isHandled then
+            exit;
         if "Activity Type" <> "Activity Type"::"Request Allowance" then
             exit;
         PayCyclePeriod.SetFilter("Start Date", '<=%1', "Document Date");
@@ -594,5 +619,20 @@ table 50161 "Assignment Memo Header"
 
         if ((not PGSetup."Allow Future Allowance Request") and ("To Date" > PayCyclePeriod."End Date")) then
             Error('Future allowance request is not allowed as per payroll setup.');
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsert(var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGetPaycycleAllowancePeriod(var AssignmentMemoHeader: Record "Assignment Memo Header"; Employee: Record Employee; PaycyclePeriod: Record "Pay Cycle Period"; var isHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSkipCheckIfWithinAllowancePeriod(PaycyclePeriod: Record "Pay Cycle Period"; AssignmentMemoHeader: Record "Assignment Memo Header"; var isHandled: Boolean)
+    begin
     end;
 }

@@ -302,7 +302,23 @@ table 50096 "Employee Service History"
         {
             DataClassification = ToBeClassified;
         }
-
+        field(80; "Suspension Level Code"; Code[20])
+        {
+            Caption = 'Suspension Level Code';
+            TableRelation = "Suspension Level";
+            DataClassification = CustomerContent;
+        }
+        field(81; "Cause of Inactivity Code"; Code[10])
+        {
+            Caption = 'Cause of Inactivity Code';
+            TableRelation = "Cause of Inactivity";
+            DataClassification = CustomerContent;
+        }
+        field(82; "Suspension Reason"; Text[100])
+        {
+            Caption = 'Suspension Reason';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys

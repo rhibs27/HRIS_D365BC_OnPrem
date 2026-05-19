@@ -290,6 +290,7 @@ table 50095 "Posted Employee Journal"
             TableRelation = Employee."No." where(status = const("Employee Status"::Active));
         }
         field(84; "Outgoing Rep. Person Name 2"; Text[50]) { }
+        field(85; "On Employee Request"; Boolean) { }
         // OverTime
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {

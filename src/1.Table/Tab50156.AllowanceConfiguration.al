@@ -59,7 +59,7 @@ table 50156 "Allowance Configuration"
             Description = 'Filter by Department Code.';
             trigger OnLookup()
             begin
-                "Department Code" := HrMgt.LookupDepartment('', '');
+                "Department Code" := HrMgt.LookupDepartment('');
             end;
         }
         field(9; Amount; Decimal)
@@ -96,6 +96,11 @@ table 50156 "Allowance Configuration"
             Editable = false;
             FieldClass = FlowField;
             CalcFormula = lookup("Payroll Attributes"."Specific Attributes" where(Code = field("Payroll Attribute")));
+        }
+        field(11; "Day Type"; Enum "Day Type")
+        {
+            DataClassification = ToBeClassified;
+            InitValue = " ";
         }
     }
     keys

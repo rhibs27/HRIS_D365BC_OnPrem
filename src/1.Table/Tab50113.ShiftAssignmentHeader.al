@@ -16,6 +16,13 @@ table 50113 "Shift Assignment Header"
         field(3; "Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Deputation Type';
+            trigger OnValidate()
+            begin
+                if "Deputation Type" = "Deputation Type"::" " then begin
+                    Clear("Deputation Code");
+                    Clear("Deputation Name");
+                end;
+            end;
         }
         field(4; "Deputation Code"; Code[20])
         {
@@ -55,8 +62,6 @@ table 50113 "Shift Assignment Header"
             begin
                 if "From date" > "To Date" then
                     Error('Invalid date.');
-                if GuiAllowed then
-                    CheckForExistingDate("No.");
             end;
         }
         field(8; "No. Series"; Code[20])
@@ -141,6 +146,11 @@ table 50113 "Shift Assignment Header"
             Caption = 'Approved Date';
             Editable = false;
         }
+        field(38; "Substitute Approval Status"; Enum "Approval Status")
+        {
+            Caption = 'Substitute Approval Status';
+            Editable = false;
+        }
         field(100; Status; Text[20])
         {
             Caption = 'Status';
@@ -177,9 +187,6 @@ table 50113 "Shift Assignment Header"
                 Validate("Employee No.", HrMgt.GetEmployeeNo());
             Validate("Approval Status", "Approval Status"::Open);
         end;
-        // TestField(Code);
-        // if not GuiAllowed then
-        //     CheckForSameWeek;
         HRSetup.Get;
         if "No." = '' then
             case "Type" of
@@ -195,9 +202,6 @@ table 50113 "Shift Assignment Header"
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Type", "Approval Status");
                     end;
             end;
-        if not GuiAllowed then
-            if Type = Type::"Shift Assignment" then
-                CheckForExistingDate("No.");
     end;
 
     var
@@ -209,24 +213,4 @@ table 50113 "Shift Assignment Header"
         ShiftLine: Record "Shift Line";
         Employee: Record Employee;
         ShiftAssignmentRec: Record "Shift Assignment Header";
-
-    procedure CheckForExistingDate(No: Code[20])
-    var
-        ShiftAssignment: Record "Shift Assignment Header";
-    begin
-        ShiftAssignment.Reset;
-        if GuiAllowed then
-            ShiftAssignment.SetFilter("No.", '<>%1', No);
-        ShiftAssignment.SetRange(Type, ShiftAssignment.Type::"Shift Assignment");
-        ShiftAssignment.SetRange("Fiscal Year", "Fiscal Year");
-        ShiftAssignment.SetRange("Deputation Code", "Deputation Code");
-        if "Deputation Sub Type" in [ShiftAssignment."Deputation Sub Type"::"Extension Counter", ShiftAssignment."Deputation Sub Type"::Unit] then
-            ShiftAssignment.SetRange("Deputation Sub Type Code", "Deputation Sub Type Code");
-        ShiftAssignment.SetFilter("Approval Status", '<>%1&<>%2', ShiftAssignment."Approval Status"::Rejected, ShiftAssignment."Approval Status"::Canceled);
-        if ShiftAssignment.Findset then
-            repeat
-                if ("From Date" <= ShiftAssignment."TO date") and ("To date" >= ShiftAssignment."From Date") then
-                    Error('Shift Assignment for this period %1 and %2 is already been assigned in %3.', ShiftAssignment."From Date", ShiftAssignment."To Date", ShiftAssignment."No.");
-            until ShiftAssignment.Next() = 0;
-    end;
 }

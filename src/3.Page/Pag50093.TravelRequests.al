@@ -49,6 +49,10 @@ page 50093 "Travel Requests"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
+                field(Cancelled; rec.Cancelled)
+                {
+                    ApplicationArea = All;
+                }
                 field(Extended; Rec.Extended)
                 {
                     ToolTip = 'Specifies the value of the Extended Travel field.';
@@ -62,6 +66,11 @@ page 50093 "Travel Requests"
                 field("Advance Cash Required"; Rec."Advance Cash Required")
                 {
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
+                    ApplicationArea = All;
+                }
+                field("Advance Cash"; Rec."Advance Cash")
+                {
+                    ToolTip = 'Specifies the value of the Advance Cash field.';
                     ApplicationArea = All;
                 }
                 field("Disbursed Advance"; Rec."Advance Disbursed")
@@ -91,6 +100,7 @@ page 50093 "Travel Requests"
                 trigger OnAction()
                 var
                     SelectedRec: Record "Travel Request";
+                    ExchangeRate: Decimal;
                 begin
                     CurrPage.SetSelectionFilter(SelectedRec);
 
@@ -101,9 +111,14 @@ page 50093 "Travel Requests"
                             Error('All selected records must have Approval Status = Approved And "Advance Cash Required" must be True. Record %1', SelectedRec."No.");
                     until SelectedRec.Next() = 0;
 
+                    if Rec."Travel Countries" <> Rec."Travel Countries"::Nepal then
+                        OnBeforeAdvanceDisbursed(ExchangeRate);
+
                     if Confirm('Do you want to process the selected records?', false) then begin
                         SelectedRec.FindSet();
                         repeat
+                            if ExchangeRate <> 0 then
+                                OnApplyAdvanceDisbursed(SelectedRec, ExchangeRate);
                             // Once disbursed, it should not be set advance Disbursed to false again
                             // SelectedRec.Validate("Advance Disbursed", not SelectedRec."Advance Disbursed");
                             SelectedRec.Validate("Advance Disbursed", true);
@@ -270,4 +285,14 @@ page 50093 "Travel Requests"
         IsPending: Boolean;
         ApprovalMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeAdvanceDisbursed(var ExchangeRate: Decimal)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnApplyAdvanceDisbursed(var TravelReq: Record "Travel Request"; ExchangeRate: Decimal)
+    begin
+    end;
 }

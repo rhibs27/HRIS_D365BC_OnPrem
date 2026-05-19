@@ -102,11 +102,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Bulk Cash No. field.';
             }
-            field("Resignation No."; Rec."Resignation No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Resignation No. field.';
-            }
             field("Salary Advance No."; Rec."Salary Advance No.")
             {
                 ApplicationArea = All;
@@ -131,6 +126,16 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Vehicle Loan No. field.';
+            }
+            field("Staff Social Loan No."; rec."Staff Social Loan No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Staff Social Loan No. field.';
+            }
+            field("Loan Settlement No."; rec."Loan Settlement No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the No. Series for Home Loan Settlement documents.';
             }
             field("OT eligible hour"; Rec."OT eligible hour")
             {
@@ -218,6 +223,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Calculate Age using Nepali Calender field.', Comment = '%';
             }
+            field("Service Day without Last Date"; Rec."Service Day without Last Date")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Service Day without LastDate field.', Comment = '%';
+            }
             field("Validate Permanent Address"; Rec."Validate Permanent Address")
             {
                 ApplicationArea = All;
@@ -247,6 +257,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Leave Encashment Nos. field.', Comment = '%';
+                }
+                field("Grievance No."; Rec."Grievance No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Grievance No. Nos. field.', Comment = '%';
                 }
             }
             group("Mail For Recruitement")
@@ -352,8 +367,69 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ToolTip = 'Specifies the value of the Very Good Service Period field.';
                 }
             }
-            group(Loan)
+            group("Loan SetUp")
             {
+                group("Home loan")
+                {
+                    field("Home Loan Eligible Month"; Rec."Home Loan Eligible Month")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Home Loan Eligible Month field.';
+                    }
+                    field("HL Eligibility Service Years"; Rec."HL Eligibility Service Years")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Home Loan Eligible Service Years field.';
+                    }
+                    field("Home Loan Confirmation Period"; Rec."Home Loan Confirmation Period")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Home Loan Confirmation Period field.';
+                    }
+                    field("Home/Persona Loan Repay Period"; Rec."Home/Persona Loan Repay Period")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Home/Persona Loan Repay Period field.';
+                    }
+                    field("HL Minimum Road Access OutV."; rec."HL Minimum Road Access OutV.")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Home Loan Minimum Road Access Outside valley.';
+                    }
+                    field("HL Minmum Road Access InV."; rec."HL Minmum Road Access InV.")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Home Loan Minimum Road Access Inside valley.';
+                    }
+                }
+                group("Vechile loan")
+                {
+                    field("Vehicle Loan Eligible Month"; Rec."Vehicle Loan Eligible Month")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Vehicle Loan Eligible Month field.';
+                    }
+
+                    field("Loan Eligible Month Below SO"; Rec."Loan Eligible Month Below SO")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Loan Eligible Month Below SO field.';
+                    }
+                    field("V.loan Repay. Limit SO or less"; Rec."V.loan Repay. Limit SO or less")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the V.loan Repay. Limit SO or less field.';
+                    }
+                    field("V.loan Repay. Limit above SO"; Rec."V.loan Repay. Limit above SO")
+                    {
+                        ApplicationArea = All;
+                    }
+                    field("Max. Veh. Loan Repay Period"; Rec."Max. Veh. Loan Repay Period")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Max. Veh. Loan Repay Period field.';
+                    }
+                }
                 field("HR Head Functional Title"; Rec."HR Head Functional Title")
                 {
                     ApplicationArea = All;
@@ -394,49 +470,21 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Below SO DBR field.';
                 }
-                field("Vehicle Loan Eligible Month"; Rec."Vehicle Loan Eligible Month")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Vehicle Loan Eligible Month field.';
-                }
-                field("Home Loan Eligible Month"; Rec."Home Loan Eligible Month")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Home Loan Eligible Month field.';
-                }
-                field("Loan Eligible Month Below SO"; Rec."Loan Eligible Month Below SO")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Loan Eligible Month Below SO field.';
-                }
-                field("V.loan Repay. Limit SO or less"; Rec."V.loan Repay. Limit SO or less")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the V.loan Repay. Limit SO or less field.';
-                }
-                field("V.loan Repay. Limit above SO"; Rec."V.loan Repay. Limit above SO")
-                {
-                    ApplicationArea = All;
-                }
-                field("Max. Veh. Loan Repay Period"; Rec."Max. Veh. Loan Repay Period")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Max. Veh. Loan Repay Period field.';
-                }
-                field("Home/Persona Loan Repay Period"; Rec."Home/Persona Loan Repay Period")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Home/Persona Loan Repay Period field.';
-                }
+
                 field("Spouse Code"; Rec."Spouse Code")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Spouse Code field.';
                 }
-                field("Home Loan Confirmation Period"; Rec."Home Loan Confirmation Period")
+                field("Max Staff Social Loan Amount"; rec."Max Staff Social Loan Amount")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Home Loan Confirmation Period field.';
+                    ToolTip = 'Specifies the value of the Max Staff Social Loan Amount field.';
+                }
+                field("Get Loan Table Balance"; Rec."Get Loan Table Balance")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'If enabled, previous loan amount is calculated from Employee Loan/Advance table (Approved, Disbursed, not Settled) instead of Finacle.';
                 }
                 field("Base Interest Rate"; Rec."Base Interest Rate")
                 {
@@ -532,6 +580,21 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             }
             group(Resignation)
             {
+                field("Resignation No."; Rec."Resignation No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Resignation No. field.';
+                }
+                field("Apply Resign Waiver"; Rec."Apply Resign Waiver")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'If this value is set true Resign Waiver will be Apply.';
+                }
+                field("Hide Clearance Approver"; Rec."Hide Clearance Approver")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'If this value is set true clearance Approver will not be generated from setup.';
+                }
                 field("Resignation Period Contract"; Rec."Resignation Period Contract")
                 {
                     ApplicationArea = All;

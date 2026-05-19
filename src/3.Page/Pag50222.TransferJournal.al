@@ -26,6 +26,10 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
                     Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Transfer Category"; Rec."Transfer Category")
                 {
@@ -259,6 +263,34 @@ page 50222 "Transfer Journal"
                     CurrPage.Update();
                 end;
             }
+            action("Import From Excel")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = ImportExcel;
+                ToolTip = 'Executes the Import From Excel action.';
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want to Import Transfer Journal From Excel?', false) then
+                        exit;
+                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"HR Transfer");
+                end;
+            }
+            action("Export Format for Excel")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Export;
+                ToolTip = 'Executes the Export Format for Excel action.';
+                trigger OnAction()
+                begin
+                    if not Confirm('Do you want to Export Transfer Journal Format to Excel?', false) then
+                        exit;
+                    ExcelImportMgt.ExportTransferSheet(Rec);
+                end;
+            }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -299,6 +331,7 @@ page 50222 "Transfer Journal"
         HrSetup: Record "Human Resources Setup";
         SkipApproval: Boolean;
         AttachmentMgt: Codeunit "Attachment Mgt.";
+        ExcelImportMgt: Codeunit "Excel Import";
         SelectFileTxt: Label 'Attach File(s)...';
         ListOfDocNo: List of [Code[20]];
         i: Integer;

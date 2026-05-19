@@ -86,6 +86,17 @@ table 50167 "Det Salary Deduction Entry"
         {
             DataClassification = ToBeClassified;
         }
+        field(17; "Reversed From Pay Cycle Term"; Code[20])
+        {
+        }
+        field(18; "Reversed From Pay Cycle Period"; Integer)
+        {
+        }
+        field(19; Blocked; Boolean)
+        {
+            Editable = false;
+        }
+
     }
 
     keys

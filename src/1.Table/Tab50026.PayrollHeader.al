@@ -286,6 +286,12 @@ table 50026 "Payroll Header"
         }
         field(38; "Encashment Description"; Text[100]) { }
         field(501; "Optimal Deduction"; Boolean) { }
+        field(502; "No of Employees"; Integer)
+        {
+            CalcFormula = count("Payroll Line" where("Document No." = field("No.")));
+            Editable = false;
+            FieldClass = FlowField;
+        }
     }
 
     keys
@@ -328,13 +334,8 @@ table 50026 "Payroll Header"
         PayLine.Reset;
         PayLine.SetRange("Document No.", "No.");
         if PayLine.FindSet() then;
-        PayLine.DeleteAll;
-
-        //reset payroll tag
-        AllowanceAssignmentLine.Reset();
-        AllowanceAssignmentLine.SetRange("Payroll Doc No.", "No.");
-        if AllowanceAssignmentLine.FindSet() then
-            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+        PayLine.DeleteAll();
+        UnmarkPayrollDocNo("No.")
     end;
 
     var
@@ -360,7 +361,6 @@ table 50026 "Payroll Header"
         PayrollEngine: Codeunit "Payroll Engine";
         EncashmentSetup: Record "OT Encashment Setup";
         HrMgt: Codeunit "HR Mgt.";
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
 
     procedure AssistEdit(xSalaryHeader: Record "Payroll Header"): Boolean
     begin
@@ -799,5 +799,45 @@ table 50026 "Payroll Header"
             Validate("Pay Cycle Code", PayCyclePeriod."Pay Cycle Code");
             Validate("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
         end;
+    end;
+
+    procedure UnmarkPayrollDocNo("Document No.": Code[20])
+    var
+        AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry";
+        OvertimeLedgerEntry: Record "OverTime Ledger Entry";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        SalaryDeductionEntry: Record "Salary Deduction Entry";
+        LeaveEarn: Record "Leave Earn";
+    begin
+        AssignmentMemoLedgerEntry.Reset();
+        AssignmentMemoLedgerEntry.SetFilter("Payroll Document No.", "No.");
+        if AssignmentMemoLedgerEntry.FindSet() then
+            AssignmentMemoLedgerEntry.ModifyAll("Payroll Document No.", '');
+
+        LeaveEarn.Reset();
+        LeaveEarn.SetRange("Payroll Document No", "No.");
+        LeaveEarn.ModifyAll("Payroll Document No", '');
+
+        AllowanceAssignmentLine.Reset();
+        AllowanceAssignmentLine.SetRange("Payroll Doc No.", "No.");
+        AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", '');
+
+        OvertimeLedgerEntry.Reset();
+        OvertimeLedgerEntry.SetRange("Payroll No.", "No.");
+        OvertimeLedgerEntry.ModifyAll("Payroll No.", '');
+
+        SalaryDeductionEntry.Reset();
+        SalaryDeductionEntry.SetRange("Payroll Document No.", "No.");
+        SalaryDeductionEntry.ModifyAll("Payroll Document No.", '');
+
+        OnAfterUnmarkPayrollNo("No.");
+
+    end;
+
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterUnmarkPayrollNo(PayrollDocNo: Code[20])
+    begin
+        //Additional steps after unmarking payroll document number from related tables
     end;
 }

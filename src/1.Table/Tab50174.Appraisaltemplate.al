@@ -46,7 +46,7 @@ table 50174 "Appraisal Template"
         {
             Caption = 'Appraisal Subtype Monthly';
         }
-        field(7; "Appraisal Subtype Quarterly"; Enum Quater)
+        field(7; "Appraisal Subtype Quarterly"; Enum Quarter)
         {
             Caption = 'Appraisal Subtype Quarterly';
         }

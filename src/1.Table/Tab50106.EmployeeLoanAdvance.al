@@ -48,8 +48,6 @@ table 50106 "Employee Loan/Advance"
             trigger OnValidate()
             begin
                 if Employee.Get("Employee No.") then begin
-                    if Employee."Employment Type" <> employee."Employment Type"::"Permanent" then
-                        Error('Employee is not Permanent. Cannot apply for loan/advance.');
                     if Employee.Status <> employee.Status::Active then
                         Error('Employee is not active. Cannot apply for loan/advance.');
                     "Employee Name" := Employee.FullName();
@@ -63,6 +61,18 @@ table 50106 "Employee Loan/Advance"
                     Validate("Department Code", Employee."Department Code");
                     Validate("Extension Counter Code", Employee."Extension Counter Code");
                     Validate("Unit Code", Employee."Unit Code");
+                    Validate("Province Name", Employee."Province Name");
+                    Validate("Branch Name", Employee."Branch Name");
+                    Validate("Department Name", Employee."Department Name");
+                    Validate("Extension Counter Name", Employee."Extension Counter Name");
+                    Validate("Unit Name", Employee."Unit Name");
+                    Validate("Functional title", Employee."Functional Title");
+                    Validate("Salary Account Number", Employee."Bank Account No.");
+                    Validate("Employee Name in Nepali", Employee."Full Name (Nepali)");
+                    Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
+                    Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
+                    Validate("License No.", Employee."Driving License No.");
+                    Validate("Account No.", Employee."Bank Account No.");
                     if "Loan Type" = "Loan Type"::"Salary Advance" then
                         LoanMgt.NewSalaryAdvanceCheck("Employee No.");
                     Validate("Salary Level", Employee."Salary Level");
@@ -209,10 +219,11 @@ table 50106 "Employee Loan/Advance"
                 if GuiAllowed then begin
                     if xRec."Repayment Mode" <> "Repayment Mode" then begin
                         Clear("Insurance Tieup");
+                        Clear("Insurance Company Code");
+                        Clear("Name of Insurance Company");
                         Clear("Applied Loan/Advance");
                         Modify(true);
                     end;
-
                     if "Repayment Mode" = "Repayment Mode"::"Insurance Tieup" then
                         Clear("Interest Rate");
                 end;
@@ -239,9 +250,24 @@ table 50106 "Employee Loan/Advance"
                     InsurancePremiumSetup.SetRange(Age, Age);
                     InsurancePremiumSetup.SetRange(Period, "Repayment Period");
                     if not InsurancePremiumSetup.FindFirst then
-                        Error('Premium Setup is not available for this insurance company. Please contact HR department.');
+                        Error('Insurance Premium Setup is not available for this insurance company. Please contact HR department.');
                 end;
             end;
+        }
+        field(12; "Insurance Company Code"; Code[20])
+        {
+            TableRelation = "Insurance Company";
+            trigger OnValidate()
+            var
+                InsuranceCompany: Record "Insurance Company";
+            begin
+                if InsuranceCompany.Get("Insurance Company Code") then
+                    "Name of Insurance Company" := InsuranceCompany.Name;
+            end;
+        }
+        field(15; "Name of Insurance Company"; Text[50])
+        {
+            Editable = false;
         }
         field(48; "Property in the name of"; Text[50]) { }
         field(49; "Name of Spouse"; Text[50]) { }
@@ -251,7 +277,7 @@ table 50106 "Employee Loan/Advance"
         {
             trigger OnValidate()
             begin
-                CheckAreaofPlotFormat;
+                CheckAreaofPlotFormat("Area of Plot", FieldCaption("Area of Plot"), "Area Format");
             end;
         }
         field(53; "Estimated Cost of Construction"; Decimal)
@@ -290,7 +316,7 @@ table 50106 "Employee Loan/Advance"
         field(62; Settled; Boolean)
         {
             Description = '50';
-            Editable = false;
+            // Editable = false;
         }
         field(63; "Settlement Date"; Date)
         {
@@ -306,6 +332,7 @@ table 50106 "Employee Loan/Advance"
             trigger OnValidate()
             begin
                 Clear("Area of Plot");
+                Clear("Area of Propty. tobe Purchased");
             end;
         }
         field(67; "Purpose of Advance Salary"; Text[250])
@@ -362,6 +389,11 @@ table 50106 "Employee Loan/Advance"
         {
             Description = 'vehicle loan';
             Editable = false;
+
+            trigger OnValidate()
+            begin
+                "Outstanding Amount" := "Disbursed Amount";
+            end;
         }
         field(79; "Outstanding Amount"; Decimal)
         {
@@ -381,6 +413,10 @@ table 50106 "Employee Loan/Advance"
         field(84; "Offer Letter Issued Date"; Date)
         {
             Editable = false;
+            trigger OnValidate()
+            begin
+                "Offer Letter Date(Nepali)" := HRMgt.GetNepaliDate("Offer Letter Issued Date");
+            end;
         }
         field(85; "Amount In Words (Nepali)"; Text[50])
         {
@@ -437,6 +473,18 @@ table 50106 "Employee Loan/Advance"
         }
         field(101; "Reinstate Date"; Date) { }
         field(102; "Age Home Loan"; Decimal) { }
+        field(103; "Requested Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(104; Reversed; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(105; "Settlement Approval Status"; Enum "Approval Status")
+        {
+            DataClassification = ToBeClassified;
+        }
         field(188; "Deputation On"; Enum "Deputation Type")
         {
             Caption = 'Deputation On';
@@ -448,61 +496,26 @@ table 50106 "Employee Loan/Advance"
         field(190; "Province Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Province));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Province, "Province Code") then
-                    "Province Name" := OrgStructureList.Name
-                else
-                    "Province Name" := '';
-            end;
         }
         field(191; "Province Name"; Text[50]) { }
         field(192; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Branch));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Branch, "Branch Code") then
-                    "Branch Name" := OrgStructureList.Name
-                else
-                    "Branch Name" := '';
-            end;
         }
         field(193; "Branch Name"; Text[50]) { }
         field(194; "Department Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Department));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Department, "Department Code") then
-                    "Department Name" := OrgStructureList.Name
-                else
-                    "Department Name" := '';
-            end;
         }
         field(195; "Department Name"; Text[50]) { }
         field(196; "Extension Counter Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const("Extension Counter"));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::"Extension Counter", "Extension Counter Code") then
-                    "Extension Counter Name" := OrgStructureList.Name
-                else
-                    "Extension Counter Name" := '';
-            end;
         }
         field(197; "Extension Counter Name"; Text[50]) { }
         field(198; "Unit Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = const(Unit));
-            trigger OnValidate()
-            begin
-                if OrgStructureList.Get(OrgStructureList.Type::Unit, "Unit Code") then
-                    "Unit Name" := OrgStructureList.Name
-                else
-                    "Unit Name" := '';
-            end;
         }
         field(199; "Unit Name"; Text[50]) { }
         //flow loan journal
@@ -539,6 +552,70 @@ table 50106 "Employee Loan/Advance"
             Caption = 'Monthly Deduction';
             DataClassification = ToBeClassified;
         }
+        field(210; "Effective Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(211; "Salary Account Number"; Text[50])
+        {
+        }
+        field(212; "Area of Propty. tobe Purchased"; Text[50])
+        {
+            trigger OnValidate()
+            begin
+                CheckAreaofPlotFormat("Area of Propty. tobe Purchased", FieldCaption("Area of Propty. tobe Purchased"), "Area Format");
+            end;
+        }
+        field(213; "License No."; Text[30])
+        {
+        }
+        field(214; "License Expiry Date"; Date)
+        {
+        }
+        field(215; "License Category"; Enum "Driving License Category")
+        {
+        }
+        field(216; "Driving License Owner"; Option)
+        {
+            OptionMembers = Self,Spouse;
+        }
+        field(217; "Staff VL previously"; Boolean)
+        {
+            trigger OnValidate()
+            begin
+                if not "Staff VL previously" then begin
+                    Clear("HR Recommended Tenure");
+                    Clear("HR VL Recommended Amount");
+                end;
+            end;
+        }
+        field(218; "HR VL Recommended Amount"; Decimal)
+        {
+        }
+        field(219; "HR Recommended Tenure"; Integer)
+        {
+        }
+        field(220; "Settlement Type"; Enum "Settlement Type") { }
+        field(221; "Total Settled Amount"; Decimal)
+        {
+            Caption = 'Total Settled Amount';
+            CalcFormula = sum("Loan Settlement Entry"."Settled Amount" where("Loan No." = field("No.")));
+            FieldClass = FlowField;
+            Editable = false;
+        }
+        field(222; "Take-Home Salary"; Decimal)
+        {
+            Caption = 'Take-Home Salary';
+            Editable = false;
+        }
+        field(223; "Functional title"; Code[20])
+        {
+            TableRelation = "Functional Title";
+        }
+        field(301; "Access Token"; Code[60])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -553,17 +630,40 @@ table 50106 "Employee Loan/Advance"
     fieldgroups { }
 
     trigger OnDelete()
+    var
+        incomingAttachmentDoc: Record "Incoming Document";
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-            Error(CannotDelete);
+        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        //     Error(CannotDelete);
+        incomingAttachmentDoc.Reset();
+        incomingAttachmentDoc.SetRange("No.", "No.");
+        incomingAttachmentDoc.DeleteAll();
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document No.", "No.");
-        ApprovalEntry.DeleteAll();
+        ApprovalEntry.DeleteAll(true);
+
+        EmployeeAdvanceLoanAdvanceLine.Reset();
+        EmployeeAdvanceLoanAdvanceLine.SetCurrentKey("Document No.", "Loan Type");
+        EmployeeAdvanceLoanAdvanceLine.SetRange("Document No.", Rec."No.");
+        EmployeeAdvanceLoanAdvanceLine.SetRange("Loan Type", Rec."Loan Type");
+        EmployeeAdvanceLoanAdvanceLine.DeleteAll(true);
+
+        IncomingDocument.Reset;
+        IncomingDocument.SetCurrentKey("No.", "Employee Code", "Table ID");
+        IncomingDocument.SetRange("No.", Rec."No.");
+        IncomingDocument.SetRange("Employee Code", Rec."Employee No.");
+        IncomingDocument.SetRange("Table ID", Database::"Employee Loan/Advance");
+        if IncomingDocument.FindSet() then
+            repeat
+                AttachmentMgt.DeleteAttachment(IncomingDocument);
+                IncomingDocument.Delete(true);
+            until IncomingDocument.Next() = 0;
     end;
 
     trigger OnInsert()
     var
         EmployeeAdvanceLoan: Record "Employee Loan/Advance";
+        SkipSalaryLoanControl: Boolean;
     begin
         Validate(Type, Rec.Type::Loan);
 
@@ -575,8 +675,10 @@ table 50106 "Employee Loan/Advance"
                     begin
                         HRSetup.TestField("Salary Advance No.");
                         HRMgt.InitNoSeriesNew(HRSetup."Salary Advance No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
-                        SalaryAdvanceControl();
-                        SalaryAdvanceFiscalYearControl();
+                        //SalaryAdvanceFiscalYearControl();
+                        SkipSalaryAdvanceControl(SkipSalaryLoanControl);
+                        if not SkipSalaryLoanControl then
+                            SalaryAdvanceControl();
                     end;
                 "Loan Type"::"Personal Loan":
                     begin
@@ -593,27 +695,32 @@ table 50106 "Employee Loan/Advance"
                         HRSetup.TestField("Vehicle Loan No.");
                         HRMgt.InitNoSeriesNew(HRSetup."Vehicle Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
                     end;
+                "Loan Type"::"Staff Social Loan":
+                    begin
+                        HRSetup.TestField("Staff Social Loan No.");
+                        HRMgt.InitNoSeriesNew(HRSetup."Staff Social Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
+                    end;
             end;
             EmployeeAdvanceLoan.ReadIsolation(IsolationLevel::ReadUncommitted);
             EmployeeAdvanceLoan.SetLoadFields("No.");
             while EmployeeAdvanceLoan.Get("No.") do
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
-            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Loan Type");
+            ApproverMgt.InsertApprovalLoan(Rec."Employee No.", Rec."No.", Rec.Type, Rec."Approval Status", Rec."Loan Type");
         end;
-
-        LoanMgt.CalculateFields(Rec);
+        if "Approval Status" = "Approval Status"::Open then
+            LoanMgt.CalculateFields(Rec);
+        OnInsertLoanAttachmentFromAttachmentSetup(Rec);
         CheckForAlreadyExitsLoan();
     end;
 
     trigger OnModify()
     begin
-        // if (xRec."Approval Status" = "Approval Status") then
-        LoanMgt.CalculateFields(Rec);
+        if "Approval Status" = "Approval Status"::Open then
+            LoanMgt.CalculateFields(Rec);
     end;
 
     var
-        OrgStructureList: Record "Organization Structure List";
         LoanMgt: Codeunit "Loan Mgt.";
         HRMgt: Codeunit "HR Mgt.";
         Employee: Record Employee;
@@ -621,42 +728,46 @@ table 50106 "Employee Loan/Advance"
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
         Text2: Label 'Invalid format of %1 for %2.';
-        ErrorSalAdv: Label 'You cannot apply before 4 month of previous salary advance approved date %1';
-        ErrorFY: Label 'You cannot apply Salary Advance more than 2 times in a Fiscal Year %1.';
+        ErrorSalAdv: Label 'You cannot apply before %1 days of previous salary advance approved date %2';
+        ErrorFY: Label 'You cannot apply Salary Advance more than %1 times in a Fiscal Year %2.';
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
+        EmployeeAdvanceLoanAdvanceLine: Record "Employee Loan/Advance Line";
+        IncomingDocument: Record "Incoming Document";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 
-    local procedure CheckAreaofPlotFormat()
+    local procedure CheckAreaOfPlotFormat(FieldValue: Text; FieldCaptionText: Text; AreaFormat: Enum "Area Format")
     var
         ValueLength: Integer;
         FormatLength: Integer;
         FormatText: Text;
-        i: Integer;
         FormatText1: Text;
         FormatText2: Text;
+        i: Integer;
     begin
-        Clear(FormatText);
-        Clear(FormatLength);
-        Clear(ValueLength);
-        TestField("Area Format");
-        if "Area Format" <> "Area Format"::" " then begin
-            FormatText := CopyStr("Area of Plot", StrLen("Area of Plot"), StrLen("Area of Plot"));
-            if FormatText = '-' then
-                Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            if StrPos("Area of Plot", '-') = 1 then
-                Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            if StrPos("Area of Plot", '-') = (StrLen("Area of Plot") - 1) then
-                Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            FormatLength := StrLen(DelChr(Format("Area Format"), '=', DelChr(Format("Area Format"), '=', '-')));
-            ValueLength := StrLen(DelChr("Area of Plot", '=', DelChr("Area of Plot", '=', '-')));
-            if FormatLength <> ValueLength then
-                Error(Text2, "Area of Plot", "Area Format");
-            for i := 1 to ValueLength do begin
-                FormatText1 := CopyStr("Area of Plot", StrPos("Area of Plot", '-'), i);
-                FormatText2 := CopyStr("Area of Plot", StrPos("Area of Plot", '-') + i + 1, i + 1);
-                if (FormatText1 = '--') or (FormatText2 = '--') then
-                    Error(Text2, "Area of Plot", FieldCaption("Area of Plot"));
-            end;
+        if AreaFormat = AreaFormat::" " then
+            Error('Area Format must be set for %1', FieldCaptionText);
+
+        FormatText := CopyStr(FieldValue, StrLen(FieldValue), 1);
+        if FormatText = '-' then
+            Error(Text2, FieldValue, FieldCaptionText);
+
+        if StrPos(FieldValue, '-') = 1 then
+            Error(Text2, FieldValue, FieldCaptionText);
+
+        if StrPos(FieldValue, '-') = (StrLen(FieldValue) - 1) then
+            Error(Text2, FieldValue, FieldCaptionText);
+
+        FormatLength := StrLen(DelChr(Format(AreaFormat), '=', DelChr(Format(AreaFormat), '=', '-')));
+        ValueLength := StrLen(DelChr(FieldValue, '=', DelChr(FieldValue, '=', '-')));
+        if FormatLength <> ValueLength then
+            Error(Text2, FieldValue, Format(AreaFormat));
+
+        for i := 1 to ValueLength do begin
+            FormatText1 := CopyStr(FieldValue, StrPos(FieldValue, '-'), i);
+            FormatText2 := CopyStr(FieldValue, StrPos(FieldValue, '-') + i + 1, i + 1);
+            if (FormatText1 = '--') or (FormatText2 = '--') then
+                Error(Text2, FieldValue, FieldCaptionText);
         end;
     end;
 
@@ -671,7 +782,10 @@ table 50106 "Employee Loan/Advance"
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1&<>%2', EmpSalaryAdv."Approval Status"::Rejected, EmpSalaryAdv."Approval Status"::Approved);
         if "Loan Type" in ["Loan Type"::"Salary Advance", "Loan Type"::"Vehicle Loan", "Loan Type"::"Home Loan"] then
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1', EmpSalaryAdv."Approval Status"::Rejected);
+        if "Loan Type" in ["Loan Type"::"Staff Social Loan"] then
+            EmpSalaryAdv.SetFilter("Approval Status", '<>%1&<>%2', EmpSalaryAdv."Approval Status"::Rejected, EmpSalaryAdv."Approval Status"::Approved);
         EmpSalaryAdv.SetRange(Settled, false);
+        EmpSalaryAdv.SetRange(Reversed, false);
         if EmpSalaryAdv.FindFirst then
             Error('%1 already exist for employee %2.Settle this Loan First.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
     end;
@@ -698,22 +812,35 @@ table 50106 "Employee Loan/Advance"
         EmpSalaryAdv.SetRange("Approval Status", EmpSalaryAdv."Approval Status"::Approved);
         if EmpSalaryAdv.FindLast then begin
             if "Requested Loan Date" < EmpSalaryAdv."Approved Date" + HRSetup."Salary Advance Apply Days" then
-                Error(ErrorSalAdv, EmpSalaryAdv."Approved Date");
+                Error(ErrorSalAdv, HRSetup."Salary Advance Apply Days", EmpSalaryAdv."Approved Date");
         end;
     end;
 
-    local procedure SalaryAdvanceFiscalYearControl()
+    local procedure SalaryAdvanceFiscalYearControl() // this is comment bacause - frequency of salrary loan must be maintain from setup.
     var
         EmpSalaryAdvance: Record "Employee Loan/Advance";
     begin
+        HRSetup.Get;
         EmpSalaryAdvance.SetLoadFields("No.", "Loan Type", "Approval Status", "Employee No.", Settled, "Fiscal Year");
         EmpSalaryAdvance.SetRange("Employee No.", "Employee No.");
         EmpSalaryAdvance.SetRange("Loan Type", EmpSalaryAdvance."Loan Type"::"Salary Advance");
         EmpSalaryAdvance.SetRange("Approval Status", EmpSalaryAdvance."Approval Status"::Approved);
         EmpSalaryAdvance.SetRange("Fiscal Year", "Fiscal Year");
         if EmpSalaryAdvance.FindSet then begin
-            if EmpSalaryAdvance.Count >= 2 then
-                Error(ErrorFY, EmpSalaryAdvance."Fiscal Year");
+            if EmpSalaryAdvance.Count >= HRSetup."No of Salary Advance" then
+                Error(ErrorFY, HRSetup."No of Salary Advance", EmpSalaryAdvance."Fiscal Year");
         end;
+    end;
+
+    local procedure SkipSalaryAdvanceControl(var SkipSalaryLoanControl: Boolean)
+    var
+        LoanMgt: Codeunit "Loan Mgt.";
+    begin
+        LoanMgt.OnSkipSalaryAdvanceControl(SkipSalaryLoanControl);
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnInsertLoanAttachmentFromAttachmentSetup(EmployeeLoanAdvance: Record "Employee Loan/Advance")
+    begin
     end;
 }

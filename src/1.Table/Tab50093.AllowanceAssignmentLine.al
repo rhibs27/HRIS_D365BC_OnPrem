@@ -79,7 +79,7 @@ table 50093 "Allowance Assignment Line"
             trigger OnValidate()
             begin
                 Validate("To Date", "From Date");
-                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date", "Emp Act Type");
+                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee(Rec);
                 AllowanceMgt.CheckMutuallyExclusive(Rec);
                 AllowanceMgt.CheckDate(Rec);
                 AllowanceMgt.CheckMaximumEmployeeInBranch(Rec);
@@ -162,6 +162,7 @@ table 50093 "Allowance Assignment Line"
         field(52; "Payroll Doc No."; Code[20]) { }
         field(29; "Allowance Claimed"; Boolean) { }
         field(30; "Allowance Claim from Line No"; Integer) { }
+        field(31; "Payroll Posted"; Boolean) { }
     }
 
     keys

@@ -12,9 +12,9 @@ page 50016 "Facilitator Pool Lists"
         {
             repeater(Group)
             {
-                field("Fiscal Year"; Rec."Fiscal Year")
+                field("Trainer Type"; Rec."Trainer Type")
                 {
-                    ToolTip = 'Specifies the value of the Fiscal Year field.';
+                    ToolTip = 'Specifies the value of the Trainer Type field.';
                     ApplicationArea = All;
                 }
                 field("Employee No."; Rec."Employee No.")
@@ -26,31 +26,36 @@ page 50016 "Facilitator Pool Lists"
                 {
                     ToolTip = 'Specifies the value of the Name field.';
                     ApplicationArea = All;
+                    Editable = Rec."Trainer Type" = Rec."Trainer Type"::External;
+                }
+                field("Fiscal Year"; Rec."Fiscal Year")
+                {
+                    ToolTip = 'Specifies the value of the Fiscal Year field.';
+                    ApplicationArea = All;
                 }
                 field(Province; Rec.Province)
                 {
                     ToolTip = 'Specifies the value of the Province field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
-                // field("Sub Province"; Rec."Sub Province")
-                // {
-                //     ToolTip = 'Specifies the value of the Sub Province field.';
-                //     ApplicationArea = All;
-                // }
                 field(District; Rec.District)
                 {
                     ToolTip = 'Specifies the value of the District field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Branch; Rec.Branch)
                 {
                     ToolTip = 'Specifies the value of the Branch field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Department; Rec.Department)
                 {
                     ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Position; Rec.Position)
                 {
@@ -61,6 +66,7 @@ page 50016 "Facilitator Pool Lists"
                 {
                     ToolTip = 'Specifies the value of the Functional Title field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Skill; Rec.Skill)
                 {
@@ -81,6 +87,7 @@ page 50016 "Facilitator Pool Lists"
                 {
                     ToolTip = 'Specifies the value of the Appointed Date field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
             }
         }
@@ -93,7 +100,7 @@ page 50016 "Facilitator Pool Lists"
             group("Request Approval")
             {
                 Caption = 'Request Approval';
-                // Visible = false;
+                Visible = false;
                 action("Send Approval Request")
                 {
                     Caption = 'Send A&pproval Request';
@@ -107,13 +114,13 @@ page 50016 "Facilitator Pool Lists"
 
                     trigger OnAction()
                     begin
-                        if not Rec.CheckApprovalEntries(Rec) then begin
-                            if (Rec."Approval Status" = Rec."Approval Status"::open) then
-                                Rec.OnSendFacilitatorDocForApproval(Rec)
-                            else
-                                Message('not send');
-                        end else
-                            Message('Approval not sent');
+                        // if not Rec.CheckApprovalEntries(Rec) then begin
+                        //     if (Rec."Approval Status" = Rec."Approval Status"::open) then
+                        //         Rec.OnSendFacilitatorDocForApproval(Rec)
+                        //     else
+                        //         Message('not send');
+                        // end else
+                        //     Message('Approval not sent');
                     end;
                 }
                 action("Cancel Approval Request")
@@ -129,7 +136,7 @@ page 50016 "Facilitator Pool Lists"
 
                     trigger OnAction()
                     begin
-                        Rec.OnCancelFacilitatorDocForApproval(Rec);
+                        // Rec.OnCancelFacilitatorDocForApproval(Rec);
                     end;
                 }
             }

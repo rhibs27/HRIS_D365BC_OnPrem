@@ -68,7 +68,7 @@ page 50372 "Shift Assignment Memo Subform"
                     FilterPage: FilterPageBuilder;
                     AllowanceLine: Record "Assignment Memo Line";
                     FromDate, Todate : date;
-                    EmpCode : code[20];
+                    EmpCode: code[20];
                     AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
                 begin
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
@@ -87,6 +87,20 @@ page 50372 "Shift Assignment Memo Subform"
                         Message('Substitute Assignment Memo inserted successfully.');
                     end;
                     CurrPage.Update();
+                end;
+            }
+            action("Reverse Line")
+            {
+                Image = ReverseRegister;
+                ToolTip = 'Executes the Reverse action.';
+                ApplicationArea = All;
+                Visible = Rec."Approval Status" = rec."Approval Status"::Approved;
+                trigger OnAction()
+                var
+                    AssignmentMemoMgt: Codeunit "Assignment Memo Mgt";
+                begin
+                    if Confirm('Do you want to reverse the document Line?', false) then
+                        AssignmentMemoMgt.ReverseAssignmentMemosLine(Rec);
                 end;
             }
         }
@@ -116,5 +130,5 @@ page 50372 "Shift Assignment Memo Subform"
     end;
 
     var
-        SubstituteActionVisible : boolean;
+        SubstituteActionVisible: boolean;
 }
