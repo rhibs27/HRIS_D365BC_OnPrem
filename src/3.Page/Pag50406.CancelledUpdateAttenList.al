@@ -1,4 +1,4 @@
-page 50395 "Cancelled Update Atten. List"
+page 50406 "Cancelled Update Atten. List"
 {
     CardPageId = "Cancel Document";
     Editable = false;
