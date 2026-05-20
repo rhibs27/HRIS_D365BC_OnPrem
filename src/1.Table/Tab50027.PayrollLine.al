@@ -1605,13 +1605,16 @@ table 50027 "Payroll Line"
     end;
 
     procedure ValidateEmployee()
+    var
+        IsHandled: Boolean;
     begin
-        OnBeforeValidateEmployee("Employee No.");
+        OnBeforeValidateEmployee("Employee No.", IsHandled);
         GetPayrollHeader;
         Employee.Get("Employee No.");
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment, PayrollHeader.Type::Resignation]) then
-            Employee.TestField(Status, Employee.Status::Active);
+        if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
+            if not IsHandled then
+                Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         Employee.TestField("Bank Account No.");
         HRSetup.Get;
@@ -3157,7 +3160,7 @@ table 50027 "Payroll Line"
         if PayrollGenSetup."Total Days From" = PayrollGenSetup."Total Days From"::Year then
             exit(PayrollGenSetup."Total Days" / 12)
         else
-            exit("Total Days"); // from payroll line
+            exit("Total Days");  //from payroll line
     end;
 
     local procedure PreviouslyPaidAmountToBeReduced(EmpCode: Code[20]; AttrCode: Code[20]; EffectiveDate: Date): Decimal
@@ -3184,7 +3187,7 @@ table 50027 "Payroll Line"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnBeforeValidateEmployee(EmployeeNo: Code[20])
+    procedure OnBeforeValidateEmployee(EmployeeNo: Code[20]; var IsHandled: Boolean)
     begin
     end;
 
