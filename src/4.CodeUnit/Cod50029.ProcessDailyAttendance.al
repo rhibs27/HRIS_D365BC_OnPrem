@@ -42,12 +42,18 @@ codeunit 50029 "Process Daily Attendance"
                 EmpAttendance."Absent Day" := 1;
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
+        end;
+
+        ProcessDayFromEmpActLedgerEntry(); // Prcoess data from Employee Act Ledger Entry according to document type.
+
+
+        if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then begin
             if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) then begin
                 EmpAttendance."Absent Day" := (1 - EmpAttendance."Leave Day");
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
         end;
-        ProcessDayFromEmpActLedgerEntry();
+
         if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
             if EmpAttendance."Present Day" <> 0 then
                 EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");

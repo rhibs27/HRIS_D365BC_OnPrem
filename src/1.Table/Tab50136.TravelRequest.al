@@ -479,13 +479,15 @@ table 50136 "Travel Request"
             TableRelation = Employee."No.";
             trigger OnValidate()
             begin
-                if "Travel With" <> '' then begin
+                if Rec."Travel With" <> '' then begin
                     if "Travel With" = "Employee No." then
                         Error(INVALID, "Travel With");
                     if EmployeeRec.Get("Travel With") then
                         Validate("Travel With Name", EmployeeRec."Full Name");
                     Validate("No. of Days");//AT
-                end;
+                end
+                else
+                    Clear(Rec."Travel Countries");
             end;
         }
         field(74; "Payment From"; Enum "Payment From")

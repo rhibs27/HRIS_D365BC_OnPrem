@@ -1108,6 +1108,11 @@ codeunit 50000 "Leave Mgt."
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
+
+            LeaveTypeSetup.get(CancelDocument."Leave Code");
+            if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::"On Approval" then
+                CreateLeaveLedger(CancelDocument."Employee No.", CancelDocument."Leave Code", CancelDocument."Start Date", leaveEarn.Type::Used, -CancelDocument."No. of Days", GetNextLeaveLedgerEntryNo(), CancelLeaveCode, CancelDocument.Remarks, '');
+
             CreateLeaveLedger(CancelDocument."Employee No.",
                      CancelDocument."Leave Code",
                      CancelDocument."Start Date",
