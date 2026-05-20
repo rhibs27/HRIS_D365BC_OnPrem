@@ -42,7 +42,7 @@ enum 50003 "Nepali Month"
     {
         Caption = 'Poush';
     }
-    value(10; Margh)
+    value(10; Magh)
     {
         Caption = 'Magh';
     }
