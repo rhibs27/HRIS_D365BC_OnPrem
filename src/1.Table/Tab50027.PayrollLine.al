@@ -1608,8 +1608,8 @@ table 50027 "Payroll Line"
     var
         IsHandled: Boolean;
     begin
-        OnBeforeValidateEmployee("Employee No.", IsHandled);
         GetPayrollHeader;
+        OnBeforeValidateEmployee("Employee No.", PayrollHeader.Type, IsHandled);
         Employee.Get("Employee No.");
         Employee.TestField("Employment Date");
         if not (PayrollHeader.Type in [PayrollHeader.Type::Settlement, PayrollHeader.Type::Adjustment]) then
@@ -3187,7 +3187,7 @@ table 50027 "Payroll Line"
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnBeforeValidateEmployee(EmployeeNo: Code[20]; var IsHandled: Boolean)
+    procedure OnBeforeValidateEmployee(EmployeeNo: Code[20]; PayrollType: Enum "Payroll Header Type"; var IsHandled: Boolean)
     begin
     end;
 
