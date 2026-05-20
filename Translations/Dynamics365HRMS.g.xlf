@@ -4928,11 +4928,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Policy No - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 1634642573 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Policy Number</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Policy Number - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 35450067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posted</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37508,6 +37503,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer Requests - Control Fiscal Year - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1260250525 - Control 1376382783 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Handover field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer Requests - Control Handover - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1260250525 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37532,6 +37532,11 @@
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer Requests - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1260250525 - Control 371991071 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Handover field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer Requests - Control Takeover - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1260250525 - Control 2200544733 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Transfer Category field.</source>
@@ -68163,15 +68168,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Kartik - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 2906764345 - EnumValue 3372038397 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Magh</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Magh - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 2906764345 - EnumValue 3150523535 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Mangsir</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Mangsir - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2906764345 - EnumValue 1563728659 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Magh</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Margh - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2906764345 - EnumValue 2196673235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Poush</source>
