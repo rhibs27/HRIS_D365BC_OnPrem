@@ -239,7 +239,7 @@ report 50144 "Yearly Payroll Projection"
                             PayCyclePeriod2.SetFilter("Start Date", '<%1', Employee."Employment Date");
                             if PayCyclePeriod2.FindLast() then begin
                                 StartDate := PayCyclePeriod2."Start Date";
-                                SetFilter("Start Date", '>%1', StartDate);
+                                SetFilter("Start Date", '>=%1', StartDate);
                             end;
                         end;
                 end;
