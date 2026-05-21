@@ -356,7 +356,7 @@ codeunit 50002 "Loan Mgt."
     begin
         HRSetup.Get;
         if HRSetup."Get Loan Table Balance" then begin
-            CalculateAndStoreTakeHome(EmpLoan);
+            CalculateAndCheckDBRToTakeHome(EmpLoan);
         end else begin
             Employee.Get(EmpLoan."Employee No.");
             SalaryLevel.Get(Employee."Salary Level");
@@ -2165,7 +2165,6 @@ codeunit 50002 "Loan Mgt."
 
         if IsApprove then begin
             if EmpLoan.Get(LoanSettlement."Loan No.") then begin
-                // Post settlement entry for full audit trail
                 LoanSettlementEntry.Init();
                 LoanSettlementEntry."Entry No." := LoanSettlementEntry.GetNextEntryNo();
                 LoanSettlementEntry."Loan No." := EmpLoan."No.";
@@ -2179,7 +2178,6 @@ codeunit 50002 "Loan Mgt."
                 LoanSettlementEntry."Created DateTime" := CurrentDateTime;
                 LoanSettlementEntry.Insert(true);
 
-                // Recalculate outstanding from entries (authoritative)
                 EmpLoan.CalcFields("Total Settled Amount");
                 EmpLoan."Outstanding Amount" := EmpLoan."Disbursed Amount" - EmpLoan."Total Settled Amount";
                 if EmpLoan."Outstanding Amount" < 0 then
@@ -2203,27 +2201,9 @@ codeunit 50002 "Loan Mgt."
                 LoanSettlement."Settler User ID" := UserId;
                 LoanSettlement.Modify();
             end;
-        end else begin
-            // Reject all remaining Approval HRMS entries for this document
-            // ApprovalHRMS.Reset();
-            // ApprovalHRMS.SetRange("Document No.", docNo);
-            // ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Loan Settlement");
-            // ApprovalHRMS.SetFilter("Approval Status", '%1|%2',
-            //     ApprovalHRMS."Approval Status"::Created,
-            //     ApprovalHRMS."Approval Status"::Open);
-            // if ApprovalHRMS.FindSet() then
-            //     repeat
-            //         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
-            //         ApprovalHRMS.Modify();
-            //     until ApprovalHRMS.Next() = 0;
         end;
     end;
 
-    /// <summary>
-    /// Returns the current outstanding loan balance for a given loan.
-    /// Calculated as Disbursed Amount minus the sum of all posted settlement entries.
-    /// Use this function wherever outstanding balance is needed to ensure consistency.
-    /// </summary>
     procedure GetLoanOutstandingAmount(LoanNo: Code[20]): Decimal
     var
         EmpLoan: Record "Employee Loan/Advance";
@@ -2235,7 +2215,7 @@ codeunit 50002 "Loan Mgt."
         exit(0);
     end;
 
-    procedure CalculateAndStoreTakeHome(var EmpLoan: Record "Employee Loan/Advance")
+    procedure CalculateAndCheckDBRToTakeHome(var EmpLoan: Record "Employee Loan/Advance")
     var
         Employee: Record Employee;
         SalaryLevel: Record "Salary Level";
@@ -2272,9 +2252,7 @@ codeunit 50002 "Loan Mgt."
         IsFemale := Employee.Gender = Employee.Gender::Female;
         MonthlyTax := CalculateMonthlyTax(AnnualTaxable, IsFemale);
 
-        // PF := HrMgt.CalculateProvidentFundProjected(EmpLoan."Employee No.", 1);
 
-        // Sum EMI from Loan Outstanding (Home Loan + Insurance Tieup variants)
         LoanOutstanding.Reset();
         LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
         LoanOutstanding.SetFilter("Loan Type", '%1|%2',
@@ -2282,12 +2260,10 @@ codeunit 50002 "Loan Mgt."
             LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
         LoanOutstanding.CalcSums(EMI);
         HomeLoanInsuranceEMI := LoanOutstanding.EMI;
-        // Include the current loan's EMI if it is itself a Home Loan
         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" then
             HomeLoanInsuranceEMI += EmpLoan.EMI;
 
         VehicleLoanEMI := 0;
-        // Loan Outstanding vehicle EMIs (applies when no vehicle loan limit set)
         if SalaryLevel."Vehicle Loan Limit" = 0 then begin
             LoanOutstanding.Reset();
             LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
@@ -2305,7 +2281,6 @@ codeunit 50002 "Loan Mgt."
         OtherEmpLoan.SetRange("Loan Type", OtherEmpLoan."Loan Type"::"Vehicle Loan");
         OtherEmpLoan.CalcSums(EMI);
         VehicleLoanEMI += OtherEmpLoan.EMI;
-        // Include current loan's EMI if it is a Vehicle Loan
         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Vehicle Loan" then
             VehicleLoanEMI += EmpLoan.EMI;
 
@@ -2320,7 +2295,6 @@ codeunit 50002 "Loan Mgt."
         OtherEmpLoan.SetRange("Loan Type", OtherEmpLoan."Loan Type"::"Staff Social Loan");
         OtherEmpLoan.CalcSums(EMI);
         SocialLoanEMI := OtherEmpLoan.EMI;
-        // Include current loan's EMI if it is a Staff Social Loan
         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Staff Social Loan" then
             SocialLoanEMI += EmpLoan.EMI;
 
@@ -2328,82 +2302,51 @@ codeunit 50002 "Loan Mgt."
         TakeHome := CalculateTakeHome(GrossMonthly, TotalDeductions);
         EmpLoan."Take-Home Salary" := TakeHome;
         if EmpLoan."Applied Loan/Advance" <> 0 then
-            CheckPermissibleLimit(GrossMonthly, TotalDeductions);
+            CheckPermissibleLimit(GrossMonthly, TotalDeductions, EmpLoan);
     end;
 
     procedure GetLastPostedDeductionForEmployee(EmployeeNo: Code[20]; RequestDate: Date): Decimal
     var
         PostedPayrollHeader: Record "Posted Payroll Header";
         PostedPayrollLine: Record "Posted Payroll Line";
-        PayrollColumnConfiguration: Record "Payroll Column Configuration";
-        PayrollAttributes: Record "Payroll Attributes";
         CurrentPayCyclePeriod: Record "Pay Cycle Period";
         PreviousPayCyclePeriod: Record "Pay Cycle Period";
-        RecRef: RecordRef;
-        FieldRef: FieldRef;
-        FieldValue: Decimal;
-        TotalDeduction: Decimal;
-        FieldID: Integer;
+        LineFound: Boolean;
+        PeriodOffset: Integer;
     begin
-        TotalDeduction := 0;
-
         CurrentPayCyclePeriod.Reset();
         CurrentPayCyclePeriod.SetFilter("Start Date", '<=%1', RequestDate);
         CurrentPayCyclePeriod.SetFilter("End Date", '>=%1', RequestDate);
         if not CurrentPayCyclePeriod.FindFirst() then
             exit(0);
 
-        PreviousPayCyclePeriod.Reset();
-        PreviousPayCyclePeriod.SetRange("Pay Cycle Code", CurrentPayCyclePeriod."Pay Cycle Code");
-        PreviousPayCyclePeriod.SetRange("Pay Cycle Term", CurrentPayCyclePeriod."Pay Cycle Term");
-        PreviousPayCyclePeriod.SetRange(Period, CurrentPayCyclePeriod.Period - 1);
-        if not PreviousPayCyclePeriod.FindFirst() then
-            exit(0);
+        PeriodOffset := 1;
+        LineFound := false;
+        repeat
+            PreviousPayCyclePeriod.Reset();
+            PreviousPayCyclePeriod.SetRange("Pay Cycle Code", CurrentPayCyclePeriod."Pay Cycle Code");
+            PreviousPayCyclePeriod.SetRange("Pay Cycle Term", CurrentPayCyclePeriod."Pay Cycle Term");
+            PreviousPayCyclePeriod.SetRange(Period, CurrentPayCyclePeriod.Period - PeriodOffset);
+            if not PreviousPayCyclePeriod.FindFirst() then
+                exit(0);
 
-        PostedPayrollHeader.Reset();
-        PostedPayrollHeader.SetCurrentKey("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period");
-        PostedPayrollHeader.SetRange("Pay Cycle Code", PreviousPayCyclePeriod."Pay Cycle Code");
-        PostedPayrollHeader.SetRange("Pay Cycle Term", PreviousPayCyclePeriod."Pay Cycle Term");
-        PostedPayrollHeader.SetRange("Pay Cycle Period", PreviousPayCyclePeriod.Period);
-        PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Payroll);
-        PostedPayrollHeader.SetRange(Reversed, false);
-        if not PostedPayrollHeader.FindFirst() then
-            exit(0);
-
-        PostedPayrollLine.Reset();
-        PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
-        PostedPayrollLine.SetRange("Employee No.", EmployeeNo);
-        if not PostedPayrollLine.FindFirst() then
-            exit(0);
-
-        // Step 5: Loop through variable fields 61-220 and sum deductions
-        RecRef.Open(Database::"Posted Payroll Line");
-        for FieldID := 61 to 220 do begin
-            if PayrollColumnConfiguration.Get(Database::"Posted Payroll Line", FieldID) then begin
-                if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
-                    FieldRef := RecRef.Field(1);
-                    FieldRef.SetRange(PostedPayrollHeader."No.");
-                    FieldRef := RecRef.Field(2);
-                    FieldRef.SetRange(PostedPayrollLine."Line No.");
-                    RecRef.FindFirst();
-                    FieldRef := RecRef.Field(FieldID);
-                    Evaluate(FieldValue, Format(FieldRef.Value));
-                    FieldValue := Round(FieldValue, 0.01, '=');
-
-                    // Same exclusion logic as CalcCurrentEarning
-                    if not PayrollAttributes."Tax at once" then
-                        if PayrollAttributes.Type = PayrollAttributes.Type::Deduction then
-                            if (FieldValue <> 0)
-                                and (PayrollAttributes.Subtype <> PayrollAttributes.Subtype::"Tax on Remuneration & Benefits")
-                                and (PayrollAttributes.Subtype <> PayrollAttributes.Subtype::"Social Security Tax")
-                            then
-                                TotalDeduction += FieldValue;
-                end;
+            PostedPayrollHeader.Reset();
+            PostedPayrollHeader.SetCurrentKey("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period");
+            PostedPayrollHeader.SetRange("Pay Cycle Code", PreviousPayCyclePeriod."Pay Cycle Code");
+            PostedPayrollHeader.SetRange("Pay Cycle Term", PreviousPayCyclePeriod."Pay Cycle Term");
+            PostedPayrollHeader.SetRange("Pay Cycle Period", PreviousPayCyclePeriod.Period);
+            PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Payroll);
+            PostedPayrollHeader.SetRange(Reversed, false);
+            if PostedPayrollHeader.FindFirst() then begin
+                PostedPayrollLine.Reset();
+                PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
+                PostedPayrollLine.SetRange("Employee No.", EmployeeNo);
+                LineFound := PostedPayrollLine.FindFirst();
             end;
-        end;
-        RecRef.Close();
+            PeriodOffset += 1;
+        until LineFound;
 
-        exit(TotalDeduction);
+        exit(PostedPayrollLine."Current Deduction");
     end;
 
     procedure CalculateMonthlyTax(AnnualTaxable: Decimal; IsFemale: Boolean): Decimal
@@ -2414,13 +2357,11 @@ codeunit 50002 "Loan Mgt."
         if AnnualTaxable <= 0 then
             exit(0);
 
-        // Slab 1 – 1% on first 500,000
         if AnnualTaxable <= 500000 then
             AnnualTax := AnnualTaxable * 0.01
         else begin
-            AnnualTax := 500000 * 0.01;               // 5,000
-
-            // Slab 2 – 10% on 500,001 to 600,000
+            AnnualTax := 500000 * 0.01;
+            //for next slab
             if AnnualTaxable <= 600000 then
                 AnnualTax += (AnnualTaxable - 500000) * 0.10
             else
@@ -2436,17 +2377,26 @@ codeunit 50002 "Loan Mgt."
         exit(Round(AnnualTax / 12, 1, '='));
     end;
 
-    procedure CheckPermissibleLimit(GrossMonthly: Decimal; TotalDeductions: Decimal)
+    procedure CheckPermissibleLimit(GrossMonthly: Decimal; TotalDeductions: Decimal; var EmpLoanAdv: Record "Employee Loan/Advance")
     var
+        HRSetup: Record "Human Resources Setup";
         MaxAllowed: Decimal;
         SurplusDeficit: Decimal;
-        DeductionExceedsLimitMsg: Label 'Total deductions (%1) exceed the permissible 66.67%% limit of gross salary (Max Allowed: %2). Surplus/Deficit: %3.';
+        TotaldeductionWithCurrentEMI: Decimal;
+        DBRRatio: Decimal;
+        DeductionExceedsLimitMsg: Label 'Total deductions (%1) exceed the permissible %4% Debt Burden limit of gross salary (Max Allowed: %2). Surplus/Deficit: %3. Current Loan EMI amount is %5';
     begin
-        MaxAllowed := Round(GrossMonthly * (2 / 3), 1, '=');
-        if TotalDeductions > MaxAllowed then begin
-            SurplusDeficit := MaxAllowed - TotalDeductions;
-            if GuiAllowed then
-                Message(DeductionExceedsLimitMsg, TotalDeductions, MaxAllowed, SurplusDeficit);
+        HRSetup.Get();
+        DBRRatio := HRSetup."DBR Ratio";
+        if DBRRatio = 0 then
+            DBRRatio := 66.67;
+
+        MaxAllowed := Round(GrossMonthly * (DBRRatio / 100), 0.001, '=');
+
+        TotaldeductionWithCurrentEMI := TotalDeductions + EmpLoanAdv.EMI;
+        if TotaldeductionWithCurrentEMI > MaxAllowed then begin
+            SurplusDeficit := Round(MaxAllowed - TotaldeductionWithCurrentEMI, 0.001, '=');
+            Error(DeductionExceedsLimitMsg, TotalDeductions, MaxAllowed, SurplusDeficit, DBRRatio, Round(EmpLoanAdv.EMI, 0.001, '='));
         end;
     end;
 
