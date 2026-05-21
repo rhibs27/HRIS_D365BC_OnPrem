@@ -2982,7 +2982,6 @@ codeunit 50008 "Payroll Engine"
     var
         InitalDate: Date;
         FirstTime: Boolean;
-        BranchCode: Code[20];
         OrganationStructureList: Record "Organization Structure List";
         RemoteArea: Record "Remote Area Category";
         DimValue: Record "Dimension Value";
@@ -2997,14 +2996,16 @@ codeunit 50008 "Payroll Engine"
         ServiceHistory.Reset;
         ServiceHistory.SetRange("Employee No.", Employee."No.");
         ServiceHistory.SetRange("Effective Date", InitalDate, PGSetup."Payroll Fiscal Year End Date");
-        ServiceHistory.SetFilter("Service Event", '%1|%2|%3|%4', ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Appointment, ServiceHistory."Service Event"::"Internal Appointment",
-                                        ServiceHistory."Service Event"::Transfer);
+        ServiceHistory.SetFilter("Service Event", '%1|%2|%3|%4|%5', ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Appointment, ServiceHistory."Service Event"::"Internal Appointment",
+                                        ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"First Deputation");
 
         ServiceHistory.SetCurrentKey("Effective Date");
         if ServiceHistory.Find('+') then begin
             repeat
-                Clear(BranchCode);
-                if OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (To)") then;
+                if ServiceHistory."Extension Counter (To)" <> '' then begin
+                    if OrganationStructureList.Get(OrganationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (To)") then;
+                end else
+                    if OrganationStructureList.Get(ServiceHistory."Deputation On (To)", ServiceHistory."Deputation Code (To)") then;
                 if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                     if FirstTime then begin
                         RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
@@ -3027,8 +3028,11 @@ codeunit 50008 "Payroll Engine"
                 ServiceHistory.SetFilter("Service Event", '%1', ServiceHistory."Service Event"::Transfer);
                 ServiceHistory.SetCurrentKey("Effective Date");
                 if ServiceHistory.FindFirst then begin
-                    Clear(BranchCode);
-                    If OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (From)") then;
+                    if ServiceHistory."Extension Counter (From)" <> '' then begin
+                        if OrganationStructureList.Get(OrganationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (From)") then;
+                    end else
+                        if OrganationStructureList.Get(ServiceHistory."Deputation On(From)", ServiceHistory."Deputation Code (From)") then;
+
                     if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                                * (ServiceHistory."Effective Date" - InitalDate);
@@ -3036,10 +3040,13 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end else begin
-            if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Branch Code") then
-                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
-                    RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
-                                            * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
+            if Employee."Extension Counter Code" <> '' then
+                OrganationStructureList.Get(Employee."Deputation on"::"Extension Counter", Employee."Extension Counter Code")
+            else
+                OrganationStructureList.Get(Employee."Deputation on", Employee."Deputation On Code");
+            if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
+                RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
+                                        * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;
         PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
     end;
