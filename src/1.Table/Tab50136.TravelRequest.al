@@ -486,8 +486,6 @@ table 50136 "Travel Request"
                         Validate("Travel With Name", EmployeeRec."Full Name");
                     Validate("No. of Days");//AT
                 end
-                else
-                    Clear(Rec."Travel Countries");
             end;
         }
         field(74; "Payment From"; Enum "Payment From")

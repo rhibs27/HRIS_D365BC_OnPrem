@@ -111,6 +111,11 @@ page 50092 "Travel Request Form"
                     ToolTip = 'Specifies the value of the Travel With field.';
                     ApplicationArea = All;
                     Editable = extendedEdit;
+                    trigger OnValidate()
+                    begin
+                        if Rec."Travel With" = '' then
+                            Clear(Rec."Travel Countries");
+                    end;
                 }
             }
             group(Travel)
