@@ -33,7 +33,7 @@ report 50144 "Yearly Payroll Projection"
             column(TaxCode; EmpVar."Tax Code") { }
             column(Office; Empvar."Branch Name") { }
             column(Grade; Empvar."Salary Grade") { }
-            column(RetirementAmount; Round(TotalRetirement, GlSetup."Amount Rounding Precision"))
+            column(RetirementAmount; Round(Abs(TotalRetirement), GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
@@ -734,7 +734,7 @@ report 50144 "Yearly Payroll Projection"
         if OptimumDeduction then begin
             MinValueDeduction := Math.Min(OneThird, TaxExemptionLimit);
         end else begin
-            MinValueDeduction := TotalRetirement;
+            MinValueDeduction := Abs(TotalRetirement);
             if OneThird < MinValueDeduction then
                 MinValueDeduction := OneThird;
             if TaxExemptionLimit < MinValueDeduction then
