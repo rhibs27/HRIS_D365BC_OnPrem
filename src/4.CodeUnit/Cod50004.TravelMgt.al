@@ -591,6 +591,8 @@ codeunit 50004 "Travel Mgt."
         SalaryLevel: Record "Salary Level";
         IsHandled: Boolean;
         IsHandled1: Boolean;
+        AttachmentType: Enum "Attachment Setup Type";
+        AttachmentSubType: Enum "Attachment Setup SubType";
     begin
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
@@ -607,7 +609,7 @@ codeunit 50004 "Travel Mgt."
         // TravelReq.TestField("Purpose of Travel");
         if TravelRequest."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
-        CheckAttachmentMandatoryForApplyForTravelClaim(TravelRequest);
+        AttachmentMgt.CheckMandatoryAttachmentOnType(AttachmentType::"Travel Claim", AttachmentSubType::" ", TravelRequest."No.");
         Employee.Get(TravelRequest."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
         ApplyForTravelClaimWithEmployeeSalary(TravelRequest, TravelRequest2, IsHandled);
@@ -652,31 +654,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest2."Travel claim Doc No." := TravelRequest."No.";
             TravelRequest2.Modify;
             OnAfterApplyTravelClaim(TravelRequest."No.");
-            if not GuiAllowed then
-                exit(true);
         end;
-    end;
-
-    local procedure CheckAttachmentMandatoryForApplyForTravelClaim(TravelRequest: Record "Travel Request");
-    var
-        AttachmentSetup: Record "Attachment Setup";
-        IncomingDocument: Record "Incoming Document";
-    begin
-        IncomingDocument.Reset;
-        IncomingDocument.SetRange("No.", TravelRequest."No.");
-        IncomingDocument.SetRange("Employee Code", TravelRequest."Employee No.");
-        IncomingDocument.SetRange("Employee Activity Type", IncomingDocument."Employee Activity Type"::"Travel Claim");
-        IncomingDocument.SetRange("File Name", '');
-        if IncomingDocument.FindSet() then
-            repeat
-                AttachmentSetup.Reset;
-                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Travel Claim");
-                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
-                AttachmentSetup.SetRange(Mandatory, true);
-                if AttachmentSetup.FindFirst then begin
-                    Error('Upload attachment for %1', AttachmentSetup."Attachment Code");
-                end;
-            until IncomingDocument.Next = 0;
     end;
 
     procedure TravelApproved(TravelCode: Code[20])
@@ -1082,6 +1060,7 @@ codeunit 50004 "Travel Mgt."
         HRSetup: Record "Human Resources Setup";
         ApproverMgt: Codeunit "Approver Mgt";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 
     [IntegrationEvent(false, false)]
     procedure OnAfterApplyTravelClaim(TravelClaimNo: Code[20])
