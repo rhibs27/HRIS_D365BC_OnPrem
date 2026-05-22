@@ -2073,10 +2073,11 @@ codeunit 50000 "Leave Mgt."
         leaveEarn: Record "Leave Earn";
     begin
         leaveEarn.SetRange("Leave Request No", DocumentNo);
-        if leaveEarn.FindFirst() then begin
-            leaveEarn.Validate(Type, NewLeaveEarnType);
-            leaveEarn.Modify();
-        end;
+        if leaveEarn.FindSet() then
+            repeat
+                leaveEarn.Validate(Type, NewLeaveEarnType);
+                leaveEarn.Modify();
+            until leaveEarn.Next() = 0
     end;
 
     [IntegrationEvent(false, false)]
