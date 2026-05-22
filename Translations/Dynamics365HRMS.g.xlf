@@ -4763,26 +4763,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Insurance Company Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 1543641927 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Insurance Expiry Date (AD)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Insurance Expiry Date (AD) - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3950582515 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Insurance Expiry Date (BS)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Insurance Expiry Date (BS) - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 513101870 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Insurance Start Date (AD)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Insurance Start Date (AD) - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 356830434 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Insurance Start Date (BS)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Insurance Start Date (BS) - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 3210305534 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24749,7 +24729,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method CalculateTakeHome - NamedType NegativeTakeHomeErr</note>
         </trans-unit>
         <trans-unit id="Codeunit 852765344 - Method 41844222 - NamedType 1258827990" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Total deductions (%1) exceed the permissible 66.67%% limit of gross salary (Max Allowed: %2). Surplus/Deficit: %3.</source>
+          <source>Total deductions (%1) exceed the permissible %4% Debt Burden limit of gross salary (Max Allowed: %2). Surplus/Deficit: %3. Current Loan EMI amount is %5</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method CheckPermissibleLimit - NamedType DeductionExceedsLimitMsg</note>
         </trans-unit>
@@ -32372,6 +32352,26 @@
           <source>Specifies the value of the Employee No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Journal - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1986263555 - Control 1543641927 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Expiry Date (AD)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Journal - Control Insurance Expiry Date (AD) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1986263555 - Control 3950582515 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Expiry Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Journal - Control Insurance Expiry Date (BS) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1986263555 - Control 513101870 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Start Date (AD)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Journal - Control Insurance Start Date (AD) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1986263555 - Control 356830434 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Start Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Journal - Control Insurance Start Date (BS) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2990168411 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
           <source>New, Report, Process, Filters</source>
@@ -68168,15 +68168,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Kartik - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2906764345 - EnumValue 3372038397 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Magh</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Magh - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 2906764345 - EnumValue 3150523535 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Mangsir</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Mangsir - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2906764345 - EnumValue 1563728659 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Magh</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Margh - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2906764345 - EnumValue 2196673235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Poush</source>

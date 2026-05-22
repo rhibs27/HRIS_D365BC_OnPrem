@@ -303,10 +303,9 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeInsurance.Validate("Insurance Amount", EmployeeInsuranceJournal."Insurance Amount");
                 EmployeeInsurance.Validate("Monthly Premium Amount", EmployeeInsuranceJournal."Premium Amount");
                 EmployeeInsurance.Validate("Approval Status", EmployeeInsurance."Approval Status"::Approved);
-                // EmployeeInsurance.Validate("Annual Premium Amount",EmployeeInsuranceJournal."Annual Premium Amount");
-                OnBeforePostEmployeeInsuranceJournal(EmployeeInsurance, EmployeeInsuranceJournal);
                 EmployeeInsurance.Validate("Approved Date", Today);
                 EmployeeInsurance.Validate(Remarks, EmployeeInsuranceJournal.Remarks);
+                OnBeforeInsertEmployeeInsuranceJournal(EmployeeInsurance, EmployeeInsuranceJournal);
                 EmployeeInsurance.Insert(true);
 
                 //To insert attachment
@@ -803,7 +802,7 @@ codeunit 50023 EmployeeActivityMgt
 
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforePostEmployeeInsuranceJournal(var EmployeeInsurance: Record "Employee Insurance Information"; EmployeeInsuranceJournal: Record "Employee Activity Journal")
+    local procedure OnBeforeInsertEmployeeInsuranceJournal(var EmployeeInsurance: Record "Employee Insurance Information"; EmployeeInsuranceJournal: Record "Employee Activity Journal")
     begin
 
     end;
