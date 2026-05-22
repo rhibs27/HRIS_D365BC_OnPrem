@@ -321,7 +321,7 @@ codeunit 50008 "Payroll Engine"
 
         if PayrollHeader."Gross Payment" then begin
             PopulateGlobalAmounts;
-            PayrollLine."Net Pay" := TaxAtOnceCurrentEarning - AddTaxOnInterestAllowance(Employee."No.", PayrollHeader."No.") - TaxAtOnceCurrentDeduction;
+            PayrollLine."Net Pay" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(Employee."No.", PayrollHeader."No.") - TaxAtOnceCurrentDeduction;
             PayrollLine.Modify;
             exit;
         end;
@@ -507,10 +507,10 @@ codeunit 50008 "Payroll Engine"
                                     CurrentMedicalReimbursment := FieldValue;
                             end;
                         end
-                        else begin
-                            if FieldValue <> 0 then
-                                CurrentNonTaxableBenefits += FieldValue;
-                        end;
+                        // else begin
+                        //     if FieldValue <> 0 then
+                        //         CurrentNonTaxableBenefits += FieldValue;
+                        // end;
                     end
                     else if (PayrollAttributes.Type = PayrollAttributes.Type::Deduction) then begin
                         if (FieldValue <> 0) and (PayrollAttributes.Subtype <> PayrollAttributes.Subtype::"Tax on Remuneration & Benefits")

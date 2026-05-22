@@ -1717,6 +1717,7 @@ table 50027 "Payroll Line"
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         if PayrollAttributesUsage.FindFirst then
             repeat
+                PayrollAttributesUsage.CalcFields(Formula, "Formula Exists");
                 PayrollAttributes.Reset;  //here reset is used instead of get to select only irregular attribute on processing irregular payroll
                                           //because irregular in not defined in payroll attribute uses table
                 if not PayrollHeader.Irregular then
@@ -1732,7 +1733,7 @@ table 50027 "Payroll Line"
                             if PayrollAttributesUsage."Static Amount" then
                                 AttributeAmount := PayrollAttributesUsage.Amount
                             else begin
-                                if PayrollAttributesUsage.Formula <> '' then
+                                if PayrollAttributesUsage."Formula Exists" then
                                     AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
                                 else
                                     if PayrollAttributes.Formula <> '' then
@@ -1741,7 +1742,7 @@ table 50027 "Payroll Line"
                                         AttributeAmount := PayrollAttributesUsage.Amount;
                             end;
                         end else
-                            if PayrollAttributesUsage.Formula <> '' then
+                            if PayrollAttributesUsage."Formula Exists" then
                                 AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
                             else
                                 if PayrollAttributes.Formula <> '' then

@@ -465,6 +465,12 @@ codeunit 50017 "Approver Mgt"
                                     if RecRef.Field(39).value then
                                         TravelMgt.RejectTravelRequest(RecRef.Field(1).Value);
                                 end;
+                            EmployeeActivityType::"Attendance Missed":
+                                //for leave Cancelled Reject
+                                begin
+                                    if RecRef.Field(39).value then
+                                        AttendanceMissed.RejectAttendanceMissed(RecRef.Field(1).Value) // For Cancelled Attendance Missed
+                                end;
                             //for travel claim Reject
                             EmployeeActivityType::"Travel Claim":
                                 begin
@@ -599,7 +605,10 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::"Attendance Missed":
                             begin
-                                AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
+                                if RecRef.Field(39).value then
+                                    AttendanceMissed.ApproveCancelledAttendanceMissed(RecRef.Field(1).Value) // For Cancelled Attendance missed
+                                else
+                                    AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
                             end;
                         EmployeeActivityType::"Transfer Claim":
                             begin
@@ -1381,6 +1390,24 @@ codeunit 50017 "Approver Mgt"
                 exit(false)
             else
                 exit(true)
+        end;
+    end;
+
+    procedure HRApprover(EmpNo: Code[20]): Boolean
+    var
+        HRSetup: Record "Human Resources Setup";
+        Employee: Record Employee;
+    begin
+        if HRSetup.Get() and Employee.Get(EmpNo) then begin
+            if HRSetup."HR Head Functional Title" = '' then begin
+                if Employee."Department Code" = HRSetup."HR Department Code" then
+                    exit(true);
+            end
+            else begin
+                if (Employee."Functional Title" = HRSetup."HR Head Functional Title") and
+                   (Employee."Department Code" = HRSetup."HR Department Code") then
+                    exit(true);
+            end;
         end;
     end;
 
