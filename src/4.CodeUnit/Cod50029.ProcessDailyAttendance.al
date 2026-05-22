@@ -345,6 +345,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         FirstFound := AttendanceLog.FindFirst();
         if FirstFound then begin
@@ -372,6 +373,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         OnFiteringAttendanceLog(StartTime, EndTime, EmpAttendance, AttendanceLog, IsHandled);
         if not IsHandled then
             if GuiAllowed or (not FromSyncProcess) then
