@@ -33,7 +33,7 @@ report 50144 "Yearly Payroll Projection"
             column(TaxCode; EmpVar."Tax Code") { }
             column(Office; Empvar."Branch Name") { }
             column(Grade; Empvar."Salary Grade") { }
-            column(RetirementAmount; Round(Abs(TotalRetirement), GlSetup."Amount Rounding Precision"))
+            column(RetirementAmount; Round(TotalRetirement, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
@@ -53,7 +53,7 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
             }
-            column(TotalTaxPaid; Round(Abs(TotalTaxPaid), GlSetup."Amount Rounding Precision"))
+            column(TotalTaxPaid; Round(TotalTaxPaid, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
@@ -212,7 +212,7 @@ report 50144 "Yearly Payroll Projection"
                 column(PayCycleTerm_PayCyclePeriod; "Pay Cycle Period"."Pay Cycle Term") { }
                 column(Period; "Pay Cycle Period".Period) { }
                 column(NepaliMonth_PayCyclePeriod; "Pay Cycle Period"."Nepali Month") { }
-                column(Amount; Round(Abs(Amount), GlSetup."Amount Rounding Precision")) { }
+                column(Amount; Round(Amount, GlSetup."Amount Rounding Precision")) { }
                 column(BenefitAmount; BenefitAmount)
                 {
                     AutoFormatExpression = 'NPR';
@@ -266,10 +266,10 @@ report 50144 "Yearly Payroll Projection"
                     if "Pay Cycle Period".Period = 0 then
                         CurrReport.Skip();
                     // Special handling for tax attributes - ensure non-negative
-                    if (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Social Security Tax") or
-                       (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Tax on Remuneration & Benefits") then
-                        if Amount < 0 then
-                            Amount := 0;
+                    // if (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Social Security Tax") or
+                    //    (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Tax on Remuneration & Benefits") then
+                    //     if Amount < 0 then
+                    //         Amount := 0;
                     // Categorize amounts as benefits or deductions
                     BenefitAmount := 0;
                     DeductionAmount := 0;
@@ -374,6 +374,7 @@ report 50144 "Yearly Payroll Projection"
         Amount: Decimal;
         BenefitAmount: Decimal;
         DeductionAmount: Decimal;
+        NonPaymentAmount: Decimal;
         TotalAnnualEarning: Decimal;
         TotalRetirement: Decimal;
         TotalTax: Decimal;
@@ -710,7 +711,7 @@ report 50144 "Yearly Payroll Projection"
         if EmpPayrollOpening.FindFirst() then
             PastRetirementAmount := EmpPayrollOpening."Total RF Opening";
         EmpVar.CalcFields("Lump Sum CIT");
-        TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT";
+        TotalRetirement := RetirementAmount - PastRetirementAmount - GratuityAmount - EmpVar."Lump Sum CIT";
         OnAfterTotalRetirementFund(EmpVar, TotalRetirement);
     end;
     // Calculate final taxable amount after all deductions
@@ -880,7 +881,7 @@ report 50144 "Yearly Payroll Projection"
         TaxSetupHdr.SetRange(Code, EmpVar."Tax Code");
         if TaxSetupHdr.FindFirst() then begin
             if TaxSetupHdr."Special Tax Exempt %" > 0 then
-                TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * TotalTax, 0.01, '=');
+                TaxRebate := -1 * Round((TaxSetupHdr."Special Tax Exempt %" / 100) * TotalTax, 0.01, '=');
         end;
     end;
     // Projects tax deductions for remaining months in the fiscal year
@@ -1274,6 +1275,8 @@ report 50144 "Yearly Payroll Projection"
                                                                PayrollAttrUsage."Start Date",
                                                                PayrollAttrUsage."End Date");
                         TempDetailedEmpLedgerEntry.Amount := ProRataAmount;
+                        if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
+                            TempDetailedEmpLedgerEntry.Amount := ProRataAmount * -1;
                         // Only insert if amount is greater than zero
                         if TempDetailedEmpLedgerEntry.Amount <> 0 then begin
                             if TempDetailedEmpLedgerEntry.Insert() then
