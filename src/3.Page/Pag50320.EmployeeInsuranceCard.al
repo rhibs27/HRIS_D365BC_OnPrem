@@ -198,7 +198,7 @@ page 50320 "Employee Insurance Card"
                     Rec.TestField("Approval Status", Rec."Approval Status"::Open);
                     Rec.Validate("Approval Status", Rec."Approval Status"::Pending);
                     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
-                    InsuranceMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.");
+                    InsuranceMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.", "Employee Activity Type"::Insurance);
                     Rec.Modify();
                     Message('Request Sent');
                 end;

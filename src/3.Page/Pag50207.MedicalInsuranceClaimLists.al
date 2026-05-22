@@ -2,12 +2,14 @@ page 50207 "Medical Insurance Claim Lists"
 {
     CardPageId = "Medical Insurance Claim";
     PageType = List;
+    PromotedActionCategories = 'New,Process,Report,SetFilter';
     SourceTable = "Medical Insurance Claim";
     UsageCategory = Lists;
     ApplicationArea = All;
     Editable = false;
     InsertAllowed = false;
     DeleteAllowed = false;
+    ModifyAllowed = false;
 
     layout
     {
@@ -40,6 +42,16 @@ page 50207 "Medical Insurance Claim Lists"
                     ToolTip = 'Specifies the value of the Bank Account No. field.';
                     ApplicationArea = All;
                 }
+                field("Policy Start Date"; Rec."Policy Start Date")
+                {
+                    ToolTip = 'Specifies the value of the Policy Start Date field.';
+                    ApplicationArea = All;
+                }
+                field("Policy End Date"; Rec."Policy End Date")
+                {
+                    ToolTip = 'Specifies the value of the Policy End Date field.';
+                    ApplicationArea = All;
+                }
                 field("Discharge Date"; Rec."Discharge Date")
                 {
                     ToolTip = 'Specifies the value of the Discharge Date field.';
@@ -54,30 +66,6 @@ page 50207 "Medical Insurance Claim Lists"
                 {
                     ToolTip = 'Specifies the value of the Total Insurance Claim Amount field.';
                     ApplicationArea = All;
-                }
-                field("Child Name"; Rec."Child Name")
-                {
-                    ToolTip = 'Specifies the value of the Child Name field.';
-                    ApplicationArea = All;
-                    Visible = false;
-                }
-                field("Spouse Name"; Rec."Spouse Name")
-                {
-                    ToolTip = 'Specifies the value of the Spouse Name field.';
-                    ApplicationArea = All;
-                    Visible = false;
-                }
-                field("Mother Name"; Rec."Mother Name")
-                {
-                    ToolTip = 'Specifies the value of the Mother Name field.';
-                    ApplicationArea = All;
-                    Visible = false;
-                }
-                field("Father Name"; Rec."Father Name")
-                {
-                    ToolTip = 'Specifies the value of the Father Name field.';
-                    ApplicationArea = All;
-                    Visible = false;
                 }
                 field("Insurance Claim"; Rec."Insurance Claim")
                 {
@@ -98,6 +86,16 @@ page 50207 "Medical Insurance Claim Lists"
                 field("Insurance Status"; Rec."Insurance Status")
                 {
                     ToolTip = 'Specifies the current insurance processing status.';
+                    ApplicationArea = All;
+                }
+                field("HR Remarks"; Rec."HR Remarks")
+                {
+                    ToolTip = 'Specifies the value of the HR Remarks field.';
+                    ApplicationArea = All;
+                }
+                field("Reimbursed Amount"; Rec."Reimbursed Amount")
+                {
+                    ToolTip = 'Specifies the value of the Reimbursed Amount field.';
                     ApplicationArea = All;
                 }
                 field("Batch Id"; Rec."Batch Id")
@@ -159,6 +157,7 @@ page 50207 "Medical Insurance Claim Lists"
             }
         }
     }
+
     trigger OnAfterGetRecord()
     begin
         SetLayout();

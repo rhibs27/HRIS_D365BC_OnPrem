@@ -3,6 +3,7 @@ page 50206 "Medical Insurance Claim"
     PageType = Card;
     SourceTable = "Medical Insurance Claim";
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {
@@ -89,19 +90,17 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Batch Id field.';
                     ApplicationArea = All;
                     Editable = false;
-                    Visible = IsPending and IsApproved;
+                    Visible = not IsOpen;
                 }
                 field("Reimbursed Amount"; Rec."Reimbursed Amount")
                 {
                     ToolTip = 'Specifies the Value of the Reimbursed Amount field.';
                     ApplicationArea = All;
                     Editable = false;
-                    Visible = IsPending and IsApproved;
+                    Visible = not IsOpen;
                 }
-                field("Rejection Remarks"; Rec."Rejection Remarks")
+                field("HR Remarks"; Rec."HR Remarks")
                 {
-                    Editable = IsPending and not IsInsuranceCoRejected;
-                    Visible = (IsPending or IsRejected);
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                     trigger OnValidate()
@@ -243,12 +242,13 @@ page 50206 "Medical Insurance Claim"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want reject the request?', false) then begin
-                        IF REC."Rejection Remarks" = '' then
-                            Error('Rejection Remarks is Empty')
+                        IF REC."HR Remarks" = '' then
+                            Error('HR Remarks is Empty')
                         else begin
                             if not HRSetup."Skip Medical Approval Setup" then
                                 ApprovalMgt.ApproveRejectDocument(RecRef, false)
                             else begin
+                                Rec.TestField("HR Remarks");
                                 Rec."Insurance Status" := Rec."Insurance Status"::Rejected;
                                 Rec."Approval Status" := Rec."Approval Status"::Rejected;
                                 Rec.Modify();
@@ -389,8 +389,12 @@ page 50206 "Medical Insurance Claim"
                     if not HRSetup."Skip Medical Approval Setup" then
                         ApprovalMgt.ReopenDocument(RecRef)
                     else begin
+                        Rec.TestField("HR Remarks");
                         Rec.Validate("Approval Status", Rec."Approval Status"::Open);
-                        Rec.Validate("Insurance Status", Rec."Insurance Status"::"Submitted to HRD");
+                        Rec.Validate("Insurance Status", Rec."Insurance Status"::" ");
+                        Rec.Validate("Medical Prescription Date", 0D);
+                        Rec.Validate("Discharge Date", 0D);
+                        Rec.Modify(true);
                     end;
                     Message('Request Returned');
                     CurrPage.Update(false);

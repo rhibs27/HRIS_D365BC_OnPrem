@@ -3,14 +3,10 @@ codeunit 50007 "Insurance Mgt"
     procedure OpenMedicalInsurancePage(EmployeeCode: Code[20])
     var
         MedicalInsurance: Record "Medical Insurance Claim";
-        HRSetup: Record "Human Resources Setup";
     begin
-        HRSetup.Get();
         Employee.Get(EmployeeCode);
         if Employee.Status <> Employee.Status::Active then
             Error('Employee is not active.');
-        if (HRSetup."Policy Start Date" = 0D) or (HRSetup."Policy End Date" = 0D) then
-            Error('The Policy Start Date and Policy End Date must be specified in the Human Resources Setup.');
         MedicalInsurance.Reset;
         MedicalInsurance.SetRange("Employee No.", EmployeeCode);
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
@@ -25,8 +21,6 @@ codeunit 50007 "Insurance Mgt"
             MedicalInsurance.Validate("Employee No.", EmployeeCode);
             MedicalInsurance.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
             MedicalInsurance.Validate("Approval Status", MedicalInsurance."Approval Status"::Open);
-            MedicalInsurance.Validate("Policy Start Date", HRSetup."Policy Start Date");
-            MedicalInsurance.Validate("Policy End Date", HRSetup."Policy End Date");
             MedicalInsurance.Insert(true);
             PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
         end;
@@ -37,6 +31,8 @@ codeunit 50007 "Insurance Mgt"
         MedicalInsurance: Record "Medical Insurance Claim";
         IncomingDoc: Record "Incoming Document";
         HRSetup: Record "Human Resources Setup";
+        InsuranceMgt: Codeunit "Insurance Mgt";
+        DuplicateClaimErr: Label 'This employee already has a pending medical insurance claim request.';
     begin
         HRSetup.Get();
         medicalInsuranceClaim.TestField("Insurance Claim");
@@ -44,22 +40,18 @@ codeunit 50007 "Insurance Mgt"
         medicalInsuranceClaim.TestField("Discharge Date");
         medicalInsuranceClaim.TestField("Total Insurance Claim Amount");
         medicalInsuranceClaim.TestField(Remarks);
-        medicalInsurance.Reset();
-        MedicalInsurance.SetRange("Employee No.", medicalInsuranceClaim."Employee No.");
-        MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
-        // MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Pending);
-        MedicalInsurance.SetRange("Insurance Status", MedicalInsurance."Insurance Status"::"Submitted to HRD");
-        if MedicalInsurance.FindFirst then
-            Error('This Employee Already has Pending Medical Insurance Claim Request.');
-        IncomingDoc.Reset();
-        IncomingDoc.SetRange("No.", medicalInsuranceClaim."No.");
-        if IncomingDoc.Findset() then begin
-            if incomingDoc."File Name" = '' then
-                Error('Attachment must be uploaded');
-        end;
+        medicalInsuranceClaim.TestField("Insured Name");
+
+        if HasPendingClaim(medicalInsuranceClaim) then
+            Error(DuplicateClaimErr);
+
+        if GuiAllowed then
+            InsuranceMgt.CheckInsuranceAttachment(medicalInsuranceClaim."No.", medicalInsuranceClaim."Employee No.", "Employee Activity Type"::"Medical Insurance Claim");
+
         if not GuiAllowed then begin
             medicalInsuranceClaim.Validate("Insurance Status", medicalInsuranceClaim."Insurance Status"::"Submitted to HRD");
             medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
+            medicalInsuranceClaim."HR Remarks" := '';
         end;
         if GuiAllowed then begin
             if not HRSetup."Skip Medical Approval Setup" then
@@ -67,6 +59,7 @@ codeunit 50007 "Insurance Mgt"
             else
                 medicalInsuranceClaim.Validate("Insurance Status", medicalInsuranceClaim."Insurance Status"::"Submitted to HRD");
             medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
+            medicalInsuranceClaim."HR Remarks" := '';
             medicalInsuranceClaim.Modify();
         end;
     end;
@@ -177,6 +170,86 @@ codeunit 50007 "Insurance Mgt"
                 IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
                 IncomingDoc.Insert;
             until AttachmentSetup.Next = 0;
+    end;
+
+    procedure GenerateAttachmentLine(No: Code[20]; EmployeeNo: Code[20]; ActivityType: Enum "Employee Activity Type")
+    var
+        SetupType: Enum "Attachment Setup Type";
+        TableId: Integer;
+    begin
+        case ActivityType of
+            ActivityType::Insurance:
+                begin
+                    SetupType := SetupType::Insurance;
+                    TableId := Database::"Employee Insurance Information";
+                end;
+            ActivityType::"Medical Insurance Claim":
+                begin
+                    SetupType := SetupType::"Medical Insurance Claim";
+                    TableId := Database::"Medical Insurance Claim";
+                end;
+        end;
+
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, SetupType);
+        if AttachmentSetup.Find('-') then
+            repeat
+                IncomingDoc.Init;
+                IncomingDoc.Validate("No.", No);
+                IncomingDoc.Validate("Table ID", TableId);
+                IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                IncomingDoc.Validate("Employee Code", EmployeeNo);
+                IncomingDoc.Validate("Employee Activity Type", ActivityType);
+                IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
+                IncomingDoc.Insert;
+            until AttachmentSetup.Next = 0;
+    end;
+
+    procedure CheckInsuranceAttachment(No: Code[20]; EmployeeNo: Code[20]; ActivityType: Enum "Employee Activity Type")
+    var
+        AttachmentSetupType: Enum "Attachment Setup Type";
+        IncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+        IsHandled: Boolean;
+    begin
+        case ActivityType of
+            ActivityType::Insurance:
+                AttachmentSetupType := AttachmentSetupType::Insurance;
+            ActivityType::"Medical Insurance Claim":
+                AttachmentSetupType := AttachmentSetupType::"Medical Insurance Claim";
+        end;
+        OnBeforeCheckInsuranceAttachment(No, IsHandled);
+        if IsHandled then
+            exit;
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetupType);
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.Find('-') then
+            repeat
+                IncomingDoc.Reset;
+                IncomingDoc.SetRange("No.", No);
+                IncomingDoc.SetRange("Employee Code", EmployeeNo);
+                IncomingDoc.SetRange("File Name", '');
+                if IncomingDoc.FindFirst then
+                    Error('Please upload mandatory attachments.');
+            until AttachmentSetup.Next = 0;
+    end;
+
+    procedure HasPendingClaim(MedicalInsuranceClaim: Record "Medical Insurance Claim"): Boolean
+    var
+        ExistingClaim: Record "Medical Insurance Claim";
+    begin
+        ExistingClaim.SetRange("Employee No.", MedicalInsuranceClaim."Employee No.");
+        ExistingClaim.SetRange(Type, ExistingClaim.Type::"Medical Insurance Claim");
+        ExistingClaim.SetRange("Approval Status", ExistingClaim."Approval Status"::Pending);
+        ExistingClaim.SetRange("Insurance Status", ExistingClaim."Insurance Status"::"Submitted to HRD");
+
+        if MedicalInsuranceClaim."Insurance Claim" = MedicalInsuranceClaim."Insurance Claim"::Self then
+            ExistingClaim.SetRange("Insurance Claim", MedicalInsuranceClaim."Insurance Claim")
+        else
+            ExistingClaim.SetRange(Relation, MedicalInsuranceClaim.Relation);
+
+        exit(not ExistingClaim.IsEmpty());
     end;
 
 

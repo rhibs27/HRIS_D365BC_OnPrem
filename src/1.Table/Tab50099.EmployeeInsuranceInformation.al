@@ -163,9 +163,12 @@ table 50099 "Employee Insurance Information"
     keys
     {
         key(Key1; "Insurance No.") { }
+        key(Key2; "Access Token") { }
     }
     fieldgroups { }
     trigger OnInsert()
+    var
+        IsHandle: Boolean;
     begin
         "Requested Date" := Today;
         if not GuiAllowed then begin
@@ -184,9 +187,9 @@ table 50099 "Employee Insurance Information"
                 "Insurance No." := NoSeriesMgt.GetNextNo("No. Series");
             ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
-        if GuiAllowed then begin
-            InsuranceMgt.GenerateAttachmentLine("Insurance No.", "Employee No.");
-        end;
+        OnBeforeGenerateAttachmentLine("Insurance No.", "Employee No.", "Employee Activity Type"::Insurance, IsHandle);
+        if (not IsHandle) and GuiAllowed then
+            InsuranceMgt.GenerateAttachmentLine("Insurance No.", "Employee No.", "Employee Activity Type"::Insurance);
     end;
 
     trigger OnDelete()
@@ -224,4 +227,9 @@ table 50099 "Employee Insurance Information"
         Text019: Label 'Policy No. %1 already used in Insurance No. %2.';
         Error001: Label 'Insurance Expiry Date must be greater then Insurance Start Date %1.';
         Error002: Label 'Insurance Start Date must be less or equal to %1.';
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeGenerateAttachmentLine(InsuranceNo: Code[20]; EmployeeNo: Code[20]; EmployeeActivityType: Enum "Employee Activity Type"; var IsHandled: Boolean)
+    begin
+    end;
 }

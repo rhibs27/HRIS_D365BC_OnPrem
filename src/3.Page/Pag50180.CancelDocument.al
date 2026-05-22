@@ -285,7 +285,7 @@ page 50180 "Cancel Document"
                     Error('')
                 else begin
                     Approval.Reset();
-                    Approval.setRange("Document Type", Approval."Document Type"::"Travel Claim");
+                    Approval.setRange("Employee No", Rec."Employee No.");
                     Approval.SetRange("Document No.", '');
                     Approval.DeleteAll();
                 end;

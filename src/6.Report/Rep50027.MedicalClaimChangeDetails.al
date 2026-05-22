@@ -212,7 +212,7 @@ report 50027 MedicalClaimChangeDetails
 
             InsuranceStatus::Rejected:
                 begin
-                    MedicalClaimRec.Validate("Rejection Remarks", RejectionReason);
+                    MedicalClaimRec.Validate("HR Remarks", RejectionReason);
                     MedicalClaimRec.Validate(
                         "Insurance Status",
                         MedicalClaimRec."Insurance Status"::Rejected);

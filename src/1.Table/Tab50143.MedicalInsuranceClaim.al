@@ -1,7 +1,7 @@
 table 50143 "Medical Insurance Claim"
 {
     Caption = 'Medical Insurance Claim';
-    DataClassification = ToBeClassified;
+    DataClassification = CustomerContent;
     fields
     {
         field(1; "No."; Code[20])
@@ -68,7 +68,6 @@ table 50143 "Medical Insurance Claim"
         {
             trigger OnValidate()
             begin
-                // HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
                 Validate("Policy Start Date (BS)", EngNepDate.getNepaliDate("Policy Start Date"));
                 if "Policy Start Date" <> xRec."Policy Start Date" then begin
                     Clear("Policy End Date");
@@ -175,7 +174,7 @@ table 50143 "Medical Insurance Claim"
         }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
-        field(36; "Rejection Remarks"; Text[250]) { }
+        field(36; "HR Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) { }
         field(40; "Cancelled No."; Code[20]) { }
@@ -294,9 +293,11 @@ table 50143 "Medical Insurance Claim"
         {
             Clustered = true;
         }
-        key(Key2; "Policy Start Date", "Insured Name") { }
+        key(Key2; "Policy Start Date", "Insured Name", "Access Token") { }
     }
     trigger OnInsert()
+    var
+        IsHandle: Boolean;
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -307,6 +308,12 @@ table 50143 "Medical Insurance Claim"
             Validate(Type, Rec.Type::"Medical Insurance Claim");
         end;
         HRSetup.Get;
+        if (HRSetup."Policy Start Date" = 0D) or (HRSetup."Policy End Date" = 0D) then
+            Error('The Policy Start Date and Policy End Date must be specified in the Human Resources Setup.');
+
+        Rec.Validate("Policy Start Date", HRSetup."Policy Start Date");
+        Rec.Validate("Policy End Date", HRSetup."Policy End Date");
+
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
@@ -327,21 +334,11 @@ table 50143 "Medical Insurance Claim"
                         end;
                 end;
             end;
-        if GuiAllowed then begin
-            AttachmentSetup.Reset;
-            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Medical Insurance Claim");
-            if AttachmentSetup.Find('-') then
-                repeat
-                    IncomingDoc.Init;
-                    IncomingDoc.Validate("No.", "No.");
-                    IncomingDoc.Validate("Table ID", Database::"Medical Insurance Claim");
-                    IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                    IncomingDoc.Validate("Employee Code", "Employee No.");
-                    IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::"Medical Insurance Claim");
-                    IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
-                    IncomingDoc.Insert;
-                until AttachmentSetup.Next = 0;
-        end;
+
+        OnBeforeGenerateAttachmentLineM("No.", "Employee No.", "Employee Activity Type"::"Medical Insurance Claim", IsHandle);
+        if (not IsHandle) And GuiAllowed then
+            InsuranceMgt.GenerateAttachmentLine("No.", "Employee No.", "Employee Activity Type"::"Medical Insurance Claim");
+
         if not GuiAllowed then begin
             InsuranceMgt.SendMedicalInsuranceApproval(Rec)
         end;
@@ -372,9 +369,13 @@ table 50143 "Medical Insurance Claim"
         DimValue: Record "Dimension Value";
         EmpRelative: Record "Employee Relative";
         ApproverMgt: Codeunit "Approver Mgt";
-        AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
         InsuranceMgt: Codeunit "Insurance Mgt";
         MedicalInsuranceClaimRec: Record "Medical Insurance Claim";
         Employee: Record Employee;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGenerateAttachmentLineM(No: Code[20]; EmployeeNo: Code[20]; EmployeeActivityType: Enum "Employee Activity Type"; var IsHandle: Boolean)
+    begin
+    end;
 }
