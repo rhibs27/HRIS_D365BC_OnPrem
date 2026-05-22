@@ -776,8 +776,6 @@ table 50075 "Employee Activity Journal"
         field(160; "Insurance Type"; Enum "Employee Insurance Type")
         {
             trigger OnValidate()
-            var
-                myInt: Integer;
             begin
                 if rec."Insurance Type" <> xRec."Insurance Type" then begin
                     Clear("Insurance Company Code");
