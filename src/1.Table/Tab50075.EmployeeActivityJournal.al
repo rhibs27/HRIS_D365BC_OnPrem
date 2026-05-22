@@ -773,7 +773,7 @@ table 50075 "Employee Activity Journal"
         }
 
         //employee Insurance
-        field(155; "Insurance Type"; Enum "Employee Insurance Type")
+        field(160; "Insurance Type"; Enum "Employee Insurance Type")
         {
             trigger OnValidate()
             var
@@ -785,7 +785,7 @@ table 50075 "Employee Activity Journal"
                 end;
             end;
         }
-        field(156; "Insurance Company Code"; Code[20])
+        field(161; "Insurance Company Code"; Code[20])
         {
             TableRelation = if ("Insurance Type" = const("Life Insurance")) "Insurance Company".code where(Blocked = const(false), Type = const("Life Insurance"))
             else
@@ -802,45 +802,19 @@ table 50075 "Employee Activity Journal"
                     Clear("Insurance Company Name");
             end;
         }
-        field(157; "Insurance Company Name"; Text[50])
+        field(162; "Insurance Company Name"; Text[50])
         {
             Editable = false;
         }
-        field(158; "Premium Payment Frequency"; Enum "Premium Payment Frequency")
+        field(163; "Premium Payment Frequency"; Enum "Premium Payment Frequency")
         {
             DataClassification = ToBeClassified;
         }
-        // field(159; "Insurance Start Date (AD)"; Date)
-        // {
-        //     trigger OnValidate()
-        //     begin
-        //         Validate("Insurance Start Date (BS)", EngNepDate.getNepaliDate("Insurance Start Date (AD)"));
-        //         if "Insurance Start Date (AD)" > Today then
-        //             Error('Insurance Start Date must be less or equal to %1.', Today);
-        //     end;
-        // }
-        // field(160; "Insurance Start Date (BS)"; Text[20])
-        // {
-        //     Editable = false;
-        // }
-        // field(161; "Insurance Expiry Date (AD)"; Date)
-        // {
-        //     trigger OnValidate()
-        //     begin
-        //         Validate("Insurance Expiry Date (BS)", EngNepDate.getNepaliDate("Insurance Expiry Date (AD)"));
-        //         if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then
-        //             Error('Insurance Expiry Date must be greater then Insurance Start Date %1.', "Insurance Start Date (AD)");
-        //     end;
-        // }
-        // field(162; "Insurance Expiry Date (BS)"; Text[20])
-        // {
-        //     Editable = false;
-        // }
-        field(163; "Premium Paid By"; enum "Premium Paid By")
+        field(164; "Premium Paid By"; enum "Premium Paid By")
         {
             Caption = 'Premium Paid By';
         }
-        field(164; "Insurance Amount"; Decimal)
+        field(165; "Insurance Amount"; Decimal)
         {
             trigger OnValidate()
             begin
@@ -850,8 +824,8 @@ table 50075 "Employee Activity Journal"
                 end;
             end;
         }
-        field(165; "Premium Amount"; Decimal) { }
-        field(166; "Annual Premium Amount"; Decimal)
+        field(166; "Premium Amount"; Decimal) { }
+        field(167; "Annual Premium Amount"; Decimal)
         {
             trigger OnValidate()
             begin
