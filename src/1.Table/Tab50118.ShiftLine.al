@@ -164,5 +164,12 @@ table 50118 "Shift Line"
         ShiftLine.SetFilter("Approval Status", '%1|%2', ShiftLine."Approval Status"::Pending, ShiftLine."Approval Status"::Approved);
         if ShiftLine.FindFirst() then
             Error('Employee %1 is already scheduled on %2 in document %3 with status %4', "Employee No", "Roster Date", ShiftLine."No.", ShiftLine."Approval Status");
+
+        OnBeforeValidateEmployeeSubstitue(Rec);
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeValidateEmployeeSubstitue(var ShiftLineRec: Record "Shift Line")
+    begin
     end;
 }

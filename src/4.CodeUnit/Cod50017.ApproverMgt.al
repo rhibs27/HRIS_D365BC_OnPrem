@@ -25,11 +25,9 @@ codeunit 50017 "Approver Mgt"
     begin
         EmpRequest.Get(EmployeeNo);
         //if employee is a manual approver
-        if EmpRequest."Manual Approver User" then begin
-            IsManualApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
-            if IsHandled then
-                exit;
-        end;
+        OnBeforeInsertApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+        if IsHandled then
+            exit;
         //if employee is not manual approver
         if not isHandled then begin
             ApprovalSetupLine.Reset();
@@ -123,11 +121,9 @@ codeunit 50017 "Approver Mgt"
     begin
         EmpRequest.Get(EmployeeNo);
         //if employee is a manual approver
-        if EmpRequest."Manual Approver User" then begin
-            IsManualApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
-            if IsHandled then
-                exit;
-        end;
+        OnBeforeInsertApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+        if IsHandled then
+            exit;
         //if employee is not manual approver
         if not isHandled then begin
             ApprovalSetupLine.Reset();
@@ -1577,13 +1573,9 @@ codeunit 50017 "Approver Mgt"
         PerSequenceCount: array[10] of Integer;
     begin
         EmpRequest.Get(EmployeeNo);
-
-        //if employee is a manual approver
-        if EmpRequest."Manual Approver User" then begin
-            IsManualApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
-            if IsHandled then
-                exit;
-        end;
+        OnBeforeInsertApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+        if IsHandled then
+            exit;
 
         //if employee is not manual approver
         if not isHandled then begin
@@ -1873,7 +1865,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure IsmanualApproverworkflow(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status"; var IsHandled: Boolean)
+    local procedure OnBeforeInsertApproverWorkflow(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status"; var IsHandled: Boolean)
     begin
     end;
 
