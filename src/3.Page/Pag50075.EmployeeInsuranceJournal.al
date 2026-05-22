@@ -48,7 +48,7 @@ page 50075 "Employee Insurance Journal"
                 }
                 field("Insurance Start Date (AD)"; rec."Start Date")
                 {
-                    Caption='Insurance Start Date (AD)';
+                    Caption = 'Insurance Start Date (AD)';
                     ApplicationArea = all;
                     Editable = IsOpen;
                 }
@@ -269,7 +269,7 @@ page 50075 "Employee Insurance Journal"
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
     end;
 
-    var
+    protected var
         StatusView, ApprovalStatusView : Boolean;
         IsOpen, IsPending, IsApproved, IsRejected : Boolean;
         EmpActMgt: Codeunit EmployeeActivityMgt;
