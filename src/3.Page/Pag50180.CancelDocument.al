@@ -48,19 +48,16 @@ page 50180 "Cancel Document"
                 }
                 field("End Date"; Rec."End Date")
                 {
-                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
                 field("No. of Days"; Rec."No. of Days")
                 {
-                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
                 field("Cancelled Document No."; Rec."Cancelled Document No.")
                 {
-                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the Cancelled Document No. field.';
                     ApplicationArea = All;
                 }
@@ -88,7 +85,6 @@ page 50180 "Cancel Document"
                 }
                 field("End Date (BS)"; Rec."End Date (BS)")
                 {
-                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
                     ApplicationArea = All;
                 }
@@ -168,15 +164,6 @@ page 50180 "Cancel Document"
                     end;
                 }
             }
-            // part(Control32; "Attachment Subform")
-            // {
-            //     SubPageLink = "No." = field("No."),
-            //                   Type = const(" "),
-            //                   "Employee Code" = field("Employee No."),
-            //                   "Leave Type Code" = field("Leave Code");
-            //     SubPageView = where("No." = filter(<> ''));
-            //     ApplicationArea = All;
-            // }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -319,19 +306,18 @@ page 50180 "Cancel Document"
         RecRef.GetTable(Rec);
     end;
 
+    protected var
+        ApprovalStatusView: Boolean;
+        StatusView: Boolean;
+        IsPending, IsOpen : Boolean;
+
     var
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";
         IsApplied: Boolean;
-
         IsLeaveRequest, IsAttendanceMissed : Boolean;
-
-        IsOpen: Boolean;
         TypeFilter: Text;
         ApproverMgt: Codeunit "Approver Mgt";
-        IsPending: Boolean;
         Approval: Record "Approval HRMS";
         RecRef: RecordRef;
-        ApprovalStatusView: Boolean;
-        StatusView: Boolean;
 }
