@@ -653,6 +653,10 @@ table 50136 "Travel Request"
         {
             DataClassification = ToBeClassified;
         }
+        field(301; "Access Token"; code[60])
+        {
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {
