@@ -103,8 +103,8 @@ codeunit 50023 EmployeeActivityMgt
     begin
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Policy No");
-        EmployeeACTJnl.TestField("Insurance Expiry Date (AD)");
-        EmployeeACTJnl.TestField("Insurance Start Date (AD)");
+        EmployeeACTJnl.TestField("Start Date");
+        EmployeeACTJnl.TestField("End Date");
         EmployeeACTJnl.TestField("Insurance Amount");
         EmployeeACTJnl.TestField("Annual Premium Amount");
         EmployeeACTJnl.TestField("Insurance Type");
@@ -296,8 +296,8 @@ codeunit 50023 EmployeeActivityMgt
                 EmployeeInsurance.Validate("From Journal", true);
                 EmployeeInsurance.Validate("Insurance Type", EmployeeInsuranceJournal."Insurance Type");
                 EmployeeInsurance.Validate("Insurance Company Code", EmployeeInsuranceJournal."Insurance Company Code");
-                EmployeeInsurance.Validate("Insurance start Date (AD)", EmployeeInsuranceJournal."Insurance start Date (AD)");
-                EmployeeInsurance.Validate("Insurance Expiry Date (AD)", EmployeeInsuranceJournal."Insurance Expiry Date (AD)");
+                EmployeeInsurance.Validate("Insurance start Date (AD)", EmployeeInsuranceJournal."Start Date");
+                EmployeeInsurance.Validate("Insurance Expiry Date (AD)", EmployeeInsuranceJournal."End Date");
                 EmployeeInsurance.Validate("Premium Paid By", EmployeeInsuranceJournal."Premium Paid By");
                 EmployeeInsurance.Validate("Policy Number", EmployeeInsuranceJournal."Policy No");
                 EmployeeInsurance.Validate("Insurance Amount", EmployeeInsuranceJournal."Insurance Amount");

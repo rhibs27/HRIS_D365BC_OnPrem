@@ -99,18 +99,27 @@ table 50075 "Employee Activity Journal"
             var
                 LeaveMgt: Codeunit "Leave Mgt.";
             begin
-                if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
-                    if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
-                        Error('Leave code and leave type cannot be blank')
-                end;
                 Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
-                if "End Date" <> 0D then begin
-                    if "Employee Act Type" = "Employee Act Type"::"Leave Request" then
-                        Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
-                end
-                else begin
-                    Clear("End Date (BS)");
-                    Clear("No. of Days");
+                case "Employee Act Type" of
+                    "Employee Act Type"::"Leave Request":
+                        begin
+
+                            if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
+                                Error('Leave code and leave type cannot be blank');
+
+                            if "End Date" <> 0D then begin
+                                Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
+                            end
+                        end;
+                    "Employee Act Type"::Insurance:
+                        begin
+                            if "Start Date" > "End Date" then
+                                Error('Insurance Expiry Date must be greater then Insurance Start Date %1.', "Start Date");
+                        end;
+                    else begin
+                        Clear("End Date (BS)");
+                        Clear("No. of Days");
+                    end;
                 end;
             end;
         }
@@ -801,32 +810,32 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
-        field(159; "Insurance Start Date (AD)"; Date)
-        {
-            trigger OnValidate()
-            begin
-                Validate("Insurance Start Date (BS)", EngNepDate.getNepaliDate("Insurance Start Date (AD)"));
-                if "Insurance Start Date (AD)" > Today then
-                    Error('Insurance Start Date must be less or equal to %1.', Today);
-            end;
-        }
-        field(160; "Insurance Start Date (BS)"; Text[20])
-        {
-            Editable = false;
-        }
-        field(161; "Insurance Expiry Date (AD)"; Date)
-        {
-            trigger OnValidate()
-            begin
-                Validate("Insurance Expiry Date (BS)", EngNepDate.getNepaliDate("Insurance Expiry Date (AD)"));
-                if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then
-                    Error('Insurance Expiry Date must be greater then Insurance Start Date %1.', "Insurance Start Date (AD)");
-            end;
-        }
-        field(162; "Insurance Expiry Date (BS)"; Text[20])
-        {
-            Editable = false;
-        }
+        // field(159; "Insurance Start Date (AD)"; Date)
+        // {
+        //     trigger OnValidate()
+        //     begin
+        //         Validate("Insurance Start Date (BS)", EngNepDate.getNepaliDate("Insurance Start Date (AD)"));
+        //         if "Insurance Start Date (AD)" > Today then
+        //             Error('Insurance Start Date must be less or equal to %1.', Today);
+        //     end;
+        // }
+        // field(160; "Insurance Start Date (BS)"; Text[20])
+        // {
+        //     Editable = false;
+        // }
+        // field(161; "Insurance Expiry Date (AD)"; Date)
+        // {
+        //     trigger OnValidate()
+        //     begin
+        //         Validate("Insurance Expiry Date (BS)", EngNepDate.getNepaliDate("Insurance Expiry Date (AD)"));
+        //         if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then
+        //             Error('Insurance Expiry Date must be greater then Insurance Start Date %1.', "Insurance Start Date (AD)");
+        //     end;
+        // }
+        // field(162; "Insurance Expiry Date (BS)"; Text[20])
+        // {
+        //     Editable = false;
+        // }
         field(163; "Premium Paid By"; enum "Premium Paid By")
         {
             Caption = 'Premium Paid By';
