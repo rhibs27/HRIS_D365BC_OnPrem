@@ -237,9 +237,10 @@ report 50144 "Yearly Payroll Projection"
                     if Employee.Get(EmployeeFilter) then
                         if PayCyclePeriod1."Start Date" < Employee."Employment Date" then begin
                             PayCyclePeriod2.SetFilter("Start Date", '<%1', Employee."Employment Date");
-                            if PayCyclePeriod2.FindLast() then
+                            if PayCyclePeriod2.FindLast() then begin
                                 StartDate := PayCyclePeriod2."Start Date";
-                            // SetFilter("Start Date", '>%1', StartDate);
+                                SetFilter("Start Date", '>%1', StartDate);
+                            end;
                         end;
                 end;
 
