@@ -1122,7 +1122,6 @@ codeunit 50000 "Leave Mgt."
                      CancelDocument."No.",
                      CancelDocument.Remarks,
                      '');
-            LeaveTypeSetup.get(CancelDocument."Leave Code");
             if LeaveTypeSetup."Exclude in Service Period" then begin
                 ServiceInactivity.SetRange("Source Doc No", CancelDocument."Cancelled Document No.");
                 ServiceInactivity.SetRange("Employee No.", CancelDocument."Employee No.");
