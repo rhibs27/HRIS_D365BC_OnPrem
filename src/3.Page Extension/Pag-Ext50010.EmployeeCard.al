@@ -978,7 +978,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             }
         }
 #if not CLEAN25
-        // moveafter(Control3; "Attached Documents")
+        moveafter(Control3; "Attached Documents")
 #else
         moveafter(Control3; "Attached Documents List")
 #endif
