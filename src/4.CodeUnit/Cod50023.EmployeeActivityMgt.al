@@ -412,6 +412,7 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJournal.SetRange("Employee No.", EmpNo);
         EmpActJournal.SetRange("Employee Act Type", EmpActJournal."Employee Act Type"::"Attendance Missed");
         EmpActJournal.SetFilter("Approval Status", '<>%1', EmpActJournal."Approval Status"::Rejected);
+        EmpActJournal.SetRange(Cancelled, false);
         EmpActJournal.SetRange("Start Date", AttendanceDate);
         if EmpActJournal.FindFirst then
             Error('Attendance Already Applied for date %1 of %2', AttendanceDate, EmpNo);

@@ -125,7 +125,6 @@ page 50361 "Attendance missed Card"
             }
         }
     }
-
     actions
     {
         area(Processing)
@@ -142,7 +141,7 @@ page 50361 "Attendance missed Card"
                 ApplicationArea = All;
                 trigger OnAction()
                 begin
-                    if DocCancelMgt.ApplyAttendanceMissed(Rec) <> '' then begin
+                    if AttendanceMissedMgt.ApplyAttendanceMissed(Rec) <> '' then begin
                         IsApplied := true;
                         Message('Attendance Missed has been sent for approval.');
                         CurrPage.Close;
@@ -204,8 +203,43 @@ page 50361 "Attendance missed Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want WithDraw the request?', false) then begin
-                        ApprovalMgt.WithDrawRequest(RecRef);
+                        ApproverMgt.WithDrawRequest(RecRef);
                         Message('Attendance missed update request has been withdrew.');
+                    end;
+                end;
+            }
+            action("Find Journal")
+            {
+                Image = Find;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = FromJournal and IsApproved;
+                ToolTip = 'Executes the Find Journal Action';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    PostedEmployeeJournal: Record "Posted Employee Journal";
+                begin
+                    PostedEmployeeJournal.SetRange("Document No", Rec."No.");
+                    Page.Run(page::"Posted Employee Journal", PostedEmployeeJournal);
+                end;
+            }
+            action("Cancel Update Attendance Request")
+            {
+                Image = CancelApprovalRequest;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = not FromJournal and IsApproved;
+                ToolTip = 'Executes the Find Journal Action';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want Cancel the request?', false) then begin
+                        AttendanceMissMgt.OpenCancelEmpActivity(Rec);
                     end;
                 end;
             }
@@ -224,15 +258,14 @@ page 50361 "Attendance missed Card"
 
     trigger OnOpenPage()
     begin
-        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
-            StatusView := true
-        else
-            ApprovalStatusView := true;
-        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
-        IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
-        RecRef.GetTable(Rec);
+        setlayOut();
         if IsOpen then
             ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed", rec."Approval Status");
+    end;
+
+    trigger OnAfterGetRecord()
+    begin
+        setlayOut();
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
@@ -250,17 +283,31 @@ page 50361 "Attendance missed Card"
                 end;
     end;
 
-    var
+    protected var
         HRMgt: Codeunit "HR Mgt.";
-        DocCancelMgt: Codeunit "AttendanceMiss Mgt";
-        IsOpen: Boolean;
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
+        IsOpen, IsPending, FromJournal, IsApproved : Boolean;
+
+    var
         TypeFilter: Text;
         ApproverMgt: Codeunit "Approver Mgt";
-        IsPending: Boolean;
         Approval: Record "Approval HRMS";
         RecRef: RecordRef;
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         IsApplied: Boolean;
-        ApprovalMgt: Codeunit "Approver Mgt";
+        AttendanceMissMgt: Codeunit "AttendanceMiss Mgt";
+
+    local procedure setlayOut()
+    begin
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
+        FromJournal := Rec."From Journal";
+        RecRef.GetTable(Rec);
+    end;
 }
