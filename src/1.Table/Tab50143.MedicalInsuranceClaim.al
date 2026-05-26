@@ -192,8 +192,8 @@ table 50143 "Medical Insurance Claim"
                     Clear("Relation");
                 end;
                 if "Insurance Claim" = "Insurance Claim"::Self then begin
-                    if Employee.Get("Employee No.") then
-                        Validate("Insured Name", Employee."Full Name");
+                    if EmpVar.Get("Employee No.") then
+                        Validate("Insured Name", EmpVar."Full Name");
                 end;
             end;
         }
@@ -372,7 +372,6 @@ table 50143 "Medical Insurance Claim"
         IncomingDoc: Record "Incoming Document";
         InsuranceMgt: Codeunit "Insurance Mgt";
         MedicalInsuranceClaimRec: Record "Medical Insurance Claim";
-        Employee: Record Employee;
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeGenerateAttachmentLineM(No: Code[20]; EmployeeNo: Code[20]; EmployeeActivityType: Enum "Employee Activity Type"; var IsHandle: Boolean)

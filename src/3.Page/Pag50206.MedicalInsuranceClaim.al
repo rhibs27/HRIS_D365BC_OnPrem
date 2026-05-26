@@ -208,6 +208,7 @@ page 50206 "Medical Insurance Claim"
                 begin
                     InsuranceMgt.SendMedicalInsuranceApproval(Rec);
                     Message('Medical Insurance Claim request has been sent.');
+                    CurrPage.Update();
                 end;
             }
             action("Approve Request")
@@ -237,7 +238,7 @@ page 50206 "Medical Insurance Claim"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-                Visible = IsPending and IsHRDRejected;
+                Visible = IsPending and IsSubmittedHRD;
 
                 trigger OnAction()
                 begin
@@ -281,7 +282,7 @@ page 50206 "Medical Insurance Claim"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsHRDRejected;
+                Visible = IsSubmittedHRD;
                 ToolTip = 'Forwards this medical insurance claim to the insurance company.';
                 ApplicationArea = All;
                 trigger OnAction()
@@ -389,12 +390,7 @@ page 50206 "Medical Insurance Claim"
                     if not HRSetup."Skip Medical Approval Setup" then
                         ApprovalMgt.ReopenDocument(RecRef)
                     else begin
-                        Rec.TestField("HR Remarks");
-                        Rec.Validate("Approval Status", Rec."Approval Status"::Open);
-                        Rec.Validate("Insurance Status", Rec."Insurance Status"::" ");
-                        Rec.Validate("Medical Prescription Date", 0D);
-                        Rec.Validate("Discharge Date", 0D);
-                        Rec.Modify(true);
+                        InsuranceMgt.TestfieldReturnRequest(Rec);
                     end;
                     Message('Request Returned');
                     CurrPage.Update(false);
@@ -446,7 +442,7 @@ page 50206 "Medical Insurance Claim"
         NameFieldVisible: Boolean;
         NameCaptionTxt: Text;
         HRSetup: Record "Human Resources Setup";
-        SkipApproval, IsInsuranceCoRejected, IsHRDRejected : Boolean;
+        SkipApproval, IsInsuranceCoRejected, IsSubmittedHRD : Boolean;
 
     procedure SetLayout()
     begin
@@ -462,7 +458,7 @@ page 50206 "Medical Insurance Claim"
         RecRef.GetTable(Rec);
         // ApprovalSent := Rec."Insurance Status" in [Rec."Insurance Status"::" ", Rec."Insurance Status"::"Request to DTMD"];
         ApproveReject := Rec."Insurance Status" = Rec."Insurance Status"::"Forwarded to Insurance Co.";
-        IsHRDRejected := Rec."Insurance Status" = Rec."Insurance Status"::"Submitted to HRD";
+        IsSubmittedHRD := Rec."Insurance Status" = Rec."Insurance Status"::"Submitted to HRD";
         IsInsuranceCoRejected := Rec."Insurance Status" = Rec."Insurance Status"::Rejected;
     end;
 }

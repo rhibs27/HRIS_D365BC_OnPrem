@@ -736,12 +736,12 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Skip Approval Setup field. If set to true, the system will skip approval for medical insurance claims.';
                 }
-                field("CBS G\L Code"; Rec."CBS G\L Code")
+                field("CBS GL Code"; Rec."CBS GL Code")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the CBS G\L Code field.';
                 }
-                field("CBS G\L Name"; Rec."CBS G\L Name")
+                field("CBS GL Name"; Rec."CBS GL Name")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the CBS G\L Name field.';

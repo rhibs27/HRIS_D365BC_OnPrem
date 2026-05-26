@@ -155,7 +155,7 @@ page 50180 "Cancel Document"
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
-                    Visible = IsPending;
+                    Visible = IsPending or IsRejected;
                     Editable = IsPending;
                     trigger OnValidate()
                     begin
@@ -301,6 +301,7 @@ page 50180 "Cancel Document"
             ApprovalStatusView := true;
         IsAttendanceMissed := rec.Type = rec.Type::"Attendance Missed";
         IsLeaveRequest := Rec.Type = Rec.Type::"Leave Request";
+        IsRejected := Rec."Approval Status" = Rec."Approval Status"::Rejected;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         RecRef.GetTable(Rec);
@@ -309,7 +310,7 @@ page 50180 "Cancel Document"
     protected var
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
-        IsPending, IsOpen : Boolean;
+        IsRejected, IsPending, IsOpen : Boolean;
 
     var
         HRMgt: Codeunit "HR Mgt.";

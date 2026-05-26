@@ -46,8 +46,7 @@ codeunit 50007 "Insurance Mgt"
             Error(DuplicateClaimErr);
 
         if GuiAllowed then
-            InsuranceMgt.CheckInsuranceAttachment(medicalInsuranceClaim."No.", medicalInsuranceClaim."Employee No.", "Employee Activity Type"::"Medical Insurance Claim");
-
+            AttachmentMgt.CheckMandatoryAttachmentOnType(Enum::"Attachment Setup Type"::"Medical Insurance Claim", Enum::"Attachment Setup SubType"::" ", MedicalInsurance."No.");
         if not GuiAllowed then begin
             medicalInsuranceClaim.Validate("Insurance Status", medicalInsuranceClaim."Insurance Status"::"Submitted to HRD");
             medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
@@ -205,36 +204,6 @@ codeunit 50007 "Insurance Mgt"
             until AttachmentSetup.Next = 0;
     end;
 
-    procedure CheckInsuranceAttachment(No: Code[20]; EmployeeNo: Code[20]; ActivityType: Enum "Employee Activity Type")
-    var
-        AttachmentSetupType: Enum "Attachment Setup Type";
-        IncomingDoc: Record "Incoming Document";
-        AttachmentSetup: Record "Attachment Setup";
-        IsHandled: Boolean;
-    begin
-        case ActivityType of
-            ActivityType::Insurance:
-                AttachmentSetupType := AttachmentSetupType::Insurance;
-            ActivityType::"Medical Insurance Claim":
-                AttachmentSetupType := AttachmentSetupType::"Medical Insurance Claim";
-        end;
-        OnBeforeCheckInsuranceAttachment(No, IsHandled);
-        if IsHandled then
-            exit;
-        AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetupType);
-        AttachmentSetup.SetRange(Mandatory, true);
-        if AttachmentSetup.Find('-') then
-            repeat
-                IncomingDoc.Reset;
-                IncomingDoc.SetRange("No.", No);
-                IncomingDoc.SetRange("Employee Code", EmployeeNo);
-                IncomingDoc.SetRange("File Name", '');
-                if IncomingDoc.FindFirst then
-                    Error('Please upload mandatory attachments.');
-            until AttachmentSetup.Next = 0;
-    end;
-
     procedure HasPendingClaim(MedicalInsuranceClaim: Record "Medical Insurance Claim"): Boolean
     var
         ExistingClaim: Record "Medical Insurance Claim";
@@ -252,6 +221,15 @@ codeunit 50007 "Insurance Mgt"
         exit(not ExistingClaim.IsEmpty());
     end;
 
+    procedure TestfieldReturnRequest(var MedicalInsuranceClaim: Record "Medical Insurance Claim")
+    begin
+        MedicalInsuranceClaim.TestField("HR Remarks");
+        MedicalInsuranceClaim.Validate("Approval Status", MedicalInsuranceClaim."Approval Status"::Open);
+        MedicalInsuranceClaim.Validate("Insurance Status", MedicalInsuranceClaim."Insurance Status"::" ");
+        MedicalInsuranceClaim.Validate("Medical Prescription Date", 0D);
+        MedicalInsuranceClaim.Validate("Discharge Date", 0D);
+        MedicalInsuranceClaim.Modify(true);
+    end;
 
     var
         Employee: Record Employee;
@@ -259,6 +237,7 @@ codeunit 50007 "Insurance Mgt"
         ApproverMgt: Codeunit "Approver Mgt";
         AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 
 
     [IntegrationEvent(false, false)]

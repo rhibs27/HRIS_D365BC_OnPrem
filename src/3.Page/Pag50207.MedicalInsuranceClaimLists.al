@@ -125,7 +125,7 @@ page 50207 "Medical Insurance Claim Lists"
                 trigger OnAction()
                 var
                     SelectedRec: Record "Medical Insurance Claim";
-                    MedicalClaimChangeDetail: Report MedicalClaimChangeDetails;
+                    MedicalClaimChangeDetail: Report "Medical Claim Change Details";
                     ClaimNos: Text;
                     SelectionCount: Integer;
                 begin

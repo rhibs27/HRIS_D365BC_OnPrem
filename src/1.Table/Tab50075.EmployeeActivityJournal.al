@@ -54,7 +54,7 @@ table 50075 "Employee Activity Journal"
                 end;
             end;
         }
-        field(4; "Employee Name"; Text[150])
+        field(4; "Employee Name"; Text[50])
         {
             Editable = false;
         }
@@ -741,7 +741,7 @@ table 50075 "Employee Activity Journal"
                     Clear("Substitute Person Name");
             end;
         }
-        field(127; "Substitute Person Name"; text[100])
+        field(127; "Substitute Person Name"; text[50])
         {
             Caption = 'Substitute Person Name';
             Editable = false;

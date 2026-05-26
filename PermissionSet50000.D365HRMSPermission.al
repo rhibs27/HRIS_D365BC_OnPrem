@@ -920,7 +920,9 @@ permissionset 50000 D365HRMSPermission
         page "Quarterly Cost of Fund" = X,
         page "Suspension Event Dialog" = X,
         page "Suspension Level Setup" = X,
-        report MedicalClaimChangeDetails = X,
         page "Categorized Budget Summary" = X,
-        page "Monthwise Training Budget" = X;
+        page "Monthwise Training Budget" = X,
+        report "Create Nepali Fiscal Year" = X,
+        report "Medical Claim Change Details" = X,
+        page "Cancelled Update Atten. List" = X;
 }

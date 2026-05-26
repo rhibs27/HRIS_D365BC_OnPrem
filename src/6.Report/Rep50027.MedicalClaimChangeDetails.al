@@ -1,4 +1,4 @@
-report 50027 MedicalClaimChangeDetails
+report 50027 "Medical Claim Change Details"
 {
     Caption = 'Medical Claim Change Details';
     ProcessingOnly = true;
