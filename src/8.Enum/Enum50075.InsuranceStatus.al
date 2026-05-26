@@ -26,4 +26,8 @@ enum 50075 "Insurance Status"
     {
         Caption = 'Rejected';
     }
+    value(6; "Submitted to HRD")
+    {
+        Caption = 'Submitted to HRD';
+    }
 }

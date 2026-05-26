@@ -808,6 +808,10 @@ table 50140 "Employee Transfer"
         {
             Description = 'Transfer. It is checked while doing takeover process.';
         }
+        field(305; "Access Token"; Code[60])
+        {
+            Description = 'Transfer. It is used for authentication.';
+        }
     }
     keys
     {

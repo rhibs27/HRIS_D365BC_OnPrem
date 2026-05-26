@@ -170,11 +170,11 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
