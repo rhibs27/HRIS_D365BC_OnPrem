@@ -21243,6 +21243,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Screened Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 818584497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Self Deposited CIT Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Self Deposited CIT Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 3067434575 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Self Deposited RF Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Self Deposited RF Amount - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1145153898 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50493,6 +50503,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control RTF Amount (Month) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 818584497 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Self Deposited CIT Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Self Deposited CIT Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 3067434575 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Self Deposited RF Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Self Deposited RF Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50667,6 +50687,16 @@
           <source>Specifies the value of the RTF Amount (Month) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Control RTF Amount (Month) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 733203159 - Control 818584497 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Self Deposited CIT Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Control Self Deposited CIT Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 733203159 - Control 3067434575 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Self Deposited RF Amount field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Control Self Deposited RF Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 733203159 - Control 671163260 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Committed Contribution field.</source>
