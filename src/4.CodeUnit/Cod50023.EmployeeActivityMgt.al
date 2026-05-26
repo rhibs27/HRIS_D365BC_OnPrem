@@ -144,6 +144,7 @@ codeunit 50023 EmployeeActivityMgt
                     TransferRequest.Validate("Approved Date", Today);
                     TransferRequest.Validate("On Employee Request", TransferEmployeeJournal."On Employee Request");
                     TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
+                    OnBeforeInsertOnTransferRequest(TransferRequest, TransferEmployeeJournal);
                     TransferRequest.Insert(true);
                 end;
 
@@ -715,6 +716,11 @@ codeunit 50023 EmployeeActivityMgt
     local procedure OnBeforeConfirmTransferJournalDetails(var TransferJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
     begin
         //For any Control related to Journal
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertOnTransferRequest(var TransferRequest: Record "Employee Transfer"; TransferJournal: Record "Employee Activity Journal")
+    begin
     end;
 
     var

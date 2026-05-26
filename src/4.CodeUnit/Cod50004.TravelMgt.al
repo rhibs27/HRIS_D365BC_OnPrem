@@ -165,7 +165,7 @@ codeunit 50004 "Travel Mgt."
             if TravelReq."Advance Cash" > 0 then
                 TravelReq."Advance Cash Required" := true;
         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
-        OnBeforeValidatingUserID(TravelReq, IsHandledUserID);
+        OnBeforeValidatingUserID(IsHandledUserID);
         if not IsHandledUserID then
             TravelReq.Validate("User ID", UserId);
         if TravelReq."Advance Cash" > TravelReq."Total Estimated Cost" then
@@ -1032,8 +1032,8 @@ codeunit 50004 "Travel Mgt."
     begin
         if not CancelledDocument.Get(CancelDocNo) then
             Error('Cancel document %1 not found.', CancelDocNo);
-        CancelledDocument.Validate(Cancelled, false);
-        CancelledDocument.Modify(true);
+        // CancelledDocument.Validate(Cancelled, false);
+        // CancelledDocument.Modify(true);
         if not TravelRequest.Get(CancelledDocument."Cancelled Document No.") then
             Error('Travel request no. %1 not found.', CancelledDocument."Cancelled Document No.");
 
@@ -1108,7 +1108,7 @@ codeunit 50004 "Travel Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeValidatingUserID(var TravelReq: Record "Travel Request"; var IsHandledUserID: Boolean)
+    procedure OnBeforeValidatingUserID(var IsHandledUserID: Boolean)
     begin
     end;
 
@@ -1117,6 +1117,7 @@ codeunit 50004 "Travel Mgt."
     begin
     end;
 
+    [IntegrationEvent(false, false)]
     local procedure OnBeforeApplyTravelRequest(var TravelReq: Record "Travel Request")
     begin
     end;

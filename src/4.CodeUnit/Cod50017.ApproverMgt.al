@@ -220,7 +220,7 @@ codeunit 50017 "Approver Mgt"
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
         ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
-        OnInsertApprovalCancelledOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
+        OnInsertApprovalCancelledOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType, EmpActNo, EmployeeNo);
         SequenceOneCount := 0;
         GetPerSequenceApproval(ApprovalSetupLine, PerSequenceCount);
         if ApprovalSetupLine.Findset() then begin
@@ -781,6 +781,12 @@ codeunit 50017 "Approver Mgt"
                                     if RecRef.Field(39).value then
                                         leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
                                 end;
+                            //for travel request Reject
+                            EmployeeActivityType::"Travel Request":
+                                begin
+                                    if RecRef.Field(39).value then
+                                        TravelMgt.RejectTravelRequest(RecRef.Field(1).Value);
+                                end;
                             //for travel claim Reject
                             EmployeeActivityType::"Travel Claim":
                                 begin
@@ -894,7 +900,10 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::"Travel Request":
                             begin
-                                TravelMgt.TravelApproved(RecRef.Field(1).Value);
+                                if RecRef.Field(39).value then
+                                    TravelMgt.ApproveCancelTravelRequest(RecRef.Field(1).Value)
+                                else
+                                    TravelMgt.TravelApproved(RecRef.Field(1).Value);
                             end;
                         EmployeeActivityType::"Travel Claim":
                             begin
@@ -1366,8 +1375,9 @@ codeunit 50017 "Approver Mgt"
                 until Approver.Next() = 0;
                 if EmpActType = EmpActType::"Attribute Adjustment" then
                     RecRef.Field(AttributeAdj.FieldNo("Approval Status")).Validate(ApprovalStatusEnum::Open)
-                else
+                else begin
                     RecRef.Field(16).Validate(ApprovalStatusEnum::Open); // Modify the record dynamically
+                end;
                 RecRef.Modify();
                 OnAfterReOpenDocument(RecRef);
             end;
@@ -1895,7 +1905,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnInsertApprovalCancelledOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type")
+    local procedure OnInsertApprovalCancelledOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type"; EmpActNo: Code[20]; EmployeeNo: Code[20])
     begin
     end;
 
