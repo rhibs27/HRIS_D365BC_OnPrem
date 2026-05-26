@@ -174,7 +174,7 @@ table 50143 "Medical Insurance Claim"
         }
         field(32; "Compensatory Days"; Decimal) { }
         field(33; "Payroll No."; Code[20]) { }
-        field(36; "HR Remarks"; Text[250]) { }
+        field(36; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
         field(39; Cancelled; Boolean) { }
         field(40; "Cancelled No."; Code[20]) { }
@@ -283,6 +283,10 @@ table 50143 "Medical Insurance Claim"
             DataClassification = ToBeClassified;
         }
         field(307; "Discharge Date (BS)"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(308; "HR Remarks"; Text[20])
         {
             DataClassification = ToBeClassified;
         }

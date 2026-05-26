@@ -41,13 +41,14 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
     var
         BlankPlaceholder: Record "Incoming Document";
     begin
-        if (Rec."File Name" <> '') and (xRec."File Name" = '') then begin
-            BlankPlaceholder.SetRange("No.", Rec."No.");
-            BlankPlaceholder.SetRange("File Name", '');
-            BlankPlaceholder.SetFilter("Entry No.", '<>%1', Rec."Entry No.");
-            if BlankPlaceholder.FindFirst() then
-                BlankPlaceholder.Delete();
-        end;
+        if "Employee Activity Type" = "Employee Activity Type"::"Medical Insurance Claim" then
+            if (Rec."File Name" <> '') and (xRec."File Name" = '') then begin
+                BlankPlaceholder.SetRange("No.", Rec."No.");
+                BlankPlaceholder.SetRange("File Name", '');
+                BlankPlaceholder.SetFilter("Entry No.", '<>%1', Rec."Entry No.");
+                if BlankPlaceholder.FindFirst() then
+                    BlankPlaceholder.Delete();
+            end;
     end;
 
     trigger OnDelete()
