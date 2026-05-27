@@ -272,10 +272,13 @@ page 50075 "Employee Insurance Journal"
     protected var
         StatusView, ApprovalStatusView : Boolean;
         IsOpen, IsPending, IsApproved, IsRejected : Boolean;
-        EmpActMgt: Codeunit EmployeeActivityMgt;
-        ApproverMgt: Codeunit "Approver Mgt";
+
+    var
+
         ExcelImportMgt: Codeunit "Excel Import";
         ListOfDocNo: List of [code[20]];
         i: Integer;
         AttachmentMgt: Codeunit "Attachment Mgt.";
+        EmpActMgt: Codeunit EmployeeActivityMgt;
+        ApproverMgt: Codeunit "Approver Mgt";
 }
