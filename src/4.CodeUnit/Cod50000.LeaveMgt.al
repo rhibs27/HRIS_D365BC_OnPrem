@@ -1202,7 +1202,7 @@ codeunit 50000 "Leave Mgt."
         EmploymentContract: Record "Employment Contract";
         AttendanceMgt: Codeunit "Attendance Mgt";
         LastEntryNo: Integer;
-        AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays, NoOfCreditPeriods : Decimal;
+        AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays, NoOfCreditPeriods, LapseBalance : Decimal;
         ProRataStartDate, ProRataEndDate, CreditPeriodStartDate, CreditPeriodEndDate, LeaveYearStartDate, LeaveYearEndDate : Date;
         SkipLeaveEarn: Boolean;
         EmpConfDate: Date;
@@ -1266,9 +1266,10 @@ codeunit 50000 "Leave Mgt."
                         CreditPeriodStartDate := LeaveYearStartDate
                     else
                         CreditPeriodStartDate := EmpVar."Employment Date";
-                    if PostingDate < LeaveYearEndDate then
-                        CreditPeriodEndDate := PostingDate
-                    else
+                    if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then begin
+                        if PostingDate < LeaveYearEndDate then
+                            CreditPeriodEndDate := PostingDate
+                    end else
                         CreditPeriodEndDate := LeaveYearEndDate;
                     if (EmpVar."Termination Date" <> 0D) and (EmpVar."Termination Date" < CreditPeriodEndDate) then
                         CreditPeriodEndDate := EmpVar."Termination Date";
@@ -1276,9 +1277,14 @@ codeunit 50000 "Leave Mgt."
                     LeaveTypeSetup.Reset();
                     LeaveTypeSetup.SetFilter("Credit Method", '%1|%2', LeaveTypeSetup."Credit Method"::Automatic, LeaveTypeSetup."Credit Method"::Attendance);
                     LeaveTypeSetup.SetFilter("Days Earned Per Year", '>0');
-                    LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
-                    if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then
+                    // Contract employees: only earn leave types explicitly set for Contract (not blank/universal ones)
+                    // Non-contract employees: earn their own type OR blank (universal) leave types
+                    if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then
+                        LeaveTypeSetup.SetRange("Leave For Employee Type", LeaveTypeSetup."Leave For Employee Type"::Contract)
+                    else begin
+                        LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
                         LeaveTypeSetup.SetRange("Emplymt. Contract Code", '');
+                    end;
                     LeaveTypeSetup.SetFilter("Marital Status", '%1|%2', EmpVar."Marital Status", LeaveTypeSetup."Marital Status"::" ");
                     LeaveTypeSetup.SetFilter(Gender, '%1|%2', EmpVar.Gender, LeaveTypeSetup.Gender::" ");
                     LeaveTypeSetup.SetFilter("Min. Service Year Eligibility", '0|<=%1', ServiceYears);
@@ -1327,6 +1333,35 @@ codeunit 50000 "Leave Mgt."
                                 end;
                             end;
                             if not SkipLeaveEarn then begin
+                                // Lapse previous contract period leave balance before generating new credits
+                                if LeavesLapseOnRenew then begin
+                                    // Sum all ledger entries for this employee + leave code BEFORE contract renew date
+                                    LeaveLedgerEntry.Reset();
+                                    LeaveLedgerEntry.SetRange("Employee No.", EmpVar."No.");
+                                    LeaveLedgerEntry.SetRange("Leave Code", LeaveTypeSetup.Code);
+                                    LeaveLedgerEntry.SetFilter("Posted Date", '<%1', ContractRenewDate);
+                                    LeaveLedgerEntry.CalcSums("Balancing Days");
+                                    LapseBalance := LeaveLedgerEntry."Balancing Days";
+                                    if LapseBalance > 0 then begin
+                                        // Only lapse once — check no Collapsed entry already exists for this renew date
+                                        LeaveLedgerEntry.Reset();
+                                        LeaveLedgerEntry.SetRange("Employee No.", EmpVar."No.");
+                                        LeaveLedgerEntry.SetRange("Leave Code", LeaveTypeSetup.Code);
+                                        LeaveLedgerEntry.SetRange(Type, "Leave Earn Type"::Collapsed);
+                                        LeaveLedgerEntry.SetRange("Posted Date", ContractRenewDate - 1, ContractRenewDate);
+                                        if LeaveLedgerEntry.IsEmpty() then
+                                            LastEntryNo := CreateLeaveLedger(
+                                                EmpVar."No.",
+                                                LeaveTypeSetup.Code,
+                                                ContractRenewDate - 1,
+                                                "Leave Earn Type"::Collapsed,
+                                                -LapseBalance,
+                                                LastEntryNo,
+                                                '',
+                                                'Leave Lapsed on Contract Renewal',
+                                                '');
+                                    end;
+                                end;
                                 // Adjust credit period only for non-blank types
                                 if LeaveTypeSetup."Leave For Employee Type" <> LeaveTypeSetup."Leave For Employee Type"::" " then begin
                                     if CreditPeriodStartDate < EmpConfDate then
@@ -1356,13 +1391,23 @@ codeunit 50000 "Leave Mgt."
                                             // Use appropriate date based on employment type
                                             if LeaveTypeSetup."Calculate Proratawise" then begin
                                                 Clear(EmpConfDate);
-                                                //Use confirmation date for permanent, employment date for others
-                                                if (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent) and
-                                                   (EmpVar."Confirmation Date" <> 0D) then
-                                                    EmpConfDate := EmpVar."Confirmation Date"
-                                                else
-                                                    EmpConfDate := EmpVar."Employment Date";
-                                                CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpConfDate);
+                                                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and LeavesLapseOnRenew then begin
+                                                    // Contract: prorata start = max(ContractRenewDate, EmploymentDate)
+                                                    // LeaveYearStartDate is already set to ContractRenewDate
+                                                    if EmpVar."Employment Date" > LeaveYearStartDate then
+                                                        EmpConfDate := EmpVar."Employment Date"
+                                                    else
+                                                        EmpConfDate := LeaveYearStartDate;
+                                                    CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpConfDate, LeaveYearStartDate);
+                                                end else begin
+                                                    //Use confirmation date for permanent, employment date for others
+                                                    if (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent) and
+                                                       (EmpVar."Confirmation Date" <> 0D) then
+                                                        EmpConfDate := EmpVar."Confirmation Date"
+                                                    else
+                                                        EmpConfDate := EmpVar."Employment Date";
+                                                    CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpConfDate, 0D);
+                                                end;
                                             end;
                                             ActualCreditLimit := Round(AnnualCreditLimit / 12 * NoOfCreditPeriods, 0.01, '=');
                                         end else
@@ -1410,13 +1455,22 @@ codeunit 50000 "Leave Mgt."
                                                             ActualCreditLimit := AnnualCreditLimit / 4
                                                         else begin
                                                             if LeaveTypeSetup."Calculate Proratawise" then begin
-                                                                // confirmation date for permanent, employment date for others
                                                                 Clear(EmpConfDate);
-                                                                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Permanent) and
-                                                                   (EmpVar."Confirmation Date" <> 0D) then
-                                                                    EmpConfDate := EmpVar."Confirmation Date"
-                                                                else
-                                                                    EmpConfDate := EmpVar."Employment Date";
+                                                                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and LeavesLapseOnRenew then begin
+                                                                    // Contract: prorata start = max(ContractRenewDate, EmploymentDate)
+                                                                    // LeaveYearStartDate is already set to ContractRenewDate
+                                                                    if EmpVar."Employment Date" > LeaveYearStartDate then
+                                                                        EmpConfDate := EmpVar."Employment Date"
+                                                                    else
+                                                                        EmpConfDate := LeaveYearStartDate;
+                                                                end else begin
+                                                                    // confirmation date for permanent, employment date for others
+                                                                    if (EmpVar."Employment Type" = EmpVar."Employment Type"::Permanent) and
+                                                                       (EmpVar."Confirmation Date" <> 0D) then
+                                                                        EmpConfDate := EmpVar."Confirmation Date"
+                                                                    else
+                                                                        EmpConfDate := EmpVar."Employment Date";
+                                                                end;
                                                                 if ProRataStartDate < EmpConfDate then
                                                                     ProRataStartDate := EmpConfDate;
                                                                 TotalDaysInPeriod := QuarterEndDate - QuarterStartDate + 1;
@@ -1449,14 +1503,15 @@ codeunit 50000 "Leave Mgt."
                                             end else
                                                 //annual logic
                                                 if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Annual then begin
-                                                    ProRataStartDate := LeavePeriod.GetLeaveYearStartDate(PostingDate);
+                                                    // Use LeaveYearStartDate/EndDate (already set to contract period for contract employees)
+                                                    ProRataStartDate := LeaveYearStartDate;
                                                     if EmpVar."Employment Date" > ProRataStartDate then
                                                         ProRataStartDate := EmpVar."Employment Date";
-                                                    ProRataEndDate := LeavePeriod.GetLeaveYearEndDate(PostingDate);
+                                                    ProRataEndDate := LeaveYearEndDate;
                                                     if EmpVar."Termination Date" <> 0D then
                                                         ProRataEndDate := EmpVar."Termination Date";
-                                                    if ProRataEndDate >= LeavePeriod.GetLeaveYearEndDate(PostingDate) then
-                                                        ProRataEndDate := LeavePeriod.GetLeaveYearEndDate(PostingDate);
+                                                    if ProRataEndDate >= LeaveYearEndDate then
+                                                        ProRataEndDate := LeaveYearEndDate;
                                                     Clear(EmpConfDate);
                                                     case LeaveTypeSetup."Leave For Employee Type" of
                                                         LeaveTypeSetup."Leave For Employee Type"::" ":
@@ -1481,17 +1536,26 @@ codeunit 50000 "Leave Mgt."
                                                     if not SkipLeaveEarn then begin
                                                         if ProRataStartDate < EmpConfDate then
                                                             ProRataStartDate := EmpConfDate;
-                                                        if (EmpConfDate <= LeavePeriod.GetLeaveYearStartDate(PostingDate)) and (ProRataEndDate = LeavePeriod.GetLeaveYearEndDate(PostingDate)) then
+                                                        if (EmpConfDate <= LeaveYearStartDate) and (ProRataEndDate = LeaveYearEndDate) then
                                                             ActualCreditLimit := AnnualCreditLimit
                                                         else begin
                                                             if LeaveTypeSetup."Calculate Proratawise" then begin
-                                                                //confirmation date for permanent, employment date for others
                                                                 Clear(EmpConfDate);
-                                                                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Permanent) and
-                                                                   (EmpVar."Confirmation Date" <> 0D) then
-                                                                    EmpConfDate := EmpVar."Confirmation Date"
-                                                                else
-                                                                    EmpConfDate := EmpVar."Employment Date";
+                                                                if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and LeavesLapseOnRenew then begin
+                                                                    // Contract: prorata start = max(ContractRenewDate, EmploymentDate)
+                                                                    // LeaveYearStartDate is already set to ContractRenewDate
+                                                                    if EmpVar."Employment Date" > LeaveYearStartDate then
+                                                                        EmpConfDate := EmpVar."Employment Date"
+                                                                    else
+                                                                        EmpConfDate := LeaveYearStartDate;
+                                                                end else begin
+                                                                    //confirmation date for permanent, employment date for others
+                                                                    if (EmpVar."Employment Type" = EmpVar."Employment Type"::Permanent) and
+                                                                       (EmpVar."Confirmation Date" <> 0D) then
+                                                                        EmpConfDate := EmpVar."Confirmation Date"
+                                                                    else
+                                                                        EmpConfDate := EmpVar."Employment Date";
+                                                                end;
                                                                 if ProRataStartDate < EmpConfDate then
                                                                     ProRataStartDate := EmpConfDate;
                                                                 TotalDaysInPeriod := LeaveYearEndDate - LeaveYearStartDate + 1;
@@ -1520,17 +1584,29 @@ codeunit 50000 "Leave Mgt."
                                             else
                                                 LeaveLedgerEntry.SetRange("Posted Date", CreditPeriodStartDate, CreditPeriodEndDate);
                                             LeaveLedgerEntry.CalcSums("Balancing Days");
-                                            if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
-                                                LeaveDaysToCredit := ActualCreditLimit - LeaveLedgerEntry."Balancing Days";
-                                                OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
-                                                if not IsHandled then begin
-                                                    if HRSetup."Leave Rounding Precision" <> 0 then
-                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
-                                                    else
-                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
-                                                end;
-                                            end else
-                                                LeaveDaysToCredit := 0;
+                                            // Contract + prorata: use dedicated function for precise period-based calculation
+                                            if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and
+                                               LeaveTypeSetup."Calculate Proratawise" then
+                                                LeaveDaysToCredit := CalculateContractProrataDaysToCredit(
+                                                    EmpVar,
+                                                    LeaveTypeSetup,
+                                                    LeaveYearStartDate,
+                                                    LeaveYearEndDate,
+                                                    LeaveLedgerEntry."Balancing Days",
+                                                    PostingDate)
+                                            else begin
+                                                if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then begin
+                                                    LeaveDaysToCredit := ActualCreditLimit - LeaveLedgerEntry."Balancing Days";
+                                                    OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
+                                                    if not IsHandled then begin
+                                                        if HRSetup."Leave Rounding Precision" <> 0 then
+                                                            LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
+                                                        else
+                                                            LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
+                                                    end;
+                                                end else
+                                                    LeaveDaysToCredit := 0;
+                                            end;
                                             if LeaveDaysToCredit > 0 then
                                                 if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Quarterly then
                                                     EarnMinimumLeave(EmpVar."No.", LeaveTypeSetup, LeaveDaysToCredit, PostingDate, LastEntryNo)
@@ -1577,7 +1653,7 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    local procedure CalculateYearsBetweenDates(StartDate: Date; EndDate: Date): Decimal
+    procedure CalculateYearsBetweenDates(StartDate: Date; EndDate: Date): Decimal
     var
         StartYearValue, MiddleYearsValue, EndYearValue : Decimal;
         StartYearNumber, EndYearNumber, DaysInStartYear, DaysInEndYear : Integer;
@@ -1738,12 +1814,15 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure CalculateProrataLeavePeriod(var LeaveCreditPeriods: Decimal; EmployementDate: Date)
+    procedure CalculateProrataLeavePeriod(var LeaveCreditPeriods: Decimal; EmployementDate: Date; OverrideLeaveYearStartDate: Date)
     var
         LeavePeriod: Record "Accounting Period";
         LeaveYearStartDate, EmployementMonthStartDate, EmployementMonthEndDate : Date;
     begin
-        LeaveYearStartDate := LeavePeriod.GetCurrentLeaveYearStartDate();
+        if OverrideLeaveYearStartDate <> 0D then
+            LeaveYearStartDate := OverrideLeaveYearStartDate
+        else
+            LeaveYearStartDate := LeavePeriod.GetCurrentLeaveYearStartDate();
         if LeaveYearStartDate >= EmployementDate then
             exit;
         LeavePeriod.Reset();
@@ -1755,6 +1834,59 @@ codeunit 50000 "Leave Mgt."
             EmployementMonthEndDate := LeavePeriod."Starting Date" - 1;
         LeaveCreditPeriods += Round((EmployementMonthEndDate - EmployementDate + 1) / (EmployementMonthEndDate - EmployementMonthStartDate + 1), 0.01, '=')
                             - 1
+    end;
+
+    /// <summary>
+    /// Calculates the prorata leave days still to be credited for a contract employee.
+    /// ProRataStart = max(PeriodStartDate, EmploymentDate)
+    /// ProRataEnd   = min(PeriodEndDate, PostingDate, TerminationDate)
+    /// Credit       = DaysEarnedPerYear * (EligibleDays / TotalDaysInPeriod) - AlreadyEarned
+    /// </summary>
+    local procedure CalculateContractProrataDaysToCredit(
+        var EmpRec: Record Employee;
+        var LeaveSetup: Record "Leave Type Setup";
+        PeriodStartDate: Date;
+        PeriodEndDate: Date;
+        AlreadyEarned: Decimal;
+        PostingDatePar: Date): Decimal
+    var
+        ProRataStartDate, ProRataEndDate : Date;
+        TotalDaysInPeriod, EligibleDays : Integer;
+        ProrataCredit, DaysToCredit : Decimal;
+    begin
+        // Prorata start = max(ContractPeriodStart, EmploymentDate)
+        ProRataStartDate := PeriodStartDate;
+        if EmpRec."Employment Date" > ProRataStartDate then
+            ProRataStartDate := EmpRec."Employment Date";
+
+        // Prorata end = min(ContractPeriodEnd, PostingDate, TerminationDate)
+        ProRataEndDate := PeriodEndDate;
+        // if PostingDatePar < ProRataEndDate then
+        //     ProRataEndDate := PostingDatePar;
+        if (EmpRec."Termination Date" <> 0D) and (EmpRec."Termination Date" < ProRataEndDate) then
+            ProRataEndDate := EmpRec."Termination Date";
+
+        TotalDaysInPeriod := PeriodEndDate - PeriodStartDate + 1;
+        EligibleDays := ProRataEndDate - ProRataStartDate + 1;
+
+        if (TotalDaysInPeriod > 0) and (EligibleDays > 0) then
+            // ProrataCredit := LeaveSetup."Days Earned Per Year" * (EligibleDays / TotalDaysInPeriod)
+            ProrataCredit := (LeaveSetup."Days Earned Per Year" / 356) * TotalDaysInPeriod
+        else
+            ProrataCredit := 0;
+
+        // Apply rounding consistent with rest of leave generation
+        if HRSetup."Leave Rounding Precision" <> 0 then
+            ProrataCredit := Round(ProrataCredit, HRSetup."Leave Rounding Precision", '=')
+        else
+            ProrataCredit := Round(ProrataCredit, 0.5, '<');
+
+        // Return only what is still to be credited (net of what is already earned this period)
+        DaysToCredit := ProrataCredit - AlreadyEarned;
+        if DaysToCredit > 0 then
+            exit(DaysToCredit)
+        else
+            exit(0);
     end;
 
     procedure ApproveLeaveEncashRequest(DocNo: Code[20]; isCancelled: Boolean)
