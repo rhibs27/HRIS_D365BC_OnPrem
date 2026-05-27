@@ -447,6 +447,77 @@ codeunit 50005 "Transfer Mgt."
         EmailMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
     end;
 
+#if SaasFeature
+    procedure acknowledgeTransfer(var EmpHrTransfer: Record "Employee Transfer"; AccessToken: code[60])
+    var
+        ConfirmAcknowledge: Label 'Do you want to acknowledge this transfer?';
+        Acknowledged: Label 'Acknowledged.';
+        IncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+        ServiceHistoryCode: Code[20];
+        ServiceHistory: Record "Employee Service History";
+    begin
+        if GuiAllowed then
+            if not Confirm(ConfirmAcknowledge, false) then
+                exit;
+        EmpHrTransfer.TestField(TakeOver, true);
+        if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
+            Error('Approval Status must be approved or on hold');
+        if ((EmpHrTransfer."Incoming Supervisior" <> ApproverMgt.GetApproverNoSAAS(AccessToken)) and (EmpHrTransfer."Incoming Supervisior 2" <> ApproverMgt.GetApproverNoSAAS(AccessToken))) then
+            Error('You are not Eligible for Employee Acknowledge');
+        //checking for attachment mandatory
+        AttachmentMgt.CheckMandatoryAttachmentOnType(Enum::"Attachment Setup Type"::"Employee Transfer", Enum::"Attachment Setup SubType"::Acknowledge, EmpHrTransfer."No.");
+        EmpHrTransfer.TestField("Date of Joining Of Transfer");
+        EmpHrTransfer.TestField("Transfer Remarks");
+        if EmpHrTransfer."Date of Joining Of Transfer" > Today then
+            Error('You Cannot Acknowledge Before Date of Joining');
+        EmpHrTransfer.Validate("Acknowledged Date", Today);
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::"Temporary" THEN //Santosh Add Service History After Transfe Approved and acknowledge>>
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::Officiating THEN
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::General THEN
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+        EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Acknowledged);
+        EmpHrTransfer.Modify;
+        if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin
+
+            case EmpHrTransfer."Deputation On (To)" of  //Why selective update
+                EmpHrTransfer."Deputation On (To)"::Branch:
+                    begin
+                        EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
+                        EmployeeRec.Validate("Deputation On Code", EmpHrTransfer."To Branch");
+                        EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
+                        EmployeeRec.Validate("Branch Code", EmpHrTransfer."To Branch");
+                        if EmpHrTransfer."Extension Counter (To)" <> '' then
+                            EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
+                    end;
+                EmpHrTransfer."Deputation On (To)"::Department:
+                    begin
+                        EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
+                        EmployeeRec.Validate("Deputation On Code", EmpHrTransfer."Department Code (To)");
+                        EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
+                        if EmpHrTransfer."Unit (To)" <> '' then
+                            EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
+                    end;
+                EmpHrTransfer."Deputation On (To)"::Province:
+                    begin
+                        EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
+                        EmployeeRec.Validate("Deputation On Code", EmpHrTransfer."Province Code (To)");
+                        EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
+                    end;
+            end;
+            EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
+            EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
+            EmployeeRec.Validate("Last Placement Date", EmpHrTransfer."Date of Joining Of Transfer"); // this should be update based on transfer type
+        end;
+        OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
+        EmployeeRec.Modify(true);  //updating employee record
+        Message(Acknowledged);
+        EmailMgt.SendMailFromTemplate(DATABASE::"Employee Transfer", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", false);
+    end;
+#endif
+
     procedure OpenTransferClaim(EmpCode: Code[20]; TransferOrderNo: Code[20])
     var
         EmployeeTransfer, EmployeeTransfer2 : Record "Employee Transfer";

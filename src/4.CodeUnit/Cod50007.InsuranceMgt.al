@@ -90,14 +90,12 @@ codeunit 50007 "Insurance Mgt"
         ConfirmScreen: Label 'Do you want to confirm screen this document?';
     begin
         //check authorized user
-        if Medicalinsurance."Insurance Status" = Medicalinsurance."Insurance Status"::"Request to DTMD" then begin
-            if not HrMgt.IsSaaS() then
-                Employee.Get(HRMgt.GetEmployeeNo());
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-            Medicalinsurance.Validate("Insurance Status", Medicalinsurance."Insurance Status"::"Forwarded to Insurance Co.");
-            Medicalinsurance.Modify;
-        end;
+        if not HrMgt.IsSaaS() then
+            Employee.Get(HRMgt.GetEmployeeNo());
+        if not Confirm(ConfirmScreen, false) then
+            exit;
+        Medicalinsurance.Validate("Insurance Status", Medicalinsurance."Insurance Status"::"Forwarded to Insurance Co.");
+        Medicalinsurance.Modify;
     end;
 
     procedure OpenEmployeeInsurance(EmployeeCode: Code[20])

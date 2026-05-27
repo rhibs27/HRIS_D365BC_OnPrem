@@ -77,6 +77,11 @@ page 50207 "Medical Insurance Claim Lists"
                     ToolTip = 'Specifies the value of the Insured Name field.';
                     ApplicationArea = All;
                 }
+                field(Relation; Rec.Relation)
+                {
+                    ToolTip = 'Specifies the value of the Relation field.';
+                    ApplicationArea = All;
+                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the approval status of the claim.';

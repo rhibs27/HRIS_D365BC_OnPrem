@@ -286,7 +286,7 @@ table 50143 "Medical Insurance Claim"
         {
             DataClassification = ToBeClassified;
         }
-        field(308; "HR Remarks"; Text[20])
+        field(308; "HR Remarks"; Text[250])
         {
             DataClassification = ToBeClassified;
         }
