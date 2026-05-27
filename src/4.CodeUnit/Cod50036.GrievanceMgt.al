@@ -41,7 +41,7 @@ codeunit 50036 "Grievance Mgt"
         Grievance.TestField(Description);
         Grievance.Validate("Approval Status", "Approval Status"::Submitted);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance submitted for review.');
+        AddComment(Grievance."No.", 'Grievance submitted for review.', Grievance.Anonymous);
         SendGrievanceNotificationEmail(Grievance);
         if GuiAllowed then begin
             Message(SubmitSuccess);
@@ -55,7 +55,7 @@ codeunit 50036 "Grievance Mgt"
     begin
         if Grievance."Approval Status" = Grievance."Approval Status"::Settled then
             Error(AlreadyResolved);
-        AddComment(Grievance."No.", 'Grievance approved and resolved.');
+        AddComment(Grievance."No.", 'Grievance approved and resolved.', false);
         Grievance.TestField("HR Remarks");
         Grievance.Validate("Approval Status", "Approval Status"::Settled);
         if Grievance."Resolution Date" = 0D then
@@ -73,7 +73,7 @@ codeunit 50036 "Grievance Mgt"
         Grievance.TestField("Rejection Remarks");
         Grievance.Validate("Approval Status", "Approval Status"::Rejected);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", StrSubstNo('Grievance rejected. Reason: %1', Grievance."Rejection Remarks"));
+        AddComment(Grievance."No.", StrSubstNo('Grievance rejected. Reason: %1', Grievance."Rejection Remarks"), false);
     end;
 
     procedure WithdrawGrievance(var Grievance: Record "Grievance Header"): Boolean
@@ -85,13 +85,13 @@ codeunit 50036 "Grievance Mgt"
             Error(CannotWithdraw);
         Grievance.Validate("Approval Status", "Approval Status"::Withdrawn);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance withdrawn by employee.');
+        AddComment(Grievance."No.", 'Grievance withdrawn by employee.', Grievance.Anonymous);
         if GuiAllowed then
             Message(WithdrawSuccess);
         exit(true);
     end;
 
-    procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000])
+    procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000]; IsAnonymous: Boolean)
     var
         GrievanceComment: Record "Grievance Comment";
         GrievanceHeader: Record "Grievance Header";
@@ -105,7 +105,13 @@ codeunit 50036 "Grievance Mgt"
         EmpNo := HRMgt.GetEmployeeNo();
         GrievanceComment.Init();
         GrievanceComment.Validate("Grievance No.", GrievanceNo);
-        GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo());
+        if not IsAnonymous then
+            GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo())
+        else begin
+            Clear(GrievanceComment.SystemCreatedBy);
+            Clear(GrievanceComment.SystemModifiedBy);
+            GrievanceComment.Validate("Commented By", '')
+        end;
         GrievanceComment.Validate("Comment Date", CurrentDateTime);
         GrievanceComment.Comment := CommentText;
         GrievanceComment.Insert(true);
@@ -183,12 +189,12 @@ codeunit 50036 "Grievance Mgt"
         // Create and send email
         EmailMessage.Create(Recipients, EmailSubject, EmailBody, true);
         if not Email.Send(EmailMessage, Enum::"Email Scenario"::Default) then begin
-            LogGrievanceEmailError(GrievanceHeader."No.", EmailSubject, Recipients);
+            LogGrievanceEmailError(GrievanceHeader."No.", EmailSubject, Recipients, GrievanceHeader.Anonymous);
             exit(false);
         end;
 
         // Log successful email send
-        LogGrievanceEmailSuccess(GrievanceHeader."No.", EmailSubject, Recipients);
+        LogGrievanceEmailSuccess(GrievanceHeader."No.", EmailSubject, Recipients, GrievanceHeader.Anonymous);
         exit(true);
     end;
 
@@ -379,7 +385,7 @@ codeunit 50036 "Grievance Mgt"
     begin
         Clear(Recipients);
 
-        if Employee.Get(EmployeeNo) then
+        if Employee.Get(EmployeeNo) and (Employee."Company E-Mail" <> '') then
             Recipients += Employee."Company E-Mail" + ';';
 
         GrievanceCategories.Reset();
@@ -390,32 +396,82 @@ codeunit 50036 "Grievance Mgt"
         exit(Recipients);
     end;
 
-    local procedure LogGrievanceEmailSuccess(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text)
+    local procedure LogGrievanceEmailSuccess(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text; IsAnonymous: Boolean)
+    begin
+        AddComment(GrievanceNo, StrSubstNo('Email notification sent successfully. Subject: %1', EmailSubject), IsAnonymous);
+    end;
+
+    local procedure LogGrievanceEmailError(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text; IsAnonymous: Boolean)
     var
         GrievanceComment: Record "Grievance Comment";
     begin
-        GrievanceComment.Init();
-        GrievanceComment.Validate("Grievance No.", GrievanceNo);
-        GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo());
-        GrievanceComment.Validate("Comment Date", CurrentDateTime);
-        GrievanceComment.Comment := StrSubstNo('Email notification sent successfully. Subject: %1', EmailSubject);
-        GrievanceComment.Insert(true);
+        AddComment(GrievanceNo, StrSubstNo('Email notification FAILED. Subject: %1.', EmailSubject), IsAnonymous);
     end;
 
-    local procedure LogGrievanceEmailError(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text)
+    procedure GenerateUserFriendlyToken(): Text
     var
-        GrievanceComment: Record "Grievance Comment";
+        RawGuid: Text;
+        CleanGuid: Text;
+        Token: Text;
     begin
-        GrievanceComment.Init();
-        GrievanceComment.Validate("Grievance No.", GrievanceNo);
-        GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo());
-        GrievanceComment.Validate("Comment Date", CurrentDateTime);
-        GrievanceComment.Comment := StrSubstNo('Email notification FAILED. Subject: %1.', EmailSubject);
-        GrievanceComment.Insert(true);
+        RawGuid := Format(CreateGuid());
+        CleanGuid := UpperCase(DelChr(RawGuid, '=', '{}-')); // 32 hex chars
+
+        // Format as XXXXXXXXXXXX (12 chars + 2 dashes)
+        Token := CopyStr(CleanGuid, 1, 4) + '-' +
+                 CopyStr(CleanGuid, 5, 4) + '-' +
+                 CopyStr(CleanGuid, 9, 4);
+
+        exit(Token); // e.g. A3F9-C2E1-B847
     end;
 
+    procedure GenerateAnonymousToken(var GrievanceRec: Record "Grievance Header"; UserPIN: Text): Text
+    var
+        HashAlgorithmType: Option MD5,SHA1,SHA256,SHA384,SHA512;
+        PlainToken: Text;
+        TokenHash: Text;
+    begin
+        if StrLen(UserPIN) < 6 then
+            Error('PIN should not be less than 6 characters.');
+        PlainToken := UserPIN + CopyStr(GrievanceRec."No.", 10, 5); //GenerateUserFriendlyToken();
+
+        TokenHash := CryptographyMgmt.GenerateHash(PlainToken, HashAlgorithmType::SHA256);
+
+        GrievanceRec."Grievance Token Hash" := TokenHash;
+        GrievanceRec.Modify(true);
+
+        exit(PlainToken); // Returned once to show the user, never stored
+    end;
+
+    procedure ValidateTokenAndGetGrievance(InputToken: Text; var GrievanceRec: Record "Grievance Header"): Boolean
+    var
+        HashAlgorithmType: Option MD5,SHA1,SHA256,SHA384,SHA512;
+        InputHash: Text;
+        NormalizedToken: Text;
+    begin
+
+        NormalizedToken := InputToken;
+
+        // Normalize: uppercase and strip any spaces the user may have typed
+        // NormalizedToken := UpperCase(DelChr(InputToken, '=', ' '));
+
+        // Re-add dashes if user typed without them e.g. "A3F9C2E1B847"
+        // if StrLen(NormalizedToken) = 12 then
+        //     NormalizedToken := CopyStr(NormalizedToken, 1, 4) + '-' +
+        //                        CopyStr(NormalizedToken, 5, 4) + '-' +
+        //                        CopyStr(NormalizedToken, 9, 4);
+
+        InputHash := CryptographyMgmt.GenerateHash(NormalizedToken, HashAlgorithmType::SHA256);
+
+        GrievanceRec.Reset();
+        GrievanceRec.SetRange(Anonymous, true);
+        GrievanceRec.SetRange("Grievance Token Hash", InputHash);
+
+        exit(GrievanceRec.FindFirst());
+    end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        CryptographyMgmt: Codeunit "Cryptography Management";
 }
 

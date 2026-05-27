@@ -9733,6 +9733,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Grievance Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3033279291 - Field 3845598905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Grievance Token Hash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Grievance Header - Field Grievance Token Hash - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3033279291 - Field 265201069 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>

@@ -180,6 +180,10 @@ table 50250 "Grievance Header"
             Editable = false;
             TableRelation = "Dimension Set Entry";
         }
+        field(31; "Grievance Token Hash"; Text[64])
+        {
+            Editable = false;
+        }
     }
 
     keys
