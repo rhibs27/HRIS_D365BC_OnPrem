@@ -25,8 +25,10 @@ table 50066 "Leave Type Setup"
         {
             trigger OnValidate()
             begin
-                if "Maximum Leave at once" > "Days Earned Per Year" then
-                    Error(ErrorMaxDays);
+                if Rec."Credit Method" <> Rec."Credit Method"::"On Approval" then begin
+                    if "Maximum Leave at once" > "Days Earned Per Year" then
+                        Error(ErrorMaxDays);
+                end;
             end;
         }
         field(9; "Pay Type"; Enum "Leave Pay Type") { }

@@ -43,6 +43,7 @@ codeunit 50004 "Travel Mgt."
                 Clear(TravelRequest."Total Estimated Cost");
                 Clear(TravelRequest."Estimated Lodging Cost");
             end;
+            OnBeforeInsertTravelRequestInsert(TravelRequest);
             TravelRequest.Insert(true);
             PAGE.Run(PAGE::"Travel Request Form", TravelRequest);
         end;
@@ -590,6 +591,8 @@ codeunit 50004 "Travel Mgt."
         SalaryLevel: Record "Salary Level";
         IsHandled: Boolean;
         IsHandled1: Boolean;
+        AttachmentType: Enum "Attachment Setup Type";
+        AttachmentSubType: Enum "Attachment Setup SubType";
     begin
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
@@ -606,6 +609,7 @@ codeunit 50004 "Travel Mgt."
         // TravelReq.TestField("Purpose of Travel");
         if TravelRequest."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
+        AttachmentMgt.CheckMandatoryAttachmentOnType(AttachmentType::"Travel Claim", AttachmentSubType::" ", TravelRequest."No.");
         Employee.Get(TravelRequest."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
         ApplyForTravelClaimWithEmployeeSalary(TravelRequest, TravelRequest2, IsHandled);
@@ -630,6 +634,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelRequest."Travel Order No."));
             TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelRequest."Travel Order No."));
             TravelRequest.Validate("Advance Cash", CalculateTotalAdvance(TravelRequest."Travel Order No."));
+
             // TravelRequest.Validate("Advance Cash", TravelRequest2."Advance Cash" + TravelReq."Advance Cash");
             // if GuiAllowed then begin
             OnBeforeGetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel, IsHandled);
@@ -1055,6 +1060,7 @@ codeunit 50004 "Travel Mgt."
         HRSetup: Record "Human Resources Setup";
         ApproverMgt: Codeunit "Approver Mgt";
         AttendanceMgt: Codeunit "Attendance Mgt";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 
     [IntegrationEvent(false, false)]
     procedure OnAfterApplyTravelClaim(TravelClaimNo: Code[20])
@@ -1118,6 +1124,11 @@ codeunit 50004 "Travel Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeTravelApproved(var TravelCode: Code[20]; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertTravelRequestInsert(var TravelRequest: Record "Travel Request")
     begin
     end;
 }
