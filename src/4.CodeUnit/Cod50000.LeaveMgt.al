@@ -175,6 +175,9 @@ codeunit 50000 "Leave Mgt."
                             isNonWorkingDay := isNonWorkingDay and (Employee.Disabled = disabled);
                         //check OR condition
                         GetNonWorkingDaysOR(PayrollSetup."Base Calendar", CalendarDate."Period Start", Employee, isNonWorkingDay);
+
+                        OnAfterCheckNonWorkingDayFilters(Employee, CalendarDate."Period Start", PayrollSetup."Base Calendar", isNonWorkingDay);
+
                         if isNonWorkingDay then  //The day is holiday for that employee
                             Counter += 1;
                     end;
@@ -2073,10 +2076,11 @@ codeunit 50000 "Leave Mgt."
         leaveEarn: Record "Leave Earn";
     begin
         leaveEarn.SetRange("Leave Request No", DocumentNo);
-        if leaveEarn.FindFirst() then begin
-            leaveEarn.Validate(Type, NewLeaveEarnType);
-            leaveEarn.Modify();
-        end;
+        if leaveEarn.FindSet() then
+            repeat
+                leaveEarn.Validate(Type, NewLeaveEarnType);
+                leaveEarn.Modify();
+            until leaveEarn.Next() = 0
     end;
 
     [IntegrationEvent(false, false)]
@@ -2180,6 +2184,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertLeaveEarnfromJournal(var leaveJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckNonWorkingDayFilters(Employee: Record Employee; CalendarDate: Date; CalendarCode: Code[20]; var isNonWorkingDay: Boolean)
     begin
     end;
 

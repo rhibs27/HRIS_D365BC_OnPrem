@@ -58,9 +58,20 @@ page 50180 "Cancel Document"
                 }
                 field("Cancelled Document No."; Rec."Cancelled Document No.")
                 {
-                    Visible = IsLeaveRequest;
                     ToolTip = 'Specifies the value of the Cancelled Document No. field.';
                     ApplicationArea = All;
+                }
+                field("Previous Check In Time"; rec."Previous Check In Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
+                }
+                field("Previous Check Out Time"; rec."Previous Check Out Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
@@ -81,11 +92,13 @@ page 50180 "Cancel Document"
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
                     ApplicationArea = All;
+                    Visible = IsLeaveRequest;
                     Editable = false;
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {
                     ToolTip = 'Specifies the value of Substitute person code';
+                    Visible = IsLeaveRequest;
                     ApplicationArea = All;
                     Editable = false;
                 }
@@ -100,13 +113,7 @@ page 50180 "Cancel Document"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                    Visible = ApprovalStatusView;
-                }
+
                 field(Status; rec.Status)
                 {
                     Editable = false;
@@ -114,6 +121,25 @@ page 50180 "Cancel Document"
                     ApplicationArea = All;
                     Visible = StatusView;
                     Caption = 'Approval Status';
+                }
+                field("CheckIn Time"; rec."CheckIn Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
+                }
+                field("CheckOut Time"; rec."CheckOut Time")
+                {
+                    Visible = IsAttendanceMissed;
+                    Editable = false;
+                    ApplicationArea = all;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = ApprovalStatusView;
                 }
             }
             group("Remark")
@@ -129,7 +155,7 @@ page 50180 "Cancel Document"
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
-                    Visible = IsPending;
+                    Visible = IsPending or IsRejected;
                     Editable = IsPending;
                     trigger OnValidate()
                     begin
@@ -138,15 +164,6 @@ page 50180 "Cancel Document"
                     end;
                 }
             }
-            // part(Control32; "Attachment Subform")
-            // {
-            //     SubPageLink = "No." = field("No."),
-            //                   Type = const(" "),
-            //                   "Employee Code" = field("Employee No."),
-            //                   "Leave Type Code" = field("Leave Code");
-            //     SubPageView = where("No." = filter(<> ''));
-            //     ApplicationArea = All;
-            // }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -199,7 +216,7 @@ page 50180 "Cancel Document"
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Rec."Rejection Remarks" := '';
-                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                        Message('%1 cancel document is Approved by %2', Rec.Type, HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -221,7 +238,7 @@ page 50180 "Cancel Document"
                             Error('Rejection Remarks is Empty')
                         else begin
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
-                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                            Message('%1 cancel document is Rejected by %2', Rec.Type, HRMgt.GetEmpName());
                         end;
                     end;
                 end;
@@ -268,7 +285,7 @@ page 50180 "Cancel Document"
                     Error('')
                 else begin
                     Approval.Reset();
-                    Approval.setRange("Document Type", Approval."Document Type"::"Travel Claim");
+                    Approval.setRange("Employee No", Rec."Employee No.");
                     Approval.SetRange("Document No.", '');
                     Approval.DeleteAll();
                 end;
@@ -277,30 +294,31 @@ page 50180 "Cancel Document"
     procedure SetLayout()
     begin
         if Rec.Type = Rec.Type::"Attendance Missed" then
-            CurrPage.Caption('Attendance Missed');
+            CurrPage.Caption('Cancel Attendance Missed Request');
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else
             ApprovalStatusView := true;
+        IsAttendanceMissed := rec.Type = rec.Type::"Attendance Missed";
         IsLeaveRequest := Rec.Type = Rec.Type::"Leave Request";
+        IsRejected := Rec."Approval Status" = Rec."Approval Status"::Rejected;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         RecRef.GetTable(Rec);
     end;
 
+    protected var
+        ApprovalStatusView: Boolean;
+        StatusView: Boolean;
+        IsRejected, IsPending, IsOpen : Boolean;
+
     var
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";
         IsApplied: Boolean;
-
-        IsLeaveRequest: Boolean;
-
-        IsOpen: Boolean;
+        IsLeaveRequest, IsAttendanceMissed : Boolean;
         TypeFilter: Text;
         ApproverMgt: Codeunit "Approver Mgt";
-        IsPending: Boolean;
         Approval: Record "Approval HRMS";
         RecRef: RecordRef;
-        ApprovalStatusView: Boolean;
-        StatusView: Boolean;
 }

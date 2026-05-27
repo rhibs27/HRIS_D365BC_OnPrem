@@ -44,6 +44,8 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer: Record "Employee Transfer";
         TransferSent: Label 'Transfer request approval has been sent.';
         IncomingDoc: Record "Incoming Document";
+        IsHandled: Boolean;
+        TravelMgt: Codeunit "Travel Mgt.";
     begin
         if not GuiAllowed then
             TempEmphrtransfer."Transfer Category" := TempEmphrtransfer."Transfer Category"::General;
@@ -66,7 +68,9 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.Validate("Requested Date", Today);
         EmphrTransfer.TransferFields(TempEmphrtransfer);
         EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending");
-        EmphrTransfer.Validate("User ID", UserId);
+        TravelMgt.OnBeforeValidatingUserID(IsHandled);
+        if not IsHandled then
+            EmphrTransfer.Validate("User ID", UserId);
         EmphrTransfer.Insert(true);
 
         // transfer the attachment lines
@@ -507,6 +511,35 @@ codeunit 50005 "Transfer Mgt."
         if GuiAllowed then
             Message('Handover Submitted Successfully');
     end;
+#if SaasFeature
+    procedure HandoverApprove(var EmpHrTransfer: Record "Employee Transfer"; AccessToken: Code[60])
+    var
+        IncomingDocument: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+        UserSetup: Record "User Setup";
+    begin
+        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
+        EmpHrTransfer.TestField("Is Transfer Details Added", true);
+
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
+        AttachmentSetup.setfilter("Sub Type", '%1|%2', AttachmentSetup."Sub Type"::Handover, AttachmentSetup."Sub Type"::" ");
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.FindFirst() then begin
+            IncomingDocument.Reset;
+            IncomingDocument.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+            IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
+            IncomingDocument.SetRange("File Name", '');
+            if IncomingDocument.FindFirst then
+                Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
+        end;
+        if EmpHrTransfer."Employee No." <> ApproverMgt.GetApproverNoSAAS(AccessToken) then
+            Error('You are not Eligible');
+        EmpHrTransfer.Validate(Handover, true);
+        EmpHrTransfer.Modify();
+        if GuiAllowed then
+            Message('Handover Submitted Successfully');
+    end;
+#endif
 
     procedure TakeoverApprove(var EmpHrTransfer: Record "Employee Transfer")
     var
@@ -529,6 +562,26 @@ codeunit 50005 "Transfer Mgt."
         OnAfterTakeoverApprove(EmpHrTransfer);
     end;
 
+#if SaasFeature
+    procedure TakeoverApprove(var EmpHrTransfer: Record "Employee Transfer"; AccessToken: Code[60])
+    var
+        UserSetup: Record "User Setup";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+    begin
+        OnBeforeTakeoverApprove(EmpHrTransfer);
+        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
+        EmpHrTransfer.TestField(Handover, true);
+        if (EmpHrTransfer."Outgoing Branch Rep. Person" <> ApproverMgt.GetApproverNoSAAS(AccessToken)) and (EmpHrTransfer."Outgoing Branch Rep. Person 2" <> ApproverMgt.GetApproverNoSAAS(AccessToken)) then
+            Error('You are not Eligible');
+        AttachmentMgt.CheckMandatoryAttachmentOnType(Enum::"Attachment Setup Type"::"Employee Transfer", Enum::"Attachment Setup SubType"::"Transfer Takeover", EmpHrTransfer."No.");
+        EmpHrTransfer.Validate(Takeover, true);
+        EmpHrTransfer.Modify();
+        if GuiAllowed then
+            Message('Takeover Successfull');
+
+        OnAfterTakeoverApprove(EmpHrTransfer);
+    end;
+#endif
     procedure CheckClaimAttachments(EmpActNo: Code[20]; EmpNo: Code[20])
     var
         TempIncomingDoc: Record "Incoming Document";
@@ -630,4 +683,5 @@ codeunit 50005 "Transfer Mgt."
         TransferError: Label 'You cannot Approve HR Transfer of Effective Date %1 in %2.';
         UserSetup: Record "User Setup";
         AttachmentMgt: Codeunit "Attachment Mgt.";
+        ApproverMgt: Codeunit "Approver Mgt";
 }
