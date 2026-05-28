@@ -1853,12 +1853,6 @@ codeunit 50000 "Leave Mgt."
                             - 1
     end;
 
-    /// <summary>
-    /// Calculates the prorata leave days still to be credited for a contract employee.
-    /// ProRataStart = max(PeriodStartDate, EmploymentDate)
-    /// ProRataEnd   = min(PeriodEndDate, PostingDate, TerminationDate)
-    /// Credit       = DaysEarnedPerYear * (EligibleDays / TotalDaysInPeriod) - AlreadyEarned
-    /// </summary>
     local procedure CalculateContractProrataDaysToCredit(
         var EmpRec: Record Employee;
         var LeaveSetup: Record "Leave Type Setup";

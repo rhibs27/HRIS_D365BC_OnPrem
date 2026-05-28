@@ -471,27 +471,31 @@ codeunit 50015 "OverTime Mgt"
         OvertimeLine: Record "Overtime Line";
         ApprovalLine: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
+        Ishandled: Boolean;
     begin
-        overtime.Get(DocumentNo);
-        OvertimeLine.Reset;
-        OvertimeLine.SetRange("No.", DocumentNo);
-        OvertimeLine.SetRange("Approval Status", OvertimeLine."Approval Status"::"Pending");
-        if OvertimeLine.Findset() then
-            repeat
-                if Approved then begin
-                    InsertOvertimeLineInAttendance(OvertimeLine);
-                    UpdateOvertimeLineInOvertimeLedger(OvertimeLine);
-                    OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Approved);
-                    OvertimeLine.Validate("Approved Date", Today);
-                    OvertimeLine.Modify();
-                end;
-            until OvertimeLine.Next() = 0;
-        if not Approved then begin
-            OvertimeLine.ModifyAll("Approval Status", OvertimeLine."Approval Status"::open);
-            ApprovalLine.Reset();
-            ApprovalLine.SetRange("Document No.", DocumentNo);
-            ApprovalLine.DeleteAll(true);
-            ApproverMgt.InsertApproval(overtime."Employee No.", DocumentNo, overtime."Type"::"Overtime Bulk", overtime."Approval Status"::open);
+        OnBeforeApproveRejectOvertimeLine(DocumentNo, Approved, Ishandled);
+        if not Ishandled then begin
+            overtime.Get(DocumentNo);
+            OvertimeLine.Reset;
+            OvertimeLine.SetRange("No.", DocumentNo);
+            OvertimeLine.SetRange("Approval Status", OvertimeLine."Approval Status"::"Pending");
+            if OvertimeLine.Findset() then
+                repeat
+                    if Approved then begin
+                        InsertOvertimeLineInAttendance(OvertimeLine);
+                        UpdateOvertimeLineInOvertimeLedger(OvertimeLine);
+                        OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Approved);
+                        OvertimeLine.Validate("Approved Date", Today);
+                        OvertimeLine.Modify();
+                    end;
+                until OvertimeLine.Next() = 0;
+            if not Approved then begin
+                OvertimeLine.ModifyAll("Approval Status", OvertimeLine."Approval Status"::open);
+                ApprovalLine.Reset();
+                ApprovalLine.SetRange("Document No.", DocumentNo);
+                ApprovalLine.DeleteAll(true);
+                ApproverMgt.InsertApproval(overtime."Employee No.", DocumentNo, overtime."Type"::"Overtime Bulk", overtime."Approval Status"::open);
+            end;
         end;
     end;
 
@@ -585,6 +589,11 @@ codeunit 50015 "OverTime Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsertLeaveEarnOvertime(Overtime: Record OverTime; leaveTypeSetup: Record "Leave Type Setup"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeApproveRejectOvertimeLine(docNo: Code[20]; Approved: Boolean; var Ishandled: Boolean)
     begin
     end;
 
