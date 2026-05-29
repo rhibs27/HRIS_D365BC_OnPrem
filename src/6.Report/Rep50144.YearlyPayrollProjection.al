@@ -531,6 +531,7 @@ report 50144 "Yearly Payroll Projection"
         FinalPeriod: Integer;
         StartProjectionFrom: Integer;
         HasActualEntries: Boolean;
+        EmployeeLedgerEntries: Record "Employee Ledger Entry";
     begin
         RemainingMonth := 0;
         LastActualPeriod := 0;
@@ -543,17 +544,29 @@ report 50144 "Yearly Payroll Projection"
         if not EmpRec.Get(EmployeeFilter) then
             exit(0);
         // Also check posted payroll headers to find the latest processed period
-        PostedPayrollHeader.Reset();
-        PostedPayrollHeader.SetCurrentKey("Pay Cycle Period");
-        PostedPayrollHeader.SetRange("Pay Cycle Term", PayCycleTerm);
-        //No to see if issue arises
-        PostedPayrollHeader.SetRange(Reversed, false);
-        PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.type::Payroll);
-        PostedPayrollHeader.SetAscending("Pay Cycle Period", true);
-        if PostedPayrollHeader.FindLast() then begin
-            LastActualPeriod := PostedPayrollHeader."Pay Cycle Period";
+        EmployeeLedgerEntries.Reset();
+        EmployeeLedgerEntries.SetRange("Pay Cycle Term", PayCycleTerm);
+        EmployeeLedgerEntries.SetRange("Employee No.", EmpRec."No.");
+        EmployeeLedgerEntries.SetRange(Reversed, false);
+        EmployeeLedgerEntries.SetFilter(Type, '%1|%2', PostedPayrollHeader.type::Payroll, PostedPayrollHeader.Type::Resignation);
+        EmployeeLedgerEntries.SetFilter(Amount, '<>%1', 0);
+        if EmployeeLedgerEntries.FindLast() then begin
+            LastActualPeriod := EmployeeLedgerEntries."Pay Cycle Period";
             HasActualEntries := true;
         end;
+        //Code replace with EmployeeLedgerEntry to find LastActual Period------------
+        // PostedPayrollHeader.Reset();
+        // PostedPayrollHeader.SetCurrentKey("Pay Cycle Period");
+        // PostedPayrollHeader.SetRange("Pay Cycle Term", PayCycleTerm);
+        // //No to see if issue arises
+        // PostedPayrollHeader.SetRange(Reversed, false);
+        // PostedPayrollHeader.SetFilter(Type, '%1|%2', PostedPayrollHeader.type::Payroll, PostedPayrollHeader.Type::Resignation);
+        // PostedPayrollHeader.SetAscending("Pay Cycle Period", true);
+        // if PostedPayrollHeader.FindLast() then begin
+        //     LastActualPeriod := PostedPayrollHeader."Pay Cycle Period";
+        //     HasActualEntries := true;
+        // end;
+        //Code replace with EmployeeLedgerEntry to find LastActual Period------------
         // DECISION LOGIC: When to start projection
         if HasActualEntries then begin
             // We have actual entries - project only FUTURE periods
@@ -1052,7 +1065,7 @@ report 50144 "Yearly Payroll Projection"
         // Add current fiscal year tax payments
         DetailedEmpLedgerEntry.Reset();
         DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeNo);
-        DetailedEmpLedgerEntry.SetRange("Fiscal Year", PayCycleTerm);
+        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
         DetailedEmpLedgerEntry.SetRange("Document Type", DetailedEmpLedgerEntry."Document Type"::Invoice);
         DetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
             DetailedEmpLedgerEntry."Attribute Sub Type"::"Social Security Tax",

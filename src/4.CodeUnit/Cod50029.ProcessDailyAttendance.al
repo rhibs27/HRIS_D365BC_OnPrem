@@ -42,17 +42,19 @@ codeunit 50029 "Process Daily Attendance"
                 EmpAttendance."Absent Day" := 1;
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
-            if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) then begin
+
+            ProcessDayFromEmpActLedgerEntry(); // Prcoess data from Employee Act Ledger Entry according to document type.
+
+            if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) and (EmpAttendance."Tour Day" <> 0) then begin
                 EmpAttendance."Absent Day" := (1 - EmpAttendance."Leave Day");
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
         end;
-        ProcessDayFromEmpActLedgerEntry();
+
         if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
             if EmpAttendance."Present Day" <> 0 then
                 EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
         end;
-
         if Employee."Automatic Attendance" and (EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day") then begin
             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
             EmpAttendance.Validate("Present Day", 1);
@@ -143,7 +145,7 @@ codeunit 50029 "Process Daily Attendance"
 
     local procedure UpdateLateDay()
     begin
-        if EmpAttendance."Shift Start Time" = 0T then
+        if (EmpAttendance."Shift Start Time" = 0T) or (EmpAttendance."Day Type" = EmpAttendance."Day Type"::Holiday) then
             exit;
         if (EmpAttendance."Check In Time" <> 0T) then
             if EmpAttendance."Shift Start Time" + Round((AttSetup."Per Day Late Tolerance" * 60000), 0.01, '=') < EmpAttendance."Check In Time" then begin
@@ -203,6 +205,10 @@ codeunit 50029 "Process Daily Attendance"
                     EmpActLedgerEntry."Document Type"::"Travel Request":
                         begin
                             EmpAttendance."Absent Day" := 0;
+                            EmpAttendance."Leave Day" := 0;
+                            EmpAttendance."Training Day" := 0;
+                            EmpAttendance."Present Day" := 0;
+                            EmpAttendance."Week Off Day" := 0;
                             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::"Outdoor Duty";
                             EmpAttendance."Tour Day" := EmpActLedgerEntry.Day;
                             EmpAttendance.Remarks := 'TRAVEL';
@@ -212,6 +218,7 @@ codeunit 50029 "Process Daily Attendance"
                             EmpAttendance."Transfer Day" := EmpActLedgerEntry.Day;
                             EmpAttendance."Absent Day" := 0;
                             EmpAttendance."Transfer Day" := 1;
+                            EmpAttendance."Week Off Day" := 0;
                             EmpAttendance.Remarks := Format(EmpActLedgerEntry."Document Type");
                         end;
                     EmpActLedgerEntry."Document Type"::Training:
@@ -219,6 +226,10 @@ codeunit 50029 "Process Daily Attendance"
                             EmpAttendance."Training Day" := 1;
                             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Training;
                             EmpAttendance."Absent Day" := 0;
+                            EmpAttendance."Present Day" := 0;
+                            EmpAttendance."Leave Day" := 0;
+                            EmpAttendance."Tour Day" := 0;
+                            EmpAttendance."Week Off Day" := 0;
                             EmpAttendance.Remarks := 'TRAINING';
                         end;
                     EmpActLedgerEntry."Document Type"::"Allowance Assignment Claim":
@@ -244,7 +255,7 @@ codeunit 50029 "Process Daily Attendance"
     procedure UpdateAttendanceRemarks()
     begin
 
-        if IsHolidayTemp then
+        if EmpAttendance."Week Off Day" > 0 then
             EmpAttendance.Remarks := CalendarDescription
         else begin
             if EmpAttendance."Absent Day" = 0.5 then
@@ -337,6 +348,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         FirstFound := AttendanceLog.FindFirst();
         if FirstFound then begin
@@ -364,6 +376,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         OnFiteringAttendanceLog(StartTime, EndTime, EmpAttendance, AttendanceLog, IsHandled);
         if not IsHandled then
             if GuiAllowed or (not FromSyncProcess) then

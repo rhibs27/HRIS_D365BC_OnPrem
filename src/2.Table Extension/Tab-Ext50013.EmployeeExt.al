@@ -597,7 +597,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit Code") then
                         Validate("Unit Name", OrganizationStructureList.Name);
                 if "Unit Code" = '' then
-                    Clear("Unit Code");
+                    Clear("Unit Name");
             end;
         }
         field(50059; "Branch Category"; Text[30])
@@ -1234,8 +1234,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50137; "Functional Title Desc"; Text[100])
         {
             Editable = false;
-            FieldClass = FlowField;
-            CalcFormula = lookup("Functional Title".Description where(Code = field("Functional Title")));
+            DataClassification = CustomerContent;
         }
         field(50138; "Salary Level Description"; Text[50])
         {
@@ -1749,7 +1748,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     end;
                 end;
         end;
-
+        OnAfterValidateDeputationOn(rec);
     end;
 
     procedure TransferRequest();
@@ -1890,6 +1889,11 @@ tableextension 50013 "Employee Ext" extends Employee
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmploymentType(var Rec: Record "Employee"; var xRec: Record "Employee"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterValidateDeputationOn(var Employee: Record "Employee")
     begin
     end;
 }

@@ -175,6 +175,9 @@ codeunit 50000 "Leave Mgt."
                             isNonWorkingDay := isNonWorkingDay and (Employee.Disabled = disabled);
                         //check OR condition
                         GetNonWorkingDaysOR(PayrollSetup."Base Calendar", CalendarDate."Period Start", Employee, isNonWorkingDay);
+
+                        OnAfterCheckNonWorkingDayFilters(Employee, CalendarDate."Period Start", PayrollSetup."Base Calendar", isNonWorkingDay);
+
                         if isNonWorkingDay then  //The day is holiday for that employee
                             Counter += 1;
                     end;
@@ -1108,6 +1111,11 @@ codeunit 50000 "Leave Mgt."
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
+
+            LeaveTypeSetup.get(CancelDocument."Leave Code");
+            if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::"On Approval" then
+                CreateLeaveLedger(CancelDocument."Employee No.", CancelDocument."Leave Code", CancelDocument."Start Date", leaveEarn.Type::Used, -CancelDocument."No. of Days", GetNextLeaveLedgerEntryNo(), CancelLeaveCode, CancelDocument.Remarks, '');
+
             CreateLeaveLedger(CancelDocument."Employee No.",
                      CancelDocument."Leave Code",
                      CancelDocument."Start Date",
@@ -1117,7 +1125,6 @@ codeunit 50000 "Leave Mgt."
                      CancelDocument."No.",
                      CancelDocument.Remarks,
                      '');
-            LeaveTypeSetup.get(CancelDocument."Leave Code");
             if LeaveTypeSetup."Exclude in Service Period" then begin
                 ServiceInactivity.SetRange("Source Doc No", CancelDocument."Cancelled Document No.");
                 ServiceInactivity.SetRange("Employee No.", CancelDocument."Employee No.");
@@ -1128,6 +1135,7 @@ codeunit 50000 "Leave Mgt."
                 EmpVar.Validate("Employment Date");
                 EmpVar.Modify();
             end;
+            UpdateTypeOnLeaveEarn(CancelDocument."Cancelled Document No.", LeaveEarn.Type::Cancelled);
             //Update EmpActledger
             HRMgt.CancelEmpActLedgerForDateRange(CancelDocument.Type,
                                             CancelDocument."Cancelled Document No.",
@@ -2067,6 +2075,18 @@ codeunit 50000 "Leave Mgt."
             ApprovalHRMS.ModifyAll("Approval Status", ApprovalHRMS."Approval Status"::Open);
     end;
 
+    procedure UpdateTypeOnLeaveEarn(DocumentNo: Code[20]; NewLeaveEarnType: Enum "Leave Earn Type")
+    var
+        leaveEarn: Record "Leave Earn";
+    begin
+        leaveEarn.SetRange("Leave Request No", DocumentNo);
+        if leaveEarn.FindSet() then
+            repeat
+                leaveEarn.Validate(Type, NewLeaveEarnType);
+                leaveEarn.Modify();
+            until leaveEarn.Next() = 0
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
     begin
@@ -2168,6 +2188,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertLeaveEarnfromJournal(var leaveJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckNonWorkingDayFilters(Employee: Record Employee; CalendarDate: Date; CalendarCode: Code[20]; var isNonWorkingDay: Boolean)
     begin
     end;
 

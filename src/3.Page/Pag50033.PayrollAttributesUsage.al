@@ -47,6 +47,11 @@ page 50033 "Payroll Attributes Usage"
                     ToolTip = 'Specifies the value of the Formula field.';
                     ApplicationArea = All;
                 }
+                field("Formula Exists"; Rec."Formula Exists")
+                {
+                    ToolTip = 'Specifies the value of the Formula Exists field.';
+                    ApplicationArea = All;
+                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';

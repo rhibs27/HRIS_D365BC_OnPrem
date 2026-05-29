@@ -41,14 +41,14 @@ table 50185 "Loan Settlement"
                         Error('This loan is already settled.');
                     "Loan Type" := EmpLoan."Loan Type";
                     Validate("Employee No.", EmpLoan."Employee No.");
-                    "Disbursed Amount" := EmpLoan."Disbursed Amount";
-                    "Total Approved Amount" := EmpLoan."Applied Loan/Advance";
-                    "Outstanding Amount" := loanMgt.GetLoanOutstandingAmount("Loan No.");
-                    "Branch Code" := EmpLoan."Branch Code";
-                    "Branch Name" := EmpLoan."Branch Name";
-                    "Department Code" := EmpLoan."Department Code";
-                    "Department Name" := EmpLoan."Department Name";
-                    "Unit Code" := EmpLoan."Unit Code";
+                    Validate("Disbursed Amount", EmpLoan."Disbursed Amount");
+                    Validate("Total Approved Amount", EmpLoan."Applied Loan/Advance");
+                    Validate("Outstanding Amount", loanMgt.GetLoanOutstandingAmount("Loan No."));
+                    Validate("Branch Code", EmpLoan."Branch Code");
+                    Validate("Branch Name", EmpLoan."Branch Name");
+                     Validate("Department Code",EmpLoan."Department Code");
+                     Validate("Department Name",EmpLoan."Department Name");
+                    Validate("Unit Code", EmpLoan."Unit Code");
                     "Unit Name" := EmpLoan."Unit Name";
                 end;
             end;
@@ -191,8 +191,8 @@ table 50185 "Loan Settlement"
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
 
             if "Approval Status" <> "Approval Status"::Approved then
-                ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Loan Type");
-                
+                ApproverMgt.InsertApprovalLoan("Employee No.", "No.", Type, "Approval Status", "Loan Type");
+
             if GuiAllowed then
                 if "Approval Status" = "Approval Status"::Open then
                     loanMgt.InsertSettelmentAttachmentLines(rec);

@@ -1,12 +1,13 @@
-page 50227 "Leave Journal"
+page 50075 "Employee Insurance Journal"
 {
     ApplicationArea = All;
-    Caption = 'Leave Journal';
+    Caption = 'Employee Insurance Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
-    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Leave Request"));
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Insurance"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
+
     layout
     {
         area(Content)
@@ -18,77 +19,86 @@ page 50227 "Leave Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-                field("Employee Name"; Rec."Employee Name") { }
-                field("Leave Code"; Rec."Leave Code")
+                field("Employee Name"; Rec."Employee Name")
                 {
-                    ToolTip = 'Specifies the value of the Leave Code field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field("Leave Description"; Rec."Leave Description")
-                {
-                    ToolTip = 'Specifies the value of the Leave Description field.';
-                    ApplicationArea = All;
-                }
-                field("Leave Type"; Rec."Leave Type")
-                {
-                    ToolTip = 'Specifies the value of the Leave Type field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field("Adjustment Type"; Rec."Adjustment Type")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Adjustment Type field';
-                    Editable = IsOpen;
-                }
-                field("Start Date"; Rec."Start Date")
-                {
-                    ToolTip = 'Specifies the value of the Start Date field.';
-                    ApplicationArea = All;
-                    Editable = IsUsed and IsOpen;
-                }
-                field("End Date"; Rec."End Date")
-                {
-                    ToolTip = 'Specifies the value of the End Date field.';
-                    ApplicationArea = All;
-                    Editable = IsUsed and IsOpen;
-                }
-                field("No. of Days"; Rec."No. of Days")
-                {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
-                    Editable = IsAdjusted and IsOpen;
+                    ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                    Visible = ApprovalStatusView;
                 }
-                field(Status; Rec.Status)
+                field("Insurance Type"; rec."Insurance Type")
                 {
-                    Visible = StatusView;
-                }
-                field("Fiscal Year"; Rec."Fiscal Year")
-                {
-                    ToolTip = 'Specifies the value of the Fiscal Year field.';
-                    ApplicationArea = All;
-                }
-                field(Remarks; Rec.Remarks)
-                {
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
+                    ApplicationArea = all;
                     Editable = IsOpen;
                 }
-                field("Substitute Person Code"; Rec."Substitute Person Code")
+                field("Policy No"; rec."Policy No")
                 {
-                    ApplicationArea = All;
-                    Editable = IsOpen and IsUsed;
+                    ApplicationArea = all;
+                    Editable = IsOpen;
                 }
-                field("Substitute Person Name"; Rec."Substitute Person Name")
+                field("Insurance Company Code"; rec."Insurance Company Code")
                 {
-                    ApplicationArea = All;
+                    ApplicationArea = all;
+                    Editable = IsOpen;
+                }
+                field("Insurance Company Name"; rec."Insurance Company Name")
+                {
+                    ApplicationArea = all;
+                }
+                field("Insurance Start Date (AD)"; rec."Start Date")
+                {
+                    Caption = 'Insurance Start Date (AD)';
+                    ApplicationArea = all;
+                    Editable = IsOpen;
+                }
+                field("Insurance Start Date (BS)"; rec."Start Date (BS)")
+                {
+                    Caption = 'Insurance Start Date (BS)';
+                    Editable = false;
+                    ApplicationArea = all;
+                }
+                field("Insurance Expiry Date (AD)"; rec."End Date")
+                {
+                    Caption = 'Insurance Expiry Date (AD)';
+                    ApplicationArea = all;
+                    Editable = IsOpen;
+                }
+                field("Insurance Expiry Date (BS)"; rec."End Date (BS)")
+                {
+                    Caption = 'Insurance Expiry Date (BS)';
+                    Editable = false;
+                    ApplicationArea = all;
+                }
+                field("Insurance Amount"; rec."Insurance Amount")
+                {
+                    ApplicationArea = all;
+                    Editable = IsOpen;
+                }
+                field("Premium Paid By"; rec."Premium Paid By")
+                {
+                    ApplicationArea = all;
+                    Editable = IsOpen;
+                }
+
+                field("Monthly Premium Amount"; rec."Premium Amount")
+                {
+                    ApplicationArea = all;
+                    Editable = IsOpen;
+                }
+                field("Premium Payment Frequency"; Rec."Premium Payment Frequency")
+                {
+                    ApplicationArea = all;
+                }
+                field("Annual Premium Amount"; rec."Annual Premium Amount")
+                {
+                    ApplicationArea = all;
+                    Editable = IsOpen;
+                }
+                field(Remarks; rec.Remarks)
+                {
+                    ApplicationArea = all;
+                    Editable = IsOpen;
                 }
                 field("Attachment File Name"; Rec."Attachment File Name")
                 {
@@ -108,10 +118,10 @@ page 50227 "Leave Journal"
                         CurrPage.Update();
                     end;
                 }
+
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
-
                 Editable = false;
                 SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
@@ -139,9 +149,9 @@ page 50227 "Leave Journal"
                                     ListOfDocNo.Add(rec."Emp Act. No");
                             until rec.Next() = 0;
                         Rec.Reset();
-                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Leave Request");
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Insurance");
                         for i := 1 to ListOfDocNo.Count do begin
-                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), rec."Employee Act Type"::"Leave Request");
+                            EmpActMgt.SendForApproval(ListOfDocNo.Get(i), Rec."Employee Act Type"::Insurance);
                         end;
                     end;
                 end;
@@ -155,7 +165,7 @@ page 50227 "Leave Journal"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Approve Leave?', false) then begin
+                    if Confirm('Do you want to Approve request?', false) then begin
                         Clear(ListOfDocNo);
                         CurrPage.SetSelectionFilter(Rec);
                         if Rec.FindSet() then
@@ -164,13 +174,14 @@ page 50227 "Leave Journal"
                                     ListOfDocNo.Add(rec."Emp Act. No");
                             until rec.Next() = 0;
                         Rec.Reset();
-                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Leave Request");
+                        Rec.SetRange("Employee Act Type", Rec."Employee Act Type"::"Insurance");
                         for i := 1 to ListOfDocNo.Count do begin
                             ApproverMgt.ApproveJournalDocument(ListOfDocNo.Get(i), true);
                         end;
                     end;
                 end;
             }
+
             action(Post)
             {
                 Promoted = true;
@@ -180,7 +191,7 @@ page 50227 "Leave Journal"
                 Visible = IsApproved;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Post Leave?', false) then begin
+                    if Confirm('Do you want to Post Document?', false) then begin
                         Clear(ListOfDocNo);
                         CurrPage.SetSelectionFilter(Rec);
                         if Rec.FindSet() then
@@ -189,9 +200,9 @@ page 50227 "Leave Journal"
                                     ListOfDocNo.Add(rec."Emp Act. No");
                             until rec.Next() = 0;
                         for i := 1 to ListOfDocNo.Count do begin
-                            EmpActMgt.PostLeaveJournal(ListOfDocNo.Get(i));
+                            EmpActMgt.PostEmployeeInsuranceJournal(ListOfDocNo.Get(i));
                         end;
-                        Message('Leave is posted');
+                        Message('Employee Insurance Journal is posted');
                         CurrPage.Close();
                     end;
                 end;
@@ -205,8 +216,9 @@ page 50227 "Leave Journal"
                 Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Reject Leave?', false) then
-                        EmpActMgt.RejectJournal(Rec, true);
+                    if not Confirm('Do you want to Reject Employee Insurance Journal?', false) then
+                        exit;
+                    EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
             action("Import From Excel")
@@ -217,34 +229,21 @@ page 50227 "Leave Journal"
                 Image = ImportExcel;
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
+                    if not Confirm('Do you want Employee Insurance From Excel?', false) then
                         exit;
-                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::"Leave Request");
-                end;
-            }
-            action("Export Format for Excel")
-            {
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Image = Export;
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want Import Leave Journal From Excel?', false) then
-                        exit;
-                    ExcelImportMgt.ExportLeaveSheet(Rec);
+                    ExcelImportMgt.ImportJournalFromExcelSheet(Rec."Employee Act Type"::Insurance);
                 end;
             }
         }
     }
+
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::Open;
-        Rec."Employee Act Type" := Rec."Employee Act Type"::"Leave Request";
+        Rec."Employee Act Type" := Rec."Employee Act Type"::"Insurance";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
         CurrPage.Update(false);
-        SetLayout();
     end;
 
     trigger OnAfterGetCurrRecord()
@@ -268,21 +267,18 @@ page 50227 "Leave Journal"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
-        IsAdjusted := Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
-        IsUsed := Rec."Adjustment Type" = Rec."Adjustment Type"::Used;
-
     end;
 
     protected var
         StatusView, ApprovalStatusView : Boolean;
-        IsOpen, IsPending, IsApproved, IsRejected, IsAdjusted, IsUsed : Boolean;
+        IsOpen, IsPending, IsApproved, IsRejected : Boolean;
 
     var
-        EmpActMgt: Codeunit EmployeeActivityMgt;
-        ApproverMgt: Codeunit "Approver Mgt";
+
         ExcelImportMgt: Codeunit "Excel Import";
         ListOfDocNo: List of [code[20]];
         i: Integer;
         AttachmentMgt: Codeunit "Attachment Mgt.";
-        SelectFileTxt: Label 'Attach File(s)...';
+        EmpActMgt: Codeunit EmployeeActivityMgt;
+        ApproverMgt: Codeunit "Approver Mgt";
 }

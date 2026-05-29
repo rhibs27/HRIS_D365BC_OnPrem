@@ -186,6 +186,7 @@ table 50035 "Posted Payroll Line"
         field(47; "ATM Custodian Days"; Decimal) { }
         field(48; "Head Teller Days"; Decimal) { }
         field(49; "Teller Days"; Decimal) { }
+        field(52; "Training Days"; Decimal) { }
         field(61; "Variable Field 50501"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
