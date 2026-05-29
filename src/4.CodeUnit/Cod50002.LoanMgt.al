@@ -354,64 +354,68 @@ codeunit 50002 "Loan Mgt."
         VehicleLoanEMI: Decimal;
         CheckSalaryLevel: Record "Salary Level";
     begin
-        Employee.Get(EmpLoan."Employee No.");
-        SalaryLevel.Get(Employee."Salary Level");
-        SalaryGrade.Get(Employee."Salary Grade");
+        HRSetup.Get;
+        if HRSetup."Get Loan Table Balance" then begin
+            CalculateAndCheckDBRToTakeHome(EmpLoan);
+        end else begin
+            Employee.Get(EmpLoan."Employee No.");
+            SalaryLevel.Get(Employee."Salary Level");
+            SalaryGrade.Get(Employee."Salary Grade");
 
-        LoanOutstanding.Reset;
-        LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
-        LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
-        LoanOutstanding.CalcSums(EMI);
-        PreviosuEMI := LoanOutstanding.EMI;
-
-        LoanOutstanding.Reset;
-        LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
-        LoanOutstanding.SetRange("Scheme Type", 'ODA'); //need setup
-        LoanOutstanding.CalcSums("Loan Limit");
-        EmpLoanInterest.Reset;
-        EmpLoanInterest.SetRange("Loan Type", EmpLoanInterest."Loan Type"::"Personal Loan");
-        EmpLoanInterest.SetCurrentKey("Starting Date");
-        if EmpLoanInterest.FindLast then;
-        EMIPersonalLoan := LoanOutstanding."Loan Limit" * EmpLoanInterest."Interest Rate" / 100 / 12;
-
-        EmpSalaryAdv.Reset;
-        EmpSalaryAdv.SetRange("Employee No.", EmpLoan."Employee No.");
-        EmpSalaryAdv.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending", EmpLoan."Approval Status"::Approved);
-        EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
-        EmpSalaryAdv.SetRange(Settled, false);
-        EmpSalaryAdv.SetFilter("Loan Type", '%1|%2|%3|%4|%5',
-            EmpSalaryAdv."Loan Type"::"Salary Advance",
-            EmpSalaryAdv."Loan Type"::"Home Loan",
-            EmpSalaryAdv."Loan Type"::"Personal Loan",
-            EmpSalaryAdv."Loan Type"::"Vehicle Loan",
-            EmpSalaryAdv."Loan Type"::"Staff Social Loan");
-        EmpSalaryAdv.CalcSums(EMI);
-
-        Clear(VehicleLoanEMI);
-        if SalaryLevel."Vehicle Loan Limit" = 0 then begin
             LoanOutstanding.Reset;
             LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
-            LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
+            LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
             LoanOutstanding.CalcSums(EMI);
-            VehicleLoanEMI := LoanOutstanding.EMI;
-        end;
+            PreviosuEMI := LoanOutstanding.EMI;
 
-        TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI;
+            LoanOutstanding.Reset;
+            LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
+            LoanOutstanding.SetRange("Scheme Type", 'ODA'); //need setup
+            LoanOutstanding.CalcSums("Loan Limit");
+            EmpLoanInterest.Reset;
+            EmpLoanInterest.SetRange("Loan Type", EmpLoanInterest."Loan Type"::"Personal Loan");
+            EmpLoanInterest.SetCurrentKey("Starting Date");
+            if EmpLoanInterest.FindLast then;
+            EMIPersonalLoan := LoanOutstanding."Loan Limit" * EmpLoanInterest."Interest Rate" / 100 / 12;
 
-        // CheckSalaryLevel.Reset();
-        // CheckSalaryLevel.SetRange("Senior Officer Level", true);
-        // CheckSalaryLevel.FindFirst;
+            EmpSalaryAdv.Reset;
+            EmpSalaryAdv.SetRange("Employee No.", EmpLoan."Employee No.");
+            EmpSalaryAdv.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending", EmpLoan."Approval Status"::Approved);
+            EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
+            EmpSalaryAdv.SetRange(Settled, false);
+            EmpSalaryAdv.SetFilter("Loan Type", '%1|%2|%3|%4|%5',
+                EmpSalaryAdv."Loan Type"::"Salary Advance",
+                EmpSalaryAdv."Loan Type"::"Home Loan",
+                EmpSalaryAdv."Loan Type"::"Personal Loan",
+                EmpSalaryAdv."Loan Type"::"Vehicle Loan",
+                EmpSalaryAdv."Loan Type"::"Staff Social Loan");
+            EmpSalaryAdv.CalcSums(EMI);
 
-        HRSetup.Get;
-        if SalaryLevel.Rank > CheckSalaryLevel.Rank then begin
-            EmpLoan."DBR Ratio" := TotalEMI / EmpLoan."Gross Salary" * 100;
-            if EmpLoan."DBR Ratio" > HRSetup."DBR Ratio" then
-                Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
-        end else begin
-            BelowSOAmt := GetLFAAndDashainAllowance(SalaryLevel, SalaryGrade);
-            EmpLoan."DBR Ratio" := TotalEMI / (EmpLoan."Gross Salary" + BelowSOAmt) * 100;
-            if EmpLoan."DBR Ratio" > HRSetup."Below SO DBR" then
-                Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
+            Clear(VehicleLoanEMI);
+            if SalaryLevel."Vehicle Loan Limit" = 0 then begin
+                LoanOutstanding.Reset;
+                LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
+                LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
+                LoanOutstanding.CalcSums(EMI);
+                VehicleLoanEMI := LoanOutstanding.EMI;
+            end;
+
+            TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI;
+
+            // CheckSalaryLevel.Reset();
+            // CheckSalaryLevel.SetRange("Senior Officer Level", true);
+            // CheckSalaryLevel.FindFirst;
+            if SalaryLevel.Rank > CheckSalaryLevel.Rank then begin
+                EmpLoan."DBR Ratio" := TotalEMI / EmpLoan."Gross Salary" * 100;
+                if EmpLoan."DBR Ratio" > HRSetup."DBR Ratio" then
+                    Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
+            end else begin
+                BelowSOAmt := GetLFAAndDashainAllowance(SalaryLevel, SalaryGrade);
+                EmpLoan."DBR Ratio" := TotalEMI / (EmpLoan."Gross Salary" + BelowSOAmt) * 100;
+                if EmpLoan."DBR Ratio" > HRSetup."Below SO DBR" then
+                    Error('DBR Ratio %1 exceeded.', EmpLoan."DBR Ratio");
+            end;
+
         end;
     end;
 
@@ -2161,7 +2165,6 @@ codeunit 50002 "Loan Mgt."
 
         if IsApprove then begin
             if EmpLoan.Get(LoanSettlement."Loan No.") then begin
-                // Post settlement entry for full audit trail
                 LoanSettlementEntry.Init();
                 LoanSettlementEntry."Entry No." := LoanSettlementEntry.GetNextEntryNo();
                 LoanSettlementEntry."Loan No." := EmpLoan."No.";
@@ -2175,7 +2178,6 @@ codeunit 50002 "Loan Mgt."
                 LoanSettlementEntry."Created DateTime" := CurrentDateTime;
                 LoanSettlementEntry.Insert(true);
 
-                // Recalculate outstanding from entries (authoritative)
                 EmpLoan.CalcFields("Total Settled Amount");
                 EmpLoan."Outstanding Amount" := EmpLoan."Disbursed Amount" - EmpLoan."Total Settled Amount";
                 if EmpLoan."Outstanding Amount" < 0 then
@@ -2199,27 +2201,9 @@ codeunit 50002 "Loan Mgt."
                 LoanSettlement."Settler User ID" := UserId;
                 LoanSettlement.Modify();
             end;
-        end else begin
-            // Reject all remaining Approval HRMS entries for this document
-            // ApprovalHRMS.Reset();
-            // ApprovalHRMS.SetRange("Document No.", docNo);
-            // ApprovalHRMS.SetRange("Document Type", ApprovalHRMS."Document Type"::"Loan Settlement");
-            // ApprovalHRMS.SetFilter("Approval Status", '%1|%2',
-            //     ApprovalHRMS."Approval Status"::Created,
-            //     ApprovalHRMS."Approval Status"::Open);
-            // if ApprovalHRMS.FindSet() then
-            //     repeat
-            //         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
-            //         ApprovalHRMS.Modify();
-            //     until ApprovalHRMS.Next() = 0;
         end;
     end;
 
-    /// <summary>
-    /// Returns the current outstanding loan balance for a given loan.
-    /// Calculated as Disbursed Amount minus the sum of all posted settlement entries.
-    /// Use this function wherever outstanding balance is needed to ensure consistency.
-    /// </summary>
     procedure GetLoanOutstandingAmount(LoanNo: Code[20]): Decimal
     var
         EmpLoan: Record "Employee Loan/Advance";
@@ -2229,6 +2213,267 @@ codeunit 50002 "Loan Mgt."
             exit(EmpLoan."Disbursed Amount" - EmpLoan."Total Settled Amount");
         end;
         exit(0);
+    end;
+
+    procedure CalculateAndCheckDBRToTakeHome(var EmpLoan: Record "Employee Loan/Advance")
+    var
+        Employee: Record Employee;
+        SalaryLevel: Record "Salary Level";
+        SalaryGrade: Record "Salary Grade";
+        LoanOutstanding: Record "Loan Outstanding from Finacle";
+        OtherEmpLoan: Record "Employee Loan/Advance";
+        Basic: Decimal;
+        GradeAmt: Decimal;
+        RegularAllowance: Decimal;
+        OtherAllowance: Decimal;
+        DeemedIncome: Decimal;
+        GrossMonthly: Decimal;
+        AnnualTaxable: Decimal;
+        MonthlyTax: Decimal;
+        PF: Decimal;
+        HomeLoanInsuranceEMI: Decimal;
+        VehicleLoanEMI: Decimal;
+        SocialLoanEMI: Decimal;
+        TotalDeductions: Decimal;
+        TakeHome: Decimal;
+        IsFemale: Boolean;
+        IsHandled: Boolean;
+        HrMgt: Codeunit "HR Mgt.";
+    begin
+        if not Employee.Get(EmpLoan."Employee No.") then
+            exit;
+        if not SalaryLevel.Get(Employee."Salary Level") then
+            exit;
+        if not SalaryGrade.Get(Employee."Salary Grade") then
+            exit;
+
+        GrossMonthly := CalculateGS(EmpLoan);
+        AnnualTaxable := GrossMonthly * 12;
+        IsFemale := Employee.Gender = Employee.Gender::Female;
+        MonthlyTax := CalculateMonthlyTax(AnnualTaxable, IsFemale);
+
+
+        LoanOutstanding.Reset();
+        LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
+        LoanOutstanding.SetFilter("Loan Type", '%1|%2',
+            LoanOutstanding."Loan Type"::"Home Loan",
+            LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
+        LoanOutstanding.CalcSums(EMI);
+        HomeLoanInsuranceEMI := LoanOutstanding.EMI;
+        if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" then
+            HomeLoanInsuranceEMI += EmpLoan.EMI;
+
+        VehicleLoanEMI := 0;
+        if SalaryLevel."Vehicle Loan Limit" = 0 then begin
+            LoanOutstanding.Reset();
+            LoanOutstanding.SetRange("Employee No.", EmpLoan."Employee No.");
+            LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
+            LoanOutstanding.CalcSums(EMI);
+            VehicleLoanEMI += LoanOutstanding.EMI;
+        end;
+        OtherEmpLoan.Reset();
+        OtherEmpLoan.SetRange("Employee No.", EmpLoan."Employee No.");
+        OtherEmpLoan.SetFilter("Approval Status", '%1|%2',
+            EmpLoan."Approval Status"::Pending,
+            EmpLoan."Approval Status"::Approved);
+        OtherEmpLoan.SetFilter("No.", '<>%1', EmpLoan."No.");
+        OtherEmpLoan.SetRange(Settled, false);
+        OtherEmpLoan.SetRange("Loan Type", OtherEmpLoan."Loan Type"::"Vehicle Loan");
+        OtherEmpLoan.CalcSums(EMI);
+        VehicleLoanEMI += OtherEmpLoan.EMI;
+        if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Vehicle Loan" then
+            VehicleLoanEMI += EmpLoan.EMI;
+
+        SocialLoanEMI := 0;
+        OtherEmpLoan.Reset();
+        OtherEmpLoan.SetRange("Employee No.", EmpLoan."Employee No.");
+        OtherEmpLoan.SetFilter("Approval Status", '%1|%2',
+            EmpLoan."Approval Status"::Pending,
+            EmpLoan."Approval Status"::Approved);
+        OtherEmpLoan.SetFilter("No.", '<>%1', EmpLoan."No.");
+        OtherEmpLoan.SetRange(Settled, false);
+        OtherEmpLoan.SetRange("Loan Type", OtherEmpLoan."Loan Type"::"Staff Social Loan");
+        OtherEmpLoan.CalcSums(EMI);
+        SocialLoanEMI := OtherEmpLoan.EMI;
+        if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Staff Social Loan" then
+            SocialLoanEMI += EmpLoan.EMI;
+
+        TotalDeductions := GetLastPostedDeductionForEmployee(EmpLoan."Employee No.", EmpLoan."Requested Loan Date") + MonthlyTax;
+        TakeHome := CalculateTakeHome(GrossMonthly, TotalDeductions);
+        EmpLoan."Take-Home Salary" := TakeHome;
+        if EmpLoan."Applied Loan/Advance" <> 0 then
+            CheckPermissibleLimit(GrossMonthly, TotalDeductions, EmpLoan);
+    end;
+
+    procedure GetLastPostedDeductionForEmployee(EmployeeNo: Code[20]; RequestDate: Date): Decimal
+    var
+        PostedPayrollHeader: Record "Posted Payroll Header";
+        PostedPayrollLine: Record "Posted Payroll Line";
+        CurrentPayCyclePeriod: Record "Pay Cycle Period";
+        PreviousPayCyclePeriod: Record "Pay Cycle Period";
+        LineFound: Boolean;
+        PeriodOffset: Integer;
+    begin
+        CurrentPayCyclePeriod.Reset();
+        CurrentPayCyclePeriod.SetFilter("Start Date", '<=%1', RequestDate);
+        CurrentPayCyclePeriod.SetFilter("End Date", '>=%1', RequestDate);
+        if not CurrentPayCyclePeriod.FindFirst() then
+            exit(0);
+
+        PeriodOffset := 1;
+        LineFound := false;
+        repeat
+            PreviousPayCyclePeriod.Reset();
+            PreviousPayCyclePeriod.SetRange("Pay Cycle Code", CurrentPayCyclePeriod."Pay Cycle Code");
+            PreviousPayCyclePeriod.SetRange("Pay Cycle Term", CurrentPayCyclePeriod."Pay Cycle Term");
+            PreviousPayCyclePeriod.SetRange(Period, CurrentPayCyclePeriod.Period - PeriodOffset);
+            if not PreviousPayCyclePeriod.FindFirst() then
+                exit(0);
+
+            PostedPayrollHeader.Reset();
+            PostedPayrollHeader.SetCurrentKey("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period");
+            PostedPayrollHeader.SetRange("Pay Cycle Code", PreviousPayCyclePeriod."Pay Cycle Code");
+            PostedPayrollHeader.SetRange("Pay Cycle Term", PreviousPayCyclePeriod."Pay Cycle Term");
+            PostedPayrollHeader.SetRange("Pay Cycle Period", PreviousPayCyclePeriod.Period);
+            PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Payroll);
+            PostedPayrollHeader.SetRange(Reversed, false);
+            if PostedPayrollHeader.FindFirst() then begin
+                PostedPayrollLine.Reset();
+                PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
+                PostedPayrollLine.SetRange("Employee No.", EmployeeNo);
+                LineFound := PostedPayrollLine.FindFirst();
+            end;
+            PeriodOffset += 1;
+        until LineFound;
+
+        exit(PostedPayrollLine."Current Deduction");
+    end;
+
+    procedure CalculateMonthlyTax(AnnualTaxable: Decimal; IsFemale: Boolean): Decimal
+    var
+        AnnualTax: Decimal;
+    begin
+        AnnualTax := 0;
+        if AnnualTaxable <= 0 then
+            exit(0);
+
+        if AnnualTaxable <= 500000 then
+            AnnualTax := AnnualTaxable * 0.01
+        else begin
+            AnnualTax := 500000 * 0.01;
+            //for next slab
+            if AnnualTaxable <= 600000 then
+                AnnualTax += (AnnualTaxable - 500000) * 0.10
+            else
+                AnnualTax += 100000 * 0.10;            // 10,000
+
+            // Additional slabs can be inserted here for higher income bands
+        end;
+
+        // 10% rebate for female employees
+        if IsFemale then
+            AnnualTax := AnnualTax * 0.90;
+
+        exit(Round(AnnualTax / 12, 1, '='));
+    end;
+
+    procedure CheckPermissibleLimit(GrossMonthly: Decimal; TotalDeductions: Decimal; var EmpLoanAdv: Record "Employee Loan/Advance")
+    var
+        HRSetup: Record "Human Resources Setup";
+        MaxAllowed: Decimal;
+        SurplusDeficit: Decimal;
+        TotaldeductionWithCurrentEMI: Decimal;
+        DBRRatio: Decimal;
+        DeductionExceedsLimitMsg: Label 'Total deductions (%1) exceed the permissible %4% Debt Burden limit of gross salary (Max Allowed: %2). Surplus/Deficit: %3. Current Loan EMI amount is %5';
+    begin
+        HRSetup.Get();
+        DBRRatio := HRSetup."DBR Ratio";
+        if DBRRatio = 0 then
+            DBRRatio := 66.67;
+
+        MaxAllowed := Round(GrossMonthly * (DBRRatio / 100), 0.001, '=');
+
+        TotaldeductionWithCurrentEMI := TotalDeductions + EmpLoanAdv.EMI;
+        if TotaldeductionWithCurrentEMI > MaxAllowed then begin
+            SurplusDeficit := Round(MaxAllowed - TotaldeductionWithCurrentEMI, 0.001, '=');
+            Error(DeductionExceedsLimitMsg, TotalDeductions, MaxAllowed, SurplusDeficit, DBRRatio, Round(EmpLoanAdv.EMI, 0.001, '='));
+        end;
+    end;
+
+    procedure CalculateTakeHome(GrossMonthly: Decimal; TotalDeductions: Decimal): Decimal
+    var
+        NegativeTakeHomeErr: Label 'Take-home salary is negative (%1). Total deductions exceed gross salary. Loan cannot be processed.';
+        TakeHome: Decimal;
+    begin
+        TakeHome := GrossMonthly - TotalDeductions;
+        if TakeHome < 0 then
+            Error(NegativeTakeHomeErr, TakeHome);
+        exit(TakeHome);
+    end;
+
+    procedure CalculateGS(var EmpLoan: Record "Employee Loan/Advance"): Decimal
+    var
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
+        PayrollAttribute: Record "Payroll Attributes";
+        GrossAmount: Decimal;
+    begin
+        case EmpLoan."Loan Type" of
+            "Loan Type"::"Home Loan":
+                begin
+                    PayrollAttribute.SetRange("Use Attr. for Home loan GS", true);
+                    if PayrollAttribute.FindSet() then begin
+                        repeat
+                            if PayrollAttributeUsage.Get(PayrollAttribute.Code, EmpLoan."Employee No.") then
+                                GrossAmount += PayrollAttributeUsage.Amount;
+                        until PayrollAttribute.Next() = 0;
+                    end;
+                end;
+            "Loan Type"::"Vehicle Loan":
+                begin
+                    PayrollAttribute.SetRange("Use Attr. for Vehicle loan GS", true);
+                    if PayrollAttribute.FindSet() then begin
+                        repeat
+                            if PayrollAttributeUsage.Get(PayrollAttribute.Code, EmpLoan."Employee No.") then
+                                GrossAmount += PayrollAttributeUsage.Amount;
+                        until PayrollAttribute.Next() = 0;
+                    end;
+                end;
+            "loan Type"::"Personal Loan":
+                begin
+                    PayrollAttribute.SetRange("Use Attr. for Personal Loan GS", true);
+                    if PayrollAttribute.FindSet() then begin
+                        repeat
+                            if PayrollAttributeUsage.Get(PayrollAttribute.Code, EmpLoan."Employee No.") then
+                                GrossAmount += PayrollAttributeUsage.Amount;
+                        until PayrollAttribute.Next() = 0;
+                    end;
+                end;
+            "loan Type"::"Salary Advance":
+                begin
+                    PayrollAttribute.SetRange("Use Attr. for Salary Adv. GS", true);
+                    if PayrollAttribute.FindSet() then begin
+                        repeat
+                            if PayrollAttributeUsage.Get(PayrollAttribute.Code, EmpLoan."Employee No.") then
+                                GrossAmount += PayrollAttributeUsage.Amount;
+                        until PayrollAttribute.Next() = 0;
+                    end;
+                end;
+            "loan Type"::"Staff Social Loan":
+                begin
+                    PayrollAttribute.SetRange("Use Attr. staff Social Loan GS", true);
+                    if PayrollAttribute.FindSet() then begin
+                        repeat
+                            if PayrollAttributeUsage.Get(PayrollAttribute.Code, EmpLoan."Employee No.") then
+                                GrossAmount += PayrollAttributeUsage.Amount;
+                        until PayrollAttribute.Next() = 0;
+                    end;
+                end;
+        end;
+
+        if GrossAmount = 0 then
+            Error('No Payroll Attributes found for Employee %1 for Loan Type %2',
+                  EmpLoan."Employee No.", EmpLoan."Loan Type");
+        exit(GrossAmount);
     end;
 
     [IntegrationEvent(false, false)]
