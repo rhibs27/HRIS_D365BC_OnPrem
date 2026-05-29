@@ -40,24 +40,25 @@ page 50227 "Leave Journal"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Adjustment Type field';
+                    Editable = IsOpen;
                 }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
-                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen;
+                    Editable = IsUsed and IsOpen;
                 }
                 field("End Date"; Rec."End Date")
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
-                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen;
+                    Editable = IsUsed and IsOpen;
                 }
                 field("No. of Days"; Rec."No. of Days")
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
-                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
+                    Editable = IsAdjusted and IsOpen;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -78,12 +79,12 @@ page 50227 "Leave Journal"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
-                    Editable = IsOpen or IsPending;
+                    Editable = IsOpen;
                 }
                 field("Substitute Person Code"; Rec."Substitute Person Code")
                 {
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = IsOpen and IsUsed;
                 }
                 field("Substitute Person Name"; Rec."Substitute Person Name")
                 {
@@ -267,11 +268,16 @@ page 50227 "Leave Journal"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        IsAdjusted := Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
+        IsUsed := Rec."Adjustment Type" = Rec."Adjustment Type"::Used;
+
     end;
 
-    var
+    protected var
         StatusView, ApprovalStatusView : Boolean;
-        IsOpen, IsPending, IsApproved, IsRejected : Boolean;
+        IsOpen, IsPending, IsApproved, IsRejected, IsAdjusted, IsUsed : Boolean;
+
+    var
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
         ExcelImportMgt: Codeunit "Excel Import";
