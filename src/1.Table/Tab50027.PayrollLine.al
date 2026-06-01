@@ -1710,7 +1710,7 @@ table 50027 "Payroll Line"
             GetSettlementRecovery();
 
         GetAttributesFromAllowanceConfiguration();
-        // CalculateAllowanceAssignmentLineAmount();
+        CalculateAllowanceAssignmentLineAmount();
         OnGetPayrollAttributesOnBeforeSaveValue(Rec);
 
         PayrollAttributesUsage.Reset;
@@ -2777,6 +2777,9 @@ table 50027 "Payroll Line"
     var
         PayrollAttrUses: Record "Payroll Attributes Usage";
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        AllowanceDict: Dictionary of [Text, Decimal];
+        Amount: Decimal;
+        AllowanceType: Code[20];
     begin
         AllowanceAssignmentLine.Reset();
         AllowanceAssignmentLine.SetRange("Employee Code", "Employee No.");
@@ -2787,22 +2790,32 @@ table 50027 "Payroll Line"
         AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment Claim");
         AllowanceAssignmentLine.SetFilter("Substitute Type", '%1|%2', AllowanceAssignmentLine."Substitute Type"::" ", AllowanceAssignmentLine."Substitute Type"::"Added as Substitute");
         OnAfterFilterAllowanceAssignmentLine(AllowanceAssignmentLine);
-        if AllowanceAssignmentLine.FindSet() then
+        if AllowanceAssignmentLine.FindSet() then begin
             repeat
-                if PayrollAttrUses.Get(AllowanceAssignmentLine."Allowance Type", "Employee No.") then begin
-                    PayrollAttrUses.Amount := AllowanceAssignmentLine."Allowance Amount";
+                AllowanceType := AllowanceAssignmentLine."Allowance Type";
+                Amount := AllowanceAssignmentLine."Allowance Amount";
+                if AllowanceDict.Get(AllowanceType, Amount) then
+                    AllowanceDict.Set(AllowanceType, Amount + AllowanceAssignmentLine."Allowance Amount")
+                else
+                    AllowanceDict.Add(AllowanceType, AllowanceAssignmentLine."Allowance Amount");
+            until AllowanceAssignmentLine.Next() = 0;
+            foreach AllowanceType in AllowanceDict.Keys do begin
+                AllowanceDict.Get(AllowanceType, Amount);
+                if PayrollAttrUses.Get(AllowanceType, AllowanceAssignmentLine."Employee Code") then begin
+                    Clear(PayrollAttrUses.Amount);
+                    PayrollAttrUses.Validate(Amount, Amount);
                     PayrollAttrUses.Modify();
                 end else begin
                     Clear(PayrollAttrUses);
                     PayrollAttrUses.Init();
-                    PayrollAttrUses.Validate(Code, AllowanceAssignmentLine."Allowance Type");
-                    PayrollAttrUses.Validate("Employee Code", "Employee No.");
-                    PayrollAttrUses.Validate(Amount, AllowanceAssignmentLine."Allowance Amount");
-                    if PayrollAttrUses.Insert() then;
+                    PayrollAttrUses.Validate(Code, AllowanceType);
+                    PayrollAttrUses.Validate("Employee Code", AllowanceAssignmentLine."Employee Code");
+                    PayrollAttrUses.Validate(Amount, Amount);
+                    PayrollAttrUses.Insert();
                 end;
-                AllowanceAssignmentLine."Payroll Doc No." := "Document No.";
-                AllowanceAssignmentLine.Modify();
-            until AllowanceAssignmentLine.Next() = 0
+            end;
+            AllowanceAssignmentLine.ModifyAll("Payroll Doc No.", "Document No.");
+        end;
     end;
 
     procedure GetTotalInsuranceClaim()

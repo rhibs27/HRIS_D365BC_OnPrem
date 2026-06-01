@@ -444,7 +444,6 @@ codeunit 50037 "Training Mgt"
             until TrainingAttendance.Next() = 0;
     end;
 
-
     var
         ExcelBuffer: Record "Excel Buffer";
         Employee: Record Employee;
