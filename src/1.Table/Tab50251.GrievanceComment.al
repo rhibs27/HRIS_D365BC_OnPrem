@@ -41,6 +41,7 @@ table 50182 "Grievance Comment"
     trigger OnInsert()
     var
         GrievanceComment: Record "Grievance Comment";
+        GrievanceHeader: Record "Grievance Header";
     begin
         if "Comment Date" = 0DT then
             "Comment Date" := CurrentDateTime;
@@ -50,11 +51,32 @@ table 50182 "Grievance Comment"
             "Line No." := GrievanceComment."Line No." + 10000
         else
             "Line No." := 10000;
+
+        if GrievanceHeader.Get("Grievance No.") then;
+        if GrievanceHeader.Anonymous then begin
+            Clear("Commented By");
+            Clear("Commented By Name");
+            Clear(SystemCreatedBy);
+            Clear(SystemModifiedBy);
+        end;
     end;
 
     trigger OnDelete()
     begin
         Error('Cannot Delete Comment');
+    end;
+
+    trigger OnModify()
+    var
+        GrievanceHeader: Record "Grievance Header";
+    begin
+        if GrievanceHeader.Get("Grievance No.") then;
+        if GrievanceHeader.Anonymous then begin
+            Clear("Commented By");
+            Clear("Commented By Name");
+            Clear(SystemCreatedBy);
+            Clear(SystemModifiedBy);
+        end;
     end;
 
     var

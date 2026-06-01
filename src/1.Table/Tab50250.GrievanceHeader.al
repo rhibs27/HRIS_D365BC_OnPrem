@@ -135,15 +135,6 @@ table 50250 "Grievance Header"
                     GrievanceCategory.Get("Subject Code");
                     if not GrievanceCategory."Anonymous Filing" then
                         Error('Cannot file anonymous grievance in this subject');
-                    Clear("Employee No.");
-                    Clear("Employee Name");
-                    Clear(SystemCreatedBy);
-                    Clear("Deputation On");
-                    Clear("Deputation Code");
-                    Clear("Shortcut Dimension 1 Code");
-                    Clear("User ID");
-                    Clear(SystemModifiedBy);
-                    Clear("Dimension Set ID");
                 end;
 
             end;
@@ -212,6 +203,33 @@ table 50250 "Grievance Header"
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
         Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Grievance Date"));
+
+        if Anonymous then begin
+            Clear("Employee No.");
+            Clear("Employee Name");
+            Clear(SystemCreatedBy);
+            Clear("Deputation On");
+            Clear("Deputation Code");
+            Clear("Shortcut Dimension 1 Code");
+            Clear("User ID");
+            Clear(SystemModifiedBy);
+            Clear("Dimension Set ID");
+        end;
+    end;
+
+    trigger OnModify()
+    begin
+        if Anonymous then begin
+            Clear("Employee No.");
+            Clear("Employee Name");
+            Clear(SystemCreatedBy);
+            Clear("Deputation On");
+            Clear("Deputation Code");
+            Clear("Shortcut Dimension 1 Code");
+            Clear("User ID");
+            Clear(SystemModifiedBy);
+            Clear("Dimension Set ID");
+        end;
     end;
 
     trigger OnDelete()

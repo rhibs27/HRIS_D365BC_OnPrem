@@ -22,7 +22,7 @@ table 50252 "Grievance Category"
             Caption = 'Email IDs';
             trigger OnLookup()
             begin
-                Validate("Email IDs", GrievanceMgt.LookupEmployee())
+                Validate("Email IDs", EmailMgt.LookupEmployeeForEmailID())
             end;
         }
     }
@@ -34,5 +34,5 @@ table 50252 "Grievance Category"
         }
     }
     var
-        GrievanceMgt: Codeunit "Grievance Mgt";
+        EmailMgt: Codeunit "Email Mgt";
 }
