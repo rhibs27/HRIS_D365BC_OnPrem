@@ -1205,7 +1205,7 @@ codeunit 50000 "Leave Mgt."
         LeaveLedgerEntry: Record "Leave Earn";
         LeaveTypeSetup: Record "Leave Type Setup";
         LeavePeriod, LeavePeriod1 : Record "Accounting Period";
-        EmpVar, EmpVar2 : Record Employee;
+        EmpVar: Record Employee;
         EmploymentContract: Record "Employment Contract";
         AttendanceMgt: Codeunit "Attendance Mgt";
         LastEntryNo: Integer;
@@ -1301,14 +1301,9 @@ codeunit 50000 "Leave Mgt."
                         repeat
                             Clear(SkipLeaveEarn);
                             NoOfCreditPeriods := 0;
-                            if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and
-                                (LeaveTypeSetup."Emplymt. Contract Code" <> '') then begin
-                                EmpVar2.Reset();
-                                EmpVar2.SetRange("No.", EmpVar."No.");
-                                EmpVar2.SetFilter("Emplymt. Contract Code", LeaveTypeSetup."Emplymt. Contract Code");
-                                if not EmpVar2.FindFirst() then
+                            if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then
+                                if LeaveTypeSetup."Emplymt. Contract Code" <> EmpVar."Emplymt. Contract Code" then
                                     SkipLeaveEarn := true;
-                            end;
                             Clear(EmpConfDate);
                             case LeaveTypeSetup."Leave For Employee Type" of
                                 LeaveTypeSetup."Leave For Employee Type"::" ":
@@ -1531,6 +1526,8 @@ codeunit 50000 "Leave Mgt."
                                                     if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then begin
                                                         if EmpVar."Contract Expiry Date" < LeaveYearEndDate then
                                                             ProRataEndDate := EmpVar."Contract Expiry Date"
+                                                        else
+                                                            ProRataEndDate := LeaveYearEndDate;
                                                     end else
                                                         ProRataEndDate := LeaveYearEndDate;
                                                     if (EmpVar."Employment Type" = EmpVar."Employment Type"::Probation) and (EmpVar."Trainee/Probation End Date" <> 0D)
@@ -1880,13 +1877,12 @@ codeunit 50000 "Leave Mgt."
         if EmpRec."Employment Date" > ProRataStartDate then
             ProRataStartDate := EmpRec."Employment Date";
         if EmpRec."Contract Renew Date" >= ProRataStartDate then
-            ProRataStartDate := PostingDatePar
-        else
-            exit;
-
+            ProRataStartDate := PostingDatePar;
         if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then begin
             if EmpRec."Contract Expiry Date" < PeriodEndDate then
                 ProRataEndDate := EmpRec."Contract Expiry Date"
+            else
+                ProRataEndDate := PeriodEndDate;
         end else
             ProRataEndDate := PeriodEndDate;
         if (EmpRec."Termination Date" <> 0D) and (EmpRec."Termination Date" < ProRataEndDate) then
@@ -1905,6 +1901,7 @@ codeunit 50000 "Leave Mgt."
         else
             ProrataCredit := Round(ProrataCredit, 0.5, '<');
 
+        // Only credit the shortfall so re-running generation does not double-credit
         DaysToCredit := ProrataCredit;
         if DaysToCredit > 0 then
             exit(DaysToCredit)
