@@ -1273,10 +1273,10 @@ codeunit 50000 "Leave Mgt."
                         CreditPeriodStartDate := LeaveYearStartDate
                     else
                         CreditPeriodStartDate := EmpVar."Employment Date";
-                    if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then begin
-                        if PostingDate < LeaveYearEndDate then
-                            CreditPeriodEndDate := PostingDate
-                    end else
+                    // if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then begin
+                    if PostingDate < LeaveYearEndDate then
+                        CreditPeriodEndDate := PostingDate
+                    else
                         CreditPeriodEndDate := LeaveYearEndDate;
                     if (EmpVar."Termination Date" <> 0D) and (EmpVar."Termination Date" < CreditPeriodEndDate) then
                         CreditPeriodEndDate := EmpVar."Termination Date";
@@ -1528,7 +1528,11 @@ codeunit 50000 "Leave Mgt."
                                                     ProRataStartDate := LeaveYearStartDate;
                                                     if EmpVar."Employment Date" > ProRataStartDate then
                                                         ProRataStartDate := EmpVar."Employment Date";
-                                                    ProRataEndDate := LeaveYearEndDate;
+                                                    if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then begin
+                                                        if EmpVar."Contract Expiry Date" < LeaveYearEndDate then
+                                                            ProRataEndDate := EmpVar."Contract Expiry Date"
+                                                    end else
+                                                        ProRataEndDate := LeaveYearEndDate;
                                                     if (EmpVar."Employment Type" = EmpVar."Employment Type"::Probation) and (EmpVar."Trainee/Probation End Date" <> 0D)
                                                     and (EmpVar."Trainee/Probation End Date" < ProRataEndDate) then
                                                         ProRataEndDate := EmpVar."Trainee/Probation End Date";
@@ -1872,15 +1876,19 @@ codeunit 50000 "Leave Mgt."
         TotalDaysInPeriod, EligibleDays : Integer;
         ProrataCredit, DaysToCredit : Decimal;
     begin
-        // Prorata start = max(ContractPeriodStart, EmploymentDate)
         ProRataStartDate := PeriodStartDate;
         if EmpRec."Employment Date" > ProRataStartDate then
             ProRataStartDate := EmpRec."Employment Date";
+        if EmpRec."Contract Renew Date" >= ProRataStartDate then
+            ProRataStartDate := PostingDatePar
+        else
+            exit;
 
-        // Prorata end = min(ContractPeriodEnd, PostingDate, TerminationDate)
-        ProRataEndDate := PeriodEndDate;
-        // if PostingDatePar < ProRataEndDate then
-        //     ProRataEndDate := PostingDatePar;
+        if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then begin
+            if EmpRec."Contract Expiry Date" < PeriodEndDate then
+                ProRataEndDate := EmpRec."Contract Expiry Date"
+        end else
+            ProRataEndDate := PeriodEndDate;
         if (EmpRec."Termination Date" <> 0D) and (EmpRec."Termination Date" < ProRataEndDate) then
             ProRataEndDate := EmpRec."Termination Date";
 
@@ -1888,19 +1896,16 @@ codeunit 50000 "Leave Mgt."
         EligibleDays := ProRataEndDate - ProRataStartDate + 1;
 
         if (TotalDaysInPeriod > 0) and (EligibleDays > 0) then
-            // ProrataCredit := LeaveSetup."Days Earned Per Year" * (EligibleDays / TotalDaysInPeriod)
-            ProrataCredit := (LeaveSetup."Days Earned Per Year" / 356) * TotalDaysInPeriod
+            ProrataCredit := (LeaveSetup."Days Earned Per Year" / TotalDaysInPeriod) * EligibleDays
         else
             ProrataCredit := 0;
 
-        // Apply rounding consistent with rest of leave generation
         if HRSetup."Leave Rounding Precision" <> 0 then
             ProrataCredit := Round(ProrataCredit, HRSetup."Leave Rounding Precision", '=')
         else
             ProrataCredit := Round(ProrataCredit, 0.5, '<');
 
-        // Return only what is still to be credited (net of what is already earned this period)
-        DaysToCredit := ProrataCredit - AlreadyEarned;
+        DaysToCredit := ProrataCredit;
         if DaysToCredit > 0 then
             exit(DaysToCredit)
         else
