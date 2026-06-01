@@ -2759,6 +2759,7 @@ table 50027 "Payroll Line"
                 Overtime.SetRange("Employee No.", "Employee No.");
                 Overtime.SetRange("Approval Status", Overtime."Approval Status"::Approved);
                 Overtime.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+                OverTime.SetRange("Overtime Claim Type", "Overtime Claim Type"::Encashment);
                 Overtime.SetRange("Payroll No.", '');
                 Overtime.SetRange("Updated Payroll Line", false);
                 Overtime.SetRange("Cancelled", false);

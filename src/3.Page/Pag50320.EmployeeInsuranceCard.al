@@ -198,7 +198,7 @@ page 50320 "Employee Insurance Card"
                     Rec.TestField("Approval Status", Rec."Approval Status"::Open);
                     Rec.Validate("Approval Status", Rec."Approval Status"::Pending);
                     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
-                    InsuranceMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.");
+                    AttachmentMgt.CheckMandatoryAttachmentOnType(Enum::"Attachment Setup Type"::Insurance, Enum::"Attachment Setup SubType"::" ", Rec."Insurance No.");
                     Rec.Modify();
                     Message('Request Sent');
                 end;
@@ -323,6 +323,7 @@ page 50320 "Employee Insurance Card"
         RecRef: RecordRef;
         HrMgt: Codeunit "HR Mgt.";
         InsuranceMgt: Codeunit "Insurance Mgt";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 
     local procedure InsuranceEditControl();
     begin

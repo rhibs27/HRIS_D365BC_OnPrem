@@ -165,6 +165,7 @@ codeunit 50023 EmployeeActivityMgt
                     TransferRequest.Validate("Approved Date", Today);
                     TransferRequest.Validate("On Employee Request", TransferEmployeeJournal."On Employee Request");
                     TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
+                    OnBeforeInsertOnTransferRequest(TransferRequest, TransferEmployeeJournal);
                     TransferRequest.Insert(true);
                 end;
 
@@ -480,6 +481,7 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJournal.SetRange("Employee No.", EmpNo);
         EmpActJournal.SetRange("Employee Act Type", EmpActJournal."Employee Act Type"::"Attendance Missed");
         EmpActJournal.SetFilter("Approval Status", '<>%1', EmpActJournal."Approval Status"::Rejected);
+        EmpActJournal.SetRange(Cancelled, false);
         EmpActJournal.SetRange("Start Date", AttendanceDate);
         if EmpActJournal.FindFirst then
             Error('Attendance Already Applied for date %1 of %2', AttendanceDate, EmpNo);
@@ -804,7 +806,11 @@ codeunit 50023 EmployeeActivityMgt
     [IntegrationEvent(false, false)]
     local procedure OnBeforeInsertEmployeeInsuranceJournal(var EmployeeInsurance: Record "Employee Insurance Information"; EmployeeInsuranceJournal: Record "Employee Activity Journal")
     begin
+    end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertOnTransferRequest(var TransferRequest: Record "Employee Transfer"; TransferJournal: Record "Employee Activity Journal")
+    begin
     end;
 
     var
