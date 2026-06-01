@@ -133,6 +133,11 @@ page 50023 "Level Wise Attributes"
                     ToolTip = 'Specifies the value of the LFA Allowance field.';
                     ApplicationArea = All;
                 }
+                field("Effective Date"; Rec."Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Effective Date field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
@@ -175,7 +180,7 @@ page 50023 "Level Wise Attributes"
 
                         RecRef.Open(Database::"Level Wise Attributes");
                         RecRef.Get(Rec.RecordId);
-                        PayrollArchive.RunArchive(RecRef.Number);
+                        PayrollArchive.RunArchive(RecRef.Number, Rec."Effective Date");
                     end;
                 }
             }
