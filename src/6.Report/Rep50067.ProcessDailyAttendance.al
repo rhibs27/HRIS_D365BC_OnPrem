@@ -231,6 +231,8 @@ report 50067 "Process Daily Attendance"
         ServiceHistory: Record "Employee Service History";
     begin
         ServiceHistory.SetLoadFields("Province Code (To)", "Province Description (To)", "Branch Code (To)", "Branch Description (To)", "Department Code (To)", "Department Description (To)", "Unit Code (To)", "Extension Description (To)");
+        ServiceHistory.SetCurrentKey("Effective Date");
+        ServiceHistory.SetAscending("Effective Date", true);
         ServiceHistory.SetRange("Employee No.", Employee."No.");
         ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
         ServiceHistory.SetFilter("Effective Date", '<=%1', Date."Period Start");
