@@ -42,12 +42,15 @@ codeunit 50029 "Process Daily Attendance"
                 EmpAttendance."Absent Day" := 1;
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
-            if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) then begin
+
+            ProcessDayFromEmpActLedgerEntry(); // Prcoess data from Employee Act Ledger Entry according to document type.
+
+            if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) and (EmpAttendance."Tour Day" <> 0) then begin
                 EmpAttendance."Absent Day" := (1 - EmpAttendance."Leave Day");
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
         end;
-        ProcessDayFromEmpActLedgerEntry();
+
         if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
             if EmpAttendance."Present Day" <> 0 then
                 EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
@@ -345,6 +348,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         AttendanceLog.SetRange(Date, EmpAttendance."Attendance Date");
         FirstFound := AttendanceLog.FindFirst();
         if FirstFound then begin
@@ -372,6 +376,7 @@ codeunit 50029 "Process Daily Attendance"
         AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetAscending("Date Time Log", true);
         AttendanceLog.SetRange("Employee ID", EmpAttendance."Employee No.");
+        AttendanceLog.SetRange(Cancelled, false);
         OnFiteringAttendanceLog(StartTime, EndTime, EmpAttendance, AttendanceLog, IsHandled);
         if not IsHandled then
             if GuiAllowed or (not FromSyncProcess) then

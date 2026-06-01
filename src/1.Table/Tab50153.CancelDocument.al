@@ -302,6 +302,18 @@ table 50153 "Cancel Document"
             Caption = 'Substitute Person Name';
             Editable = false;
         }
+        field(104; "CheckIn Time"; Time)
+        {
+        }
+        field(105; "CheckOut Time"; Time)
+        {
+        }
+         field(106; "Previous Check In Time"; Time)
+        {
+        }
+        field(107; "Previous Check Out Time"; Time)
+        {
+        }
     }
     keys
     {

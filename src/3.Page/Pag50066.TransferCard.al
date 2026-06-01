@@ -429,7 +429,7 @@ page 50066 "Transfer Card"
                             // GetTransferName;
                         end;
                     }
-                    field("Department Name To"; "Department Name To")
+                    field("Department Name To"; Rec."Department Name To")
                     {
                         Editable = false;
                         ToolTip = 'Specifies the value of the DepartmentNameTo field.';

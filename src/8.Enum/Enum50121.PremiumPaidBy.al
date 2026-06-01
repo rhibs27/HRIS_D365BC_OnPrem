@@ -10,4 +10,8 @@ enum 50121 "Premium Paid By"
     {
         Caption = 'Employee';
     }
+    value(2; " ")
+    {
+        Caption = ' ';
+    }
 }
