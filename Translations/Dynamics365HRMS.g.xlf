@@ -67093,6 +67093,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Temporary Deputation - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3349968947 - EnumValue 2628828296 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary Deputation Return</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Temporary Deputation Return - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 3349968947 - EnumValue 4224198349 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>

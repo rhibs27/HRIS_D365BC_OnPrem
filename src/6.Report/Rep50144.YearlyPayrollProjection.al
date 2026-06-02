@@ -256,20 +256,20 @@ report 50144 "Yearly Payroll Projection"
                     if TempDetailedEmpLedgerEntry.FindSet(false) then
                         repeat
                             // Handle deductions (make positive for display)
-                            if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
-                                Amount := Amount + Abs(TempDetailedEmpLedgerEntry.Amount)
-                            else
-                                Amount := Amount + TempDetailedEmpLedgerEntry.Amount;
+                            // if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
+                            //     Amount := Amount + Abs(TempDetailedEmpLedgerEntry.Amount)
+                            // else
+                            Amount := Amount + TempDetailedEmpLedgerEntry.Amount;
                         until TempDetailedEmpLedgerEntry.Next() = 0;
                     if Amount = 0 then
                         CurrReport.Skip();
                     if "Pay Cycle Period".Period = 0 then
                         CurrReport.Skip();
                     // Special handling for tax attributes - ensure non-negative
-                    if (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Social Security Tax") or
-                       (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Tax on Remuneration & Benefits") then
-                        if Amount < 0 then
-                            Amount := 0;
+                    // if (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Social Security Tax") or
+                    //    (PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Tax on Remuneration & Benefits") then
+                    //     if Amount < 0 then
+                    //         Amount := 0;
                     // Categorize amounts as benefits or deductions
                     BenefitAmount := 0;
                     DeductionAmount := 0;
@@ -374,6 +374,7 @@ report 50144 "Yearly Payroll Projection"
         Amount: Decimal;
         BenefitAmount: Decimal;
         DeductionAmount: Decimal;
+        NonPaymentAmount: Decimal;
         TotalAnnualEarning: Decimal;
         TotalRetirement: Decimal;
         TotalTax: Decimal;
@@ -608,7 +609,7 @@ report 50144 "Yearly Payroll Projection"
                 TempDetailedEmpLedgerEntry := DetailedEmpLedgerEntry;
                 // Ensure deductions are positive for calculation purposes
                 if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
-                    TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
+                    TempDetailedEmpLedgerEntry.Amount := DetailedEmpLedgerEntry.Amount;
                 if TempDetailedEmpLedgerEntry.Insert() then;
             until DetailedEmpLedgerEntry.Next() = 0;
     end;
@@ -710,7 +711,7 @@ report 50144 "Yearly Payroll Projection"
         if EmpPayrollOpening.FindFirst() then
             PastRetirementAmount := EmpPayrollOpening."Total RF Opening";
         EmpVar.CalcFields("Lump Sum CIT");
-        TotalRetirement := RetirementAmount + PastRetirementAmount + GratuityAmount + EmpVar."Lump Sum CIT";
+        TotalRetirement := RetirementAmount - PastRetirementAmount - GratuityAmount - EmpVar."Lump Sum CIT";
         OnAfterTotalRetirementFund(EmpVar, TotalRetirement);
     end;
     // Calculate final taxable amount after all deductions
@@ -734,7 +735,7 @@ report 50144 "Yearly Payroll Projection"
         if OptimumDeduction then begin
             MinValueDeduction := Math.Min(OneThird, TaxExemptionLimit);
         end else begin
-            MinValueDeduction := TotalRetirement;
+            MinValueDeduction := Abs(TotalRetirement);
             if OneThird < MinValueDeduction then
                 MinValueDeduction := OneThird;
             if TaxExemptionLimit < MinValueDeduction then
@@ -880,7 +881,7 @@ report 50144 "Yearly Payroll Projection"
         TaxSetupHdr.SetRange(Code, EmpVar."Tax Code");
         if TaxSetupHdr.FindFirst() then begin
             if TaxSetupHdr."Special Tax Exempt %" > 0 then
-                TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * TotalTax, 0.01, '=');
+                TaxRebate := -1 * Round((TaxSetupHdr."Special Tax Exempt %" / 100) * TotalTax, 0.01, '=');
         end;
     end;
     // Projects tax deductions for remaining months in the fiscal year
@@ -1073,7 +1074,7 @@ report 50144 "Yearly Payroll Projection"
         DetailedEmpLedgerEntry.SetRange(Reversed, false);
         if DetailedEmpLedgerEntry.FindSet() then
             repeat
-                TotalTaxPaid += Abs(DetailedEmpLedgerEntry.Amount);
+                TotalTaxPaid += DetailedEmpLedgerEntry.Amount;
             until DetailedEmpLedgerEntry.Next() = 0;
     end;
     // PROJECTION LOGIC PROCEDURES
@@ -1274,6 +1275,8 @@ report 50144 "Yearly Payroll Projection"
                                                                PayrollAttrUsage."Start Date",
                                                                PayrollAttrUsage."End Date");
                         TempDetailedEmpLedgerEntry.Amount := ProRataAmount;
+                        if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
+                            TempDetailedEmpLedgerEntry.Amount := ProRataAmount * -1;
                         // Only insert if amount is greater than zero
                         if TempDetailedEmpLedgerEntry.Amount <> 0 then begin
                             if TempDetailedEmpLedgerEntry.Insert() then
@@ -1310,18 +1313,75 @@ report 50144 "Yearly Payroll Projection"
 
     local procedure GetRemoteAreaDeduction(EmployeeNo: Code[20]; var RemoteAreaDeduction: Decimal)
     var
+        InitalDate: Date;
+        FirstTime: Boolean;
+        OrganizationStructureList: Record "Organization Structure List";
+        RemoteArea: Record "Remote Area Category";
+        DimValue: Record "Dimension Value";
+        FinalDate: Date;
+        ServiceHistory: Record "Employee Service History";
         Employee: Record Employee;
-        OrganizationStructureList: Record "Organization Structure list";
-        RemoteAreaCategory: Record "Remote Area Category";
-        RemoteAreaReductionCode: Code[20];
     begin
-        RemoteAreaDeduction := 0;
-        if Employee.Get(EmployeeNo) then begin
-            OrganizationStructureList.reset();
-            if OrganizationStructureList.Get(Employee."Deputation on", Employee."Deputation On Code") then begin
-                if RemoteAreaCategory.Get(OrganizationStructureList."Remote Area Reduction") then
-                    RemoteAreaDeduction := RemoteAreaCategory."Remote Area Deduction";
+        Employee.Get(EmployeeNo);
+        FirstTime := true;
+        if Employee."Employment Date" < PGSetup."Payroll Fiscal Year Start Date" then
+            InitalDate := PGSetup."Payroll Fiscal Year Start Date"
+        else
+            InitalDate := Employee."Employment Date";
+        ServiceHistory.Reset;
+        ServiceHistory.SetRange("Employee No.", Employee."No.");
+        ServiceHistory.SetRange("Effective Date", InitalDate, PGSetup."Payroll Fiscal Year End Date");
+        ServiceHistory.SetFilter("Service Event", '%1|%2|%3|%4|%5', ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Appointment, ServiceHistory."Service Event"::"Internal Appointment",
+                                        ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"First Deputation");
+
+        ServiceHistory.SetCurrentKey("Effective Date");
+        if ServiceHistory.Find('+') then begin
+            repeat
+                if ServiceHistory."Extension Counter (To)" <> '' then begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (To)") then;
+                end else
+                    if OrganizationStructureList.Get(ServiceHistory."Deputation On (To)", ServiceHistory."Deputation Code (To)") then;
+                if RemoteArea.Get(OrganizationStructureList."Remote Area Reduction") then begin
+                    if FirstTime then begin
+                        RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
+                                              * (PGSetup."Payroll Fiscal Year End Date" - ServiceHistory."Effective Date" + 1);
+                        FirstTime := false;
+                        FinalDate := ServiceHistory."Effective Date";
+                    end else begin
+                        RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
+                                            * (FinalDate - ServiceHistory."Effective Date");
+                        FinalDate := ServiceHistory."Effective Date";
+                    end;
+                end;
+            until ServiceHistory.Next(-1) = 0;
+
+            //** to calculate the remote area deduction if employment date is in previous fiscal year...
+            if Employee."Employment Date" < PGSetup."Payroll Fiscal Year Start Date" then begin
+                ServiceHistory.Reset;
+                ServiceHistory.SetRange("Employee No.", Employee."No.");
+                ServiceHistory.SetRange("Effective Date", InitalDate, FinalDate);
+                ServiceHistory.SetFilter("Service Event", '%1', ServiceHistory."Service Event"::Transfer);
+                ServiceHistory.SetCurrentKey("Effective Date");
+                if ServiceHistory.FindFirst then begin
+                    if ServiceHistory."Extension Counter (From)" <> '' then begin
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (From)") then;
+                    end else
+                        if OrganizationStructureList.Get(ServiceHistory."Deputation On(From)", ServiceHistory."Deputation Code (From)") then;
+
+                    if RemoteArea.Get(OrganizationStructureList."Remote Area Reduction") then begin
+                        RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
+                                               * (ServiceHistory."Effective Date" - InitalDate);
+                    end;
+                end;
             end;
+        end else begin
+            if Employee."Extension Counter Code" <> '' then
+                OrganizationStructureList.Get(Employee."Deputation on"::"Extension Counter", Employee."Extension Counter Code")
+            else
+                OrganizationStructureList.Get(Employee."Deputation on", Employee."Deputation On Code");
+            if RemoteArea.Get(OrganizationStructureList."Remote Area Reduction") then
+                RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
+                                        * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;
     end;
 
