@@ -1671,6 +1671,7 @@ codeunit 50030 "Assignment Memo Mgt"
     begin
     end;
 
+    [IntegrationEvent(false, false)]
     local procedure OnOtherAllowanceConfigurationCheck(AssignmentMemoLine: Record "Assignment Memo Line"; var AllConfig2: Record "Allowance Configuration"; var IsHandled: Boolean)
     begin
     end;

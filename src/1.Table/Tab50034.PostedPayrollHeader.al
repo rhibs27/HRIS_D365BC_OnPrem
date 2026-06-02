@@ -247,6 +247,7 @@ table 50034 "Posted Payroll Header"
             repeat
                 AllowanceAssignmentLine.Validate("Payroll Doc No.", '');
                 AllowanceAssignmentLine.Validate("Payroll Posted", false);
+                AllowanceAssignmentLine.Modify();
             until AllowanceAssignmentLine.Next() = 0;
 
         PGSetup.Get();

@@ -311,4 +311,42 @@ page 50239 "Posted Employee Journal"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("Cancel Journal")
+            {
+                Image = Reject;
+                trigger OnAction()
+                var
+                    AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
+                    ApproverMgt: Codeunit "Approver Mgt";
+                    HrMgt: Codeunit "HR Mgt.";
+                begin
+                    if not Confirm('Do you want to cancel %1, %2 Journal?', false, Rec."Document No", Rec."Employee Act Type") then
+                        exit;
+                    if not ApproverMgt.HRApprover(HrMgt.GetEmployeeNo()) then begin
+                        Message('You do not have permission to cancel this journal.');
+                        exit;
+                    end;
+                    case Rec."Employee Act Type" of
+                        Rec."Employee Act Type"::"Attendance Missed":
+                            begin
+                                AttendanceMissedMgt.CancelAttendanceMissedJournal(Rec);
+                                CurrPage.Update(false);
+                                Message('Journal cancelled successfully.');
+                            end;
+                        else
+                            Error('Cancellation is not supported for type: %1', Rec."Employee Act Type");
+                    end;
+                end;
+            }
+        }
+
+        area(Promoted)
+        {
+            actionref(CancelJournal_Promoted; "Cancel Journal") { }
+        }
+    }
 }

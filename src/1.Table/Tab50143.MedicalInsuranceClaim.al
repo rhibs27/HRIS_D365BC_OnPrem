@@ -1,7 +1,7 @@
 table 50143 "Medical Insurance Claim"
 {
     Caption = 'Medical Insurance Claim';
-    DataClassification = ToBeClassified;
+    DataClassification = CustomerContent;
     fields
     {
         field(1; "No."; Code[20])
@@ -46,6 +46,7 @@ table 50143 "Medical Insurance Claim"
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Department Name", EmpVar."Department Name");
                     Validate("Province Name", EmpVar."Province Name");
+                    Validate("Contact No.", EmpVar."Mobile Phone No.");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -63,32 +64,27 @@ table 50143 "Medical Insurance Claim"
         {
             TableRelation = "No. Series";
         }
-        field(7; "Start Date"; Date)
+        field(7; "Policy Start Date"; Date)
         {
             trigger OnValidate()
             begin
-                HRMgt.CheckEligibilityBeforeEmploymentDate("Start Date", "Employee No.");
-                Validate("Start Date (BS)", EngNepDate.getNepaliDate("Start Date"));
-                if "Start Date" <> xRec."Start Date" then begin
-                    Clear("End Date");
-                    Clear("End Date (BS)");
-                    Validate("No. of Days", 0);
+                Validate("Policy Start Date (BS)", EngNepDate.getNepaliDate("Policy Start Date"));
+                if "Policy Start Date" <> xRec."Policy Start Date" then begin
+                    Clear("Policy End Date");
+                    Clear("Policy End Date (BS)");
                 end;
             end;
         }
-        field(8; "End Date"; Date)
+        field(8; "Policy End Date"; Date)
         {
             trigger OnValidate()
             begin
-                Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"))
+                Validate("Policy End Date (BS)", EngNepDate.getNepaliDate("Policy End Date"))
             end;
         }
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-            trigger OnValidate()
-            begin
-            end;
         }
         field(10; "Requested Date"; Date)
         {
@@ -101,11 +97,11 @@ table 50143 "Medical Insurance Claim"
         {
             Editable = false;
         }
-        field(12; "Start Date (BS)"; Text[20])
+        field(12; "Policy Start Date (BS)"; Text[20])
         {
             Editable = false;
         }
-        field(13; "End Date (BS)"; Text[20])
+        field(13; "Policy End Date (BS)"; Text[20])
         {
             Editable = false;
         }
@@ -137,11 +133,11 @@ table 50143 "Medical Insurance Claim"
         {
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -164,7 +160,7 @@ table 50143 "Medical Insurance Claim"
         {
             // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
         }
-        field(29; "Province Name"; Code[50])
+        field(29; "Province Name"; Code[100])
         {
             Editable = false;
         }
@@ -188,30 +184,16 @@ table 50143 "Medical Insurance Claim"
         }
         field(50; "Insurance Claim"; Enum "Insurance Claim")
         {
+            ValuesAllowed = 1, 7;
             trigger OnValidate()
             begin
-                Clear("Father Name");
-                Clear("Mother Name");
-                Clear("Spouse Name");
-                Clear("Child Name");
-                if "Insurance Claim" <> "Insurance Claim"::"General Checkup" then begin
-                    EmpRelative.Reset;
-                    EmpRelative.SetRange("Employee No.", "Employee No.");
-                    EmpRelative.SetRange("Relative Code", Format("Insurance Claim"));
-                    if EmpRelative.FindFirst then begin
-                        case "Insurance Claim" of
-                            "Insurance Claim"::Father:
-                                Validate("Father Name", EmpRelative."Full Name");
-                            "Insurance Claim"::Mother:
-                                Validate("Mother Name", EmpRelative."Full Name");
-                            "Insurance Claim"::Spouse:
-                                Validate("Spouse Name", EmpRelative."Full Name");
-                            "Insurance Claim"::Child:
-                                Validate("Child Name", EmpRelative."Full Name");
-                            else
-                                Error('Please enter the family details in "Employee Relative" table.');
-                        end;
-                    end;
+                if "Insurance Claim" <> xRec."Insurance Claim" then begin
+                    Clear("Insured Name");
+                    Clear("Relation");
+                end;
+                if "Insurance Claim" = "Insurance Claim"::Self then begin
+                    if EmpVar.Get("Employee No.") then
+                        Validate("Insured Name", EmpVar."Full Name");
                 end;
             end;
         }
@@ -223,8 +205,20 @@ table 50143 "Medical Insurance Claim"
         field(53; "Spouse Name"; Text[50]) { }
         field(54; "Child Name"; Text[50]) { }
         field(55; "Total Insurance Claim Amount"; Decimal) { }
-        field(56; "Medical Prescription Date"; Date) { }
-        field(57; "Discharge Date"; Date) { }
+        field(56; "Medical Prescription Date"; Date)
+        {
+            trigger OnValidate()
+            begin
+                Validate("Medical Prescription Date (BS)", EngNepDate.getNepaliDate("Medical Prescription Date"))
+            end;
+        }
+        field(57; "Discharge Date"; Date)
+        {
+            trigger OnValidate()
+            begin
+                Validate("Discharge Date (BS)", EngNepDate.getNepaliDate("Discharge Date"))
+            end;
+        }
         field(58; "Bank Account No."; Text[30]) { }
         field(59; "Contact No."; Text[30]) { }
         field(60; "Insurance Status"; Enum "Insurance Status")
@@ -236,6 +230,66 @@ table 50143 "Medical Insurance Claim"
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
         }
+        field(301; "Access Token"; Code[60])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Access Token';
+        }
+        field(302; "Insured Name"; Text[50])
+        {
+            Caption = 'Insured Name';
+
+            trigger OnLookup()
+            var
+                HrMgt: Codeunit "HR Mgt.";
+            begin
+                if "Insurance Claim" = "Insurance Claim"::Dependent then
+                    Validate("Insured Name", HrMgt.LookupRelatives("Employee No."));
+            end;
+
+            trigger OnValidate()
+            var
+                Relatives: Record Relative;
+            begin
+                if "Insurance Claim" = "Insurance Claim"::Dependent then begin
+                    EmpRelative.Reset();
+                    EmpRelative.SetRange("Employee No.", "Employee No.");
+                    EmpRelative.SetRange("Is Medical Insurance Eligible", true);
+                    EmpRelative.SetRange("Full Name", "Insured Name");
+                    if EmpRelative.FindFirst() then begin
+                        if Relatives.Get(EmpRelative."Relative Code") then
+                            Relation := Relatives.Description;
+                    end;
+                end;
+                if "Insurance Claim" = "Insurance Claim"::Self then
+                    Relation := 'Self';
+            end;
+
+        }
+        field(303; "Relation"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(304; "Batch Id"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(305; "Reimbursed Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(306; "Medical Prescription Date (BS)"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(307; "Discharge Date (BS)"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(308; "HR Remarks"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
@@ -243,9 +297,11 @@ table 50143 "Medical Insurance Claim"
         {
             Clustered = true;
         }
-        key(Key2; "Start Date") { }
+        key(Key2; "Policy Start Date", "Insured Name", "Access Token") { }
     }
     trigger OnInsert()
+    var
+        IsHandle: Boolean;
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -256,6 +312,12 @@ table 50143 "Medical Insurance Claim"
             Validate(Type, Rec.Type::"Medical Insurance Claim");
         end;
         HRSetup.Get;
+        if (HRSetup."Policy Start Date" = 0D) or (HRSetup."Policy End Date" = 0D) then
+            Error('The Policy Start Date and Policy End Date must be specified in the Human Resources Setup.');
+
+        Rec.Validate("Policy Start Date", HRSetup."Policy Start Date");
+        Rec.Validate("Policy End Date", HRSetup."Policy End Date");
+
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
@@ -271,25 +333,16 @@ table 50143 "Medical Insurance Claim"
                             MedicalInsuranceClaimRec.SetLoadFields("No.");
                             while MedicalInsuranceClaimRec.Get("No.") do
                                 "No." := NoSeriesMgt.GetNextNo("No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
+                            if not HRSetup."Skip Medical Approval Setup" then
+                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh
                         end;
                 end;
             end;
-        if GuiAllowed then begin
-            AttachmentSetup.Reset;
-            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Medical Insurance Claim");
-            if AttachmentSetup.Find('-') then
-                repeat
-                    IncomingDoc.Init;
-                    IncomingDoc.Validate("No.", "No.");
-                    IncomingDoc.Validate("Table ID", Database::"Medical Insurance Claim");
-                    IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                    IncomingDoc.Validate("Employee Code", "Employee No.");
-                    IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::"Medical Insurance Claim");
-                    IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
-                    IncomingDoc.Insert;
-                until AttachmentSetup.Next = 0;
-        end;
+
+        OnBeforeGenerateAttachmentLineM("No.", "Employee No.", "Employee Activity Type"::"Medical Insurance Claim", IsHandle);
+        if (not IsHandle) And GuiAllowed then
+            InsuranceMgt.GenerateAttachmentLine("No.", "Employee No.", "Employee Activity Type"::"Medical Insurance Claim");
+
         if not GuiAllowed then begin
             InsuranceMgt.SendMedicalInsuranceApproval(Rec)
         end;
@@ -320,8 +373,12 @@ table 50143 "Medical Insurance Claim"
         DimValue: Record "Dimension Value";
         EmpRelative: Record "Employee Relative";
         ApproverMgt: Codeunit "Approver Mgt";
-        AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
         InsuranceMgt: Codeunit "Insurance Mgt";
         MedicalInsuranceClaimRec: Record "Medical Insurance Claim";
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeGenerateAttachmentLineM(No: Code[20]; EmployeeNo: Code[20]; EmployeeActivityType: Enum "Employee Activity Type"; var IsHandle: Boolean)
+    begin
+    end;
 }
