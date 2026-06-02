@@ -1674,21 +1674,6 @@ End Function
         <Field Name="Text062">
           <DataField>Text062</DataField>
         </Field>
-        <Field Name="LineNo">
-          <DataField>LineNo</DataField>
-        </Field>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="EmployeeName">
-          <DataField>EmployeeName</DataField>
-        </Field>
-        <Field Name="HeadingType">
-          <DataField>HeadingType</DataField>
-        </Field>
-        <Field Name="OutputNo">
-          <DataField>OutputNo</DataField>
-        </Field>
         <Field Name="GLAccountNo_PayrollAttributes">
           <DataField>GLAccountNo_PayrollAttributes</DataField>
         </Field>

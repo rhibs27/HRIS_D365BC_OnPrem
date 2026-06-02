@@ -233,14 +233,6 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Functional Title";
         }
-        field(66; "COPO Functional Title"; Code[20])
-        {
-            TableRelation = "Functional Title";
-        }
-        field(67; "COSPO Functioal Title"; Code[20])
-        {
-            TableRelation = "Functional Title";
-        }
         field(68; "Leave Fare Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes";
@@ -248,18 +240,6 @@ table 50024 "Payroll General Setup"
         field(69; "Base Calendar"; Code[20])
         {
             TableRelation = "Base Calendar";
-        }
-        field(70; "MPPD (Minutes)"; Decimal)
-        {
-            Description = 'AMS : Minimum Presence Required Per Day';
-        }
-        field(71; "MPPD Tolorence (ÙMinutes)"; Decimal)
-        {
-            Description = 'AMS';
-        }
-        field(72; "Ignore Odd Login Frequencies"; Boolean)
-        {
-            Description = 'AMS';
         }
         field(73; "Risk Allowance"; Code[20])
         {
@@ -382,21 +362,8 @@ table 50024 "Payroll General Setup"
         field(118; "Extra Mileage Calculation"; Decimal) { }
         field(119; "Over Time Calculation"; Decimal) { }
         field(120; "Compensatory Leave Hour"; Decimal) { }
-        field(121; "Extra Mileage"; Code[30])
-        {
-            TableRelation = "OT Encashment Setup";
-        }
         field(122; Overtime; Code[30])
         {
-            TableRelation = "OT Encashment Setup";
-        }
-        field(123; "Compensatory Leave"; Code[30])
-        {
-            TableRelation = "OT Encashment Setup";
-        }
-        field(124; "Year End Encashment"; Code[30])
-        {
-            TableRelation = "OT Encashment Setup";
         }
         field(125; "Next Fiscal Year Start Date"; Date) { }
         field(126; "Next Fiscal Year End Date"; Date) { }
@@ -495,22 +462,4 @@ table 50024 "Payroll General Setup"
 
     var
         GradeWiseAttributes: Record "Level Wise Attributes";
-
-    procedure UpdateTimeZoneInUserSettings()
-    var
-        UserPersonalization: Record "User Personalization";
-        Employee: Record Employee;
-    begin
-        if Employee.FindSet() then
-            repeat
-                UserPersonalization.Reset();
-                UserPersonalization.SetRange("User ID", Employee."NAV Login ID");
-                UserPersonalization.SetFilter("Time Zone", 'UTC');
-                if UserPersonalization.FindSet() then
-                    repeat
-                        UserPersonalization.Validate("Time Zone", 'Nepal Standard Time');
-                        UserPersonalization.Modify();
-                    until UserPersonalization.Next() = 0;
-            until Employee.Next() = 0;
-    end;
 }

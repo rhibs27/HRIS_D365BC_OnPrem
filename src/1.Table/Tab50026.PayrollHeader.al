@@ -261,30 +261,6 @@ table 50026 "Payroll Header"
         field(33; "Previous Year Payroll"; Boolean) { }
         field(34; "OverTime From"; Date) { }
         field(35; "OverTime To"; Date) { }
-        field(36; "Encashment Code"; Code[20])
-        {
-            TableRelation = "OT Encashment Setup";
-
-            trigger OnValidate()
-            begin
-                "Encashment Period" := "Encashment Period"::" ";
-                "Encashment Description" := '';
-            end;
-        }
-        field(37; "Encashment Period"; Enum "Encashment Period")
-        {
-            trigger OnValidate()
-            begin
-                "Encashment Code" := '';
-                EncashmentSetup.Reset;
-                EncashmentSetup.SetRange(Period, "Encashment Period");
-                if EncashmentSetup.FindFirst then
-                    repeat
-                        "Encashment Description" += '|' + EncashmentSetup."Encashment Code";
-                    until EncashmentSetup.Next = 0;
-            end;
-        }
-        field(38; "Encashment Description"; Text[100]) { }
         field(501; "Optimal Deduction"; Boolean) { }
         field(502; "No of Employees"; Integer)
         {
@@ -359,7 +335,6 @@ table 50026 "Payroll Header"
         Text009: Label 'Cannot modify the document as it is not in Open status.';
         PayLine: Record "Payroll Line";
         PayrollEngine: Codeunit "Payroll Engine";
-        EncashmentSetup: Record "OT Encashment Setup";
         HrMgt: Codeunit "HR Mgt.";
 
     procedure AssistEdit(xSalaryHeader: Record "Payroll Header"): Boolean

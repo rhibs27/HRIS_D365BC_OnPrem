@@ -23,7 +23,6 @@ table 50010 "Functional Title"
         field(16; "EM/ECM Identifier"; Boolean) { }
         field(17; "BM/OBM"; Boolean) { }
         field(18; Blocked; Boolean) { }
-        field(19; "KPI Incentive %"; Decimal) { }
         field(20; "Is Specific Functional"; Boolean) { }
         field(21; "Department Code"; Code[20])
         {

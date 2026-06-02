@@ -58,18 +58,6 @@ page 50138 "Email Template Card"
                     ToolTip = 'Specifies the value of the Loan Type field.';
                     ApplicationArea = All;
                 }
-                field("Memo Type"; Rec."Memo Type")
-                {
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Memo Type field.';
-                    ApplicationArea = All;
-                }
-                // field("Product Segment"; Rec."Product Segment")
-                // {
-                //     Visible = false;
-                //     ToolTip = 'Specifies the value of the Product Segment field.';
-                //     ApplicationArea = All;
-                // }
             }
             part(Message; "Email Template Messages")
             {

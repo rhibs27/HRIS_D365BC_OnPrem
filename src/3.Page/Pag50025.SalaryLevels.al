@@ -272,18 +272,6 @@ page 50025 "Salary Levels"
     {
         area(Processing)
         {
-            action("Promotion Eligibilty Criteria")
-            {
-                Image = SetupList;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                RunObject = page "Promotion Eligibilty Criteria";
-                RunPageLink = "Salary Level" = field(Code);
-                ToolTip = 'Executes the Promotion Eligibilty Criteria action.';
-                ApplicationArea = All;
-            }
             action("&Archive")
             {
                 Image = Archive;

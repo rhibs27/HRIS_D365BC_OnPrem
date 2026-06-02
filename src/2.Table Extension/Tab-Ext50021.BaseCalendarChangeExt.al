@@ -156,43 +156,4 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
     var
         HRMgt: Codeunit "HR Mgt.";
         EnglishNepaliDate: Record "English-Nepali Date";
-
-    procedure UpdateEmployeeAttendanceActivity();
-    var
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        Employee: Record Employee;
-    begin
-        if not Confirm('Do you want to update attendance logs for the date %1', false, Date) then
-            exit;
-        Employee.Reset;
-        if "Province Filter" <> '' then
-            Employee.SetFilter("Province Code", "Province Filter");
-        if "Gender Filter" <> "Gender Filter"::" " then
-            Employee.SetRange(Gender, "Gender Filter");
-        if "Inside/Outside Valley" <> "Inside/Outside Valley"::" " then
-            Employee.SetRange("Inside/Outside Valley", "Inside/Outside Valley");
-        if "Posting Region" <> "Posting Region"::" " then
-            Employee.SetRange("Posting Region", "Posting Region");
-        if "Branch Code" <> '' then
-            Employee.SetFilter("Branch Code", "Branch Code");
-        if Community <> Community::" " then
-            Employee.SetRange(Community, Community);
-        Employee.SetRange(Disabled, Disabled);
-        if Employee.FindFirst then
-            repeat
-                EmployeeAttendanceActivity.Reset;
-                EmployeeAttendanceActivity.SetRange("Employee No.", Employee."No.");
-                EmployeeAttendanceActivity.SetRange("Attendance Date", Date);
-                if EmployeeAttendanceActivity.FindFirst then
-                    repeat
-                        EmployeeAttendanceActivity."Week Off Day" := 1;
-                        EmployeeAttendanceActivity."Present Day" := 0;
-                        EmployeeAttendanceActivity."Absent Day" := 0;
-                        EmployeeAttendanceActivity."Day Type" := EmployeeAttendanceActivity."Day Type"::Holiday;
-                        EmployeeAttendanceActivity."Holiday Remarks" := Description;
-                        EmployeeAttendanceActivity.Modify;
-                    until EmployeeAttendanceActivity.Next = 0;
-            until Employee.Next = 0;
-        Message('Holiday is updated for all employees for date %1', Date);
-    end;
 }
