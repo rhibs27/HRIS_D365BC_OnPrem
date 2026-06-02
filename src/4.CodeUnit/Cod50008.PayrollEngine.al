@@ -3162,6 +3162,7 @@ codeunit 50008 "Payroll Engine"
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
         EmployeeNo: Code[20];
         LeaveDays: Decimal;
+        LeavePeriod: Record "Accounting Period";
     begin
         LeaveTypeSetup.Reset();
         LeaveTypeSetup.SetRange("Leave Category", LeaveTypeSetup."Leave Category"::"Annual Leave");
@@ -3171,7 +3172,7 @@ codeunit 50008 "Payroll Engine"
         TempLeaveCode := LeaveTypeSetup.Code;
         PGSetup.Get();
         LeaveEarn.Reset();
-        LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+        LeaveEarn.SetRange("Posted Date", LeavePeriod.GetLeaveYearStartDate(WorkDate()), LeavePeriod.GetLeaveYearEndDate(WorkDate()));
         LeaveEarn.SetRange(Type, LeaveEarn.Type::Used, LeaveEarn.Type::Cancelled);
         LeaveEarn.SetRange("Payroll Posted", false);
         LeaveEarn.SetRange("Leave Code", TempLeaveCode);
