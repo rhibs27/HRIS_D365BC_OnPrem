@@ -356,7 +356,6 @@ codeunit 50010 "Payroll-Post"
             //PayrollEngine.GetLeaveDaysForSettlement(PayrollLine."Total Adjusted Leave Days",SickLeave,"Annual Leave",PayrollLine."Employee No.",TRUE);
             OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader);
         end;
-        UpdatePayrollNoInAllowanceAssignment;
         Window.Update(3, CreatingGLEntriesTxt);
         LineCount := 0;
         PostJournal(PayrollJournalLine);
@@ -548,6 +547,7 @@ codeunit 50010 "Payroll-Post"
             SalaryDeductionEntry.ModifyAll("Payroll Posted", true);
             SalaryDeductionEntry.ModifyAll("Payroll Document No.", PostedPayrollHeader."No.");
         end;
+        UpdatePayrollNoInAllowanceAssignment;
         OnAfterUpdateSourceDocumentOnPayrollPost(PayrollAttributes, PayrollLineRec, PGSetup, PostedPayrollHeader);
     end;
 

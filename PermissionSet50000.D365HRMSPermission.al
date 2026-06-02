@@ -924,5 +924,6 @@ permissionset 50000 D365HRMSPermission
         page "Monthwise Training Budget" = X,
         report "Create Nepali Fiscal Year" = X,
         report "Medical Claim Change Details" = X,
-        page "Cancelled Update Atten. List" = X;
+        page "Cancelled Update Atten. List" = X,
+        page "Employee Insurance Journal" = X;
 }
