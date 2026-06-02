@@ -473,6 +473,8 @@ codeunit 50010 "Payroll-Post"
             OrgStructList.Get(DeputationType, DeputationCode);
             DimensionValue := OrgStructList."Dimension Value Code";
             SolID := OrgStructList."Sol ID";
+            if OrgStructList.Blocked then
+                OnAfterCheckingTransferInServiceHistory(OrgStructList, DeputationType, DeputationCode, DimensionValue, SolID);
             exit(true)
         end;
     end;
@@ -565,6 +567,11 @@ codeunit 50010 "Payroll-Post"
                                                 PayrollAttributes: Record "Payroll Attributes";
                                                 DocumentNo: Code[20];
                                                 var PriorTrfAttributeAmount: Decimal)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterCheckingTransferInServiceHistory(OrgStrList: Record "Organization Structure List"; var DepOn: Enum "Deputation Type"; var DepCode: Code[20]; var DimValue: Code[20]; var Sol: Code[20]);
     begin
     end;
 }
