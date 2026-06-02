@@ -129,4 +129,8 @@ enum 50146 "Service Event"
     {
         Caption = 'Suspension';
     }
+    value(31; "Temporary Deputation Return")
+    {
+        Caption = 'Temporary Deputation Return';
+    }
 }
