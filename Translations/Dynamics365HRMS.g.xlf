@@ -56453,6 +56453,91 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Fuel Type - EnumValue Petrol - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 3886651392 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Emp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Branch Emp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 589845233 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Manager</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Branch Manager - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 1611336899 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CEO</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue CEO - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 2003450519 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>DCEO</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue DCEO - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 3237607621 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dept. Emp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Dept. Emp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 2649059893 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Dept. Head</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Dept. Head - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 3048948146 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputy Branch Manager</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Deputy Branch Manager - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 3419511076 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputy Province Manager</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Deputy Province Manager - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 1362153537 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ext. Emp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Ext. Emp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 194964201 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>HO Emp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue HO Emp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 1913660407 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Human Resource</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Human Resource - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 2211115329 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Non Table Staff</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Non Table Staff - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 2124238214 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Emp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Province Emp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 71766035 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Manager</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Province Manager - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 3680697102 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub Unit Emp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Sub Unit Emp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3571137821 - EnumValue 370042306 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Emp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Functional Title Role - EnumValue Unit Emp - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 2303302321 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57792,26 +57877,6 @@
           <source>Insurance Tieup</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Repayment Mode - EnumValue Insurance Tieup - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2617354569 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Resource person - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2617354569 - EnumValue 1562294763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Both</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Resource person - EnumValue Both - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2617354569 - EnumValue 1965869807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>External</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Resource person - EnumValue External - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2617354569 - EnumValue 990296649 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Internal</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Resource person - EnumValue Internal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 115701454 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
