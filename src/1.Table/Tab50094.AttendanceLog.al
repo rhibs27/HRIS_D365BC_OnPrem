@@ -9,7 +9,6 @@ table 50094 "Attendance Log"
         {
             Caption = 'Emp Datetime';
             DataClassification = CustomerContent;
-            //TableRelation = "Attendance Device";
         }
         field(1; "Employee ID"; Code[20])
         {
@@ -22,6 +21,8 @@ table 50094 "Attendance Log"
         field(6; "Machine Emp. Code"; Code[20]) { }
         field(7; "Date Time Log"; DateTime) { }
         field(9; "Device IP"; Text[20]) { }
+        field(10; Cancelled; Boolean) { }
+        field(11; "Document No"; Code[20]) { }
     }
 
     keys

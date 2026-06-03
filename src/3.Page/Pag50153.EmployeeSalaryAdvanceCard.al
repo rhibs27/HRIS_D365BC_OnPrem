@@ -502,7 +502,7 @@ page 50153 "Employee Salary Advance Card"
         HRSetup.Get;
         if Rec."Approval Status" = Rec."Approval Status"::Open then begin
             //Rec.Validate("Employee Code");
-            Rec.Modify(true);
+            // Rec.Modify(true);
         end;
         Rec.CalcFields("Salary Advance Paid");
         RecRef.GetTable(Rec);

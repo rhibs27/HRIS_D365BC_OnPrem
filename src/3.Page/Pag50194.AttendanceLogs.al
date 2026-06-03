@@ -37,10 +37,22 @@ page 50194 "Attendance Logs"
                 }
                 field("Date Time Log"; Rec."Date Time Log")
                 {
+                    ToolTip = 'Specifies the value of the Date time Log field.';
+                    ApplicationArea = All;
+                }
+                field("Biometric Attendance"; Rec."Biometric Attendance")
+                {
+                    ToolTip = 'Specifies if the Attendance is from Biometric.';
+                    ApplicationArea = All;
+                }
+                field(SystemCreatedAt; Rec.SystemCreatedAt)
+                {
+                    ToolTip = 'Specifies the Value of System Created At field.';
                     ApplicationArea = All;
                 }
                 field("Device IP"; Rec."Device IP")
                 {
+                    ToolTip = 'Specifies the value of Device IP of Attendance device';
                     ApplicationArea = All;
                 }
             }

@@ -6,24 +6,24 @@ enum 50075 "Insurance Status"
     {
         Caption = ' ';
     }
-    value(1; "Request to DTMD")
-    {
-        Caption = 'Request to DTMD';
-    }
-    value(2; Screened)
+    value(1; Screened)
     {
         Caption = 'Screened';
     }
-    value(3; "Forwarded to Insurance Co.")
+    value(2; "Forwarded to Insurance Co.")
     {
         Caption = 'Forwarded to Insurance Co.';
     }
-    value(4; Reimbursed)
+    value(3; Reimbursed)
     {
         Caption = 'Reimbursed';
     }
-    value(5; Rejected)
+    value(4; Rejected)
     {
         Caption = 'Rejected';
+    }
+    value(5; "Submitted to HRD")
+    {
+        Caption = 'Submitted to HRD';
     }
 }

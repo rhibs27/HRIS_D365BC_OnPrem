@@ -134,6 +134,11 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
                 ToolTip = 'Specifies the value of the Citizenship Date (Nepali) field.';
                 Visible = false;
             }
+            field("Is Medical Insurance Eligible"; Rec."Is Medical Insurance Eligible")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Is Medical Insurance Eligible field.';
+            }
 
         }
     }

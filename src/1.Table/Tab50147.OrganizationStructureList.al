@@ -28,12 +28,10 @@ table 50147 "Organization Structure List"
         }
         field(6; "Region"; Enum Region)
         {
-            Editable = false;
             DataClassification = ToBeClassified;
         }
         field(7; "InsideOutside Valley"; Enum "Outside/Inside Valley")
         {
-            Editable = false;
             DataClassification = ToBeClassified;
         }
         field(8; "District code"; Code[20])
