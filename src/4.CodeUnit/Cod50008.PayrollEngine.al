@@ -612,8 +612,8 @@ codeunit 50008 "Payroll Engine"
                                 ProjectedNonPaymentBenefit += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                     end;
                 end;
+                OnAfterCalcProjectionEarning(PayrollAttributesUsage, UsageAmount, ProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth);
             until PayrollAttributesUsage.Next = 0;
-        OnAfterCalcProjectionEarning(PayrollAttributesUsage, UsageAmount, ProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth);
     end;
 
     local procedure CalcProjectionRetirementFund()
