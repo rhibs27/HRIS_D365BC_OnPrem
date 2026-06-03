@@ -20,12 +20,6 @@ page 50223 "Functional Title Card"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
-                field("COPO/COSPO Allowance"; Rec."COPO/COSPO Allowance")
-                {
-                    ToolTip = 'Specifies the value of the PH/ DPH Allowance field.';
-                    Caption = 'PH/ DPH Allowance';
-                    ApplicationArea = All;
-                }
                 field("BM Allowance"; Rec."BM Allowance")
                 {
                     ToolTip = 'Specifies the value of the BM Allowance field.';
@@ -112,6 +106,11 @@ page 50223 "Functional Title Card"
                 field("BM/OBM"; Rec."BM/OBM")
                 {
                     ToolTip = 'Specifies the value of the BM/OBM field.';
+                    ApplicationArea = All;
+                }
+                field("Functional Title Role"; Rec."Functional Title Role")
+                {
+                    ToolTip = 'Specifies the value of the Functional Title Role field.';
                     ApplicationArea = All;
                 }
                 field(Blocked; Rec.Blocked)

@@ -1625,17 +1625,6 @@ codeunit 50001 "HR Mgt."
 
             until SalaryLevel.Next() = 0;
     end;
-    //Appraisal Changes
-    procedure ReturnEndDateFY(FiscalYear: Text) EndDateFY: Date
-    var
-        PayCyclePeriod: Record "Pay Cycle Period";
-    begin
-        PayCyclePeriod.Reset;
-        PayCyclePeriod.SetRange("Pay Cycle Term", FiscalYear);
-        PayCyclePeriod.SetCurrentKey("End Date");
-        if PayCyclePeriod.FindLast then
-            exit(PayCyclePeriod."End Date");
-    end;
 
     procedure IsHRApprover(EmployeeNo: Code[20]): Boolean
     var

@@ -7,7 +7,6 @@ table 50010 "Functional Title"
     {
         field(1; "Code"; Code[20]) { }
         field(2; Description; Text[100]) { }
-        field(3; "COPO/COSPO Allowance"; Decimal) { }
         field(4; Locationwise; Boolean) { }
         field(5; "Communication Rein."; Decimal) { }
         field(6; "Rank Value"; Decimal) { }
@@ -31,6 +30,12 @@ table 50010 "Functional Title"
         field(22; "BM Allowance"; Decimal) { }
         field(23; "Allow ShiftAssignment"; Boolean) { }
         field(24; "Attendance View"; Boolean) { }
+        field(25; "Functional Title Role"; Enum "Functional Title Role")
+        {
+            Caption = 'Functional Title Role';
+            DataClassification = ToBeClassified;
+        }
+
     }
     keys
     {
