@@ -613,6 +613,7 @@ codeunit 50008 "Payroll Engine"
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;
+        OnAfterCalcProjectionEarning(PayrollAttributesUsage, UsageAmount, ProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth);
     end;
 
     local procedure CalcProjectionRetirementFund()
@@ -3699,6 +3700,11 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to Get Gratuity amount from employee card
         //You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCalcProjectionEarning(PayrollAttributesUsage: Record "Payroll Attributes Usage"; var UsageAmount: Decimal; var ProjectionEarning: Decimal; var ProjectedNonPaymentBenefit: Decimal; RemainingMonth: Decimal)
+    begin
     end;
 
 }
