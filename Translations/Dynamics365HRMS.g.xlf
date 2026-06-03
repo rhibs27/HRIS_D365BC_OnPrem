@@ -3193,11 +3193,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Email Template - Field Description - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2833119824 - Field 4170971264 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Document Profile</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Email Template - Field Document Profile - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2833119824 - Field 2363328873 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3273,11 +3268,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Email Template Recipient - Field Line No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2100781001 - Field 2161572060 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Location Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Email Template Recipient - Field Location Code - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2100781001 - Field 4132733409 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Method</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3292,16 +3282,6 @@
           <source>Recipient Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Email Template Recipient - Field Recipient Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2100781001 - Field 2241665020 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Region</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Email Template Recipient - Field Region - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2100781001 - Field 2247850105 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Responsibility Center</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Email Template Recipient - Field Responsibility Center - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2221192145 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp. Act Ledger Entries</source>
@@ -23868,11 +23848,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Email Template Card - Control Description - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3392918596 - Control 4170971264 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Document Profile field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Email Template Card - Control Document Profile - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3392918596 - Control 2363328873 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Document Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23923,11 +23898,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Email Template Receipents - Control Email Recipients - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 378782564 - Control 2161572060 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Location Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Email Template Receipents - Control Location Code - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 378782564 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23938,16 +23908,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Email Template Receipents - Control Recipient Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 378782564 - Control 2241665020 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Region field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Email Template Receipents - Control Region - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 378782564 - Control 2247850105 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Responsibility Center field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Email Template Receipents - Control Responsibility Center - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 209964017 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23957,11 +23917,6 @@
           <source>Specifies the value of the Description field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Email Templates - Control Description - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 209964017 - Control 4170971264 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Document Profile field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Email Templates - Control Document Profile - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 209964017 - Control 2363328873 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Document Type field.</source>
@@ -55693,16 +55648,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Document Heading Type - EnumValue Supported By - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 4170971264 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Profile - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 4170971264 - EnumValue 3719397593 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Activity</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Profile - EnumValue Employee Activity - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 1728526094 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56122,46 +56067,6 @@
           <source>Very Good</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee FeedBack - EnumValue Very Good - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 1644269158 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Cluster</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue Cluster - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 4198185427 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Eco-System</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue Eco-System - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 1130600895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Extension Counter</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue Extension Counter - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 870312932 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Office</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue Office - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 4002780811 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reporting Line 1</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue Reporting Line 1 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 1620903366 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reporting Line 2</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue Reporting Line 2 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1645288751 - EnumValue 1354222690 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Unit</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Hierarchy Type - EnumValue Unit - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2775171260 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
@@ -56762,31 +56667,6 @@
           <source>Submitted to HRD</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Status - EnumValue Submitted to HRD - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3046439657 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Tieup - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3046439657 - EnumValue 4225200084 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>LIC Nepal</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Tieup - EnumValue LIC Nepal - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3046439657 - EnumValue 4279731430 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>National Life Insurance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Tieup - EnumValue National Life Insurance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3046439657 - EnumValue 1355236790 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>NEPAL Life Insurance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Tieup - EnumValue NEPAL Life Insurance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3046439657 - EnumValue 2296060284 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Surya Life Insurance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Tieup - EnumValue Surya Life Insurance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 287737247 - EnumValue 2985134972 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>0</source>
@@ -57733,21 +57613,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Region - EnumValue Terai - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2441908951 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Region Direction - EnumValue  - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2441908951 - EnumValue 310399981 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>East</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Region Direction - EnumValue East - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2441908951 - EnumValue 3743902775 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>West</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Region Direction - EnumValue West - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 1856965130 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58193,31 +58058,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Vault Key Allowance - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1331783802 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Sponsorship Type - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1331783802 - EnumValue 2581914353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>On the Job</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Sponsorship Type - EnumValue On the Job - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1331783802 - EnumValue 3365484154 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Organization Sponsored</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Sponsorship Type - EnumValue Organization Sponsored - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1331783802 - EnumValue 1322153064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Self Funded</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Sponsorship Type - EnumValue Self Funded - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1331783802 - EnumValue 3484875172 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Third Party Sponsored</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Sponsorship Type - EnumValue Third Party Sponsored - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 3275815306 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58302,56 +58142,6 @@
           <source>7 Flat</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Tax Info Report Type - EnumValue 7 Flat - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 4004059060 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Need Priority - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 4004059060 - EnumValue 3116416530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>High</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Need Priority - EnumValue High - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 4004059060 - EnumValue 3592530208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Low</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Need Priority - EnumValue Low - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 4004059060 - EnumValue 432767615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medium</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Need Priority - EnumValue Medium - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2797515513 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Setup Type - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2797515513 - EnumValue 4149592804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Category</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Setup Type - EnumValue Training Category - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2797515513 - EnumValue 2214092107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Institute</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Setup Type - EnumValue Training Institute - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2797515513 - EnumValue 1568329765 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Mode</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Setup Type - EnumValue Training Mode - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2797515513 - EnumValue 2680986374 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Module</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Setup Type - EnumValue Training Module - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 2797515513 - EnumValue 3982664412 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Training Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Training Setup Type - EnumValue Training Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2200544733 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
