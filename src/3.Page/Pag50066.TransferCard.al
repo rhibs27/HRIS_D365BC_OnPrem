@@ -329,7 +329,7 @@ page 50066 "Transfer Card"
                 }
                 group("Proposed Placement")
                 {
-                    Editable = not Rec."Is Transfer Details Added" and IsApproved;
+                    // Editable = not Rec."Is Transfer Details Added" and IsApproved;
                     field("Deputation On (To)"; Rec."Deputation On (To)")
                     {
                         ToolTip = 'Specifies the value of the Deputation On (To) field.';
@@ -346,7 +346,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Functional Title (To) field.';
                         ApplicationArea = All;
-                        Editable = IsApproved and not rec."Is Transfer Details Added";
+                        // Editable = IsApproved and not rec."Is Transfer Details Added";
 
                         trigger OnValidate()
                         begin
@@ -402,7 +402,8 @@ page 50066 "Transfer Card"
                     }
                     field("Extension Counter (To)"; Rec."Extension Counter (To)")
                     {
-                        Editable = ExtensionCounterEdit;
+                        // Editable = ExtensionCounterEdit;
+                        Editable = (IsApproved or IsHold) and rec."Is Transfer Details Added";
                         ToolTip = 'Specifies the value of the Extension Counter (To) field.';
                         ApplicationArea = All;
 
@@ -437,7 +438,7 @@ page 50066 "Transfer Card"
                     }
                     field("Unit (To)"; Rec."Unit (To)")
                     {
-                        Editable = UnitEdit;
+                        // Editable = UnitEdit;
                         ToolTip = 'Specifies the value of the Unit (To) field.';
                         ApplicationArea = All;
 
@@ -871,11 +872,7 @@ page 50066 "Transfer Card"
                 end;
     end;
 
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        TransferMgt: Codeunit "Transfer Mgt.";
-        Approval: Record "Approval HRMS";
-
+    protected var
         ProvinceEdit: Boolean;
         DepartEdit: Boolean;
         UnitEdit: Boolean;
@@ -893,6 +890,11 @@ page 50066 "Transfer Card"
         IsACK: Boolean;
         IsCancelled: Boolean;
         OnHold: Boolean;
+
+    var
+        HRMgt: Codeunit "HR Mgt.";
+        TransferMgt: Codeunit "Transfer Mgt.";
+        Approval: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
 

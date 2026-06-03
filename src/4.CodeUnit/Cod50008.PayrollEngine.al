@@ -576,7 +576,7 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributesUsage.SetFilter(Type, '%1|%2', PayrollAttributesUsage.Type::Benefits, PayrollAttributesUsage.Type::"Non-Payment");
         if PayrollAttributesUsage.FindFirst then
             repeat
-                PayrollAttributesUsage.CalcFields("Formula Exists");
+                PayrollAttributesUsage.CalcFields("Formula Exists", Subtype);
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
