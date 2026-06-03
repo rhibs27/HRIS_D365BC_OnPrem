@@ -1243,12 +1243,12 @@ codeunit 50035 "Email Mgt"
         // Create and send email
         EmailMessage.Create(Recipients, EmailSubject, EmailBody, true);
         if not Email.Send(EmailMessage, Enum::"Email Scenario"::Default) then begin
-            LogGrievanceEmailError(GrievanceHeader."No.", EmailSubject, Recipients);
+            LogGrievanceEmailError(GrievanceHeader."No.", EmailSubject, Recipients, GrievanceHeader.Anonymous);
             exit(false);
         end;
 
         // Log successful email send
-        LogGrievanceEmailSuccess(GrievanceHeader."No.", EmailSubject, Recipients);
+        LogGrievanceEmailSuccess(GrievanceHeader."No.", EmailSubject, Recipients, GrievanceHeader.Anonymous);
         exit(true);
     end;
 
@@ -1450,18 +1450,18 @@ codeunit 50035 "Email Mgt"
         exit(Recipients);
     end;
 
-    local procedure LogGrievanceEmailSuccess(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text)
+    local procedure LogGrievanceEmailSuccess(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text; IsAnonymous: Boolean)
     var
         GrievanceMgt: Codeunit "Grievance Mgt";
     begin
-        GrievanceMgt.AddComment(GrievanceNo, StrSubstNo('Email notification sent successfully. Subject: %1', EmailSubject));
+        GrievanceMgt.AddComment(GrievanceNo, StrSubstNo('Email notification sent successfully. Subject: %1', EmailSubject), IsAnonymous);
     end;
 
-    local procedure LogGrievanceEmailError(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text)
+    local procedure LogGrievanceEmailError(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text; IsAnonymous: Boolean)
     var
         GrievanceMgt: Codeunit "Grievance Mgt";
     begin
-        GrievanceMgt.AddComment(GrievanceNo, StrSubstNo('Email notification FAILED. Subject: %1.', EmailSubject));
+        GrievanceMgt.AddComment(GrievanceNo, StrSubstNo('Email notification FAILED. Subject: %1.', EmailSubject), IsAnonymous);
     end;
 
 

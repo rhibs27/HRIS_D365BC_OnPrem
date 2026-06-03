@@ -5,16 +5,18 @@ codeunit 50036 "Grievance Mgt"
         Grievance, Grievance2 : Record "Grievance Header";
         AlreadyOpen: Label 'This employee already has an open grievance. Click Ok to open it.';
     begin
-        Grievance.Reset();
-        Grievance.SetRange("Employee No.", EmpCode);
-        Grievance.SetFilter("Approval Status", '%1|%2', Grievance."Approval Status"::" ", Grievance."Approval Status"::Open);
-        if Grievance.FindFirst() then begin
-            if GuiAllowed then begin
-                Message(AlreadyOpen);
-                Page.Run(Page::"Grievance Card", Grievance);
-                exit;
-            end else
-                Error('You Already have OpenGrievanceRequest %1', Grievance."No.");
+        if GuiAllowed then begin
+            Grievance.Reset();
+            Grievance.SetRange("Employee No.", EmpCode);
+            Grievance.SetFilter("Approval Status", '%1|%2', Grievance."Approval Status"::" ", Grievance."Approval Status"::Open);
+            if Grievance.FindFirst() then begin
+                if GuiAllowed then begin
+                    Message(AlreadyOpen);
+                    Page.Run(Page::"Grievance Card", Grievance);
+                    exit;
+                end else
+                    Error('You Already have OpenGrievanceRequest %1', Grievance."No.");
+            end;
         end;
         Grievance2.Init();
         Grievance2.Validate("Employee No.", EmpCode);
@@ -41,7 +43,7 @@ codeunit 50036 "Grievance Mgt"
         Grievance.TestField(Description);
         Grievance.Validate("Approval Status", "Approval Status"::Submitted);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance submitted for review.');
+        AddComment(Grievance."No.", 'Grievance submitted for review.', Grievance.Anonymous);
         EmailMgt.SendGrievanceNotificationEmail(Grievance);
         if GuiAllowed then begin
             Message(SubmitSuccess);
@@ -55,7 +57,7 @@ codeunit 50036 "Grievance Mgt"
     begin
         if Grievance."Approval Status" = Grievance."Approval Status"::Settled then
             Error(AlreadyResolved);
-        AddComment(Grievance."No.", 'Grievance approved and resolved.');
+        AddComment(Grievance."No.", 'Grievance approved and resolved.', Grievance.Anonymous);
         Grievance.TestField("HR Remarks");
         Grievance.Validate("Approval Status", "Approval Status"::Settled);
         if Grievance."Resolution Date" = 0D then
@@ -73,7 +75,7 @@ codeunit 50036 "Grievance Mgt"
         Grievance.TestField("Rejection Remarks");
         Grievance.Validate("Approval Status", "Approval Status"::Rejected);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", StrSubstNo('Grievance rejected. Reason: %1', Grievance."Rejection Remarks"));
+        AddComment(Grievance."No.", StrSubstNo('Grievance rejected. Reason: %1', Grievance."Rejection Remarks"), Grievance.Anonymous);
     end;
 
     procedure WithdrawGrievance(var Grievance: Record "Grievance Header"): Boolean
@@ -85,13 +87,13 @@ codeunit 50036 "Grievance Mgt"
             Error(CannotWithdraw);
         Grievance.Validate("Approval Status", "Approval Status"::Withdrawn);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance withdrawn by employee.');
+        AddComment(Grievance."No.", 'Grievance withdrawn by employee.', Grievance.Anonymous);
         if GuiAllowed then
             Message(WithdrawSuccess);
         exit(true);
     end;
 
-    procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000])
+    procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000]; isAnonymous: Boolean)
     var
         GrievanceComment: Record "Grievance Comment";
         GrievanceHeader: Record "Grievance Header";
@@ -102,10 +104,12 @@ codeunit 50036 "Grievance Mgt"
         if GrievanceHeader.Get(GrievanceNo) then
             if GrievanceHeader."Approval Status" = GrievanceHeader."Approval Status"::Settled then
                 Error('Grievance is already settled.');
-        EmpNo := HRMgt.GetEmployeeNo();
         GrievanceComment.Init();
         GrievanceComment.Validate("Grievance No.", GrievanceNo);
-        GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo());
+        if not isAnonymous then
+            GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo())
+        else
+            GrievanceComment.Validate("Commented By", '');
         GrievanceComment.Validate("Comment Date", CurrentDateTime);
         GrievanceComment.Comment := CommentText;
         GrievanceComment.Insert(true);

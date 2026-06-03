@@ -229,7 +229,7 @@ page 50395 "Grievance Card"
                 begin
                     if not Confirm('Add a comment to this grievance?', false) then
                         exit;
-                    GrievanceMgt.AddComment(Rec."No.", CommentText);
+                    GrievanceMgt.AddComment(Rec."No.", CommentText, Rec.Anonymous);
                     CurrPage."Grievance Comments".Page.Update();
                 end;
             }
