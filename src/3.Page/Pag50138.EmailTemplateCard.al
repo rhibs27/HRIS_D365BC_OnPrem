@@ -32,12 +32,6 @@ page 50138 "Email Template Card"
                     ToolTip = 'Specifies the value of the Email Reciepent field.';
                     ApplicationArea = All;
                 }
-                field("Document Profile"; Rec."Document Profile")
-                {
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Document Profile field.';
-                    ApplicationArea = All;
-                }
                 field("Document Type"; Rec."Document Type")
                 {
                     ToolTip = 'Specifies the value of the Document Type field.';

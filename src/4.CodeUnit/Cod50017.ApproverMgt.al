@@ -704,7 +704,6 @@ codeunit 50017 "Approver Mgt"
         RFContribution: Record "RF Contribution";
         SkipRecRefModifyOnReject: Boolean;
         IsExit: Boolean;
-        AppraisalMgt: Codeunit "AppraisalMgt.";
         IsHandle: Boolean;
     begin
         case RecRef.Number() of

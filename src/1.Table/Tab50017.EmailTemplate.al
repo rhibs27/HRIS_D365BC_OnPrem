@@ -5,7 +5,6 @@ table 50017 "Email Template"
     {
         field(1; "Code"; Code[20]) { }
         field(2; Description; Text[50]) { }
-        field(3; "Document Profile"; Enum "Document Profile") { }
         field(4; "Document Type"; Enum "Employee Activity Type") { }
         field(5; "Approval Status"; Enum "Approval Status") { }
         field(6; Subject; Text[100]) { }
