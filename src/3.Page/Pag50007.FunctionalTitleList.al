@@ -35,12 +35,6 @@ page 50007 "Functional Title List"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
-                field("COPO/COSPO Allowance"; Rec."COPO/COSPO Allowance")
-                {
-                    ToolTip = 'Specifies the value of the COPO/COSPO Allowance field.';
-                    Caption = 'PH/ DPH Allowance';
-                    ApplicationArea = All;
-                }
                 field("BM Alllowance"; Rec."BM Allowance")
                 {
                     ToolTip = 'Specifies the value of the BM Allowance field';
