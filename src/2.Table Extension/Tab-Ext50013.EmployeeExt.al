@@ -597,7 +597,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit Code") then
                         Validate("Unit Name", OrganizationStructureList.Name);
                 if "Unit Code" = '' then
-                    Clear("Unit Code");
+                    Clear("Unit Name");
             end;
         }
         field(50059; "Branch Category"; Text[30])
@@ -1684,7 +1684,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     end;
                 end;
         end;
-
+        OnAfterValidateDeputationOn(rec);
     end;
 
     procedure TransferRequest();
@@ -1825,6 +1825,11 @@ tableextension 50013 "Employee Ext" extends Employee
 
     [IntegrationEvent(false, false)]
     local procedure OnValidateEmploymentType(var Rec: Record "Employee"; var xRec: Record "Employee"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterValidateDeputationOn(var Employee: Record "Employee")
     begin
     end;
 }

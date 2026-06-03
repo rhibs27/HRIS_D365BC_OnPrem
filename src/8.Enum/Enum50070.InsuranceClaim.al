@@ -2,9 +2,9 @@ enum 50070 "Insurance Claim"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; Self)
     {
@@ -29,5 +29,9 @@ enum 50070 "Insurance Claim"
     value(6; "General Checkup")
     {
         Caption = 'General Checkup';
+    }
+    value(7; "Dependent")
+    {
+        Caption = 'Dependent';
     }
 }

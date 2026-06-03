@@ -1,6 +1,5 @@
 page 50067 "Resignation Card"
 {
-    DeleteAllowed = false;
     InsertAllowed = false;
     SourceTable = "Resignation";
     ApplicationArea = All;

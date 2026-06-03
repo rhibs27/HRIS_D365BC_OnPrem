@@ -659,11 +659,11 @@ permissionset 50000 D365HRMSPermission
         page "Grievance List" = X,
         page "Grievance SLA Matrix Setup" = X,
         tabledata "Employee Loan/Advance Line" = RIMD,
+        table "Employee Loan/Advance Line" = X,
         tabledata "Loan Settlement" = RIMD,
         tabledata "Loan Settlement Entry" = RIMD,
         tabledata "Quarterly Cost of Fund" = RIMD,
         tabledata "Suspension Level" = RIMD,
-        table "Employee Loan/Advance Line" = X,
         table "Loan Settlement" = X,
         table "Loan Settlement Entry" = X,
         table "Quarterly Cost of Fund" = X,
@@ -680,10 +680,8 @@ permissionset 50000 D365HRMSPermission
         page "Quarterly Cost of Fund" = X,
         page "Suspension Event Dialog" = X,
         page "Suspension Level Setup" = X,
-        tabledata "Employee Work Shift" = RIMD,
         report "Create Nepali Fiscal Year" = X,
-        report "Training Attendance Report" = X,
-        codeunit "Retirement Fund Mgt" = X,
+        report "Medical Claim Change Details" = X,
         page "Cancelled Update Atten. List" = X,
-        page "Payroll Archive" = X;
+        page "Employee Insurance Journal" = X;
 }
